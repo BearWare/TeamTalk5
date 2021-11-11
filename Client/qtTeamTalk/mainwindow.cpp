@@ -5270,6 +5270,19 @@ void MainWindow::slotTreeSelectionChanged()
         if (ui.channelsWidget->getUser(ui.channelsWidget->selectedUser(), user))
         {
             result = getDisplayName(user);
+            switch (user.nStatusMode & STATUSMODE_MODE)
+            {
+            case STATUSMODE_AWAY :
+                result += ", " + tr("Away");
+                break;
+            case STATUSMODE_QUESTION :
+                result += ", " + tr("Question");
+                break;
+            }
+            if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
+                result += ", " + tr("Streaming media file");
+            if (user.nStatusMode & STATUSMODE_VIDEOTX)
+                result += ", " + tr("Webcam");
         }
         else if (ui.channelsWidget->getChannel(ui.channelsWidget->selectedChannel(true), channel))
         {
