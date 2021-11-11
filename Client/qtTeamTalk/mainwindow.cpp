@@ -4143,10 +4143,12 @@ void MainWindow::slotMeEnableSounds(bool checked/*=false*/)
     if(checked)
     {
         ttSettings->setValue(SETTINGS_SOUNDEVENT_ENABLE, true);
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Sound events enabled"));
     }
     else
     {
         ttSettings->setValue(SETTINGS_SOUNDEVENT_ENABLE, false);
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Sound events disabled"));
     }
     slotUpdateUI();
 }
