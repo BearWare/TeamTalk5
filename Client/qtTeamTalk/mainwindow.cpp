@@ -3648,58 +3648,61 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
     ok = inputDialog.exec();
     QString choice = inputDialog.textValue();
 
-    if(choice == delprofile)
+    if (ok)
     {
-        profilenames.removeAll(newprofile);
-        profilenames.removeAll(delprofile);
-        QInputDialog inputDialog;
-        inputDialog.setOkButtonText(tr("&Ok"));
-        inputDialog.setCancelButtonText(tr("&Cancel"));
-        inputDialog.setComboBoxItems(profilenames);
-        inputDialog.setComboBoxEditable(false);
-        inputDialog.setWindowTitle(tr("New Client Instance"));
-        inputDialog.setLabelText(tr("Delete profile"));
-        ok = inputDialog.exec();
-        QString choice = inputDialog.textValue();
-        if(ok && ttSettings->fileName() != profiles[choice])
-            QFile::remove(profiles[choice]);
-        return;
-    }
-    else if(choice == newprofile)
-    {
-        QInputDialog inputDialog;
-        inputDialog.setOkButtonText(tr("&Ok"));
-        inputDialog.setCancelButtonText(tr("&Cancel"));
-        inputDialog.setInputMode(QInputDialog::TextInput);
-        inputDialog.setTextValue(QString("Profile %1").arg(freeno));
-        inputDialog.setWindowTitle(tr("New Profile"));
-        inputDialog.setLabelText(tr("Profile name"));
-        ok = inputDialog.exec();
-        QString newname = inputDialog.textValue();
-        if(ok && newname.size())
+        if(choice == delprofile)
         {
-            inipath = QString("%1.%2").arg(inipath).arg(freeno);
-            QFile::copy(ttSettings->fileName(), inipath);
-            QSettings settings(inipath, QSettings::IniFormat, this);
-            settings.setValue(SETTINGS_GENERAL_PROFILENAME, newname);
+            profilenames.removeAll(newprofile);
+            profilenames.removeAll(delprofile);
+            QInputDialog inputDialog;
+            inputDialog.setOkButtonText(tr("&Ok"));
+            inputDialog.setCancelButtonText(tr("&Cancel"));
+            inputDialog.setComboBoxItems(profilenames);
+            inputDialog.setComboBoxEditable(false);
+            inputDialog.setWindowTitle(tr("New Client Instance"));
+            inputDialog.setLabelText(tr("Delete profile"));
+            ok = inputDialog.exec();
+            QString choice = inputDialog.textValue();
+            if(ok && ttSettings->fileName() != profiles[choice])
+                QFile::remove(profiles[choice]);
+            return;
         }
-        else return;
-    }
-    else 
-    {
-        inipath = profiles[choice];
-    }
+        else if(choice == newprofile)
+        {
+            QInputDialog inputDialog;
+            inputDialog.setOkButtonText(tr("&Ok"));
+            inputDialog.setCancelButtonText(tr("&Cancel"));
+            inputDialog.setInputMode(QInputDialog::TextInput);
+            inputDialog.setTextValue(QString("Profile %1").arg(freeno));
+            inputDialog.setWindowTitle(tr("New Profile"));
+            inputDialog.setLabelText(tr("Profile name"));
+            ok = inputDialog.exec();
+            QString newname = inputDialog.textValue();
+            if(ok && newname.size())
+            {
+                inipath = QString("%1.%2").arg(inipath).arg(freeno);
+                QFile::copy(ttSettings->fileName(), inipath);
+                QSettings settings(inipath, QSettings::IniFormat, this);
+                settings.setValue(SETTINGS_GENERAL_PROFILENAME, newname);
+            }
+            else return;
+        }
+        else 
+        {
+            inipath = profiles[choice];
+        }
 
-    QString path = QApplication::applicationFilePath();
-    QStringList args = { "-noconnect" };
-    args.push_back(QString("-cfg"));
-    args.push_back(inipath);
+        QString path = QApplication::applicationFilePath();
+        QStringList args = { "-noconnect" };
+        args.push_back(QString("-cfg"));
+        args.push_back(inipath);
 
 #if defined(_DEBUG)
-    QProcess::startDetached(path, args);
+        QProcess::startDetached(path, args);
 #else
-    QProcess::startDetached(path, args, QApplication::applicationDirPath());
+        QProcess::startDetached(path, args, QApplication::applicationDirPath());
 #endif
+    }
 }
 
 void MainWindow::slotClientConnect(bool /*checked =false */)
