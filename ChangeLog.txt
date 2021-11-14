@@ -16,7 +16,7 @@ Default Qt Client
 - Fixed "Cancel" button not working in "New client instance" dialog
 - Navigating with arrow keys now include status in TTS message on macOS
 Android Client
--
+- Gender now announce using accessible hint
 iOS Client
 -
 Server
