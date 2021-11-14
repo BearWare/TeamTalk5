@@ -164,6 +164,7 @@ void TextMessageDlg::slotTextChanged()
 {
     ui.sendButton->setEnabled(ui.newmsgTextEdit->toPlainText().size()>0);
     m_textchanged = true;
+    (ui.newmsgTextEdit->toPlainText().size()>0 ? ui.newmsgTextEdit->setAccessibleName(QString(tr("New message (%1 of 512 characters)").arg(ui.newmsgTextEdit->toPlainText().size()))) : tr("New message"));
 }
 
 void TextMessageDlg::newMsg(const MyTextMessage& msg, bool store)

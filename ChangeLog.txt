@@ -15,6 +15,7 @@ Default Qt Client
 - Status message is triggered if unable to transmit
 - Fixed "Cancel" button not working in "New client instance" dialog
 - Navigating with arrow keys now include status in TTS message on macOS
+- Number of characters in edit field of public and private chat is now indicate as accessible hint
 Android Client
 -
 iOS Client
