@@ -6693,8 +6693,11 @@ void MainWindow::startTTS()
 
 void MainWindow::slotTextChanged()
 {
+    (ui.msgEdit->text().size()>0 ? ui.msgEdit->setAccessibleName(QString(tr("Message (%1 of 512 characters)").arg(ui.msgEdit->text().size()))) : ui.msgEdit->setAccessibleName(tr("Message")));
     ui.sendButton->setVisible(ui.msgEdit->text().size()>0);
+    (ui.videomsgEdit->text().size()>0 ? ui.videomsgEdit->setAccessibleName(QString(tr("Message (%1 of 512 characters)").arg(ui.videomsgEdit->text().size()))) : ui.videomsgEdit->setAccessibleName(tr("Message")));
     ui.videosendButton->setVisible(ui.videomsgEdit->text().size()>0);
+    (ui.desktopmsgEdit->text().size()>0 ? ui.desktopmsgEdit->setAccessibleName(QString(tr("Message (%1 of 512 characters)").arg(ui.desktopmsgEdit->text().size()))) : ui.desktopmsgEdit->setAccessibleName(tr("Message")));
     ui.desktopsendButton->setVisible(ui.desktopmsgEdit->text().size()>0);
 }
 
