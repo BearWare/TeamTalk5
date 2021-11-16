@@ -783,56 +783,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="1046"/>
         <source>Away</source>
-        <translation type="unfinished">离开</translation>
+        <translation>离开</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1049"/>
         <source>Question</source>
-        <translation type="unfinished">问题</translation>
+        <translation>问题</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1055"/>
         <source>Streaming media file</source>
-        <translation type="unfinished"></translation>
+        <translation>正在播放流媒体文件</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1058"/>
         <source>Webcam</source>
-        <translation type="unfinished">视频</translation>
+        <translation>视频</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1070"/>
         <source>Administrator</source>
-        <translation type="unfinished">管理员</translation>
+        <translation>管理员</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1073"/>
         <source>Channel operator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>, Away</source>
-        <translation type="vanished">, 离开</translation>
-    </message>
-    <message>
-        <source>, Question</source>
-        <translation type="vanished">, 问题</translation>
-    </message>
-    <message>
-        <source>, Streaming media file</source>
-        <translation type="vanished">, 流媒体</translation>
-    </message>
-    <message>
-        <source>, Webcam</source>
-        <translation type="vanished">, 摄像头</translation>
-    </message>
-    <message>
-        <source> (Administrator)</source>
-        <translation type="vanished">（管理员）</translation>
-    </message>
-    <message>
-        <source> (Channel operator)</source>
-        <translation type="vanished">（频道管理员）</translation>
+        <translation>频道管理员</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1249"/>
@@ -2897,7 +2873,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="6698"/>
         <location filename="../mainwindow.cpp" line="6700"/>
         <source>Message (%1 of 512 characters)</source>
-        <translation type="unfinished"></translation>
+        <translation>消息 (%1 / 512 字符)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="749"/>
@@ -3237,27 +3213,27 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="3574"/>
         <source>Text messages blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>频道管理员阻止发送消息</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3578"/>
         <source>Voice transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>频道管理员阻止语音传输</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3582"/>
         <source>Media file transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>频道管理员阻止媒体文件传输</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3586"/>
         <source>Video transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>频道管理员阻止视频传输</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3590"/>
         <source>Desktop transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>频道管理员阻止桌面传输</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3634"/>
@@ -3304,27 +3280,27 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="4017"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>未正确配置视频设备，请检查‘首选项’中的设置</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4146"/>
         <source>Sound events enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>声音事件已启用</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4151"/>
         <source>Sound events disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>声音事件已禁用</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5283"/>
         <source>Streaming media file</source>
-        <translation type="unfinished"></translation>
+        <translation>正在播放流媒体文件</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5771"/>
         <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
-        <translation>尚未配置视频设备属性。请检查“首选项”中的设置</translation>
+        <translation>尚未配置视频设备属性。请检查‘首选项’中的设置</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4028"/>
@@ -5822,7 +5798,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="169"/>
         <source>Transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>频道管理员阻止传输</translation>
     </message>
 </context>
 <context>
@@ -6339,7 +6315,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../textmessagedlg.cpp" line="167"/>
         <source>New message (%1 of 512 characters)</source>
-        <translation type="unfinished"></translation>
+        <translation>新消息 (%1 / 512 字符)</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="199"/>
