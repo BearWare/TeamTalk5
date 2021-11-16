@@ -339,7 +339,7 @@ assert(status == noErr);
 
             OSStatus status;
     
-            AudioComponentDescription componentDescription;
+            AudioComponentDescription componentDescription = {};
             componentDescription.componentType = kAudioUnitType_Output;
             switch (inputdeviceid)
             {
@@ -408,7 +408,7 @@ assert(status == noErr);
 
             OSStatus status;
 
-            AudioComponentDescription componentDescription;
+            AudioComponentDescription componentDescription = {};
             componentDescription.componentType = kAudioUnitType_Output;
             switch (outputdeviceid)
             {
@@ -486,7 +486,7 @@ assert(status == noErr);
                                                          channels, SOUND_API_AUDIOUNIT,
                                                          inputdeviceid));
 
-            AURenderCallbackStruct callbackStruct;
+            AURenderCallbackStruct callbackStruct = {};
             callbackStruct.inputProc = AudioInputCallback; // Render function
             callbackStruct.inputProcRefCon = streamer.get();
             OSStatus status;
@@ -578,7 +578,7 @@ assert(status == noErr);
             streamer->audunit = audioUnit;
 
             // setup callback function
-            AURenderCallbackStruct callbackStruct;
+            AURenderCallbackStruct callbackStruct = {};
             callbackStruct.inputProc = AudioOutputCallback;
             callbackStruct.inputProcRefCon = streamer.get();
 

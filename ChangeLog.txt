@@ -13,6 +13,9 @@ Default Qt Client
 - Fixed Cmd+Q not working in non-English translations on macOS
 - Text-to-speech event when a remote user is typing in private chat
 - Status message is triggered if unable to transmit
+- Fixed "Cancel" button not working in "New client instance" dialog
+- Navigating with arrow keys now include status in TTS message on macOS
+- Number of characters in edit field of public and private chat is now indicate as accessible hint
 Android Client
 -
 iOS Client

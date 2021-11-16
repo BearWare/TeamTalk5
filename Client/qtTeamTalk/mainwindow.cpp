@@ -3648,58 +3648,61 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
     ok = inputDialog.exec();
     QString choice = inputDialog.textValue();
 
-    if(choice == delprofile)
+    if (ok)
     {
-        profilenames.removeAll(newprofile);
-        profilenames.removeAll(delprofile);
-        QInputDialog inputDialog;
-        inputDialog.setOkButtonText(tr("&Ok"));
-        inputDialog.setCancelButtonText(tr("&Cancel"));
-        inputDialog.setComboBoxItems(profilenames);
-        inputDialog.setComboBoxEditable(false);
-        inputDialog.setWindowTitle(tr("New Client Instance"));
-        inputDialog.setLabelText(tr("Delete profile"));
-        ok = inputDialog.exec();
-        QString choice = inputDialog.textValue();
-        if(ok && ttSettings->fileName() != profiles[choice])
-            QFile::remove(profiles[choice]);
-        return;
-    }
-    else if(choice == newprofile)
-    {
-        QInputDialog inputDialog;
-        inputDialog.setOkButtonText(tr("&Ok"));
-        inputDialog.setCancelButtonText(tr("&Cancel"));
-        inputDialog.setInputMode(QInputDialog::TextInput);
-        inputDialog.setTextValue(QString("Profile %1").arg(freeno));
-        inputDialog.setWindowTitle(tr("New Profile"));
-        inputDialog.setLabelText(tr("Profile name"));
-        ok = inputDialog.exec();
-        QString newname = inputDialog.textValue();
-        if(ok && newname.size())
+        if(choice == delprofile)
         {
-            inipath = QString("%1.%2").arg(inipath).arg(freeno);
-            QFile::copy(ttSettings->fileName(), inipath);
-            QSettings settings(inipath, QSettings::IniFormat, this);
-            settings.setValue(SETTINGS_GENERAL_PROFILENAME, newname);
+            profilenames.removeAll(newprofile);
+            profilenames.removeAll(delprofile);
+            QInputDialog inputDialog;
+            inputDialog.setOkButtonText(tr("&Ok"));
+            inputDialog.setCancelButtonText(tr("&Cancel"));
+            inputDialog.setComboBoxItems(profilenames);
+            inputDialog.setComboBoxEditable(false);
+            inputDialog.setWindowTitle(tr("New Client Instance"));
+            inputDialog.setLabelText(tr("Delete profile"));
+            ok = inputDialog.exec();
+            QString choice = inputDialog.textValue();
+            if(ok && ttSettings->fileName() != profiles[choice])
+                QFile::remove(profiles[choice]);
+            return;
         }
-        else return;
-    }
-    else 
-    {
-        inipath = profiles[choice];
-    }
+        else if(choice == newprofile)
+        {
+            QInputDialog inputDialog;
+            inputDialog.setOkButtonText(tr("&Ok"));
+            inputDialog.setCancelButtonText(tr("&Cancel"));
+            inputDialog.setInputMode(QInputDialog::TextInput);
+            inputDialog.setTextValue(QString("Profile %1").arg(freeno));
+            inputDialog.setWindowTitle(tr("New Profile"));
+            inputDialog.setLabelText(tr("Profile name"));
+            ok = inputDialog.exec();
+            QString newname = inputDialog.textValue();
+            if(ok && newname.size())
+            {
+                inipath = QString("%1.%2").arg(inipath).arg(freeno);
+                QFile::copy(ttSettings->fileName(), inipath);
+                QSettings settings(inipath, QSettings::IniFormat, this);
+                settings.setValue(SETTINGS_GENERAL_PROFILENAME, newname);
+            }
+            else return;
+        }
+        else 
+        {
+            inipath = profiles[choice];
+        }
 
-    QString path = QApplication::applicationFilePath();
-    QStringList args = { "-noconnect" };
-    args.push_back(QString("-cfg"));
-    args.push_back(inipath);
+        QString path = QApplication::applicationFilePath();
+        QStringList args = { "-noconnect" };
+        args.push_back(QString("-cfg"));
+        args.push_back(inipath);
 
 #if defined(_DEBUG)
-    QProcess::startDetached(path, args);
+        QProcess::startDetached(path, args);
 #else
-    QProcess::startDetached(path, args, QApplication::applicationDirPath());
+        QProcess::startDetached(path, args, QApplication::applicationDirPath());
 #endif
+    }
 }
 
 void MainWindow::slotClientConnect(bool /*checked =false */)
@@ -4140,10 +4143,12 @@ void MainWindow::slotMeEnableSounds(bool checked/*=false*/)
     if(checked)
     {
         ttSettings->setValue(SETTINGS_SOUNDEVENT_ENABLE, true);
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Sound events enabled"));
     }
     else
     {
         ttSettings->setValue(SETTINGS_SOUNDEVENT_ENABLE, false);
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Sound events disabled"));
     }
     slotUpdateUI();
 }
@@ -5265,6 +5270,19 @@ void MainWindow::slotTreeSelectionChanged()
         if (ui.channelsWidget->getUser(ui.channelsWidget->selectedUser(), user))
         {
             result = getDisplayName(user);
+            switch (user.nStatusMode & STATUSMODE_MODE)
+            {
+            case STATUSMODE_AWAY :
+                result += ", " + tr("Away");
+                break;
+            case STATUSMODE_QUESTION :
+                result += ", " + tr("Question");
+                break;
+            }
+            if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
+                result += ", " + tr("Streaming media file");
+            if (user.nStatusMode & STATUSMODE_VIDEOTX)
+                result += ", " + tr("Webcam");
         }
         else if (ui.channelsWidget->getChannel(ui.channelsWidget->selectedChannel(true), channel))
         {
@@ -6675,8 +6693,11 @@ void MainWindow::startTTS()
 
 void MainWindow::slotTextChanged()
 {
+    (ui.msgEdit->text().size()>0 ? ui.msgEdit->setAccessibleName(QString(tr("Message (%1 of 512 characters)").arg(ui.msgEdit->text().size()))) : ui.msgEdit->setAccessibleName(tr("Message")));
     ui.sendButton->setVisible(ui.msgEdit->text().size()>0);
+    (ui.videomsgEdit->text().size()>0 ? ui.videomsgEdit->setAccessibleName(QString(tr("Message (%1 of 512 characters)").arg(ui.videomsgEdit->text().size()))) : ui.videomsgEdit->setAccessibleName(tr("Message")));
     ui.videosendButton->setVisible(ui.videomsgEdit->text().size()>0);
+    (ui.desktopmsgEdit->text().size()>0 ? ui.desktopmsgEdit->setAccessibleName(QString(tr("Message (%1 of 512 characters)").arg(ui.desktopmsgEdit->text().size()))) : ui.desktopmsgEdit->setAccessibleName(tr("Message")));
     ui.desktopsendButton->setVisible(ui.desktopmsgEdit->text().size()>0);
 }
 
