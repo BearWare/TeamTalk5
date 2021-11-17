@@ -30,6 +30,7 @@
 #include <QDialog>
 #include <QStack>
 #include <QProcess>
+#include <QDebug>
 
 #if defined(QT_TEXTTOSPEECH_LIB)
 #include <QTextToSpeech>

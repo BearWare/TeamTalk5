@@ -24,17 +24,14 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#include <QDebug>
-#include <QSettings>
 #include <QList>
+#include <QSet>
 #include <QDomDocument>
 #include <QPainter>
 #include <QLayout>
 #include <QComboBox>
 #include <QFile>
 #include <QDateTime>
-#include <QCoreApplication>
-#include "stdint.h"
 
 #if defined(Q_OS_WIN32)
 #define NOMINMAX //prevent std::...::min() collision

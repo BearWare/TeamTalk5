@@ -130,7 +130,6 @@ void OnlineUsersDlg::slotTreeContextMenu(const QPoint& /*point*/)
             continue;
         userids.push_back(user.nUserID);
         chanids.push_back(user.nChannelID);
-        qDebug() << "Processing " << user.nUserID;
     }
     
     for(int i=0;i<userids.size();i++)
