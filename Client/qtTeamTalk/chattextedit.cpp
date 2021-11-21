@@ -129,8 +129,8 @@ void ChatTextEdit::updateServer(const ServerProperties& srvprop)
     QString line = dt + tr("Server Name: %1").arg(_Q(srvprop.szServerName));;
     setTextCursor(cursor);
     appendPlainText(line);
-
-    line = dt + tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)) + "\r\n";
+    if (_Q(srvprop.szMOTD).size() > 0)
+        line = dt + tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)) + "\r\n";
     format.setForeground(QBrush(Qt::darkCyan));
     cursor.setCharFormat(format);
     setTextCursor(cursor);
