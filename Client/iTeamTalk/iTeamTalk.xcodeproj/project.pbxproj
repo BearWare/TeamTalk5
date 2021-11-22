@@ -56,6 +56,7 @@
 		25E4DC331BF7360D00EC5A8C /* serverlost.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 25E4DC301BF7360D00EC5A8C /* serverlost.mp3 */; };
 		25E4DC341BF7360D00EC5A8C /* user_message.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 25E4DC311BF7360D00EC5A8C /* user_message.mp3 */; };
 		25FFC2DB25ABA07E000334DC /* UtilTT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25FFC2DA25ABA07E000334DC /* UtilTT.swift */; };
+		25E7D94F22399672001A5035 /* SoundInputsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E7D94E22399672001A5035 /* SoundInputsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +152,7 @@
 		25E4DC301BF7360D00EC5A8C /* serverlost.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = serverlost.mp3; sourceTree = "<group>"; };
 		25E4DC311BF7360D00EC5A8C /* user_message.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = user_message.mp3; sourceTree = "<group>"; };
 		25ED9FDD265AD28500127B0E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		25E7D94E22399672001A5035 /* SoundInputsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundInputsViewController.swift; sourceTree = "<group>"; };
 		25ED9FDE265AD28700127B0E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
 		25ED9FDF265AD28900127B0E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25ED9FE4265AD5A400127B0E /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 				254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */,
 				254B7A6C1B98BCFC00BE0DEF /* ServerTableCell.swift */,
 				25BA014821557F48003C836D /* SoundEventsViewController.swift */,
+				25E7D94E22399672001A5035 /* SoundInputsViewController.swift */,
 				2501A9C01C59254A00C729B3 /* SpeechListViewController.swift */,
 				2537133B1BCA59E600A7ADB3 /* TextMessageViewController.swift */,
 				251F61351BD68F6700617C43 /* TextMsgTableCell.swift */,
@@ -447,6 +450,7 @@
 				251B87C9225000E8009DC5AC /* WebLoginViewController.swift in Sources */,
 				25BA014921557F48003C836D /* SoundEventsViewController.swift in Sources */,
 				25A062751BA477CB00DC1F9B /* ChannelTableCell.swift in Sources */,
+				25E7D94F22399672001A5035 /* SoundInputsViewController.swift in Sources */,
 				251F61361BD68F6700617C43 /* TextMsgTableCell.swift in Sources */,
 				2537133C1BCA59E600A7ADB3 /* TextMessageViewController.swift in Sources */,
 				2516CB6C1BA8818B00EF9A17 /* UtilUI.swift in Sources */,

@@ -295,6 +295,27 @@ func setupSoundDevices() {
             print("Using sound output device: \(sndid)")
         }
         print("postset. Mode \(session.mode.rawValue), category \(session.category.rawValue), options \(session.categoryOptions.rawValue)")
+        
+        print (session.currentRoute)
+
+        // enable stereo on all data sources that support it
+        if #available(iOS 14.0, *) {
+            if let availableInputs = session.availableInputs {
+                for i in availableInputs {
+                    if let dataSources = i.dataSources {
+                        for s in dataSources {
+                            if s.supportedPolarPatterns != nil && s.supportedPolarPatterns!.contains(.stereo) {
+                                try s.setPreferredPolarPattern(.stereo)
+                                print("Setting \(s.dataSourceName) to stereo")
+                            } else {
+                                print("No stereo on \(s.dataSourceName)")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
     }
     catch {
         print("Failed to set mode")

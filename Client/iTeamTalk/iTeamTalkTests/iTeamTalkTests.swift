@@ -332,7 +332,7 @@ class iTeamTalkTests: XCTestCase {
             
             
             print("------- Outputs -------");
-            
+
             let outputs = session.currentRoute.outputs
             for a in outputs {
                 print("--- An output ---")
@@ -604,7 +604,6 @@ class iTeamTalkTests: XCTestCase {
             print("Proximity state 0")
         }
     }
-    
     
     func initSound(_ ttInst: UnsafeMutableRawPointer) {
         XCTAssert(TT_InitSoundInputDevice(ttInst, TT_SOUNDDEVICE_ID_REMOTEIO) != 0, "Init input sound device");
