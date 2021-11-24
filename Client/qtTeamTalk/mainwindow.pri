@@ -19,7 +19,8 @@ HEADERS    = mainwindow.h preferencesdlg.h uservideowidget.h \
              desktopaccessdlg.h appinfo.h settings.h generatettfiledlg.h \
              customvideofmtdlg.h license.h bearwarelogindlg.h \
              audiopreprocessordlg.h ttseventsmodel.h \
-             statusbardlg.h statusbareventsmodel.h mycombobox.h
+             statusbardlg.h statusbareventsmodel.h mycombobox.h \
+             utilsound.h
 
 SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              channelstree.cpp channeldlg.cpp userinfodlg.cpp \
@@ -35,7 +36,8 @@ SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              streammediafiledlg.cpp videotextdlg.cpp desktopaccessdlg.cpp \
              generatettfiledlg.cpp customvideofmtdlg.cpp \
              bearwarelogindlg.cpp audiopreprocessordlg.cpp ttseventsmodel.cpp \
-             statusbardlg.cpp statusbareventsmodel.cpp mycombobox.cpp
+             statusbardlg.cpp statusbareventsmodel.cpp mycombobox.cpp \
+             utilsound.cpp
 
 FORMS      = mainwindow.ui channel.ui preferences.ui \
              serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui \

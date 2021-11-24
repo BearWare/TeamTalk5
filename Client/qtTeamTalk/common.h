@@ -227,38 +227,6 @@ enum DoubleClickChannelAction
     ACTION_JOINLEAVE        = (ACTION_JOIN | ACTION_LEAVE),
 };
 
-enum SoundEvent
-{
-    SOUNDEVENT_NEWUSER,
-    SOUNDEVENT_REMOVEUSER,
-    SOUNDEVENT_SERVERLOST,
-    SOUNDEVENT_USERMSG,
-    SOUNDEVENT_USERMSGSENT,
-    SOUNDEVENT_CHANNELMSG,
-    SOUNDEVENT_CHANNELMSGSENT,
-    SOUNDEVENT_BROADCASTMSG,
-    SOUNDEVENT_HOTKEY,
-    SOUNDEVENT_SILENCE,   
-    SOUNDEVENT_NEWVIDEO,   
-    SOUNDEVENT_NEWDESKTOP,   
-    SOUNDEVENT_FILESUPD,  
-    SOUNDEVENT_FILETXDONE,
-    SOUNDEVENT_QUESTIONMODE,
-    SOUNDEVENT_DESKTOPACCESS,
-    SOUNDEVENT_USERLOGGEDIN,
-    SOUNDEVENT_USERLOGGEDOUT,
-    SOUNDEVENT_VOICEACTON,
-    SOUNDEVENT_VOICEACTOFF,
-    SOUNDEVENT_MUTEALLON,
-    SOUNDEVENT_MUTEALLOFF,
-    SOUNDEVENT_TRANSMITQUEUE_HEAD,
-    SOUNDEVENT_TRANSMITQUEUE_STOP,
-    SOUNDEVENT_VOICEACTTRIG,
-    SOUNDEVENT_VOICEACTSTOP,
-    SOUNDEVENT_VOICEACTMEON,
-    SOUNDEVENT_VOICEACTMEOFF,
-};
-
 enum TextToSpeechEvent : qulonglong
 {
     TTS_NONE                                        = 0x0,
@@ -526,24 +494,6 @@ bool initVideoCaptureFromSettings();
 bool initVideoCapture(const QString& devid, const VideoFormat& fmt);
 bool isValid(const VideoFormat& fmt);
 
-QVector<SoundDevice> getSoundDevices();
-bool getSoundDevice(int deviceid, const QVector<SoundDevice>& devs, SoundDevice& dev);
-bool getSoundDevice(const QString& devid, const QVector<SoundDevice>& devs, SoundDevice& dev);
-int getSoundDuplexSampleRate(const SoundDevice& indev, const SoundDevice& outdev);
-bool isSoundDeviceEchoCapable(const SoundDevice& indev, const SoundDevice& outdev);
-
-int getDefaultSndInputDevice();
-int getDefaultSndOutputDevice();
-
-int getSoundInputFromUID(int inputid, const QString& uid);
-int getSoundOutputFromUID(int outputid, const QString& uid);
-
-int getSelectedSndInputDevice();
-int getSelectedSndOutputDevice();
-
-QStringList initSelectedSoundDevices(SoundDevice& indev, SoundDevice& outdev);
-QStringList initDefaultSoundDevices(SoundDevice& indev, SoundDevice& outdev);
-
 QString getHotKeyText(const hotkey_t& hotkey);
 
 bool isComputerIdle(int idle_secs);
@@ -559,8 +509,6 @@ void deleteHotKeySettings(HotKeyID hotkeyid);
 void saveVideoFormat(const VideoFormat& vidfmt);
 bool loadVideoFormat(VideoFormat& vidfmt);
 
-void playSoundEvent(SoundEvent event);
-void resetDefaultSoundsPack();
 void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg);
 void addTextToSpeechMessage(const QString& msg);
 
@@ -596,12 +544,6 @@ QString getBearWareRegistrationUrl(const QDomDocument& doc);
 QString userCacheID(const User& user);
 
 QByteArray generateTTFile(const HostEntry& entry);
-
-void incVolume(int userid, StreamType stream_type);
-void decVolume(int userid, StreamType stream_type);
-int refVolume(double percent);
-int refVolumeToPercent(int volume);
-int refGain(double percent);
 
 bool versionSameOrLater(const QString& check, const QString& against);
 QString getVersion(const User& user);

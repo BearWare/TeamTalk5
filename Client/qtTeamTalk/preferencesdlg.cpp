@@ -23,6 +23,7 @@
 
 #include "preferencesdlg.h"
 #include "common.h"
+#include "utilsound.h"
 #include "keycompdlg.h"
 #include "appinfo.h"
 #include "videotextdlg.h"
