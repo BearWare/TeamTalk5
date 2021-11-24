@@ -23,6 +23,19 @@
 
 package dk.bearware.gui;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import dk.bearware.BannedUser;
 import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
@@ -39,19 +52,6 @@ import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.MyTextMessage;
 import dk.bearware.data.TextMessageAdapter;
 import dk.bearware.events.CommandListener;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Toast;
 
 public class TextMessageActivity
 extends AppCompatActivity implements TeamTalkConnectionListener, CommandListener {
@@ -134,40 +134,36 @@ extends AppCompatActivity implements TeamTalkConnectionListener, CommandListener
                                          service.getUserTextMsgs(userid),
                                          ttclient.getMyUserID());
         
-        ListView lv = (ListView) findViewById(R.id.user_im_listview);
+        ListView lv = findViewById(R.id.user_im_listview);
         lv.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         lv.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         
-        Button send_btn = (Button)this.findViewById(R.id.user_im_sendbtn);
-        final EditText send_msg = (EditText)this.findViewById(R.id.user_im_edittext);
-        send_btn.setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                String newmsg = send_msg.getText().toString();
-                if(newmsg.isEmpty())
-                    return;
-                
-                User myself = ttservice.getUsers().get(ttclient.getMyUserID());
-                String name = Utils.getDisplayName(getBaseContext(), myself);
-                MyTextMessage textmsg = new MyTextMessage(myself == null? "" : name);
-                textmsg.nMsgType = TextMsgType.MSGTYPE_USER;
-                textmsg.nChannelID = 0;
-                textmsg.nFromUserID = ttclient.getMyUserID();
-                textmsg.nToUserID = userid;
-                textmsg.szMessage = newmsg;
-                int cmdid = ttclient.doTextMessage(textmsg);
-                if(cmdid>0) {
-                    ttservice.getUserTextMsgs(userid).add(textmsg);
-                    send_msg.setText("");
-                    adapter.notifyDataSetChanged();
-                }
-                else {
-                    Toast.makeText(TextMessageActivity.this,
-                                   R.string.err_send_text_message,
-                                   Toast.LENGTH_LONG).show();
-                }
+        Button send_btn = this.findViewById(R.id.user_im_sendbtn);
+        final EditText send_msg = this.findViewById(R.id.user_im_edittext);
+        send_btn.setOnClickListener(v -> {
+            String newmsg = send_msg.getText().toString();
+            if(newmsg.isEmpty())
+                return;
+
+            User myself = ttservice.getUsers().get(ttclient.getMyUserID());
+            String name = Utils.getDisplayName(getBaseContext(), myself);
+            MyTextMessage textmsg = new MyTextMessage(myself == null? "" : name);
+            textmsg.nMsgType = TextMsgType.MSGTYPE_USER;
+            textmsg.nChannelID = 0;
+            textmsg.nFromUserID = ttclient.getMyUserID();
+            textmsg.nToUserID = userid;
+            textmsg.szMessage = newmsg;
+            int cmdid = ttclient.doTextMessage(textmsg);
+            if(cmdid>0) {
+                ttservice.getUserTextMsgs(userid).add(textmsg);
+                send_msg.setText("");
+                adapter.notifyDataSetChanged();
+            }
+            else {
+                Toast.makeText(TextMessageActivity.this,
+                               R.string.err_send_text_message,
+                               Toast.LENGTH_LONG).show();
             }
         });
         

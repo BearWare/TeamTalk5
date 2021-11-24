@@ -23,44 +23,6 @@
 
 package dk.bearware.gui;
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Vector;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xmlpull.v1.XmlSerializer;
-
-import com.google.gson.Gson;
-
-import dk.bearware.AudioCodec;
-import dk.bearware.Channel;
-import dk.bearware.ClientError;
-import dk.bearware.ClientErrorMsg;
-import dk.bearware.FileTransfer;
-import dk.bearware.RemoteFile;
-import dk.bearware.SoundLevel;
-import dk.bearware.User;
-import dk.bearware.backend.TeamTalkService;
-import dk.bearware.data.AppInfo;
-import dk.bearware.data.Preferences;
-import dk.bearware.data.ServerEntry;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -70,21 +32,56 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.preference.EditTextPreference;
-import androidx.preference.Preference;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Xml;
 import android.widget.Toast;
 
+import androidx.preference.EditTextPreference;
+import androidx.preference.Preference;
+
+import com.google.gson.Gson;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xmlpull.v1.XmlSerializer;
+
+import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Vector;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import dk.bearware.AudioCodec;
+import dk.bearware.Channel;
+import dk.bearware.ClientError;
+import dk.bearware.ClientErrorMsg;
+import dk.bearware.FileTransfer;
+import dk.bearware.RemoteFile;
+import dk.bearware.SoundLevel;
+import dk.bearware.User;
+import dk.bearware.data.AppInfo;
+import dk.bearware.data.Preferences;
+import dk.bearware.data.ServerEntry;
+
 public class Utils {
 
     public static final String TAG = "bearware";
 
-    private static Map<Integer, Integer> errorMessages = new HashMap<Integer, Integer>();
+    private static final Map<Integer, Integer> errorMessages = new HashMap<>();
 
     static {
         errorMessages.put(ClientError.CMDERR_INVALID_USERNAME, R.string.err_invalid_username);
@@ -168,12 +165,10 @@ public class Utils {
     }
 
     public static Vector<Channel> getSubChannels(int chanid, Map<Integer, Channel> channels) {
-        Vector<Channel> result = new Vector<Channel>();
+        Vector<Channel> result = new Vector<>();
 
-        Iterator<Entry<Integer, Channel>> it = channels.entrySet().iterator();
-
-        while (it.hasNext()) {
-            Channel chan = it.next().getValue();
+        for (Entry<Integer, Channel> integerChannelEntry : channels.entrySet()) {
+            Channel chan = integerChannelEntry.getValue();
             if ((chan.nParentID == chanid) && (chan.nMaxUsers > 0))
                 result.add(chan);
         }
@@ -181,12 +176,10 @@ public class Utils {
     }
 
     public static Vector<Channel> getStickyChannels(int chanid, Map<Integer, Channel> channels) {
-        Vector<Channel> result = new Vector<Channel>();
+        Vector<Channel> result = new Vector<>();
 
-        Iterator<Entry<Integer, Channel>> it = channels.entrySet().iterator();
-
-        while (it.hasNext()) {
-            Channel chan = it.next().getValue();
+        for (Entry<Integer, Channel> integerChannelEntry : channels.entrySet()) {
+            Channel chan = integerChannelEntry.getValue();
             if ((chan.nParentID == chanid) && (chan.nMaxUsers <= 0))
                 result.add(chan);
         }
@@ -194,11 +187,10 @@ public class Utils {
     }
 
     public static Vector<User> getUsers(int chanid, Map<Integer, User> users) {
-        Vector<User> result = new Vector<User>();
-        Iterator<Entry<Integer, User>> it = users.entrySet().iterator();
+        Vector<User> result = new Vector<>();
 
-        while (it.hasNext()) {
-            User user = it.next().getValue();
+        for (Entry<Integer, User> integerUserEntry : users.entrySet()) {
+            User user = integerUserEntry.getValue();
             if (user.nChannelID == chanid)
                 result.add(user);
         }
@@ -206,21 +198,19 @@ public class Utils {
     }
     
     public static Vector<User> getUsers(Map<Integer, User> users) {
-        Vector<User> result = new Vector<User>();
-        Iterator<Entry<Integer, User>> it = users.entrySet().iterator();
+        Vector<User> result = new Vector<>();
 
-        while (it.hasNext()) {
-            result.add(it.next().getValue());
+        for (Entry<Integer, User> integerUserEntry : users.entrySet()) {
+            result.add(integerUserEntry.getValue());
         }
         return result;
     }
     
     public static Vector<RemoteFile> getRemoteFiles(int chanid, Map<Integer, RemoteFile> remotefiles) {
-        Vector<RemoteFile> result = new Vector<RemoteFile>();
-        Iterator<Entry<Integer, RemoteFile>> it = remotefiles.entrySet().iterator();
+        Vector<RemoteFile> result = new Vector<>();
 
-        while (it.hasNext()) {
-            RemoteFile remotefile = it.next().getValue();
+        for (Entry<Integer, RemoteFile> integerRemoteFileEntry : remotefiles.entrySet()) {
+            RemoteFile remotefile = integerRemoteFileEntry.getValue();
             if (remotefile.nChannelID == chanid)
                 result.add(remotefile);
         }
@@ -228,21 +218,19 @@ public class Utils {
     }
     
     public static Vector<RemoteFile> getRemoteFiles(Map<Integer, RemoteFile> remotefiles) {
-        Vector<RemoteFile> result = new Vector<RemoteFile>();
-        Iterator<Entry<Integer, RemoteFile>> it = remotefiles.entrySet().iterator();
+        Vector<RemoteFile> result = new Vector<>();
 
-        while (it.hasNext()) {
-            result.add(it.next().getValue());
+        for (Entry<Integer, RemoteFile> integerRemoteFileEntry : remotefiles.entrySet()) {
+            result.add(integerRemoteFileEntry.getValue());
         }
         return result;
     }
     
     public static Vector<FileTransfer> getFileTransfers(int chanid, Map<Integer, FileTransfer> filetransfers) {
-        Vector<FileTransfer> result = new Vector<FileTransfer>();
-        Iterator<Entry<Integer, FileTransfer>> it = filetransfers.entrySet().iterator();
+        Vector<FileTransfer> result = new Vector<>();
 
-        while (it.hasNext()) {
-            FileTransfer transfer = it.next().getValue();
+        for (Entry<Integer, FileTransfer> integerFileTransferEntry : filetransfers.entrySet()) {
+            FileTransfer transfer = integerFileTransferEntry.getValue();
             if (transfer.nChannelID == chanid)
                 result.add(transfer);
         }
@@ -250,11 +238,10 @@ public class Utils {
     }
     
     public static Vector<FileTransfer> getFileTransfers(Map<Integer, FileTransfer> filetransfers) {
-        Vector<FileTransfer> result = new Vector<FileTransfer>();
-        Iterator<Entry<Integer, FileTransfer>> it = filetransfers.entrySet().iterator();
+        Vector<FileTransfer> result = new Vector<>();
 
-        while (it.hasNext()) {
-            result.add(it.next().getValue());
+        for (Entry<Integer, FileTransfer> integerFileTransferEntry : filetransfers.entrySet()) {
+            result.add(integerFileTransferEntry.getValue());
         }
         return result;
     }
@@ -264,14 +251,14 @@ public class Utils {
         HttpURLConnection conn;
         BufferedReader rd;
         String line;
-        String result = "";
+        StringBuilder result = new StringBuilder();
         try {
             url = new URL(urlToRead);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             while((line = rd.readLine()) != null) {
-                result += line;
+                result.append(line);
             }
             rd.close();
         }
@@ -279,11 +266,11 @@ public class Utils {
             Log.d(TAG, "Failed to receive URL: "+urlToRead+". " + e.toString());
         }
         
-        return result;
+        return result.toString();
     }
     
     public static Vector<ServerEntry> getXmlServerEntries(String xml) {
-        Vector<ServerEntry> servers = new Vector<ServerEntry>();
+        Vector<ServerEntry> servers = new Vector<>();
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder;
         Document doc;
@@ -367,7 +354,7 @@ public class Utils {
             FileOutputStream fos = new FileOutputStream(path);
             XmlSerializer serializer = Xml.newSerializer();
             serializer.setOutput(fos, "UTF-8");
-            serializer.startDocument(null, Boolean.valueOf(true));
+            serializer.startDocument(null, Boolean.TRUE);
             serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
             serializer.startTag(null, "teamtalk").attribute(null, "version", "5.0");
             for (ServerEntry server : servers) {

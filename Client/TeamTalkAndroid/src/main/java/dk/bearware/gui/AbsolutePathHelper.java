@@ -68,7 +68,7 @@ public class AbsolutePathHelper {
     public static String getRealPathFromURI_BelowAPI11(Context context, Uri contentUri) {
         String[] proj = {MediaStore.Images.Media.DATA};
         Cursor cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-        int column_index = 0;
+        int column_index;
         String result = "";
         if (cursor != null) {
             column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
@@ -98,7 +98,7 @@ return "storage/" + docId.replace(":", "/");
             else if (isDownloadsDocument(uri)) {
                 final String id = DocumentsContract.getDocumentId(uri);
                 final Uri contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+                        Uri.parse("content://downloads/public_downloads"), Long.parseLong(id));
                 return getDataColumn(context, contentUri, null, null);
             }
             else if (isMediaDocument(uri)) {

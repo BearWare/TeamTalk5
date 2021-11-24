@@ -23,29 +23,9 @@
 
 package dk.bearware.gui;
 
-import java.util.Locale;
-
-import dk.bearware.AudioCodec;
-import dk.bearware.Channel;
-import dk.bearware.Codec;
-import dk.bearware.OpusCodec;
-import dk.bearware.OpusConstants;
-import dk.bearware.SpeexCodec;
-import dk.bearware.SpeexConstants;
-import dk.bearware.SpeexVBRCodec;
-import dk.bearware.backend.TeamTalkConstants;
-import dk.bearware.data.MapAdapter;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,6 +35,27 @@ import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
+
+import java.util.Locale;
+
+import dk.bearware.AudioCodec;
+import dk.bearware.Codec;
+import dk.bearware.OpusCodec;
+import dk.bearware.OpusConstants;
+import dk.bearware.SpeexCodec;
+import dk.bearware.SpeexConstants;
+import dk.bearware.SpeexVBRCodec;
+import dk.bearware.backend.TeamTalkConstants;
+import dk.bearware.data.MapAdapter;
 
 public class AudioCodecActivity extends AppCompatActivity implements
     ActionBar.TabListener {
@@ -112,7 +113,7 @@ public class AudioCodecActivity extends AppCompatActivity implements
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager = findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         // When swiping between different sections, select the corresponding
@@ -150,42 +151,39 @@ public class AudioCodecActivity extends AppCompatActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home : {
-                int i = mViewPager.getCurrentItem();
-                Fragment frag = mSectionsPagerAdapter.getItem(i);
-                switch (i) {
-                    case TAB_OPUS : {
-                        OPUSFragment opusfrag = (OPUSFragment)frag;
-                        audiocodec.opus = opusfrag.exchangeOpusCodec(opusfrag.getView(), true);
-                        audiocodec.nCodec = Codec.OPUS_CODEC;
-                        break;
-                    }
-                    case TAB_SPEEX : {
-                        SpeexFragment spxfrag = (SpeexFragment)frag;
-                        audiocodec.speex = spxfrag.exchangeSpeexCodec(spxfrag.getView(), true);
-                        audiocodec.nCodec = Codec.SPEEX_CODEC;
-                        break;
-                    }
-                    case TAB_SPEEXVBR : {
-                        SpeexVBRFragment spxfrag = (SpeexVBRFragment)frag;
-                        audiocodec.speex_vbr = spxfrag.exchangeSpeexVBRCodec(spxfrag.getView(), true);
-                        audiocodec.nCodec = Codec.SPEEX_VBR_CODEC;
-                        break;
-                    }
-                    case TAB_NOAUDIO : {
-                        audiocodec.nCodec = Codec.NO_CODEC;
-                        break;
-                    }
+        if (item.getItemId() == android.R.id.home) {
+            int i = mViewPager.getCurrentItem();
+            Fragment frag = mSectionsPagerAdapter.getItem(i);
+            switch (i) {
+                case TAB_OPUS: {
+                    OPUSFragment opusfrag = (OPUSFragment) frag;
+                    audiocodec.opus = opusfrag.exchangeOpusCodec(opusfrag.getView(), true);
+                    audiocodec.nCodec = Codec.OPUS_CODEC;
+                    break;
                 }
-
-                Intent intent = getIntent();
-                setResult(RESULT_OK, Utils.putAudioCodec(intent, audiocodec)); 
-                finish();
-                break;
+                case TAB_SPEEX: {
+                    SpeexFragment spxfrag = (SpeexFragment) frag;
+                    audiocodec.speex = spxfrag.exchangeSpeexCodec(spxfrag.getView(), true);
+                    audiocodec.nCodec = Codec.SPEEX_CODEC;
+                    break;
+                }
+                case TAB_SPEEXVBR: {
+                    SpeexVBRFragment spxfrag = (SpeexVBRFragment) frag;
+                    audiocodec.speex_vbr = spxfrag.exchangeSpeexVBRCodec(spxfrag.getView(), true);
+                    audiocodec.nCodec = Codec.SPEEX_VBR_CODEC;
+                    break;
+                }
+                case TAB_NOAUDIO: {
+                    audiocodec.nCodec = Codec.NO_CODEC;
+                    break;
+                }
             }
-            default :
-                return super.onOptionsItemSelected(item);
+
+            Intent intent = getIntent();
+            setResult(RESULT_OK, Utils.putAudioCodec(intent, audiocodec));
+            finish();
+        } else {
+            return super.onOptionsItemSelected(item);
         }
         
         return true;
@@ -223,6 +221,7 @@ public class AudioCodecActivity extends AppCompatActivity implements
         SpeexVBRFragment speexvbrfrag;
         NoAudioFragment noaudiofrag;
         
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             switch (position) {
@@ -284,7 +283,7 @@ public class AudioCodecActivity extends AppCompatActivity implements
         }
 
         @Override
-        public void onAttach(Activity activity) {
+        public void onAttach(@NonNull Activity activity) {
             opuscodec = ((AudioCodecActivity)activity).audiocodec.opus;
             appMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
             srMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
@@ -438,7 +437,7 @@ public class AudioCodecActivity extends AppCompatActivity implements
         }
 
         @Override
-        public void onAttach(Activity activity) {
+        public void onAttach(@NonNull Activity activity) {
             speexcodec = ((AudioCodecActivity)activity).audiocodec.speex;
             srMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
             srMap.addPair("8 KHz", SpeexConstants.SPEEX_BANDMODE_NARROW);
@@ -513,7 +512,7 @@ public class AudioCodecActivity extends AppCompatActivity implements
         }
 
         @Override
-        public void onAttach(Activity activity) {
+        public void onAttach(@NonNull Activity activity) {
             speexvbrcodec = ((AudioCodecActivity)activity).audiocodec.speex_vbr;
             srMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
             srMap.addPair("8 KHz", SpeexConstants.SPEEX_BANDMODE_NARROW);
@@ -592,9 +591,8 @@ public class AudioCodecActivity extends AppCompatActivity implements
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_audiocodec_noaudio,
+            return inflater.inflate(R.layout.fragment_audiocodec_noaudio,
                                              container, false);
-            return rootView;
         }
     }
 

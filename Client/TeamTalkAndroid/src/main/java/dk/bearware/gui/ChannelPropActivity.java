@@ -44,7 +44,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -169,18 +168,18 @@ implements TeamTalkConnectionListener, CommandListener {
 
     void exchangeChannel(boolean store) {
 
-        EditText chanName = (EditText) findViewById(R.id.channame);
-        EditText chanTopic = (EditText) findViewById(R.id.chantopic);
-        EditText chanPasswd = (EditText) findViewById(R.id.chanpasswd);
-        EditText chanOpPasswd = (EditText) findViewById(R.id.chanoppasswd);
-        EditText chanMaxUsers = (EditText) findViewById(R.id.chanmaxusers);
-        EditText chanDiskQuota = (EditText) findViewById(R.id.chandiskquota);
-        CheckBox chanPermanent = (CheckBox) findViewById(R.id.chan_permanent);
-        CheckBox chanNoInterrupt = (CheckBox) findViewById(R.id.chan_nointerrupt);
-        CheckBox chanClassroom = (CheckBox)findViewById(R.id.chan_classroom);
-        CheckBox chanOpRecvOnly = (CheckBox)findViewById(R.id.chan_oprecvonly);
-        CheckBox chanNoVoiceAct = (CheckBox)findViewById(R.id.chan_novoiceact);
-        CheckBox chanNoAudioRec = (CheckBox)findViewById(R.id.chan_noaudiorecord);
+        EditText chanName = findViewById(R.id.channame);
+        EditText chanTopic = findViewById(R.id.chantopic);
+        EditText chanPasswd = findViewById(R.id.chanpasswd);
+        EditText chanOpPasswd = findViewById(R.id.chanoppasswd);
+        EditText chanMaxUsers = findViewById(R.id.chanmaxusers);
+        EditText chanDiskQuota = findViewById(R.id.chandiskquota);
+        CheckBox chanPermanent = findViewById(R.id.chan_permanent);
+        CheckBox chanNoInterrupt = findViewById(R.id.chan_nointerrupt);
+        CheckBox chanClassroom = findViewById(R.id.chan_classroom);
+        CheckBox chanOpRecvOnly = findViewById(R.id.chan_oprecvonly);
+        CheckBox chanNoVoiceAct = findViewById(R.id.chan_novoiceact);
+        CheckBox chanNoAudioRec = findViewById(R.id.chan_noaudiorecord);
         CheckBox chanHidden = findViewById(R.id.chan_hidden);
 
         if (store) {
@@ -267,21 +266,16 @@ implements TeamTalkConnectionListener, CommandListener {
 
         exchangeChannel(false);
 
-        Button codec_btn = (Button) findViewById(R.id.setup_audcodec_btn);
+        Button codec_btn = findViewById(R.id.setup_audcodec_btn);
 //        Button audcfg_btn = (Button) findViewById(R.id.setup_audcfg_btn);
         
-        OnClickListener listener = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch(v.getId()) {
-                    case R.id.setup_audcodec_btn :
-                        Intent edit = new Intent(ChannelPropActivity.this, AudioCodecActivity.class);
-                        edit = Utils.putAudioCodec(edit, channel.audiocodec);
-                        exchangeChannel(true);
-                        edit = Utils.putChannel(edit, channel);
-                        startActivityForResult(edit, REQUEST_AUDIOCODEC);
-                        break;
-                }
+        OnClickListener listener = v -> {
+            if (v.getId() == R.id.setup_audcodec_btn) {
+                Intent edit = new Intent(ChannelPropActivity.this, AudioCodecActivity.class);
+                edit = Utils.putAudioCodec(edit, channel.audiocodec);
+                exchangeChannel(true);
+                edit = Utils.putChannel(edit, channel);
+                startActivityForResult(edit, REQUEST_AUDIOCODEC);
             }
         };
         codec_btn.setOnClickListener(listener);

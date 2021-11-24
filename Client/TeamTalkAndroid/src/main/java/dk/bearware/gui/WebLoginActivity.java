@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,8 +13,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -81,32 +81,21 @@ public class WebLoginActivity extends AppCompatActivity {
         setupUI();
     }
 
-    View.OnClickListener createClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(AppInfo.BEARWARE_REGISTRATION_WEBSITE));
-            startActivity(browserIntent);
-        }
+    View.OnClickListener createClick = view -> {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(AppInfo.BEARWARE_REGISTRATION_WEBSITE));
+        startActivity(browserIntent);
     };
 
-    View.OnClickListener resetClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString(Preferences.PREF_GENERAL_BEARWARE_USERNAME, "");
-            editor.putString(Preferences.PREF_GENERAL_BEARWARE_TOKEN, "");
-            editor.apply();
-            setupUI();
-        }
+    View.OnClickListener resetClick = view -> {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(Preferences.PREF_GENERAL_BEARWARE_USERNAME, "");
+        editor.putString(Preferences.PREF_GENERAL_BEARWARE_TOKEN, "");
+        editor.apply();
+        setupUI();
     };
 
-    View.OnClickListener loginClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            new ValidateLogin().execute();
-        }
-    };
+    View.OnClickListener loginClick = view -> new ValidateLogin().execute();
 
     class ValidateLogin extends AsyncTask<Void, Void, Void> {
 
@@ -178,6 +167,5 @@ public class WebLoginActivity extends AppCompatActivity {
                 Toast.makeText(WebLoginActivity.this, msg, Toast.LENGTH_LONG).show();
             }
         }
-    };
-
+    }
 }

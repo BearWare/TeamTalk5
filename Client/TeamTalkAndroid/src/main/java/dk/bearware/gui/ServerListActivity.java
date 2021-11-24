@@ -23,45 +23,8 @@
 
 package dk.bearware.gui;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.StringReader;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Vector;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-
-import dk.bearware.BannedUser;
-import dk.bearware.Channel;
-import dk.bearware.ClientErrorMsg;
-import dk.bearware.Constants;
-import dk.bearware.RemoteFile;
-import dk.bearware.ServerProperties;
-import dk.bearware.TeamTalkBase;
-import dk.bearware.TextMessage;
-import dk.bearware.User;
-import dk.bearware.UserAccount;
-import dk.bearware.data.Permissions;
-import dk.bearware.data.Preferences;
-import dk.bearware.backend.TeamTalkConnection;
-import dk.bearware.backend.TeamTalkConnectionListener;
-import dk.bearware.backend.TeamTalkService;
-import dk.bearware.events.CommandListener;
-import dk.bearware.data.AppInfo;
-import dk.bearware.data.ServerEntry;
-
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -70,8 +33,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import androidx.fragment.app.ListFragment;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -83,6 +44,46 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.ListFragment;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.StringReader;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Vector;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import dk.bearware.BannedUser;
+import dk.bearware.Channel;
+import dk.bearware.ClientErrorMsg;
+import dk.bearware.Constants;
+import dk.bearware.RemoteFile;
+import dk.bearware.ServerProperties;
+import dk.bearware.TeamTalkBase;
+import dk.bearware.TextMessage;
+import dk.bearware.User;
+import dk.bearware.UserAccount;
+import dk.bearware.backend.TeamTalkConnection;
+import dk.bearware.backend.TeamTalkConnectionListener;
+import dk.bearware.backend.TeamTalkService;
+import dk.bearware.data.AppInfo;
+import dk.bearware.data.Permissions;
+import dk.bearware.data.Preferences;
+import dk.bearware.data.ServerEntry;
+import dk.bearware.events.CommandListener;
 
 public class ServerListActivity
 extends AppCompatActivity
@@ -254,18 +255,18 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
             }
             case REQUEST_IMPORT_SERVERLIST : {
                 if(resultCode == RESULT_OK) {
-                    String xml = "";
+                    StringBuilder xml = new StringBuilder();
                     try {
                         String line;
                         BufferedReader source = new BufferedReader(new FileReader(AbsolutePathHelper.getRealPath(this.getBaseContext(), data.getData())));
                         while ((line = source.readLine()) != null) {
-                            xml += line;
+                            xml.append(line);
                         }
                         source.close();
                     }
                     catch (Exception ex) {
                     }
-                    Vector<ServerEntry> entries = Utils.getXmlServerEntries(xml);
+                    Vector<ServerEntry> entries = Utils.getXmlServerEntries(xml.toString());
                     if (entries != null) {
                         for (ServerEntry entry : entries) {
                             entry.public_server = false;
@@ -351,7 +352,7 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
     void loadServerFromUri(Uri uri) {
         ServerEntry entry = new ServerEntry();
         String host = uri.getHost();
-        if (host != "") {
+        if (host != null && !host.equals("")) {
             entry.ipaddr = host;
         }
         String tcpport = uri.getQueryParameter("tcpport");
@@ -376,11 +377,11 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
         Log.i(TAG, "Connecting to " + entry.servername);
     }
 
-    Vector<ServerEntry> servers = new Vector<ServerEntry>();
+    final Vector<ServerEntry> servers = new Vector<>();
 
     class ServerListAdapter extends BaseAdapter {
 
-        private LayoutInflater inflater;
+        private final LayoutInflater inflater;
 
         ServerListAdapter(Context context) {
             inflater = LayoutInflater.from(context);
@@ -407,9 +408,9 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
             if(convertView == null)
                 convertView = inflater.inflate(R.layout.item_serverentry, parent, false);
             
-            ImageView img = (ImageView) convertView.findViewById(R.id.servericon);
-            TextView name = (TextView) convertView.findViewById(R.id.server_name);
-            TextView address = (TextView) convertView.findViewById(R.id.server_address);
+            ImageView img = convertView.findViewById(R.id.servericon);
+            TextView name = convertView.findViewById(R.id.server_name);
+            TextView address = convertView.findViewById(R.id.server_address);
             name.setText(servers.get(position).servername);
             if (servers.get(position).public_server) {
                 img.setImageResource(R.drawable.teamtalk_green);
@@ -424,29 +425,17 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
             address.setText(servers.get(position).ipaddr);
             View editButton = convertView.findViewById(R.id.server_edit);
             if (editButton != null)
-                editButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            onItemLongClick(getListFragment().getListView(), v, position, v.getId());
-                        }
-                    });
-            convertView.findViewById(R.id.server_remove).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(ServerListActivity.this);
-                    alert.setMessage(getString(R.string.server_remove_confirmation, servers.get(position).servername));
-                    alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                            @Override
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                servers.remove(position);
-                                notifyDataSetChanged();
-                                saveServers();
-                            }
-                        });
-                    alert.setNegativeButton(android.R.string.no, null);
-                    alert.show();
-                }
+                editButton.setOnClickListener(v -> onItemLongClick(getListFragment().getListView(), v, position, v.getId()));
+            convertView.findViewById(R.id.server_remove).setOnClickListener(v -> {
+                AlertDialog.Builder alert = new AlertDialog.Builder(ServerListActivity.this);
+                alert.setMessage(getString(R.string.server_remove_confirmation, servers.get(position).servername));
+                alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                    servers.remove(position);
+                    notifyDataSetChanged();
+                    saveServers();
+                });
+                alert.setNegativeButton(android.R.string.no, null);
+                alert.show();
             });
 
             return convertView;
@@ -618,7 +607,7 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           @NonNull String[] permissions, int[] grantResults) {
         boolean granted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
         switch (requestCode) {
             case Permissions.MY_PERMISSIONS_REQUEST_INTERNET :
@@ -660,8 +649,8 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
 
         String version = AppInfo.getVersion(this);
                 
-        TextView tv_version = (TextView)findViewById(R.id.version_textview);
-        TextView tv_dllversion = (TextView)findViewById(R.id.dllversion_textview);
+        TextView tv_version = findViewById(R.id.version_textview);
+        TextView tv_dllversion = findViewById(R.id.dllversion_textview);
         tv_version.setText(getString(R.string.ttversion) + version + AppInfo.APPVERSION_POSTFIX);
         tv_dllversion.setText(getString(R.string.ttdllversion) + TeamTalkBase.getVersion());
 
@@ -769,14 +758,14 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
             return 1;
         else if (s2.public_server && !s1.public_server)
             return -1;
-        if(!s1.public_server && !s2.public_server)
+        if(!s1.public_server)
             return s1.servername.compareToIgnoreCase(s2.servername);
         // order of public servers are determined by xml-reply
         return 0;
     }
 
     private void exportServers() {
-        Vector<ServerEntry> entries = new Vector<ServerEntry>();
+        Vector<ServerEntry> entries = new Vector<>();
         synchronized(servers) {
             for (ServerEntry entry : servers)
                 if (!entry.public_server)
@@ -789,23 +778,19 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
             if (ttFile.exists()) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
                 alert.setMessage(getString(R.string.alert_file_override, filePath));
-                alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            if (ttFile.delete()) {
-                                int msgId = Utils.saveServers(entries, filePath) ?
-                                    R.string.serverlist_export_confirmation :
-                                    R.string.err_file_write;
-                                Toast.makeText(ServerListActivity.this, getString(msgId, filePath), Toast.LENGTH_LONG).show();
-                            }
-                            else {
-                                Toast.makeText(ServerListActivity.this,
-                                               getString(R.string.err_file_delete, filePath),
-                                               Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
+                alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                    if (ttFile.delete()) {
+                        int msgId = Utils.saveServers(entries, filePath) ?
+                            R.string.serverlist_export_confirmation :
+                            R.string.err_file_write;
+                        Toast.makeText(ServerListActivity.this, getString(msgId, filePath), Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Toast.makeText(ServerListActivity.this,
+                                       getString(R.string.err_file_delete, filePath),
+                                       Toast.LENGTH_LONG).show();
+                    }
+                });
 
                 alert.setNegativeButton(android.R.string.no, null);
                 alert.show();
