@@ -25,8 +25,6 @@ package dk.bearware.gui;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.List;
 import java.util.Vector;
@@ -69,7 +67,6 @@ import dk.bearware.data.ServerEntry;
 import dk.bearware.data.TextMessageAdapter;
 import dk.bearware.data.TTSWrapper;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -78,10 +75,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -99,6 +94,9 @@ import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -106,14 +104,12 @@ import androidx.fragment.app.ListFragment;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.InputType;
-import android.text.method.SingleLineTransformationMethod;
 import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.view.LayoutInflater;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -128,7 +124,6 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView.OnEditorActionListener;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -177,7 +172,7 @@ implements TeamTalkConnectionListener,
     // The channel we're currently in
     Channel mychannel;
 
-    SparseArray<CmdComplete> activecmds = new SparseArray<CmdComplete>();
+    SparseArray<CmdComplete> activecmds = new SparseArray<>();
 
     ChannelListAdapter channelsAdapter;
     FileListAdapter filesAdapter;
@@ -238,7 +233,9 @@ implements TeamTalkConnectionListener,
         String serverName = getIntent().getStringExtra(ServerEntry.KEY_SERVERNAME);
         if ((serverName != null) && !serverName.isEmpty())
             setTitle(serverName);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar ab = getSupportActionBar();
+        if (ab != null)
+            ab.setDisplayHomeAsUpEnabled(true);
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
@@ -260,10 +257,10 @@ implements TeamTalkConnectionListener,
         // Create the adapter that will return a fragment for each of the five
         // primary sections of the app.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        mTabLayout = findViewById(R.id.tab_layout);
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager = findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOnPageChangeListener(mSectionsPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -273,12 +270,7 @@ implements TeamTalkConnectionListener,
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             final MediaPlayer mMediaPlayer;
             mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.silence);
-            mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    mMediaPlayer.release();
-                }
-            });
+            mMediaPlayer.setOnCompletionListener(mediaPlayer -> mMediaPlayer.release());
             mMediaPlayer.start();
         }
     }
@@ -365,14 +357,10 @@ implements TeamTalkConnectionListener,
                 else if (filesAdapter.getActiveTransfersCount() > 0) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(this);
                     alert.setMessage(R.string.disconnect_alert);
-                    alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                filesAdapter.cancelAllTransfers();
-                                finish();
-                            }
-                        });
+                    alert.setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
+                        filesAdapter.cancelAllTransfers();
+                        finish();
+                    });
                     alert.setNegativeButton(android.R.string.cancel, null);
                     alert.show();
                 }
@@ -432,11 +420,11 @@ implements TeamTalkConnectionListener,
             if (ttclient.getVoiceActivationLevel() != voxlevel)
                 ttclient.setVoiceActivationLevel(voxlevel);
 
-            adjustMuteButton((ImageButton) findViewById(R.id.speakerBtn));
+            adjustMuteButton(findViewById(R.id.speakerBtn));
             adjustVoxState(voxState, voxState ? voxlevel : gain);
             adjustTxState(txState);
 
-            TextView volLevel = (TextView) findViewById(R.id.vollevel_text);
+            TextView volLevel = findViewById(R.id.vollevel_text);
             volLevel.setText(Utils.refVolumeToPercent(mastervol) + "%");
             volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
         }
@@ -633,7 +621,7 @@ implements TeamTalkConnectionListener,
             super(fm);
         }
 
-        @Override
+        @Override @NonNull
         public Fragment getItem(int position) {
 
             // getItem is called to instantiate the fragment for the given page.
@@ -719,14 +707,10 @@ implements TeamTalkConnectionListener,
         if (filesAdapter.getActiveTransfersCount() > 0) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setMessage(R.string.channel_change_alert);
-            alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        filesAdapter.cancelAllTransfers();
-                        joinChannelUnsafe(channel, passwd);
-                    }
-                });
+            alert.setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
+                filesAdapter.cancelAllTransfers();
+                joinChannelUnsafe(channel, passwd);
+            });
             alert.setNegativeButton(android.R.string.cancel, null);
             alert.show();
         }
@@ -746,21 +730,15 @@ implements TeamTalkConnectionListener,
             input.setText(channel.szPassword);
             input.requestFocus();
             alert.setView(input);
-            alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int whichButton) {
+            alert.setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
                 InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 im.hideSoftInputFromWindow(input.getWindowToken(), 0);
-                        joinChannel(channel, input.getText().toString());
-                    }
-                });
-            alert.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                @Override
-                    public void onClick(DialogInterface dialog, int whichButton) {
+                joinChannel(channel, input.getText().toString());
+            });
+            alert.setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> {
                 InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 im.hideSoftInputFromWindow(input.getWindowToken(), 0);
-            }
-        });
+            });
 			final AlertDialog dialog = alert.create();
             dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
             dialog.show();
@@ -773,7 +751,9 @@ implements TeamTalkConnectionListener,
     // the channel currently being displayed
     private void setCurrentChannel(Channel channel) {
         curchannel = channel;
-        getSupportActionBar().setSubtitle((channel != null) ? channel.szName : null);
+        ActionBar ab = getSupportActionBar();
+        if (ab != null)
+            ab.setSubtitle((channel != null) ? channel.szName : null);
         invalidateOptionsMenu();
     }
 
@@ -805,7 +785,7 @@ implements TeamTalkConnectionListener,
         }
 
         @Override
-        public void onAttach(Activity activity) {
+        public void onAttach(@NonNull Activity activity) {
             mainActivity = (MainActivity) activity;
             super.onAttach(activity);
         }
@@ -815,7 +795,7 @@ implements TeamTalkConnectionListener,
             View rootView = inflater.inflate(R.layout.fragment_main_channels, container, false);
             mainActivity.accessibilityAssistant.registerPage(rootView, SectionsPagerAdapter.CHANNELS_PAGE);
 
-            ListView channelsList = (ListView) rootView.findViewById(R.id.listChannels);
+            ListView channelsList = rootView.findViewById(R.id.listChannels);
             channelsList.setAdapter(mainActivity.getChannelsAdapter());
             channelsList.setOnItemClickListener(mainActivity);
             channelsList.setOnItemLongClickListener(mainActivity);
@@ -832,7 +812,7 @@ private EditText newmsg;
         }
         
         @Override
-        public void onAttach(Activity activity) {
+        public void onAttach(@NonNull Activity activity) {
             mainActivity = (MainActivity) activity;
             super.onAttach(activity);
         }
@@ -841,27 +821,20 @@ private EditText newmsg;
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main_chat, container, false);
             mainActivity.accessibilityAssistant.registerPage(rootView, SectionsPagerAdapter.CHAT_PAGE);
-            newmsg = (EditText) rootView.findViewById(R.id.channel_im_edittext);
-            newmsg.setOnEditorActionListener(new OnEditorActionListener() { 
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if (actionId == EditorInfo.IME_ACTION_SEND || actionId == EditorInfo.IME_NULL) {
-            sendMsgToChannel();
-            return true;
-        }    
-        return false;
-    }
-});
-            ListView chatlog = (ListView)rootView.findViewById(R.id.channel_im_listview);
+            newmsg = rootView.findViewById(R.id.channel_im_edittext);
+            newmsg.setOnEditorActionListener((v, actionId, event) -> {
+                if (actionId == EditorInfo.IME_ACTION_SEND || actionId == EditorInfo.IME_NULL) {
+                    sendMsgToChannel();
+                    return true;
+                }
+                return false;
+            });
+            ListView chatlog = rootView.findViewById(R.id.channel_im_listview);
             chatlog.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
             chatlog.setAdapter(mainActivity.getTextMessagesAdapter());
 
-            Button sendBtn = (Button) rootView.findViewById(R.id.channel_im_sendbtn);
-            sendBtn.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View arg0) {
-                    sendMsgToChannel();
-                }
-            });
+            Button sendBtn = rootView.findViewById(R.id.channel_im_sendbtn);
+            sendBtn.setOnClickListener(arg0 -> sendMsgToChannel());
             return rootView;
         }
 
@@ -894,17 +867,14 @@ private EditText newmsg;
         }
 
         @Override
-        public void onAttach(Activity activity) {
+        public void onAttach(@NonNull Activity activity) {
             mainActivity = (MainActivity) activity;
             super.onAttach(activity);
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main_vidcap, container, false);
-//            mainActivity.accessibilityAssistant.registerPage(rootView, SectionsPagerAdapter.VIDCAP_PAGE);
-
-            return rootView;
+            return inflater.inflate(R.layout.fragment_main_vidcap, container, false);
         }
     }
 
@@ -915,7 +885,7 @@ private EditText newmsg;
         }
 
         @Override
-        public void onAttach(Activity activity) {
+        public void onAttach(@NonNull Activity activity) {
             mainActivity = (MainActivity) activity;
             super.onAttach(activity);
         }
@@ -926,7 +896,7 @@ private EditText newmsg;
             View rootView = inflater.inflate(R.layout.fragment_main_media, container, false);
             mainActivity.accessibilityAssistant.registerPage(rootView, SectionsPagerAdapter.MEDIA_PAGE);
 
-            ExpandableListView mediaview = (ExpandableListView) rootView.findViewById(R.id.media_elist_view);
+            ExpandableListView mediaview = rootView.findViewById(R.id.media_elist_view);
             mediaview.setAdapter(mainActivity.getMediaAdapter());
             return rootView;
         }
@@ -935,7 +905,7 @@ private EditText newmsg;
     public static class FilesSectionFragment extends ListFragment {
 
         @Override
-        public void onViewCreated(View view, Bundle savedInstanceState) {
+        public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
             MainActivity mainActivity = (MainActivity) getActivity();
             mainActivity.accessibilityAssistant.registerPage(view, SectionsPagerAdapter.FILES_PAGE);
             setListAdapter(mainActivity.getFilesAdapter());
@@ -952,11 +922,11 @@ private EditText newmsg;
 
             VIEW_TYPE_COUNT = 4;
 
-        private LayoutInflater inflater;
+        private final LayoutInflater inflater;
 
-        Vector<Channel> subchannels = new Vector<Channel>();
-        Vector<Channel> stickychannels = new Vector<Channel>();
-        Vector<User> currentusers = new Vector<User>();
+        Vector<Channel> subchannels = new Vector<>();
+        Vector<Channel> stickychannels = new Vector<>();
+        Vector<User> currentusers = new Vector<>();
 
         ChannelListAdapter(Context context) {
             inflater = LayoutInflater.from(context);
@@ -964,12 +934,11 @@ private EditText newmsg;
 
         @Override
         public void notifyDataSetChanged() {
-            int chanid = 0;
-
             subchannels.clear();
             stickychannels.clear();
             currentusers.clear();
 
+            int chanid;
             if(curchannel != null) {
                 chanid = curchannel.nChannelID;
 
@@ -984,29 +953,22 @@ private EditText newmsg;
                     subchannels.add(root);
             }
 
-            Collections.sort(subchannels, (c1, c2) -> {
-                    return c1.szName.compareToIgnoreCase(c2.szName);
-                });
+            Collections.sort(subchannels, (c1, c2) -> c1.szName.compareToIgnoreCase(c2.szName));
 
-            Collections.sort(stickychannels, (c1, c2) -> {
-                    return c1.szName.compareToIgnoreCase(c2.szName);
-                });
+            Collections.sort(stickychannels, (c1, c2) -> c1.szName.compareToIgnoreCase(c2.szName));
 
-            Collections.sort(currentusers, new Comparator<User>() {
-                    @Override
-                    public int compare(User u1, User u2) {
-                        if (((u1.uUserState & UserState.USERSTATE_VOICE) != 0) &&
-                            ((u2.uUserState & UserState.USERSTATE_VOICE) == 0))
-                            return -1;
-                        else if (((u1.uUserState & UserState.USERSTATE_VOICE) == 0) &&
-                                 ((u2.uUserState & UserState.USERSTATE_VOICE) != 0))
-                            return 1;
-                        
-                        String name1 = Utils.getDisplayName(getBaseContext(), u1);
-                        String name2 = Utils.getDisplayName(getBaseContext(), u2);
-                        return name1.compareToIgnoreCase(name2);
-                    }
-                });
+            Collections.sort(currentusers, (u1, u2) -> {
+                if (((u1.uUserState & UserState.USERSTATE_VOICE) != 0) &&
+                    ((u2.uUserState & UserState.USERSTATE_VOICE) == 0))
+                    return -1;
+                else if (((u1.uUserState & UserState.USERSTATE_VOICE) == 0) &&
+                         ((u2.uUserState & UserState.USERSTATE_VOICE) != 0))
+                    return 1;
+
+                String name1 = Utils.getDisplayName(getBaseContext(), u1);
+                String name2 = Utils.getDisplayName(getBaseContext(), u2);
+                return name1.compareToIgnoreCase(name2);
+            });
 
             super.notifyDataSetChanged();
         }
@@ -1109,10 +1071,10 @@ private EditText newmsg;
                                 convertView.findViewById(R.id.channelname) == null)
                             convertView = inflater.inflate(R.layout.item_channel, parent, false);
 
-                        ImageView chanicon = (ImageView) convertView.findViewById(R.id.channelicon);
-                        TextView name = (TextView) convertView.findViewById(R.id.channelname);
-                        TextView topic = (TextView) convertView.findViewById(R.id.chantopic);
-                        Button join = (Button) convertView.findViewById(R.id.join_btn);
+                        ImageView chanicon = convertView.findViewById(R.id.channelicon);
+                        TextView name = convertView.findViewById(R.id.channelname);
+                        TextView topic = convertView.findViewById(R.id.chantopic);
+                        Button join = convertView.findViewById(R.id.join_btn);
                         int icon_resource = R.drawable.channel_orange;
                         if(channel.bPassword) {
                             icon_resource = R.drawable.channel_pink;
@@ -1136,15 +1098,9 @@ private EditText newmsg;
                         }
                         topic.setText(channel.szTopic);
 
-                        OnClickListener listener = new OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                switch(v.getId()) {
-                                    case R.id.join_btn : {
-                                        joinChannel(channel);
-                                    }
-                                    break;
-                                }
+                        OnClickListener listener = v -> {
+                            if (v.getId() == R.id.join_btn) {
+                                joinChannel(channel);
                             }
                         };
                         join.setOnClickListener(listener);
@@ -1162,8 +1118,8 @@ private EditText newmsg;
                         if (convertView == null ||
                                 convertView.findViewById(R.id.titletext) == null)
                             convertView = inflater.inflate(R.layout.item_info, parent, false);
-                        TextView title = (TextView) convertView.findViewById(R.id.titletext);
-                        TextView details = (TextView) convertView.findViewById(R.id.infodetails);
+                        TextView title = convertView.findViewById(R.id.titletext);
+                        TextView details = convertView.findViewById(R.id.infodetails);
                         title.setText(channel.szName);
                         details.setText(channel.szTopic);
                         break;
@@ -1173,9 +1129,9 @@ private EditText newmsg;
                 if (convertView == null ||
                     convertView.findViewById(R.id.nickname) == null)
                     convertView = inflater.inflate(R.layout.item_user, parent, false);
-                ImageView usericon = (ImageView) convertView.findViewById(R.id.usericon);
-                TextView nickname = (TextView) convertView.findViewById(R.id.nickname);
-                TextView status = (TextView) convertView.findViewById(R.id.status);
+                ImageView usericon = convertView.findViewById(R.id.usericon);
+                TextView nickname = convertView.findViewById(R.id.nickname);
+                TextView status = convertView.findViewById(R.id.status);
                 final User user = (User) item;
                 String name = Utils.getDisplayName(getBaseContext(), user);
                 nickname.setText(name);
@@ -1184,45 +1140,41 @@ private EditText newmsg;
                 boolean talking = (user.uUserState & UserState.USERSTATE_VOICE) != 0;
                 boolean female = (user.nStatusMode & TeamTalkConstants.STATUSMODE_FEMALE) != 0;
                 boolean away =  (user.nStatusMode & TeamTalkConstants.STATUSMODE_AWAY) != 0;
-                int icon_resource = R.drawable.man_blue;
+                int icon_resource;
                 
                 if(user.nUserID == ttservice.getTTInstance().getMyUserID()) {
                     talking = ttservice.isVoiceTransmitting();
                 }
                 if(talking) {
-                    nickname.setContentDescription(getString(R.string.user_state_now_speaking, name));
                     if(female) {
                         icon_resource = R.drawable.woman_green;
+                        nickname.setContentDescription(getString(R.string.user_state_now_speaking, name) + " 👩");
                     }
                     else {
                         icon_resource = R.drawable.man_green;
+                        nickname.setContentDescription(getString(R.string.user_state_now_speaking, name) + " 👨");
                     }
                 }
                 else {
-                    nickname.setContentDescription(null);
                     if(female) {
                         icon_resource = away? R.drawable.woman_orange : R.drawable.woman_blue;
+                        nickname.setContentDescription("👩");
                     }
                     else {
                         icon_resource = away? R.drawable.man_orange : R.drawable.man_blue;
+                        nickname.setContentDescription("👨");
                     }
                 }
-                status.setContentDescription(away?getString(R.string.user_state_away, name):null);
+                status.setContentDescription(away ? getString(R.string.user_state_away) : null);
 
                 usericon.setImageResource(icon_resource);
                 usericon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
                 
-                Button sndmsg = (Button) convertView.findViewById(R.id.msg_btn);
-                OnClickListener listener = new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        switch(v.getId()) {
-                            case R.id.msg_btn : {
-                                Intent intent = new Intent(MainActivity.this, TextMessageActivity.class);
-                                startActivity(intent.putExtra(TextMessageActivity.EXTRA_USERID, user.nUserID));
-                                break;
-                            }
-                        }
+                Button sndmsg = convertView.findViewById(R.id.msg_btn);
+                OnClickListener listener = v -> {
+                    if (v.getId() == R.id.msg_btn) {
+                        Intent intent = new Intent(MainActivity.this, TextMessageActivity.class);
+                        startActivity(intent.putExtra(TextMessageActivity.EXTRA_USERID, user.nUserID));
                     }
                 };
                 sndmsg.setOnClickListener(listener);
@@ -1235,9 +1187,9 @@ private EditText newmsg;
     
     void createStatusTimer() {
         
-        final TextView connection = (TextView) findViewById(R.id.connectionstat_textview);
-        final TextView ping = (TextView) findViewById(R.id.pingstat_textview);
-        final TextView total = (TextView) findViewById(R.id.totalstat_textview);
+        final TextView connection = findViewById(R.id.connectionstat_textview);
+        final TextView ping = findViewById(R.id.pingstat_textview);
+        final TextView total = findViewById(R.id.totalstat_textview);
         final int defcolor = connection.getTextColors().getDefaultColor();
         
         if(stats_timer == null) {
@@ -1274,14 +1226,6 @@ private EditText newmsg;
                     
                     long totalrx = stats.nUdpBytesRecv - prev_stats.nUdpBytesRecv;
                     long totaltx = stats.nUdpBytesSent - prev_stats.nUdpBytesSent;
-                    long voicerx = stats.nVoiceBytesRecv - prev_stats.nVoiceBytesRecv;
-                    long voicetx = stats.nVoiceBytesSent - prev_stats.nVoiceBytesSent;
-                    long deskrx = stats.nDesktopBytesRecv - prev_stats.nDesktopBytesRecv;
-                    long desktx = stats.nDesktopBytesSent - prev_stats.nDesktopBytesSent;
-                    long mfrx = (stats.nMediaFileAudioBytesRecv + stats.nMediaFileVideoBytesRecv) - 
-                                (prev_stats.nMediaFileAudioBytesRecv + prev_stats.nMediaFileVideoBytesRecv);
-                    long mftx = (stats.nMediaFileAudioBytesSent + stats.nMediaFileVideoBytesSent) - 
-                                (prev_stats.nMediaFileAudioBytesSent + prev_stats.nMediaFileVideoBytesSent);
 
                     String str;
                     if(stats.nUdpPingTimeMs >= 0) {
@@ -1326,13 +1270,11 @@ private EditText newmsg;
             setCurrentChannel((channel.nChannelID > 0) ? channel : null);
             channelsAdapter.notifyDataSetChanged();
         }
-        else {
-        }
     }
 
     Channel selectedChannel;
     User selectedUser;
-    List<Integer> userIDS = new ArrayList<Integer>();
+    List<Integer> userIDS = new ArrayList<>();
 
     @Override
     public boolean onItemLongClick(AdapterView< ? > l, View v, int position, long id) {
@@ -1381,13 +1323,9 @@ private EditText newmsg;
         switch (item.getItemId()) {
         case R.id.action_banchan:
             alert.setMessage(getString(R.string.ban_confirmation, selectedUser.szNickname));
-            alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    ttclient.doBanUser(selectedUser.nUserID, selectedUser.nChannelID);
-                    ttclient.doKickUser(selectedUser.nUserID, selectedUser.nChannelID);
-                }
+            alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                ttclient.doBanUser(selectedUser.nUserID, selectedUser.nChannelID);
+                ttclient.doKickUser(selectedUser.nUserID, selectedUser.nChannelID);
             });
 
             alert.setNegativeButton(android.R.string.no, null);
@@ -1395,13 +1333,9 @@ private EditText newmsg;
             break;
         case R.id.action_bansrv:
             alert.setMessage(getString(R.string.ban_confirmation, selectedUser.szNickname));
-            alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    ttclient.doBanUser(selectedUser.nUserID, 0);
-                    ttclient.doKickUser(selectedUser.nUserID, 0);
-                }
+            alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                ttclient.doBanUser(selectedUser.nUserID, 0);
+                ttclient.doKickUser(selectedUser.nUserID, 0);
             });
 
             alert.setNegativeButton(android.R.string.no, null);
@@ -1412,34 +1346,21 @@ private EditText newmsg;
             break;
         case R.id.action_kickchan:
             alert.setMessage(getString(R.string.kick_confirmation, selectedUser.szNickname));
-            alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    ttclient.doKickUser(selectedUser.nUserID, selectedUser.nChannelID);
-                }
-            });
+            alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> ttclient.doKickUser(selectedUser.nUserID, selectedUser.nChannelID));
 
             alert.setNegativeButton(android.R.string.no, null);
             alert.show();
             break;
         case R.id.action_kicksrv:
             alert.setMessage(getString(R.string.kick_confirmation, selectedUser.szNickname));
-            alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    ttclient.doKickUser(selectedUser.nUserID, 0);
-                }
-            });
+            alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> ttclient.doKickUser(selectedUser.nUserID, 0));
 
             alert.setNegativeButton(android.R.string.no, null);
             alert.show();
             break;
         case R.id.action_move:
-            Iterator<Integer> userIDSIterator = userIDS.iterator(); 
-            while (userIDSIterator.hasNext()) {
-                ttclient.doMoveUser(userIDSIterator.next(), selectedChannel.nChannelID);
+            for (Integer userID : userIDS) {
+                ttclient.doMoveUser(userID, selectedChannel.nChannelID);
             }
             userIDS.clear();
             break;
@@ -1448,17 +1369,13 @@ private EditText newmsg;
             break;
         case R.id.action_remove: {
             alert.setMessage(getString(R.string.channel_remove_confirmation, selectedChannel.szName));
-            alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        if (ttclient.doRemoveChannel(selectedChannel.nChannelID) <= 0)
-                            Toast.makeText(MainActivity.this,
-                                           getString(R.string.err_channel_remove,
-                                                     selectedChannel.szName),
-                                           Toast.LENGTH_LONG).show();
-                    }
-                });
+            alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                if (ttclient.doRemoveChannel(selectedChannel.nChannelID) <= 0)
+                    Toast.makeText(MainActivity.this,
+                                   getString(R.string.err_channel_remove,
+                                             selectedChannel.szName),
+                                   Toast.LENGTH_LONG).show();
+            });
 
             alert.setNegativeButton(android.R.string.no, null);
             alert.show();
@@ -1494,8 +1411,8 @@ private EditText newmsg;
     }
 
     private void adjustVoxState(boolean voiceActivationEnabled, int level) {
-        ImageButton voxSwitch = (ImageButton) findViewById(R.id.voxSwitch);
-        TextView mikeLevel = (TextView) findViewById(R.id.mikelevel_text);
+        ImageButton voxSwitch = findViewById(R.id.voxSwitch);
+        TextView mikeLevel = findViewById(R.id.mikelevel_text);
 
         if (voiceActivationEnabled) {
             mikeLevel.setText(level + "%");
@@ -1545,7 +1462,7 @@ private EditText newmsg;
 
     private void setupButtons() {
 
-        final Button tx_btn = (Button) findViewById(R.id.transmit_voice);
+        final Button tx_btn = findViewById(R.id.transmit_voice);
         tx_btn.setAccessibilityDelegate(accessibilityAssistant);
 
         OnButtonInteractionListener txButtonListener = new OnButtonInteractionListener() {
@@ -1597,15 +1514,15 @@ private EditText newmsg;
 
         tx_btn.setOnTouchListener(txButtonListener);
         
-        final ImageButton decVol = (ImageButton) findViewById(R.id.volDec);
-        final ImageButton incVol = (ImageButton) findViewById(R.id.volInc);
-        final ImageButton decMike = (ImageButton) findViewById(R.id.mikeDec);
-        final ImageButton incMike = (ImageButton) findViewById(R.id.mikeInc);
-        final TextView mikeLevel = (TextView) findViewById(R.id.mikelevel_text);
-        final TextView volLevel = (TextView) findViewById(R.id.vollevel_text);
+        final ImageButton decVol = findViewById(R.id.volDec);
+        final ImageButton incVol = findViewById(R.id.volInc);
+        final ImageButton decMike = findViewById(R.id.mikeDec);
+        final ImageButton incMike = findViewById(R.id.mikeInc);
+        final TextView mikeLevel = findViewById(R.id.mikelevel_text);
+        final TextView volLevel = findViewById(R.id.vollevel_text);
         
         OnButtonInteractionListener tuningButtonListener = new OnButtonInteractionListener() {
-            Handler handler = new Handler();
+            final Handler handler = new Handler();
             Runnable runnable;
 
             @Override
@@ -1648,7 +1565,7 @@ private EditText newmsg;
                     // pressing +/- aborts mute state
                     if(ttservice.isMute()) {
                         ttservice.setMute(false);
-                        ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
+                        ImageButton speakerBtn = findViewById(R.id.speakerBtn);
                         adjustMuteButton(speakerBtn);
                     }
 
@@ -1659,8 +1576,7 @@ private EditText newmsg;
                         ttclient.setSoundOutputVolume(v);
                         volLevel.setText(Utils.refVolumeToPercent(v) + "%");
                         volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
-                        if(v == SoundLevel.SOUND_VOLUME_DEFAULT)
-                            return true;
+                        return v == SoundLevel.SOUND_VOLUME_DEFAULT;
                     }
                     else
                         return true;
@@ -1670,7 +1586,7 @@ private EditText newmsg;
                     // pressing +/- aborts mute state
                     if(ttservice.isMute()) {
                         ttservice.setMute(false);
-                        ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
+                        ImageButton speakerBtn = findViewById(R.id.speakerBtn);
                         adjustMuteButton(speakerBtn);
                     }
 
@@ -1681,8 +1597,7 @@ private EditText newmsg;
                         ttclient.setSoundOutputVolume(v);
                         volLevel.setText(Utils.refVolumeToPercent(v) + "%");
                         volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
-                        if(v == SoundLevel.SOUND_VOLUME_DEFAULT)
-                            return true;
+                        return v == SoundLevel.SOUND_VOLUME_DEFAULT;
                     }
                     else
                         return true;
@@ -1711,8 +1626,7 @@ private EditText newmsg;
 
                             mikeLevel.setText(Utils.refVolumeToPercent(g) + "%");
                             mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
-                            if(g == SoundLevel.SOUND_GAIN_DEFAULT)
-                                return true;
+                            return g == SoundLevel.SOUND_GAIN_DEFAULT;
                         }
                         else
                             return true;
@@ -1742,8 +1656,7 @@ private EditText newmsg;
 
                             mikeLevel.setText(Utils.refVolumeToPercent(g) + "%");
                             mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
-                            if(g == SoundLevel.SOUND_VOLUME_DEFAULT)
-                                return true;
+                            return g == SoundLevel.SOUND_VOLUME_DEFAULT;
                         }
                         else
                             return true;
@@ -1766,38 +1679,30 @@ private EditText newmsg;
             incMike.setOnClickListener(tuningButtonListener);
         }
 
-        ImageButton speakerBtn = (ImageButton) findViewById(R.id.speakerBtn);
-        speakerBtn.setOnClickListener(new OnClickListener() {
+        ImageButton speakerBtn = findViewById(R.id.speakerBtn);
+        speakerBtn.setOnClickListener(v -> {
+            if ((mConnection != null) && mConnection.isBound()) {
+                ttservice.setMute(!ttservice.isMute());
+                adjustMuteButton((ImageButton) v);
 
-                @Override
-                public void onClick(View v) {
-                    if ((mConnection != null) && mConnection.isBound()) {
-                        ttservice.setMute(!ttservice.isMute());
-                        adjustMuteButton((ImageButton) v);
+                int level = ttservice.isMute() ?
+                    0 :
+                    Utils.refVolumeToPercent(ttclient.getSoundOutputVolume());
+                volLevel.setText(level + "%");
+                volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
+            }
+        });
 
-                        int level = ttservice.isMute() ?
-                            0 :
-                            Utils.refVolumeToPercent(ttclient.getSoundOutputVolume());
-                        volLevel.setText(level + "%");
-                        volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
-                    }
-                }
-            });
+        ImageButton voxSwitch = findViewById(R.id.voxSwitch);
+        voxSwitch.setOnClickListener(v -> {
+            if ((mConnection != null) && mConnection.isBound()) {
+                if (ttservice.isVoiceTransmissionEnabled())
+                    ttservice.enableVoiceTransmission(false);
+                ttservice.enableVoiceActivation(!ttservice.isVoiceActivationEnabled());
 
-        ImageButton voxSwitch = (ImageButton) findViewById(R.id.voxSwitch);
-        voxSwitch.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    if ((mConnection != null) && mConnection.isBound()) {
-                        if (ttservice.isVoiceTransmissionEnabled())
-                            ttservice.enableVoiceTransmission(false);
-                        ttservice.enableVoiceActivation(!ttservice.isVoiceActivationEnabled());
-
-                        adjustVoiceGain();
-                    }
-                }
-            });
+                adjustVoiceGain();
+            }
+        });
     }
 
     @Override
@@ -1870,11 +1775,11 @@ private EditText newmsg;
         if (ttclient.getVoiceActivationLevel() != voxlevel)
             ttclient.setVoiceActivationLevel(voxlevel);
 
-        adjustMuteButton((ImageButton) findViewById(R.id.speakerBtn));
+        adjustMuteButton(findViewById(R.id.speakerBtn));
         adjustVoxState(voxState, voxState ? voxlevel : ttclient.getSoundInputGainLevel());
         adjustTxState(txState);
 
-        TextView volLevel = (TextView) findViewById(R.id.vollevel_text);
+        TextView volLevel = findViewById(R.id.vollevel_text);
         volLevel.setText(Utils.refVolumeToPercent(mastervol) + "%");
         volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
     }
@@ -1895,19 +1800,14 @@ private EditText newmsg;
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        boolean granted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
-            case Permissions.MY_PERMISSIONS_REQUEST_VIBRATE :
-                break;
             case Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE :
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
                     intent.setType("*/*");
                     Intent i = Intent.createChooser(intent, "File");
                     startActivityForResult(i, REQUEST_SELECT_FILE);
-                break;
-            case Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE :
                 break;
             case Permissions.MY_PERMISSIONS_REQUEST_WAKE_LOCK:
                 wakeLock.acquire();
@@ -1920,6 +1820,8 @@ private EditText newmsg;
                 if ((mConnection != null) && mConnection.isBound())
                     ttservice.watchBluetoothHeadset();
                 break;
+            case Permissions.MY_PERMISSIONS_REQUEST_VIBRATE :
+            case Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE :
             default:
                 break;
         }
@@ -2051,7 +1953,6 @@ private EditText newmsg;
         if(user.nUserID == ttclient.getMyUserID()) {
             //myself left current channel
             
-            Channel chan = ttservice.getChannels().get(channelid);
             textmsgAdapter.notifyDataSetChanged();
 
             setCurrentChannel(null);
@@ -2330,7 +2231,7 @@ private EditText newmsg;
                 }
                 if (ptt_vibrate) {
                     Vibrator vibrat = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    long pattern[] = { 0, 20, 80, 20 };
+                    long[] pattern = { 0, 20, 80, 20 };
                     vibrat.vibrate(pattern, -1);
                 }
             }

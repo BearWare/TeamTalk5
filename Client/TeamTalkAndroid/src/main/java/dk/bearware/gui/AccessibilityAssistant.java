@@ -38,7 +38,7 @@ public class AccessibilityAssistant extends AccessibilityDelegate {
     private final Activity hostActivity;
     private final AccessibilityManager accessibilityService;
 
-    private SparseArray<View> monitoredPages;
+    private final SparseArray<View> monitoredPages;
     private View visiblePage;
     private int visiblePageId;
 
@@ -48,7 +48,7 @@ public class AccessibilityAssistant extends AccessibilityDelegate {
     public AccessibilityAssistant(Activity activity) {
         hostActivity = activity;
         accessibilityService = (AccessibilityManager) activity.getSystemService(Context.ACCESSIBILITY_SERVICE);
-        monitoredPages = new SparseArray<View>();
+        monitoredPages = new SparseArray<>();
         visiblePage = null;
         visiblePageId = 0;
         discourageUiUpdates = false;
@@ -76,12 +76,7 @@ public class AccessibilityAssistant extends AccessibilityDelegate {
     }
 
     public void unlockEvents() {
-        if (!hostActivity.getWindow().getDecorView().post(new Runnable() {
-                @Override
-                public void run() {
-                    eventsLocked = false;
-                }
-            }))
+        if (!hostActivity.getWindow().getDecorView().post(() -> eventsLocked = false))
             eventsLocked = false;
     }
 

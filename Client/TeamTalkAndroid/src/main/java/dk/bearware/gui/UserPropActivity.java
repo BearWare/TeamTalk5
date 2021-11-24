@@ -23,30 +23,31 @@
 
 package dk.bearware.gui;
 
-import dk.bearware.ClientEvent;
-import dk.bearware.StreamType;
-import dk.bearware.Subscription;
-import dk.bearware.TeamTalkBase;
-import dk.bearware.User;
-import dk.bearware.SoundLevel;
-import dk.bearware.UserState;
-import dk.bearware.backend.TeamTalkConnection;
-import dk.bearware.backend.TeamTalkConnectionListener;
-import dk.bearware.backend.TeamTalkService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import dk.bearware.ClientEvent;
+import dk.bearware.SoundLevel;
+import dk.bearware.StreamType;
+import dk.bearware.Subscription;
+import dk.bearware.TeamTalkBase;
+import dk.bearware.User;
+import dk.bearware.UserState;
+import dk.bearware.backend.TeamTalkConnection;
+import dk.bearware.backend.TeamTalkConnectionListener;
+import dk.bearware.backend.TeamTalkService;
 
 public class UserPropActivity extends AppCompatActivity implements TeamTalkConnectionListener {
 
@@ -119,22 +120,22 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
     User user = new User();
 
     void showUser() {
-        TextView nickname = (TextView) findViewById(R.id.user_nickname);
-        TextView username = (TextView) findViewById(R.id.user_username);
-        TextView clientname = (TextView) findViewById(R.id.user_clientname);
-        final SeekBar voiceVol = (SeekBar) findViewById(R.id.user_vol_voiceSeekBar);
-        final Button defVoiceBtn = (Button) findViewById(R.id.defVoiceVolBtn);
-        final Switch voiceMute = (Switch) findViewById(R.id.user_mutevoiceSwitch);
-        final SeekBar mediaVol = (SeekBar) findViewById(R.id.user_vol_mediaSeekBar);
-        final Button defMfBtn = (Button) findViewById(R.id.defMfVolBtn);
-        final Switch mediaMute = (Switch) findViewById(R.id.user_mutemediaSwitch);
-        final Switch subscribeTxtmsg = (Switch) findViewById(R.id.user_subscribetxtmsgSwitch);
-        final Switch subscribeChanmsg = (Switch) findViewById(R.id.user_subscribechanmsgSwitch);
-        final Switch subscribeBcastmsg = (Switch) findViewById(R.id.user_subscribebcastmsgSwitch);
-        final Switch subscribeVoice = (Switch) findViewById(R.id.user_subscribevoiceSwitch);
-        final Switch subscribeVid = (Switch) findViewById(R.id.user_subscribevidSwitch);
-        final Switch subscribeDesk = (Switch) findViewById(R.id.user_subscribedeskSwitch);
-        final Switch subscribeMedia = (Switch) findViewById(R.id.user_subscribemediaSwitch);
+        TextView nickname = findViewById(R.id.user_nickname);
+        TextView username = findViewById(R.id.user_username);
+        TextView clientname = findViewById(R.id.user_clientname);
+        final SeekBar voiceVol = findViewById(R.id.user_vol_voiceSeekBar);
+        final Button defVoiceBtn = findViewById(R.id.defVoiceVolBtn);
+        final Switch voiceMute = findViewById(R.id.user_mutevoiceSwitch);
+        final SeekBar mediaVol = findViewById(R.id.user_vol_mediaSeekBar);
+        final Button defMfBtn = findViewById(R.id.defMfVolBtn);
+        final Switch mediaMute = findViewById(R.id.user_mutemediaSwitch);
+        final Switch subscribeTxtmsg = findViewById(R.id.user_subscribetxtmsgSwitch);
+        final Switch subscribeChanmsg = findViewById(R.id.user_subscribechanmsgSwitch);
+        final Switch subscribeBcastmsg = findViewById(R.id.user_subscribebcastmsgSwitch);
+        final Switch subscribeVoice = findViewById(R.id.user_subscribevoiceSwitch);
+        final Switch subscribeVid = findViewById(R.id.user_subscribevidSwitch);
+        final Switch subscribeDesk = findViewById(R.id.user_subscribedeskSwitch);
+        final Switch subscribeMedia = findViewById(R.id.user_subscribemediaSwitch);
 
         nickname.setText(user.szNickname);
         username.setText(user.szUsername);
@@ -180,75 +181,69 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
         voiceVol.setOnSeekBarChangeListener(volListener);
         mediaVol.setOnSeekBarChangeListener(volListener);
         
-        OnClickListener defListener = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(v == defVoiceBtn) {
-                    voiceVol.setProgress(Utils.refVolumeToPercent(SoundLevel.SOUND_VOLUME_DEFAULT));
-                }
-                else if(v == defMfBtn) {
-                    mediaVol.setProgress(Utils.refVolumeToPercent(SoundLevel.SOUND_VOLUME_DEFAULT));
-                }
+        OnClickListener defListener = v -> {
+            if(v == defVoiceBtn) {
+                voiceVol.setProgress(Utils.refVolumeToPercent(SoundLevel.SOUND_VOLUME_DEFAULT));
+            }
+            else if(v == defMfBtn) {
+                mediaVol.setProgress(Utils.refVolumeToPercent(SoundLevel.SOUND_VOLUME_DEFAULT));
             }
         };
         
         defVoiceBtn.setOnClickListener(defListener);
         defMfBtn.setOnClickListener(defListener);
 
-        CompoundButton.OnCheckedChangeListener muteListener = new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton btn, boolean checked) {
-                if(btn == voiceMute) {
-                    ttclient.setUserMute(user.nUserID, StreamType.STREAMTYPE_VOICE, checked);
-                    ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, user.nUserID);
-                }
-                else if(btn == mediaMute) {
-                    ttclient.setUserMute(user.nUserID, StreamType.STREAMTYPE_MEDIAFILE_AUDIO, checked);
-                    ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, user.nUserID);
-                }
-                else if(btn == subscribeTxtmsg)
-                    if (checked) {
-                        ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_USER_MSG);
-                    } else {
-                        ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_USER_MSG);
-                    }
-                else if(btn == subscribeChanmsg)
-                    if (checked) {
-                        ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_CHANNEL_MSG);
-                    } else {
-                        ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_CHANNEL_MSG);
-                    }
-                else if(btn == subscribeBcastmsg)
-                    if (checked) {
-                        ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_BROADCAST_MSG);
-                    } else {
-                        ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_BROADCAST_MSG);
-                    }
-                else if(btn == subscribeVoice)
-                    if (checked) {
-                        ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_VOICE);
-                    } else {
-                        ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_VOICE);
-                    }
-                else if(btn == subscribeVid)
-                    if (checked) {
-                        ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_VIDEOCAPTURE);
-                    } else {
-                        ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_VIDEOCAPTURE);
-                    }
-                else if(btn == subscribeDesk)
-                    if (checked) {
-                        ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_DESKTOP);
-                    } else {
-                        ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_DESKTOP);
-                    }
-                else if(btn == subscribeMedia)
-                    if (checked) {
-                        ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_MEDIAFILE);
-                    } else {
-                        ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_MEDIAFILE);
-                    }
+        CompoundButton.OnCheckedChangeListener muteListener = (btn, checked) -> {
+            if(btn == voiceMute) {
+                ttclient.setUserMute(user.nUserID, StreamType.STREAMTYPE_VOICE, checked);
+                ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, user.nUserID);
             }
+            else if(btn == mediaMute) {
+                ttclient.setUserMute(user.nUserID, StreamType.STREAMTYPE_MEDIAFILE_AUDIO, checked);
+                ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, user.nUserID);
+            }
+            else if(btn == subscribeTxtmsg)
+                if (checked) {
+                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_USER_MSG);
+                } else {
+                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_USER_MSG);
+                }
+            else if(btn == subscribeChanmsg)
+                if (checked) {
+                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_CHANNEL_MSG);
+                } else {
+                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_CHANNEL_MSG);
+                }
+            else if(btn == subscribeBcastmsg)
+                if (checked) {
+                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_BROADCAST_MSG);
+                } else {
+                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_BROADCAST_MSG);
+                }
+            else if(btn == subscribeVoice)
+                if (checked) {
+                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_VOICE);
+                } else {
+                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_VOICE);
+                }
+            else if(btn == subscribeVid)
+                if (checked) {
+                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_VIDEOCAPTURE);
+                } else {
+                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_VIDEOCAPTURE);
+                }
+            else if(btn == subscribeDesk)
+                if (checked) {
+                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_DESKTOP);
+                } else {
+                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_DESKTOP);
+                }
+            else if(btn == subscribeMedia)
+                if (checked) {
+                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_MEDIAFILE);
+                } else {
+                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_MEDIAFILE);
+                }
         };
         voiceMute.setOnCheckedChangeListener(muteListener);
         mediaMute.setOnCheckedChangeListener(muteListener);

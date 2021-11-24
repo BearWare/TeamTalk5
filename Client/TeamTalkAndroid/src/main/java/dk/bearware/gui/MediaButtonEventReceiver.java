@@ -46,14 +46,11 @@ public class MediaButtonEventReceiver extends BroadcastReceiver {
                 case KeyEvent.KEYCODE_MEDIA_PAUSE:
                 case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
                 case KeyEvent.KEYCODE_HEADSETHOOK:
-                    switch (keyAction) {
-                    case KeyEvent.ACTION_UP:
+                    if (keyAction == KeyEvent.ACTION_UP) {
                         if (ttService.isVoiceActivationEnabled())
                             ttService.enableVoiceActivation(false);
-                        else ttService.enableVoiceTransmission(!ttService.isVoiceTransmissionEnabled());
-                        break;
-                    default:
-                        break;
+                        else
+                            ttService.enableVoiceTransmission(!ttService.isVoiceTransmissionEnabled());
                     }
                     abortBroadcast();
                     break;
