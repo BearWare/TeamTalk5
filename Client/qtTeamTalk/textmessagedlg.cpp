@@ -26,6 +26,7 @@
 #include "settings.h"
 #include "utilsound.h"
 #include "utiltts.h"
+
 #include <QDebug>
 
 #define LOCAL_TYPING_DELAY  5000

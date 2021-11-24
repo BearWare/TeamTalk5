@@ -25,13 +25,131 @@
 #include "settings.h"
 #include "appinfo.h"
 
-#include <QDateTime>
 #include <QDialog>
 #include <QStack>
 #include <QDebug>
 
 extern QSettings* ttSettings;
 extern TTInstance* ttInst;
+
+
+bool userCanTx(int userid, StreamTypes stream_type, const Channel& chan)
+{
+    int i=0;
+    while(i<TT_TRANSMITUSERS_MAX && chan.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX])
+    {
+        if(chan.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX] == userid && (chan.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & stream_type))
+            return (chan.uChannelType & CHANNEL_CLASSROOM) == CHANNEL_CLASSROOM;
+        else i++;
+    }
+    return (chan.uChannelType & CHANNEL_CLASSROOM) == CHANNEL_DEFAULT;
+}
+
+bool userCanChanMessage(int userid, const Channel& chan, bool includeFreeForAll /*= false*/)
+{
+    return userCanTx(userid, STREAMTYPE_CHANNELMSG, chan) || (includeFreeForAll && userCanTx(TT_TRANSMITUSERS_FREEFORALL, STREAMTYPE_CHANNELMSG, chan));
+}
+
+bool userCanVoiceTx(int userid, const Channel& chan, bool includeFreeForAll /*= false*/)
+{
+    return userCanTx(userid, STREAMTYPE_VOICE, chan) || (includeFreeForAll && userCanTx(TT_TRANSMITUSERS_FREEFORALL, STREAMTYPE_VOICE, chan));
+}
+
+bool userCanVideoTx(int userid, const Channel& chan, bool includeFreeForAll /*= false*/)
+{
+    return userCanTx(userid, STREAMTYPE_VIDEOCAPTURE, chan) || (includeFreeForAll && userCanTx(TT_TRANSMITUSERS_FREEFORALL, STREAMTYPE_VIDEOCAPTURE, chan));
+}
+
+bool userCanDesktopTx(int userid, const Channel& chan, bool includeFreeForAll /*= false*/)
+{
+    return userCanTx(userid, STREAMTYPE_DESKTOP, chan) || (includeFreeForAll && userCanTx(TT_TRANSMITUSERS_FREEFORALL, STREAMTYPE_DESKTOP, chan));
+}
+
+bool userCanMediaFileTx(int userid, const Channel& chan, bool includeFreeForAll /*= false*/)
+{
+    return userCanTx(userid, STREAMTYPE_MEDIAFILE, chan) || (includeFreeForAll && userCanTx(TT_TRANSMITUSERS_FREEFORALL, STREAMTYPE_MEDIAFILE, chan));
+}
+
+channels_t getSubChannels(int channelid, const channels_t& channels, bool recursive /*= false*/)
+{
+    channels_t subchannels;
+    for(auto ite = channels.begin(); ite != channels.end(); ++ite)
+    {
+        if(ite.value().nParentID == channelid)
+        {
+            subchannels[ite.key()] = ite.value();
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+            if(recursive)
+                subchannels.unite(getSubChannels(ite.value().nChannelID, channels, recursive));
+#else
+                subchannels.insert(getSubChannels(ite.value().nChannelID, channels, recursive));
+#endif
+        }
+    }
+    return subchannels;
+}
+
+channels_t getParentChannels(int channelid, const channels_t& channels)
+{
+    channels_t parents;
+    while(channels[channelid].nParentID>0)
+    {
+        parents[channels[channelid].nParentID] = channels[channelid];
+        channelid = channels[channelid].nParentID;
+    }
+    return parents;
+}
+
+users_t getChannelUsers(int channelid, const users_t& users, const channels_t& channels, bool recursive /* = false */)
+{
+    users_t result;
+    for(auto ite=users.begin();ite!=users.end();ite++)
+    {
+        if(ite.value().nChannelID == channelid)
+            result.insert(ite.key(), ite.value());
+    }
+
+    if (recursive)
+    {
+        channels_t subs = getSubChannels(channelid, channels, true);
+        for(auto i=subs.begin();i!=subs.end();++i)
+        {
+            for (auto& u : getChannelUsers(i.key(), users, channels))
+                result.insert(u.nUserID, u);
+        }
+    }
+    return result;
+}
+
+bool isFreeForAll(StreamTypes stream_type, const int transmitUsers[][2],
+                  int max_userids /*= TT_TRANSMITUSERS_MAX*/)
+{
+    int i=0;
+    while(i<max_userids && transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX] != 0)
+    {
+        if(transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX] == TT_CLASSROOM_FREEFORALL &&
+           (transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & stream_type))
+            return true;
+        i++;
+    }
+    return false;
+}
+
+void setTransmitUsers(const QSet<int>& users, INT32* dest_array,
+                      INT32 max_elements)
+{
+    QSet<int>::const_iterator ite = users.begin();
+    for(int i=0;i<max_elements;i++)
+    {
+        if(ite != users.end())
+        {
+            dest_array[i] = *ite;
+            ite++;
+        }
+        else
+            dest_array[i] = 0;
+    }
+}
 
 QString makeCustomCommand(const QString& cmd, const QString& value)
 {
@@ -1293,11 +1411,6 @@ QString getDisplayName(const User& user)
     return limitText(nickname);
 }
 
-QString getDateTimeStamp()
-{
-    return QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss");
-}
-
 QString generateAudioStorageFilename(AudioFileFormat aff)
 {
     QString filename = getDateTimeStamp() + " ";
@@ -1323,6 +1436,10 @@ QString generateAudioStorageFilename(AudioFileFormat aff)
     return filename;
 }
 
+QString getDateTimeStamp()
+{
+    return QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss");
+}
 
 QString generateLogFileName(const QString& name)
 {
@@ -1354,93 +1471,3 @@ bool writeLogEntry(QFile& file, const QString& line)
 {
     return file.write(QString(line + "\r\n").toUtf8())>0;
 }
-
-void setVideoTextBox(const QRect& rect, const QColor& bgcolor,
-                     const QColor& fgcolor, const QString& text,
-                     quint32 text_pos, int w_percent, int h_percent,
-                     QPainter& painter)
-{
-    int w = w_percent / 100. * rect.width();
-    int h = h_percent / 100. * rect.height();
-
-    int x, y;
-    switch(text_pos & VIDTEXT_POSITION_MASK)
-    {
-    case VIDTEXT_POSITION_TOPLEFT :
-        x = 0; y = 0;
-        break;
-    case VIDTEXT_POSITION_TOPRIGHT :
-        x = rect.width() - w;
-        y = 0;
-        break;
-    case VIDTEXT_POSITION_BOTTOMLEFT :
-        x = 0;
-        y = rect.height() - h;
-        break;
-    case VIDTEXT_POSITION_BOTTOMRIGHT :
-    default :
-        x = rect.width() - w;
-        y = rect.height() - h;
-        break;
-    }
-
-    if(h>0 && w>0)
-    {
-        const QFont font = painter.font();
-        if(font.pixelSize() != h)
-        {
-            QFont newFont(font);
-            newFont.setPixelSize(h);
-            painter.setFont(newFont);
-        }
-        painter.fillRect(x, y, w, h, bgcolor);
-        painter.setPen(fgcolor);
-        painter.drawText(x, y, w, h, Qt::AlignHCenter | Qt::AlignCenter, text);
-
-        if(font.pixelSize() != h)
-            painter.setFont(font);
-    }
-}
-
-void setTransmitUsers(const QSet<int>& users, INT32* dest_array,
-                      INT32 max_elements)
-{
-    QSet<int>::const_iterator ite = users.begin();
-    for(int i=0;i<max_elements;i++)
-    {
-        if(ite != users.end())
-        {
-            dest_array[i] = *ite;
-            ite++;
-        }
-        else
-            dest_array[i] = 0;
-    }
-}
-
-#if defined(Q_OS_DARWIN)
-void setMacResizeMargins(QDialog* dlg, QLayout* layout)
-{
-    QSize size = dlg->size();
-    QMargins margins = layout->contentsMargins();
-    margins.setBottom(margins.bottom()+12);
-    layout->setContentsMargins(margins);
-    size += QSize(0, 12);
-    dlg->resize(size);
-}
-#endif /* Q_OS_DARWIN */
-
-void setCurrentItemData(QComboBox* cbox, const QVariant& itemdata)
-{
-    int index = cbox->findData(itemdata);
-    if(index>=0)
-        cbox->setCurrentIndex(index);
-}
-
-QVariant getCurrentItemData(QComboBox* cbox, const QVariant& not_found/* = QVariant()*/)
-{
-    if(cbox->currentIndex()>=0)
-        return cbox->itemData(cbox->currentIndex());
-    return not_found;
-}
-

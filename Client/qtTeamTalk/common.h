@@ -25,13 +25,11 @@
 #define COMMON_H
 
 #include <QList>
-#include <QSet>
 #include <QDomDocument>
-#include <QPainter>
-#include <QLayout>
-#include <QComboBox>
 #include <QFile>
 #include <QDateTime>
+#include <QMap>
+#include <QVector>
 
 #if defined(Q_OS_WIN32)
 #define NOMINMAX //prevent std::...::min() collision
@@ -189,6 +187,23 @@
 #define WM_TEAMTALK_HOTKEYEVENT     (WM_APP + 2)
 #endif
 
+typedef QVector<int> userids_t;
+typedef QMap<int, Channel> channels_t;
+typedef QMap<int, User> users_t;
+
+bool userCanChanMessage(int userid, const Channel& chan, bool includeFreeForAll = false);
+bool userCanVoiceTx(int userid, const Channel& chan, bool includeFreeForAll = false);
+bool userCanVideoTx(int userid, const Channel& chan, bool includeFreeForAll = false);
+bool userCanDesktopTx(int userid, const Channel& chan, bool includeFreeForAll = false);
+bool userCanMediaFileTx(int userid, const Channel& chan, bool includeFreeForAll = false);
+
+channels_t getSubChannels(int channelid, const channels_t& channels, bool recursive = false);
+channels_t getParentChannels(int channelid, const channels_t& channels);
+users_t getChannelUsers(int channelid, const users_t& users, const channels_t& channels, bool recursive = false);
+bool isFreeForAll(StreamTypes stream_type, const int transmitUsers[][2],
+                  int max_userids = TT_TRANSMITUSERS_MAX);
+void setTransmitUsers(const QSet<int>& users, INT32* dest_array, INT32 max_elements);
+
 //For TT_DoChangeStatus
 enum StatusMode
 {
@@ -214,62 +229,6 @@ enum Gender
     GENDER_FEMALE             = 2,
     GENDER_NEUTRAL            = 3
 };
-
-enum DoubleClickChannelAction
-{
-    ACTION_NOTHING          = 0x0,
-    ACTION_JOIN             = 0x1,
-    ACTION_LEAVE            = 0x2,
-    ACTION_JOINLEAVE        = (ACTION_JOIN | ACTION_LEAVE),
-};
-
-enum StatusBarEvent : qulonglong
-{
-    STATUSBAR_NONE                                        = 0x0,
-    STATUSBAR_USER_LOGGEDIN                               = qulonglong(1) << 0,
-    STATUSBAR_USER_LOGGEDOUT                              = qulonglong(1) << 1,
-    STATUSBAR_USER_JOINED                                 = qulonglong(1) << 2,
-    STATUSBAR_USER_LEFT                                   = qulonglong(1) << 3,
-    STATUSBAR_USER_JOINED_SAME                            = qulonglong(1) << 4,
-    STATUSBAR_USER_LEFT_SAME                              = qulonglong(1) << 5,
-
-    STATUSBAR_SUBSCRIPTIONS_TEXTMSG_PRIVATE               = qulonglong(1) << 6,
-    STATUSBAR_SUBSCRIPTIONS_TEXTMSG_CHANNEL               = qulonglong(1) << 7,
-    STATUSBAR_SUBSCRIPTIONS_TEXTMSG_BROADCAST             = qulonglong(1) << 8,
-    STATUSBAR_SUBSCRIPTIONS_VOICE                         = qulonglong(1) << 9,
-    STATUSBAR_SUBSCRIPTIONS_VIDEO                         = qulonglong(1) << 10,
-    STATUSBAR_SUBSCRIPTIONS_DESKTOP                       = qulonglong(1) << 11,
-    STATUSBAR_SUBSCRIPTIONS_DESKTOPINPUT                  = qulonglong(1) << 12,
-    STATUSBAR_SUBSCRIPTIONS_MEDIAFILE                     = qulonglong(1) << 13,
-
-    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE     = qulonglong(1) << 14,
-    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL     = qulonglong(1) << 15,
-    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VOICE               = qulonglong(1) << 16,
-    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VIDEO               = qulonglong(1) << 17,
-    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_DESKTOP             = qulonglong(1) << 18,
-    STATUSBAR_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE           = qulonglong(1) << 19,
-
-    STATUSBAR_CLASSROOM_CHANMSG_TX                        = qulonglong(1) << 20,
-    STATUSBAR_CLASSROOM_VOICE_TX                          = qulonglong(1) << 21,
-    STATUSBAR_CLASSROOM_VIDEO_TX                          = qulonglong(1) << 22,
-    STATUSBAR_CLASSROOM_DESKTOP_TX                        = qulonglong(1) << 23,
-    STATUSBAR_CLASSROOM_MEDIAFILE_TX                      = qulonglong(1) << 24,
-
-    STATUSBAR_FILE_ADD                                    = qulonglong(1) << 25,
-    STATUSBAR_FILE_REMOVE                                 = qulonglong(1) << 26,
-
-    STATUSBAR_SAVE_SERVER_CONFIG                          = qulonglong(1) << 27,
-
-    STATUSBAR_START_RECORD                                = qulonglong(1) << 28,
-
-    STATUSBAR_TRANSMISSION_BLOCKED                        = qulonglong(1) << 29,
-
-    STATUSBAR_NEXT_UNUSED                                 = qulonglong(1) << 30,
-
-    STATUSBAR_BYPASS                                      = qulonglong(~0),
-};
-
-typedef qulonglong StatusBarEvents;
 
 enum HotKeyID
 {
@@ -305,27 +264,6 @@ enum DesktopShareMode
     DESKTOPSHARE_DESKTOP,
     DESKTOPSHARE_ACTIVE_WINDOW,
     DESKTOPSHARE_SPECIFIC_WINDOW,
-};
-
-enum VideoText
-{
-    VIDEOTEXT_NONE                   = 0x0000,
-    VIDTEXT_POSITION_MASK            = 0x000F,
-    VIDTEXT_POSITION_TOPLEFT         = 0x0001,
-    VIDTEXT_POSITION_TOPRIGHT        = 0x0002,
-    VIDTEXT_POSITION_BOTTOMLEFT      = 0x0003,
-    VIDTEXT_POSITION_BOTTOMRIGHT     = 0x0004,
-
-    VIDTEXT_SHOW_MASK                = 0x00F0,
-    VIDTEXT_SHOW_NICKNAME            = 0x0010,
-    VIDTEXT_SHOW_USERNAME            = 0x0020,
-    VIDTEXT_SHOW_STATUSTEXT          = 0x0040,
-};
-
-enum ChannelSort
-{
-    CHANNELSORT_ASCENDING  = 0x1,
-    CHANNELSORT_POPULARITY = 0x2
 };
 
 struct HostEntry
@@ -411,6 +349,7 @@ struct MyTextMessage : TextMessage
 #endif
     }
 };
+
 typedef QList<MyTextMessage> textmessages_t;
 
 QString makeCustomCommand(const QString& cmd, const QString& value);
@@ -470,23 +409,11 @@ QString getVersion(const User& user);
 QString limitText(const QString& text);
 QString getDisplayName(const User& user);
 
-QString getDateTimeStamp();
 QString generateAudioStorageFilename(AudioFileFormat aff);
 
+QString getDateTimeStamp();
 QString generateLogFileName(const QString& name);
 bool openLogFile(QFile& file, const QString& folder, const QString& name);
 bool writeLogEntry(QFile& file, const QString& line);
 
-void setVideoTextBox(const QRect& rect, const QColor& bgcolor,
-                     const QColor& fgcolor, const QString& text,
-                     quint32 text_pos, int w_percent, int h_percent,
-                     QPainter& painter);
-
-void setTransmitUsers(const QSet<int>& users, INT32* dest_array, INT32 max_elements);
-#if defined(Q_OS_DARWIN)
-void setMacResizeMargins(QDialog* dlg, QLayout* layout);
-#endif /* Q_OS_DARWIN */
-
-void setCurrentItemData(QComboBox* cbox, const QVariant& itemdata);
-QVariant getCurrentItemData(QComboBox* cbox, const QVariant& not_found = QVariant());
 #endif

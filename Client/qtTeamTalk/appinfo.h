@@ -24,6 +24,11 @@
 #ifndef APPINFO_H
 #define APPINFO_H
 
+#include <QString>
+#include <QIcon>
+#include <QApplication>
+#include <QDialog>
+
 #define COMPANYNAME         "BearWare.dk"
 #define APPVERSION_SHORT    "5.8.3"
 #define APPVERSION_POSTFIX  " - Unreleased"

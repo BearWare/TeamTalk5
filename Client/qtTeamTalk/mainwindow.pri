@@ -20,7 +20,7 @@ HEADERS    = mainwindow.h preferencesdlg.h uservideowidget.h \
              customvideofmtdlg.h license.h bearwarelogindlg.h \
              audiopreprocessordlg.h ttseventsmodel.h \
              statusbardlg.h statusbareventsmodel.h mycombobox.h \
-             utilsound.h utilvideo.h utiltts.h
+             utilsound.h utilvideo.h utiltts.h utilui.h
 
 SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              channelstree.cpp channeldlg.cpp userinfodlg.cpp \
@@ -37,7 +37,7 @@ SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              generatettfiledlg.cpp customvideofmtdlg.cpp \
              bearwarelogindlg.cpp audiopreprocessordlg.cpp ttseventsmodel.cpp \
              statusbardlg.cpp statusbareventsmodel.cpp mycombobox.cpp \
-             utilsound.cpp utilvideo.cpp utiltts.cpp
+             utilsound.cpp utilvideo.cpp utiltts.cpp utilui.cpp
 
 FORMS      = mainwindow.ui channel.ui preferences.ui \
              serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui \

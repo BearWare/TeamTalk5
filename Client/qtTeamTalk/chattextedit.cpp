@@ -24,11 +24,14 @@
 #include "chattextedit.h"
 #include "settings.h"
 #include "appinfo.h"
+
 #include <QDateTime>
 #include <QTextCursor>
 #include <QSyntaxHighlighter>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;

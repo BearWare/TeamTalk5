@@ -30,11 +30,11 @@
 #include "desktopaccessdlg.h"
 #include "customvideofmtdlg.h"
 #include "bearwarelogindlg.h"
-#include "settings.h"
 #include "ttseventsmodel.h"
 #include "statusbardlg.h"
 #include "utilvideo.h"
 #include "utiltts.h"
+#include "settings.h"
 
 #include <QDebug>
 #include <QMessageBox>

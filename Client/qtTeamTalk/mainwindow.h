@@ -34,6 +34,7 @@
 
 #include "common.h"
 #include "utilsound.h"
+#include "utilui.h"
 
 #if defined(Q_OS_WIN32)
 #define USE_POLL 0
