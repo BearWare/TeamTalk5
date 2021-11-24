@@ -230,24 +230,7 @@ enum Gender
     GENDER_NEUTRAL            = 3
 };
 
-enum HotKeyID
-{
-    HOTKEY_PUSHTOTALK,
-    HOTKEY_VOICEACTIVATION,
-    HOTKEY_INCVOLUME,
-    HOTKEY_DECVOLUME,
-    HOTKEY_MUTEALL,
-    HOTKEY_MICROPHONEGAIN_INC,
-    HOTKEY_MICROPHONEGAIN_DEC,
-    HOTKEY_VIDEOTX
-};
-
 typedef std::vector<INT32> hotkey_t;
-
-#if defined(Q_OS_DARWIN)
-#define MAC_HOTKEY_SIZE 2
-#define MAC_NO_KEY 0xFFFFFFFF
-#endif
 
 enum AudioStorageMode
 {
@@ -359,17 +342,9 @@ void initDefaultAudioCodec(AudioCodec& codec);
 AudioPreprocessor initDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype);
 AudioPreprocessor loadAudioPreprocessor(AudioPreprocessorType preprocessortype);
 
-QString getHotKeyText(const hotkey_t& hotkey);
-
 bool isComputerIdle(int idle_secs);
 bool isMyselfTalking();
 bool isMyselfStreaming();
-
-void saveHotKeySettings(HotKeyID hotkeyid, const hotkey_t& hotkey);
-
-bool loadHotKeySettings(HotKeyID hotkeyid, hotkey_t& hotkey);
-
-void deleteHotKeySettings(HotKeyID hotkeyid);
 
 void addLatestHost(const HostEntry& host);
 void deleteLatestHost(int index);

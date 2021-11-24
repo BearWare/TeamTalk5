@@ -103,7 +103,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     customvideofmtdlg.h license.h bearwarelogindlg.h
     audiopreprocessordlg.h ttseventsmodel.h
     statusbardlg.h statusbareventsmodel.h mycombobox.h
-    utilsound.h utilvideo.h utiltts.h utilui.h
+    utilsound.h utilvideo.h utiltts.h utilui.h utilhotkey.h
 
     main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp
     channelstree.cpp channeldlg.cpp userinfodlg.cpp
@@ -120,7 +120,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     generatettfiledlg.cpp customvideofmtdlg.cpp
     bearwarelogindlg.cpp audiopreprocessordlg.cpp ttseventsmodel.cpp
     statusbardlg.cpp statusbareventsmodel.cpp mycombobox.cpp
-    utilsound.cpp utilvideo.cpp utiltts.cpp utilui.cpp
+    utilsound.cpp utilvideo.cpp utiltts.cpp utilui.cpp utilhotkey.cpp
 
     mainwindow.ui channel.ui preferences.ui
     serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui

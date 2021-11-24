@@ -22,8 +22,9 @@
  */
 
 #include "keycompdlg.h"
-#include "common.h"
+#include "utilhotkey.h"
 #include "appinfo.h"
+
 #include <QDebug>
 #include <QKeySequence>
 #include <QVector>

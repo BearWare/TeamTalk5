@@ -29,6 +29,7 @@
 #include "ui_preferences.h"
 
 #include "common.h"
+#include "utilhotkey.h"
 #include "uservideodlg.h"
 
 class PreferencesDlg : public QDialog
