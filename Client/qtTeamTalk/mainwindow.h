@@ -279,6 +279,8 @@ private:
     void slotClientNewInstance(bool checked=false);
     void slotClientConnect(bool checked=false);
     void slotClientPreferences(bool checked=false);
+    void slotClientSoundDevices();
+    void slotClientAudioEffect();
     void slotClientExit(bool checked=false);
 
     void slotMeChangeNickname(bool checked=false);
