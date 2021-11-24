@@ -24,23 +24,14 @@
 #include "common.h"
 #include "settings.h"
 #include "appinfo.h"
-#include <math.h>
 
 #include <QDateTime>
 #include <QDialog>
 #include <QStack>
-#include <QProcess>
 #include <QDebug>
-
-#if defined(QT_TEXTTOSPEECH_LIB)
-#include <QTextToSpeech>
-#endif
 
 extern QSettings* ttSettings;
 extern TTInstance* ttInst;
-#if defined(QT_TEXTTOSPEECH_LIB)
-extern QTextToSpeech* ttSpeech;
-#endif
 
 QString makeCustomCommand(const QString& cmd, const QString& value)
 {
@@ -567,49 +558,6 @@ bool loadHotKeySettings(HotKeyID hotkeyid, hotkey_t& hotkey)
 void deleteHotKeySettings(HotKeyID hotkeyid)
 {
     ttSettings->remove(getHotKeyString(hotkeyid));
-}
-
-void addTextToSpeechMessage(const QString& msg)
-{
-    switch (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt())
-    {
-    case TTSENGINE_QT:
-#if QT_TEXTTOSPEECH_LIB
-        Q_ASSERT(ttSpeech);
-        ttSpeech->say(msg);
-#endif
-        break;
-    case TTSENGINE_TOLK :
-#if defined(ENABLE_TOLK)
-        Tolk_PreferSAPI(ttSettings->value(SETTINGS_TTS_SAPI, SETTINGS_TTS_SAPI_DEFAULT).toBool());
-        Tolk_Output(_W(msg));
-#endif
-        break;
-    case TTSENGINE_NOTIFY :
-    {
-#if defined(Q_OS_LINUX)
-        int timestamp = ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt();
-        QString noquote = msg;
-        noquote.replace('"', ' ');
-        QProcess ps;
-        ps.startDetached(QString("%1 -t %2 -a \"%3\" -u low \"%4: %5\"")
-                         .arg(TTSENGINE_NOTIFY_PATH)
-                         .arg(timestamp)
-                         .arg(APPNAME_SHORT)
-                         .arg(APPNAME_SHORT)
-                         .arg(noquote));
-#endif
-        break;
-    }
-    }
-}
-
-void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
-{
-    if ((ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toULongLong() & event) && ttSettings->value(SETTINGS_TTS_ENABLE, SETTINGS_TTS_ENABLE_DEFAULT).toBool() == true)
-    {
-        addTextToSpeechMessage(msg);
-    }
 }
 
 bool HostEntry::sameHost(const HostEntry& host, bool nickcheck) const
