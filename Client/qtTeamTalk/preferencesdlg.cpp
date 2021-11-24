@@ -33,6 +33,7 @@
 #include "settings.h"
 #include "ttseventsmodel.h"
 #include "statusbardlg.h"
+#include "utilvideo.h"
 
 #include <QDebug>
 #include <QMessageBox>

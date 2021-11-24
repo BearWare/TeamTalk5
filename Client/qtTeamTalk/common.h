@@ -485,14 +485,8 @@ QString makeCustomCommand(const QString& cmd, const QString& value);
 QStringList getCustomCommand(const TextMessage& msg);
 
 void initDefaultAudioCodec(AudioCodec& codec);
-bool getVideoCaptureCodec(VideoCodec& vidcodec);
-void initDefaultVideoFormat(VideoFormat& vidfmt);
 AudioPreprocessor initDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype);
 AudioPreprocessor loadAudioPreprocessor(AudioPreprocessorType preprocessortype);
-
-bool initVideoCaptureFromSettings();
-bool initVideoCapture(const QString& devid, const VideoFormat& fmt);
-bool isValid(const VideoFormat& fmt);
 
 QString getHotKeyText(const hotkey_t& hotkey);
 
@@ -505,9 +499,6 @@ void saveHotKeySettings(HotKeyID hotkeyid, const hotkey_t& hotkey);
 bool loadHotKeySettings(HotKeyID hotkeyid, hotkey_t& hotkey);
 
 void deleteHotKeySettings(HotKeyID hotkeyid);
-
-void saveVideoFormat(const VideoFormat& vidfmt);
-bool loadVideoFormat(VideoFormat& vidfmt);
 
 void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg);
 void addTextToSpeechMessage(const QString& msg);
