@@ -1870,17 +1870,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1120"/>
         <source>S&amp;ound Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>声音配置(&amp;O)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1124"/>
         <source>&amp;Input Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>输入设备(&amp;I)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1129"/>
         <source>&amp;Output Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>输出设备(&amp;O)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1154"/>
@@ -1900,17 +1900,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1391"/>
         <source>&amp;Enable Echo Cancellation</source>
-        <translation type="unfinished"></translation>
+        <translation>启用回声消除(&amp;E)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1399"/>
         <source>Enable &amp;Automatic Gain Control</source>
-        <translation type="unfinished"></translation>
+        <translation>启用自动增益控制(&amp;A)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1407"/>
         <source>Enable &amp;Denoising</source>
-        <translation type="unfinished"></translation>
+        <translation>启用降噪(&amp;D)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1535"/>
@@ -2901,12 +2901,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="3935"/>
         <source>No Sound Device</source>
-        <translation type="unfinished">无声音设备</translation>
+        <translation>无声音设备</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3961"/>
         <source>&amp;Refresh Sound Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>刷新声音设备(amp;R)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6783"/>
