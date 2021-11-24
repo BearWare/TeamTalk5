@@ -1190,21 +1190,23 @@ private EditText newmsg;
                     talking = ttservice.isVoiceTransmitting();
                 }
                 if(talking) {
-                    nickname.setContentDescription(getString(R.string.user_state_now_speaking, name));
                     if(female) {
                         icon_resource = R.drawable.woman_green;
+                        nickname.setContentDescription(getString(R.string.user_state_now_speaking, name) + " 👩");
                     }
                     else {
                         icon_resource = R.drawable.man_green;
+                        nickname.setContentDescription(getString(R.string.user_state_now_speaking, name) + " 👨");
                     }
                 }
                 else {
-                    nickname.setContentDescription(null);
                     if(female) {
                         icon_resource = away? R.drawable.woman_orange : R.drawable.woman_blue;
+                        nickname.setContentDescription("👩");
                     }
                     else {
                         icon_resource = away? R.drawable.man_orange : R.drawable.man_blue;
+                        nickname.setContentDescription("👨");
                     }
                 }
                 status.setContentDescription(away?getString(R.string.user_state_away, name):null);

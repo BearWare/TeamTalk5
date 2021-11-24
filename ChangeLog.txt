@@ -17,7 +17,7 @@ Default Qt Client
 - Navigating with arrow keys now include status in TTS message on macOS
 - Number of characters in edit field of public and private chat is now indicate as accessible hint
 Android Client
--
+- Gender now announce using accessible hint
 iOS Client
 -
 Server
