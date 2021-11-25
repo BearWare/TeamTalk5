@@ -24,6 +24,7 @@
 #include "filetransferdlg.h"
 #include "appinfo.h"
 #include "settings.h"
+#include "utilsound.h"
 
 #include <QDir>
 #include <QUrl>

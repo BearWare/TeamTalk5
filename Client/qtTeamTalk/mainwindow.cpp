@@ -47,6 +47,8 @@
 #include "userdesktopdlg.h"
 #include "appinfo.h"
 #include "bearwarelogindlg.h"
+#include "utilvideo.h"
+#include "utiltts.h"
 
 #include <QMessageBox>
 #include <QInputDialog>

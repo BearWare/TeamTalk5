@@ -23,6 +23,7 @@
 
 #include "channeldlg.h"
 #include "appinfo.h"
+#include "utilui.h"
 
 #include <QPushButton>
 

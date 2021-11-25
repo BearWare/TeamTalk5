@@ -22,7 +22,7 @@
 #ifndef TTSEVENTSMODEL_H
 #define TTSEVENTSMODEL_H
 
-#include "common.h"
+#include "utiltts.h"
 #include <QAbstractItemModel>
 #include <QVector>
 #include <QTreeView>
