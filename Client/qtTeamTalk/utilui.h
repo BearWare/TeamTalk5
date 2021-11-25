@@ -30,6 +30,7 @@
 #include <QPainter>
 #include <QLayout>
 #include <QComboBox>
+#include <QDialog>
 
 enum DoubleClickChannelAction
 {
