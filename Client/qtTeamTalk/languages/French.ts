@@ -1870,7 +1870,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1120"/>
         <source>S&amp;ound Configuration</source>
-        <translation>&amp;Configuration sonnore</translation>
+        <translation>&amp;Configuration audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1124"/>
@@ -2708,12 +2708,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1852"/>
         <source>Using sound input: %1</source>
-        <translation>Utilisation du périphérique sonnore d&apos;entrée: %1</translation>
+        <translation>Utilisation du périphérique d&apos;entrée audio: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1852"/>
         <source>Using sound output: %2</source>
-        <translation>Utilisation du périphérique sonnore de sortie: %2</translation>
+        <translation>Utilisation du périphérique de sortie audio: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1865"/>
@@ -4133,7 +4133,7 @@ Should these settings be applied?</source>
         <location filename="../OldPref/preferences.ui" line="362"/>
         <location filename="../preferences.ui" line="372"/>
         <source>Minimize to tray icon</source>
-        <translation>Minimiser en barre système</translation>
+        <translation>Minimiser vers la zone de notifications</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="369"/>
@@ -4193,13 +4193,13 @@ Should these settings be applied?</source>
         <location filename="../OldPref/preferences.ui" line="432"/>
         <location filename="../preferences.ui" line="442"/>
         <source>Closed video dialog should return to video-tab</source>
-        <translation>Fermer la boîte de dialogue de vidéo retourne à l&apos;onglet vidéos</translation>
+        <translation>Fermer la boîte de dialogue de vidéo doit retourner à l&apos;onglet vidéos</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="456"/>
         <location filename="../preferences.ui" line="479"/>
         <source>Start desktops in popup dialog</source>
-        <translation>Démarrer le partage des bureaux dans une boîte de dialogue</translation>
+        <translation>Démarrer le partage des bureaux dans des boîtes de dialogue</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="463"/>
@@ -4270,7 +4270,7 @@ Should these settings be applied?</source>
         <location filename="../OldPref/preferences.ui" line="658"/>
         <location filename="../preferences.ui" line="743"/>
         <source>Join root channel upon connection</source>
-        <translation>Rejoindre le canal principal à la connexion</translation>
+        <translation>Rejoindre le canal principal dès la connexion</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="665"/>
@@ -5192,12 +5192,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../common.cpp" line="511"/>
         <source>Failed to initialize default sound input device</source>
-        <translation>Échec à l&apos;initialisation du périphérique sonnore d&apos;entrée par défaut</translation>
+        <translation>Échec à l&apos;initialisation du périphérique d&apos;entrée audio par défaut</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="516"/>
         <source>Failed to initialize default sound output device</source>
-        <translation>Échec à l&apos;initialisation du périphérique sonnore de sortie par défaut</translation>
+        <translation>Échec à l&apos;initialisation du périphérique de sortie audio par défaut</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="1932"/>
