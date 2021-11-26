@@ -76,7 +76,7 @@
 #endif
 
 #define URL_FREESERVER      ("http://www.bearware.dk/teamtalk/tt5servers.php?client=" APPNAME_SHORT "&version=" APPVERSION_SHORT "&dllversion=" TEAMTALK_VERSION "&os=" OSTYPE)
-#define URL_APPUPDATE       QString("http://www.bearware.dk/teamtalk/tt5update.php?client=" APPNAME_SHORT "&version=" APPVERSION_SHORT "&dllversion=" TEAMTALK_VERSION "&os=" OSTYPE "&beta=%1").arg(QString(APPVERSION_POSTFIX).isEmpty() ? "0" : "1")
+#define URL_APPUPDATE(beta)       QString("http://www.bearware.dk/teamtalk/tt5update.php?client=" APPNAME_SHORT "&version=" APPVERSION_SHORT "&dllversion=" TEAMTALK_VERSION "&os=" OSTYPE "&beta=%1").arg(beta ? "0" : "1")
 
 #define TTFILE_EXT          ".tt"
 #define TTFILE_ROOT         "teamtalk"
