@@ -24,7 +24,7 @@
 #include "videotextdlg.h"
 #include "appinfo.h"
 #include "settings.h"
-#include "common.h"
+#include "utilui.h"
 
 #include <QColorDialog>
 #include <QColorDialog>

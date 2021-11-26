@@ -24,31 +24,131 @@
 #include "common.h"
 #include "settings.h"
 #include "appinfo.h"
-#include <math.h>
 
-#include <QDateTime>
 #include <QDialog>
 #include <QStack>
-#include <QProcess>
 #include <QDebug>
-
-#if defined(QT_TEXTTOSPEECH_LIB)
-#include <QTextToSpeech>
-#endif
-
-#if defined(QT_MULTIMEDIA_LIB)
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-#include <QSound>
-#else
-#include <QSoundEffect>
-#endif /* QT_VERSION_CHECK */
-#endif /* QT_MULTIMEDIA_LIB */
 
 extern QSettings* ttSettings;
 extern TTInstance* ttInst;
-#if defined(QT_TEXTTOSPEECH_LIB)
-extern QTextToSpeech* ttSpeech;
+
+bool userCanTx(int userid, StreamTypes stream_type, const Channel& chan)
+{
+    int i=0;
+    while(i<TT_TRANSMITUSERS_MAX && chan.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX])
+    {
+        if(chan.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX] == userid && (chan.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & stream_type))
+            return (chan.uChannelType & CHANNEL_CLASSROOM) == CHANNEL_CLASSROOM;
+        else i++;
+    }
+    return (chan.uChannelType & CHANNEL_CLASSROOM) == CHANNEL_DEFAULT;
+}
+
+bool userCanChanMessage(int userid, const Channel& chan, bool includeFreeForAll /*= false*/)
+{
+    return userCanTx(userid, STREAMTYPE_CHANNELMSG, chan) || (includeFreeForAll && userCanTx(TT_TRANSMITUSERS_FREEFORALL, STREAMTYPE_CHANNELMSG, chan));
+}
+
+bool userCanVoiceTx(int userid, const Channel& chan, bool includeFreeForAll /*= false*/)
+{
+    return userCanTx(userid, STREAMTYPE_VOICE, chan) || (includeFreeForAll && userCanTx(TT_TRANSMITUSERS_FREEFORALL, STREAMTYPE_VOICE, chan));
+}
+
+bool userCanVideoTx(int userid, const Channel& chan, bool includeFreeForAll /*= false*/)
+{
+    return userCanTx(userid, STREAMTYPE_VIDEOCAPTURE, chan) || (includeFreeForAll && userCanTx(TT_TRANSMITUSERS_FREEFORALL, STREAMTYPE_VIDEOCAPTURE, chan));
+}
+
+bool userCanDesktopTx(int userid, const Channel& chan, bool includeFreeForAll /*= false*/)
+{
+    return userCanTx(userid, STREAMTYPE_DESKTOP, chan) || (includeFreeForAll && userCanTx(TT_TRANSMITUSERS_FREEFORALL, STREAMTYPE_DESKTOP, chan));
+}
+
+bool userCanMediaFileTx(int userid, const Channel& chan, bool includeFreeForAll /*= false*/)
+{
+    return userCanTx(userid, STREAMTYPE_MEDIAFILE, chan) || (includeFreeForAll && userCanTx(TT_TRANSMITUSERS_FREEFORALL, STREAMTYPE_MEDIAFILE, chan));
+}
+
+channels_t getSubChannels(int channelid, const channels_t& channels, bool recursive /*= false*/)
+{
+    channels_t subchannels;
+    for(auto ite = channels.begin(); ite != channels.end(); ++ite)
+    {
+        if(ite.value().nParentID == channelid)
+        {
+            subchannels[ite.key()] = ite.value();
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+            if(recursive)
+                subchannels.unite(getSubChannels(ite.value().nChannelID, channels, recursive));
+#else
+                subchannels.insert(getSubChannels(ite.value().nChannelID, channels, recursive));
 #endif
+        }
+    }
+    return subchannels;
+}
+
+channels_t getParentChannels(int channelid, const channels_t& channels)
+{
+    channels_t parents;
+    while(channels[channelid].nParentID>0)
+    {
+        parents[channels[channelid].nParentID] = channels[channelid];
+        channelid = channels[channelid].nParentID;
+    }
+    return parents;
+}
+
+users_t getChannelUsers(int channelid, const users_t& users, const channels_t& channels, bool recursive /* = false */)
+{
+    users_t result;
+    for(auto ite=users.begin();ite!=users.end();ite++)
+    {
+        if(ite.value().nChannelID == channelid)
+            result.insert(ite.key(), ite.value());
+    }
+
+    if (recursive)
+    {
+        channels_t subs = getSubChannels(channelid, channels, true);
+        for(auto i=subs.begin();i!=subs.end();++i)
+        {
+            for (auto& u : getChannelUsers(i.key(), users, channels))
+                result.insert(u.nUserID, u);
+        }
+    }
+    return result;
+}
+
+bool isFreeForAll(StreamTypes stream_type, const int transmitUsers[][2],
+                  int max_userids /*= TT_TRANSMITUSERS_MAX*/)
+{
+    int i=0;
+    while(i<max_userids && transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX] != 0)
+    {
+        if(transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX] == TT_CLASSROOM_FREEFORALL &&
+           (transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & stream_type))
+            return true;
+        i++;
+    }
+    return false;
+}
+
+void setTransmitUsers(const QSet<int>& users, INT32* dest_array,
+                      INT32 max_elements)
+{
+    QSet<int>::const_iterator ite = users.begin();
+    for(int i=0;i<max_elements;i++)
+    {
+        if(ite != users.end())
+        {
+            dest_array[i] = *ite;
+            ite++;
+        }
+        else
+            dest_array[i] = 0;
+    }
+}
 
 QString makeCustomCommand(const QString& cmd, const QString& value)
 {
@@ -96,37 +196,6 @@ void initDefaultAudioCodec(AudioCodec& audiocodec)
         audiocodec.nCodec = NO_CODEC;
         break;
     }
-}
-
-bool getVideoCaptureCodec(VideoCodec& vidcodec)
-{
-    Codec codec = (Codec)ttSettings->value(SETTINGS_VIDCAP_CODEC,
-                                           SETTINGS_VIDCAP_CODEC_DEFAULT).toInt();
-    vidcodec.nCodec = codec;
-    
-    switch(vidcodec.nCodec)
-    {
-    case WEBM_VP8_CODEC :
-        vidcodec.webm_vp8.nRcTargetBitrate = ttSettings->value(SETTINGS_VIDCAP_WEBMVP8_BITRATE,
-                                                               SETTINGS_VIDCAP_WEBMVP8_BITRATE_DEFAULT).toInt();
-        vidcodec.webm_vp8.nEncodeDeadline = DEFAULT_WEBMVP8_DEADLINE;
-        break;
-    case SPEEX_CODEC :
-    case SPEEX_VBR_CODEC :
-    case OPUS_CODEC :
-    case NO_CODEC :
-        break;
-    }
-    return codec != NO_CODEC;
-}
-
-void initDefaultVideoFormat(VideoFormat& vidfmt)
-{
-    vidfmt.nWidth = DEFAULT_VIDEO_WIDTH;
-    vidfmt.nHeight = DEFAULT_VIDEO_HEIGHT;
-    vidfmt.nFPS_Numerator = DEFAULT_VIDEO_FPS;
-    vidfmt.nFPS_Denominator = 1;
-    vidfmt.picFourCC = DEFAULT_VIDEO_FOURCC;
 }
 
 AudioPreprocessor initDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype)
@@ -214,590 +283,6 @@ AudioPreprocessor loadAudioPreprocessor(AudioPreprocessorType preprocessortype)
     return preprocessor;
 }
 
-bool initVideoCaptureFromSettings()
-{
-    QString devid = ttSettings->value(SETTINGS_VIDCAP_DEVICEID).toString();
-
-    QStringList fps = ttSettings->value(SETTINGS_VIDCAP_FPS, SETTINGS_VIDCAP_FPS_DEFAULT).toString().split("/");
-    QStringList res = ttSettings->value(SETTINGS_VIDCAP_RESOLUTION, SETTINGS_VIDCAP_RESOLUTION_DEFAULT).toString().split("x");
-    FourCC fourcc = (FourCC)ttSettings->value(SETTINGS_VIDCAP_FOURCC, SETTINGS_VIDCAP_FOURCC_DEFAULT).toInt();
-
-    if(fps.size() == 2 && res.size() == 2)
-    {
-        VideoFormat format;
-
-        format.nFPS_Numerator = fps[0].toInt();
-        format.nFPS_Denominator = fps[1].toInt();
-        format.nWidth = res[0].toInt();
-        format.nHeight = res[1].toInt();
-        format.picFourCC = fourcc;
-
-        return initVideoCapture(devid, format);
-    }
-    return false;
-}
-
-bool initVideoCapture(const QString& devid, const VideoFormat& fmt)
-{
-    QString use_devid = devid;
-    if(use_devid.isEmpty())
-    {
-        int count = 1;
-        QVector<VideoCaptureDevice> devs(1);
-        TT_GetVideoCaptureDevices(&devs[0], &count);
-        if(count)
-            use_devid = _Q(devs[0].szDeviceID);
-    }
-
-    return TT_InitVideoCaptureDevice(ttInst, _W(use_devid), &fmt);
-}
-
-bool isValid(const VideoFormat& fmt)
-{
-    return fmt.nWidth>0 && fmt.nHeight>0 && fmt.nFPS_Numerator>0 && 
-        fmt.nFPS_Denominator>0 && fmt.picFourCC != FOURCC_NONE;
-}
-
-QVector<SoundDevice> getSoundDevices()
-{
-    //try getting all sound devices at once
-    int count = 25;
-    QVector<SoundDevice> result(count);
-    TT_GetSoundDevices(&result[0], &count);
-    if(result.size() == count)
-    {
-        //query again since we didn't have enough room
-        TT_GetSoundDevices(nullptr, &count);
-        result.resize(count);
-        TT_GetSoundDevices(&result[0], &count);
-    }
-    else
-        result.resize(count);
-    return result;
-}
-
-bool getSoundDevice(int deviceid, const QVector<SoundDevice>& devs,
-                    SoundDevice& dev)
-{
-    for(int i=0;i<devs.size();i++)
-        if(devs[i].nDeviceID == deviceid)
-        {
-            dev = devs[i];
-            return true;
-        }
-    return false;
-}
-
-bool getSoundDevice(const QString& devid, const QVector<SoundDevice>& devs,
-                    SoundDevice& dev)
-{
-    if(devid.isEmpty())
-        return false;
-
-    for(int i=0;i<devs.size();i++)
-        if(_Q(devs[i].szDeviceID) == devid)
-        {
-            dev = devs[i];
-            return true;
-        }
-    return false;
-}
-
-int getSoundDuplexSampleRate(const SoundDevice& indev, const SoundDevice& outdev)
-{
-    auto isend = indev.inputSampleRates + sizeof(indev.inputSampleRates);
-    auto isr = std::find_if(indev.inputSampleRates, isend,
-                            [outdev] (int sr) { return sr == outdev.nDefaultSampleRate; });
-    bool duplexmode = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DUPLEXMODE) &&
-        (outdev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DUPLEXMODE);
-
-    return (duplexmode && isr != isend) ? outdev.nDefaultSampleRate : 0;
-}
-
-bool isSoundDeviceEchoCapable(const SoundDevice& indev, const SoundDevice& outdev)
-{
-    return getSoundDuplexSampleRate(indev, outdev) > 0 || (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC);
-}
-
-int getDefaultSndInputDevice()
-{
-    SoundSystem sndsys = SoundSystem(ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM,
-                                                        SOUNDSYSTEM_NONE).toInt());
-    int inputid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL).toInt();
-    if(sndsys != SOUNDSYSTEM_NONE)
-        TT_GetDefaultSoundDevicesEx(sndsys, &inputid, nullptr);
-    else
-        TT_GetDefaultSoundDevices(&inputid, nullptr);
-    return inputid;
-}
-
-int getDefaultSndOutputDevice()
-{
-    SoundSystem sndsys = (SoundSystem)ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM,
-                                                        SOUNDSYSTEM_NONE).toInt();
-    int outputid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL).toInt();
-    if(sndsys != SOUNDSYSTEM_NONE)
-        TT_GetDefaultSoundDevicesEx(sndsys, nullptr, &outputid);
-    else
-        TT_GetDefaultSoundDevices(nullptr, &outputid);
-    return outputid;
-}
-
-int getSoundInputFromUID(int inputid, const QString& uid)
-{
-    if(uid.isEmpty())
-        return inputid;
-
-    QVector<SoundDevice> inputdev = getSoundDevices();
-
-    SoundDevice dev;
-    if(getSoundDevice(uid, inputdev, dev))
-        inputid = dev.nDeviceID;
-
-    return inputid;
-}
-
-int getSoundOutputFromUID(int outputid, const QString& uid)
-{
-    if(uid.isEmpty())
-        return outputid;
-
-    QVector<SoundDevice> outputdev = getSoundDevices();
-
-    SoundDevice dev;
-    if(getSoundDevice(uid, outputdev, dev))
-        outputid = dev.nDeviceID;
-    return outputid;
-}
-
-int getSelectedSndInputDevice()
-{
-    int inputid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE,
-                                    SOUNDDEVICEID_DEFAULT).toInt();
-    qDebug() << "Input device in settings #" << inputid;
-    if(inputid == SOUNDDEVICEID_DEFAULT)
-        inputid = getDefaultSndInputDevice();
-    else
-    {
-        //check if device-id has changed since last
-        QString uid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE_UID, "").toString();
-        if(uid.size())
-            inputid = getSoundInputFromUID(inputid, uid);
-    }
-    qDebug() << "Returning input device #" << inputid;
-    return inputid;
-}
-
-int getSelectedSndOutputDevice()
-{
-    int outputid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE,
-                                     SOUNDDEVICEID_DEFAULT).toInt();
-    qDebug() << "Output device in settings #" << outputid;
-    if(outputid == SOUNDDEVICEID_DEFAULT)
-        outputid = getDefaultSndOutputDevice();
-    else
-    {
-        //check if device-id has changed since last
-        QString uid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE_UID, "").toString();
-        if(uid.size())
-            outputid = getSoundOutputFromUID(outputid, uid);
-    }
-    qDebug() << "Returning output device #" << outputid;
-    return outputid;
-}
-
-QStringList initSelectedSoundDevices(SoundDevice& indev, SoundDevice& outdev)
-{
-    QStringList result;
-
-    TT_CloseSoundInputDevice(ttInst);
-    TT_CloseSoundOutputDevice(ttInst);
-    TT_CloseSoundDuplexDevices(ttInst);
-
-    //Restart sound system so we have the latest sound devices
-    TT_RestartSoundSystem();
-
-    int inputid = getSelectedSndInputDevice();
-    int outputid = getSelectedSndOutputDevice();
-
-    QVector<SoundDevice> devs = getSoundDevices();
-    getSoundDevice(inputid, devs, indev);
-    getSoundDevice(outputid, devs, outdev);
-
-    SoundDeviceEffects effects = {};
-    bool echocancel = ttSettings->value(SETTINGS_SOUND_ECHOCANCEL, SETTINGS_SOUND_ECHOCANCEL_DEFAULT).toBool();
-
-    int samplerate = getSoundDuplexSampleRate(indev, outdev);
-    bool duplex = samplerate > 0 && echocancel;
-
-    // prefer WebRTC to echo cancel if duplex is available
-    if (echocancel && !duplex)
-    {
-        // toggle sound device effect if it's supported by input device
-        effects.bEnableEchoCancellation = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC) && echocancel;
-
-        // WASAPI must know input and output device to echo cancel
-        duplex = outdev.nSoundSystem == SOUNDSYSTEM_WASAPI;
-    }
-
-    TT_SetSoundDeviceEffects(ttInst, &effects);
-
-    if (duplex)
-    {
-        if (!TT_InitSoundDuplexDevices(ttInst, inputid, outputid))
-        {
-            result.append(QObject::tr("Failed to initialize sound duplex mode"));
-            indev = {}, outdev = {};
-        }
-    }
-    else
-    {
-        if (!TT_InitSoundInputDevice(ttInst, inputid))
-        {
-            result.append(QObject::tr("Failed to initialize sound input device"));
-            indev = {};
-        }
-        if (!TT_InitSoundOutputDevice(ttInst, outputid))
-        {
-            result.append(QObject::tr("Failed to initialize sound output device"));
-            outdev = {};
-        }
-    }
-    return result;
-}
-
-QStringList initDefaultSoundDevices(SoundDevice& indev, SoundDevice& outdev)
-{
-    QStringList result;
-
-    TT_CloseSoundInputDevice(ttInst);
-    TT_CloseSoundOutputDevice(ttInst);
-    TT_CloseSoundDuplexDevices(ttInst);
-
-    result.append(QObject::tr("Switching to default sound devices"));
-
-    //Restart sound system so we have the latest sound devices
-    TT_RestartSoundSystem();
-
-    int inputid, outputid;
-    if (!TT_GetDefaultSoundDevices(&inputid, &outputid))
-    {
-        result.append(QObject::tr("Unable to get default sound devices"));
-    }
-    else
-    {
-        QVector<SoundDevice> devs = getSoundDevices();
-        getSoundDevice(inputid, devs, indev);
-        getSoundDevice(outputid, devs, outdev);
-
-        // reset sound device effects
-        SoundDeviceEffects effects = {};
-        TT_SetSoundDeviceEffects(ttInst, &effects);
-
-        bool duplex = getSoundDuplexSampleRate(indev, outdev) > 0;
-
-        if (duplex)
-        {
-            if (!TT_InitSoundDuplexDevices(ttInst, inputid, outputid))
-            {
-                result.append(QObject::tr("Failed to initialize sound duplex mode"));
-                indev = {}, outdev = {};
-            }
-        }
-        else
-        {
-            if (!TT_InitSoundInputDevice(ttInst, inputid))
-            {
-                result.append(QObject::tr("Failed to initialize default sound input device"));
-                indev = {};
-            }
-            if (!TT_InitSoundOutputDevice(ttInst, outputid))
-            {
-                result.append(QObject::tr("Failed to initialize default sound output device"));
-                outdev = {};
-            }
-        }
-    }
-    return result;
-}
-
-#if defined(Q_OS_DARWIN)
-QString QCFStringToQString(CFStringRef str)
-{
-    if(!str)
-        return QString();
-    CFIndex length = CFStringGetLength(str);
-    const UniChar *chars = CFStringGetCharactersPtr(str);
-    if (chars)
-        return QString(reinterpret_cast<const QChar *>(chars), length);
-
-    QVector<UniChar> buffer(length);
-    CFStringGetCharacters(str, CFRangeMake(0, length), buffer.data());
-    return QString(reinterpret_cast<const QChar *>(buffer.constData()), length);
-}
-
-QString TranslateKey(quint8 vk)
-{
-    TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardInputSource();
-    const CFDataRef layoutData = 
-        reinterpret_cast<const CFDataRef>(TISGetInputSourceProperty(currentKeyboard,
-                                          kTISPropertyUnicodeKeyLayoutData) );
-
-    const UCKeyboardLayout *keyboardLayout =
-        reinterpret_cast<const UCKeyboardLayout*>(CFDataGetBytePtr(layoutData));
-
-    UInt32 keysDown = 0;
-    UniChar chars[10];
-    UniCharCount realLength = 0;
-
-    OSStatus oss = UCKeyTranslate(keyboardLayout,
-                                  vk,
-                                  kUCKeyActionDown,
-                                  0,
-                                  LMGetKbdType(),
-                                  0,//kUCKeyTranslateNoDeadKeysBit,
-                                  &keysDown,
-                                  sizeof(chars) / sizeof(chars[0]),
-                                  &realLength,
-                                  chars);
-    Q_ASSERT(oss == 0);
-
-    CFStringRef ptr_str = CFStringCreateWithCharacters(kCFAllocatorDefault, 
-                                                       chars, (int)realLength);
-    QString ss = QCFStringToQString(ptr_str);
-    CFRelease(ptr_str);
-    CFRelease(currentKeyboard);
-    return ss;
-}
-
-QString GetMacOSHotKeyText(const hotkey_t& hotkey)
-{
-    if(hotkey.size() != MAC_HOTKEY_SIZE)
-        return QString();
-
-    QString comp;
-
-    if(hotkey[0] != (INT32)MAC_NO_KEY)
-    {
-        if(hotkey[0] & cmdKey)
-            comp += comp.size()? " + Cmd" : "Cmd";
-        if(hotkey[0] & shiftKey)
-            comp += comp.size()? " + Shift" : "Shift";
-        if(hotkey[0] & optionKey)
-            comp += comp.size()? " + Option" : "Option";
-        if(hotkey[0] & controlKey)
-            comp += comp.size()? "+ Ctrl" : "Ctrl";
-    }
-
-    QString tmp;
-    if(hotkey[1] != (INT32)MAC_NO_KEY)
-    {
-        quint8 vk = hotkey[1];
-        switch(vk)
-        {
-        case kVK_ANSI_A:
-        case kVK_ANSI_S:
-        case kVK_ANSI_D:
-        case kVK_ANSI_F:
-        case kVK_ANSI_H:
-        case kVK_ANSI_G:
-        case kVK_ANSI_Z:
-        case kVK_ANSI_X:
-        case kVK_ANSI_C:
-        case kVK_ANSI_V:
-        case kVK_ANSI_B:
-        case kVK_ANSI_Q:
-        case kVK_ANSI_W:
-        case kVK_ANSI_E:
-        case kVK_ANSI_R:
-        case kVK_ANSI_Y:
-        case kVK_ANSI_T:
-        case kVK_ANSI_1:
-        case kVK_ANSI_2:
-        case kVK_ANSI_3:
-        case kVK_ANSI_4:
-        case kVK_ANSI_6:
-        case kVK_ANSI_5:
-        case kVK_ANSI_Equal:
-        case kVK_ANSI_9:
-        case kVK_ANSI_7:
-        case kVK_ANSI_Minus:
-        case kVK_ANSI_8:
-        case kVK_ANSI_0:
-        case kVK_ANSI_RightBracket:
-        case kVK_ANSI_O:
-        case kVK_ANSI_U:
-        case kVK_ANSI_LeftBracket:
-        case kVK_ANSI_I:
-        case kVK_ANSI_P:
-        case kVK_ANSI_L:
-        case kVK_ANSI_J:
-        case kVK_ANSI_Quote:
-        case kVK_ANSI_K:
-        case kVK_ANSI_Semicolon:
-        case kVK_ANSI_Backslash:
-        case kVK_ANSI_Comma:
-        case kVK_ANSI_Slash:
-        case kVK_ANSI_N:
-        case kVK_ANSI_M:
-        case kVK_ANSI_Period:
-        case kVK_ANSI_Grave:
-        case kVK_ANSI_KeypadDecimal:
-        case kVK_ANSI_KeypadMultiply:
-        case kVK_ANSI_KeypadPlus:
-        case kVK_ANSI_KeypadClear:
-        case kVK_ANSI_KeypadDivide:
-        case kVK_ANSI_KeypadEnter:
-        case kVK_ANSI_KeypadMinus:
-        case kVK_ANSI_KeypadEquals:
-        case kVK_ANSI_Keypad0:
-        case kVK_ANSI_Keypad1:
-        case kVK_ANSI_Keypad2:
-        case kVK_ANSI_Keypad3:
-        case kVK_ANSI_Keypad4:
-        case kVK_ANSI_Keypad5:
-        case kVK_ANSI_Keypad6:
-        case kVK_ANSI_Keypad7:
-        case kVK_ANSI_Keypad8:
-        case kVK_ANSI_Keypad9:
-            tmp = TranslateKey(vk);
-            break;
-        case kVK_Return:
-            tmp = "Return";break;
-        case kVK_Tab:
-            tmp = "Tab";break;
-        case kVK_Space:
-            tmp = "Space";break;
-        case kVK_Delete:
-            tmp = "BackSpace";break;
-        case kVK_Escape:
-            tmp = "Esc";break;
-            //case kVK_Command:
-            //case kVK_Shift:
-        case kVK_CapsLock:
-            tmp = "CapsLock";break;
-            //case kVK_Option:
-            //case kVK_Control:
-            //case kVK_RightShift:
-            //case kVK_RightOption:
-            //case kVK_RightControl:
-        case kVK_Function:
-            tmp = "Fn";break;
-        case kVK_F17:
-            tmp = "F17";break;
-        case kVK_VolumeUp:
-            tmp = "VolUp";break;
-        case kVK_VolumeDown:
-            tmp = "VolDown";break;
-        case kVK_Mute:
-            tmp = "Mute";break;
-        case kVK_F18: 
-            tmp = "F18";break;
-        case kVK_F19:     
-            tmp = "F19";break;
-        case kVK_F20:  
-            tmp = "F20";break;
-        case kVK_F5: 
-            tmp = "F5";break;
-        case kVK_F6:
-            tmp = "F6";break;
-        case kVK_F7:
-            tmp = "F7";break;
-        case kVK_F3:
-            tmp = "F3";break;
-        case kVK_F8:
-            tmp = "F8";break;
-        case kVK_F9:
-            tmp = "F9";break;
-        case kVK_F11:
-            tmp = "F11";break;
-        case kVK_F13:
-            tmp = "F13";break;
-        case kVK_F16:
-            tmp = "F16";break;
-        case kVK_F14:
-            tmp = "F14";break;
-        case kVK_F10:
-            tmp = "F10";break;
-        case kVK_F12:
-            tmp = "F12";break;
-        case kVK_F15:
-            tmp = "F15";break;
-        case kVK_Help:
-            tmp = "Help";break;
-        case kVK_Home:
-            tmp = "Home";break;
-        case kVK_PageUp:
-            tmp = "PgUp";break;
-        case kVK_ForwardDelete:
-            tmp = "Delete";break;
-        case kVK_F4:
-            tmp = "F4";break;
-        case kVK_End:
-            tmp = "End";break;
-        case kVK_F2:
-            tmp = "F2";break;
-        case kVK_PageDown:
-            tmp = "PgDown";break;
-        case kVK_F1:
-            tmp = "F1";break;
-        case kVK_LeftArrow:
-            tmp = "Left";break;
-        case kVK_RightArrow:
-            tmp = "Right";break;
-        case kVK_DownArrow:
-            tmp = "Down";break;
-        case kVK_UpArrow:
-            tmp = "Up";break;
-        default:
-            tmp += QString::number(vk);
-        }
-    }
-    comp += comp.size()? " + " + tmp : tmp;
-    return comp;
-}
-#endif
-
-
-QString getHotKeyText(const hotkey_t& hotkey)
-{
-#ifdef Q_OS_WIN32
-    QString key;
-    for(std::size_t i=0;i<hotkey.size();i++)
-    {
-        TTCHAR buff[TT_STRLEN] = {};
-        TT_HotKey_GetKeyString(ttInst, hotkey[i], buff);
-        key += (i == hotkey.size()-1)? _Q(buff):_Q(buff) + " + ";
-    }
-    return key;
-#elif defined(Q_OS_LINUX)
-    Q_UNUSED(ttInst);
-    int keys[4] = {0, 0, 0, 0};
-    for(std::size_t i=0;i<hotkey.size();i++)
-        keys[i] = hotkey[i];
-        
-    QKeySequence keyseq(keys[0], keys[1], keys[2], keys[3]);
-    return keyseq.toString();
-#elif defined(Q_OS_DARWIN)
-    Q_UNUSED(ttInst);
-    /*
-    QString key;
-    if(hotkey.size())
-        key = QString::number(hotkey[0]);
-
-    for(int i=1;i<hotkey.size();i++)
-        key += " + " + QString::number(hotkey[i]);
-
-    return key;
-    */
-    return GetMacOSHotKeyText(hotkey);
-#else
-    return QString("Unknown");
-#endif
-
-}
-
-
 #if defined(Q_OS_WIN32)
 bool isComputerIdle(int idle_secs)
 {
@@ -866,263 +351,6 @@ bool isMyselfTalking()
 bool isMyselfStreaming()
 {
     return (TT_GetFlags(ttInst) & (CLIENT_STREAM_AUDIO | CLIENT_STREAM_VIDEO)) != CLIENT_CLOSED;
-}
-
-QString getHotKeyString(HotKeyID keyid)
-{
-    switch(keyid)
-    {
-    case HOTKEY_PUSHTOTALK :
-        return SETTINGS_GENERAL_PUSHTOTALK_KEY;
-    case HOTKEY_VOICEACTIVATION :
-        return SETTINGS_SHORTCUTS_VOICEACTIVATION;
-    case HOTKEY_INCVOLUME :
-        return SETTINGS_SHORTCUTS_INCVOLUME;
-    case HOTKEY_DECVOLUME :
-        return SETTINGS_SHORTCUTS_DECVOLUME;
-    case HOTKEY_MUTEALL :
-        return SETTINGS_SHORTCUTS_MUTEALL;
-    case HOTKEY_MICROPHONEGAIN_INC :
-        return SETTINGS_SHORTCUTS_INCVOICEGAIN;
-    case HOTKEY_MICROPHONEGAIN_DEC :
-        return SETTINGS_SHORTCUTS_DECVOICEGAIN;
-    case HOTKEY_VIDEOTX :
-        return SETTINGS_SHORTCUTS_VIDEOTX;
-    default :
-        Q_ASSERT(0); //unknown hotkey id
-    }
-    return QString();
-}
-
-void saveHotKeySettings(HotKeyID hotkeyid, const hotkey_t& hotkey)
-{
-    QStringList hklst;
-    for(std::size_t i=0;i<hotkey.size();i++)
-        hklst.push_back(QString::number(hotkey[i]));
-    ttSettings->setValue(getHotKeyString(hotkeyid), hklst);
-}
-
-bool loadHotKeySettings(HotKeyID hotkeyid, hotkey_t& hotkey)
-{
-    QStringList hklst = ttSettings->value(getHotKeyString(hotkeyid)).toStringList();
-    for(int i=0;i<hklst.size();i++)
-        hotkey.push_back(hklst[i].toInt());
-    return hklst.size();
-}
-
-void deleteHotKeySettings(HotKeyID hotkeyid)
-{
-    ttSettings->remove(getHotKeyString(hotkeyid));
-}
-
-void saveVideoFormat(const VideoFormat& vidfmt)
-{
-    QString resolution, fps;
-    resolution = QString("%1x%2").arg(vidfmt.nWidth).arg(vidfmt.nHeight);
-    fps = QString("%1/%2").arg(vidfmt.nFPS_Numerator).arg(vidfmt.nFPS_Denominator);
-
-    ttSettings->setValue(SETTINGS_VIDCAP_RESOLUTION, resolution);
-    ttSettings->setValue(SETTINGS_VIDCAP_FPS, fps);
-    ttSettings->setValue(SETTINGS_VIDCAP_FOURCC, (int)vidfmt.picFourCC);
-}
-
-bool loadVideoFormat(VideoFormat& vidfmt)
-{
-    QStringList fps_tokens = ttSettings->value(SETTINGS_VIDCAP_FPS, "0/0").toString().split("/");
-    QStringList res_tokens = ttSettings->value(SETTINGS_VIDCAP_RESOLUTION, "0x0").toString().split("x");
-    if(fps_tokens.size() == 2 && res_tokens.size() == 2 &&
-       fps_tokens[0].toInt() && fps_tokens[1].toInt() && 
-       res_tokens[0].toInt() && res_tokens[1].toInt())
-    {
-        vidfmt.nFPS_Numerator = fps_tokens[0].toInt();
-        vidfmt.nFPS_Denominator = fps_tokens[1].toInt();
-        vidfmt.nWidth = res_tokens[0].toInt();
-        vidfmt.nHeight = res_tokens[1].toInt();
-        vidfmt.picFourCC = (FourCC)ttSettings->value(SETTINGS_VIDCAP_FOURCC, 0).toInt();
-        return true;
-    }
-    return false;
-}
-
-void playSoundEvent(SoundEvent event)
-{
-    if (ttSettings->value(SETTINGS_SOUNDEVENT_ENABLE, SETTINGS_SOUNDEVENT_ENABLE_DEFAULT).toBool() == true)
-    {
-        QString filename;
-        switch(event)
-        {
-        case SOUNDEVENT_NEWUSER:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_NEWUSER, SETTINGS_SOUNDEVENT_NEWUSER_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_REMOVEUSER:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_REMOVEUSER, SETTINGS_SOUNDEVENT_REMOVEUSER_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_SERVERLOST:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_SERVERLOST, SETTINGS_SOUNDEVENT_SERVERLOST_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_USERMSG:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERMSG, SETTINGS_SOUNDEVENT_USERMSG_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_USERMSGSENT :
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERMSGSENT, SETTINGS_SOUNDEVENT_USERMSGSENT_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_CHANNELMSG:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSG, SETTINGS_SOUNDEVENT_CHANNELMSG_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_CHANNELMSGSENT :
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSGSENT, SETTINGS_SOUNDEVENT_CHANNELMSGSENT_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_BROADCASTMSG :
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_BROADCASTMSG, SETTINGS_SOUNDEVENT_BROADCASTMSG_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_HOTKEY:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_HOTKEY, SETTINGS_SOUNDEVENT_HOTKEY_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_SILENCE:   
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_SILENCE).toString();
-            break;
-        case SOUNDEVENT_NEWVIDEO:   
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_NEWVIDEO, SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_NEWDESKTOP:   
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_NEWDESKTOP, SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_FILESUPD:  
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_FILESUPD, SETTINGS_SOUNDEVENT_FILESUPD_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_FILETXDONE:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_FILETXDONE, SETTINGS_SOUNDEVENT_FILETXDONE_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_QUESTIONMODE:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_QUESTIONMODE, SETTINGS_SOUNDEVENT_QUESTIONMODE_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_DESKTOPACCESS:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_DESKTOPACCESS, SETTINGS_SOUNDEVENT_DESKTOPACCESS_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_USERLOGGEDIN:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDIN, SETTINGS_SOUNDEVENT_USERLOGGEDIN_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_USERLOGGEDOUT:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDOUT, SETTINGS_SOUNDEVENT_USERLOGGEDOUT_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_VOICEACTON:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTON, SETTINGS_SOUNDEVENT_VOICEACTON_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_VOICEACTOFF:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFF, SETTINGS_SOUNDEVENT_VOICEACTOFF_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_MUTEALLON:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLON, SETTINGS_SOUNDEVENT_MUTEALLON_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_MUTEALLOFF:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLOFF, SETTINGS_SOUNDEVENT_MUTEALLOFF_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_TRANSMITQUEUE_HEAD:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD, SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_TRANSMITQUEUE_STOP:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP, SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_VOICEACTTRIG:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTTRIG, SETTINGS_SOUNDEVENT_VOICEACTTRIG_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_VOICEACTSTOP:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTSTOP, SETTINGS_SOUNDEVENT_VOICEACTSTOP_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_VOICEACTMEON:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTMEON, SETTINGS_SOUNDEVENT_VOICEACTMEON_DEFAULT).toString();
-            break;
-        case SOUNDEVENT_VOICEACTMEOFF:
-            filename = ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTMEOFF, SETTINGS_SOUNDEVENT_VOICEACTMEOFF_DEFAULT).toString();
-            break;
-        }
-
-#if defined(QT_MULTIMEDIA_LIB)
-        if (filename.size())
-        {
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-            QSound::play(filename);
-#else
-            static QSoundEffect* effect = new QSoundEffect(ttSettings);
-            effect->setSource(QUrl::fromLocalFile(filename));
-            effect->play();
-#endif
-        }
-#endif
-    }
-}
-
-void resetDefaultSoundsPack()
-{
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_NEWUSER, SETTINGS_SOUNDEVENT_NEWUSER_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_REMOVEUSER, SETTINGS_SOUNDEVENT_REMOVEUSER_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_SERVERLOST, SETTINGS_SOUNDEVENT_SERVERLOST_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_USERMSG, SETTINGS_SOUNDEVENT_USERMSG_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_CHANNELMSG, SETTINGS_SOUNDEVENT_CHANNELMSG_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_BROADCASTMSG, SETTINGS_SOUNDEVENT_BROADCASTMSG_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_HOTKEY, SETTINGS_SOUNDEVENT_HOTKEY_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_NEWVIDEO, SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_NEWDESKTOP, SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_FILESUPD, SETTINGS_SOUNDEVENT_FILESUPD_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_FILETXDONE, SETTINGS_SOUNDEVENT_FILETXDONE_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_QUESTIONMODE, SETTINGS_SOUNDEVENT_QUESTIONMODE_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_DESKTOPACCESS, SETTINGS_SOUNDEVENT_DESKTOPACCESS_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_USERLOGGEDIN, SETTINGS_SOUNDEVENT_USERLOGGEDIN_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_USERLOGGEDOUT, SETTINGS_SOUNDEVENT_USERLOGGEDOUT_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTON, SETTINGS_SOUNDEVENT_VOICEACTON_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTOFF, SETTINGS_SOUNDEVENT_VOICEACTOFF_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_MUTEALLON, SETTINGS_SOUNDEVENT_MUTEALLON_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_MUTEALLOFF, SETTINGS_SOUNDEVENT_MUTEALLOFF_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD, SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP, SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTTRIG, SETTINGS_SOUNDEVENT_VOICEACTTRIG_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTSTOP, SETTINGS_SOUNDEVENT_VOICEACTSTOP_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTMEON, SETTINGS_SOUNDEVENT_VOICEACTMEON_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTMEOFF, SETTINGS_SOUNDEVENT_VOICEACTMEOFF_DEFAULT);
-    ttSettings->setValue(SETTINGS_SOUNDS_PACK, QCoreApplication::translate("MainWindow", SETTINGS_SOUNDS_PACK_DEFAULT));
-}
-
-void addTextToSpeechMessage(const QString& msg)
-{
-    switch (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt())
-    {
-    case TTSENGINE_QT:
-#if QT_TEXTTOSPEECH_LIB
-        Q_ASSERT(ttSpeech);
-        ttSpeech->say(msg);
-#endif
-        break;
-    case TTSENGINE_TOLK :
-#if defined(ENABLE_TOLK)
-        Tolk_PreferSAPI(ttSettings->value(SETTINGS_TTS_SAPI, SETTINGS_TTS_SAPI_DEFAULT).toBool());
-        Tolk_Output(_W(msg));
-#endif
-        break;
-    case TTSENGINE_NOTIFY :
-    {
-#if defined(Q_OS_LINUX)
-        int timestamp = ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt();
-        QString noquote = msg;
-        noquote.replace('"', ' ');
-        QProcess ps;
-        ps.startDetached(QString("%1 -t %2 -a \"%3\" -u low \"%4: %5\"")
-                         .arg(TTSENGINE_NOTIFY_PATH)
-                         .arg(timestamp)
-                         .arg(APPNAME_SHORT)
-                         .arg(APPNAME_SHORT)
-                         .arg(noquote));
-#endif
-        break;
-    }
-    }
-}
-
-void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
-{
-    if ((ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toULongLong() & event) && ttSettings->value(SETTINGS_TTS_ENABLE, SETTINGS_TTS_ENABLE_DEFAULT).toBool() == true)
-    {
-        addTextToSpeechMessage(msg);
-    }
 }
 
 bool HostEntry::sameHost(const HostEntry& host, bool nickcheck) const
@@ -1804,69 +1032,6 @@ QByteArray generateTTFile(const HostEntry& entry)
     return doc.toByteArray();
 }
 
-void setVolume(int userid, int vol_diff, StreamType stream_type)
-{
-    User user;
-    if(TT_GetUser(ttInst, userid, &user))
-    {
-        int vol = 0;
-        switch(stream_type)
-        {
-        case STREAMTYPE_VOICE :
-            vol = refVolumeToPercent(user.nVolumeVoice);
-            vol = refVolume(vol + vol_diff);
-            break;
-        case STREAMTYPE_MEDIAFILE_AUDIO :
-            vol = refVolumeToPercent(user.nVolumeMediaFile);
-            vol = refVolume(vol + vol_diff);
-            break;
-        default :
-            Q_ASSERT(0);
-        }
-
-        vol = qMin(vol, (int)SOUND_VOLUME_MAX);
-        vol = qMax(vol, (int)SOUND_VOLUME_MIN);
-        TT_SetUserVolume(ttInst, userid, stream_type, vol);
-    }
-}
-
-void incVolume(int userid, StreamType stream_type)
-{
-    setVolume(userid, 1, stream_type);
-}
-
-void decVolume(int userid, StreamType stream_type)
-{
-    setVolume(userid, -1, stream_type);
-}
-
-int refVolume(double percent)
-{
-    //82.832*EXP(0.0508*x) - 50 
-    if(percent == 0)
-        return 0;
-    double d = 82.832 * exp(0.0508 * percent) - 50;
-    return d;
-}
-
-int refVolumeToPercent(int volume)
-{
-    if(volume == 0)
-        return 0;
-
-    double d = (volume + 50) / 82.832;
-    d = log(d) / 0.0508;
-    return d + .5;
-}
-
-int refGain(double percent)
-{
-    if(percent == 0)
-        return 0;
-
-    return  82.832 * exp(0.0508 * percent) - 50;
-}
-
 bool versionSameOrLater(const QString& check, const QString& against)
 {
     if(check == against) return true;
@@ -1921,11 +1086,6 @@ QString getDisplayName(const User& user)
     return limitText(nickname);
 }
 
-QString getDateTimeStamp()
-{
-    return QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss");
-}
-
 QString generateAudioStorageFilename(AudioFileFormat aff)
 {
     QString filename = getDateTimeStamp() + " ";
@@ -1951,6 +1111,10 @@ QString generateAudioStorageFilename(AudioFileFormat aff)
     return filename;
 }
 
+QString getDateTimeStamp()
+{
+    return QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss");
+}
 
 QString generateLogFileName(const QString& name)
 {
@@ -1982,93 +1146,3 @@ bool writeLogEntry(QFile& file, const QString& line)
 {
     return file.write(QString(line + "\r\n").toUtf8())>0;
 }
-
-void setVideoTextBox(const QRect& rect, const QColor& bgcolor,
-                     const QColor& fgcolor, const QString& text,
-                     quint32 text_pos, int w_percent, int h_percent,
-                     QPainter& painter)
-{
-    int w = w_percent / 100. * rect.width();
-    int h = h_percent / 100. * rect.height();
-
-    int x, y;
-    switch(text_pos & VIDTEXT_POSITION_MASK)
-    {
-    case VIDTEXT_POSITION_TOPLEFT :
-        x = 0; y = 0;
-        break;
-    case VIDTEXT_POSITION_TOPRIGHT :
-        x = rect.width() - w;
-        y = 0;
-        break;
-    case VIDTEXT_POSITION_BOTTOMLEFT :
-        x = 0;
-        y = rect.height() - h;
-        break;
-    case VIDTEXT_POSITION_BOTTOMRIGHT :
-    default :
-        x = rect.width() - w;
-        y = rect.height() - h;
-        break;
-    }
-
-    if(h>0 && w>0)
-    {
-        const QFont font = painter.font();
-        if(font.pixelSize() != h)
-        {
-            QFont newFont(font);
-            newFont.setPixelSize(h);
-            painter.setFont(newFont);
-        }
-        painter.fillRect(x, y, w, h, bgcolor);
-        painter.setPen(fgcolor);
-        painter.drawText(x, y, w, h, Qt::AlignHCenter | Qt::AlignCenter, text);
-
-        if(font.pixelSize() != h)
-            painter.setFont(font);
-    }
-}
-
-void setTransmitUsers(const QSet<int>& users, INT32* dest_array,
-                      INT32 max_elements)
-{
-    QSet<int>::const_iterator ite = users.begin();
-    for(int i=0;i<max_elements;i++)
-    {
-        if(ite != users.end())
-        {
-            dest_array[i] = *ite;
-            ite++;
-        }
-        else
-            dest_array[i] = 0;
-    }
-}
-
-#if defined(Q_OS_DARWIN)
-void setMacResizeMargins(QDialog* dlg, QLayout* layout)
-{
-    QSize size = dlg->size();
-    QMargins margins = layout->contentsMargins();
-    margins.setBottom(margins.bottom()+12);
-    layout->setContentsMargins(margins);
-    size += QSize(0, 12);
-    dlg->resize(size);
-}
-#endif /* Q_OS_DARWIN */
-
-void setCurrentItemData(QComboBox* cbox, const QVariant& itemdata)
-{
-    int index = cbox->findData(itemdata);
-    if(index>=0)
-        cbox->setCurrentIndex(index);
-}
-
-QVariant getCurrentItemData(QComboBox* cbox, const QVariant& not_found/* = QVariant()*/)
-{
-    if(cbox->currentIndex()>=0)
-        return cbox->itemData(cbox->currentIndex());
-    return not_found;
-}
-

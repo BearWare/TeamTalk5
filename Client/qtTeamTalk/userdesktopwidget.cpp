@@ -22,6 +22,7 @@
  */
 
 #include "userdesktopwidget.h"
+
 #include <QPaintEngine>
 #include <QMouseEvent>
 #include <QFileDialog>

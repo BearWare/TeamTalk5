@@ -22,7 +22,8 @@
 #ifndef STATUSBAREVENTSMODEL_H
 #define STATUSBAREVENTSMODEL_H
 
-#include "common.h"
+#include "utilui.h"
+
 #include <QAbstractItemModel>
 #include <QVector>
 #include <QTreeView>

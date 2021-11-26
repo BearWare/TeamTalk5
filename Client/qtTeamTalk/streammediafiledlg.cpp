@@ -25,6 +25,7 @@
 #include "appinfo.h"
 #include "settings.h"
 #include "audiopreprocessordlg.h"
+#include "utilui.h"
 
 #include <QFileDialog>
 #include <QLineEdit>
