@@ -167,7 +167,9 @@ void TextMessageDlg::slotTextChanged()
 {
     ui.sendButton->setEnabled(ui.newmsgTextEdit->toPlainText().size()>0);
     m_textchanged = true;
-    (ui.newmsgTextEdit->toPlainText().size()>0 ? ui.newmsgTextEdit->setAccessibleName(QString(tr("New message (%1 of 512 characters)").arg(ui.newmsgTextEdit->toPlainText().size()))) : ui.newmsgTextEdit->setAccessibleName(tr("New message")));
+    QByteArray ba;
+    ba += ui.newmsgTextEdit->toPlainText();
+    ui.numCharsLabel->setText(QString(tr("%1 of 512 characters").arg(ba.size())));
 }
 
 void TextMessageDlg::newMsg(const MyTextMessage& msg, bool store)
