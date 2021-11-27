@@ -3546,7 +3546,8 @@ void MainWindow::executeDesktopInput(const DesktopInput& input)
 void MainWindow::checkAppUpdate()
 {
     // check for software update and get bearware.dk web-login url
-    QUrl url(URL_APPUPDATE);
+    bool beta = ttSettings->value(SETTINGS_DISPLAY_APPUPDATE_BETA, SETTINGS_DISPLAY_APPUPDATE_BETA_DEFAULT).toBool();
+    QUrl url(URL_APPUPDATE(beta));
 
     auto networkMgr = new QNetworkAccessManager(this);
     connect(networkMgr, &QNetworkAccessManager::finished,
