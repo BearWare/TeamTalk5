@@ -170,6 +170,7 @@ void TextMessageDlg::slotTextChanged()
     QByteArray ba;
     ba += ui.newmsgTextEdit->toPlainText();
     ui.numCharsLabel->setText(QString(tr("%1 of 512 characters").arg(ba.size())));
+    (ba.size()>0?ui.numCharsLabel->setVisible(true):ui.numCharsLabel->setVisible(false));
 }
 
 void TextMessageDlg::newMsg(const MyTextMessage& msg, bool store)
