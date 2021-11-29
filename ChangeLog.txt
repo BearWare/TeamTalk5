@@ -23,6 +23,7 @@ Android Client
 iOS Client
 - Sound shared with other apps so iTeamTalk can run in background
 - Ability to select stereo inputs in Preferences
+- Notification on text limit exceeded
 Server
 -
 
