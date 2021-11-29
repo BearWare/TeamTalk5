@@ -4303,3 +4303,48 @@ TEST_CASE("FileIO")
         REQUIRE(file_ace.recv(buf_ace, 1) == 1);
     }
 }
+
+TEST_CASE( "TextMessageStrLength" )
+{
+    auto client = InitTeamTalk();
+
+    REQUIRE(Connect(client));
+    REQUIRE(Login(client, ACE_TEXT("TxClient")));
+
+    TextMessage txtmsg = {};
+    txtmsg.nMsgType = MSGTYPE_USER;
+    txtmsg.nToUserID = TT_GetMyUserID(client);
+
+    for (size_t i=0;i<TT_STRLEN-1;++i)
+        txtmsg.szMessage[i] = TTCHAR('A') + (i % 10);
+    REQUIRE(TT_DoTextMessage(client, &txtmsg) >= 0);
+    TTMessage msg;
+    REQUIRE(WaitForEvent(client, CLIENTEVENT_CMD_USER_TEXTMSG, msg));
+    REQUIRE(ACE_OS::strlen(msg.textmessage.szMessage) == TT_STRLEN-1);
+    for (size_t i=0;i<TT_STRLEN;++i)
+        REQUIRE(txtmsg.szMessage[i] == msg.textmessage.szMessage[i]);
+
+    // text max string length for non-UTF-8
+    ACE_TString str = txtmsg.szMessage;
+    REQUIRE(TT_DoChangeNickname(client, str.c_str()) > 0);
+    REQUIRE(WaitForEvent(client, CLIENTEVENT_CMD_USER_UPDATE, msg));
+    REQUIRE(ACE_TString(msg.user.szNickname) == str);
+
+    // text exceeded max string for non-UTF-8
+    for (size_t i=0;i<TT_STRLEN-1;++i)
+        str += TTCHAR('A') + (i % 10);
+    REQUIRE(TT_DoChangeNickname(client, str.c_str()) > 0);
+    REQUIRE(WaitForEvent(client, CLIENTEVENT_CMD_USER_UPDATE, msg));
+    str = str.substr(0, TT_STRLEN-1);
+    REQUIRE(ACE_TString(msg.user.szNickname) == str);
+
+    // ensure UTF-8 string is cut correctly
+    str = txtmsg.szMessage;
+    str = str.substr(0, str.length() - 1);
+    size_t orgsize = str.length();
+    str += ACE_TEXT("🔥");
+    REQUIRE(TT_DoChangeNickname(client, str.c_str()) > 0);
+    REQUIRE(WaitForEvent(client, CLIENTEVENT_CMD_USER_UPDATE, msg));
+    str = str.substr(0, orgsize);
+    REQUIRE(ACE_TString(msg.user.szNickname) == str);
+}
