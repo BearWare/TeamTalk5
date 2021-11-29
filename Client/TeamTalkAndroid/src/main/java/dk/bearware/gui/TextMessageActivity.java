@@ -36,9 +36,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.nio.charset.StandardCharsets;
+
 import dk.bearware.BannedUser;
 import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
+import dk.bearware.Constants;
 import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
 import dk.bearware.TeamTalkBase;
@@ -145,6 +148,15 @@ extends AppCompatActivity implements TeamTalkConnectionListener, CommandListener
             String newmsg = send_msg.getText().toString();
             if(newmsg.isEmpty())
                 return;
+
+            int utf8len = newmsg.getBytes(StandardCharsets.UTF_8).length;
+            if (utf8len > Constants.TT_STRLEN - 1)
+            {
+                Toast.makeText(TextMessageActivity.this,
+                        getString(R.string.err_text_length, utf8len - Constants.TT_STRLEN + 1),
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
 
             User myself = ttservice.getUsers().get(ttclient.getMyUserID());
             String name = Utils.getDisplayName(getBaseContext(), myself);
