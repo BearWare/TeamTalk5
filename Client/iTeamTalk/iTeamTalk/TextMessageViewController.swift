@@ -179,6 +179,16 @@ class TextMessageViewController :
             return
         }
         
+        let utf8len = msgTextView.text.lengthOfBytes(using: .utf8)
+        if utf8len > TT_STRLEN - 1 {
+            let msg = String(format: NSLocalizedString("Message limit exceeded by %d characters", comment: "Dialog"), utf8len - Int(TT_STRLEN) + 1)
+            let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"),
+                                          message: msg, preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
         var msg = TextMessage()
         msg.nFromUserID = TT_GetMyUserID(ttInst)
         toTTString(msgTextView.text, dst: &msg.szMessage)
