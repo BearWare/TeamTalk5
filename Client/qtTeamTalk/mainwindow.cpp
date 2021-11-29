@@ -5633,7 +5633,29 @@ void MainWindow::slotSendChannelMessage()
     msg.nChannelID = m_mychannel.nChannelID;
     msg.nMsgType = MSGTYPE_CHANNEL;
     COPY_TTSTR(msg.szMessage, txtmsg);
-    TT_DoTextMessage(ttInst, &msg);
+
+    if (txtmsg.toUtf8().size() < TT_STRLEN)
+    {
+        TT_DoTextMessage(ttInst, &msg);
+    }
+    else
+    {
+        switch(ui.tabWidget->currentIndex())
+        {
+        case TAB_CHAT :
+            ui.msgEdit->setText(txtmsg);
+            break;
+        case TAB_VIDEO :
+            ui.videomsgEdit->setText(txtmsg);
+            break;
+        case TAB_DESKTOP :
+            ui.desktopmsgEdit->setText(txtmsg);
+            break;
+        default :
+            break;
+        }
+        QMessageBox::information(this, tr("Character limit exceeded"), QString(tr("Your message has exceeded the limit by %1 characters. Please reduce it and try again.").arg(txtmsg.toUtf8().size() - TT_STRLEN + 1)));
+    }
 
     transmitOn(STREAMTYPE_CHANNELMSG);
 }
@@ -6783,11 +6805,8 @@ void MainWindow::startTTS()
 
 void MainWindow::slotTextChanged()
 {
-    (ui.msgEdit->text().size()>0 ? ui.msgEdit->setAccessibleName(QString(tr("Message (%1 of 512 characters)").arg(ui.msgEdit->text().size()))) : ui.msgEdit->setAccessibleName(tr("Message")));
     ui.sendButton->setVisible(ui.msgEdit->text().size()>0);
-    (ui.videomsgEdit->text().size()>0 ? ui.videomsgEdit->setAccessibleName(QString(tr("Message (%1 of 512 characters)").arg(ui.videomsgEdit->text().size()))) : ui.videomsgEdit->setAccessibleName(tr("Message")));
     ui.videosendButton->setVisible(ui.videomsgEdit->text().size()>0);
-    (ui.desktopmsgEdit->text().size()>0 ? ui.desktopmsgEdit->setAccessibleName(QString(tr("Message (%1 of 512 characters)").arg(ui.desktopmsgEdit->text().size()))) : ui.desktopmsgEdit->setAccessibleName(tr("Message")));
     ui.desktopsendButton->setVisible(ui.desktopmsgEdit->text().size()>0);
 }
 
