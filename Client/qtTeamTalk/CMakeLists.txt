@@ -283,7 +283,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
           # Build TeamTalk 5 install for macOS with server application
           add_custom_target(QtTeamTalk5WithServerProduct ALL
             # Run code sign
-            COMMAND codesign --deep -f --sign "Apple Distribution: Bjoern Rasmussen" --entitlements ${CMAKE_CURRENT_SOURCE_DIR}/Entitlements.plist ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app
+            COMMAND codesign --deep -f --sign "Apple Distribution: Bjoern Rasmussen" ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app
             # Run productbuild
             COMMAND productbuild --component ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app /Applications --sign "3rd Party Mac Developer Installer: Bjoern Rasmussen" ${TEAMTALK_TARGET}_Setup.pkg
             COMMAND productsign --sign "3rd Party Mac Developer Installer: Bjoern Rasmussen" ${TEAMTALK_TARGET}_Setup.pkg ${TEAMTALK_TARGET}_Setup_Signed.pkg
