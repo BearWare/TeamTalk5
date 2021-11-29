@@ -5633,9 +5633,8 @@ void MainWindow::slotSendChannelMessage()
     msg.nChannelID = m_mychannel.nChannelID;
     msg.nMsgType = MSGTYPE_CHANNEL;
     COPY_TTSTR(msg.szMessage, txtmsg);
-    QByteArray ba;
-    ba += _Q(msg.szMessage);
-    if (ba.size()<=512)
+
+    if (txtmsg.toUtf8().size() < TT_STRLEN)
     {
         TT_DoTextMessage(ttInst, &msg);
     }
@@ -5655,7 +5654,7 @@ void MainWindow::slotSendChannelMessage()
         default :
             break;
         }
-        QMessageBox::information(this, tr("Characters limit exceeded"), QString(tr("Your message is too long for %1 characters. Please reduce it and try again.").arg(ba.size()-512)));
+        QMessageBox::information(this, tr("Character limit exceeded"), QString(tr("Your message has exceeded the limit by %1 characters. Please reduce it and try again.").arg(txtmsg.toUtf8().size() - TT_STRLEN + 1)));
     }
 
     transmitOn(STREAMTYPE_CHANNELMSG);

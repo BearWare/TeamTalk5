@@ -153,9 +153,8 @@ void TextMessageDlg::slotSendTextMessage(const QString& txt_msg)
     msg.nMsgType = MSGTYPE_USER;
     msg.nToUserID = m_userid;
     COPY_TTSTR(msg.szMessage, txt_msg);
-    QByteArray ba;
-    ba += _Q(msg.szMessage);
-    if (ba.size()<=512)
+
+    if (txt_msg.toUtf8().size() < TT_STRLEN)
     {
         if(TT_DoTextMessage(ttInst, &msg)>0)
         {
@@ -169,7 +168,7 @@ void TextMessageDlg::slotSendTextMessage(const QString& txt_msg)
     }
     else
     {
-        QMessageBox::information(this, tr("Characters limit exceeded"), QString(tr("Your message is too long for %1 characters. Please reduce it and try again.").arg(ba.size()-512)));
+        QMessageBox::information(this, tr("Character limit exceeded"), QString(tr("Your message has exceeded the limit by %1 characters. Please reduce it and try again.").arg(txt_msg.toUtf8().size() - TT_STRLEN + 1)));
     }
 }
 
