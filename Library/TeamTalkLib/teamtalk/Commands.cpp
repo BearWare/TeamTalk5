@@ -148,9 +148,10 @@ namespace teamtalk {
         mstrings_t::const_iterator ite = properties.find(prop);
         if( ite != properties.end() )
         {
-            value = (*ite).second;
-            if(value.length()>MAX_STRING_LENGTH)
-                value.resize(MAX_STRING_LENGTH);
+            if (value.length() > MAX_STRING_LENGTH)
+                value = (*ite).second.substr(0, MAX_STRING_LENGTH);
+            else
+                value = (*ite).second;
             return true;
         }
         else
@@ -375,10 +376,18 @@ namespace teamtalk {
     ACE_TString PrepareString(const ACE_TString& str)
     {
         ACE_TString newstr;
-        if(str.length()>MAX_STRING_LENGTH)
-            newstr = str.substr(0, MAX_STRING_LENGTH);
+
+#if defined(UNICODE)
+        if (UnicodeToUtf8(str.c_str()).length() > MAX_STRING_LENGTH)
+        {
+            ACE_CString utf8 = LimitUtf8(UnicodeToUtf8(str.c_str()), MAX_STRING_LENGTH);
+            newstr = Utf8ToUnicode(utf8.c_str());
+        }
         else
             newstr = str;
+#else
+        newstr = LimitUtf8(str, MAX_STRING_LENGTH);
+#endif /* UNICODE */
 
         replace_all(newstr, ACE_TEXT("\\"), ACE_TEXT("\\\\"));
         replace_all(newstr, ACE_TEXT("\""), ACE_TEXT("\\\""));

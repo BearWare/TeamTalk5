@@ -601,6 +601,25 @@ bool ValidUtf8(const ACE_CString& utf8_str)
     return true;
 }
 
+ACE_CString LimitUtf8(const ACE_CString& utf8_str, size_t maxlen)
+{
+    if (utf8_str.length() <= maxlen)
+        return utf8_str;
+
+    ACE_CString trimmed = utf8_str;
+    auto length = utf8_str.length();
+    while (length > maxlen && length > 0)
+    {
+        auto cp = trimmed.fast_rep() + length;
+        while (--cp >= trimmed.fast_rep() && ((*cp & 0b10000000) && !(*cp & 0b01000000)));
+        length = cp - trimmed.fast_rep();
+    }
+
+    if (length != utf8_str.length())
+        return trimmed.substr(0, length);
+
+    return trimmed;
+}
 
 Profiler::Profiler(const ACE_TCHAR* name, const ACE_TCHAR* file, int line, 
                    bool p_start)
