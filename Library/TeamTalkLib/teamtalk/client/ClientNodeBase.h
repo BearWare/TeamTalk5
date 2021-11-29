@@ -33,6 +33,9 @@
 
 #include <ace/Reactor.h>
 
+#include <condition_variable>
+#include <mutex>
+
 #define TIMERID_MASK            0x0000FFFF
 #define USER_TIMER_START        0x00008000
 #define USER_TIMER_USERID_MASK  0xFFFF0000 // ((userid << 16) | USER_TIMER_START) + TIMERID
@@ -127,6 +130,10 @@ namespace teamtalk {
         ACE_Reactor m_reactor;
         ACE_thread_t m_reactor_thread;
 
+        // sync reactor thread start/stop
+        std::condition_variable m_reactor_wait_cv;
+        std::mutex m_reactor_wait_mtx;
+
         ACE_Recursive_Thread_Mutex m_timers_lock; //mutexes must be the last to be destroyed
 
         //set of timers currently in use. Protected by lock_timers().
@@ -154,7 +161,6 @@ namespace teamtalk {
         void ResumeEventHandling() override;
 
         ACE_Lock& reactor_lock();
-        ACE_Semaphore m_reactor_wait;
 
         // Get reactor running timers
         ACE_Reactor* GetEventLoop() { return reactor(); }

@@ -23,6 +23,7 @@
 
 #include "uservideodlg.h"
 #include "appinfo.h"
+#include "utilui.h"
 
 extern TTInstance* ttInst;
 

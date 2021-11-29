@@ -1115,11 +1115,32 @@
     <property name="title">
      <string>C&amp;lient</string>
     </property>
+    <widget class="QMenu" name="menuSoundConfiguration">
+     <property name="title">
+      <string>S&amp;ound Configuration</string>
+     </property>
+     <widget class="QMenu" name="menuInputDev">
+      <property name="title">
+       <string>&amp;Input Devices</string>
+      </property>
+     </widget>
+     <widget class="QMenu" name="menuOutputDev">
+      <property name="title">
+       <string>&amp;Output Devices</string>
+      </property>
+     </widget>
+     <addaction name="menuInputDev"/>
+     <addaction name="menuOutputDev"/>
+     <addaction name="actionEnableEchoCancel"/>
+     <addaction name="actionEnableAGC"/>
+     <addaction name="actionEnableDenoising"/>
+    </widget>
     <addaction name="actionNewClient"/>
     <addaction name="separator"/>
     <addaction name="actionConnect"/>
     <addaction name="separator"/>
     <addaction name="actionPreferences"/>
+    <addaction name="menuSoundConfiguration"/>
     <addaction name="actionMediaStorage"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
@@ -1360,6 +1381,30 @@
    </property>
    <property name="shortcut">
     <string>F2</string>
+   </property>
+  </action>
+  <action name="actionEnableEchoCancel">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Enable Echo Cancellation</string>
+   </property>
+  </action>
+  <action name="actionEnableAGC">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Enable &amp;Automatic Gain Control</string>
+   </property>
+  </action>
+  <action name="actionEnableDenoising">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Enable &amp;Denoising</string>
    </property>
   </action>
   <action name="actionPreferences">
@@ -2250,7 +2295,6 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="resources.qrc"/>
   <include location="resources.qrc"/>
  </resources>
  <connections/>

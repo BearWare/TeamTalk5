@@ -39,8 +39,6 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.speech.tts.TextToSpeech.EngineInfo;
-import androidx.annotation.LayoutRes;
-import androidx.appcompat.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuInflater;
@@ -48,10 +46,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.LayoutRes;
+import androidx.appcompat.app.AppCompatDelegate;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import dk.bearware.ClientEvent;
-import dk.bearware.SoundLevel;
 import dk.bearware.StreamType;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.User;
@@ -61,8 +62,6 @@ import dk.bearware.backend.TeamTalkConstants;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.Preferences;
 import dk.bearware.data.TTSWrapper;
-
-import java.util.ArrayList;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On handset devices, settings are presented
@@ -258,57 +257,54 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
     /**
      * A preference value change listener that updates the preference's summary to reflect its new value.
      */
-    private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
-        @Override
-        public boolean onPreferenceChange(Preference preference, Object value) {
-            String stringValue = value.toString();
+    private static final Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = (preference, value) -> {
+        String stringValue = value.toString();
 
-            if(preference instanceof ListPreference) {
-                // For list preferences, look up the correct display value in
-                // the preference's 'entries' list.
-                ListPreference listPreference = (ListPreference) preference;
-                int index = listPreference.findIndexOfValue(stringValue);
+        if(preference instanceof ListPreference) {
+            // For list preferences, look up the correct display value in
+            // the preference's 'entries' list.
+            ListPreference listPreference = (ListPreference) preference;
+            int index = listPreference.findIndexOfValue(stringValue);
 
-                // Set the summary to reflect the new value.
-                preference.setSummary(index >= 0
-                    ? listPreference.getEntries()[index] : null);
+            // Set the summary to reflect the new value.
+            preference.setSummary(index >= 0
+                ? listPreference.getEntries()[index] : null);
 
-            }
-            else if(preference instanceof RingtonePreference) {
-                // For ringtone preferences, look up the correct display value
-                // using RingtoneManager.
-                if(TextUtils.isEmpty(stringValue)) {
-                    // Empty values correspond to 'silent' (no ringtone).
+        }
+        else if(preference instanceof RingtonePreference) {
+            // For ringtone preferences, look up the correct display value
+            // using RingtoneManager.
+            if(TextUtils.isEmpty(stringValue)) {
+                // Empty values correspond to 'silent' (no ringtone).
 
-                }
-                else {
-                    Ringtone ringtone = RingtoneManager.getRingtone(
-                        preference.getContext(), Uri.parse(stringValue));
-
-                    if(ringtone == null) {
-                        // Clear the summary if there was a lookup error.
-                        preference.setSummary(null);
-                    }
-                    else {
-                        // Set the summary to reflect the new ringtone display
-                        // name.
-                        String name = ringtone.getTitle(preference.getContext());
-                        preference.setSummary(name);
-                    }
-                }
-
-            }
-            else if (preference instanceof CheckBoxPreference) {
-                if (preference.getKey().equals(Preferences.PREF_GENERAL_BEARWARE_CHECKED)) {
-                }
             }
             else {
-                // For all other preferences, set the summary to the value's
-                // simple string representation.
-                preference.setSummary(stringValue);
+                Ringtone ringtone = RingtoneManager.getRingtone(
+                    preference.getContext(), Uri.parse(stringValue));
+
+                if(ringtone == null) {
+                    // Clear the summary if there was a lookup error.
+                    preference.setSummary(null);
+                }
+                else {
+                    // Set the summary to reflect the new ringtone display
+                    // name.
+                    String name = ringtone.getTitle(preference.getContext());
+                    preference.setSummary(name);
+                }
             }
-            return true;
+
         }
+        else if (preference instanceof CheckBoxPreference) {
+            if (preference.getKey().equals(Preferences.PREF_GENERAL_BEARWARE_CHECKED)) {
+            }
+        }
+        else {
+            // For all other preferences, set the summary to the value's
+            // simple string representation.
+            preference.setSummary(stringValue);
+        }
+        return true;
     };
 
     /**
@@ -397,8 +393,8 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
                 entries.add(info.label);
                 values.add(info.name);
             }
-            enginePrefs.setEntries((CharSequence[]) entries.toArray(new CharSequence[engines.size()]));
-            enginePrefs.setEntryValues((CharSequence[]) values.toArray(new CharSequence[engines.size()]));
+            enginePrefs.setEntries(entries.toArray(new CharSequence[engines.size()]));
+            enginePrefs.setEntryValues(values.toArray(new CharSequence[engines.size()]));
         }
     }
 

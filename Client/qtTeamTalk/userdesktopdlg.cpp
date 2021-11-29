@@ -23,6 +23,7 @@
 
 #include "userdesktopdlg.h"
 #include "appinfo.h"
+#include "utilui.h"
 
 extern TTInstance* ttInst;
 

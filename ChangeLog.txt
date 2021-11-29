@@ -15,11 +15,15 @@ Default Qt Client
 - Status message is triggered if unable to transmit
 - Fixed "Cancel" button not working in "New client instance" dialog
 - Navigating with arrow keys now include status in TTS message on macOS
-- Number of characters in edit field of public and private chat is now indicate as accessible hint
+- Alert when characters limit exceeded for channel and private chat
+- Client-menu now has Sound Configuration submenu to quickly change sound devices
 Android Client
--
+- Gender now announce using accessible hint
+- Notification on text limit exceeded
 iOS Client
--
+- Sound shared with other apps so iTeamTalk can run in background
+- Ability to select stereo inputs in Preferences
+- Notification on text limit exceeded
 Server
 -
 

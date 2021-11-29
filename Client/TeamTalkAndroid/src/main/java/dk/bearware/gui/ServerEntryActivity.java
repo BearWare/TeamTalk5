@@ -23,6 +23,23 @@
 
 package dk.bearware.gui;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.CheckBoxPreference;
+import androidx.preference.EditTextPreference;
+import androidx.preference.Preference;
+import androidx.preference.Preference.OnPreferenceChangeListener;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceFragmentCompat;
+
 import dk.bearware.BannedUser;
 import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
@@ -38,26 +55,6 @@ import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.AppInfo;
 import dk.bearware.data.ServerEntry;
 import dk.bearware.events.CommandListener;
-
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.text.InputType;
-import android.widget.EditText;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.CheckBoxPreference;
-import androidx.preference.EditTextPreference;
-import androidx.preference.EditTextPreference.OnBindEditTextListener;
-import androidx.preference.Preference;
-import androidx.preference.Preference.OnPreferenceChangeListener;
-import androidx.preference.PreferenceCategory;
-import androidx.preference.PreferenceFragmentCompat;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
 
 public class ServerEntryActivity
 extends AppCompatActivity
@@ -211,7 +208,6 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
         return true;
     }
 
-    @SuppressWarnings("deprecation")
     @Deprecated
     ServerEntry getServerEntry() {
         ServerEntry server = new ServerEntry();
@@ -396,12 +392,7 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
 
     public static class ServerPreferencesFragment extends PreferenceFragmentCompat {
 
-        private androidx.preference.EditTextPreference.OnBindEditTextListener onBindEditTextListener = new androidx.preference.EditTextPreference.OnBindEditTextListener() {
-            @Override
-            public void onBindEditText(@NonNull EditText editText) {
-                editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-            }
-        };
+        private final androidx.preference.EditTextPreference.OnBindEditTextListener onBindEditTextListener = editText -> editText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {

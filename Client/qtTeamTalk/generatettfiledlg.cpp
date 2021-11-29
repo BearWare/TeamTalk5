@@ -26,6 +26,7 @@
 #include "keycompdlg.h"
 #include "appinfo.h"
 #include "settings.h"
+#include "utilhotkey.h"
 
 #include <QFileDialog>
 #include <QMessageBox>

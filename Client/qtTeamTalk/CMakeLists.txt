@@ -103,6 +103,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     customvideofmtdlg.h license.h bearwarelogindlg.h
     audiopreprocessordlg.h ttseventsmodel.h
     statusbardlg.h statusbareventsmodel.h mycombobox.h
+    utilsound.h utilvideo.h utiltts.h utilui.h utilhotkey.h
 
     main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp
     channelstree.cpp channeldlg.cpp userinfodlg.cpp
@@ -119,6 +120,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     generatettfiledlg.cpp customvideofmtdlg.cpp
     bearwarelogindlg.cpp audiopreprocessordlg.cpp ttseventsmodel.cpp
     statusbardlg.cpp statusbareventsmodel.cpp mycombobox.cpp
+    utilsound.cpp utilvideo.cpp utiltts.cpp utilui.cpp utilhotkey.cpp
 
     mainwindow.ui channel.ui preferences.ui
     serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui
@@ -281,7 +283,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
           # Build TeamTalk 5 install for macOS with server application
           add_custom_target(QtTeamTalk5WithServerProduct ALL
             # Run code sign
-            COMMAND codesign --deep -f --sign "Apple Distribution: Bjoern Rasmussen" --entitlements ${CMAKE_CURRENT_SOURCE_DIR}/Entitlements.plist ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app
+            COMMAND codesign --deep -f --sign "Apple Distribution: Bjoern Rasmussen" ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app
             # Run productbuild
             COMMAND productbuild --component ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app /Applications --sign "3rd Party Mac Developer Installer: Bjoern Rasmussen" ${TEAMTALK_TARGET}_Setup.pkg
             COMMAND productsign --sign "3rd Party Mac Developer Installer: Bjoern Rasmussen" ${TEAMTALK_TARGET}_Setup.pkg ${TEAMTALK_TARGET}_Setup_Signed.pkg

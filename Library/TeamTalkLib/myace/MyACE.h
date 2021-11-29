@@ -118,6 +118,7 @@ ACE_CString Utf8ToLocal(const char* local, int len = -1);
 #endif
 
 bool ValidUtf8(const ACE_CString& utf8_str);
+ACE_CString LimitUtf8(const ACE_CString& utf8_str, size_t maxlen);
 
 #if !defined(MYTRACE)
 

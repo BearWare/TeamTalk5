@@ -23,6 +23,21 @@
 
 package dk.bearware.gui;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import dk.bearware.Codec;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.VideoCodec;
@@ -30,20 +45,6 @@ import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.Permissions;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import androidx.appcompat.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 public class StreamMediaActivity
 extends AppCompatActivity implements TeamTalkConnectionListener {
@@ -62,7 +63,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
         
         setContentView(R.layout.activity_stream_media);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        file_path = (EditText)this.findViewById(R.id.file_path_txt);
+        file_path = this.findViewById(R.id.file_path_txt);
         file_path.setText(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(lastMedia, ""));
     }
 
@@ -111,39 +112,36 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
     public void onServiceConnected(TeamTalkService service) {
         ttservice = service;
         ttclient = ttservice.getTTInstance();
-        Button browse_btn = (Button)this.findViewById(R.id.media_file_select_btn);
-        Button stream_btn = (Button)this.findViewById(R.id.media_file_stream_btn);
+        Button browse_btn = this.findViewById(R.id.media_file_select_btn);
+        Button stream_btn = this.findViewById(R.id.media_file_stream_btn);
         
-        OnClickListener listener = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch(v.getId()) {
-                    case R.id.media_file_select_btn :
-                        if (Permissions.setupPermission(getBaseContext(), StreamMediaActivity.this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)) {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("*/*");
-                    Intent i = Intent.createChooser(intent, "File");
-                    startActivityForResult(i, REQUEST_STREAM_MEDIA);
-                        }
-                        break;
-                    case R.id.media_file_stream_btn :
-                        String path = file_path.getText().toString();
-                        if(path.isEmpty())
-                            return;
-                        VideoCodec videocodec = new VideoCodec();
-                        videocodec.nCodec = Codec.NO_CODEC;
-                        if (!ttclient.startStreamingMediaFileToChannel(path, videocodec)) {
-                            Toast.makeText(StreamMediaActivity.this,
-                            R.string.err_stream_media,
-                            Toast.LENGTH_LONG).show();
-                        } else {
-                            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
-                            editor.putString(lastMedia, path).apply();
-                            finish();
-                        }
-                        break;
-                }
+        OnClickListener listener = v -> {
+            switch(v.getId()) {
+                case R.id.media_file_select_btn :
+                    if (Permissions.setupPermission(getBaseContext(), StreamMediaActivity.this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("*/*");
+                Intent i = Intent.createChooser(intent, "File");
+                startActivityForResult(i, REQUEST_STREAM_MEDIA);
+                    }
+                    break;
+                case R.id.media_file_stream_btn :
+                    String path = file_path.getText().toString();
+                    if(path.isEmpty())
+                        return;
+                    VideoCodec videocodec = new VideoCodec();
+                    videocodec.nCodec = Codec.NO_CODEC;
+                    if (!ttclient.startStreamingMediaFileToChannel(path, videocodec)) {
+                        Toast.makeText(StreamMediaActivity.this,
+                        R.string.err_stream_media,
+                        Toast.LENGTH_LONG).show();
+                    } else {
+                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
+                        editor.putString(lastMedia, path).apply();
+                        finish();
+                    }
+                    break;
             }
         };
         

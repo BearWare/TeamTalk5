@@ -33,6 +33,9 @@
 #include <QNetworkAccessManager>
 
 #include "common.h"
+#include "utilsound.h"
+#include "utilui.h"
+#include "utilhotkey.h"
 
 #if defined(Q_OS_WIN32)
 #define USE_POLL 0
@@ -279,6 +282,8 @@ private:
     void slotClientNewInstance(bool checked=false);
     void slotClientConnect(bool checked=false);
     void slotClientPreferences(bool checked=false);
+    void slotClientSoundDevices();
+    void slotClientAudioEffect();
     void slotClientExit(bool checked=false);
 
     void slotMeChangeNickname(bool checked=false);

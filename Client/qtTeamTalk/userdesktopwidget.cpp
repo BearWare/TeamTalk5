@@ -22,11 +22,13 @@
  */
 
 #include "userdesktopwidget.h"
+
 #include <QPaintEngine>
 #include <QMouseEvent>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QMenu>
+#include <QDebug>
 
 #include "common.h" //need to include Carbon.h
 

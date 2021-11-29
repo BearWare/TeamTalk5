@@ -38,7 +38,6 @@ using namespace teamtalk;
 
 ClientNodeBase::ClientNodeBase()
     : m_reactor(new ACE_Select_Reactor(), true) //Ensure we don't use ACE_WFMO_Reactor!!!
-    , m_reactor_wait(0)
     , m_reactor_thread(INVALID_THREAD_ID)
 {
     this->reactor(&m_reactor);
@@ -51,11 +50,15 @@ ClientNodeBase::~ClientNodeBase()
 
 int ClientNodeBase::svc(void)
 {
+    {
+        // ensure .wait() is called prior to .notify_all()
+        std::unique_lock<std::mutex> lck(m_reactor_wait_mtx);
+    }
+    m_reactor_wait_cv.notify_all();
+
     m_reactor_thread = ACE_OS::thr_self();
     int ret = m_reactor.owner (ACE_OS::thr_self());
     assert(ret >= 0);
-
-    m_reactor_wait.release();
 
     m_reactor.run_reactor_event_loop ();
 
@@ -99,11 +102,13 @@ void ClientNodeBase::ResumeEventHandling()
     assert(m_reactor_thread == INVALID_THREAD_ID);
 
     m_reactor.reset_reactor_event_loop();
+
+    std::unique_lock<std::mutex> lck(m_reactor_wait_mtx);
     int ret = this->activate();
     assert(ret >= 0);
 
-    ret = m_reactor_wait.acquire();
-    MYTRACE_COND(ret < 0, ACE_TEXT("Failed to wait for thread start in ClientNodeBase\n"));
+    if (ret >= 0)
+        m_reactor_wait_cv.wait(lck);
 
     MYTRACE( (ACE_TEXT("ClientNodeBase reactor thread activated.\n")) );
 }

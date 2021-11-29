@@ -233,10 +233,10 @@
 "has left the channel" = "a quitté le canal";
 
 /* TTS EVENT */
-"has logged on" = "s'est connecté au serveur";
+"has logged on" = "s'est connecté";
 
 /* TTS EVENT */
-"has logged out" = "s'est déconnecté du serveur";
+"has logged out" = "s'est déconnecté";
 
 /* preferences */
 "Headset TX Toggle" = "Bascule de la transmission par le casque";

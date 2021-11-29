@@ -24,7 +24,11 @@
 #include "textmessagedlg.h"
 #include "appinfo.h"
 #include "settings.h"
+#include "utilsound.h"
+#include "utiltts.h"
+
 #include <QDebug>
+#include <QMessageBox>
 
 #define LOCAL_TYPING_DELAY  5000
 #define REMOTE_TYPING_DELAY 10000
@@ -149,14 +153,22 @@ void TextMessageDlg::slotSendTextMessage(const QString& txt_msg)
     msg.nMsgType = MSGTYPE_USER;
     msg.nToUserID = m_userid;
     COPY_TTSTR(msg.szMessage, txt_msg);
-    if(TT_DoTextMessage(ttInst, &msg)>0)
+
+    if (txt_msg.toUtf8().size() < TT_STRLEN)
     {
-        ui.newmsgTextEdit->setPlainText("");
-        newMsg(msg, true);
-        emit(newMyselfTextMessage(msg));
-        playSoundEvent(SOUNDEVENT_USERMSGSENT);
-        addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_SEND, tr("Private message sent: %1").arg(msg.szMessage));
-        m_textchanged = false;
+        if(TT_DoTextMessage(ttInst, &msg)>0)
+        {
+            ui.newmsgTextEdit->setPlainText("");
+            newMsg(msg, true);
+            emit(newMyselfTextMessage(msg));
+            playSoundEvent(SOUNDEVENT_USERMSGSENT);
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_SEND, tr("Private message sent: %1").arg(msg.szMessage));
+            m_textchanged = false;
+        }
+    }
+    else
+    {
+        QMessageBox::information(this, tr("Character limit exceeded"), QString(tr("Your message has exceeded the limit by %1 characters. Please reduce it and try again.").arg(txt_msg.toUtf8().size() - TT_STRLEN + 1)));
     }
 }
 
@@ -164,7 +176,6 @@ void TextMessageDlg::slotTextChanged()
 {
     ui.sendButton->setEnabled(ui.newmsgTextEdit->toPlainText().size()>0);
     m_textchanged = true;
-    (ui.newmsgTextEdit->toPlainText().size()>0 ? ui.newmsgTextEdit->setAccessibleName(QString(tr("New message (%1 of 512 characters)").arg(ui.newmsgTextEdit->toPlainText().size()))) : ui.newmsgTextEdit->setAccessibleName(tr("New message")));
 }
 
 void TextMessageDlg::newMsg(const MyTextMessage& msg, bool store)

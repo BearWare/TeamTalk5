@@ -22,6 +22,7 @@
  */
 
 #include "uservideowidget.h"
+#include "utilui.h"
 #include "settings.h"
 
 #include <QPaintEngine>
