@@ -1005,9 +1005,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vC1-lW-BtX">
-                                            <rect key="frame" x="-1" y="-2" width="375" height="43"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vC1-lW-BtX">
+                                            <rect key="frame" x="1" y="2" width="373" height="39"/>
                                             <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <state key="normal" title="Delete Channel">
                                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1017,6 +1016,12 @@
                                             </connections>
                                         </button>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="vC1-lW-BtX" secondAttribute="bottom" constant="3" id="1CH-iK-rN4"/>
+                                        <constraint firstItem="vC1-lW-BtX" firstAttribute="leading" secondItem="QUb-LS-zQ2" secondAttribute="leading" constant="1" id="AxF-4T-j0k"/>
+                                        <constraint firstItem="vC1-lW-BtX" firstAttribute="top" secondItem="QUb-LS-zQ2" secondAttribute="top" constant="2" id="H4H-vY-MUP"/>
+                                        <constraint firstAttribute="trailing" secondItem="vC1-lW-BtX" secondAttribute="trailing" constant="1" id="iz8-dj-Y5B"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Blank" id="nO2-b1-1ud">
@@ -1034,9 +1039,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l6D-Hs-MdG">
-                                            <rect key="frame" x="-1" y="-1" width="375" height="44"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l6D-Hs-MdG">
+                                            <rect key="frame" x="1" y="1" width="373" height="42"/>
                                             <state key="normal" title="Join Channel">
                                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
@@ -1045,6 +1049,12 @@
                                             </connections>
                                         </button>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="l6D-Hs-MdG" secondAttribute="trailing" constant="1" id="NvK-Tj-maM"/>
+                                        <constraint firstItem="l6D-Hs-MdG" firstAttribute="leading" secondItem="SMf-kD-MEb" secondAttribute="leading" constant="1" id="Xt1-xK-Kjk"/>
+                                        <constraint firstAttribute="bottom" secondItem="l6D-Hs-MdG" secondAttribute="bottom" constant="1" id="gJN-2M-eA7"/>
+                                        <constraint firstItem="l6D-Hs-MdG" firstAttribute="top" secondItem="SMf-kD-MEb" secondAttribute="top" constant="1" id="gop-fB-nvO"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
