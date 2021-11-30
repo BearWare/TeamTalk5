@@ -24,9 +24,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m1N-Js-NXn">
-                                            <rect key="frame" x="-1" y="-1" width="376" height="42"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m1N-Js-NXn">
+                                            <rect key="frame" x="1" y="1" width="374" height="40"/>
                                             <state key="normal" title="Delete Server">
                                                 <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -36,6 +35,12 @@
                                             </connections>
                                         </button>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="m1N-Js-NXn" firstAttribute="top" secondItem="UDD-w0-nJz" secondAttribute="top" constant="1" id="0d3-vk-97d"/>
+                                        <constraint firstItem="m1N-Js-NXn" firstAttribute="leading" secondItem="UDD-w0-nJz" secondAttribute="leading" constant="1" id="7r2-Sj-SQl"/>
+                                        <constraint firstAttribute="trailing" secondItem="m1N-Js-NXn" secondAttribute="trailing" id="ORx-0o-l62"/>
+                                        <constraint firstAttribute="bottom" secondItem="m1N-Js-NXn" secondAttribute="bottom" constant="3" id="V7h-zY-siq"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Connect Server" id="HCU-Q2-Cyd">
@@ -45,15 +50,20 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bDf-Jp-1l5">
-                                            <rect key="frame" x="-1" y="-1" width="376" height="42"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bDf-Jp-1l5">
+                                            <rect key="frame" x="1" y="1" width="374" height="40"/>
                                             <state key="normal" title="Connect"/>
                                             <connections>
                                                 <segue destination="07s-AR-tvQ" kind="push" identifier="Connect From ServerDetail" id="hrX-id-JTw"/>
                                             </connections>
                                         </button>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="bDf-Jp-1l5" firstAttribute="leading" secondItem="chO-lU-TOp" secondAttribute="leading" constant="1" id="53X-gj-If7"/>
+                                        <constraint firstItem="bDf-Jp-1l5" firstAttribute="top" secondItem="chO-lU-TOp" secondAttribute="top" constant="1" id="MWm-63-CW1"/>
+                                        <constraint firstAttribute="bottom" secondItem="bDf-Jp-1l5" secondAttribute="bottom" constant="3" id="YWd-k2-N3P"/>
+                                        <constraint firstAttribute="trailing" secondItem="bDf-Jp-1l5" secondAttribute="trailing" id="eTU-bg-Syb"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -1228,7 +1238,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="ROh-EA-fdo"/>
-        <segue reference="k1y-JH-Jxd"/>
+        <segue reference="hrX-id-JTw"/>
         <segue reference="7vJ-1u-pQB"/>
         <segue reference="MXJ-jt-JpB"/>
     </inferredMetricsTieBreakers>
