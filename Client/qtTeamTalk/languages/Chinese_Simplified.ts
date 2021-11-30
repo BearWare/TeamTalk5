@@ -2906,10 +2906,6 @@ p, li { white-space: pre-wrap; }
         <translation>刷新声音设备(amp;R)</translation>
     </message>
     <message>
-        <source>Message (%1 of 512 characters)</source>
-        <translation type="vanished">消息 (%1 / 512 字符)</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="759"/>
         <location filename="../mainwindow.cpp" line="784"/>
         <location filename="../mainwindow.cpp" line="2453"/>
@@ -3334,12 +3330,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="5657"/>
         <source>Character limit exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>超出字符限制</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5657"/>
         <source>Your message has exceeded the limit by %1 characters. Please reduce it and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>您的消息已超出限制 %1 个字符，请减少内容并重试。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5883"/>
@@ -6356,18 +6352,14 @@ Should these settings be applied?</source>
         <translation>私人消息： 我： %1</translation>
     </message>
     <message>
-        <source>New message (%1 of 512 characters)</source>
-        <translation type="vanished">新消息 (%1 / 512 字符)</translation>
-    </message>
-    <message>
         <location filename="../textmessagedlg.cpp" line="171"/>
         <source>Character limit exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>超出字符限制</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="171"/>
         <source>Your message has exceeded the limit by %1 characters. Please reduce it and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>您的消息已超出限制 %1 个字符，请减少内容并重试。</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="210"/>
