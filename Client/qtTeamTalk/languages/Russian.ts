@@ -3552,7 +3552,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="3938"/>
         <source>No Sound Device</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Нет Звукового Устройства</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3964"/>
@@ -3681,7 +3681,6 @@ You can download it on the page below:<byte value="xd"/>
         <translation>&amp;Рабочие столы (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6568"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
         <translation type="obsolete">Файл %1 содержит установочную информацию %2.
@@ -3864,13 +3863,12 @@ Should these settings be applied?</source>
         <translation>Загрузка Файла %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6568"/>
+        <location filename="../mainwindow.cpp" line="6593"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6593"/>
         <source>New version available: %1</source>
         <translation type="vanished">Доступна новая версия: %1</translation>
     </message>
@@ -4090,109 +4088,86 @@ Should these settings be applied?</source>
 <context>
     <name>PreferencesDlg</name>
     <message>
-        <location filename="../OldPref/preferences.ui" line="14"/>
         <location filename="../preferences.ui" line="14"/>
         <source>Preferences</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="36"/>
         <location filename="../preferences.ui" line="36"/>
         <source>General</source>
         <translation>Общие</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="42"/>
         <location filename="../preferences.ui" line="42"/>
         <source>User Settings</source>
         <translation>Настройки Пользователя</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="50"/>
         <location filename="../preferences.ui" line="50"/>
         <source>Nickname</source>
         <translation>Ник</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="83"/>
         <location filename="../preferences.ui" line="83"/>
         <source>Gender</source>
         <translation>Пол</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="115"/>
         <location filename="../preferences.ui" line="115"/>
         <source>Male</source>
         <translation>Мужской</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="125"/>
         <location filename="../preferences.ui" line="125"/>
         <source>Female</source>
         <translation>Женский</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="206"/>
         <location filename="../preferences.ui" line="206"/>
         <source>BearWare.dk Web Login ID</source>
         <translation>Id BearWare.dk для веб-входа</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="223"/>
         <location filename="../preferences.ui" line="223"/>
         <source>&amp;Activate</source>
         <translation>&amp;Активировать</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="156"/>
         <location filename="../preferences.ui" line="156"/>
         <source>Set away status after</source>
         <translation>Установить состояние отсутствия после</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="132"/>
         <location filename="../preferences.ui" line="132"/>
         <source>Neutral</source>
         <translation>Нейтральный</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="173"/>
         <location filename="../preferences.ui" line="173"/>
         <source>seconds of inactivity (0 means disabled)</source>
         <translation>секунд бездействия (0 означает запрещено)</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="198"/>
         <location filename="../preferences.ui" line="198"/>
         <source>BearWare.dk Web Login</source>
         <translation>BearWare.dk Web Login</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="245"/>
         <location filename="../preferences.ui" line="245"/>
         <source>Restore volume settings and subscriptions on login for Web Login users</source>
         <translation>Восстановление настроек громкости и подписок при входе в систему для пользователей веб-входа</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="255"/>
         <location filename="../preferences.ui" line="255"/>
         <source>Voice Transmission Mode</source>
         <translation>Режим Передачи Голоса</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="267"/>
         <location filename="../preferences.ui" line="267"/>
         <source>Push To Talk</source>
         <translation>Нажми Чтобы Сказать</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="274"/>
-        <location filename="../OldPref/preferences.ui" line="2147"/>
-        <location filename="../OldPref/preferences.ui" line="2174"/>
-        <location filename="../OldPref/preferences.ui" line="2201"/>
-        <location filename="../OldPref/preferences.ui" line="2228"/>
-        <location filename="../OldPref/preferences.ui" line="2255"/>
-        <location filename="../OldPref/preferences.ui" line="2282"/>
         <location filename="../preferences.ui" line="274"/>
         <location filename="../preferences.ui" line="2246"/>
         <location filename="../preferences.ui" line="2273"/>
@@ -4204,132 +4179,110 @@ Should these settings be applied?</source>
         <translation>&amp;Установка Клавиш</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="281"/>
         <location filename="../preferences.ui" line="281"/>
         <source>Key Combination</source>
         <translation>Комбинация Клавиш</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="298"/>
         <location filename="../preferences.ui" line="308"/>
         <source>Voice activated</source>
         <translation>Голосовая активация</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="322"/>
         <location filename="../preferences.ui" line="332"/>
         <source>Display</source>
         <translation>Отображение</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="328"/>
         <location filename="../preferences.ui" line="338"/>
         <source>User Interface Settings</source>
         <translation>Настройки Пользовательского Интерфейса</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="340"/>
         <location filename="../preferences.ui" line="350"/>
         <source>User interface language</source>
         <translation>Язык Пользовательского Интерфейса</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="355"/>
         <location filename="../preferences.ui" line="365"/>
         <source>Start minimized</source>
         <translation>Запускать Свёрнутым</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="362"/>
         <location filename="../preferences.ui" line="372"/>
         <source>Minimize to tray icon</source>
         <translation>Свернуть в значок лотка</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="369"/>
         <location filename="../preferences.ui" line="379"/>
         <source>&amp;Always on top</source>
         <translation>&amp;Поверх всех окон</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="376"/>
         <location filename="../preferences.ui" line="386"/>
         <source>Enable VU-meter updates</source>
         <translation>Включить обновление индекаторов громкости</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="383"/>
         <location filename="../preferences.ui" line="393"/>
         <source>Show number of users in channel</source>
         <translation>Показывать количество пользователей в канале</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="390"/>
         <location filename="../preferences.ui" line="400"/>
         <source>Show username instead of nickname</source>
         <translation>Показывать имя пользователя вместо ника</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="397"/>
         <location filename="../preferences.ui" line="407"/>
         <source>Show last to talk in yellow</source>
         <translation>Показать последний разговор в желтом цвете</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="404"/>
         <location filename="../preferences.ui" line="414"/>
         <source>Show emojis and text for channel/user state</source>
         <translation>Показывать смайлики и текст для канала/состояния пользователя</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="411"/>
         <location filename="../preferences.ui" line="421"/>
         <source>Show both server and channel name in window title</source>
         <translation>Показывать как имя сервера, так и имя канала в заголовке окна</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="418"/>
         <location filename="../preferences.ui" line="428"/>
         <source>Popup dialog when receiving text message</source>
         <translation>Всплывающий диалог при приёме текстового сообщения</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="425"/>
         <location filename="../preferences.ui" line="435"/>
         <source>Start video in popup dialog</source>
         <translation>Запускать видео во всплывающем диалоге</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="432"/>
         <location filename="../preferences.ui" line="442"/>
         <source>Closed video dialog should return to video-tab</source>
         <translation>Закрытие диалога видео возвращает к видео-вкладке</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="456"/>
         <location filename="../preferences.ui" line="479"/>
         <source>Start desktops in popup dialog</source>
         <translation>Запуск рабочих столов во всплывающем диалоге</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="463"/>
         <location filename="../preferences.ui" line="486"/>
         <source>Timestamp text messages</source>
         <translation>Отметка времени в текстовых сообщениях</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="486"/>
         <location filename="../preferences.ui" line="550"/>
         <source>Show statusbar events in chat-window</source>
         <translation>Показывать строку состояния событий в окне чата</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="470"/>
         <source>Check for program updates at startup</source>
-        <translation>Проверять обновления программы при запуске</translation>
+        <translation type="vanished">Проверять обновления программы при запуске</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="523"/>
         <location filename="../preferences.ui" line="587"/>
         <source>Show source in corner of video window</source>
         <translation>Показывать источник вуглу окна видео</translation>
@@ -4339,206 +4292,168 @@ Should these settings be applied?</source>
         <translation type="vanished">...</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="557"/>
         <location filename="../preferences.ui" line="621"/>
         <source>Maximum text length in channel list</source>
         <translation>Максимальная длина текста в списке каналов</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="632"/>
         <location filename="../preferences.ui" line="717"/>
         <source>Connection</source>
         <translation>Соединение</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="638"/>
         <location filename="../preferences.ui" line="723"/>
         <source>Client Connection</source>
         <translation>Соединение Клиента</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="644"/>
         <location filename="../preferences.ui" line="729"/>
         <source>Connect to latest host on startup</source>
         <translation>Соединяться с последним хостом при запуске</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="651"/>
         <location filename="../preferences.ui" line="736"/>
         <source>Reconnect on connection dropped</source>
         <translation>Пересоединяться при потере связи</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="658"/>
         <location filename="../preferences.ui" line="743"/>
         <source>Join root channel upon connection</source>
         <translation>Присоединяться к корневому каналу при подключении</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="665"/>
         <location filename="../preferences.ui" line="750"/>
         <source>Query server&apos;s maximum payload upon connection</source>
         <translation>Запрос Максимальной полезной нагрузки сервера при соединении</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="672"/>
         <location filename="../preferences.ui" line="757"/>
         <source>Add application to Windows Firewall exceptions list</source>
         <translation>Добавить приложение в список исключений брандмауэра Windows</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="679"/>
-        <location filename="../OldPref/preferences.ui" line="682"/>
         <location filename="../preferences.ui" line="764"/>
         <location filename="../preferences.ui" line="767"/>
         <source>Default Subscriptions upon Connection</source>
         <translation>Подписки по умолчанию  при соединении</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="690"/>
         <location filename="../preferences.ui" line="775"/>
         <source>User Messages</source>
         <translation>Сообщения Пользователя</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="697"/>
         <location filename="../preferences.ui" line="782"/>
         <source>Channel Messages</source>
         <translation>Сообщения Канала</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="704"/>
         <location filename="../preferences.ui" line="789"/>
         <source>Broadcast Messages</source>
         <translation>Сообщения Трансляции</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="711"/>
-        <location filename="../OldPref/preferences.ui" line="2011"/>
         <location filename="../preferences.ui" line="796"/>
         <location filename="../preferences.ui" line="2096"/>
         <source>Voice</source>
         <translation>Голос</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="718"/>
-        <location filename="../OldPref/preferences.ui" line="2334"/>
         <location filename="../preferences.ui" line="803"/>
         <location filename="../preferences.ui" line="2433"/>
         <source>Video Capture</source>
         <translation>Захват Видео</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="725"/>
         <location filename="../preferences.ui" line="810"/>
         <source>Desktop</source>
         <translation>Рабочий стол</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="737"/>
         <location filename="../preferences.ui" line="822"/>
         <source>Desktop Access</source>
         <translation>Доступ к Рабочему столу</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="759"/>
         <location filename="../preferences.ui" line="844"/>
         <source>Media Files</source>
         <translation>Медиа Файлы</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="784"/>
-        <location filename="../OldPref/preferences.ui" line="787"/>
         <location filename="../preferences.ui" line="869"/>
         <location filename="../preferences.ui" line="872"/>
         <source>Local Socket Settings</source>
         <translation>Настройки Локальных Сокетов</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="793"/>
         <location filename="../preferences.ui" line="878"/>
         <source>TCP port</source>
         <translation>TCP порт</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="803"/>
-        <location filename="../OldPref/preferences.ui" line="820"/>
         <location filename="../preferences.ui" line="888"/>
         <location filename="../preferences.ui" line="905"/>
         <source>Default: 0</source>
         <translation>По умолчанию: 0</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="810"/>
         <location filename="../preferences.ui" line="895"/>
         <source>UDP port</source>
         <translation>UDP порт</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="893"/>
         <location filename="../preferences.ui" line="978"/>
         <location filename="../preferencesdlg.cpp" line="978"/>
         <source>Sound System</source>
         <translation>Звуковая Система</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="899"/>
         <location filename="../preferences.ui" line="984"/>
         <source>Sound System Settings</source>
         <translation>Настройки Звуковой Системы</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="920"/>
         <location filename="../preferences.ui" line="1005"/>
         <source>Windows Audio Session</source>
         <translation>Windows Audio Session</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="927"/>
         <location filename="../preferences.ui" line="1012"/>
         <source>DirectSound</source>
         <translation>Звук DirectX</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="934"/>
         <location filename="../preferences.ui" line="1019"/>
         <source>Windows Standard</source>
         <translation>Стандарт Windows</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="941"/>
         <location filename="../preferences.ui" line="1026"/>
         <source>ALSA</source>
         <translation>ALSA</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="948"/>
         <location filename="../preferences.ui" line="1033"/>
         <source>CoreAudio</source>
         <translation>CoreAudio</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="972"/>
         <location filename="../preferences.ui" line="1057"/>
         <source>Input device</source>
         <translation>Входное устройство</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1015"/>
         <location filename="../preferences.ui" line="1100"/>
         <source>Output device</source>
         <translation>Выходное устройство</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="985"/>
-        <location filename="../OldPref/preferences.ui" line="1028"/>
         <location filename="../preferences.ui" line="1070"/>
         <location filename="../preferences.ui" line="1113"/>
         <source>Refresh devices</source>
         <translation>Обновить устройства</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1072"/>
         <location filename="../preferences.ui" line="1157"/>
         <source>&amp;Test Selected</source>
         <translation>&amp;Тестировать Выбранное</translation>
@@ -4548,116 +4463,73 @@ Should these settings be applied?</source>
         <translation type="vanished">Разрешить дуплексный режим (рекомендуется для эхоподавления)</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1097"/>
         <location filename="../preferences.ui" line="1182"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
         <translation>Разрешить  эхоподавление (убрать эхо из динамиков)</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1104"/>
         <location filename="../preferences.ui" line="1189"/>
         <source>Enable automatic gain control (microphone level adjusted automatically)</source>
         <translation>Разрешить автоматическую регулировку усиления (уровень микрофона настраивается автоматически)</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1111"/>
         <location filename="../preferences.ui" line="1196"/>
         <source>Enable denoising (suppress noise from microphone)</source>
         <translation>Разрешить шумоподавление (подавить шум от микрофона)</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1120"/>
         <location filename="../preferences.ui" line="1205"/>
         <source>Media file vs. voice volume</source>
         <translation>Громкость медиа файла относительно голоса</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1157"/>
-        <location filename="../OldPref/preferences.ui" line="2624"/>
         <location filename="../preferences.ui" line="1242"/>
         <location filename="../preferences.ui" line="2723"/>
         <source>&amp;Default</source>
         <translation>&amp;По умолчанию</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1183"/>
-        <location filename="../OldPref/preferences.ui" line="1189"/>
         <location filename="../preferences.ui" line="1268"/>
         <location filename="../preferences.ui" line="1274"/>
         <source>Sound Events</source>
         <translation>Звуковые События</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1396"/>
         <location filename="../preferences.ui" line="1481"/>
         <source>New broadcast message</source>
         <translation>Новое сетевое сообщение</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1229"/>
         <location filename="../preferences.ui" line="1314"/>
         <source>New user</source>
         <translation>Новый Пользователь</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="477"/>
         <location filename="../preferences.ui" line="676"/>
         <source>Show new version available in dialog box</source>
         <translation>Показывать диалог о доступной новой версии</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="493"/>
         <location filename="../preferences.ui" line="557"/>
         <source>Configure events</source>
         <translation>Настройка событий</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="530"/>
         <location filename="../preferences.ui" line="594"/>
         <source>Video window settings</source>
         <translation>Настройки видеоокна</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="747"/>
         <location filename="../preferences.ui" line="832"/>
         <source>Configure trusted list</source>
         <translation>Настройка списка доверенных лиц</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1197"/>
         <location filename="../preferences.ui" line="1282"/>
         <source>Sounds pack</source>
         <translation>Звуковой покет</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1248"/>
-        <location filename="../OldPref/preferences.ui" line="1271"/>
-        <location filename="../OldPref/preferences.ui" line="1294"/>
-        <location filename="../OldPref/preferences.ui" line="1317"/>
-        <location filename="../OldPref/preferences.ui" line="1340"/>
-        <location filename="../OldPref/preferences.ui" line="1363"/>
-        <location filename="../OldPref/preferences.ui" line="1386"/>
-        <location filename="../OldPref/preferences.ui" line="1409"/>
-        <location filename="../OldPref/preferences.ui" line="1432"/>
-        <location filename="../OldPref/preferences.ui" line="1455"/>
-        <location filename="../OldPref/preferences.ui" line="1478"/>
-        <location filename="../OldPref/preferences.ui" line="1501"/>
-        <location filename="../OldPref/preferences.ui" line="1524"/>
-        <location filename="../OldPref/preferences.ui" line="1547"/>
-        <location filename="../OldPref/preferences.ui" line="1574"/>
-        <location filename="../OldPref/preferences.ui" line="1597"/>
-        <location filename="../OldPref/preferences.ui" line="1620"/>
-        <location filename="../OldPref/preferences.ui" line="1643"/>
-        <location filename="../OldPref/preferences.ui" line="1666"/>
-        <location filename="../OldPref/preferences.ui" line="1689"/>
-        <location filename="../OldPref/preferences.ui" line="1712"/>
-        <location filename="../OldPref/preferences.ui" line="1735"/>
-        <location filename="../OldPref/preferences.ui" line="1758"/>
-        <location filename="../OldPref/preferences.ui" line="1781"/>
-        <location filename="../OldPref/preferences.ui" line="1804"/>
-        <location filename="../OldPref/preferences.ui" line="1827"/>
-        <location filename="../OldPref/preferences.ui" line="1850"/>
-        <location filename="../OldPref/preferences.ui" line="1873"/>
         <location filename="../preferences.ui" line="1333"/>
         <location filename="../preferences.ui" line="1356"/>
         <location filename="../preferences.ui" line="1379"/>
@@ -4690,358 +4562,298 @@ Should these settings be applied?</source>
         <translation>Обзор</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1258"/>
         <location filename="../preferences.ui" line="1343"/>
         <source>User removed</source>
         <translation>Пользователь убран</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1281"/>
         <location filename="../preferences.ui" line="1366"/>
         <source>Server lost</source>
         <translation>Потеря сервера</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1304"/>
         <location filename="../preferences.ui" line="1389"/>
         <source>New user message</source>
         <translation>Новое сообщение пользователя</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1327"/>
         <location filename="../preferences.ui" line="1412"/>
         <source>Private message sent</source>
         <translation>Личное сообщение отправлено</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1350"/>
         <location filename="../preferences.ui" line="1435"/>
         <source>New channel message</source>
         <translation>Новое сообщение канала</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1373"/>
         <location filename="../preferences.ui" line="1458"/>
         <source>Channel message sent</source>
         <translation>Сообщение канала отправлено</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1419"/>
         <location filename="../preferences.ui" line="1504"/>
         <source>Hotkey pressed</source>
         <translation>Горячая клавиша нажата</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1442"/>
         <location filename="../preferences.ui" line="1527"/>
         <source>Channel silent</source>
         <translation>Тихий канал</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1465"/>
         <location filename="../preferences.ui" line="1550"/>
         <source>Files updated</source>
         <translation>Файлы обновлены</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1488"/>
         <location filename="../preferences.ui" line="1573"/>
         <source>File transfer complete</source>
         <translation>Передача файлов завершена</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1511"/>
         <location filename="../preferences.ui" line="1596"/>
         <source>New video session</source>
         <translation>Новая сессия видео</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1534"/>
         <location filename="../preferences.ui" line="1619"/>
         <source>New desktop session</source>
         <translation>Новая сессия рабочего стола</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1561"/>
         <location filename="../preferences.ui" line="1646"/>
         <source>User entered question-mode</source>
         <translation>Пользователь вошёл в режим запроса</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1584"/>
         <location filename="../preferences.ui" line="1669"/>
         <source>Desktop access request</source>
         <translation>Запрос доступа к рабочему столу</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1607"/>
         <location filename="../preferences.ui" line="1692"/>
         <source>User logged in</source>
         <translation>Пользователь вошёл</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1630"/>
         <location filename="../preferences.ui" line="1715"/>
         <source>User logged out</source>
         <translation>Пользователь ушёл</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1653"/>
         <location filename="../preferences.ui" line="1738"/>
         <source>Voice activation enabled</source>
         <translation>Включена голосовая активация</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1676"/>
         <location filename="../preferences.ui" line="1761"/>
         <source>Voice activation disabled</source>
         <translation>Голосовая активация отключена</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1699"/>
         <location filename="../preferences.ui" line="1784"/>
         <source>Mute master volume</source>
         <translation>Основная громкость отключена</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1722"/>
         <location filename="../preferences.ui" line="1807"/>
         <source>Unmute master volume</source>
         <translation>Основная громкость включена</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1745"/>
         <location filename="../preferences.ui" line="1830"/>
         <source>Transmit ready in &quot;No interruption&quot; channel</source>
         <translation>Передача разрешена в канале &quot;Без прерывания&quot;</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1768"/>
         <location filename="../preferences.ui" line="1853"/>
         <source>Transmit stopped in &quot;No interruption&quot; channel</source>
         <translation>Передача остановлена в канале &quot;Без прерывания&quot;</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1791"/>
         <location filename="../preferences.ui" line="1876"/>
         <source>Voice activation triggered</source>
         <translation>Работает голосовая активация</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1814"/>
         <location filename="../preferences.ui" line="1899"/>
         <source>Voice activation stopped</source>
         <translation>Голосовая активация остановлена</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1837"/>
         <location filename="../preferences.ui" line="1922"/>
         <source>Voice activation enabled via &quot;Me&quot; menu</source>
         <translation>Голосовая активация включена через меню &quot;Мне</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1860"/>
         <location filename="../preferences.ui" line="1945"/>
         <source>Voice activation disabled via &quot;Me&quot; menu</source>
         <translation>Голосовая активация отключена через меню &quot;Мне&quot;</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1904"/>
         <location filename="../preferences.ui" line="1989"/>
         <source>Text To Speech</source>
         <translation>Преобразование Текста В Речь</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1910"/>
         <location filename="../preferences.ui" line="1995"/>
         <source>Enable/disable Text to Speech Events</source>
         <translation>Включение/отключение событий преобразования текста в речь</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1940"/>
         <location filename="../preferences.ui" line="2025"/>
         <source>Enable &amp;all</source>
         <translation>включить &amp;всё</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1960"/>
         <location filename="../preferences.ui" line="2045"/>
         <source>C&amp;lear all</source>
         <translation>о&amp;чистить всё</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1980"/>
         <location filename="../preferences.ui" line="2065"/>
         <source>&amp;Revert</source>
         <translation>&amp;Вернуть</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1992"/>
         <location filename="../preferences.ui" line="2077"/>
         <source>Text to Speech Preferences</source>
         <translation>Настройки преобразования текста в речь</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1998"/>
         <location filename="../preferences.ui" line="2083"/>
         <source>Text to Speech Engine</source>
         <translation>Движок преобразования текста в речь</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2024"/>
         <location filename="../preferences.ui" line="2109"/>
         <source>Voice rate</source>
         <translation>Скорость голоса</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2050"/>
         <location filename="../preferences.ui" line="2135"/>
         <source>Voice volume</source>
         <translation>Громкость голоса</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2076"/>
         <location filename="../preferences.ui" line="2161"/>
         <source>Display duration of notifications</source>
         <translation>Отображение продолжающихся  уведомлений</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2099"/>
         <location filename="../preferences.ui" line="2191"/>
         <source>Use SAPI instead of current screenreader</source>
         <translation>Используйте SAPI вместо текущего средства чтения с экрана</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2116"/>
         <location filename="../preferences.ui" line="2215"/>
         <source>Shortcuts</source>
         <translation>Горячие клавиши</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2122"/>
         <location filename="../preferences.ui" line="2221"/>
         <source>Keyboard Shortcuts</source>
         <translation>Сочетания клавиш</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2130"/>
         <location filename="../preferences.ui" line="2229"/>
         <source>Enable/disable voice activation</source>
         <translation>Разрешить/запретить голосовую активацию</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2157"/>
         <location filename="../preferences.ui" line="2256"/>
         <source>Increase volume</source>
         <translation>Увеличить громкость</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2184"/>
         <location filename="../preferences.ui" line="2283"/>
         <source>Lower volume</source>
         <translation>Уменьшить громкость</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2211"/>
         <location filename="../preferences.ui" line="2310"/>
         <source>Enable/disable mute all</source>
         <translation>Разрешить/запретить выключить всех</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2238"/>
         <location filename="../preferences.ui" line="2337"/>
         <source>Increase microphone gain</source>
         <translation>Увеличить усиление микрофона</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2265"/>
         <location filename="../preferences.ui" line="2364"/>
         <source>Lower microphone gain</source>
         <translation>Уменьшить усиление микрофона</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2292"/>
         <location filename="../preferences.ui" line="2391"/>
         <source>Enable/disable video transmission</source>
         <translation>Разрешить/запретить передачу видео</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2305"/>
         <location filename="../preferences.ui" line="2404"/>
         <source>Setup Keys</source>
         <translation>Установка Клавиш</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2340"/>
         <location filename="../preferences.ui" line="2439"/>
         <source>Video Capture Settings</source>
         <translation>Настройки Захвата Видео</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2346"/>
         <location filename="../preferences.ui" line="2445"/>
         <source>Video Capture Device</source>
         <translation>Устройство Захвата Видео</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2366"/>
         <location filename="../preferences.ui" line="2465"/>
         <source>Video Resolution</source>
         <translation>Разрешение Видео</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2381"/>
         <location filename="../preferences.ui" line="2480"/>
         <source>Customize video format</source>
         <translation>Настройка формата видео</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2395"/>
         <location filename="../preferences.ui" line="2494"/>
         <source>Image Format</source>
         <translation>Формат Изображения</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2405"/>
         <location filename="../preferences.ui" line="2504"/>
         <source>RGB32</source>
         <translation>RGB32</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2412"/>
         <location filename="../preferences.ui" line="2511"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2419"/>
         <location filename="../preferences.ui" line="2518"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2443"/>
         <location filename="../preferences.ui" line="2542"/>
         <location filename="../preferencesdlg.cpp" line="1312"/>
         <source>Test Selected</source>
         <translation>Тестировать Выбранное</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2471"/>
-        <location filename="../OldPref/preferences.ui" line="2474"/>
         <location filename="../preferences.ui" line="2570"/>
         <location filename="../preferences.ui" line="2573"/>
         <source>Video Codec Settings</source>
         <translation>Настройки Видео Кодека</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2482"/>
         <location filename="../preferences.ui" line="2581"/>
         <source>Codec</source>
         <translation>Кодек</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2538"/>
         <location filename="../preferences.ui" line="2637"/>
         <source>Bitrate</source>
         <translation>Битрейт</translation>
@@ -6475,9 +6287,9 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../textmessage.ui" line="46"/>
-        <location filename="../textmessagedlg.cpp" line="129"/>
-        <location filename="../textmessagedlg.cpp" line="188"/>
-        <location filename="../textmessagedlg.cpp" line="228"/>
+        <location filename="../textmessagedlg.cpp" line="132"/>
+        <location filename="../textmessagedlg.cpp" line="191"/>
+        <location filename="../textmessagedlg.cpp" line="231"/>
         <source>New message</source>
         <translation>Новое сообщение</translation>
     </message>
@@ -6492,32 +6304,32 @@ Should these settings be applied?</source>
         <translation>&amp;Отправить</translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="165"/>
+        <location filename="../textmessagedlg.cpp" line="168"/>
         <source>Private message sent: %1</source>
         <translation>Личное сообщение отправлено: %1</translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="167"/>
         <source>New message (%1 of 512 characters)</source>
-        <translation>Новое сообщение (%1 из 512 символов)</translation>
+        <translation type="vanished">Новое сообщение (%1 из 512 символов)</translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="171"/>
+        <location filename="../textmessagedlg.cpp" line="174"/>
         <source>Character limit exceeded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="171"/>
+        <location filename="../textmessagedlg.cpp" line="174"/>
         <source>Your message has exceeded the limit by %1 characters. Please reduce it and try again.</source>
         <translation type="unfinished"></translation>
+    </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="210"/>
+        <location filename="../textmessagedlg.cpp" line="213"/>
         <source>New message - remote user typing.</source>
         <translation>Новое сообщение - удалённый пользователь печатает</translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="215"/>
-        <location filename="../textmessagedlg.cpp" line="217"/>
+        <location filename="../textmessagedlg.cpp" line="218"/>
+        <location filename="../textmessagedlg.cpp" line="220"/>
         <source>%1 is typing</source>
         <translation>%1 печатает</translation>
     </message>

@@ -17,6 +17,7 @@ Default Qt Client
 - Navigating with arrow keys now include status in TTS message on macOS
 - Alert when characters limit exceeded for channel and private chat
 - Client-menu now has Sound Configuration submenu to quickly change sound devices
+- Russian translation updated
 Android Client
 - Gender now announce using accessible hint
 - Notification on text limit exceeded
