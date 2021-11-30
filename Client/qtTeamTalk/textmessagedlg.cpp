@@ -98,7 +98,10 @@ void TextMessageDlg::slotNewMessage(const MyTextMessage& textmsg)
 void TextMessageDlg::slotUserLogout(const User& user)
 {
     if(m_userid == user.nUserID)
+    {
         ui.newmsgTextEdit->setDisabled(true);
+        ui.sendButton->setDisabled(true);
+    }
 }
 
 void TextMessageDlg::timerEvent(QTimerEvent *event)
