@@ -367,6 +367,7 @@
     <string name="pref_title_channel_message_sent">Messages de canal envoyés</string>
     <string name="pref_summary_channel_message_sent">Annoncer les messages de canal envoyés</string>
     <string name="text_tts_channel_message_sent">Message de canal envoyé : %1$s</string>
+    <string name="err_text_length">Le message dépasse la taille de %1$d caractères</string>
 
 
 </resources>

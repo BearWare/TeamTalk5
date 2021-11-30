@@ -23,6 +23,7 @@
 
 package dk.bearware.gui;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
@@ -35,6 +36,7 @@ import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
 import dk.bearware.ClientFlag;
 import dk.bearware.ClientStatistics;
+import dk.bearware.Constants;
 import dk.bearware.DesktopInput;
 import dk.bearware.FileTransfer;
 import dk.bearware.MediaFileInfo;
@@ -842,6 +844,15 @@ private EditText newmsg;
             String text = newmsg.getText().toString();
             if (text.isEmpty())
                 return;
+
+            int utf8len = text.getBytes(StandardCharsets.UTF_8).length;
+            if (utf8len > Constants.TT_STRLEN - 1)
+            {
+                Toast.makeText(mainActivity,
+                        getString(R.string.err_text_length, utf8len - Constants.TT_STRLEN + 1),
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
                     
             TextMessage textmsg = new TextMessage();
             textmsg.nMsgType = TextMsgType.MSGTYPE_CHANNEL;
