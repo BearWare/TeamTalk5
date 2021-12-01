@@ -925,6 +925,7 @@
                     <connections>
                         <outlet property="tableView" destination="RGN-tN-yKO" id="HUY-MT-Id4"/>
                         <outlet property="txButton" destination="V6G-Gm-l2U" id="jvz-rG-nvI"/>
+                        <outlet property="txButtonConstraint" destination="eq9-ng-xio" id="Gai-ht-biZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8If-87-PAx" userLabel="First Responder" sceneMemberID="firstResponder"/>
