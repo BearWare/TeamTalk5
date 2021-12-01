@@ -731,9 +731,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="RGN-tN-yKO">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="RGN-tN-yKO">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="567"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ChannelTableCell" id="hqu-CX-Vn4" customClass="ChannelTableCell" customModule="iTeamTalk" customModuleProvider="target">
@@ -892,10 +891,13 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V6G-Gm-l2U">
-                                <rect key="frame" x="104" y="558" width="166" height="64"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V6G-Gm-l2U">
+                                <rect key="frame" x="104" y="567" width="166" height="55"/>
                                 <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="w7v-yE-wY8"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="55" id="wVM-sm-XTX"/>
+                                </constraints>
                                 <state key="normal" title="TX">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -907,6 +909,15 @@
                             </button>
                         </subviews>
                         <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="RGN-tN-yKO" firstAttribute="leading" secondItem="HBM-YG-egd" secondAttribute="leading" id="Dkf-V0-36R"/>
+                            <constraint firstItem="V6G-Gm-l2U" firstAttribute="top" secondItem="RGN-tN-yKO" secondAttribute="bottom" id="Qbl-RW-oks"/>
+                            <constraint firstItem="V6G-Gm-l2U" firstAttribute="leading" secondItem="HBM-YG-egd" secondAttribute="leading" constant="104" id="SkN-ci-WWm"/>
+                            <constraint firstAttribute="trailing" secondItem="RGN-tN-yKO" secondAttribute="trailing" id="eat-MQ-bMK"/>
+                            <constraint firstAttribute="bottom" secondItem="V6G-Gm-l2U" secondAttribute="bottom" constant="45" id="eq9-ng-xio"/>
+                            <constraint firstAttribute="trailing" secondItem="V6G-Gm-l2U" secondAttribute="trailing" constant="105" id="fMu-pq-Rbb"/>
+                            <constraint firstItem="RGN-tN-yKO" firstAttribute="top" secondItem="HBM-YG-egd" secondAttribute="top" id="oRd-pt-H7c"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Channels" image="channels" id="aX2-rZ-yEl"/>
                     <toolbarItems/>
@@ -1223,7 +1234,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Ls-H9-lri">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="31"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="30.5"/>
                                             <state key="normal" title="Create Web Login ID"/>
                                             <connections>
                                                 <action selector="createWebLogin:" destination="o7z-cC-U4w" eventType="touchDown" id="0Ug-i7-hTr"/>
@@ -1246,7 +1257,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="baE-IB-ajD">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="30.5"/>
                                             <state key="normal" title="Reset Web Login ID"/>
                                             <connections>
                                                 <action selector="resetWebLogin:" destination="o7z-cC-U4w" eventType="touchDown" id="2Ao-lR-p49"/>
@@ -1269,7 +1280,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5YA-rx-tGz">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="31"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="30.5"/>
                                             <state key="normal" title="Login"/>
                                             <connections>
                                                 <action selector="validateLogin:" destination="o7z-cC-U4w" eventType="touchDown" id="ib3-PB-3Gz"/>
