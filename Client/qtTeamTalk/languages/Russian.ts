@@ -6,7 +6,7 @@
     <message>
         <location filename="../about.ui" line="14"/>
         <source>About</source>
-        <translation>О программе</translation>
+        <translation type="unfinished">О программе</translation>
     </message>
     <message>
         <location filename="../about.ui" line="76"/>
@@ -53,22 +53,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on </source>
-        <translation type="unfinished"></translation>
+        <translation>Составленный на </translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="35"/>
         <source>Version </source>
-        <translation type="unfinished"></translation>
+        <translation>Версия </translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="37"/>
         <source>TeamTalk 64-bit DLL version %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия TeamTalk 64-bit DLL  %1.</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="39"/>
         <source>TeamTalk 32-bit DLL version %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия TeamTalk 32-bit DLL  %1.</translation>
     </message>
 </context>
 <context>
@@ -76,98 +76,100 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="14"/>
         <source>Audio Preprocessor Setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройка аудио припроцессора</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="42"/>
         <source>Automatic Gain Control (AGC)</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоматическая регулировка усиления (AGC)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="50"/>
         <source>Enable AGC</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>	</translatorcomment>
+        <translation>Имя Сервера</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="70"/>
         <source>Default</source>
-        <translation type="unfinished">Поумолчанию</translation>
+        <translatorcomment>		</translatorcomment>
+        <translation>По умолчанию</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="81"/>
         <location filename="../audiopreprocessor.ui" line="202"/>
         <source>Gain Level</source>
-        <translation type="unfinished"></translation>
+        <translation>Уровень Усиления</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="94"/>
         <source>Max Gain dB</source>
-        <translation type="unfinished"></translation>
+        <translation>Максимальный коэффициент усиления, дБ</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="111"/>
         <source>Max Gain Increase Per Sec (dB)</source>
-        <translation type="unfinished"></translation>
+        <translation>Максимальное Увеличение Усиления В Секунду (дБ)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="128"/>
         <source>Max Gain Decrease Per Sec (dB)</source>
-        <translation type="unfinished"></translation>
+        <translation>Максимальное Уменьшение Усиления В Секунду (дБ)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="146"/>
         <source>Denoising</source>
-        <translation type="unfinished"></translation>
+        <translation>Шумоподавление</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="154"/>
         <source>Enable Denoising</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить Шумоподавление</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="178"/>
         <source>Max Attenuation of noise (dB)</source>
-        <translation type="unfinished"></translation>
+        <translation>Максимальное ослабление шума (дБ)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="219"/>
         <source>&amp;Default</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Поумолчанию</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="230"/>
         <source>Mute left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключить левый канал</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="237"/>
         <source>Mute right channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключить правый канал</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="32"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="33"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="56"/>
         <source>No Audio Preprocessor</source>
-        <translation type="unfinished"></translation>
+        <translation>Нет аудио Препроцессора</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="74"/>
         <source>TeamTalk Audio Preprocessor</source>
-        <translation type="unfinished"></translation>
+        <translation>Аудио-препроцессор TeamTalk</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="67"/>
         <source>Speex DSP Audio Preprocessor</source>
-        <translation type="unfinished"></translation>
+        <translation>Аудио препроцессор Speex DSP</translation>
     </message>
 </context>
 <context>
@@ -181,12 +183,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="161"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="162"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="188"/>
@@ -196,22 +198,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="189"/>
         <source>Ban Username</source>
-        <translation type="unfinished"></translation>
+        <translation>заблокироватьИмя пользователя</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="63"/>
         <source>Banned users</source>
-        <translation type="unfinished"></translation>
+        <translation>Заблокированные пользователи</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="72"/>
         <source>Ban type</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип блокировки</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="79"/>
         <source>Enter an IP or an username to ban</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите IP-адрес или имя пользователя, чтобы заблокировать</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="86"/>
@@ -231,6 +233,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusers.ui" line="126"/>
         <source>Put back to banned users</source>
+        <translatorcomment>	</translatorcomment>
         <translation>Вернуть обратно к заблокированным пользователям</translation>
     </message>
     <message>
@@ -241,7 +244,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusers.ui" line="180"/>
         <source>Unbanned users</source>
-        <translation type="unfinished"></translation>
+        <translation>Разблокированные пользователи</translation>
     </message>
 </context>
 <context>
@@ -249,61 +252,61 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="54"/>
         <source>Nickname</source>
-        <translation type="unfinished">Ник</translation>
+        <translation>Ник</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="55"/>
         <source>Username</source>
-        <translation type="unfinished">Имя пользователя</translation>
+        <translation>Имя пользователя</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="56"/>
         <source>Ban type</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип блокировки</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="57"/>
         <source>Ban Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Время блокировки</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="58"/>
         <location filename="../bannedusersdlg.cpp" line="93"/>
         <location filename="../bannedusersdlg.cpp" line="112"/>
         <source>Channel</source>
-        <translation type="unfinished">Канал</translation>
+        <translation>Канал</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="59"/>
         <source>IP-address</source>
-        <translation type="unfinished">IP-Адрес</translation>
+        <translation>IP-адрес</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="89"/>
         <location filename="../bannedusersdlg.cpp" line="108"/>
         <source>User</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="91"/>
         <source>,IP</source>
-        <translation type="unfinished"></translation>
+        <translation>,IP</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="91"/>
         <location filename="../bannedusersdlg.cpp" line="110"/>
         <source>IP</source>
-        <translation type="unfinished"></translation>
+        <translation>IP</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="93"/>
         <source>,Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Канал</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="113"/>
         <source>Nickname: %1, Username: %2, Ban type: %3, Ban time: %4, Channel path: %5, IP address: %6</source>
-        <translation type="unfinished"></translation>
+        <translation>ник: %1, Имя пользователя: %2, Тип блокировки: %3, Время: %4, Путь канала: %5, IP адрес: %6</translation>
     </message>
 </context>
 <context>
@@ -311,57 +314,59 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.ui" line="14"/>
         <source>Activate BearWare.dk Web Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Активировать BearWare.dk Веб-Вход</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="20"/>
         <source>BearWare.dk Web Login</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>	</translatorcomment>
+        <translation>BearWare.dk Веб-Вход</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="26"/>
         <source>A BearWare.dk Web Login is used to identify a TeamTalk user. A login ID can be created on the BearWare.dk web site.</source>
-        <translation type="unfinished"></translation>
+        <translation>BearWare.dk Веб-вход используется для идентификации пользователя TeamTalk. Идентификатор входа может быть создан на BearWare.dk веб-сайте.</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="51"/>
         <source>C&amp;reate</source>
-        <translation type="unfinished"></translation>
+        <translation>со&amp;здать</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="76"/>
         <source>Authentication</source>
-        <translation type="unfinished">Идентификация</translation>
+        <translation>Идентификация</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="84"/>
         <source>Username</source>
-        <translation type="unfinished">Имя пользователя</translation>
+        <translation>Имя пользователя</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="97"/>
         <source>Password</source>
-        <translation type="unfinished">Пароль</translation>
+        <translation>Пароль</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="48"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>					</translatorcomment>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="49"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="113"/>
         <source>Failed to authenticate</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось выполнить аутентификацию</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="121"/>
         <source>%1, your username &quot;%2&quot; has been validated.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1, ваше имя пользователя &quot;%2&quot; было подтверждено.</translation>
     </message>
 </context>
 <context>
@@ -399,12 +404,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatusdlg.cpp" line="37"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="38"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Отмена</translation>
     </message>
 </context>
 <context>
@@ -457,7 +462,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="172"/>
         <source>Channel type</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип канала</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="178"/>
@@ -492,7 +497,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="220"/>
         <source>Hidden channel (invisible and only known by name)</source>
-        <translation type="unfinished"></translation>
+        <translation>Скрытый канал (невидимый и известный только по имени)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="234"/>
@@ -573,17 +578,19 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="687"/>
         <source>Kbps</source>
+        <translatorcomment>KBPS</translatorcomment>
         <translation>КБайт/сек</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="707"/>
         <source>Variable bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>Переменный битрейт</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="761"/>
         <source>Frame size</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>	</translatorcomment>
+        <translation>Размер кадра</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="790"/>
@@ -603,22 +610,23 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="808"/>
         <source>Volume level</source>
-        <translation>Уровень громкости</translation>
+        <translation>Общая громкость</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="878"/>
         <source>&amp;Join channel on exit</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Присоединиться к каналу после выхода</translatorcomment>
+        <translation>Информация Канала</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="38"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>ok</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="39"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="61"/>
@@ -670,17 +678,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="820"/>
         <source>Expanded</source>
-        <translation type="unfinished"></translation>
+        <translation>Развёрнуто</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="820"/>
         <source>Collapsed</source>
-        <translation type="unfinished"></translation>
+        <translation>Свёрнуто</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="823"/>
         <source>Text message transmission allowed for everyone: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Передача текстовых сообщений разрешена для всех: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="823"/>
@@ -694,7 +702,8 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="1152"/>
         <location filename="../channelstree.cpp" line="1153"/>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Да</translatorcomment>
+        <translation></translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="823"/>
@@ -708,107 +717,109 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="1152"/>
         <location filename="../channelstree.cpp" line="1153"/>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Нет</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="824"/>
         <source>Voice transmission allowed for everyone: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешить передачу голоса  для всех: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="825"/>
         <source>Video transmission allowed for everyone: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Передача видео разрешена для всех: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="826"/>
         <source>Desktop transmission allowed for everyone: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Трансляция рабочего стола разрешена для всех: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="827"/>
         <source>Media files transmission allowed for everyone: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Трансляция медиафайлов разрешена для всех: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="831"/>
         <source>Text message transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Отправка текстовых сообщений</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="832"/>
         <source>Voice transmission</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Передача голоса</translatorcomment>
+        <translation></translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="833"/>
         <source>Video transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Передача Видео</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="834"/>
         <source>Desktop transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешить передачу рабочего стола</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="835"/>
         <source>Media files transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Трансляция медиа файлов</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="946"/>
         <source>Away</source>
-        <translation type="unfinished">Отсутствует</translation>
+        <translation>Отсутствует</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="949"/>
         <source>Question</source>
-        <translation type="unfinished">Запрос</translation>
+        <translation>Запрос</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="955"/>
         <source>Streaming media file</source>
-        <translation type="unfinished"></translation>
+        <translation>Транслирует Медиа файл</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="958"/>
         <source>Webcam</source>
-        <translation type="unfinished"></translation>
+        <translation>Веб-камера</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="970"/>
         <source>Administrator</source>
-        <translation type="unfinished">Администратор</translation>
+        <translatorcomment>	</translatorcomment>
+        <translation>Администратор</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="973"/>
         <source>Channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Оператор канала</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1149"/>
         <source>Text message transmission allowed: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Отправка текстовых сообщений разрешена: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1150"/>
         <source>Voice transmission allowed: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешена передача голоса: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1151"/>
         <source>Video transmission allowed: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешена передача видео: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1152"/>
         <source>Desktop transmission allowed: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Трансляция рабочего стола Разрешена: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1153"/>
         <source>Media files transmission allowed: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Трансляция медиафайла разрешена: %1</translation>
     </message>
 </context>
 <context>
@@ -816,7 +827,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="113"/>
         <source>yyyy-MM-dd HH:mm:ss</source>
-        <translation type="unfinished"></translation>
+        <translation>гггг-ММ-дд ЧЧ:мм:сс</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="132"/>
@@ -854,47 +865,47 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../customvideofmt.ui" line="14"/>
         <source>Custom Video Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользовательский Формат Видео</translation>
     </message>
     <message>
         <location filename="../customvideofmt.ui" line="20"/>
         <source>Video Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат видео</translation>
     </message>
     <message>
         <location filename="../customvideofmt.ui" line="28"/>
         <source>Video Resolution</source>
-        <translation type="unfinished">Разрешение Видео</translation>
+        <translation>Разрешение Видео</translation>
     </message>
     <message>
         <location filename="../customvideofmt.ui" line="48"/>
         <source>640</source>
-        <translation type="unfinished"></translation>
+        <translation>640</translation>
     </message>
     <message>
         <location filename="../customvideofmt.ui" line="62"/>
         <source>480</source>
-        <translation type="unfinished"></translation>
+        <translation>480</translation>
     </message>
     <message>
         <location filename="../customvideofmt.ui" line="69"/>
         <source>FPS</source>
-        <translation type="unfinished"></translation>
+        <translation>КАДРОВ В СЕКУНДУ</translation>
     </message>
     <message>
         <location filename="../customvideofmt.ui" line="76"/>
         <source>10</source>
-        <translation type="unfinished"></translation>
+        <translation>10</translation>
     </message>
     <message>
         <location filename="../customvideofmtdlg.cpp" line="34"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../customvideofmtdlg.cpp" line="35"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Отмена</translation>
     </message>
 </context>
 <context>
@@ -902,7 +913,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="14"/>
         <source>Safe List For Automatic Desktop Access</source>
-        <translation>Безопасный Список для Автоматического Доступа к Рабочему столу</translation>
+        <translation>Безопасный Список для автоматического Доступа к Рабочему столу</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="22"/>
@@ -977,12 +988,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccessdlg.cpp" line="37"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../desktopaccessdlg.cpp" line="38"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../desktopaccessdlg.cpp" line="122"/>
@@ -1008,7 +1019,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopshare.ui" line="14"/>
         <source>Desktop Sharing</source>
-        <translation>Предоставление рабочего стола</translation>
+        <translation>Общий доступ к рабочему столу</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="20"/>
@@ -1058,12 +1069,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopsharedlg.cpp" line="54"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="55"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="162"/>
@@ -1136,7 +1147,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransferdlg.cpp" line="71"/>
         <source>File transfer failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось передать файл.</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="116"/>
@@ -1174,12 +1185,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filesmodel.cpp" line="46"/>
         <source>Date</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата</translation>
     </message>
     <message>
         <location filename="../filesmodel.cpp" line="108"/>
         <source>Name: %1, Size: %2, Owner: %3, Date: %4</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя: %1, Размер: %2, Владелец: %3, Дата: %4</translation>
     </message>
 </context>
 <context>
@@ -1243,7 +1254,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="184"/>
         <source>Neutral</source>
-        <translation type="unfinished"></translation>
+        <translation>Нейтральный</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="209"/>
@@ -1372,7 +1383,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../keycompdlg.cpp" line="223"/>
         <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
-        <translation type="unfinished"></translation>
+        <translation>macOS не поддерживает только клавиши-модификаторы, т. е. Cmd, Option и Shift должны использоваться в сочетании с другими клавишами, не являющимися модификаторами.</translation>
     </message>
     <message>
         <source>Mac OS X does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
@@ -1384,7 +1395,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="52"/>
         <source>Channel list</source>
-        <translation type="unfinished"></translation>
+        <translation>Список каналов</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="139"/>
@@ -1423,14 +1434,14 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="627"/>
         <location filename="../mainwindow.ui" line="913"/>
         <source>History</source>
-        <translation type="unfinished">История</translation>
+        <translation>История</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="367"/>
         <location filename="../mainwindow.ui" line="651"/>
         <location filename="../mainwindow.ui" line="937"/>
         <source>Message</source>
-        <translation type="unfinished">Сообщение</translation>
+        <translation>Сообщение</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="383"/>
@@ -1513,29 +1524,29 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="322"/>
         <source>Ch&amp;at</source>
-        <translation type="unfinished"></translation>
+        <translation>Ч&amp;ат</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="677"/>
         <location filename="../mainwindow.cpp" line="6490"/>
         <source>&amp;Desktops</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Рабочие столы</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="771"/>
         <source>Add window</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить окно</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="963"/>
         <location filename="../mainwindow.cpp" line="2782"/>
         <source>&amp;Files</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Файлы</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="991"/>
         <source>Files list</source>
-        <translation type="unfinished"></translation>
+        <translation>Список файлов</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1079"/>
@@ -1583,7 +1594,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1154"/>
         <source>&amp;Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;События</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1170"/>
@@ -1613,12 +1624,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1224"/>
         <source>&amp;User information</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Информация о пользователе</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1231"/>
         <source>&amp;Transmit Control</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Управление Передачей</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1260"/>
@@ -1628,7 +1639,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1264"/>
         <source>&amp;Channel information</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Информация о канале</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1287"/>
@@ -1815,12 +1826,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1535"/>
         <source>&amp;Speak User Information</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Проговорить Информацию о Пользователе</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1538"/>
         <source>Ctrl+G</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+G</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1550"/>
@@ -1900,22 +1911,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1614"/>
         <source>&amp;Speak Channel Info</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Проговорить информацию о канале</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1617"/>
         <source>Ctrl+Alt+G</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+G</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1622"/>
         <source>S&amp;peak Channel State</source>
-        <translation type="unfinished"></translation>
+        <translation>Про&amp;говорить Состояние канала</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1625"/>
         <source>Ctrl+Shift+G</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+G</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1630"/>
@@ -1935,87 +1946,87 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1915"/>
         <source>Allow All V&amp;oice Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешить всю гол&amp;осовую передачу</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1918"/>
         <source>Ctrl+Alt+Shift+Q</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Shift+Q</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1926"/>
         <source>Allow All Video Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешить всем Передачу Видео</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1929"/>
         <source>Ctrl+Alt+Shift+W</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Shift+W</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1994"/>
         <source>Enable Text-To-Speech Events</source>
-        <translation type="unfinished"></translation>
+        <translation>Включение Событий Преобразования Текста В Речь</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1997"/>
         <source>Ctrl+Alt+S</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+S</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2005"/>
         <source>Enable Sound Events</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить Звуковые События</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2008"/>
         <source>Ctrl+Alt+Z</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Z</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2027"/>
         <source>Allow All Desktop Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешить всем передачу рабочего стола</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2030"/>
         <source>Ctrl+Alt+Shift+E</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Shift+E</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2159"/>
         <source>Allow All Media File Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешить всем передачу медиафайлов</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2162"/>
         <source>Ctrl+Alt+Shift+R</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Shift+R</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2184"/>
         <source>Ctrl+Alt+Shift+M</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Shift+M</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2245"/>
         <source>Allow Channel Text Messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешить отправку сообщений в канал</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2248"/>
         <source>Ctrl+Alt+T</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+T</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2256"/>
         <source>Allow All Channel Text Messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешить всем отправлять сообщения в канал</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2259"/>
         <source>Ctrl+Alt+Shift+T</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Shift+T</translation>
     </message>
     <message>
         <source>Ctrl+Shift+K</source>
@@ -2221,7 +2232,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1885"/>
         <source>&amp;BearWare.dk Website</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;BearWare.dk Вебсайт</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1893"/>
@@ -2401,27 +2412,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2221"/>
         <source>R&amp;eset Preferences to Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Вер&amp;нуть Настройки по умолчанию</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2226"/>
         <source>Kick and Ban From &amp;Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Выгнать и заблокировать в &amp;Канале</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2229"/>
         <source>Ctrl+B</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+B</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2234"/>
         <source>Banned Users From Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Заблокированные пользователи в канале</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2237"/>
         <source>Ctrl+Alt+Shift+B</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Shift+B</translation>
     </message>
     <message>
         <source>Ctrl+Alt+Оњ</source>
@@ -2522,13 +2533,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="1116"/>
         <location filename="../mainwindow.cpp" line="1118"/>
         <source>%1 has logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Вошёл</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1135"/>
         <location filename="../mainwindow.cpp" line="1137"/>
         <source>%1 has logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Ушёл</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2659"/>
@@ -2536,27 +2547,27 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="4522"/>
         <location filename="../mainwindow.cpp" line="5227"/>
         <source>root</source>
-        <translation type="unfinished"></translation>
+        <translation>главный</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"/>
         <source>File %1 added</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл %1 добавлен</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1265"/>
         <source>File %1 added by %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл %1 Добавлен от %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1286"/>
         <source>File %1 removed</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл %1 удалён</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1290"/>
         <source>File %1 removed by %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл %1 удалён владельца %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1325"/>
@@ -2593,7 +2604,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1352"/>
         <source>Internal message queue overloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Внутренняя очередь сообщений перегружена</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1358"/>
@@ -2603,7 +2614,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1388"/>
         <source>Streaming from %1 started</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Начал трансляцию</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1416"/>
@@ -2664,7 +2675,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1675"/>
         <source>Banned Users in Channel %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Заблокированные пользователи в канале %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1811"/>
@@ -2705,7 +2716,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1970"/>
         <source>This client is not compatible with the server, so the action cannot be performed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Этот клиент несовместим с сервером, поэтому действие не может быть выполнено.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1973"/>
@@ -2724,7 +2735,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5299"/>
         <location filename="../mainwindow.cpp" line="5322"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1984"/>
@@ -2863,7 +2874,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5199"/>
         <location filename="../mainwindow.cpp" line="5363"/>
         <source>Away</source>
-        <translation type="unfinished">Отсутствует</translation>
+        <translation>Отсутствует</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2358"/>
@@ -2886,7 +2897,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="6674"/>
         <location filename="../mainwindow.cpp" line="6699"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Да</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="760"/>
@@ -2899,7 +2910,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="6675"/>
         <location filename="../mainwindow.cpp" line="6700"/>
         <source>&amp;No</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Нет</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2465"/>
@@ -2976,38 +2987,38 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="3645"/>
         <location filename="../mainwindow.cpp" line="3688"/>
         <source>New Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Новый Профиль</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3645"/>
         <source>Delete Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Delete Profile</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3657"/>
         <location filename="../mainwindow.cpp" line="3673"/>
         <source>New Client Instance</source>
-        <translation type="unfinished"></translation>
+        <translation>Новый Экземпляр Клиента</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3658"/>
         <source>Select profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите профиль</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3674"/>
         <source>Delete profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить профиль</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3689"/>
         <source>Profile name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя профиля</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4003"/>
         <source>Specify new nickname for current server</source>
-        <translation type="unfinished"></translation>
+        <translation>Укажите новый ник для текущего сервера</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4005"/>
@@ -3037,73 +3048,73 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4218"/>
         <source>Text-To-Speech enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Text-To-Speech enabled</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4223"/>
         <source>Text-To-Speech disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Преобразование Текста В Речь отключено</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4276"/>
         <source>Voice for %1 disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Голос для %1 отключён</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4278"/>
         <source>Voice for %1 enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Голос для %1 включён</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4295"/>
         <source>Media files for %1 disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Медиафайлы для %1 отключены</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4297"/>
         <source>Media files for %1 enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Медиафайлы для %1 включены</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4313"/>
         <source>Master volume disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Основная громкость отключена</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4318"/>
         <source>Master volume enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Основная громкость включена</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4447"/>
         <source>Voice volume for %1 increased to %2%</source>
-        <translation type="unfinished"></translation>
+        <translation>Громкость голоса для %1 увеличина на %2%</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4460"/>
         <source>Voice volume for %1 decreased to %2%</source>
-        <translation type="unfinished"></translation>
+        <translation>Громкость голоса для %1 уменьшена на %2%</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4473"/>
         <source>Media files volume for %1 increased to %2%</source>
-        <translation type="unfinished"></translation>
+        <translation>Громкость медиа для %1 увеличина на %2%</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4486"/>
         <source>Media files volume for %1 decreased to %2%</source>
-        <translation type="unfinished"></translation>
+        <translation>Громкость медиа для %1 уменьшина до %2%</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4505"/>
         <source>%1 selected for move</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 выбран для перемещения</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4523"/>
         <location filename="../mainwindow.cpp" line="4527"/>
         <source>Selected users has been moved to channel %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбранные пользователи были перемещены в канал %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4638"/>
@@ -3140,7 +3151,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4823"/>
         <source>Nobody is active in this channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Никто не активен в этом канале</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4869"/>
@@ -3155,7 +3166,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4915"/>
         <source>Delete %1 files</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить файлы %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4918"/>
@@ -3175,369 +3186,373 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="5050"/>
         <source>Broadcast message sent: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Сетевое сообщение отправлено: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1954"/>
         <location filename="../mainwindow.cpp" line="1955"/>
         <source>Server configuration saved</source>
-        <translation type="unfinished"></translation>
+        <translation>Конфигурация сервера сохранена</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5086"/>
         <source>Are you sure you want to delete your existing settings?</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы уверены, что хотите удалить существующие настройки?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5101"/>
         <source>Cannot find %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удаётся найти %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5108"/>
         <source>Cannot remove %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удается удалить %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5115"/>
         <source>Failed to copy %1 to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось скопировать %1 в %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4780"/>
         <location filename="../mainwindow.cpp" line="5170"/>
         <source>Talking</source>
-        <translation type="unfinished"></translation>
+        <translation>Говорит</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5170"/>
         <source>Mute</source>
-        <translation type="unfinished"></translation>
+        <translation>беззвука</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4791"/>
         <location filename="../mainwindow.cpp" line="5170"/>
         <source>Streaming</source>
-        <translation type="unfinished"></translation>
+        <translation>Транслирует</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5170"/>
         <source>Mute media file</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключить медиафайл</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4802"/>
         <location filename="../mainwindow.cpp" line="5170"/>
         <location filename="../mainwindow.cpp" line="5372"/>
         <source>Webcam</source>
-        <translation type="unfinished"></translation>
+        <translation>Веб-камера</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4813"/>
         <location filename="../mainwindow.cpp" line="5170"/>
         <source>Desktop</source>
-        <translation type="unfinished">Рабочий стол</translation>
+        <translation>Рабочий стол</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5170"/>
         <source>Channel Operator</source>
-        <translation type="unfinished">Оператор Канала</translation>
+        <translation>Оператор Канала</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5170"/>
         <source>Selected for move</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбран для перемещения</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5174"/>
         <source>Administrator</source>
-        <translation type="unfinished">Администратор</translation>
+        <translation>Администратор</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5178"/>
         <source>User</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5196"/>
         <source>Online</source>
-        <translation type="unfinished"></translation>
+        <translation>Онлайн</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5202"/>
         <location filename="../mainwindow.cpp" line="5366"/>
         <source>Question</source>
-        <translation type="unfinished">Запрос</translation>
+        <translation>Запрос</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5227"/>
         <source>Channel</source>
-        <translation type="unfinished">Канал</translation>
+        <translation>Канал</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5227"/>
         <source>Password protected</source>
-        <translation type="unfinished"></translation>
+        <translation>Защищён паролем</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5227"/>
         <source>Classroom</source>
-        <translation type="unfinished"></translation>
+        <translation>класс</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5227"/>
         <source>Hidden</source>
-        <translation type="unfinished"></translation>
+        <translation>Скрытый</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5248"/>
         <source>Topic: %1</source>
-        <translation type="unfinished">Тема: %1</translation>
+        <translation>Тема: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5251"/>
         <source>%1 files</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 файлы</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5319"/>
         <source>IP-address</source>
-        <translation type="unfinished">IP-Адрес</translation>
+        <translation>IP-Адрес</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5319"/>
         <source>Username</source>
-        <translation type="unfinished">Имя пользователя</translation>
+        <translation>Имя пользователя</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5327"/>
         <source>Ban User From Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Заблокировать пользователя в канале</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6673"/>
         <source>A new version of %1 is available: %2. Do you wish to open the download page now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая версия %1: %2. Вы хотите открыть страницу загрузки прямо сейчас?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6678"/>
         <source>New version available</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая версия</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6685"/>
         <source>New version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая версия: %1
+Вы можете скачать её на странице ниже:
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6698"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая бета-версия %1: %2. Вы хотите открыть страницу загрузки прямо сейчас?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6703"/>
         <source>New beta version available</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая бета-версия</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6710"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая бета-версия: %1
+Вы можете скачать её на странице ниже:
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6786"/>
         <source>No available voices found for Text-To-Speech</source>
-        <translation type="unfinished"></translation>
+        <translation>Не найдено доступных голосов для преобразования текста в речь</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5326"/>
         <source>Ban user&apos;s</source>
-        <translation type="unfinished"></translation>
+        <translation>Заблокированные пользователи</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="627"/>
         <source>Translate</source>
-        <translation type="unfinished"></translation>
+        <translation>Перевод</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="758"/>
         <source>%1 has detected usage of a screenreader on your computer. Do you wish to enable accessibility options offered by %1 with recommended settings?</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 обнаружил использование программы чтения с экрана на вашем компьютере. Вы хотите включить специальные возможности, предлагаемые %1, с рекомендуемыми настройками?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="780"/>
         <location filename="../settings.h" line="226"/>
         <source>Default</source>
-        <translation type="unfinished">Поумолчанию</translation>
+        <translation>Поумолчанию</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="783"/>
         <source>Your sounds pack %1 don&apos;t exist, would you like to use default sounds pack?</source>
-        <translation type="unfinished"></translation>
+        <translation>Вашего пакета звуков %1 не существует, вы хотели бы использовать пакет звуков по умолчанию?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="981"/>
         <source>Connection to server lost</source>
-        <translation type="unfinished"></translation>
+        <translation>Соединение прервано</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1027"/>
         <source>Kicked from server by %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 выгнали с сервера</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1030"/>
         <source>Kicked from server by unknown user</source>
-        <translation type="unfinished"></translation>
+        <translation>Выгнан с сервера неизвестным пользователем</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1035"/>
         <location filename="../mainwindow.cpp" line="1038"/>
         <source>Kicked from server</source>
-        <translation type="unfinished"></translation>
+        <translation>Выгнан с сервера</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1036"/>
         <source>You have been kicked from server by %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Вас выгнал с сервера %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1039"/>
         <source>You have been kicked from server by unknown user</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1047"/>
         <source>Kicked from channel by %1</source>
-        <translation type="unfinished"></translation>
+        <translation>выгнали из канала %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1050"/>
         <source>Kicked from channel by unknown user</source>
-        <translation type="unfinished"></translation>
+        <translation>Kicked from channel by unknown user</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
         <location filename="../mainwindow.cpp" line="1058"/>
         <source>Kicked from channel</source>
-        <translation type="unfinished"></translation>
+        <translation>выгнали из канала</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1056"/>
         <source>You have been kicked from channel by %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Вас выгнал из канала %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1059"/>
         <source>You have been kicked from channel by unknown user</source>
-        <translation type="unfinished"></translation>
+        <translation>Вас выгнал с канала неизвестный пользователь</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1162"/>
         <source>%1 joined root channel</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Подключился к каналу главный</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1168"/>
         <source>%1 joined channel %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Подключился к каналу %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1199"/>
         <source>%1 left root channel</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Покинул канал главный</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1203"/>
         <source>%1 left channel %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 покинул канал %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1923"/>
         <source>Logged out from %1, TCP port %2, UDP port %3</source>
-        <translation type="unfinished"></translation>
+        <translation>ушёл %1, TCP-порт %2, UDP-порт %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1925"/>
         <source>Disconnected from server</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключён от сервера</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1943"/>
         <source>Connected to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>потключён к  %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2552"/>
         <source>Channel message from %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Сообщение канала от %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2557"/>
         <source>Channel message sent: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Сообщение канала отправлено: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2569"/>
         <source>Broadcast message from %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Сетевое сообщение от %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2588"/>
         <source>Private message from %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Личное сообщение от %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2652"/>
         <location filename="../mainwindow.cpp" line="2662"/>
         <source>Joined classroom channel %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Подключился к классной комнате %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2701"/>
         <location filename="../mainwindow.cpp" line="2713"/>
         <source>Left classroom channel %1</source>
-        <translation type="unfinished"></translation>
+        <translation>покинул классную комнату %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2705"/>
         <location filename="../mainwindow.cpp" line="2717"/>
         <source>Left channel %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Покинул канал %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3585"/>
         <source>Text messages blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Текстовые сообщения, заблокированы оператором канала</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3589"/>
         <source>Voice transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Передача голоса заблокирована оператором канала</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3593"/>
         <source>Media file transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Передача медиафайлов заблокирована оператором канала</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3597"/>
         <source>Video transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Передача видео заблокирована оператором канала</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3601"/>
         <source>Desktop transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Передача рабочего стола заблокирована оператором канала</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3938"/>
         <source>No Sound Device</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Нет Звукового Устройства</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3964"/>
@@ -3547,22 +3562,22 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="4104"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Видеоустройство настроено неправильно. Проверьте пораметры в разделе &quot;Настройки&quot;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4233"/>
         <source>Sound events enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Звуковые события включены</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4238"/>
         <source>Sound events disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Звуковые события отключены</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5370"/>
         <source>Streaming media file</source>
-        <translation type="unfinished"></translation>
+        <translation>Транслирует медиа файл</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5510"/>
@@ -3572,12 +3587,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="5511"/>
         <source>CTRL+L</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+L</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5516"/>
         <source>CTRL+J</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+J</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5657"/>
@@ -3597,12 +3612,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="5825"/>
         <source>You can now transmit channel messages!</source>
-        <translation type="unfinished"></translation>
+        <translation>Теперь вы можете отправлять сообщения в канал!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5827"/>
         <source>You can no longer transmit channel messages!</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы больше не можете отправлять сообщения в канал!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5836"/>
@@ -3637,12 +3652,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="5869"/>
         <source>You can now transmit mediafiles!</source>
-        <translation type="unfinished"></translation>
+        <translation>Теперь вы можете передавать медиафайлы!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5871"/>
         <source>You can no longer transmit mediafiles!</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы больше не можете передавать медиафайлы!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5882"/>
@@ -3658,12 +3673,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="6484"/>
         <source>&amp;Video (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Видео (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6492"/>
         <source>&amp;Desktops (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Рабочие столы (%1)</translation>
     </message>
     <message>
         <source>The file %1 contains %2 setup information.
@@ -3684,12 +3699,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.cpp" line="1854"/>
         <source>Using sound input: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Использование звукового ввода: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1854"/>
         <source>Using sound output: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Использование вывода звука: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1981"/>
@@ -3703,12 +3718,12 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.cpp" line="5300"/>
         <location filename="../mainwindow.cpp" line="5323"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2786"/>
         <source>&amp;Files (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Файлы (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6324"/>
@@ -3860,7 +3875,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../settings.h" line="44"/>
         <source>NoName</source>
-        <translation type="unfinished"></translation>
+        <translation>Аноним</translation>
     </message>
 </context>
 <context>
@@ -3893,17 +3908,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastorage.ui" line="53"/>
         <source>Stream types</source>
-        <translation type="unfinished"></translation>
+        <translation>Типы трансляции</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="60"/>
         <source>Voice</source>
-        <translation type="unfinished">Голос</translation>
+        <translation>Голос</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="67"/>
         <source>Media files</source>
-        <translation type="unfinished"></translation>
+        <translation>Медиафайлы</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="78"/>
@@ -3938,24 +3953,24 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastorage.ui" line="196"/>
         <source>S&amp;top</source>
-        <translation type="unfinished"></translation>
+        <translation>S&amp;top</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="189"/>
         <source>&amp;Start</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Начать</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="107"/>
         <location filename="../mediastorage.ui" line="141"/>
         <location filename="../mediastorage.ui" line="164"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>Обзор</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="203"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="110"/>
@@ -3965,12 +3980,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastoragedlg.cpp" line="122"/>
         <source>Stream type to store</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип сохранённой трансляции</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="123"/>
         <source>No stream type has been selected as audio input for recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип трансляции не был выбран в качестве аудиовхода для записи</translation>
     </message>
 </context>
 <context>
@@ -3989,7 +4004,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusers.ui" line="54"/>
         <source>Keep disconnected users</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить отключённых пользователей</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="107"/>
@@ -4019,12 +4034,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusersdlg.cpp" line="114"/>
         <source>Select User(s) for Move</source>
-        <translation type="unfinished"></translation>
+        <translation>выбрать Пользователя(ей) для перемещения</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="185"/>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
-        <translation type="unfinished"></translation>
+        <translation>id: %1, Ник: %2, Сообщение статуса: %3, Имя пользователя: %4, Канал: %5, IP-адрес: %6, Версия: %7</translation>
     </message>
 </context>
 <context>
@@ -4067,115 +4082,92 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusersmodel.cpp" line="186"/>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
-        <translation type="unfinished"></translation>
+        <translation>id: %1, Ник: %2, статуса: %3, Имя пользователя: %4, Канал: %5, IP-адрес: %6, Версия: %7</translation>
     </message>
 </context>
 <context>
     <name>PreferencesDlg</name>
     <message>
-        <location filename="../OldPref/preferences.ui" line="14"/>
         <location filename="../preferences.ui" line="14"/>
         <source>Preferences</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="36"/>
         <location filename="../preferences.ui" line="36"/>
         <source>General</source>
         <translation>Общие</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="42"/>
         <location filename="../preferences.ui" line="42"/>
         <source>User Settings</source>
         <translation>Настройки Пользователя</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="50"/>
         <location filename="../preferences.ui" line="50"/>
         <source>Nickname</source>
         <translation>Ник</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="83"/>
         <location filename="../preferences.ui" line="83"/>
         <source>Gender</source>
         <translation>Пол</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="115"/>
         <location filename="../preferences.ui" line="115"/>
         <source>Male</source>
         <translation>Мужской</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="125"/>
         <location filename="../preferences.ui" line="125"/>
         <source>Female</source>
         <translation>Женский</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="206"/>
         <location filename="../preferences.ui" line="206"/>
         <source>BearWare.dk Web Login ID</source>
-        <translation type="unfinished"></translation>
+        <translation>Id BearWare.dk для веб-входа</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="223"/>
         <location filename="../preferences.ui" line="223"/>
         <source>&amp;Activate</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Активировать</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="156"/>
         <location filename="../preferences.ui" line="156"/>
         <source>Set away status after</source>
         <translation>Установить состояние отсутствия после</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="132"/>
         <location filename="../preferences.ui" line="132"/>
         <source>Neutral</source>
-        <translation type="unfinished"></translation>
+        <translation>Нейтральный</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="173"/>
         <location filename="../preferences.ui" line="173"/>
         <source>seconds of inactivity (0 means disabled)</source>
         <translation>секунд бездействия (0 означает запрещено)</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="198"/>
         <location filename="../preferences.ui" line="198"/>
         <source>BearWare.dk Web Login</source>
-        <translation type="unfinished"></translation>
+        <translation>BearWare.dk Web Login</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="245"/>
         <location filename="../preferences.ui" line="245"/>
         <source>Restore volume settings and subscriptions on login for Web Login users</source>
-        <translation type="unfinished"></translation>
+        <translation>Восстановление настроек громкости и подписок при входе в систему для пользователей веб-входа</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="255"/>
         <location filename="../preferences.ui" line="255"/>
         <source>Voice Transmission Mode</source>
         <translation>Режим Передачи Голоса</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="267"/>
         <location filename="../preferences.ui" line="267"/>
         <source>Push To Talk</source>
         <translation>Нажми Чтобы Сказать</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="274"/>
-        <location filename="../OldPref/preferences.ui" line="2147"/>
-        <location filename="../OldPref/preferences.ui" line="2174"/>
-        <location filename="../OldPref/preferences.ui" line="2201"/>
-        <location filename="../OldPref/preferences.ui" line="2228"/>
-        <location filename="../OldPref/preferences.ui" line="2255"/>
-        <location filename="../OldPref/preferences.ui" line="2282"/>
         <location filename="../preferences.ui" line="274"/>
         <location filename="../preferences.ui" line="2246"/>
         <location filename="../preferences.ui" line="2273"/>
@@ -4187,132 +4179,110 @@ Should these settings be applied?</source>
         <translation>&amp;Установка Клавиш</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="281"/>
         <location filename="../preferences.ui" line="281"/>
         <source>Key Combination</source>
         <translation>Комбинация Клавиш</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="298"/>
         <location filename="../preferences.ui" line="308"/>
         <source>Voice activated</source>
         <translation>Голосовая активация</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="322"/>
         <location filename="../preferences.ui" line="332"/>
         <source>Display</source>
         <translation>Отображение</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="328"/>
         <location filename="../preferences.ui" line="338"/>
         <source>User Interface Settings</source>
         <translation>Настройки Пользовательского Интерфейса</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="340"/>
         <location filename="../preferences.ui" line="350"/>
         <source>User interface language</source>
         <translation>Язык Пользовательского Интерфейса</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="355"/>
         <location filename="../preferences.ui" line="365"/>
         <source>Start minimized</source>
         <translation>Запускать Свёрнутым</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="362"/>
         <location filename="../preferences.ui" line="372"/>
         <source>Minimize to tray icon</source>
         <translation>Свернуть в значок лотка</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="369"/>
         <location filename="../preferences.ui" line="379"/>
         <source>&amp;Always on top</source>
         <translation>&amp;Поверх всех окон</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="376"/>
         <location filename="../preferences.ui" line="386"/>
         <source>Enable VU-meter updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить обновление индекаторов громкости</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="383"/>
         <location filename="../preferences.ui" line="393"/>
         <source>Show number of users in channel</source>
         <translation>Показывать количество пользователей в канале</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="390"/>
         <location filename="../preferences.ui" line="400"/>
         <source>Show username instead of nickname</source>
-        <translation type="unfinished"></translation>
+        <translation>Показывать имя пользователя вместо ника</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="397"/>
         <location filename="../preferences.ui" line="407"/>
         <source>Show last to talk in yellow</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать последний разговор в желтом цвете</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="404"/>
         <location filename="../preferences.ui" line="414"/>
         <source>Show emojis and text for channel/user state</source>
-        <translation type="unfinished"></translation>
+        <translation>Показывать смайлики и текст для канала/состояния пользователя</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="411"/>
         <location filename="../preferences.ui" line="421"/>
         <source>Show both server and channel name in window title</source>
-        <translation type="unfinished"></translation>
+        <translation>Показывать как имя сервера, так и имя канала в заголовке окна</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="418"/>
         <location filename="../preferences.ui" line="428"/>
         <source>Popup dialog when receiving text message</source>
         <translation>Всплывающий диалог при приёме текстового сообщения</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="425"/>
         <location filename="../preferences.ui" line="435"/>
         <source>Start video in popup dialog</source>
         <translation>Запускать видео во всплывающем диалоге</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="432"/>
         <location filename="../preferences.ui" line="442"/>
         <source>Closed video dialog should return to video-tab</source>
         <translation>Закрытие диалога видео возвращает к видео-вкладке</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="456"/>
         <location filename="../preferences.ui" line="479"/>
         <source>Start desktops in popup dialog</source>
         <translation>Запуск рабочих столов во всплывающем диалоге</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="463"/>
         <location filename="../preferences.ui" line="486"/>
         <source>Timestamp text messages</source>
         <translation>Отметка времени в текстовых сообщениях</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="486"/>
         <location filename="../preferences.ui" line="550"/>
         <source>Show statusbar events in chat-window</source>
         <translation>Показывать строку состояния событий в окне чата</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="470"/>
         <source>Check for program updates at startup</source>
-        <translation>Проверять обновления программы при запуске</translation>
+        <translation type="vanished">Проверять обновления программы при запуске</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="523"/>
         <location filename="../preferences.ui" line="587"/>
         <source>Show source in corner of video window</source>
         <translation>Показывать источник вуглу окна видео</translation>
@@ -4322,206 +4292,168 @@ Should these settings be applied?</source>
         <translation type="vanished">...</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="557"/>
         <location filename="../preferences.ui" line="621"/>
         <source>Maximum text length in channel list</source>
         <translation>Максимальная длина текста в списке каналов</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="632"/>
         <location filename="../preferences.ui" line="717"/>
         <source>Connection</source>
         <translation>Соединение</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="638"/>
         <location filename="../preferences.ui" line="723"/>
         <source>Client Connection</source>
         <translation>Соединение Клиента</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="644"/>
         <location filename="../preferences.ui" line="729"/>
         <source>Connect to latest host on startup</source>
         <translation>Соединяться с последним хостом при запуске</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="651"/>
         <location filename="../preferences.ui" line="736"/>
         <source>Reconnect on connection dropped</source>
         <translation>Пересоединяться при потере связи</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="658"/>
         <location filename="../preferences.ui" line="743"/>
         <source>Join root channel upon connection</source>
         <translation>Присоединяться к корневому каналу при подключении</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="665"/>
         <location filename="../preferences.ui" line="750"/>
         <source>Query server&apos;s maximum payload upon connection</source>
         <translation>Запрос Максимальной полезной нагрузки сервера при соединении</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="672"/>
         <location filename="../preferences.ui" line="757"/>
         <source>Add application to Windows Firewall exceptions list</source>
         <translation>Добавить приложение в список исключений брандмауэра Windows</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="679"/>
-        <location filename="../OldPref/preferences.ui" line="682"/>
         <location filename="../preferences.ui" line="764"/>
         <location filename="../preferences.ui" line="767"/>
         <source>Default Subscriptions upon Connection</source>
         <translation>Подписки по умолчанию  при соединении</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="690"/>
         <location filename="../preferences.ui" line="775"/>
         <source>User Messages</source>
         <translation>Сообщения Пользователя</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="697"/>
         <location filename="../preferences.ui" line="782"/>
         <source>Channel Messages</source>
         <translation>Сообщения Канала</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="704"/>
         <location filename="../preferences.ui" line="789"/>
         <source>Broadcast Messages</source>
         <translation>Сообщения Трансляции</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="711"/>
-        <location filename="../OldPref/preferences.ui" line="2011"/>
         <location filename="../preferences.ui" line="796"/>
         <location filename="../preferences.ui" line="2096"/>
         <source>Voice</source>
         <translation>Голос</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="718"/>
-        <location filename="../OldPref/preferences.ui" line="2334"/>
         <location filename="../preferences.ui" line="803"/>
         <location filename="../preferences.ui" line="2433"/>
         <source>Video Capture</source>
         <translation>Захват Видео</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="725"/>
         <location filename="../preferences.ui" line="810"/>
         <source>Desktop</source>
         <translation>Рабочий стол</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="737"/>
         <location filename="../preferences.ui" line="822"/>
         <source>Desktop Access</source>
         <translation>Доступ к Рабочему столу</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="759"/>
         <location filename="../preferences.ui" line="844"/>
         <source>Media Files</source>
         <translation>Медиа Файлы</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="784"/>
-        <location filename="../OldPref/preferences.ui" line="787"/>
         <location filename="../preferences.ui" line="869"/>
         <location filename="../preferences.ui" line="872"/>
         <source>Local Socket Settings</source>
         <translation>Настройки Локальных Сокетов</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="793"/>
         <location filename="../preferences.ui" line="878"/>
         <source>TCP port</source>
         <translation>TCP порт</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="803"/>
-        <location filename="../OldPref/preferences.ui" line="820"/>
         <location filename="../preferences.ui" line="888"/>
         <location filename="../preferences.ui" line="905"/>
         <source>Default: 0</source>
         <translation>По умолчанию: 0</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="810"/>
         <location filename="../preferences.ui" line="895"/>
         <source>UDP port</source>
         <translation>UDP порт</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="893"/>
         <location filename="../preferences.ui" line="978"/>
         <location filename="../preferencesdlg.cpp" line="978"/>
         <source>Sound System</source>
         <translation>Звуковая Система</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="899"/>
         <location filename="../preferences.ui" line="984"/>
         <source>Sound System Settings</source>
         <translation>Настройки Звуковой Системы</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="920"/>
         <location filename="../preferences.ui" line="1005"/>
         <source>Windows Audio Session</source>
         <translation>Windows Audio Session</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="927"/>
         <location filename="../preferences.ui" line="1012"/>
         <source>DirectSound</source>
         <translation>Звук DirectX</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="934"/>
         <location filename="../preferences.ui" line="1019"/>
         <source>Windows Standard</source>
         <translation>Стандарт Windows</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="941"/>
         <location filename="../preferences.ui" line="1026"/>
         <source>ALSA</source>
         <translation>ALSA</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="948"/>
         <location filename="../preferences.ui" line="1033"/>
         <source>CoreAudio</source>
         <translation>CoreAudio</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="972"/>
         <location filename="../preferences.ui" line="1057"/>
         <source>Input device</source>
         <translation>Входное устройство</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1015"/>
         <location filename="../preferences.ui" line="1100"/>
         <source>Output device</source>
         <translation>Выходное устройство</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="985"/>
-        <location filename="../OldPref/preferences.ui" line="1028"/>
         <location filename="../preferences.ui" line="1070"/>
         <location filename="../preferences.ui" line="1113"/>
         <source>Refresh devices</source>
         <translation>Обновить устройства</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1072"/>
         <location filename="../preferences.ui" line="1157"/>
         <source>&amp;Test Selected</source>
         <translation>&amp;Тестировать Выбранное</translation>
@@ -4531,116 +4463,73 @@ Should these settings be applied?</source>
         <translation type="vanished">Разрешить дуплексный режим (рекомендуется для эхоподавления)</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1097"/>
         <location filename="../preferences.ui" line="1182"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
         <translation>Разрешить  эхоподавление (убрать эхо из динамиков)</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1104"/>
         <location filename="../preferences.ui" line="1189"/>
         <source>Enable automatic gain control (microphone level adjusted automatically)</source>
         <translation>Разрешить автоматическую регулировку усиления (уровень микрофона настраивается автоматически)</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1111"/>
         <location filename="../preferences.ui" line="1196"/>
         <source>Enable denoising (suppress noise from microphone)</source>
         <translation>Разрешить шумоподавление (подавить шум от микрофона)</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1120"/>
         <location filename="../preferences.ui" line="1205"/>
         <source>Media file vs. voice volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Громкость медиа файла относительно голоса</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1157"/>
-        <location filename="../OldPref/preferences.ui" line="2624"/>
         <location filename="../preferences.ui" line="1242"/>
         <location filename="../preferences.ui" line="2723"/>
         <source>&amp;Default</source>
         <translation>&amp;По умолчанию</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1183"/>
-        <location filename="../OldPref/preferences.ui" line="1189"/>
         <location filename="../preferences.ui" line="1268"/>
         <location filename="../preferences.ui" line="1274"/>
         <source>Sound Events</source>
         <translation>Звуковые События</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1396"/>
         <location filename="../preferences.ui" line="1481"/>
         <source>New broadcast message</source>
-        <translation type="unfinished"></translation>
+        <translation>Новое сетевое сообщение</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1229"/>
         <location filename="../preferences.ui" line="1314"/>
         <source>New user</source>
         <translation>Новый Пользователь</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="477"/>
         <location filename="../preferences.ui" line="676"/>
         <source>Show new version available in dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показывать диалог о доступной новой версии</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="493"/>
         <location filename="../preferences.ui" line="557"/>
         <source>Configure events</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройка событий</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="530"/>
         <location filename="../preferences.ui" line="594"/>
         <source>Video window settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки видеоокна</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="747"/>
         <location filename="../preferences.ui" line="832"/>
         <source>Configure trusted list</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройка списка доверенных лиц</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1197"/>
         <location filename="../preferences.ui" line="1282"/>
         <source>Sounds pack</source>
-        <translation type="unfinished"></translation>
+        <translation>Звуковой покет</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1248"/>
-        <location filename="../OldPref/preferences.ui" line="1271"/>
-        <location filename="../OldPref/preferences.ui" line="1294"/>
-        <location filename="../OldPref/preferences.ui" line="1317"/>
-        <location filename="../OldPref/preferences.ui" line="1340"/>
-        <location filename="../OldPref/preferences.ui" line="1363"/>
-        <location filename="../OldPref/preferences.ui" line="1386"/>
-        <location filename="../OldPref/preferences.ui" line="1409"/>
-        <location filename="../OldPref/preferences.ui" line="1432"/>
-        <location filename="../OldPref/preferences.ui" line="1455"/>
-        <location filename="../OldPref/preferences.ui" line="1478"/>
-        <location filename="../OldPref/preferences.ui" line="1501"/>
-        <location filename="../OldPref/preferences.ui" line="1524"/>
-        <location filename="../OldPref/preferences.ui" line="1547"/>
-        <location filename="../OldPref/preferences.ui" line="1574"/>
-        <location filename="../OldPref/preferences.ui" line="1597"/>
-        <location filename="../OldPref/preferences.ui" line="1620"/>
-        <location filename="../OldPref/preferences.ui" line="1643"/>
-        <location filename="../OldPref/preferences.ui" line="1666"/>
-        <location filename="../OldPref/preferences.ui" line="1689"/>
-        <location filename="../OldPref/preferences.ui" line="1712"/>
-        <location filename="../OldPref/preferences.ui" line="1735"/>
-        <location filename="../OldPref/preferences.ui" line="1758"/>
-        <location filename="../OldPref/preferences.ui" line="1781"/>
-        <location filename="../OldPref/preferences.ui" line="1804"/>
-        <location filename="../OldPref/preferences.ui" line="1827"/>
-        <location filename="../OldPref/preferences.ui" line="1850"/>
-        <location filename="../OldPref/preferences.ui" line="1873"/>
         <location filename="../preferences.ui" line="1333"/>
         <location filename="../preferences.ui" line="1356"/>
         <location filename="../preferences.ui" line="1379"/>
@@ -4670,361 +4559,301 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="1935"/>
         <location filename="../preferences.ui" line="1958"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>Обзор</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1258"/>
         <location filename="../preferences.ui" line="1343"/>
         <source>User removed</source>
         <translation>Пользователь убран</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1281"/>
         <location filename="../preferences.ui" line="1366"/>
         <source>Server lost</source>
         <translation>Потеря сервера</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1304"/>
         <location filename="../preferences.ui" line="1389"/>
         <source>New user message</source>
         <translation>Новое сообщение пользователя</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1327"/>
         <location filename="../preferences.ui" line="1412"/>
         <source>Private message sent</source>
-        <translation type="unfinished"></translation>
+        <translation>Личное сообщение отправлено</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1350"/>
         <location filename="../preferences.ui" line="1435"/>
         <source>New channel message</source>
         <translation>Новое сообщение канала</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1373"/>
         <location filename="../preferences.ui" line="1458"/>
         <source>Channel message sent</source>
-        <translation type="unfinished"></translation>
+        <translation>Сообщение канала отправлено</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1419"/>
         <location filename="../preferences.ui" line="1504"/>
         <source>Hotkey pressed</source>
         <translation>Горячая клавиша нажата</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1442"/>
         <location filename="../preferences.ui" line="1527"/>
         <source>Channel silent</source>
         <translation>Тихий канал</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1465"/>
         <location filename="../preferences.ui" line="1550"/>
         <source>Files updated</source>
         <translation>Файлы обновлены</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1488"/>
         <location filename="../preferences.ui" line="1573"/>
         <source>File transfer complete</source>
         <translation>Передача файлов завершена</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1511"/>
         <location filename="../preferences.ui" line="1596"/>
         <source>New video session</source>
         <translation>Новая сессия видео</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1534"/>
         <location filename="../preferences.ui" line="1619"/>
         <source>New desktop session</source>
         <translation>Новая сессия рабочего стола</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1561"/>
         <location filename="../preferences.ui" line="1646"/>
         <source>User entered question-mode</source>
         <translation>Пользователь вошёл в режим запроса</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1584"/>
         <location filename="../preferences.ui" line="1669"/>
         <source>Desktop access request</source>
         <translation>Запрос доступа к рабочему столу</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1607"/>
         <location filename="../preferences.ui" line="1692"/>
         <source>User logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь вошёл</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1630"/>
         <location filename="../preferences.ui" line="1715"/>
         <source>User logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь ушёл</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1653"/>
         <location filename="../preferences.ui" line="1738"/>
         <source>Voice activation enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Включена голосовая активация</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1676"/>
         <location filename="../preferences.ui" line="1761"/>
         <source>Voice activation disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Голосовая активация отключена</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1699"/>
         <location filename="../preferences.ui" line="1784"/>
         <source>Mute master volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Основная громкость отключена</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1722"/>
         <location filename="../preferences.ui" line="1807"/>
         <source>Unmute master volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Основная громкость включена</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1745"/>
         <location filename="../preferences.ui" line="1830"/>
         <source>Transmit ready in &quot;No interruption&quot; channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Передача разрешена в канале &quot;Без прерывания&quot;</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1768"/>
         <location filename="../preferences.ui" line="1853"/>
         <source>Transmit stopped in &quot;No interruption&quot; channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Передача остановлена в канале &quot;Без прерывания&quot;</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1791"/>
         <location filename="../preferences.ui" line="1876"/>
         <source>Voice activation triggered</source>
-        <translation type="unfinished"></translation>
+        <translation>Работает голосовая активация</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1814"/>
         <location filename="../preferences.ui" line="1899"/>
         <source>Voice activation stopped</source>
-        <translation type="unfinished"></translation>
+        <translation>Голосовая активация остановлена</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1837"/>
         <location filename="../preferences.ui" line="1922"/>
         <source>Voice activation enabled via &quot;Me&quot; menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Голосовая активация включена через меню &quot;Мне</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1860"/>
         <location filename="../preferences.ui" line="1945"/>
         <source>Voice activation disabled via &quot;Me&quot; menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Голосовая активация отключена через меню &quot;Мне&quot;</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1904"/>
         <location filename="../preferences.ui" line="1989"/>
         <source>Text To Speech</source>
-        <translation type="unfinished"></translation>
+        <translation>Преобразование Текста В Речь</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1910"/>
         <location filename="../preferences.ui" line="1995"/>
         <source>Enable/disable Text to Speech Events</source>
-        <translation type="unfinished"></translation>
+        <translation>Включение/отключение событий преобразования текста в речь</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1940"/>
         <location filename="../preferences.ui" line="2025"/>
         <source>Enable &amp;all</source>
-        <translation type="unfinished"></translation>
+        <translation>включить &amp;всё</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1960"/>
         <location filename="../preferences.ui" line="2045"/>
         <source>C&amp;lear all</source>
-        <translation type="unfinished"></translation>
+        <translation>о&amp;чистить всё</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1980"/>
         <location filename="../preferences.ui" line="2065"/>
         <source>&amp;Revert</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Вернуть</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1992"/>
         <location filename="../preferences.ui" line="2077"/>
         <source>Text to Speech Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки преобразования текста в речь</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1998"/>
         <location filename="../preferences.ui" line="2083"/>
         <source>Text to Speech Engine</source>
-        <translation type="unfinished"></translation>
+        <translation>Движок преобразования текста в речь</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2024"/>
         <location filename="../preferences.ui" line="2109"/>
         <source>Voice rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Скорость голоса</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2050"/>
         <location filename="../preferences.ui" line="2135"/>
         <source>Voice volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Громкость голоса</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2076"/>
         <location filename="../preferences.ui" line="2161"/>
         <source>Display duration of notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Отображение продолжающихся  уведомлений</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2099"/>
         <location filename="../preferences.ui" line="2191"/>
         <source>Use SAPI instead of current screenreader</source>
-        <translation type="unfinished"></translation>
+        <translation>Используйте SAPI вместо текущего средства чтения с экрана</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2116"/>
         <location filename="../preferences.ui" line="2215"/>
         <source>Shortcuts</source>
         <translation>Горячие клавиши</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2122"/>
         <location filename="../preferences.ui" line="2221"/>
         <source>Keyboard Shortcuts</source>
         <translation>Сочетания клавиш</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2130"/>
         <location filename="../preferences.ui" line="2229"/>
         <source>Enable/disable voice activation</source>
         <translation>Разрешить/запретить голосовую активацию</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2157"/>
         <location filename="../preferences.ui" line="2256"/>
         <source>Increase volume</source>
         <translation>Увеличить громкость</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2184"/>
         <location filename="../preferences.ui" line="2283"/>
         <source>Lower volume</source>
         <translation>Уменьшить громкость</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2211"/>
         <location filename="../preferences.ui" line="2310"/>
         <source>Enable/disable mute all</source>
         <translation>Разрешить/запретить выключить всех</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2238"/>
         <location filename="../preferences.ui" line="2337"/>
         <source>Increase microphone gain</source>
         <translation>Увеличить усиление микрофона</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2265"/>
         <location filename="../preferences.ui" line="2364"/>
         <source>Lower microphone gain</source>
         <translation>Уменьшить усиление микрофона</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2292"/>
         <location filename="../preferences.ui" line="2391"/>
         <source>Enable/disable video transmission</source>
         <translation>Разрешить/запретить передачу видео</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2305"/>
         <location filename="../preferences.ui" line="2404"/>
         <source>Setup Keys</source>
         <translation>Установка Клавиш</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2340"/>
         <location filename="../preferences.ui" line="2439"/>
         <source>Video Capture Settings</source>
         <translation>Настройки Захвата Видео</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2346"/>
         <location filename="../preferences.ui" line="2445"/>
         <source>Video Capture Device</source>
         <translation>Устройство Захвата Видео</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2366"/>
         <location filename="../preferences.ui" line="2465"/>
         <source>Video Resolution</source>
         <translation>Разрешение Видео</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2381"/>
         <location filename="../preferences.ui" line="2480"/>
         <source>Customize video format</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройка формата видео</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2395"/>
         <location filename="../preferences.ui" line="2494"/>
         <source>Image Format</source>
         <translation>Формат Изображения</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2405"/>
         <location filename="../preferences.ui" line="2504"/>
         <source>RGB32</source>
         <translation>RGB32</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2412"/>
         <location filename="../preferences.ui" line="2511"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2419"/>
         <location filename="../preferences.ui" line="2518"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2443"/>
         <location filename="../preferences.ui" line="2542"/>
         <location filename="../preferencesdlg.cpp" line="1312"/>
         <source>Test Selected</source>
         <translation>Тестировать Выбранное</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2471"/>
-        <location filename="../OldPref/preferences.ui" line="2474"/>
         <location filename="../preferences.ui" line="2570"/>
         <location filename="../preferences.ui" line="2573"/>
         <source>Video Codec Settings</source>
         <translation>Настройки Видео Кодека</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2482"/>
         <location filename="../preferences.ui" line="2581"/>
         <source>Codec</source>
         <translation>Кодек</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2538"/>
         <location filename="../preferences.ui" line="2637"/>
         <source>Bitrate</source>
         <translation>Битрейт</translation>
@@ -5043,17 +4872,17 @@ Should these settings be applied?</source>
         <location filename="../preferencesdlg.cpp" line="380"/>
         <location filename="../preferencesdlg.cpp" line="411"/>
         <source>No Sound Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Нет Звукового Устройства</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="70"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="71"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="452"/>
@@ -5068,58 +4897,58 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="488"/>
         <source>&amp;Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Сбросить</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="551"/>
         <source>Do nothing</source>
-        <translation type="unfinished"></translation>
+        <translation>Ничего не делать</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="552"/>
         <source>Join only</source>
-        <translation type="unfinished"></translation>
+        <translation>Только присоединяться</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="553"/>
         <source>Leave only</source>
-        <translation type="unfinished"></translation>
+        <translation>Только покинуть</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="554"/>
         <source>Join or leave</source>
-        <translation type="unfinished"></translation>
+        <translation>Присоединиться или покинуть</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="558"/>
         <source>Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>По возростанию</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="559"/>
         <source>Popularity</source>
-        <translation type="unfinished"></translation>
+        <translation>наполняемости</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="642"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Не использовать</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="596"/>
         <location filename="../preferencesdlg.cpp" line="644"/>
         <source>Default</source>
-        <translation type="unfinished">Поумолчанию</translation>
+        <translation>Поумолчанию</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="647"/>
         <source>Tolk</source>
-        <translation type="unfinished"></translation>
+        <translation>Tolk</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="650"/>
         <source>Libnotify</source>
-        <translation type="unfinished"></translation>
+        <translation>Библиотека оповещения</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="864"/>
@@ -5196,7 +5025,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="1313"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Эта конфигурация звукового устройства обеспечивает не оптимальное подавление эха. Подробности см. в руководстве.</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1331"/>
@@ -5206,12 +5035,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="1629"/>
         <source>Use SAPI instead of %1 screenreader</source>
-        <translation type="unfinished"></translation>
+        <translation>использовать SAPI Вместо программы экранного доступа %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1816"/>
         <source>Custom video format</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользовательский формат видео</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1909"/>
@@ -5226,52 +5055,52 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="298"/>
         <source>Press to transmit.  Press to stop transmit</source>
-        <translation type="unfinished"></translation>
+        <translation>Нажмите для передачи.  Нажмите, чтобы остановить передачу</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="301"/>
         <source>Push To Talk Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>Заблокировать нажми, чтобы сказать</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="493"/>
         <source>Auto expand channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоматически развернуть каналы</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="502"/>
         <source>Double click on a channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Дважды щёлкнуть по каналу</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="519"/>
         <source>Sort channels by</source>
-        <translation type="unfinished"></translation>
+        <translation>Сортировка каналов по</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="534"/>
         <source>Close dialog box when a file transfer is finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрыть диалоговое окно после завершения передачи файла</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="541"/>
         <source>Show a dialog box when excluded from channel or server</source>
-        <translation type="unfinished"></translation>
+        <translation>Показывать диалоговое окно при исключении из канала или сервера</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="662"/>
         <source>Check for software updates on startup</source>
-        <translation type="unfinished"></translation>
+        <translation>проверить наличие обновлений программного обеспечения при запуске</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="669"/>
         <source>Check for beta software updates on startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Проверить наличие обновлений бета-версии программного обеспечения при запуске</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2184"/>
         <source>Speak selected item in lists</source>
-        <translation type="unfinished"></translation>
+        <translation>Говорить о выбранном элементе в списках</translation>
     </message>
 </context>
 <context>
@@ -5280,37 +5109,37 @@ Should these settings be applied?</source>
         <location filename="../utilsound.cpp" line="229"/>
         <location filename="../utilsound.cpp" line="283"/>
         <source>Failed to initialize sound duplex mode</source>
-        <translation type="unfinished">Не удалось инициализировать дуплексный режим звука</translation>
+        <translation>Не удалось инициализировать дуплексный режим звука</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="237"/>
         <source>Failed to initialize sound input device</source>
-        <translation type="unfinished">Не удалось инициализировать входное устройство звука</translation>
+        <translation>Не удалось инициализировать входное устройство звука</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="242"/>
         <source>Failed to initialize sound output device</source>
-        <translation type="unfinished">Не удалось инициализировать выходное устройство звука</translation>
+        <translation>Не удалось инициализировать выходное устройство звука</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="257"/>
         <source>Switching to default sound devices</source>
-        <translation type="unfinished">Переключение на звуковые устройства поумолчанию</translation>
+        <translation>Переключение на звуковые устройства поумолчанию</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="265"/>
         <source>Unable to get default sound devices</source>
-        <translation type="unfinished">Не удалось определить звуковые устройства поумолчанию</translation>
+        <translation>Не удалось определить звуковые устройства поумолчанию</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="291"/>
         <source>Failed to initialize default sound input device</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось инициализировать устройство ввода звука по умолчанию</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="296"/>
         <source>Failed to initialize default sound output device</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось инициализировать устройство вывода звука по умолчанию</translation>
     </message>
     <message>
         <source>Failed to initialize default sound devices</source>
@@ -5375,7 +5204,7 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="101"/>
         <location filename="../serverlist.ui" line="104"/>
         <source>Remove entry</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить запись</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="161"/>
@@ -5406,7 +5235,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="213"/>
         <source>Nickname (optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ник (необязательно)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="229"/>
@@ -5452,7 +5281,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="339"/>
         <source>&amp;Import .tt File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Импортировать .tt Файл</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="394"/>
@@ -5472,7 +5301,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="358"/>
         <source>Open File</source>
-        <translation type="unfinished">Открыть Файл</translation>
+        <translation>Открыть Файл</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="365"/>
@@ -5480,23 +5309,23 @@ Should these settings be applied?</source>
         <location filename="../serverlistdlg.cpp" line="384"/>
         <location filename="../serverlistdlg.cpp" line="395"/>
         <source>Load File</source>
-        <translation type="unfinished">Загрузить Файл</translation>
+        <translation>Загрузить Файл</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="366"/>
         <location filename="../serverlistdlg.cpp" line="375"/>
         <source>Failed to load file %1</source>
-        <translation type="unfinished">Не удалось загрузить файл %1</translation>
+        <translation>Не удалось загрузить файл %1</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="385"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
-        <translation type="unfinished">Файл &quot;%1&quot; не совместим с %2</translation>
+        <translation>Файл &quot;%1&quot; не совместим с %2</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="396"/>
         <source>Failed to extract host-information from %1</source>
-        <translation type="unfinished">Не удалось извлечь информацию хоста из %1</translation>
+        <translation>Не удалось извлечь информацию хоста из %1</translation>
     </message>
 </context>
 <context>
@@ -5616,12 +5445,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverproperties.ui" line="437"/>
         <source>Login delay per IP-address</source>
-        <translation type="unfinished"></translation>
+        <translation>Задержка входа по IP-адресу</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="451"/>
         <source>msec (0 = disabled)</source>
-        <translation type="unfinished"></translation>
+        <translation>мсек (0 = отключено)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="461"/>
@@ -5636,17 +5465,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="37"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="38"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="45"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Закрыть</translation>
+        <translation>&amp;Закрыть</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="102"/>
@@ -5656,12 +5485,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="103"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Да</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="104"/>
         <source>&amp;No</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Нет</translation>
     </message>
 </context>
 <context>
@@ -5757,37 +5586,37 @@ Should these settings be applied?</source>
     <message>
         <location filename="../statusbardlg.ui" line="14"/>
         <source>Configure status bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройка строки состояния</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="20"/>
         <source>Enable/disable status bar events</source>
-        <translation type="unfinished"></translation>
+        <translation>Включение/отключение событий в строке состояния</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="50"/>
         <source>Enable &amp;all</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить &amp;всё</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="70"/>
         <source>C&amp;lear all</source>
-        <translation type="unfinished"></translation>
+        <translation>О&amp;чистить всё</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="90"/>
         <source>&amp;Revert</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Вернуться</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="37"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="38"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Отмена</translation>
     </message>
 </context>
 <context>
@@ -5795,170 +5624,170 @@ Should these settings be applied?</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="84"/>
         <source>Event</source>
-        <translation type="unfinished"></translation>
+        <translation>Событие</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="85"/>
         <location filename="../statusbareventsmodel.cpp" line="106"/>
         <location filename="../statusbareventsmodel.cpp" line="175"/>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Включено</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="106"/>
         <location filename="../statusbareventsmodel.cpp" line="175"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключено</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="111"/>
         <source>User logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь вошёл</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="113"/>
         <source>User logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь ушёл</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="115"/>
         <source>User joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь подключился к каналу</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="117"/>
         <source>User left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь покинул канал</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="119"/>
         <source>User join current channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь подключился к текущему каналу</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="121"/>
         <source>User left current channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь покинул текущий канал</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="123"/>
         <source>Subscription private text message changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменена подписка на личные сообщения пользователя</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="125"/>
         <source>Subscription channel text message changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменена подписка на текстовые сообщения в канале</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="127"/>
         <source>Subscription broadcast text message changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменена подписка на сетевые сообщения</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="129"/>
         <source>Subscription voice stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменена подписка на передачу голоса</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="131"/>
         <source>Subscription webcam stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменена подписка на передачу видео</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="133"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменена подписка на передачу рабочего стола</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="135"/>
         <source>Subscription desktop access changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменена подписка на доступ к рабочему столу</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="137"/>
         <source>Subscription media file stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменена подписка на передачу медиа файлов</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="139"/>
         <source>Subscription intercept private text message changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменён перехват личных сообщений</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="141"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменён перехват сообщений канала</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="143"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменён перехват передачи голоса</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="145"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменён перехват передачи видео</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="147"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменён перехват рабочего стола</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="149"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменён перехват медиа файла</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="151"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешение отправлять сообщение в канал классная комната изменено</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="153"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешение передавать голос в классной комнате изменено</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="155"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешение передавать видео в классной комнате изменено</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="157"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешение на передачу рабочего стола в канале классная комната изменено</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="159"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>разрешение на передачу медиа изменено в канале классная комната</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="161"/>
         <source>File added</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл добавлен</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="163"/>
         <source>File removed</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл удалён</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="165"/>
         <source>Save server configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить конфигурацию сервера</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="167"/>
         <source>Start a recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Начало записи</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="169"/>
         <source>Transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Передача заблокирована оператором канала</translation>
     </message>
 </context>
 <context>
@@ -5982,7 +5811,7 @@ Should these settings be applied?</source>
         <location filename="../streammediafile.ui" line="45"/>
         <location filename="../streammediafile.ui" line="48"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>Обзор</translation>
     </message>
     <message>
         <source>...</source>
@@ -5992,30 +5821,30 @@ Should these settings be applied?</source>
         <location filename="../streammediafile.ui" line="62"/>
         <location filename="../streammediafile.ui" line="65"/>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Обновить</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="79"/>
         <location filename="../streammediafile.ui" line="82"/>
         <source>Delete from history</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить из истории</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="85"/>
         <source>&amp;D</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;D</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="96"/>
         <location filename="../streammediafile.ui" line="99"/>
         <location filename="../streammediafiledlg.cpp" line="186"/>
         <source>Clear history</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистить историю</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="102"/>
         <source>&amp;L</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;L</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="117"/>
@@ -6035,7 +5864,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../streammediafile.ui" line="178"/>
         <source>Co&amp;ntinuously play media file</source>
-        <translation type="unfinished"></translation>
+        <translation>Не&amp;прерывное воспроизведение медиафайла</translation>
     </message>
     <message>
         <source>Continuously play media file</source>
@@ -6044,43 +5873,43 @@ Should these settings be applied?</source>
     <message>
         <location filename="../streammediafile.ui" line="188"/>
         <source>Playback Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки воспроизведения</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="196"/>
         <source>Audio preprocessor</source>
-        <translation type="unfinished"></translation>
+        <translation>Аудио препроцессор</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="51"/>
         <source>&amp;B</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;B</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="68"/>
         <source>&amp;R</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;R</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="209"/>
         <source>&amp;Setup</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;настройка</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="236"/>
         <location filename="../streammediafile.ui" line="243"/>
         <source>Start position</source>
-        <translation type="unfinished"></translation>
+        <translation>Стартовая позиция</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="267"/>
         <source>Test playback</source>
-        <translation type="unfinished"></translation>
+        <translation>тестировать воспроизведение</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="288"/>
         <source>S&amp;top</source>
-        <translation type="unfinished"></translation>
+        <translation>S&amp;top</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="274"/>
@@ -6089,14 +5918,14 @@ Should these settings be applied?</source>
         <location filename="../streammediafiledlg.cpp" line="437"/>
         <location filename="../streammediafiledlg.cpp" line="470"/>
         <source>&amp;Play</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;играть</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="304"/>
         <location filename="../streammediafiledlg.cpp" line="318"/>
         <location filename="../streammediafiledlg.cpp" line="356"/>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Играть</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="323"/>
@@ -6127,22 +5956,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../streammediafiledlg.cpp" line="67"/>
         <source>No Audio Preprocessor</source>
-        <translation type="unfinished"></translation>
+        <translation>Нет аудио Препроцессора</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="68"/>
         <source>TeamTalk Audio Preprocessor</source>
-        <translation type="unfinished"></translation>
+        <translation>Аудио-препроцессор TeamTalk</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="69"/>
         <source>Speex DSP Audio Preprocessor</source>
-        <translation type="unfinished"></translation>
+        <translation>Аудио препроцессор Speex DSP</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="87"/>
         <source>No video</source>
-        <translation type="unfinished"></translation>
+        <translation>Нет видео</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="140"/>
@@ -6157,17 +5986,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../streammediafiledlg.cpp" line="181"/>
         <source>Are you sure you want to clear stream history?</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы уверены, что хотите очистить историю трансляций?</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="182"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Да</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="183"/>
         <source>&amp;No</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Нет</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="218"/>
@@ -6205,36 +6034,36 @@ Should these settings be applied?</source>
         <location filename="../streammediafiledlg.cpp" line="318"/>
         <location filename="../streammediafiledlg.cpp" line="356"/>
         <source>Failed to play media file</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось воспроизвести медиафайл</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="321"/>
         <location filename="../streammediafiledlg.cpp" line="432"/>
         <location filename="../streammediafiledlg.cpp" line="465"/>
         <source>&amp;Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Пауза</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="364"/>
         <source>Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Трансляция</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="364"/>
         <source>Failed to stream media file</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось выполнить трансляцию медиафайла</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="411"/>
         <location filename="../streammediafiledlg.cpp" line="416"/>
         <source>Audio Preprocessor</source>
-        <translation type="unfinished"></translation>
+        <translation>Аудио Препроцессор</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="411"/>
         <location filename="../streammediafiledlg.cpp" line="416"/>
         <source>Failed to activate audio preprocessor</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось запустить аудио препроцессор</translation>
     </message>
 </context>
 <context>
@@ -6242,205 +6071,205 @@ Should these settings be applied?</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="91"/>
         <source>Event</source>
-        <translation type="unfinished"></translation>
+        <translation>Событие</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="92"/>
         <location filename="../ttseventsmodel.cpp" line="113"/>
         <location filename="../ttseventsmodel.cpp" line="195"/>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Включено</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="113"/>
         <location filename="../ttseventsmodel.cpp" line="195"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Выключено</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="118"/>
         <source>User logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь вошёл</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="120"/>
         <source>User logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь ушёл</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="122"/>
         <source>User joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь подключился к каналу</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="124"/>
         <source>User left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь покинул канал</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="126"/>
         <source>User join current channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь подключился к текущему каналу</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="128"/>
         <source>User left current channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь покинул текущий канал</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="130"/>
         <source>Received private message</source>
-        <translation type="unfinished"></translation>
+        <translation>Личное сообщение</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="132"/>
         <source>Sent private message</source>
-        <translation type="unfinished"></translation>
+        <translation>Личное сообщение отправлено</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="134"/>
         <source>User is typing a private text message in focused window</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь печатает личное текстовое сообщение в активном окне</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="136"/>
         <source>User is typing a private text message</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь печатает личное текстовое сообщение</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="138"/>
         <source>Received channel message</source>
-        <translation type="unfinished"></translation>
+        <translation>Сообщение канала</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="140"/>
         <source>Sent channel message</source>
-        <translation type="unfinished"></translation>
+        <translation>Сообщение канала отправлено</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="142"/>
         <source>Received broadcast message</source>
-        <translation type="unfinished"></translation>
+        <translation>Сетевое сообщение</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="144"/>
         <source>Sent broadcast message</source>
-        <translation type="unfinished"></translation>
+        <translation>Сетевое сообщение отправлено</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="146"/>
         <source>Subscription private text message changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Подписка на личные сообщения изменена</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="148"/>
         <source>Subscription channel text message changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменена подписка на сообщения канала</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="150"/>
         <source>Subscription broadcast text message changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменена подписка на сетевые сообщения</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="152"/>
         <source>Subscription voice stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменена подписка на передачу голоса</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="154"/>
         <source>Subscription webcam stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменена подписка на передачу видео</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="156"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Подписка на общую передачу рабочего стола изменена</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="158"/>
         <source>Subscription desktop access changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Подписка на доступ к рабочему столу изменена</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="160"/>
         <source>Subscription media file stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Подписка на медиа файлы изменена</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="162"/>
         <source>Subscription intercept private text message changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Перехват личных сообщений изменён</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="164"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Перехват сообщений канала изменён</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="166"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Перехват передачи голоса изменён</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="168"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Перехвад видео изменён</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="170"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Перехват рабочего стола изменён</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="172"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Перехват медиа файлов изменён</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="174"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешение отправлять сообщения в канал классную комнату изменено</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="176"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешение передавать голос в канал классную комнату изменено</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="178"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешение передавать видео в канал классную комнату изменено</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="180"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешение передавать рабочий стол в канал классную комнату изменено</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="182"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешение транслировать медиа файлы в канал классную комнату изменено</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="184"/>
         <source>File added</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл добавлен</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="186"/>
         <source>File removed</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл удалён</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="188"/>
         <source>Menu actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Действия меню</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="190"/>
         <source>Server connectivity</source>
-        <translation type="unfinished"></translation>
+        <translation>Подключение к серверу</translation>
     </message>
 </context>
 <context>
@@ -6458,9 +6287,9 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../textmessage.ui" line="46"/>
-        <location filename="../textmessagedlg.cpp" line="129"/>
-        <location filename="../textmessagedlg.cpp" line="188"/>
-        <location filename="../textmessagedlg.cpp" line="228"/>
+        <location filename="../textmessagedlg.cpp" line="132"/>
+        <location filename="../textmessagedlg.cpp" line="191"/>
+        <location filename="../textmessagedlg.cpp" line="231"/>
         <source>New message</source>
         <translation>Новое сообщение</translation>
     </message>
@@ -6475,30 +6304,34 @@ Should these settings be applied?</source>
         <translation>&amp;Отправить</translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="165"/>
+        <location filename="../textmessagedlg.cpp" line="168"/>
         <source>Private message sent: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Личное сообщение отправлено: %1</translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="171"/>
+        <source>New message (%1 of 512 characters)</source>
+        <translation type="vanished">Новое сообщение (%1 из 512 символов)</translation>
+    </message>
+    <message>
+        <location filename="../textmessagedlg.cpp" line="174"/>
         <source>Character limit exceeded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="171"/>
+        <location filename="../textmessagedlg.cpp" line="174"/>
         <source>Your message has exceeded the limit by %1 characters. Please reduce it and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="210"/>
+        <location filename="../textmessagedlg.cpp" line="213"/>
         <source>New message - remote user typing.</source>
         <translation>Новое сообщение - удалённый пользователь печатает</translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="215"/>
-        <location filename="../textmessagedlg.cpp" line="217"/>
+        <location filename="../textmessagedlg.cpp" line="218"/>
+        <location filename="../textmessagedlg.cpp" line="220"/>
         <source>%1 is typing</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 печатает</translation>
     </message>
 </context>
 <context>
@@ -6566,12 +6399,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccounts.ui" line="82"/>
         <source>Basic Account Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Базовые свойства Учётной записи</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="117"/>
         <source>Disabled (inactive)</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключена (неактивна)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="229"/>
@@ -6602,7 +6435,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccounts.ui" line="283"/>
         <source>Set selected user auto operator for selected channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь авто оператор в выбраных каналах</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="290"/>
@@ -6612,12 +6445,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccounts.ui" line="293"/>
         <source>No longer set selected user auto operator for selected channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь больше не назначен как авто оператор в выбранных каналах</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="319"/>
         <source>Codec Limitations</source>
-        <translation type="unfinished"></translation>
+        <translation>Ограничения кодека</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="325"/>
@@ -6637,24 +6470,24 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccounts.ui" line="378"/>
         <source>Abuse Prevention</source>
-        <translation type="unfinished"></translation>
+        <translation>Предотвращение флуда</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="384"/>
         <source>Flood Protection</source>
-        <translation type="unfinished"></translation>
+        <translation>Защита от флуда</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="390"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
-        <translation type="unfinished"></translation>
+        <translation>Запретите пользователям, например, рассылать текстовые сообщения, ограничив количество команд, которые они могут выдавать в течение определенного периода времени.</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="402"/>
         <location filename="../useraccountsdlg.cpp" line="738"/>
         <location filename="../useraccountsdlg.cpp" line="747"/>
         <source>Limit issued commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Ограничить команды</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="439"/>
@@ -6679,7 +6512,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccounts.ui" line="459"/>
         <source>User can change nickname</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь может изменить ник</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="466"/>
@@ -6759,22 +6592,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccounts.ui" line="486"/>
         <source>User can record voice in all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь может записывать голос во всех каналах</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="493"/>
         <source>User can see hidden channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь может видеть скрытые каналы</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="610"/>
         <source>CheckBox</source>
-        <translation type="unfinished"></translation>
+        <translation>флажок</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="625"/>
         <source>Remove selected user</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить выбранного пользователя</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="645"/>
@@ -6789,7 +6622,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccounts.ui" line="668"/>
         <source>Add or update user with specified informations</source>
-        <translation type="unfinished"></translation>
+        <translation>добавить или обновить пользователя с указанной информацией</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="688"/>
@@ -6799,39 +6632,39 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="238"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключён</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="239"/>
         <source>10 commands in 10 sec.</source>
-        <translation type="unfinished"></translation>
+        <translation>10 команд в 10 секунд.</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="240"/>
         <source>10 commands in 1 minute</source>
-        <translation type="unfinished"></translation>
+        <translation>10 команд в 1 минуту</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="241"/>
         <source>60 commands in 1 minute</source>
-        <translation type="unfinished"></translation>
+        <translation>60 команд в 1 минуту</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="242"/>
         <source>Custom specified</source>
-        <translation type="unfinished"></translation>
+        <translation>Заданное значение</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="491"/>
         <location filename="../useraccountsdlg.cpp" line="631"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Да</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="492"/>
         <location filename="../useraccountsdlg.cpp" line="632"/>
         <source>&amp;No</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Нет</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="495"/>
@@ -6846,32 +6679,32 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="630"/>
         <source>Are you sure you want to delete user &quot;%1&quot;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы уверены, что хотите удалить пользователя &quot;%1&quot;?</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="635"/>
         <source>Delete user</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить пользователя</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="734"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="735"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="739"/>
         <source>Number of commands to allow (0 = disabled)</source>
-        <translation type="unfinished"></translation>
+        <translation>Количество разрешённых команд (0 = отключено)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="748"/>
         <source>Timeframe to allow %1 commands (in seconds)</source>
-        <translation type="unfinished"></translation>
+        <translation>Время разрешения команд %1 (в секундах)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="223"/>
@@ -6890,7 +6723,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="57"/>
         <source>Username</source>
-        <translation type="unfinished">Имя пользователя</translation>
+        <translation>Имя пользователя</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="58"/>
@@ -6915,7 +6748,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="62"/>
         <source>Modified</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменён</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="90"/>
@@ -6933,18 +6766,18 @@ Should these settings be applied?</source>
         <location filename="../useraccountsdlg.cpp" line="94"/>
         <location filename="../useraccountsdlg.cpp" line="113"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключён</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="96"/>
         <location filename="../useraccountsdlg.cpp" line="115"/>
         <source>Unknown</source>
-        <translation type="unfinished">Неизвестно</translation>
+        <translation>Неизвестно</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="116"/>
         <source>Username: %1, Password: %2, Type: %3, Note: %4, Initial channel: %5, Modified: %6</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя: %1, Пароль: %2, Тип: %3, Примечание: %4, Канал поумолчанию: %5, Изменено: %6</translation>
     </message>
 </context>
 <context>
@@ -7007,7 +6840,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../userimagewidget.cpp" line="201"/>
         <source>&amp;Flip image</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Повернуть изображение</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="207"/>
@@ -7095,7 +6928,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../userinfo.ui" line="83"/>
         <source>Client name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя клиента</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="65"/>
@@ -7274,7 +7107,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../videotext.ui" line="105"/>
         <source>Text Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>Внешний вид текста</translation>
     </message>
     <message>
         <source>Text Apperance</source>
@@ -7309,12 +7142,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../videotextdlg.cpp" line="41"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="42"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="188"/>

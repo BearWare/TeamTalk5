@@ -4334,109 +4334,86 @@ Should these settings be applied?</source>
 <context>
     <name>PreferencesDlg</name>
     <message>
-        <location filename="../OldPref/preferences.ui" line="14"/>
         <location filename="../preferences.ui" line="14"/>
         <source>Preferences</source>
         <translation>Voorkeuren</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="36"/>
         <location filename="../preferences.ui" line="36"/>
         <source>General</source>
         <translation>Algemeen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="42"/>
         <location filename="../preferences.ui" line="42"/>
         <source>User Settings</source>
         <translation>Gebruikers instellingen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="50"/>
         <location filename="../preferences.ui" line="50"/>
         <source>Nickname</source>
         <translation>Bijnaam</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="83"/>
         <location filename="../preferences.ui" line="83"/>
         <source>Gender</source>
         <translation>Geslacht</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="115"/>
         <location filename="../preferences.ui" line="115"/>
         <source>Male</source>
         <translation>Man</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="125"/>
         <location filename="../preferences.ui" line="125"/>
         <source>Female</source>
         <translation>Vrouw</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="206"/>
         <location filename="../preferences.ui" line="206"/>
         <source>BearWare.dk Web Login ID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="223"/>
         <location filename="../preferences.ui" line="223"/>
         <source>&amp;Activate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="156"/>
         <location filename="../preferences.ui" line="156"/>
         <source>Set away status after</source>
         <translation>Stel afwezigheid in op</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="132"/>
         <location filename="../preferences.ui" line="132"/>
         <source>Neutral</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="173"/>
         <location filename="../preferences.ui" line="173"/>
         <source>seconds of inactivity (0 means disabled)</source>
         <translation>seconden van inactiviteit (0 is uitgeschakeld)</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="198"/>
         <location filename="../preferences.ui" line="198"/>
         <source>BearWare.dk Web Login</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="245"/>
         <location filename="../preferences.ui" line="245"/>
         <source>Restore volume settings and subscriptions on login for Web Login users</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="255"/>
         <location filename="../preferences.ui" line="255"/>
         <source>Voice Transmission Mode</source>
         <translation>Stem transport mode</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="267"/>
         <location filename="../preferences.ui" line="267"/>
         <source>Push To Talk</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="274"/>
-        <location filename="../OldPref/preferences.ui" line="2147"/>
-        <location filename="../OldPref/preferences.ui" line="2174"/>
-        <location filename="../OldPref/preferences.ui" line="2201"/>
-        <location filename="../OldPref/preferences.ui" line="2228"/>
-        <location filename="../OldPref/preferences.ui" line="2255"/>
-        <location filename="../OldPref/preferences.ui" line="2282"/>
         <location filename="../preferences.ui" line="274"/>
         <location filename="../preferences.ui" line="2246"/>
         <location filename="../preferences.ui" line="2273"/>
@@ -4448,178 +4425,126 @@ Should these settings be applied?</source>
         <translation>&amp;Toets combinatie instellen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="281"/>
         <location filename="../preferences.ui" line="281"/>
         <source>Key Combination</source>
         <translation>Toets combinatie</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="298"/>
         <location filename="../preferences.ui" line="308"/>
         <source>Voice activated</source>
         <translatorcomment>stel hier in of je aansturing wil via stem</translatorcomment>
         <translation>Stem activatie</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="322"/>
         <location filename="../preferences.ui" line="332"/>
         <source>Display</source>
         <translation>Monitor</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="328"/>
         <location filename="../preferences.ui" line="338"/>
         <source>User Interface Settings</source>
         <translation>Gebruikers instellingen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="340"/>
         <location filename="../preferences.ui" line="350"/>
         <source>User interface language</source>
         <translation>Gebruikers taal</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="355"/>
         <location filename="../preferences.ui" line="365"/>
         <source>Start minimized</source>
         <translation>Start geminimaliseerd</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="362"/>
         <location filename="../preferences.ui" line="372"/>
         <source>Minimize to tray icon</source>
         <translation>Mininaliseer naar werkbalk</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="369"/>
         <location filename="../preferences.ui" line="379"/>
         <source>&amp;Always on top</source>
         <translation>&amp;Altijd boven aan</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="376"/>
         <location filename="../preferences.ui" line="386"/>
         <source>Enable VU-meter updates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="383"/>
         <location filename="../preferences.ui" line="393"/>
         <source>Show number of users in channel</source>
         <translation>Toon aantal gebruikers in kanaal</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="390"/>
         <location filename="../preferences.ui" line="400"/>
         <source>Show username instead of nickname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="397"/>
         <location filename="../preferences.ui" line="407"/>
         <source>Show last to talk in yellow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="404"/>
         <location filename="../preferences.ui" line="414"/>
         <source>Show emojis and text for channel/user state</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="411"/>
         <location filename="../preferences.ui" line="421"/>
         <source>Show both server and channel name in window title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="418"/>
         <location filename="../preferences.ui" line="428"/>
         <source>Popup dialog when receiving text message</source>
         <translation>Popup scherm indien een tekst bericht word ontvangen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="463"/>
         <location filename="../preferences.ui" line="486"/>
         <source>Timestamp text messages</source>
         <translation>Tijdstempel bij tekst berichten invoegen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="486"/>
         <location filename="../preferences.ui" line="550"/>
         <source>Show statusbar events in chat-window</source>
         <translation>Geef status balk van gebeurtenissen in chat scherm weer</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="470"/>
         <source>Check for program updates at startup</source>
-        <translation>Controleer voor programma updates tijdens opstarten</translation>
+        <translation type="vanished">Controleer voor programma updates tijdens opstarten</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="477"/>
         <location filename="../preferences.ui" line="676"/>
         <source>Show new version available in dialog box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="493"/>
         <location filename="../preferences.ui" line="557"/>
         <source>Configure events</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="530"/>
         <location filename="../preferences.ui" line="594"/>
         <source>Video window settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="747"/>
         <location filename="../preferences.ui" line="832"/>
         <source>Configure trusted list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1120"/>
         <location filename="../preferences.ui" line="1205"/>
         <source>Media file vs. voice volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1197"/>
         <location filename="../preferences.ui" line="1282"/>
         <source>Sounds pack</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1248"/>
-        <location filename="../OldPref/preferences.ui" line="1271"/>
-        <location filename="../OldPref/preferences.ui" line="1294"/>
-        <location filename="../OldPref/preferences.ui" line="1317"/>
-        <location filename="../OldPref/preferences.ui" line="1340"/>
-        <location filename="../OldPref/preferences.ui" line="1363"/>
-        <location filename="../OldPref/preferences.ui" line="1386"/>
-        <location filename="../OldPref/preferences.ui" line="1409"/>
-        <location filename="../OldPref/preferences.ui" line="1432"/>
-        <location filename="../OldPref/preferences.ui" line="1455"/>
-        <location filename="../OldPref/preferences.ui" line="1478"/>
-        <location filename="../OldPref/preferences.ui" line="1501"/>
-        <location filename="../OldPref/preferences.ui" line="1524"/>
-        <location filename="../OldPref/preferences.ui" line="1547"/>
-        <location filename="../OldPref/preferences.ui" line="1574"/>
-        <location filename="../OldPref/preferences.ui" line="1597"/>
-        <location filename="../OldPref/preferences.ui" line="1620"/>
-        <location filename="../OldPref/preferences.ui" line="1643"/>
-        <location filename="../OldPref/preferences.ui" line="1666"/>
-        <location filename="../OldPref/preferences.ui" line="1689"/>
-        <location filename="../OldPref/preferences.ui" line="1712"/>
-        <location filename="../OldPref/preferences.ui" line="1735"/>
-        <location filename="../OldPref/preferences.ui" line="1758"/>
-        <location filename="../OldPref/preferences.ui" line="1781"/>
-        <location filename="../OldPref/preferences.ui" line="1804"/>
-        <location filename="../OldPref/preferences.ui" line="1827"/>
-        <location filename="../OldPref/preferences.ui" line="1850"/>
-        <location filename="../OldPref/preferences.ui" line="1873"/>
         <location filename="../preferences.ui" line="1333"/>
         <location filename="../preferences.ui" line="1356"/>
         <location filename="../preferences.ui" line="1379"/>
@@ -4652,267 +4577,222 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1327"/>
         <location filename="../preferences.ui" line="1412"/>
         <source>Private message sent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1373"/>
         <location filename="../preferences.ui" line="1458"/>
         <source>Channel message sent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1396"/>
         <location filename="../preferences.ui" line="1481"/>
         <source>New broadcast message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1607"/>
         <location filename="../preferences.ui" line="1692"/>
         <source>User logged in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1630"/>
         <location filename="../preferences.ui" line="1715"/>
         <source>User logged out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1653"/>
         <location filename="../preferences.ui" line="1738"/>
         <source>Voice activation enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1676"/>
         <location filename="../preferences.ui" line="1761"/>
         <source>Voice activation disabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1699"/>
         <location filename="../preferences.ui" line="1784"/>
         <source>Mute master volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1722"/>
         <location filename="../preferences.ui" line="1807"/>
         <source>Unmute master volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1745"/>
         <location filename="../preferences.ui" line="1830"/>
         <source>Transmit ready in &quot;No interruption&quot; channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1768"/>
         <location filename="../preferences.ui" line="1853"/>
         <source>Transmit stopped in &quot;No interruption&quot; channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1791"/>
         <location filename="../preferences.ui" line="1876"/>
         <source>Voice activation triggered</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1814"/>
         <location filename="../preferences.ui" line="1899"/>
         <source>Voice activation stopped</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1837"/>
         <location filename="../preferences.ui" line="1922"/>
         <source>Voice activation enabled via &quot;Me&quot; menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1860"/>
         <location filename="../preferences.ui" line="1945"/>
         <source>Voice activation disabled via &quot;Me&quot; menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1904"/>
         <location filename="../preferences.ui" line="1989"/>
         <source>Text To Speech</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1910"/>
         <location filename="../preferences.ui" line="1995"/>
         <source>Enable/disable Text to Speech Events</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1940"/>
         <location filename="../preferences.ui" line="2025"/>
         <source>Enable &amp;all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1960"/>
         <location filename="../preferences.ui" line="2045"/>
         <source>C&amp;lear all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1980"/>
         <location filename="../preferences.ui" line="2065"/>
         <source>&amp;Revert</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1992"/>
         <location filename="../preferences.ui" line="2077"/>
         <source>Text to Speech Preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1998"/>
         <location filename="../preferences.ui" line="2083"/>
         <source>Text to Speech Engine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2024"/>
         <location filename="../preferences.ui" line="2109"/>
         <source>Voice rate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2050"/>
         <location filename="../preferences.ui" line="2135"/>
         <source>Voice volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2076"/>
         <location filename="../preferences.ui" line="2161"/>
         <source>Display duration of notifications</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2099"/>
         <location filename="../preferences.ui" line="2191"/>
         <source>Use SAPI instead of current screenreader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2381"/>
         <location filename="../preferences.ui" line="2480"/>
         <source>Customize video format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2538"/>
         <location filename="../preferences.ui" line="2637"/>
         <source>Bitrate</source>
         <translation type="unfinished">Bitrate</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="425"/>
         <location filename="../preferences.ui" line="435"/>
         <source>Start video in popup dialog</source>
         <translation>Start video in popup scherm</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="456"/>
         <location filename="../preferences.ui" line="479"/>
         <source>Start desktops in popup dialog</source>
         <translation>Start gedeeld bureaublad in popup scherm</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="432"/>
         <location filename="../preferences.ui" line="442"/>
         <source>Closed video dialog should return to video-tab</source>
         <translation>Gesloten video scherm moet terug keren naar video-tab</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="523"/>
         <location filename="../preferences.ui" line="587"/>
         <source>Show source in corner of video window</source>
         <translation>laat bron in hoek van video scherm zien</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="557"/>
         <location filename="../preferences.ui" line="621"/>
         <source>Maximum text length in channel list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="632"/>
         <location filename="../preferences.ui" line="717"/>
         <source>Connection</source>
         <translation>Verbinding</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="638"/>
         <location filename="../preferences.ui" line="723"/>
         <source>Client Connection</source>
         <translation>Client verbinding</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="644"/>
         <location filename="../preferences.ui" line="729"/>
         <source>Connect to latest host on startup</source>
         <translation>Verbind naar laatst gebruikte gast bij opstarten </translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="651"/>
         <location filename="../preferences.ui" line="736"/>
         <source>Reconnect on connection dropped</source>
         <translation>Automatisch nieuwe verbinding maken na uitval</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="658"/>
         <location filename="../preferences.ui" line="743"/>
         <source>Join root channel upon connection</source>
         <translation>Ga naar hoofd kanaal bij het maken van verbinding</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="665"/>
         <location filename="../preferences.ui" line="750"/>
         <source>Query server&apos;s maximum payload upon connection</source>
         <translation>Bij verbinding server&apos;s maximale belasting opvragen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="672"/>
         <location filename="../preferences.ui" line="757"/>
         <source>Add application to Windows Firewall exceptions list</source>
         <translation>Programma toevoegen aan uitzonderings regel windows firewall</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="679"/>
-        <location filename="../OldPref/preferences.ui" line="682"/>
         <location filename="../preferences.ui" line="764"/>
         <location filename="../preferences.ui" line="767"/>
         <source>Default Subscriptions upon Connection</source>
         <translation>Standaard Subscriptions bij verbinding</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="690"/>
         <location filename="../preferences.ui" line="775"/>
         <source>User Messages</source>
         <translation>Gebruikers berichten</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="697"/>
         <location filename="../preferences.ui" line="782"/>
         <source>Channel Messages</source>
         <translation>Kanaal berichten</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="704"/>
         <location filename="../preferences.ui" line="789"/>
         <source>Broadcast Messages</source>
         <translation>Uitzend berichten</translation>
@@ -4926,13 +4806,11 @@ Should these settings be applied?</source>
         <translation type="obsolete">Video</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="725"/>
         <location filename="../preferences.ui" line="810"/>
         <source>Desktop</source>
         <translation>Gedeeld bureablad</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="737"/>
         <location filename="../preferences.ui" line="822"/>
         <source>Desktop Access</source>
         <translation type="unfinished"></translation>
@@ -4950,98 +4828,80 @@ Should these settings be applied?</source>
         <translation type="obsolete">Peer to peer transport van video data</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="784"/>
-        <location filename="../OldPref/preferences.ui" line="787"/>
         <location filename="../preferences.ui" line="869"/>
         <location filename="../preferences.ui" line="872"/>
         <source>Local Socket Settings</source>
         <translation>Lokale Socket instellingen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="793"/>
         <location filename="../preferences.ui" line="878"/>
         <source>TCP port</source>
         <translation>TCP poort</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="803"/>
-        <location filename="../OldPref/preferences.ui" line="820"/>
         <location filename="../preferences.ui" line="888"/>
         <location filename="../preferences.ui" line="905"/>
         <source>Default: 0</source>
         <translation>Standaard: 0</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="810"/>
         <location filename="../preferences.ui" line="895"/>
         <source>UDP port</source>
         <translation>UDP poort</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="893"/>
         <location filename="../preferences.ui" line="978"/>
         <location filename="../preferencesdlg.cpp" line="978"/>
         <source>Sound System</source>
         <translation>Geluids systeem</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="899"/>
         <location filename="../preferences.ui" line="984"/>
         <source>Sound System Settings</source>
         <translation>Geluids systeem instellingen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="920"/>
         <location filename="../preferences.ui" line="1005"/>
         <source>Windows Audio Session</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="927"/>
         <location filename="../preferences.ui" line="1012"/>
         <source>DirectSound</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="934"/>
         <location filename="../preferences.ui" line="1019"/>
         <source>Windows Standard</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="941"/>
         <location filename="../preferences.ui" line="1026"/>
         <source>ALSA</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="948"/>
         <location filename="../preferences.ui" line="1033"/>
         <source>CoreAudio</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="972"/>
         <location filename="../preferences.ui" line="1057"/>
         <source>Input device</source>
         <translation>Invoer apparaat</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1015"/>
         <location filename="../preferences.ui" line="1100"/>
         <source>Output device</source>
         <translation>Uitvoer apparaat</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="985"/>
-        <location filename="../OldPref/preferences.ui" line="1028"/>
         <location filename="../preferences.ui" line="1070"/>
         <location filename="../preferences.ui" line="1113"/>
         <source>Refresh devices</source>
         <translation>Vernieuw apparaten</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1072"/>
         <location filename="../preferences.ui" line="1157"/>
         <source>&amp;Test Selected</source>
         <translation>&amp;Test geselecteerde</translation>
@@ -5051,7 +4911,6 @@ Should these settings be applied?</source>
         <translation type="vanished">Zet duplex mode aan ( noodzakelijk voor echo onderdrukking)</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1097"/>
         <location filename="../preferences.ui" line="1182"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
         <translation>Zet echo onderdrukking aan (verwijder echo van boxen)</translation>
@@ -5065,89 +4924,73 @@ Should these settings be applied?</source>
         <translation type="obsolete">Activeer Ruisonderdrukking</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1157"/>
-        <location filename="../OldPref/preferences.ui" line="2624"/>
         <location filename="../preferences.ui" line="1242"/>
         <location filename="../preferences.ui" line="2723"/>
         <source>&amp;Default</source>
         <translation>&amp;Standaard</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1183"/>
-        <location filename="../OldPref/preferences.ui" line="1189"/>
         <location filename="../preferences.ui" line="1268"/>
         <location filename="../preferences.ui" line="1274"/>
         <source>Sound Events</source>
         <translation>geluidsgebeurtenissen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1229"/>
         <location filename="../preferences.ui" line="1314"/>
         <source>New user</source>
         <translation>Nieuwe gebruiker</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1258"/>
         <location filename="../preferences.ui" line="1343"/>
         <source>User removed</source>
         <translation>Gebruiker verwijderd</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1281"/>
         <location filename="../preferences.ui" line="1366"/>
         <source>Server lost</source>
         <translation>Server verbroken</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1304"/>
         <location filename="../preferences.ui" line="1389"/>
         <source>New user message</source>
         <translation>Nieuw gebruikers bericht</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1350"/>
         <location filename="../preferences.ui" line="1435"/>
         <source>New channel message</source>
         <translation>Nieuw kanaal bericht</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1419"/>
         <location filename="../preferences.ui" line="1504"/>
         <source>Hotkey pressed</source>
         <translation>Sneltoets ingedrukt</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1442"/>
         <location filename="../preferences.ui" line="1527"/>
         <source>Channel silent</source>
         <translation>Kanaal stil</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1465"/>
         <location filename="../preferences.ui" line="1550"/>
         <source>Files updated</source>
         <translation>Gewijzigde bestanden</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1488"/>
         <location filename="../preferences.ui" line="1573"/>
         <source>File transfer complete</source>
         <translation>Bestands overdracht compleet</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1511"/>
         <location filename="../preferences.ui" line="1596"/>
         <source>New video session</source>
         <translation>Nieuwe video verbinding</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1534"/>
         <location filename="../preferences.ui" line="1619"/>
         <source>New desktop session</source>
         <translation>Nieuw gedeeld bureaublad verbinding</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1561"/>
         <location filename="../preferences.ui" line="1646"/>
         <source>User entered question-mode</source>
         <translation>Gebruiker in vraag modus</translation>
@@ -5157,164 +5000,135 @@ Should these settings be applied?</source>
         <translation type="vanished">...</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="711"/>
-        <location filename="../OldPref/preferences.ui" line="2011"/>
         <location filename="../preferences.ui" line="796"/>
         <location filename="../preferences.ui" line="2096"/>
         <source>Voice</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="759"/>
         <location filename="../preferences.ui" line="844"/>
         <source>Media Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1104"/>
         <location filename="../preferences.ui" line="1189"/>
         <source>Enable automatic gain control (microphone level adjusted automatically)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1111"/>
         <location filename="../preferences.ui" line="1196"/>
         <source>Enable denoising (suppress noise from microphone)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1584"/>
         <location filename="../preferences.ui" line="1669"/>
         <source>Desktop access request</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2116"/>
         <location filename="../preferences.ui" line="2215"/>
         <source>Shortcuts</source>
         <translation>Snelkoppelingen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2122"/>
         <location filename="../preferences.ui" line="2221"/>
         <source>Keyboard Shortcuts</source>
         <translation>Toetsenbord snelkoppelingen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2130"/>
         <location filename="../preferences.ui" line="2229"/>
         <source>Enable/disable voice activation</source>
         <translation>Aan/uit stem stuuring</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2157"/>
         <location filename="../preferences.ui" line="2256"/>
         <source>Increase volume</source>
         <translation>Verhoog volume</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2184"/>
         <location filename="../preferences.ui" line="2283"/>
         <source>Lower volume</source>
         <translation>Verlaag volume</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2211"/>
         <location filename="../preferences.ui" line="2310"/>
         <source>Enable/disable mute all</source>
         <translation>Aan/uit alles dempen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2238"/>
         <location filename="../preferences.ui" line="2337"/>
         <source>Increase microphone gain</source>
         <translation>Verhoog microfoon gain</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2265"/>
         <location filename="../preferences.ui" line="2364"/>
         <source>Lower microphone gain</source>
         <translation>Verlaag microfoon gain</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2292"/>
         <location filename="../preferences.ui" line="2391"/>
         <source>Enable/disable video transmission</source>
         <translation>Aan/uit video transport</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2305"/>
         <location filename="../preferences.ui" line="2404"/>
         <source>Setup Keys</source>
         <translation>Toets combinatie instellen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="718"/>
-        <location filename="../OldPref/preferences.ui" line="2334"/>
         <location filename="../preferences.ui" line="803"/>
         <location filename="../preferences.ui" line="2433"/>
         <source>Video Capture</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2340"/>
         <location filename="../preferences.ui" line="2439"/>
         <source>Video Capture Settings</source>
         <translation>Video Capture instellingen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2346"/>
         <location filename="../preferences.ui" line="2445"/>
         <source>Video Capture Device</source>
         <translation>Video Capture Apparaat</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2366"/>
         <location filename="../preferences.ui" line="2465"/>
         <source>Video Resolution</source>
         <translation>Video resolutie</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2395"/>
         <location filename="../preferences.ui" line="2494"/>
         <source>Image Format</source>
         <translation>Beeld type</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2405"/>
         <location filename="../preferences.ui" line="2504"/>
         <source>RGB32</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2412"/>
         <location filename="../preferences.ui" line="2511"/>
         <source>I420</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2419"/>
         <location filename="../preferences.ui" line="2518"/>
         <source>YUY2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2443"/>
         <location filename="../preferences.ui" line="2542"/>
         <location filename="../preferencesdlg.cpp" line="1312"/>
         <source>Test Selected</source>
         <translation>Test instellingen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2471"/>
-        <location filename="../OldPref/preferences.ui" line="2474"/>
         <location filename="../preferences.ui" line="2570"/>
         <location filename="../preferences.ui" line="2573"/>
         <source>Video Codec Settings</source>
         <translation>Video Codec instellingen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2482"/>
         <location filename="../preferences.ui" line="2581"/>
         <source>Codec</source>
         <translation></translation>
@@ -6909,9 +6723,9 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../textmessage.ui" line="46"/>
-        <location filename="../textmessagedlg.cpp" line="129"/>
-        <location filename="../textmessagedlg.cpp" line="188"/>
-        <location filename="../textmessagedlg.cpp" line="228"/>
+        <location filename="../textmessagedlg.cpp" line="132"/>
+        <location filename="../textmessagedlg.cpp" line="191"/>
+        <location filename="../textmessagedlg.cpp" line="231"/>
         <source>New message</source>
         <translation>Nieuw bericht</translation>
     </message>
@@ -6926,28 +6740,28 @@ Should these settings be applied?</source>
         <translation>&amp;Verzend</translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="165"/>
+        <location filename="../textmessagedlg.cpp" line="168"/>
         <source>Private message sent: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="171"/>
+        <location filename="../textmessagedlg.cpp" line="174"/>
         <source>Character limit exceeded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="171"/>
+        <location filename="../textmessagedlg.cpp" line="174"/>
         <source>Your message has exceeded the limit by %1 characters. Please reduce it and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="210"/>
+        <location filename="../textmessagedlg.cpp" line="213"/>
         <source>New message - remote user typing.</source>
         <translation>Nieuw bericht -Gebruiker is aan het typen.</translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="215"/>
-        <location filename="../textmessagedlg.cpp" line="217"/>
+        <location filename="../textmessagedlg.cpp" line="218"/>
+        <location filename="../textmessagedlg.cpp" line="220"/>
         <source>%1 is typing</source>
         <translation type="unfinished"></translation>
     </message>

@@ -4044,109 +4044,86 @@ Bu ayarlar uygulansın mı?</translation>
 <context>
     <name>PreferencesDlg</name>
     <message>
-        <location filename="../OldPref/preferences.ui" line="14"/>
         <location filename="../preferences.ui" line="14"/>
         <source>Preferences</source>
         <translation>Tercihler</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="36"/>
         <location filename="../preferences.ui" line="36"/>
         <source>General</source>
         <translation>Genel</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="42"/>
         <location filename="../preferences.ui" line="42"/>
         <source>User Settings</source>
         <translation>Kullanıcı Ayarları</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="50"/>
         <location filename="../preferences.ui" line="50"/>
         <source>Nickname</source>
         <translation>Rumuz</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="83"/>
         <location filename="../preferences.ui" line="83"/>
         <source>Gender</source>
         <translation>Cinsiyet</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="115"/>
         <location filename="../preferences.ui" line="115"/>
         <source>Male</source>
         <translation>Erkek</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="125"/>
         <location filename="../preferences.ui" line="125"/>
         <source>Female</source>
         <translation>Kadın</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="206"/>
         <location filename="../preferences.ui" line="206"/>
         <source>BearWare.dk Web Login ID</source>
         <translation>BearWare.dk Web Oturumu Kimliği</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="223"/>
         <location filename="../preferences.ui" line="223"/>
         <source>&amp;Activate</source>
         <translation>&amp;Etkinleştir</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="156"/>
         <location filename="../preferences.ui" line="156"/>
         <source>Set away status after</source>
         <translation>Uzakta durumunu</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="132"/>
         <location filename="../preferences.ui" line="132"/>
         <source>Neutral</source>
         <translation>Cinsiyetsiz</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="173"/>
         <location filename="../preferences.ui" line="173"/>
         <source>seconds of inactivity (0 means disabled)</source>
         <translation>etkisizlik saniyesinden sonra ayarla (0 etkisizleştirildi demektir)</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="198"/>
         <location filename="../preferences.ui" line="198"/>
         <source>BearWare.dk Web Login</source>
         <translation>BearWare.dk Web Oturumu</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="245"/>
         <location filename="../preferences.ui" line="245"/>
         <source>Restore volume settings and subscriptions on login for Web Login users</source>
         <translation>Web Oturumu kullanıcıları için oturum açmada düzey ayarlarını ve abonelikleri geri yükle</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="255"/>
         <location filename="../preferences.ui" line="255"/>
         <source>Voice Transmission Mode</source>
         <translation>Ses İletim Kipi</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="267"/>
         <location filename="../preferences.ui" line="267"/>
         <source>Push To Talk</source>
         <translation>Bas konuş</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="274"/>
-        <location filename="../OldPref/preferences.ui" line="2147"/>
-        <location filename="../OldPref/preferences.ui" line="2174"/>
-        <location filename="../OldPref/preferences.ui" line="2201"/>
-        <location filename="../OldPref/preferences.ui" line="2228"/>
-        <location filename="../OldPref/preferences.ui" line="2255"/>
-        <location filename="../OldPref/preferences.ui" line="2282"/>
         <location filename="../preferences.ui" line="274"/>
         <location filename="../preferences.ui" line="2246"/>
         <location filename="../preferences.ui" line="2273"/>
@@ -4158,121 +4135,101 @@ Bu ayarlar uygulansın mı?</translation>
         <translation>Tuşları &amp;Ayarla</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="281"/>
         <location filename="../preferences.ui" line="281"/>
         <source>Key Combination</source>
         <translation>Tuş Birleşimi</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="298"/>
         <location filename="../preferences.ui" line="308"/>
         <source>Voice activated</source>
         <translation>Ses etkinleştirme</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="322"/>
         <location filename="../preferences.ui" line="332"/>
         <source>Display</source>
         <translation>Görüntü</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="328"/>
         <location filename="../preferences.ui" line="338"/>
         <source>User Interface Settings</source>
         <translation>Kullanıcı Arabirimi Ayarları</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="340"/>
         <location filename="../preferences.ui" line="350"/>
         <source>User interface language</source>
         <translation>Kullanıcı arabirimi dili</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="355"/>
         <location filename="../preferences.ui" line="365"/>
         <source>Start minimized</source>
         <translation>Küçültüp başlat</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="362"/>
         <location filename="../preferences.ui" line="372"/>
         <source>Minimize to tray icon</source>
         <translation>Tepsi simgesine küçült</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="369"/>
         <location filename="../preferences.ui" line="379"/>
         <source>&amp;Always on top</source>
         <translation>Her zaman &amp;üstte</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="376"/>
         <location filename="../preferences.ui" line="386"/>
         <source>Enable VU-meter updates</source>
         <translation>VU meter güncelleştirmelerini etkinleştir</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="383"/>
         <location filename="../preferences.ui" line="393"/>
         <source>Show number of users in channel</source>
         <translation>Kanaldaki kullanıcı sayısını göster</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="390"/>
         <location filename="../preferences.ui" line="400"/>
         <source>Show username instead of nickname</source>
         <translation>Rumuzun yerine kullanıcı adını göster</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="397"/>
         <location filename="../preferences.ui" line="407"/>
         <source>Show last to talk in yellow</source>
         <translation>Son konuşanı sarı göster</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="404"/>
         <location filename="../preferences.ui" line="414"/>
         <source>Show emojis and text for channel/user state</source>
         <translation>Kanal/Kullanıcı durumu için emojileri ve metni göster</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="411"/>
         <location filename="../preferences.ui" line="421"/>
         <source>Show both server and channel name in window title</source>
         <translation>Pencere başlığında hem sunucu hem de kanal adını göster</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="418"/>
         <location filename="../preferences.ui" line="428"/>
         <source>Popup dialog when receiving text message</source>
         <translation>Metin iletisi alındığında iletişim kutusu aç</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="425"/>
         <location filename="../preferences.ui" line="435"/>
         <source>Start video in popup dialog</source>
         <translation>Videoyu açılır iletişim kutusunda başlat</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="432"/>
         <location filename="../preferences.ui" line="442"/>
         <source>Closed video dialog should return to video-tab</source>
         <translation>Kapatılan video iletişim kutusunu video sekmesine döndür</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="456"/>
         <location filename="../preferences.ui" line="479"/>
         <source>Start desktops in popup dialog</source>
         <translation>Masaüstlerini açılır iletişim kutusunda başlat</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="463"/>
         <location filename="../preferences.ui" line="486"/>
         <source>Timestamp text messages</source>
         <translation>Zaman damgalı metin iletileri</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="486"/>
         <location filename="../preferences.ui" line="550"/>
         <source>Show statusbar events in chat-window</source>
         <translation>Sohbet penceresinde durum çubuğu olaylarını göster</translation>
@@ -4282,308 +4239,229 @@ Bu ayarlar uygulansın mı?</translation>
         <translation type="vanished">Sohbet geçmişinde kullanıcının oturum açmasını/kapatmasını göster</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="470"/>
         <source>Check for program updates at startup</source>
-        <translation>Başlangıçta program güncelleştirmelerini denetle</translation>
+        <translation type="vanished">Başlangıçta program güncelleştirmelerini denetle</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="477"/>
         <location filename="../preferences.ui" line="676"/>
         <source>Show new version available in dialog box</source>
         <translation>Kullanılabilir yeni sürümü iletişim kutusunda göster</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="523"/>
         <location filename="../preferences.ui" line="587"/>
         <source>Show source in corner of video window</source>
         <translation>Video penceresinin köşesinde kaynağı göster</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="530"/>
         <location filename="../preferences.ui" line="594"/>
         <source>Video window settings</source>
         <translation>Video penceresi ayarları</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="557"/>
         <location filename="../preferences.ui" line="621"/>
         <source>Maximum text length in channel list</source>
         <translation>Kanal listesindeki en fazla metin uzunluğu</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="632"/>
         <location filename="../preferences.ui" line="717"/>
         <source>Connection</source>
         <translation>Bağlantı</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="638"/>
         <location filename="../preferences.ui" line="723"/>
         <source>Client Connection</source>
         <translation>İstemci Bağlantısı</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="644"/>
         <location filename="../preferences.ui" line="729"/>
         <source>Connect to latest host on startup</source>
         <translation>Başlangıçta en son ana bilgisayara bağlan</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="651"/>
         <location filename="../preferences.ui" line="736"/>
         <source>Reconnect on connection dropped</source>
         <translation>Bağlantı düştüğünde yeniden bağlan</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="658"/>
         <location filename="../preferences.ui" line="743"/>
         <source>Join root channel upon connection</source>
         <translation>Bağlantıda kök kanala katıl</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="665"/>
         <location filename="../preferences.ui" line="750"/>
         <source>Query server&apos;s maximum payload upon connection</source>
         <translation>Bağlantıda sunucunun en fazla yükünü sorgula</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="672"/>
         <location filename="../preferences.ui" line="757"/>
         <source>Add application to Windows Firewall exceptions list</source>
         <translation>Uygulamayı Windows Güvenlik Duvarı ayrıcalıklar listesine ekle</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="679"/>
-        <location filename="../OldPref/preferences.ui" line="682"/>
         <location filename="../preferences.ui" line="764"/>
         <location filename="../preferences.ui" line="767"/>
         <source>Default Subscriptions upon Connection</source>
         <translation>Bağlantıdaki Varsayılan Abonelikler</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="690"/>
         <location filename="../preferences.ui" line="775"/>
         <source>User Messages</source>
         <translation>Kullanıcı İletileri</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="697"/>
         <location filename="../preferences.ui" line="782"/>
         <source>Channel Messages</source>
         <translation>Kanal İletileri</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="704"/>
         <location filename="../preferences.ui" line="789"/>
         <source>Broadcast Messages</source>
         <translation>Yayınlanan İletiler</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="711"/>
-        <location filename="../OldPref/preferences.ui" line="2011"/>
         <location filename="../preferences.ui" line="796"/>
         <location filename="../preferences.ui" line="2096"/>
         <source>Voice</source>
         <translation>Ses</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="718"/>
-        <location filename="../OldPref/preferences.ui" line="2334"/>
         <location filename="../preferences.ui" line="803"/>
         <location filename="../preferences.ui" line="2433"/>
         <source>Video Capture</source>
         <translation>Video Yakalama</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="725"/>
         <location filename="../preferences.ui" line="810"/>
         <source>Desktop</source>
         <translation>Masaüstü</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="737"/>
         <location filename="../preferences.ui" line="822"/>
         <source>Desktop Access</source>
         <translation>Masaüstü Erişimi</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="747"/>
         <location filename="../preferences.ui" line="832"/>
         <source>Configure trusted list</source>
         <translation>Güvenilen listeyi yapılandır</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="759"/>
         <location filename="../preferences.ui" line="844"/>
         <source>Media Files</source>
         <translation>Ortam Dosyaları</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="784"/>
-        <location filename="../OldPref/preferences.ui" line="787"/>
         <location filename="../preferences.ui" line="869"/>
         <location filename="../preferences.ui" line="872"/>
         <source>Local Socket Settings</source>
         <translation>Yerel Yuva Ayarları</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="793"/>
         <location filename="../preferences.ui" line="878"/>
         <source>TCP port</source>
         <translation>TCP bağlantı noktası</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="803"/>
-        <location filename="../OldPref/preferences.ui" line="820"/>
         <location filename="../preferences.ui" line="888"/>
         <location filename="../preferences.ui" line="905"/>
         <source>Default: 0</source>
         <translation>Varsayılan: 0</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="810"/>
         <location filename="../preferences.ui" line="895"/>
         <source>UDP port</source>
         <translation>UDP bağlantı noktası</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="893"/>
         <location filename="../preferences.ui" line="978"/>
         <location filename="../preferencesdlg.cpp" line="978"/>
         <source>Sound System</source>
         <translation>Ses Sistemi</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="899"/>
         <location filename="../preferences.ui" line="984"/>
         <source>Sound System Settings</source>
         <translation>Ses Sistemi Ayarları</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="920"/>
         <location filename="../preferences.ui" line="1005"/>
         <source>Windows Audio Session</source>
         <translation>Windows Audio Session</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="927"/>
         <location filename="../preferences.ui" line="1012"/>
         <source>DirectSound</source>
         <translation>DirectSound</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="934"/>
         <location filename="../preferences.ui" line="1019"/>
         <source>Windows Standard</source>
         <translation>Windows Standart</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="941"/>
         <location filename="../preferences.ui" line="1026"/>
         <source>ALSA</source>
         <translation>ALSA</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="948"/>
         <location filename="../preferences.ui" line="1033"/>
         <source>CoreAudio</source>
         <translation>CoreAudio</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="972"/>
         <location filename="../preferences.ui" line="1057"/>
         <source>Input device</source>
         <translation>Giriş aygıtı</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1015"/>
         <location filename="../preferences.ui" line="1100"/>
         <source>Output device</source>
         <translation>Çıkış aygıtı</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="985"/>
-        <location filename="../OldPref/preferences.ui" line="1028"/>
         <location filename="../preferences.ui" line="1070"/>
         <location filename="../preferences.ui" line="1113"/>
         <source>Refresh devices</source>
         <translation>Aygıtları yenile</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1072"/>
         <location filename="../preferences.ui" line="1157"/>
         <source>&amp;Test Selected</source>
         <translation>Seçilenleri &amp;Sına</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1097"/>
         <location filename="../preferences.ui" line="1182"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
         <translation>Yankı iptalini etkinleştir (hoparlörlerden gelen yankıyı kaldır)</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1104"/>
         <location filename="../preferences.ui" line="1189"/>
         <source>Enable automatic gain control (microphone level adjusted automatically)</source>
         <translation>Otomatik kazanç denetimini etkinleştir (mikrofon düzeyi otomatik olarak ayarlanır)</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1111"/>
         <location filename="../preferences.ui" line="1196"/>
         <source>Enable denoising (suppress noise from microphone)</source>
         <translation>Gürültü gidermeyi etkinleştir (mikrofondan gelen gürültüyü bastır)</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1120"/>
         <location filename="../preferences.ui" line="1205"/>
         <source>Media file vs. voice volume</source>
         <translation>Ortam dosyası-ses düzeyi oranı</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1157"/>
-        <location filename="../OldPref/preferences.ui" line="2624"/>
         <location filename="../preferences.ui" line="1242"/>
         <location filename="../preferences.ui" line="2723"/>
         <source>&amp;Default</source>
         <translation>&amp;Varsayılan</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1183"/>
-        <location filename="../OldPref/preferences.ui" line="1189"/>
         <location filename="../preferences.ui" line="1268"/>
         <location filename="../preferences.ui" line="1274"/>
         <source>Sound Events</source>
         <translation>Ses Olayları</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1248"/>
-        <location filename="../OldPref/preferences.ui" line="1271"/>
-        <location filename="../OldPref/preferences.ui" line="1294"/>
-        <location filename="../OldPref/preferences.ui" line="1317"/>
-        <location filename="../OldPref/preferences.ui" line="1340"/>
-        <location filename="../OldPref/preferences.ui" line="1363"/>
-        <location filename="../OldPref/preferences.ui" line="1386"/>
-        <location filename="../OldPref/preferences.ui" line="1409"/>
-        <location filename="../OldPref/preferences.ui" line="1432"/>
-        <location filename="../OldPref/preferences.ui" line="1455"/>
-        <location filename="../OldPref/preferences.ui" line="1478"/>
-        <location filename="../OldPref/preferences.ui" line="1501"/>
-        <location filename="../OldPref/preferences.ui" line="1524"/>
-        <location filename="../OldPref/preferences.ui" line="1547"/>
-        <location filename="../OldPref/preferences.ui" line="1574"/>
-        <location filename="../OldPref/preferences.ui" line="1597"/>
-        <location filename="../OldPref/preferences.ui" line="1620"/>
-        <location filename="../OldPref/preferences.ui" line="1643"/>
-        <location filename="../OldPref/preferences.ui" line="1666"/>
-        <location filename="../OldPref/preferences.ui" line="1689"/>
-        <location filename="../OldPref/preferences.ui" line="1712"/>
-        <location filename="../OldPref/preferences.ui" line="1735"/>
-        <location filename="../OldPref/preferences.ui" line="1758"/>
-        <location filename="../OldPref/preferences.ui" line="1781"/>
-        <location filename="../OldPref/preferences.ui" line="1804"/>
-        <location filename="../OldPref/preferences.ui" line="1827"/>
-        <location filename="../OldPref/preferences.ui" line="1850"/>
-        <location filename="../OldPref/preferences.ui" line="1873"/>
         <location filename="../preferences.ui" line="1333"/>
         <location filename="../preferences.ui" line="1356"/>
         <location filename="../preferences.ui" line="1379"/>
@@ -4616,382 +4494,318 @@ Bu ayarlar uygulansın mı?</translation>
         <translation>Gözat</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1327"/>
         <location filename="../preferences.ui" line="1412"/>
         <source>Private message sent</source>
         <translation>Özel ileti gönderildi</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1373"/>
         <location filename="../preferences.ui" line="1458"/>
         <source>Channel message sent</source>
         <translation>Kanal iletisi gönderildi</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1396"/>
         <location filename="../preferences.ui" line="1481"/>
         <source>New broadcast message</source>
         <translation>Yeni yayınlanan ileti</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1229"/>
         <location filename="../preferences.ui" line="1314"/>
         <source>New user</source>
         <translation>Yeni kullanıcı</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="493"/>
         <location filename="../preferences.ui" line="557"/>
         <source>Configure events</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1197"/>
         <location filename="../preferences.ui" line="1282"/>
         <source>Sounds pack</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1258"/>
         <location filename="../preferences.ui" line="1343"/>
         <source>User removed</source>
         <translation>Kullanıcı kaldırıldı</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1281"/>
         <location filename="../preferences.ui" line="1366"/>
         <source>Server lost</source>
         <translation>Sunucu kaybedildi</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1304"/>
         <location filename="../preferences.ui" line="1389"/>
         <source>New user message</source>
         <translation>Yeni kullanıcı iletisi</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1350"/>
         <location filename="../preferences.ui" line="1435"/>
         <source>New channel message</source>
         <translation>Yeni kanal iletisi</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1419"/>
         <location filename="../preferences.ui" line="1504"/>
         <source>Hotkey pressed</source>
         <translation>Kısayol tuşuna basıldı</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1442"/>
         <location filename="../preferences.ui" line="1527"/>
         <source>Channel silent</source>
         <translation>Kanal sessiz</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1465"/>
         <location filename="../preferences.ui" line="1550"/>
         <source>Files updated</source>
         <translation>Dosyalar güncelleştirildi</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1488"/>
         <location filename="../preferences.ui" line="1573"/>
         <source>File transfer complete</source>
         <translation>Dosya aktarımı tamamlandı</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1511"/>
         <location filename="../preferences.ui" line="1596"/>
         <source>New video session</source>
         <translation>Yeni video oturumu</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1534"/>
         <location filename="../preferences.ui" line="1619"/>
         <source>New desktop session</source>
         <translation>Yeni masaüstü oturumu</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1561"/>
         <location filename="../preferences.ui" line="1646"/>
         <source>User entered question-mode</source>
         <translation>Kullanıcı soru kipine girdi</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1584"/>
         <location filename="../preferences.ui" line="1669"/>
         <source>Desktop access request</source>
         <translation>Masaüstü erişimi isteği</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1607"/>
         <location filename="../preferences.ui" line="1692"/>
         <source>User logged in</source>
         <translation>Kullanıcı oturum açtı</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1630"/>
         <location filename="../preferences.ui" line="1715"/>
         <source>User logged out</source>
         <translation>Kullanıcı oturumu kapattı</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1653"/>
         <location filename="../preferences.ui" line="1738"/>
         <source>Voice activation enabled</source>
         <translation>Ses etkinleştirme etkinleştirildi</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1676"/>
         <location filename="../preferences.ui" line="1761"/>
         <source>Voice activation disabled</source>
         <translation>Ses etkinleştirme etkisizleştirildi</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1699"/>
         <location filename="../preferences.ui" line="1784"/>
         <source>Mute master volume</source>
         <translation>Ana düzeyi sessize al</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1722"/>
         <location filename="../preferences.ui" line="1807"/>
         <source>Unmute master volume</source>
         <translation>Ana düzeyin sesini aç</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1745"/>
         <location filename="../preferences.ui" line="1830"/>
         <source>Transmit ready in &quot;No interruption&quot; channel</source>
         <translation>&quot;Söz kesintisi yok&quot; kanalı iletime hazır</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1768"/>
         <location filename="../preferences.ui" line="1853"/>
         <source>Transmit stopped in &quot;No interruption&quot; channel</source>
         <translation>&quot;Söz kesintisi yok&quot; kanalındaki iletimin durdurulması</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1791"/>
         <location filename="../preferences.ui" line="1876"/>
         <source>Voice activation triggered</source>
         <translation>Ses etkinleştirmenin tetiklenmesi</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1814"/>
         <location filename="../preferences.ui" line="1899"/>
         <source>Voice activation stopped</source>
         <translation>Ses etkinleştirmenin durdurulması</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1837"/>
         <location filename="../preferences.ui" line="1922"/>
         <source>Voice activation enabled via &quot;Me&quot; menu</source>
         <translation>Ses etkinleştirmenin &quot;Ben&quot; menüsü üzerinden etkinleştirilmesi</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1860"/>
         <location filename="../preferences.ui" line="1945"/>
         <source>Voice activation disabled via &quot;Me&quot; menu</source>
         <translation>Ses etkinleştirmenin &quot;Ben&quot; menüsü üzerinden etkisizleştirilmesi</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1904"/>
         <location filename="../preferences.ui" line="1989"/>
         <source>Text To Speech</source>
         <translation>Metin Okuma</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1910"/>
         <location filename="../preferences.ui" line="1995"/>
         <source>Enable/disable Text to Speech Events</source>
         <translation>Metin okuma olaylarını etkinleştir/etkisizleştir</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1940"/>
         <location filename="../preferences.ui" line="2025"/>
         <source>Enable &amp;all</source>
         <translation>&amp;Tümünü etkinleştir</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1960"/>
         <location filename="../preferences.ui" line="2045"/>
         <source>C&amp;lear all</source>
         <translation>Tümünü t&amp;emizle</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1980"/>
         <location filename="../preferences.ui" line="2065"/>
         <source>&amp;Revert</source>
         <translation>Geri a&amp;l</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1992"/>
         <location filename="../preferences.ui" line="2077"/>
         <source>Text to Speech Preferences</source>
         <translation>Metin Okuma Tercihleri</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1998"/>
         <location filename="../preferences.ui" line="2083"/>
         <source>Text to Speech Engine</source>
         <translation>Metin Okuma Motoru</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2024"/>
         <location filename="../preferences.ui" line="2109"/>
         <source>Voice rate</source>
         <translation>Ses hızı</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2050"/>
         <location filename="../preferences.ui" line="2135"/>
         <source>Voice volume</source>
         <translation>Ses düzeyi</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2076"/>
         <location filename="../preferences.ui" line="2161"/>
         <source>Display duration of notifications</source>
         <translation>Bildirimlerin görüntülenme süresi</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2099"/>
         <location filename="../preferences.ui" line="2191"/>
         <source>Use SAPI instead of current screenreader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2116"/>
         <location filename="../preferences.ui" line="2215"/>
         <source>Shortcuts</source>
         <translation>Kısayollar</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2122"/>
         <location filename="../preferences.ui" line="2221"/>
         <source>Keyboard Shortcuts</source>
         <translation>Klavye Kısayolları</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2130"/>
         <location filename="../preferences.ui" line="2229"/>
         <source>Enable/disable voice activation</source>
         <translation>Ses etkinleştirmeyi etkinleştir/etkisizleştir</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2157"/>
         <location filename="../preferences.ui" line="2256"/>
         <source>Increase volume</source>
         <translation>Düzeyi artır</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2184"/>
         <location filename="../preferences.ui" line="2283"/>
         <source>Lower volume</source>
         <translation>Düzeyi azalt</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2211"/>
         <location filename="../preferences.ui" line="2310"/>
         <source>Enable/disable mute all</source>
         <translation>Tümünü sessize almayı etkinleştir/etkisizleştir</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2238"/>
         <location filename="../preferences.ui" line="2337"/>
         <source>Increase microphone gain</source>
         <translation>Mikrofon kazancını artır</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2265"/>
         <location filename="../preferences.ui" line="2364"/>
         <source>Lower microphone gain</source>
         <translation>Mikrofon kazancını azalt</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2292"/>
         <location filename="../preferences.ui" line="2391"/>
         <source>Enable/disable video transmission</source>
         <translation>Video iletimini etkinleştir/etkisizleştir</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2305"/>
         <location filename="../preferences.ui" line="2404"/>
         <source>Setup Keys</source>
         <translation>Tuşları Ayarla</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2340"/>
         <location filename="../preferences.ui" line="2439"/>
         <source>Video Capture Settings</source>
         <translation>Video Yakalama Ayarları</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2346"/>
         <location filename="../preferences.ui" line="2445"/>
         <source>Video Capture Device</source>
         <translation>Video Yakalama Aygıtı</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2366"/>
         <location filename="../preferences.ui" line="2465"/>
         <source>Video Resolution</source>
         <translation>Video Çözünürlüğü</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2381"/>
         <location filename="../preferences.ui" line="2480"/>
         <source>Customize video format</source>
         <translation>Video biçimini özelleştir</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2395"/>
         <location filename="../preferences.ui" line="2494"/>
         <source>Image Format</source>
         <translation>Görüntü Biçimi</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2405"/>
         <location filename="../preferences.ui" line="2504"/>
         <source>RGB32</source>
         <translation>RGB32</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2412"/>
         <location filename="../preferences.ui" line="2511"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2419"/>
         <location filename="../preferences.ui" line="2518"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2443"/>
         <location filename="../preferences.ui" line="2542"/>
         <location filename="../preferencesdlg.cpp" line="1312"/>
         <source>Test Selected</source>
         <translation>Seçilenleri Sına</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2471"/>
-        <location filename="../OldPref/preferences.ui" line="2474"/>
         <location filename="../preferences.ui" line="2570"/>
         <location filename="../preferences.ui" line="2573"/>
         <source>Video Codec Settings</source>
         <translation>Video Kodlayıcı/Çözücüsü Ayarları</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2482"/>
         <location filename="../preferences.ui" line="2581"/>
         <source>Codec</source>
         <translation>Kodlayıcı/Çözücü</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2538"/>
         <location filename="../preferences.ui" line="2637"/>
         <source>Bitrate</source>
         <translation>Bit Hızı</translation>
@@ -6401,9 +6215,9 @@ Bu ayarlar uygulansın mı?</translation>
     </message>
     <message>
         <location filename="../textmessage.ui" line="46"/>
-        <location filename="../textmessagedlg.cpp" line="129"/>
-        <location filename="../textmessagedlg.cpp" line="188"/>
-        <location filename="../textmessagedlg.cpp" line="228"/>
+        <location filename="../textmessagedlg.cpp" line="132"/>
+        <location filename="../textmessagedlg.cpp" line="191"/>
+        <location filename="../textmessagedlg.cpp" line="231"/>
         <source>New message</source>
         <translation>Yeni ileti</translation>
     </message>
@@ -6418,28 +6232,28 @@ Bu ayarlar uygulansın mı?</translation>
         <translation>&amp;Gönder</translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="165"/>
+        <location filename="../textmessagedlg.cpp" line="168"/>
         <source>Private message sent: %1</source>
         <translation>Gönderilen özel ileti: %1</translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="171"/>
+        <location filename="../textmessagedlg.cpp" line="174"/>
         <source>Character limit exceeded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="171"/>
+        <location filename="../textmessagedlg.cpp" line="174"/>
         <source>Your message has exceeded the limit by %1 characters. Please reduce it and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="210"/>
+        <location filename="../textmessagedlg.cpp" line="213"/>
         <source>New message - remote user typing.</source>
         <translation>Yeni ileti - uzak kullanıcı yazıyor.</translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="215"/>
-        <location filename="../textmessagedlg.cpp" line="217"/>
+        <location filename="../textmessagedlg.cpp" line="218"/>
+        <location filename="../textmessagedlg.cpp" line="220"/>
         <source>%1 is typing</source>
         <translation type="unfinished"></translation>
     </message>
