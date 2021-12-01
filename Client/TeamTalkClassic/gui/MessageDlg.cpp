@@ -161,31 +161,41 @@ BOOL CMessageDlg::OnInitDialog()
     // EXCEPTION: OCX Property Pages should return FALSE
 }
 
-void CMessageDlg::OnButtonSend() 
+void CMessageDlg::OnButtonSend()
 {
     CString msg;
     m_richMessage.GetWindowText(msg);
 
-    if(IsAlive() && msg.GetLength()>0)
+    if (IsAlive() && msg.GetLength() > 0)
     {
-        m_richMessage.SetWindowText(_T(""));
-
         MyTextMessage usermsg;
         usermsg.nMsgType = MSGTYPE_USER;
         usermsg.nFromUserID = m_myself.nUserID;
         usermsg.nToUserID = m_user.nUserID;
         _tcsncpy(usermsg.szMessage, msg.GetBuffer(), TT_STRLEN - 1);
 
-        if( TT_DoTextMessage(ttInst, &usermsg)>0) {
-            AppendMessage(usermsg, TRUE);
-            m_pParent->PlaySoundEvent(SOUNDEVENT_USER_TEXTMSGSENT);
-            if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE) {
-                CString szMsg;
-                szMsg.Format(LoadText(IDS_MPSEND, _T("Private message sent: %s")), usermsg.szMessage);
-                AddTextToSpeechMessage(szMsg); }
-        } else {
-            AfxMessageBox(LoadText(IDS_MSGDLGFAILEDTOSEND, _T("Failed to send message!")));
+        int utf8_len = WideCharToMultiByte(CP_UTF8, 0, msg, -1, NULL, 0, NULL, NULL);
+        if (utf8_len < TT_STRLEN) {
+            if (TT_DoTextMessage(ttInst, &usermsg) > 0) {
+                m_richMessage.SetWindowText(_T(""));
+                AppendMessage(usermsg, TRUE);
+                m_pParent->PlaySoundEvent(SOUNDEVENT_USER_TEXTMSGSENT);
+                if (m_xmlSettings.GetEventTTSEvents() & TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE) {
+                    CString szMsg;
+                    szMsg.Format(LoadText(IDS_MPSEND, _T("Private message sent: %s")), usermsg.szMessage);
+                    AddTextToSpeechMessage(szMsg);
+                }
+            }
+            else {
+                AfxMessageBox(LoadText(IDS_MSGDLGFAILEDTOSEND, _T("Failed to send message!")));
+            }
         }
+        else {
+            CString szError;
+                szError.Format(LoadText(IDS_MSGCHARSLIMIT, _T("Your message has exceeded the limit by %d characters. Please reduce it and try again.")), utf8_len - TT_STRLEN + 1);
+                MessageBox(szError, LoadText(IDS_MSGCHARSLIMITTITLE, _T("Character limit exceeded")), MB_OK);
+        }
+
     }
 }
 

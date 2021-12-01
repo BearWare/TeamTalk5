@@ -443,6 +443,8 @@
     <item id="578">Hidden</item>
     <item id="579">You have been kicked from server by an unknown user</item>
     <item id="580">You have been kicked from server by %s</item>
+    <item id="581">Character limit exceeded</item>
+    <item id="582">Your message has exceeded the limit by %d characters. Please reduce it and try again.</item>
     <item id="1006">Files list</item>
     <item id="1009">Auto join root channel upon connection</item>
     <item id="1012">Host TCP port</item>

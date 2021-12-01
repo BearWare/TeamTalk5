@@ -2018,6 +2018,8 @@ BEGIN
     IDS_KICKEDFROMSERVERBYUNK 
                             "You have been kicked from the server by an unknown user"
     IDS_KICKEDFROMSERVER    "You have been kicked from the server by %s"
+    IDS_MSGCHARSLIMITTITLE   "Character limit exceeded"
+    IDS_MSGCHARSLIMIT   "Your message has exceeded the limit by %d characters. Please reduce it and try again."
 END
 
 STRINGTABLE
