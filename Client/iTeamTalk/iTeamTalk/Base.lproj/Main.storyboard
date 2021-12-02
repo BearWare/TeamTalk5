@@ -333,9 +333,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ZGD-rH-e1r">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="572"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ZGD-rH-e1r">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="580"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Indent cell" id="Wve-Fa-orE">
@@ -380,16 +379,20 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ow0-Ca-fcq">
-                                <rect key="frame" x="0.0" y="580" width="325" height="41"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ow0-Ca-fcq">
+                                <rect key="frame" x="0.0" y="580" width="339" height="41"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="41" id="uYF-Mz-o6V"/>
+                                </constraints>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LPL-JY-xBM">
-                                <rect key="frame" x="325" y="580" width="50" height="41"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LPL-JY-xBM">
+                                <rect key="frame" x="339" y="580" width="36" height="41"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="41" id="GIa-ys-9RN"/>
+                                </constraints>
                                 <state key="normal" title="Send">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -398,11 +401,24 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="LPL-JY-xBM" firstAttribute="leading" secondItem="ow0-Ca-fcq" secondAttribute="trailing" id="A9I-Rd-zPM"/>
+                            <constraint firstItem="ZGD-rH-e1r" firstAttribute="top" secondItem="N7T-0F-l7t" secondAttribute="top" id="E3N-rF-LRd"/>
+                            <constraint firstAttribute="bottom" secondItem="LPL-JY-xBM" secondAttribute="bottom" constant="46" id="K1g-0q-ss4"/>
+                            <constraint firstAttribute="trailing" secondItem="ZGD-rH-e1r" secondAttribute="trailing" id="Lfu-sR-XFs"/>
+                            <constraint firstItem="ow0-Ca-fcq" firstAttribute="leading" secondItem="N7T-0F-l7t" secondAttribute="leading" id="OXZ-VD-3Zj"/>
+                            <constraint firstItem="ZGD-rH-e1r" firstAttribute="leading" secondItem="N7T-0F-l7t" secondAttribute="leading" id="Tnb-HZ-vRq"/>
+                            <constraint firstAttribute="bottom" secondItem="ow0-Ca-fcq" secondAttribute="bottom" constant="46" id="gaE-Im-wNR"/>
+                            <constraint firstAttribute="trailing" secondItem="LPL-JY-xBM" secondAttribute="trailing" id="reR-ec-FLL"/>
+                            <constraint firstItem="ow0-Ca-fcq" firstAttribute="top" secondItem="ZGD-rH-e1r" secondAttribute="bottom" id="vZO-ZD-LkT"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Text Message" id="0EG-eF-WzS"/>
                     <connections>
                         <outlet property="msgTextView" destination="ow0-Ca-fcq" id="vjn-88-Su4"/>
+                        <outlet property="msgTextViewBottomConstraint" destination="gaE-Im-wNR" id="9uy-r4-Ldd"/>
                         <outlet property="sendButton" destination="LPL-JY-xBM" id="Pcz-Nc-dAS"/>
+                        <outlet property="sendButtonBottomConstraint" destination="K1g-0q-ss4" id="7SF-GI-odt"/>
                         <outlet property="tableView" destination="ZGD-rH-e1r" id="yrM-9a-byf"/>
                     </connections>
                 </viewController>
@@ -944,9 +960,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="9Lf-ei-Jxy">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="9Lf-ei-Jxy">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="578"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Indent cell" id="es8-vV-5sO">
@@ -987,15 +1002,19 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fJY-Ea-OeN">
-                                <rect key="frame" x="0.0" y="578" width="325" height="40"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fJY-Ea-OeN">
+                                <rect key="frame" x="0.0" y="578" width="339" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="5DZ-I7-ITU"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3NI-HT-A3N">
-                                <rect key="frame" x="325" y="577" width="50" height="41"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3NI-HT-A3N">
+                                <rect key="frame" x="339" y="577" width="36" height="41"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="41" id="MiR-DQ-Ewp"/>
+                                </constraints>
                                 <state key="normal" title="Send">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -1005,11 +1024,24 @@
                             </button>
                         </subviews>
                         <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="3NI-HT-A3N" firstAttribute="leading" secondItem="fJY-Ea-OeN" secondAttribute="trailing" id="0L9-S0-3Mj"/>
+                            <constraint firstAttribute="trailing" secondItem="3NI-HT-A3N" secondAttribute="trailing" id="5d1-aR-j8u"/>
+                            <constraint firstAttribute="bottom" secondItem="fJY-Ea-OeN" secondAttribute="bottom" constant="49" id="9RS-9m-HOx"/>
+                            <constraint firstItem="9Lf-ei-Jxy" firstAttribute="top" secondItem="vGn-Fx-3jn" secondAttribute="top" id="BS9-M6-z4Q"/>
+                            <constraint firstAttribute="bottom" secondItem="3NI-HT-A3N" secondAttribute="bottom" constant="49" id="COC-Sv-zVL"/>
+                            <constraint firstItem="fJY-Ea-OeN" firstAttribute="leading" secondItem="vGn-Fx-3jn" secondAttribute="leading" id="OTQ-xP-HKV"/>
+                            <constraint firstItem="9Lf-ei-Jxy" firstAttribute="leading" secondItem="vGn-Fx-3jn" secondAttribute="leading" id="iy6-FE-zsD"/>
+                            <constraint firstItem="fJY-Ea-OeN" firstAttribute="top" secondItem="9Lf-ei-Jxy" secondAttribute="bottom" id="mwq-CD-Kte"/>
+                            <constraint firstAttribute="trailing" secondItem="9Lf-ei-Jxy" secondAttribute="trailing" id="sgs-7q-jKw"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Messages" image="messages" id="j1c-gJ-hO8"/>
                     <connections>
                         <outlet property="msgTextView" destination="fJY-Ea-OeN" id="iuo-NX-Gxc"/>
+                        <outlet property="msgTextViewBottomConstraint" destination="9RS-9m-HOx" id="cij-hE-CXt"/>
                         <outlet property="sendButton" destination="3NI-HT-A3N" id="huo-cR-o2l"/>
+                        <outlet property="sendButtonBottomConstraint" destination="COC-Sv-zVL" id="JRd-zp-MjW"/>
                         <outlet property="tableView" destination="9Lf-ei-Jxy" id="WZu-Lk-V0j"/>
                     </connections>
                 </viewController>
