@@ -443,6 +443,8 @@
     <item id="578">隐藏</item>
     <item id="579">您已被未知用户踢出服务器</item>
     <item id="580">您已被 %s 踢出服务器</item>
+    <item id="581">超出字符限制</item>
+    <item id="582">您的消息已超出限制 %d 个字符，请减少内容并重试。</item>
     <item id="1006">文件列表</item>
     <item id="1009">连接后自动加入跟频道</item>
     <item id="1012">主机TCP端口</item>
