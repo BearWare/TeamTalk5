@@ -3009,12 +3009,12 @@ void CTeamTalkDlg::OnClose()
 
 void CTeamTalkDlg::OnOK()
 {
-    if(GetFocus() == &m_tabChat.m_wndChanMessage && TT_GetMyChannelID(ttInst)>0) 
+    if (GetFocus() == &m_tabChat.m_wndChanMessage && TT_GetMyChannelID(ttInst) > 0)
     {
         CString s;
         m_tabChat.m_wndChanMessage.GetWindowText(s);
         m_tabChat.m_wndChanMessage.SetWindowText(_T(""));
-        if(!s.IsEmpty())
+        if (!s.IsEmpty())
         {
             TextMessage msg = {};
             msg.nMsgType = MSGTYPE_CHANNEL;
@@ -3022,14 +3022,23 @@ void CTeamTalkDlg::OnOK()
             msg.nChannelID = TT_GetMyChannelID(ttInst);
             msg.nToUserID = 0;
             COPYTTSTR(msg.szMessage, s);
-            TT_DoTextMessage( ttInst, &msg );
-            m_tabChat.m_wndChanMessage.AddLastMessage(s);
+            int utf8_len = WideCharToMultiByte(CP_UTF8, 0, s, -1, NULL, 0, NULL, NULL);
+            if (utf8_len < TT_STRLEN) {
+                TT_DoTextMessage(ttInst, &msg);
+                m_tabChat.m_wndChanMessage.AddLastMessage(s);
+            }
+            else {
+                CString szError;
+                szError.Format(LoadText(IDS_MSGCHARSLIMIT, _T("Your message has exceeded the limit by %d characters. Please reduce it and try again.")), utf8_len - TT_STRLEN + 1);
+                MessageBox(szError, LoadText(IDS_MSGCHARSLIMITTITLE, _T("Character limit exceeded")), MB_OK);
+                m_tabChat.m_wndChanMessage.SetWindowText(s);
+            }
         }
     }
     else if (GetFocus() == &m_wndTree)
     {
         int nUserID = m_wndTree.GetSelectedUser();
-        if(nUserID)
+        if (nUserID)
         {
             OnUsersMessages();
         }

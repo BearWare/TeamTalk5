@@ -212,21 +212,23 @@ CString CChatRichEditCtrl::GetChatTime(const CTime& tm)
 CString CChatRichEditCtrl::AddMessage(CString szNick, const MyTextMessage& msg)
 {
     CHARFORMAT cf;
-    memset(&cf,0,sizeof (CHARFORMAT));
-    cf.cbSize        = sizeof (CHARFORMAT);  
-    cf.dwMask        = CFM_COLOR | CFM_UNDERLINE | CFM_BOLD;
-    cf.dwEffects    = (unsigned long)~(CFE_AUTOCOLOR | CFE_UNDERLINE | CFE_BOLD);
-    cf.crTextColor    = RGB(0, 0, 0); 
+    memset(&cf, 0, sizeof(CHARFORMAT));
+    cf.cbSize = sizeof(CHARFORMAT);
+    cf.dwMask = CFM_COLOR | CFM_UNDERLINE | CFM_BOLD;
+    cf.dwEffects = (unsigned long)~(CFE_AUTOCOLOR | CFE_UNDERLINE | CFE_BOLD);
+    cf.crTextColor = RGB(0, 0, 0);
+    long nStartChar, nEndChar;
+    GetSel(nStartChar, nEndChar);
 
     int nOldLineCount = GetLineCount();
     CString name;
-    if(m_bShowTimeStamp)
+    if (m_bShowTimeStamp)
         name.Format(_T("%s%s <%s>\r\n"), (nOldLineCount > 1 ? _T("\r\n") : _T("")), GetChatTime(msg.receiveTime), szNick);
     else
         name.Format(_T("%s<%s>\r\n"), (nOldLineCount > 1 ? _T("\r\n") : _T("")), szNick);
     //insert name
-    SetSel(GetTextLength(),GetTextLength());
-    SetSelectionCharFormat(cf); 
+    SetSel(GetTextLength(), GetTextLength());
+    SetSelectionCharFormat(cf);
     ReplaceSel(name);
 
     //insert msg
@@ -234,7 +236,7 @@ CString CChatRichEditCtrl::AddMessage(CString szNick, const MyTextMessage& msg)
     ReplaceSel(msg.szMessage);
 
     ScrollDown(nOldLineCount);
-
+    SetSel(nStartChar, nStartChar);
     return name + msg.szMessage;
 }
 
@@ -246,6 +248,9 @@ void CChatRichEditCtrl::AddBroadcastMessage(const MyTextMessage& msg)
     cf.dwMask        = CFM_COLOR | CFM_UNDERLINE | CFM_BOLD;
     cf.dwEffects    = (unsigned long)~(CFE_AUTOCOLOR | CFE_UNDERLINE );
     cf.crTextColor    = RGB(0, 0, 0); 
+
+    long nStartChar, nEndChar;
+    GetSel(nStartChar, nEndChar);
 
     int nOldLineCount = GetLineCount();
     //insert ServerInfo
@@ -270,6 +275,7 @@ void CChatRichEditCtrl::AddBroadcastMessage(const MyTextMessage& msg)
     HideSelection(TRUE, FALSE);
 
     ScrollDown(nOldLineCount);
+    SetSel(nStartChar, nStartChar);
 }
 
 void CChatRichEditCtrl::AddLogMesage(CString szMsg)
@@ -280,6 +286,9 @@ void CChatRichEditCtrl::AddLogMesage(CString szMsg)
     cf.dwMask        = CFM_COLOR | CFM_UNDERLINE | CFM_BOLD;
     cf.dwEffects    = (unsigned long)~(CFE_AUTOCOLOR | CFE_UNDERLINE | CFE_BOLD);
     cf.crTextColor    = RGB(127, 127, 127); 
+
+    long nStartChar, nEndChar;
+    GetSel(nStartChar, nEndChar);
 
     int nOldLineCount = GetLineCount();
     CString szLine;
@@ -294,6 +303,7 @@ void CChatRichEditCtrl::AddLogMesage(CString szMsg)
     ReplaceSel(szLine);
 
     ScrollDown(nOldLineCount);
+    SetSel(nStartChar, nStartChar);
 }
 
 void CChatRichEditCtrl::SetServerInfo(CString szServerName, CString szMOTD)
@@ -304,6 +314,9 @@ void CChatRichEditCtrl::SetServerInfo(CString szServerName, CString szMOTD)
     cf.dwMask        = CFM_COLOR | CFM_UNDERLINE | CFM_BOLD;
     cf.dwEffects    = (unsigned long)~(CFE_AUTOCOLOR | CFE_UNDERLINE );
     cf.crTextColor    = RGB(0, 0, 0); 
+
+    long nStartChar, nEndChar;
+    GetSel(nStartChar, nEndChar);
 
     int nOldLineCount = GetLineCount();
     //insert ServerInfo
@@ -318,6 +331,7 @@ void CChatRichEditCtrl::SetServerInfo(CString szServerName, CString szMOTD)
     ReplaceSel(szMsg);
 
     ScrollDown(nOldLineCount);
+    SetSel(nStartChar, nStartChar);
 }
 
 void CChatRichEditCtrl::SetChannelInfo(int nChannelID)
@@ -338,6 +352,9 @@ void CChatRichEditCtrl::SetChannelInfo(int nChannelID)
     cf.dwMask        = CFM_COLOR | CFM_UNDERLINE | CFM_BOLD;
     cf.dwEffects    = (unsigned long)~(CFE_AUTOCOLOR | CFE_UNDERLINE | CFE_BOLD);
     cf.crTextColor    = RGB(0, 0, 0); 
+
+    long nStartChar, nEndChar;
+    GetSel(nStartChar, nEndChar);
 
     int nOldLineCount = GetLineCount();
     //insert join text
@@ -373,6 +390,7 @@ void CChatRichEditCtrl::SetChannelInfo(int nChannelID)
     HideSelection(TRUE, FALSE);
 
     ScrollDown(nOldLineCount);
+    SetSel(nStartChar, nStartChar);
 }
 
 void CChatRichEditCtrl::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
