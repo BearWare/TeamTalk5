@@ -927,32 +927,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="946"/>
         <source>Away</source>
-        <translation type="unfinished">Abwesend</translation>
+        <translation>Abwesend</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="949"/>
         <source>Question</source>
-        <translation type="unfinished">Frage</translation>
+        <translation>Frage</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="955"/>
         <source>Streaming media file</source>
-        <translation type="unfinished"></translation>
+        <translation>Streamt Mediendatei</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="958"/>
         <source>Webcam</source>
-        <translation type="unfinished">Webcam</translation>
+        <translation>Webcam</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="970"/>
         <source>Administrator</source>
-        <translation type="unfinished">Administrator</translation>
+        <translation>Administrator</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="973"/>
         <source>Channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Raumoperator</translation>
     </message>
     <message>
         <source>, Away</source>
@@ -2487,27 +2487,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="3585"/>
         <source>Text messages blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Textnachrichten durch Raumoperator blockiert</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3589"/>
         <source>Voice transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprachübertragung durch Raumoperator blockiert</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3593"/>
         <source>Media file transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Medienübertragung durch Raumoperator blockiert</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3597"/>
         <source>Video transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Videoübertragung durch Raumoperator blockiert</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3601"/>
         <source>Desktop transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Desktopübertragung durch Raumoperator blockiert</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3645"/>
@@ -2544,12 +2544,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="3938"/>
         <source>No Sound Device</source>
-        <translation type="unfinished">Kein Audiogerät</translation>
+        <translation>Kein Audiogerät</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3964"/>
         <source>&amp;Refresh Sound Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Audioge&amp;räte aktualisieren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4003"/>
@@ -2559,7 +2559,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4104"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Videogerät wurde nicht korrekt konfiguriert. Bitte überprüfe die Einstellungen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4115"/>
@@ -2584,12 +2584,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4233"/>
         <source>Sound events enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Klangereignisse eingeschaltet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4238"/>
         <source>Sound events disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Klangereignisse ausgeschaltet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4276"/>
@@ -2681,7 +2681,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4823"/>
         <source>Nobody is active in this channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Niemand ist in diesem Raum aktiv</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4869"/>
@@ -2867,19 +2867,21 @@ Du kannst sie auf der folgenden Seite herunterladen:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="6698"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Eine neue Beta-Version von %1 ist verfügbar: %2. Möchtest du die Download-Seite öffnen?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6703"/>
         <source>New beta version available</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Beta-Version verfügbar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6710"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Beta-Version verfügbar: %1<byte value="xd"/>
+Du kannst sie auf folgender Seite herunterladen:<byte value="xd"/>
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6786"/>
@@ -2895,53 +2897,53 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="1035"/>
         <location filename="../mainwindow.cpp" line="1038"/>
         <source>Kicked from server</source>
-        <translation type="unfinished"></translation>
+        <translation>Vom Server geworfen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1036"/>
         <source>You have been kicked from server by %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat dich vom Server geworfen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1039"/>
         <source>You have been kicked from server by unknown user</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein unbekannter Nutzer hat dich vom Server geworfen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
         <location filename="../mainwindow.cpp" line="1058"/>
         <source>Kicked from channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Aus Raum geworfen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1056"/>
         <source>You have been kicked from channel by %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat dich aus dem Raum geworfen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1059"/>
         <source>You have been kicked from channel by unknown user</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein unbekannter Benutzer hat dich aus dem Raum geworfen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1162"/>
         <source>%1 joined root channel</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat den Hauptraum betreten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1168"/>
         <source>%1 joined channel %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat den Raum %2 betreten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1199"/>
         <source>%1 left root channel</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat den Hauptraum verlassen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1203"/>
         <source>%1 left channel %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat den Raum %2 verlassen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2552"/>
@@ -2984,7 +2986,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="5370"/>
         <source>Streaming media file</source>
-        <translation type="unfinished"></translation>
+        <translation>Streamt Mediendatei</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5510"/>
@@ -3004,12 +3006,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="5657"/>
         <source>Character limit exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeichenanzahl überschritten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5657"/>
         <source>Your message has exceeded the limit by %1 characters. Please reduce it and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Deine Nachricht hat die zulässige Zeichenanzahl von %1 überschritten. Bitte kürze sie und versuche es erneut.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5778"/>
@@ -3352,17 +3354,17 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1391"/>
         <source>&amp;Enable Echo Cancellation</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Echounterdrückung einschalten</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1399"/>
         <source>Enable &amp;Automatic Gain Control</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Automatische Pegelkontrolle einschalten</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1407"/>
         <source>Enable &amp;Denoising</source>
-        <translation type="unfinished"></translation>
+        <translation>Rauschunter&amp;drückung einschalten</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1412"/>
@@ -3563,7 +3565,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1622"/>
         <source>S&amp;peak Channel State</source>
-        <translation type="unfinished"></translation>
+        <translation>Raumzustand s&amp;prechen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1625"/>
@@ -3638,7 +3640,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1915"/>
         <source>Allow All V&amp;oice Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Erlaube allen die Sprachübertragung</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1918"/>
@@ -3648,7 +3650,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1926"/>
         <source>Allow All Video Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Erlaube allen die Videoübertragung</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1929"/>
@@ -3668,7 +3670,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="2005"/>
         <source>Enable Sound Events</source>
-        <translation type="unfinished"></translation>
+        <translation>Klangereignisse einschalten</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2008"/>
@@ -3678,7 +3680,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="2027"/>
         <source>Allow All Desktop Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Erlaube allen die Desktopübertragung</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2030"/>
@@ -3688,7 +3690,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="2159"/>
         <source>Allow All Media File Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Erlaube allen die Medienübertragung</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2162"/>
@@ -3748,7 +3750,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="2256"/>
         <source>Allow All Channel Text Messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Erlaube allen Raumnachrichten zu senden</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2259"/>
@@ -3965,32 +3967,32 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1120"/>
         <source>S&amp;ound Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>S&amp;ound-Konfiguration</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1124"/>
         <source>&amp;Input Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Eingabegeräte</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1129"/>
         <source>&amp;Output Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ausgabegeräte</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1154"/>
         <source>&amp;Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Be&amp;nachrichtigungen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1231"/>
         <source>&amp;Transmit Control</source>
-        <translation type="unfinished"></translation>
+        <translation>Über&amp;tragungskontrolle</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1264"/>
         <source>&amp;Channel information</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Rauminformationen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1849"/>
@@ -4372,7 +4374,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../onlineusers.ui" line="54"/>
         <source>Keep disconnected users</source>
-        <translation type="unfinished"></translation>
+        <translation>Getrennte Benutzer behalten</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="107"/>
@@ -4402,12 +4404,12 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../onlineusersdlg.cpp" line="114"/>
         <source>Select User(s) for Move</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer zum Verschieben wählen</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="185"/>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
-        <translation type="unfinished">ID: %1, Nickname: %2, Statusnachricht: %3, Benutzername: %4, Raum: %5, IP-Adresse: %6, Version: %7</translation>
+        <translation>ID: %1, Nickname: %2, Statusnachricht: %3, Benutzername: %4, Raum: %5, IP-Adresse: %6, Version: %7</translation>
     </message>
     <message>
         <source>Stream Audio &amp;File to User</source>
@@ -5321,32 +5323,32 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="551"/>
         <source>Do nothing</source>
-        <translation type="unfinished"></translation>
+        <translation>Nichts unternehmen</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="552"/>
         <source>Join only</source>
-        <translation type="unfinished"></translation>
+        <translation>Nur betreten</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="553"/>
         <source>Leave only</source>
-        <translation type="unfinished"></translation>
+        <translation>Nur verlassen</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="554"/>
         <source>Join or leave</source>
-        <translation type="unfinished"></translation>
+        <translation>Betreten oder verlassen</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="558"/>
         <source>Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>Aufsteigend</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="559"/>
         <source>Popularity</source>
-        <translation type="unfinished"></translation>
+        <translation>Beliebtheit</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="647"/>
@@ -5486,37 +5488,37 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferences.ui" line="502"/>
         <source>Double click on a channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppelklick auf einen Raum</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="519"/>
         <source>Sort channels by</source>
-        <translation type="unfinished"></translation>
+        <translation>Räume sortieren</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="534"/>
         <source>Close dialog box when a file transfer is finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Dialog nach abgeschlossener Dateiübertragung schließen</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="541"/>
         <source>Show a dialog box when excluded from channel or server</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige einen Dialog bei Ausschluss von einem Raum oder Server</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="662"/>
         <source>Check for software updates on startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Bei Programmstart auf Software-Aktualisierungen prüfen</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="669"/>
         <source>Check for beta software updates on startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Bei Programmstart auf Beta-Aktualisierungen prüfen</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2184"/>
         <source>Speak selected item in lists</source>
-        <translation type="unfinished"></translation>
+        <translation>Gewählten Eintrag in Listen ansagen</translation>
     </message>
 </context>
 <context>
@@ -6307,7 +6309,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="169"/>
         <source>Transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Übertragung durch Raumoperator blockiert</translation>
     </message>
 </context>
 <context>
@@ -6700,12 +6702,12 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../ttseventsmodel.cpp" line="134"/>
         <source>User is typing a private text message in focused window</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer tippt eine private Nachricht in fokussiertem Fenster</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="136"/>
         <source>User is typing a private text message</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer tippt eine private Nachricht</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="138"/>
@@ -6882,12 +6884,12 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../textmessagedlg.cpp" line="174"/>
         <source>Character limit exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeichenanzahl überschritten</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="174"/>
         <source>Your message has exceeded the limit by %1 characters. Please reduce it and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Deine Nachricht hat die zulässige Zeichenanzahl von %1 überschritten. Bitte kürze sie und versuche es erneut.</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="213"/>
@@ -6898,7 +6900,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <location filename="../textmessagedlg.cpp" line="218"/>
         <location filename="../textmessagedlg.cpp" line="220"/>
         <source>%1 is typing</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 tippt gerade</translation>
     </message>
 </context>
 <context>
