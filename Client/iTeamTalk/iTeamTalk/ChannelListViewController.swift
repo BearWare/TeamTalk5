@@ -66,7 +66,9 @@ class ChannelListViewController :
     @IBOutlet weak var txButton: UIButton!
     // timeout for PTT lock
     var pttLockTimeout = Date()
-
+    
+    @IBOutlet weak var txButtonConstraint: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -79,8 +81,12 @@ class ChannelListViewController :
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        tableView.reloadData()
         updateTX()
+
+        // Height of bottom tab-controller changes depending on resolution
+        if let tc = self.tabBarController {
+            txButtonConstraint.constant = tc.tabBar.frame.size.height
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {

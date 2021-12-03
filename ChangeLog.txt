@@ -25,6 +25,8 @@ iOS Client
 - Sound shared with other apps so iTeamTalk can run in background
 - Ability to select stereo inputs in Preferences
 - Notification on text limit exceeded
+- Fixed overlapped TX button on some devices
+- Fixed overlapped send message fields on some devices
 Server
 -
 

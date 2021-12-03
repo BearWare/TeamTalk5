@@ -32,6 +32,9 @@ class TextMessageViewController :
     @IBOutlet weak var msgTextView: UITextView!
     @IBOutlet weak var sendButton: UIButton!
     
+    @IBOutlet weak var msgTextViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var sendButtonBottomConstraint: NSLayoutConstraint!
+    
     var userid : INT32 = 0
     
     var delegate : MyTextMessageDelegate?
@@ -125,6 +128,7 @@ class TextMessageViewController :
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        repositionControls()
     }
     
     @objc func keyboardWillShow(_ notify: Notification) {
@@ -135,37 +139,28 @@ class TextMessageViewController :
         moveForKeyboard(notify, up: false)
     }
     
+    func repositionControls() {
+        if let tc = self.tabBarController {
+            msgTextViewBottomConstraint.constant = tc.tabBar.frame.size.height
+            sendButtonBottomConstraint.constant = tc.tabBar.frame.size.height
+        }
+        else {
+            msgTextViewBottomConstraint.constant = 0
+            sendButtonBottomConstraint.constant = 0
+        }
+    }
+    
     func moveForKeyboard(_ notify: Notification, up: Bool) {
         if let userInfo = notify.userInfo {
             if let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as AnyObject).cgRectValue {
                 
-                let selfFrame = self.view.frame
-                var newTableFrame = tableView.frame
-                var newTextViewFrame = msgTextView.frame
-                var newSendBtnFrame = sendButton.frame
-                
                 if up {
-                    newTextViewFrame.origin.y = keyboardFrame.origin.y - newTextViewFrame.height
-                    newSendBtnFrame.origin.y = keyboardFrame.origin.y - newSendBtnFrame.height
-                    
-                    newTableFrame.size.height = selfFrame.height - keyboardFrame.height - newTextViewFrame.height
+                    msgTextViewBottomConstraint.constant = keyboardFrame.height
+                    sendButtonBottomConstraint.constant = keyboardFrame.height
                 }
                 else {
-                    var tabBarHeight : CGFloat = 0.0
-                    if self.tabBarController != nil {
-                        tabBarHeight = (self.tabBarController?.tabBar.frame.size.height)!
-                    }
-                    
-                    newTextViewFrame.origin.y = selfFrame.height - newTextViewFrame.height - tabBarHeight
-                    newSendBtnFrame.origin.y = selfFrame.height - newSendBtnFrame.height - tabBarHeight
-                    
-                    newTableFrame.size.height = selfFrame.height - newTextViewFrame.height - tabBarHeight
-                    
+                    repositionControls()
                 }
-                
-                tableView.frame = newTableFrame
-                msgTextView.frame = newTextViewFrame
-                sendButton.frame = newSendBtnFrame
                 
                 updateTableView()
             }
