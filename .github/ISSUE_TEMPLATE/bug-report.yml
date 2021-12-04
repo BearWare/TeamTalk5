@@ -1,6 +1,6 @@
 name: Bug Report
 description: Submit a bug report
-labels: [needs triage]
+labels: [bug]
 body:
   - type: textarea
     attributes:

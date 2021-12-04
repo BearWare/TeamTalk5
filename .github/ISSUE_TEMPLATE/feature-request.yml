@@ -1,6 +1,6 @@
 name: Feature Request
 description: Submit a feature request
-labels: [needs triage]
+labels: [enhancement]
 body:
   - type: textarea
     attributes:
