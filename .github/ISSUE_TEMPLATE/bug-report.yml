@@ -1,0 +1,49 @@
+name: Bug Report
+description: Submit a bug report
+labels: [needs triage]
+body:
+  - type: textarea
+    attributes:
+      label: Description
+      description: A clear and concise description of what the bug is, and why you consider it to be a bug.
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: Application
+      options:
+        - label: qtTeamTalk
+        - label: TeamTalkAndroid
+        - label: iTeamTalk
+        - label: TeamTalkClassic
+        - label: TeamTalkServer
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: Platform
+      options:
+        - label: Windows
+        - label: macOS
+        - label: Android
+        - label: iOS
+        - label: Linux
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected behavior
+      description: A description of what you expected to happen.
+  - type: textarea
+    attributes:
+      label: Actual behavior
+      description: A description of what is actually happening.
+  - type: textarea
+    attributes:
+      label: Repro steps
+      placeholder: |
+        A description with steps to reproduce the issue.
+        1. Step 1
+        2. Step 2
+    validations:
+        required: true

@@ -1,0 +1,20 @@
+name: Feature Request
+description: Submit a feature request
+labels: [needs triage]
+body:
+  - type: textarea
+    attributes:
+      label: Description
+      description: A description of the feature you would like to see
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: Application
+      options:
+        - label: qtTeamTalk
+        - label: TeamTalkAndroid
+        - label: iTeamTalk
+        - label: TeamTalkServer
+    validations:
+      required: true
