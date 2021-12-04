@@ -1747,20 +1747,18 @@ void MainWindow::cmdLoggedIn(int myuserid)
     //join channel (if specified)
     Channel tmpchan;
     int channelid = 0;
-    if (m_host.channel.size())
-        channelid = TT_GetChannelIDFromPath(ttInst, _W(m_host.channel));
+    QString channelpath = _Q(account.szInitChannel).isEmpty() ? m_host.channel : _Q(account.szInitChannel);
+    if (channelpath.size())
+        channelid = TT_GetChannelIDFromPath(ttInst, _W(channelpath));
     int parentid = 0;
-    int account_channelid = TT_GetChannelIDFromPath(ttInst, 
-                                                    account.szInitChannel);
 
     //see if parent channel exists (otherwise we cannot create it)
-    QStringList subchannels = m_host.channel.split('/');
+    QStringList subchannels = channelpath.split('/');
     if(subchannels.size())
     {
         QStringList parent = subchannels;
         parent.erase(parent.end()-1);
-        QString chanpath = parent.join("/");
-        parentid = TT_GetChannelIDFromPath(ttInst, _W(chanpath));
+        parentid = TT_GetChannelIDFromPath(ttInst, _W(parent.join("/")));
     }
 
     if (m_last_channel.nChannelID && //join using last channel
@@ -1772,20 +1770,13 @@ void MainWindow::cmdLoggedIn(int myuserid)
         if(cmdid>0)
             m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
     }
-    else if(_Q(account.szInitChannel).size() && account_channelid > 0)
-    {
-        int cmdid = TT_DoJoinChannelByID(ttInst, account_channelid, 
-                                         _W(QString()));
-        if(cmdid>0)
-            m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
-    }
-    else if(m_host.channel.size() && channelid > 0) //join if channel exists
+    else if (channelpath.size() && channelid > 0) //join if channel exists
     {
         int cmdid = TT_DoJoinChannelByID(ttInst, channelid, _W(m_host.chanpasswd));
         if(cmdid>0)
             m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
     }
-    else if(m_host.channel.size() && parentid>0) //make a new channel if parent exists
+    else if (channelpath.size() && parentid > 0) //make a new channel if parent exists
     {
         QString name;
         if(subchannels.size())
@@ -1807,14 +1798,12 @@ void MainWindow::cmdLoggedIn(int myuserid)
     }
     else if(ttSettings->value(SETTINGS_CONNECTION_AUTOJOIN, true).toBool()) //just join root
     {
-        if(m_host.channel.size())
-            addStatusMsg(STATUSBAR_BYPASS, tr("Cannot join channel %1").arg(m_host.channel));
+        if (channelpath.size())
+            addStatusMsg(STATUSBAR_BYPASS, tr("Cannot join channel %1").arg(channelpath));
 
         //auto join root channel
-        int cmdid = TT_DoJoinChannelByID(ttInst, 
-                                         TT_GetRootChannelID(ttInst), 
-                                         _W(QString("")));
-        if(cmdid>0)
+        int cmdid = TT_DoJoinChannelByID(ttInst, TT_GetRootChannelID(ttInst), _W(QString("")));
+        if (cmdid > 0)
             m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
     }
 }
