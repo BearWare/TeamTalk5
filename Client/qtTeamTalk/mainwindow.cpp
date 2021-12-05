@@ -1750,15 +1750,17 @@ void MainWindow::cmdLoggedIn(int myuserid)
     QString channelpath = _Q(account.szInitChannel).isEmpty() ? m_host.channel : _Q(account.szInitChannel);
     if (channelpath.size())
         channelid = TT_GetChannelIDFromPath(ttInst, _W(channelpath));
-    int parentid = 0;
 
     //see if parent channel exists (otherwise we cannot create it)
+    int parentid = 0;
     QStringList subchannels = channelpath.split('/');
-    if(subchannels.size())
+    subchannels.removeAll(""); //remove blanks caused by beginning '/' and ending '/'
+    if (subchannels.size())
     {
         QStringList parent = subchannels;
         parent.erase(parent.end()-1);
-        parentid = TT_GetChannelIDFromPath(ttInst, _W(parent.join("/")));
+        QString parentpath = parent.join("/");
+        parentid = TT_GetChannelIDFromPath(ttInst, _W(parentpath));
     }
 
     if (m_last_channel.nChannelID && //join using last channel
