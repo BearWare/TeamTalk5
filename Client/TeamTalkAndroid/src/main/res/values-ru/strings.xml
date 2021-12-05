@@ -360,5 +360,6 @@
     <string name="pref_title_channel_message_sent">Отправка сообщений в канале</string>
     <string name="pref_summary_channel_message_sent">Объявление об отправке сообщений для всех в текущем канале</string>
     <string name="text_tts_channel_message_sent">Отправлено сообщение в канале: %1$s</string>
+    <string name="err_text_length">Длина сообщения превышена на %1$d знаков</string>
 
 </resources>
