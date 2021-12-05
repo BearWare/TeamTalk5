@@ -617,12 +617,9 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QPushButton" name="delButton">
+         <widget class="QPushButton" name="closeBtn">
           <property name="text">
-           <string>&amp;Delete</string>
-          </property>
-          <property name="accessibleDescription">
-           <string>Remove selected user</string>
+           <string>C&amp;lose</string>
           </property>
          </widget>
         </item>
@@ -660,12 +657,12 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="addButton">
+         <widget class="QPushButton" name="delButton">
           <property name="text">
-           <string>&amp;Add/Update</string>
+           <string>&amp;Delete</string>
           </property>
           <property name="accessibleDescription">
-           <string>Add or update user with specified informations</string>
+           <string>Remove selected user</string>
           </property>
          </widget>
         </item>
@@ -683,9 +680,12 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="closeBtn">
+         <widget class="QPushButton" name="addButton">
           <property name="text">
-           <string>C&amp;lose</string>
+           <string>&amp;Add/Update</string>
+          </property>
+          <property name="accessibleDescription">
+           <string>Add or update user with specified informations</string>
           </property>
          </widget>
         </item>
