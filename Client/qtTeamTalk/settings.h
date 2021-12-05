@@ -126,16 +126,27 @@
 #define SETTINGS_DISPLAY_WINDOW_MAXIMIZE                          "display/window-maximized"
 
 #define SETTINGS_CONNECTION_AUTOCONNECT             "connection/autoconnect"
+#define SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT     false
 #define SETTINGS_CONNECTION_RECONNECT               "connection/reconnect"
+#define SETTINGS_CONNECTION_RECONNECT_DEFAULT       true
 #define SETTINGS_CONNECTION_AUTOJOIN                "connection/autojoin"
+#define SETTINGS_CONNECTION_AUTOJOIN_DEFAULT        true
 #define SETTINGS_CONNECTION_QUERYMAXPAYLOAD         "connection/query-max-payload"
+#define SETTINGS_CONNECTION_QUERYMAXPAYLOAD_DEFAULT false
 #define SETTINGS_CONNECTION_SUBSCRIBE_USERMSG       "connection/subscribe-usermsg"
+#define SETTINGS_CONNECTION_SUBSCRIBE_USERMSG_DEFAULT true
 #define SETTINGS_CONNECTION_SUBSCRIBE_CHANNELMSG    "connection/subscribe-channelmsg"
+#define SETTINGS_CONNECTION_SUBSCRIBE_CHANNELMSG_DEFAULT true
 #define SETTINGS_CONNECTION_SUBSCRIBE_BROADCASTMSG  "connection/subscribe-broadcastmsg"
+#define SETTINGS_CONNECTION_SUBSCRIBE_BROADCASTMSG_DEFAULT true
 #define SETTINGS_CONNECTION_SUBSCRIBE_VOICE         "connection/subscribe-audio"
+#define SETTINGS_CONNECTION_SUBSCRIBE_VOICE_DEFAULT true
 #define SETTINGS_CONNECTION_SUBSCRIBE_VIDEOCAPTURE  "connection/subscribe-video"
+#define SETTINGS_CONNECTION_SUBSCRIBE_VIDEOCAPTURE_DEFAULT true
 #define SETTINGS_CONNECTION_SUBSCRIBE_DESKTOP       "connection/subscribe-desktop"
+#define SETTINGS_CONNECTION_SUBSCRIBE_DESKTOP_DEFAULT true
 #define SETTINGS_CONNECTION_SUBSCRIBE_MEDIAFILE     "connection/subscribe-media-file"
+#define SETTINGS_CONNECTION_SUBSCRIBE_MEDIAFILE_DEFAULT true
 #define SETTINGS_CONNECTION_TCPPORT                 "connection/localtcpport"
 #define SETTINGS_CONNECTION_UDPPORT                 "connection/localudpport"
 

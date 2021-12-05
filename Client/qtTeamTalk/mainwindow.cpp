@@ -959,7 +959,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         Disconnect();
 
         killLocalTimer(TIMER_RECONNECT);
-        if (ttSettings->value(SETTINGS_CONNECTION_RECONNECT, true).toBool())
+        if (ttSettings->value(SETTINGS_CONNECTION_RECONNECT, SETTINGS_CONNECTION_RECONNECT_DEFAULT).toBool())
         {
             m_timers[startTimer(5000)] = TIMER_RECONNECT;
         }
@@ -971,7 +971,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     case CLIENTEVENT_CON_LOST :
     {
         Disconnect();
-        if(ttSettings->value(SETTINGS_CONNECTION_RECONNECT, true).toBool())
+        if(ttSettings->value(SETTINGS_CONNECTION_RECONNECT, SETTINGS_CONNECTION_RECONNECT_DEFAULT).toBool())
             m_timers[startTimer(5000)] = TIMER_RECONNECT;
 
         addStatusMsg(STATUSBAR_BYPASS, tr("Connection lost to %1 TCP port %2 UDP port %3")
@@ -1805,7 +1805,7 @@ void MainWindow::cmdLoggedIn(int myuserid)
         if(cmdid>0)
             m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
     }
-    else if(ttSettings->value(SETTINGS_CONNECTION_AUTOJOIN, true).toBool()) //just join root
+    else if(ttSettings->value(SETTINGS_CONNECTION_AUTOJOIN, SETTINGS_CONNECTION_AUTOJOIN_DEFAULT).toBool()) //just join root
     {
         if(m_host.channel.size())
             addStatusMsg(STATUSBAR_BYPASS, tr("Cannot join channel %1").arg(m_host.channel));
@@ -1943,7 +1943,7 @@ void MainWindow::login()
     addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Connected to %1").arg(limitText(_Q(prop.szServerName))));
 
     //query server's max payload
-    if(ttSettings->value(SETTINGS_CONNECTION_QUERYMAXPAYLOAD, false).toBool())
+    if(ttSettings->value(SETTINGS_CONNECTION_QUERYMAXPAYLOAD, SETTINGS_CONNECTION_QUERYMAXPAYLOAD_DEFAULT).toBool())
         TT_QueryMaxPayload(ttInst, 0);
 }
 
@@ -2792,19 +2792,19 @@ void MainWindow::updateChannelFiles(int channelid)
 void MainWindow::updateUserSubscription(int userid)
 {
     Subscriptions unsub = SUBSCRIBE_NONE;
-    if(!ttSettings->value(SETTINGS_CONNECTION_SUBSCRIBE_USERMSG, true).toBool())
+    if(!ttSettings->value(SETTINGS_CONNECTION_SUBSCRIBE_USERMSG, SETTINGS_CONNECTION_SUBSCRIBE_USERMSG_DEFAULT).toBool())
         unsub |= SUBSCRIBE_USER_MSG;
-    if(!ttSettings->value(SETTINGS_CONNECTION_SUBSCRIBE_CHANNELMSG, true).toBool())
+    if(!ttSettings->value(SETTINGS_CONNECTION_SUBSCRIBE_CHANNELMSG, SETTINGS_CONNECTION_SUBSCRIBE_CHANNELMSG_DEFAULT).toBool())
         unsub |= SUBSCRIBE_CHANNEL_MSG;
-    if(!ttSettings->value(SETTINGS_CONNECTION_SUBSCRIBE_BROADCASTMSG, true).toBool())
+    if(!ttSettings->value(SETTINGS_CONNECTION_SUBSCRIBE_BROADCASTMSG, SETTINGS_CONNECTION_SUBSCRIBE_BROADCASTMSG_DEFAULT).toBool())
         unsub |= SUBSCRIBE_BROADCAST_MSG;
-    if(!ttSettings->value(SETTINGS_CONNECTION_SUBSCRIBE_VOICE, true).toBool())
+    if(!ttSettings->value(SETTINGS_CONNECTION_SUBSCRIBE_VOICE, SETTINGS_CONNECTION_SUBSCRIBE_VOICE_DEFAULT).toBool())
         unsub |= SUBSCRIBE_VOICE;
-    if(!ttSettings->value(SETTINGS_CONNECTION_SUBSCRIBE_VIDEOCAPTURE, true).toBool())
+    if(!ttSettings->value(SETTINGS_CONNECTION_SUBSCRIBE_VIDEOCAPTURE, SETTINGS_CONNECTION_SUBSCRIBE_VIDEOCAPTURE_DEFAULT).toBool())
         unsub |= SUBSCRIBE_VIDEOCAPTURE;
-    if(!ttSettings->value(SETTINGS_CONNECTION_SUBSCRIBE_DESKTOP, true).toBool())
+    if(!ttSettings->value(SETTINGS_CONNECTION_SUBSCRIBE_DESKTOP, SETTINGS_CONNECTION_SUBSCRIBE_DESKTOP_DEFAULT).toBool())
         unsub |= SUBSCRIBE_DESKTOP;
-    if(!ttSettings->value(SETTINGS_CONNECTION_SUBSCRIBE_MEDIAFILE, true).toBool())
+    if(!ttSettings->value(SETTINGS_CONNECTION_SUBSCRIBE_MEDIAFILE, SETTINGS_CONNECTION_SUBSCRIBE_MEDIAFILE_DEFAULT).toBool())
         unsub |= SUBSCRIBE_MEDIAFILE;
 
     if(unsub)
@@ -5143,7 +5143,7 @@ void MainWindow::slotConnectToLatest()
     HostEntry lasthost;
 
     //auto connect to latest host
-    if(ttSettings->value(SETTINGS_CONNECTION_AUTOCONNECT, false).toBool() &&
+    if(ttSettings->value(SETTINGS_CONNECTION_AUTOCONNECT, SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT).toBool() &&
         getLatestHost(0, lasthost))
     {
         m_host = lasthost;
