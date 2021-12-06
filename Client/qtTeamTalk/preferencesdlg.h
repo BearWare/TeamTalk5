@@ -24,13 +24,13 @@
 #ifndef PREFERENCESDLG_H
 #define PREFERENCESDLG_H
 
-#include <QSet>
-
 #include "ui_preferences.h"
 
 #include "common.h"
 #include "utilhotkey.h"
 #include "uservideodlg.h"
+
+#include <QSet>
 
 class PreferencesDlg : public QDialog
 {
@@ -143,6 +143,7 @@ private:
     void slotShortcutIncVoiceGain(bool checked);
     void slotShortcutDecVoiceGain(bool checked);
     void slotShortcutVideoTx(bool checked);
+    void slotShortcutReinitSound(bool checked);
     //video tab
     void slotVideoCaptureDevChange(int index);
     void slotTestVideoFormat();

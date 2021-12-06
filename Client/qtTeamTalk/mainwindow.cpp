@@ -2162,6 +2162,10 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
         if(active)
             slotMeEnableVideoTransmission((TT_GetFlags(ttInst) & CLIENT_TX_VIDEOCAPTURE) == 0);
         break;
+    case HOTKEY_REINITSOUNDDEVS :
+        if (active)
+            initSound();
+        break;
     }
 }
 
@@ -3293,26 +3297,45 @@ void MainWindow::stopStreamMediaFile()
 void MainWindow::loadHotKeys()
 {
     hotkey_t hotkey;
-    if(loadHotKeySettings(HOTKEY_VOICEACTIVATION, hotkey))
+    if (loadHotKeySettings(HOTKEY_VOICEACTIVATION, hotkey))
         enableHotKey(HOTKEY_VOICEACTIVATION, hotkey);
+    else
+        disableHotKey(HOTKEY_VOICEACTIVATION);
     hotkey.clear();
-    if(loadHotKeySettings(HOTKEY_INCVOLUME, hotkey))
+    if (loadHotKeySettings(HOTKEY_INCVOLUME, hotkey))
         enableHotKey(HOTKEY_INCVOLUME, hotkey);
+    else
+        disableHotKey(HOTKEY_INCVOLUME);
     hotkey.clear();
-    if(loadHotKeySettings(HOTKEY_DECVOLUME, hotkey))
+    if (loadHotKeySettings(HOTKEY_DECVOLUME, hotkey))
         enableHotKey(HOTKEY_DECVOLUME, hotkey);
+    else
+        disableHotKey(HOTKEY_DECVOLUME);
     hotkey.clear();
-    if(loadHotKeySettings(HOTKEY_MUTEALL, hotkey))
+    if (loadHotKeySettings(HOTKEY_MUTEALL, hotkey))
         enableHotKey(HOTKEY_MUTEALL, hotkey);
+    else
+        disableHotKey(HOTKEY_MUTEALL);
     hotkey.clear();
-    if(loadHotKeySettings(HOTKEY_MICROPHONEGAIN_INC, hotkey))
+    if (loadHotKeySettings(HOTKEY_MICROPHONEGAIN_INC, hotkey))
         enableHotKey(HOTKEY_MICROPHONEGAIN_INC, hotkey);
+    else
+        disableHotKey(HOTKEY_MICROPHONEGAIN_INC);
     hotkey.clear();
-    if(loadHotKeySettings(HOTKEY_MICROPHONEGAIN_DEC, hotkey))
+    if (loadHotKeySettings(HOTKEY_MICROPHONEGAIN_DEC, hotkey))
         enableHotKey(HOTKEY_MICROPHONEGAIN_DEC, hotkey);
+    else
+        disableHotKey(HOTKEY_MICROPHONEGAIN_DEC);
     hotkey.clear();
-    if(loadHotKeySettings(HOTKEY_VIDEOTX, hotkey))
+    if (loadHotKeySettings(HOTKEY_VIDEOTX, hotkey))
         enableHotKey(HOTKEY_VIDEOTX, hotkey);
+    else
+        disableHotKey(HOTKEY_VIDEOTX);
+    hotkey.clear();
+    if (loadHotKeySettings(HOTKEY_REINITSOUNDDEVS, hotkey))
+        enableHotKey(HOTKEY_REINITSOUNDDEVS, hotkey);
+    else
+        disableHotKey(HOTKEY_REINITSOUNDDEVS);
 }
 
 void MainWindow::enableHotKey(HotKeyID id, const hotkey_t& hk)
