@@ -36,6 +36,7 @@ class SoundInputsViewController : UITableViewController {
         if let inputs = session.availableInputs {
             return inputs.count
         }
+
         return 0
     }
 
