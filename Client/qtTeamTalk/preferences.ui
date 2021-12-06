@@ -2417,6 +2417,9 @@
               <property name="text">
                <string>Reinitialize sound devices</string>
               </property>
+              <property name="buddy">
+               <cstring>initsoundEdit</cstring>
+              </property>
              </widget>
             </item>
             <item row="7" column="1">
