@@ -23,6 +23,7 @@
 
 import UIKit
 import AVFoundation
+import OSLog
 
 class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEvent {
 
@@ -277,6 +278,9 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         switch(m.nClientEvent) {
             
         case CLIENTEVENT_CON_SUCCESS :
+            if #available(iOS 14.0, *) {
+                os_log("Connected to \(self.server.ipaddr)")
+            }
 
             if AppInfo.isBearWareWebLogin(self.server.username) {
                 
@@ -315,8 +319,16 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
             TT_Disconnect(ttInst)
             startReconnectTimer()
             
+            if #available(iOS 14.0, *) {
+                os_log("Connect to \(self.server.ipaddr) failed")
+            }
+            
         case CLIENTEVENT_CON_LOST :
             
+            if #available(iOS 14.0, *) {
+                os_log("Connection to \(self.server.ipaddr) lost")
+            }
+
             TT_Disconnect(ttInst)
             playSound(.srv_LOST)
             
