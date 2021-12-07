@@ -245,6 +245,7 @@
 #define SETTINGS_SHORTCUTS_INCVOICEGAIN             "shortcuts/voicegain-inc"
 #define SETTINGS_SHORTCUTS_DECVOICEGAIN             "shortcuts/voicegain-dec"
 #define SETTINGS_SHORTCUTS_VIDEOTX                  "shortcuts/video-tx"
+#define SETTINGS_SHORTCUTS_RESTARTSOUNDDEVICES      "shortcuts/reinit-sounddevs"
 
 #define SETTINGS_VIDCAP_DEVICEID                    "videocapture/deviceid"
 #define SETTINGS_VIDCAP_RESOLUTION                  "videocapture/resolution"

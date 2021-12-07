@@ -1747,20 +1747,20 @@ void MainWindow::cmdLoggedIn(int myuserid)
     //join channel (if specified)
     Channel tmpchan;
     int channelid = 0;
-    if (m_host.channel.size())
-        channelid = TT_GetChannelIDFromPath(ttInst, _W(m_host.channel));
-    int parentid = 0;
-    int account_channelid = TT_GetChannelIDFromPath(ttInst, 
-                                                    account.szInitChannel);
+    QString channelpath = _Q(account.szInitChannel).isEmpty() ? m_host.channel : _Q(account.szInitChannel);
+    if (channelpath.size())
+        channelid = TT_GetChannelIDFromPath(ttInst, _W(channelpath));
 
     //see if parent channel exists (otherwise we cannot create it)
-    QStringList subchannels = m_host.channel.split('/');
-    if(subchannels.size())
+    int parentid = 0;
+    QStringList subchannels = channelpath.split('/');
+    subchannels.removeAll(""); //remove blanks caused by beginning '/' and ending '/'
+    if (subchannels.size())
     {
         QStringList parent = subchannels;
         parent.erase(parent.end()-1);
-        QString chanpath = parent.join("/");
-        parentid = TT_GetChannelIDFromPath(ttInst, _W(chanpath));
+        QString parentpath = parent.join("/");
+        parentid = TT_GetChannelIDFromPath(ttInst, _W(parentpath));
     }
 
     if (m_last_channel.nChannelID && //join using last channel
@@ -1772,20 +1772,13 @@ void MainWindow::cmdLoggedIn(int myuserid)
         if(cmdid>0)
             m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
     }
-    else if(_Q(account.szInitChannel).size() && account_channelid > 0)
-    {
-        int cmdid = TT_DoJoinChannelByID(ttInst, account_channelid, 
-                                         _W(QString()));
-        if(cmdid>0)
-            m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
-    }
-    else if(m_host.channel.size() && channelid > 0) //join if channel exists
+    else if (channelpath.size() && channelid > 0) //join if channel exists
     {
         int cmdid = TT_DoJoinChannelByID(ttInst, channelid, _W(m_host.chanpasswd));
         if(cmdid>0)
             m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
     }
-    else if(m_host.channel.size() && parentid>0) //make a new channel if parent exists
+    else if (channelpath.size() && parentid > 0) //make a new channel if parent exists
     {
         QString name;
         if(subchannels.size())
@@ -1807,14 +1800,12 @@ void MainWindow::cmdLoggedIn(int myuserid)
     }
     else if(ttSettings->value(SETTINGS_CONNECTION_AUTOJOIN, SETTINGS_CONNECTION_AUTOJOIN_DEFAULT).toBool()) //just join root
     {
-        if(m_host.channel.size())
-            addStatusMsg(STATUSBAR_BYPASS, tr("Cannot join channel %1").arg(m_host.channel));
+        if (channelpath.size())
+            addStatusMsg(STATUSBAR_BYPASS, tr("Cannot join channel %1").arg(channelpath));
 
         //auto join root channel
-        int cmdid = TT_DoJoinChannelByID(ttInst, 
-                                         TT_GetRootChannelID(ttInst), 
-                                         _W(QString("")));
-        if(cmdid>0)
+        int cmdid = TT_DoJoinChannelByID(ttInst, TT_GetRootChannelID(ttInst), _W(QString("")));
+        if (cmdid > 0)
             m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
     }
 }
@@ -2170,6 +2161,10 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
     case HOTKEY_VIDEOTX :
         if(active)
             slotMeEnableVideoTransmission((TT_GetFlags(ttInst) & CLIENT_TX_VIDEOCAPTURE) == 0);
+        break;
+    case HOTKEY_REINITSOUNDDEVS :
+        if (active)
+            initSound();
         break;
     }
 }
@@ -3302,26 +3297,45 @@ void MainWindow::stopStreamMediaFile()
 void MainWindow::loadHotKeys()
 {
     hotkey_t hotkey;
-    if(loadHotKeySettings(HOTKEY_VOICEACTIVATION, hotkey))
+    if (loadHotKeySettings(HOTKEY_VOICEACTIVATION, hotkey))
         enableHotKey(HOTKEY_VOICEACTIVATION, hotkey);
+    else
+        disableHotKey(HOTKEY_VOICEACTIVATION);
     hotkey.clear();
-    if(loadHotKeySettings(HOTKEY_INCVOLUME, hotkey))
+    if (loadHotKeySettings(HOTKEY_INCVOLUME, hotkey))
         enableHotKey(HOTKEY_INCVOLUME, hotkey);
+    else
+        disableHotKey(HOTKEY_INCVOLUME);
     hotkey.clear();
-    if(loadHotKeySettings(HOTKEY_DECVOLUME, hotkey))
+    if (loadHotKeySettings(HOTKEY_DECVOLUME, hotkey))
         enableHotKey(HOTKEY_DECVOLUME, hotkey);
+    else
+        disableHotKey(HOTKEY_DECVOLUME);
     hotkey.clear();
-    if(loadHotKeySettings(HOTKEY_MUTEALL, hotkey))
+    if (loadHotKeySettings(HOTKEY_MUTEALL, hotkey))
         enableHotKey(HOTKEY_MUTEALL, hotkey);
+    else
+        disableHotKey(HOTKEY_MUTEALL);
     hotkey.clear();
-    if(loadHotKeySettings(HOTKEY_MICROPHONEGAIN_INC, hotkey))
+    if (loadHotKeySettings(HOTKEY_MICROPHONEGAIN_INC, hotkey))
         enableHotKey(HOTKEY_MICROPHONEGAIN_INC, hotkey);
+    else
+        disableHotKey(HOTKEY_MICROPHONEGAIN_INC);
     hotkey.clear();
-    if(loadHotKeySettings(HOTKEY_MICROPHONEGAIN_DEC, hotkey))
+    if (loadHotKeySettings(HOTKEY_MICROPHONEGAIN_DEC, hotkey))
         enableHotKey(HOTKEY_MICROPHONEGAIN_DEC, hotkey);
+    else
+        disableHotKey(HOTKEY_MICROPHONEGAIN_DEC);
     hotkey.clear();
-    if(loadHotKeySettings(HOTKEY_VIDEOTX, hotkey))
+    if (loadHotKeySettings(HOTKEY_VIDEOTX, hotkey))
         enableHotKey(HOTKEY_VIDEOTX, hotkey);
+    else
+        disableHotKey(HOTKEY_VIDEOTX);
+    hotkey.clear();
+    if (loadHotKeySettings(HOTKEY_REINITSOUNDDEVS, hotkey))
+        enableHotKey(HOTKEY_REINITSOUNDDEVS, hotkey);
+    else
+        disableHotKey(HOTKEY_REINITSOUNDDEVS);
 }
 
 void MainWindow::enableHotKey(HotKeyID id, const hotkey_t& hk)

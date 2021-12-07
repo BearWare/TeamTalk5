@@ -227,6 +227,8 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             this, &PreferencesDlg::slotShortcutDecVoiceGain);
     connect(ui.videotxButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotShortcutVideoTx);
+    connect (ui.initsoundButton, &QAbstractButton::clicked,
+             this, &PreferencesDlg::slotShortcutReinitSound);
 
     //video tab
     connect(ui.vidcapdevicesBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
@@ -710,6 +712,13 @@ void PreferencesDlg::slotTabChange(int index)
             ui.videotxEdit->setText(getHotKeyText(hotkey));
             ui.videotxButton->setChecked(true);
         }
+        hotkey.clear();
+        if (loadHotKeySettings(HOTKEY_REINITSOUNDDEVS, hotkey))
+        {
+            m_hotkeys.insert(HOTKEY_REINITSOUNDDEVS, hotkey);
+            ui.initsoundEdit->setText(getHotKeyText(hotkey));
+            ui.initsoundButton->setChecked(true);
+        }
     }
     break;
     case VIDCAP_TAB : //video capture
@@ -1034,6 +1043,7 @@ void PreferencesDlg::slotSaveChanges()
         deleteHotKeySettings(HOTKEY_MICROPHONEGAIN_INC);
         deleteHotKeySettings(HOTKEY_MICROPHONEGAIN_DEC);
         deleteHotKeySettings(HOTKEY_VIDEOTX);
+        deleteHotKeySettings(HOTKEY_REINITSOUNDDEVS);
 
         hotkeys_t::iterator ite = m_hotkeys.begin();
         while(ite != m_hotkeys.end())
@@ -1759,6 +1769,24 @@ void PreferencesDlg::slotShortcutVideoTx(bool checked)
     {
         ui.videotxEdit->setText("");
         m_hotkeys.remove(HOTKEY_VIDEOTX);
+    }
+}
+
+void PreferencesDlg::slotShortcutReinitSound(bool checked)
+{
+    if(checked)
+    {
+        KeyCompDlg dlg(this);
+        if(!dlg.exec())
+            return;
+
+        m_hotkeys.insert(HOTKEY_REINITSOUNDDEVS, dlg.m_hotkey);
+        ui.initsoundEdit->setText(getHotKeyText(dlg.m_hotkey));
+    }
+    else
+    {
+        ui.initsoundEdit->setText("");
+        m_hotkeys.remove(HOTKEY_REINITSOUNDDEVS);
     }
 }
 

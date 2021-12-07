@@ -9,15 +9,17 @@ Default Qt Client
 - Dark mode enabled on Windows if selected Personalisation Colour is Dark
 - Menu item to enable/disable all sound events
 - "Enable Text-To-Speech events" has moved to a new submenu named "Notifications" in "Me" menu
-- Fixed AltGr being treated as Ctrl+Alt on Windows
-- Fixed Cmd+Q not working in non-English translations on macOS
 - Text-to-speech event when a remote user is typing in private chat
 - Status message is triggered if unable to transmit
-- Fixed "Cancel" button not working in "New client instance" dialog
 - Navigating with arrow keys now include status in TTS message on macOS
 - Alert when characters limit exceeded for channel and private chat
 - Client-menu now has Sound Configuration submenu to quickly change sound devices
+- Setup keyboard shortcut in Preferences dialog to reinitialize sound devices
 - Russian translation updated
+- Fixed issue where user account's initial channel was not joined if channel was hidden
+- Fixed "Cancel" button not working in "New Client Instance" dialog
+- Fixed AltGr being treated as Ctrl+Alt on Windows
+- Fixed Cmd+Q not working in non-English translations on macOS
 Android Client
 - Gender now announce using accessible hint
 - Notification on text limit exceeded
@@ -28,7 +30,7 @@ iOS Client
 - Fixed overlapped TX button on some devices
 - Fixed overlapped send message fields on some devices
 Server
--
+- Fixed issue where text messages exceeding limit would become blank
 
 Version 5.8.2, 2021/11/02
 Default Qt Client

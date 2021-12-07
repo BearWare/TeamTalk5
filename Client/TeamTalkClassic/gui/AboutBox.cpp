@@ -124,7 +124,7 @@ BOOL CAboutBox::OnInitDialog()
     cfDefault.dwEffects = 0;
     AddLine(_T("Bjørn Damstedt Rasmussen, ") + LoadText(IDS_ABOUT_DEV, _T("developer")) + EOL, cfDefault);
     AddLine(_T("Beqa Gozalishvili, ") + LoadText(IDS_ABOUT_DEV, _T("developer")) + EOL, cfDefault);
-    AddLine(_T("Oreonan, ") + LoadText(IDS_ABOUT_DEV, _T("developer")) + EOL, cfDefault);
+    AddLine(_T("Corentin Bacqué-Cazenave, ") + LoadText(IDS_ABOUT_DEV, _T("developer")) + EOL, cfDefault);
 
     cfDefault.dwEffects = CFE_BOLD;
     AddLine(EOL + LoadText(IDS_ABOUT_TRANSLATORS, _T("Translators")) + EOL, cfDefault);

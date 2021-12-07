@@ -47,6 +47,8 @@ QString getHotKeyString(HotKeyID keyid)
         return SETTINGS_SHORTCUTS_DECVOICEGAIN;
     case HOTKEY_VIDEOTX :
         return SETTINGS_SHORTCUTS_VIDEOTX;
+    case HOTKEY_REINITSOUNDDEVS :
+        return SETTINGS_SHORTCUTS_RESTARTSOUNDDEVICES;
     default :
         Q_ASSERT(0); //unknown hotkey id
     }
