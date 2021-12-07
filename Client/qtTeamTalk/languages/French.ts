@@ -4833,7 +4833,7 @@ Should these settings be applied?</source>
         <location filename="../OldPref/preferences.ui" line="2238"/>
         <location filename="../preferences.ui" line="2341"/>
         <source>Increase microphone gain</source>
-        <translation>Activer le volume du microphone</translation>
+        <translation>Augmenter le volume du microphone</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="2265"/>
