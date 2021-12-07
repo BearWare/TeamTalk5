@@ -5165,7 +5165,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="2334"/>
         <source>Reinitialize sound devices</source>
-        <translation type="unfinished"></translation>
+        <translation>重新初始化声音设备</translation>
     </message>
 </context>
 <context>
