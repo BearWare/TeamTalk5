@@ -1913,7 +1913,8 @@ void MainWindow::Disconnect()
 
     addStatusMsg(STATUSBAR_BYPASS, tr("Logged out from %1, TCP port %2, UDP port %3").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
     updateWindowTitle();
-    addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Disconnected from server"));
+    if (!timerExists(TIMER_RECONNECT))
+        addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Disconnected from server"));
 }
 
 void MainWindow::login()
