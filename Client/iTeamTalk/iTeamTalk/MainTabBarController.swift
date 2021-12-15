@@ -203,36 +203,35 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
             
             switch reason as! UInt {
             case AVAudioSession.RouteChangeReason.unknown.rawValue :
-                //print("ChangeReason Unknown")
+                print("AudioRouteChange Unknown")
                 break
             case AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue :
-                //print("ChangeReason NewDeviceAvailable")
+                print("AudioRouteChange NewDeviceAvailable")
                 break
             case AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue:
-//                print("ChangeReason Unknown")
+                print("AudioRouteChange Unknown")
                 setupSoundDevices()
             case AVAudioSession.RouteChangeReason.categoryChange.rawValue:
-//                let session = AVAudioSession.sharedInstance()
-//                print("ChangeReason CategoryChange, new category: " + session.category)
+                let session = AVAudioSession.sharedInstance()
+                print("AudioRouteChange CategoryChange, new category: \(session.category), new mode: \(session.mode)")
                 break
             case AVAudioSession.RouteChangeReason.override.rawValue :
-//                let session = AVAudioSession.sharedInstance()
-//                print("ChangeReason Override, new route: " + session.currentRoute.description)
+                let session = AVAudioSession.sharedInstance()
+                print("AudioRouteChange Override, new route: " + session.currentRoute.description)
                 break
             case AVAudioSession.RouteChangeReason.routeConfigurationChange.rawValue :
-//                print("ChangeReason RouteConfigurationChange")
+                print("AudioRouteChange RouteConfigurationChange")
                 break
             case AVAudioSession.RouteChangeReason.wakeFromSleep.rawValue:
-//                print("ChangeReason WakeFromSleep")
+                print("AudioRouteChange WakeFromSleep")
                 break
             case AVAudioSession.RouteChangeReason.noSuitableRouteForCategory.rawValue:
-//                print("ChangeReason NoSuitableRouteForCategory")
+                print("AudioRouteChange NoSuitableRouteForCategory")
                 break
             default :
-//                print("ChangeReason Default")
+                print("AudioRouteChange Default")
                 break
             }
-            print ("AudioRouteChange: \(reason)")
         }
     }
 
@@ -259,9 +258,6 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
             switch reason as! UInt {
             case AVAudioSession.InterruptionOptions.shouldResume.rawValue :
                 //print("Audio session can now resume")
-                
-                TT_CloseSoundInputDevice(ttInst)
-                TT_CloseSoundOutputDevice(ttInst)
                 
                 setupSoundDevices()
                 
