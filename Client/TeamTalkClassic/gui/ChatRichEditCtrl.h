@@ -34,7 +34,7 @@ public:
     CChatRichEditCtrl();
     virtual ~CChatRichEditCtrl();
     CString AddMessage(CString szNick, const MyTextMessage& msg);
-    void AddBroadcastMessage(const MyTextMessage& msg);
+    void AddBroadcastMessage(CString szNick, const MyTextMessage& msg);
     void AddLogMesage(CString szMsg);
     void SetServerInfo(CString szServerName, CString szMOTD);
     void SetChannelInfo(int nChannelID);
