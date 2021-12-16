@@ -454,7 +454,7 @@ namespace teamtalk {
             return false;
     }
 
-    string ClientXML::GetNickname(std::string def_nickname/* = std::string()*/)
+    string ClientXML::GetNickname(std::string def_nickname = std::string())
     {
         TiXmlElement* root=m_xmlDocument.RootElement();
         if(root)

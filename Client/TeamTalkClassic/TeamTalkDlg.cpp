@@ -276,7 +276,7 @@ void CTeamTalkDlg::Disconnect()
 void CTeamTalkDlg::Login()
 {
     int cmd = TT_DoLoginEx(ttInst,
-        STR_UTF8(m_xmlSettings.GetNickname(STR_UTF8(LoadText(IDS_DEFAULTNICKNAME, DEFAULT_NICKNAME))).c_str()),
+        STR_UTF8(m_xmlSettings.GetNickname().c_str()),
         STR_UTF8(m_host.szUsername.c_str()),
         STR_UTF8(m_host.szPassword.c_str()), APPTITLE_SHORT);
 
@@ -481,7 +481,7 @@ void CTeamTalkDlg::RunWizard()
     welcomepage.m_szLanguage = STR_UTF8( m_xmlSettings.GetLanguageFile().c_str() );
 
     /// General page
-    generalpage.m_sNickname = STR_UTF8( m_xmlSettings.GetNickname(STR_UTF8(DEFAULT_NICKNAME)).c_str() );
+    generalpage.m_sNickname = STR_UTF8( m_xmlSettings.GetNickname().c_str() );
     generalpage.m_bPush = m_xmlSettings.GetPushToTalk();
     HotKey hotkey;
 
@@ -3415,7 +3415,7 @@ void CTeamTalkDlg::OnFilePreferences()
     std::string szBearWareID, szToken;
     m_xmlSettings.GetBearWareLogin(szBearWareID, szToken);
 
-    generalpage.m_sNickname = STR_UTF8( m_xmlSettings.GetNickname(STR_UTF8(DEFAULT_NICKNAME)).c_str() );
+    generalpage.m_sNickname = STR_UTF8( m_xmlSettings.GetNickname().c_str() );
     generalpage.m_szBearWareID = STR_UTF8(szBearWareID);
     generalpage.m_szBearWareToken = STR_UTF8(szToken);
     generalpage.m_bRestoreUser = m_xmlSettings.GetRestoreUserFromWebLogin();
@@ -3566,7 +3566,7 @@ void CTeamTalkDlg::OnFilePreferences()
     if(sheet.DoModal() == IDOK)
     {
         //change the username if connected
-        if( STR_UTF8( m_xmlSettings.GetNickname(STR_UTF8(DEFAULT_NICKNAME)).c_str() ) != generalpage.m_sNickname.GetBuffer())
+        if( STR_UTF8( m_xmlSettings.GetNickname().c_str() ) != generalpage.m_sNickname.GetBuffer())
         {
             if( TT_GetFlags(ttInst) & CLIENT_AUTHORIZED )
             {
@@ -3864,7 +3864,7 @@ void CTeamTalkDlg::OnMeChangenick()
     TRANSLATE_ITEM(IDS_CHANGENICKNAME, szChNick);
     TRANSLATE_ITEM(IDS_NEWNICKNAME, szNewNick);
 
-    CInputDlg dlg(szChNick, szNewNick, STR_UTF8( m_xmlSettings.GetNickname(STR_UTF8(DEFAULT_NICKNAME)).c_str() ), this);
+    CInputDlg dlg(szChNick, szNewNick, STR_UTF8( m_xmlSettings.GetNickname().c_str() ), this);
     if(dlg.DoModal() == IDOK)
     {
         TT_DoChangeNickname(ttInst, dlg.GetInputString());
