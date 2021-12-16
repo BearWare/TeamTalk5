@@ -3,7 +3,6 @@
 
     <EditTextPreference
 		android:key="nickname_text"
-		android:defaultValue="@string/pref_default_nickname"
 		android:title="@string/pref_title_nickname"
 		android:selectAllOnFocus="true"
 		android:singleLine="true" />

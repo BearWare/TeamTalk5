@@ -622,8 +622,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
 
         String nickname = ttserver.nickname;
         if (TextUtils.isEmpty(nickname)) {
-            String def_nick = getResources().getString(R.string.pref_default_nickname);
-            nickname = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Preferences.PREF_GENERAL_NICKNAME, def_nick);
+            nickname = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Preferences.PREF_GENERAL_NICKNAME);
         }
 
         int loginCmdId = ttclient.doLoginEx(nickname, ttserver.username, ttserver.password, AppInfo.APPNAME_SHORT);
