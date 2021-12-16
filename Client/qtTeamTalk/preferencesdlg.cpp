@@ -469,7 +469,7 @@ void PreferencesDlg::slotTabChange(int index)
     {
     case GENERAL_TAB : //general
     {
-        ui.nicknameEdit->setText(ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString());
+        ui.nicknameEdit->setText(ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString());
         switch (Gender(ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT).toInt()))
         {
         case GENDER_MALE :
