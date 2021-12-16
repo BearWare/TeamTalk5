@@ -122,9 +122,6 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         let settings = UserDefaults.standard
         
         var nickname = settings.string(forKey: PREF_GENERAL_NICKNAME)
-        if nickname == nil {
-            nickname = DEFAULT_NICKNAME
-        }
         
         // general items
         
