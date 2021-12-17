@@ -1919,7 +1919,7 @@ void MainWindow::Disconnect()
 
 void MainWindow::login()
 {
-    QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString();
+    QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QString("")).toString();
     if(m_host.nickname.size())
         nick = m_host.nickname;
 
