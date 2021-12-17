@@ -2067,7 +2067,7 @@ void CTeamTalkDlg::OnUserMessage(const TTMessage& msg)
         if(!TT_GetUser(ttInst, textmsg.nFromUserID, &user))
             break;
         CString szName = GetDisplayName(user);
-        m_tabChat.m_wndRichEdit.AddBroadcastMessage(textmsg);
+        m_tabChat.m_wndRichEdit.AddBroadcastMessage(szName, textmsg);
 
         PlaySoundEvent(SOUNDEVENT_USER_BROADCAST_TEXTMSG);
 
