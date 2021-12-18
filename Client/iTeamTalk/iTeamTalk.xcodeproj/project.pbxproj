@@ -41,6 +41,8 @@
 		254B7A841BA0C72700BE0DEF /* ServerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */; };
 		254C084B1C345E3700C98566 /* newuser.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 254C08491C345E3700C98566 /* newuser.mp3 */; };
 		254C084C1C345E3700C98566 /* removeuser.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 254C084A1C345E3700C98566 /* removeuser.mp3 */; };
+		2597EF84275EA20300FCEE28 /* UtilSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597EF83275EA20300FCEE28 /* UtilSound.swift */; };
+		2597EF86275EA29D00FCEE28 /* UtilTTS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597EF85275EA29D00FCEE28 /* UtilTTS.swift */; };
 		259B12F91C4182E7008A355E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 259B12F71C4182E7008A355E /* Localizable.strings */; };
 		25A062751BA477CB00DC1F9B /* ChannelTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */; };
 		25A062771BA4789F00DC1F9B /* ChannelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */; };
@@ -129,6 +131,8 @@
 		254C084A1C345E3700C98566 /* removeuser.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = removeuser.mp3; sourceTree = "<group>"; };
 		256328171C41A9F20055373F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		256328191C41A9F20055373F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2597EF83275EA20300FCEE28 /* UtilSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilSound.swift; sourceTree = "<group>"; };
+		2597EF85275EA29D00FCEE28 /* UtilTTS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilTTS.swift; sourceTree = "<group>"; };
 		259B12F81C4182E7008A355E /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		259B12FA1C4182FE008A355E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelTableCell.swift; sourceTree = "<group>"; };
@@ -235,7 +239,9 @@
 				251F61351BD68F6700617C43 /* TextMsgTableCell.swift */,
 				25BA014621557109003C836D /* TextToSpeechViewController.swift */,
 				2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */,
+				2597EF83275EA20300FCEE28 /* UtilSound.swift */,
 				25FFC2DA25ABA07E000334DC /* UtilTT.swift */,
+				2597EF85275EA29D00FCEE28 /* UtilTTS.swift */,
 				2516CB6B1BA8818B00EF9A17 /* UtilUI.swift */,
 				251B87C8225000E8009DC5AC /* WebLoginViewController.swift */,
 				254B7A531B98BAA300BE0DEF /* Images.xcassets */,
@@ -450,6 +456,7 @@
 				251B87C9225000E8009DC5AC /* WebLoginViewController.swift in Sources */,
 				25BA014921557F48003C836D /* SoundEventsViewController.swift in Sources */,
 				25A062751BA477CB00DC1F9B /* ChannelTableCell.swift in Sources */,
+				2597EF84275EA20300FCEE28 /* UtilSound.swift in Sources */,
 				25E7D94F22399672001A5035 /* SoundInputsViewController.swift in Sources */,
 				251F61361BD68F6700617C43 /* TextMsgTableCell.swift in Sources */,
 				2537133C1BCA59E600A7ADB3 /* TextMessageViewController.swift in Sources */,
@@ -462,6 +469,7 @@
 				25AA206A1BE933310089AD54 /* PreferencesViewController.swift in Sources */,
 				254B7A4D1B98BAA300BE0DEF /* AppDelegate.swift in Sources */,
 				2537133E1BCEA77D00A7ADB3 /* AudioCodecViewController.swift in Sources */,
+				2597EF86275EA29D00FCEE28 /* UtilTTS.swift in Sources */,
 				2516CB6E1BA9EE9900EF9A17 /* ChannelDetailViewController.swift in Sources */,
 				25A062771BA4789F00DC1F9B /* ChannelListViewController.swift in Sources */,
 				254B7A801B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m in Sources */,

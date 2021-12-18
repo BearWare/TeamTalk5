@@ -240,7 +240,7 @@ CString CChatRichEditCtrl::AddMessage(CString szNick, const MyTextMessage& msg)
     return name + msg.szMessage;
 }
 
-void CChatRichEditCtrl::AddBroadcastMessage(const MyTextMessage& msg)
+void CChatRichEditCtrl::AddBroadcastMessage(CString szNick, const MyTextMessage& msg)
 {
     CHARFORMAT cf;
     memset(&cf,0,sizeof (CHARFORMAT));
@@ -257,11 +257,11 @@ void CChatRichEditCtrl::AddBroadcastMessage(const MyTextMessage& msg)
     CString szMsg, szTimeStamp = (m_bShowTimeStamp ? GetChatTime(msg.receiveTime) + _T(" ") : _T(""));
     if (GetLineCount() <= 1)
     {
-        szMsg.Format(szTimeStamp + LoadText(IDS_CHATRICHBROADCAST, _T("Broadcast: %s\r\n")), msg.szMessage);
+        szMsg.Format(szTimeStamp + _T("<%s->BROADCAST>\r\n%s\r\n"), szNick, msg.szMessage);
     }
     else
     {
-        szMsg.Format(_T("\r\n") + szTimeStamp + LoadText(IDS_CHATRICHBROADCASTT, _T("Broadcast: %s")), msg.szMessage);
+        szMsg.Format(_T("\r\n") + szTimeStamp + _T("<%s>->BROADCAST>\r\n%s"), szNick, msg.szMessage);
     }
 
     SetSel(GetTextLength(),GetTextLength());
