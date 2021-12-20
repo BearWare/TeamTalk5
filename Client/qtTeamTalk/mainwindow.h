@@ -224,6 +224,7 @@ private:
     //command replies
     void cmdLoggedIn(int myuserid);
 
+    QString getTitle();
     void updateWindowTitle();
 #if defined(Q_OS_WIN32)
     void firewallInstall();

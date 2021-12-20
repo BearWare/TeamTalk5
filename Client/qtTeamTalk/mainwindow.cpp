@@ -2359,7 +2359,7 @@ void MainWindow::changeEvent(QEvent* event )
                     m_sysmenu->addSeparator();
                     m_sysmenu->addAction(exit);
                     m_sysicon->setContextMenu(m_sysmenu);
-                    m_sysicon->setToolTip(APPTITLE);
+                    m_sysicon->setToolTip(getTitle());
                 }
                 //choose icon to show in sys tray
                 QString rc_icon;
@@ -2405,7 +2405,7 @@ bool MainWindow::nativeEvent(const QByteArray& eventType, void* message,
 }
 #endif
 
-void MainWindow::updateWindowTitle()
+QString MainWindow::getTitle()
 {
     QString profilename, title = APPTITLE;
     if(ttSettings)
@@ -2433,7 +2433,12 @@ void MainWindow::updateWindowTitle()
 
     if(profilename.size())
         title = QString("%1 - %2").arg(title).arg(profilename);
-    setWindowTitle(title);
+    return title;
+}
+
+void MainWindow::updateWindowTitle()
+{
+    setWindowTitle(getTitle());
 }
 
 #if defined(Q_OS_WIN32)
