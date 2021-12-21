@@ -1919,7 +1919,7 @@ void MainWindow::Disconnect()
 
 void MainWindow::login()
 {
-    QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QString("")).toString();
+    QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, SETTINGS_GENERAL_NICKNAME_DEFAULT).toString();
     if(m_host.nickname.size())
         nick = m_host.nickname;
 
@@ -1988,7 +1988,7 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
                 return;
             
             addLatestHost(m_host);
-            QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString();
+            QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, SETTINGS_GENERAL_NICKNAME_DEFAULT).toString();
             if(m_host.nickname.size())
                 nickname = m_host.nickname;
             int cmdid = TT_DoLoginEx(ttInst, _W(nickname), 
@@ -3815,7 +3815,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     if((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) &&
         TT_GetUser(ttInst, TT_GetMyUserID(ttInst), &myself))
     {
-        QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString();
+        QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, SETTINGS_GENERAL_NICKNAME_DEFAULT).toString();
         if((_Q(myself.szNickname) != nickname) && m_host.nickname.isEmpty())
             TT_DoChangeNickname(ttInst, _W(nickname));
 
@@ -4004,7 +4004,7 @@ void MainWindow::slotClientExit(bool /*checked =false */)
 
 void MainWindow::slotMeChangeNickname(bool /*checked =false */)
 {
-    QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString();
+    QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, SETTINGS_GENERAL_NICKNAME_DEFAULT).toString();
     if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && m_host.nickname.size())
         nick = m_host.nickname;
     bool ok = false;
