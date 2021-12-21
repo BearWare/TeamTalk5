@@ -11,7 +11,7 @@ Default Qt Client
 - "Enable Text-To-Speech events" has moved to a new submenu named "Notifications" in "Me" menu
 - Text-to-speech event when a remote user is typing in private chat
 - Status message is triggered if unable to transmit
-- Navigating with arrow keys now include status in TTS message on macOS
+- Navigating with arrow keys in channels tree now include entire item text in TTS message on macOS
 - Alert when characters limit exceeded for channel and private chat
 - Client-menu now has Sound Configuration submenu to quickly change sound devices
 - Setup keyboard shortcut in Preferences dialog to reinitialize sound devices

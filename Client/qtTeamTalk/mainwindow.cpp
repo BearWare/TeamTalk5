@@ -5370,45 +5370,7 @@ void MainWindow::slotTreeSelectionChanged()
     }
 #if defined(Q_OS_DARWIN)
     if (ttSettings->value(SETTINGS_TTS_SPEAKLISTS, SETTINGS_TTS_SPEAKLISTS_DEFAULT).toBool() == true)
-    {
-        User user;
-        Channel channel;
-        QString result;
-        if (ui.channelsWidget->getUser(ui.channelsWidget->selectedUser(), user))
-        {
-            result = getDisplayName(user);
-            switch (user.nStatusMode & STATUSMODE_MODE)
-            {
-            case STATUSMODE_AWAY :
-                result += ", " + tr("Away");
-                break;
-            case STATUSMODE_QUESTION :
-                result += ", " + tr("Question");
-                break;
-            }
-            if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
-                result += ", " + tr("Streaming media file");
-            if (user.nStatusMode & STATUSMODE_VIDEOTX)
-                result += ", " + tr("Webcam");
-        }
-        else if (ui.channelsWidget->getChannel(ui.channelsWidget->selectedChannel(true), channel))
-        {
-            result = _Q(channel.szName);
-            if(channel.nChannelID == TT_GetRootChannelID(ttInst))
-            {
-                ServerProperties prop = {};
-                TT_GetServerProperties(ttInst, &prop);
-                result = _Q(prop.szServerName);
-            }
-            if (ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT, SETTINGS_DISPLAY_USERSCOUNT_DEFAULT).toBool())
-            {
-                int count = 0;
-                TT_GetChannelUsers(ttInst, channel.nChannelID, nullptr, &count);
-                result = QString("%1 (%2)").arg(result).arg(count);
-            }
-        }
-        addTextToSpeechMessage(result);
-    }
+        addTextToSpeechMessage(ui.channelsWidget->getItemText());
 #endif
 }
 
