@@ -143,6 +143,39 @@ func getSoundFile(_ s: Sounds) -> String? {
     return nil
 }
 
+func getCategory(_ opt: AVAudioSession.CategoryOptions) -> String {
+    var str = ""
+    if opt.contains(.defaultToSpeaker) {
+        str += "defaultToSpeaker|"
+    }
+    if opt.contains(.mixWithOthers) {
+        str += "mixWithOthers|"
+    }
+    if opt.contains(.allowBluetooth) {
+        str += "allowBluetooth|"
+    }
+    if opt.contains(.duckOthers) {
+        str += "duckOthers|"
+    }
+    if opt.contains(.interruptSpokenAudioAndMixWithOthers) {
+        str += "interruptSpokenAudioAndMixWithOthers|"
+    }
+    if #available(iOS 14.5, *) {
+        if opt.contains(.overrideMutedMicrophoneInterruption) {
+            str += "overrideMutedMicrophoneInterruption|"
+        }
+    }
+    if #available(iOS 10.0, *) {
+        if opt.contains(.allowAirPlay) {
+            str += "allowAirPlay|"
+        }
+        if opt.contains(.allowBluetoothA2DP) {
+            str += "allowBluetoothA2DP|"
+        }
+    }
+    return str
+}
+
 func setupSoundDevices() {
     
     do {
@@ -151,29 +184,31 @@ func setupSoundDevices() {
         print("preset: " + session.mode.rawValue)
         
         let defaults = UserDefaults.standard
-        let preprocess = defaults.object(forKey: PREF_VOICEPROCESSINGIO) != nil && defaults.bool(forKey: PREF_VOICEPROCESSINGIO)
         let speaker = defaults.object(forKey: PREF_SPEAKER_OUTPUT) != nil && defaults.bool(forKey: PREF_SPEAKER_OUTPUT)
+        let preprocess = defaults.object(forKey: PREF_VOICEPROCESSINGIO) != nil && defaults.bool(forKey: PREF_VOICEPROCESSINGIO)
         
         TT_CloseSoundInputDevice(ttInst)
         TT_CloseSoundOutputDevice(ttInst)
         
-        let mode = preprocess ? AVAudioSession.Mode.voiceChat : AVAudioSession.Mode.default
-        
-        if #available(iOS 10.0, *) {
-            if speaker {
-                try session.setCategory(.playAndRecord, mode: mode, options: [.mixWithOthers, .defaultToSpeaker])
-            }
-            else {
-                try session.setCategory(.playAndRecord, mode: mode, options: [.mixWithOthers, .allowBluetooth, .allowAirPlay, .allowBluetoothA2DP])
-            }
+        // In 'voiceChat' mode stereo cannot be enabled on input devices.
+        try session.setMode(preprocess ? .voiceChat : .default)
+
+        // Toggling 'speaker' on iPad has no effect since it can only output to speaker.
+        // When Bluetooth headset is connected to iPad then toggling 'speaker' will have
+        // no effect. However, on iPhone toggling 'speaker' has the desired effect both
+        // when switching output from Receiver and Bluetooth to 'speaker'.
+        if speaker {
+            try session.setCategory(.playAndRecord, options: [.mixWithOthers, .defaultToSpeaker])
         }
         else {
-            let catoptions = speaker ? AVAudioSession.CategoryOptions.defaultToSpeaker : AVAudioSession.CategoryOptions.allowBluetooth
-            try session.setMode(mode)
-            try session.setCategory(AVAudioSession.Category.playAndRecord, options: catoptions)
+            if #available(iOS 10.0, *) {
+                try session.setCategory(.playAndRecord, options: [.mixWithOthers, .allowBluetooth, .allowAirPlay, .allowBluetoothA2DP])
+            } else {
+                try session.setCategory(.playAndRecord, options: [.mixWithOthers, .allowBluetooth])
+            }
         }
         
-        let sndid = speaker && preprocess ? TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO : TT_SOUNDDEVICE_ID_REMOTEIO
+        let sndid = TT_SOUNDDEVICE_ID_REMOTEIO
         if TT_InitSoundInputDevice(ttInst, sndid) == FALSE {
             print("Failed to initialize sound input device: \(sndid)")
         }
@@ -186,28 +221,27 @@ func setupSoundDevices() {
         else {
             print("Using sound output device: \(sndid)")
         }
-        print("postset. Mode \(session.mode.rawValue), category \(session.category.rawValue), options \(session.categoryOptions.rawValue)")
+        print("postset. Mode \(session.mode.rawValue), category \(session.category.rawValue), options \(getCategory(session.categoryOptions))")
         
         print (session.currentRoute)
 
         // enable stereo on all data sources that support it
         if #available(iOS 14.0, *) {
             if let availableInputs = session.availableInputs {
-                for i in availableInputs {
-                    if let dataSources = i.dataSources {
-                        for s in dataSources {
-                            if s.supportedPolarPatterns != nil && s.supportedPolarPatterns!.contains(.stereo) {
-                                try s.setPreferredPolarPattern(.stereo)
-                                print("Setting \(s.dataSourceName) to stereo")
+                for input in availableInputs {
+                    if let dataSources = input.dataSources {
+                        for datasrc in dataSources {
+                            if datasrc.supportedPolarPatterns != nil && datasrc.supportedPolarPatterns!.contains(.stereo) {
+                                try datasrc.setPreferredPolarPattern(.stereo)
+                                print("Setting \(datasrc.dataSourceName) to stereo")
                             } else {
-                                print("No stereo on \(s.dataSourceName)")
+                                print("No stereo on \(datasrc.dataSourceName)")
                             }
                         }
                     }
                 }
             }
         }
-
     }
     catch {
         print("Failed to set mode")
