@@ -2511,6 +2511,7 @@ BEGIN
     IDS_FILETABNAME         "Name"
     IDS_FILETABSIZE         "Size"
     IDS_FILETABUSER         "User"
+    IDS_FILETABDATE         "Date"
     IDS_FILETRANSFERKBYTES  "%I64d KBytes"
     IDS_FILETRANSFERBYTES   "%I64d bytes"
     IDS_FILETRANSFERSPEED   "%I64d KB/sec, %I64d KB last sec."
