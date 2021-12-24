@@ -3734,10 +3734,6 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
         QProcess::startDetached(path, args, QApplication::applicationDirPath());
 #endif
     }
-    else
-    {
-        return;
-    }
 }
 
 void MainWindow::slotClientConnect(bool /*checked =false */)
