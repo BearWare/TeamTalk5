@@ -2543,7 +2543,18 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         if(chanlog.size())
         {
             if(!m_logChan.isOpen())
-                openLogFile(m_logChan, chanlog, _Q(m_mychannel.szName) + ".clog");
+            {
+                QString channame;
+                if (m_mychannel.nChannelID == TT_GetRootChannelID(ttInst))
+                {
+                    ServerProperties prop = {};
+                    TT_GetServerProperties(ttInst, &prop);
+                    channame = _Q(prop.szServerName);
+                }
+                else
+                    channame = _Q(m_mychannel.szName);
+                openLogFile(m_logChan, chanlog, channame + ".clog");
+            }
             writeLogEntry(m_logChan, line);
         }
         if (textmsg.nFromUserID != TT_GetMyUserID(ttInst))
