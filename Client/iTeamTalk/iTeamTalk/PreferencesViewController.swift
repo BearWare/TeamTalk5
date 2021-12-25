@@ -44,7 +44,7 @@ let PREF_MICROPHONE_GAIN = "microphonegain_preference"
 let PREF_SPEAKER_OUTPUT = "speakeroutput_preference"
 let PREF_VOICEACTIVATION = "voiceactivationlevel_preference"
 let PREF_MEDIAFILE_VOLUME = "mediafile_volume_preference"
-let PREF_HEADSET_TXTOGGLE = "headset_tx_preferences"
+let PREF_HEADSET_TXTOGGLE = "headset_tx_preference"
 let PREF_VOICEPROCESSINGIO = "voiceprocessing_preference"
 
 let PREF_SNDEVENT_SERVERLOST = "snd_srvlost_preference"
@@ -272,7 +272,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         
         let headsettxcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         let headsettxswitch = newTableCellSwitch(headsettxcell, label: NSLocalizedString("Headset TX Toggle", comment: "preferences"),
-            initial: settings.object(forKey: PREF_HEADSET_TXTOGGLE) == nil || settings.bool(forKey: PREF_HEADSET_TXTOGGLE))
+            initial: settings.object(forKey: PREF_HEADSET_TXTOGGLE) != nil && settings.bool(forKey: PREF_HEADSET_TXTOGGLE))
         headsettxcell.detailTextLabel!.text = NSLocalizedString("Toggle voice transmission using headset", comment: "preferences")
         headsettxswitch.addTarget(self, action: #selector(PreferencesViewController.headsetTxToggleChanged(_:)), for: .valueChanged)
         sound_items.append(headsettxcell)

@@ -113,10 +113,9 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         }
         
         // headset can toggle tx
-        if defaults.object(forKey: PREF_HEADSET_TXTOGGLE) == nil || defaults.bool(forKey: PREF_HEADSET_TXTOGGLE) {
+        if defaults.object(forKey: PREF_HEADSET_TXTOGGLE) != nil && defaults.bool(forKey: PREF_HEADSET_TXTOGGLE) {
             UIApplication.shared.beginReceivingRemoteControlEvents()
         }
-
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -144,6 +143,8 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         case .remoteControlTogglePlayPause:
             let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
             channelsTab.enableVoiceTx(false)
+        case .remoteControlPreviousTrack:
+            fallthrough
         case .remoteControlNextTrack:
             let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
             channelsTab.enableVoiceTx(true)

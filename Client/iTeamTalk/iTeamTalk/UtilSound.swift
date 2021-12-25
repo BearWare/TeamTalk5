@@ -186,6 +186,7 @@ func setupSoundDevices() {
         let defaults = UserDefaults.standard
         let speaker = defaults.object(forKey: PREF_SPEAKER_OUTPUT) != nil && defaults.bool(forKey: PREF_SPEAKER_OUTPUT)
         let preprocess = defaults.object(forKey: PREF_VOICEPROCESSINGIO) != nil && defaults.bool(forKey: PREF_VOICEPROCESSINGIO)
+        let headsettoggle = defaults.object(forKey: PREF_HEADSET_TXTOGGLE) != nil && defaults.bool(forKey: PREF_HEADSET_TXTOGGLE)
         
         TT_CloseSoundInputDevice(ttInst)
         TT_CloseSoundOutputDevice(ttInst)
@@ -193,21 +194,30 @@ func setupSoundDevices() {
         // In 'voiceChat' mode stereo cannot be enabled on input devices.
         try session.setMode(preprocess ? .voiceChat : .default)
 
+        var catoptions : AVAudioSession.CategoryOptions
+        
         // Toggling 'speaker' on iPad has no effect since it can only output to speaker.
         // When Bluetooth headset is connected to iPad then toggling 'speaker' will have
         // no effect. However, on iPhone toggling 'speaker' has the desired effect both
         // when switching output from Receiver and Bluetooth to 'speaker'.
         if speaker {
-            try session.setCategory(.playAndRecord, options: [.mixWithOthers, .defaultToSpeaker])
+            catoptions = [ .defaultToSpeaker ]
         }
         else {
             if #available(iOS 10.0, *) {
-                try session.setCategory(.playAndRecord, options: [.mixWithOthers, .allowBluetooth, .allowAirPlay, .allowBluetoothA2DP])
+                catoptions = [.allowBluetooth, .allowAirPlay, .allowBluetoothA2DP]
             } else {
-                try session.setCategory(.playAndRecord, options: [.mixWithOthers, .allowBluetooth])
+                catoptions = [.allowBluetooth]
             }
         }
+        // headset notifications, UIApplication.shared.beginReceivingRemoteControlEvents(),
+        // will be ignored with .mixWithOthers
+        if headsettoggle == false {
+            catoptions.update(with: .mixWithOthers)
+        }
         
+        try session.setCategory(.playAndRecord, options: catoptions)
+
         let sndid = TT_SOUNDDEVICE_ID_REMOTEIO
         if TT_InitSoundInputDevice(ttInst, sndid) == FALSE {
             print("Failed to initialize sound input device: \(sndid)")
