@@ -14,22 +14,24 @@ body:
       description: Which software is affected by the bug
       options:
         - label: qtTeamTalk
-          required: true
         - label: TeamTalkAndroid
         - label: iTeamTalk
         - label: TeamTalkClassic
         - label: TeamTalkServer
+    validations:
+      required: true
   - type: checkboxes
     attributes:
       label: Platform
       description: Which platform/OS is affected by the bug
       options:
         - label: Windows
-          required: true
         - label: macOS
         - label: Android
         - label: iOS
         - label: Linux
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: Expected behavior
@@ -46,4 +48,4 @@ body:
         1. Step 1
         2. Step 2
     validations:
-        required: true
+      required: true
