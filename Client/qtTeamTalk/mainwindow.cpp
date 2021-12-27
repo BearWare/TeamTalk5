@@ -1978,14 +1978,20 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
             ok = inputDialog.exec();
             m_host.username = inputDialog.textValue();
             if(!ok)
+            {
+                setWindowTitle(APPTITLE);
                 return;
+            }
             inputDialog.setTextEchoMode(QLineEdit::Password);
             inputDialog.setTextValue(m_host.password);
             inputDialog.setWindowTitle(tr("Login error"));
             inputDialog.setLabelText(tr("Invalid user account. Type password:"));
             ok = inputDialog.exec();
             if(!ok)
+            {
+                setWindowTitle(APPTITLE);
                 return;
+            }
             
             addLatestHost(m_host);
             QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
@@ -1996,6 +2002,7 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
                                      _W(QString(APPNAME_SHORT)));
             if(cmdid>0)
                 m_commands.insert(cmdid, CMD_COMPLETE_LOGIN);            
+            setWindowTitle(APPTITLE);
             return;
         }
     case CMDERR_INCORRECT_CHANNEL_PASSWORD :
