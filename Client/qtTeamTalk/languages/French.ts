@@ -2567,7 +2567,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1199"/>
         <source>%1 left root channel</source>
-        <translation>%1 a quitté le canal</translation>
+        <translation>%1 a quitté le canal principal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1203"/>
