@@ -1956,8 +1956,13 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
     {
         // command errors
     case CMDERR_SYNTAX_ERROR :
+        textmsg = tr("Syntax error"); break;
     case CMDERR_UNKNOWN_COMMAND :
+        textmsg = tr("Unknown command"); break;
     case CMDERR_INCOMPATIBLE_PROTOCOLS :
+        textmsg = tr("The server uses a protocol which is incompatible with the client instance"); break;
+    case CMDERR_UNKNOWN_AUDIOCODEC :
+        textmsg = tr("Unknown audio codec"); break;
     case CMDERR_MISSING_PARAMETER :
         textmsg = tr("This client is not compatible with the server, "
                     "so the action cannot be performed."); break;
@@ -2034,6 +2039,10 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
         textmsg = tr("Maximum number of users in channel exceeded"); break;
     case CMDERR_INCORRECT_OP_PASSWORD :
         textmsg = tr("Incorrect channel operator password"); break;
+    case CMDERR_MAX_CHANNELS_EXCEEDED :
+        textmsg = tr("The maximum number of channels has been exceeded"); break;
+    case CMDERR_COMMAND_FLOOD :
+        textmsg = tr("Command flooding prevented by server"); break;
 
         // state errors
     case CMDERR_ALREADY_LOGGEDIN :
@@ -2052,8 +2061,16 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
            cmd_type != CMD_COMPLETE_UNSUBSCRIBE)
             textmsg = tr("User not found");
         break;
+    case CMDERR_OPENFILE_FAILED :
+        textmsg = tr("Server failed to open file");break;
+    case CMDERR_LOGINSERVICE_UNAVAILABLE :
+        textmsg = tr("The login service is currently unavailable");break;
+    case CMDERR_CHANNEL_CANNOT_BE_HIDDEN :
+        textmsg = tr("This channel cannot be hidden");break;
     case CMDERR_CHANNEL_NOT_FOUND :
         textmsg = tr("Channel not found");break;
+    case CMDERR_NOT_IN_CHANNEL :
+        textmsg = tr("Cannot leave channel because not in channel.");break;
     case CMDERR_BAN_NOT_FOUND :
         textmsg = tr("Banned user not found"); break;
     case CMDERR_FILETRANSFER_NOT_FOUND :
