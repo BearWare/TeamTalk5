@@ -16,6 +16,7 @@ Default Qt Client
 - Client-menu now has Sound Configuration submenu to quickly change sound devices
 - Setup keyboard shortcut in Preferences dialog to reinitialize sound devices
 - Russian translation updated
+- Server name used in file name when recording root channel conversation to disk
 - Fixed issue where user account's initial channel was not joined if channel was hidden
 - Fixed "Cancel" button not working in "New Client Instance" dialog
 - Fixed AltGr being treated as Ctrl+Alt on Windows
