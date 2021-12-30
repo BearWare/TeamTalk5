@@ -137,6 +137,12 @@ if (MSVC)
 
 else()
 
+  if (IS_ABSOLUTE ${TOOLCHAIN_INSTALL_PREFIX_WEBRTC})
+    set (WEBRTC_INSTALL_ROOT ${TOOLCHAIN_INSTALL_PREFIX_WEBRTC})
+  else()
+    set (WEBRTC_INSTALL_ROOT ${CMAKE_CURRENT_BINARY_DIR}/${TOOLCHAIN_INSTALL_PREFIX_WEBRTC})
+  endif()
+
   if (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     set (WEBRTC_FETCH_PATH $ENV{HOME}/webrtc/${CMAKE_SYSTEM_NAME})
 
@@ -153,7 +159,7 @@ else()
       message(WARNING "Unknown iOS architecture")
     endif()
 
-    set (WEBRTC_ARGS_FILE ${CMAKE_CURRENT_LIST_DIR}/args.gn_ios)
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/args.gn_ios ${WEBRTC_INSTALL_ROOT}/args.gn @ONLY)
 
   elseif(${CMAKE_SYSTEM_NAME} MATCHES "Android")
     set (WEBRTC_FETCH_PATH $ENV{HOME}/webrtc/${CMAKE_SYSTEM_NAME})
@@ -170,24 +176,21 @@ else()
       message(WARNING "Unknown Android architecture")
     endif()
 
-    set (WEBRTC_ARGS_FILE ${CMAKE_CURRENT_LIST_DIR}/args.gn_android)
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/args.gn_android ${WEBRTC_INSTALL_ROOT}/args.gn @ONLY)
 
   elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     set (WEBRTC_FETCH_PATH $ENV{HOME}/webrtc/${CMAKE_SYSTEM_NAME})
-    set (WEBRTC_ARGS_FILE ${CMAKE_CURRENT_LIST_DIR}/args.gn_mac)
+    set (WEBRTC_ARCH x64)
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/args.gn_mac ${WEBRTC_INSTALL_ROOT}-intel/args.gn @ONLY)
+    set (WEBRTC_ARCH arm64)
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/args.gn_mac ${WEBRTC_INSTALL_ROOT}-arm64/args.gn @ONLY)
 
   elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    set (WEBRTC_ARGS_FILE ${CMAKE_CURRENT_LIST_DIR}/args.gn_deb)
     set (WEBRTC_FETCH_PATH $ENV{HOME}/webrtc/${CMAKE_SYSTEM_NAME})
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/args.gn_deb ${WEBRTC_INSTALL_ROOT}/args.gn @ONLY)
 
   else()
       message(WARNING "Unknown platform for WebRTC")
-  endif()
-
-  if (IS_ABSOLUTE ${TOOLCHAIN_INSTALL_PREFIX_WEBRTC})
-    set (WEBRTC_INSTALL_ROOT ${TOOLCHAIN_INSTALL_PREFIX_WEBRTC})
-  else()
-    set (WEBRTC_INSTALL_ROOT ${CMAKE_CURRENT_BINARY_DIR}/${TOOLCHAIN_INSTALL_PREFIX_WEBRTC})
   endif()
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
@@ -207,8 +210,6 @@ else()
     ExternalProject_Get_Property(depot-tools SOURCE_DIR)
     set (DEPOTTOOLS_DIR ${SOURCE_DIR})
     set (DEPOTTOOLS_EXPORT export PATH=${DEPOTTOOLS_DIR}:$ENV{PATH} OPENSSL_DIR=${OPENSSL_DIR})
-
-    configure_file(${WEBRTC_ARGS_FILE} ${WEBRTC_INSTALL_ROOT}/args.gn @ONLY)
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       set (WEBRTC_REPO_NAME webrtc_ios)
@@ -238,7 +239,6 @@ else()
       set (WEBRTC_PATCH_CMD1 true)
       message (WARNING "WebRTC is already downloaded to ${WEBRTC_SOURCE_ROOT}. Skipping new fetch and patching")
     endif()
-
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       ExternalProject_Add(webrtc-src
@@ -270,19 +270,46 @@ else()
         DEPENDS depot-tools
         )
     elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-      ExternalProject_Add(webrtc-src
+      ExternalProject_Add(webrtc-arm64-src
         DOWNLOAD_COMMAND  ${WEBRTC_FETCH_CMD1}
         COMMAND           ${WEBRTC_FETCH_CMD2}
         COMMAND           ${WEBRTC_FETCH_CMD3}
         PATCH_COMMAND     ${WEBRTC_PATCH_CMD1}
         UPDATE_COMMAND    ""
-        INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}
+        INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}-arm64
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
         BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v -C <INSTALL_DIR> teamtalk
         INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
         BUILD_BYPRODUCTS  <INSTALL_DIR>/obj/modules/audio_processing/libteamtalk.a
         DEPENDS depot-tools
         )
+      ExternalProject_Add(webrtc-intel-src
+        DOWNLOAD_COMMAND  ${WEBRTC_FETCH_CMD1}
+        COMMAND           ${WEBRTC_FETCH_CMD2}
+        COMMAND           ${WEBRTC_FETCH_CMD3}
+        PATCH_COMMAND     ${WEBRTC_PATCH_CMD1}
+        UPDATE_COMMAND    ""
+        INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}-intel
+        CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
+        BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v -C <INSTALL_DIR> teamtalk
+        INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/obj/modules/audio_processing/libteamtalk.a
+        DEPENDS depot-tools
+        )
+
+      # Use 'lipo' to create universal binary
+      file(MAKE_DIRECTORY ${WEBRTC_INSTALL_ROOT}/include)
+      add_custom_command (OUTPUT ${WEBRTC_INSTALL_ROOT}/obj/modules/audio_processing/libteamtalk.a
+        COMMAND lipo -create ${WEBRTC_INSTALL_ROOT}-arm64/obj/modules/audio_processing/libteamtalk.a
+                ${WEBRTC_INSTALL_ROOT}-intel/obj/modules/audio_processing/libteamtalk.a
+                -output ${WEBRTC_INSTALL_ROOT}/obj/modules/audio_processing/libteamtalk.a
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${WEBRTC_INSTALL_ROOT}-intel/include ${WEBRTC_INSTALL_ROOT}/include
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Generating universal WebRTC binaries"
+        DEPENDS webrtc-intel-src webrtc-arm64-src)
+
+      add_custom_target (webrtc-src DEPENDS ${WEBRTC_INSTALL_ROOT}/obj/modules/audio_processing/libteamtalk.a)
+
     elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       ExternalProject_Add(webrtc-src
         DOWNLOAD_COMMAND  ${WEBRTC_FETCH_CMD1}

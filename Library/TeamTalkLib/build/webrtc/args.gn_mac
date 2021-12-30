@@ -19,6 +19,7 @@ rtc_include_opus = false
 rtc_include_tests = false
 rtc_libvpx_build_vp9 = false
 rtc_ssl_root = "@OPENSSL_DIR@/include"
+target_cpu="@WEBRTC_ARCH@"
 treat_warnings_as_errors = false
 use_aura = false
 use_custom_libcxx = false

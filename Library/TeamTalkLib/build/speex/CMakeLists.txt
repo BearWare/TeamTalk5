@@ -71,7 +71,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEX}
       CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
-      COMMAND           <SOURCE_DIR>/configure CFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} --prefix=<INSTALL_DIR>
+      COMMAND           <SOURCE_DIR>/configure CFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ x86_64\ -arch\ arm64
+                        CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ x86_64\ -arch\ arm64 --prefix=<INSTALL_DIR>
+                        --enable-shared=no --enable-static=yes --disable-binaries
       BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libspeex.a

@@ -70,7 +70,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/zlib
-      CONFIGURE_COMMAND CFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --static
+      CONFIGURE_COMMAND CFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
+                        CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
+                        <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --static --archs=-arch\ arm64\ -arch\ x86_64
       BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libz.a

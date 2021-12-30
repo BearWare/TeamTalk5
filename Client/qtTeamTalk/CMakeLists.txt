@@ -75,6 +75,12 @@ find_package (Qt6 COMPONENTS Widgets Xml Network Multimedia)
 
 if (Qt5_FOUND OR Qt6_FOUND)
 
+  if (Qt5_FOUND)
+    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+      set (CMAKE_OSX_ARCHITECTURES x86_64)
+    endif()
+  endif()
+
   if (Qt6_FOUND)
     set (CMAKE_CXX_STANDARD 17)
   else()

@@ -91,22 +91,53 @@ if (MSVC)
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
-    ExternalProject_Add(libvpx-src
+    
+    ExternalProject_Add(libvpx-arm64-src
       GIT_REPOSITORY    https://github.com/bear101/libvpx
-      GIT_TAG           v1.9.0
+      GIT_TAG           v1.11.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
-      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
-      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx-arm64
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx-arm64
       CONFIGURE_COMMAND <SOURCE_DIR>/configure --extra-cflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
-      --prefix=<INSTALL_DIR> --target=x86_64-darwin13-gcc
+      --prefix=<INSTALL_DIR> --target=arm64-darwin20-gcc
       --disable-examples --disable-docs --disable-unit-tests
       BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libvpx.a
       )
-    ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
-    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+    ExternalProject_Get_Property(libvpx-arm64-src INSTALL_DIR)
+
+    ExternalProject_Add(libvpx-intel-src
+      GIT_REPOSITORY    https://github.com/bear101/libvpx
+      GIT_TAG           v1.11.0
+      GIT_SHALLOW       TRUE
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx-intel
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx-intel
+      CONFIGURE_COMMAND <SOURCE_DIR>/configure --extra-cflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
+      --prefix=<INSTALL_DIR> --target=x86_64-darwin20-gcc
+      --disable-examples --disable-docs --disable-unit-tests
+      BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+      INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libvpx.a
+      )
+    ExternalProject_Get_Property(libvpx-intel-src INSTALL_DIR)
+    
+    # Use 'lipo' to create universal binary
+    file(MAKE_DIRECTORY ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}/lib)
+    file(MAKE_DIRECTORY ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}/include)
+    add_custom_command (OUTPUT ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}/lib/libvpx.a
+      ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}/include/vpx/vpx_codec.h
+      COMMAND lipo -create ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}-arm64/lib/libvpx.a ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}-intel/lib/libvpx.a -output ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}/lib/libvpx.a
+      COMMAND ${CMAKE_COMMAND} -E copy_directory ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}-intel/include ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}/include
+      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+      COMMENT "Generating universal libvpx binaries"
+      DEPENDS libvpx-intel-src libvpx-arm64-src)
+
+    add_custom_target (libvpx-src DEPENDS ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}/lib/libvpx.a
+      ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}/include/vpx/vpx_codec.h)
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX})    
   else()
     set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX})
   endif(TOOLCHAIN_BUILD_EXTERNALPROJECTS)
