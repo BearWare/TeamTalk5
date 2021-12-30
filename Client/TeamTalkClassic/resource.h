@@ -486,6 +486,7 @@
 #define IDS_KICKEDFROMSERVER            580
 #define IDS_MSGCHARSLIMITTITLE           581
 #define IDS_MSGCHARSLIMIT           582
+#define IDS_FILETABDATE           583
 #define IDC_SLIDER_VOICEACT             1001
 #define IDC_SLIDER_VOLUME               1002
 #define IDC_EDIT_HOSTTCPPORT            1003
@@ -1119,7 +1120,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        583
+#define _APS_NEXT_RESOURCE_VALUE        584
 #define _APS_NEXT_COMMAND_VALUE         32959
 #define _APS_NEXT_CONTROL_VALUE         1611
 #define _APS_NEXT_SYMED_VALUE           413
