@@ -122,6 +122,7 @@ public:
     void slotUserStateChange(const User& user);
     void slotUpdateMyself();
     void slotUserVideoFrame(int userid, int stream_id);
+    QString getItemText();
 };
 
 #endif

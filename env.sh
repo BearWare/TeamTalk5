@@ -2,7 +2,15 @@
 
 # Find absolute path (that works on both macOS and Linux :( )
 CURDIR=$PWD
-TEAMTALK_ROOT=$(dirname ${BASH_SOURCE[0]})
+ENVDIR="${BASH_SOURCE[0]}"
+# zsh does not set BASH_SOURCE variable, so assume zsh if blank
+if [ -z $ENVDIR ]; then
+    echo "BASH_SOURCE is blank so using zsh syntax"
+    ENVDIR=${0:a:h}
+else
+    ENVDIR=$(dirname $ENVDIR)
+fi
+TEAMTALK_ROOT=$ENVDIR
 cd $TEAMTALK_ROOT
 TEAMTALK_ROOT=$(pwd -P)
 cd $CURDIR
