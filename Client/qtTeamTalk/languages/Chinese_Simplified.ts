@@ -2741,22 +2741,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1959"/>
         <source>Syntax error</source>
-        <translation type="unfinished"></translation>
+        <translation>语法错误</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1961"/>
         <source>Unknown command</source>
-        <translation type="unfinished"></translation>
+        <translation>未知命令</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1963"/>
         <source>The server uses a protocol which is incompatible with the client instance</source>
-        <translation type="unfinished"></translation>
+        <translation>服务器使用的协议与客户端实例不兼容</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1965"/>
         <source>Unknown audio codec</source>
-        <translation type="unfinished"></translation>
+        <translation>未知音频编解码器</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1967"/>
@@ -2843,12 +2843,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2043"/>
         <source>The maximum number of channels has been exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>已超出最大频道数</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2045"/>
         <source>Command flooding prevented by server</source>
-        <translation type="unfinished"></translation>
+        <translation>服务器阻止了命令泛滥</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2049"/>
@@ -2878,17 +2878,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2065"/>
         <source>Server failed to open file</source>
-        <translation type="unfinished"></translation>
+        <translation>服务器无法打开文件</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2067"/>
         <source>The login service is currently unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>登陆服务当前不可用</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2069"/>
         <source>This channel cannot be hidden</source>
-        <translation type="unfinished"></translation>
+        <translation>此频道不能被隐藏</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2071"/>
@@ -2898,7 +2898,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2073"/>
         <source>Cannot leave channel because not in channel.</source>
-        <translation type="unfinished"></translation>
+        <translation>不能离开频道，因为不在频道。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2075"/>
@@ -3371,10 +3371,6 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="4286"/>
         <source>Sound events disabled</source>
         <translation>声音事件已禁用</translation>
-    </message>
-    <message>
-        <source>Streaming media file</source>
-        <translation type="vanished">正在播放流媒体文件</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5667"/>
