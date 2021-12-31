@@ -11,11 +11,13 @@ Default Qt Client
 - "Enable Text-To-Speech events" has moved to a new submenu named "Notifications" in "Me" menu
 - Text-to-speech event when a remote user is typing in private chat
 - Status message is triggered if unable to transmit
-- Navigating with arrow keys now include status in TTS message on macOS
+- Navigating with arrow keys in channels tree now include entire item text in TTS message on macOS
 - Alert when characters limit exceeded for channel and private chat
 - Client-menu now has Sound Configuration submenu to quickly change sound devices
 - Setup keyboard shortcut in Preferences dialog to reinitialize sound devices
 - Russian translation updated
+- More specific error messages are displays
+- Server name used in file name when recording root channel conversation to disk
 - Fixed issue where user account's initial channel was not joined if channel was hidden
 - Fixed "Cancel" button not working in "New Client Instance" dialog
 - Fixed AltGr being treated as Ctrl+Alt on Windows
