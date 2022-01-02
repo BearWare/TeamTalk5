@@ -205,9 +205,9 @@ func setupSoundDevices() {
         }
         else {
             if #available(iOS 10.0, *) {
-                catoptions = [.allowBluetooth, .allowAirPlay, .allowBluetoothA2DP]
+                catoptions = [ .allowBluetooth, .allowAirPlay, .allowBluetoothA2DP ]
             } else {
-                catoptions = [.allowBluetooth]
+                catoptions = [ .allowBluetooth ]
             }
         }
         // headset notifications, UIApplication.shared.beginReceivingRemoteControlEvents(),

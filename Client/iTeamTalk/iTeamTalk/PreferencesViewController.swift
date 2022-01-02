@@ -516,6 +516,9 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         else {
             UIApplication.shared.endReceivingRemoteControlEvents()
         }
+        
+        // Headset TX toggle modifies .mixWithOthers flag
+        setupSoundDevices()
     }
 
     @objc func voicepreprocessingChanged(_ sender: UISwitch) {
