@@ -29,6 +29,9 @@ class SoundInputsViewController : UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let center = NotificationCenter.default
+        center.addObserver(self, selector: #selector(SoundInputsViewController.audioRouteChange(_:)), name: AVAudioSession.routeChangeNotification, object: nil)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -64,18 +67,28 @@ class SoundInputsViewController : UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SoundInput")
-
         let session = AVAudioSession.sharedInstance()
         if let inputs = session.availableInputs {
             if indexPath.section < inputs.count {
-                if let datasources = inputs[indexPath.section].dataSources {
+                let audioinput = inputs[indexPath.section]
+                if let datasources = audioinput.dataSources {
                     if indexPath.row < datasources.count {
-                        var srcName = datasources[indexPath.row].dataSourceName
+                        let audiodatasource = datasources[indexPath.row]
+                        var srcName = audiodatasource.dataSourceName
                         if #available(iOS 14.0, *) {
-                            if datasources[indexPath.row].supportedPolarPatterns != nil && datasources[indexPath.row].supportedPolarPatterns!.contains(.stereo) {
-                                srcName += " (Stereo)"
+                            if audiodatasource.supportedPolarPatterns != nil && audiodatasource.supportedPolarPatterns!.contains(.stereo) {
+                                srcName += " (" + NSLocalizedString("Stereo", comment: "Sound Input") + ")"
                             }
                         }
+                        
+                        if getAudioPortDataSource(descr: audioinput) == audiodatasource.dataSourceID {
+                            srcName += ", " + NSLocalizedString("Preferred", comment: "Sound Input")
+                        }
+                        
+                        if session.inputDataSource?.dataSourceID == audiodatasource.dataSourceID {
+                            srcName += ", " + NSLocalizedString("Active", comment: "Sound Input")
+                        }
+
                         cell!.textLabel?.text = srcName
                     }
                     else {
@@ -94,18 +107,25 @@ class SoundInputsViewController : UITableViewController {
         do {
             if let inputs = session.availableInputs {
                 if indexPath.section < inputs.count {
-                    if let datasources = inputs[indexPath.section].dataSources {
+                    
+                    let audioinput = inputs[indexPath.section]
+                    
+                    if let datasources = audioinput.dataSources {
                         if indexPath.row < datasources.count {
-                            print ("UID of \(inputs[indexPath.section].portName): \(inputs[indexPath.section].uid)");
-                            print ("Data source ID: \(datasources[indexPath.row].dataSourceID)")
-                            try inputs[indexPath.section].setPreferredDataSource(datasources[indexPath.row])
-                            try session.setPreferredInput(inputs[indexPath.section])
-                            try session.setInputDataSource(datasources[indexPath.row])
+                            let audiodatasource = datasources[indexPath.row]
+                            print ("UID of \(audioinput.portName): \(audioinput.uid)");
+                            print ("Data source ID: \(audiodatasource.dataSourceID)")
+                            try audioinput.setPreferredDataSource(audiodatasource)
+                            try session.setPreferredInput(audioinput)
+                            try session.setInputDataSource(audiodatasource)
+                            setAudioPortDataSource(descr: audioinput, dsrc: audiodatasource)
                         }
                         else {
-                            try session.setPreferredInput(inputs[indexPath.section])
+                            try session.setPreferredInput(audioinput)
+                            removeAudioPortDataSource(descr: audioinput)
                         }
-                    }
+                    } // datasources
+                    
                 }
             }
             print (session.currentRoute)
@@ -113,6 +133,11 @@ class SoundInputsViewController : UITableViewController {
         catch {
             print("Failed to select data source")
         }
+    }
+    
+    @objc func audioRouteChange(_ notification: Notification) {
+        print("Audio Route changed in Sound Inputs table")
+        self.tableView.reloadData()
     }
 }
 

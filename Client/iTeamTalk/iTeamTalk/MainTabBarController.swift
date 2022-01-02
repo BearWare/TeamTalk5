@@ -234,6 +234,9 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
                 break
             }
         }
+        
+        let session = AVAudioSession.sharedInstance()
+        print (session.currentRoute)
     }
 
     @objc func audioInterruption(_ notification: Notification) {

@@ -176,6 +176,27 @@ func getCategory(_ opt: AVAudioSession.CategoryOptions) -> String {
     return str
 }
 
+func getAudioPortDataSource(descr: AVAudioSessionPortDescription) -> NSNumber? {
+    let defaults = UserDefaults.standard
+    let prefname = PREF_SNDINPUT_PORT + "_" + descr.uid
+    if let id = defaults.object(forKey: prefname) as? NSNumber {
+        return id
+    }
+    return nil
+}
+
+func setAudioPortDataSource(descr: AVAudioSessionPortDescription, dsrc: AVAudioSessionDataSourceDescription) {
+    let defaults = UserDefaults.standard
+    let prefname = PREF_SNDINPUT_PORT + "_" + descr.uid
+    defaults.set(dsrc.dataSourceID, forKey: prefname)
+}
+
+func removeAudioPortDataSource(descr: AVAudioSessionPortDescription) {
+    let defaults = UserDefaults.standard
+    let prefname = PREF_SNDINPUT_PORT + "_" + descr.uid
+    defaults.removeObject(forKey: prefname)
+}
+
 func setupSoundDevices() {
     
     do {
@@ -233,19 +254,27 @@ func setupSoundDevices() {
         }
         print("postset. Mode \(session.mode.rawValue), category \(session.category.rawValue), options \(getCategory(session.categoryOptions))")
         
-        print (session.currentRoute)
-
         // enable stereo on all data sources that support it
         if #available(iOS 14.0, *) {
             if let availableInputs = session.availableInputs {
                 for input in availableInputs {
-                    if let dataSources = input.dataSources {
-                        for datasrc in dataSources {
-                            if datasrc.supportedPolarPatterns != nil && datasrc.supportedPolarPatterns!.contains(.stereo) {
-                                try datasrc.setPreferredPolarPattern(.stereo)
-                                print("Setting \(datasrc.dataSourceName) to stereo")
-                            } else {
-                                print("No stereo on \(datasrc.dataSourceName)")
+                    // enable data source chosen by user (if any)
+                    if let dataSourceID = getAudioPortDataSource(descr: input) {
+                        if let dataSources = input.dataSources {
+                            for datasrc in dataSources {
+                                // enable stereo on selected audio input
+                                if datasrc.dataSourceID == dataSourceID {
+                                    if datasrc.supportedPolarPatterns != nil && datasrc.supportedPolarPatterns!.contains(.stereo) {
+                                        try datasrc.setPreferredPolarPattern(.stereo)
+                                        print("Setting \(datasrc.dataSourceName) to stereo")
+                                    } else {
+                                        print("No stereo on \(datasrc.dataSourceName)")
+                                    }
+                                }
+                                // switch to selected audio input
+                                if session.inputDataSource?.dataSourceID != dataSourceID {
+                                    try input.setPreferredDataSource(datasrc)
+                                }
                             }
                         }
                     }
