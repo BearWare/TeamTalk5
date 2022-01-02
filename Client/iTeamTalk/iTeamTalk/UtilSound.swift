@@ -239,7 +239,9 @@ func setupSoundDevices() {
         
         try session.setCategory(.playAndRecord, options: catoptions)
 
-        let sndid = TT_SOUNDDEVICE_ID_REMOTEIO
+        // Note that Voice Preprocessing IO will disable ability to select
+        // stereo microphone sources
+        let sndid = preprocess ? TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO : TT_SOUNDDEVICE_ID_REMOTEIO
         if TT_InitSoundInputDevice(ttInst, sndid) == FALSE {
             print("Failed to initialize sound input device: \(sndid)")
         }
