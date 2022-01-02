@@ -85,6 +85,9 @@
 /* Class = "UIViewController"; title = "Chat Channel"; ObjectID = "gA8-TJ-0RU"; */
 "gA8-TJ-0RU.title" = "Sohbet Kanalı";
 
+/* Class = "UILabel"; text = "Title"; ObjectID = "GFy-mN-epU"; */
+"GFy-mN-epU.text" = "Title";
+
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
 "Hcv-zz-riB.text" = "BearWare.dk Web Oturumu";
 
@@ -127,6 +130,9 @@
 /* Class = "UITableViewController"; title = "Preferences"; ObjectID = "NA0-UK-wve"; */
 "NA0-UK-wve.title" = "Tercihler";
 
+/* Class = "UILabel"; text = "Select Microphone"; ObjectID = "ntU-ZP-sKb"; */
+"ntU-ZP-sKb.text" = "Select Microphone";
+
 /* Class = "UILabel"; text = "Blank"; ObjectID = "nVj-7w-Sta"; */
 "nVj-7w-Sta.text" = "Boş";
 
@@ -147,6 +153,9 @@
 
 /* Class = "UILabel"; text = "Setup Announcements"; ObjectID = "Q0w-pu-giG"; */
 "Q0w-pu-giG.text" = "Duyuruları Ayarla";
+
+/* Class = "UILabel"; text = "Choose microphone input"; ObjectID = "qgW-1i-aGQ"; */
+"qgW-1i-aGQ.text" = "Choose microphone input";
 
 /* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */
 "rNU-2J-hMO.normalTitle" = "Ses Yok'u Kullan";
@@ -189,6 +198,9 @@
 
 /* Class = "UIButton"; normalTitle = "Kick and Ban User"; ObjectID = "WRa-tI-lpY"; */
 "WRa-tI-lpY.normalTitle" = "Kullanıcıyı Uzaklaştır ve Yasakla";
+
+/* Class = "UITableViewController"; title = "Setup Sound Inputs"; ObjectID = "XmQ-1z-cFv"; */
+"XmQ-1z-cFv.title" = "Setup Sound Inputs";
 
 /* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
 "Y9o-rs-HCe.title" = "Bağlantıyı kes";

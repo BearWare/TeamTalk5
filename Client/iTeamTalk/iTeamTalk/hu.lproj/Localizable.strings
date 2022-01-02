@@ -163,6 +163,9 @@
 /* main-tab */
 "Create new channel" = "Új csatorna létrehozása";
 
+/* Sound Input */
+"Default" = "Default";
+
 /* preferences */
 "Default Subscriptions" = "alapértelmezett felíratkozások";
 
@@ -296,6 +299,9 @@
 /* preferences */
 "Media file vs. voice volume" = "a Médiafájl és hangerő közti különbség";
 
+/* Dialog */
+"Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
+
 /* preferences */
 "Microphone Gain" = "Mikrofon Erősége";
 
@@ -333,6 +339,9 @@
 
 /* preferences */
 "Nickname" = "Becenév";
+
+/* server entry */
+"Nickname (optional)" = "Nickname (optional)";
 
 /* Dialog message */
 "No" = "No";
@@ -423,6 +432,9 @@
 
 /* serverlist */
 "Preferences" = "Beállítások";
+
+/* Sound Input */
+"Preferred" = "Preferred";
 
 /* preferences */
 "Pressing Return-key sends text message" = "Pressing Return-key sends text message";

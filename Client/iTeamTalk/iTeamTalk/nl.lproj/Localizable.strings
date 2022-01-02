@@ -163,6 +163,9 @@
 /* main-tab */
 "Create new channel" = "Nieuw kanaal aanmaken";
 
+/* Sound Input */
+"Default" = "Default";
+
 /* preferences */
 "Default Subscriptions" = "Standaardontvangst";
 
@@ -296,6 +299,9 @@
 /* preferences */
 "Media file vs. voice volume" = "Mediabestand- vs. stemvolume";
 
+/* Dialog */
+"Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
+
 /* preferences */
 "Microphone Gain" = "Microfoonniveau";
 
@@ -333,6 +339,9 @@
 
 /* preferences */
 "Nickname" = "Bijnaam";
+
+/* server entry */
+"Nickname (optional)" = "Nickname (optional)";
 
 /* Dialog message */
 "No" = "No";
@@ -423,6 +432,9 @@
 
 /* serverlist */
 "Preferences" = "Instellingen";
+
+/* Sound Input */
+"Preferred" = "Preferred";
 
 /* preferences */
 "Pressing Return-key sends text message" = "Pressing Return-key sends text message";

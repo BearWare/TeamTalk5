@@ -728,3 +728,15 @@
 
 /* Text message view */
 "Status Event" = "Status Event";
+
+/* Sound Input */
+"Default" = "Default";
+
+/* Dialog */
+"Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
+
+/* server entry */
+"Nickname (optional)" = "Nickname (optional)";
+
+/* Sound Input */
+"Preferred" = "Preferred";
