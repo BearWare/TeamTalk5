@@ -86,7 +86,7 @@
 "gA8-TJ-0RU.title" = "Chat du canal";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "GFy-mN-epU"; */
-"GFy-mN-epU.text" = "Title";
+"GFy-mN-epU.text" = "Titre";
 
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
 "Hcv-zz-riB.text" = "Connexion Web BearWare.dk";
@@ -131,7 +131,7 @@
 "NA0-UK-wve.title" = "Préférences";
 
 /* Class = "UILabel"; text = "Select Microphone"; ObjectID = "ntU-ZP-sKb"; */
-"ntU-ZP-sKb.text" = "Select Microphone";
+"ntU-ZP-sKb.text" = "Sélectionner le Microphone";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "nVj-7w-Sta"; */
 "nVj-7w-Sta.text" = "Vide";
@@ -155,7 +155,7 @@
 "Q0w-pu-giG.text" = "Configurer les annonces";
 
 /* Class = "UILabel"; text = "Choose microphone input"; ObjectID = "qgW-1i-aGQ"; */
-"qgW-1i-aGQ.text" = "Choose microphone input";
+"qgW-1i-aGQ.text" = "Choisir le microphone d'entrée";
 
 /* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */
 "rNU-2J-hMO.normalTitle" = "Utiliser sans audio";
@@ -200,7 +200,7 @@
 "WRa-tI-lpY.normalTitle" = "Exclure et bannir l'utilisateur";
 
 /* Class = "UITableViewController"; title = "Setup Sound Inputs"; ObjectID = "XmQ-1z-cFv"; */
-"XmQ-1z-cFv.title" = "Setup Sound Inputs";
+"XmQ-1z-cFv.title" = "Configurer les entrées audio";
 
 /* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
 "Y9o-rs-HCe.title" = "Se déconnecter";
