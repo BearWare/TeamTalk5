@@ -163,6 +163,9 @@
 /* main-tab */
 "Create new channel" = "Opret ny kanal";
 
+/* Sound Input */
+"Default" = "Default";
+
 /* preferences */
 "Default Subscriptions" = "Standard Abonnering";
 
@@ -296,6 +299,9 @@
 /* preferences */
 "Media file vs. voice volume" = "Mediefil versus talelydstyrke";
 
+/* Dialog */
+"Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
+
 /* preferences */
 "Microphone Gain" = "Mikrofonforstærkning";
 
@@ -333,6 +339,9 @@
 
 /* preferences */
 "Nickname" = "Kaldenavn";
+
+/* server entry */
+"Nickname (optional)" = "Nickname (optional)";
 
 /* Dialog message */
 "No" = "Nej";
@@ -423,6 +432,9 @@
 
 /* serverlist */
 "Preferences" = "Indstillinger";
+
+/* Sound Input */
+"Preferred" = "Preferred";
 
 /* preferences */
 "Pressing Return-key sends text message" = "Trykkes enter sendes tekstbesked";

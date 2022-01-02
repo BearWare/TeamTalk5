@@ -167,6 +167,9 @@
 /* main-tab */
 "Create new channel" = "Yeni kanal oluştur";
 
+/* Sound Input */
+"Default" = "Default";
+
 /* preferences */
 "Default Subscriptions" = "Varsayılan Abonelikler";
 
@@ -300,6 +303,9 @@
 /* preferences */
 "Media file vs. voice volume" = "Ortam dosyası-ses düzeyi oranı";
 
+/* Dialog */
+"Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
+
 /* preferences */
 "Microphone Gain" = "Mikrofon Kazancı";
 
@@ -337,6 +343,9 @@
 
 /* preferences */
 "Nickname" = "Rumuz";
+
+/* server entry */
+"Nickname (optional)" = "Nickname (optional)";
 
 /* Dialog message */
 "No" = "Hayır";
@@ -429,6 +438,9 @@
 
 /* serverlist */
 "Preferences" = "Tercihler";
+
+/* Sound Input */
+"Preferred" = "Preferred";
 
 /* preferences */
 "Pressing Return-key sends text message" = "Return tuşuna basmak metin iletisini göndersin";
