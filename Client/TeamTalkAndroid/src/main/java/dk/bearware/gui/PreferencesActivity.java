@@ -193,7 +193,7 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
         if (myself != null) {
             String nickname = ttservice.getServerEntry().nickname;
             if (TextUtils.isEmpty(nickname)) {
-                nickname = prefs.getString(Preferences.PREF_GENERAL_NICKNAME);
+                nickname = prefs.getString(Preferences.PREF_GENERAL_NICKNAME, "");
             }
             if (!nickname.equals(myself.szNickname)) {
                 ttinst.doChangeNickname(nickname);
