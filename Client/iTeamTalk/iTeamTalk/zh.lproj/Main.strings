@@ -86,7 +86,7 @@
 "gA8-TJ-0RU.title" = "聊天频道";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "GFy-mN-epU"; */
-"GFy-mN-epU.text" = "Title";
+"GFy-mN-epU.text" = "标题";
 
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
 "Hcv-zz-riB.text" = "BearWare.dk Web 登录";
@@ -131,7 +131,7 @@
 "NA0-UK-wve.title" = "首选项";
 
 /* Class = "UILabel"; text = "Select Microphone"; ObjectID = "ntU-ZP-sKb"; */
-"ntU-ZP-sKb.text" = "Select Microphone";
+"ntU-ZP-sKb.text" = "选择麦克风";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "nVj-7w-Sta"; */
 "nVj-7w-Sta.text" = "空白";
@@ -155,7 +155,7 @@
 "Q0w-pu-giG.text" = "设置播报事件";
 
 /* Class = "UILabel"; text = "Choose microphone input"; ObjectID = "qgW-1i-aGQ"; */
-"qgW-1i-aGQ.text" = "Choose microphone input";
+"qgW-1i-aGQ.text" = "选择麦克风输入";
 
 /* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */
 "rNU-2J-hMO.normalTitle" = "无声";
@@ -200,7 +200,7 @@
 "WRa-tI-lpY.normalTitle" = "踢出并禁止";
 
 /* Class = "UITableViewController"; title = "Setup Sound Inputs"; ObjectID = "XmQ-1z-cFv"; */
-"XmQ-1z-cFv.title" = "Setup Sound Inputs";
+"XmQ-1z-cFv.title" = "设置声音输入";
 
 /* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
 "Y9o-rs-HCe.title" = "断开连接";
