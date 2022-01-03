@@ -113,7 +113,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(opus-src
       GIT_REPOSITORY    https://github.com/bear101/opus
-      GIT_TAG           v1.3.1
+      GIT_TAG           12a356e
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
