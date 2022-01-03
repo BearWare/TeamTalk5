@@ -168,7 +168,7 @@
 "Create new channel" = "创建新频道";
 
 /* Sound Input */
-"Default" = "Default";
+"Default" = "默认";
 
 /* preferences */
 "Default Subscriptions" = "默认订阅";
@@ -304,7 +304,7 @@
 "Media file vs. voice volume" = "媒体文件相对于语音的音量";
 
 /* Dialog */
-"Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
+"Message limit exceeded by %d characters" = "消息超出限制 %d 个字符";
 
 /* preferences */
 "Microphone Gain" = "麦克风增益";
@@ -345,7 +345,7 @@
 "Nickname" = "昵称";
 
 /* server entry */
-"Nickname (optional)" = "Nickname (optional)";
+"Nickname (optional)" = "昵称（可选）";
 
 /* Dialog message */
 "No" = "否";
@@ -440,7 +440,7 @@
 "Preferences" = "首选项";
 
 /* Sound Input */
-"Preferred" = "Preferred";
+"Preferred" = "首选";
 
 /* preferences */
 "Pressing Return-key sends text message" = "按回车键发送消息";
