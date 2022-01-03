@@ -163,6 +163,9 @@
 /* main-tab */
 "Create new channel" = "إنشاء قناة جديدة";
 
+/* Sound Input */
+"Default" = "Default";
+
 /* preferences */
 "Default Subscriptions" = "الاشتراكات الافتراضية";
 
@@ -296,6 +299,9 @@
 /* preferences */
 "Media file vs. voice volume" = "ملف الوسائط مقابل حجم الصوت";
 
+/* Dialog */
+"Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
+
 /* preferences */
 "Microphone Gain" = "مستوى المايكرفون";
 
@@ -333,6 +339,9 @@
 
 /* preferences */
 "Nickname" = "الاسم المستعار";
+
+/* server entry */
+"Nickname (optional)" = "Nickname (optional)";
 
 /* Dialog message */
 "No" = "لا";
@@ -423,6 +432,9 @@
 
 /* serverlist */
 "Preferences" = "تفضيلات";
+
+/* Sound Input */
+"Preferred" = "Preferred";
 
 /* preferences */
 "Pressing Return-key sends text message" = "يؤدي الضغط على مفتاح  الرجوع (Return) , لإرسال رسالةاً نصيةاً";

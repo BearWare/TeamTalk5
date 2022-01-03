@@ -167,6 +167,9 @@
 /* main-tab */
 "Create new channel" = "새 채널 만들기";
 
+/* Sound Input */
+"Default" = "Default";
+
 /* preferences */
 "Default Subscriptions" = "기본 수신";
 
@@ -300,6 +303,9 @@
 /* preferences */
 "Media file vs. voice volume" = "미디어 파일 음량 대비 말하기 음량";
 
+/* Dialog */
+"Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
+
 /* preferences */
 "Microphone Gain" = "마이크 음량";
 
@@ -337,6 +343,9 @@
 
 /* preferences */
 "Nickname" = "닉네임";
+
+/* server entry */
+"Nickname (optional)" = "Nickname (optional)";
 
 /* Dialog message */
 "No" = "아니요";
@@ -429,6 +438,9 @@
 
 /* serverlist */
 "Preferences" = "설정";
+
+/* Sound Input */
+"Preferred" = "Preferred";
 
 /* preferences */
 "Pressing Return-key sends text message" = "리턴 키를 누르면 메시지를 바로 전송함";
