@@ -3,7 +3,7 @@
     <general>
         <voice-activation-level>2</voice-activation-level>
         <voice-activated>true</voice-activated>
-        <nickname>NoName</nickname>
+        <nickname></nickname>
         <inactivity-delay>180</inactivity-delay>
     </general>
     <client>
