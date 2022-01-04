@@ -85,6 +85,9 @@
 /* Class = "UIViewController"; title = "Chat Channel"; ObjectID = "gA8-TJ-0RU"; */
 "gA8-TJ-0RU.title" = "채팅 채널";
 
+/* Class = "UILabel"; text = "Title"; ObjectID = "GFy-mN-epU"; */
+"GFy-mN-epU.text" = "Title";
+
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
 "Hcv-zz-riB.text" = "BearWare.dk 웹 로그인";
 
@@ -127,6 +130,9 @@
 /* Class = "UITableViewController"; title = "Preferences"; ObjectID = "NA0-UK-wve"; */
 "NA0-UK-wve.title" = "설정";
 
+/* Class = "UILabel"; text = "Select Microphone"; ObjectID = "ntU-ZP-sKb"; */
+"ntU-ZP-sKb.text" = "Select Microphone";
+
 /* Class = "UILabel"; text = "Blank"; ObjectID = "nVj-7w-Sta"; */
 "nVj-7w-Sta.text" = "Blank";
 
@@ -147,6 +153,9 @@
 
 /* Class = "UILabel"; text = "Setup Announcements"; ObjectID = "Q0w-pu-giG"; */
 "Q0w-pu-giG.text" = "알림 설정";
+
+/* Class = "UILabel"; text = "Choose microphone input"; ObjectID = "qgW-1i-aGQ"; */
+"qgW-1i-aGQ.text" = "Choose microphone input";
 
 /* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */
 "rNU-2J-hMO.normalTitle" = "오디오 사용 안 함";
@@ -189,6 +198,9 @@
 
 /* Class = "UIButton"; normalTitle = "Kick and Ban User"; ObjectID = "WRa-tI-lpY"; */
 "WRa-tI-lpY.normalTitle" = "내보내기 및 차단";
+
+/* Class = "UITableViewController"; title = "Setup Sound Inputs"; ObjectID = "XmQ-1z-cFv"; */
+"XmQ-1z-cFv.title" = "Setup Sound Inputs";
 
 /* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
 "Y9o-rs-HCe.title" = "연결 끊기";

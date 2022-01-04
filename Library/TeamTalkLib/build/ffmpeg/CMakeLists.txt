@@ -13,24 +13,27 @@ set (TOOLCHAIN_INSTALL_PREFIX_FFMPEG ${TOOLCHAIN_INSTALL_PREFIX}/ffmpeg)
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
-    ExternalProject_Add(ffmpeg-src
+
+    ExternalProject_Add(ffmpeg-arm64-src
       GIT_REPOSITORY    https://github.com/bear101/FFmpeg
       GIT_TAG           n3.4.7
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
-      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
-      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg-arm64
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-arm64
       CONFIGURE_COMMAND export PKG_CONFIG_PATH=${OPENSSL_DIR}/lib/pkgconfig &&
       <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --disable-iconv
       --disable-libxcb --disable-libxcb-shm --disable-libxcb-xfixes
       --disable-libxcb-shape --disable-securetransport
       --disable-schannel --disable-xlib --disable-jack
       --disable-lzma
-      --extra-cflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
-      --extra-cxxflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
-      --extra-ldexeflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
+      --extra-cflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ arm64
+      --extra-cxxflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ arm64
+      --extra-ldexeflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ arm64
       --disable-videotoolbox --disable-sdl2 --pkg-config-flags=--static
       --enable-debug=3 --disable-optimizations --disable-stripping --enable-openssl
+      --enable-cross-compile --target-os=darwin --arch=arm64 --disable-asm
+      # Seems --arch=arm64 has no effect and '-arch arm64' has to be applied
       BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libavdevice.a
@@ -42,8 +45,72 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       <INSTALL_DIR>/lib/libavutil.a
       DEPENDS openssl-src
       )
-    ExternalProject_Get_Property(ffmpeg-src INSTALL_DIR)
-    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+    ExternalProject_Get_Property(ffmpeg-arm64-src INSTALL_DIR)
+
+    ExternalProject_Add(ffmpeg-intel-src
+      GIT_REPOSITORY    https://github.com/bear101/FFmpeg
+      GIT_TAG           n3.4.7
+      GIT_SHALLOW       TRUE
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg-intel
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-intel
+      CONFIGURE_COMMAND export PKG_CONFIG_PATH=${OPENSSL_DIR}/lib/pkgconfig &&
+      <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --disable-iconv
+      --disable-libxcb --disable-libxcb-shm --disable-libxcb-xfixes
+      --disable-libxcb-shape --disable-securetransport
+      --disable-schannel --disable-xlib --disable-jack
+      --disable-lzma
+      --extra-cflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ x86_64
+      --extra-cxxflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ x86_64
+      --extra-ldexeflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ x86_64
+      --disable-videotoolbox --disable-sdl2 --pkg-config-flags=--static
+      --enable-debug=3 --disable-optimizations --disable-stripping --enable-openssl
+      --enable-cross-compile --target-os=darwin --arch=x86_64
+      BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
+      INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libavdevice.a
+      <INSTALL_DIR>/lib/libavfilter.a
+      <INSTALL_DIR>/lib/libavformat.a
+      <INSTALL_DIR>/lib/libavcodec.a
+      <INSTALL_DIR>/lib/libswresample.a
+      <INSTALL_DIR>/lib/libswscale.a
+      <INSTALL_DIR>/lib/libavutil.a
+      DEPENDS openssl-src
+      )
+    ExternalProject_Get_Property(ffmpeg-intel-src INSTALL_DIR)
+
+    # Use 'lipo' to create universal binary
+    file(MAKE_DIRECTORY ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib)
+    file(MAKE_DIRECTORY ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/include)
+    add_custom_command (OUTPUT ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libavdevice.a
+      ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libavfilter.a
+      ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libavformat.a
+      ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libavcodec.a
+      ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libswresample.a
+      ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libswscale.a
+      ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libavutil.a
+      ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/include/ffmpeg/libavformat/version.h
+      COMMAND lipo -create ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-arm64/lib/libavdevice.a ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-intel/lib/libavdevice.a -output ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libavdevice.a
+      COMMAND lipo -create ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-arm64/lib/libavfilter.a ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-intel/lib/libavfilter.a -output ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libavfilter.a
+      COMMAND lipo -create ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-arm64/lib/libavformat.a ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-intel/lib/libavformat.a -output ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libavformat.a
+      COMMAND lipo -create ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-arm64/lib/libavcodec.a ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-intel/lib/libavcodec.a -output ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libavcodec.a
+      COMMAND lipo -create ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-arm64/lib/libswresample.a ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-intel/lib/libswresample.a -output ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libswresample.a
+      COMMAND lipo -create ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-arm64/lib/libswscale.a ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-intel/lib/libswscale.a -output ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libswscale.a
+      COMMAND lipo -create ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-arm64/lib/libavutil.a ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-intel/lib/libavutil.a -output ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libavutil.a
+      COMMAND ${CMAKE_COMMAND} -E copy_directory ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-intel/include ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/include
+      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+      COMMENT "Generating universal FFmpeg binaries"
+      DEPENDS ffmpeg-intel-src ffmpeg-arm64-src)
+
+    add_custom_target (ffmpeg-src DEPENDS ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libavdevice.a
+      ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libavfilter.a
+      ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libavformat.a
+      ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libavcodec.a
+      ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libswresample.a
+      ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libswscale.a
+      ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/lib/libavutil.a
+      ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}/include/ffmpeg/libavformat/version.h)
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG})
   else()
     set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG})
   endif()

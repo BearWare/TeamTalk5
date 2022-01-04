@@ -44,8 +44,9 @@ let PREF_MICROPHONE_GAIN = "microphonegain_preference"
 let PREF_SPEAKER_OUTPUT = "speakeroutput_preference"
 let PREF_VOICEACTIVATION = "voiceactivationlevel_preference"
 let PREF_MEDIAFILE_VOLUME = "mediafile_volume_preference"
-let PREF_HEADSET_TXTOGGLE = "headset_tx_preferences"
+let PREF_HEADSET_TXTOGGLE = "headset_tx_preference"
 let PREF_VOICEPROCESSINGIO = "voiceprocessing_preference"
+let PREF_SNDINPUT_PORT = "sndinput_port_preference" // postfix of key is AVAudioSessionPortDescription.uid. Value is dataSourceID
 
 let PREF_SNDEVENT_SERVERLOST = "snd_srvlost_preference"
 let PREF_SNDEVENT_VOICETX = "snd_voicetx_preference"
@@ -123,7 +124,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         
         var nickname = settings.string(forKey: PREF_GENERAL_NICKNAME)
         if nickname == nil {
-            nickname = DEFAULT_NICKNAME
+            nickname = ""
         }
         
         // general items
@@ -272,7 +273,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         
         let headsettxcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         let headsettxswitch = newTableCellSwitch(headsettxcell, label: NSLocalizedString("Headset TX Toggle", comment: "preferences"),
-            initial: settings.object(forKey: PREF_HEADSET_TXTOGGLE) == nil || settings.bool(forKey: PREF_HEADSET_TXTOGGLE))
+            initial: settings.object(forKey: PREF_HEADSET_TXTOGGLE) != nil && settings.bool(forKey: PREF_HEADSET_TXTOGGLE))
         headsettxcell.detailTextLabel!.text = NSLocalizedString("Toggle voice transmission using headset", comment: "preferences")
         headsettxswitch.addTarget(self, action: #selector(PreferencesViewController.headsetTxToggleChanged(_:)), for: .valueChanged)
         sound_items.append(headsettxcell)
@@ -516,6 +517,9 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         else {
             UIApplication.shared.endReceivingRemoteControlEvents()
         }
+        
+        // Headset TX toggle modifies .mixWithOthers flag
+        setupSoundDevices()
     }
 
     @objc func voicepreprocessingChanged(_ sender: UISwitch) {

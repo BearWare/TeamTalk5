@@ -155,7 +155,7 @@
 		25E4DC2F1BF7360D00EC5A8C /* channel_message.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = channel_message.mp3; sourceTree = "<group>"; };
 		25E4DC301BF7360D00EC5A8C /* serverlost.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = serverlost.mp3; sourceTree = "<group>"; };
 		25E4DC311BF7360D00EC5A8C /* user_message.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = user_message.mp3; sourceTree = "<group>"; };
-		25E7D94E22399672001A5035 /* SoundInputsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundInputsViewController.swift; sourceTree = "<group>"; };
+		25E7D94E22399672001A5035 /* SoundInputsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundInputsViewController.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		25ED9FDD265AD28500127B0E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		25ED9FDE265AD28700127B0E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
 		25ED9FDF265AD28900127B0E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -677,7 +677,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = QF4DLGWC27;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -705,7 +705,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = QF4DLGWC27;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "";

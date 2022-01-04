@@ -95,6 +95,7 @@ void CFilesTab::AddFile(int nChannelID, int nFileID)
         num.Format(LoadText(IDS_FILETABKB, _T("%u KB")), UINT(size));
         m_wndFiles.SetItem(itemIndex, 1, LVIF_TEXT, num, 0, 0, 0, 0, 0);
         m_wndFiles.SetItem(itemIndex, 2, LVIF_TEXT, remotefile.szUsername, 0, 0, 0, 0, 0);
+        m_wndFiles.SetItem(itemIndex, 3, LVIF_TEXT, remotefile.szUploadTime, 0, 0, 0, 0, 0);
         m_wndFiles.SetItemData(itemIndex, nFileID);
     }
 }
@@ -178,6 +179,7 @@ BOOL CFilesTab::OnInitDialog()
     m_wndFiles.InsertColumn(0, LoadText(IDS_FILETABNAME, _T("Name")));
     m_wndFiles.InsertColumn(1, LoadText(IDS_FILETABSIZE, _T("Size")), LVCFMT_RIGHT);
     m_wndFiles.InsertColumn(2, LoadText(IDS_FILETABUSER, _T("User")), LVCFMT_RIGHT);
+    m_wndFiles.InsertColumn(3, LoadText(IDS_FILETABDATE, _T("Date")), LVCFMT_RIGHT);
 
     TRANSLATE(*this, IDD);
     SetAccessibleName(m_wndFiles, LoadText(IDS_FILESLISTLAB, _T("Files list")));

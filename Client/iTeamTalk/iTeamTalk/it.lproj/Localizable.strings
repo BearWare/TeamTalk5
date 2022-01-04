@@ -167,6 +167,9 @@
 /* main-tab */
 "Create new channel" = "Crea nuovo canale";
 
+/* Sound Input */
+"Default" = "Default";
+
 /* preferences */
 "Default Subscriptions" = "Abbonamenti predefiniti";
 
@@ -300,6 +303,9 @@
 /* preferences */
 "Media file vs. voice volume" = "File multimediale e volume della voce";
 
+/* Dialog */
+"Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
+
 /* preferences */
 "Microphone Gain" = "Volume del microfono";
 
@@ -337,6 +343,9 @@
 
 /* preferences */
 "Nickname" = "Pseudonimo";
+
+/* server entry */
+"Nickname (optional)" = "Nickname (optional)";
 
 /* Dialog message */
 "No" = "No";
@@ -429,6 +438,9 @@
 
 /* serverlist */
 "Preferences" = "Preferenze";
+
+/* Sound Input */
+"Preferred" = "Preferred";
 
 /* preferences */
 "Pressing Return-key sends text message" = "Premendo il tasto Invio si invia un messaggio di testo";

@@ -138,8 +138,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       COMMAND           echo "ipv6=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "c++11=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "include <SOURCE_DIR>/ACE/include/makeinclude/platform_macosx_mojave.GNU" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
-      COMMAND           echo "CPPFLAGS+=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
-      COMMAND           echo "LDFLAGS+=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
+      COMMAND           echo "CPPFLAGS+=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} -arch x86_64 -arch arm64" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
+      COMMAND           echo "LDFLAGS+=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} -arch x86_64 -arch arm64" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "SSL_ROOT=${OPENSSL_DIR}" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "INSTALL_PREFIX=<INSTALL_DIR>" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       # Create 'config.h'

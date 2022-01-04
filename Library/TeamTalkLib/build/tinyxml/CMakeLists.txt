@@ -72,7 +72,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       CONFIGURE_COMMAND ""
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/tinyxml
       BUILD_IN_SOURCE   TRUE
-      BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS} CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
+      BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS} CPPFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ x86_64\ -arch\ arm64
       INSTALL_COMMAND   mkdir -p <INSTALL_DIR>/include && mkdir -p <INSTALL_DIR>/lib
       COMMAND           cp <SOURCE_DIR>/tinyxml.h <INSTALL_DIR>/include/
       COMMAND           cp <SOURCE_DIR>/tinystr.h <INSTALL_DIR>/include/

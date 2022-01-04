@@ -1919,7 +1919,7 @@ void MainWindow::Disconnect()
 
 void MainWindow::login()
 {
-    QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
+    QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, SETTINGS_GENERAL_NICKNAME_DEFAULT).toString();
     if(m_host.nickname.size())
         nick = m_host.nickname;
 
@@ -1956,8 +1956,13 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
     {
         // command errors
     case CMDERR_SYNTAX_ERROR :
+        textmsg = tr("Syntax error"); break;
     case CMDERR_UNKNOWN_COMMAND :
+        textmsg = tr("Unknown command"); break;
     case CMDERR_INCOMPATIBLE_PROTOCOLS :
+        textmsg = tr("The server uses a protocol which is incompatible with the client instance"); break;
+    case CMDERR_UNKNOWN_AUDIOCODEC :
+        textmsg = tr("Unknown audio codec"); break;
     case CMDERR_MISSING_PARAMETER :
         textmsg = tr("This client is not compatible with the server, "
                     "so the action cannot be performed."); break;
@@ -1988,7 +1993,7 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
                 return;
             
             addLatestHost(m_host);
-            QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
+            QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, SETTINGS_GENERAL_NICKNAME_DEFAULT).toString();
             if(m_host.nickname.size())
                 nickname = m_host.nickname;
             int cmdid = TT_DoLoginEx(ttInst, _W(nickname), 
@@ -2034,6 +2039,10 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
         textmsg = tr("Maximum number of users in channel exceeded"); break;
     case CMDERR_INCORRECT_OP_PASSWORD :
         textmsg = tr("Incorrect channel operator password"); break;
+    case CMDERR_MAX_CHANNELS_EXCEEDED :
+        textmsg = tr("The maximum number of channels has been exceeded"); break;
+    case CMDERR_COMMAND_FLOOD :
+        textmsg = tr("Command flooding prevented by server"); break;
 
         // state errors
     case CMDERR_ALREADY_LOGGEDIN :
@@ -2052,8 +2061,16 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
            cmd_type != CMD_COMPLETE_UNSUBSCRIBE)
             textmsg = tr("User not found");
         break;
+    case CMDERR_OPENFILE_FAILED :
+        textmsg = tr("Server failed to open file");break;
+    case CMDERR_LOGINSERVICE_UNAVAILABLE :
+        textmsg = tr("The login service is currently unavailable");break;
+    case CMDERR_CHANNEL_CANNOT_BE_HIDDEN :
+        textmsg = tr("This channel cannot be hidden");break;
     case CMDERR_CHANNEL_NOT_FOUND :
         textmsg = tr("Channel not found");break;
+    case CMDERR_NOT_IN_CHANNEL :
+        textmsg = tr("Cannot leave channel because not in channel.");break;
     case CMDERR_BAN_NOT_FOUND :
         textmsg = tr("Banned user not found"); break;
     case CMDERR_FILETRANSFER_NOT_FOUND :
@@ -2543,7 +2560,18 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         if(chanlog.size())
         {
             if(!m_logChan.isOpen())
-                openLogFile(m_logChan, chanlog, _Q(m_mychannel.szName) + ".clog");
+            {
+                QString channame;
+                if (m_mychannel.nChannelID == TT_GetRootChannelID(ttInst))
+                {
+                    ServerProperties prop = {};
+                    TT_GetServerProperties(ttInst, &prop);
+                    channame = _Q(prop.szServerName);
+                }
+                else
+                    channame = _Q(m_mychannel.szName);
+                openLogFile(m_logChan, chanlog, channame + ".clog");
+            }
             writeLogEntry(m_logChan, line);
         }
         if (textmsg.nFromUserID != TT_GetMyUserID(ttInst))
@@ -3820,7 +3848,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     if((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) &&
         TT_GetUser(ttInst, TT_GetMyUserID(ttInst), &myself))
     {
-        QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
+        QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, SETTINGS_GENERAL_NICKNAME_DEFAULT).toString();
         if((_Q(myself.szNickname) != nickname) && m_host.nickname.isEmpty())
             TT_DoChangeNickname(ttInst, _W(nickname));
 
@@ -4009,7 +4037,7 @@ void MainWindow::slotClientExit(bool /*checked =false */)
 
 void MainWindow::slotMeChangeNickname(bool /*checked =false */)
 {
-    QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).toString();
+    QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, SETTINGS_GENERAL_NICKNAME_DEFAULT).toString();
     if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && m_host.nickname.size())
         nick = m_host.nickname;
     bool ok = false;
@@ -5370,45 +5398,7 @@ void MainWindow::slotTreeSelectionChanged()
     }
 #if defined(Q_OS_DARWIN)
     if (ttSettings->value(SETTINGS_TTS_SPEAKLISTS, SETTINGS_TTS_SPEAKLISTS_DEFAULT).toBool() == true)
-    {
-        User user;
-        Channel channel;
-        QString result;
-        if (ui.channelsWidget->getUser(ui.channelsWidget->selectedUser(), user))
-        {
-            result = getDisplayName(user);
-            switch (user.nStatusMode & STATUSMODE_MODE)
-            {
-            case STATUSMODE_AWAY :
-                result += ", " + tr("Away");
-                break;
-            case STATUSMODE_QUESTION :
-                result += ", " + tr("Question");
-                break;
-            }
-            if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
-                result += ", " + tr("Streaming media file");
-            if (user.nStatusMode & STATUSMODE_VIDEOTX)
-                result += ", " + tr("Webcam");
-        }
-        else if (ui.channelsWidget->getChannel(ui.channelsWidget->selectedChannel(true), channel))
-        {
-            result = _Q(channel.szName);
-            if(channel.nChannelID == TT_GetRootChannelID(ttInst))
-            {
-                ServerProperties prop = {};
-                TT_GetServerProperties(ttInst, &prop);
-                result = _Q(prop.szServerName);
-            }
-            if (ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT, SETTINGS_DISPLAY_USERSCOUNT_DEFAULT).toBool())
-            {
-                int count = 0;
-                TT_GetChannelUsers(ttInst, channel.nChannelID, nullptr, &count);
-                result = QString("%1 (%2)").arg(result).arg(count);
-            }
-        }
-        addTextToSpeechMessage(result);
-    }
+        addTextToSpeechMessage(ui.channelsWidget->getItemText());
 #endif
 }
 
