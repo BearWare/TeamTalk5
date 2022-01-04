@@ -3357,9 +3357,10 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6603"/>
-        <source>The file %1 contains %2 setup information.<byte value="xd"/>
+        <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>файл %1 содержит %2 пораметры.
+Следует ли применить эти настройки?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6683"/>
@@ -3523,52 +3524,52 @@ You can download it on the page below:
     <message>
         <location filename="../mainwindow.cpp" line="1959"/>
         <source>Syntax error</source>
-        <translation type="unfinished"></translation>
+        <translation>Синтаксическая ошибка</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1961"/>
         <source>Unknown command</source>
-        <translation type="unfinished"></translation>
+        <translation>Неизвестная команда</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1963"/>
         <source>The server uses a protocol which is incompatible with the client instance</source>
-        <translation type="unfinished"></translation>
+        <translation>Сервер использует протокол, несовместимый с экземпляром клиента</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1965"/>
         <source>Unknown audio codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Неизвестный аудиокодек</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2043"/>
         <source>The maximum number of channels has been exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>Превышено максимальное количество каналов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2045"/>
         <source>Command flooding prevented by server</source>
-        <translation type="unfinished"></translation>
+        <translation>Флуд команд предотвращён сервером</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2065"/>
         <source>Server failed to open file</source>
-        <translation type="unfinished"></translation>
+        <translation>Серверу не удалось открыть файл</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2067"/>
         <source>The login service is currently unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>В настоящее время служба входа недоступна</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2069"/>
         <source>This channel cannot be hidden</source>
-        <translation type="unfinished"></translation>
+        <translation>This channel cannot be hidden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2073"/>
         <source>Cannot leave channel because not in channel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Не могу покинуть канал, потому что не в канале.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2581"/>
@@ -3660,17 +3661,21 @@ You can download it on the page below:
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6695"/>
-        <source>New version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
+        <source>New version available: %1
+You can download it on the page below:
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая версия: %1
+You can download it on the page below:
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6720"/>
-        <source>New beta version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
+        <source>New beta version available: %1
+You can download it on the page below:
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая бета версия: %1
+You can download it on the page below:
+%2</translation>
     </message>
     <message>
         <source>Streaming media file</source>
