@@ -1996,7 +1996,6 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
                                      _W(QString(APPNAME_SHORT)));
             if(cmdid>0)
                 m_commands.insert(cmdid, CMD_COMPLETE_LOGIN);            
-            setWindowTitle(APPTITLE);
             return;
         }
     case CMDERR_INCORRECT_CHANNEL_PASSWORD :
