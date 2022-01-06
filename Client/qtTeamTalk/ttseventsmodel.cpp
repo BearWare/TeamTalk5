@@ -188,6 +188,7 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
             return tr("Menu actions");
         case TTS_SERVER_CONNECTIVITY :
             return tr("Server connectivity");
+        case TTS_NEXT_UNUSED :
         case TTS_NONE :
             break;
         }

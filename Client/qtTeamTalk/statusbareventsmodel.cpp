@@ -169,6 +169,7 @@ QVariant StatusBarEventsModel::data ( const QModelIndex & index, int role /*= Qt
             return tr("Transmission blocked by channel operator");
         case STATUSBAR_NONE :
         case STATUSBAR_NEXT_UNUSED :
+        case STATUSBAR_BYPASS :
             break;
         }
     case Qt::AccessibleTextRole :
