@@ -86,6 +86,10 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
         ui.totaltxSpinBox->setEnabled(false);
         ui.motdChkBox->hide();
     }
+    else
+    {
+        ui.label_4->setTextInteractionFlags(Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard);
+    }
 }
 
 void ServerPropertiesDlg::slotAccepted()

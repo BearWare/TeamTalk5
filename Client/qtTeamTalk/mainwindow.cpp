@@ -2443,7 +2443,7 @@ QString MainWindow::getTitle()
             title = QString("%1 - %2").arg(limitText(_Q(m_mychannel.szName))).arg(APPTITLE);
         }
     }
-    else if (TT_GetServerProperties(ttInst, &prop))
+    else if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && TT_GetServerProperties(ttInst, &prop))
     {
         title = QString("%1 - %2").arg(limitText(_Q(prop.szServerName))).arg(APPTITLE);
     }

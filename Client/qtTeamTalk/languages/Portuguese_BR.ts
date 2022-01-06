@@ -44,7 +44,40 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.webmproject.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://webrtc.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebRTC&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Créditos&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Colaboradores&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Bjørn Damstedt Rasmussen, desenvolvedor&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave, desenvolvedor&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tradutores&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;贺稼栋, Chinês Simplificado&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave, Francês&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Steffen Schultz, Alemão&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Michał Ciołek, Polonês&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;João Carlos Ramos e JNylson, Português do Brasil&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ozancan Karataş, Turco&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Bibliotecas&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;O TeamTalk usa as seguintes bibliotecas:&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.dre.vanderbilt.edu/~schmidt/ACE.html&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;ACE&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ffmpeg.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;FFmpeg&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OGG&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.openssl.org&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OpenSSL&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS-tools&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://portaudio.com/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;PortAudio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://qt.io&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Qt&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Speex&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;SpeexDSP&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.grinninglizard.com/tinyxml/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;TinyXML&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.webmproject.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://webrtc.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebRTC&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -929,32 +962,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="946"/>
         <source>Away</source>
-        <translation type="unfinished">Ausente</translation>
+        <translation>Ausente</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="949"/>
         <source>Question</source>
-        <translation type="unfinished">Perguntar</translation>
+        <translation>Perguntar</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="955"/>
         <source>Streaming media file</source>
-        <translation type="unfinished"></translation>
+        <translation>Arquivo de mídia de streaming</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="958"/>
         <source>Webcam</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="970"/>
         <source>Administrator</source>
-        <translation type="unfinished">Administrador</translation>
+        <translation>Administrador</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="973"/>
         <source>Channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Operador do canal</translation>
     </message>
     <message>
         <source>, Away</source>
@@ -2480,32 +2513,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="3460"/>
         <source>Push To Talk: </source>
-        <translation>Pressione para Falar:</translation>
+        <translation>Pressione para Falar: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3633"/>
         <source>Text messages blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Mensagens de texto bloqueadas pelo operador de canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3637"/>
         <source>Voice transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Transmissão de voz bloqueada pela operadora do canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3641"/>
         <source>Media file transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Transmissão de arquivo de mídia bloqueada pelo operador do canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3645"/>
         <source>Video transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Transmissão de vídeo bloqueada pela operadora do canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3649"/>
         <source>Desktop transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Transmissão de área de trabalho bloqueada pelo operador do canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3693"/>
@@ -2542,12 +2575,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="3986"/>
         <source>No Sound Device</source>
-        <translation type="unfinished">Sem Dispositivo de Som</translation>
+        <translation>Sem Dispositivo de Som</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4012"/>
         <source>&amp;Refresh Sound Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Atualizar Dispositivos de Som</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4051"/>
@@ -2557,7 +2590,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4152"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>O dispositivo de vídeo não foi configurado corretamente. Verifique as configurações em &apos;Preferências&apos;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4163"/>
@@ -2582,12 +2615,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4281"/>
         <source>Sound events enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Ativar eventos sonoros</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4286"/>
         <source>Sound events disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Desativar eventos sonoros</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4324"/>
@@ -2763,52 +2796,52 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1959"/>
         <source>Syntax error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro de sintaxe</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1961"/>
         <source>Unknown command</source>
-        <translation type="unfinished"></translation>
+        <translation>Comando desconhecido</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1963"/>
         <source>The server uses a protocol which is incompatible with the client instance</source>
-        <translation type="unfinished"></translation>
+        <translation>O servidor usa um protocolo que é incompatível com a instância do cliente</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1965"/>
         <source>Unknown audio codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Codec de áudio desconhecido</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2043"/>
         <source>The maximum number of channels has been exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>O número máximo de canais foi excedido</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2045"/>
         <source>Command flooding prevented by server</source>
-        <translation type="unfinished"></translation>
+        <translation>Inundações de comando evitadas pelo servidor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2065"/>
         <source>Server failed to open file</source>
-        <translation type="unfinished"></translation>
+        <translation>O servidor falhou ao abrir o arquivo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2067"/>
         <source>The login service is currently unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>O serviço de login está atualmente indisponível</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2069"/>
         <source>This channel cannot be hidden</source>
-        <translation type="unfinished"></translation>
+        <translation>Este canal não pode ser escondido</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2073"/>
         <source>Cannot leave channel because not in channel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Não pode sair do canal porque não está no canal.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4861"/>
@@ -2913,19 +2946,21 @@ Você pode baixá-lo na página abaixo:
     <message>
         <location filename="../mainwindow.cpp" line="6708"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Uma nova versão beta de %1 está disponível: %2. Deseja abrir a página de download agora?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6713"/>
         <source>New beta version available</source>
-        <translation type="unfinished"></translation>
+        <translation>Nova versão beta disponível</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6720"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Nova versão beta disponível: %1
+Você pode baixá-lo na página abaixo:
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6796"/>
@@ -3045,12 +3080,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="5667"/>
         <source>Character limit exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>Limite de caracteres excedido</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5667"/>
         <source>Your message has exceeded the limit by %1 characters. Please reduce it and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sua mensagem excedeu o limite de caracteres %1. Por favor, reduza e tente novamente.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5788"/>
@@ -3344,7 +3379,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1231"/>
         <source>&amp;Transmit Control</source>
-        <translation type="unfinished"></translation>
+        <translation>Controle de &amp;Transmissão</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1260"/>
@@ -3660,22 +3695,22 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1915"/>
         <source>Allow All V&amp;oice Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitir Todas as Transmissões de &amp;Voz</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1918"/>
         <source>Ctrl+Alt+Shift+Q</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1926"/>
         <source>Allow All Video Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitir Todas as Transmissões de Vídeo</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1929"/>
         <source>Ctrl+Alt+Shift+W</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1994"/>
@@ -3690,32 +3725,32 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="2005"/>
         <source>Enable Sound Events</source>
-        <translation type="unfinished"></translation>
+        <translation>Ativar Eventos Sonoros</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2008"/>
         <source>Ctrl+Alt+Z</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2027"/>
         <source>Allow All Desktop Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitir Todas as Transmissões de Área de Trabalho</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2030"/>
         <source>Ctrl+Alt+Shift+E</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2159"/>
         <source>Allow All Media File Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitir Todas as Transmissões de Arquivo de Mídia</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2162"/>
         <source>Ctrl+Alt+Shift+R</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2184"/>
@@ -3770,12 +3805,12 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="2256"/>
         <source>Allow All Channel Text Messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitir Todas as Mensagens de Texto do Canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2259"/>
         <source>Ctrl+Alt+Shift+T</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1942"/>
@@ -3999,22 +4034,22 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1120"/>
         <source>S&amp;ound Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>C&amp;onfiguração de Som</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1124"/>
         <source>&amp;Input Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Dispositivos de &amp;Entrada</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1129"/>
         <source>&amp;Output Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Dispositivos de &amp;Saída</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1154"/>
         <source>&amp;Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Notificações</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1264"/>
@@ -4024,17 +4059,17 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../mainwindow.ui" line="1391"/>
         <source>&amp;Enable Echo Cancellation</source>
-        <translation type="unfinished"></translation>
+        <translation>Ativar &amp;Cancelamento de Eco</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1399"/>
         <source>Enable &amp;Automatic Gain Control</source>
-        <translation type="unfinished"></translation>
+        <translation>Ativar Controle &amp;Automático de Ganho</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1407"/>
         <source>Enable &amp;Denoising</source>
-        <translation type="unfinished"></translation>
+        <translation>Ativar Remover &amp;Ruído</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1849"/>
@@ -4432,7 +4467,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../onlineusers.ui" line="54"/>
         <source>Keep disconnected users</source>
-        <translation type="unfinished"></translation>
+        <translation>Manter os usuários desconectados</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="107"/>
@@ -5588,12 +5623,12 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="560"/>
         <source>Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>Ascendente</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="561"/>
         <source>Popularity</source>
-        <translation type="unfinished"></translation>
+        <translation>Popularidade</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="649"/>
@@ -5738,7 +5773,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../preferences.ui" line="519"/>
         <source>Sort channels by</source>
-        <translation type="unfinished"></translation>
+        <translation>Classificar canais por</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="534"/>
@@ -5753,22 +5788,22 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../preferences.ui" line="662"/>
         <source>Check for software updates on startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Verificar se há atualizações de software na inicialização</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="669"/>
         <source>Check for beta software updates on startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Verificar se há atualizações de software beta na inicialização</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2184"/>
         <source>Speak selected item in lists</source>
-        <translation type="unfinished"></translation>
+        <translation>Falar item selecionado na lista</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2418"/>
         <source>Reinitialize sound devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Reinicializar dispositivos de som</translation>
     </message>
 </context>
 <context>
@@ -6560,7 +6595,7 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="169"/>
         <source>Transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Transmissão bloqueada pelo operador do canal</translation>
     </message>
 </context>
 <context>
@@ -6673,12 +6708,12 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../streammediafile.ui" line="51"/>
         <source>&amp;B</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="68"/>
         <source>&amp;R</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="209"/>
@@ -6953,12 +6988,12 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../ttseventsmodel.cpp" line="134"/>
         <source>User is typing a private text message in focused window</source>
-        <translation type="unfinished"></translation>
+        <translation>O usuário está digitando uma mensagem de texto privada na janela em foco</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="136"/>
         <source>User is typing a private text message</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuário está digitando uma mensagem de texto privada</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="138"/>
@@ -7135,12 +7170,12 @@ Essas configurações devem ser aplicadas?</translation>
     <message>
         <location filename="../textmessagedlg.cpp" line="174"/>
         <source>Character limit exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>Limite de caracteres excedido</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="174"/>
         <source>Your message has exceeded the limit by %1 characters. Please reduce it and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sua mensagem excedeu o limite de caracteres %1. Por favor, reduza e tente novamente.</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="213"/>
@@ -7151,7 +7186,7 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../textmessagedlg.cpp" line="218"/>
         <location filename="../textmessagedlg.cpp" line="220"/>
         <source>%1 is typing</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 está digitando</translation>
     </message>
 </context>
 <context>
