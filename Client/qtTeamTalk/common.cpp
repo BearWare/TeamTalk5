@@ -362,7 +362,7 @@ bool HostEntry::sameHost(const HostEntry& host, bool nickcheck) const
            udpport == host.udpport &&
            encrypted == host.encrypted &&
            /* srvpasswd == host.srvpasswd && */ //don't include passwords
-           username == host.username &&
+           (username == host.username) || (username.compare(WEBLOGIN_BEARWARE_USERNAME, Qt::CaseInsensitive) == 0 || username.endsWith(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX, Qt::CaseInsensitive)) &&
            /* password == host.password && */
            (!nickcheck || nickname == host.nickname) &&
            channel == host.channel
