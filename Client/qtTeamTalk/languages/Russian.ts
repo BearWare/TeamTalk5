@@ -133,6 +133,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../audiopreprocessor.ui" line="81"/>
         <location filename="../audiopreprocessor.ui" line="202"/>
         <source>Gain Level</source>
+        <translatorcomment>	</translatorcomment>
         <translation>Уровень Усиления</translation>
     </message>
     <message>
@@ -188,7 +189,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="33"/>
         <source>&amp;Cancel</source>
-        <translatorcomment>	</translatorcomment>
         <translation>&amp;Отмена</translation>
     </message>
     <message>
@@ -4704,7 +4704,7 @@ You can download it on the page below:
         <location filename="../OldPref/preferences.ui" line="1197"/>
         <location filename="../preferences.ui" line="1282"/>
         <source>Sounds pack</source>
-        <translation>Звуковой покет</translation>
+        <translation>Звуковой пакет</translation>
     </message>
     <message>
         <location filename="../OldPref/preferences.ui" line="1248"/>
