@@ -68,6 +68,7 @@
 #include <QScreen>
 #include <QGuiApplication>
 #include <QKeyEvent>
+#include <QCloseEvent>
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QDesktopWidget>
@@ -6852,4 +6853,9 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
         }
     }
     QWidget::keyPressEvent(e);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    slotClientExit();
 }
