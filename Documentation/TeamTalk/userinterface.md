@@ -271,6 +271,8 @@ Each of the menu items in the Client menu are described here:
     - To connect to a new server or one you have connected to
       recently. For more information read section
       [Connect Dialog](@ref connectdlg).
+- **Sound Configuration**
+    - Shortcut items to [Sound System](@ref soundsystemtab).
 - **Preferences**
     - Preferences is used for configuring the TeamTalk
       application. For more information read section
@@ -485,9 +487,12 @@ Each of the menu items in the Users menu are described here. A user
 has to be selected in the channels view for the Users menu items to be
 active.
 
-- **View User Information**
-    - Use this menu item to get extended information about a user,
-    like e.g. username, user type and packet reception.
+- **User Information**
+    - **View User Information**
+      - Use this menu item to get extended information about a user,
+        like e.g. username, user type and packet reception.
+    - **Speak User Information**
+      - Use Text-To-Speech to speak user information.
 - **Messages**
     - The menu item is for sending user to user text messages. A
       message dialog will pop up on the user's computer when you send
@@ -538,6 +543,8 @@ active.
           *User Right* can do this.
 - **Subscriptions**
     - See [Subscriptions-menu](@ref subscriptionsmenu).
+- **Transmit Control**
+    - See [Transmit Control-menu](@ref transmitcontrolmenu).
 - **Advanced**
     - See [Advanced-menu](@ref advancedmenu).
 - **Mute All**
@@ -548,7 +555,8 @@ active.
 
 A channel operator is typically a channel owner, i.e. the user who
 initially created the channel. As channel operator one can kick people
-out of the channel and make changes to the channel's properties.
+out of the channel, make changes to the channel's properties and
+control who can transmit in the channel.
 
 Being channel operator is similar to having the *User Right*
 [User can create/modify all channels](@ref useraccountsdlg) but
@@ -562,8 +570,8 @@ entering this password.
 In the [User Accounts Dialog](@ref useraccountsdlg) it's possible to set
 up users to automatically become channel operators.
 
-To control a channel of type [classroom](@ref classroom) one has to be
-channel-operator to control who is allowed to transmit to the channel.
+As channel operator use the [Transmit Control](@ref transmitcontrolmenu)
+to toggle who can transmit to the channel.
 
 ## Subscriptions-Menu {#subscriptionsmenu}
 
@@ -624,6 +632,43 @@ If there's certain subscriptions you always want to have disabled by
 default you can set these in the [Connection-tab](@ref connectiontab) of
 the [Preferences](@ref preferences) dialog.
 
+## Transmit Control-Menu {#transmitcontrolmenu}
+
+This submenu is used by [channel operators](@ref op) to control who is
+allowed to transmit voice, media streams, desktops and send text
+messages to the channel.
+
+- **Allow Channel Text Messages**
+  - Toggle whether the user can send text messages to the channel.
+- **Allow Voice Transmission**
+  - Toggle whether the user can transmit voice to the channel.
+- **Allow Video Transmission**
+  - Toggle whether the user can transmit video from webcam to the channel.
+- **Allow Desktop Transmission**
+  - Toggle whether the user can share desktop windows to the channel.
+- **Allow Media File Transmission**
+  - Toggle whether the user can transmit media files to the channel.
+- **Allow All Channel Text Messages**
+  - Toggle whether all users can send text messages to the
+    channel. This option is typically used for [classroom](@ref
+    classroom) channels.
+- **Allow All Voice Transmission**
+  - Toggle whether all users can transmit voice to the channel. This
+    option is typically used for [classroom](@ref classroom)
+    channels.
+- **Allow All Video Transmission**
+  - Toggle whether all users can transmit video from webcam to the
+    channel. This option is typically used for [classroom](@ref
+    classroom) channels.
+- **Allow All Desktop Transmission**
+  - Toggle whether all users can share desktop windows to the
+    channel. This option is typically used for [classroom](@ref
+    classroom) channels.
+- **Allow All Media File Transmission**
+  - Toggle whether all users can transmit media files to the
+    channel. This option is typically used for [classroom](@ref
+    classroom) channels.
+
 ## Advanced-Menu {#advancedmenu}
 
 This main purpose of the Advanced-menu is to provide keyboard
@@ -642,30 +687,11 @@ Each of the menu items in the Advanced-menu are described here.
 - **Lower Media File Volume**
     - This is basically a shortcut to Volume in [Users-menu](@ref usersmenu). 
 - **Store User(s) for Move**
-    - Store the selected users so they can be moved to another channel.
+    - Store the selected users (like clipboard) so they can be moved
+      to another channel.
 - **Move User(s)**
-    - Move the selected users, i.e. those from *Store User(s) for Move*,
-      to the selected channel. 
-- **Allow Voice Transmission**
-    - When a [channel is configured](@ref createchandlg) in Classroom mode
-      this menu item can be checked to allow the user to talk in the
-      channel. This menu item is included due to its keyboard
-      shortcut.
-- **Allow Video Transmission**
-    - When a [channel is configured](@ref createchandlg) in Classroom mode
-      this menu item can be checked to allow the user to send video to
-      the channel. This menu item is included due to its keyboard
-      shortcut.
-- **Allow Desktop Transmission**
-    - When a [channel is configured](@ref createchandlg) in Classroom mode
-      this menu item can be checked to allow the user to share desktop
-      windows to the channel. This menu item is included due to its
-      keyboard shortcut.
-- **Allow Media File Transmission**
-    - When a [channel is configured](@ref createchandlg) in Classroom mode
-      this menu item can be checked to allow the user to
-      [stream a media file](@ref streammediadlg) to the channel. This menu
-      item is included due to its keyboard shortcut.
+    - Move the selected users, i.e. those from *Store User(s) for
+      Move*, to the selected channel.
 
 # Channels-Menu {#channelsmenu}
 
@@ -684,10 +710,16 @@ Each of the menu items in the Channels menu are described here.
       *Create Channel Dialog* will be ignored if the channel already
       exists.
 
-- **View Channel Info**
+- **Channel Information**
+  - **View Channel Info**
     - View channel information about the selected channel. Details
       about a channel are described in
       [Create Channel Dialog](@ref createchandlg).
+  - **Speak Channel Info**
+      - Use Text-To-Speech to speak information about channel
+  - **Speak Channel State**
+      - Use Text-To-Speech to speak about who is currently
+        transmitting in the channel.
 
 - **Create Channel**
     - Create a new channel. To create a new channel a user must have
@@ -919,6 +951,10 @@ As can be seen on the screenshot there's also checkboxes to the right
 of the channel name *Room 11B*. These checkboxes can be used as a
 shortcut for allowing everyone to transmit. So voice and media files
 can be transmitted by anyone in the channel.
+
+As an alternative to the checkboxes it's also possible to use the
+[Transmit Control menu](@ref transmitcontrolmenu) to toggle who can
+transmit.
 
 For a non-operator of the classroom channel the view of the *Room 11B*
 channel will look like this:
