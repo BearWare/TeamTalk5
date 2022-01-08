@@ -24,6 +24,7 @@ Default Qt Client
 - Fixed AltGr being treated as Ctrl+Alt on Windows
 - Fixed Cmd+Q not working in non-English translations on macOS
 - Fixed "Disconnected from server" TTS event emitted repeatedly when connection to server is lost
+- Fixed nickname change for servers using BearWare account
 Android Client
 - Gender now announce using accessible hint
 - Notification on text limit exceeded
