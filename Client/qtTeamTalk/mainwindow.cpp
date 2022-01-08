@@ -925,8 +925,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         // retrieve initial welcome message and access token
         TT_GetServerProperties(ttInst, &m_srvprop);
 
-        if (m_host.username.compare(WEBLOGIN_BEARWARE_USERNAME, Qt::CaseInsensitive) == 0 ||
-            m_host.username.endsWith(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX, Qt::CaseInsensitive))
+        if (isWebLogin(m_host.username, true))
         {
             QString username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
             QString token = ttSettings->value(SETTINGS_GENERAL_BEARWARE_TOKEN).toString();
