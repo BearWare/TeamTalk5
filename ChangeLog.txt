@@ -18,11 +18,13 @@ Default Qt Client
 - Russian translation updated
 - More specific error messages are displays
 - Server name used in file name when recording root channel conversation to disk
+- Use close button or shortcut to close main window now close all windows
 - Fixed issue where user account's initial channel was not joined if channel was hidden
 - Fixed "Cancel" button not working in "New Client Instance" dialog
 - Fixed AltGr being treated as Ctrl+Alt on Windows
 - Fixed Cmd+Q not working in non-English translations on macOS
 - Fixed "Disconnected from server" TTS event emitted repeatedly when connection to server is lost
+- Fixed nickname change for servers using BearWare account
 Android Client
 - Gender now announce using accessible hint
 - Notification on text limit exceeded

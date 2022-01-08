@@ -375,6 +375,7 @@ QString downloadUpdateURL(const QDomDocument& updateDoc);
 QString newBetaVersionAvailable(const QDomDocument& updateDoc);
 QString downloadBetaUpdateURL(const QDomDocument& updateDoc);
 QString getBearWareRegistrationUrl(const QDomDocument& doc);
+bool isWebLogin(const QString& username, bool includeParentLoginName);
 QString userCacheID(const User& user);
 
 QByteArray generateTTFile(const HostEntry& entry);

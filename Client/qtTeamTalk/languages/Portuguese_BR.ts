@@ -3373,7 +3373,7 @@ Essas configurações devem ser aplicadas?</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1224"/>
-        <source>&amp;User information</source>
+        <source>&amp;User Information</source>
         <translation>Informação do &amp;Usuário</translation>
     </message>
     <message>
@@ -4053,7 +4053,7 @@ Essas configurações devem ser aplicadas?</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1264"/>
-        <source>&amp;Channel information</source>
+        <source>&amp;Channel Information</source>
         <translation>&amp;Informações do Canal</translation>
     </message>
     <message>

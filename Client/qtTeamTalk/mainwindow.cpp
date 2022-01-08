@@ -68,6 +68,7 @@
 #include <QScreen>
 #include <QGuiApplication>
 #include <QKeyEvent>
+#include <QCloseEvent>
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QDesktopWidget>
@@ -925,8 +926,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         // retrieve initial welcome message and access token
         TT_GetServerProperties(ttInst, &m_srvprop);
 
-        if (m_host.username.compare(WEBLOGIN_BEARWARE_USERNAME, Qt::CaseInsensitive) == 0 ||
-            m_host.username.endsWith(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX, Qt::CaseInsensitive))
+        if (isWebLogin(m_host.username, true))
         {
             QString username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
             QString token = ttSettings->value(SETTINGS_GENERAL_BEARWARE_TOKEN).toString();
@@ -6852,4 +6852,13 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
         }
     }
     QWidget::keyPressEvent(e);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+#if defined(Q_OS_DARWIN)
+    QMainWindow::closeEvent(event);
+#else
+    slotClientExit();
+#endif
 }

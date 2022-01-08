@@ -362,7 +362,7 @@ bool HostEntry::sameHost(const HostEntry& host, bool nickcheck) const
            udpport == host.udpport &&
            encrypted == host.encrypted &&
            /* srvpasswd == host.srvpasswd && */ //don't include passwords
-           username == host.username &&
+           (username == host.username || (isWebLogin(host.username, true) && isWebLogin(username, false))) &&
            /* password == host.password && */
            (!nickcheck || nickname == host.nickname) &&
            channel == host.channel
@@ -820,11 +820,19 @@ QString getBearWareRegistrationUrl(const QDomDocument& doc)
     return parseXML(doc, "teamtalk/bearware/register-url");
 }
 
+bool isWebLogin(const QString& username, bool includeParentLoginName)
+{
+    if (username.endsWith(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX, Qt::CaseInsensitive))
+        return true;
+
+    return includeParentLoginName && username.compare(WEBLOGIN_BEARWARE_USERNAME, Qt::CaseInsensitive) == 0;
+}
+
 QString userCacheID(const User& user)
 {
     bool restore = ttSettings->value(SETTINGS_GENERAL_RESTOREUSERSETTINGS, SETTINGS_GENERAL_RESTOREUSERSETTINGS_DEFAULT).toBool();
 
-    if (restore && _Q(user.szUsername).endsWith(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX))
+    if (restore && isWebLogin(_Q(user.szUsername), false))
         return QString("%1|%2").arg(_Q(user.szUsername)).arg(_Q(user.szClientName));
 
     return QString();

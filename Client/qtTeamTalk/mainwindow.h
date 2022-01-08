@@ -119,6 +119,7 @@ protected:
     void timerEvent(QTimerEvent *event) override;
     void changeEvent(QEvent* event) override;
     void keyPressEvent(QKeyEvent* e) override;
+    void closeEvent(QCloseEvent* event) override;
 
 #if defined(Q_OS_WIN32) && QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     bool nativeEvent(const QByteArray& eventType, void* message,
