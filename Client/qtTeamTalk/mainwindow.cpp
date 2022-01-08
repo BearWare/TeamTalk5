@@ -6857,5 +6857,9 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+#if defined(Q_OS_DARWIN)
+    QMainWindow::closeEvent(event);
+#else
     slotClientExit();
+#endif
 }
