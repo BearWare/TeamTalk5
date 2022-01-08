@@ -3240,7 +3240,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1224"/>
-        <source>&amp;User information</source>
+        <source>&amp;User Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3920,7 +3920,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1264"/>
-        <source>&amp;Channel information</source>
+        <source>&amp;Channel Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -3354,7 +3354,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1224"/>
-        <source>&amp;User information</source>
+        <source>&amp;User Information</source>
         <translation>Ben&amp;utzerinformationen</translation>
     </message>
     <message>
@@ -3363,7 +3363,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation>&amp;Räume</translation>
     </message>
     <message>
-        <source>&amp;Channel informations</source>
+        <source>&amp;Channel Informations</source>
         <translation type="vanished">&amp;Rauminformationen</translation>
     </message>
     <message>
@@ -4037,7 +4037,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1264"/>
-        <source>&amp;Channel information</source>
+        <source>&amp;Channel Information</source>
         <translation>&amp;Rauminformationen</translation>
     </message>
     <message>

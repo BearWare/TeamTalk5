@@ -2985,7 +2985,7 @@ Devono essere applicate queste impostazioni?</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1224"/>
-        <source>&amp;User information</source>
+        <source>&amp;User Information</source>
         <translation>&amp;Informazioni utente</translation>
     </message>
     <message>
@@ -2994,7 +2994,7 @@ Devono essere applicate queste impostazioni?</translation>
         <translation>&amp;Canali</translation>
     </message>
     <message>
-        <source>&amp;Channel informations</source>
+        <source>&amp;Channel Informations</source>
         <translation type="vanished">&amp;Informazioni sul canale</translation>
     </message>
     <message>
@@ -3716,7 +3716,7 @@ Devono essere applicate queste impostazioni?</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1264"/>
-        <source>&amp;Channel information</source>
+        <source>&amp;Channel Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
