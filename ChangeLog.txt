@@ -25,6 +25,7 @@ Default Qt Client
 - Fixed Cmd+Q not working in non-English translations on macOS
 - Fixed "Disconnected from server" TTS event emitted repeatedly when connection to server is lost
 - Fixed nickname change for servers using BearWare account
+- Fixed bug when client asked for apply settings even if .tt file doesn't contain settings
 Android Client
 - Gender now announce using accessible hint
 - Notification on text limit exceeded

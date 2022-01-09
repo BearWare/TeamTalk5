@@ -6599,64 +6599,67 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
 
     addLatestHost(entry);
     m_host = entry;
-    QMessageBox answer;
-    answer.setText(tr("The file %1 contains %2 setup information.\r\nShould these settings be applied?").arg(filepath).arg(APPNAME_SHORT));
-    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
-    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
-    Q_UNUSED(NoButton);
-    answer.setIcon(QMessageBox::Question);
-    answer.setWindowTitle(tr("Load %1 File").arg(TTFILE_EXT));
-    answer.exec();
-    if(!element.firstChildElement(CLIENTSETUP_TAG).isNull() && answer.clickedButton() == YesButton)
+    if (!element.firstChildElement(CLIENTSETUP_TAG).isNull())
     {
-        //if no nickname specified use from .tt file
-        if(m_host.nickname.size())
-            ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, m_host.nickname);
+        QMessageBox answer;
+        answer.setText(tr("The file %1 contains %2 setup information.\r\nShould these settings be applied?").arg(filepath).arg(APPNAME_SHORT));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        Q_UNUSED(NoButton);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(tr("Load %1 File").arg(TTFILE_EXT));
+        answer.exec();
+        if(answer.clickedButton() == YesButton)
+        {
+            //if no nickname specified use from .tt file
+            if(m_host.nickname.size())
+                ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, m_host.nickname);
 
-        //if no gender specified use from .tt file
-        if (m_host.gender != GENDER_NONE)
-            ttSettings->setValue(SETTINGS_GENERAL_GENDER, m_host.gender);
+            //if no gender specified use from .tt file
+            if (m_host.gender != GENDER_NONE)
+                ttSettings->setValue(SETTINGS_GENERAL_GENDER, m_host.gender);
         
-        //if no PTT-key specified use from .tt file
-        hotkey_t hotkey;
-        if(m_host.hotkey.size())
-        {
-            saveHotKeySettings(HOTKEY_PUSHTOTALK, m_host.hotkey);
-            enableHotKey(HOTKEY_PUSHTOTALK, m_host.hotkey);
-        }
+            //if no PTT-key specified use from .tt file
+            hotkey_t hotkey;
+            if(m_host.hotkey.size())
+            {
+                saveHotKeySettings(HOTKEY_PUSHTOTALK, m_host.hotkey);
+                enableHotKey(HOTKEY_PUSHTOTALK, m_host.hotkey);
+            }
 
-        //voice activation
-        if(m_host.voiceact >= 0)
-            slotMeEnableVoiceActivation(m_host.voiceact>0);
+            //voice activation
+            if(m_host.voiceact >= 0)
+                slotMeEnableVoiceActivation(m_host.voiceact>0);
 
-        //video capture
-        if(isValid(m_host.capformat))
-        {
-            ttSettings->setValue(SETTINGS_VIDCAP_FOURCC, m_host.capformat.picFourCC);
-            ttSettings->setValue(SETTINGS_VIDCAP_RESOLUTION, QString("%1x%2")
+            //video capture
+            if(isValid(m_host.capformat))
+            {
+                ttSettings->setValue(SETTINGS_VIDCAP_FOURCC, m_host.capformat.picFourCC);
+                ttSettings->setValue(SETTINGS_VIDCAP_RESOLUTION, QString("%1x%2")
                                  .arg(m_host.capformat.nWidth)
                                  .arg(m_host.capformat.nHeight));
-            ttSettings->setValue(SETTINGS_VIDCAP_FPS, QString("%1/%2")
+                ttSettings->setValue(SETTINGS_VIDCAP_FPS, QString("%1/%2")
                                  .arg(m_host.capformat.nFPS_Numerator)
                                  .arg(m_host.capformat.nFPS_Denominator));
-            TT_CloseVideoCaptureDevice(ttInst);
-        }
-
-        //video codec
-        switch(m_host.vidcodec.nCodec)
-        {
-            case WEBM_VP8_CODEC :
-                ttSettings->setValue(SETTINGS_VIDCAP_CODEC,
-                                     m_host.vidcodec.nCodec);
-                ttSettings->setValue(SETTINGS_VIDCAP_WEBMVP8_BITRATE,
-                                     m_host.vidcodec.webm_vp8.nRcTargetBitrate);
                 TT_CloseVideoCaptureDevice(ttInst);
-            break;
-        case SPEEX_CODEC :
-        case SPEEX_VBR_CODEC :
-        case OPUS_CODEC :
-        case NO_CODEC :
-            break;
+            }
+
+            //video codec
+            switch(m_host.vidcodec.nCodec)
+            {
+                case WEBM_VP8_CODEC :
+                    ttSettings->setValue(SETTINGS_VIDCAP_CODEC,
+                                     m_host.vidcodec.nCodec);
+                    ttSettings->setValue(SETTINGS_VIDCAP_WEBMVP8_BITRATE,
+                                         m_host.vidcodec.webm_vp8.nRcTargetBitrate);
+                    TT_CloseVideoCaptureDevice(ttInst);
+                break;
+            case SPEEX_CODEC :
+            case SPEEX_VBR_CODEC :
+            case OPUS_CODEC :
+            case NO_CODEC :
+                break;
+            }
         }
     }
 
