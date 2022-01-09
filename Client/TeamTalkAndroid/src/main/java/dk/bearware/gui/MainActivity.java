@@ -1300,14 +1300,14 @@ private EditText newmsg;
             boolean kickRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_KICK_USERS) !=0;
             // operator of a channel can also kick users
             int myuserid = ttclient.getMyUserID();
-            kickRight |= ttclient.isChannelOperator(myuserid, selectedUser.nChannelID);
+            boolean operatorRight = ttclient.isChannelOperator(myuserid, selectedUser.nChannelID);
 
             PopupMenu userActions = new PopupMenu(this, v);
             userActions.setOnMenuItemClickListener(this);
             userActions.inflate(R.menu.user_actions);
-            userActions.getMenu().findItem(R.id.action_kickchan).setEnabled(kickRight).setVisible(kickRight);
+            userActions.getMenu().findItem(R.id.action_kickchan).setEnabled(kickRight | operatorRight).setVisible(kickRight | operatorRight);
             userActions.getMenu().findItem(R.id.action_kicksrv).setEnabled(kickRight).setVisible(kickRight);
-            userActions.getMenu().findItem(R.id.action_banchan).setEnabled(banRight).setVisible(banRight);
+            userActions.getMenu().findItem(R.id.action_banchan).setEnabled(banRight | operatorRight).setVisible(banRight | operatorRight);
             userActions.getMenu().findItem(R.id.action_bansrv).setEnabled(banRight).setVisible(banRight);
             userActions.getMenu().findItem(R.id.action_select).setEnabled(moveRight).setVisible(moveRight);
             userActions.show();
