@@ -69,6 +69,7 @@ import dk.bearware.events.TeamTalkEventHandler;
 import dk.bearware.events.UserListener;
 import dk.bearware.gui.CmdComplete;
 import dk.bearware.gui.MainActivity;
+import dk.bearware.gui.MediaButtonEventReceiver;
 import dk.bearware.gui.R;
 import dk.bearware.gui.Utils;
 import android.annotation.SuppressLint;
@@ -77,9 +78,11 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Build;
@@ -87,11 +90,15 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import org.w3c.dom.Document;
@@ -126,6 +133,40 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
     private boolean currentMuteState;
 
     private volatile boolean inPhoneCall;
+
+    private MediaSessionCompat mediaSession;
+
+    private final MediaSessionCompat.Callback mMediaSessionCallback = new MediaSessionCompat.Callback() {
+
+        @Override
+        public boolean onMediaButtonEvent(Intent mediaButtonEvent) {
+            super.onMediaButtonEvent(mediaButtonEvent);
+            final String intentAction = mediaButtonEvent.getAction();
+            if (Intent.ACTION_MEDIA_BUTTON.equals(intentAction)) {
+                final KeyEvent event = mediaButtonEvent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+                if (event == null) {
+                    return false;
+                }
+                final int keycode = event.getKeyCode();
+                final int action = event.getAction();
+                if (event.getRepeatCount() == 0 && action == KeyEvent.ACTION_DOWN) {
+                    switch (keycode) {
+                        case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                        case KeyEvent.KEYCODE_MEDIA_PAUSE:
+                        case KeyEvent.KEYCODE_MEDIA_PLAY:
+                case KeyEvent.KEYCODE_HEADSETHOOK:
+                        if (isVoiceActivationEnabled())
+                            enableVoiceActivation(false);
+                        else
+                            enableVoiceTransmission(!isVoiceTransmissionEnabled());
+                            break;
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+    };
 
 
     public class LocalBinder extends Binder {
@@ -164,6 +205,25 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
 
         bluetoothHeadsetHelper = new BluetoothHeadsetHelper(this);
 
+        ComponentName receiver = new ComponentName(getPackageName(), MediaButtonEventReceiver.class.getName());
+        //mediaSession = new MediaSessionCompat(this, "MediaService", receiver, null);
+        mediaSession = new MediaSessionCompat(this, "TeamTalkService");
+        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
+                MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+        mediaSession.setPlaybackState(new PlaybackStateCompat.Builder()
+                .setState(PlaybackStateCompat.STATE_PAUSED, 0, 0)
+                .setActions(PlaybackStateCompat.ACTION_PLAY_PAUSE)
+                .build());
+        mediaSession.setCallback(mMediaSessionCallback);
+
+        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        audioManager.requestAudioFocus(new AudioManager.OnAudioFocusChangeListener() {
+            @Override
+            public void onAudioFocusChange(int focusChange) {
+                // Ignore
+            }
+        }, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        mediaSession.setActive(true);
         Log.d(TAG, "Created TeamTalk 5 service");
     }
 
@@ -175,6 +235,15 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
                 fileTransfers.remove(transferId);
                 Toast.makeText(this, R.string.transfer_stopped, Toast.LENGTH_LONG).show();
             }
+        }
+        if (mediaSession.getController().getPlaybackState().getState() == PlaybackStateCompat.STATE_PLAYING) {
+            mediaSession.setPlaybackState(new PlaybackStateCompat.Builder()
+                    .setState(PlaybackStateCompat.STATE_PAUSED, 0, 0.0f)
+                    .setActions(PlaybackStateCompat.ACTION_PLAY_PAUSE).build());
+        } else {
+            mediaSession.setPlaybackState(new PlaybackStateCompat.Builder()
+                    .setState(PlaybackStateCompat.STATE_PLAYING, 0, 1.0f)
+                    .setActions(PlaybackStateCompat.ACTION_PLAY_PAUSE).build());
         }
         return START_STICKY;
     }
@@ -198,6 +267,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
             ttclient.closeTeamTalk();
 
         super.onDestroy();
+        mediaSession.release();
 
         Log.d(TAG, "Destroyed TeamTalk 5 service");
     }

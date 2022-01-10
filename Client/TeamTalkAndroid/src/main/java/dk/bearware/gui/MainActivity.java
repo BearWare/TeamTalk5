@@ -184,7 +184,6 @@ implements TeamTalkConnectionListener,
     AccessibilityAssistant accessibilityAssistant;
     AudioManager audioManager;
     SoundPool audioIcons;
-    ComponentName mediaButtonEventReceiver;
     NotificationManager notificationManager;
     WakeLock wakeLock, proximityWakeLock;
     boolean restarting;
@@ -244,7 +243,6 @@ implements TeamTalkConnectionListener,
         restarting = (savedInstanceState != null);
         accessibilityAssistant = new AccessibilityAssistant(this);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        mediaButtonEventReceiver = new ComponentName(getPackageName(), MediaButtonEventReceiver.class.getName());
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         wakeLock = ((PowerManager)getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG + ":TeamTalk5");
          proximityWakeLock = ((PowerManager)getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, TAG + ":TeamTalk5");
@@ -1763,7 +1761,6 @@ private EditText newmsg;
         ttservice.registerUserListener(this);
         ttservice.registerClientListener(this);
         ttservice.setOnVoiceTransmissionToggleListener(this);
-        audioManager.registerMediaButtonEventReceiver(mediaButtonEventReceiver);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         adjustSoundSystem(prefs);
@@ -1799,7 +1796,6 @@ private EditText newmsg;
     public void onServiceDisconnected(TeamTalkService service) {
         if (wakeLock.isHeld())
             wakeLock.release();
-        audioManager.unregisterMediaButtonEventReceiver(mediaButtonEventReceiver);
         service.setOnVoiceTransmissionToggleListener(null);
         service.unregisterConnectionListener(this);
         service.unregisterCommandListener(this);
