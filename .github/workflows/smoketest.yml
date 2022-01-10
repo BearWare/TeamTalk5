@@ -21,6 +21,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+
     - name: Refresh Ubuntu-repo
       run: sudo apt update
 
@@ -73,7 +78,6 @@ jobs:
       # We'll use this as our working directory for all subsequent commands
       run: |
         cmake -E make_directory ${{runner.workspace}}/build
-        echo JAVA_HOME=$JAVA_HOME_11_X64>> $GITHUB_ENV
 
     - name: Configure CMake
       # Use a bash shell so we can use the same syntax for environment variable

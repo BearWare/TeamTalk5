@@ -28,6 +28,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+
     # This makes 'nmake' available
     - uses: ilammy/msvc-dev-cmd@v1
       with:
@@ -98,13 +103,13 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: make dox
       shell: msys2 {0}
-      
+
     - name: Compile TeamTalk5.chm
       working-directory: ${{runner.workspace}}/TeamTalk5/Documentation/TeamTalk
       shell: cmd
       run: |
         "C:\Program Files (x86)\HTML Help Workshop\hhc.exe" output\index.hhp
-        EXIT /B 0 
+        EXIT /B 0
 
     - name: Make Portable Setup Targets
       working-directory: ${{runner.workspace}}
