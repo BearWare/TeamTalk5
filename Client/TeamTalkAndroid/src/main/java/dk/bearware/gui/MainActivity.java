@@ -1169,11 +1169,11 @@ private EditText newmsg;
                 else {
                     if(female) {
                         icon_resource = away? R.drawable.woman_orange : R.drawable.woman_blue;
-                        nickname.setContentDescription("👩");
+                        nickname.setContentDescription(name + " 👩");
                     }
                     else {
                         icon_resource = away? R.drawable.man_orange : R.drawable.man_blue;
-                        nickname.setContentDescription("👨");
+                        nickname.setContentDescription(name + " 👨");
                     }
                 }
                 status.setContentDescription(away ? getString(R.string.user_state_away) : null);

@@ -320,6 +320,12 @@ void ClientNode::GetUsers(std::set<int>& userids)
 void ClientNode::UpdateKeepAlive(const ClientKeepAlive& keepalive)
 {
     ASSERT_REACTOR_LOCKED(this);
+    
+    m_keepalive = keepalive;
+    
+    // set TCP keepalive (DoPing) to half of usertimeout
+    m_keepalive.tcp_keepalive_interval = std::max(ACE_Time_Value(m_serverinfo.usertimeout / 2, 0),
+                                                  ACE_Time_Value(1, 0));
 
     bool restarttcp = false, restartudp = false;
     if (m_keepalive.tcp_keepalive_interval != keepalive.tcp_keepalive_interval)
@@ -340,12 +346,6 @@ void ClientNode::UpdateKeepAlive(const ClientKeepAlive& keepalive)
             StopTimer(TIMER_UDPKEEPALIVE_ID);
         }
     }
-    
-    m_keepalive = keepalive;
-    
-    // set TCP keepalive (DoPing) to half of usertimeout
-    m_keepalive.tcp_keepalive_interval = std::max(ACE_Time_Value(m_serverinfo.usertimeout / 2, 0),
-                                                  ACE_Time_Value(1, 0));
 
     //reset keep alive counters (otherwise we might disconnect by mistake)
     m_clientstats.tcp_silence_sec = 0;
@@ -358,7 +358,7 @@ void ClientNode::UpdateKeepAlive(const ClientKeepAlive& keepalive)
     
     if (restarttcp && m_serverinfo.usertimeout)
     {
-        StartTimer(TIMER_TCPKEEPALIVE_ID, 0, m_keepalive.tcp_keepalive_interval,
+        StartTimer(TIMER_TCPKEEPALIVE_ID, 0, ACE_Time_Value::zero,
                    m_keepalive.tcp_keepalive_interval);
     }
 
@@ -366,7 +366,7 @@ void ClientNode::UpdateKeepAlive(const ClientKeepAlive& keepalive)
     if (restartudp)
     {
         TTASSERT(!TimerExists(TIMER_UDPKEEPALIVE_ID));
-        StartTimer(TIMER_UDPKEEPALIVE_ID, 0, m_keepalive.udp_keepalive_interval,
+        StartTimer(TIMER_UDPKEEPALIVE_ID, 0, ACE_Time_Value::zero,
                    m_keepalive.udp_keepalive_rtx);
     }
 }
