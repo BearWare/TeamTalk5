@@ -23,11 +23,77 @@
 
 package dk.bearware.gui;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
+import android.os.Vibrator;
+import android.preference.PreferenceManager;
+import android.text.InputType;
+import android.util.Log;
+import android.util.SparseArray;
+import android.util.SparseIntArray;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ExpandableListView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.ListFragment;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
+
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Locale;
 import java.util.List;
+import java.util.Locale;
 import java.util.Vector;
 
 import dk.bearware.AudioInputProgress;
@@ -51,12 +117,6 @@ import dk.bearware.User;
 import dk.bearware.UserAccount;
 import dk.bearware.UserRight;
 import dk.bearware.UserState;
-import dk.bearware.data.Permissions;
-import dk.bearware.events.ClientListener;
-import dk.bearware.events.CommandListener;
-import dk.bearware.events.ConnectionListener;
-import dk.bearware.events.UserListener;
-
 import dk.bearware.backend.OnVoiceTransmissionToggleListener;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
@@ -64,76 +124,15 @@ import dk.bearware.backend.TeamTalkConstants;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.FileListAdapter;
 import dk.bearware.data.MediaAdapter;
+import dk.bearware.data.Permissions;
 import dk.bearware.data.Preferences;
 import dk.bearware.data.ServerEntry;
-import dk.bearware.data.TextMessageAdapter;
 import dk.bearware.data.TTSWrapper;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.SoundPool;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
-import android.os.Vibrator;
-import android.preference.PreferenceManager;
-import com.google.android.material.tabs.TabLayout;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.ListFragment;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-import android.text.InputType;
-import android.util.Log;
-import android.util.SparseArray;
-import android.util.SparseIntArray;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ExpandableListView;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.PopupMenu;
-import android.widget.PopupMenu.OnMenuItemClickListener;
-import android.widget.TextView;
-import android.widget.Toast;
+import dk.bearware.data.TextMessageAdapter;
+import dk.bearware.events.ClientListener;
+import dk.bearware.events.CommandListener;
+import dk.bearware.events.ConnectionListener;
+import dk.bearware.events.UserListener;
 
 public class MainActivity
 extends AppCompatActivity
@@ -149,10 +148,10 @@ implements TeamTalkConnectionListener,
         OnVoiceTransmissionToggleListener {
 
     /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the sections. We use a
-     * {@link android.support.v4.app.FragmentPagerAdapter} derivative, which will keep every loaded fragment in memory.
+     * The {@link androidx.viewpager.widget.PagerAdapter} that will provide fragments for each of the sections. We use a
+     * {@link androidx.fragment.app.FragmentPagerAdapter} derivative, which will keep every loaded fragment in memory.
      * If this becomes too memory intensive, it may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     * {@link androidx.fragment.app.FragmentStatePagerAdapter}.
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
 
