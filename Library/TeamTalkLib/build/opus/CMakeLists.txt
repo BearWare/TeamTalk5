@@ -113,13 +113,12 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(opus-src
       GIT_REPOSITORY    https://github.com/bear101/opus
-      GIT_TAG           v1.3.1
+      GIT_TAG           12a356e
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPUS}
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_BUILD_TYPE=release
-                        -DAVX_SUPPORTED=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
       )
