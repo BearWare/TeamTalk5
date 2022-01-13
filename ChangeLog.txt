@@ -19,6 +19,7 @@ Default Qt Client
 - More specific error messages are displayed when issuing server commands
 - Server name used in file name when recording root channel conversation to disk
 - Using close button or Alt+F4 shortcut to close main window will now close all windows on Linux and Windows
+- Default values for channel and private messages sent applied when switching sounds pack in preferences
 - Fixed issue where user account's initial channel was not joined if channel was hidden
 - Fixed "Cancel" button not working in "New Client Instance" dialog
 - Fixed AltGr being treated as Ctrl+Alt on Windows
