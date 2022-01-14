@@ -2048,8 +2048,12 @@ void PreferencesDlg::slotSPackChange()
            ui.srvlostEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
         if(filename == "user_msg")
            ui.usermsgEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "user_msg_sent")
+           ui.sentmsgEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
         if(filename == "channel_msg")
            ui.chanmsgEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "channel_msg_sent")
+           ui.sentchannelmsgEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
         if(filename == "broadcast_msg")
            ui.bcastmsgEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
         if(filename == "hotkey")
