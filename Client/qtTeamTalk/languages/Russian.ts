@@ -1662,7 +1662,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1224"/>
-        <source>&amp;User information</source>
+        <source>&amp;User Information</source>
         <translation>&amp;Информация о пользователе</translation>
     </message>
     <message>
@@ -1677,7 +1677,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1264"/>
-        <source>&amp;Channel information</source>
+        <source>&amp;Channel Information</source>
         <translation>&amp;Информация о канале</translation>
     </message>
     <message>

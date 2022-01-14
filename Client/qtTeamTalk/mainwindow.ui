@@ -1221,7 +1221,7 @@
     </widget>
     <widget class="QMenu" name="menu_Info">
      <property name="title">
-      <string>&amp;User information</string>
+      <string>&amp;User Information</string>
      </property>
      <addaction name="actionViewUserInformation"/>
      <addaction name="actionSpeakUserInformation"/>
@@ -1261,7 +1261,7 @@
     </property>
     <widget class="QMenu" name="menu_InfoChannel">
      <property name="title">
-      <string>&amp;Channel information</string>
+      <string>&amp;Channel Information</string>
      </property>
      <addaction name="actionViewChannelInfo"/>
      <addaction name="actionSpeakChannelInfo"/>

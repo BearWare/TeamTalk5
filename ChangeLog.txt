@@ -4,34 +4,43 @@
 
 Version 5.8.3, unreleased
 Accessible Windows Client
--
+- Fixed bug where lowering user-timeout in Server Properties would cause a disconnect
 Default Qt Client
 - Dark mode enabled on Windows if selected Personalisation Colour is Dark
 - Menu item to enable/disable all sound events
 - "Enable Text-To-Speech events" has moved to a new submenu named "Notifications" in "Me" menu
 - Text-to-speech event when a remote user is typing in private chat
 - Status message is triggered if unable to transmit
-- Navigating with arrow keys in channels tree now include entire item text in TTS message on macOS
+- Navigating with arrow keys in channels tree now includes entire item text in Text-To-Speech message on macOS
 - Alert when characters limit exceeded for channel and private chat
-- Client-menu now has Sound Configuration submenu to quickly change sound devices
+- Client-menu now has "Sound Configuration"-submenu to quickly change sound devices
 - Setup keyboard shortcut in Preferences dialog to reinitialize sound devices
 - Russian translation updated
-- More specific error messages are displays
+- More specific error messages are displayed when issuing server commands
 - Server name used in file name when recording root channel conversation to disk
+- Using close button or Alt+F4 shortcut to close main window will now close all windows on Linux and Windows
+- Default values for channel and private messages sent applied when switching sounds pack in preferences
 - Fixed issue where user account's initial channel was not joined if channel was hidden
 - Fixed "Cancel" button not working in "New Client Instance" dialog
 - Fixed AltGr being treated as Ctrl+Alt on Windows
 - Fixed Cmd+Q not working in non-English translations on macOS
 - Fixed "Disconnected from server" TTS event emitted repeatedly when connection to server is lost
+- Fixed nickname change for servers using BearWare account
+- Fixed bug when client asked for apply settings even if .tt file doesn't contain settings
+- Fixed bug where lowering user-timeout in Server Properties would cause a disconnect
 Android Client
-- Gender now announce using accessible hint
+- Accessible hint for gender
 - Notification on text limit exceeded
+- Ability to kick and ban from channel when operator
+- Fixed media buttons for voice transmission on Android 12
+- Fixed bug where lowering user-timeout in Server Properties would cause a disconnect
 iOS Client
 - Sound shared with other apps so iTeamTalk can run in background
 - Ability to select stereo inputs in Preferences
 - Notification on text limit exceeded
 - Fixed overlapped TX button on some devices
 - Fixed overlapped send message fields on some devices
+- Fixed bug where lowering user-timeout in Server Properties would cause a disconnect
 Server
 - Fixed issue where text messages exceeding limit would become blank
 
