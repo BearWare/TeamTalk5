@@ -2,7 +2,19 @@
                  TeamTalk
 ----------------------------------------------
 
-Version 5.8.3, unreleased
+Version 5.9, unreleased
+Accessible Windows Client
+-
+Default Qt Client
+-
+Android Client
+-
+iOS Client
+-
+Server
+-
+
+Version 5.8.3, 2022/01/15
 Accessible Windows Client
 - Fixed bug where lowering user-timeout in Server Properties would cause a disconnect
 Default Qt Client
