@@ -37,6 +37,6 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 endif()
 
 # Special Raspberry Pi handling of 'off_t'
-if (${CMAKE_SYSTEM_NAME} MATCHES "Linux" AND ${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "armv7l")
+if (${CMAKE_SYSTEM_NAME} MATCHES "Linux" AND ${CMAKE_SYSTEM_PROCESSOR} MATCHES "armv7l")
   list (APPEND ACE_COMPILE_FLAGS -D_FILE_OFFSET_BITS=64)
 endif()
