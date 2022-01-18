@@ -43,6 +43,8 @@ if (MSVC)
   endif()
 endif()
 
+add_subdirectory (jSpamBot)
+add_subdirectory (jTeamTalk)
 add_subdirectory (qtTeamTalk)
 add_subdirectory (ttserverlog)
 
