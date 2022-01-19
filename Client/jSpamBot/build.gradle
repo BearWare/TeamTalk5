@@ -1,0 +1,24 @@
+plugins {
+    id 'application'
+}
+
+compileJava {
+    sourceCompatibility = '11'
+    targetCompatibility = '11'
+}
+
+application {
+    mainClassName = 'Main'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'src'
+        }
+    }
+ }
+
+dependencies {
+    implementation files('../../Library/TeamTalkJNI/libs/TeamTalk5.jar')
+}
