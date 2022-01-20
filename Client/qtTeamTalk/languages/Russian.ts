@@ -461,7 +461,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="30"/>
         <source>Channel Information</source>
-        <translation>Информация Канала</translation>
+        <translation>Информация о канале</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="36"/>
@@ -655,7 +655,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="878"/>
         <source>&amp;Join channel on exit</source>
         <translatorcomment>Присоединиться к каналу после выхода</translatorcomment>
-        <translation>Информация Канала</translation>
+        <translation>&amp;Присоединиться к каналу при выходе</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="38"/>
@@ -2224,7 +2224,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1841"/>
         <source>&amp;Broadcast Message</source>
-        <translation>Сообщение &amp;Трансляции</translation>
+        <translation>Сетевое &amp;Сообщение</translation>
     </message>
     <message>
         <source>Ctrl+Alt+B</source>
@@ -2276,7 +2276,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1893"/>
         <source>Allow V&amp;oice Transmission</source>
-        <translation>Позволять Передачу &amp;Голоса</translation>
+        <translation>Разрешить Передачу &amp;Голоса</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1896"/>
@@ -2286,7 +2286,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1904"/>
         <source>Allow Video Transmission</source>
-        <translation>Позволять Передачу Видео</translation>
+        <translation>Разрешить Передачу Видео</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1907"/>
@@ -2346,7 +2346,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2016"/>
         <source>Allow Desktop Transmission</source>
-        <translation>Позволять Передачу Рабочего стола</translation>
+        <translation>Разрешить Передачу Рабочего стола</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2019"/>
@@ -2391,7 +2391,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2099"/>
         <source>Allow Desktop Access</source>
-        <translation>Позволять Доступ к Рабочему столу</translation>
+        <translation>Разрешить Доступ к Рабочему столу</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2102"/>
@@ -2426,7 +2426,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2148"/>
         <source>Allow Media File Transmission</source>
-        <translation>Позволять Передачу Медиа Файла</translation>
+        <translation>Разрешить Передачу Медиа Файла</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2151"/>
@@ -5479,7 +5479,7 @@ You can download it on the page below:
     <message>
         <location filename="../serverlist.ui" line="161"/>
         <source>Encrypted server</source>
-        <translation>Зашифрованно сервером</translation>
+        <translation>Использовать шифрование, если поддерживается</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="170"/>
