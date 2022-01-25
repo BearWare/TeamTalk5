@@ -16,7 +16,7 @@ if (MSVC)
       GIT_REPOSITORY    https://github.com/bear101/portaudio
       GIT_TAG           11cbdc1
       UPDATE_COMMAND    ""
-      PREFIX            ${TOOLCHAIN_BUILD_PREFIX_PORTAUDIO}
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target portaudio_static --config Debug
       COMMAND           ${CMAKE_COMMAND} --build . --target portaudio_static --config Release
@@ -47,7 +47,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       GIT_REPOSITORY    https://github.com/bear101/portaudio
       GIT_TAG           521209c
       UPDATE_COMMAND    ""
-      PREFIX            ${TOOLCHAIN_BUILD_PREFIX_PORTAUDIO}
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/portaudio
       CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET} -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_OSX_ARCHITECTURES=${ARCHS} -DCMAKE_BUILD_TYPE=release
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target portaudio_static
@@ -75,7 +75,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       GIT_TAG           521209c
       #    GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
-      PREFIX            ${TOOLCHAIN_BUILD_PREFIX_PORTAUDIO}
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/portaudio
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DPA_USE_ALSA=ON -DPA_USE_JACK=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_BUILD_TYPE=release
       BUILD_COMMAND     ${CMAKE_COMMAND} --build .

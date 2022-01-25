@@ -8,7 +8,6 @@ include(ExternalProject)
 # ACE
 ##################################################
 
-set (TOOLCHAIN_BUILD_PREFIX_ACE ${TOOLCHAIN_BUILD_PREFIX}/ace)
 set (TOOLCHAIN_INSTALL_PREFIX_ACE ${TOOLCHAIN_INSTALL_PREFIX}/ace)
 
 if (MSVC)
@@ -23,7 +22,7 @@ if (MSVC)
         GIT_SUBMODULES_RECURSE TRUE
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
-        PREFIX            ${TOOLCHAIN_BUILD_PREFIX_ACE}
+        PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
         CONFIGURE_COMMAND ""
         BUILD_IN_SOURCE   TRUE
         BUILD_COMMAND     cd <SOURCE_DIR>/ACE
@@ -50,7 +49,7 @@ if (MSVC)
         GIT_SUBMODULES_RECURSE TRUE
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
-        PREFIX            ${TOOLCHAIN_BUILD_PREFIX_ACE}
+        PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
         CONFIGURE_COMMAND ""
         BUILD_IN_SOURCE   TRUE
         BUILD_COMMAND     cd <SOURCE_DIR>/ACE
@@ -130,7 +129,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       GIT_SHALLOW       TRUE
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
-      PREFIX            ${TOOLCHAIN_BUILD_PREFIX_ACE}
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
       # Create 'platform_macros.GNU'
       CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "static_libs_only=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
@@ -229,7 +228,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       GIT_SHALLOW       TRUE
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
-      PREFIX            ${TOOLCHAIN_BUILD_PREFIX_ACE}
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
       # Create 'platform_macros.GNU'
       CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "static_libs_only=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
@@ -316,7 +315,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       GIT_TAG           f1f6fade7da
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
-      PREFIX            ${TOOLCHAIN_BUILD_PREFIX_ACE}
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
       # Create 'platform_macros.GNU'
       CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "static_libs_only=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
@@ -418,7 +417,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       GIT_TAG           0ee1bc40c77
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
-      PREFIX            ${TOOLCHAIN_BUILD_PREFIX_ACE}
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
       # Create 'platform_macros.GNU'
       CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "static_libs_only=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
