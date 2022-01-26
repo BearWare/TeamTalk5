@@ -2109,8 +2109,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         try(FileOutputStream fs = newWaveFile(STORAGEFOLDER + File.separator + "MyWaveFile.wav", SAMPLERATE, CHANNELS, WRITE_BYTES);) {
 
+            int c = 0;
             while(WRITE_BYTES > 0) {
-                assertTrue("gimme voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+                assertTrue("gimme voice audioblock #" + (c++), waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
 
                 AudioBlock block = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, ttclient.getMyUserID());
                 assertTrue(block.nSamples > 0);
