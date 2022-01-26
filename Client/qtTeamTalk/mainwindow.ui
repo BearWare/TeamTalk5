@@ -1213,6 +1213,8 @@
      <addaction name="actionStoreForMove"/>
      <addaction name="actionMoveUser"/>
      <addaction name="separator"/>
+     <addaction name="separator"/>
+     <addaction name="actionRelayVoiceStream"/>
     </widget>
     <widget class="QMenu" name="menuMute">
      <property name="title">
@@ -2305,6 +2307,19 @@
     <string>Ctrl+F6</string>
    </property>
   </action>
+  <action name="action">
+   <property name="text">
+    <string>-</string>
+   </property>
+  </action>
+  <action name="actionRelayVoiceStream">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Relay Voice Stream</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -2341,6 +2356,7 @@
   </customwidget>
  </customwidgets>
  <resources>
+  <include location="resources.qrc"/>
   <include location="resources.qrc"/>
  </resources>
  <connections/>
