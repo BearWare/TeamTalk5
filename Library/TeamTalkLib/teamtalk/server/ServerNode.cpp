@@ -3652,6 +3652,7 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
     chan->SetMediaFileUsers(chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE));
     chan->SetChannelTextMsgUsers(chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG));
     chan->SetTransmitQueue(chanprop.transmitqueue);
+    chan->SetTransmitSwitchDelay(ToTimeValue(chanprop.transmitswitchdelay));
 
     UpdateChannel(chan);
 

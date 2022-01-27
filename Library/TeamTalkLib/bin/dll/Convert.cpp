@@ -1175,6 +1175,8 @@ bool Convert(const teamtalk::ChannelProp& chanprop, Channel& result)
             result.transmitUsersQueue[i] = 0;
     }
 
+    result.nTransmitUsersQueueDelayMSec = chanprop.transmitswitchdelay;
+
     return true;
 }
 
@@ -1215,6 +1217,8 @@ bool Convert(const Channel& channel, teamtalk::ChannelProp& chanprop)
         if(channel.transmitUsersQueue[i])
             chanprop.transmitqueue.push_back(channel.transmitUsersQueue[i]);
     }
+
+    chanprop.transmitswitchdelay = channel.nTransmitUsersQueueDelayMSec;
 
     return true;
 }

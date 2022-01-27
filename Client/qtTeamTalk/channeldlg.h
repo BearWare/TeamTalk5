@@ -50,6 +50,7 @@ private:
     void slotUpdateSliderLabels();
     void slotUpdateChannelPath(const QString &);
     void slotAudioChannelChanged(int aud_channels);
+    void slotSoloTransmitDelay();
 
 private:
     Ui::ChannelDlg ui;

@@ -2608,6 +2608,15 @@ namespace BearWare
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = TeamTalkBase.TT_TRANSMITQUEUE_MAX)]
         public int[] transmitUsersQueue;
 
+        /** @brief Delay for switching to next active voice user in 
+         * @c transmitUsersQueue.
+         * 
+         * In channels of type #ChannelType.CHANNEL_SOLO_TRANSMIT only one user can 
+         * transmit voice. When user has stopped transmitting this value
+         * specifies the delay before switching to next user in 
+         * @c transmitUsersQueue. Default value is 500 msec. */
+        public int nTransmitUsersQueueDelayMSec;        
+
         /** @brief Helper function for adding a user and
          * #BearWare.StreamType to @c transmitUsers */
         public void AddTransmitUser(int nUserID, StreamType uStreamType)
