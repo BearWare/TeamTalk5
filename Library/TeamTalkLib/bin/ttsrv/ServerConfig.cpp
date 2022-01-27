@@ -360,12 +360,6 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
 #if defined(ENABLE_TEAMTALKPRO)
         case CREATE_USERACCOUNT_BEARWARE :
 
-            if (!encrypted)
-            {
-                cout << "BearWare.dk web-login can only be used in encrypted mode." << endl;
-                break;
-            }
-
             cout << "Creating BearWare.dk web-login account." << endl;
             user.username = ACE_TEXT( WEBLOGIN_BEARWARE_USERNAME );
             user.passwd = ACE_TEXT("");
