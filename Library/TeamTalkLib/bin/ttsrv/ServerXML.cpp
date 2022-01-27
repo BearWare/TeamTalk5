@@ -680,6 +680,16 @@ namespace teamtalk{
         return nValue;
     }
 
+    void ServerXML::SetServerLogEvents(uint32_t events)
+    {
+        SetValue("logging/server-log-events", events);
+    }
+
+    uint32_t ServerXML::GetServerLogEvents(uint32_t def_events)
+    {
+        return GetValue(true, "logging/server-log-events", def_events);
+    }
+
     /***** <file-storage> *****/
     bool ServerXML::SetMaxDiskUsage(int64_t diskquota)
     {

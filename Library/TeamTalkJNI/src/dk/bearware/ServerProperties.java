@@ -23,8 +23,7 @@
 
 package dk.bearware;
 
-public class ServerProperties
-{
+public class ServerProperties {
     public String szServerName;
     public String szMOTD;
     public String szMOTDRaw;
@@ -44,4 +43,5 @@ public class ServerProperties
     public String szServerVersion;
     public String szServerProtocolVersion;
     public String szAccessToken;
+    public int uServerLogEvents;
 }

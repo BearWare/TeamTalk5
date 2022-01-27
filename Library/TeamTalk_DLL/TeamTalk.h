@@ -1705,6 +1705,38 @@ extern "C" {
      * @see ServerProperties */
     typedef UINT32 UserRights;
 
+    typedef enum ServerLogEvent
+    {
+        SERVERLOGEVENT_NONE                        = 0x00000000,
+        SERVERLOGEVENT_USER_CONNECTED              = 0x00000001,
+        SERVERLOGEVENT_USER_DISCONNECTED           = 0x00000002,
+        SERVERLOGEVENT_USER_LOGGEDIN               = 0x00000004,
+        SERVERLOGEVENT_USER_LOGGEDOUT              = 0x00000008,
+        SERVERLOGEVENT_USER_LOGINFAILED            = 0x00000010,
+        SERVERLOGEVENT_USER_TIMEDOUT               = 0x00000020,
+        SERVERLOGEVENT_USER_KICKED                 = 0x00000040,
+        SERVERLOGEVENT_USER_BANNED                 = 0x00000080,
+        SERVERLOGEVENT_USER_UNBANNED               = 0x00000100,
+        SERVERLOGEVENT_USER_UPDATED                = 0x00000200,
+        SERVERLOGEVENT_USER_JOINEDCHANNEL          = 0x00000400,
+        SERVERLOGEVENT_USER_LEFTCHANNEL            = 0x00000800,
+        SERVERLOGEVENT_USER_MOVED                  = 0x00001000,
+        SERVERLOGEVENT_USER_TEXTMESSAGE_PRIVATE    = 0x00002000,
+        SERVERLOGEVENT_USER_TEXTMESSAGE_CUSTOM     = 0x00004000,
+        SERVERLOGEVENT_USER_TEXTMESSAGE_CHANNEL    = 0x00008000,
+        SERVERLOGEVENT_USER_TEXTMESSAGE_BROADCAST  = 0x00010000,
+        SERVERLOGEVENT_CHANNEL_CREATED             = 0x00020000,
+        SERVERLOGEVENT_CHANNEL_UPDATED             = 0x00040000,
+        SERVERLOGEVENT_CHANNEL_REMOVED             = 0x00080000,
+        SERVERLOGEVENT_FILE_UPLOADED               = 0x00100000,
+        SERVERLOGEVENT_FILE_DOWNLOADED             = 0x00200000,
+        SERVERLOGEVENT_FILE_DELETED                = 0x00400000,
+        SERVERLOGEVENT_SERVER_UPDATED              = 0x00800000,
+        SERVERLOGEVENT_SERVER_SAVECONFIG           = 0x01000000,
+    } ServerLogEvent;
+
+    typedef UINT32 ServerLogEvents;
+    
     /** 
      * @brief A struct containing the properties of the server's
      * settings.
@@ -1793,6 +1825,12 @@ extern "C" {
          *
          * Read-only property. */
         TTCHAR szAccessToken[TT_STRLEN];
+        /** @brief The events that are logged on the server.
+         *
+         * @c uServerLogEvents is set after
+         * #CLIENTEVENT_CMD_SERVER_UPDATE during login.
+         * @see TT_DoLogin() */
+        ServerLogEvents uServerLogEvents;
     } ServerProperties;
 
     /**

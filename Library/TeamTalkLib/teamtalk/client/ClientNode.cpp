@@ -4755,6 +4755,7 @@ int ClientNode::DoUpdateServer(const ServerInfo& serverprop)
     AppendProperty(TT_MEDIAFILETXLIMIT, serverprop.mediafiletxlimit, command);
     AppendProperty(TT_DESKTOPTXLIMIT, serverprop.desktoptxlimit, command);
     AppendProperty(TT_TOTALTXLIMIT, serverprop.totaltxlimit, command);
+    AppendProperty(TT_LOGEVENTS, serverprop.logevents, command);
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;
 
@@ -5189,6 +5190,7 @@ void ClientNode::HandleWelcome(const mstrings_t& properties)
         GetProperty(properties, TT_MAXLOGINSPERIP, m_serverinfo.max_logins_per_ipaddr);
         GetProperty(properties, TT_USERTIMEOUT, m_serverinfo.usertimeout);
         GetProperty(properties, TT_ACCESSTOKEN, m_serverinfo.accesstoken);
+        GetProperty(properties, TT_LOGEVENTS, m_serverinfo.logevents);
 
         //start keepalive timer for TCP (if not set, then set it to half the user timeout)
         UpdateKeepAlive(GetKeepAlive());
@@ -5260,6 +5262,7 @@ void ClientNode::HandleServerUpdate(const mstrings_t& properties)
     GetProperty(properties, TT_DESKTOPTXLIMIT, m_serverinfo.desktoptxlimit);
     GetProperty(properties, TT_TOTALTXLIMIT, m_serverinfo.totaltxlimit);
     GetProperty(properties, TT_ACCESSTOKEN, m_serverinfo.accesstoken);
+    GetProperty(properties, TT_LOGEVENTS, m_serverinfo.logevents);
 
     if(m_serverinfo.hostaddrs.size())
     {
