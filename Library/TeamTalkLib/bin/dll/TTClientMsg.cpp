@@ -25,8 +25,12 @@
 #include <teamtalk/ttassert.h>
 #include "Convert.h"
 
-#define INTMSG_MAX_SIZE (0x7F000000)
-#define INTMSG_SUSPEND_SIZE (1024*1024)
+const size_t INTMSG_MAX_SIZE = (0x7F000000);
+/*
+ * Message queue must be able to handle initial login where there's max number
+ * of channels, max number of users and all users are in channels, as well as
+ * connect and login events */
+const size_t INTMSG_SUSPEND_SIZE = (sizeof(TTMessage) * MAX_CHANNELS + sizeof(TTMessage) * MAX_USERS + sizeof(TTMessage) * MAX_USERS + sizeof(TTMessage) * 100);
 
 #define DEBUG_TTMSGQUEUE 0
 
@@ -110,6 +114,7 @@ void TTMsgQueue::InitMsgQueue()
 {
     m_event_queue.low_water_mark(INTMSG_MAX_SIZE);
     m_event_queue.high_water_mark(INTMSG_MAX_SIZE);
+    static_assert(INTMSG_MAX_SIZE >= INTMSG_SUSPEND_SIZE, "Message queue size invalid");
 }
 
 void TTMsgQueue::EnqueueMsg(ACE_Message_Block* mb)
@@ -155,13 +160,14 @@ void TTMsgQueue::EnqueueMsg(ACE_Message_Block* mb)
         }
         else
         {
-            mb->release();
+            MBGuard g_mb(mb);
             if (!m_suspended && m_suspender && m_suspender->CanSuspend())
                 m_suspended = suspend = true;
 
-            MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("TTMsgQueue message queue is overflowed. Suspend: %d\n"), int(suspend));
+            IntTTMessage* intmsg = reinterpret_cast<IntTTMessage*>(mb->rd_ptr());
+            MYTRACE(ACE_TEXT("TTMsgQueue message queue has overflowed. Dropped ClientEvent %u. Suspend: %d\n"), intmsg->event, int(suspend));
         }
-        MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("Enqueue %p: Old size: %u, Cur size: %u\n"), this, old_size, m_event_queue.message_bytes());
+        MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("Enqueue %p: Old size: %u, Cur size: %u. Max size: %u\n"), this, old_size, m_event_queue.message_bytes());
     }
 
     if (suspend && m_suspender)

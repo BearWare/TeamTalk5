@@ -45,14 +45,16 @@ void tt_assert(const char* assertion, const char* file, int line);
 #define ASSERT_REACTOR_THREAD(reactor)                                  \
     do {                                                                \
         ACE_thread_t tid;                                               \
-        (reactor).owner(&tid);                                          \
+        int ret = (reactor).owner(&tid);                                \
+        TTASSERT(ret >= 0);                                             \
         TTASSERT(ACE_Thread::self() == tid);                            \
     } while(0)
 
 #define ASSERT_NOT_REACTOR_THREAD(reactor)                              \
     do {                                                                \
         ACE_thread_t tid;                                               \
-        (reactor).owner(&tid);                                          \
+        int ret = (reactor).owner(&tid);                                \
+        TTASSERT(ret >= 0);                                             \
         TTASSERT(ACE_Thread::self() != tid);                            \
     } while(0)
 

@@ -2484,9 +2484,17 @@ extern "C" {
         INT32 transmitUsers[TT_TRANSMITUSERS_MAX][2];
         /** @brief The users currently queued for voice or media file transmission.
          *
-         * This property only applied with channel is configured with
+         * This property only applied when channel is configured with
          * #CHANNEL_SOLO_TRANSMIT. Read-only property. */
         INT32 transmitUsersQueue[TT_TRANSMITQUEUE_MAX];
+        /** @brief Delay for switching to next active voice user in 
+         * @c transmitUsersQueue.
+         * 
+         * In channels of type #CHANNEL_SOLO_TRANSMIT only one user can 
+         * transmit voice. When user has stopped transmitting this value
+         * specifies the delay before switching to next user in 
+         * @c transmitUsersQueue. Default value is 500 msec. */
+        INT32 nTransmitUsersQueueDelayMSec;
     } Channel;
 
 

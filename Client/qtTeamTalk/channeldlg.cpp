@@ -26,6 +26,7 @@
 #include "utilui.h"
 
 #include <QPushButton>
+#include <QInputDialog>
 
 extern TTInstance* ttInst;
 
@@ -37,6 +38,11 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     setWindowIcon(QIcon(APPICON));
     ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
+
+    connect(ui.singletxchanBox, &QAbstractButton::clicked,
+            ui.singletxButton, &QAbstractButton::setEnabled);
+    connect(ui.singletxButton, &QAbstractButton::clicked,
+            this, &ChannelDlg::slotSoloTransmitDelay);
 
     connect(ui.audiocodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &ChannelDlg::slotAudioCodecChanged);
@@ -57,6 +63,8 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     TT_GetServerProperties(ttInst, &prop);
     if (!versionSameOrLater(_Q(prop.szServerProtocolVersion), "5.8"))
         ui.hiddenchannelBox->hide();
+    if (!versionSameOrLater(_Q(prop.szServerProtocolVersion), "5.10"))
+        ui.singletxButton->hide();
 
     ui.audiocodecBox->addItem(tr("No Audio"), NO_CODEC);
 
@@ -166,6 +174,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
         ui.diskquotaSpinBox->setReadOnly(true);
         ui.staticchanBox->setEnabled(false);
         ui.singletxchanBox->setEnabled(false);
+        ui.singletxButton->setEnabled(false);
         ui.classroomchanBox->setEnabled(false);
         ui.oprecvonlychanBox->setEnabled(false);
         ui.novoiceactBox->setEnabled(false);
@@ -177,6 +186,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
         ui.agcBox->setEnabled(false);
         ui.gainlevelSlider->setEnabled(false);
         ui.buttonBox->setStandardButtons(QDialogButtonBox::Close);
+        ui.joinchanBox->setEnabled(false);
         break;
     }
 
@@ -188,6 +198,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     ui.diskquotaSpinBox->setValue(m_channel.nDiskQuota/1024);
     ui.staticchanBox->setChecked(m_channel.uChannelType & CHANNEL_PERMANENT);
     ui.singletxchanBox->setChecked(m_channel.uChannelType & CHANNEL_SOLO_TRANSMIT);
+    ui.singletxButton->setEnabled(ui.singletxchanBox->isEnabled() && ui.singletxchanBox->isChecked());
     ui.classroomchanBox->setChecked(m_channel.uChannelType & CHANNEL_CLASSROOM);
     ui.oprecvonlychanBox->setChecked(m_channel.uChannelType & CHANNEL_OPERATOR_RECVONLY);
     ui.novoiceactBox->setChecked(m_channel.uChannelType & CHANNEL_NO_VOICEACTIVATION);
@@ -396,4 +407,17 @@ void ChannelDlg::slotUpdateChannelPath(const QString& str)
 void ChannelDlg::slotAudioChannelChanged(int aud_channels)
 {
     Q_UNUSED(aud_channels);
+}
+
+void ChannelDlg::slotSoloTransmitDelay()
+{
+    QInputDialog inputDialog;
+    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setCancelButtonText(tr("&Cancel"));
+    inputDialog.setInputMode(QInputDialog::TextInput);
+    inputDialog.setTextValue(QString::number(m_channel.nTransmitUsersQueueDelayMSec));
+    inputDialog.setWindowTitle(tr("Transmission Queue Delay"));
+    inputDialog.setLabelText(tr("Delay before switching to next user in queue (in msec)"));
+    if (inputDialog.exec())
+        m_channel.nTransmitUsersQueueDelayMSec = inputDialog.textValue().toInt();
 }

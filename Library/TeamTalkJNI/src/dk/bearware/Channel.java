@@ -23,8 +23,7 @@
 
 package dk.bearware;
 
-public class Channel
-{
+public class Channel {
     public int nParentID = 0;
     public int nChannelID = 0;
     public String szName = "";
@@ -40,6 +39,7 @@ public class Channel
     public AudioConfig audiocfg = new AudioConfig();
     public int[][] transmitUsers = new int[Constants.TT_TRANSMITUSERS_MAX][2];
     public int[] transmitUsersQueue = new int[Constants.TT_TRANSMITQUEUE_MAX];
+    public int nTransmitUsersQueueDelayMSec = 0;
 
     public Channel() {
     }

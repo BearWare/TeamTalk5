@@ -35,17 +35,21 @@ using namespace teamtalk;
 ServerChannel::ServerChannel(int channelid) 
     : PARENT(channelid)
 {
-#if defined(ENABLE_ENCRYPTION)
-    RAND_bytes(m_cryptkey, sizeof(m_cryptkey));
-#endif
+    Init();
 }
 
 ServerChannel::ServerChannel(channel_t& parent, int channelid, const ACE_TString& name) 
     : PARENT(parent, channelid, name)
-{ 
+{
+    Init();
+}
+
+void ServerChannel::Init()
+{
 #if defined(ENABLE_ENCRYPTION)
     RAND_bytes(m_cryptkey, sizeof(m_cryptkey));
 #endif
+    SetTransmitSwitchDelay(ACE_Time_Value(0, 500000));
 }
 
 #define STREAMKEY(uid, tx) (((uid) << 16) | tx)
@@ -91,7 +95,7 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid)
         TTASSERT(m_transmitqueue.size());
         int first = *m_transmitqueue.begin();
         std::map<int, ACE_Time_Value>::const_iterator itePkt = m_lastUserPacket.find(first);
-        if( itePkt->second + ACE_Time_Value(0, 500000) >= ACE_OS::gettimeofday())
+        if( itePkt->second + GetTransmitSwitchDelay() >= ACE_OS::gettimeofday())
         {
             return userid == first;
         }

@@ -234,8 +234,7 @@ jobject newAbusePrevention(JNIEnv* env, const AbusePrevention* lpAbusePrevent) {
     return ap_obj;
 }
 
-void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv)
-{
+void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv) {
     jclass cls_chan = env->GetObjectClass(lpChannel);
     jfieldID fid_parentid = env->GetFieldID(cls_chan, "nParentID", "I");
     jfieldID fid_chanid = env->GetFieldID(cls_chan, "nChannelID", "I");
@@ -252,6 +251,7 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv)
     jfieldID fid_audcfg = env->GetFieldID(cls_chan, "audiocfg", "Ldk/bearware/AudioConfig;");
     jfieldID fid_txusers = env->GetFieldID(cls_chan, "transmitUsers", "[[I");
     jfieldID fid_queueusers = env->GetFieldID(cls_chan, "transmitUsersQueue", "[I");
+    jfieldID fid_switchdelay = env->GetFieldID(cls_chan, "nTransmitUsersQueueDelayMSec", "I");
 
     assert(fid_parentid);
     assert(fid_chanid);
@@ -268,6 +268,7 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv)
     assert(fid_maxusers);
     assert(fid_txusers);
     assert(fid_queueusers);
+    assert(fid_switchdelay);
 
     if(conv == N2J)
     {
@@ -306,6 +307,7 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv)
         jint tmp[TT_TRANSMITQUEUE_MAX] = {};
         env->SetIntArrayRegion(intArr, 0, TT_TRANSMITQUEUE_MAX, TO_JINT_ARRAY(chan.transmitUsersQueue, tmp, TT_TRANSMITQUEUE_MAX));
         env->SetObjectField(lpChannel, fid_queueusers, intArr);
+        env->SetIntField(lpChannel, fid_switchdelay, chan.nTransmitUsersQueueDelayMSec);
     }
     else
     {
@@ -332,14 +334,14 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv)
         jint tmp[TT_TRANSMITQUEUE_MAX] = {};
         env->GetIntArrayRegion(intArr, 0, TT_TRANSMITQUEUE_MAX, tmp);
         TO_INT32_ARRAY(tmp, chan.transmitUsersQueue, TT_TRANSMITQUEUE_MAX);
+        chan.nTransmitUsersQueueDelayMSec = env->GetIntField(lpChannel, fid_switchdelay);
     }
 
     setAudioCodec(env, chan.audiocodec, env->GetObjectField(lpChannel, fid_codec), conv);
     setAudioConfig(env, chan.audiocfg, env->GetObjectField(lpChannel, fid_audcfg), conv);
 }
 
-void setUser(JNIEnv* env, const User& user, jobject lpUser)
-{
+void setUser(JNIEnv* env, const User& user, jobject lpUser) {
     jclass cls_user = env->GetObjectClass(lpUser);
     jfieldID fid_userid = env->GetFieldID(cls_user, "nUserID", "I");
     jfieldID fid_username = env->GetFieldID(cls_user, "szUsername", "Ljava/lang/String;");

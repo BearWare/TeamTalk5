@@ -32,7 +32,7 @@
 #include <ace/SString.h>
 #include "Common.h"
 
-#define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.9")
+#define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.10")
 
 /* parameter names */
 #define TT_USERID ACE_TEXT("userid")
@@ -134,6 +134,7 @@
 #define TT_CHANMSGUSERS ACE_TEXT("chanmsgusers") // v5.8
 #define TT_UPLOADTIME ACE_TEXT("uploadtime") // v5.9
 #define TT_MODIFIEDTIME ACE_TEXT("modifiedtime") // v5.9
+#define TT_TRANSMITSWITCHDELAY ACE_TEXT("switchdelay") // v5.10
 
 //    Client ---> Server
 //    -------------------------

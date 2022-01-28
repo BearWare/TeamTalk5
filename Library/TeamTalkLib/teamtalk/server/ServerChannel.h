@@ -42,6 +42,7 @@ namespace teamtalk {
         void RemoveUser(int userid);
         void ClearFromTransmitQueue(int userid);
     private:
+        void Init();
         // userid -> last transmit time
         std::map<int, ACE_Time_Value> m_lastUserPacket;
         // userid -> stream id

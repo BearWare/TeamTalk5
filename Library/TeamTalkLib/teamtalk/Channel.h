@@ -449,6 +449,16 @@ namespace teamtalk {
             m_transmitqueue = users;
         }
 
+        void SetTransmitSwitchDelay(const ACE_Time_Value& tm)
+        {
+            m_transmitswitch_delay = tm;
+        }
+
+        const ACE_Time_Value& GetTransmitSwitchDelay() const
+        {
+            return m_transmitswitch_delay;
+        }
+
         const std::vector<int>& GetTransmitQueue() const
         {
             return m_transmitqueue;
@@ -502,6 +512,7 @@ namespace teamtalk {
             GetFiles(prop.files, false);
             prop.transmitusers = m_transmitusers;
             prop.transmitqueue = m_transmitqueue;
+            prop.transmitswitchdelay = int(GetTransmitSwitchDelay().msec());
             prop.bans = m_bans;
             return prop;
         }
@@ -545,6 +556,7 @@ namespace teamtalk {
         transmitusers_t m_transmitusers;
         //solo transmission
         std::vector<int> m_transmitqueue;
+        ACE_Time_Value m_transmitswitch_delay;
         bannedusers_t m_bans;
     };
 
