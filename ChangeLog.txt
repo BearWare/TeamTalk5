@@ -7,6 +7,7 @@ Accessible Windows Client
 - Fixed issue where no all users and channels were listed after initial login
 Default Qt Client
 - Duration for voice transfer can now be set on "No Interruptions" channels
+- Modify server log events from "Server Properties" dialog
 - Fixed issue where no all users and channels were listed after initial login
 Android Client
 - Fixed issue where no all users and channels were listed after initial login
@@ -15,6 +16,7 @@ iOS Client
 Server
 - Support for voice transfer delay in "No Interruptions" channels
 - TeamTalk Pro servers can now use BearWare.dk WebLogin on non-encrypted servers
+- Server log events can be modified while running
 
 Version 5.8.3, 2022/01/15
 Accessible Windows Client

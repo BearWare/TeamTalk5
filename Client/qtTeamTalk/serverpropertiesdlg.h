@@ -34,14 +34,16 @@ class ServerPropertiesDlg : public QDialog
 
 public:
     ServerPropertiesDlg(QWidget * parent = 0);
+    ~ServerPropertiesDlg();
 
 private:
     void slotAccepted();
     void slotShowMOTDVars(bool checked);
-
+    void slotServerLogToggled(const QModelIndex &index);
 private:
     Ui::ServerPropertiesDlg ui;
     ServerProperties m_srvprop = {};
+    class ServerLogEventsModel* m_serverlogmodel;
 };
 
 

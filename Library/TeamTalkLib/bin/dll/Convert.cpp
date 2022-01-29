@@ -1385,6 +1385,7 @@ void Convert(const teamtalk::ServerProperties& srvprop, ServerProperties& result
     result.nUserTimeout = srvprop.usertimeout;
     result.nLoginDelayMSec = srvprop.logindelay;
     ACE_OS::strsncpy(result.szServerVersion, srvprop.version.c_str(), TT_STRLEN);
+    result.uServerLogEvents = srvprop.logevents;
 }
 
 void Convert(const teamtalk::ServerInfo& srvprop, ServerProperties& result)
@@ -1430,6 +1431,7 @@ void Convert(const ServerProperties& srvprop, teamtalk::ServerProperties& result
     result.autosave = srvprop.bAutoSave;
     result.usertimeout = srvprop.nUserTimeout;
     result.logindelay = srvprop.nLoginDelayMSec;
+    result.logevents = srvprop.uServerLogEvents;
 }
 
 void Convert(const ServerProperties& srvprop, teamtalk::ServerInfo& result)

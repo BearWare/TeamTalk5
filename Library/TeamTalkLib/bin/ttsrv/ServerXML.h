@@ -133,6 +133,9 @@ namespace teamtalk {
         /***** <logging> *****/
         bool SetServerLogMaxSize(int64_t maxsize);
         int64_t GetServerLogMaxSize();
+
+        void SetServerLogEvents(uint32_t events);
+        uint32_t GetServerLogEvents(uint32_t def_events);
         /***** </logging> *****/
 
         /***** <static-channels> ****/

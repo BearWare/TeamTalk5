@@ -34,6 +34,7 @@
 #include "statusbardlg.h"
 #include "utilvideo.h"
 #include "utiltts.h"
+#include "utilui.h"
 #include "settings.h"
 
 #include <QDebug>
