@@ -1996,7 +1996,7 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_16">
           <item>
-           <widget class="TTSEventsTreeView" name="ttsTreeView">
+           <widget class="KeyPressTreeView" name="ttsTreeView">
             <property name="editTriggers">
              <set>QAbstractItemView::NoEditTriggers</set>
             </property>
@@ -2821,9 +2821,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TTSEventsTreeView</class>
+   <class>KeyPressTreeView</class>
    <extends>QTreeView</extends>
-   <header>ttseventsmodel.h</header>
+   <header>keypresstreeview.h</header>
   </customwidget>
  </customwidgets>
  <resources>

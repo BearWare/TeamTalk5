@@ -204,20 +204,3 @@ StatusBarEvents StatusBarEventsModel::getStatusBarEvents()
 {
     return m_statusbarselected;
 }
-
-StatusBarEventsTreeView::StatusBarEventsTreeView(QWidget* parent)
-    : QTreeView(parent)
-{
-}
-
-void StatusBarEventsTreeView::keyPressEvent(QKeyEvent* e)
-{
-    if (e->key() == Qt::Key_Space)
-    {
-        auto i = currentIndex();
-        emit doubleClicked(i);
-        setCurrentIndex(i);
-    }
-
-    QTreeView::keyPressEvent(e);
-}

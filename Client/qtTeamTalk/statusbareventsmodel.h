@@ -47,16 +47,4 @@ private:
     StatusBarEvents m_statusbarselected = STATUSBAR_NONE;
 };
 
-class StatusBarEventsTreeView : public QTreeView
-{
-    Q_OBJECT
-
-public:
-    StatusBarEventsTreeView(QWidget* parent = nullptr);
-
-protected:
-    void keyPressEvent(QKeyEvent* e) override;
-
-};
-
 #endif // STATUSBAREVENTSMODEL_H
