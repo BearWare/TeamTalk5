@@ -28,6 +28,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 public class Main {
@@ -46,17 +48,27 @@ public class Main {
 
         WebLogin weblogin = new WebLogin(username, passwd);
 
-        Vector<String> badwords = new Vector<>();
-        File file = new File("badwords.txt");
-        if (file.exists()) {
-            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                    badwords.addAll(Arrays.asList(line.split(",")));
-                }
+        Map<String, String> files_badwords = new HashMap<>();
+        // languages must be lower case
+        files_badwords.put("", "badwords.txt");
+        files_badwords.put("english", "badwords.txt");
+        files_badwords.put("french", "badwords_french.txt");
+        Map<String, Vector<String>> lang_badwords = new HashMap<>();
 
-                while (badwords.remove(""));
+        for (String lang : files_badwords.keySet()) {
+            Vector<String> badwords = new Vector<>();
+            File file = new File(files_badwords.get(lang));
+            if (file.exists()) {
+                try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        badwords.addAll(Arrays.asList(line.split(",")));
+                    }
+
+                    while (badwords.remove(""));
+                }
             }
+            lang_badwords.put(lang, badwords);
         }
 
         var sessions = new Vector<SpamBotSession>();
@@ -76,7 +88,7 @@ public class Main {
                     }
                     sessions.clear();
                     for (var server : servers) {
-                        sessions.add(new SpamBotSession(server, weblogin, badwords));
+                        sessions.add(new SpamBotSession(server, weblogin, lang_badwords));
                     }
                     lastServers = servers;
                 }
