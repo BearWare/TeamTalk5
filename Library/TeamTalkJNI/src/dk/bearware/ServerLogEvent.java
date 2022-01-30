@@ -51,4 +51,30 @@ public interface ServerLogEvent {
     public static final int SERVERLOGEVENT_FILE_DELETED                = 0x00400000;
     public static final int SERVERLOGEVENT_SERVER_UPDATED              = 0x00800000;
     public static final int SERVERLOGEVENT_SERVER_SAVECONFIG           = 0x01000000;
+
+    public static final int SERVERLOGEVENT_DEFAULT                     = SERVERLOGEVENT_USER_CONNECTED |
+                                                                         SERVERLOGEVENT_USER_DISCONNECTED |
+                                                                         SERVERLOGEVENT_USER_LOGGEDIN |
+                                                                         SERVERLOGEVENT_USER_LOGGEDOUT |
+                                                                         SERVERLOGEVENT_USER_LOGINFAILED |
+                                                                         SERVERLOGEVENT_USER_TIMEDOUT |
+                                                                         SERVERLOGEVENT_USER_KICKED |
+                                                                         SERVERLOGEVENT_USER_BANNED |
+                                                                         SERVERLOGEVENT_USER_UNBANNED |
+                                                                         SERVERLOGEVENT_USER_UPDATED |
+                                                                         SERVERLOGEVENT_USER_JOINEDCHANNEL |
+                                                                         SERVERLOGEVENT_USER_LEFTCHANNEL |
+                                                                         SERVERLOGEVENT_USER_MOVED |
+                                                                         SERVERLOGEVENT_USER_TEXTMESSAGE_PRIVATE |
+                                                                         SERVERLOGEVENT_USER_TEXTMESSAGE_CUSTOM |
+                                                                         SERVERLOGEVENT_USER_TEXTMESSAGE_CHANNEL |
+                                                                         SERVERLOGEVENT_USER_TEXTMESSAGE_BROADCAST |
+                                                                         SERVERLOGEVENT_CHANNEL_CREATED |
+                                                                         SERVERLOGEVENT_CHANNEL_UPDATED |
+                                                                         SERVERLOGEVENT_CHANNEL_REMOVED |
+                                                                         SERVERLOGEVENT_FILE_UPLOADED |
+                                                                         SERVERLOGEVENT_FILE_DOWNLOADED |
+                                                                         SERVERLOGEVENT_FILE_DELETED |
+                                                                         SERVERLOGEVENT_SERVER_UPDATED |
+                                                                         SERVERLOGEVENT_SERVER_SAVECONFIG;
 }

@@ -301,6 +301,7 @@ public abstract class TeamTalkTestCaseBase {
         prop.szServerVersion = "";
         prop.szServerProtocolVersion = "";
         prop.szAccessToken = "";
+        prop.uServerLogEvents = ServerLogEvent.SERVERLOGEVENT_DEFAULT;
         assertTrue("reset server properties", waitCmdSuccess(ttclient, ttclient.doUpdateServer(prop), DEF_WAIT));
 
         // reset bans
