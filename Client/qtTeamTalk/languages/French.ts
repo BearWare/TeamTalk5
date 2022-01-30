@@ -5347,7 +5347,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="125"/>
         <source>User sent custom text message</source>
-        <translation>Utilisateur envoyant un utilisateur personnalisé</translation>
+        <translation>Utilisateur envoyant un message personnalisé</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="127"/>
