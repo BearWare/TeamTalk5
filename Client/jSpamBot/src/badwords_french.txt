@@ -360,8 +360,6 @@ bitemb0i5
 bitemb0is
 bitemboi5
 bitembois
-bord3l
-bordel
 bouffon
 bougnoul
 Bougnoul!3
