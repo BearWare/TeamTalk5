@@ -48,8 +48,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        if (this.IPADDR.length() > 0)
-            resetServerProperties();
+        resetServerProperties();
     }
 
     @Test
