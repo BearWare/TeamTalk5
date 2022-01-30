@@ -569,22 +569,32 @@ p, li { white-space: pre-wrap; }
         <translation>Permanenter Raum (auf Server gespeichert)</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="185"/>
+        <location filename="../channel.ui" line="187"/>
         <source>No interruptions (no simultaneous voice transmission)</source>
         <translation>Keine Unterbrechungen (keine simultanen Audioübertragungen)</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="220"/>
+        <location filename="../channel.ui" line="194"/>
+        <source>Setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../channel.ui" line="197"/>
+        <source>...</source>
+        <translation type="unfinished">...</translation>
+    </message>
+    <message>
+        <location filename="../channel.ui" line="234"/>
         <source>Hidden channel (invisible and only known by name)</source>
         <translation>Versteckter Raum (unsichtbar und nur durch den Namen bekannt)</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="707"/>
+        <location filename="../channel.ui" line="721"/>
         <source>Variable bitrate</source>
         <translation>Variable Bitrate</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="878"/>
+        <location filename="../channel.ui" line="892"/>
         <source>&amp;Join channel on exit</source>
         <translation>Raum nach dem Verlassen betreten</translation>
     </message>
@@ -605,7 +615,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Keine Unterbrechungen (keine simultanen Audioübertragungen)</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="192"/>
+        <location filename="../channel.ui" line="206"/>
         <source>Classroom (operator-controlled transmissions)</source>
         <translation>Klassenraum (Operator-kontrollierte Übertragungen)</translation>
     </message>
@@ -618,46 +628,46 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Eigenen Desktopstream sehen</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="199"/>
+        <location filename="../channel.ui" line="213"/>
         <source>Operator receive only (only operator see and hear users)</source>
         <translation>Operator-Empfang (nur Operatoren können benutzer sehen und hören)</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="206"/>
+        <location filename="../channel.ui" line="220"/>
         <source>No voice activation (only Push-to-Talk allowed)</source>
         <translation>Keine Spracherkennung (nur Push-To-Talk)</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="213"/>
+        <location filename="../channel.ui" line="227"/>
         <source>No audio recording allowed (save to disk not allowed)</source>
         <translation>Keine Audiomitschnitte erlaubt (Speicherung auf Festplatte)</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="272"/>
-        <location filename="../channel.ui" line="413"/>
-        <location filename="../channel.ui" line="605"/>
+        <location filename="../channel.ui" line="286"/>
+        <location filename="../channel.ui" line="427"/>
+        <location filename="../channel.ui" line="619"/>
         <source>Sample rate</source>
         <translation>Samplerate</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="287"/>
-        <location filename="../channel.ui" line="428"/>
-        <location filename="../channel.ui" line="620"/>
+        <location filename="../channel.ui" line="301"/>
+        <location filename="../channel.ui" line="442"/>
+        <location filename="../channel.ui" line="634"/>
         <source>Hz</source>
         <translation>Hz</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="359"/>
-        <location filename="../channel.ui" line="534"/>
-        <location filename="../channel.ui" line="726"/>
+        <location filename="../channel.ui" line="373"/>
+        <location filename="../channel.ui" line="548"/>
+        <location filename="../channel.ui" line="740"/>
         <source>Transmit interval</source>
         <translation>Übermittlungs-Intervall</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="387"/>
-        <location filename="../channel.ui" line="562"/>
-        <location filename="../channel.ui" line="741"/>
-        <location filename="../channel.ui" line="774"/>
+        <location filename="../channel.ui" line="401"/>
+        <location filename="../channel.ui" line="576"/>
+        <location filename="../channel.ui" line="755"/>
+        <location filename="../channel.ui" line="788"/>
         <source>msec</source>
         <translation>ms</translation>
     </message>
@@ -666,58 +676,58 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">CELT 0.5.2-Codec ist veraltet.</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="487"/>
+        <location filename="../channel.ui" line="501"/>
         <source>Max bitrate</source>
         <translation>Max. Bitrate</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="515"/>
+        <location filename="../channel.ui" line="529"/>
         <source>bps</source>
         <translation>bps</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="524"/>
-        <location filename="../channel.ui" line="716"/>
+        <location filename="../channel.ui" line="538"/>
+        <location filename="../channel.ui" line="730"/>
         <source>Ignore silence (DTX)</source>
         <translation>Stille ignorieren (DTX)</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="575"/>
+        <location filename="../channel.ui" line="589"/>
         <source>Application</source>
         <translation>Anwendung</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="672"/>
+        <location filename="../channel.ui" line="686"/>
         <source>Bitrate</source>
         <translation>Bitrate</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="687"/>
+        <location filename="../channel.ui" line="701"/>
         <source>Kbps</source>
         <translation>Kbps</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="761"/>
+        <location filename="../channel.ui" line="775"/>
         <source>Frame size</source>
         <translation>Rahmengröße</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="790"/>
+        <location filename="../channel.ui" line="804"/>
         <source>Audio Configuration</source>
         <translation>Audiokonfiguration</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="796"/>
+        <location filename="../channel.ui" line="810"/>
         <source>Ensure all users in the channel have the same audio volume</source>
         <translation>Stelle sicher, dass alle Benutzer im Raum die gleiche Lautstärke haben</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="799"/>
+        <location filename="../channel.ui" line="813"/>
         <source>Enable fixed audio volume for all users</source>
         <translation>Feste Lautstärke für alle Benutzer</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="808"/>
+        <location filename="../channel.ui" line="822"/>
         <source>Volume level</source>
         <translation>Lautstärkepegel</translation>
     </message>
@@ -735,12 +745,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Operatorgesteuerte Übertragungen (Klassenraum)</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="234"/>
+        <location filename="../channel.ui" line="248"/>
         <source>Audio Codec</source>
         <translation>Audiocodec</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="242"/>
+        <location filename="../channel.ui" line="256"/>
         <source>Codec type</source>
         <translation>Codectyp</translation>
     </message>
@@ -757,8 +767,8 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">32 KHz</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="309"/>
-        <location filename="../channel.ui" line="450"/>
+        <location filename="../channel.ui" line="323"/>
+        <location filename="../channel.ui" line="464"/>
         <source>Quality</source>
         <translation>Qualität</translation>
     </message>
@@ -767,7 +777,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">44,1 KHZ</translation>
     </message>
     <message>
-        <location filename="../channel.ui" line="642"/>
+        <location filename="../channel.ui" line="656"/>
         <source>Audio channels</source>
         <translation>Audiokanäle</translation>
     </message>
@@ -776,54 +786,66 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Bytes pro Sekunde</translation>
     </message>
     <message>
-        <location filename="../channeldlg.cpp" line="38"/>
+        <location filename="../channeldlg.cpp" line="39"/>
+        <location filename="../channeldlg.cpp" line="415"/>
         <source>&amp;Ok</source>
         <translation>&amp;OK</translation>
     </message>
     <message>
-        <location filename="../channeldlg.cpp" line="39"/>
+        <location filename="../channeldlg.cpp" line="40"/>
+        <location filename="../channeldlg.cpp" line="416"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Abbrechen</translation>
     </message>
     <message>
-        <location filename="../channeldlg.cpp" line="61"/>
+        <location filename="../channeldlg.cpp" line="69"/>
         <source>No Audio</source>
         <translation>Kein Audio</translation>
     </message>
     <message>
-        <location filename="../channeldlg.cpp" line="81"/>
+        <location filename="../channeldlg.cpp" line="89"/>
         <source>Mono</source>
         <translation>Mono</translation>
     </message>
     <message>
-        <location filename="../channeldlg.cpp" line="82"/>
+        <location filename="../channeldlg.cpp" line="90"/>
         <source>Stereo</source>
         <translation>Stereo</translation>
     </message>
     <message>
-        <location filename="../channeldlg.cpp" line="83"/>
+        <location filename="../channeldlg.cpp" line="91"/>
         <source>VoIP</source>
         <translation>VoIP</translation>
     </message>
     <message>
-        <location filename="../channeldlg.cpp" line="84"/>
+        <location filename="../channeldlg.cpp" line="92"/>
         <source>Music</source>
         <translation>Musik</translation>
     </message>
     <message>
-        <location filename="../channeldlg.cpp" line="134"/>
+        <location filename="../channeldlg.cpp" line="142"/>
         <source>Create Channel</source>
         <translation>Raum erstellen</translation>
     </message>
     <message>
-        <location filename="../channeldlg.cpp" line="149"/>
+        <location filename="../channeldlg.cpp" line="157"/>
         <source>Update Channel</source>
         <translation>Raum bearbeiten</translation>
     </message>
     <message>
-        <location filename="../channeldlg.cpp" line="160"/>
+        <location filename="../channeldlg.cpp" line="168"/>
         <source>View Channel Information</source>
         <translation>Rauminformationen ansehen</translation>
+    </message>
+    <message>
+        <location filename="../channeldlg.cpp" line="419"/>
+        <source>Transmission Queue Delay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../channeldlg.cpp" line="420"/>
+        <source>Delay before switching to next user in queue (in msec)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1 KBytes/sec</source>
@@ -1441,7 +1463,7 @@ p, li { white-space: pre-wrap; }
         <translation>Datum</translation>
     </message>
     <message>
-        <location filename="../filesmodel.cpp" line="110"/>
+        <location filename="../filesmodel.cpp" line="108"/>
         <source>Name: %1, Size: %2, Owner: %3, Date: %4</source>
         <translation>Name: %1, Größe: %2, Besitzer: %3, Datum: %4</translation>
     </message>
@@ -2001,28 +2023,28 @@ p, li { white-space: pre-wrap; }
         <translation>Der Server meldete einen Fehler:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="759"/>
-        <location filename="../mainwindow.cpp" line="784"/>
+        <location filename="../mainwindow.cpp" line="760"/>
+        <location filename="../mainwindow.cpp" line="785"/>
         <location filename="../mainwindow.cpp" line="2471"/>
         <location filename="../mainwindow.cpp" line="4727"/>
         <location filename="../mainwindow.cpp" line="4959"/>
         <location filename="../mainwindow.cpp" line="5135"/>
-        <location filename="../mainwindow.cpp" line="6604"/>
-        <location filename="../mainwindow.cpp" line="6684"/>
-        <location filename="../mainwindow.cpp" line="6709"/>
+        <location filename="../mainwindow.cpp" line="6606"/>
+        <location filename="../mainwindow.cpp" line="6687"/>
+        <location filename="../mainwindow.cpp" line="6712"/>
         <source>&amp;Yes</source>
         <translation>&amp;Ja</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="760"/>
-        <location filename="../mainwindow.cpp" line="785"/>
+        <location filename="../mainwindow.cpp" line="761"/>
+        <location filename="../mainwindow.cpp" line="786"/>
         <location filename="../mainwindow.cpp" line="2472"/>
         <location filename="../mainwindow.cpp" line="4728"/>
         <location filename="../mainwindow.cpp" line="4960"/>
         <location filename="../mainwindow.cpp" line="5136"/>
-        <location filename="../mainwindow.cpp" line="6605"/>
-        <location filename="../mainwindow.cpp" line="6685"/>
-        <location filename="../mainwindow.cpp" line="6710"/>
+        <location filename="../mainwindow.cpp" line="6607"/>
+        <location filename="../mainwindow.cpp" line="6688"/>
+        <location filename="../mainwindow.cpp" line="6713"/>
         <source>&amp;No</source>
         <translation>&amp;Nein</translation>
     </message>
@@ -2263,7 +2285,7 @@ p, li { white-space: pre-wrap; }
         <translation>Soll %1 in die Ausnahmenliste der Windows-Firewall eingetragen werden?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="883"/>
+        <location filename="../mainwindow.cpp" line="884"/>
         <location filename="../mainwindow.cpp" line="2482"/>
         <source>Firewall exception</source>
         <translation>Firewall-Ausnahme</translation>
@@ -2274,38 +2296,38 @@ p, li { white-space: pre-wrap; }
         <translation>%1 konnte nicht in die Ausnahmenliste der Windows-Firewall eingetragen werden.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="884"/>
+        <location filename="../mainwindow.cpp" line="885"/>
         <source>Failed to remove %1 from Windows Firewall exceptions.</source>
         <translation>%1 konnte nicht aus der Ausnahmenliste der Windows-Firewall entfernt werden.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="627"/>
+        <location filename="../mainwindow.cpp" line="628"/>
         <source>Translate</source>
         <translation>Übersetzen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="758"/>
+        <location filename="../mainwindow.cpp" line="759"/>
         <source>%1 has detected usage of a screenreader on your computer. Do you wish to enable accessibility options offered by %1 with recommended settings?</source>
         <translation>%1 hat die Verwendung eines bildschirmlesers auf dem system erkannt. Sollen die von %1 empfohlenen Einstellungen zur Verwendung mit einem Bildschirmleser aktiviert werden?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="780"/>
-        <location filename="../settings.h" line="237"/>
+        <location filename="../mainwindow.cpp" line="781"/>
+        <location filename="../settings.h" line="238"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="783"/>
+        <location filename="../mainwindow.cpp" line="784"/>
         <source>Your sounds pack %1 don&apos;t exist, would you like to use default sounds pack?</source>
         <translation>Das Sound-Paket %1 existiert nicht. Stattdessen die Standard-Sounds verwenden?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="900"/>
+        <location filename="../mainwindow.cpp" line="901"/>
         <source>Startup arguments</source>
         <translation>Startparameter</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="901"/>
+        <location filename="../mainwindow.cpp" line="902"/>
         <source>Program argument &quot;%1&quot; is unrecognized.</source>
         <translation>Programmparameter &quot;%1&quot; wird nicht erkannt.</translation>
     </message>
@@ -2893,17 +2915,17 @@ p, li { white-space: pre-wrap; }
         <translation>Benutzer für den Raum sperren</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6683"/>
+        <location filename="../mainwindow.cpp" line="6686"/>
         <source>A new version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>Eine neue Version von %1 ist verfügbar: %2. Möchtest du die Download-Seite öffnen?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6688"/>
+        <location filename="../mainwindow.cpp" line="6691"/>
         <source>New version available</source>
         <translation>Neue Version verfügbar</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6695"/>
+        <location filename="../mainwindow.cpp" line="6698"/>
         <source>New version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
@@ -2912,17 +2934,17 @@ Du kannst sie auf der folgenden Seite herunterladen:<byte value="xd"/>
 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6708"/>
+        <location filename="../mainwindow.cpp" line="6711"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>Eine neue Beta-Version von %1 ist verfügbar: %2. Möchtest du die Download-Seite öffnen?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6713"/>
+        <location filename="../mainwindow.cpp" line="6716"/>
         <source>New beta version available</source>
         <translation>Neue Beta-Version verfügbar</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6720"/>
+        <location filename="../mainwindow.cpp" line="6723"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
@@ -2931,7 +2953,7 @@ Du kannst sie auf folgender Seite herunterladen:<byte value="xd"/>
 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6796"/>
+        <location filename="../mainwindow.cpp" line="6799"/>
         <source>No available voices found for Text-To-Speech</source>
         <translation>Keine Stimmen für die Sprachausgabe gefunden</translation>
     </message>
@@ -3175,12 +3197,12 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation>Konnte Host-Informationen von %1 nicht extrahieren</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6608"/>
+        <location filename="../mainwindow.cpp" line="6610"/>
         <source>Load %1 File</source>
         <translation>Lade %1 Datei</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6603"/>
+        <location filename="../mainwindow.cpp" line="6605"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
         <translation>Die Datei %1 enthält %2 Einrichtungsinformationen.<byte value="xd"/>
@@ -4289,7 +4311,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="44"/>
+        <location filename="../common.cpp" line="32"/>
         <source>NoName</source>
         <translation>Unbekannt</translation>
     </message>
@@ -4508,109 +4530,86 @@ Sollen diese Einstellungen übernommen werden?</translation>
 <context>
     <name>PreferencesDlg</name>
     <message>
-        <location filename="../OldPref/preferences.ui" line="14"/>
         <location filename="../preferences.ui" line="14"/>
         <source>Preferences</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="36"/>
         <location filename="../preferences.ui" line="36"/>
         <source>General</source>
         <translation>Allgemein</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="42"/>
         <location filename="../preferences.ui" line="42"/>
         <source>User Settings</source>
         <translation>Benutzereinstellungen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="50"/>
         <location filename="../preferences.ui" line="50"/>
         <source>Nickname</source>
         <translation>Nickname</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="83"/>
         <location filename="../preferences.ui" line="83"/>
         <source>Gender</source>
         <translation>Geschlecht</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="115"/>
         <location filename="../preferences.ui" line="115"/>
         <source>Male</source>
         <translation>Männlich</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="125"/>
         <location filename="../preferences.ui" line="125"/>
         <source>Female</source>
         <translation>Weiblich</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="206"/>
         <location filename="../preferences.ui" line="206"/>
         <source>BearWare.dk Web Login ID</source>
         <translation>BearWare.dk-Web-Login-ID</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="223"/>
         <location filename="../preferences.ui" line="223"/>
         <source>&amp;Activate</source>
         <translation>&amp;Aktivieren</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="156"/>
         <location filename="../preferences.ui" line="156"/>
         <source>Set away status after</source>
         <translation>Abwesend nach</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="132"/>
         <location filename="../preferences.ui" line="132"/>
         <source>Neutral</source>
         <translation>Neutral</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="173"/>
         <location filename="../preferences.ui" line="173"/>
         <source>seconds of inactivity (0 means disabled)</source>
         <translation>Sekunden nach Inaktivität (0 bedeutet ausgeschaltet)</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="198"/>
         <location filename="../preferences.ui" line="198"/>
         <source>BearWare.dk Web Login</source>
         <translation>BearWare.dk-Web-Login</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="245"/>
         <location filename="../preferences.ui" line="245"/>
         <source>Restore volume settings and subscriptions on login for Web Login users</source>
         <translation>Lautstärke- und Empfangseinstellungen der Benutzer bei Anmeldung über Web-Login wiederherstellen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="255"/>
         <location filename="../preferences.ui" line="255"/>
         <source>Voice Transmission Mode</source>
         <translation>Sprachübertragungsmodus</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="267"/>
         <location filename="../preferences.ui" line="267"/>
         <source>Push To Talk</source>
         <translation>Push-to-talk</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="274"/>
-        <location filename="../OldPref/preferences.ui" line="2147"/>
-        <location filename="../OldPref/preferences.ui" line="2174"/>
-        <location filename="../OldPref/preferences.ui" line="2201"/>
-        <location filename="../OldPref/preferences.ui" line="2228"/>
-        <location filename="../OldPref/preferences.ui" line="2255"/>
-        <location filename="../OldPref/preferences.ui" line="2282"/>
         <location filename="../preferences.ui" line="274"/>
         <location filename="../preferences.ui" line="2246"/>
         <location filename="../preferences.ui" line="2273"/>
@@ -4624,177 +4623,125 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation>Tasten &amp;definieren</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="281"/>
         <location filename="../preferences.ui" line="281"/>
         <source>Key Combination</source>
         <translation>Tastenkombination</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="298"/>
         <location filename="../preferences.ui" line="308"/>
         <source>Voice activated</source>
         <translation>Spracherkennung</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="322"/>
         <location filename="../preferences.ui" line="332"/>
         <source>Display</source>
         <translation>Anzeige</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="328"/>
         <location filename="../preferences.ui" line="338"/>
         <source>User Interface Settings</source>
         <translation>Benutzerinterface-Einstellungen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="340"/>
         <location filename="../preferences.ui" line="350"/>
         <source>User interface language</source>
         <translation>Sprache</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="355"/>
         <location filename="../preferences.ui" line="365"/>
         <source>Start minimized</source>
         <translation>Minimiert starten</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="362"/>
         <location filename="../preferences.ui" line="372"/>
         <source>Minimize to tray icon</source>
         <translation>In Infobereich mimimieren</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="369"/>
         <location filename="../preferences.ui" line="379"/>
         <source>&amp;Always on top</source>
         <translation>&amp;Immer im Vordergrund</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="376"/>
         <location filename="../preferences.ui" line="386"/>
         <source>Enable VU-meter updates</source>
         <translation>VU-Meter einschalten</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="383"/>
         <location filename="../preferences.ui" line="393"/>
         <source>Show number of users in channel</source>
         <translation>Anzahl Benutzer in Räumen anzeigen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="390"/>
         <location filename="../preferences.ui" line="400"/>
         <source>Show username instead of nickname</source>
         <translation>Zeige Benutzername anstelle des Nicknamen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="397"/>
         <location filename="../preferences.ui" line="407"/>
         <source>Show last to talk in yellow</source>
         <translation>Letzten Sprecher in gelb anzeigen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="404"/>
         <location filename="../preferences.ui" line="414"/>
         <source>Show emojis and text for channel/user state</source>
         <translation>Zeige Emojis und Text für Benutzer/Raumstatus</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="411"/>
         <location filename="../preferences.ui" line="421"/>
         <source>Show both server and channel name in window title</source>
         <translation>Server- und Raumnamen in Fenstertitel anzeigen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="418"/>
         <location filename="../preferences.ui" line="428"/>
         <source>Popup dialog when receiving text message</source>
         <translation>Popup bei neuer Textnachricht</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="463"/>
         <location filename="../preferences.ui" line="486"/>
         <source>Timestamp text messages</source>
         <translation>Zeitstempel für Textnachrichten</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="486"/>
         <location filename="../preferences.ui" line="550"/>
         <source>Show statusbar events in chat-window</source>
         <translation>Statuszeilenereignisse in Chatfenster zeigen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="470"/>
         <source>Check for program updates at startup</source>
-        <translation>Beim Start auf Programmupdates prüfen</translation>
+        <translation type="vanished">Beim Start auf Programmupdates prüfen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="477"/>
         <location filename="../preferences.ui" line="676"/>
         <source>Show new version available in dialog box</source>
         <translation>Neue Version als Dialogbox anzeigen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="493"/>
         <location filename="../preferences.ui" line="557"/>
         <source>Configure events</source>
         <translation>Ereignisse konfigurieren</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="530"/>
         <location filename="../preferences.ui" line="594"/>
         <source>Video window settings</source>
         <translation>Videofenster-Einstellungen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="747"/>
         <location filename="../preferences.ui" line="832"/>
         <source>Configure trusted list</source>
         <translation>Vertrauensliste konfigurieren</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1120"/>
         <location filename="../preferences.ui" line="1205"/>
         <source>Media file vs. voice volume</source>
         <translation>Lautstärke Medien zu Sprache</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1197"/>
         <location filename="../preferences.ui" line="1282"/>
         <source>Sounds pack</source>
         <translation>Soundpaket</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1248"/>
-        <location filename="../OldPref/preferences.ui" line="1271"/>
-        <location filename="../OldPref/preferences.ui" line="1294"/>
-        <location filename="../OldPref/preferences.ui" line="1317"/>
-        <location filename="../OldPref/preferences.ui" line="1340"/>
-        <location filename="../OldPref/preferences.ui" line="1363"/>
-        <location filename="../OldPref/preferences.ui" line="1386"/>
-        <location filename="../OldPref/preferences.ui" line="1409"/>
-        <location filename="../OldPref/preferences.ui" line="1432"/>
-        <location filename="../OldPref/preferences.ui" line="1455"/>
-        <location filename="../OldPref/preferences.ui" line="1478"/>
-        <location filename="../OldPref/preferences.ui" line="1501"/>
-        <location filename="../OldPref/preferences.ui" line="1524"/>
-        <location filename="../OldPref/preferences.ui" line="1547"/>
-        <location filename="../OldPref/preferences.ui" line="1574"/>
-        <location filename="../OldPref/preferences.ui" line="1597"/>
-        <location filename="../OldPref/preferences.ui" line="1620"/>
-        <location filename="../OldPref/preferences.ui" line="1643"/>
-        <location filename="../OldPref/preferences.ui" line="1666"/>
-        <location filename="../OldPref/preferences.ui" line="1689"/>
-        <location filename="../OldPref/preferences.ui" line="1712"/>
-        <location filename="../OldPref/preferences.ui" line="1735"/>
-        <location filename="../OldPref/preferences.ui" line="1758"/>
-        <location filename="../OldPref/preferences.ui" line="1781"/>
-        <location filename="../OldPref/preferences.ui" line="1804"/>
-        <location filename="../OldPref/preferences.ui" line="1827"/>
-        <location filename="../OldPref/preferences.ui" line="1850"/>
-        <location filename="../OldPref/preferences.ui" line="1873"/>
         <location filename="../preferences.ui" line="1333"/>
         <location filename="../preferences.ui" line="1356"/>
         <location filename="../preferences.ui" line="1379"/>
@@ -4827,267 +4774,222 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation>Durchsuchen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1327"/>
         <location filename="../preferences.ui" line="1412"/>
         <source>Private message sent</source>
         <translation>Private Nachricht gesendet</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1373"/>
         <location filename="../preferences.ui" line="1458"/>
         <source>Channel message sent</source>
         <translation>Raumnachricht gesendet</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1396"/>
         <location filename="../preferences.ui" line="1481"/>
         <source>New broadcast message</source>
         <translation>Neue Server-Nachricht</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1607"/>
         <location filename="../preferences.ui" line="1692"/>
         <source>User logged in</source>
         <translation>Benutzer angemeldet</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1630"/>
         <location filename="../preferences.ui" line="1715"/>
         <source>User logged out</source>
         <translation>Benutzer abgemeldet</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1653"/>
         <location filename="../preferences.ui" line="1738"/>
         <source>Voice activation enabled</source>
         <translation>Sprachaktivierung eingeschaltet</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1676"/>
         <location filename="../preferences.ui" line="1761"/>
         <source>Voice activation disabled</source>
         <translation>Sprachaktivierung ausgeschaltet</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1699"/>
         <location filename="../preferences.ui" line="1784"/>
         <source>Mute master volume</source>
         <translation>Gesamtlautstärke stummschalten</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1722"/>
         <location filename="../preferences.ui" line="1807"/>
         <source>Unmute master volume</source>
         <translation>Gesamtlautstärke einschalten</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1745"/>
         <location filename="../preferences.ui" line="1830"/>
         <source>Transmit ready in &quot;No interruption&quot; channel</source>
         <translation>Sendebereit in unterbrechungsfreien Räumen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1768"/>
         <location filename="../preferences.ui" line="1853"/>
         <source>Transmit stopped in &quot;No interruption&quot; channel</source>
         <translation>Übertragung in unterbrechungsfreien Räumen beendet</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1791"/>
         <location filename="../preferences.ui" line="1876"/>
         <source>Voice activation triggered</source>
         <translation>Sprachaktivierung ausgelöst</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1814"/>
         <location filename="../preferences.ui" line="1899"/>
         <source>Voice activation stopped</source>
         <translation>Sprachaktivierung beendet</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1837"/>
         <location filename="../preferences.ui" line="1922"/>
         <source>Voice activation enabled via &quot;Me&quot; menu</source>
         <translation>Sprachaktivierung über Profilmenü eingeschaltet</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1860"/>
         <location filename="../preferences.ui" line="1945"/>
         <source>Voice activation disabled via &quot;Me&quot; menu</source>
         <translation>Sprachaktivierung über Profilmenü ausgeschaltet</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1904"/>
         <location filename="../preferences.ui" line="1989"/>
         <source>Text To Speech</source>
         <translation>Sprachausgabe</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1910"/>
         <location filename="../preferences.ui" line="1995"/>
         <source>Enable/disable Text to Speech Events</source>
         <translation>Sprachausgabenereignisse ein/ausschalten</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1940"/>
         <location filename="../preferences.ui" line="2025"/>
         <source>Enable &amp;all</source>
         <translation>&amp;Alle aktivieren</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1960"/>
         <location filename="../preferences.ui" line="2045"/>
         <source>C&amp;lear all</source>
         <translation>Alle &amp;löschen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1980"/>
         <location filename="../preferences.ui" line="2065"/>
         <source>&amp;Revert</source>
         <translation>&amp;Rückgängig</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1992"/>
         <location filename="../preferences.ui" line="2077"/>
         <source>Text to Speech Preferences</source>
         <translation>Sprachausgabeneinstellungen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1998"/>
         <location filename="../preferences.ui" line="2083"/>
         <source>Text to Speech Engine</source>
         <translation>Sprachausgabentreiber</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2024"/>
         <location filename="../preferences.ui" line="2109"/>
         <source>Voice rate</source>
         <translation>Sprechgeschwindigkeit</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2050"/>
         <location filename="../preferences.ui" line="2135"/>
         <source>Voice volume</source>
         <translation>Sprachlautstärke</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2076"/>
         <location filename="../preferences.ui" line="2161"/>
         <source>Display duration of notifications</source>
         <translation>Anzeigedauer für Benachrichtigungen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2099"/>
         <location filename="../preferences.ui" line="2191"/>
         <source>Use SAPI instead of current screenreader</source>
         <translation>SAPI anstelle des momentanen Bildschirmlesers verwenden</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2381"/>
         <location filename="../preferences.ui" line="2511"/>
         <source>Customize video format</source>
         <translation>Videoformat anpassen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2538"/>
         <location filename="../preferences.ui" line="2668"/>
         <source>Bitrate</source>
         <translation>Bitrate</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="425"/>
         <location filename="../preferences.ui" line="435"/>
         <source>Start video in popup dialog</source>
         <translation>Video in Popup starten</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="456"/>
         <location filename="../preferences.ui" line="479"/>
         <source>Start desktops in popup dialog</source>
         <translation>Desktops in Popup starten</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="432"/>
         <location filename="../preferences.ui" line="442"/>
         <source>Closed video dialog should return to video-tab</source>
         <translation>Schließen des Videodialogs sollte zur Video-Registerkarte zurückkehren</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="523"/>
         <location filename="../preferences.ui" line="587"/>
         <source>Show source in corner of video window</source>
         <translation>Quelle in Ecke des Videofensters anzeigen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="557"/>
         <location filename="../preferences.ui" line="621"/>
         <source>Maximum text length in channel list</source>
         <translation>Maximale Textlänge in Raumliste</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="632"/>
         <location filename="../preferences.ui" line="717"/>
         <source>Connection</source>
         <translation>Verbindung</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="638"/>
         <location filename="../preferences.ui" line="723"/>
         <source>Client Connection</source>
         <translation>Client-Verbindung</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="644"/>
         <location filename="../preferences.ui" line="729"/>
         <source>Connect to latest host on startup</source>
         <translation>Beim Start zum letzten Server verbinden</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="651"/>
         <location filename="../preferences.ui" line="736"/>
         <source>Reconnect on connection dropped</source>
         <translation>Wiederaufbau nach Verbindungsverlust</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="658"/>
         <location filename="../preferences.ui" line="743"/>
         <source>Join root channel upon connection</source>
         <translation>Nach Verbindung Hauptraum betreten</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="665"/>
         <location filename="../preferences.ui" line="750"/>
         <source>Query server&apos;s maximum payload upon connection</source>
         <translation>Maximale Servernutzungsdaten bei Verbindung abfragen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="672"/>
         <location filename="../preferences.ui" line="757"/>
         <source>Add application to Windows Firewall exceptions list</source>
         <translation>Programm in die Ausnahmenliste der Windows-Firewall eintragen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="679"/>
-        <location filename="../OldPref/preferences.ui" line="682"/>
         <location filename="../preferences.ui" line="764"/>
         <location filename="../preferences.ui" line="767"/>
         <source>Default Subscriptions upon Connection</source>
         <translation>Standardempfang nach Verbindung</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="690"/>
         <location filename="../preferences.ui" line="775"/>
         <source>User Messages</source>
         <translation>Benutzernachrichten</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="697"/>
         <location filename="../preferences.ui" line="782"/>
         <source>Channel Messages</source>
         <translation>Raumnachrichten</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="704"/>
         <location filename="../preferences.ui" line="789"/>
         <source>Broadcast Messages</source>
         <translation>Servernachrichten</translation>
@@ -5101,13 +5003,11 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation type="obsolete">Video</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="725"/>
         <location filename="../preferences.ui" line="810"/>
         <source>Desktop</source>
         <translation>Desktop</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="737"/>
         <location filename="../preferences.ui" line="822"/>
         <source>Desktop Access</source>
         <translation>Desktopzugriff</translation>
@@ -5125,98 +5025,80 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation type="obsolete">P2P-Übertragung der Videodaten</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="784"/>
-        <location filename="../OldPref/preferences.ui" line="787"/>
         <location filename="../preferences.ui" line="869"/>
         <location filename="../preferences.ui" line="872"/>
         <source>Local Socket Settings</source>
         <translation>Lokale Socket-Einstellungen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="793"/>
         <location filename="../preferences.ui" line="878"/>
         <source>TCP port</source>
         <translation>TCP-Port</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="803"/>
-        <location filename="../OldPref/preferences.ui" line="820"/>
         <location filename="../preferences.ui" line="888"/>
         <location filename="../preferences.ui" line="905"/>
         <source>Default: 0</source>
         <translation>Standard: 0</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="810"/>
         <location filename="../preferences.ui" line="895"/>
         <source>UDP port</source>
         <translation>UDP-Port</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="893"/>
         <location filename="../preferences.ui" line="978"/>
-        <location filename="../preferencesdlg.cpp" line="987"/>
+        <location filename="../preferencesdlg.cpp" line="988"/>
         <source>Sound System</source>
         <translation>Soundkarte</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="899"/>
         <location filename="../preferences.ui" line="984"/>
         <source>Sound System Settings</source>
         <translation>Soundkarteneinstellungen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="920"/>
         <location filename="../preferences.ui" line="1005"/>
         <source>Windows Audio Session</source>
         <translation>Windows-Audio-Session</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="927"/>
         <location filename="../preferences.ui" line="1012"/>
         <source>DirectSound</source>
         <translation>DirectSound</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="934"/>
         <location filename="../preferences.ui" line="1019"/>
         <source>Windows Standard</source>
         <translation>Windows Standard</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="941"/>
         <location filename="../preferences.ui" line="1026"/>
         <source>ALSA</source>
         <translation>ALSA</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="948"/>
         <location filename="../preferences.ui" line="1033"/>
         <source>CoreAudio</source>
         <translation>Core-Audio</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="972"/>
         <location filename="../preferences.ui" line="1057"/>
         <source>Input device</source>
         <translation>Aufnahmegerät</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1015"/>
         <location filename="../preferences.ui" line="1100"/>
         <source>Output device</source>
         <translation>Wiedergabegerät</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="985"/>
-        <location filename="../OldPref/preferences.ui" line="1028"/>
         <location filename="../preferences.ui" line="1070"/>
         <location filename="../preferences.ui" line="1113"/>
         <source>Refresh devices</source>
         <translation>Geräte aktualisieren</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1072"/>
         <location filename="../preferences.ui" line="1157"/>
         <source>&amp;Test Selected</source>
         <translation>Gewählte &amp;testen</translation>
@@ -5226,7 +5108,6 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation type="vanished">Duplexmodus einschalten (für Echounterdrückung notwendig)</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1097"/>
         <location filename="../preferences.ui" line="1182"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
         <translation>Echounterdrückung (durch Lautsprecher verursacht)</translation>
@@ -5240,89 +5121,73 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation type="obsolete">Rauschfilter einschalten</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1157"/>
-        <location filename="../OldPref/preferences.ui" line="2624"/>
         <location filename="../preferences.ui" line="1242"/>
         <location filename="../preferences.ui" line="2754"/>
         <source>&amp;Default</source>
         <translation>&amp;Standard</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1183"/>
-        <location filename="../OldPref/preferences.ui" line="1189"/>
         <location filename="../preferences.ui" line="1268"/>
         <location filename="../preferences.ui" line="1274"/>
         <source>Sound Events</source>
         <translation>Klangereignisse</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1229"/>
         <location filename="../preferences.ui" line="1314"/>
         <source>New user</source>
         <translation>Neuer Benutzer</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1258"/>
         <location filename="../preferences.ui" line="1343"/>
         <source>User removed</source>
         <translation>Benutzer entfernt</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1281"/>
         <location filename="../preferences.ui" line="1366"/>
         <source>Server lost</source>
         <translation>Verbindungsverlust</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1304"/>
         <location filename="../preferences.ui" line="1389"/>
         <source>New user message</source>
         <translation>Neue Benutzernachricht</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1350"/>
         <location filename="../preferences.ui" line="1435"/>
         <source>New channel message</source>
         <translation>Neue Raumnachricht</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1419"/>
         <location filename="../preferences.ui" line="1504"/>
         <source>Hotkey pressed</source>
         <translation>Hotkey gedrückt</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1442"/>
         <location filename="../preferences.ui" line="1527"/>
         <source>Channel silent</source>
         <translation>Raum still</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1465"/>
         <location filename="../preferences.ui" line="1550"/>
         <source>Files updated</source>
         <translation>Dateien aktualisiert</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1488"/>
         <location filename="../preferences.ui" line="1573"/>
         <source>File transfer complete</source>
         <translation>Dateiübertragung komplett</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1511"/>
         <location filename="../preferences.ui" line="1596"/>
         <source>New video session</source>
         <translation>Neue Videositzung</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1534"/>
         <location filename="../preferences.ui" line="1619"/>
         <source>New desktop session</source>
         <translation>Neue Desktopsitzung</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1561"/>
         <location filename="../preferences.ui" line="1646"/>
         <source>User entered question-mode</source>
         <translation>Benutzer hat Fragemodus aktiviert</translation>
@@ -5332,163 +5197,134 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation type="vanished">...</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="711"/>
-        <location filename="../OldPref/preferences.ui" line="2011"/>
         <location filename="../preferences.ui" line="796"/>
         <location filename="../preferences.ui" line="2096"/>
         <source>Voice</source>
         <translation>Sprache</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="759"/>
         <location filename="../preferences.ui" line="844"/>
         <source>Media Files</source>
         <translation>Mediendateien</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1104"/>
         <location filename="../preferences.ui" line="1189"/>
         <source>Enable automatic gain control (microphone level adjusted automatically)</source>
         <translation>Automatische Mikrofonpegelkontrolle einschalten</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1111"/>
         <location filename="../preferences.ui" line="1196"/>
         <source>Enable denoising (suppress noise from microphone)</source>
         <translation>Rauschunterdrückung einschalten</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="1584"/>
         <location filename="../preferences.ui" line="1669"/>
         <source>Desktop access request</source>
         <translation>Desktopzugriffsanfrage</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2116"/>
         <location filename="../preferences.ui" line="2215"/>
         <source>Shortcuts</source>
         <translation>Tastenkombinationen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2122"/>
         <location filename="../preferences.ui" line="2221"/>
         <source>Keyboard Shortcuts</source>
         <translation>Tastaturkürzel</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2130"/>
         <location filename="../preferences.ui" line="2229"/>
         <source>Enable/disable voice activation</source>
         <translation>Spracherkennung ein/ausschalten</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2157"/>
         <location filename="../preferences.ui" line="2256"/>
         <source>Increase volume</source>
         <translation>Lautstärke erhöhen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2184"/>
         <location filename="../preferences.ui" line="2283"/>
         <source>Lower volume</source>
         <translation>Lautstärke verringern</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2211"/>
         <location filename="../preferences.ui" line="2310"/>
         <source>Enable/disable mute all</source>
         <translation>Alles stumm schalten ein/aus</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2238"/>
         <location filename="../preferences.ui" line="2337"/>
         <source>Increase microphone gain</source>
         <translation>Mikrofonverstärkung erhöhen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2265"/>
         <location filename="../preferences.ui" line="2364"/>
         <source>Lower microphone gain</source>
         <translation>Mikrofonverstärkung verringern</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2292"/>
         <location filename="../preferences.ui" line="2391"/>
         <source>Enable/disable video transmission</source>
         <translation>Videoübertragung ein/aus</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2305"/>
         <source>Setup Keys</source>
-        <translation>Tasten definieren</translation>
+        <translation type="vanished">Tasten definieren</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="718"/>
-        <location filename="../OldPref/preferences.ui" line="2334"/>
         <location filename="../preferences.ui" line="803"/>
         <location filename="../preferences.ui" line="2464"/>
         <source>Video Capture</source>
         <translation>Videoerfassung</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2340"/>
         <location filename="../preferences.ui" line="2470"/>
         <source>Video Capture Settings</source>
         <translation>Videoeinstellungen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2346"/>
         <location filename="../preferences.ui" line="2476"/>
         <source>Video Capture Device</source>
         <translation>Videogerät</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2366"/>
         <location filename="../preferences.ui" line="2496"/>
         <source>Video Resolution</source>
         <translation>Videoauflösung</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2395"/>
         <location filename="../preferences.ui" line="2525"/>
         <source>Image Format</source>
         <translation>Bildformat</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2405"/>
         <location filename="../preferences.ui" line="2535"/>
         <source>RGB32</source>
         <translation>RGB32</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2412"/>
         <location filename="../preferences.ui" line="2542"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2419"/>
         <location filename="../preferences.ui" line="2549"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2443"/>
         <location filename="../preferences.ui" line="2573"/>
-        <location filename="../preferencesdlg.cpp" line="1322"/>
+        <location filename="../preferencesdlg.cpp" line="1323"/>
         <source>Test Selected</source>
         <translation>Gewählte testen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2471"/>
-        <location filename="../OldPref/preferences.ui" line="2474"/>
         <location filename="../preferences.ui" line="2601"/>
         <location filename="../preferences.ui" line="2604"/>
         <source>Video Codec Settings</source>
         <translation>Videocodec-Einstellungen</translation>
     </message>
     <message>
-        <location filename="../OldPref/preferences.ui" line="2482"/>
         <location filename="../preferences.ui" line="2612"/>
         <source>Codec</source>
         <translation>Codec</translation>
@@ -5502,120 +5338,120 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation type="obsolete">Bitrate</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="364"/>
+        <location filename="../preferencesdlg.cpp" line="365"/>
         <source>Default Input Device</source>
         <translation>Standard-Aufnahmegerät</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="398"/>
+        <location filename="../preferencesdlg.cpp" line="399"/>
         <source>Default Output Device</source>
         <translation>Standard-Wiedergabegerät</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="382"/>
-        <location filename="../preferencesdlg.cpp" line="413"/>
+        <location filename="../preferencesdlg.cpp" line="383"/>
+        <location filename="../preferencesdlg.cpp" line="414"/>
         <source>No Sound Device</source>
         <translation>Kein Audiogerät</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="70"/>
+        <location filename="../preferencesdlg.cpp" line="71"/>
         <source>&amp;Ok</source>
         <translation>&amp;OK</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="71"/>
+        <location filename="../preferencesdlg.cpp" line="72"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Abbrechen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="454"/>
+        <location filename="../preferencesdlg.cpp" line="455"/>
         <source>Open Wave File</source>
         <translation>Wave-Datei öffnen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="455"/>
+        <location filename="../preferencesdlg.cpp" line="456"/>
         <source>Wave files (*.wav)</source>
         <translation>Wave-Dateien (*.wav)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="490"/>
+        <location filename="../preferencesdlg.cpp" line="491"/>
         <source>&amp;Reset</source>
         <translation>Zu&amp;rücksetzen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="644"/>
+        <location filename="../preferencesdlg.cpp" line="645"/>
         <source>None</source>
         <translation>Keine</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="598"/>
-        <location filename="../preferencesdlg.cpp" line="646"/>
+        <location filename="../preferencesdlg.cpp" line="599"/>
+        <location filename="../preferencesdlg.cpp" line="647"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="553"/>
+        <location filename="../preferencesdlg.cpp" line="554"/>
         <source>Do nothing</source>
         <translation>Nichts unternehmen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="554"/>
+        <location filename="../preferencesdlg.cpp" line="555"/>
         <source>Join only</source>
         <translation>Nur betreten</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="555"/>
+        <location filename="../preferencesdlg.cpp" line="556"/>
         <source>Leave only</source>
         <translation>Nur verlassen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="556"/>
+        <location filename="../preferencesdlg.cpp" line="557"/>
         <source>Join or leave</source>
         <translation>Betreten oder verlassen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="560"/>
+        <location filename="../preferencesdlg.cpp" line="561"/>
         <source>Ascending</source>
         <translation>Aufsteigend</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="561"/>
+        <location filename="../preferencesdlg.cpp" line="562"/>
         <source>Popularity</source>
         <translation>Beliebtheit</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="649"/>
+        <location filename="../preferencesdlg.cpp" line="650"/>
         <source>Tolk</source>
         <translation>Tolk</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="652"/>
+        <location filename="../preferencesdlg.cpp" line="653"/>
         <source>Libnotify</source>
         <translation>Libnotify</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="873"/>
-        <location filename="../preferencesdlg.cpp" line="880"/>
+        <location filename="../preferencesdlg.cpp" line="874"/>
+        <location filename="../preferencesdlg.cpp" line="881"/>
         <source>Windows Firewall</source>
         <translation>Windows-Firewall</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="874"/>
+        <location filename="../preferencesdlg.cpp" line="875"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
         <translation>Konnte %1 nicht in die Ausnahmenliste der Windows-Firewall eintragen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="881"/>
+        <location filename="../preferencesdlg.cpp" line="882"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
         <translation>Konnte %1 nicht aus der Ausnahmenliste der Windows-Firewall entfernen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1323"/>
+        <location filename="../preferencesdlg.cpp" line="1324"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
         <translation>Diese Soundkarten-Konfiguration bietet eine weniger optimale Echounterdrückung. Weitere Informationen findest du in der Anleitung.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1340"/>
+        <location filename="../preferencesdlg.cpp" line="1341"/>
         <source>Sound Initialization</source>
         <translation>Sound-Initialisierung</translation>
     </message>
@@ -5636,36 +5472,36 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation type="obsolete">Echounterdrückung konnte nicht eingeschaltet werden</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1108"/>
-        <location filename="../preferencesdlg.cpp" line="1136"/>
+        <location filename="../preferencesdlg.cpp" line="1109"/>
+        <location filename="../preferencesdlg.cpp" line="1137"/>
         <source>Video Device</source>
         <translation>Videogerät</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1109"/>
-        <location filename="../preferencesdlg.cpp" line="1137"/>
-        <location filename="../preferencesdlg.cpp" line="1885"/>
+        <location filename="../preferencesdlg.cpp" line="1110"/>
+        <location filename="../preferencesdlg.cpp" line="1138"/>
+        <location filename="../preferencesdlg.cpp" line="1886"/>
         <source>Failed to initialize video device</source>
         <translation>Fehler beim Initialisieren des Videogerätes</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1228"/>
+        <location filename="../preferencesdlg.cpp" line="1229"/>
         <source>Max Input Channels %1</source>
         <translation>Max. Eingabekanäle %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1230"/>
-        <location filename="../preferencesdlg.cpp" line="1253"/>
+        <location filename="../preferencesdlg.cpp" line="1231"/>
+        <location filename="../preferencesdlg.cpp" line="1254"/>
         <source>Sample Rates:</source>
         <translation>Abtastfrequenzen:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1251"/>
+        <location filename="../preferencesdlg.cpp" line="1252"/>
         <source>Max Output Channels %1</source>
         <translation>Max. Ausgabekanäle %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1281"/>
+        <location filename="../preferencesdlg.cpp" line="1282"/>
         <source>Refresh Sound Devices</source>
         <translation>Soundgeräte aktualisieren</translation>
     </message>
@@ -5674,32 +5510,32 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation type="obsolete">Zum Aktualisieren der Soundgeräte muss der Client die Verbindung trennen.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1282"/>
+        <location filename="../preferencesdlg.cpp" line="1283"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>Fehler beim Neustarten der Soundsysteme. Bitte starte die Anwendung neu.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1341"/>
+        <location filename="../preferencesdlg.cpp" line="1342"/>
         <source>Failed to initialize new sound devices</source>
         <translation>Fehler beim Initialisieren der neuen Soundgeräte</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1639"/>
+        <location filename="../preferencesdlg.cpp" line="1640"/>
         <source>Use SAPI instead of %1 screenreader</source>
         <translation>SAPI anstelle des %1 Bildschirmlesers verwenden</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1844"/>
+        <location filename="../preferencesdlg.cpp" line="1845"/>
         <source>Custom video format</source>
         <translation>Benutzerdefiniertes Videoformat</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1937"/>
+        <location filename="../preferencesdlg.cpp" line="1938"/>
         <source>Default Video Capture</source>
         <translation>Standard-Videoerfassung</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1938"/>
+        <location filename="../preferencesdlg.cpp" line="1939"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Konnte bevorzugte Videoerfassungseinstellungen nicht finden</translation>
     </message>
@@ -5802,7 +5638,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation type="obsolete">Standard-Soundgeräte konnten nicht ermittelt werden</translation>
     </message>
     <message>
-        <location filename="../common.cpp" line="1092"/>
+        <location filename="../common.cpp" line="1102"/>
         <source>Conference</source>
         <translation>Konferenz</translation>
     </message>
@@ -5961,36 +5797,36 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation>.tt-Datei &amp;generieren</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="239"/>
+        <location filename="../serverlistdlg.cpp" line="238"/>
         <source>Missing fields</source>
         <translation>Fehlende Eingaben</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="358"/>
+        <location filename="../serverlistdlg.cpp" line="356"/>
         <source>Open File</source>
         <translation>Datei öffnen</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="365"/>
-        <location filename="../serverlistdlg.cpp" line="374"/>
-        <location filename="../serverlistdlg.cpp" line="384"/>
-        <location filename="../serverlistdlg.cpp" line="395"/>
+        <location filename="../serverlistdlg.cpp" line="363"/>
+        <location filename="../serverlistdlg.cpp" line="372"/>
+        <location filename="../serverlistdlg.cpp" line="382"/>
+        <location filename="../serverlistdlg.cpp" line="393"/>
         <source>Load File</source>
         <translation>Datei laden</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="366"/>
-        <location filename="../serverlistdlg.cpp" line="375"/>
+        <location filename="../serverlistdlg.cpp" line="364"/>
+        <location filename="../serverlistdlg.cpp" line="373"/>
         <source>Failed to load file %1</source>
         <translation>Fehler beim Laden der Datei %1</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="385"/>
+        <location filename="../serverlistdlg.cpp" line="383"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
         <translation>Die Datei &quot;%1&quot; ist mit %2 nicht kompatibel</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="396"/>
+        <location filename="../serverlistdlg.cpp" line="394"/>
         <source>Failed to extract host-information from %1</source>
         <translation>Konnte Host-Informationen von %1 nicht extrahieren</translation>
     </message>
@@ -5999,7 +5835,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation type="obsolete">Bitte fülle die Felder &apos;Servername&apos;, &apos;Host/IP-Adresse&apos; sowie &apos;TCP-&apos;, und &apos;UDP-Port&apos; aus</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="240"/>
+        <location filename="../serverlistdlg.cpp" line="239"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation>Bitte fülle die Felder Host/IP, TCP- sowie UDP-Port aus</translation>
     </message>
@@ -6014,6 +5850,152 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <source>Unable to save file</source>
         <translation type="obsolete">Kann Datei nicht speichern</translation>
+    </message>
+</context>
+<context>
+    <name>ServerLogEventsModel</name>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="70"/>
+        <source>Event</source>
+        <translation type="unfinished">Ereignis</translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="71"/>
+        <location filename="../serverlogeventsmodel.cpp" line="92"/>
+        <location filename="../serverlogeventsmodel.cpp" line="150"/>
+        <source>Enabled</source>
+        <translation type="unfinished">Eingeschaltet</translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="92"/>
+        <location filename="../serverlogeventsmodel.cpp" line="150"/>
+        <source>Disabled</source>
+        <translation type="unfinished">Ausgeschaltet</translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="97"/>
+        <source>User connected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="99"/>
+        <source>User disconnected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="101"/>
+        <source>User logged in</source>
+        <translation type="unfinished">Benutzer angemeldet</translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="103"/>
+        <source>User logged out</source>
+        <translation type="unfinished">Benutzer abgemeldet</translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="105"/>
+        <source>User login failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="107"/>
+        <source>User connection timed out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="109"/>
+        <source>User kicked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="111"/>
+        <source>User banned</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="113"/>
+        <source>User ban removed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="115"/>
+        <source>User status updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="117"/>
+        <source>User joined channel</source>
+        <translation type="unfinished">Benutzer hat Raum betreten</translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="119"/>
+        <source>User left channel</source>
+        <translation type="unfinished">Benutzer hat Raum verlassen</translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="121"/>
+        <source>User moved to other channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="123"/>
+        <source>User sent private text message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="125"/>
+        <source>User sent custom text message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="127"/>
+        <source>User sent channel text message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="129"/>
+        <source>User sent broadcast text message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="131"/>
+        <source>Channel created</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="133"/>
+        <source>Channel updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="135"/>
+        <source>Channel removed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="137"/>
+        <source>File uploaded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="139"/>
+        <source>File downloaded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="141"/>
+        <source>File deleted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="143"/>
+        <source>Server updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlogeventsmodel.cpp" line="145"/>
+        <source>Server configuration saved</source>
+        <translation type="unfinished">Server--Konfiguration gespeichert</translation>
     </message>
 </context>
 <context>
@@ -6040,7 +6022,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="73"/>
-        <location filename="../serverpropertiesdlg.cpp" line="107"/>
+        <location filename="../serverpropertiesdlg.cpp" line="127"/>
         <source>Message of the day</source>
         <translation>Nachricht des Tages</translation>
     </message>
@@ -6050,22 +6032,22 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation>Mögliche Variablen: %users% Anzahl Benutzer auf Server, %admins% Anzahl Admins, %uptime% vergangene Zeit seit Serverstart, %voicetx% KBytes gesendet, %voicerx% KBytes empfangen und %lastuser% zuletzt eingeloggter Benutzer.</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="122"/>
+        <location filename="../serverproperties.ui" line="119"/>
         <source>TCP port</source>
         <translation>TCP-Port</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="151"/>
+        <location filename="../serverproperties.ui" line="148"/>
         <source>UDP port</source>
         <translation>UDP-Port</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="180"/>
+        <location filename="../serverproperties.ui" line="177"/>
         <source>User timeout</source>
         <translation>Benutzer-Timeout</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="212"/>
+        <location filename="../serverproperties.ui" line="209"/>
         <source>Auto save server changes</source>
         <translation>Änderungen automatisch speichern</translation>
     </message>
@@ -6139,7 +6121,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation type="obsolete">KBPS (0 = ausgeschaltet)</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="239"/>
+        <location filename="../serverproperties.ui" line="236"/>
         <source>Server Bandwidth Limitations</source>
         <translation>Begrenzung der Serverbandbreite</translation>
     </message>
@@ -6148,107 +6130,112 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation type="obsolete">Max. Audio-TX</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="383"/>
+        <location filename="../serverproperties.ui" line="380"/>
         <source>Server Abuse</source>
         <translation>Server-Missbrauch</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="416"/>
+        <location filename="../serverproperties.ui" line="413"/>
         <source>Max login attempts before ban</source>
         <translation>Max. Loginversuche vor Sperrung</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="399"/>
-        <location filename="../serverproperties.ui" line="430"/>
+        <location filename="../serverproperties.ui" line="396"/>
+        <location filename="../serverproperties.ui" line="427"/>
         <source>(0 = disabled)</source>
         <translation>(0 = ausgeschaltet)</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="423"/>
+        <location filename="../serverproperties.ui" line="420"/>
         <source>Max logins per IP-address</source>
         <translation>Max. Logins pro IP-Adresse</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="265"/>
-        <location filename="../serverproperties.ui" line="282"/>
-        <location filename="../serverproperties.ui" line="299"/>
-        <location filename="../serverproperties.ui" line="346"/>
-        <location filename="../serverproperties.ui" line="373"/>
+        <location filename="../serverproperties.ui" line="262"/>
+        <location filename="../serverproperties.ui" line="279"/>
+        <location filename="../serverproperties.ui" line="296"/>
+        <location filename="../serverproperties.ui" line="343"/>
+        <location filename="../serverproperties.ui" line="370"/>
         <source>KBytes/sec (0 = disabled)</source>
         <translation>KByte/Sek (0 = ausgeschaltet)</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="245"/>
+        <location filename="../serverproperties.ui" line="242"/>
         <source>Video TX max</source>
         <translation>Max. Video-TX</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="289"/>
+        <location filename="../serverproperties.ui" line="286"/>
         <source>Voice TX max</source>
         <translation>Max. Sprach-TX</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="316"/>
+        <location filename="../serverproperties.ui" line="313"/>
         <source>Total TX max</source>
         <translation>Max. Gesamt-TX</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="326"/>
+        <location filename="../serverproperties.ui" line="323"/>
         <source>Desktop TX max</source>
         <translation>Max. Desktop-TX</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="353"/>
+        <location filename="../serverproperties.ui" line="350"/>
         <source>Media File TX max</source>
         <translation>Max. Mediendatei-TX</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="437"/>
+        <location filename="../serverproperties.ui" line="434"/>
         <source>Login delay per IP-address</source>
         <translation>Anmeldeverzögerung pro IP-Adresse</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="451"/>
+        <location filename="../serverproperties.ui" line="448"/>
         <source>msec (0 = disabled)</source>
         <translation>Millisekunden (0 = ausgeschaltet)</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="461"/>
+        <location filename="../serverproperties.ui" line="458"/>
+        <source>Server Logging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverproperties.ui" line="489"/>
         <source>Server Information</source>
         <translation>Serverinformationen</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="470"/>
+        <location filename="../serverproperties.ui" line="498"/>
         <source>Server version</source>
         <translation>Serverversion</translation>
     </message>
     <message>
-        <location filename="../serverpropertiesdlg.cpp" line="37"/>
+        <location filename="../serverpropertiesdlg.cpp" line="40"/>
         <source>&amp;Ok</source>
         <translation>&amp;OK</translation>
     </message>
     <message>
-        <location filename="../serverpropertiesdlg.cpp" line="38"/>
+        <location filename="../serverpropertiesdlg.cpp" line="41"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Abbrechen</translation>
     </message>
     <message>
-        <location filename="../serverpropertiesdlg.cpp" line="45"/>
+        <location filename="../serverpropertiesdlg.cpp" line="50"/>
         <source>&amp;Close</source>
         <translation>S&amp;chließen</translation>
     </message>
     <message>
-        <location filename="../serverpropertiesdlg.cpp" line="102"/>
+        <location filename="../serverpropertiesdlg.cpp" line="122"/>
         <source>Change message of the day?</source>
         <translation>Nachricht des Tages ändern?</translation>
     </message>
     <message>
-        <location filename="../serverpropertiesdlg.cpp" line="103"/>
+        <location filename="../serverpropertiesdlg.cpp" line="123"/>
         <source>&amp;Yes</source>
         <translation>&amp;Ja</translation>
     </message>
     <message>
-        <location filename="../serverpropertiesdlg.cpp" line="104"/>
+        <location filename="../serverpropertiesdlg.cpp" line="124"/>
         <source>&amp;No</source>
         <translation>&amp;Nein</translation>
     </message>
@@ -6389,13 +6376,13 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="85"/>
         <location filename="../statusbareventsmodel.cpp" line="106"/>
-        <location filename="../statusbareventsmodel.cpp" line="175"/>
+        <location filename="../statusbareventsmodel.cpp" line="176"/>
         <source>Enabled</source>
         <translation>Eingeschaltet</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="106"/>
-        <location filename="../statusbareventsmodel.cpp" line="175"/>
+        <location filename="../statusbareventsmodel.cpp" line="176"/>
         <source>Disabled</source>
         <translation>Ausgeschaltet</translation>
     </message>
@@ -6887,13 +6874,13 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../ttseventsmodel.cpp" line="92"/>
         <location filename="../ttseventsmodel.cpp" line="113"/>
-        <location filename="../ttseventsmodel.cpp" line="195"/>
+        <location filename="../ttseventsmodel.cpp" line="196"/>
         <source>Enabled</source>
         <translation>Eingeschaltet</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="113"/>
-        <location filename="../ttseventsmodel.cpp" line="195"/>
+        <location filename="../ttseventsmodel.cpp" line="196"/>
         <source>Disabled</source>
         <translation>Ausgeschaltet</translation>
     </message>
