@@ -501,12 +501,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="194"/>
         <source>Setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurer</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="197"/>
         <source>...</source>
-        <translation type="unfinished">…</translation>
+        <translation>…</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="206"/>
@@ -704,12 +704,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="419"/>
         <source>Transmission Queue Delay</source>
-        <translation type="unfinished"></translation>
+        <translation>Délai de la file d&apos;attente de transmission</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="420"/>
         <source>Delay before switching to next user in queue (in msec)</source>
-        <translation type="unfinished"></translation>
+        <translation>Délai avant de passer à l&apos;utilisateur suivant dans la file d&apos;attente (en ms)</translation>
     </message>
 </context>
 <context>
@@ -4237,10 +4237,6 @@ Should these settings be applied?</source>
         <translation>Afficher la barre de statut des évènements dans la fenêtre de chat</translation>
     </message>
     <message>
-        <source>Check for program updates at startup</source>
-        <translation type="vanished">Vérifier les mises à jour du programme au démarrage</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="676"/>
         <source>Show new version available in dialog box</source>
         <translation>Afficher la disponibilité des nouvelles versions dans une boîte de dialogue</translation>
@@ -4740,10 +4736,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="2391"/>
         <source>Enable/disable video transmission</source>
         <translation>Activer/désactiver la transmission vidéo</translation>
-    </message>
-    <message>
-        <source>Setup Keys</source>
-        <translation type="vanished">Configurer les touches</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2470"/>
@@ -5267,145 +5259,145 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="70"/>
         <source>Event</source>
-        <translation type="unfinished">Évènement</translation>
+        <translation>Évènement</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="71"/>
         <location filename="../serverlogeventsmodel.cpp" line="92"/>
         <location filename="../serverlogeventsmodel.cpp" line="150"/>
         <source>Enabled</source>
-        <translation type="unfinished">Activé</translation>
+        <translation>Activé</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="92"/>
         <location filename="../serverlogeventsmodel.cpp" line="150"/>
         <source>Disabled</source>
-        <translation type="unfinished">Désactivé</translation>
+        <translation>Désactivé</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="97"/>
         <source>User connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur connecté</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="99"/>
         <source>User disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur déconnecté</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="101"/>
         <source>User logged in</source>
-        <translation type="unfinished">Utilisateur connecté</translation>
+        <translation>Utilisateur authentifié</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="103"/>
         <source>User logged out</source>
-        <translation type="unfinished">Utilisateur déconnecté</translation>
+        <translation>Utilisateur désauthentifié</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="105"/>
         <source>User login failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Authentification d&apos;un utilisateur échouée</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="107"/>
         <source>User connection timed out</source>
-        <translation type="unfinished"></translation>
+        <translation>Perte de la connexion d&apos;un utilisateur</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="109"/>
         <source>User kicked</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur exclu</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="111"/>
         <source>User banned</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur banni</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="113"/>
         <source>User ban removed</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur débanni</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="115"/>
         <source>User status updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Statut d&apos;un utilisateur mis à jour</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="117"/>
         <source>User joined channel</source>
-        <translation type="unfinished">Utilisateur joignant un canal</translation>
+        <translation>Utilisateur joignant un canal</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="119"/>
         <source>User left channel</source>
-        <translation type="unfinished">Utilisateur quittant un canal</translation>
+        <translation>Utilisateur quittant un canal</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="121"/>
         <source>User moved to other channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur déplacé vers un autre canal</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="123"/>
         <source>User sent private text message</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur envoyant un message privé</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="125"/>
         <source>User sent custom text message</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur envoyant un utilisateur personnalisé</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="127"/>
         <source>User sent channel text message</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur envoyant un message de canal</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="129"/>
         <source>User sent broadcast text message</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur envoyant un message général</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="131"/>
         <source>Channel created</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal créé</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="133"/>
         <source>Channel updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal mis à jour</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="135"/>
         <source>Channel removed</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal supprimé</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="137"/>
         <source>File uploaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier téléversé</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="139"/>
         <source>File downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier téléchargé</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="141"/>
         <source>File deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier supprimé</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="143"/>
         <source>Server updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Propriétés du serveur mises à jour</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="145"/>
         <source>Server configuration saved</source>
-        <translation type="unfinished">Configuration serveur sauvegardée</translation>
+        <translation>Configuration serveur sauvegardée</translation>
     </message>
 </context>
 <context>
@@ -5535,7 +5527,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverproperties.ui" line="458"/>
         <source>Server Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Journalisation du serveur</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="489"/>
