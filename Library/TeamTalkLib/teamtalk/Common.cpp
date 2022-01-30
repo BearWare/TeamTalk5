@@ -33,13 +33,6 @@ namespace teamtalk
     ServerProperties::ServerProperties()
     {
         systemid = SERVER_WELCOME;
-        autosave = false;
-        maxusers = max_logins_per_ipaddr = 0;
-        maxloginattempts = 0;
-        usertimeout = 0;
-        diskquota = 0;
-        maxdiskusage = 0;
-        voicetxlimit = videotxlimit = mediafiletxlimit = desktoptxlimit = totaltxlimit = 0;
     }
 
     RemoteFile::RemoteFile()

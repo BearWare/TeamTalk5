@@ -817,6 +817,7 @@ ErrorMsg ServerUser::HandleUpdateServer(const mstrings_t& properties)
     GetProperty(properties, TT_MEDIAFILETXLIMIT, srvprop.mediafiletxlimit);
     GetProperty(properties, TT_DESKTOPTXLIMIT, srvprop.desktoptxlimit);
     GetProperty(properties, TT_TOTALTXLIMIT, srvprop.totaltxlimit);
+    GetProperty(properties, TT_LOGEVENTS, srvprop.logevents);
 
     int tcpport = 0;
     TTASSERT(srvprop.tcpaddrs.size());
@@ -1269,6 +1270,7 @@ void ServerUser::DoServerUpdate(const ServerSettings& properties)
     AppendProperty(TT_MEDIAFILETXLIMIT, properties.mediafiletxlimit, command);
     AppendProperty(TT_DESKTOPTXLIMIT, properties.desktoptxlimit, command);
     AppendProperty(TT_TOTALTXLIMIT, properties.totaltxlimit, command);
+    AppendProperty(TT_LOGEVENTS, properties.logevents, command);
 
     AppendProperty(TT_VERSION, properties.version, command);
 

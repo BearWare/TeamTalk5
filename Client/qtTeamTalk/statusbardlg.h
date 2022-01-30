@@ -25,7 +25,7 @@
 #define STATUSBARDLG_H
 
 #include "ui_statusbardlg.h"
-#include "common.h"
+#include "utilui.h"
 
 class StatusBarDlg : public QDialog
 {

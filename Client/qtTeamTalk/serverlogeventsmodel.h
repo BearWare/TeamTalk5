@@ -19,19 +19,16 @@
  *
  */
 
-#ifndef TTSEVENTSMODEL_H
-#define TTSEVENTSMODEL_H
+#include "common.h"
 
-#include "utiltts.h"
 #include <QAbstractItemModel>
 #include <QVector>
-#include <QTreeView>
 
-class TTSEventsModel : public QAbstractItemModel
+class ServerLogEventsModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
-    TTSEventsModel(QObject* parent);
+    ServerLogEventsModel(QObject* parent);
     QVariant headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
     int columnCount ( const QModelIndex & parent = QModelIndex() ) const;
     QVariant data ( const QModelIndex & index, int role = Qt::DisplayRole ) const;
@@ -39,11 +36,9 @@ public:
     QModelIndex parent ( const QModelIndex & index ) const;
     int rowCount ( const QModelIndex & parent = QModelIndex() ) const;
 
-    void setTTSEvents(TTSEvents ttsactive);
-    TTSEvents getTTSEvents();
+    void setServerLogEvents(ServerLogEvents serverlogactive);
+    ServerLogEvents getServerLogEvents();
 private:
-    QVector<TextToSpeechEvent> m_ttsevents;
-    TTSEvents m_ttsselected = TTS_NONE;
+    QVector<ServerLogEvent> m_serverlogevents;
+    ServerLogEvents m_serverlogselected = SERVERLOGEVENT_NONE;
 };
-
-#endif // TTSEVENTSMODEL_H

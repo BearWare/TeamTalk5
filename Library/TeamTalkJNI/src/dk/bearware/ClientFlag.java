@@ -23,8 +23,8 @@
 
 package dk.bearware;
 
-public interface ClientFlag
-{
+public interface ClientFlag {
+
     public static final int CLIENT_CLOSED                    = 0x00000000;
 
     public static final int CLIENT_SNDINPUT_READY            = 0x00000001;

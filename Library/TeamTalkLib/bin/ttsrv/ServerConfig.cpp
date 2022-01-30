@@ -654,6 +654,7 @@ bool ReadServerProperties(teamtalk::ServerXML& xmlSettings,
     properties.desktoptxlimit = xmlSettings.GetDesktopTxLimit();
     properties.totaltxlimit = xmlSettings.GetTotalTxLimit();
     properties.autosave = xmlSettings.GetAutoSave();
+    properties.logevents = xmlSettings.GetServerLogEvents(SERVERLOGEVENT_DEFAULT);
 
     u_short tcpport = xmlSettings.GetHostTcpPort() == UNDEFINED? DEFAULT_TCPPORT : xmlSettings.GetHostTcpPort();
     u_short udpport = xmlSettings.GetHostUdpPort() == UNDEFINED? DEFAULT_UDPPORT : xmlSettings.GetHostUdpPort();
@@ -685,6 +686,39 @@ bool ReadServerProperties(teamtalk::ServerXML& xmlSettings,
 
     return true;
 }
+
+bool SaveServerProperties(teamtalk::ServerXML& xmlSettings, const teamtalk::ServerSettings& properties,
+                          const teamtalk::statchannels_t& channels)
+{
+    xmlSettings.SetServerName(UnicodeToUtf8(properties.servername).c_str());
+    xmlSettings.SetMessageOfTheDay(UnicodeToUtf8(properties.motd).c_str());
+    xmlSettings.SetAutoSave(properties.autosave);
+    xmlSettings.SetMaxUsers(properties.maxusers);
+    xmlSettings.SetMaxLoginAttempts(properties.maxloginattempts);
+    xmlSettings.SetMaxLoginsPerIP(properties.max_logins_per_ipaddr);
+    xmlSettings.SetLoginDelay(properties.logindelay);
+    xmlSettings.SetUserTimeout(properties.usertimeout);
+    xmlSettings.SetVoiceTxLimit(properties.voicetxlimit);
+    xmlSettings.SetVideoCaptureTxLimit(properties.videotxlimit);
+    xmlSettings.SetMediaFileTxLimit(properties.mediafiletxlimit);
+    xmlSettings.SetDesktopTxLimit(properties.desktoptxlimit);
+    xmlSettings.SetTotalTxLimit(properties.totaltxlimit);
+    TTASSERT(properties.tcpaddrs.size());
+    if (properties.tcpaddrs.size())
+        xmlSettings.SetHostTcpPort(properties.tcpaddrs[0].get_port_number());
+    TTASSERT(properties.udpaddrs.size());
+    if (properties.udpaddrs.size())
+        xmlSettings.SetHostUdpPort(properties.udpaddrs[0].get_port_number());
+
+    xmlSettings.SetMaxDiskUsage(properties.maxdiskusage);
+    xmlSettings.SetDefaultDiskQuota(properties.diskquota);
+    xmlSettings.SetFilesRoot(UnicodeToUtf8(properties.filesroot).c_str());
+    xmlSettings.SetServerLogEvents(properties.logevents);
+    xmlSettings.SetStaticChannels(channels);
+
+    return xmlSettings.SaveFile();
+}
+
 
 #if defined(ENABLE_TEAMTALKPRO)
 bool SetupEncryption(teamtalk::ServerNode& servernode, teamtalk::ServerXML& xmlSettings)

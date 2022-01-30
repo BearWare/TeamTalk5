@@ -22,6 +22,7 @@
  */
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
 
@@ -42,13 +43,14 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     TeamTalkServer server;
     WebLogin loginsession;
     Vector<String> badwords;
+    Map<String, Vector<String>> langbadwords;
 
     int cmdid_completed = 0, cmdid_success = 0;
 
-    SpamBotSession(TeamTalkServer srv, WebLogin loginsession, Vector<String> badwords) {
+    SpamBotSession(TeamTalkServer srv, WebLogin loginsession, Map<String, Vector<String>> langbadwords) {
         this.server = srv;
         this.loginsession = loginsession;
-        this.badwords = badwords;
+        this.langbadwords = langbadwords;
         handler.addConnectionListener(this);
         handler.addCommandListener(this);
     }
@@ -239,6 +241,14 @@ implements ConnectionListener, CommandListener, AutoCloseable {
                 ttclient.getChannel(chanid, chan);
             }
             ttclient.doJoinChannel(chan);
+        }
+
+        badwords = new Vector<>();
+        for (String lang : account.szNote.toLowerCase(Locale.ROOT).split(",")) {
+            if (langbadwords.get(lang) != null) {
+                badwords.addAll(langbadwords.get(lang));
+                System.out.printf("Using language \"%s\" with %d bad words on %s:%d.\n", lang, langbadwords.get(lang).size(), server.ipaddr, server.tcpport);
+            }
         }
     }
 

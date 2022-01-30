@@ -1123,6 +1123,7 @@ void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServe
     jfieldID fid_srvver = env->GetFieldID(cls_srv, "szServerVersion", "Ljava/lang/String;");
     jfieldID fid_srvprot = env->GetFieldID(cls_srv, "szServerProtocolVersion", "Ljava/lang/String;");
     jfieldID fid_access = env->GetFieldID(cls_srv, "szAccessToken", "Ljava/lang/String;");
+    jfieldID fid_logevents = env->GetFieldID(cls_srv, "uServerLogEvents", "I");
 
     assert(fid_name);
     assert(fid_motd);
@@ -1143,6 +1144,7 @@ void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServe
     assert(fid_srvver);
     assert(fid_srvprot);
     assert(fid_access);
+    assert(fid_logevents);
 
     if(conv == N2J)
     {
@@ -1165,6 +1167,7 @@ void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServe
         env->SetObjectField(lpServerProperties, fid_srvver, NEW_JSTRING(env, srvprop.szServerVersion));
         env->SetObjectField(lpServerProperties, fid_srvprot, NEW_JSTRING(env, srvprop.szServerProtocolVersion));
         env->SetObjectField(lpServerProperties, fid_access, NEW_JSTRING(env, srvprop.szAccessToken));
+        env->SetIntField(lpServerProperties, fid_logevents, srvprop.uServerLogEvents);
     }
     else
     {
@@ -1188,6 +1191,7 @@ void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServe
         TT_STRCPY(srvprop.szServerVersion, ttstr(env, (jstring)env->GetObjectField(lpServerProperties, fid_srvver)));
         TT_STRCPY(srvprop.szServerProtocolVersion, ttstr(env, (jstring)env->GetObjectField(lpServerProperties, fid_srvprot)));
         TT_STRCPY(srvprop.szAccessToken, ttstr(env, (jstring)env->GetObjectField(lpServerProperties, fid_access)));
+        srvprop.uServerLogEvents = env->GetIntField(lpServerProperties, fid_logevents);
     }
 }
 

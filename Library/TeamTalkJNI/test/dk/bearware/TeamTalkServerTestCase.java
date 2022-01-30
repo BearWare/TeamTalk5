@@ -270,12 +270,15 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         };
 
+    Vector<Integer> logevents = new Vector<>();
+
     ServerLogger logger = new ServerLogger() {
 
             public void userConnected(User lpUser) {
                 String str = String.format("User with IP-address %s connected",
                                            lpUser.szIPAddress);
                 System.out.println(str);
+                logevents.add(ServerLogEvent.SERVERLOGEVENT_USER_CONNECTED);
             }
 
             public void userLoggedIn(User lpUser) {
@@ -1514,6 +1517,48 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         user = new User();
         assertTrue("get admin", ttclient.getUser(admin.getMyUserID(), user));
         assertEquals("no chan specified", 0, user.nChannelID);
+    }
+
+    @Test
+    public void testServerLogging() {
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.uUserRights = UserRight.USERRIGHT_UPDATE_SERVERPROPERTIES;
+        useraccounts.add(useraccount);
+
+        TeamTalkSrv server = newServerInstance();
+        ServerInterleave interleave = new RunServer(server);
+
+        logevents.clear();
+
+        TeamTalkBase client = newClientInstance();
+        connect(server, client);
+        ServerProperties srvprop = new ServerProperties();
+        assertTrue("get serverprop", client.getServerProperties(srvprop));
+        assertEquals("log mask none", ServerLogEvent.SERVERLOGEVENT_NONE, srvprop.uServerLogEvents);
+        login(server, client, NICKNAME, USERNAME, PASSWORD);
+
+        assertEquals("one connected log event", 1, logevents.size());
+
+        assertTrue("get serverprop after login", client.getServerProperties(srvprop));
+        srvprop.uServerLogEvents = ServerLogEvent.SERVERLOGEVENT_NONE;
+        assertTrue("update server", waitCmdSuccess(client, client.doUpdateServer(srvprop), DEF_WAIT, interleave));
+
+        assertTrue("get server properties again", client.getServerProperties(srvprop));
+        assertEquals("log mask none", ServerLogEvent.SERVERLOGEVENT_NONE, srvprop.uServerLogEvents);
+
+        connect(server, newClientInstance());
+        assertEquals("still one log event", 1, logevents.size());
+
+        srvprop.uServerLogEvents = ServerLogEvent.SERVERLOGEVENT_USER_CONNECTED;
+        assertTrue("update server", waitCmdSuccess(client, client.doUpdateServer(srvprop), DEF_WAIT, interleave));
+
+        connect(server, newClientInstance());
+        assertEquals("now two log events", 2, logevents.size());
     }
 
     // @Test
