@@ -346,12 +346,13 @@
     <string name="pref_summary_gender">Verifique se há ícone feminino</string>
     <string name="user_state_away">Ausente</string>
     <string name="pref_title_userloggedin_icon">Usuário conectou-se</string>
-    <string name="pref_summary_userloggedin_icon">Reproduzir som quando um usuário conectar-se</string>
+    <string name="pref_summary_userloggedin_icon">Reproduzir som quando um usuário se conectar</string>
     <string name="pref_title_userloggedoff_icon">Usuário desconectou-se</string>
-    <string name="pref_summary_userloggedoff_icon">Reproduzir som quando um usuário desconectar-se</string>
+    <string name="pref_summary_userloggedoff_icon">Reproduzir som quando um usuário se desconectar</string>
     <string name="pref_title_channel_message_sent_audio_icon">Mensagem enviada para o canal</string>
     <string name="pref_summary_channel_message_sent_audio_icon">Reproduzir som quando você enviar uma mensagem no canal</string>
     <string name="pref_title_channel_message_sent">Mensagens enviadas no canal</string>
     <string name="pref_summary_channel_message_sent">Falar mensagens enviadas no canal</string>
     <string name="text_tts_channel_message_sent">Mensagem enviada para o canal: %1$s</string>
+    <string name="err_text_length">%1$d caracteres excedidos na mensagem</string>
 </resources>
