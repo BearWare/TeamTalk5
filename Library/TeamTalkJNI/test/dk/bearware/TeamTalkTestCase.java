@@ -2068,7 +2068,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
-    public void testWaveFile() throws IOException {
+    public void testAudioBlockSimStereo() throws IOException {
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
             UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO |
