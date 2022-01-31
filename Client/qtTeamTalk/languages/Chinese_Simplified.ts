@@ -501,12 +501,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="194"/>
         <source>Setup</source>
-        <translation type="unfinished"></translation>
+        <translation>设置</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="197"/>
         <source>...</source>
-        <translation type="unfinished">浏览...</translation>
+        <translation>浏览...</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="206"/>
@@ -704,12 +704,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="419"/>
         <source>Transmission Queue Delay</source>
-        <translation type="unfinished"></translation>
+        <translation>传输队列延迟</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="420"/>
         <source>Delay before switching to next user in queue (in msec)</source>
-        <translation type="unfinished"></translation>
+        <translation>切换到队列中的下一个用户前的延迟（以毫秒为单位）</translation>
     </message>
 </context>
 <context>
@@ -4238,10 +4238,6 @@ Should these settings be applied?</source>
         <translation>在聊天窗口中显示状态栏事件</translation>
     </message>
     <message>
-        <source>Check for program updates at startup</source>
-        <translation type="vanished">检查程序更新</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="676"/>
         <source>Show new version available in dialog box</source>
         <translation>在对话框中显示可用的新版本</translation>
@@ -4741,10 +4737,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="2391"/>
         <source>Enable/disable video transmission</source>
         <translation>启用/禁用视频传输</translation>
-    </message>
-    <message>
-        <source>Setup Keys</source>
-        <translation type="vanished">热键注册</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2470"/>
@@ -5268,145 +5260,145 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="70"/>
         <source>Event</source>
-        <translation type="unfinished">事件</translation>
+        <translation>事件</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="71"/>
         <location filename="../serverlogeventsmodel.cpp" line="92"/>
         <location filename="../serverlogeventsmodel.cpp" line="150"/>
         <source>Enabled</source>
-        <translation type="unfinished">已启用</translation>
+        <translation>已启用</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="92"/>
         <location filename="../serverlogeventsmodel.cpp" line="150"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>已禁用</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="97"/>
         <source>User connected</source>
-        <translation type="unfinished"></translation>
+        <translation>用户连接</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="99"/>
         <source>User disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>用户断开连接</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="101"/>
         <source>User logged in</source>
-        <translation type="unfinished">用户登录</translation>
+        <translation>用户登录</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="103"/>
         <source>User logged out</source>
-        <translation type="unfinished">用户登出</translation>
+        <translation>用户登出</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="105"/>
         <source>User login failed</source>
-        <translation type="unfinished"></translation>
+        <translation>用户登录失败</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="107"/>
         <source>User connection timed out</source>
-        <translation type="unfinished"></translation>
+        <translation>用户连接超时</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="109"/>
         <source>User kicked</source>
-        <translation type="unfinished"></translation>
+        <translation>用户被踢</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="111"/>
         <source>User banned</source>
-        <translation type="unfinished"></translation>
+        <translation>用户被禁止</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="113"/>
         <source>User ban removed</source>
-        <translation type="unfinished"></translation>
+        <translation>用户解禁</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="115"/>
         <source>User status updated</source>
-        <translation type="unfinished"></translation>
+        <translation>用户状态更新</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="117"/>
         <source>User joined channel</source>
-        <translation type="unfinished">用户加入频道</translation>
+        <translation>用户加入频道</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="119"/>
         <source>User left channel</source>
-        <translation type="unfinished">用户离开频道</translation>
+        <translation>用户离开频道</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="121"/>
         <source>User moved to other channel</source>
-        <translation type="unfinished"></translation>
+        <translation>用户被移动到其他频道</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="123"/>
         <source>User sent private text message</source>
-        <translation type="unfinished"></translation>
+        <translation>用户发送了私人消息</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="125"/>
         <source>User sent custom text message</source>
-        <translation type="unfinished"></translation>
+        <translation>用户发送了自定义消息</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="127"/>
         <source>User sent channel text message</source>
-        <translation type="unfinished"></translation>
+        <translation>用户发送了频道消息</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="129"/>
         <source>User sent broadcast text message</source>
-        <translation type="unfinished"></translation>
+        <translation>用户发送了广播消息</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="131"/>
         <source>Channel created</source>
-        <translation type="unfinished"></translation>
+        <translation>频道创建</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="133"/>
         <source>Channel updated</source>
-        <translation type="unfinished"></translation>
+        <translation>频道更新</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="135"/>
         <source>Channel removed</source>
-        <translation type="unfinished"></translation>
+        <translation>频道删除</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="137"/>
         <source>File uploaded</source>
-        <translation type="unfinished"></translation>
+        <translation>文件上传</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="139"/>
         <source>File downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>文件下载</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="141"/>
         <source>File deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>文件删除</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="143"/>
         <source>Server updated</source>
-        <translation type="unfinished"></translation>
+        <translation>服务器更新</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="145"/>
         <source>Server configuration saved</source>
-        <translation type="unfinished">服务器配置已保存</translation>
+        <translation>服务器配置已保存</translation>
     </message>
 </context>
 <context>
@@ -5536,7 +5528,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverproperties.ui" line="458"/>
         <source>Server Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>服务器日志</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="489"/>
