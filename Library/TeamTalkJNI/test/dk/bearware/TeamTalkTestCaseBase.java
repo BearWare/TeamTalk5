@@ -344,6 +344,9 @@ public abstract class TeamTalkTestCaseBase {
         root.nMaxUsers = prop.nMaxUsers;
         assertTrue("reset root channel", waitCmdSuccess(ttclient, ttclient.doUpdateChannel(root), DEF_WAIT));
 
+        //delete all subchannels
+        assertTrue("delete all channels", waitCmdSuccess(ttclient, ttclient.doRemoveChannel(ttclient.getRootChannelID()), DEF_WAIT));
+
         assertTrue("Disconnect", ttclient.disconnect());
     }
 
