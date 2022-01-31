@@ -168,7 +168,7 @@
 "Create new channel" = "Criar novo canal";
 
 /* Sound Input */
-"Default" = "Default";
+"Default" = "Padrão";
 
 /* preferences */
 "Default Subscriptions" = "Subscrições padrão";
@@ -251,7 +251,7 @@
 "Host address" = "Endereço";
 
 /* channel list */
-"Inactive" = "Inactive";
+"Inactive" = "Ausente";
 
 /* Dialog message */
 "Join" = "Entrar";
@@ -269,13 +269,13 @@
 "Join root channel after login" = "Entrar no canal inicial depois de conectar";
 
 /* log entry */
-"Joined %@" = "Entrou em %@";
+"Joined %@" = "Entrou no canal %@";
 
 /* channel list */
 "Kick user" = "Expulsar usuário";
 
 /* preferences */
-"Limit length of names in channel list to %d characters" = "O tamanho máximo de nomes na lista de canais é %d";
+"Limit length of names in channel list to %d characters" = "O tamanho máximo de caracteres em nomes na lista de canais é %d";
 
 /* text message type */
 "Log message" = "Mensagem de log";
@@ -290,7 +290,7 @@
 "Master Volume" = "Volume principal";
 
 /* preferences */
-"Maximum Text Length" = "Tamanho máximo de texto";
+"Maximum Text Length" = "Tamanho máximo do texto";
 
 /* preferences
    user detail */
@@ -304,7 +304,7 @@
 "Media file vs. voice volume" = "Volume de mídia (não o de voz)";
 
 /* Dialog */
-"Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
+"Message limit exceeded by %d characters" = "%d caracteres excedidos na mensagem de texto";
 
 /* preferences */
 "Microphone Gain" = "Ganho do microfone";
@@ -440,10 +440,10 @@
 "Preferences" = "Preferências";
 
 /* Sound Input */
-"Preferred" = "Preferred";
+"Preferred" = "Preferido";
 
 /* preferences */
-"Pressing Return-key sends text message" = "Pressionar o botão nova linha irá enviar mensagens";
+"Pressing Return-key sends text message" = "Botão nova linha envia a mensagem";
 
 /* text message type */
 "Private message" = "Mensagem privada";
