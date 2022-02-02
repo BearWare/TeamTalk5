@@ -192,14 +192,3 @@ set (TTCLASSIC_HEADERS
   wizard/WizMasterSheet.h
   wizard/WizSoundSysPage.h
   wizard/WizWelcomePage.h)
-
-set (TINYXML_SOURCES
-  tinyxml/tinystr.cpp
-  tinyxml/tinyxml.cpp
-  tinyxml/tinyxmlerror.cpp
-  tinyxml/tinyxmlparser.cpp)
-
-set (TINYXML_HEADERS
-  tinyxml/tinystr.h
-  tinyxml/tinyxml.h)
-    
