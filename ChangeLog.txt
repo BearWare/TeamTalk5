@@ -10,6 +10,7 @@ Default Qt Client
 - Modify server log events from "Server Properties" dialog
 - Fixed issue where no all users and channels were listed after initial login
 - Fixed labels for server abuse options in server properties
+- Fixed crash issue when using Cmd+4 on macOS 12.2
 Android Client
 - Fixed issue where no all users and channels were listed after initial login
 iOS Client
