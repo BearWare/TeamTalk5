@@ -19,6 +19,7 @@ Server
 - Support for voice transfer delay in "No Interruptions" channels
 - TeamTalk Pro servers can now use BearWare.dk WebLogin on non-encrypted servers
 - Server log events can be modified while running
+- Log message when transmit queue changes in "No Interruptions" channels
 
 Version 5.8.3, 2022/01/15
 Accessible Windows Client
