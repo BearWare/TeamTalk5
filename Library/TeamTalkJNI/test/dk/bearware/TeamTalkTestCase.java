@@ -224,40 +224,6 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
-    public void testUserAccount() {
-        TeamTalkBase ttclient = newClientInstance();
-        connect(ttclient);
-        login(ttclient, ADMIN_NICKNAME + " - " + getTestMethodName(), ADMIN_USERNAME, ADMIN_PASSWORD);
-
-        IntPtr howmany = new IntPtr(0);
-
-        ServerProperties srvprop = new ServerProperties();
-        assertTrue(ttclient.getServerProperties(srvprop));
-
-        assertTrue(waitCmdSuccess(ttclient, ttclient.doUpdateServer(srvprop), DEF_WAIT));
-
-        assertTrue(waitCmdSuccess(ttclient, ttclient.doListUserAccounts(0, 100), DEF_WAIT));
-
-//        howmany = new IntPtr(0);
-//        assertTrue(ttclient.getUserAccounts(null, howmany));
-//
-//        UserAccount[] accounts = new UserAccount[howmany.value];
-//        assertTrue(ttclient.getUserAccounts(accounts, howmany));
-//        UserAccount account = new UserAccount();
-//        account.szUsername = "foo";
-//        account.szPassword = "bar";
-//        account.uUserType = UserType.USERTYPE_DEFAULT;
-//        account.uUserRights = UserRight.USERRIGHT_NONE;
-//        account.autoOperatorChannels[0] = ttclient.getRootChannelID();
-//        account.autoOperatorChannels[1] = ttclient.getMyChannelID();
-//
-//        assertTrue(waitCmdSuccess(ttclient, ttclient.doDeleteUserAccount(account.szUsername), DEF_WAIT));
-//
-//        assertTrue(waitCmdSuccess(ttclient, ttclient.doNewUserAccount(account), DEF_WAIT));
-    }
-
-
-    @Test
     public void testStats() {
         TeamTalkBase ttclient = newClientInstance();
         connect(ttclient);
@@ -3120,7 +3086,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
-    public void testUserTimeout() throws IOException {
+    public void testZUserTimeout() throws IOException {
 
         TeamTalkBase ttadmin = newClientInstance();
         connect(ttadmin);
