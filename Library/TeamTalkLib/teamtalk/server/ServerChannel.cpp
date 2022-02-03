@@ -54,16 +54,17 @@ void ServerChannel::Init()
 
 #define STREAMKEY(uid, tx) (((uid) << 16) | tx)
 
-bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid)
+bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, bool* modified)
 {
     m_activeStreams[ STREAMKEY(userid, txtype) ] = streamid;
 
-    if(!PARENT::CanTransmit(userid, txtype))
+    if (!PARENT::CanTransmit(userid, txtype))
     {
         if (m_chantype & CHANNEL_SOLO_TRANSMIT)
         {
             // If transmitter is head we have to trigger channel update
-            ClearFromTransmitQueue(userid);
+            if (ClearFromTransmitQueue(userid) && modified)
+                *modified = true;
 
             // If transmitter has been disallowed by channel update
             // then block the previous stream
@@ -75,8 +76,8 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid)
         return false;
     }
 
-    if((m_chantype & CHANNEL_SOLO_TRANSMIT) &&
-       (txtype & (STREAMTYPE_VOICE | STREAMTYPE_MEDIAFILE)))
+    if ((m_chantype & CHANNEL_SOLO_TRANSMIT) &&
+        (txtype & (STREAMTYPE_VOICE | STREAMTYPE_MEDIAFILE)))
     {
         //MYTRACE(ACE_TEXT(" %d -> %d. StreamID: %d\n"), userid, m_blockStreams[STREAMKEY(userid, txtype)], streamid);
 
@@ -85,9 +86,12 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid)
             return false;
 
         /* Update queue list */
-        auto ite = std::find(m_transmitqueue.begin(), m_transmitqueue.end(), userid);
-        if(ite == m_transmitqueue.end())
+        if (std::find(m_transmitqueue.begin(), m_transmitqueue.end(), userid) == m_transmitqueue.end())
+        {
+            if (modified)
+                *modified = true;
             m_transmitqueue.push_back(userid);
+        }
 
         m_lastUserPacket[userid] = ACE_OS::gettimeofday();
 
@@ -109,27 +113,41 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid)
             m_blockStreams[streamkey] = m_activeStreams[streamkey];
 
             m_transmitqueue.erase(m_transmitqueue.begin());
-            return CanTransmit(userid, txtype, streamid);
+            if (modified)
+                *modified = true;
+            return CanTransmit(userid, txtype, streamid, modified);
         }
     }
     return true;
 }
 
-void ServerChannel::ClearFromTransmitQueue(int userid)
+bool ServerChannel::ClearFromTransmitQueue(int userid)
 {
-    auto i = std::find(m_transmitqueue.begin(), m_transmitqueue.end(), userid);
-    if(i != m_transmitqueue.end())
-        m_transmitqueue.erase(i);
     m_lastUserPacket.erase(userid);
+    auto i = std::find(m_transmitqueue.begin(), m_transmitqueue.end(), userid);
+    if (i != m_transmitqueue.end())
+    {
+        m_transmitqueue.erase(i);
+        return true;
+    }
+    return false;
 }
 
-void ServerChannel::RemoveUser(int userid)
+void ServerChannel::RemoveUser(int userid, bool* modified)
 {
+    ClearTransmitUser(userid);
+    if (ClearFromTransmitQueue(userid) && modified)
+        *modified = true;
+
     PARENT::RemoveUser(userid);
-    ClearFromTransmitQueue(userid);
 
     m_blockStreams.erase(STREAMKEY(userid, STREAMTYPE_VOICE));
     m_blockStreams.erase(STREAMKEY(userid, STREAMTYPE_MEDIAFILE));
     m_activeStreams.erase(STREAMKEY(userid, STREAMTYPE_VOICE));
     m_activeStreams.erase(STREAMKEY(userid, STREAMTYPE_MEDIAFILE));
+}
+
+void ServerChannel::RemoveUser(int userid)
+{
+    RemoveUser(userid, nullptr);
 }

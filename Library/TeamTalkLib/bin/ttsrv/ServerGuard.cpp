@@ -391,20 +391,24 @@ void ServerGuard::OnChannelCreated(const ServerChannel& channel,
 void ServerGuard::OnChannelUpdated(const ServerChannel& channel, 
                                    const ServerUser* user/* = NULL*/)
 {
-    if(!user)
-        return;
-
     tostringstream oss;
     oss << ACE_TEXT("Channel #") << channel.GetChannelID() << ACE_TEXT(" ");
-    if(user)
+    if (user)
     {
         oss << ACE_TEXT("\"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\" updated by ");
         oss << ACE_TEXT("nickname: \"") << LogPrepare(user->GetNickname()).c_str() << ACE_TEXT("\" ");
-        if(user->GetUsername().length())
-            oss << ACE_TEXT("username: \"") << LogPrepare(user->GetUsername()).c_str() << ACE_TEXT("\".");
+        if (user->GetUsername().length())
+            oss << ACE_TEXT("username: \"") << LogPrepare(user->GetUsername()).c_str() << ACE_TEXT("\"");
     }
     else
-        oss << ACE_TEXT("\"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\" updated.");
+    {
+        oss << ACE_TEXT("\"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\" updated");
+    }
+
+    if ((channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT) && channel.GetTransmitQueue().size())
+        oss << ACE_TEXT(", transmitter: #") << *channel.GetTransmitQueue().begin();
+
+    oss << ACE_TEXT(".");
 
     TT_LOG(oss.str().c_str());
 }

@@ -1883,13 +1883,12 @@ void ServerNode::ReceivedVoicePacket(ServerUser& user,
         break;
     }
 
-    std::vector<int> txqueue = chan.GetTransmitQueue();
-    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_VOICE, streamid);
+    bool modified = false;
+    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_VOICE, streamid, &modified);
 
-    if((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) &&
-       txqueue != chan.GetTransmitQueue())
+    if ((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) && modified)
     {
-        UpdateChannel(chan, chan.GetUsers());
+        UpdateChannel(chan, chan.GetUsers(), &user);
     }
 
     if(!tx_ok)
@@ -1935,13 +1934,12 @@ void ServerNode::ReceivedAudioFilePacket(ServerUser& user,
         break;
     }
 
-    std::vector<int> txqueue = chan.GetTransmitQueue();
-    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_MEDIAFILE, streamid);
+    bool modified = false;
+    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_MEDIAFILE, streamid, &modified);
 
-    if((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) &&
-       txqueue != chan.GetTransmitQueue())
+    if ((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) && modified)
     {
-        UpdateChannel(chan, chan.GetUsers());
+        UpdateChannel(chan, chan.GetUsers(), &user);
     }
 
     if(!tx_ok)
@@ -1985,7 +1983,7 @@ void ServerNode::ReceivedVideoCapturePacket(ServerUser& user,
         assert(packet.GetKind() == PACKET_KIND_VIDEO_CRYPT);
     }
 
-    if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_VIDEOCAPTURE, streamid))
+    if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_VIDEOCAPTURE, streamid, nullptr))
         return;
 
     ServerChannel::users_t users = GetPacketDestinations(user, chan, packet, SUBSCRIBE_VIDEOCAPTURE,
@@ -2031,13 +2029,12 @@ void ServerNode::ReceivedVideoFilePacket(ServerUser& user,
         break;
     }
     
-    std::vector<int> txqueue = chan.GetTransmitQueue();
-    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_MEDIAFILE, streamid);
+    bool modified = false;
+    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_MEDIAFILE, streamid, &modified);
     
-    if((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) &&
-       txqueue != chan.GetTransmitQueue())
+    if ((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) && modified)
     {
-        UpdateChannel(chan, chan.GetUsers());
+        UpdateChannel(chan, chan.GetUsers(), &user);
     }
 
     if(!tx_ok)
@@ -2082,7 +2079,7 @@ void ServerNode::ReceivedDesktopPacket(ServerUser& user,
 
     ServerChannel& chan = *tmp_chan;
 
-    if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_DESKTOP, packet.GetSessionID()))
+    if (!chan.CanTransmit(user.GetUserID(), STREAMTYPE_DESKTOP, packet.GetSessionID(), nullptr))
        return;
 
     uint8_t prev_session_id = 0;
@@ -2401,7 +2398,7 @@ void ServerNode::ReceivedDesktopCursorPacket(ServerUser& user,
 
     ServerChannel& chan = *tmp_chan;
 
-    if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_DESKTOP, packet.GetSessionID()))
+    if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_DESKTOP, packet.GetSessionID(), nullptr))
        return;
     
 #ifdef _DEBUG
@@ -2743,7 +2740,7 @@ ErrorMsg ServerNode::UserLogout(int userid)
         serverchannel_t chan = GetChannel(*i);
         TTASSERT(chan);
         if(chan)
-            UpdateChannel(chan);
+            UpdateChannel(chan, user.get());
     }
 
     user->DoLoggedOut();
@@ -2971,7 +2968,7 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
     if(makeop)
     {
         newchan->AddOperator(user->GetUserID());
-        UpdateChannel(newchan); //notify users of new operator
+        UpdateChannel(newchan, user.get()); //notify users of new operator
     }
 
     //send channel's file list
@@ -3059,11 +3056,11 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
     }
 
     //check if in allowed to transmit
-    bool upd_chan = chan->ClearTransmitUser(userid).size();
-    chan->RemoveUser(user->GetUserID());
+    bool modified = false;
+    chan->RemoveUser(user->GetUserID(), &modified);
 
-    if(upd_chan)
-        UpdateChannel(*chan, chan->GetUsers());
+    if (modified)
+        UpdateChannel(*chan, chan->GetUsers(), user.get());
 
     // forward hidden channel to user
     if ((chan->GetChannelType() & CHANNEL_HIDDEN) &&
@@ -3139,7 +3136,7 @@ ErrorMsg ServerNode::UserOpDeOp(int userid, int channelid,
         else
             chan->RemoveOperator(op_userid);
 
-        UpdateChannel(chan);
+        UpdateChannel(chan, opper.get());
 
         return ErrorMsg(TT_CMDERR_SUCCESS);
     }
@@ -3732,13 +3729,7 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
     chan->SetTransmitQueue(chanprop.transmitqueue);
     chan->SetTransmitSwitchDelay(ToTimeValue(chanprop.transmitswitchdelay));
 
-    UpdateChannel(chan);
-
-    //notify listener if any
-    if (m_properties.logevents & SERVERLOGEVENT_CHANNEL_UPDATED)
-    {
-        m_srvguard->OnChannelUpdated(*chan, user);
-    }
+    UpdateChannel(chan, user);
 
     if (IsAutoSaving() && (chan->GetChannelType() & CHANNEL_PERMANENT) && user)
     {
@@ -3783,17 +3774,18 @@ void ServerNode::UpdateSoloTransmitChannels()
          serverchannel_t chan = sweeper.top();
          sweeper.pop();
 
-         size_t txq = chan->GetTransmitQueue().size();
-         chan->CanTransmit(0, STREAMTYPE_VOICE, 0);
-         chan->ClearFromTransmitQueue(0);
-         if(txq != chan->GetTransmitQueue().size())
-             UpdateChannel(*chan, chan->GetUsers());
+         std::vector<int> txq = chan->GetTransmitQueue();
+         chan->CanTransmit(SERVER_USERID, STREAMTYPE_VOICE, 0, nullptr);
+         chan->ClearFromTransmitQueue(SERVER_USERID);
+         if (txq != chan->GetTransmitQueue())
+         {
+             UpdateChannel(*chan, chan->GetUsers(), nullptr);
+         }
 
          ServerChannel::channels_t subs = chan->GetSubChannels();
          for(size_t i=0;i<subs.size();i++)
              sweeper.push(subs[i]);
      }
-
 }
 
 ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NULL*/)
@@ -3883,23 +3875,27 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
     return err;
 }
 
-void ServerNode::UpdateChannel(const serverchannel_t& chan)
+void ServerNode::UpdateChannel(const serverchannel_t& chan, const ServerUser* user)
 {
     ASSERT_REACTOR_LOCKED(this);
     TTASSERT(chan);
 
     if (chan->GetChannelType() & CHANNEL_HIDDEN)
-        UpdateChannel(*chan, GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS, chan));
+        UpdateChannel(*chan, GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS, chan), user);
     else
-        UpdateChannel(*chan, GetAuthorizedUsers());
+        UpdateChannel(*chan, GetAuthorizedUsers(), user);
 }
 
-void ServerNode::UpdateChannel(const ServerChannel& chan, const ServerChannel::users_t& users)
+void ServerNode::UpdateChannel(const ServerChannel& chan, const ServerChannel::users_t& users,
+                               const ServerUser* user)
 {
     ASSERT_REACTOR_LOCKED(this);
 
     for (auto u : users)
         u->DoUpdateChannel(chan, IsEncrypted());
+
+    if (m_properties.logevents & SERVERLOGEVENT_CHANNEL_UPDATED)
+        m_srvguard->OnChannelUpdated(chan, user);
 }
 
 ErrorMsg ServerNode::UserMove(int userid, int moveuserid, int channelid)
@@ -4015,7 +4011,7 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
            (from->GetUserType() & USERTYPE_ADMIN) == 0)
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
-        if (!chan->CanTransmit(from->GetUserID(), STREAMTYPE_CHANNELMSG, 0))
+        if (!chan->CanTransmit(from->GetUserID(), STREAMTYPE_CHANNELMSG, 0, nullptr))
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
         //forward message to all users of that channel
