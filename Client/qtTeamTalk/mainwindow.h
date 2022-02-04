@@ -291,6 +291,7 @@ private:
     void slotMeChangeNickname(bool checked=false);
     void slotMeChangeStatus(bool checked=false);
     void slotMeEnablePushToTalk(bool checked=false);
+    void slotMeHearMyself(bool checked=false);
     void slotMeEnableVoiceActivation(bool checked=false, SoundEvent on = SOUNDEVENT_VOICEACTON, SoundEvent off = SOUNDEVENT_VOICEACTOFF);
     void slotMeEnableVideoTransmission(bool checked=false);
     void slotMeEnableDesktopSharing(bool checked=false);

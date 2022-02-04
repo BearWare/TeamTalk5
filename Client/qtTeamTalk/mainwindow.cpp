@@ -344,6 +344,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotMeChangeNickname);
     connect(ui.actionChangeStatus, &QAction::triggered,
             this, &MainWindow::slotMeChangeStatus);
+    connect(ui.actionHearMyself, &QAction::triggered,
+            this, &MainWindow::slotMeHearMyself);
     connect(ui.actionEnablePushToTalk, &QAction::triggered,
             this, &MainWindow::slotMeEnablePushToTalk);
     connect(ui.actionEnableVoiceActivation, &QAction::triggered,
@@ -4126,6 +4128,24 @@ void MainWindow::slotMeEnablePushToTalk(bool checked)
     slotUpdateUI();
 }
 
+void MainWindow::slotMeHearMyself(bool checked/*=false*/)
+{
+    User user;
+    if (ui.channelsWidget->getUser(TT_GetMyUserID(ttInst), user))
+    {
+        if (checked)
+        {
+            int cmdid = TT_DoSubscribe(ttInst, TT_GetMyUserID(ttInst), SUBSCRIBE_VOICE);
+            m_commands[cmdid] = CMD_COMPLETE_SUBSCRIBE;
+        }
+        else
+        {
+            int cmdid = TT_DoUnsubscribe(ttInst, TT_GetMyUserID(ttInst), SUBSCRIBE_VOICE);
+            m_commands[cmdid] = CMD_COMPLETE_UNSUBSCRIBE;
+        }
+    }
+}
+
 void MainWindow::slotMeEnableVoiceActivation(bool checked, SoundEvent on, SoundEvent off)
 {
     TT_EnableVoiceActivation(ttInst, checked);
@@ -5439,6 +5459,12 @@ void MainWindow::slotUpdateUI()
     ui.actionEnablePushToTalk->setChecked(m_hotkeys.find(HOTKEY_PUSHTOTALK) != m_hotkeys.end());
 #endif
     ui.actionEnableVoiceActivation->setChecked(statemask & CLIENT_SNDINPUT_VOICEACTIVATED);
+    ui.actionHearMyself->setEnabled(m_mychannel.nChannelID > 0);
+    User myself;
+    if (ui.channelsWidget->getUser(TT_GetMyUserID(ttInst), myself))
+    {
+        ui.actionHearMyself->setChecked(myself.uLocalSubscriptions & SUBSCRIBE_VOICE);
+    }
     //don't allow web cam to stream when video streaming is active
     ui.actionEnableVideoTransmission->setChecked((CLIENT_VIDEOCAPTURE_READY & statemask) && 
                                                  (CLIENT_TX_VIDEOCAPTURE & statemask));
