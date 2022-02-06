@@ -2459,12 +2459,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2269"/>
         <source>&amp;Hear Myself</source>
-        <translation type="unfinished"></translation>
+        <translation>听自己(&amp;H)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2272"/>
         <source>Ctrl+Shift+3</source>
-        <translation type="unfinished">Ctrl+Shift+3</translation>
+        <translation>Ctrl+Shift+3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="886"/>
