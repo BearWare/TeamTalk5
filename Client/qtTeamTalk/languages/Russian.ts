@@ -516,12 +516,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="194"/>
         <source>Setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Настроить</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="197"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>ещё</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="206"/>
@@ -722,12 +722,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="419"/>
         <source>Transmission Queue Delay</source>
-        <translation type="unfinished"></translation>
+        <translation>Задержка очереди передачи</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="420"/>
         <source>Delay before switching to next user in queue (in msec)</source>
-        <translation type="unfinished"></translation>
+        <translation>Задержка перед переключением на следующего пользователя в очереди (в мс)</translation>
     </message>
     <message>
         <source>Note that Echo Cancellation, Denoising and Audio Configuration currently isn&apos;t supported in stereo mode.</source>
@@ -1179,7 +1179,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransfer.ui" line="62"/>
         <source>Throughput:</source>
-        <translation>Пропускная способность:</translation>
+        <translation>Throughput:</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="79"/>
@@ -2092,12 +2092,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2269"/>
         <source>&amp;Hear Myself</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Слушать себя</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2272"/>
         <source>Ctrl+Shift+3</source>
-        <translation type="unfinished">Ctrl+Shift+3</translation>
+        <translation>Ctrl+Shift+3</translation>
     </message>
     <message>
         <source>Ctrl+Shift+K</source>
@@ -3697,20 +3697,6 @@ You can download it on the page below:
         <translation>Звуковые события отключены</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6724"/>
-        <source>New version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
-%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6749"/>
-        <source>New beta version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
-%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Streaming media file</source>
         <translation type="vanished">Транслирует медиа файл</translation>
     </message>
@@ -3985,12 +3971,6 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="6622"/>
         <source>Failed to extract host-information from %1</source>
         <translation>Не удалось извлечь информацию хоста из %1</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6631"/>
-        <source>The file %1 contains %2 setup information.<byte value="xd"/>
-Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6636"/>
@@ -5468,145 +5448,145 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="70"/>
         <source>Event</source>
-        <translation type="unfinished">Событие</translation>
+        <translation>Событие</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="71"/>
         <location filename="../serverlogeventsmodel.cpp" line="92"/>
         <location filename="../serverlogeventsmodel.cpp" line="150"/>
         <source>Enabled</source>
-        <translation type="unfinished">Включено</translation>
+        <translation>Включено</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="92"/>
         <location filename="../serverlogeventsmodel.cpp" line="150"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Выключено</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="97"/>
         <source>User connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь подключён</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="99"/>
         <source>User disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь отключён</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="101"/>
         <source>User logged in</source>
-        <translation type="unfinished">Пользователь вошёл</translation>
+        <translation>Пользователь вошёл</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="103"/>
         <source>User logged out</source>
-        <translation type="unfinished">Пользователь ушёл</translation>
+        <translation>Пользователь ушёл</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="105"/>
         <source>User login failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка входа пользователя</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="107"/>
         <source>User connection timed out</source>
-        <translation type="unfinished"></translation>
+        <translation>Время ожидания подключения пользователя истекло</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="109"/>
         <source>User kicked</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь выгнан</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="111"/>
         <source>User banned</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь заблокирован</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="113"/>
         <source>User ban removed</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь разблокирован</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="115"/>
         <source>User status updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Статус пользователя обновлён</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="117"/>
         <source>User joined channel</source>
-        <translation type="unfinished">Пользователь подключился к каналу</translation>
+        <translation>Пользователь подключился к каналу</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="119"/>
         <source>User left channel</source>
-        <translation type="unfinished">Пользователь покинул канал</translation>
+        <translation>Пользователь покинул канал</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="121"/>
         <source>User moved to other channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь перемещён в другой канал</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="123"/>
         <source>User sent private text message</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь отправил личное текстовое сообщение</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="125"/>
         <source>User sent custom text message</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь отправил пользовательское текстовое сообщение</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="127"/>
         <source>User sent channel text message</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь отправил  сообщение канала</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="129"/>
         <source>User sent broadcast text message</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь отправил сетевое сообщение</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="131"/>
         <source>Channel created</source>
-        <translation type="unfinished"></translation>
+        <translation>Канал создан</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="133"/>
         <source>Channel updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Канал обновлён</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="135"/>
         <source>Channel removed</source>
-        <translation type="unfinished"></translation>
+        <translation>Канал удалён</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="137"/>
         <source>File uploaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл загружен</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="139"/>
         <source>File downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл скачен</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="141"/>
         <source>File deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл удалён</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="143"/>
         <source>Server updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Сервер обновлён</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="145"/>
         <source>Server configuration saved</source>
-        <translation type="unfinished">Конфигурация сервера сохранена</translation>
+        <translation>Конфигурация сервера сохранена</translation>
     </message>
 </context>
 <context>
@@ -5736,7 +5716,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverproperties.ui" line="467"/>
         <source>Server Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Ведение журнала на сервере</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="498"/>
