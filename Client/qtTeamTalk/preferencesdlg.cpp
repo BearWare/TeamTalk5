@@ -267,6 +267,11 @@ void PreferencesDlg::initDevices()
     
     m_sounddevices = getSoundDevices();
 
+    for (auto s : m_sounddevices)
+    {
+        qDebug() << "#" << s.nDeviceID << "Sound system:" << s.nSoundSystem << _Q(s.szDeviceName) << _Q(s.szDeviceID);
+    }
+
     //output device determines the selected sound system
     SoundSystem sndsys = (SoundSystem)ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM,
                                                         SOUNDSYSTEM_NONE).toInt();
@@ -371,8 +376,7 @@ void PreferencesDlg::showDevices(SoundSystem snd)
     {
         add_no_device |= m_sounddevices[i].nDeviceID == TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL;
 
-        if(m_sounddevices[i].nSoundSystem != snd ||
-           m_sounddevices[i].nMaxInputChannels == 0)
+        if (m_sounddevices[i].nSoundSystem != snd || m_sounddevices[i].nMaxInputChannels == 0)
             continue;
         ui.inputdevBox->addItem(_Q(m_sounddevices[i].szDeviceName),
                                 m_sounddevices[i].nDeviceID);
@@ -386,7 +390,7 @@ void PreferencesDlg::showDevices(SoundSystem snd)
     //if possible use GUID to select correct device
     devid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, default_inputid).toInt();
     uid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE_UID, "").toString();
-    if(getSoundDevice(uid, m_sounddevices, dev) && dev.nDeviceID != devid)
+    if (getSoundDevice(uid, true, m_sounddevices, dev) && dev.nDeviceID != devid)
         devid = dev.nDeviceID;
 
     int index = ui.inputdevBox->findData(devid);
@@ -402,11 +406,9 @@ void PreferencesDlg::showDevices(SoundSystem snd)
 
     for(int i=0;i<m_sounddevices.size();i++)
     {
-        if(m_sounddevices[i].nSoundSystem != snd ||
-           m_sounddevices[i].nMaxOutputChannels == 0)
+        if(m_sounddevices[i].nSoundSystem != snd || m_sounddevices[i].nMaxOutputChannels == 0)
             continue;
-        ui.outputdevBox->addItem(_Q(m_sounddevices[i].szDeviceName), 
-                                 m_sounddevices[i].nDeviceID);
+        ui.outputdevBox->addItem(_Q(m_sounddevices[i].szDeviceName), m_sounddevices[i].nDeviceID);
     }
 
     if(add_no_device)
@@ -417,7 +419,7 @@ void PreferencesDlg::showDevices(SoundSystem snd)
     //if possible use GUID to select correct device
     devid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, default_outputid).toInt();
     uid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE_UID, "").toString();
-    if(getSoundDevice(uid, m_sounddevices, dev) && dev.nDeviceID != devid)
+    if (getSoundDevice(uid, false, m_sounddevices, dev) && dev.nDeviceID != devid)
         devid = dev.nDeviceID;
 
     index = ui.outputdevBox->findData(devid);

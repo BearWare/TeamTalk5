@@ -513,7 +513,7 @@ int GetSoundInputDevice(teamtalk::ClientXML& xmlSettings, SoundDevice* pSoundDev
     SoundDevice dev;
     if(!pSoundDev)
         pSoundDev = &dev;
-    if(GetSoundDevice(nInputDevice, szInputDevice, *pSoundDev))
+    if(GetSoundDevice(nInputDevice, szInputDevice, TRUE, *pSoundDev))
         return pSoundDev->nDeviceID;
     return nInputDevice;
 }
@@ -527,12 +527,12 @@ int GetSoundOutputDevice(teamtalk::ClientXML& xmlSettings, SoundDevice* pSoundDe
     SoundDevice dev;
     if(!pSoundDev)
         pSoundDev = &dev;
-    if(GetSoundDevice(nOutputDevice, szOutputDevice, *pSoundDev))
+    if(GetSoundDevice(nOutputDevice, szOutputDevice, FALSE, *pSoundDev))
         return pSoundDev->nDeviceID;
     return nOutputDevice;
 }
 
-BOOL GetSoundDevice(int nSoundDeviceID, const CString& szDeviceID, SoundDevice& dev)
+BOOL GetSoundDevice(int nSoundDeviceID, const CString& szDeviceID, BOOL bInput, SoundDevice& dev)
 {
     int count = 25;
     std::vector<SoundDevice> devices(count);
@@ -547,7 +547,8 @@ BOOL GetSoundDevice(int nSoundDeviceID, const CString& szDeviceID, SoundDevice& 
     size_t i;
     for (i = 0; i < devices.size() && szDeviceID.GetLength(); i++)
     {
-        if (devices[i].szDeviceID == szDeviceID)
+        if (devices[i].szDeviceID == szDeviceID &&
+            ((bInput && devices[i].nMaxInputChannels > 0) || (!bInput && devices[i].nMaxOutputChannels > 0)))
         {
             dev = devices[i];
             return true;
@@ -630,10 +631,10 @@ BOOL InitSoundSystem(teamtalk::ClientXML& xmlSettings, SoundDevice& indev, Sound
         if (TT_GetDefaultSoundDevices(&nInputDevice, &nOutputDevice))
         {
             if (TT_InitSoundInputDevice(ttInst, nInputDevice))
-                GetSoundDevice(nInputDevice, _T(""), indev);
+                GetSoundDevice(nInputDevice, _T(""), TRUE, indev);
 
             if (TT_InitSoundOutputDevice(ttInst, nOutputDevice))
-                GetSoundDevice(nOutputDevice, _T(""), outdev);
+                GetSoundDevice(nOutputDevice, _T(""), FALSE, outdev);
         }
     }
     return bSuccess;
