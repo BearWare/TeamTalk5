@@ -27,13 +27,17 @@ so if your platform is not listed then try a previously released beta.
 Projects wrapping the client and server binaries in the TeamTalk SDK.
 * [**TeamTalkLib**](Library/TeamTalkLib)
   * Source code for building TeamTalk 5 DLL and server binaries
-  * Read License.txt for terms of use
+  * Read [License.txt](https://github.com/BearWare/TeamTalk5/blob/master/LICENSE.txt) for terms of use
   * Build using [CMake](http://www.cmake.org)
     * Follow build instructions in [Library/TeamTalkLib](Library/TeamTalkLib)
   * A [Makefile](Build/Makefile) is available in [Build](Build) for
       quickly building for macOS, Ubuntu, CentOS 7, Android, iOS and Raspberry Pi e.g.:
       * `make -C Build depend-ubuntu18 ubuntu18`
       * `make -C Build depend-mac mac`
+  * A [docker-compose](Build/Docker/docker-compose.yml) file is available in [Build/Docker](Build/Docker)
+      for quickly building for Linux distributions e.g.:
+      * `docker-compose run --rm ubuntu18 make -C /TeamTalk5/Build ubuntu18`
+      * `docker-compose run --rm ubuntu20 make -C /TeamTalk5/Build ubuntu20`
 * [**TeamTalk_DLL**](Library/TeamTalk_DLL) (dependency: **TeamTalkLib**)
   * TeamTalk 5 C-API DLL
   * C-API header files for TeamTalk 5 DLL
