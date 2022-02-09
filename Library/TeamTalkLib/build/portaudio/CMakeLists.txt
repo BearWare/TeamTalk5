@@ -14,7 +14,7 @@ if (MSVC)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(portaudio-src
       GIT_REPOSITORY    https://github.com/bear101/portaudio
-      GIT_TAG           7b379b8b2b26b0480ff430c2fbf73b7973b9b5f3
+      GIT_TAG           51d76d6
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DBUILD_SHARED_LIBS=OFF -DPA_USE_WDMKS=OFF -DPA_USE_WDMKS_DEVICE_INFO=OFF

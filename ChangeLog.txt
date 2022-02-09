@@ -4,8 +4,10 @@
 
 Version 5.9, unreleased
 Accessible Windows Client
+- Ability for WASAPI to use sound output device as sound input device (loopback audio)
 - Fixed issue where no all users and channels were listed after initial login
 Default Qt Client
+- Ability for WASAPI to use sound output device as sound input device (loopback audio)
 - Duration for voice transfer can now be set on "No Interruptions" channels
 - Modify server log events from "Server Properties" dialog
 - Added "Hear Myself" menu item to "Me" menu

@@ -102,7 +102,7 @@ void SetAccessibleName(CWnd& wnd, LPCTSTR szHint);
 
 int GetSoundInputDevice(teamtalk::ClientXML& xmlSettings, SoundDevice* pSoundDev = NULL);
 int GetSoundOutputDevice(teamtalk::ClientXML& xmlSettings, SoundDevice* pSoundDev = NULL);
-BOOL GetSoundDevice(int nSoundDeviceID, const CString& szDeviceID, SoundDevice& dev);
+BOOL GetSoundDevice(int nSoundDeviceID, const CString& szDeviceID, BOOL bInput, SoundDevice& dev);
 int GetSoundDuplexSampleRate(const SoundDevice& indev, const SoundDevice& outdev);
 BOOL IsSoundDeviceEchoCapable(const SoundDevice& indev, const SoundDevice& outdev);
 BOOL InitSoundSystem(teamtalk::ClientXML& xmlSettings, SoundDevice& indev, SoundDevice& outdev);
