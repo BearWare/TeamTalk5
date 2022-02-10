@@ -5,7 +5,7 @@ LABEL Description="TeamTalk for Android in Ubuntu 18.04"
 RUN apt update
 RUN apt install -y make git unzip curl
 # Duplicate of /TeamTalk5/Build/Makefile:depend-ubuntu18-android
-RUN apt install -y doxygen ninja-build junit4 cmake openjdk-11-jdk junit4 autoconf libtool pkg-config python
+RUN apt install -y doxygen ninja-build junit4 cmake openjdk-11-jdk junit4 autoconf libtool pkg-config python p7zip-full
 RUN mkdir /root/tt5dist
 RUN curl https://dl.google.com/android/repository/android-ndk-r21e-linux-x86_64.zip -o /root/tt5dist/android-ndk.zip
 RUN cd /root/tt5dist && unzip android-ndk.zip
