@@ -62,6 +62,19 @@ _TTInstance = c_void_p
 _TTSoundLoop = c_void_p
 
 # bindings
+class StreamType(UINT32):
+    STREAMTYPE_NONE = 0x00000000
+    STREAMTYPE_VOICE = 0x00000001
+    STREAMTYPE_VIDEOCAPTURE = 0x00000002
+    STREAMTYPE_MEDIAFILE_AUDIO = 0x00000004
+    STREAMTYPE_MEDIAFILE_VIDEO = 0x00000008
+    STREAMTYPE_DESKTOP = 0x00000010
+    STREAMTYPE_DESKTOPINPUT = 0x00000020
+    STREAMTYPE_MEDIAFILE = STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO
+    STREAMTYPE_CHANNELMSG = 0x00000040
+    STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO = 0x00000080
+    STREAMTYPE_CLASSROOM_ALL = STREAMTYPE_VOICE | STREAMTYPE_VIDEOCAPTURE | STREAMTYPE_DESKTOP | STREAMTYPE_MEDIAFILE | STREAMTYPE_CHANNELMSG
+
 class SoundSystem(INT32):
     SOUNDSYSTEM_NONE = 0
     SOUNDSYSTEM_WINMM = 1
@@ -126,6 +139,7 @@ class AudioBlock(Structure):
     ("lpRawAudio", c_void_p),
     ("nSamples", INT32),
     ("uSampleIndex", UINT32),
+    ("uStreamTypes", UINT32),
     ]
     def __init__(self):
         assert(DBG_SIZEOF(TTType.AUDIOBLOCK) == ctypes.sizeof(AudioBlock))
@@ -308,6 +322,15 @@ class SpeexDSP(Structure):
     def __init__(self):
         assert(DBG_SIZEOF(TTType.SPEEXDSP) == ctypes.sizeof(SpeexDSP))
 
+class TTAudioPreprocessor(Structure):
+    _fields_ = [
+    ("nGainLevel", INT32),
+    ("bMuteLeftSpeaker", BOOL),
+    ("bMuteRightSpeaker", BOOL)
+    ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.TTAUDIOPREPROCESSOR) == ctypes.sizeof(TTAudioPreprocessor))
+
 class WebRTCAudioPreprocessor(Structure):
     _fields_ = [
         ("preamplifier_bEnable", BOOL),
@@ -327,15 +350,6 @@ class WebRTCAudioPreprocessor(Structure):
     ]
     def __init__(self):
         assert(DBG_SIZEOF(TTType.WEBRTCAUDIOPREPROCESSOR) == ctypes.sizeof(WebRTCAudioPreprocessor))
-
-class TTAudioPreprocessor(Structure):
-    _fields_ = [
-    ("nGainLevel", INT32),
-    ("bMuteLeftSpeaker", BOOL),
-    ("bMuteRightSpeaker", BOOL)
-    ]
-    def __init__(self):
-        assert(DBG_SIZEOF(TTType.TTAUDIOPREPROCESSOR) == ctypes.sizeof(TTAudioPreprocessor))
 
 class AudioPreprocessorType(INT32):
     NO_AUDIOPREPROCESSOR = 0
@@ -453,18 +467,6 @@ class AudioInputProgress(Structure):
     def __init__(self):
         assert(DBG_SIZEOF(TTType.AudioInputProgress) == ctypes.sizeof(AudioInputProgress))
 
-class StreamType(UINT32):
-    STREAMTYPE_NONE = 0x00000000
-    STREAMTYPE_VOICE = 0x00000001
-    STREAMTYPE_VIDEOCAPTURE = 0x00000002
-    STREAMTYPE_MEDIAFILE_AUDIO = 0x00000004
-    STREAMTYPE_MEDIAFILE_VIDEO = 0x00000008
-    STREAMTYPE_DESKTOP = 0x00000010
-    STREAMTYPE_DESKTOPINPUT = 0x00000020
-    STREAMTYPE_MEDIAFILE = STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO
-    STREAMTYPE_CHANNELMSG = 0x00000040
-    STREAMTYPE_CLASSROOM_ALL = STREAMTYPE_VOICE | STREAMTYPE_VIDEOCAPTURE | STREAMTYPE_DESKTOP | STREAMTYPE_MEDIAFILE | STREAMTYPE_CHANNELMSG
-
 class UserRight(UINT32):
     USERRIGHT_NONE = 0x00000000
     USERRIGHT_MULTI_LOGIN = 0x00000001
@@ -491,6 +493,34 @@ class UserRight(UINT32):
     USERRIGHT_RECORD_VOICE = 0x00100000
     USERRIGHT_VIEW_HIDDEN_CHANNELS = 0x00200000
 
+class ServerLogEvent(UINT32):
+    SERVERLOGEVENT_NONE = 0x00000000
+    SERVERLOGEVENT_USER_CONNECTED = 0x00000001
+    SERVERLOGEVENT_USER_DISCONNECTED = 0x00000002
+    SERVERLOGEVENT_USER_LOGGEDIN = 0x00000004
+    SERVERLOGEVENT_USER_LOGGEDOUT = 0x00000008
+    SERVERLOGEVENT_USER_LOGINFAILED = 0x00000010
+    SERVERLOGEVENT_USER_TIMEDOUT = 0x00000020
+    SERVERLOGEVENT_USER_KICKED = 0x00000040
+    SERVERLOGEVENT_USER_BANNED = 0x00000080
+    SERVERLOGEVENT_USER_UNBANNED = 0x00000100
+    SERVERLOGEVENT_USER_UPDATED = 0x00000200
+    SERVERLOGEVENT_USER_JOINEDCHANNEL = 0x00000400
+    SERVERLOGEVENT_USER_LEFTCHANNEL = 0x00000800
+    SERVERLOGEVENT_USER_MOVED = 0x00001000
+    SERVERLOGEVENT_USER_TEXTMESSAGE_PRIVATE = 0x00002000
+    SERVERLOGEVENT_USER_TEXTMESSAGE_CUSTOM = 0x00004000
+    SERVERLOGEVENT_USER_TEXTMESSAGE_CHANNEL = 0x00008000
+    SERVERLOGEVENT_USER_TEXTMESSAGE_BROADCAST = 0x00010000
+    SERVERLOGEVENT_CHANNEL_CREATED = 0x00020000
+    SERVERLOGEVENT_CHANNEL_UPDATED = 0x00040000
+    SERVERLOGEVENT_CHANNEL_REMOVED = 0x00080000
+    SERVERLOGEVENT_FILE_UPLOADED = 0x00100000
+    SERVERLOGEVENT_FILE_DOWNLOADED = 0x00200000
+    SERVERLOGEVENT_FILE_DELETED = 0x00400000
+    SERVERLOGEVENT_SERVER_UPDATED = 0x00800000
+    SERVERLOGEVENT_SERVER_SAVECONFIG = 0x01000000
+
 class ServerProperties(Structure):
     _fields_ = [
     ("szServerName", TTCHAR*TT_STRLEN),
@@ -512,6 +542,7 @@ class ServerProperties(Structure):
     ("szServerProtocolVersion", TTCHAR*TT_STRLEN),
     ("nLoginDelayMSec", INT32),
     ("szAccessToken", TTCHAR*TT_STRLEN),
+    ("uServerLogEvents", UINT32),
     ]
     def __init__(self):
         assert(DBG_SIZEOF(TTType.SERVERPROPERTIES) == ctypes.sizeof(ServerProperties))
@@ -579,7 +610,8 @@ class UserAccount(Structure):
     ("szInitChannel", TTCHAR*TT_STRLEN),
     ("autoOperatorChannels", INT32*TT_CHANNELS_OPERATOR_MAX),
     ("nAudioCodecBpsLimit", INT32),
-    ("abusePrevent", AbusePrevention)
+    ("abusePrevent", AbusePrevention),
+    ("szLastModified", TTCHAR*TT_STRLEN),
     ]
     def __init__(self):
         assert(DBG_SIZEOF(TTType.USERACCOUNT) == ctypes.sizeof(UserAccount))
@@ -739,7 +771,8 @@ class RemoteFile(Structure):
     ("nFileID", INT32),
     ("szFileName", TTCHAR*TT_STRLEN),
     ("nFileSize", INT64),
-    ("szUsername", TTCHAR*TT_STRLEN)
+    ("szUsername", TTCHAR*TT_STRLEN),
+    ("szUploadTime", TTCHAR*TT_STRLEN)
     ]
     def __init__(self):
         assert(DBG_SIZEOF(TTType.REMOTEFILE) == ctypes.sizeof(RemoteFile))
@@ -1059,6 +1092,7 @@ _SetVoiceActivationStopDelay = function_factory(dll.TT_SetVoiceActivationStopDel
 _GetVoiceActivationStopDelay = function_factory(dll.TT_GetVoiceActivationStopDelay, [INT32, [_TTInstance]])
 _StartRecordingMuxedAudioFile = function_factory(dll.TT_StartRecordingMuxedAudioFile, [BOOL, [_TTInstance, POINTER(AudioCodec), TTCHAR_P, UINT32]])
 _StartRecordingMuxedAudioFileEx = function_factory(dll.TT_StartRecordingMuxedAudioFileEx, [BOOL, [_TTInstance, INT32, TTCHAR_P, UINT32]])
+_StartRecordingMuxedStreams = function_factory(dll.TT_StartRecordingMuxedStreams, [BOOL, [_TTInstance, UINT32, POINTER(AudioCodec), TTCHAR_P, UINT32]])
 _StopRecordingMuxedAudioFile = function_factory(dll.TT_StopRecordingMuxedAudioFile, [BOOL, [_TTInstance]])
 _StopRecordingMuxedAudioFileEx = function_factory(dll.TT_StopRecordingMuxedAudioFileEx, [BOOL, [_TTInstance, INT32]])
 _StartVideoCaptureTransmission = function_factory(dll.TT_StartVideoCaptureTransmission, [BOOL, [_TTInstance, POINTER(VideoCodec)]])
@@ -1133,6 +1167,8 @@ _IsChannelOperator = function_factory(dll.TT_IsChannelOperator, [BOOL, [_TTInsta
 _GetServerChannels = function_factory(dll.TT_GetServerChannels, [BOOL, [_TTInstance, POINTER(Channel), POINTER(INT32)]])
 _GetMyUserID = function_factory(dll.TT_GetMyUserID, [INT32, [_TTInstance]])
 _GetMyUserAccount = function_factory(dll.TT_GetMyUserAccount, [BOOL, [_TTInstance, POINTER(UserAccount)]])
+_GetMyUserType = function_factory(dll.TT_GetMyUserType, [UINT32, [_TTInstance]])
+_GetMyUserRights = function_factory(dll.TT_GetMyUserRights, [UINT32, [_TTInstance]])
 _GetMyUserData = function_factory(dll.TT_GetMyUserData, [INT32, [_TTInstance]])
 _GetUser = function_factory(dll.TT_GetUser, [BOOL, [_TTInstance, INT32, POINTER(User)]])
 _GetUserStatistics = function_factory(dll.TT_GetUserStatistics, [BOOL, [_TTInstance, INT32, POINTER(UserStatistics)]])
