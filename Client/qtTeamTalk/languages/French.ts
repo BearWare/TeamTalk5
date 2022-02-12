@@ -1889,7 +1889,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1120"/>
         <source>S&amp;ound Configuration</source>
-        <translation>&amp;Configuration audio</translation>
+        <translation>Paramètres &amp;audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1124"/>
