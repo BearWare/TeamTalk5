@@ -29,6 +29,8 @@ from ctypes.util import find_library
 if sys.platform == "win32":
     if (sys.version_info.major == 3 and sys.version_info.minor >= 8):
         os.add_dll_directory(os.getcwd())
+        # Path relative to TeamTalk SDK's DLL location
+        os.add_dll_directory(os.path.dirname(os.path.abspath(__file__)) + "\\..\\TeamTalk_DLL")
     dll = cdll.TeamTalk5
     TTCHAR = c_wchar
     TTCHAR_P = c_wchar_p
