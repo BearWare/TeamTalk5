@@ -58,6 +58,12 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/test
       run: catchtt.app/Contents/MacOS/catchtt --durations yes
 
+    - name: Run Python client
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      run: |
+        source env.sh
+        make -C Client/ttserverlogpy
+
     - name: Stop TeamTalk Pro Server
       run: killall tt5prosrv
 
