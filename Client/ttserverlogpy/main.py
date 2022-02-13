@@ -31,7 +31,7 @@ print(getVersion())
 
 ttclient = TeamTalk()
 
-if ttclient.connect(b"127.0.0.1", 10443, 10443, 0, 0, True):
+if ttclient.connect("127.0.0.1", 10333, 10333, 0, 0, False):
     print("Connecting")
 else:
     sys.exit('Failed to issue connect')
@@ -42,7 +42,7 @@ if result:
 else:
     sys.exit("Failed to connect")
 
-cmdid = ttclient.doLogin(b"Hello Python", b"guest", b"guest", b"python")
+cmdid = ttclient.doLogin("Hello Python", "guest", "guest", "python")
 
 result, msg = waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN)
 if result:
@@ -52,13 +52,13 @@ else:
 
 result, msg = waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_SERVER_UPDATE)
 if result:
-    print("Server name is: " + msg.serverproperties.szServerName.decode("utf-8"))
+    print("Server name is: " + msg.serverproperties.szServerName)
 else:
     sys.exit("Failed to log in")
 
 result, msg = waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW)
 if result:
-    print("New channel: " + msg.channel.szName.decode("utf-8"))
+    print("New channel: " + msg.channel.szName)
     print("Audio codec: " + str(msg.channel.audiocodec.nCodec))
 
 result, msg = waitForCmdSuccess(ttclient, cmdid, DEF_WAIT)
@@ -66,7 +66,7 @@ result, msg = waitForCmdSuccess(ttclient, cmdid, DEF_WAIT)
 if result:
     print("Login completed")
 
-cmdid = ttclient.doJoinChannelByID(ttclient.getRootChannelID(), b"")
+cmdid = ttclient.doJoinChannelByID(ttclient.getRootChannelID(), "")
 
 result, msg = waitForCmdSuccess(ttclient, cmdid, DEF_WAIT)
 if result:
