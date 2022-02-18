@@ -1867,7 +1867,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1521"/>
         <source>Change &amp;Status</source>
-        <translation>Сменить &amp;Состояние</translation>
+        <translation>Сменить &amp;Статус</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1524"/>
@@ -1982,7 +1982,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1624"/>
         <source>S&amp;peak Channel State</source>
-        <translation>Про&amp;говорить Состояние канала</translation>
+        <translation>Про&amp;говорить статус канала</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1627"/>
@@ -2839,7 +2839,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2032"/>
         <source>Banned from server</source>
-        <translation>Заблокирован сервером</translation>
+        <translation>Заблокирован на сервере</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2034"/>
@@ -2869,12 +2869,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2051"/>
         <source>Already logged in</source>
-        <translation>Уже вошёл</translation>
+        <translation>Вход уже выполнен</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2053"/>
         <source>Cannot perform action because client is currently not logged in</source>
-        <translation>Не удаётся выполнить действие, потому что клиент в настоящее время не вошёл</translation>
+        <translation>Не удается выполнить действие, так как клиент в данный момент не вошёл на сервер</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2056"/>
@@ -2904,7 +2904,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2079"/>
         <source>File transfer not found</source>
-        <translation>Передача файла не найдена</translation>
+        <translation>Передача файлов не найдена</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2081"/>
@@ -2924,12 +2924,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2087"/>
         <source>File sharing is disabled</source>
-        <translation>Предоставление файлов запрещено</translation>
+        <translation>Отправка файлов отключена</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2089"/>
         <source>Channel has active users</source>
-        <translation>Канал содержит активных пользователей</translation>
+        <translation>В канале находятся активные пользователи</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2094"/>
@@ -4234,7 +4234,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="206"/>
         <source>BearWare.dk Web Login ID</source>
-        <translation>Id BearWare.dk для веб-входа</translation>
+        <translation>Id BearWare.dk для веб-авторизации</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="223"/>
@@ -4244,7 +4244,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="156"/>
         <source>Set away status after</source>
-        <translation>Установить состояние отсутствия после</translation>
+        <translation>Установить статус отсутствия после</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="132"/>
@@ -4254,7 +4254,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="173"/>
         <source>seconds of inactivity (0 means disabled)</source>
-        <translation>секунд бездействия (0 означает запрещено)</translation>
+        <translation>секунд бездействия (0 означает отключено)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="198"/>
@@ -4264,7 +4264,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="245"/>
         <source>Restore volume settings and subscriptions on login for Web Login users</source>
-        <translation>Восстановление настроек громкости и подписок при входе в систему для пользователей веб-входа</translation>
+        <translation>Восстановление настроек громкости и подписок при входе в систему для пользователей веб-авторизации</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="255"/>
@@ -4322,7 +4322,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="372"/>
         <source>Minimize to tray icon</source>
-        <translation>Свернуть в значок лотка</translation>
+        <translation>Свернуть в трей</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="379"/>
@@ -4347,7 +4347,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="407"/>
         <source>Show last to talk in yellow</source>
-        <translation>Показать последний разговор в желтом цвете</translation>
+        <translation>Показать последний разговор в жёлтом цвете</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="414"/>
@@ -4396,7 +4396,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="587"/>
         <source>Show source in corner of video window</source>
-        <translation>Показывать источник вуглу окна видео</translation>
+        <translation>Показать источник в углу окна видео</translation>
     </message>
     <message>
         <source>...</source>
@@ -4420,7 +4420,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="729"/>
         <source>Connect to latest host on startup</source>
-        <translation>Соединяться с последним хостом при запуске</translation>
+        <translation>Соединяться с последним сервером при запуске</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="736"/>
@@ -4461,7 +4461,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="789"/>
         <source>Broadcast Messages</source>
-        <translation>Сообщения Трансляции</translation>
+        <translation>Сетевые сообщения</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="796"/>
@@ -4551,12 +4551,12 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="1057"/>
         <source>Input device</source>
-        <translation>Входное устройство</translation>
+        <translation>Устройство ввода</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1100"/>
         <source>Output device</source>
-        <translation>Выходное устройство</translation>
+        <translation>Устройство вывода</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1070"/>
@@ -4613,7 +4613,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="1314"/>
         <source>New user</source>
-        <translation>Новый Пользователь</translation>
+        <translation>Пользователь подключился к каналу</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="676"/>
@@ -4675,17 +4675,17 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="1343"/>
         <source>User removed</source>
-        <translation>Пользователь убран</translation>
+        <translation>Пользователь покинул канал</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1366"/>
         <source>Server lost</source>
-        <translation>Потеря сервера</translation>
+        <translation>Соединение прервано</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1389"/>
         <source>New user message</source>
-        <translation>Новое сообщение пользователя</translation>
+        <translation>Новое личное сообщение</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1412"/>
@@ -4785,7 +4785,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="1876"/>
         <source>Voice activation triggered</source>
-        <translation>Работает голосовая активация</translation>
+        <translation>Голосовая активация работает</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1899"/>
@@ -5621,7 +5621,7 @@ You can download it on the page below:
     <message>
         <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>Переменные сообщения дня: %users% число пользователей на сервере, %admins% число администраторов на сервере, %uptime% время сервера в сети, %voicetx% Кбайт принято, %voicerx% Кбайт отправлено и %lastuser% последний вошедший пользователь.</translation>
+        <translation>переменные для установки статистики в сообщении дня: %users% количество  пользователей на сервере, %admins% количество администраторов на сервере, %uptime% время работы сервера, %voicetx% Кбайт получено, %voicerx% Кбайт отправлено и %lastuser% Последний активный пользователь.</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="119"/>
@@ -5651,7 +5651,7 @@ You can download it on the page below:
     <message>
         <location filename="../serverproperties.ui" line="242"/>
         <source>Video TX max</source>
-        <translation>Макс ПЕР Видео</translation>
+        <translation>Макс передача видео</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="262"/>
@@ -5660,58 +5660,58 @@ You can download it on the page below:
         <location filename="../serverproperties.ui" line="343"/>
         <location filename="../serverproperties.ui" line="370"/>
         <source>KBytes/sec (0 = disabled)</source>
-        <translation>Кбайт/сек (0 = запрещено)</translation>
+        <translation>Кбайт/сек (0 =Отключено)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="286"/>
         <source>Voice TX max</source>
-        <translation>Макс ПЕР Голоса</translation>
+        <translation>Макс передача Голоса</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="313"/>
         <source>Total TX max</source>
-        <translation>Общий Макс ПЕР</translation>
+        <translation>Макс общее ограничение передачи</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="323"/>
         <source>Desktop TX max</source>
-        <translation>Макс ПЕР рабочего стола</translation>
+        <translation>Макс передача  рабочего стола</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="350"/>
         <source>Media File TX max</source>
-        <translation>Макс ПЕР Медиа Файла</translation>
+        <translation>Макс передача Медиа Файла</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="380"/>
         <source>Server Abuse</source>
-        <translation>Злоупотребление Сервером</translation>
+        <translation>пораметры Abuse сервера</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="386"/>
         <source>Max login attempts before ban</source>
-        <translation>Максимум попыток входа перед заблокированием</translation>
+        <translation>Максимальное количество попыток входа до блокировки</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="406"/>
         <location filename="../serverproperties.ui" line="433"/>
         <source>(0 = disabled)</source>
-        <translation>(0 = запрещено)</translation>
+        <translation>(0 = отключено)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="413"/>
         <source>Max logins per IP-address</source>
-        <translation>Максимум Учётных записей на IP-Адрес</translation>
+        <translation>Максимальное количество авторизаций на ip адрес</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="440"/>
         <source>Login delay per IP-address</source>
-        <translation>Задержка входа по IP-адресу</translation>
+        <translation>Задержка входа по IP адресу</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="457"/>
         <source>msec (0 = disabled)</source>
-        <translation>мсек (0 = отключено)</translation>
+        <translation>мсек (0 =отключено)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="467"/>
@@ -6071,7 +6071,7 @@ You can download it on the page below:
     <message>
         <location filename="../streammediafile.ui" line="28"/>
         <source>Media file</source>
-        <translation>Медиафайл</translation>
+        <translation>Медиа файл</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="45"/>
@@ -6115,7 +6115,7 @@ You can download it on the page below:
     <message>
         <location filename="../streammediafile.ui" line="117"/>
         <source>Audio format:</source>
-        <translation>Формат аудио:</translation>
+        <translation>	Формат аудио:</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="138"/>
@@ -6130,6 +6130,7 @@ You can download it on the page below:
     <message>
         <location filename="../streammediafile.ui" line="178"/>
         <source>Co&amp;ntinuously play media file</source>
+        <translatorcomment>	</translatorcomment>
         <translation>Не&amp;прерывное воспроизведение медиафайла</translation>
     </message>
     <message>
@@ -6731,7 +6732,7 @@ You can download it on the page below:
     <message>
         <location filename="../useraccounts.ui" line="354"/>
         <source>kbps (0 = disabled)</source>
-        <translation>КБайт/сек 0 = запрещено)</translation>
+        <translation>КБайт/сек 0 = отключено)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="378"/>
@@ -7149,12 +7150,12 @@ You can download it on the page below:
     <message>
         <location filename="../userinfo.ui" line="100"/>
         <source>Status mode</source>
-        <translation>Режим Состояния</translation>
+        <translation>Статус</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="120"/>
         <source>Status message</source>
-        <translation>Сообщение Состояния</translation>
+        <translation>сообщение в статусе</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="143"/>
