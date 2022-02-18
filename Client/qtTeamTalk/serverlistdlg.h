@@ -29,13 +29,12 @@
 #include <QVector>
 #include <QNetworkAccessManager>
 #include <QAbstractItemModel>
+#include <QSortFilterProxyModel>
 
 enum ServerType
 {
     SERVERTYPE_LOCAL    = 1 << 0,
     SERVERTYPE_PUBLIC   = 1 << 1,
-
-    SERVERTYPE_ALL      = SERVERTYPE_LOCAL | SERVERTYPE_PUBLIC,
 
     SERVERTYPE_MIN      = SERVERTYPE_LOCAL,
     SERVERTYPE_MAX      = SERVERTYPE_PUBLIC,
@@ -62,7 +61,7 @@ public:
 private:
     QMap<ServerType, QVector<HostEntry>> m_servers;
     QVector<HostEntry> m_servercache;
-    ServerTypes m_srvtypes = SERVERTYPE_ALL;
+    ServerTypes m_srvtypes = SERVERTYPE_LOCAL | SERVERTYPE_PUBLIC;
     ServerType getServerType(const HostEntry& host) const;
 };
 
@@ -76,6 +75,7 @@ public:
 private:
     Ui::ServerListDlg ui;
     ServerListModel* m_model;
+    QSortFilterProxyModel* m_proxyModel;
 
     QNetworkAccessManager* m_http_manager;
 
