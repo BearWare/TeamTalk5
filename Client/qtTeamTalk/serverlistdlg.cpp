@@ -121,9 +121,9 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
         switch (getServerType(getServers()[index.row()]))
         {
         case SERVERTYPE_LOCAL :
-            return "A" + data(index, Qt::DisplayRole).toString();
+            return QString("%1-%2").arg('A').arg(data(index, Qt::DisplayRole).toString());
         case SERVERTYPE_PUBLIC :
-            return "B" + data(index, Qt::DisplayRole).toString();
+            return QString("%1-%2-%3").arg('B').arg(getServers()[index.row()].id, 9, 10, QLatin1Char('0')).arg(data(index, Qt::DisplayRole).toString());
         }
     }
     return QVariant();
@@ -389,6 +389,7 @@ void ServerListDlg::slotRefreshServers()
     HostEntryEx entry;
     while (getServerEntry(index++, entry))
     {
+        entry.id = ++m_nextid;
         m_model->addServer(entry, SERVERTYPE_LOCAL);
         entry = HostEntryEx();
     }
@@ -490,6 +491,7 @@ void ServerListDlg::slotFreeServerRequest(QNetworkReply* reply)
         if (getServerEntry(element, entry))
         {
             processStatsXML(element, entry);
+            entry.id = ++m_nextid;
             m_model->addServer(entry, SERVERTYPE_PUBLIC);
         }
 		element = element.nextSiblingElement();

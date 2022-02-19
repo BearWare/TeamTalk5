@@ -48,6 +48,7 @@ struct HostEntryEx : HostEntry
     int usercount = 0;
     QString country;
     QString motd;
+    int id = 0;
 };
 
 class ServerListModel : public QAbstractItemModel
@@ -83,6 +84,7 @@ public:
 private:
     Ui::ServerListDlg ui;
     ServerListModel* m_model;
+    int m_nextid = 0;
     QSortFilterProxyModel* m_proxyModel;
 
     QNetworkAccessManager* m_http_manager;
