@@ -33,13 +33,15 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '11'
+        architecture: ${{ matrix.dotnetarch }}
+
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.10'
+        architecture: ${{ matrix.dotnetarch }}
 
     - name: Setup VSTest Path
       uses: darenm/Setup-VSTest@v1
-
-    - name: Print environment
-      shell: cmd
-      run: set
 
     - name: Init TeamTalk Client submodules
       working-directory: ${{runner.workspace}}/TeamTalk5
@@ -66,6 +68,11 @@ jobs:
         cmake --build output --parallel 8 --config Release
         echo ${{runner.workspace}}\TeamTalk5\Library\TeamTalk_DLL>> %GITHUB_PATH%
         echo ${{runner.workspace}}\TeamTalk5\Library\TeamTalkJNI\libs>> %GITHUB_PATH%
+        echo PYTHONPATH=${{runner.workspace}}\TeamTalk5\Library\TeamTalkPy>> %GITHUB_ENV%
+
+    - name: Print environment
+      shell: cmd
+      run: set
 
     - name: Copy Server Configuration
       working-directory: ${{runner.workspace}}/TeamTalk5
@@ -102,6 +109,11 @@ jobs:
         cd output\Library\TeamTalk.NET\TeamTalkTest.NET\Release
         xcopy /S /Y /E ${{runner.workspace}}\TeamTalk5\Library\TeamTalkLib\test\testdata testdata\
         VSTest.Console.exe /Platform:${{ matrix.dotnetarch }} TeamTalk5Test.NET.dll
+
+    - name: Run Python client
+      working-directory: ${{runner.workspace}}/TeamTalk5/Client/ttserverlogpy
+      run: |
+        python main.py
 
     - name: Stop TeamTalk Standard Service
       working-directory: ${{runner.workspace}}/TeamTalk5/Server

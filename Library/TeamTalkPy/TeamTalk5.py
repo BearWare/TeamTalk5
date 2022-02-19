@@ -60,6 +60,19 @@ TT_SAMPLERATES_MAX = 16
 _TTInstance = c_void_p
 _TTSoundLoop = c_void_p
 
+# Encode string to UTF-8. Encoding on Windows is not necessary since
+# string to and from TeamTalk5.dll are UTF-16.
+def ttstr(ttchar_p_str: TTCHAR_P) -> str:
+
+    if sys.platform == "win32":
+        return ttchar_p_str
+
+    if isinstance(ttchar_p_str, bytes):
+        return str(ttchar_p_str, encoding = 'utf-8')
+    if isinstance(ttchar_p_str, str):
+        return ttchar_p_str.encode('utf-8')
+    return ttchar_p_str
+
 # bindings
 class StreamType(UINT32):
     STREAMTYPE_NONE = 0x00000000
