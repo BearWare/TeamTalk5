@@ -42,6 +42,7 @@ enum
 {
     COLUMN_INDEX_SERVERNAME,
     COLUMN_INDEX_USERCOUNT,
+    COLUMN_INDEX_COUNTRY,
     COLUMN_COUNT,
 };
 
@@ -59,6 +60,7 @@ QVariant ServerListModel::headerData(int section, Qt::Orientation orientation, i
         {
             case COLUMN_INDEX_SERVERNAME: return tr("Name");
             case COLUMN_INDEX_USERCOUNT: return tr("Users");
+            case COLUMN_INDEX_COUNTRY: return tr("Country");
         }
     }
     }
@@ -81,10 +83,14 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
             return getServers()[index.row()].name;
         case COLUMN_INDEX_USERCOUNT :
             return getServers()[index.row()].usercount;
+        case COLUMN_INDEX_COUNTRY :
+            return getServers()[index.row()].country;
         }
         break;
     case Qt::AccessibleTextRole :
         break;
+    case Qt::ToolTipRole :
+        return getServers()[index.row()].motd;
     case Qt::BackgroundRole :
         switch (getServerType(getServers()[index.row()]))
         {
@@ -180,9 +186,9 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
 
     m_model = new ServerListModel(this);
     m_proxyModel = new QSortFilterProxyModel(this);
-    m_proxyModel->setSourceModel(m_model);
     m_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
     m_proxyModel->setSortRole(Qt::UserRole);
+    m_proxyModel->setSourceModel(m_model);
     ui.serverTreeView->setModel(m_proxyModel);
 
     ui.usernameBox->addItem(WEBLOGIN_BEARWARE_USERNAME);
