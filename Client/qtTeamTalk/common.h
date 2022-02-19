@@ -268,11 +268,6 @@ struct HostEntry
     VideoFormat capformat = {};
     VideoCodec vidcodec = {};
 
-    // public server settings
-    int usercount = 0;
-    QString country;
-    QString motd;
-
     // doesn't include 'name'
     bool sameHost(const HostEntry& host, bool nickcheck = true) const;
     // same as sameHost() but also host.name == name

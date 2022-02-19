@@ -42,6 +42,14 @@ enum ServerType
 
 typedef quint32 ServerTypes;
 
+struct HostEntryEx : HostEntry
+{
+    // public server settings
+    int usercount = 0;
+    QString country;
+    QString motd;
+};
+
 class ServerListModel : public QAbstractItemModel
 {
     Q_OBJECT
@@ -54,15 +62,15 @@ public:
     QModelIndex parent(const QModelIndex & index) const;
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
 
-    void addServer(const HostEntry& host, ServerType srvtype);
+    void addServer(const HostEntryEx& host, ServerType srvtype);
     void clearServers();
     void setServerTypes(ServerTypes srvtypes);
-    const QVector<HostEntry>& getServers() const;
+    const QVector<HostEntryEx>& getServers() const;
 private:
-    QMap<ServerType, QVector<HostEntry>> m_servers;
-    QVector<HostEntry> m_servercache;
+    QMap<ServerType, QVector<HostEntryEx>> m_servers;
+    QVector<HostEntryEx> m_servercache;
     ServerTypes m_srvtypes = SERVERTYPE_LOCAL | SERVERTYPE_PUBLIC;
-    ServerType getServerType(const HostEntry& host) const;
+    ServerType getServerType(const HostEntryEx& host) const;
 };
 
 class ServerListDlg : public QDialog

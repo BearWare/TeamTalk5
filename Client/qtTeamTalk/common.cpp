@@ -655,23 +655,6 @@ void processClientSetupXML(const QDomElement& hostElement, HostEntry& entry)
     }
 }
 
-void processStatsXML(const QDomElement& hostElement, HostEntry& entry)
-{
-    QDomElement stats = hostElement.firstChildElement("stats");
-    if (!stats.isNull())
-    {
-        QDomElement tmp = stats.firstChildElement("user-count");
-        if (!tmp.isNull())
-            entry.usercount = tmp.text().toInt();
-        tmp = stats.firstChildElement("country");
-        if (!tmp.isNull())
-            entry.country = tmp.text();
-        tmp = stats.firstChildElement("motd");
-        if (!tmp.isNull())
-            entry.motd = tmp.text();
-    }
-}
-
 bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
 {
     Q_ASSERT(hostElement.tagName() == "host");
@@ -703,7 +686,6 @@ bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
     processAuthXML(hostElement, entry);
     processJoinXML(hostElement, entry);
     processClientSetupXML(hostElement, entry);
-    processStatsXML(hostElement, entry);
 
     return ok;
 }

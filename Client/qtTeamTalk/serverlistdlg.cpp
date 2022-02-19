@@ -46,6 +46,23 @@ enum
     COLUMN_COUNT,
 };
 
+void processStatsXML(const QDomElement& hostElement, HostEntryEx& entry)
+{
+    QDomElement stats = hostElement.firstChildElement("stats");
+    if (!stats.isNull())
+    {
+        QDomElement tmp = stats.firstChildElement("user-count");
+        if (!tmp.isNull())
+            entry.usercount = tmp.text().toInt();
+        tmp = stats.firstChildElement("country");
+        if (!tmp.isNull())
+            entry.country = tmp.text();
+        tmp = stats.firstChildElement("motd");
+        if (!tmp.isNull())
+            entry.motd = tmp.text();
+    }
+}
+
 ServerListModel::ServerListModel(QObject* parent) : QAbstractItemModel(parent)
 {
 }
@@ -129,7 +146,7 @@ int ServerListModel::rowCount(const QModelIndex& /*parent = QModelIndex()*/) con
     return getServers().size();
 }
 
-void ServerListModel::addServer(const HostEntry& host, ServerType srvtype)
+void ServerListModel::addServer(const HostEntryEx& host, ServerType srvtype)
 {
     m_servers[srvtype].append(host);
     setServerTypes(m_srvtypes);
@@ -141,7 +158,7 @@ void ServerListModel::clearServers()
     setServerTypes(m_srvtypes);
 }
 
-const QVector<HostEntry>& ServerListModel::getServers() const
+const QVector<HostEntryEx>& ServerListModel::getServers() const
 {
     return m_servercache;
 }
@@ -161,7 +178,7 @@ void ServerListModel::setServerTypes(ServerTypes srvtypes)
     this->endResetModel();
 }
 
-ServerType ServerListModel::getServerType(const HostEntry& host) const
+ServerType ServerListModel::getServerType(const HostEntryEx& host) const
 {
     ServerTypes srvtype = SERVERTYPE_MIN;
     for (; srvtype <= SERVERTYPE_MAX; srvtype <<= 1)
@@ -369,11 +386,11 @@ void ServerListDlg::slotRefreshServers()
     m_model->clearServers();
 
     int index = 0;
-    HostEntry entry;
+    HostEntryEx entry;
     while (getServerEntry(index++, entry))
     {
         m_model->addServer(entry, SERVERTYPE_LOCAL);
-        entry = HostEntry();
+        entry = HostEntryEx();
     }
 
     if (ui.freeserverChkBox->isChecked())
@@ -469,9 +486,12 @@ void ServerListDlg::slotFreeServerRequest(QNetworkReply* reply)
     QDomElement element = rootElement.firstChildElement();
     while(!element.isNull())
     {
-        HostEntry entry;
-        if(getServerEntry(element, entry))
+        HostEntryEx entry;
+        if (getServerEntry(element, entry))
+        {
+            processStatsXML(element, entry);
             m_model->addServer(entry, SERVERTYPE_PUBLIC);
+        }
 		element = element.nextSiblingElement();
     }
 }
