@@ -108,7 +108,7 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
         switch (getServerType(getServers()[index.row()]))
         {
         case SERVERTYPE_LOCAL :
-            return QString(tr("Name: %1, Users: %2").arg(getServers()[index.row()].name).arg(getServers()[index.row()].usercount));
+            return getServers()[index.row()].name;
         case SERVERTYPE_PUBLIC :
             return QString(tr("Name: %1, Users: %2, Country: %3, MOTD: %4").arg(getServers()[index.row()].name).arg(getServers()[index.row()].usercount).arg(getServers()[index.row()].country).arg(getServers()[index.row()].motd));
         }
