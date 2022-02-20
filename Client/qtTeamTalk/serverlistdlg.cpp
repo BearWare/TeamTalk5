@@ -26,7 +26,6 @@
 #include "appinfo.h"
 #include "settings.h"
 #include "generatettfiledlg.h"
-#include "bearwarelogindlg.h"
 #include "utilui.h"
 
 #include <QUrl>
@@ -207,7 +206,6 @@ ServerType ServerListModel::getServerType(const HostEntryEx& host) const
 
 ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
-    , m_http_manager(nullptr)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
@@ -224,11 +222,11 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     connect(ui.addupdButton, &QAbstractButton::clicked,
             this, &ServerListDlg::slotAddUpdServer);
     connect(ui.delButton, &QAbstractButton::clicked,
-            this, &ServerListDlg::slotDeleteServer);
+            this, &ServerListDlg::deleteSelectedServer);
     connect(ui.serverTreeView, &QAbstractItemView::activated,
-            this, &ServerListDlg::slotShowSelectedServer);
+            this, &ServerListDlg::showSelectedServer);
     connect(ui.serverTreeView->selectionModel(), &QItemSelectionModel::currentRowChanged,
-            this, &ServerListDlg::slotShowSelectedServer);
+            this, &ServerListDlg::showSelectedServer);
     connect(ui.connectButton, &QAbstractButton::clicked,
             this, &ServerListDlg::slotConnect);
     connect(ui.clearButton, &QAbstractButton::clicked,
@@ -240,20 +238,23 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     connect(ui.genttButton, &QAbstractButton::clicked,
             this, &ServerListDlg::slotGenerateFile);
     connect(ui.impttButton, &QAbstractButton::clicked,
-            this, &ServerListDlg::slotLoadTTFile);
+            this, &ServerListDlg::slotImportTTFile);
     connect(ui.hostaddrBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &ServerListDlg::showLatestHostEntry);
     connect(ui.nameEdit, &QLineEdit::textChanged,
-            this, &ServerListDlg::slotSaveEntryChanged);
+            this, &ServerListDlg::hostEntryNameChanged);
 
     connect(ui.hostaddrBox, &QComboBox::editTextChanged,
             this, &ServerListDlg::slotGenerateEntryName);
     connect(ui.deleteBtn, &QAbstractButton::clicked,
-            this, &ServerListDlg::slotDeleteLatestHost);
+            this, &ServerListDlg::deleteHostEntry);
     connect(ui.tcpportEdit, &QLineEdit::textChanged,
             this, &ServerListDlg::slotGenerateEntryName);
     connect(ui.usernameBox, &QComboBox::editTextChanged,
             this, &ServerListDlg::slotGenerateEntryName);
+    connect(ui.publishButton, &QAbstractButton::clicked,
+            this, &ServerListDlg::publishServer);
+
 
     clearHostEntry();
 
@@ -263,7 +264,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
         ui.freeserverChkBox->setChecked(true);
 
     ui.delButton->setEnabled(false);
-    slotRefreshServers();
+    refreshServerList();
     HostEntry lasthost;
     if (getLatestHost(0, lasthost))
     {
@@ -340,6 +341,12 @@ void ServerListDlg::clearHostEntry()
     ui.clearButton->setEnabled(false);
 }
 
+void ServerListDlg::slotClearServerClicked()
+{
+    clearHostEntry();
+    ui.hostaddrBox->setFocus();
+}
+
 void ServerListDlg::showLatestHosts()
 {
     ui.hostaddrBox->clear();
@@ -349,12 +356,6 @@ void ServerListDlg::showLatestHosts()
     while (getLatestHost(index++, host))
         ui.hostaddrBox->addItem(host.ipaddr);
     showLatestHostEntry(0);
-}
-
-void ServerListDlg::slotClearServerClicked()
-{
-    clearHostEntry();
-    ui.hostaddrBox->setFocus();
 }
 
 void ServerListDlg::showLatestHostEntry(int index)
@@ -367,6 +368,13 @@ void ServerListDlg::showLatestHostEntry(int index)
     }
 }
 
+void ServerListDlg::deleteHostEntry()
+{
+    int i = ui.hostaddrBox->currentIndex();
+    deleteLatestHost(i);
+    showLatestHosts();
+}
+
 void ServerListDlg::slotConnect()
 {
     HostEntry entry;
@@ -374,16 +382,7 @@ void ServerListDlg::slotConnect()
     {
         if (isWebLogin(entry.username, true))
         {
-            QString username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
-            if (username.isEmpty())
-            {
-                BearWareLoginDlg dlg(this);
-                if (dlg.exec())
-                {
-                    username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
-                }
-            }
-            ui.usernameBox->lineEdit()->setText(username);
+            ui.usernameBox->lineEdit()->setText(getBearWareWebLogin(this));
             ui.passwordEdit->setText("");
         }
 
@@ -392,7 +391,7 @@ void ServerListDlg::slotConnect()
     }
 }
 
-void ServerListDlg::slotRefreshServers()
+void ServerListDlg::refreshServerList()
 {
     m_model->clearServers();
 
@@ -409,7 +408,7 @@ void ServerListDlg::slotRefreshServers()
         slotFreeServers(true);
 }
 
-void ServerListDlg::slotShowSelectedServer(const QModelIndex &index)
+void ServerListDlg::showSelectedServer(const QModelIndex &index)
 {
     clearHostEntry();
     auto servers = m_model->getServers();
@@ -434,12 +433,12 @@ void ServerListDlg::slotAddUpdServer()
         RestoreIndex g(ui.serverTreeView);
         deleteServerEntry(entry.name);
         addServerEntry(entry);
-        slotRefreshServers();
+        refreshServerList();
         ui.serverTreeView->setFocus();
     }
 }
 
-void ServerListDlg::slotDeleteServer()
+void ServerListDlg::deleteSelectedServer()
 {
     auto servers = m_model->getServers();
     auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
@@ -449,7 +448,7 @@ void ServerListDlg::slotDeleteServer()
 
         deleteServerEntry(servers[srcIndex.row()].name);
         clearHostEntry();
-        slotRefreshServers();
+        refreshServerList();
         ui.serverTreeView->setFocus();
     }
     ui.delButton->setEnabled(ui.serverTreeView->currentIndex().isValid());
@@ -466,28 +465,26 @@ void ServerListDlg::slotFreeServers(bool checked)
 
     if(!checked)
     {
-        slotRefreshServers();
+        refreshServerList();
         return;
     }
-    if(!m_http_manager)
-        m_http_manager = new QNetworkAccessManager(this);
+
+    if (!m_httpsrvlist_manager)
+        m_httpsrvlist_manager = new QNetworkAccessManager(this);
 
     QUrl url(URL_FREESERVER);
-    connect(m_http_manager, &QNetworkAccessManager::finished,
+    connect(m_httpsrvlist_manager, &QNetworkAccessManager::finished,
             this, &ServerListDlg::slotFreeServerRequest);
 
     QNetworkRequest request(url);
-    m_http_manager->get(request);
-    //QByteArray path = QUrl::toPercentEncoding(url.path(), "!$&'()*+,;=:@/");
-    //if (path.isEmpty())
-    //    path = "/";
+    m_httpsrvlist_manager->get(request);
 }
 
 void ServerListDlg::slotFreeServerRequest(QNetworkReply* reply)
 {
     RestoreIndex ri(ui.serverTreeView);
 
-    Q_ASSERT(m_http_manager);
+    Q_ASSERT(m_httpsrvlist_manager);
     QByteArray data = reply->readAll();
 
     QDomDocument doc("foo");
@@ -519,7 +516,45 @@ void ServerListDlg::slotGenerateFile()
     dlg.exec();
 }
 
-void ServerListDlg::slotLoadTTFile()
+void ServerListDlg::publishServer()
+{
+    HostEntry entry;
+    if (!getHostEntry(entry) || entry.name.isEmpty())
+        return;
+
+    if (!m_http_srvpublish_manager)
+        m_http_srvpublish_manager = new QNetworkAccessManager(this);
+
+    connect(m_http_srvpublish_manager, &QNetworkAccessManager::finished,
+            this, &ServerListDlg::publishServerRequest);
+
+    QString username = getBearWareWebLogin(this);
+    username = QUrl::toPercentEncoding(username);
+    QString token = ttSettings->value(SETTINGS_GENERAL_BEARWARE_TOKEN, "").toString();
+    token = QUrl::toPercentEncoding(token);
+    QUrl url(URL_PUBLISHSERVER(username, token));
+    QByteArray xml = generateTTFile(entry);
+
+    QNetworkRequest request(url);
+    m_http_srvpublish_manager->put(request, xml);
+}
+
+void ServerListDlg::publishServerRequest(QNetworkReply* reply)
+{
+    if (reply->error() != QNetworkReply::NoError)
+    {
+        QMessageBox::critical(this, tr("Publish Server"),
+            tr("Failed to publish server."));
+    }
+    else
+    {
+        QMessageBox::information(this, tr("Publish Server"),
+            tr("Your private server will appear in a couple of minutes.\n"
+               "Delete the published user account to unregister your server."));
+    }
+}
+
+void ServerListDlg::slotImportTTFile()
 {
     QString start_dir = ttSettings->value(SETTINGS_LAST_DIRECTORY, QDir::homePath()).toString();
     QString filepath = QFileDialog::getOpenFileName(this, tr("Open File"),
@@ -565,19 +600,13 @@ void ServerListDlg::slotLoadTTFile()
     }
 
     addServerEntry(entry);
-    slotRefreshServers();
+    refreshServerList();
 }
 
-void ServerListDlg::slotDeleteLatestHost()
-{
-    int i = ui.hostaddrBox->currentIndex();
-    deleteLatestHost(i);
-    showLatestHosts();
-}
-
-void ServerListDlg::slotSaveEntryChanged(const QString& text)
+void ServerListDlg::hostEntryNameChanged(const QString& text)
 {
     ui.addupdButton->setEnabled(text.size());
+    ui.publishButton->setEnabled(text.size());
 }
 
 void ServerListDlg::slotGenerateEntryName(const QString&)

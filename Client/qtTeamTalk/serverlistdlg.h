@@ -87,29 +87,31 @@ private:
     int m_nextid = 0;
     QSortFilterProxyModel* m_proxyModel;
 
-    QNetworkAccessManager* m_http_manager;
+    QNetworkAccessManager* m_httpsrvlist_manager = nullptr, *m_http_srvpublish_manager = nullptr;
 
     void showHostEntry(const HostEntry& entry);
     bool getHostEntry(HostEntry& entry);
     void clearHostEntry();
     void showLatestHosts();
     void showLatestHostEntry(int index);
+    void deleteHostEntry();
     void slotClearServerClicked();
     void slotConnect();
 
-    void slotRefreshServers();
-    void slotShowSelectedServer(const QModelIndex &index);
+    void refreshServerList();
+    void showSelectedServer(const QModelIndex &index);
     void slotAddUpdServer();
-    void slotDeleteServer();
+    void deleteSelectedServer();
     void slotDoubleClicked(const QModelIndex& index);
     void slotFreeServers(bool checked);
     void slotFreeServerRequest(QNetworkReply* reply);
+    void slotImportTTFile();
 
     void slotGenerateFile();
-    void slotLoadTTFile();
-    void slotDeleteLatestHost();
+    void publishServer();
+    void publishServerRequest(QNetworkReply* reply);
 
-    void slotSaveEntryChanged(const QString& text);
+    void hostEntryNameChanged(const QString& text);
     void slotGenerateEntryName(const QString&);
 };
 

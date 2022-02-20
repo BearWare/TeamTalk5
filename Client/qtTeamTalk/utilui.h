@@ -122,6 +122,7 @@ void setMacResizeMargins(QDialog* dlg, QLayout* layout);
 void setCurrentItemData(QComboBox* cbox, const QVariant& itemdata);
 QVariant getCurrentItemData(QComboBox* cbox, const QVariant& not_found = QVariant());
 
+QString getBearWareWebLogin(QWidget* parent);
 
 class RestoreIndex
 {

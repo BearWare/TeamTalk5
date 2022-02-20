@@ -23,6 +23,7 @@
 
 #include "utilui.h"
 #include "settings.h"
+#include "bearwarelogindlg.h"
 
 extern QSettings* ttSettings;
 
@@ -97,6 +98,20 @@ QVariant getCurrentItemData(QComboBox* cbox, const QVariant& not_found/* = QVari
     if(cbox->currentIndex()>=0)
         return cbox->itemData(cbox->currentIndex());
     return not_found;
+}
+
+QString getBearWareWebLogin(QWidget* parent)
+{
+    QString username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
+    if (username.isEmpty())
+    {
+        BearWareLoginDlg dlg(parent);
+        if (dlg.exec())
+        {
+            username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
+        }
+    }
+    return username;
 }
 
 RestoreIndex::RestoreIndex(QAbstractItemView* view)

@@ -45,9 +45,9 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QPushButton" name="delButton">
+         <widget class="QPushButton" name="impttButton">
           <property name="text">
-           <string>&amp;Delete</string>
+           <string>&amp;Import .tt File</string>
           </property>
          </widget>
         </item>
@@ -64,12 +64,26 @@
           </property>
          </spacer>
         </item>
+        <item>
+         <widget class="QPushButton" name="delButton">
+          <property name="text">
+           <string>&amp;Delete</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>
        <widget class="QCheckBox" name="freeserverChkBox">
         <property name="text">
          <string>Include public servers (green ones)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox">
+        <property name="text">
+         <string>Include private servers (orange ones)</string>
         </property>
        </widget>
       </item>
@@ -324,7 +338,7 @@
      <item>
       <widget class="QGroupBox" name="groupBox_5">
        <property name="title">
-        <string>Server Information</string>
+        <string>Store Server Information</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
@@ -347,9 +361,15 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QPushButton" name="impttButton">
+           <widget class="QPushButton" name="genttButton">
+            <property name="toolTip">
+             <string>.tt files can be double-clicked and the client will automatically start and connect to the specified server</string>
+            </property>
+            <property name="whatsThis">
+             <string>.tt files can be double-clicked and the client will automatically start and connect to the specified server</string>
+            </property>
             <property name="text">
-             <string>&amp;Import .tt File</string>
+             <string>&amp;Generate .tt File</string>
             </property>
            </widget>
           </item>
@@ -367,15 +387,9 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="genttButton">
-            <property name="toolTip">
-             <string>.tt files can be double-clicked and the client will automatically start and connect to the specified server</string>
-            </property>
-            <property name="whatsThis">
-             <string>.tt files can be double-clicked and the client will automatically start and connect to the specified server</string>
-            </property>
+           <widget class="QPushButton" name="publishButton">
             <property name="text">
-             <string>&amp;Generate .tt File</string>
+             <string>Publish Publicly</string>
             </property>
            </widget>
           </item>
