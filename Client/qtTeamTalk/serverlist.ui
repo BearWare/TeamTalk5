@@ -74,14 +74,14 @@
        </layout>
       </item>
       <item>
-       <widget class="QCheckBox" name="freeserverChkBox">
+       <widget class="QCheckBox" name="publicserverChkBox">
         <property name="text">
          <string>Include public servers (green ones)</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBox">
+       <widget class="QCheckBox" name="privateserverChkBox">
         <property name="text">
          <string>Include private servers (orange ones)</string>
         </property>

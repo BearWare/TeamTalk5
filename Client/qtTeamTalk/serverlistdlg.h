@@ -34,10 +34,12 @@
 enum ServerType
 {
     SERVERTYPE_LOCAL    = 1 << 0,
-    SERVERTYPE_PUBLIC   = 1 << 1,
+    SERVERTYPE_OFFICIAL = 1 << 1,
+    SERVERTYPE_PUBLIC   = 1 << 2,
+    SERVERTYPE_PRIVATE  = 1 << 3,
 
     SERVERTYPE_MIN      = SERVERTYPE_LOCAL,
-    SERVERTYPE_MAX      = SERVERTYPE_PUBLIC,
+    SERVERTYPE_MAX      = SERVERTYPE_PRIVATE,
 };
 
 typedef quint32 ServerTypes;
@@ -48,7 +50,9 @@ struct HostEntryEx : HostEntry
     int usercount = 0;
     QString country;
     QString motd;
+    QString servername;
     int id = 0;
+    ServerType srvtype = SERVERTYPE_LOCAL;
 };
 
 class ServerListModel : public QAbstractItemModel
@@ -70,7 +74,7 @@ public:
 private:
     QMap<ServerType, QVector<HostEntryEx>> m_servers;
     QVector<HostEntryEx> m_servercache;
-    ServerTypes m_srvtypes = SERVERTYPE_LOCAL | SERVERTYPE_PUBLIC;
+    ServerTypes m_srvtypes = ~0;
     ServerType getServerType(const HostEntryEx& host) const;
 };
 
@@ -96,6 +100,7 @@ private:
     void showLatestHostEntry(int index);
     void deleteHostEntry();
     void slotClearServerClicked();
+    void slotImportTTFile();
     void slotConnect();
 
     void refreshServerList();
@@ -103,11 +108,10 @@ private:
     void slotAddUpdServer();
     void deleteSelectedServer();
     void slotDoubleClicked(const QModelIndex& index);
-    void slotFreeServers(bool checked);
-    void slotFreeServerRequest(QNetworkReply* reply);
-    void slotImportTTFile();
+    void requestServerList();
+    void serverlistReply(QNetworkReply* reply);
 
-    void slotGenerateFile();
+    void saveTTFile();
     void publishServer();
     void publishServerRequest(QNetworkReply* reply);
 
