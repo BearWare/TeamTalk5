@@ -125,7 +125,9 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
         {
         case SERVERTYPE_LOCAL :
             return getServers()[index.row()].name;
+        case SERVERTYPE_OFFICIAL :
         case SERVERTYPE_PUBLIC :
+        case SERVERTYPE_PRIVATE :
             return QString(tr("Name: %1, Users: %2, Country: %3, MOTD: %4").arg(getServers()[index.row()].name).arg(getServers()[index.row()].usercount).arg(getServers()[index.row()].country).arg(getServers()[index.row()].motd));
         }
         break;
@@ -137,32 +139,30 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
         case SERVERTYPE_LOCAL :
             return QVariant();
         case SERVERTYPE_OFFICIAL :
-            return QColor(0xFF,0x52,0x28);
+            return QColor(0x0,0x4A,0x7F);
         case SERVERTYPE_PUBLIC :
             return QColor(0x0C,0x52,0x28);
         case SERVERTYPE_PRIVATE :
-            return QColor(0x0C,0xFF,0x28);
+            return QColor(0xFF,0x61,0xC);
         }
         break;
     case Qt::UserRole :
-        switch (getServerType(getServers()[index.row()]))
+        if (index.column() == COLUMN_INDEX_SERVERNAME)
         {
-        case SERVERTYPE_LOCAL :
-            if (index.column() == COLUMN_INDEX_SERVERNAME)
-                return QString("%1-%2-%3").arg('A').arg(0, 9, 10, QLatin1Char('0')).arg(data(index, Qt::DisplayRole).toString());
-            break;
-        case SERVERTYPE_OFFICIAL :
-            if (index.column() == COLUMN_INDEX_SERVERNAME)
-                return QString("%1-%2-%3").arg('B').arg(getServers()[index.row()].id, 9, 10, QLatin1Char('0')).arg(data(index, Qt::DisplayRole).toString());
-            break;
-        case SERVERTYPE_PUBLIC :
-            if (index.column() == COLUMN_INDEX_SERVERNAME)
-                return QString("%1-%2-%3").arg('C').arg(getServers()[index.row()].id, 9, 10, QLatin1Char('0')).arg(data(index, Qt::DisplayRole).toString());
-            break;
-        case SERVERTYPE_PRIVATE :
-            if (index.column() == COLUMN_INDEX_SERVERNAME)
-                return QString("%1-%2-%3").arg('D').arg(getServers()[index.row()].id, 9, 10, QLatin1Char('0')).arg(data(index, Qt::DisplayRole).toString());
-            break;
+            QString name;
+            switch (getServerType(getServers()[index.row()]))
+            {
+            case SERVERTYPE_LOCAL :
+                name = QString("%1-%2-%3").arg(quint32(getServerType(getServers()[index.row()])), 9, 16, QLatin1Char('0')).arg(0, 9, 10, QLatin1Char('0')).arg(data(index, Qt::DisplayRole).toString());
+                break;
+            case SERVERTYPE_OFFICIAL :
+            case SERVERTYPE_PUBLIC :
+            case SERVERTYPE_PRIVATE :
+                name = QString("%1-%2-%3").arg(quint32(getServerType(getServers()[index.row()])), 9, 16, QLatin1Char('0')).arg(getServers()[index.row()].id, 9, 10, QLatin1Char('0')).arg(data(index, Qt::DisplayRole).toString());
+                break;
+            }
+            qDebug() << index.row() << name;
+            return name;
         }
         return data(index, Qt::DisplayRole);
     }
