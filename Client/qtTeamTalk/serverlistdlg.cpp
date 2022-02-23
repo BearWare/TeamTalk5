@@ -27,6 +27,7 @@
 #include "settings.h"
 #include "generatettfiledlg.h"
 #include "bearwarelogindlg.h"
+#include "utilui.h"
 
 #include <QUrl>
 #include <QMessageBox>
@@ -37,6 +38,173 @@
 
 extern QSettings* ttSettings;
 
+enum
+{
+    COLUMN_INDEX_SERVERNAME,
+    COLUMN_INDEX_USERCOUNT,
+    COLUMN_INDEX_COUNTRY,
+    COLUMN_COUNT,
+};
+
+void processStatsXML(const QDomElement& hostElement, HostEntryEx& entry)
+{
+    QDomElement stats = hostElement.firstChildElement("stats");
+    if (!stats.isNull())
+    {
+        QDomElement tmp = stats.firstChildElement("user-count");
+        if (!tmp.isNull())
+            entry.usercount = tmp.text().toInt();
+        tmp = stats.firstChildElement("country");
+        if (!tmp.isNull())
+            entry.country = tmp.text();
+        tmp = stats.firstChildElement("motd");
+        if (!tmp.isNull())
+            entry.motd = tmp.text();
+    }
+}
+
+ServerListModel::ServerListModel(QObject* parent) : QAbstractItemModel(parent)
+{
+}
+
+QVariant ServerListModel::headerData(int section, Qt::Orientation orientation, int role /*= Qt::DisplayRole*/) const
+{
+    switch(role)
+    {
+    case Qt::DisplayRole :
+    {
+        switch(section)
+        {
+            case COLUMN_INDEX_SERVERNAME: return tr("Name");
+            case COLUMN_INDEX_USERCOUNT: return tr("Users");
+            case COLUMN_INDEX_COUNTRY: return tr("Country");
+        }
+    }
+    }
+    return QVariant();
+}
+
+int ServerListModel::columnCount(const QModelIndex & parent /*= QModelIndex()*/) const
+{
+    return COLUMN_COUNT;
+}
+
+QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::DisplayRole*/) const
+{
+    switch(role)
+    {
+    case Qt::DisplayRole :
+        switch (index.column())
+        {
+        case COLUMN_INDEX_SERVERNAME :
+            return getServers()[index.row()].name;
+        case COLUMN_INDEX_USERCOUNT :
+            return getServers()[index.row()].usercount;
+        case COLUMN_INDEX_COUNTRY :
+            return getServers()[index.row()].country;
+        }
+        break;
+    case Qt::AccessibleTextRole :
+        switch (getServerType(getServers()[index.row()]))
+        {
+        case SERVERTYPE_LOCAL :
+            return getServers()[index.row()].name;
+        case SERVERTYPE_PUBLIC :
+            return QString(tr("Name: %1, Users: %2, Country: %3, MOTD: %4").arg(getServers()[index.row()].name).arg(getServers()[index.row()].usercount).arg(getServers()[index.row()].country).arg(getServers()[index.row()].motd));
+        }
+        break;
+    case Qt::ToolTipRole :
+        return getServers()[index.row()].motd;
+    case Qt::BackgroundRole :
+        switch (getServerType(getServers()[index.row()]))
+        {
+        case SERVERTYPE_LOCAL :
+            return QVariant();
+        case SERVERTYPE_PUBLIC :
+            return QColor(0x0C,0x52,0x28);
+        }
+        break;
+    case Qt::UserRole :
+        switch (getServerType(getServers()[index.row()]))
+        {
+        case SERVERTYPE_LOCAL :
+            if (index.column() == COLUMN_INDEX_SERVERNAME)
+                return QString("%1-%2-%3").arg('A').arg(0, 9, 10, QLatin1Char('0')).arg(data(index, Qt::DisplayRole).toString());
+            return data(index, Qt::DisplayRole);
+        case SERVERTYPE_PUBLIC :
+            if (index.column() == COLUMN_INDEX_SERVERNAME)
+                return QString("%1-%2-%3").arg('B').arg(getServers()[index.row()].id, 9, 10, QLatin1Char('0')).arg(data(index, Qt::DisplayRole).toString());
+            return data(index, Qt::DisplayRole);
+        }
+    }
+    return QVariant();
+}
+
+QModelIndex ServerListModel::index(int row, int column, const QModelIndex & parent /*= QModelIndex()*/) const
+{
+    if (!parent.isValid() && row < getServers().size())
+        return createIndex(row, column);
+    return QModelIndex();
+}
+
+QModelIndex ServerListModel::parent(const QModelIndex&/* index*/) const
+{
+    return QModelIndex();
+}
+
+int ServerListModel::rowCount(const QModelIndex& /*parent = QModelIndex()*/) const
+{
+    return getServers().size();
+}
+
+void ServerListModel::addServer(const HostEntryEx& host, ServerType srvtype)
+{
+    m_servers[srvtype].append(host);
+    setServerTypes(m_srvtypes);
+}
+
+void ServerListModel::clearServers()
+{
+    m_servers.clear();
+    setServerTypes(m_srvtypes);
+}
+
+const QVector<HostEntryEx>& ServerListModel::getServers() const
+{
+    return m_servercache;
+}
+
+void ServerListModel::setServerTypes(ServerTypes srvtypes)
+{
+    this->beginResetModel();
+    m_srvtypes = srvtypes;
+    m_servercache.clear();
+
+    ServerTypes srvtype = 0x1;
+    for (; srvtype <= SERVERTYPE_MAX; srvtype <<= 1)
+    {
+        if (m_srvtypes & srvtype)
+            m_servercache.append(m_servers[ServerType(srvtype)]);
+    }
+    this->endResetModel();
+}
+
+ServerType ServerListModel::getServerType(const HostEntryEx& host) const
+{
+    ServerTypes srvtype = SERVERTYPE_MIN;
+    for (; srvtype <= SERVERTYPE_MAX; srvtype <<= 1)
+    {
+        Q_ASSERT(srvtype == SERVERTYPE_LOCAL || srvtype == SERVERTYPE_PUBLIC);
+        const auto i = m_servers.find(ServerType(srvtype));
+        if (i != m_servers.end() && std::find_if((*i).begin(), (*i).end(),
+                                                 [host](const HostEntry& h) { return h.sameHostEntry(host); }) != (*i).end())
+        {
+            return ServerType(srvtype);
+        }
+    }
+    return SERVERTYPE_MAX;
+}
+
 ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
     , m_http_manager(nullptr)
@@ -44,19 +212,28 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
 
+    m_model = new ServerListModel(this);
+    m_proxyModel = new QSortFilterProxyModel(this);
+    m_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
+    m_proxyModel->setSortRole(Qt::UserRole);
+    m_proxyModel->setSourceModel(m_model);
+    ui.serverTreeView->setModel(m_proxyModel);
+
     ui.usernameBox->addItem(WEBLOGIN_BEARWARE_USERNAME);
 
     connect(ui.addupdButton, &QAbstractButton::clicked,
             this, &ServerListDlg::slotAddUpdServer);
     connect(ui.delButton, &QAbstractButton::clicked,
             this, &ServerListDlg::slotDeleteServer);
-    connect(ui.listWidget, &QListWidget::currentRowChanged,
-            this, &ServerListDlg::slotShowServer);
+    connect(ui.serverTreeView, &QAbstractItemView::activated,
+            this, &ServerListDlg::slotShowSelectedServer);
+    connect(ui.serverTreeView->selectionModel(), &QItemSelectionModel::currentRowChanged,
+            this, &ServerListDlg::slotShowSelectedServer);
     connect(ui.connectButton, &QAbstractButton::clicked,
             this, &ServerListDlg::slotConnect);
     connect(ui.clearButton, &QAbstractButton::clicked,
             this, &ServerListDlg::slotClearServerClicked);
-    connect(ui.listWidget, &QListWidget::itemDoubleClicked,
+    connect(ui.serverTreeView, &QAbstractItemView::doubleClicked,
             this, &ServerListDlg::slotDoubleClicked);
     connect(ui.freeserverChkBox, &QAbstractButton::clicked,
             this, &ServerListDlg::slotFreeServers);
@@ -65,7 +242,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     connect(ui.impttButton, &QAbstractButton::clicked,
             this, &ServerListDlg::slotLoadTTFile);
     connect(ui.hostaddrBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &ServerListDlg::slotShowHost);
+            this, &ServerListDlg::showLatestHostEntry);
     connect(ui.nameEdit, &QLineEdit::textChanged,
             this, &ServerListDlg::slotSaveEntryChanged);
 
@@ -78,7 +255,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     connect(ui.usernameBox, &QComboBox::editTextChanged,
             this, &ServerListDlg::slotGenerateEntryName);
 
-    clearServer();
+    clearHostEntry();
 
     showLatestHosts();
 
@@ -86,68 +263,33 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
         ui.freeserverChkBox->setChecked(true);
 
     ui.delButton->setEnabled(false);
-    showServers();
+    slotRefreshServers();
     HostEntry lasthost;
-    if(getLatestHost(0, lasthost))
+    if (getLatestHost(0, lasthost))
     {
         ui.hostaddrBox->setFocus();
-        HostEntry entry;
-        int index = 0;
-        while(getServerEntry(index++, entry))
+        auto servers = m_model->getServers();
+        for (int i=0;i<servers.size();++i)
         {
-            if (entry.sameHost(lasthost, false))
+            if (servers[i].sameHost(lasthost, false))
             {
-                ui.listWidget->setCurrentRow(index-1);
-                ui.listWidget->setFocus();
+                auto srcIndex = m_proxyModel->mapFromSource(m_model->index(i, 0));
+                ui.serverTreeView->setCurrentIndex(srcIndex);
             }
         }
     }
+
+    ui.serverTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_HEADERSIZES).toByteArray());
+    restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_SERVERLISTDLG_SIZE).toByteArray());
 }
 
-void ServerListDlg::showLatestHosts()
+ServerListDlg::~ServerListDlg()
 {
-    ui.hostaddrBox->clear();
-
-    HostEntry host;
-    int index = 0;
-    while(getLatestHost(index++, host))
-        ui.hostaddrBox->addItem(host.ipaddr);
-    slotShowHost(0);
+    ttSettings->setValue(SETTINGS_DISPLAY_SERVERLISTDLG_SIZE, saveGeometry());
+    ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_HEADERSIZES, ui.serverTreeView->header()->saveState());
 }
 
-void ServerListDlg::slotClearServerClicked()
-{
-    clearServer();
-    ui.hostaddrBox->setFocus();
-}
-
-void ServerListDlg::clearServer()
-{
-    ui.nameEdit->setText("");
-    ui.hostaddrBox->lineEdit()->setText("");
-    ui.tcpportEdit->setText(QString::number(DEFAULT_TCPPORT));
-    ui.udpportEdit->setText(QString::number(DEFAULT_UDPPORT));
-    ui.cryptChkBox->setChecked(false);
-    ui.usernameBox->lineEdit()->setText("");
-    ui.passwordEdit->setText("");
-    ui.nicknameEdit->setText("");
-    ui.channelEdit->setText("");
-    ui.chanpasswdEdit->setText("");
-
-    ui.clearButton->setEnabled(false);
-}
-
-void ServerListDlg::slotShowHost(int index)
-{
-    HostEntry host;
-    if(getLatestHost(index, host))
-    {
-        showHost(host);
-        ui.delButton->setEnabled(false);
-    }
-}
-
-void ServerListDlg::showHost(const HostEntry& entry)
+void ServerListDlg::showHostEntry(const HostEntry& entry)
 {
     ui.nameEdit->setText(entry.name);
     ui.hostaddrBox->lineEdit()->setText(entry.ipaddr);
@@ -167,68 +309,6 @@ void ServerListDlg::showHost(const HostEntry& entry)
     ui.clearButton->setEnabled(true);
 }
 
-void ServerListDlg::showServers()
-{
-    m_servers.clear();
-    ui.listWidget->clear();
-    int index = 0;
-    HostEntry entry;
-    while(getServerEntry(index++, entry))
-    {
-        m_servers.push_back(entry);
-        entry = HostEntry();
-    }
-    for(int i=0;i<m_servers.size();i++)
-        ui.listWidget->addItem(m_servers[i].name);
-
-    if(ui.freeserverChkBox->isChecked())
-        slotFreeServers(true);
-}
-
-void ServerListDlg::slotShowServer(int index)
-{
-    clearServer();
-    if(index >= 0 && index < m_servers.size())
-    {
-        showHost(m_servers[index]);
-        ui.delButton->setEnabled(true);
-    }
-    else
-    {
-        ui.clearButton->setEnabled(false);
-        ui.delButton->setEnabled(false);
-    }
-}
-
-void ServerListDlg::slotAddUpdServer()
-{
-    HostEntry entry;
-    if(getHostEntry(entry))
-    {
-        int j = ui.listWidget->currentRow();
-        deleteServerEntry(entry.name);
-        addServerEntry(entry);
-        showServers();
-        ui.listWidget->setCurrentRow(j);
-        ui.listWidget->setFocus();
-    }
-}
-
-void ServerListDlg::slotDeleteServer()
-{
-    QListWidgetItem* item = ui.listWidget->currentItem();
-    if(item)
-    {
-        int j = ui.listWidget->currentRow();
-        deleteServerEntry(item->text());
-        clearServer();
-        showServers();
-        ui.delButton->setEnabled(false);
-        ui.listWidget->setCurrentRow(j-1);
-        ui.listWidget->setFocus();
-    }
-}
-
 bool ServerListDlg::getHostEntry(HostEntry& entry)
 {
     if(ui.hostaddrBox->lineEdit()->text().isEmpty() ||
@@ -241,7 +321,7 @@ bool ServerListDlg::getHostEntry(HostEntry& entry)
     }
 
     entry.name = ui.nameEdit->text();
-    entry.ipaddr = ui.hostaddrBox->lineEdit()->text();
+    entry.ipaddr = ui.hostaddrBox->lineEdit()->text().trimmed();
     entry.tcpport = ui.tcpportEdit->text().toInt();
     entry.udpport = ui.udpportEdit->text().toInt();
     entry.encrypted = ui.cryptChkBox->isChecked();
@@ -252,6 +332,39 @@ bool ServerListDlg::getHostEntry(HostEntry& entry)
     entry.chanpasswd = ui.chanpasswdEdit->text();
 
     return true;
+}
+
+void ServerListDlg::clearHostEntry()
+{
+    showHostEntry(HostEntry());
+    ui.clearButton->setEnabled(false);
+}
+
+void ServerListDlg::showLatestHosts()
+{
+    ui.hostaddrBox->clear();
+
+    HostEntry host;
+    int index = 0;
+    while (getLatestHost(index++, host))
+        ui.hostaddrBox->addItem(host.ipaddr);
+    showLatestHostEntry(0);
+}
+
+void ServerListDlg::slotClearServerClicked()
+{
+    clearHostEntry();
+    ui.hostaddrBox->setFocus();
+}
+
+void ServerListDlg::showLatestHostEntry(int index)
+{
+    HostEntry host;
+    if(getLatestHost(index, host))
+    {
+        showHostEntry(host);
+        ui.delButton->setEnabled(false);
+    }
 }
 
 void ServerListDlg::slotConnect()
@@ -279,12 +392,70 @@ void ServerListDlg::slotConnect()
     }
 }
 
-void ServerListDlg::slotServerSelected(QListWidgetItem *)
+void ServerListDlg::slotRefreshServers()
 {
-    qDebug() << "Activated";
+    m_model->clearServers();
+
+    int index = 0;
+    HostEntryEx entry;
+    while (getServerEntry(index++, entry))
+    {
+        entry.id = ++m_nextid;
+        m_model->addServer(entry, SERVERTYPE_LOCAL);
+        entry = HostEntryEx();
+    }
+
+    if (ui.freeserverChkBox->isChecked())
+        slotFreeServers(true);
 }
 
-void ServerListDlg::slotDoubleClicked(QListWidgetItem*)
+void ServerListDlg::slotShowSelectedServer(const QModelIndex &index)
+{
+    clearHostEntry();
+    auto servers = m_model->getServers();
+    auto srcIndex = m_proxyModel->mapToSource(index);
+    if (srcIndex.isValid() && srcIndex.row() < servers.size())
+    {
+        showHostEntry(servers[srcIndex.row()]);
+        ui.delButton->setEnabled(true);
+    }
+    else
+    {
+        ui.clearButton->setEnabled(false);
+        ui.delButton->setEnabled(false);
+    }
+}
+
+void ServerListDlg::slotAddUpdServer()
+{
+    HostEntry entry;
+    if(getHostEntry(entry))
+    {
+        RestoreIndex g(ui.serverTreeView);
+        deleteServerEntry(entry.name);
+        addServerEntry(entry);
+        slotRefreshServers();
+        ui.serverTreeView->setFocus();
+    }
+}
+
+void ServerListDlg::slotDeleteServer()
+{
+    auto servers = m_model->getServers();
+    auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
+    if (srcIndex.isValid() && srcIndex.row() < servers.size())
+    {
+        RestoreIndex ri(ui.serverTreeView);
+
+        deleteServerEntry(servers[srcIndex.row()].name);
+        clearHostEntry();
+        slotRefreshServers();
+        ui.serverTreeView->setFocus();
+    }
+    ui.delButton->setEnabled(ui.serverTreeView->currentIndex().isValid());
+}
+
+void ServerListDlg::slotDoubleClicked(const QModelIndex& /*index*/)
 {
     slotConnect();
 }
@@ -295,7 +466,7 @@ void ServerListDlg::slotFreeServers(bool checked)
 
     if(!checked)
     {
-        showServers();
+        slotRefreshServers();
         return;
     }
     if(!m_http_manager)
@@ -314,6 +485,8 @@ void ServerListDlg::slotFreeServers(bool checked)
 
 void ServerListDlg::slotFreeServerRequest(QNetworkReply* reply)
 {
+    RestoreIndex ri(ui.serverTreeView);
+
     Q_ASSERT(m_http_manager);
     QByteArray data = reply->readAll();
 
@@ -321,22 +494,18 @@ void ServerListDlg::slotFreeServerRequest(QNetworkReply* reply)
     if(!doc.setContent(data))
         return;
 
-    int index = m_servers.size();
-	QDomElement rootElement(doc.documentElement());
-	QDomElement element = rootElement.firstChildElement();
+    QDomElement rootElement(doc.documentElement());
+    QDomElement element = rootElement.firstChildElement();
     while(!element.isNull())
     {
-        HostEntry entry;
-        if(getServerEntry(element, entry))
-            m_servers.push_back(entry);
+        HostEntryEx entry;
+        if (getServerEntry(element, entry))
+        {
+            processStatsXML(element, entry);
+            entry.id = ++m_nextid;
+            m_model->addServer(entry, SERVERTYPE_PUBLIC);
+        }
 		element = element.nextSiblingElement();
-    }
-    for(;index<m_servers.size();index++)
-    {
-        QListWidgetItem* srvItem = new QListWidgetItem(ui.listWidget);
-        srvItem->setText(m_servers[index].name);
-        srvItem->setBackground(QColor(0x0C,0x52,0x28));
-        ui.listWidget->addItem(srvItem);
     }
 }
 
@@ -396,7 +565,7 @@ void ServerListDlg::slotLoadTTFile()
     }
 
     addServerEntry(entry);
-    showServers();
+    slotRefreshServers();
 }
 
 void ServerListDlg::slotDeleteLatestHost()

@@ -11,6 +11,8 @@ Default Qt Client
 - Duration for voice transfer can now be set on "No Interruptions" channels
 - Modify server log events from "Server Properties" dialog
 - Added "Hear Myself" menu item to "Me" menu
+- See number of active users on public server list
+- See "Message of the Day" on public servers as tooltip in server list
 - Fixed issue where no all users and channels were listed after initial login
 - Fixed labels for server abuse options in server properties
 - Fixed crash issue when using Cmd+4 on macOS 12.2

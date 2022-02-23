@@ -253,24 +253,20 @@ struct HostEntry
 {
     QString name;
     QString ipaddr;
-    int tcpport;
-    int udpport;
-    bool encrypted;
+    int tcpport = DEFAULT_TCPPORT;
+    int udpport = DEFAULT_UDPPORT;
+    bool encrypted = false;
     QString username;
     QString password;
     QString nickname;
     QString channel;
     QString chanpasswd;
     //tt-file specific
-    Gender gender;
+    Gender gender = GENDER_NONE;
     hotkey_t hotkey;
-    int voiceact;
-    VideoFormat capformat;
-    VideoCodec vidcodec;
-
-    HostEntry()
-    : tcpport(0), udpport(0), encrypted(false), gender(GENDER_NONE)
-    , voiceact(-1), capformat(), vidcodec() {}
+    int voiceact = -1;
+    VideoFormat capformat = {};
+    VideoCodec vidcodec = {};
 
     // doesn't include 'name'
     bool sameHost(const HostEntry& host, bool nickcheck = true) const;
