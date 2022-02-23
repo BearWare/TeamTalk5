@@ -128,9 +128,13 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
         switch (getServerType(getServers()[index.row()]))
         {
         case SERVERTYPE_LOCAL :
-            return QString("%1-%2").arg('A').arg(data(index, Qt::DisplayRole).toString());
+            if (index.column() == COLUMN_INDEX_SERVERNAME)
+                return QString("%1-%2-%3").arg('A').arg(0, 9, 10, QLatin1Char('0')).arg(data(index, Qt::DisplayRole).toString());
+            return data(index, Qt::DisplayRole);
         case SERVERTYPE_PUBLIC :
-            return QString("%1-%2-%3").arg('B').arg(getServers()[index.row()].id, 9, 10, QLatin1Char('0')).arg(data(index, Qt::DisplayRole).toString());
+            if (index.column() == COLUMN_INDEX_SERVERNAME)
+                return QString("%1-%2-%3").arg('B').arg(getServers()[index.row()].id, 9, 10, QLatin1Char('0')).arg(data(index, Qt::DisplayRole).toString());
+            return data(index, Qt::DisplayRole);
         }
     }
     return QVariant();
