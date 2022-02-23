@@ -149,19 +149,22 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
     case Qt::UserRole :
         if (index.column() == COLUMN_INDEX_SERVERNAME)
         {
-            QString name;
+            QString name = data(index, Qt::DisplayRole).toString();
+            int category, id;
             switch (getServerType(getServers()[index.row()]))
             {
             case SERVERTYPE_LOCAL :
-                name = QString("%1-%2-%3").arg(quint32(getServerType(getServers()[index.row()])), 9, 16, QLatin1Char('0')).arg(0, 9, 10, QLatin1Char('0')).arg(data(index, Qt::DisplayRole).toString());
+                category = getServerType(getServers()[index.row()]);
+                id = 0; // sort by name
                 break;
             case SERVERTYPE_OFFICIAL :
             case SERVERTYPE_PUBLIC :
             case SERVERTYPE_PRIVATE :
-                name = QString("%1-%2-%3").arg(quint32(getServerType(getServers()[index.row()])), 9, 16, QLatin1Char('0')).arg(getServers()[index.row()].id, 9, 10, QLatin1Char('0')).arg(data(index, Qt::DisplayRole).toString());
+                category = getServerType(getServers()[index.row()]);
+                id = getServers()[index.row()].id; // sort by id (order from www-server)
                 break;
             }
-            qDebug() << index.row() << name;
+            name = QString("%1-%2-%3").arg(category, 9, 16, QLatin1Char('0')).arg(id, 9, 10, QLatin1Char('0')).arg(name);
             return name;
         }
         return data(index, Qt::DisplayRole);
@@ -209,7 +212,7 @@ void ServerListModel::setServerTypes(ServerTypes srvtypes)
     m_srvtypes = srvtypes;
     m_servercache.clear();
 
-    ServerTypes srvtype = 0x1;
+    ServerTypes srvtype = SERVERTYPE_MIN;
     for (; srvtype <= SERVERTYPE_MAX; srvtype <<= 1)
     {
         if (m_srvtypes & srvtype)
@@ -241,10 +244,11 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
 
     m_model = new ServerListModel(this);
     m_proxyModel = new QSortFilterProxyModel(this);
-    m_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
-    m_proxyModel->setSortRole(Qt::UserRole);
     m_proxyModel->setSourceModel(m_model);
     ui.serverTreeView->setModel(m_proxyModel);
+    m_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
+    m_proxyModel->setSortRole(Qt::UserRole);
+    m_proxyModel->sort(COLUMN_INDEX_SERVERNAME, Qt::AscendingOrder);
 
     ui.usernameBox->addItem(WEBLOGIN_BEARWARE_USERNAME);
 
