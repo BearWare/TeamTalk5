@@ -121,16 +121,25 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
         }
         break;
     case Qt::AccessibleTextRole :
-        switch (getServerType(getServers()[index.row()]))
+    {
+        QString srvtype;
+        auto srv = getServers()[index.row()];
+        switch (getServerType(srv))
         {
-        case SERVERTYPE_LOCAL :
-            return getServers()[index.row()].name;
-        case SERVERTYPE_OFFICIAL :
-        case SERVERTYPE_PUBLIC :
-        case SERVERTYPE_PRIVATE :
-            return QString(tr("Name: %1, Users: %2, Country: %3, MOTD: %4").arg(getServers()[index.row()].name).arg(getServers()[index.row()].usercount).arg(getServers()[index.row()].country).arg(getServers()[index.row()].motd));
+        case SERVERTYPE_LOCAL:
+            return tr("Local server, Name: %1").arg(srv.name);
+        case SERVERTYPE_OFFICIAL:
+            srvtype = tr("Official server");
+            break;
+        case SERVERTYPE_PUBLIC:
+            srvtype = tr("Public server");
+            break;
+        case SERVERTYPE_PRIVATE:
+            srvtype = tr("Private server");
+            break;
         }
-        break;
+        return QString(tr("%1, Name: %2, Users: %3, Country: %4, MOTD: %5").arg(srvtype).arg(srv.name).arg(srv.usercount).arg(srv.country).arg(srv.motd));
+    }
     case Qt::ToolTipRole :
         return getServers()[index.row()].motd;
     case Qt::BackgroundRole :
