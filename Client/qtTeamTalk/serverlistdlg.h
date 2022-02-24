@@ -34,10 +34,12 @@
 enum ServerType
 {
     SERVERTYPE_LOCAL    = 1 << 0,
-    SERVERTYPE_PUBLIC   = 1 << 1,
+    SERVERTYPE_OFFICIAL = 1 << 1,
+    SERVERTYPE_PUBLIC   = 1 << 2,
+    SERVERTYPE_PRIVATE  = 1 << 3,
 
     SERVERTYPE_MIN      = SERVERTYPE_LOCAL,
-    SERVERTYPE_MAX      = SERVERTYPE_PUBLIC,
+    SERVERTYPE_MAX      = SERVERTYPE_PRIVATE,
 };
 
 typedef quint32 ServerTypes;
@@ -48,7 +50,9 @@ struct HostEntryEx : HostEntry
     int usercount = 0;
     QString country;
     QString motd;
+    QString servername;
     int id = 0;
+    ServerType srvtype = SERVERTYPE_LOCAL;
 };
 
 class ServerListModel : public QAbstractItemModel
@@ -70,7 +74,7 @@ public:
 private:
     QMap<ServerType, QVector<HostEntryEx>> m_servers;
     QVector<HostEntryEx> m_servercache;
-    ServerTypes m_srvtypes = SERVERTYPE_LOCAL | SERVERTYPE_PUBLIC;
+    ServerTypes m_srvtypes = ~0;
     ServerType getServerType(const HostEntryEx& host) const;
 };
 
@@ -87,29 +91,31 @@ private:
     int m_nextid = 0;
     QSortFilterProxyModel* m_proxyModel;
 
-    QNetworkAccessManager* m_http_manager;
+    QNetworkAccessManager* m_httpsrvlist_manager = nullptr, *m_http_srvpublish_manager = nullptr;
 
     void showHostEntry(const HostEntry& entry);
     bool getHostEntry(HostEntry& entry);
     void clearHostEntry();
     void showLatestHosts();
     void showLatestHostEntry(int index);
+    void deleteHostEntry();
     void slotClearServerClicked();
+    void slotImportTTFile();
     void slotConnect();
 
-    void slotRefreshServers();
-    void slotShowSelectedServer(const QModelIndex &index);
+    void refreshServerList();
+    void showSelectedServer(const QModelIndex &index);
     void slotAddUpdServer();
-    void slotDeleteServer();
+    void deleteSelectedServer();
     void slotDoubleClicked(const QModelIndex& index);
-    void slotFreeServers(bool checked);
-    void slotFreeServerRequest(QNetworkReply* reply);
+    void requestServerList();
+    void serverlistReply(QNetworkReply* reply);
 
-    void slotGenerateFile();
-    void slotLoadTTFile();
-    void slotDeleteLatestHost();
+    void saveTTFile();
+    void publishServer();
+    void publishServerRequest(QNetworkReply* reply);
 
-    void slotSaveEntryChanged(const QString& text);
+    void hostEntryNameChanged(const QString& text);
     void slotGenerateEntryName(const QString&);
 };
 

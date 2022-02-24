@@ -26,7 +26,6 @@
 #include "appinfo.h"
 #include "settings.h"
 #include "generatettfiledlg.h"
-#include "bearwarelogindlg.h"
 #include "utilui.h"
 
 #include <QUrl>
@@ -46,6 +45,20 @@ enum
     COLUMN_COUNT,
 };
 
+void processHostEntry(const QDomElement& hostElement, HostEntryEx& entry)
+{
+    QDomElement tmp = hostElement.firstChildElement("listing");
+    if (!tmp.isNull())
+    {
+        if (tmp.text() == "official")
+            entry.srvtype = SERVERTYPE_OFFICIAL;
+        if (tmp.text() == "public")
+            entry.srvtype = SERVERTYPE_PUBLIC;
+        if (tmp.text() == "private")
+            entry.srvtype = SERVERTYPE_PRIVATE;
+    }
+}
+
 void processStatsXML(const QDomElement& hostElement, HostEntryEx& entry)
 {
     QDomElement stats = hostElement.firstChildElement("stats");
@@ -60,6 +73,9 @@ void processStatsXML(const QDomElement& hostElement, HostEntryEx& entry)
         tmp = stats.firstChildElement("motd");
         if (!tmp.isNull())
             entry.motd = tmp.text();
+        tmp = stats.firstChildElement("servername");
+        if (!tmp.isNull())
+            entry.servername = tmp.text();
     }
 }
 
@@ -67,7 +83,7 @@ ServerListModel::ServerListModel(QObject* parent) : QAbstractItemModel(parent)
 {
 }
 
-QVariant ServerListModel::headerData(int section, Qt::Orientation orientation, int role /*= Qt::DisplayRole*/) const
+QVariant ServerListModel::headerData(int section, Qt::Orientation /*orientation*/, int role /*= Qt::DisplayRole*/) const
 {
     switch(role)
     {
@@ -84,7 +100,7 @@ QVariant ServerListModel::headerData(int section, Qt::Orientation orientation, i
     return QVariant();
 }
 
-int ServerListModel::columnCount(const QModelIndex & parent /*= QModelIndex()*/) const
+int ServerListModel::columnCount(const QModelIndex & /*parent = QModelIndex()*/) const
 {
     return COLUMN_COUNT;
 }
@@ -105,14 +121,25 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
         }
         break;
     case Qt::AccessibleTextRole :
-        switch (getServerType(getServers()[index.row()]))
+    {
+        QString srvtype;
+        auto srv = getServers()[index.row()];
+        switch (getServerType(srv))
         {
-        case SERVERTYPE_LOCAL :
-            return getServers()[index.row()].name;
-        case SERVERTYPE_PUBLIC :
-            return QString(tr("Name: %1, Users: %2, Country: %3, MOTD: %4").arg(getServers()[index.row()].name).arg(getServers()[index.row()].usercount).arg(getServers()[index.row()].country).arg(getServers()[index.row()].motd));
+        case SERVERTYPE_LOCAL:
+            return tr("Local server, Name: %1").arg(srv.name);
+        case SERVERTYPE_OFFICIAL:
+            srvtype = tr("Official server");
+            break;
+        case SERVERTYPE_PUBLIC:
+            srvtype = tr("Public server");
+            break;
+        case SERVERTYPE_PRIVATE:
+            srvtype = tr("Private server");
+            break;
         }
-        break;
+        return QString(tr("%1, Name: %2, Users: %3, Country: %4, MOTD: %5").arg(srvtype).arg(srv.name).arg(srv.usercount).arg(srv.country).arg(srv.motd));
+    }
     case Qt::ToolTipRole :
         return getServers()[index.row()].motd;
     case Qt::BackgroundRole :
@@ -120,22 +147,36 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
         {
         case SERVERTYPE_LOCAL :
             return QVariant();
+        case SERVERTYPE_OFFICIAL :
+            return QColor(0x0,0x4A,0x7F);
         case SERVERTYPE_PUBLIC :
             return QColor(0x0C,0x52,0x28);
+        case SERVERTYPE_PRIVATE :
+            return QColor(0xFF,0x61,0xC);
         }
         break;
     case Qt::UserRole :
-        switch (getServerType(getServers()[index.row()]))
+        if (index.column() == COLUMN_INDEX_SERVERNAME)
         {
-        case SERVERTYPE_LOCAL :
-            if (index.column() == COLUMN_INDEX_SERVERNAME)
-                return QString("%1-%2-%3").arg('A').arg(0, 9, 10, QLatin1Char('0')).arg(data(index, Qt::DisplayRole).toString());
-            return data(index, Qt::DisplayRole);
-        case SERVERTYPE_PUBLIC :
-            if (index.column() == COLUMN_INDEX_SERVERNAME)
-                return QString("%1-%2-%3").arg('B').arg(getServers()[index.row()].id, 9, 10, QLatin1Char('0')).arg(data(index, Qt::DisplayRole).toString());
-            return data(index, Qt::DisplayRole);
+            QString name = data(index, Qt::DisplayRole).toString();
+            int category, id;
+            switch (getServerType(getServers()[index.row()]))
+            {
+            case SERVERTYPE_LOCAL :
+                category = getServerType(getServers()[index.row()]);
+                id = 0; // sort by name
+                break;
+            case SERVERTYPE_OFFICIAL :
+            case SERVERTYPE_PUBLIC :
+            case SERVERTYPE_PRIVATE :
+                category = getServerType(getServers()[index.row()]);
+                id = getServers()[index.row()].id; // sort by id (order from www-server)
+                break;
+            }
+            name = QString("%1-%2-%3").arg(category, 9, 16, QLatin1Char('0')).arg(id, 9, 10, QLatin1Char('0')).arg(name);
+            return name;
         }
+        return data(index, Qt::DisplayRole);
     }
     return QVariant();
 }
@@ -180,7 +221,7 @@ void ServerListModel::setServerTypes(ServerTypes srvtypes)
     m_srvtypes = srvtypes;
     m_servercache.clear();
 
-    ServerTypes srvtype = 0x1;
+    ServerTypes srvtype = SERVERTYPE_MIN;
     for (; srvtype <= SERVERTYPE_MAX; srvtype <<= 1)
     {
         if (m_srvtypes & srvtype)
@@ -194,7 +235,6 @@ ServerType ServerListModel::getServerType(const HostEntryEx& host) const
     ServerTypes srvtype = SERVERTYPE_MIN;
     for (; srvtype <= SERVERTYPE_MAX; srvtype <<= 1)
     {
-        Q_ASSERT(srvtype == SERVERTYPE_LOCAL || srvtype == SERVERTYPE_PUBLIC);
         const auto i = m_servers.find(ServerType(srvtype));
         if (i != m_servers.end() && std::find_if((*i).begin(), (*i).end(),
                                                  [host](const HostEntry& h) { return h.sameHostEntry(host); }) != (*i).end())
@@ -207,63 +247,68 @@ ServerType ServerListModel::getServerType(const HostEntryEx& host) const
 
 ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
-    , m_http_manager(nullptr)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
 
     m_model = new ServerListModel(this);
     m_proxyModel = new QSortFilterProxyModel(this);
-    m_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
-    m_proxyModel->setSortRole(Qt::UserRole);
     m_proxyModel->setSourceModel(m_model);
     ui.serverTreeView->setModel(m_proxyModel);
+    m_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
+    m_proxyModel->setSortRole(Qt::UserRole);
+    m_proxyModel->sort(COLUMN_INDEX_SERVERNAME, Qt::AscendingOrder);
 
     ui.usernameBox->addItem(WEBLOGIN_BEARWARE_USERNAME);
 
     connect(ui.addupdButton, &QAbstractButton::clicked,
             this, &ServerListDlg::slotAddUpdServer);
     connect(ui.delButton, &QAbstractButton::clicked,
-            this, &ServerListDlg::slotDeleteServer);
+            this, &ServerListDlg::deleteSelectedServer);
     connect(ui.serverTreeView, &QAbstractItemView::activated,
-            this, &ServerListDlg::slotShowSelectedServer);
+            this, &ServerListDlg::showSelectedServer);
     connect(ui.serverTreeView->selectionModel(), &QItemSelectionModel::currentRowChanged,
-            this, &ServerListDlg::slotShowSelectedServer);
+            this, &ServerListDlg::showSelectedServer);
     connect(ui.connectButton, &QAbstractButton::clicked,
             this, &ServerListDlg::slotConnect);
     connect(ui.clearButton, &QAbstractButton::clicked,
             this, &ServerListDlg::slotClearServerClicked);
     connect(ui.serverTreeView, &QAbstractItemView::doubleClicked,
             this, &ServerListDlg::slotDoubleClicked);
-    connect(ui.freeserverChkBox, &QAbstractButton::clicked,
-            this, &ServerListDlg::slotFreeServers);
+    connect(ui.publicserverChkBox, &QAbstractButton::clicked,
+            this, &ServerListDlg::refreshServerList);
+    connect(ui.privateserverChkBox, &QAbstractButton::clicked,
+            this, &ServerListDlg::refreshServerList);
     connect(ui.genttButton, &QAbstractButton::clicked,
-            this, &ServerListDlg::slotGenerateFile);
+            this, &ServerListDlg::saveTTFile);
     connect(ui.impttButton, &QAbstractButton::clicked,
-            this, &ServerListDlg::slotLoadTTFile);
+            this, &ServerListDlg::slotImportTTFile);
     connect(ui.hostaddrBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &ServerListDlg::showLatestHostEntry);
     connect(ui.nameEdit, &QLineEdit::textChanged,
-            this, &ServerListDlg::slotSaveEntryChanged);
+            this, &ServerListDlg::hostEntryNameChanged);
 
     connect(ui.hostaddrBox, &QComboBox::editTextChanged,
             this, &ServerListDlg::slotGenerateEntryName);
     connect(ui.deleteBtn, &QAbstractButton::clicked,
-            this, &ServerListDlg::slotDeleteLatestHost);
+            this, &ServerListDlg::deleteHostEntry);
     connect(ui.tcpportEdit, &QLineEdit::textChanged,
             this, &ServerListDlg::slotGenerateEntryName);
     connect(ui.usernameBox, &QComboBox::editTextChanged,
             this, &ServerListDlg::slotGenerateEntryName);
+    connect(ui.publishButton, &QAbstractButton::clicked,
+            this, &ServerListDlg::publishServer);
+
 
     clearHostEntry();
 
     showLatestHosts();
 
-    if(ttSettings->value(SETTINGS_DISPLAY_FREESERVERS, true).toBool())
-        ui.freeserverChkBox->setChecked(true);
+    ui.publicserverChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_PUBLICSERVERS, SETTINGS_DISPLAY_PUBLICSERVERS_DEFAULT).toBool());
+    ui.privateserverChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_PRIVATESERVERS, SETTINGS_DISPLAY_PRIVATESERVERS_DEFAULT).toBool());
 
     ui.delButton->setEnabled(false);
-    slotRefreshServers();
+    refreshServerList();
     HostEntry lasthost;
     if (getLatestHost(0, lasthost))
     {
@@ -340,6 +385,12 @@ void ServerListDlg::clearHostEntry()
     ui.clearButton->setEnabled(false);
 }
 
+void ServerListDlg::slotClearServerClicked()
+{
+    clearHostEntry();
+    ui.hostaddrBox->setFocus();
+}
+
 void ServerListDlg::showLatestHosts()
 {
     ui.hostaddrBox->clear();
@@ -349,12 +400,6 @@ void ServerListDlg::showLatestHosts()
     while (getLatestHost(index++, host))
         ui.hostaddrBox->addItem(host.ipaddr);
     showLatestHostEntry(0);
-}
-
-void ServerListDlg::slotClearServerClicked()
-{
-    clearHostEntry();
-    ui.hostaddrBox->setFocus();
 }
 
 void ServerListDlg::showLatestHostEntry(int index)
@@ -367,6 +412,62 @@ void ServerListDlg::showLatestHostEntry(int index)
     }
 }
 
+void ServerListDlg::deleteHostEntry()
+{
+    int i = ui.hostaddrBox->currentIndex();
+    deleteLatestHost(i);
+    showLatestHosts();
+}
+
+void ServerListDlg::slotImportTTFile()
+{
+    QString start_dir = ttSettings->value(SETTINGS_LAST_DIRECTORY, QDir::homePath()).toString();
+    QString filepath = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                   start_dir/*, tr("TT Files (*.tt)")*/);
+    if(filepath.isEmpty())
+        return;
+    QFile ttfile(QDir::fromNativeSeparators(filepath));
+    if(!ttfile.open(QFile::ReadOnly))
+    {
+        QMessageBox::information(this, tr("Load File"),
+            tr("Failed to load file %1").arg(filepath));
+        return;
+    }
+
+    QByteArray data = ttfile.readAll();
+    QDomDocument doc(TTFILE_ROOT);
+    if(!doc.setContent(data))
+    {
+        QMessageBox::information(this, tr("Load File"),
+            tr("Failed to load file %1").arg(filepath));
+        return;
+    }
+
+    QDomElement rootElement(doc.documentElement());
+    QString version = rootElement.attribute("version");
+
+    if(!versionSameOrLater(version, TTFILE_VERSION))
+    {
+        QMessageBox::information(this, tr("Load File"),
+            tr("The file \"%1\" is incompatible with %2")
+            .arg(QDir::toNativeSeparators(filepath))
+            .arg(APPTITLE));
+        return;
+    }
+
+    QDomElement element = rootElement.firstChildElement("host");
+    HostEntry entry;
+    if(!getServerEntry(element, entry))
+    {
+        QMessageBox::information(this, tr("Load File"),
+            tr("Failed to extract host-information from %1").arg(filepath));
+        return;
+    }
+
+    addServerEntry(entry);
+    refreshServerList();
+}
+
 void ServerListDlg::slotConnect()
 {
     HostEntry entry;
@@ -374,16 +475,7 @@ void ServerListDlg::slotConnect()
     {
         if (isWebLogin(entry.username, true))
         {
-            QString username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
-            if (username.isEmpty())
-            {
-                BearWareLoginDlg dlg(this);
-                if (dlg.exec())
-                {
-                    username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
-                }
-            }
-            ui.usernameBox->lineEdit()->setText(username);
+            ui.usernameBox->lineEdit()->setText(getBearWareWebLogin(this));
             ui.passwordEdit->setText("");
         }
 
@@ -392,10 +484,11 @@ void ServerListDlg::slotConnect()
     }
 }
 
-void ServerListDlg::slotRefreshServers()
+void ServerListDlg::refreshServerList()
 {
     m_model->clearServers();
 
+    m_nextid = 0;
     int index = 0;
     HostEntryEx entry;
     while (getServerEntry(index++, entry))
@@ -405,11 +498,10 @@ void ServerListDlg::slotRefreshServers()
         entry = HostEntryEx();
     }
 
-    if (ui.freeserverChkBox->isChecked())
-        slotFreeServers(true);
+    requestServerList();
 }
 
-void ServerListDlg::slotShowSelectedServer(const QModelIndex &index)
+void ServerListDlg::showSelectedServer(const QModelIndex &index)
 {
     clearHostEntry();
     auto servers = m_model->getServers();
@@ -434,12 +526,12 @@ void ServerListDlg::slotAddUpdServer()
         RestoreIndex g(ui.serverTreeView);
         deleteServerEntry(entry.name);
         addServerEntry(entry);
-        slotRefreshServers();
+        refreshServerList();
         ui.serverTreeView->setFocus();
     }
 }
 
-void ServerListDlg::slotDeleteServer()
+void ServerListDlg::deleteSelectedServer()
 {
     auto servers = m_model->getServers();
     auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
@@ -449,7 +541,7 @@ void ServerListDlg::slotDeleteServer()
 
         deleteServerEntry(servers[srcIndex.row()].name);
         clearHostEntry();
-        slotRefreshServers();
+        refreshServerList();
         ui.serverTreeView->setFocus();
     }
     ui.delButton->setEnabled(ui.serverTreeView->currentIndex().isValid());
@@ -460,34 +552,32 @@ void ServerListDlg::slotDoubleClicked(const QModelIndex& /*index*/)
     slotConnect();
 }
 
-void ServerListDlg::slotFreeServers(bool checked)
+void ServerListDlg::requestServerList()
 {
-    ttSettings->setValue(SETTINGS_DISPLAY_FREESERVERS, checked);
+    bool publicservers = ui.publicserverChkBox->isChecked();
+    bool privateservers = ui.privateserverChkBox->isChecked();
+    ttSettings->setValue(SETTINGS_DISPLAY_PUBLICSERVERS, privateservers);
+    ttSettings->setValue(SETTINGS_DISPLAY_PRIVATESERVERS, publicservers);
 
-    if(!checked)
-    {
-        slotRefreshServers();
+    if (!privateservers && !publicservers)
         return;
-    }
-    if(!m_http_manager)
-        m_http_manager = new QNetworkAccessManager(this);
 
-    QUrl url(URL_FREESERVER);
-    connect(m_http_manager, &QNetworkAccessManager::finished,
-            this, &ServerListDlg::slotFreeServerRequest);
+    if (!m_httpsrvlist_manager)
+        m_httpsrvlist_manager = new QNetworkAccessManager(this);
+
+    QUrl url(URL_FREESERVER(privateservers, publicservers));
+    connect(m_httpsrvlist_manager, &QNetworkAccessManager::finished,
+            this, &ServerListDlg::serverlistReply);
 
     QNetworkRequest request(url);
-    m_http_manager->get(request);
-    //QByteArray path = QUrl::toPercentEncoding(url.path(), "!$&'()*+,;=:@/");
-    //if (path.isEmpty())
-    //    path = "/";
+    m_httpsrvlist_manager->get(request);
 }
 
-void ServerListDlg::slotFreeServerRequest(QNetworkReply* reply)
+void ServerListDlg::serverlistReply(QNetworkReply* reply)
 {
     RestoreIndex ri(ui.serverTreeView);
 
-    Q_ASSERT(m_http_manager);
+    Q_ASSERT(m_httpsrvlist_manager);
     QByteArray data = reply->readAll();
 
     QDomDocument doc("foo");
@@ -501,15 +591,16 @@ void ServerListDlg::slotFreeServerRequest(QNetworkReply* reply)
         HostEntryEx entry;
         if (getServerEntry(element, entry))
         {
+            processHostEntry(element, entry);
             processStatsXML(element, entry);
             entry.id = ++m_nextid;
-            m_model->addServer(entry, SERVERTYPE_PUBLIC);
+            m_model->addServer(entry, entry.srvtype);
         }
 		element = element.nextSiblingElement();
     }
 }
 
-void ServerListDlg::slotGenerateFile()
+void ServerListDlg::saveTTFile()
 {
     HostEntry entry;
     if(!getHostEntry(entry))
@@ -519,65 +610,49 @@ void ServerListDlg::slotGenerateFile()
     dlg.exec();
 }
 
-void ServerListDlg::slotLoadTTFile()
+void ServerListDlg::publishServer()
 {
-    QString start_dir = ttSettings->value(SETTINGS_LAST_DIRECTORY, QDir::homePath()).toString();
-    QString filepath = QFileDialog::getOpenFileName(this, tr("Open File"),
-                                                   start_dir/*, tr("TT Files (*.tt)")*/);
-    if(filepath.isEmpty())
-        return;
-    QFile ttfile(QDir::fromNativeSeparators(filepath));
-    if(!ttfile.open(QFile::ReadOnly))
-    {
-        QMessageBox::information(this, tr("Load File"), 
-            tr("Failed to load file %1").arg(filepath));
-        return;
-    }
-
-    QByteArray data = ttfile.readAll();
-    QDomDocument doc(TTFILE_ROOT);
-    if(!doc.setContent(data))
-    {
-        QMessageBox::information(this, tr("Load File"), 
-            tr("Failed to load file %1").arg(filepath));
-        return;
-    }
-
-    QDomElement rootElement(doc.documentElement());
-    QString version = rootElement.attribute("version");
-    
-    if(!versionSameOrLater(version, TTFILE_VERSION))
-    {
-        QMessageBox::information(this, tr("Load File"), 
-            tr("The file \"%1\" is incompatible with %2")
-            .arg(QDir::toNativeSeparators(filepath))
-            .arg(APPTITLE));
-        return;
-    }
-
-    QDomElement element = rootElement.firstChildElement("host");
     HostEntry entry;
-    if(!getServerEntry(element, entry))
-    {
-        QMessageBox::information(this, tr("Load File"), 
-            tr("Failed to extract host-information from %1").arg(filepath));
+    if (!getHostEntry(entry) || entry.name.isEmpty())
         return;
-    }
 
-    addServerEntry(entry);
-    slotRefreshServers();
+    if (!m_http_srvpublish_manager)
+        m_http_srvpublish_manager = new QNetworkAccessManager(this);
+
+    connect(m_http_srvpublish_manager, &QNetworkAccessManager::finished,
+            this, &ServerListDlg::publishServerRequest);
+
+    QString username = getBearWareWebLogin(this);
+    username = QUrl::toPercentEncoding(username);
+    QString token = ttSettings->value(SETTINGS_GENERAL_BEARWARE_TOKEN, "").toString();
+    token = QUrl::toPercentEncoding(token);
+    QUrl url(URL_PUBLISHSERVER(username, token));
+    QByteArray xml = generateTTFile(entry);
+
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "text/xml");
+    m_http_srvpublish_manager->post(request, xml);
 }
 
-void ServerListDlg::slotDeleteLatestHost()
+void ServerListDlg::publishServerRequest(QNetworkReply* reply)
 {
-    int i = ui.hostaddrBox->currentIndex();
-    deleteLatestHost(i);
-    showLatestHosts();
+    if (reply->error() != QNetworkReply::NoError)
+    {
+        QMessageBox::critical(this, tr("Publish Server"),
+            tr("Failed to publish server."));
+    }
+    else
+    {
+        QMessageBox::information(this, tr("Publish Server"),
+            tr("Your private server will appear in a couple of minutes.\n"
+               "Delete the published user account to unregister your server."));
+    }
 }
 
-void ServerListDlg::slotSaveEntryChanged(const QString& text)
+void ServerListDlg::hostEntryNameChanged(const QString& text)
 {
     ui.addupdButton->setEnabled(text.size());
+    ui.publishButton->setEnabled(text.size());
 }
 
 void ServerListDlg::slotGenerateEntryName(const QString&)
