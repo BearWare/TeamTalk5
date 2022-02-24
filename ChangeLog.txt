@@ -13,6 +13,7 @@ Default Qt Client
 - Added "Hear Myself" menu item to "Me" menu
 - See number of active users on public server list
 - See "Message of the Day" on public servers as tooltip in server list
+- Publish private server on server list in "Connect to a Server" dialog
 - Fixed issue where no all users and channels were listed after initial login
 - Fixed labels for server abuse options in server properties
 - Fixed crash issue when using Cmd+4 on macOS 12.2
