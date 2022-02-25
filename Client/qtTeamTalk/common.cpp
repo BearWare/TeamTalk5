@@ -570,7 +570,11 @@ void processClientSetupXML(const QDomElement& hostElement, HostEntry& entry)
     QDomElement client = hostElement.firstChildElement(CLIENTSETUP_TAG);
     if (!client.isNull())
     {
-        QDomElement tmp = client.firstChildElement("gender");
+        QDomElement tmp = client.firstChildElement("nickname");
+        if (!tmp.isNull())
+            entry.nickname = tmp.text();
+
+        tmp = client.firstChildElement("gender");
         if(!tmp.isNull())
         {
             switch (tmp.text().toInt())
