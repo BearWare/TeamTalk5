@@ -1165,6 +1165,7 @@
     <addaction name="actionEnableVoiceActivation"/>
     <addaction name="actionEnableVideoTransmission"/>
     <addaction name="actionEnableDesktopSharing"/>
+    <addaction name="separator"/>
     <addaction name="menuNotifications"/>
    </widget>
    <widget class="QMenu" name="menuUsers">
