@@ -371,8 +371,8 @@ using shortcut keys. The currently active sound input devices and
 sound output devices can also be selected in **Input Devices** and
 **Output Devices** submenu.
 
-Sound input devices with the **[Loopback]]** postfix sends back audio
-played on the devices back into TeamTalk as its microphone input.
+Sound input devices with the **[Loopback]]** postfix sends audio
+played on the select input device back into TeamTalk as its microphone input.
 
 ## Record Conversations to Disk {#recorddlg}
 
@@ -771,8 +771,8 @@ Each of the menu items in the Channels menu are described here.
       [User can create/modify all channels](@ref useraccountsdlg) can
       update a channel's properties. Note that it is not possible to
       change the audio codec of a channel when there are users in the
-      channel. Details about a channel is described in [Create Channel
-      Dialog](@ref createchandlg).
+      channel. Details about a channel is described in
+      [Create Channel Dialog](@ref createchandlg).
 - **Delete Channel**
     - Delete the selected channel and any sub-channels. If there's
       users in the channel then they will be kicked out. Only users
