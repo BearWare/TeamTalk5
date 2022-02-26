@@ -320,6 +320,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
             {
                 auto srcIndex = m_proxyModel->mapFromSource(m_model->index(i, 0));
                 ui.serverTreeView->setCurrentIndex(srcIndex);
+                ui.serverTreeView->setFocus();
             }
         }
     }
