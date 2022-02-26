@@ -847,27 +847,27 @@ p, li { white-space: pre-wrap; }
         <translation>Szervernév: %1</translation>
     </message>
     <message>
-        <location filename="../chattextedit.cpp" line="136"/>
+        <location filename="../chattextedit.cpp" line="137"/>
         <source>Message of the Day: %1</source>
         <translation>A nap üzenete: %1</translation>
     </message>
     <message>
-        <location filename="../chattextedit.cpp" line="174"/>
+        <location filename="../chattextedit.cpp" line="176"/>
         <source>Joined new channel</source>
         <translation>Új csatorna csatlakozott</translation>
     </message>
     <message>
-        <location filename="../chattextedit.cpp" line="182"/>
+        <location filename="../chattextedit.cpp" line="184"/>
         <source>Channel: %1</source>
         <translation>Csatorna: %1</translation>
     </message>
     <message>
-        <location filename="../chattextedit.cpp" line="189"/>
+        <location filename="../chattextedit.cpp" line="191"/>
         <source>Topic: %1</source>
         <translation>Téma: %1</translation>
     </message>
     <message>
-        <location filename="../chattextedit.cpp" line="196"/>
+        <location filename="../chattextedit.cpp" line="198"/>
         <source>Disk quota: %1 KBytes</source>
         <translation>Tároló kvóta: %1 KBájt</translation>
     </message>
@@ -1470,7 +1470,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="402"/>
-        <location filename="../mainwindow.ui" line="1716"/>
+        <location filename="../mainwindow.ui" line="1717"/>
         <location filename="../mainwindow.cpp" line="6518"/>
         <source>&amp;Video</source>
         <translation>&amp;Video</translation>
@@ -1610,108 +1610,108 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1172"/>
+        <location filename="../mainwindow.ui" line="1173"/>
         <source>&amp;Users</source>
         <translation>&amp;Felhasználók</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1176"/>
+        <location filename="../mainwindow.ui" line="1177"/>
         <source>&amp;Subscriptions</source>
         <translation>&amp;Előfizetések</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1196"/>
+        <location filename="../mainwindow.ui" line="1197"/>
         <source>&amp;Advanced</source>
         <translation>&amp;Haladó</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1209"/>
+        <location filename="../mainwindow.ui" line="1210"/>
         <source>&amp;Mute</source>
         <translation>&amp;Némítás</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1216"/>
+        <location filename="../mainwindow.ui" line="1217"/>
         <source>&amp;Kick</source>
         <translation>&amp;Kidobás</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1226"/>
+        <location filename="../mainwindow.ui" line="1227"/>
         <source>&amp;User Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1233"/>
+        <location filename="../mainwindow.ui" line="1234"/>
         <source>&amp;Transmit Control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1262"/>
+        <location filename="../mainwindow.ui" line="1263"/>
         <source>&amp;Channels</source>
         <translation>&amp;Csatornák</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1266"/>
+        <location filename="../mainwindow.ui" line="1267"/>
         <source>&amp;Channel Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1289"/>
+        <location filename="../mainwindow.ui" line="1290"/>
         <source>&amp;Server</source>
         <translation>&amp;Szerver</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1304"/>
+        <location filename="../mainwindow.ui" line="1305"/>
         <source>&amp;Help</source>
         <translation>S&amp;úgó</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1367"/>
+        <location filename="../mainwindow.ui" line="1368"/>
         <source>&amp;Server List</source>
         <translation>&amp;Szerver lista</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1370"/>
-        <location filename="../mainwindow.ui" line="1611"/>
+        <location filename="../mainwindow.ui" line="1371"/>
+        <location filename="../mainwindow.ui" line="1612"/>
         <source>F3</source>
         <translation>F3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1382"/>
+        <location filename="../mainwindow.ui" line="1383"/>
         <source>&amp;Connect</source>
         <translation>&amp;Csatlakozás</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1385"/>
+        <location filename="../mainwindow.ui" line="1386"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1393"/>
+        <location filename="../mainwindow.ui" line="1394"/>
         <source>&amp;Enable Echo Cancellation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1401"/>
+        <location filename="../mainwindow.ui" line="1402"/>
         <source>Enable &amp;Automatic Gain Control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1409"/>
+        <location filename="../mainwindow.ui" line="1410"/>
         <source>Enable &amp;Denoising</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1414"/>
+        <location filename="../mainwindow.ui" line="1415"/>
         <source>&amp;Preferences</source>
         <translation>&amp;Preferenciák</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1417"/>
+        <location filename="../mainwindow.ui" line="1418"/>
         <source>F4</source>
         <translation>F4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1422"/>
+        <location filename="../mainwindow.ui" line="1423"/>
         <location filename="../mainwindow.cpp" line="2375"/>
         <source>&amp;Exit</source>
         <translation>&amp;Kilépés</translation>
@@ -1721,333 +1721,333 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Alt+F4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1434"/>
+        <location filename="../mainwindow.ui" line="1435"/>
         <source>Enable &amp;Push To Talk</source>
         <translation>&amp;Push-To-Talk engedélyezése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1437"/>
+        <location filename="../mainwindow.ui" line="1438"/>
         <source>Ctrl+Shift+T</source>
         <translation>Ctrl+Shift+T</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1442"/>
+        <location filename="../mainwindow.ui" line="1443"/>
         <source>&amp;About</source>
         <translation>&amp;Névjegy</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1450"/>
+        <location filename="../mainwindow.ui" line="1451"/>
         <source>&amp;Manual</source>
         <translation>&amp;Használati utasítás</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1453"/>
+        <location filename="../mainwindow.ui" line="1454"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1458"/>
+        <location filename="../mainwindow.ui" line="1459"/>
         <source>Server &amp;Properties</source>
         <translation>Szerver &amp;tulajdonságok</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1461"/>
+        <location filename="../mainwindow.ui" line="1462"/>
         <source>F9</source>
         <translation>F9</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1466"/>
+        <location filename="../mainwindow.ui" line="1467"/>
         <source>&amp;Create Channel</source>
         <translation>&amp;Csatorna létrehozása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1469"/>
+        <location filename="../mainwindow.ui" line="1470"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1474"/>
+        <location filename="../mainwindow.ui" line="1475"/>
         <source>&amp;Update Channel</source>
         <translation>Csatorna &amp;Frissítése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1477"/>
+        <location filename="../mainwindow.ui" line="1478"/>
         <source>Shift+F7</source>
         <translation>Shift+F7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1482"/>
+        <location filename="../mainwindow.ui" line="1483"/>
         <source>&amp;Delete Channel</source>
         <translation>Cs&amp;atorna törlése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1485"/>
+        <location filename="../mainwindow.ui" line="1486"/>
         <source>F8</source>
         <translation>F8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1490"/>
+        <location filename="../mainwindow.ui" line="1491"/>
         <location filename="../mainwindow.cpp" line="5551"/>
         <source>&amp;Join Channel</source>
         <translation>Csa&amp;tlakozás a csatornához</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1493"/>
+        <location filename="../mainwindow.ui" line="1494"/>
         <source>Ctrl+J</source>
         <translation>Ctrl+J</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1505"/>
+        <location filename="../mainwindow.ui" line="1506"/>
         <source>Enable Voice &amp;Activation</source>
         <translation>Hang &amp;aktiválás engedélyezése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1508"/>
+        <location filename="../mainwindow.ui" line="1509"/>
         <source>Ctrl+Shift+A</source>
         <translation>Ctrl+Shift+A</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1513"/>
+        <location filename="../mainwindow.ui" line="1514"/>
         <source>Change &amp;Nickname</source>
         <translation>&amp;Becenév megváltoztatása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1516"/>
+        <location filename="../mainwindow.ui" line="1517"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1521"/>
+        <location filename="../mainwindow.ui" line="1522"/>
         <source>Change &amp;Status</source>
         <translation>Állapot &amp;változtatás</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1524"/>
+        <location filename="../mainwindow.ui" line="1525"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1529"/>
+        <location filename="../mainwindow.ui" line="1530"/>
         <source>&amp;View User Information</source>
         <translation>&amp;Felhasználói információ mutatása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1532"/>
+        <location filename="../mainwindow.ui" line="1533"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1537"/>
+        <location filename="../mainwindow.ui" line="1538"/>
         <source>&amp;Speak User Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1540"/>
+        <location filename="../mainwindow.ui" line="1541"/>
         <source>Ctrl+G</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1552"/>
+        <location filename="../mainwindow.ui" line="1553"/>
         <source>Mute &amp;All</source>
         <translation>Mi&amp;ndenki elnémítása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1555"/>
+        <location filename="../mainwindow.ui" line="1556"/>
         <source>Ctrl+M</source>
         <translation>Ctrl+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1560"/>
+        <location filename="../mainwindow.ui" line="1561"/>
         <source>Up&amp;load File</source>
         <translation>Fáj&amp;l feltöltése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1563"/>
+        <location filename="../mainwindow.ui" line="1564"/>
         <source>Shift+F5</source>
         <translation>Shift+F5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1568"/>
+        <location filename="../mainwindow.ui" line="1569"/>
         <source>D&amp;ownload File</source>
         <translation>&amp;Fájl letöltése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1571"/>
+        <location filename="../mainwindow.ui" line="1572"/>
         <source>Shift+F6</source>
         <translation>Shift+F6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1576"/>
+        <location filename="../mainwindow.ui" line="1577"/>
         <source>Dele&amp;te File</source>
         <translation>Fájl &amp;törlése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1579"/>
+        <location filename="../mainwindow.ui" line="1580"/>
         <source>Shift+Del</source>
         <translation>Shift+Del</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1584"/>
+        <location filename="../mainwindow.ui" line="1585"/>
         <source>&amp;Banned Users</source>
         <translation>&amp;letiltott felhasználók</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1587"/>
+        <location filename="../mainwindow.ui" line="1588"/>
         <source>Ctrl+Shift+B</source>
         <translation>Ctrl+Shift+B</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1592"/>
+        <location filename="../mainwindow.ui" line="1593"/>
         <source>&amp;User Accounts</source>
         <translation>F&amp;elhasználói fiók</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1595"/>
+        <location filename="../mainwindow.ui" line="1596"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1600"/>
+        <location filename="../mainwindow.ui" line="1601"/>
         <source>&amp;Save Configuration</source>
         <translation>&amp;Konfiguráció mentése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1603"/>
+        <location filename="../mainwindow.ui" line="1604"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1608"/>
+        <location filename="../mainwindow.ui" line="1609"/>
         <source>&amp;View Channel Info</source>
         <translation>&amp;Csatornainformció megtekintése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1616"/>
+        <location filename="../mainwindow.ui" line="1617"/>
         <source>&amp;Speak Channel Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1619"/>
+        <location filename="../mainwindow.ui" line="1620"/>
         <source>Ctrl+Alt+G</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1624"/>
+        <location filename="../mainwindow.ui" line="1625"/>
         <source>S&amp;peak Channel State</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1627"/>
+        <location filename="../mainwindow.ui" line="1628"/>
         <source>Ctrl+Shift+G</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1632"/>
+        <location filename="../mainwindow.ui" line="1633"/>
         <source>M&amp;essages</source>
         <translation>Ü&amp;zenetek</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1635"/>
+        <location filename="../mainwindow.ui" line="1636"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1640"/>
+        <location filename="../mainwindow.ui" line="1641"/>
         <source>Kick and &amp;Ban From Server</source>
         <translation>&amp;Eltávolítás és letiltás a szerverről</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1917"/>
+        <location filename="../mainwindow.ui" line="1918"/>
         <source>Allow All V&amp;oice Transmission</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1920"/>
+        <location filename="../mainwindow.ui" line="1921"/>
         <source>Ctrl+Alt+Shift+Q</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1928"/>
+        <location filename="../mainwindow.ui" line="1929"/>
         <source>Allow All Video Transmission</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1931"/>
+        <location filename="../mainwindow.ui" line="1932"/>
         <source>Ctrl+Alt+Shift+W</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1996"/>
+        <location filename="../mainwindow.ui" line="1997"/>
         <source>Enable Text-To-Speech Events</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1999"/>
+        <location filename="../mainwindow.ui" line="2000"/>
         <source>Ctrl+Alt+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2007"/>
+        <location filename="../mainwindow.ui" line="2008"/>
         <source>Enable Sound Events</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2010"/>
+        <location filename="../mainwindow.ui" line="2011"/>
         <source>Ctrl+Alt+Z</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2029"/>
+        <location filename="../mainwindow.ui" line="2030"/>
         <source>Allow All Desktop Transmission</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2032"/>
+        <location filename="../mainwindow.ui" line="2033"/>
         <source>Ctrl+Alt+Shift+E</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2161"/>
+        <location filename="../mainwindow.ui" line="2162"/>
         <source>Allow All Media File Transmission</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2164"/>
+        <location filename="../mainwindow.ui" line="2165"/>
         <source>Ctrl+Alt+Shift+R</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2186"/>
+        <location filename="../mainwindow.ui" line="2187"/>
         <source>Ctrl+Alt+Shift+M</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2247"/>
+        <location filename="../mainwindow.ui" line="2248"/>
         <source>Allow Channel Text Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2250"/>
+        <location filename="../mainwindow.ui" line="2251"/>
         <source>Ctrl+Alt+T</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2258"/>
+        <location filename="../mainwindow.ui" line="2259"/>
         <source>Allow All Channel Text Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2261"/>
+        <location filename="../mainwindow.ui" line="2262"/>
         <source>Ctrl+Alt+Shift+T</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2269"/>
+        <location filename="../mainwindow.ui" line="2270"/>
         <source>&amp;Hear Myself</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2272"/>
+        <location filename="../mainwindow.ui" line="2273"/>
         <source>Ctrl+Shift+3</source>
         <translation type="unfinished">Ctrl+Shift+3</translation>
     </message>
@@ -2056,157 +2056,157 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Ctrl+Shift+K</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1652"/>
+        <location filename="../mainwindow.ui" line="1653"/>
         <source>&amp;Op</source>
         <translation>&amp;Op</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1655"/>
+        <location filename="../mainwindow.ui" line="1656"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1660"/>
+        <location filename="../mainwindow.ui" line="1661"/>
         <source>&amp;Volume</source>
         <translation>&amp;Hangerő</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1663"/>
+        <location filename="../mainwindow.ui" line="1664"/>
         <source>Ctrl+U</source>
         <translation>Ctrl+U</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1675"/>
+        <location filename="../mainwindow.ui" line="1676"/>
         <source>V&amp;oice</source>
         <translation>&amp;Hang</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1678"/>
+        <location filename="../mainwindow.ui" line="1679"/>
         <source>Ctrl+4</source>
         <translation>Ctrl+4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1690"/>
+        <location filename="../mainwindow.ui" line="1691"/>
         <source>&amp;User Messages</source>
         <translation>&amp;Felhasználói üzenetek</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1693"/>
+        <location filename="../mainwindow.ui" line="1694"/>
         <source>Ctrl+1</source>
         <translation>Ctrl+1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1701"/>
+        <location filename="../mainwindow.ui" line="1702"/>
         <source>&amp;Channel Messages</source>
         <translation>&amp;Csatorna üzenetek</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1704"/>
+        <location filename="../mainwindow.ui" line="1705"/>
         <source>Ctrl+2</source>
         <translation>Ctrl+2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1719"/>
+        <location filename="../mainwindow.ui" line="1720"/>
         <source>Ctrl+5</source>
         <translation>Ctrl+5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1727"/>
+        <location filename="../mainwindow.ui" line="1728"/>
         <source>&amp;Broadcast Messages</source>
         <translation>Ü&amp;zenetek közzététele</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1730"/>
+        <location filename="../mainwindow.ui" line="1731"/>
         <source>Ctrl+3</source>
         <translation>Ctrl+3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1742"/>
+        <location filename="../mainwindow.ui" line="1743"/>
         <source>Enable &amp;Video Transmission</source>
         <translation>&amp;Video átvitel engedélyezése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1745"/>
+        <location filename="../mainwindow.ui" line="1746"/>
         <source>Ctrl+Shift+V</source>
         <translation>Ctrl+Shift+V</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1753"/>
+        <location filename="../mainwindow.ui" line="1754"/>
         <source>&amp;Stream Audio File to Channel</source>
         <translation>&amp;Hangfájl folyamatos közvetítése (streaming) a csatornába</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1756"/>
+        <location filename="../mainwindow.ui" line="1757"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1761"/>
+        <location filename="../mainwindow.ui" line="1762"/>
         <source>Stream Audio &amp;File to User</source>
         <translation>H&amp;angfájl folyamatos közvetítése (streaming) a felhasználókhoz</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1764"/>
+        <location filename="../mainwindow.ui" line="1765"/>
         <source>Ctrl+Shift+W</source>
         <translation>Ctrl+Shift+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1776"/>
+        <location filename="../mainwindow.ui" line="1777"/>
         <source>Record Conversations to &amp;Disk</source>
         <translation>Beszélgetés mentése &amp;diszkre</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1779"/>
+        <location filename="../mainwindow.ui" line="1780"/>
         <source>Specify a folder where audio from users will be stored</source>
         <translation>Határozzon meg egy mappát, amiben a felhasználók a hangfájljaikat tárolják</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1782"/>
+        <location filename="../mainwindow.ui" line="1783"/>
         <source>Ctrl+Alt+A</source>
         <translation>Ctrl+Alt+A</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1794"/>
+        <location filename="../mainwindow.ui" line="1795"/>
         <source>Intercept User Messages</source>
         <translation>A felhasználók üzeneteinek elfogása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1797"/>
+        <location filename="../mainwindow.ui" line="1798"/>
         <source>Ctrl+Shift+1</source>
         <translation>Ctrl+Shift+1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1805"/>
+        <location filename="../mainwindow.ui" line="1806"/>
         <source>Intercept Channel Messages</source>
         <translation>Csatorna üzenetek elfogása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1808"/>
+        <location filename="../mainwindow.ui" line="1809"/>
         <source>Ctrl+Shift+2</source>
         <translation>Ctrl+Shift+2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1820"/>
+        <location filename="../mainwindow.ui" line="1821"/>
         <source>Intercept Audio</source>
         <translation>Hang elfogása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1823"/>
+        <location filename="../mainwindow.ui" line="1824"/>
         <source>Ctrl+Shift+4</source>
         <translation>Ctrl+Shift+4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1835"/>
+        <location filename="../mainwindow.ui" line="1836"/>
         <source>Intercept Video</source>
         <translation>Video elfogása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1838"/>
+        <location filename="../mainwindow.ui" line="1839"/>
         <source>Ctrl+Shift+5</source>
         <translation>Ctrl+Shift+5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1843"/>
+        <location filename="../mainwindow.ui" line="1844"/>
         <source>&amp;Broadcast Message</source>
         <translation>Ü&amp;zenet közzététele</translation>
     </message>
@@ -2215,7 +2215,7 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Ctrl+Alt+B</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1851"/>
+        <location filename="../mainwindow.ui" line="1852"/>
         <source>&amp;Increase Voice Volume</source>
         <translation>&amp;Hangerő csökkentése</translation>
     </message>
@@ -2224,7 +2224,7 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Ctrl+Right</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1859"/>
+        <location filename="../mainwindow.ui" line="1860"/>
         <source>&amp;Lower Voice Volume</source>
         <translation>&amp;Hangerő csökkentése</translation>
     </message>
@@ -2233,202 +2233,202 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Ctrl+Left</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1867"/>
+        <location filename="../mainwindow.ui" line="1868"/>
         <source>&amp;Store User(s) for Move</source>
         <translation>&amp;Tárolja a felhasználó(kat) áthelyezéshez</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1870"/>
+        <location filename="../mainwindow.ui" line="1871"/>
         <source>Ctrl+Alt+X</source>
         <translation>Ctrl+Alt+X</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1875"/>
+        <location filename="../mainwindow.ui" line="1876"/>
         <source>&amp;Move User(s)</source>
         <translation>&amp;Felhasználó(k) áthelyezése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1878"/>
+        <location filename="../mainwindow.ui" line="1879"/>
         <source>Ctrl+Alt+V</source>
         <translation>Ctrl+Alt+V</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1887"/>
+        <location filename="../mainwindow.ui" line="1888"/>
         <source>&amp;BearWare.dk Website</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1895"/>
+        <location filename="../mainwindow.ui" line="1896"/>
         <source>Allow V&amp;oice Transmission</source>
         <translation>&amp;Hangátvitel engedélyezése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1898"/>
+        <location filename="../mainwindow.ui" line="1899"/>
         <source>Ctrl+Alt+Q</source>
         <translation>Ctrl+Alt+Q</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1906"/>
+        <location filename="../mainwindow.ui" line="1907"/>
         <source>Allow Video Transmission</source>
         <translation>Video átvitel engedélyezése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1909"/>
+        <location filename="../mainwindow.ui" line="1910"/>
         <source>Ctrl+Alt+W</source>
         <translation>Ctrl+Alt+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1936"/>
+        <location filename="../mainwindow.ui" line="1937"/>
         <source>Server S&amp;tatistics</source>
         <translation>&amp;Szerver statisztika</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1939"/>
+        <location filename="../mainwindow.ui" line="1940"/>
         <source>Shift+F9</source>
         <translation>Shift+F9</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1944"/>
+        <location filename="../mainwindow.ui" line="1945"/>
         <source>&amp;New Client Instance</source>
         <translation>&amp;Új kliens kérelem</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1947"/>
+        <location filename="../mainwindow.ui" line="1948"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1955"/>
+        <location filename="../mainwindow.ui" line="1956"/>
         <source>&amp;Online Users</source>
         <translation>&amp;Online felhasználók</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1958"/>
+        <location filename="../mainwindow.ui" line="1959"/>
         <source>Ctrl+Shift+U</source>
         <translation>Ctrl+Shift+U</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1970"/>
+        <location filename="../mainwindow.ui" line="1971"/>
         <source>Enable Question Mode</source>
         <translation>Kérdező mód bekapcsolása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1973"/>
+        <location filename="../mainwindow.ui" line="1974"/>
         <source>Show blinking icon</source>
         <translation>Villogó icon mutatása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1985"/>
+        <location filename="../mainwindow.ui" line="1986"/>
         <source>Enable Desktop Sharing</source>
         <translation>Asztal megosztás engedélyezése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1988"/>
+        <location filename="../mainwindow.ui" line="1989"/>
         <source>Ctrl+Shift+D</source>
         <translation>Ctrl+Shift+D</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2018"/>
+        <location filename="../mainwindow.ui" line="2019"/>
         <source>Allow Desktop Transmission</source>
         <translation>Asztal átvitel engedélyezése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2021"/>
+        <location filename="../mainwindow.ui" line="2022"/>
         <source>Ctrl+Alt+E</source>
         <translation>Ctrl+Alt+E</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2044"/>
+        <location filename="../mainwindow.ui" line="2045"/>
         <source>&amp;Desktop</source>
         <translation>&amp;Asztal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2047"/>
+        <location filename="../mainwindow.ui" line="2048"/>
         <source>Ctrl+6</source>
         <translation>Ctrl+6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2059"/>
+        <location filename="../mainwindow.ui" line="2060"/>
         <source>Intercept Desktop</source>
         <translation>Asztal elfogása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2062"/>
+        <location filename="../mainwindow.ui" line="2063"/>
         <source>Ctrl+Shift+6</source>
         <translation>Ctrl+Shift+6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2074"/>
+        <location filename="../mainwindow.ui" line="2075"/>
         <source>Stream &amp;Media File to Channel</source>
         <translation>&amp;Mediafájl folyamatos közvetítése (streaming) a cstornába</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2077"/>
+        <location filename="../mainwindow.ui" line="2078"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2089"/>
+        <location filename="../mainwindow.ui" line="2090"/>
         <source>Desktop Acce&amp;ss</source>
         <translation>&amp;Asztali hozzáférés</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2101"/>
+        <location filename="../mainwindow.ui" line="2102"/>
         <source>Allow Desktop Access</source>
         <translation>Asztali hozzáférés engedélyezése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2104"/>
+        <location filename="../mainwindow.ui" line="2105"/>
         <source>Ctrl+7</source>
         <translation>Ctrl+7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2112"/>
+        <location filename="../mainwindow.ui" line="2113"/>
         <source>&amp;Deny</source>
         <translation>&amp;Visszautasítás</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2124"/>
+        <location filename="../mainwindow.ui" line="2125"/>
         <source>Media File Stream</source>
         <translation>Médiafájl-stream</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2127"/>
+        <location filename="../mainwindow.ui" line="2128"/>
         <source>Ctrl+8</source>
         <translation>Ctrl+8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2139"/>
+        <location filename="../mainwindow.ui" line="2140"/>
         <source>Intercept Media File Stream</source>
         <translation>Médiafájl-stream elfogása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2142"/>
+        <location filename="../mainwindow.ui" line="2143"/>
         <source>Ctrl+Shift+8</source>
         <translation>Ctrl+Shift+8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2150"/>
+        <location filename="../mainwindow.ui" line="2151"/>
         <source>Allow Media File Transmission</source>
         <translation>Médiafájl-stream engedélyezése</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2153"/>
+        <location filename="../mainwindow.ui" line="2154"/>
         <source>Ctrl+Alt+R</source>
         <translation>Ctrl+Alt+R</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2172"/>
+        <location filename="../mainwindow.ui" line="2173"/>
         <source>Mu&amp;te Voice</source>
         <translation>H&amp;ang elnémítása</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2175"/>
+        <location filename="../mainwindow.ui" line="2176"/>
         <source>Ctrl+Shift+M</source>
         <translation>Ctrl+Shift+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2183"/>
+        <location filename="../mainwindow.ui" line="2184"/>
         <source>Mute Media File</source>
         <translation>Médiafájl elnémítása</translation>
     </message>
@@ -2437,27 +2437,27 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Ctrl+Alt+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2191"/>
+        <location filename="../mainwindow.ui" line="2192"/>
         <source>Kick From Channel</source>
         <translation>Eltávolítás a csatornábúl</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2194"/>
+        <location filename="../mainwindow.ui" line="2195"/>
         <source>Ctrl+K</source>
         <translation>Ctrl+K</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2199"/>
+        <location filename="../mainwindow.ui" line="2200"/>
         <source>Kick From Server</source>
         <translation>Eltávolítás a szerverről</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2202"/>
+        <location filename="../mainwindow.ui" line="2203"/>
         <source>Ctrl+Alt+K</source>
         <translation>Ctrl+Alt+K</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2207"/>
+        <location filename="../mainwindow.ui" line="2208"/>
         <source>Increase Media File Volume</source>
         <translation>Médiafájl hangerő növelése</translation>
     </message>
@@ -2466,7 +2466,7 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Ctrl+Shift+Right</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2215"/>
+        <location filename="../mainwindow.ui" line="2216"/>
         <source>Lower Media File Volume</source>
         <translation>Médiafájl hangerő csökkentése</translation>
     </message>
@@ -2475,27 +2475,27 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Ctrl+Shift+Left</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2223"/>
+        <location filename="../mainwindow.ui" line="2224"/>
         <source>R&amp;eset Preferences to Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2228"/>
+        <location filename="../mainwindow.ui" line="2229"/>
         <source>Kick and Ban From &amp;Channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2231"/>
+        <location filename="../mainwindow.ui" line="2232"/>
         <source>Ctrl+B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2236"/>
+        <location filename="../mainwindow.ui" line="2237"/>
         <source>Banned Users From Channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2239"/>
+        <location filename="../mainwindow.ui" line="2240"/>
         <source>Ctrl+Alt+Shift+B</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3401,7 +3401,7 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="783"/>
-        <location filename="../settings.h" line="238"/>
+        <location filename="../settings.h" line="243"/>
         <source>Default</source>
         <translation type="unfinished">Alapértelmezett</translation>
     </message>
@@ -4466,7 +4466,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="978"/>
-        <location filename="../preferencesdlg.cpp" line="991"/>
+        <location filename="../preferencesdlg.cpp" line="990"/>
         <source>Sound System</source>
         <translation>Hangrendszer</translation>
     </message>
@@ -4900,7 +4900,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="2573"/>
-        <location filename="../preferencesdlg.cpp" line="1326"/>
+        <location filename="../preferencesdlg.cpp" line="1325"/>
         <source>Test Selected</source>
         <translation>Kiválasztott Test</translation>
     </message>
@@ -4921,17 +4921,17 @@ Should these settings be applied?</source>
         <translation>Bitsebesség</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="367"/>
+        <location filename="../preferencesdlg.cpp" line="370"/>
         <source>Default Input Device</source>
         <translation>Alapértelmezett bemenő eszköz</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="401"/>
+        <location filename="../preferencesdlg.cpp" line="403"/>
         <source>Default Output Device</source>
         <translation>Alapértelmezett kimenő eszköz</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="385"/>
+        <location filename="../preferencesdlg.cpp" line="387"/>
         <location filename="../preferencesdlg.cpp" line="416"/>
         <source>No Sound Device</source>
         <translation type="unfinished"></translation>
@@ -4962,74 +4962,74 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="557"/>
+        <location filename="../preferencesdlg.cpp" line="556"/>
         <source>Do nothing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="558"/>
+        <location filename="../preferencesdlg.cpp" line="557"/>
         <source>Join only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="559"/>
+        <location filename="../preferencesdlg.cpp" line="558"/>
         <source>Leave only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="560"/>
+        <location filename="../preferencesdlg.cpp" line="559"/>
         <source>Join or leave</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="564"/>
+        <location filename="../preferencesdlg.cpp" line="563"/>
         <source>Ascending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="565"/>
+        <location filename="../preferencesdlg.cpp" line="564"/>
         <source>Popularity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="648"/>
+        <location filename="../preferencesdlg.cpp" line="647"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="602"/>
-        <location filename="../preferencesdlg.cpp" line="650"/>
+        <location filename="../preferencesdlg.cpp" line="601"/>
+        <location filename="../preferencesdlg.cpp" line="649"/>
         <source>Default</source>
         <translation type="unfinished">Alapértelmezett</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="653"/>
+        <location filename="../preferencesdlg.cpp" line="652"/>
         <source>Tolk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="656"/>
+        <location filename="../preferencesdlg.cpp" line="655"/>
         <source>Libnotify</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="877"/>
-        <location filename="../preferencesdlg.cpp" line="884"/>
+        <location filename="../preferencesdlg.cpp" line="876"/>
+        <location filename="../preferencesdlg.cpp" line="883"/>
         <source>Windows Firewall</source>
         <translation>Windows tűzfal</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="878"/>
+        <location filename="../preferencesdlg.cpp" line="877"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
         <translation>%1 hozzáadása a Windows tűzfal kivételek listájához sikertelen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="885"/>
+        <location filename="../preferencesdlg.cpp" line="884"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
         <translation>%1 eltávolítása a Windows tűzfal kivételek listájáról sikertelen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1344"/>
+        <location filename="../preferencesdlg.cpp" line="1343"/>
         <source>Sound Initialization</source>
         <translation>Hang indítása</translation>
     </message>
@@ -5046,71 +5046,71 @@ Should these settings be applied?</source>
         <translation type="vanished">Új hang kimeneti eszköz indítása sikertelen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1112"/>
-        <location filename="../preferencesdlg.cpp" line="1140"/>
+        <location filename="../preferencesdlg.cpp" line="1111"/>
+        <location filename="../preferencesdlg.cpp" line="1139"/>
         <source>Video Device</source>
         <translation>Video eszköz</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1113"/>
-        <location filename="../preferencesdlg.cpp" line="1141"/>
-        <location filename="../preferencesdlg.cpp" line="1889"/>
+        <location filename="../preferencesdlg.cpp" line="1112"/>
+        <location filename="../preferencesdlg.cpp" line="1140"/>
+        <location filename="../preferencesdlg.cpp" line="1888"/>
         <source>Failed to initialize video device</source>
         <translation>A video eszköz indítása sikertelen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1232"/>
+        <location filename="../preferencesdlg.cpp" line="1231"/>
         <source>Max Input Channels %1</source>
         <translation>Maximális bejövő csatorna %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1234"/>
-        <location filename="../preferencesdlg.cpp" line="1257"/>
+        <location filename="../preferencesdlg.cpp" line="1233"/>
+        <location filename="../preferencesdlg.cpp" line="1256"/>
         <source>Sample Rates:</source>
         <translation>Mintavételi sebesség:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1255"/>
+        <location filename="../preferencesdlg.cpp" line="1254"/>
         <source>Max Output Channels %1</source>
         <translation>Maximális kimenő csatorna %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1285"/>
+        <location filename="../preferencesdlg.cpp" line="1284"/>
         <source>Refresh Sound Devices</source>
         <translation>Hangeszközök frissítése</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1286"/>
+        <location filename="../preferencesdlg.cpp" line="1285"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>Hangrendszer újraindítása sikertelen. Kérjük indítsa újra  az alkalmazást.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1327"/>
+        <location filename="../preferencesdlg.cpp" line="1326"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1345"/>
+        <location filename="../preferencesdlg.cpp" line="1344"/>
         <source>Failed to initialize new sound devices</source>
         <translation>Az új hangeszköz indítása sikertelen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1643"/>
+        <location filename="../preferencesdlg.cpp" line="1642"/>
         <source>Use SAPI instead of %1 screenreader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1848"/>
+        <location filename="../preferencesdlg.cpp" line="1847"/>
         <source>Custom video format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1941"/>
+        <location filename="../preferencesdlg.cpp" line="1940"/>
         <source>Default Video Capture</source>
         <translation>Alapértelmezett Videorögzítő</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1942"/>
+        <location filename="../preferencesdlg.cpp" line="1941"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Nem találhatóak a preferált videó rögzítési beállítások</translation>
     </message>
@@ -5213,7 +5213,7 @@ Should these settings be applied?</source>
         <translation type="obsolete">Az alapértelmezett hangeszköz indítása sikertelen</translation>
     </message>
     <message>
-        <location filename="../common.cpp" line="1102"/>
+        <location filename="../common.cpp" line="1119"/>
         <source>Conference</source>
         <translation>Konferencia</translation>
     </message>
@@ -5226,102 +5226,106 @@ Should these settings be applied?</source>
         <translation>Csatlakozzon egy szerverhez</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="26"/>
+        <location filename="../serverlist.ui" line="30"/>
         <source>Server List</source>
         <translation>Szerverek listája</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="59"/>
+        <location filename="../serverlist.ui" line="83"/>
         <source>Include public servers (green ones)</source>
         <translation>Beleértve a nyilvános szervereket (zöld színnel jelezve)</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="37"/>
+        <location filename="../serverlist.ui" line="74"/>
         <source>&amp;Delete</source>
         <translation>&amp;Törlés</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="71"/>
-        <location filename="../serverlist.ui" line="314"/>
+        <location filename="../serverlist.ui" line="101"/>
         <source>Server Information</source>
         <translation>Szerver információk</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="79"/>
+        <location filename="../serverlist.ui" line="109"/>
         <source>Host IP-address</source>
         <translation>Host IP-cím</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="121"/>
+        <location filename="../serverlist.ui" line="151"/>
         <source>TCP port</source>
         <translation>TCP port</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="134"/>
-        <location filename="../serverlist.ui" line="154"/>
+        <location filename="../serverlist.ui" line="164"/>
+        <location filename="../serverlist.ui" line="184"/>
         <source>Default: 10333</source>
         <translation>Alapértelmezett: 10333</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="141"/>
+        <location filename="../serverlist.ui" line="171"/>
         <source>UDP port</source>
         <translation>UDP port</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="101"/>
-        <location filename="../serverlist.ui" line="104"/>
+        <location filename="../serverlist.ui" line="131"/>
+        <location filename="../serverlist.ui" line="134"/>
         <source>Remove entry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="161"/>
+        <location filename="../serverlist.ui" line="90"/>
+        <source>Include private servers (orange ones)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlist.ui" line="191"/>
         <source>Encrypted server</source>
         <translation>Titkosított szerver</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="170"/>
+        <location filename="../serverlist.ui" line="200"/>
         <source>Authentication (optional)</source>
         <translation>Hitelesítés (választható)</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="173"/>
+        <location filename="../serverlist.ui" line="203"/>
         <source>Authentication</source>
         <translation>Hitelesítés</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="179"/>
+        <location filename="../serverlist.ui" line="209"/>
         <source>Username</source>
         <translation>Felhasználónév</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="196"/>
-        <location filename="../serverlist.ui" line="251"/>
+        <location filename="../serverlist.ui" line="226"/>
+        <location filename="../serverlist.ui" line="281"/>
         <source>Password</source>
         <translation>Jelszó</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="213"/>
+        <location filename="../serverlist.ui" line="243"/>
         <source>Nickname (optional)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="229"/>
-        <location filename="../serverlist.ui" line="232"/>
+        <location filename="../serverlist.ui" line="259"/>
+        <location filename="../serverlist.ui" line="262"/>
         <source>Join specific channel after authentication (optional)</source>
         <translation>Csatlakozzon egy bizonyos csatornához hitelesítés után (választható)</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="238"/>
+        <location filename="../serverlist.ui" line="268"/>
         <source>Channel</source>
         <translation>Csatorna</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="279"/>
+        <location filename="../serverlist.ui" line="309"/>
         <source>C&amp;lear</source>
         <translation>Tö&amp;rlés</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="299"/>
+        <location filename="../serverlist.ui" line="329"/>
         <source>&amp;Connect</source>
         <translation>&amp;Csatlakozás</translation>
     </message>
@@ -5330,69 +5334,139 @@ Should these settings be applied?</source>
         <translation type="vanished">Mentse a szerver információkat</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="322"/>
+        <location filename="../serverlist.ui" line="352"/>
         <source>Entry name</source>
         <translation>Adja meg a mentendő fájl nevét</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="359"/>
-        <location filename="../serverlist.ui" line="362"/>
+        <location filename="../serverlist.ui" line="369"/>
+        <location filename="../serverlist.ui" line="372"/>
         <source>.tt files can be double-clicked and the client will automatically start and connect to the specified server</source>
         <translation>a .tt fájlokra duplán rákattintva az ügyfél automatikusan indul és kapcsolódik a meghatározott szerverhez</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="365"/>
+        <location filename="../serverlist.ui" line="375"/>
         <source>&amp;Generate .tt File</source>
         <translation>.tt fájl &amp;generálása</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="339"/>
+        <location filename="../serverlist.ui" line="54"/>
         <source>&amp;Import .tt File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="394"/>
+        <location filename="../serverlist.ui" line="344"/>
+        <source>Store Server Information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlist.ui" line="395"/>
+        <source>Publish Publicly</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlist.ui" line="424"/>
         <source>&amp;Save</source>
         <translation>&amp;Mentés</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="238"/>
+        <location filename="../serverlistdlg.cpp" line="364"/>
         <source>Missing fields</source>
         <translation>Kitöltetlen rovatok</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="239"/>
+        <location filename="../serverlistdlg.cpp" line="365"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation>Kérjük töltse ki a &apos;Host IP-cím&apos;,&apos;TCP-port&apos; és UDP-port&apos;  rovatokat</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="356"/>
+        <location filename="../serverlistdlg.cpp" line="426"/>
         <source>Open File</source>
         <translation type="unfinished">Fájl megnyitása</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="363"/>
-        <location filename="../serverlistdlg.cpp" line="372"/>
-        <location filename="../serverlistdlg.cpp" line="382"/>
-        <location filename="../serverlistdlg.cpp" line="393"/>
+        <location filename="../serverlistdlg.cpp" line="433"/>
+        <location filename="../serverlistdlg.cpp" line="442"/>
+        <location filename="../serverlistdlg.cpp" line="452"/>
+        <location filename="../serverlistdlg.cpp" line="463"/>
         <source>Load File</source>
         <translation type="unfinished">Fájlletöltés</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="364"/>
-        <location filename="../serverlistdlg.cpp" line="373"/>
+        <location filename="../serverlistdlg.cpp" line="434"/>
+        <location filename="../serverlistdlg.cpp" line="443"/>
         <source>Failed to load file %1</source>
         <translation type="unfinished">A %1 fájl letöltése sikertelen</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="383"/>
+        <location filename="../serverlistdlg.cpp" line="453"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
         <translation type="unfinished">A %1 fájl nem kompatibilis a %2-vel</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="394"/>
+        <location filename="../serverlistdlg.cpp" line="464"/>
         <source>Failed to extract host-information from %1</source>
         <translation type="unfinished">A host információ kinyerése a %1-ből sikertelen</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="642"/>
+        <location filename="../serverlistdlg.cpp" line="647"/>
+        <source>Publish Server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="643"/>
+        <source>Failed to publish server.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="648"/>
+        <source>Your private server will appear in a couple of minutes.
+Delete the published user account to unregister your server.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ServerListModel</name>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="94"/>
+        <source>Name</source>
+        <translation type="unfinished">Név</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="95"/>
+        <source>Users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="96"/>
+        <source>Country</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="130"/>
+        <source>Local server, Name: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="132"/>
+        <source>Official server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="135"/>
+        <source>Public server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="138"/>
+        <source>Private server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="141"/>
+        <source>%1, Name: %2, Users: %3, Country: %4, MOTD: %5</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6556,378 +6630,378 @@ Should these settings be applied?</source>
         <translation>Felhasználói fiók</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="23"/>
+        <location filename="../useraccounts.ui" line="27"/>
         <source>Active Users</source>
         <translation>Aktív felhasználó</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="662"/>
+        <location filename="../useraccounts.ui" line="667"/>
         <source>&amp;Delete</source>
         <translation>&amp;Törlés</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="74"/>
+        <location filename="../useraccounts.ui" line="76"/>
         <source>Modify User Account</source>
         <translation>Felhasználói fiók módosítása</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="126"/>
+        <location filename="../useraccounts.ui" line="128"/>
         <source>Username</source>
         <translation>Felhasználónév</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="146"/>
+        <location filename="../useraccounts.ui" line="148"/>
         <source>Password</source>
         <translation>Jelszó</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="166"/>
+        <location filename="../useraccounts.ui" line="168"/>
         <source>Note</source>
         <translation>Megjegyzés</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="183"/>
+        <location filename="../useraccounts.ui" line="185"/>
         <source>Initial Channel</source>
         <translation>Kiindulási csatorna</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="193"/>
+        <location filename="../useraccounts.ui" line="195"/>
         <source>User should automatically join this channel after login</source>
         <translation>A felhasználó automatikusan csatlakozik ehhez a csatornához bejelentkezés után</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="88"/>
+        <location filename="../useraccounts.ui" line="90"/>
         <source>User type</source>
         <translation>Felhasználói típus</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="110"/>
+        <location filename="../useraccounts.ui" line="112"/>
         <source>Administrator</source>
         <translation>Adminisztrátor</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="100"/>
+        <location filename="../useraccounts.ui" line="102"/>
         <source>Default user</source>
         <translation>Alapértelmezett felhasználó</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="82"/>
+        <location filename="../useraccounts.ui" line="84"/>
         <source>Basic Account Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="117"/>
+        <location filename="../useraccounts.ui" line="119"/>
         <source>Disabled (inactive)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="229"/>
-        <location filename="../useraccounts.ui" line="232"/>
+        <location filename="../useraccounts.ui" line="231"/>
+        <location filename="../useraccounts.ui" line="234"/>
         <source>Auto-Operator Channels</source>
         <translation>Auto-Operator csatornák</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="238"/>
+        <location filename="../useraccounts.ui" line="240"/>
         <source>Selected Channels</source>
         <translation>Kiválasztott csatornák</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="248"/>
+        <location filename="../useraccounts.ui" line="250"/>
         <source>User will automatically become operator when joining these channels</source>
         <translation>A felhasználó automatikusan operátorrá válik, amikor ezekhez a csatornákhoz csatlakozik</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="261"/>
+        <location filename="../useraccounts.ui" line="263"/>
         <source>Available Channels</source>
         <translation>Elérhető csatornák</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="280"/>
+        <location filename="../useraccounts.ui" line="285"/>
         <source>Add</source>
         <translation>Hozzáadás</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="283"/>
+        <location filename="../useraccounts.ui" line="282"/>
         <source>Set selected user auto operator for selected channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="290"/>
+        <location filename="../useraccounts.ui" line="295"/>
         <source>Remove</source>
         <translation>Eltávolítás</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="293"/>
+        <location filename="../useraccounts.ui" line="292"/>
         <source>No longer set selected user auto operator for selected channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="319"/>
+        <location filename="../useraccounts.ui" line="321"/>
         <source>Codec Limitations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="325"/>
+        <location filename="../useraccounts.ui" line="327"/>
         <source>Audio Codec Limitations</source>
         <translation>A hang kodek korlátai</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="331"/>
+        <location filename="../useraccounts.ui" line="333"/>
         <source>Max bitrate for audio codecs</source>
         <translation>A hang kodekek maximális bitsebessége</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="354"/>
+        <location filename="../useraccounts.ui" line="356"/>
         <source>kbps (0 = disabled)</source>
         <translation>Kbit/s (0 = letiltva)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="378"/>
+        <location filename="../useraccounts.ui" line="380"/>
         <source>Abuse Prevention</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="384"/>
+        <location filename="../useraccounts.ui" line="386"/>
         <source>Flood Protection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="390"/>
+        <location filename="../useraccounts.ui" line="392"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="402"/>
-        <location filename="../useraccountsdlg.cpp" line="738"/>
-        <location filename="../useraccountsdlg.cpp" line="747"/>
+        <location filename="../useraccounts.ui" line="404"/>
+        <location filename="../useraccountsdlg.cpp" line="740"/>
+        <location filename="../useraccountsdlg.cpp" line="749"/>
         <source>Limit issued commands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="439"/>
+        <location filename="../useraccounts.ui" line="441"/>
         <source>User Rights</source>
         <translation>Felhasználói jogok</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="445"/>
+        <location filename="../useraccounts.ui" line="447"/>
         <source>User can log in multiple times</source>
         <translation>A felhasználó többször is bejelentkezhet</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="452"/>
+        <location filename="../useraccounts.ui" line="454"/>
         <source>User can upload files</source>
         <translation>A felhasználó feltölthet fájlokat</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="479"/>
+        <location filename="../useraccounts.ui" line="481"/>
         <source>User can see users in all channels</source>
         <translation>A felhasználó láthatja a felhasználókat az összes csatornában</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="459"/>
+        <location filename="../useraccounts.ui" line="461"/>
         <source>User can change nickname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="466"/>
+        <location filename="../useraccounts.ui" line="468"/>
         <source>User can download files</source>
         <translation>A felhasználó letölthet fájlokat</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="507"/>
+        <location filename="../useraccounts.ui" line="509"/>
         <source>User can create/modify all channels</source>
         <translation>A felhasználó létrehozhat/módosíthat minden csatornát</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="500"/>
+        <location filename="../useraccounts.ui" line="502"/>
         <source>User can update server properties</source>
         <translation>A felhasználó frissítheti a szerver tulajdonságait</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="527"/>
+        <location filename="../useraccounts.ui" line="529"/>
         <source>User can create temporary channels</source>
         <translation>A felhasználó létrehozhat ideiglenes csatornákat</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="514"/>
+        <location filename="../useraccounts.ui" line="516"/>
         <source>User can transmit voice data (microphone)</source>
         <translation>A felhasználó továbbíthat hangcsatornát (mikrofon)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="547"/>
+        <location filename="../useraccounts.ui" line="549"/>
         <source>User can broadcast text messages</source>
         <translation>A felhasználó közzétehet szöveges üzeneteket</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="534"/>
+        <location filename="../useraccounts.ui" line="536"/>
         <source>User can transmit video data (webcam)</source>
         <translation>A felhasználó továbbíthat video adatokat (Webkamera)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="561"/>
+        <location filename="../useraccounts.ui" line="563"/>
         <source>User can kick users off the server</source>
         <translation>A felhasználó eltávolíthat felhasználókat a szerverről</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="554"/>
+        <location filename="../useraccounts.ui" line="556"/>
         <source>User can transmit audio files (wav, mp3 files)</source>
         <translation>A felhasználó továbbíthat hangfájlokat (wav, mp3 fájlok)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="575"/>
+        <location filename="../useraccounts.ui" line="577"/>
         <source>User can ban users from server</source>
         <translation>A felhasználó le tud tiltani felhasználókat a szerverről</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="568"/>
+        <location filename="../useraccounts.ui" line="570"/>
         <source>User can transmit video files (avi, mp4 files)</source>
         <translation>A felhasználó továbbíthat videofájlokat (avi, mp4 fájlokat)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="589"/>
+        <location filename="../useraccounts.ui" line="591"/>
         <source>User can move users between channels</source>
         <translation>A felhasználó mozgathat felhasználókat a csatornák között</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="582"/>
+        <location filename="../useraccounts.ui" line="584"/>
         <source>User can transmit desktop sessions (shared desktop)</source>
         <translation>A felhasználó továbbíthat asztali minkameneteket (megosztott asztalokat)</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="603"/>
+        <location filename="../useraccounts.ui" line="605"/>
         <source>User can make other users channel operator</source>
         <translation>A felhasználó meghatározhat más csatornakezelőt</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="596"/>
+        <location filename="../useraccounts.ui" line="598"/>
         <source>User can get remote access to desktop sessions</source>
         <translation>A felhasználó hozzáférést nyerhet távoli asztali munkamenethez</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="486"/>
+        <location filename="../useraccounts.ui" line="488"/>
         <source>User can record voice in all channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="493"/>
+        <location filename="../useraccounts.ui" line="495"/>
         <source>User can see hidden channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="610"/>
+        <location filename="../useraccounts.ui" line="612"/>
         <source>CheckBox</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="665"/>
+        <location filename="../useraccounts.ui" line="664"/>
         <source>Remove selected user</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="642"/>
+        <location filename="../useraccounts.ui" line="644"/>
         <source>&amp;Clear</source>
         <translation>Tö&amp;rlés</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="685"/>
+        <location filename="../useraccounts.ui" line="690"/>
         <source>&amp;Add/Update</source>
         <translation>Hozzá&amp;adás/Frissítés</translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="688"/>
+        <location filename="../useraccounts.ui" line="687"/>
         <source>Add or update user with specified informations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="622"/>
+        <location filename="../useraccounts.ui" line="624"/>
         <source>C&amp;lose</source>
         <translation>Be&amp;zárás</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="238"/>
+        <location filename="../useraccountsdlg.cpp" line="240"/>
         <source>Disabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="239"/>
+        <location filename="../useraccountsdlg.cpp" line="241"/>
         <source>10 commands in 10 sec.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="240"/>
+        <location filename="../useraccountsdlg.cpp" line="242"/>
         <source>10 commands in 1 minute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="241"/>
+        <location filename="../useraccountsdlg.cpp" line="243"/>
         <source>60 commands in 1 minute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="242"/>
+        <location filename="../useraccountsdlg.cpp" line="244"/>
         <source>Custom specified</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="491"/>
-        <location filename="../useraccountsdlg.cpp" line="631"/>
+        <location filename="../useraccountsdlg.cpp" line="493"/>
+        <location filename="../useraccountsdlg.cpp" line="633"/>
         <source>&amp;Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="492"/>
-        <location filename="../useraccountsdlg.cpp" line="632"/>
+        <location filename="../useraccountsdlg.cpp" line="494"/>
+        <location filename="../useraccountsdlg.cpp" line="634"/>
         <source>&amp;No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="495"/>
+        <location filename="../useraccountsdlg.cpp" line="497"/>
         <source>Add/Update</source>
         <translation>Hozzáadás/Frissítés</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="490"/>
+        <location filename="../useraccountsdlg.cpp" line="492"/>
         <source>Create anonymous user account?</source>
         <translation>Hozzon létre névtelen (anonymous) felhasználói fiókot?</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="630"/>
+        <location filename="../useraccountsdlg.cpp" line="632"/>
         <source>Are you sure you want to delete user &quot;%1&quot;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="635"/>
+        <location filename="../useraccountsdlg.cpp" line="637"/>
         <source>Delete user</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="734"/>
+        <location filename="../useraccountsdlg.cpp" line="736"/>
         <source>&amp;Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="735"/>
+        <location filename="../useraccountsdlg.cpp" line="737"/>
         <source>&amp;Cancel</source>
         <translation type="unfinished">&amp;Mégse</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="739"/>
+        <location filename="../useraccountsdlg.cpp" line="741"/>
         <source>Number of commands to allow (0 = disabled)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="748"/>
+        <location filename="../useraccountsdlg.cpp" line="750"/>
         <source>Timeframe to allow %1 commands (in seconds)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccounts.ui" line="223"/>
-        <location filename="../useraccountsdlg.cpp" line="687"/>
+        <location filename="../useraccounts.ui" line="225"/>
+        <location filename="../useraccountsdlg.cpp" line="689"/>
         <source>Channel Operator</source>
         <translation>Csatorna operátor</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="688"/>
+        <location filename="../useraccountsdlg.cpp" line="690"/>
         <source>The maximum number of channels where a user can automatically become channel operator is %1.</source>
         <translation>Maximális csatornaszám, ahol a felhasználó automatikusan csatornaoperátorrá válhat az %1.</translation>
     </message>
