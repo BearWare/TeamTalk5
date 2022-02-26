@@ -12,7 +12,7 @@ if (MSVC)
     ExternalProject_Add(Qt-openssl-src
       PREFIX            ${QT_BUILD_PREFIX}
       GIT_REPOSITORY    https://github.com/bear101/openssl
-      GIT_TAG           2c3f861718
+      GIT_TAG           OpenSSL_1_1_1m
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared no-asm --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN64A
@@ -27,7 +27,7 @@ if (MSVC)
     ExternalProject_Add(Qt-openssl-src
       PREFIX            ${QT_BUILD_PREFIX}
       GIT_REPOSITORY    https://github.com/bear101/openssl
-      GIT_TAG           2c3f861718
+      GIT_TAG           OpenSSL_1_1_1m
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared no-asm --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN32

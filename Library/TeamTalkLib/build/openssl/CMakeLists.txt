@@ -16,7 +16,7 @@ if (MSVC)
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
       ExternalProject_Add(openssl-src
         GIT_REPOSITORY    https://github.com/bear101/openssl
-        GIT_TAG           2c3f861718
+        GIT_TAG           OpenSSL_1_1_1m
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
@@ -30,7 +30,7 @@ if (MSVC)
     else()
       ExternalProject_Add(openssl-src
         GIT_REPOSITORY    https://github.com/bear101/openssl
-        GIT_TAG           2c3f861718
+        GIT_TAG           OpenSSL_1_1_1m
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
