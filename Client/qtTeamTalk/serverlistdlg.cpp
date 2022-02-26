@@ -557,8 +557,8 @@ void ServerListDlg::requestServerList()
 {
     bool publicservers = ui.publicserverChkBox->isChecked();
     bool privateservers = ui.privateserverChkBox->isChecked();
-    ttSettings->setValue(SETTINGS_DISPLAY_PUBLICSERVERS, privateservers);
-    ttSettings->setValue(SETTINGS_DISPLAY_PRIVATESERVERS, publicservers);
+    ttSettings->setValue(SETTINGS_DISPLAY_PUBLICSERVERS, publicservers);
+    ttSettings->setValue(SETTINGS_DISPLAY_PRIVATESERVERS, privateservers);
 
     if (!privateservers && !publicservers)
         return;
