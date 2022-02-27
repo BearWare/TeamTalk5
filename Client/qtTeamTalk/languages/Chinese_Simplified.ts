@@ -5149,7 +5149,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="90"/>
         <source>Include private servers (orange ones)</source>
-        <translation type="unfinished"></translation>
+        <translation>包含私人服务器（橙色）</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="191"/>
@@ -5206,7 +5206,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="344"/>
         <source>Store Server Information</source>
-        <translation type="unfinished"></translation>
+        <translation>存储服务器信息</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="352"/>
@@ -5232,7 +5232,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="395"/>
         <source>Publish Publicly</source>
-        <translation type="unfinished"></translation>
+        <translation>公开发布</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="424"/>
@@ -5282,18 +5282,19 @@ Should these settings be applied?</source>
         <location filename="../serverlistdlg.cpp" line="642"/>
         <location filename="../serverlistdlg.cpp" line="647"/>
         <source>Publish Server</source>
-        <translation type="unfinished"></translation>
+        <translation>发布服务器</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="643"/>
         <source>Failed to publish server.</source>
-        <translation type="unfinished"></translation>
+        <translation>无法发布服务器。</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="648"/>
         <source>Your private server will appear in a couple of minutes.
 Delete the published user account to unregister your server.</source>
-        <translation type="unfinished"></translation>
+        <translation>您的私人服务器将在几分钟后出现。
+删除已发布的用户帐户以取消注册您的服务器。</translation>
     </message>
 </context>
 <context>
@@ -5301,42 +5302,42 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="94"/>
         <source>Name</source>
-        <translation type="unfinished">名称</translation>
+        <translation>名称</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="95"/>
         <source>Users</source>
-        <translation type="unfinished"></translation>
+        <translation>用户</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="96"/>
         <source>Country</source>
-        <translation type="unfinished"></translation>
+        <translation>国家</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="130"/>
         <source>Local server, Name: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>本地服务器， 名称： %1</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="132"/>
         <source>Official server</source>
-        <translation type="unfinished"></translation>
+        <translation>官方服务器</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="135"/>
         <source>Public server</source>
-        <translation type="unfinished"></translation>
+        <translation>公共服务器</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="138"/>
         <source>Private server</source>
-        <translation type="unfinished"></translation>
+        <translation>私人服务器</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="141"/>
         <source>%1, Name: %2, Users: %3, Country: %4, MOTD: %5</source>
-        <translation type="unfinished"></translation>
+        <translation>%1， 名称： %2， 用户： %3， 国家： %4， 每日消息： %5</translation>
     </message>
 </context>
 <context>
