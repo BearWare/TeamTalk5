@@ -1710,6 +1710,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1305"/>
         <source>&amp;Help</source>
+        <translatorcomment>	</translatorcomment>
         <translation>&amp;Помощь</translation>
     </message>
     <message>
@@ -1721,12 +1722,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="1371"/>
         <location filename="../mainwindow.ui" line="1612"/>
         <source>F3</source>
+        <translatorcomment>	</translatorcomment>
         <translation>F3</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1383"/>
         <source>&amp;Connect</source>
-        <translation>&amp;Соединить</translation>
+        <translation>&amp;Подключиться</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1386"/>
@@ -2348,6 +2350,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1956"/>
         <source>&amp;Online Users</source>
+        <translatorcomment>	</translatorcomment>
         <translation>&amp;Пользователи в Сети</translation>
     </message>
     <message>
@@ -3251,7 +3254,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="5108"/>
         <source>Message to broadcast:</source>
-        <translation>Сообщение для трансляции:</translation>
+        <translation>Введите сетевое сообщение</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5118"/>
@@ -3698,17 +3701,21 @@ You can download it on the page below:
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6724"/>
-        <source>New version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
+        <source>New version available: %1
+You can download it on the page below:
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая версия: %1
+You can download it on the page below:
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6749"/>
-        <source>New beta version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
+        <source>New beta version available: %1
+You can download it on the page below:
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая бета-версия: %1
+You can download it on the page below:
+%2</translation>
     </message>
     <message>
         <source>Streaming media file</source>
@@ -3988,9 +3995,10 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6631"/>
-        <source>The file %1 contains %2 setup information.<byte value="xd"/>
+        <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл %1 содержит %2 конфигурационные данные.
+Следует ли применять эти настройки?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6636"/>
@@ -5343,7 +5351,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="90"/>
         <source>Include private servers (orange ones)</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить частные серверы. Помечены оранжевым</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="191"/>
@@ -5395,7 +5403,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="329"/>
         <source>&amp;Connect</source>
-        <translation>&amp;Соединить</translation>
+        <translation>&amp;Подключиться</translation>
     </message>
     <message>
         <source>Save Server Information</source>
@@ -5404,7 +5412,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="352"/>
         <source>Entry name</source>
-        <translation>Имя Входа</translation>
+        <translation>название</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="369"/>
@@ -5425,12 +5433,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="344"/>
         <source>Store Server Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранение Информации о Сервере</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="395"/>
         <source>Publish Publicly</source>
-        <translation type="unfinished"></translation>
+        <translation>Публиковать Публично</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="424"/>
@@ -5474,24 +5482,25 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="464"/>
         <source>Failed to extract host-information from %1</source>
-        <translation>Не удалось извлечь информацию хоста из %1</translation>
+        <translation>Не удалось извлечь информацию сервера из %1</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="642"/>
         <location filename="../serverlistdlg.cpp" line="647"/>
         <source>Publish Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Публикация сервера</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="643"/>
         <source>Failed to publish server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось опубликовать сервер.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="648"/>
         <source>Your private server will appear in a couple of minutes.
 Delete the published user account to unregister your server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ваш частный сервер появится через пару минут.
+Удалите опубликованную учетную запись пользователя, чтобы отменить регистрацию вашего сервера.</translation>
     </message>
 </context>
 <context>
@@ -5499,42 +5508,42 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="94"/>
         <source>Name</source>
-        <translation type="unfinished">Имя</translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="95"/>
         <source>Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователи</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="96"/>
         <source>Country</source>
-        <translation type="unfinished"></translation>
+        <translation>Страна</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="130"/>
         <source>Local server, Name: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Местный сервер, имя: %1</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="132"/>
         <source>Official server</source>
-        <translation type="unfinished"></translation>
+        <translation>Официальный сервер</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="135"/>
         <source>Public server</source>
-        <translation type="unfinished"></translation>
+        <translation>Публичный сервер</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="138"/>
         <source>Private server</source>
-        <translation type="unfinished"></translation>
+        <translation>Частный сервер</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="141"/>
         <source>%1, Name: %2, Users: %3, Country: %4, MOTD: %5</source>
-        <translation type="unfinished"></translation>
+        <translation>%1, Имя: %2, Пользователей: %3, Страна: %4, Сообщение дня: %5</translation>
     </message>
 </context>
 <context>
