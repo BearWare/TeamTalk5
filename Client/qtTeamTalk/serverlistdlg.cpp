@@ -645,8 +645,13 @@ void ServerListDlg::publishServerRequest(QNetworkReply* reply)
     else
     {
         QMessageBox::information(this, tr("Publish Server"),
-            tr("Your private server will appear in a couple of minutes.\n"
-               "Delete the published user account to unregister your server."));
+            tr("Change your server's name to include the text #teamtalkpublish#.\n"
+                "This will verify that you're the owner of the server.\n"
+                "Once this is done your private server will appear in a couple of minutes.\n\n"
+                "Delete the published user account to unregister your server.\n\n"
+                "The #teamtalkpublish# notification can be removed once\n"
+                "the server has been verified."
+            ));
     }
 }
 
