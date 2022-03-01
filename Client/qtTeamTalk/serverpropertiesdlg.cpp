@@ -115,8 +115,7 @@ void ServerPropertiesDlg::slotAccepted()
     m_srvprop.nMaxLoginAttempts = ui.maxloginattemptsSpinBox->value();
     m_srvprop.nMaxLoginsPerIPAddress = ui.maxiploginsSpinBox->value();
     m_srvprop.nLoginDelayMSec = ui.logindelaySpinBox->value();
-    if(_Q(m_srvprop.szMOTDRaw).size() &&
-       _Q(m_srvprop.szMOTDRaw) != ui.motdTextEdit->toPlainText())
+    if (_Q(m_srvprop.szMOTDRaw) != ui.motdTextEdit->toPlainText())
     {
         QMessageBox answer;
         answer.setText(tr("Change message of the day?"));
