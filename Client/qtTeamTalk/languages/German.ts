@@ -5867,8 +5867,14 @@ Sollen diese Einstellungen übernommen werden?</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="648"/>
-        <source>Your private server will appear in a couple of minutes.
-Delete the published user account to unregister your server.</source>
+        <source>Change your server&apos;s name to include the text #teamtalkpublish#.
+This will verify that you&apos;re the owner of the server.
+Once this is done your private server will appear in a couple of minutes.
+
+Delete the published user account to unregister your server.
+
+The #teamtalkpublish# notification can be removed once
+the server has been verified.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6106,7 +6112,7 @@ Delete the published user account to unregister your server.</source>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="73"/>
-        <location filename="../serverpropertiesdlg.cpp" line="127"/>
+        <location filename="../serverpropertiesdlg.cpp" line="126"/>
         <source>Message of the day</source>
         <translation>Nachricht des Tages</translation>
     </message>
@@ -6309,17 +6315,17 @@ Delete the published user account to unregister your server.</source>
         <translation>S&amp;chließen</translation>
     </message>
     <message>
-        <location filename="../serverpropertiesdlg.cpp" line="122"/>
+        <location filename="../serverpropertiesdlg.cpp" line="121"/>
         <source>Change message of the day?</source>
         <translation>Nachricht des Tages ändern?</translation>
     </message>
     <message>
-        <location filename="../serverpropertiesdlg.cpp" line="123"/>
+        <location filename="../serverpropertiesdlg.cpp" line="122"/>
         <source>&amp;Yes</source>
         <translation>&amp;Ja</translation>
     </message>
     <message>
-        <location filename="../serverpropertiesdlg.cpp" line="124"/>
+        <location filename="../serverpropertiesdlg.cpp" line="123"/>
         <source>&amp;No</source>
         <translation>&amp;Nein</translation>
     </message>

@@ -5291,9 +5291,20 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="648"/>
+        <source>Change your server&apos;s name to include the text #teamtalkpublish#.
+This will verify that you&apos;re the owner of the server.
+Once this is done your private server will appear in a couple of minutes.
+
+Delete the published user account to unregister your server.
+
+The #teamtalkpublish# notification can be removed once
+the server has been verified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Your private server will appear in a couple of minutes.
 Delete the published user account to unregister your server.</source>
-        <translation>您的私人服务器将在几分钟后出现。
+        <translation type="vanished">您的私人服务器将在几分钟后出现。
 删除已发布的用户帐户以取消注册您的服务器。</translation>
     </message>
 </context>
@@ -5506,7 +5517,7 @@ Delete the published user account to unregister your server.</source>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="73"/>
-        <location filename="../serverpropertiesdlg.cpp" line="127"/>
+        <location filename="../serverpropertiesdlg.cpp" line="126"/>
         <source>Message of the day</source>
         <translation>每日消息</translation>
     </message>
@@ -5641,17 +5652,17 @@ Delete the published user account to unregister your server.</source>
         <translation>关闭(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../serverpropertiesdlg.cpp" line="122"/>
+        <location filename="../serverpropertiesdlg.cpp" line="121"/>
         <source>Change message of the day?</source>
         <translation>要更改每日消息吗？</translation>
     </message>
     <message>
-        <location filename="../serverpropertiesdlg.cpp" line="123"/>
+        <location filename="../serverpropertiesdlg.cpp" line="122"/>
         <source>&amp;Yes</source>
         <translation>是(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../serverpropertiesdlg.cpp" line="124"/>
+        <location filename="../serverpropertiesdlg.cpp" line="123"/>
         <source>&amp;No</source>
         <translation>否(&amp;N)</translation>
     </message>

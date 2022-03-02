@@ -5290,10 +5290,22 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="648"/>
-        <source>Your private server will appear in a couple of minutes.
-Delete the published user account to unregister your server.</source>
-        <translation>Votre serveur privé apparaîtra dans quelques minutes.
-Supprimez le compte utilisateur publié pour supprimer votre serveur.</translation>
+        <source>Change your server&apos;s name to include the text #teamtalkpublish#.
+This will verify that you&apos;re the owner of the server.
+Once this is done your private server will appear in a couple of minutes.
+
+Delete the published user account to unregister your server.
+
+The #teamtalkpublish# notification can be removed once
+the server has been verified.</source>
+        <translation>Changez le nom de votre serveur pour y inclure le texte #teamtalkpublish#.
+Cela vérifiera que vous êtes le propriétaire du serveur.
+Une fois cela fait votre serveur apparaîtra sous quelques minutes.
+
+Supprimez le compte utilisateur publié pour ne plus publier votre serveur.
+
+La notification #teamtalkpublish# peut être supprimée une fois
+que le serveur a été vérifié.</translation>
     </message>
 </context>
 <context>
@@ -5505,7 +5517,7 @@ Supprimez le compte utilisateur publié pour supprimer votre serveur.</translati
     </message>
     <message>
         <location filename="../serverproperties.ui" line="73"/>
-        <location filename="../serverpropertiesdlg.cpp" line="127"/>
+        <location filename="../serverpropertiesdlg.cpp" line="126"/>
         <source>Message of the day</source>
         <translation>Message du jour</translation>
     </message>
@@ -5640,17 +5652,17 @@ Supprimez le compte utilisateur publié pour supprimer votre serveur.</translati
         <translation>&amp;Fermer</translation>
     </message>
     <message>
-        <location filename="../serverpropertiesdlg.cpp" line="122"/>
+        <location filename="../serverpropertiesdlg.cpp" line="121"/>
         <source>Change message of the day?</source>
         <translation>Changer le message du jour</translation>
     </message>
     <message>
-        <location filename="../serverpropertiesdlg.cpp" line="123"/>
+        <location filename="../serverpropertiesdlg.cpp" line="122"/>
         <source>&amp;Yes</source>
         <translation>&amp;Oui</translation>
     </message>
     <message>
-        <location filename="../serverpropertiesdlg.cpp" line="124"/>
+        <location filename="../serverpropertiesdlg.cpp" line="123"/>
         <source>&amp;No</source>
         <translation>&amp;Non</translation>
     </message>

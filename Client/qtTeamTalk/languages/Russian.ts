@@ -3701,21 +3701,17 @@ You can download it on the page below:
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6724"/>
-        <source>New version available: %1
-You can download it on the page below:
+        <source>New version available: %1<byte value="xd"/>
+You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation>Доступна новая версия: %1
-You can download it on the page below:
-%2</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6749"/>
-        <source>New beta version available: %1
-You can download it on the page below:
+        <source>New beta version available: %1<byte value="xd"/>
+You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation>Доступна новая бета-версия: %1
-You can download it on the page below:
-%2</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Streaming media file</source>
@@ -3995,10 +3991,9 @@ You can download it on the page below:
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6631"/>
-        <source>The file %1 contains %2 setup information.
+        <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
-        <translation>Файл %1 содержит %2 конфигурационные данные.
-Следует ли применять эти настройки?</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6636"/>
@@ -5497,9 +5492,20 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="648"/>
+        <source>Change your server&apos;s name to include the text #teamtalkpublish#.
+This will verify that you&apos;re the owner of the server.
+Once this is done your private server will appear in a couple of minutes.
+
+Delete the published user account to unregister your server.
+
+The #teamtalkpublish# notification can be removed once
+the server has been verified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Your private server will appear in a couple of minutes.
 Delete the published user account to unregister your server.</source>
-        <translation>Ваш частный сервер появится через пару минут.
+        <translation type="vanished">Ваш частный сервер появится через пару минут.
 Удалите опубликованную учетную запись пользователя, чтобы отменить регистрацию вашего сервера.</translation>
     </message>
 </context>
@@ -5712,7 +5718,7 @@ Delete the published user account to unregister your server.</source>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="73"/>
-        <location filename="../serverpropertiesdlg.cpp" line="127"/>
+        <location filename="../serverpropertiesdlg.cpp" line="126"/>
         <source>Message of the day</source>
         <translation>Сообщение дня</translation>
     </message>
@@ -5847,17 +5853,17 @@ Delete the published user account to unregister your server.</source>
         <translation>&amp;Закрыть</translation>
     </message>
     <message>
-        <location filename="../serverpropertiesdlg.cpp" line="122"/>
+        <location filename="../serverpropertiesdlg.cpp" line="121"/>
         <source>Change message of the day?</source>
         <translation>Изменить сообщение дня?</translation>
     </message>
     <message>
-        <location filename="../serverpropertiesdlg.cpp" line="123"/>
+        <location filename="../serverpropertiesdlg.cpp" line="122"/>
         <source>&amp;Yes</source>
         <translation>&amp;Да</translation>
     </message>
     <message>
-        <location filename="../serverpropertiesdlg.cpp" line="124"/>
+        <location filename="../serverpropertiesdlg.cpp" line="123"/>
         <source>&amp;No</source>
         <translation>&amp;Нет</translation>
     </message>
