@@ -5,8 +5,9 @@
 Version 5.9, unreleased
 Accessible Windows Client
 - Ability for WASAPI to use sound output device as sound input device (loopback audio)
-- Fixed issue where no all users and channels were listed after initial login
+- Fixed issue where all users and channels were not listed after initial login
 Default Qt Client
+- Publish private TeamTalk server from "Connect to Server" dialog
 - Ability for WASAPI to use sound output device as sound input device (loopback audio)
 - Duration for voice transfer can now be set on "No Interruptions" channels
 - Modify server log events from "Server Properties" dialog
@@ -14,13 +15,13 @@ Default Qt Client
 - See number of active users on public server list
 - See "Message of the Day" on public servers as tooltip in server list
 - Publish private server on server list in "Connect to a Server" dialog
-- Fixed issue where no all users and channels were listed after initial login
+- Fixed issue where all users and channels not were listed after initial login
 - Fixed labels for server abuse options in server properties
 - Fixed crash issue when using Cmd+4 on macOS 12.2
 Android Client
-- Fixed issue where no all users and channels were listed after initial login
+- Fixed issue where all users and channels were not listed after initial login
 iOS Client
-- Fixed issue where no all users and channels were listed after initial login
+- Fixed issue where all users and channels were not listed after initial login
 Server
 - Support for voice transfer delay in "No Interruptions" channels
 - TeamTalk Pro servers can now use BearWare.dk WebLogin on non-encrypted servers
