@@ -227,7 +227,7 @@ class ServerListViewController : UITableViewController,
             cell.iconImageView.image = UIImage(named: "teamtalk_green.png")
             cell.iconImageView.accessibilityLabel = NSLocalizedString("Public server", comment: "serverlist")
         case .PRIVATE :
-            cell.iconImageView.image = UIImage(named: "teamtalk_yellow.png")
+            cell.iconImageView.image = UIImage(named: "teamtalk_orange.png")
             cell.iconImageView.accessibilityLabel = NSLocalizedString("Private server", comment: "serverlist")
         }
         
