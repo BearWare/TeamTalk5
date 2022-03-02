@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="S4R-DQ-L7c">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="S4R-DQ-L7c">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -98,7 +98,7 @@
                                 <rect key="frame" x="0.0" y="44.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mZh-SD-U6V" id="mv6-3o-p9I">
-                                    <rect key="frame" x="0.0" y="0.0" width="349.5" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="350.5" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blank" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WCf-u5-KkQ">
@@ -126,7 +126,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PaV-2Q-pt4">
-                                            <rect key="frame" x="90" y="-1" width="257" height="43"/>
+                                            <rect key="frame" x="90" y="-1" width="258" height="43"/>
                                             <accessibility key="accessibilityConfiguration" label="Connect button"/>
                                             <state key="normal" title="Connect">
                                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -155,8 +155,8 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="connectBtn" destination="PaV-2Q-pt4" id="Dds-ff-b03"/>
+                                    <outlet property="detailLabel" destination="WCf-u5-KkQ" id="UCZ-iO-fuH"/>
                                     <outlet property="iconImageView" destination="AZy-QQ-HZI" id="2fc-Sw-6rQ"/>
-                                    <outlet property="ipaddrLabel" destination="WCf-u5-KkQ" id="UCZ-iO-fuH"/>
                                     <outlet property="nameLabel" destination="0QA-gn-V1p" id="bib-t5-mhJ"/>
                                     <segue destination="EDn-nP-gFj" kind="push" identifier="Show Server" id="x0N-oQ-CJk"/>
                                 </connections>
@@ -595,7 +595,7 @@
                                 <rect key="frame" x="0.0" y="44.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tlE-G2-y9H" id="H5K-Ce-Vbr">
-                                    <rect key="frame" x="0.0" y="0.0" width="349.5" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="350.5" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Speech" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="B8t-mo-k8g">
@@ -622,7 +622,7 @@
                                 <rect key="frame" x="0.0" y="88.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xuM-Wo-fSg" id="DNL-f6-Fuj">
-                                    <rect key="frame" x="0.0" y="0.0" width="349.5" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="350.5" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Setup Announcements" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Q0w-pu-giG">
@@ -649,7 +649,7 @@
                                 <rect key="frame" x="0.0" y="132.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lLJ-xr-9tg" id="adw-dL-tAy">
-                                    <rect key="frame" x="0.0" y="0.0" width="349.5" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="350.5" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Setup Sound Events" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bua-Pf-Vpn">
@@ -676,7 +676,7 @@
                                 <rect key="frame" x="0.0" y="176.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uHS-IA-seH" id="qmx-MM-Ww9">
-                                    <rect key="frame" x="0.0" y="0.0" width="349.5" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="350.5" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="BearWare.dk Web Login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Hcv-zz-riB">
@@ -703,7 +703,7 @@
                                 <rect key="frame" x="0.0" y="220.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jG8-5f-b0T" id="yvK-IS-FKk">
-                                    <rect key="frame" x="0.0" y="0.0" width="349.5" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="350.5" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Select Microphone" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ntU-ZP-sKb">
@@ -821,7 +821,7 @@
                                         <rect key="frame" x="0.0" y="88.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Byv-ux-6qI" id="dZm-9Z-k8A">
-                                            <rect key="frame" x="0.0" y="0.0" width="349.5" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="350.5" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="72V-GT-Org">
@@ -835,19 +835,19 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blank" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uc0-gP-wr1">
-                                                    <rect key="frame" x="58" y="28" width="246" height="15"/>
+                                                    <rect key="frame" x="58" y="28" width="247" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blank" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ALe-1e-Au1">
-                                                    <rect key="frame" x="58" y="1" width="246" height="21"/>
+                                                    <rect key="frame" x="58" y="1" width="247" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4RU-K7-Yga">
-                                                    <rect key="frame" x="304" y="-0.5" width="44" height="45"/>
+                                                    <rect key="frame" x="305" y="-0.5" width="44" height="45"/>
                                                     <accessibility key="accessibilityConfiguration" hint="Send private text message" label="Text Messaging"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="45" id="Hbu-SY-Wrj"/>
@@ -1093,7 +1093,7 @@
                                 <rect key="frame" x="0.0" y="44.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QzR-ru-4bT" id="str-7c-RHz">
-                                    <rect key="frame" x="0.0" y="0.0" width="349.5" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="350.5" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Blank" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kRp-LE-RFh">

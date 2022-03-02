@@ -560,7 +560,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
                                     $0.udpport == server.udpport &&
                                     $0.username == server.username})
 
-        if found.count == 0 && server.publicserver == false {
+        if found.count == 0 && server.servertype == .LOCAL {
             let alertView = UIAlertView(title: NSLocalizedString("Save server to server list?", comment: "Dialog message"),
                                         message: NSLocalizedString("Save Server", comment: "Dialog message"), delegate: self,
                                         cancelButtonTitle: NSLocalizedString("No", comment: "Dialog message"),
