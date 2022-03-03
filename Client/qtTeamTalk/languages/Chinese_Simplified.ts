@@ -5299,13 +5299,13 @@ Delete the published user account to unregister your server.
 
 The #teamtalkpublish# notification can be removed once
 the server has been verified.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Your private server will appear in a couple of minutes.
-Delete the published user account to unregister your server.</source>
-        <translation type="vanished">您的私人服务器将在几分钟后出现。
-删除已发布的用户帐户以取消注册您的服务器。</translation>
+        <translation>更改您的服务器名称以包含文本 #teamtalkpublish#。
+这将验证您是服务器的所有者。
+完成此操作后，您的私人服务器将在几分钟内出现。
+
+删除已发布的用户帐户以取消注册您的服务器。
+
+服务器验证完成后 #teamtalkpublish# 可被删除。</translation>
     </message>
 </context>
 <context>
