@@ -3701,17 +3701,21 @@ You can download it on the page below:
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6724"/>
-        <source>New version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
+        <source>New version available: %1
+You can download it on the page below:
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая версия: %1
+You can download it on the page below:
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6749"/>
-        <source>New beta version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
+        <source>New beta version available: %1
+You can download it on the page below:
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая бета-версия: %1
+You can download it on the page below:
+%2</translation>
     </message>
     <message>
         <source>Streaming media file</source>
@@ -3991,9 +3995,10 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6631"/>
-        <source>The file %1 contains %2 setup information.<byte value="xd"/>
+        <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл %1 содержит %2 конфигурационные данные.
+Следует ли применить эти настройки?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6636"/>
@@ -5500,7 +5505,14 @@ Delete the published user account to unregister your server.
 
 The #teamtalkpublish# notification can be removed once
 the server has been verified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Измените имя вашего сервера, чтобы добавить  #teamtalkpublish#.
+Это подтвердит, что вы являетесь владельцем сервера.
+Как только это будет сделано, ваш личный сервер появится через пару минут.
+
+Удалите опубликованную учетную запись пользователя, чтобы отменить регистрацию вашего сервера.
+
+сервер #teamtalkpublish# может быть удалён после
+проверки учётной записи.</translation>
     </message>
     <message>
         <source>Your private server will appear in a couple of minutes.
