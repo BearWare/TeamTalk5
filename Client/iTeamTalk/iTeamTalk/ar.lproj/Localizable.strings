@@ -157,6 +157,9 @@
    tts event */
 "Connection lost" = "تم فقد الاتصال";
 
+/* server entry */
+"Country" = "Country";
+
 /* View Title */
 "Create Channel" = "أنشئ قناة";
 
@@ -273,6 +276,9 @@
 /* preferences */
 "Limit length of names in channel list to %d characters" = "حد  طول الأسماء في قائمة القنوات إلى %d أحرف";
 
+/* serverlist */
+"Local server" = "Local server";
+
 /* text message type */
 "Log message" = "سجل الرسالة";
 
@@ -301,6 +307,9 @@
 
 /* Dialog */
 "Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
+
+/* server entry */
+"Message of the Day" = "Message of the Day";
 
 /* preferences */
 "Microphone Gain" = "مستوى المايكرفون";
@@ -364,6 +373,9 @@
 
 /* default nickname */
 "Noname" = "Noname";
+
+/* serverlist */
+"Official server" = "Official server";
 
 /* Dialog
    Dialog message
@@ -665,6 +677,12 @@
 
 /* Web Login Controller */
 "Username or password incorrect" = "Username or password incorrect";
+
+/* server entry */
+"Users Online" = "Users Online";
+
+/* serverlist */
+"Users: %d, Country: %@" = "Users: %1$d, Country: %2$@";
 
 /* codec detail */
 "Variable Bitrate" = "Variable Bitrate";

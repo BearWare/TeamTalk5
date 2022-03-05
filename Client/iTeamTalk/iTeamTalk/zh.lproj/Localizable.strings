@@ -161,6 +161,9 @@
    tts event */
 "Connection lost" = "连接丢失";
 
+/* server entry */
+"Country" = "Country";
+
 /* View Title */
 "Create Channel" = "创建频道";
 
@@ -277,6 +280,9 @@
 /* preferences */
 "Limit length of names in channel list to %d characters" = "限制频道列表中的名称长度为 %d 字符";
 
+/* serverlist */
+"Local server" = "Local server";
+
 /* text message type */
 "Log message" = "日志消息";
 
@@ -305,6 +311,9 @@
 
 /* Dialog */
 "Message limit exceeded by %d characters" = "消息超出限制 %d 个字符";
+
+/* server entry */
+"Message of the Day" = "Message of the Day";
 
 /* preferences */
 "Microphone Gain" = "麦克风增益";
@@ -368,6 +377,9 @@
 
 /* default nickname */
 "Noname" = "无名";
+
+/* serverlist */
+"Official server" = "Official server";
 
 /* Dialog
    Dialog message
@@ -672,6 +684,12 @@
 
 /* Web Login Controller */
 "Username or password incorrect" = "用户名或密码不正确";
+
+/* server entry */
+"Users Online" = "Users Online";
+
+/* serverlist */
+"Users: %d, Country: %@" = "Users: %1$d, Country: %2$@";
 
 /* codec detail */
 "Variable Bitrate" = "可变比特率";

@@ -161,6 +161,9 @@
    tts event */
 "Connection lost" = "Bağlantı kaybı";
 
+/* server entry */
+"Country" = "Country";
+
 /* View Title */
 "Create Channel" = "Kanal Oluştur";
 
@@ -277,6 +280,9 @@
 /* preferences */
 "Limit length of names in channel list to %d characters" = "Adların kanal listesindeki uzunluk sınırı %d karakter";
 
+/* serverlist */
+"Local server" = "Local server";
+
 /* text message type */
 "Log message" = "Günlük iletisi";
 
@@ -305,6 +311,9 @@
 
 /* Dialog */
 "Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
+
+/* server entry */
+"Message of the Day" = "Message of the Day";
 
 /* preferences */
 "Microphone Gain" = "Mikrofon Kazancı";
@@ -368,6 +377,9 @@
 
 /* default nickname */
 "Noname" = "Ad Yok";
+
+/* serverlist */
+"Official server" = "Official server";
 
 /* Dialog
    Dialog message
@@ -672,6 +684,12 @@
 
 /* Web Login Controller */
 "Username or password incorrect" = "Kullanıcı adı ya da parola yanlış";
+
+/* server entry */
+"Users Online" = "Users Online";
+
+/* serverlist */
+"Users: %d, Country: %@" = "Users: %1$d, Country: %2$@";
 
 /* codec detail */
 "Variable Bitrate" = "Değişken Bit Hızı";
