@@ -785,22 +785,21 @@ void UserAccountsDlg::keyPressEvent(QKeyEvent* e)
 void UserAccountsDlg::slotTreeContextMenu(const QPoint& /*point*/)
 {
     QMenu menu(this);
-    QMenu* sortMenu = menu.addMenu(tr("Sort by..."));
-    QAction* sortDefault = sortMenu->addAction(tr("De&fault"));
+    QMenu* sortMenu = menu.addMenu(tr("Sort By..."));
     QAction* sortUsername = sortMenu->addAction(tr("&Username"));
+    QAction* sortUserType = sortMenu->addAction(tr("User &Type"));
+    QAction* sortChannel = sortMenu->addAction(tr("&Channel"));
     QAction* sortModified = sortMenu->addAction(tr("&Modified"));
-    QAction* delUser = menu.addAction(tr("&Delete selected user"));
+    QAction* delUser = menu.addAction(tr("&Delete Selected User"));
     if (QAction* action = menu.exec(QCursor::pos()))
     {
-
         auto sortToggle = m_proxyModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
-        if (action == sortDefault)
-        {
-            m_proxyModel->setSortRole(Qt::UserRole);
+        if (action == sortUsername)
             m_proxyModel->sort(COLUMN_INDEX_USERNAME, m_proxyModel->sortColumn() == COLUMN_INDEX_USERNAME ? sortToggle : Qt::AscendingOrder);
-        }
-        else if (action == sortUsername)
-            m_proxyModel->sort(COLUMN_INDEX_USERNAME, m_proxyModel->sortColumn() == COLUMN_INDEX_USERNAME ? sortToggle : Qt::AscendingOrder);
+        else if (action == sortUserType)
+            m_proxyModel->sort(COLUMN_INDEX_USERTYPE, m_proxyModel->sortColumn() == COLUMN_INDEX_USERTYPE ? sortToggle : Qt::AscendingOrder);
+        else if (action == sortChannel)
+            m_proxyModel->sort(COLUMN_INDEX_CHANNEL, m_proxyModel->sortColumn() == COLUMN_INDEX_CHANNEL? sortToggle : Qt::AscendingOrder);
         else if (action == sortModified)
             m_proxyModel->sort(COLUMN_INDEX_MODIFIED, m_proxyModel->sortColumn() == COLUMN_INDEX_MODIFIED ? sortToggle : Qt::AscendingOrder);
         else if (action == delUser)

@@ -681,7 +681,7 @@ void ServerListDlg::slotGenerateEntryName(const QString&)
 void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
 {
     QMenu menu(this);
-    QMenu* sortMenu = menu.addMenu(tr("Sort by..."));
+    QMenu* sortMenu = menu.addMenu(tr("Sort By..."));
     QAction* sortDefault = sortMenu->addAction(tr("De&fault"));
     QAction* sortName = sortMenu->addAction(tr("&Name"));
     QAction* sortUserCount = sortMenu->addAction(tr("&User Count"));
