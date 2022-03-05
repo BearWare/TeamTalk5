@@ -264,8 +264,6 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
 
     connect(ui.addupdButton, &QAbstractButton::clicked,
             this, &ServerListDlg::slotAddUpdServer);
-    connect(ui.delButton, &QAbstractButton::clicked,
-            this, &ServerListDlg::deleteSelectedServer);
     connect(ui.serverTreeView, &QAbstractItemView::activated,
             this, &ServerListDlg::showSelectedServer);
     connect(ui.serverTreeView->selectionModel(), &QItemSelectionModel::currentRowChanged,
@@ -311,7 +309,6 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     ui.publicserverChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_PUBLICSERVERS, SETTINGS_DISPLAY_PUBLICSERVERS_DEFAULT).toBool());
     ui.privateserverChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_PRIVATESERVERS, SETTINGS_DISPLAY_PRIVATESERVERS_DEFAULT).toBool());
 
-    ui.delButton->setEnabled(false);
     refreshServerList();
     HostEntry lasthost;
     if (getLatestHost(0, lasthost))
@@ -413,7 +410,6 @@ void ServerListDlg::showLatestHostEntry(int index)
     if(getLatestHost(index, host))
     {
         showHostEntry(host);
-        ui.delButton->setEnabled(false);
     }
 }
 
@@ -514,12 +510,10 @@ void ServerListDlg::showSelectedServer(const QModelIndex &index)
     if (srcIndex.isValid() && srcIndex.row() < servers.size())
     {
         showHostEntry(servers[srcIndex.row()]);
-        ui.delButton->setEnabled(true);
     }
     else
     {
         ui.clearButton->setEnabled(false);
-        ui.delButton->setEnabled(false);
     }
 }
 
@@ -549,7 +543,6 @@ void ServerListDlg::deleteSelectedServer()
         refreshServerList();
         ui.serverTreeView->setFocus();
     }
-    ui.delButton->setEnabled(ui.serverTreeView->currentIndex().isValid());
 }
 
 void ServerListDlg::slotDoubleClicked(const QModelIndex& /*index*/)
@@ -695,17 +688,20 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
     QAction* sortUserCountDesc = sortMenu->addAction(tr("U&ser count (Descending)"));
     QAction* sortCountryAsc = sortMenu->addAction(tr("Country (Ascending)"));
     QAction* sortCountryDesc = sortMenu->addAction(tr("C&ountry (Descending)"));
+    QAction* delServ = menu.addAction(tr("&Delete selected server"));
     QAction* action = menu.exec(QCursor::pos());
     if(action == sortNameAsc)
         m_proxyModel->sort(COLUMN_INDEX_SERVERNAME, Qt::AscendingOrder);
-    if(action == sortNameDesc)
+    else if(action == sortNameDesc)
         m_proxyModel->sort(COLUMN_INDEX_SERVERNAME, Qt::DescendingOrder);
-    if(action == sortUserCountAsc)
+    else if(action == sortUserCountAsc)
         m_proxyModel->sort(COLUMN_INDEX_USERCOUNT, Qt::AscendingOrder);
-    if(action == sortUserCountDesc)
+    else if(action == sortUserCountDesc)
         m_proxyModel->sort(COLUMN_INDEX_USERCOUNT, Qt::DescendingOrder);
-    if(action == sortCountryAsc)
+    else if(action == sortCountryAsc)
         m_proxyModel->sort(COLUMN_INDEX_COUNTRY, Qt::AscendingOrder);
-    if(action == sortCountryDesc)
+    else if(action == sortCountryDesc)
         m_proxyModel->sort(COLUMN_INDEX_COUNTRY, Qt::DescendingOrder);
+    else if(action == delServ)
+        emit(deleteSelectedServer());
 }
