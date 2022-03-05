@@ -682,26 +682,35 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
 {
     QMenu menu(this);
     QMenu* sortMenu = menu.addMenu(tr("Sort by..."));
-    QAction* sortNameAsc = sortMenu->addAction(tr("&Name (Ascending)"));
-    QAction* sortNameDesc = sortMenu->addAction(tr("N&ame (Descending)"));
-    QAction* sortUserCountAsc = sortMenu->addAction(tr("&User count (Ascending)"));
-    QAction* sortUserCountDesc = sortMenu->addAction(tr("U&ser count (Descending)"));
-    QAction* sortCountryAsc = sortMenu->addAction(tr("Country (Ascending)"));
-    QAction* sortCountryDesc = sortMenu->addAction(tr("C&ountry (Descending)"));
-    QAction* delServ = menu.addAction(tr("&Delete selected server"));
+    QAction* sortDefault = sortMenu->addAction(tr("De&fault"));
+    QAction* sortName = sortMenu->addAction(tr("&Name"));
+    QAction* sortUserCount = sortMenu->addAction(tr("&User Count"));
+    QAction* sortCountry = sortMenu->addAction(tr("Country"));
+    QAction* delServ = menu.addAction(tr("&Delete Selected Server"));
+    auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
+    if (srcIndex.isValid())
+        delServ->setEnabled(m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
     QAction* action = menu.exec(QCursor::pos());
-    if(action == sortNameAsc)
-        m_proxyModel->sort(COLUMN_INDEX_SERVERNAME, Qt::AscendingOrder);
-    else if(action == sortNameDesc)
-        m_proxyModel->sort(COLUMN_INDEX_SERVERNAME, Qt::DescendingOrder);
-    else if(action == sortUserCountAsc)
-        m_proxyModel->sort(COLUMN_INDEX_USERCOUNT, Qt::AscendingOrder);
-    else if(action == sortUserCountDesc)
-        m_proxyModel->sort(COLUMN_INDEX_USERCOUNT, Qt::DescendingOrder);
-    else if(action == sortCountryAsc)
-        m_proxyModel->sort(COLUMN_INDEX_COUNTRY, Qt::AscendingOrder);
-    else if(action == sortCountryDesc)
-        m_proxyModel->sort(COLUMN_INDEX_COUNTRY, Qt::DescendingOrder);
-    else if(action == delServ)
+
+    auto sortToggle = m_proxyModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
+    if (action == sortDefault)
+    {
+        m_proxyModel->setSortRole(Qt::UserRole);
+        m_proxyModel->sort(COLUMN_INDEX_SERVERNAME, m_proxyModel->sortColumn() == COLUMN_INDEX_SERVERNAME ? sortToggle : Qt::AscendingOrder);
+    }
+    else if (action == sortName)
+    {
+        m_proxyModel->setSortRole(Qt::DisplayRole);
+        m_proxyModel->sort(COLUMN_INDEX_SERVERNAME, m_proxyModel->sortColumn() == COLUMN_INDEX_SERVERNAME ? sortToggle : Qt::AscendingOrder);
+    }
+    else if (action == sortUserCount)
+    {
+        m_proxyModel->sort(COLUMN_INDEX_USERCOUNT, m_proxyModel->sortColumn() == COLUMN_INDEX_USERCOUNT ? sortToggle : Qt::AscendingOrder);
+    }
+    else if (action == sortCountry)
+    {
+        m_proxyModel->sort(COLUMN_INDEX_COUNTRY, m_proxyModel->sortColumn() == COLUMN_INDEX_COUNTRY ? sortToggle : Qt::AscendingOrder);
+    }
+    else if (action == delServ)
         emit(deleteSelectedServer());
 }
