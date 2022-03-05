@@ -34,6 +34,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QFileDialog>
+#include <QMenu>
 
 extern QSettings* ttSettings;
 
@@ -298,6 +299,9 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
             this, &ServerListDlg::slotGenerateEntryName);
     connect(ui.publishButton, &QAbstractButton::clicked,
             this, &ServerListDlg::publishServer);
+    ui.serverTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui.serverTreeView, &QWidget::customContextMenuRequested,
+            this, &ServerListDlg::slotTreeContextMenu);
 
 
     clearHostEntry();
@@ -679,4 +683,29 @@ void ServerListDlg::slotGenerateEntryName(const QString&)
     ui.passwordEdit->setDisabled(username == WEBLOGIN_BEARWARE_USERNAME);
     if (isWebLogin(username, true))
         ui.passwordEdit->setText("");
+}
+
+void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
+{
+    QMenu menu(this);
+    QMenu* sortMenu = menu.addMenu(tr("Sort by..."));
+    QAction* sortNameAsc = sortMenu->addAction(tr("&Name (Ascending)"));
+    QAction* sortNameDesc = sortMenu->addAction(tr("N&ame (Descending)"));
+    QAction* sortUserCountAsc = sortMenu->addAction(tr("&User count (Ascending)"));
+    QAction* sortUserCountDesc = sortMenu->addAction(tr("U&ser count (Descending)"));
+    QAction* sortCountryAsc = sortMenu->addAction(tr("Country (Ascending)"));
+    QAction* sortCountryDesc = sortMenu->addAction(tr("C&ountry (Descending)"));
+    QAction* action = menu.exec(QCursor::pos());
+    if(action == sortNameAsc)
+        m_proxyModel->sort(COLUMN_INDEX_SERVERNAME, Qt::AscendingOrder);
+    if(action == sortNameDesc)
+        m_proxyModel->sort(COLUMN_INDEX_SERVERNAME, Qt::DescendingOrder);
+    if(action == sortUserCountAsc)
+        m_proxyModel->sort(COLUMN_INDEX_USERCOUNT, Qt::AscendingOrder);
+    if(action == sortUserCountDesc)
+        m_proxyModel->sort(COLUMN_INDEX_USERCOUNT, Qt::DescendingOrder);
+    if(action == sortCountryAsc)
+        m_proxyModel->sort(COLUMN_INDEX_COUNTRY, Qt::AscendingOrder);
+    if(action == sortCountryDesc)
+        m_proxyModel->sort(COLUMN_INDEX_COUNTRY, Qt::DescendingOrder);
 }
