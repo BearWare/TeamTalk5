@@ -659,16 +659,6 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="delButton">
-           <property name="accessibleDescription">
-            <string>Remove selected user</string>
-           </property>
-           <property name="text">
-            <string>&amp;Delete</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <spacer name="horizontalSpacer_2">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>

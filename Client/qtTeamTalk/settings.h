@@ -130,6 +130,8 @@
 #define SETTINGS_DISPLAY_WINDOW_MAXIMIZE                          "display/window-maximized"
 #define SETTINGS_DISPLAY_SERVERLIST_HEADERSIZES     "display/serverlist-header"
 #define SETTINGS_DISPLAY_SERVERLISTDLG_SIZE         "display/serverlist-dialog-size"
+#define SETTINGS_DISPLAY_USERACCOUNTS_HEADERSIZES     "display/useraccounts-header"
+#define SETTINGS_DISPLAY_USERACCOUNTSDLG_SIZE         "display/useraccounts-dialog-size"
 
 #define SETTINGS_CONNECTION_AUTOCONNECT             "connection/autoconnect"
 #define SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT     false
