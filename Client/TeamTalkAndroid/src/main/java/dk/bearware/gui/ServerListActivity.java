@@ -269,7 +269,7 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
                     Vector<ServerEntry> entries = Utils.getXmlServerEntries(xml.toString());
                     if (entries != null) {
                         for (ServerEntry entry : entries) {
-                            entry.public_server = false;
+                            entry.servertype = ServerEntry.ServerType.LOCAL;
                             entry.rememberLastChannel = true;
                         }
                         servers.addAll(entries);
@@ -412,15 +412,27 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
             TextView name = convertView.findViewById(R.id.server_name);
             TextView address = convertView.findViewById(R.id.server_address);
             name.setText(servers.get(position).servername);
-            if (servers.get(position).public_server) {
-                img.setImageResource(R.drawable.teamtalk_green);
-                img.setContentDescription(getString(R.string.text_publicserver));
-                img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
-            }
-            else {
-                img.setImageResource(R.drawable.teamtalk_yellow);
-                img.setContentDescription(null);
-                img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+            switch (servers.get(position).servertype) {
+                case LOCAL :
+                    img.setImageResource(R.drawable.teamtalk_yellow);
+                    img.setContentDescription(getString(R.string.text_localserver));
+                    img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+                    break;
+                case OFFICIAL :
+                    img.setImageResource(R.drawable.teamtalk_blue);
+                    img.setContentDescription(getString(R.string.text_officialserver));
+                    img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+                    break;
+                case PUBLIC :
+                    img.setImageResource(R.drawable.teamtalk_green);
+                    img.setContentDescription(getString(R.string.text_publicserver));
+                    img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+                    break;
+                case PRIVATE :
+                    img.setImageResource(R.drawable.teamtalk_orange);
+                    img.setContentDescription(getString(R.string.text_privateserver));
+                    img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+                    break;
             }
             address.setText(servers.get(position).ipaddr);
             View editButton = convertView.findViewById(R.id.server_edit);
@@ -469,7 +481,7 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
 
         int j=0;
         for(i = 0;i < servers.size();i++) {
-            if(servers.get(i).public_server)
+            if(servers.get(i).servertype != ServerEntry.ServerType.LOCAL)
                 continue;
             edit.putString(j + ServerEntry.KEY_SERVERNAME, servers.get(i).servername);
             edit.putString(j + ServerEntry.KEY_IPADDR, servers.get(i).ipaddr);
@@ -754,13 +766,28 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
 
     @Override
     public int compare(ServerEntry s1, ServerEntry s2) {
-        if (s1.public_server && !s2.public_server)
-            return 1;
-        else if (s2.public_server && !s1.public_server)
-            return -1;
-        if(!s1.public_server)
-            return s1.servername.compareToIgnoreCase(s2.servername);
-        // order of public servers are determined by xml-reply
+        switch (s1.servertype) {
+            case LOCAL:
+                if (s2.servertype == ServerEntry.ServerType.LOCAL)
+                    return s1.servername.compareToIgnoreCase(s2.servername);
+                return -1;
+            case OFFICIAL:
+                if (s2.servertype == ServerEntry.ServerType.LOCAL)
+                    return 1;
+                if (s2.servertype == ServerEntry.ServerType.OFFICIAL)
+                    return 0; // order of public servers are determined by xml-reply
+                return -1;
+            case PUBLIC:
+                if (s2.servertype == ServerEntry.ServerType.LOCAL || s2.servertype == ServerEntry.ServerType.OFFICIAL)
+                    return 1;
+                if (s2.servertype == ServerEntry.ServerType.PUBLIC)
+                    return 0; // order of public servers are determined by xml-reply
+                return -1;
+            case PRIVATE:
+                if (s2.servertype == ServerEntry.ServerType.PRIVATE)
+                    return s1.servername.compareToIgnoreCase(s2.servername);
+                return -1;
+        }
         return 0;
     }
 
@@ -768,7 +795,7 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
         Vector<ServerEntry> entries = new Vector<>();
         synchronized(servers) {
             for (ServerEntry entry : servers)
-                if (!entry.public_server)
+                if (entry.servertype == ServerEntry.ServerType.LOCAL)
                     entries.add(entry);
         }
         File dirPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
