@@ -14,6 +14,7 @@ Default Qt Client
 - Ability for WASAPI to use sound output device as sound input device (loopback audio)
 - Duration for voice transfer can now be set on "No Interruptions" channels
 - Modify server log events from "Server Properties" dialog
+- Keyboard shortcut to show/hide main window
 - Added "Hear Myself" menu item to "Me" menu
 - Fixed issue where all users and channels not were listed after initial login
 - Fixed labels for server abuse options in server properties

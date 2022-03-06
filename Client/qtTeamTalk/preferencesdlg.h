@@ -31,6 +31,7 @@
 #include "uservideodlg.h"
 
 #include <QSet>
+#include <QLineEdit>
 
 class PreferencesDlg : public QDialog
 {
@@ -136,14 +137,7 @@ private:
     //TTS
     void slotUpdateTTSTab();
     //keyboard shortcuts
-    void slotShortcutVoiceActivation(bool checked);
-    void slotShortcutIncVolume(bool checked);
-    void slotShortcutDecVolume(bool checked);
-    void slotShortcutMuteAll(bool checked);
-    void slotShortcutIncVoiceGain(bool checked);
-    void slotShortcutDecVoiceGain(bool checked);
-    void slotShortcutVideoTx(bool checked);
-    void slotShortcutReinitSound(bool checked);
+    void shortcutSetup(HotKeyID hotkey, bool enable, QLineEdit* shortcutedit);
     //video tab
     void slotVideoCaptureDevChange(int index);
     void slotTestVideoFormat();
