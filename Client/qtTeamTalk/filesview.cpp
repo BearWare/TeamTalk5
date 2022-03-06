@@ -103,3 +103,12 @@ void FilesView::slotNewSelection(const QItemSelection & selected)
 {
     emit(filesSelected(selected.size()>0));
 }
+
+void FilesView::currentChanged(const QModelIndex &current, const QModelIndex &previous)
+{
+#if defined(Q_OS_DARWIN)
+    if (ttSettings->value(SETTINGS_TTS_SPEAKLISTS, SETTINGS_TTS_SPEAKLISTS_DEFAULT).toBool() == true)
+        addTextToSpeechMessage(current.data(Qt::AccessibleTextRole).toString());
+#endif
+    QTreeView::currentChanged(current, previous);
+}

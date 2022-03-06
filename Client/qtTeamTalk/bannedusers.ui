@@ -29,7 +29,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,0">
         <item>
-         <widget class="QTreeView" name="bannedTreeView">
+         <widget class="MyTreeView" name="bannedTreeView">
           <property name="font">
            <font>
             <pointsize>8</pointsize>
@@ -152,7 +152,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QTreeView" name="unbannedTreeView">
+         <widget class="MyTreeView" name="unbannedTreeView">
           <property name="font">
            <font>
             <pointsize>8</pointsize>
@@ -198,6 +198,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MyTreeView</class>
+   <extends>QTreeView</extends>
+   <header>mytreeview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

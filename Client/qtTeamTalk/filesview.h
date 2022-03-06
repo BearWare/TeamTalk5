@@ -35,6 +35,8 @@ public:
 
     QList<int> selectedFiles(QStringList* fileNames = nullptr);
 
+    void currentChanged(const QModelIndex &current, const QModelIndex &previous) override;
+
 protected:
     void dragEnterEvent(QDragEnterEvent *event);
     void dragMoveEvent(QDragMoveEvent* event);
