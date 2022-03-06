@@ -22,17 +22,20 @@
  */
 
 #include "filesview.h"
+#include "common.h"
+#include "filesmodel.h"
+#include "settings.h"
+#include "utiltts.h"
+
 #include <QDragEnterEvent>
 #include <QUrl>
 #include <QFileInfo>
 #include <QMimeData>
-#include "common.h"
-#include "filesmodel.h"
 
 extern TTInstance* ttInst;
+extern QSettings* ttSettings;
 
-FilesView::FilesView(QWidget* parent)
-: QTreeView(parent)
+FilesView::FilesView(QWidget* parent) : MyTreeView(parent)
 {
     setAcceptDrops(true);
 }
@@ -102,13 +105,4 @@ void FilesView::mousePressEvent(QMouseEvent* event )
 void FilesView::slotNewSelection(const QItemSelection & selected)
 {
     emit(filesSelected(selected.size()>0));
-}
-
-void FilesView::currentChanged(const QModelIndex &current, const QModelIndex &previous)
-{
-#if defined(Q_OS_DARWIN)
-    if (ttSettings->value(SETTINGS_TTS_SPEAKLISTS, SETTINGS_TTS_SPEAKLISTS_DEFAULT).toBool() == true)
-        addTextToSpeechMessage(current.data(Qt::AccessibleTextRole).toString());
-#endif
-    QTreeView::currentChanged(current, previous);
 }

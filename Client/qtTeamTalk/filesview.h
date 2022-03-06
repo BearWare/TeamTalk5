@@ -24,10 +24,12 @@
 #ifndef FILESVIEW_H
 #define FILESVIEW_H
 
+#include "mytreeview.h"
+
 #include <QTreeView>
 #include <QList>
 
-class FilesView : public QTreeView
+class FilesView : public MyTreeView
 {
     Q_OBJECT
 public:
@@ -35,13 +37,11 @@ public:
 
     QList<int> selectedFiles(QStringList* fileNames = nullptr);
 
-    void currentChanged(const QModelIndex &current, const QModelIndex &previous) override;
-
 protected:
-    void dragEnterEvent(QDragEnterEvent *event);
-    void dragMoveEvent(QDragMoveEvent* event);
-    void dropEvent(QDropEvent* event);
-    void mousePressEvent(QMouseEvent* event);
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dragMoveEvent(QDragMoveEvent* event) override;
+    void dropEvent(QDropEvent* event) override;
+    void mousePressEvent(QMouseEvent* event) override;
 
 signals:
     void filesSelected(bool);

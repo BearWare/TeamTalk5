@@ -33,8 +33,8 @@ class MyTreeView : public QTreeView
 
 public:
     MyTreeView(QWidget* parent = nullptr);
-    void currentChanged(const QModelIndex &current, const QModelIndex &previous) override;
 protected:
+    void currentChanged(const QModelIndex &current, const QModelIndex &previous) override;
     void keyPressEvent(QKeyEvent* e) override;
 };
 
