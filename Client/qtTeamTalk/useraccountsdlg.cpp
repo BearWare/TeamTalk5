@@ -24,12 +24,16 @@
 #include "useraccountsdlg.h"
 #include "appinfo.h"
 #include "common.h"
+#include "settings.h"
 
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QKeyEvent>
+#include <QSettings>
+#include <QMenu>
 
 extern TTInstance* ttInst;
+extern QSettings* ttSettings;
 
 enum
 {
@@ -251,13 +255,11 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
 
     for(int i=0;i<COLUMN_COUNT_USERACCOUNTS;i++)
         ui.usersTreeView->resizeColumnToContents(i);
-    ui.delButton->setEnabled(false);
 
     connect(ui.addopBtn, &QAbstractButton::clicked, this, &UserAccountsDlg::slotAddOpChannel);
     connect(ui.rmopBtn, &QAbstractButton::clicked, this, &UserAccountsDlg::slotRemoveOpChannel);
     connect(ui.newButton, &QAbstractButton::clicked, this, &UserAccountsDlg::slotClearUser);
     connect(ui.addButton, &QAbstractButton::clicked, this, &UserAccountsDlg::slotAddUser);
-    connect(ui.delButton, &QAbstractButton::clicked, this, &UserAccountsDlg::slotDelUser);
     connect(ui.closeBtn, &QAbstractButton::clicked, this, &QWidget::close);
     connect(ui.defaultuserBtn, &QAbstractButton::clicked, this, &UserAccountsDlg::slotUserTypeChanged);
     connect(ui.adminBtn, &QAbstractButton::clicked, this, &UserAccountsDlg::slotUserTypeChanged);
@@ -266,6 +268,9 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
     connect(ui.usersTreeView, &QAbstractItemView::activated, this, &UserAccountsDlg::slotUserSelected);
     connect(ui.usersTreeView->selectionModel(), &QItemSelectionModel::currentRowChanged,
             this, &UserAccountsDlg::slotUserSelected);
+    ui.usersTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui.usersTreeView, &QWidget::customContextMenuRequested,
+            this, &UserAccountsDlg::slotTreeContextMenu);
 
     if(m_uad == UAD_READONLY)
     {
@@ -275,6 +280,14 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
     }
     else
         slotClearUser();
+    ui.usersTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_USERACCOUNTS_HEADERSIZES).toByteArray());
+    restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_USERACCOUNTSDLG_SIZE).toByteArray());
+}
+
+UserAccountsDlg::~UserAccountsDlg()
+{
+    ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNTSDLG_SIZE, saveGeometry());
+    ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNTS_HEADERSIZES, ui.usersTreeView->header()->saveState());
 }
 
 void UserAccountsDlg::slotCmdSuccess(int cmdid)
@@ -328,7 +341,6 @@ void UserAccountsDlg::lockUI(bool locked)
     ui.limitcmdComboBox->setEnabled(!locked);
     ui.groupBox_4->setEnabled(!locked);
     ui.addButton->setEnabled(!locked);
-    ui.delButton->setEnabled(!locked);
     ui.newButton->setEnabled(!locked);
 }
 
@@ -481,7 +493,6 @@ void UserAccountsDlg::slotClearUser()
     slotUserTypeChanged();
     updateUserRights(m_add_user);
 
-    ui.delButton->setEnabled(false);
 }
 
 void UserAccountsDlg::slotAddUser()
@@ -649,16 +660,13 @@ void UserAccountsDlg::slotUserSelected(const QModelIndex & index )
     int i = m_proxyModel->mapToSource(index).row();
     if (i < 0)
     {
-        ui.delButton->setEnabled(false);
         return;
     }
     showUserAccount(m_model->getUsers()[i]);
-    ui.delButton->setEnabled(true);
 }
 
 void UserAccountsDlg::slotEdited(const QString&)
 {
-    ui.delButton->setEnabled(false);
     ui.addButton->setEnabled(ui.usernameEdit->text().size());
 }
 
@@ -772,4 +780,30 @@ void UserAccountsDlg::keyPressEvent(QKeyEvent* e)
             ui.tabWidget->setCurrentIndex(ui.tabWidget->count()-1);
     }
     QDialog::keyPressEvent(e);
+}
+
+void UserAccountsDlg::slotTreeContextMenu(const QPoint& /*point*/)
+{
+    QMenu menu(this);
+    QMenu* sortMenu = menu.addMenu(tr("Sort By..."));
+    QAction* sortUsername = sortMenu->addAction(tr("&Username"));
+    QAction* sortUserType = sortMenu->addAction(tr("User &Type"));
+    QAction* sortChannel = sortMenu->addAction(tr("&Channel"));
+    QAction* sortModified = sortMenu->addAction(tr("&Modified"));
+    QAction* delUser = menu.addAction(tr("&Delete Selected User"));
+    if (QAction* action = menu.exec(QCursor::pos()))
+    {
+        auto sortToggle = m_proxyModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
+        if (action == sortUsername)
+            m_proxyModel->sort(COLUMN_INDEX_USERNAME, m_proxyModel->sortColumn() == COLUMN_INDEX_USERNAME ? sortToggle : Qt::AscendingOrder);
+        else if (action == sortUserType)
+            m_proxyModel->sort(COLUMN_INDEX_USERTYPE, m_proxyModel->sortColumn() == COLUMN_INDEX_USERTYPE ? sortToggle : Qt::AscendingOrder);
+        else if (action == sortChannel)
+            m_proxyModel->sort(COLUMN_INDEX_CHANNEL, m_proxyModel->sortColumn() == COLUMN_INDEX_CHANNEL? sortToggle : Qt::AscendingOrder);
+        else if (action == sortModified)
+            m_proxyModel->sort(COLUMN_INDEX_MODIFIED, m_proxyModel->sortColumn() == COLUMN_INDEX_MODIFIED ? sortToggle : Qt::AscendingOrder);
+        else if (action == delUser)
+            emit(slotDelUser());
+        ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNTS_HEADERSIZES, ui.usersTreeView->header()->saveState());
+    }
 }

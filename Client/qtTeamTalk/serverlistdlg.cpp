@@ -34,6 +34,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QFileDialog>
+#include <QMenu>
 
 extern QSettings* ttSettings;
 
@@ -263,8 +264,6 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
 
     connect(ui.addupdButton, &QAbstractButton::clicked,
             this, &ServerListDlg::slotAddUpdServer);
-    connect(ui.delButton, &QAbstractButton::clicked,
-            this, &ServerListDlg::deleteSelectedServer);
     connect(ui.serverTreeView, &QAbstractItemView::activated,
             this, &ServerListDlg::showSelectedServer);
     connect(ui.serverTreeView->selectionModel(), &QItemSelectionModel::currentRowChanged,
@@ -298,6 +297,9 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
             this, &ServerListDlg::slotGenerateEntryName);
     connect(ui.publishButton, &QAbstractButton::clicked,
             this, &ServerListDlg::publishServer);
+    ui.serverTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui.serverTreeView, &QWidget::customContextMenuRequested,
+            this, &ServerListDlg::slotTreeContextMenu);
 
 
     clearHostEntry();
@@ -307,7 +309,6 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     ui.publicserverChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_PUBLICSERVERS, SETTINGS_DISPLAY_PUBLICSERVERS_DEFAULT).toBool());
     ui.privateserverChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_PRIVATESERVERS, SETTINGS_DISPLAY_PRIVATESERVERS_DEFAULT).toBool());
 
-    ui.delButton->setEnabled(false);
     refreshServerList();
     HostEntry lasthost;
     if (getLatestHost(0, lasthost))
@@ -409,7 +410,6 @@ void ServerListDlg::showLatestHostEntry(int index)
     if(getLatestHost(index, host))
     {
         showHostEntry(host);
-        ui.delButton->setEnabled(false);
     }
 }
 
@@ -510,12 +510,10 @@ void ServerListDlg::showSelectedServer(const QModelIndex &index)
     if (srcIndex.isValid() && srcIndex.row() < servers.size())
     {
         showHostEntry(servers[srcIndex.row()]);
-        ui.delButton->setEnabled(true);
     }
     else
     {
         ui.clearButton->setEnabled(false);
-        ui.delButton->setEnabled(false);
     }
 }
 
@@ -545,7 +543,6 @@ void ServerListDlg::deleteSelectedServer()
         refreshServerList();
         ui.serverTreeView->setFocus();
     }
-    ui.delButton->setEnabled(ui.serverTreeView->currentIndex().isValid());
 }
 
 void ServerListDlg::slotDoubleClicked(const QModelIndex& /*index*/)
@@ -679,4 +676,44 @@ void ServerListDlg::slotGenerateEntryName(const QString&)
     ui.passwordEdit->setDisabled(username == WEBLOGIN_BEARWARE_USERNAME);
     if (isWebLogin(username, true))
         ui.passwordEdit->setText("");
+}
+
+void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
+{
+    QMenu menu(this);
+    QMenu* sortMenu = menu.addMenu(tr("Sort By..."));
+    QAction* sortDefault = sortMenu->addAction(tr("De&fault"));
+    QAction* sortName = sortMenu->addAction(tr("&Name"));
+    QAction* sortUserCount = sortMenu->addAction(tr("&User Count"));
+    QAction* sortCountry = sortMenu->addAction(tr("Country"));
+    QAction* delServ = menu.addAction(tr("&Delete Selected Server"));
+    auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
+    if (srcIndex.isValid())
+        delServ->setEnabled(m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
+    if (QAction* action = menu.exec(QCursor::pos()))
+    {
+
+        auto sortToggle = m_proxyModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
+        if (action == sortDefault)
+        {
+            m_proxyModel->setSortRole(Qt::UserRole);
+            m_proxyModel->sort(COLUMN_INDEX_SERVERNAME, m_proxyModel->sortColumn() == COLUMN_INDEX_SERVERNAME ? sortToggle : Qt::AscendingOrder);
+        }
+        else if (action == sortName)
+        {
+            m_proxyModel->setSortRole(Qt::DisplayRole);
+            m_proxyModel->sort(COLUMN_INDEX_SERVERNAME, m_proxyModel->sortColumn() == COLUMN_INDEX_SERVERNAME ? sortToggle : Qt::AscendingOrder);
+        }
+        else if (action == sortUserCount)
+        {
+            m_proxyModel->sort(COLUMN_INDEX_USERCOUNT, m_proxyModel->sortColumn() == COLUMN_INDEX_USERCOUNT ? sortToggle : Qt::AscendingOrder);
+        }
+        else if (action == sortCountry)
+        {
+            m_proxyModel->sort(COLUMN_INDEX_COUNTRY, m_proxyModel->sortColumn() == COLUMN_INDEX_COUNTRY ? sortToggle : Qt::AscendingOrder);
+        }
+        else if (action == delServ)
+            emit(deleteSelectedServer());
+        ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_HEADERSIZES, ui.serverTreeView->header()->saveState());
+    }
 }
