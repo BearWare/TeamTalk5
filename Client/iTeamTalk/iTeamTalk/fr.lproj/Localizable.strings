@@ -162,7 +162,7 @@
 "Connection lost" = "Connexion perdue";
 
 /* server entry */
-"Country" = "Country";
+"Country" = "Pays";
 
 /* View Title */
 "Create Channel" = "Créer un canal";
@@ -281,7 +281,7 @@
 "Limit length of names in channel list to %d characters" = "Dans la liste de canaux, limiter la longueur des noms à %d caractères.";
 
 /* serverlist */
-"Local server" = "Local server";
+"Local server" = "Serveur local";
 
 /* text message type */
 "Log message" = "Historique des messages";
@@ -313,7 +313,7 @@
 "Message limit exceeded by %d characters" = "Le message a dépassé la limite de caractères de %d caractères";
 
 /* server entry */
-"Message of the Day" = "Message of the Day";
+"Message of the Day" = "Message du Jour";
 
 /* preferences */
 "Microphone Gain" = "Volume du microphone";
@@ -379,7 +379,7 @@
 "Noname" = "Sans nom";
 
 /* serverlist */
-"Official server" = "Official server";
+"Official server" = "Serveur officiel";
 
 /* Dialog
    Dialog message
@@ -686,10 +686,10 @@
 "Username or password incorrect" = "Nom d'utilisateur ou mot de passe incorrect";
 
 /* server entry */
-"Users Online" = "Users Online";
+"Users Online" = "Utilisateurs en ligne";
 
 /* serverlist */
-"Users: %d, Country: %@" = "Users: %1$d, Country: %2$@";
+"Users: %d, Country: %@" = "Utilisateurs: %1$d, Pays: %2$@";
 
 /* codec detail */
 "Variable Bitrate" = "Débit variable";
