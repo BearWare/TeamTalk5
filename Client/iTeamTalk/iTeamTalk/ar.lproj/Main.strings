@@ -20,16 +20,16 @@
 "4RU-K7-Yga.normalTitle" = "رسالة المستخدم ";
 
 /* Class = "UITableViewController"; title = "Text To Speech Events"; ObjectID = "5K7-Hd-4h7"; */
-"5K7-Hd-4h7.title" = "Text To Speech Events";
+"5K7-Hd-4h7.title" = "أحداث تحويل النص إلى كلام";
 
 /* Class = "UIButton"; normalTitle = "Login"; ObjectID = "5YA-rx-tGz"; */
-"5YA-rx-tGz.normalTitle" = "Login";
+"5YA-rx-tGz.normalTitle" = "تسجيل الدخول";
 
 /* Class = "UINavigationItem"; title = "Text-to-Speech Voice"; ObjectID = "79c-sV-yxb"; */
 "79c-sV-yxb.title" = "صوت تحويل النص إلى كلام";
 
 /* Class = "UIButton"; normalTitle = "Create Web Login ID"; ObjectID = "8Ls-H9-lri"; */
-"8Ls-H9-lri.normalTitle" = "Create Web Login ID";
+"8Ls-H9-lri.normalTitle" = "إنشاء معرف تسجيل الدخول";
 
 /* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
 "9GN-82-2nL.text" = "فارغ";
@@ -47,7 +47,7 @@
 "B8t-mo-k8g.text" = "فارغ";
 
 /* Class = "UIButton"; normalTitle = "Reset Web Login ID"; ObjectID = "baE-IB-ajD"; */
-"baE-IB-ajD.normalTitle" = "Reset Web Login ID";
+"baE-IB-ajD.normalTitle" = "إعادة تعيين معرف تسجيل الدخول";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "bDf-Jp-1l5"; */
 "bDf-Jp-1l5.normalTitle" = "اتصال";
@@ -56,7 +56,7 @@
 "BLM-fs-qcG.title" = "رجوع";
 
 /* Class = "UILabel"; text = "Setup Sound Events"; ObjectID = "bua-Pf-Vpn"; */
-"bua-Pf-Vpn.text" = "Setup Sound Events";
+"bua-Pf-Vpn.text" = "إعداد صوت الحدث";
 
 /* Class = "UIButton"; normalTitle = "Use Speex Codec"; ObjectID = "cGm-Jp-0zI"; */
 "cGm-Jp-0zI.normalTitle" = "استخدم ترميز Speex";
@@ -77,7 +77,7 @@
 "EHj-xt-HhD.text" = "فارغ";
 
 /* Class = "UILabel"; text = "Choose events to playback"; ObjectID = "eJb-Cn-ciJ"; */
-"eJb-Cn-ciJ.text" = "Choose events to playback";
+"eJb-Cn-ciJ.text" = "اختر ما يتم نطقه";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
 "Fu9-tA-eYj.text" = "فارغ";
@@ -86,10 +86,10 @@
 "gA8-TJ-0RU.title" = "قناة الدردشة";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "GFy-mN-epU"; */
-"GFy-mN-epU.text" = "Title";
+"GFy-mN-epU.text" = "العنوان";
 
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
-"Hcv-zz-riB.text" = "BearWare.dk Web Login";
+"Hcv-zz-riB.text" = "تسجيل الدخول عبر الويب الى BearWare.dk";
 
 /* Class = "UITableViewCell"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
 "hqu-CX-Vn4.accessibilityHint" = "انقر نقراً مزدوجاً لتوسيع خيارات هذه القناة.";
@@ -107,10 +107,10 @@
 "kRp-LE-RFh.text" = "فارغ";
 
 /* Class = "UITableViewController"; title = "Setup Sound Events"; ObjectID = "Ksa-x9-2Mq"; */
-"Ksa-x9-2Mq.title" = "Setup Sound Events";
+"Ksa-x9-2Mq.title" = "إعداد صوت الحدث";
 
 /* Class = "UILabel"; text = "Choose sounds events to play"; ObjectID = "KsW-VX-Rtb"; */
-"KsW-VX-Rtb.text" = "Choose sounds events to play";
+"KsW-VX-Rtb.text" = "اختر صوت الحدث للتشغيل";
 
 /* Class = "UIButton"; normalTitle = "Join Channel"; ObjectID = "l6D-Hs-MdG"; */
 "l6D-Hs-MdG.normalTitle" = "الانضمام إلى القناة";
@@ -131,13 +131,13 @@
 "NA0-UK-wve.title" = "التفضيلات";
 
 /* Class = "UILabel"; text = "Select Microphone"; ObjectID = "ntU-ZP-sKb"; */
-"ntU-ZP-sKb.text" = "Select Microphone";
+"ntU-ZP-sKb.text" = "حدد الميكروفون";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "nVj-7w-Sta"; */
 "nVj-7w-Sta.text" = "فارغ";
 
 /* Class = "UITableViewController"; title = "BearWare.dk Web Login"; ObjectID = "o7z-cC-U4w"; */
-"o7z-cC-U4w.title" = "BearWare.dk Web Login";
+"o7z-cC-U4w.title" = "تسجيل الدخول عبر الويب الى BearWare.dk";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.accessibilityLabel" = "اتصال زر";
@@ -152,10 +152,10 @@
 "pQJ-c1-GEL.title" = "قائمة الخوادم";
 
 /* Class = "UILabel"; text = "Setup Announcements"; ObjectID = "Q0w-pu-giG"; */
-"Q0w-pu-giG.text" = "Setup Annoucements";
+"Q0w-pu-giG.text" = "اعداد الاعلامات";
 
 /* Class = "UILabel"; text = "Choose microphone input"; ObjectID = "qgW-1i-aGQ"; */
-"qgW-1i-aGQ.text" = "Choose microphone input";
+"qgW-1i-aGQ.text" = "اختر ميكروفون الإدخال";
 
 /* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */
 "rNU-2J-hMO.normalTitle" = " استخدام من دون صوت ";
@@ -164,13 +164,13 @@
 "Rrg-2O-NzF.normalTitle" = "استخدم  ترميز OPUS";
 
 /* Class = "UILabel"; text = "Login ID from BearWare.dk"; ObjectID = "SmF-8J-cWK"; */
-"SmF-8J-cWK.text" = "Login ID from BearWare.dk";
+"SmF-8J-cWK.text" = "معرف تسجيل الدخول من BearWare.dk";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
 "Uc0-gP-wr1.text" = "فارغ";
 
 /* Class = "UIButton"; normalTitle = "TX"; ObjectID = "V6G-Gm-l2U"; */
-"V6G-Gm-l2U.normalTitle" = "TX";
+"V6G-Gm-l2U.normalTitle" = "الميكروفون";
 
 /* Class = "UIButton"; normalTitle = "Delete Channel"; ObjectID = "vC1-lW-BtX"; */
 "vC1-lW-BtX.normalTitle" = "حذف القناة";
