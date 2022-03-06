@@ -286,6 +286,7 @@ private:
     void slotClientPreferences(bool checked=false);
     void slotClientSoundDevices();
     void slotClientAudioEffect();
+    void slotClientRecordConversations(bool checked=false);
     void slotClientExit(bool checked=false);
 
     void slotMeChangeNickname(bool checked=false);
@@ -335,7 +336,6 @@ private:
     void slotUsersAdvancedDesktopAllowed(bool checked=false);
     void slotUsersAdvancedMediaFileAllowed(bool checked=false);
     void slotUsersMuteVoiceAll(bool checked=false);
-    void slotUsersStoreAudioToDisk(bool checked=false);
 
     void slotChannelsCreateChannel(bool checked=false);
     void slotChannelsUpdateChannel(bool checked=false);

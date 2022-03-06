@@ -386,7 +386,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     connect(ui.actionMuteAll, &QAction::triggered,
             this, &MainWindow::slotUsersMuteVoiceAll);
     connect(ui.actionMediaStorage, &QAction::triggered,
-            this, &MainWindow::slotUsersStoreAudioToDisk);
+            this, &MainWindow::slotClientRecordConversations);
     //Desktop access
     connect(ui.actionDesktopAccessAllow, &QAction::triggered,
             this, &MainWindow::slotUsersSubscriptionsDesktopInput);
@@ -4026,6 +4026,47 @@ void MainWindow::slotClientAudioEffect()
     updateAudioConfig();
 }
 
+void MainWindow::slotClientRecordConversations(bool/* checked*/)
+{
+    quint32 old_mode = m_audiostorage_mode;
+
+    if(MediaStorageDlg(this).exec())
+    {
+        m_audiostorage_mode = ttSettings->value(SETTINGS_MEDIASTORAGE_MODE,
+                                                AUDIOSTORAGE_NONE).toUInt();
+
+        quint32 new_mode = ttSettings->value(SETTINGS_MEDIASTORAGE_MODE,
+                                             AUDIOSTORAGE_NONE).toUInt();
+
+        if ((old_mode & AUDIOSTORAGE_SINGLEFILE))
+        {
+            updateAudioStorage(false, AUDIOSTORAGE_SINGLEFILE);
+            m_audiostorage_mode &= ~AUDIOSTORAGE_SINGLEFILE;
+        }
+        if (old_mode & AUDIOSTORAGE_SEPARATEFILES)
+        {
+            updateAudioStorage(false, AUDIOSTORAGE_SEPARATEFILES);
+            m_audiostorage_mode &= ~AUDIOSTORAGE_SEPARATEFILES;
+        }
+
+        if (new_mode & AUDIOSTORAGE_SINGLEFILE)
+        {
+            updateAudioStorage(true, AUDIOSTORAGE_SINGLEFILE);
+            m_audiostorage_mode |= AUDIOSTORAGE_SINGLEFILE;
+        }
+        if (new_mode & AUDIOSTORAGE_SEPARATEFILES)
+        {
+            updateAudioStorage(true, AUDIOSTORAGE_SEPARATEFILES);
+            m_audiostorage_mode |= AUDIOSTORAGE_SEPARATEFILES;
+        }
+
+        if(ttSettings->value(SETTINGS_MEDIASTORAGE_CHANLOGFOLDER).toString().isEmpty())
+            m_logChan.close();
+    }
+
+    slotUpdateUI();
+}
+
 void MainWindow::slotClientExit(bool /*checked =false */)
 {
     //close using timer, otherwise gets a Qt assertion from the 
@@ -4639,46 +4680,6 @@ void MainWindow::slotUsersAdvancedMediaFileAllowed(bool checked/*=false*/)
         toggleAllowStreamTypeForAll(checked, STREAMTYPE_MEDIAFILE);
 }
 
-void MainWindow::slotUsersStoreAudioToDisk(bool/* checked*/)
-{
-    quint32 old_mode = m_audiostorage_mode;
-
-    if(MediaStorageDlg(this).exec())
-    {
-        m_audiostorage_mode = ttSettings->value(SETTINGS_MEDIASTORAGE_MODE, 
-                                                AUDIOSTORAGE_NONE).toUInt();
-
-        quint32 new_mode = ttSettings->value(SETTINGS_MEDIASTORAGE_MODE, 
-                                             AUDIOSTORAGE_NONE).toUInt();
-
-        if ((old_mode & AUDIOSTORAGE_SINGLEFILE))
-        {
-            updateAudioStorage(false, AUDIOSTORAGE_SINGLEFILE);
-            m_audiostorage_mode &= ~AUDIOSTORAGE_SINGLEFILE;
-        }
-        if (old_mode & AUDIOSTORAGE_SEPARATEFILES)
-        {
-            updateAudioStorage(false, AUDIOSTORAGE_SEPARATEFILES);
-            m_audiostorage_mode &= ~AUDIOSTORAGE_SEPARATEFILES;
-        }
-
-        if (new_mode & AUDIOSTORAGE_SINGLEFILE)
-        {
-            updateAudioStorage(true, AUDIOSTORAGE_SINGLEFILE);
-            m_audiostorage_mode |= AUDIOSTORAGE_SINGLEFILE;
-        }
-        if (new_mode & AUDIOSTORAGE_SEPARATEFILES)
-        {
-            updateAudioStorage(true, AUDIOSTORAGE_SEPARATEFILES);
-            m_audiostorage_mode |= AUDIOSTORAGE_SEPARATEFILES;
-        }
-
-        if(ttSettings->value(SETTINGS_MEDIASTORAGE_CHANLOGFOLDER).toString().isEmpty())
-            m_logChan.close();
-    }
-
-    slotUpdateUI();
-}
 
 void MainWindow::slotChannelsCreateChannel(bool /*checked =false */)
 {
