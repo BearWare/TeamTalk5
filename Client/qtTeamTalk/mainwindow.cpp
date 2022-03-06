@@ -2677,8 +2677,9 @@ void MainWindow::processMyselfJoined(int channelid)
     updateAudioConfig();
 
     QString statusjoin;
-    if(m_mychannel.nChannelID>0 && TT_GetRootChannelID(ttInst) != m_mychannel.nChannelID) {
-        if(m_mychannel.uChannelType & CHANNEL_CLASSROOM)
+    if (m_mychannel.nChannelID > 0 && TT_GetRootChannelID(ttInst) != m_mychannel.nChannelID)
+    {
+        if (m_mychannel.uChannelType & CHANNEL_CLASSROOM)
         {
             statusjoin = tr("Joined classroom channel %1").arg(_Q(m_mychannel.szName));
         }
@@ -2686,9 +2687,11 @@ void MainWindow::processMyselfJoined(int channelid)
         {
             statusjoin = tr("Joined channel %1").arg(_Q(m_mychannel.szName));
         }
-    } else {
+    }
+    else
+    {
         QString root = tr("root");
-        if(m_mychannel.uChannelType & CHANNEL_CLASSROOM)
+        if (m_mychannel.uChannelType & CHANNEL_CLASSROOM)
         {
             statusjoin = tr("Joined classroom channel %1").arg(root);
         }
@@ -2703,14 +2706,6 @@ void MainWindow::processMyselfJoined(int channelid)
 
     addTextToSpeechMessage(TTS_USER_JOINED, statusjoin);
 
-    //store new muxed audio file if we're changing channel
-    if(ui.actionMediaStorage->isChecked() &&
-        (m_audiostorage_mode & AUDIOSTORAGE_SINGLEFILE))
-    {
-        updateAudioStorage(false, AUDIOSTORAGE_SINGLEFILE);
-        updateAudioStorage(true, AUDIOSTORAGE_SINGLEFILE);
-    }
-
     //show channel information in chat window
     ui.chatEdit->joinedChannel(channelid);
 
@@ -2718,6 +2713,13 @@ void MainWindow::processMyselfJoined(int channelid)
     ui.videomsgEdit->setVisible(true);
     ui.desktopmsgEdit->setVisible(true);
     updateWindowTitle();
+
+    //store new muxed audio file if we're changing channel
+    if (ui.actionMediaStorage->isChecked() && (m_audiostorage_mode & AUDIOSTORAGE_SINGLEFILE))
+    {
+        updateAudioStorage(false, AUDIOSTORAGE_SINGLEFILE);
+        updateAudioStorage(true, AUDIOSTORAGE_SINGLEFILE);
+    }
 }
 
 void MainWindow::processMyselfLeft(int /*channelid*/)
