@@ -285,6 +285,8 @@
     <string name="text_quality">质量</string>
     <string name="text_publicserver">公共服务器</string>
     <string name="text_localserver">本地服务器</string>
+    <string name="text_officialserver">官方服务器</string>
+    <string name="text_privateserver">私人服务器</string>
     <string name="text_passwdprot">密码保护</string>
     <string name="text_translator">由海浪翻译</string>
     <string name="desktop_image">桌面图像</string>

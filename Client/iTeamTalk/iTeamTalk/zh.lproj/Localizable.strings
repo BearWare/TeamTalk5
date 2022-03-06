@@ -162,7 +162,7 @@
 "Connection lost" = "连接丢失";
 
 /* server entry */
-"Country" = "Country";
+"Country" = "国家";
 
 /* View Title */
 "Create Channel" = "创建频道";
@@ -281,7 +281,7 @@
 "Limit length of names in channel list to %d characters" = "限制频道列表中的名称长度为 %d 字符";
 
 /* serverlist */
-"Local server" = "Local server";
+"Local server" = "本地服务器";
 
 /* text message type */
 "Log message" = "日志消息";
@@ -313,7 +313,7 @@
 "Message limit exceeded by %d characters" = "消息超出限制 %d 个字符";
 
 /* server entry */
-"Message of the Day" = "Message of the Day";
+"Message of the Day" = "每日消息";
 
 /* preferences */
 "Microphone Gain" = "麦克风增益";
@@ -379,7 +379,7 @@
 "Noname" = "无名";
 
 /* serverlist */
-"Official server" = "Official server";
+"Official server" = "官方服务器";
 
 /* Dialog
    Dialog message
@@ -686,10 +686,10 @@
 "Username or password incorrect" = "用户名或密码不正确";
 
 /* server entry */
-"Users Online" = "Users Online";
+"Users Online" = "在线用户";
 
 /* serverlist */
-"Users: %d, Country: %@" = "Users: %1$d, Country: %2$@";
+"Users: %d, Country: %@" = "用户： %1$d， 国家： %2$@";
 
 /* codec detail */
 "Variable Bitrate" = "可变比特率";
