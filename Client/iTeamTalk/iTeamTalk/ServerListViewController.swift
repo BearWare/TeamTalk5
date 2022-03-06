@@ -174,14 +174,18 @@ class ServerListViewController : UITableViewController,
         // get xml-list of public server
         let serverparser = ServerParser()
         
-        let parser = XMLParser(contentsOf: URL(string: AppInfo.getServersURL(publicservers: true, privateservers: true))!)!
-        parser.delegate = serverparser
-        parser.parse()
+        if let serversurl = URL(string: AppInfo.getServersURL(publicservers: true, privateservers: true)) {
+            
+            if let parser = XMLParser(contentsOf: serversurl) {
+                parser.delegate = serverparser
+                parser.parse()
 
-        for s in serverparser.servers {
-            servers.append(s)
+                for s in serverparser.servers {
+                    servers.append(s)
+                }
+                tableView.reloadData()
+            }
         }
-        tableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
