@@ -2186,6 +2186,19 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
         if (active)
             initSound();
         break;
+    case HOTKEY_SHOWHIDE_WINDOW :
+        if (active)
+        {
+            if (isMinimized())
+            {
+                showNormal();
+                activateWindow();
+                raise();
+             }
+            else
+                showMinimized();
+        }
+        break;
     }
 }
 
@@ -3374,6 +3387,11 @@ void MainWindow::loadHotKeys()
         enableHotKey(HOTKEY_REINITSOUNDDEVS, hotkey);
     else
         disableHotKey(HOTKEY_REINITSOUNDDEVS);
+    hotkey.clear();
+    if (loadHotKeySettings(HOTKEY_SHOWHIDE_WINDOW, hotkey))
+        enableHotKey(HOTKEY_SHOWHIDE_WINDOW, hotkey);
+    else
+        disableHotKey(HOTKEY_SHOWHIDE_WINDOW);
 }
 
 void MainWindow::enableHotKey(HotKeyID id, const hotkey_t& hk)
