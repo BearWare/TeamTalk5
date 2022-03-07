@@ -31,7 +31,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <widget class="QTreeView" name="serverTreeView">
+        <widget class="MyTreeView" name="serverTreeView">
          <property name="rootIsDecorated">
           <bool>false</bool>
          </property>
@@ -447,6 +447,11 @@
    <class>MyComboBox</class>
    <extends>QComboBox</extends>
    <header>mycombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MyTreeView</class>
+   <extends>QTreeView</extends>
+   <header>mytreeview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -22,17 +22,20 @@
  */
 
 #include "filesview.h"
+#include "common.h"
+#include "filesmodel.h"
+#include "settings.h"
+#include "utiltts.h"
+
 #include <QDragEnterEvent>
 #include <QUrl>
 #include <QFileInfo>
 #include <QMimeData>
-#include "common.h"
-#include "filesmodel.h"
 
 extern TTInstance* ttInst;
+extern QSettings* ttSettings;
 
-FilesView::FilesView(QWidget* parent)
-: QTreeView(parent)
+FilesView::FilesView(QWidget* parent) : MyTreeView(parent)
 {
     setAcceptDrops(true);
 }

@@ -18,6 +18,7 @@ Default Qt Client
 - Added "Hear Myself" menu item to "Me" menu
 - Context menu to sort list in user accounts dialog and server list dialog
 - Use context menu to delete server or user
+- TTS message when navigating with arrow keys on macOS extends to all list
 - Fixed issue where all users and channels not were listed after initial login
 - Fixed labels for server abuse options in server properties
 - Fixed crash issue when using Cmd+4 on macOS 12.2
