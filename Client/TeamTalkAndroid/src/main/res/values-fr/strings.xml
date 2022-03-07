@@ -281,6 +281,8 @@
     <string name="text_quality">Qualité</string>
     <string name="text_publicserver">Serveur public</string>
     <string name="text_localserver">Serveur local</string>
+    <string name="text_officialserver">Serveur officiel</string>
+    <string name="text_privateserver">Serveur privé</string>
     <string name="text_passwdprot">Protégé par mot de passe</string>
     <string name="text_translator">Traduit par Corentin Bacqué-Cazenave</string>
     <string name="desktop_image">Image du bureau</string>

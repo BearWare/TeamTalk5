@@ -25,11 +25,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
-import java.util.Arrays;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.BufferedReader;
 import java.io.IOException;
 
 import dk.bearware.BannedUser;
@@ -43,6 +39,7 @@ import dk.bearware.SoundSystem;
 import dk.bearware.TeamTalk5;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
+import dk.bearware.IntPtr;
 import dk.bearware.User;
 import dk.bearware.UserAccount;
 import dk.bearware.UserRight;
@@ -61,23 +58,10 @@ implements ConnectionListener, CommandListener {
     
     int cmdid_completed = 0, cmdid_success = 0;
 
-    static Vector<String> badwords = new Vector<String>();
-
     public static void main(String[] args) throws IOException {
 
         System.out.println("TeamTalk 5 client example for Java");
 
-        File file = new File("badwords.txt");
-        if (file.exists()) {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String line;
-            while ((line = br.readLine()) != null) {
-                badwords.addAll(Arrays.asList(line.split(",")));
-            }
-
-            while (badwords.remove(""));
-        }
-        
         String ipaddr = "";
         int tcpport, udpport;
         boolean encrypted = false;
@@ -113,7 +97,7 @@ implements ConnectionListener, CommandListener {
             username = getInput("Type username", "guest");
         passwd = System.getProperty("dk.bearware.password");
         if (passwd == null)
-            passwd = getInput("Type password", "");
+            passwd = getInput("Type password", "guest");
         
         while (true) {
             TeamTalkClient inst = new TeamTalkClient();
@@ -230,11 +214,13 @@ implements ConnectionListener, CommandListener {
                 map.put(String.valueOf(dev.nDeviceID), dev);
             }
         }
+        IntPtr indevPtr = new IntPtr(), outdevPtr = new IntPtr();
+        TeamTalkBase.getDefaultSoundDevices(indevPtr, outdevPtr);
         SoundDevice dev;
         int indev = -1, outdev = -1;
         String prop = System.getProperty("dk.bearware.sndinput");
         if (prop == null)
-            dev = map.get(getInput("Type ID of sound device to use for recording", "1978"));
+            dev = map.get(getInput("Type ID of sound device to use for recording", Integer.toString(indevPtr.value)));
         else
             dev = map.get(prop);
 
@@ -243,7 +229,7 @@ implements ConnectionListener, CommandListener {
 
         prop = System.getProperty("dk.bearware.sndoutput");
         if (prop == null)
-            dev = map.get(getInput("Type ID of sound device to use for playback: ", "1978"));
+            dev = map.get(getInput("Type ID of sound device to use for playback", Integer.toString(outdevPtr.value)));
         else
             dev = map.get(prop);
         
@@ -300,42 +286,6 @@ implements ConnectionListener, CommandListener {
         System.out.println();
     }
 
-    public boolean containsBadWord(String value) {
-        value = value.toLowerCase();
-
-        String[] words = value.split("\\W");
-        
-        for (String word : words) {
-            if (word.isEmpty())
-                continue;
-            if (badwords.contains(word))
-                return true;
-        }
-        return false;
-    }
-
-    public boolean cleanUser(User user) {
-        if (containsBadWord(user.szNickname))
-            return false;
-        if (containsBadWord(user.szStatusMsg))
-            return false;
-        return true;
-    }
-
-    public boolean cleanChannel(Channel chan) {
-        if (containsBadWord(chan.szName))
-            return false;
-        if (containsBadWord(chan.szTopic))
-            return false;
-        return true;
-    }
-
-    public boolean cleanTextMessage(TextMessage msg) {
-        if (containsBadWord(msg.szMessage))
-            return false;
-        return true;
-    }
-    
     public void onConnectFailed() {
         System.err.println("Failed to connect to server...");
         System.exit(1);
@@ -351,20 +301,13 @@ implements ConnectionListener, CommandListener {
     }
 
     public void onMaxPayloadUpdate(int arg0) {
-        // TODO Auto-generated method stub
-        
     }
 
     public void onCmdBannedUser(BannedUser arg0) {
-        // TODO Auto-generated method stub
-        
     }
 
     public void onCmdChannelNew(Channel chan) {
         channels.put(chan.nChannelID, chan);
-
-        if (!cleanChannel(chan))
-            ttclient.doRemoveChannel(chan.nChannelID);
     }
 
     public void onCmdChannelRemove(Channel chan) {
@@ -373,9 +316,6 @@ implements ConnectionListener, CommandListener {
 
     public void onCmdChannelUpdate(Channel chan) {
         channels.put(chan.nChannelID, chan);
-
-        if (!cleanChannel(chan) && chan.nParentID != 0)
-            ttclient.doRemoveChannel(chan.nChannelID);
     }
 
     public void onCmdError(int cmdid, ClientErrorMsg err) {
@@ -385,21 +325,15 @@ implements ConnectionListener, CommandListener {
     }
 
     public void onCmdFileNew(RemoteFile arg0) {
-        // TODO Auto-generated method stub
-        
     }
 
     public void onCmdFileRemove(RemoteFile arg0) {
     }
 
     public void onCmdMyselfKickedFromChannel() {
-        // TODO Auto-generated method stub
-        
     }
 
     public void onCmdMyselfKickedFromChannel(User user) {
-        // TODO Auto-generated method stub
-        
     }
 
     public void onCmdMyselfLoggedIn(int userid, UserAccount useraccount) {
@@ -430,8 +364,6 @@ implements ConnectionListener, CommandListener {
     }
 
     public void onCmdMyselfLoggedOut() {
-        // TODO Auto-generated method stub
-        
     }
 
     public void onCmdProcessing(int cmdid, boolean complete) {
@@ -450,8 +382,6 @@ implements ConnectionListener, CommandListener {
     }
 
     public void onCmdUserAccount(UserAccount arg0) {
-        // TODO Auto-generated method stub
-        
     }
 
     public void onCmdUserJoinedChannel(User user) {
@@ -461,9 +391,6 @@ implements ConnectionListener, CommandListener {
                            user.szNickname +
                            " joined channel \"" + 
                            channels.get(user.nChannelID).szName + "\"");
-
-        if (!cleanUser(user))
-            ttclient.doKickUser(user.nUserID, 0);
     }
 
     public void onCmdUserLeftChannel(int chanid, User user) {
@@ -480,8 +407,6 @@ implements ConnectionListener, CommandListener {
         
         System.out.println("User #" + user.nUserID + " " +
                            user.szNickname + " logged in");
-        if (!cleanUser(user))
-            ttclient.doKickUser(user.nUserID, 0);
     }
 
     public void onCmdUserLoggedOut(User user) {
@@ -492,13 +417,9 @@ implements ConnectionListener, CommandListener {
     }
 
     public void onCmdUserTextMessage(TextMessage textmsg) {
-        if (!cleanTextMessage(textmsg))
-            ttclient.doKickUser(textmsg.nFromUserID, 0);
     }
 
     public void onCmdUserUpdate(User user) {
         users.put(user.nUserID, user);
-        if (!cleanUser(user))
-            ttclient.doKickUser(user.nUserID, 0);
     }
 }

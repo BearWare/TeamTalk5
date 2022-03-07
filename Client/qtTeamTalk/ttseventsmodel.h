@@ -46,16 +46,4 @@ private:
     TTSEvents m_ttsselected = TTS_NONE;
 };
 
-class TTSEventsTreeView : public QTreeView
-{
-    Q_OBJECT
-
-public:
-    TTSEventsTreeView(QWidget* parent = nullptr);
-
-protected:
-    void keyPressEvent(QKeyEvent* e) override;
-
-};
-
 #endif // TTSEVENTSMODEL_H

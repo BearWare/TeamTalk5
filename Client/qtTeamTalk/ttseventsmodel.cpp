@@ -224,20 +224,3 @@ TTSEvents TTSEventsModel::getTTSEvents()
 {
     return m_ttsselected;
 }
-
-TTSEventsTreeView::TTSEventsTreeView(QWidget* parent)
-    : QTreeView(parent)
-{
-}
-
-void TTSEventsTreeView::keyPressEvent(QKeyEvent* e)
-{
-    if (e->key() == Qt::Key_Space)
-    {
-        auto i = currentIndex();
-        emit doubleClicked(i);
-        setCurrentIndex(i);
-    }
-
-    QTreeView::keyPressEvent(e);
-}

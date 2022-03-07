@@ -164,6 +164,7 @@ if (Java_FOUND)
     src/dk/bearware/RemoteFile.java
     src/dk/bearware/ServerCallback.java
     src/dk/bearware/ServerLogger.java
+    src/dk/bearware/ServerLogEvent.java
     src/dk/bearware/ServerProperties.java
     src/dk/bearware/ServerStatistics.java
     src/dk/bearware/SoundDevice.java

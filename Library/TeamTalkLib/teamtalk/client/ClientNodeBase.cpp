@@ -54,11 +54,12 @@ int ClientNodeBase::svc(void)
         // ensure .wait() is called prior to .notify_all()
         std::unique_lock<std::mutex> lck(m_reactor_wait_mtx);
     }
-    m_reactor_wait_cv.notify_all();
 
     m_reactor_thread = ACE_OS::thr_self();
     int ret = m_reactor.owner (ACE_OS::thr_self());
     assert(ret >= 0);
+
+    m_reactor_wait_cv.notify_all();
 
     m_reactor.run_reactor_event_loop ();
 

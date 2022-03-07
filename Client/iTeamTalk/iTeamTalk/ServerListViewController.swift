@@ -23,6 +23,13 @@
 
 import UIKit
 
+enum ServerType {
+    case LOCAL,
+    OFFICIAL,
+    PUBLIC,
+    PRIVATE
+}
+
 // Properties of a TeamTalk server to connect to
 class Server : NSObject {
     var name = ""
@@ -34,8 +41,14 @@ class Server : NSObject {
     var password = ""
     var channel = ""
     var chanpasswd = ""
-    var publicserver = false
+    var servertype : ServerType = .LOCAL
     var encrypted = false
+    
+    // stats from public server list
+    var stats_usercount = 0
+    var stats_country = ""
+    var stats_servername = ""
+    var stats_motd = ""
     
     override init() {
         
@@ -161,14 +174,18 @@ class ServerListViewController : UITableViewController,
         // get xml-list of public server
         let serverparser = ServerParser()
         
-        let parser = XMLParser(contentsOf: URL(string: AppInfo.getServersURL())!)!
-        parser.delegate = serverparser
-        parser.parse()
+        if let serversurl = URL(string: AppInfo.getServersURL(publicservers: true, privateservers: true)) {
+            
+            if let parser = XMLParser(contentsOf: serversurl) {
+                parser.delegate = serverparser
+                parser.parse()
 
-        for s in serverparser.servers {
-            servers.append(s)
+                for s in serverparser.servers {
+                    servers.append(s)
+                }
+                tableView.reloadData()
+            }
         }
-        tableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -178,7 +195,7 @@ class ServerListViewController : UITableViewController,
     
     func saveServerList() {
         
-        saveLocalServers(servers.filter({$0.publicserver == false}))
+        saveLocalServers(servers.filter({$0.servertype == .LOCAL}))
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -197,13 +214,24 @@ class ServerListViewController : UITableViewController,
         let server = servers[indexPath.row]
         cell.connectBtn.tag = indexPath.row
         cell.nameLabel.text = server.name
-        cell.ipaddrLabel.text = server.ipaddr
-        if server.publicserver {
+        cell.detailLabel.text = "\(server.ipaddr):\(server.tcpport)"
+        if server.servertype != .LOCAL {
+            let detail = cell.detailLabel.text! + ", " +
+            String(format: NSLocalizedString("Users: %d, Country: %@", comment: "serverlist"), server.stats_usercount, server.stats_country)
+            cell.detailLabel.text = detail
+        }
+        switch server.servertype {
+        case .LOCAL :
+            cell.iconImageView.image = UIImage(named: "teamtalk_yellow.png")
+            cell.iconImageView.accessibilityLabel = NSLocalizedString("Local server", comment: "serverlist")
+        case .OFFICIAL :
+            cell.iconImageView.image = UIImage(named: "teamtalk_blue.png")
+            cell.iconImageView.accessibilityLabel = NSLocalizedString("Official server", comment: "serverlist")
+        case .PUBLIC :
             cell.iconImageView.image = UIImage(named: "teamtalk_green.png")
             cell.iconImageView.accessibilityLabel = NSLocalizedString("Public server", comment: "serverlist")
-        }
-        else {
-            cell.iconImageView.image = UIImage(named: "teamtalk_yellow.png")
+        case .PRIVATE :
+            cell.iconImageView.image = UIImage(named: "teamtalk_orange.png")
             cell.iconImageView.accessibilityLabel = NSLocalizedString("Private server", comment: "serverlist")
         }
         
@@ -458,7 +486,8 @@ class ServerParser : NSObject, XMLParserDelegate {
         switch elementStack.last! {
         case "teamtalk" : break
         case "host" : break
-            
+        // <host>
+        case "id" : break
         case "name" :
             currentServer.name = string
         case "address" :
@@ -471,12 +500,23 @@ class ServerParser : NSObject, XMLParserDelegate {
             currentServer.udpport = Int(v)!
         case "encrypted" :
             currentServer.encrypted = string == "true"
-            
+        case "listing" :
+            if string == "official" {
+                currentServer.servertype = .OFFICIAL
+            }
+            else if string == "public" {
+                currentServer.servertype = .PUBLIC
+            }
+            else if string == "private" {
+                currentServer.servertype = .PRIVATE
+            }
         case "auth" : break
         case "join" : break
-            
+        case "stats" : break
+        // <auth>
         case "username" :
             currentServer.username = string
+        // <auth> or <join>
         case "password" :
             if elementStack.firstIndex(of: "auth") != nil {
                 currentServer.password = string
@@ -484,10 +524,20 @@ class ServerParser : NSObject, XMLParserDelegate {
             else if elementStack.firstIndex(of: "join") != nil {
                 currentServer.chanpasswd = string
             }
+        // <auth>
         case "nickname" :
             currentServer.nickname = string
         case "channel" :
             currentServer.channel = string
+        // <stats>
+        case "user-count" :
+            currentServer.stats_usercount = Int(string) ?? 0
+        case "country" :
+            currentServer.stats_country = string
+        case "servername" :
+            currentServer.stats_servername = string
+        case "motd" :
+            currentServer.stats_motd = string
         default :
             print("Unknown tag " + self.elementStack.last!)
         }
@@ -498,7 +548,6 @@ class ServerParser : NSObject, XMLParserDelegate {
             
             self.elementStack.removeLast()
             if elementName == "host" {
-                currentServer.publicserver = true
                 servers.append(currentServer)
             }
     }

@@ -433,18 +433,25 @@ ErrorMsg ServerNode::UserEndFileTransfer(int transferid)
     if(transfer.inbound)
     {
         m_stats.files_bytesreceived += remotefile.filesize;
-        m_srvguard->OnFileUploaded(*user, *chan, remotefile);
+        if (m_properties.logevents & SERVERLOGEVENT_FILE_UPLOADED)
+        {
+            m_srvguard->OnFileUploaded(*user, *chan, remotefile);
+        }
+
         if(IsAutoSaving() && (chan->GetChannelType() & CHANNEL_PERMANENT))
         {
             err = m_srvguard->SaveConfiguration(*user, *this);
-            if (err.success())
+            if (err.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
                 m_srvguard->OnSaveConfiguration(user.get());
         }
     }
     else
     {
         m_stats.files_bytessent += remotefile.filesize;
-        m_srvguard->OnFileDownloaded(*user, *chan, remotefile);
+        if (m_properties.logevents & SERVERLOGEVENT_FILE_DOWNLOADED)
+        {
+            m_srvguard->OnFileDownloaded(*user, *chan, remotefile);
+        }
     }
 
     return err;
@@ -479,11 +486,15 @@ ErrorMsg ServerNode::UserDeleteFile(int userid, int channelid,
     else
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
-    m_srvguard->OnFileDeleted(*user, *chan, remotefile);
+    if (m_properties.logevents & SERVERLOGEVENT_FILE_DELETED)
+    {
+        m_srvguard->OnFileDeleted(*user, *chan, remotefile);
+    }
+
     if (IsAutoSaving() && chan->GetChannelType() & CHANNEL_PERMANENT)
     {
         auto err = m_srvguard->SaveConfiguration(*user, *this);
-        if (err.success())
+        if (err.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
             m_srvguard->OnSaveConfiguration(user.get());
     }
 
@@ -1078,7 +1089,10 @@ void ServerNode::OnOpened(ACE_HANDLE h, serveruser_t& user)
     m_streamhandles[h] = user;
 
     user->DoWelcome(m_properties);
-    m_srvguard->OnUserConnected(*user);
+    if (m_properties.logevents & SERVERLOGEVENT_USER_CONNECTED)
+    {
+        m_srvguard->OnUserConnected(*user);
+    }
 }
 
 #if defined(ENABLE_ENCRYPTION)
@@ -1232,13 +1246,18 @@ void ServerNode::IncLoginAttempt(const ServerUser& user)
         m_failedlogins[user.GetIpAddress()].size() >= (size_t)m_properties.maxloginattempts)
     {
         BannedUser ban;
-        ban.bantype = BANTYPE_DEFAULT;
+        ban.bantype = BANTYPE_IPADDR;
         ban.ipaddr = user.GetIpAddress();
         m_srvguard->AddUserBan(user, ban);
+        if (m_properties.logevents & SERVERLOGEVENT_USER_BANNED)
+        {
+            m_srvguard->OnUserBanned(user.GetIpAddress(), user);
+        }
+
         if (IsAutoSaving())
         {
             auto err = m_srvguard->SaveConfiguration(user, *this);
-            if (err.success())
+            if (err.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
                 m_srvguard->OnSaveConfiguration(&user);
         }
     }
@@ -1864,13 +1883,12 @@ void ServerNode::ReceivedVoicePacket(ServerUser& user,
         break;
     }
 
-    std::vector<int> txqueue = chan.GetTransmitQueue();
-    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_VOICE, streamid);
+    bool modified = false;
+    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_VOICE, streamid, &modified);
 
-    if((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) &&
-       txqueue != chan.GetTransmitQueue())
+    if ((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) && modified)
     {
-        UpdateChannel(chan, chan.GetUsers());
+        UpdateChannel(chan, chan.GetUsers(), &user);
     }
 
     if(!tx_ok)
@@ -1916,13 +1934,12 @@ void ServerNode::ReceivedAudioFilePacket(ServerUser& user,
         break;
     }
 
-    std::vector<int> txqueue = chan.GetTransmitQueue();
-    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_MEDIAFILE, streamid);
+    bool modified = false;
+    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_MEDIAFILE, streamid, &modified);
 
-    if((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) &&
-       txqueue != chan.GetTransmitQueue())
+    if ((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) && modified)
     {
-        UpdateChannel(chan, chan.GetUsers());
+        UpdateChannel(chan, chan.GetUsers(), &user);
     }
 
     if(!tx_ok)
@@ -1966,7 +1983,7 @@ void ServerNode::ReceivedVideoCapturePacket(ServerUser& user,
         assert(packet.GetKind() == PACKET_KIND_VIDEO_CRYPT);
     }
 
-    if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_VIDEOCAPTURE, streamid))
+    if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_VIDEOCAPTURE, streamid, nullptr))
         return;
 
     ServerChannel::users_t users = GetPacketDestinations(user, chan, packet, SUBSCRIBE_VIDEOCAPTURE,
@@ -2012,13 +2029,12 @@ void ServerNode::ReceivedVideoFilePacket(ServerUser& user,
         break;
     }
     
-    std::vector<int> txqueue = chan.GetTransmitQueue();
-    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_MEDIAFILE, streamid);
+    bool modified = false;
+    bool tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_MEDIAFILE, streamid, &modified);
     
-    if((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) &&
-       txqueue != chan.GetTransmitQueue())
+    if ((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) && modified)
     {
-        UpdateChannel(chan, chan.GetUsers());
+        UpdateChannel(chan, chan.GetUsers(), &user);
     }
 
     if(!tx_ok)
@@ -2063,7 +2079,7 @@ void ServerNode::ReceivedDesktopPacket(ServerUser& user,
 
     ServerChannel& chan = *tmp_chan;
 
-    if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_DESKTOP, packet.GetSessionID()))
+    if (!chan.CanTransmit(user.GetUserID(), STREAMTYPE_DESKTOP, packet.GetSessionID(), nullptr))
        return;
 
     uint8_t prev_session_id = 0;
@@ -2382,7 +2398,7 @@ void ServerNode::ReceivedDesktopCursorPacket(ServerUser& user,
 
     ServerChannel& chan = *tmp_chan;
 
-    if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_DESKTOP, packet.GetSessionID()))
+    if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_DESKTOP, packet.GetSessionID(), nullptr))
        return;
     
 #ifdef _DEBUG
@@ -2552,7 +2568,10 @@ void ServerNode::CheckKeepAlive()
     for(size_t j=0;j<theDead.size();j++)
     {
         //notify of dropped users (due to keepalive)
-        m_srvguard->OnUserDropped(*theDead[j]);
+        if (m_properties.logevents & SERVERLOGEVENT_USER_TIMEDOUT)
+        {
+            m_srvguard->OnUserDropped(*theDead[j]);
+        }
 #if defined(ENABLE_ENCRYPTION)
         // SSL handler could be hanging in CryptStreamHandler::process_ssl()
         // therefore we have to forcefully delete the handler
@@ -2592,12 +2611,18 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
         break;
     }
     case TT_CMDERR_SERVER_BANNED :
-        m_srvguard->OnUserLoginBanned(*user);
+        if (m_properties.logevents & SERVERLOGEVENT_USER_BANNED)
+        {
+            m_srvguard->OnUserLoginBanned(*user);
+        }
         return err; //banned from server
     case TT_SRVERR_COMMAND_SUSPEND :
         return err;
     default :
-        m_srvguard->OnUserAuthFailed(*user, username);
+        if (m_properties.logevents & SERVERLOGEVENT_USER_LOGINFAILED)
+        {
+            m_srvguard->OnUserAuthFailed(*user, username);
+        }
 
         IncLoginAttempt(*user);
         return err;
@@ -2680,7 +2705,10 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
     m_stats.usersservered++;
 
     //notify listener if any
-    m_srvguard->OnUserLogin(*user);
+    if (m_properties.logevents & SERVERLOGEVENT_USER_LOGGEDIN)
+    {
+        m_srvguard->OnUserLogin(*user);
+    }
 
     return ErrorMsg(TT_CMDERR_SUCCESS);
 }
@@ -2712,7 +2740,7 @@ ErrorMsg ServerNode::UserLogout(int userid)
         serverchannel_t chan = GetChannel(*i);
         TTASSERT(chan);
         if(chan)
-            UpdateChannel(chan);
+            UpdateChannel(chan, user.get());
     }
 
     user->DoLoggedOut();
@@ -2732,7 +2760,10 @@ ErrorMsg ServerNode::UserLogout(int userid)
     for (auto u : GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS))
         u->DoLoggedOut(*user);
 
-    m_srvguard->OnUserLoggedOut(*user);
+    if (m_properties.logevents & SERVERLOGEVENT_USER_LOGGEDOUT)
+    {
+        m_srvguard->OnUserLoggedOut(*user);
+    }
 
     //reset important user info.
     user->SetUserAccount(UserAccount());
@@ -2789,7 +2820,10 @@ ErrorMsg ServerNode::UserUpdate(int userid)
     for (auto u : notifyusers)
         u->DoUpdateUser(*user);
 
-    m_srvguard->OnUserUpdated(*user);
+    if (m_properties.logevents & SERVERLOGEVENT_USER_UPDATED)
+    {
+        m_srvguard->OnUserUpdated(*user);
+    }
 
     return ErrorMsg(TT_CMDERR_SUCCESS);
 }
@@ -2934,7 +2968,7 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
     if(makeop)
     {
         newchan->AddOperator(user->GetUserID());
-        UpdateChannel(newchan); //notify users of new operator
+        UpdateChannel(newchan, user.get()); //notify users of new operator
     }
 
     //send channel's file list
@@ -2966,7 +3000,10 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
 
     //notify listener
     TTASSERT(newchan == user->GetChannel());
-    m_srvguard->OnUserJoinChannel(*user, *newchan);
+    if (m_properties.logevents & SERVERLOGEVENT_USER_JOINEDCHANNEL)
+    {
+        m_srvguard->OnUserJoinChannel(*user, *newchan);
+    }
 
     return ErrorMsg(TT_CMDERR_SUCCESS);
 }
@@ -3019,11 +3056,11 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
     }
 
     //check if in allowed to transmit
-    bool upd_chan = chan->ClearTransmitUser(userid).size();
-    chan->RemoveUser(user->GetUserID());
+    bool modified = false;
+    chan->RemoveUser(user->GetUserID(), &modified);
 
-    if(upd_chan)
-        UpdateChannel(*chan, chan->GetUsers());
+    if (modified)
+        UpdateChannel(*chan, chan->GetUsers(), user.get());
 
     // forward hidden channel to user
     if ((chan->GetChannelType() & CHANNEL_HIDDEN) &&
@@ -3035,7 +3072,10 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
     serverchannel_t nullc;
     user->SetChannel(nullc);
 
-    m_srvguard->OnUserLeaveChannel(*user, *chan);
+    if (m_properties.logevents & SERVERLOGEVENT_USER_LEFTCHANNEL)
+    {
+        m_srvguard->OnUserLeaveChannel(*user, *chan);
+    }
 
     CleanChannels(chan);
 
@@ -3059,7 +3099,10 @@ void ServerNode::UserDisconnected(int userid)
             u->ClearUserSubscription(*user);
 
         //notify listener (if any)
-        m_srvguard->OnUserDisconnected(*user);
+        if (m_properties.logevents & SERVERLOGEVENT_USER_DISCONNECTED)
+        {
+            m_srvguard->OnUserDisconnected(*user);
+        }
 
         //if it's a file transfer. Clean it up.
         if(user->GetFileTransferID())
@@ -3093,7 +3136,7 @@ ErrorMsg ServerNode::UserOpDeOp(int userid, int channelid,
         else
             chan->RemoveOperator(op_userid);
 
-        UpdateChannel(chan);
+        UpdateChannel(chan, opper.get());
 
         return ErrorMsg(TT_CMDERR_SUCCESS);
     }
@@ -3126,7 +3169,10 @@ ErrorMsg ServerNode::UserKick(int userid, int kick_userid, int chanid,
         {
             kickee->DoKicked(userid, true);
 
-            m_srvguard->OnUserKicked(*kickee, kicker.get(), chan.get());
+            if (m_properties.logevents & SERVERLOGEVENT_USER_KICKED)
+            {
+                m_srvguard->OnUserKicked(*kickee, kicker.get(), chan.get());
+            }
 
             return UserLeaveChannel(kick_userid, chanid);
         }
@@ -3137,8 +3183,10 @@ ErrorMsg ServerNode::UserKick(int userid, int kick_userid, int chanid,
     {
         kickee->DoKicked(userid, false);
 
-        m_srvguard->OnUserKicked(*kickee, kicker.get(), 
-                                 kickee->GetChannel().get());
+        if (m_properties.logevents & SERVERLOGEVENT_USER_KICKED)
+        {
+            m_srvguard->OnUserKicked(*kickee, kicker.get(), kickee->GetChannel().get());
+        }
 
         if(kickee->IsAuthorized())
             return UserLogout(kick_userid);
@@ -3191,8 +3239,10 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
         if (banchan && err.success())
             AddBannedUserToChannel(ban);
         
-        if (err.success())
+        if (err.success() && (m_properties.logevents & SERVERLOGEVENT_USER_BANNED))
+        {
             m_srvguard->OnUserBanned(*ban_user, *banner);
+        }
     }
     else
     {
@@ -3222,15 +3272,19 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
         if (banchan && err.success())
             AddBannedUserToChannel(ban);
 
-        if (err.success())
+        if (err.success() && (m_properties.logevents & SERVERLOGEVENT_USER_BANNED))
+        {
             m_srvguard->OnUserBanned(*banner, ban);
+        }
     }
 
     if (err.success() && IsAutoSaving())
     {
         err = m_srvguard->SaveConfiguration(*banner, *this);
-        if (err.success())
+        if (err.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
+        {
             m_srvguard->OnSaveConfiguration(banner.get());
+        }
     }
     return err;
 }
@@ -3269,12 +3323,18 @@ ErrorMsg ServerNode::UserUnBan(int userid, const BannedUser& ban)
 
     if(err.success())
     {
-        m_srvguard->OnUserUnbanned(*user, ban);
+        if (m_properties.logevents & SERVERLOGEVENT_USER_BANNED)
+        {
+            m_srvguard->OnUserUnbanned(*user, ban);
+        }
+
         if(IsAutoSaving())
         {
             err = m_srvguard->SaveConfiguration(*user, *this);
-            if (err.success())
+            if (err.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
+            {
                 m_srvguard->OnSaveConfiguration(user.get());
+            }
         }
     }
     return err;
@@ -3360,8 +3420,10 @@ ErrorMsg ServerNode::UserNewUserAccount(int userid, const UserAccount& regusr)
         if (IsAutoSaving())
         {
             err = m_srvguard->SaveConfiguration(*user, *this);
-            if (err.success())
+            if (err.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
+            {
                 m_srvguard->OnSaveConfiguration(user.get());
+            }
         }
     }
     return err;
@@ -3381,7 +3443,7 @@ ErrorMsg ServerNode::UserDeleteUserAccount(int userid, const ACE_TString& userna
         if (IsAutoSaving())
         {
             err = m_srvguard->SaveConfiguration(*user, *this);
-            if (err.success())
+            if (err.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
                 m_srvguard->OnSaveConfiguration(user.get());
         }
     }
@@ -3444,9 +3506,13 @@ ErrorMsg ServerNode::UserUpdateServer(int userid, const ServerSettings& properti
     if((user->GetUserRights() & USERRIGHT_UPDATE_SERVERPROPERTIES) == 0)
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
+    // log server save event if it is or was enabled
+    bool logevent = (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) || (properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG);
     ErrorMsg err = UpdateServer(properties, user.get());
-    if (err.success())
+    if (err.success() && logevent)
+    {
         m_srvguard->OnServerUpdated(*user, properties);
+    }
     
     return err;
 }
@@ -3460,8 +3526,10 @@ ErrorMsg ServerNode::UserSaveServerConfig(int userid)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     auto errmsg = m_srvguard->SaveConfiguration(*user, *this);
-    if (errmsg.success())
+    if (errmsg.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
+    {
         m_srvguard->OnSaveConfiguration(user.get());
+    }
     return errmsg;
 }
 
@@ -3477,8 +3545,10 @@ ErrorMsg ServerNode::UpdateServer(const ServerSettings& properties,
     if (IsAutoSaving() && user)
     {
         err = m_srvguard->SaveConfiguration(*user, *this);
-        if (err.success())
+        if (err.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
+        {
             m_srvguard->OnSaveConfiguration(user);
+        }
     }
 
     return err;
@@ -3578,14 +3648,19 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
     }
 
     //notify listener if any
-    m_srvguard->OnChannelCreated(*chan, user);
+    if (m_properties.logevents & SERVERLOGEVENT_CHANNEL_CREATED)
+    {
+        m_srvguard->OnChannelCreated(*chan, user);
+    }
 
     ErrorMsg err(TT_CMDERR_SUCCESS);
     if (IsAutoSaving() && (chanprop.chantype & CHANNEL_PERMANENT) && user)
     {
         err = m_srvguard->SaveConfiguration(*user, *this);
-        if (err.success())
+        if (err.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
+        {
             m_srvguard->OnSaveConfiguration(user);
+        }
     }
 
     return err;
@@ -3652,17 +3727,17 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
     chan->SetMediaFileUsers(chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE));
     chan->SetChannelTextMsgUsers(chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG));
     chan->SetTransmitQueue(chanprop.transmitqueue);
+    chan->SetTransmitSwitchDelay(ToTimeValue(chanprop.transmitswitchdelay));
 
-    UpdateChannel(chan);
-
-    //notify listener if any
-    m_srvguard->OnChannelUpdated(*chan, user);
+    UpdateChannel(chan, user);
 
     if (IsAutoSaving() && (chan->GetChannelType() & CHANNEL_PERMANENT) && user)
     {
         auto err = m_srvguard->SaveConfiguration(*user, *this);
-        if (err.success())
+        if (err.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
+        {
             m_srvguard->OnSaveConfiguration(user);
+        }
     }
 
     return ErrorMsg(TT_CMDERR_SUCCESS);
@@ -3699,17 +3774,18 @@ void ServerNode::UpdateSoloTransmitChannels()
          serverchannel_t chan = sweeper.top();
          sweeper.pop();
 
-         size_t txq = chan->GetTransmitQueue().size();
-         chan->CanTransmit(0, STREAMTYPE_VOICE, 0);
-         chan->ClearFromTransmitQueue(0);
-         if(txq != chan->GetTransmitQueue().size())
-             UpdateChannel(*chan, chan->GetUsers());
+         std::vector<int> txq = chan->GetTransmitQueue();
+         chan->CanTransmit(SERVER_USERID, STREAMTYPE_VOICE, 0, nullptr);
+         chan->ClearFromTransmitQueue(SERVER_USERID);
+         if (txq != chan->GetTransmitQueue())
+         {
+             UpdateChannel(*chan, chan->GetUsers(), nullptr);
+         }
 
          ServerChannel::channels_t subs = chan->GetSubChannels();
          for(size_t i=0;i<subs.size();i++)
              sweeper.push(subs[i]);
      }
-
 }
 
 ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NULL*/)
@@ -3778,7 +3854,10 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
 
                 parent->RemoveSubChannel(chan->GetName());
                 //notify listener if any
-                m_srvguard->OnChannelRemoved(*chan, user);
+                if (m_properties.logevents & SERVERLOGEVENT_CHANNEL_REMOVED)
+                {
+                    m_srvguard->OnChannelRemoved(*chan, user);
+                }
             }                                  
         }
     }
@@ -3787,30 +3866,36 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
     if (IsAutoSaving() && bStatic && user)
     {
         err = m_srvguard->SaveConfiguration(*user, *this);
-        if (err.success())
+        if (err.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
+        {
             m_srvguard->OnSaveConfiguration(user);
+        }
     }
 
     return err;
 }
 
-void ServerNode::UpdateChannel(const serverchannel_t& chan)
+void ServerNode::UpdateChannel(const serverchannel_t& chan, const ServerUser* user)
 {
     ASSERT_REACTOR_LOCKED(this);
     TTASSERT(chan);
 
     if (chan->GetChannelType() & CHANNEL_HIDDEN)
-        UpdateChannel(*chan, GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS, chan));
+        UpdateChannel(*chan, GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS, chan), user);
     else
-        UpdateChannel(*chan, GetAuthorizedUsers());
+        UpdateChannel(*chan, GetAuthorizedUsers(), user);
 }
 
-void ServerNode::UpdateChannel(const ServerChannel& chan, const ServerChannel::users_t& users)
+void ServerNode::UpdateChannel(const ServerChannel& chan, const ServerChannel::users_t& users,
+                               const ServerUser* user)
 {
     ASSERT_REACTOR_LOCKED(this);
 
     for (auto u : users)
         u->DoUpdateChannel(chan, IsEncrypted());
+
+    if (m_properties.logevents & SERVERLOGEVENT_CHANNEL_UPDATED)
+        m_srvguard->OnChannelUpdated(chan, user);
 }
 
 ErrorMsg ServerNode::UserMove(int userid, int moveuserid, int channelid)
@@ -3835,7 +3920,12 @@ ErrorMsg ServerNode::UserMove(int userid, int moveuserid, int channelid)
     ErrorMsg err = UserJoinChannel(moveuserid, chan->GetChannelProp());
 
     if(err.errorno == TT_CMDERR_SUCCESS)
-        m_srvguard->OnUserMoved(*user, *moveuser);
+    {
+        if (m_properties.logevents & SERVERLOGEVENT_USER_MOVED)
+        {
+            m_srvguard->OnUserMoved(*user, *moveuser);
+        }
+    }
     return err;
 }
 
@@ -3873,7 +3963,10 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
         }
 
         //log text message
-        m_srvguard->OnUserMessage(*from, *to_user, msg);
+        if (m_properties.logevents & SERVERLOGEVENT_USER_TEXTMESSAGE_PRIVATE)
+        {
+            m_srvguard->OnUserMessage(*from, *to_user, msg);
+        }
 
         return ErrorMsg(TT_CMDERR_SUCCESS);
     }
@@ -3901,7 +3994,10 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
         }
 
         //log text message
-        m_srvguard->OnCustomMessage(*from, *to_user, msg);
+        if (m_properties.logevents & SERVERLOGEVENT_USER_TEXTMESSAGE_CUSTOM)
+        {
+            m_srvguard->OnCustomMessage(*from, *to_user, msg);
+        }
 
         return ErrorMsg(TT_CMDERR_SUCCESS);
     }
@@ -3915,7 +4011,7 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
            (from->GetUserType() & USERTYPE_ADMIN) == 0)
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
-        if (!chan->CanTransmit(from->GetUserID(), STREAMTYPE_CHANNELMSG, 0))
+        if (!chan->CanTransmit(from->GetUserID(), STREAMTYPE_CHANNELMSG, 0, nullptr))
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
         //forward message to all users of that channel
@@ -3937,7 +4033,10 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
         }
 
         //log text message
-        m_srvguard->OnChannelMessage(*from, *chan, msg);
+        if (m_properties.logevents & SERVERLOGEVENT_USER_TEXTMESSAGE_CHANNEL)
+        {
+            m_srvguard->OnChannelMessage(*from, *chan, msg);
+        }
 
         return ErrorMsg(TT_CMDERR_SUCCESS);
     }
@@ -3953,7 +4052,10 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
         }
 
         //log text message
-        m_srvguard->OnBroadcastMessage(*from, msg);
+        if (m_properties.logevents & SERVERLOGEVENT_USER_TEXTMESSAGE_BROADCAST)
+        {
+            m_srvguard->OnBroadcastMessage(*from, msg);
+        }
 
         return ErrorMsg(TT_CMDERR_SUCCESS);
     }

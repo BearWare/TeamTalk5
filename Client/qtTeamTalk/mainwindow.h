@@ -286,11 +286,13 @@ private:
     void slotClientPreferences(bool checked=false);
     void slotClientSoundDevices();
     void slotClientAudioEffect();
+    void slotClientRecordConversations(bool checked=false);
     void slotClientExit(bool checked=false);
 
     void slotMeChangeNickname(bool checked=false);
     void slotMeChangeStatus(bool checked=false);
     void slotMeEnablePushToTalk(bool checked=false);
+    void slotMeHearMyself(bool checked=false);
     void slotMeEnableVoiceActivation(bool checked=false, SoundEvent on = SOUNDEVENT_VOICEACTON, SoundEvent off = SOUNDEVENT_VOICEACTOFF);
     void slotMeEnableVideoTransmission(bool checked=false);
     void slotMeEnableDesktopSharing(bool checked=false);
@@ -334,7 +336,6 @@ private:
     void slotUsersAdvancedDesktopAllowed(bool checked=false);
     void slotUsersAdvancedMediaFileAllowed(bool checked=false);
     void slotUsersMuteVoiceAll(bool checked=false);
-    void slotUsersStoreAudioToDisk(bool checked=false);
 
     void slotChannelsCreateChannel(bool checked=false);
     void slotChannelsUpdateChannel(bool checked=false);

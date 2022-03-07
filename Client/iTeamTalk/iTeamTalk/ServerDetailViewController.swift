@@ -54,6 +54,26 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
         namefield!.delegate = self
         nameItems.append(namecell)
 
+        if server.servertype != .LOCAL {
+            let usercountcell = UITableViewCell(style: .value1, reuseIdentifier: nil)
+            usercountcell.selectionStyle = .none
+            usercountcell.textLabel?.text = NSLocalizedString("Users Online", comment: "server entry")
+            usercountcell.detailTextLabel?.text = String(server.stats_usercount)
+            nameItems.append(usercountcell)
+            
+            let motdcell = UITableViewCell(style: .value1, reuseIdentifier: nil)
+            motdcell.selectionStyle = .none
+            motdcell.textLabel?.text = NSLocalizedString("Message of the Day", comment: "server entry")
+            motdcell.detailTextLabel?.text = server.stats_motd
+            nameItems.append(motdcell)
+            
+            let countrycell = UITableViewCell(style: .value1, reuseIdentifier: nil)
+            countrycell.selectionStyle = .none
+            countrycell.textLabel?.text = NSLocalizedString("Country", comment: "server entry")
+            countrycell.detailTextLabel?.text = server.stats_country
+            nameItems.append(countrycell)
+        }
+
         // Connection section
         let ipaddrcell = UITableViewCell(style: .default, reuseIdentifier: nil)
         ipaddrfield = newTableCellTextField(ipaddrcell, label: NSLocalizedString("Host address", comment: "server entry"), initial: server.ipaddr)
@@ -166,7 +186,7 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
         server.username = username
         server.password = passwdfield!.text!
         server.nickname = nicknamefield!.text!
-        server.publicserver = false
+        server.servertype = .LOCAL
         let channame = chanfield!.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         server.channel = channame
         server.chanpasswd = chpasswdfield!.text!

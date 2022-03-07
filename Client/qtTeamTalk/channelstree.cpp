@@ -1458,5 +1458,7 @@ void ChannelsTree::keyPressEvent(QKeyEvent* e)
 QString ChannelsTree::getItemText()
 {
     QTreeWidgetItem* item = currentItem();
-    return item->data(COLUMN_ITEM, Qt::DisplayRole).toString();
+    if (item)
+        return item->data(COLUMN_ITEM, Qt::DisplayRole).toString();
+    return QString();
 }

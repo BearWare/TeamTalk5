@@ -271,12 +271,13 @@ Each of the menu items in the Client menu are described here:
     - To connect to a new server or one you have connected to
       recently. For more information read section
       [Connect Dialog](@ref connectdlg).
-- **Sound Configuration**
-    - Shortcut items to [Sound System](@ref soundsystemtab).
 - **Preferences**
     - Preferences is used for configuring the TeamTalk
       application. For more information read section
       [Preferences Dialog](@ref preferences).
+- **Sound Configuration**
+    - Shortcut items to [Sound System](@ref soundsystemtab). See more in
+      section [Sound Configuration-Menu](@ref soundconfigmenu).
 - **Record Conversations to Disk**
     - This menu item is used for storing conversations, both text and
       audio, to disk. For more information read section
@@ -316,7 +317,7 @@ Learn more about setting up user accounts by read the section on
 [configuring TeamTalk servers](@ref teamtalkserver) or the section
 about [User Accounts](@ref useraccountsdlg).
 
-### Join or create specific channel
+### Join specific channel after authentication
 
 To join a specific channel once you have logged on to the server can
 be done by filling out Channel and Password fields. Once you have
@@ -325,6 +326,12 @@ server to the Server List by filling the Entry name field and
 afterwards click **Save**. Finally click **Connect** to connect to the
 server.
 
+### Import .tt File
+
+Other users can send you [.tt files](ref ttfiles) that have been
+[generated](ref ttfile) to contain the information you need to join
+their server.
+
 ### Generate .tt File
 
 If you want others to connect to the same TeamTalk server as you, you
@@ -332,6 +339,12 @@ can press **Generate .tt File** so you'll generate a file you can email to
 the users who should also connect to the server. More information
 about the [Generate .tt File Dialog](@ref ttfile) is available
 [here](@ref ttfile).
+
+### Publish Publicly
+
+You can publish your own TeamTalk server as a "private server" so
+others can join it from the list when "Include private servers (orange
+ones)" is checked.
 
 ## Preferences Dialog {#preferencesdlg}
 
@@ -344,6 +357,22 @@ ensure everything is configured properly.
 
 Please read section [TeamTalk Preferences](@ref preferences) for a guide
 on how to configure TeamTalk.
+
+## Sound Configuration-Menu {#soundconfigmenu}
+
+The Sound Configuration submenu is used for quick access to settings
+that are otherwise in [Preferences Dialog](@ref preferencesdlg)'s
+[Sound System](@ref soundsystemtab)-tab.
+
+![Sound input device selection](menu_soundconfig.png "Sound Configuration's Inputs submenu")
+
+Echo cancellation, automatic gain control and denoising can be enabled
+using shortcut keys. The currently active sound input devices and
+sound output devices can also be selected in **Input Devices** and
+**Output Devices** submenu.
+
+Sound input devices with the **[Loopback]]** postfix sends audio
+played on the select input device back into TeamTalk as its microphone input.
 
 ## Record Conversations to Disk {#recorddlg}
 
@@ -401,6 +430,11 @@ Each of the menu items in the Me-menu are described here:
     - This is used to change your status mode, like e.g. Available,
       Away, Question-mode and set a message regarding your current
       status.
+- **Hear myself**
+  - When in a channel this option can be used to hear your self to
+    e.g. determine your voice level. This is actually the same as
+    subscribing to your own voice stream in [Subscription-menu](@ref
+    subscriptionsmenu).
 - **Enable Push To Talk**
     - Push To Talk is a key combination you need to hold down whenever
       you are talking. Using a [Push To Talk](@ref pttdlg) key combination
@@ -424,6 +458,9 @@ Each of the menu items in the Me-menu are described here:
       [Desktop Sharing dialog](@ref desktopsharedlg) for more information.
       To transmit shared desktops requires the *User Right*
       [User can transmit desktop sessions](@ref useraccountsdlg).
+- **Notifications**
+  - Sub menu items to enable/disable [Sound Events](@ref
+    soundeventstab) and [Text to Speech](@ref texttospeechtab).
 
 ## Enable Push To Talk Dialog {#pttdlg}
 
@@ -702,7 +739,7 @@ channel in the channels view. All the channel options are shown here:
 
 Each of the menu items in the Channels menu are described here.
 
-- **Join Channel**
+- **Join Channel** **Leave Channel**
     - Join the currently selected channel. An alternative way to join
       a channel is to use the [Create Channel Dialog](@ref createchandlg)
       and type the name and the password of the channel to join while
@@ -734,8 +771,8 @@ Each of the menu items in the Channels menu are described here.
       [User can create/modify all channels](@ref useraccountsdlg) can
       update a channel's properties. Note that it is not possible to
       change the audio codec of a channel when there are users in the
-      channel. Details about a channel is described in [Create Channel
-      Dialog](@ref createchandlg).
+      channel. Details about a channel is described in
+      [Create Channel Dialog](@ref createchandlg).
 - **Delete Channel**
     - Delete the selected channel and any sub-channels. If there's
       users in the channel then they will be kicked out. Only users
@@ -1054,12 +1091,14 @@ The remaining items are explained in the following sections.
 
 ### Modify User Account
 
+- **Close**
+  - Close dialog.
 - **Clear**
     - Clear the fields for the user account.
-- **Add/Update**
-    - Create or update a user account. 
 - **Delete**
     - Delete the seleced user account in the Active Users list.
+- **Add/Update**
+    - Create or update a user account. 
 
 ### Basic Account Properties
 
@@ -1206,6 +1245,10 @@ and then **Online Users**.
 The dialog also has quick menu options for kicking and banning users,
 as well as text messaging users.
 
+- **Keep disconnected users**
+  - Users who disconnect will still be shown in the users list but
+    with user-ID 0.
+
 ## Server Properties Dialog {#serverpropertiesdlg}
 
 The Server Properties-dialog shows what rights users who are logged on
@@ -1270,6 +1313,10 @@ Each of the fields in the Server Properties-dialog are described here:
 - **Max logins per IP-address**
     - The maximum number of simultaneous logins from a single
       IP-address.
+- **Login delay per IP-address**
+  - Duration before the same IP-address can try to log on again.
+- **Server Logging**
+  - The list of events that the server is logging to disk.
 - **Server version**
     - The version of the server which the user is connected to.
 

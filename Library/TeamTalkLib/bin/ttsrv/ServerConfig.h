@@ -30,6 +30,8 @@ void RunWizard(teamtalk::ServerXML& xmlSettings);
 
 bool ReadServerProperties(teamtalk::ServerXML& xmlSettings, teamtalk::ServerSettings& properties,
                           teamtalk::statchannels_t& channels);
+bool SaveServerProperties(teamtalk::ServerXML& xmlSettings, const teamtalk::ServerSettings& properties,
+                          const teamtalk::statchannels_t& channels);
 
 #if defined(ENABLE_TEAMTALKPRO)
 bool SetupEncryption(teamtalk::ServerNode& servernode, teamtalk::ServerXML& xmlSettings);

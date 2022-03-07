@@ -1996,7 +1996,7 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_16">
           <item>
-           <widget class="TTSEventsTreeView" name="ttsTreeView">
+           <widget class="MyTreeView" name="ttsTreeView">
             <property name="editTriggers">
              <set>QAbstractItemView::NoEditTriggers</set>
             </property>
@@ -2439,6 +2439,33 @@
               </property>
              </widget>
             </item>
+            <item row="8" column="0">
+             <widget class="QLabel" name="label_46">
+              <property name="text">
+               <string>Show/hide main window</string>
+              </property>
+              <property name="buddy">
+               <cstring>showhideEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="1">
+             <widget class="QLineEdit" name="showhideEdit">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="2">
+             <widget class="QPushButton" name="showhideButton">
+              <property name="text">
+               <string>&amp;Setup Keys</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
          </layout>
@@ -2821,13 +2848,12 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TTSEventsTreeView</class>
+   <class>MyTreeView</class>
    <extends>QTreeView</extends>
-   <header>ttseventsmodel.h</header>
+   <header>mytreeview.h</header>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="resources.qrc"/>
   <include location="resources.qrc"/>
  </resources>
  <connections>

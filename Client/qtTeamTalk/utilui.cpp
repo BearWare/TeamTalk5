@@ -23,6 +23,7 @@
 
 #include "utilui.h"
 #include "settings.h"
+#include "bearwarelogindlg.h"
 
 extern QSettings* ttSettings;
 
@@ -97,4 +98,36 @@ QVariant getCurrentItemData(QComboBox* cbox, const QVariant& not_found/* = QVari
     if(cbox->currentIndex()>=0)
         return cbox->itemData(cbox->currentIndex());
     return not_found;
+}
+
+QString getBearWareWebLogin(QWidget* parent)
+{
+    QString username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
+    if (username.isEmpty())
+    {
+        BearWareLoginDlg dlg(parent);
+        if (dlg.exec())
+        {
+            username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
+        }
+    }
+    return username;
+}
+
+RestoreIndex::RestoreIndex(QAbstractItemView* view)
+    : m_view(view)
+{
+    m_parent = view->currentIndex().parent();
+    m_row = view->currentIndex().row();
+    m_column = view->currentIndex().column();
+}
+
+RestoreIndex::~RestoreIndex()
+{
+    if (m_view->model()->rowCount() == 0 || m_view->model()->columnCount() == 0)
+        return;
+
+    m_row = std::min(m_row, m_view->model()->rowCount() - 1);
+    m_column = std::min(m_column, m_view->model()->columnCount() - 1);
+    m_view->setCurrentIndex(m_view->model()->index(m_row, m_column, m_parent));
 }

@@ -391,20 +391,24 @@ void ServerGuard::OnChannelCreated(const ServerChannel& channel,
 void ServerGuard::OnChannelUpdated(const ServerChannel& channel, 
                                    const ServerUser* user/* = NULL*/)
 {
-    if(!user)
-        return;
-
     tostringstream oss;
     oss << ACE_TEXT("Channel #") << channel.GetChannelID() << ACE_TEXT(" ");
-    if(user)
+    if (user)
     {
         oss << ACE_TEXT("\"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\" updated by ");
         oss << ACE_TEXT("nickname: \"") << LogPrepare(user->GetNickname()).c_str() << ACE_TEXT("\" ");
-        if(user->GetUsername().length())
-            oss << ACE_TEXT("username: \"") << LogPrepare(user->GetUsername()).c_str() << ACE_TEXT("\".");
+        if (user->GetUsername().length())
+            oss << ACE_TEXT("username: \"") << LogPrepare(user->GetUsername()).c_str() << ACE_TEXT("\"");
     }
     else
-        oss << ACE_TEXT("\"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\" updated.");
+    {
+        oss << ACE_TEXT("\"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\" updated");
+    }
+
+    if ((channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT) && channel.GetTransmitQueue().size())
+        oss << ACE_TEXT(", transmitter: #") << *channel.GetTransmitQueue().begin();
+
+    oss << ACE_TEXT(".");
 
     TT_LOG(oss.str().c_str());
 }
@@ -842,35 +846,7 @@ ErrorMsg ServerGuard::ChangeStatus(const ServerUser& user, int mode, const ACE_T
 
 ErrorMsg ServerGuard::SaveConfiguration(const ServerUser& /*user*/, teamtalk::ServerNode& servernode)
 {
-    ServerSettings properties = servernode.GetServerProperties();
-
-    m_settings.SetServerName(UnicodeToUtf8(properties.servername).c_str());
-    m_settings.SetMessageOfTheDay(UnicodeToUtf8(properties.motd).c_str());
-    m_settings.SetAutoSave(properties.autosave);
-    m_settings.SetMaxUsers(properties.maxusers);
-    m_settings.SetMaxLoginAttempts(properties.maxloginattempts);
-    m_settings.SetMaxLoginsPerIP(properties.max_logins_per_ipaddr);
-    m_settings.SetLoginDelay(properties.logindelay);
-    m_settings.SetUserTimeout(properties.usertimeout);
-    m_settings.SetVoiceTxLimit(properties.voicetxlimit);
-    m_settings.SetVideoCaptureTxLimit(properties.videotxlimit);
-    m_settings.SetMediaFileTxLimit(properties.mediafiletxlimit);
-    m_settings.SetDesktopTxLimit(properties.desktoptxlimit);
-    m_settings.SetTotalTxLimit(properties.totaltxlimit);
-    TTASSERT(properties.tcpaddrs.size());
-    if (properties.tcpaddrs.size())
-        m_settings.SetHostTcpPort(properties.tcpaddrs[0].get_port_number());
-    TTASSERT(properties.udpaddrs.size());
-    if (properties.udpaddrs.size())
-        m_settings.SetHostUdpPort(properties.udpaddrs[0].get_port_number());
-
-    m_settings.SetMaxDiskUsage(properties.maxdiskusage);
-    m_settings.SetDefaultDiskQuota(properties.diskquota);
-    m_settings.SetFilesRoot(UnicodeToUtf8(properties.filesroot).c_str());
-
     teamtalk::statchannels_t channels;
     ConvertChannels(servernode.GetRootChannel(), channels, true);
-    m_settings.SetStaticChannels(channels);
-
-    return m_settings.SaveFile() ? ErrorMsg(TT_CMDERR_SUCCESS) : ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
+    return SaveServerProperties(m_settings, servernode.GetServerProperties(), channels) ? ErrorMsg(TT_CMDERR_SUCCESS) : ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
 }

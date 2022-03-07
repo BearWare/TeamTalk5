@@ -344,6 +344,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotMeChangeNickname);
     connect(ui.actionChangeStatus, &QAction::triggered,
             this, &MainWindow::slotMeChangeStatus);
+    connect(ui.actionHearMyself, &QAction::triggered,
+            this, &MainWindow::slotMeHearMyself);
     connect(ui.actionEnablePushToTalk, &QAction::triggered,
             this, &MainWindow::slotMeEnablePushToTalk);
     connect(ui.actionEnableVoiceActivation, &QAction::triggered,
@@ -384,7 +386,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     connect(ui.actionMuteAll, &QAction::triggered,
             this, &MainWindow::slotUsersMuteVoiceAll);
     connect(ui.actionMediaStorage, &QAction::triggered,
-            this, &MainWindow::slotUsersStoreAudioToDisk);
+            this, &MainWindow::slotClientRecordConversations);
     //Desktop access
     connect(ui.actionDesktopAccessAllow, &QAction::triggered,
             this, &MainWindow::slotUsersSubscriptionsDesktopInput);
@@ -2184,6 +2186,19 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
         if (active)
             initSound();
         break;
+    case HOTKEY_SHOWHIDE_WINDOW :
+        if (active)
+        {
+            if (isMinimized())
+            {
+                showNormal();
+                activateWindow();
+                raise();
+             }
+            else
+                showMinimized();
+        }
+        break;
     }
 }
 
@@ -2675,8 +2690,9 @@ void MainWindow::processMyselfJoined(int channelid)
     updateAudioConfig();
 
     QString statusjoin;
-    if(m_mychannel.nChannelID>0 && TT_GetRootChannelID(ttInst) != m_mychannel.nChannelID) {
-        if(m_mychannel.uChannelType & CHANNEL_CLASSROOM)
+    if (m_mychannel.nChannelID > 0 && TT_GetRootChannelID(ttInst) != m_mychannel.nChannelID)
+    {
+        if (m_mychannel.uChannelType & CHANNEL_CLASSROOM)
         {
             statusjoin = tr("Joined classroom channel %1").arg(_Q(m_mychannel.szName));
         }
@@ -2684,9 +2700,11 @@ void MainWindow::processMyselfJoined(int channelid)
         {
             statusjoin = tr("Joined channel %1").arg(_Q(m_mychannel.szName));
         }
-    } else {
+    }
+    else
+    {
         QString root = tr("root");
-        if(m_mychannel.uChannelType & CHANNEL_CLASSROOM)
+        if (m_mychannel.uChannelType & CHANNEL_CLASSROOM)
         {
             statusjoin = tr("Joined classroom channel %1").arg(root);
         }
@@ -2701,14 +2719,6 @@ void MainWindow::processMyselfJoined(int channelid)
 
     addTextToSpeechMessage(TTS_USER_JOINED, statusjoin);
 
-    //store new muxed audio file if we're changing channel
-    if(ui.actionMediaStorage->isChecked() &&
-        (m_audiostorage_mode & AUDIOSTORAGE_SINGLEFILE))
-    {
-        updateAudioStorage(false, AUDIOSTORAGE_SINGLEFILE);
-        updateAudioStorage(true, AUDIOSTORAGE_SINGLEFILE);
-    }
-
     //show channel information in chat window
     ui.chatEdit->joinedChannel(channelid);
 
@@ -2716,6 +2726,13 @@ void MainWindow::processMyselfJoined(int channelid)
     ui.videomsgEdit->setVisible(true);
     ui.desktopmsgEdit->setVisible(true);
     updateWindowTitle();
+
+    //store new muxed audio file if we're changing channel
+    if (ui.actionMediaStorage->isChecked() && (m_audiostorage_mode & AUDIOSTORAGE_SINGLEFILE))
+    {
+        updateAudioStorage(false, AUDIOSTORAGE_SINGLEFILE);
+        updateAudioStorage(true, AUDIOSTORAGE_SINGLEFILE);
+    }
 }
 
 void MainWindow::processMyselfLeft(int /*channelid*/)
@@ -3370,6 +3387,11 @@ void MainWindow::loadHotKeys()
         enableHotKey(HOTKEY_REINITSOUNDDEVS, hotkey);
     else
         disableHotKey(HOTKEY_REINITSOUNDDEVS);
+    hotkey.clear();
+    if (loadHotKeySettings(HOTKEY_SHOWHIDE_WINDOW, hotkey))
+        enableHotKey(HOTKEY_SHOWHIDE_WINDOW, hotkey);
+    else
+        disableHotKey(HOTKEY_SHOWHIDE_WINDOW);
 }
 
 void MainWindow::enableHotKey(HotKeyID id, const hotkey_t& hk)
@@ -4024,6 +4046,47 @@ void MainWindow::slotClientAudioEffect()
     updateAudioConfig();
 }
 
+void MainWindow::slotClientRecordConversations(bool/* checked*/)
+{
+    quint32 old_mode = m_audiostorage_mode;
+
+    if(MediaStorageDlg(this).exec())
+    {
+        m_audiostorage_mode = ttSettings->value(SETTINGS_MEDIASTORAGE_MODE,
+                                                AUDIOSTORAGE_NONE).toUInt();
+
+        quint32 new_mode = ttSettings->value(SETTINGS_MEDIASTORAGE_MODE,
+                                             AUDIOSTORAGE_NONE).toUInt();
+
+        if ((old_mode & AUDIOSTORAGE_SINGLEFILE))
+        {
+            updateAudioStorage(false, AUDIOSTORAGE_SINGLEFILE);
+            m_audiostorage_mode &= ~AUDIOSTORAGE_SINGLEFILE;
+        }
+        if (old_mode & AUDIOSTORAGE_SEPARATEFILES)
+        {
+            updateAudioStorage(false, AUDIOSTORAGE_SEPARATEFILES);
+            m_audiostorage_mode &= ~AUDIOSTORAGE_SEPARATEFILES;
+        }
+
+        if (new_mode & AUDIOSTORAGE_SINGLEFILE)
+        {
+            updateAudioStorage(true, AUDIOSTORAGE_SINGLEFILE);
+            m_audiostorage_mode |= AUDIOSTORAGE_SINGLEFILE;
+        }
+        if (new_mode & AUDIOSTORAGE_SEPARATEFILES)
+        {
+            updateAudioStorage(true, AUDIOSTORAGE_SEPARATEFILES);
+            m_audiostorage_mode |= AUDIOSTORAGE_SEPARATEFILES;
+        }
+
+        if(ttSettings->value(SETTINGS_MEDIASTORAGE_CHANLOGFOLDER).toString().isEmpty())
+            m_logChan.close();
+    }
+
+    slotUpdateUI();
+}
+
 void MainWindow::slotClientExit(bool /*checked =false */)
 {
     //close using timer, otherwise gets a Qt assertion from the 
@@ -4124,6 +4187,24 @@ void MainWindow::slotMeEnablePushToTalk(bool checked)
     ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, checked);
 
     slotUpdateUI();
+}
+
+void MainWindow::slotMeHearMyself(bool checked/*=false*/)
+{
+    User user;
+    if (ui.channelsWidget->getUser(TT_GetMyUserID(ttInst), user))
+    {
+        if (checked)
+        {
+            int cmdid = TT_DoSubscribe(ttInst, TT_GetMyUserID(ttInst), SUBSCRIBE_VOICE);
+            m_commands[cmdid] = CMD_COMPLETE_SUBSCRIBE;
+        }
+        else
+        {
+            int cmdid = TT_DoUnsubscribe(ttInst, TT_GetMyUserID(ttInst), SUBSCRIBE_VOICE);
+            m_commands[cmdid] = CMD_COMPLETE_UNSUBSCRIBE;
+        }
+    }
 }
 
 void MainWindow::slotMeEnableVoiceActivation(bool checked, SoundEvent on, SoundEvent off)
@@ -4619,46 +4700,6 @@ void MainWindow::slotUsersAdvancedMediaFileAllowed(bool checked/*=false*/)
         toggleAllowStreamTypeForAll(checked, STREAMTYPE_MEDIAFILE);
 }
 
-void MainWindow::slotUsersStoreAudioToDisk(bool/* checked*/)
-{
-    quint32 old_mode = m_audiostorage_mode;
-
-    if(MediaStorageDlg(this).exec())
-    {
-        m_audiostorage_mode = ttSettings->value(SETTINGS_MEDIASTORAGE_MODE, 
-                                                AUDIOSTORAGE_NONE).toUInt();
-
-        quint32 new_mode = ttSettings->value(SETTINGS_MEDIASTORAGE_MODE, 
-                                             AUDIOSTORAGE_NONE).toUInt();
-
-        if ((old_mode & AUDIOSTORAGE_SINGLEFILE))
-        {
-            updateAudioStorage(false, AUDIOSTORAGE_SINGLEFILE);
-            m_audiostorage_mode &= ~AUDIOSTORAGE_SINGLEFILE;
-        }
-        if (old_mode & AUDIOSTORAGE_SEPARATEFILES)
-        {
-            updateAudioStorage(false, AUDIOSTORAGE_SEPARATEFILES);
-            m_audiostorage_mode &= ~AUDIOSTORAGE_SEPARATEFILES;
-        }
-
-        if (new_mode & AUDIOSTORAGE_SINGLEFILE)
-        {
-            updateAudioStorage(true, AUDIOSTORAGE_SINGLEFILE);
-            m_audiostorage_mode |= AUDIOSTORAGE_SINGLEFILE;
-        }
-        if (new_mode & AUDIOSTORAGE_SEPARATEFILES)
-        {
-            updateAudioStorage(true, AUDIOSTORAGE_SEPARATEFILES);
-            m_audiostorage_mode |= AUDIOSTORAGE_SEPARATEFILES;
-        }
-
-        if(ttSettings->value(SETTINGS_MEDIASTORAGE_CHANLOGFOLDER).toString().isEmpty())
-            m_logChan.close();
-    }
-
-    slotUpdateUI();
-}
 
 void MainWindow::slotChannelsCreateChannel(bool /*checked =false */)
 {
@@ -5439,6 +5480,12 @@ void MainWindow::slotUpdateUI()
     ui.actionEnablePushToTalk->setChecked(m_hotkeys.find(HOTKEY_PUSHTOTALK) != m_hotkeys.end());
 #endif
     ui.actionEnableVoiceActivation->setChecked(statemask & CLIENT_SNDINPUT_VOICEACTIVATED);
+    ui.actionHearMyself->setEnabled(m_mychannel.nChannelID > 0);
+    User myself;
+    if (ui.channelsWidget->getUser(TT_GetMyUserID(ttInst), myself))
+    {
+        ui.actionHearMyself->setChecked(myself.uLocalSubscriptions & SUBSCRIBE_VOICE);
+    }
     //don't allow web cam to stream when video streaming is active
     ui.actionEnableVideoTransmission->setChecked((CLIENT_VIDEOCAPTURE_READY & statemask) && 
                                                  (CLIENT_TX_VIDEOCAPTURE & statemask));

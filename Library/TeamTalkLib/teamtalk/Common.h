@@ -24,41 +24,80 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#include <myace/MyACE.h>
-#include <ace/INET_Addr.h>
-#include <ace/Time_Value.h>
-
-#include <regex>
-
-#include <TeamTalkDefs.h>
 #include "PacketLayout.h"
+#include <TeamTalkDefs.h>
 #include <codec/MediaUtil.h>
 
 #if defined(ENABLE_WEBRTC)
 #include <avstream/WebRTCPreprocess.h>
 #endif
 
+#include <myace/MyACE.h>
+
+#include <ace/INET_Addr.h>
+#include <ace/Time_Value.h>
+
+#include <regex>
+#include <map>
+#include <vector>
+#include <set>
+
 namespace teamtalk {
+
+    enum ServerLogEvent
+    {
+        SERVERLOGEVENT_NONE                        = 0x00000000,
+        SERVERLOGEVENT_USER_CONNECTED              = 0x00000001,
+        SERVERLOGEVENT_USER_DISCONNECTED           = 0x00000002,
+        SERVERLOGEVENT_USER_LOGGEDIN               = 0x00000004,
+        SERVERLOGEVENT_USER_LOGGEDOUT              = 0x00000008,
+        SERVERLOGEVENT_USER_LOGINFAILED            = 0x00000010,
+        SERVERLOGEVENT_USER_TIMEDOUT               = 0x00000020,
+        SERVERLOGEVENT_USER_KICKED                 = 0x00000040,
+        SERVERLOGEVENT_USER_BANNED                 = 0x00000080,
+        SERVERLOGEVENT_USER_UNBANNED               = 0x00000100,
+        SERVERLOGEVENT_USER_UPDATED                = 0x00000200,
+        SERVERLOGEVENT_USER_JOINEDCHANNEL          = 0x00000400,
+        SERVERLOGEVENT_USER_LEFTCHANNEL            = 0x00000800,
+        SERVERLOGEVENT_USER_MOVED                  = 0x00001000,
+        SERVERLOGEVENT_USER_TEXTMESSAGE_PRIVATE    = 0x00002000,
+        SERVERLOGEVENT_USER_TEXTMESSAGE_CUSTOM     = 0x00004000,
+        SERVERLOGEVENT_USER_TEXTMESSAGE_CHANNEL    = 0x00008000,
+        SERVERLOGEVENT_USER_TEXTMESSAGE_BROADCAST  = 0x00010000,
+        SERVERLOGEVENT_CHANNEL_CREATED             = 0x00020000,
+        SERVERLOGEVENT_CHANNEL_UPDATED             = 0x00040000,
+        SERVERLOGEVENT_CHANNEL_REMOVED             = 0x00080000,
+        SERVERLOGEVENT_FILE_UPLOADED               = 0x00100000,
+        SERVERLOGEVENT_FILE_DOWNLOADED             = 0x00200000,
+        SERVERLOGEVENT_FILE_DELETED                = 0x00400000,
+        SERVERLOGEVENT_SERVER_UPDATED              = 0x00800000,
+        SERVERLOGEVENT_SERVER_SAVECONFIG           = 0x01000000,
+
+        SERVERLOGEVENT_DEFAULT                     = 0x01FFFFFF,
+    };
+
+    typedef uint32_t ServerLogEvents;
 
     struct ServerProperties
     {
         ACE_TString systemid;
         ACE_TString version;
-        bool autosave;
+        bool autosave = false;;
         ACE_TString motd;
         ACE_TString servername;
-        int maxusers;
-        int maxloginattempts; //max login attempts with wrong password
-        int max_logins_per_ipaddr;
+        int maxusers = 0;
+        int maxloginattempts = 0; //max login attempts with wrong password
+        int max_logins_per_ipaddr = 0;
         int logindelay = 0; // msec before IP-address can log in again
-        ACE_INT64 diskquota; //max bytes for each channel to store files
-        ACE_INT64 maxdiskusage; //max bytes to use for storage of files
-        int usertimeout;
-        int voicetxlimit;
-        int videotxlimit;
-        int mediafiletxlimit;
-        int desktoptxlimit;
-        int totaltxlimit;
+        ACE_INT64 diskquota = 0; //max bytes for each channel to store files
+        ACE_INT64 maxdiskusage = 0; //max bytes to use for storage of files
+        int usertimeout = 0;
+        int voicetxlimit = 0;
+        int videotxlimit = 0;
+        int mediafiletxlimit = 0;
+        int desktoptxlimit = 0;
+        int totaltxlimit = 0;
+        ServerLogEvents logevents = SERVERLOGEVENT_NONE;
         ServerProperties();
     };
 
@@ -604,6 +643,7 @@ namespace teamtalk {
         int userdata;
         transmitusers_t transmitusers;
         std::vector<int> transmitqueue;
+        int transmitswitchdelay = 0;
         bannedusers_t bans;
         std::set<int> GetTransmitUsers(StreamType st) const
         {

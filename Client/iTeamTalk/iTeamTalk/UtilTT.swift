@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol TeamTalkEvent : class {
+protocol TeamTalkEvent : AnyObject {
     func handleTTMessage(_ m: TTMessage)
 }
 

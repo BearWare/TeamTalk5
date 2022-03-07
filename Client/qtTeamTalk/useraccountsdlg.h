@@ -68,6 +68,7 @@ class UserAccountsDlg : public QDialog
 
 public:
     UserAccountsDlg(const useraccounts_t& useraccounts, UserAccountsDisplay uad, QWidget* parent = 0);
+    ~UserAccountsDlg();
 
 public:
     void slotCmdSuccess(int cmdid);
@@ -104,6 +105,7 @@ private:
     void slotRemoveOpChannel();
 
     void slotUsernameChanged(const QString& text);
+    void slotTreeContextMenu(const QPoint&);
 };
 
 #endif

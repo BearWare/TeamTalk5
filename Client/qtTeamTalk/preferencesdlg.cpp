@@ -34,6 +34,7 @@
 #include "statusbardlg.h"
 #include "utilvideo.h"
 #include "utiltts.h"
+#include "utilui.h"
 #include "settings.h"
 
 #include <QDebug>
@@ -214,21 +215,23 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
 
     //keyboard shortcuts
     connect(ui.voiceactButton, &QAbstractButton::clicked,
-            this, &PreferencesDlg::slotShortcutVoiceActivation);
+            [&] (bool checked) { shortcutSetup(HOTKEY_VOICEACTIVATION, checked, ui.voiceactEdit); });
     connect(ui.volumeincButton, &QAbstractButton::clicked,
-            this, &PreferencesDlg::slotShortcutIncVolume);
+            [&] (bool checked) { shortcutSetup(HOTKEY_INCVOLUME, checked, ui.volumeincEdit); });
     connect(ui.volumedecButton, &QAbstractButton::clicked,
-            this, &PreferencesDlg::slotShortcutDecVolume);
+            [&] (bool checked) { shortcutSetup(HOTKEY_DECVOLUME, checked, ui.volumedecEdit); });
     connect(ui.muteallButton, &QAbstractButton::clicked,
-            this, &PreferencesDlg::slotShortcutMuteAll);
+            [&] (bool checked) { shortcutSetup(HOTKEY_MUTEALL, checked, ui.muteallEdit); });
     connect(ui.voicegainincButton, &QAbstractButton::clicked,
-            this, &PreferencesDlg::slotShortcutIncVoiceGain);
+            [&] (bool checked) { shortcutSetup(HOTKEY_MICROPHONEGAIN_INC, checked, ui.voicegainincEdit); });
     connect(ui.voicegaindecButton, &QAbstractButton::clicked,
-            this, &PreferencesDlg::slotShortcutDecVoiceGain);
+            [&] (bool checked) { shortcutSetup(HOTKEY_MICROPHONEGAIN_DEC, checked, ui.voicegaindecEdit); });
     connect(ui.videotxButton, &QAbstractButton::clicked,
-            this, &PreferencesDlg::slotShortcutVideoTx);
+            [&] (bool checked) { shortcutSetup(HOTKEY_VIDEOTX, checked, ui.videotxEdit); });
     connect (ui.initsoundButton, &QAbstractButton::clicked,
-             this, &PreferencesDlg::slotShortcutReinitSound);
+            [&] (bool checked) { shortcutSetup(HOTKEY_REINITSOUNDDEVS, checked, ui.initsoundEdit); });
+    connect (ui.showhideButton, &QAbstractButton::clicked,
+            [&] (bool checked) { shortcutSetup(HOTKEY_SHOWHIDE_WINDOW, checked, ui.showhideEdit); });
 
     //video tab
     connect(ui.vidcapdevicesBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
@@ -265,6 +268,11 @@ void PreferencesDlg::initDevices()
     TT_GetDefaultSoundDevices(&default_inputid, &default_outputid);
     
     m_sounddevices = getSoundDevices();
+
+    for (auto s : m_sounddevices)
+    {
+        qDebug() << "#" << s.nDeviceID << "Sound system:" << s.nSoundSystem << _Q(s.szDeviceName) << _Q(s.szDeviceID);
+    }
 
     //output device determines the selected sound system
     SoundSystem sndsys = (SoundSystem)ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM,
@@ -370,8 +378,7 @@ void PreferencesDlg::showDevices(SoundSystem snd)
     {
         add_no_device |= m_sounddevices[i].nDeviceID == TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL;
 
-        if(m_sounddevices[i].nSoundSystem != snd ||
-           m_sounddevices[i].nMaxInputChannels == 0)
+        if (m_sounddevices[i].nSoundSystem != snd || m_sounddevices[i].nMaxInputChannels == 0)
             continue;
         ui.inputdevBox->addItem(_Q(m_sounddevices[i].szDeviceName),
                                 m_sounddevices[i].nDeviceID);
@@ -385,7 +392,7 @@ void PreferencesDlg::showDevices(SoundSystem snd)
     //if possible use GUID to select correct device
     devid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, default_inputid).toInt();
     uid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE_UID, "").toString();
-    if(getSoundDevice(uid, m_sounddevices, dev) && dev.nDeviceID != devid)
+    if (getSoundDevice(uid, true, m_sounddevices, dev) && dev.nDeviceID != devid)
         devid = dev.nDeviceID;
 
     int index = ui.inputdevBox->findData(devid);
@@ -401,11 +408,9 @@ void PreferencesDlg::showDevices(SoundSystem snd)
 
     for(int i=0;i<m_sounddevices.size();i++)
     {
-        if(m_sounddevices[i].nSoundSystem != snd ||
-           m_sounddevices[i].nMaxOutputChannels == 0)
+        if(m_sounddevices[i].nSoundSystem != snd || m_sounddevices[i].nMaxOutputChannels == 0)
             continue;
-        ui.outputdevBox->addItem(_Q(m_sounddevices[i].szDeviceName), 
-                                 m_sounddevices[i].nDeviceID);
+        ui.outputdevBox->addItem(_Q(m_sounddevices[i].szDeviceName), m_sounddevices[i].nDeviceID);
     }
 
     if(add_no_device)
@@ -416,7 +421,7 @@ void PreferencesDlg::showDevices(SoundSystem snd)
     //if possible use GUID to select correct device
     devid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, default_outputid).toInt();
     uid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE_UID, "").toString();
-    if(getSoundDevice(uid, m_sounddevices, dev) && dev.nDeviceID != devid)
+    if (getSoundDevice(uid, false, m_sounddevices, dev) && dev.nDeviceID != devid)
         devid = dev.nDeviceID;
 
     index = ui.outputdevBox->findData(devid);
@@ -718,6 +723,13 @@ void PreferencesDlg::slotTabChange(int index)
             m_hotkeys.insert(HOTKEY_REINITSOUNDDEVS, hotkey);
             ui.initsoundEdit->setText(getHotKeyText(hotkey));
             ui.initsoundButton->setChecked(true);
+        }
+        hotkey.clear();
+        if (loadHotKeySettings(HOTKEY_SHOWHIDE_WINDOW, hotkey))
+        {
+            m_hotkeys.insert(HOTKEY_SHOWHIDE_WINDOW, hotkey);
+            ui.showhideEdit->setText(getHotKeyText(hotkey));
+            ui.showhideButton->setChecked(true);
         }
     }
     break;
@@ -1035,6 +1047,8 @@ void PreferencesDlg::slotSaveChanges()
         TT_HotKey_Unregister(ttInst, HOTKEY_MICROPHONEGAIN_INC);
         TT_HotKey_Unregister(ttInst, HOTKEY_MICROPHONEGAIN_DEC);
         TT_HotKey_Unregister(ttInst, HOTKEY_VIDEOTX);
+        TT_HotKey_Unregister(ttInst, HOTKEY_REINITSOUNDDEVS);
+        TT_HotKey_Unregister(ttInst, HOTKEY_SHOWHIDE_WINDOW);
 #endif
         deleteHotKeySettings(HOTKEY_VOICEACTIVATION);
         deleteHotKeySettings(HOTKEY_INCVOLUME);
@@ -1044,6 +1058,7 @@ void PreferencesDlg::slotSaveChanges()
         deleteHotKeySettings(HOTKEY_MICROPHONEGAIN_DEC);
         deleteHotKeySettings(HOTKEY_VIDEOTX);
         deleteHotKeySettings(HOTKEY_REINITSOUNDDEVS);
+        deleteHotKeySettings(HOTKEY_SHOWHIDE_WINDOW);
 
         hotkeys_t::iterator ite = m_hotkeys.begin();
         while(ite != m_hotkeys.end())
@@ -1646,147 +1661,21 @@ void PreferencesDlg::slotUpdateTTSTab()
     }
 }
 
-void PreferencesDlg::slotShortcutVoiceActivation(bool checked)
+void PreferencesDlg::shortcutSetup(HotKeyID hotkey, bool enable, QLineEdit* shortcutedit)
 {
-    if(checked)
+    if (enable)
     {
         KeyCompDlg dlg(this);
         if(!dlg.exec())
             return;
 
-        m_hotkeys.insert(HOTKEY_VOICEACTIVATION, dlg.m_hotkey);
-        ui.voiceactEdit->setText(getHotKeyText(dlg.m_hotkey));
+        m_hotkeys.insert(hotkey, dlg.m_hotkey);
+        shortcutedit->setText(getHotKeyText(dlg.m_hotkey));
     }
     else
     {
-        ui.voiceactEdit->setText("");
-        m_hotkeys.remove(HOTKEY_VOICEACTIVATION);
-    }
-}
-
-void PreferencesDlg::slotShortcutIncVolume(bool checked)
-{
-    if(checked)
-    {
-        KeyCompDlg dlg(this);
-        if(!dlg.exec())
-            return;
-
-        m_hotkeys.insert(HOTKEY_INCVOLUME, dlg.m_hotkey);
-        ui.volumeincEdit->setText(getHotKeyText(dlg.m_hotkey));
-    }
-    else
-    {
-        ui.volumeincEdit->setText("");
-        m_hotkeys.remove(HOTKEY_INCVOLUME);
-    }
-}
-
-void PreferencesDlg::slotShortcutDecVolume(bool checked)
-{
-    if(checked)
-    {
-        KeyCompDlg dlg(this);
-        if(!dlg.exec())
-            return;
-
-        m_hotkeys.insert(HOTKEY_DECVOLUME, dlg.m_hotkey);
-        ui.volumedecEdit->setText(getHotKeyText(dlg.m_hotkey));
-    }
-    else
-    {
-        ui.volumedecEdit->setText("");
-        m_hotkeys.remove(HOTKEY_DECVOLUME);
-    }
-}
-
-void PreferencesDlg::slotShortcutMuteAll(bool checked)
-{
-    if(checked)
-    {
-        KeyCompDlg dlg(this);
-        if(!dlg.exec())
-            return;
-
-        m_hotkeys.insert(HOTKEY_MUTEALL, dlg.m_hotkey);
-        ui.muteallEdit->setText(getHotKeyText(dlg.m_hotkey));
-    }
-    else
-    {
-        ui.muteallEdit->setText("");
-        m_hotkeys.remove(HOTKEY_MUTEALL);
-    }
-}
-
-void PreferencesDlg::slotShortcutIncVoiceGain(bool checked)
-{
-    if(checked)
-    {
-        KeyCompDlg dlg(this);
-        if(!dlg.exec())
-            return;
-
-        m_hotkeys.insert(HOTKEY_MICROPHONEGAIN_INC, dlg.m_hotkey);
-        ui.voicegainincEdit->setText(getHotKeyText(dlg.m_hotkey));
-    }
-    else
-    {
-        ui.voicegainincEdit->setText("");
-        m_hotkeys.remove(HOTKEY_MICROPHONEGAIN_INC);
-    }
-}
-
-void PreferencesDlg::slotShortcutDecVoiceGain(bool checked)
-{
-    if(checked)
-    {
-        KeyCompDlg dlg(this);
-        if(!dlg.exec())
-            return;
-
-        m_hotkeys.insert(HOTKEY_MICROPHONEGAIN_DEC, dlg.m_hotkey);
-        ui.voicegaindecEdit->setText(getHotKeyText(dlg.m_hotkey));
-    }
-    else
-    {
-        ui.voicegaindecEdit->setText("");
-        m_hotkeys.remove(HOTKEY_MICROPHONEGAIN_DEC);
-    }
-}
-
-void PreferencesDlg::slotShortcutVideoTx(bool checked)
-{
-    if(checked)
-    {
-        KeyCompDlg dlg(this);
-        if(!dlg.exec())
-            return;
-
-        m_hotkeys.insert(HOTKEY_VIDEOTX, dlg.m_hotkey);
-        ui.videotxEdit->setText(getHotKeyText(dlg.m_hotkey));
-    }
-    else
-    {
-        ui.videotxEdit->setText("");
-        m_hotkeys.remove(HOTKEY_VIDEOTX);
-    }
-}
-
-void PreferencesDlg::slotShortcutReinitSound(bool checked)
-{
-    if(checked)
-    {
-        KeyCompDlg dlg(this);
-        if(!dlg.exec())
-            return;
-
-        m_hotkeys.insert(HOTKEY_REINITSOUNDDEVS, dlg.m_hotkey);
-        ui.initsoundEdit->setText(getHotKeyText(dlg.m_hotkey));
-    }
-    else
-    {
-        ui.initsoundEdit->setText("");
-        m_hotkeys.remove(HOTKEY_REINITSOUNDDEVS);
+        shortcutedit->setText("");
+        m_hotkeys.remove(hotkey);
     }
 }
 
@@ -2048,8 +1937,12 @@ void PreferencesDlg::slotSPackChange()
            ui.srvlostEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
         if(filename == "user_msg")
            ui.usermsgEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "user_msg_sent")
+           ui.sentmsgEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
         if(filename == "channel_msg")
            ui.chanmsgEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "channel_msg_sent")
+           ui.sentchannelmsgEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
         if(filename == "broadcast_msg")
            ui.bcastmsgEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
         if(filename == "hotkey")

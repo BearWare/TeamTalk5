@@ -320,8 +320,8 @@ namespace teamtalk {
         void OnClosed(ACE_HANDLE h);
         bool OnReceive(ACE_HANDLE h, const char* buff, int len);
         //notify users of channel update
-        void UpdateChannel(const serverchannel_t& chan);
-        void UpdateChannel(const ServerChannel& chan, const ServerChannel::users_t& users);
+        void UpdateChannel(const serverchannel_t& chan, const ServerUser* user);
+        void UpdateChannel(const ServerChannel& chan, const ServerChannel::users_t& users, const ServerUser* user);
         void CleanChannels(serverchannel_t& channel);
         void UpdateSoloTransmitChannels();
         //update the number of times a user has tried to login unsuccessfully

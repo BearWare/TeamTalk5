@@ -27,13 +27,17 @@ so if your platform is not listed then try a previously released beta.
 Projects wrapping the client and server binaries in the TeamTalk SDK.
 * [**TeamTalkLib**](Library/TeamTalkLib)
   * Source code for building TeamTalk 5 DLL and server binaries
-  * Read License.txt for terms of use
+  * Read [License.txt](https://github.com/BearWare/TeamTalk5/blob/master/LICENSE.txt) for terms of use
   * Build using [CMake](http://www.cmake.org)
     * Follow build instructions in [Library/TeamTalkLib](Library/TeamTalkLib)
   * A [Makefile](Build/Makefile) is available in [Build](Build) for
       quickly building for macOS, Ubuntu, CentOS 7, Android, iOS and Raspberry Pi e.g.:
       * `make -C Build depend-ubuntu18 ubuntu18`
       * `make -C Build depend-mac mac`
+  * A [docker-compose](Build/Docker/docker-compose.yml) file is available in [Build/Docker](Build/Docker)
+      for quickly building for Linux distributions e.g.:
+      * `docker-compose run --rm ubuntu18 make -C /TeamTalk5/Build ubuntu18`
+      * `docker-compose run --rm ubuntu20 make -C /TeamTalk5/Build ubuntu20`
 * [**TeamTalk_DLL**](Library/TeamTalk_DLL) (dependency: **TeamTalkLib**)
   * TeamTalk 5 C-API DLL
   * C-API header files for TeamTalk 5 DLL
@@ -57,10 +61,6 @@ Projects containing client applications which use the TeamTalk 5 client DLL.
 * [**TeamTalkClassic**](Client/TeamTalkClassic) (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 accessible client application written in C++ and based on MFC
     * Works well with screen-readers
-  * Requires [Tolk](https://github.com/dkager/tolk) project as dependency. Remove macro *ENABLE_TOLK* to disable Tolk.
-    * Run `git submodule init` followed by `git submodule update`
-  * Requires [tinyxml](https://github.com/bear101/tinyxml) project as dependency.
-    * Run `git submodule init` followed by `git submodule update`
   * Requires **TeamTalk_DLL** project for DLL dependency
 * [**TeamTalkApp.NET**](Client/TeamTalkApp.NET) (dependency: **TeamTalk.NET**)
   * TeamTalk 5 .NET client application written in C#

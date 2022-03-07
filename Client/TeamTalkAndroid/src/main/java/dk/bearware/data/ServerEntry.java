@@ -25,6 +25,13 @@ package dk.bearware.data;
 
 public class ServerEntry {
 
+    public enum ServerType {
+        LOCAL,
+        OFFICIAL,
+        PUBLIC,
+        PRIVATE
+    }
+
     //key names from 'serverentry_preferences'
     public static final String KEY_SERVERNAME = "servername",
                                KEY_IPADDR = "ipaddr",
@@ -47,5 +54,5 @@ public class ServerEntry {
     public String channel = "", chanpasswd = "";
     public boolean rememberLastChannel = true;
     public boolean encrypted = false;
-    public boolean public_server = false;
+    public ServerType servertype = ServerType.LOCAL;
 }

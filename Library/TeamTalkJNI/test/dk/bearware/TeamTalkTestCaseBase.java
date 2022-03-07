@@ -301,6 +301,7 @@ public abstract class TeamTalkTestCaseBase {
         prop.szServerVersion = "";
         prop.szServerProtocolVersion = "";
         prop.szAccessToken = "";
+        prop.uServerLogEvents = ServerLogEvent.SERVERLOGEVENT_DEFAULT;
         assertTrue("reset server properties", waitCmdSuccess(ttclient, ttclient.doUpdateServer(prop), DEF_WAIT));
 
         // reset bans
@@ -342,6 +343,9 @@ public abstract class TeamTalkTestCaseBase {
         root.uChannelType = ChannelType.CHANNEL_PERMANENT;
         root.nMaxUsers = prop.nMaxUsers;
         assertTrue("reset root channel", waitCmdSuccess(ttclient, ttclient.doUpdateChannel(root), DEF_WAIT));
+
+        //delete all subchannels
+        assertTrue("delete all channels", waitCmdSuccess(ttclient, ttclient.doRemoveChannel(ttclient.getRootChannelID()), DEF_WAIT));
 
         assertTrue("Disconnect", ttclient.disconnect());
     }

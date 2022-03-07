@@ -111,9 +111,17 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
+
+    # Raspberry Pi thinks it has NEON in OPUS commit 12a356e
+    if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "armv7l")
+      set (OPUS_TAG v1.3.1)
+    else()
+      set (OPUS_TAG 12a356e)
+    endif()
+
     ExternalProject_Add(opus-src
       GIT_REPOSITORY    https://github.com/bear101/opus
-      GIT_TAG           12a356e
+      GIT_TAG           ${OPUS_TAG}
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus

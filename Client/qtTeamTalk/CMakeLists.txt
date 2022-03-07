@@ -110,6 +110,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     audiopreprocessordlg.h ttseventsmodel.h
     statusbardlg.h statusbareventsmodel.h mycombobox.h
     utilsound.h utilvideo.h utiltts.h utilui.h utilhotkey.h
+    serverlogeventsmodel.h mytreeview.h
 
     main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp
     channelstree.cpp channeldlg.cpp userinfodlg.cpp
@@ -127,6 +128,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     bearwarelogindlg.cpp audiopreprocessordlg.cpp ttseventsmodel.cpp
     statusbardlg.cpp statusbareventsmodel.cpp mycombobox.cpp
     utilsound.cpp utilvideo.cpp utiltts.cpp utilui.cpp utilhotkey.cpp
+    serverlogeventsmodel.cpp mytreeview.cpp
 
     mainwindow.ui channel.ui preferences.ui
     serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui

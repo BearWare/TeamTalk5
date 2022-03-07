@@ -48,8 +48,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        if (this.IPADDR.length() > 0)
-            resetServerProperties();
+        resetServerProperties();
     }
 
     @Test
@@ -223,40 +222,6 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue(waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
 
     }
-
-    @Test
-    public void testUserAccount() {
-        TeamTalkBase ttclient = newClientInstance();
-        connect(ttclient);
-        login(ttclient, ADMIN_NICKNAME + " - " + getTestMethodName(), ADMIN_USERNAME, ADMIN_PASSWORD);
-
-        IntPtr howmany = new IntPtr(0);
-
-        ServerProperties srvprop = new ServerProperties();
-        assertTrue(ttclient.getServerProperties(srvprop));
-
-        assertTrue(waitCmdSuccess(ttclient, ttclient.doUpdateServer(srvprop), DEF_WAIT));
-
-        assertTrue(waitCmdSuccess(ttclient, ttclient.doListUserAccounts(0, 100), DEF_WAIT));
-
-//        howmany = new IntPtr(0);
-//        assertTrue(ttclient.getUserAccounts(null, howmany));
-//
-//        UserAccount[] accounts = new UserAccount[howmany.value];
-//        assertTrue(ttclient.getUserAccounts(accounts, howmany));
-//        UserAccount account = new UserAccount();
-//        account.szUsername = "foo";
-//        account.szPassword = "bar";
-//        account.uUserType = UserType.USERTYPE_DEFAULT;
-//        account.uUserRights = UserRight.USERRIGHT_NONE;
-//        account.autoOperatorChannels[0] = ttclient.getRootChannelID();
-//        account.autoOperatorChannels[1] = ttclient.getMyChannelID();
-//
-//        assertTrue(waitCmdSuccess(ttclient, ttclient.doDeleteUserAccount(account.szUsername), DEF_WAIT));
-//
-//        assertTrue(waitCmdSuccess(ttclient, ttclient.doNewUserAccount(account), DEF_WAIT));
-    }
-
 
     @Test
     public void testStats() {
@@ -2052,7 +2017,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("join chan success", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
 
-        for(int i=0;i<400;i++) {
+        for (int i=0; i < Constants.TT_USERID_MAX + Constants.TT_USERID_MAX + Constants.TT_CHANNELID_MAX + Constants.TT_CHANNELID_MAX; i++) {
             ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, ttclient.getMyUserID());
             Thread.sleep(1);
         }
@@ -2069,7 +2034,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
-    public void testWaveFile() throws IOException {
+    public void testAudioBlockSimStereo() throws IOException {
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
             UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO |
@@ -2109,8 +2074,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         try(FileOutputStream fs = newWaveFile(STORAGEFOLDER + File.separator + "MyWaveFile.wav", SAMPLERATE, CHANNELS, WRITE_BYTES);) {
 
+            int c = 0;
             while(WRITE_BYTES > 0) {
-                assertTrue("gimme voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+                assertTrue("gimme voice audioblock #" + (c++), waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
 
                 AudioBlock block = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, ttclient.getMyUserID());
                 assertTrue(block.nSamples > 0);
@@ -2903,6 +2869,94 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
+    public void testSoloTransmitChannelDelay() {
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
+            UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        Vector<TeamTalkBase> clients = new Vector<TeamTalkBase>();
+
+        TTMessage msg = new TTMessage();
+
+        TeamTalkBase ttclient1 = newClientInstance();
+        clients.add(ttclient1);
+
+        connect(ttclient1);
+        initSound(ttclient1);
+        login(ttclient1, NICKNAME, USERNAME, PASSWORD);
+
+        Channel chan = buildDefaultChannel(ttclient1, "Opus");
+        assertEquals("opus default", chan.audiocodec.nCodec, Codec.OPUS_CODEC);
+        chan.uChannelType |= ChannelType.CHANNEL_SOLO_TRANSMIT;
+        assertTrue("join", waitCmdSuccess(ttclient1, ttclient1.doJoinChannel(chan), DEF_WAIT));
+
+        TeamTalkBase ttclient2 = newClientInstance();
+        clients.add(ttclient2);
+
+        connect(ttclient2);
+        initSound(ttclient2);
+        login(ttclient2, NICKNAME, USERNAME, PASSWORD);
+
+        assertTrue("join", waitCmdSuccess(ttclient2, ttclient2.doJoinChannelByID(ttclient1.getMyChannelID(), ""), DEF_WAIT));
+
+        assertTrue("get channel", ttclient2.getChannel(ttclient2.getMyChannelID(), chan));
+        assertEquals("default switch timeout is 500", 500, chan.nTransmitUsersQueueDelayMSec);
+
+        assertTrue("ttclient1, drain client 1", waitCmdComplete(ttclient1, ttclient1.doPing(), DEF_WAIT));
+        assertTrue("ttclient2, drain client 2", waitCmdComplete(ttclient2, ttclient2.doPing(), DEF_WAIT));
+
+        // validate 500 msec default switch timeout
+        assertTrue("ttclient1, Enable voice transmission", ttclient1.enableVoiceTransmission(true));
+        assertTrue("ttclient2, wait chan txq update", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
+        assertEquals("ttclient1 is head in queue ", ttclient1.getMyUserID(), msg.channel.transmitUsersQueue[0]);
+        
+        assertTrue("ttclient2, Enable voice transmission", ttclient2.enableVoiceTransmission(true));
+        assertTrue("ttclient2, wait chan txq update", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
+        assertEquals("ttclient2 is two in queue ", ttclient2.getMyUserID(), msg.channel.transmitUsersQueue[1]);
+
+        assertTrue("ttclient1, drain client 1", waitCmdComplete(ttclient1, ttclient1.doPing(), DEF_WAIT));
+        assertTrue("ttclient2, drain client 2", waitCmdComplete(ttclient2, ttclient2.doPing(), DEF_WAIT));
+
+        long switchStart = System.currentTimeMillis();
+        assertTrue("ttclient1, disable voice transmission", ttclient1.enableVoiceTransmission(false));
+        assertTrue("ttclient2, wait chan txq update", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
+        assertEquals("ttclient2 is head in queue ", ttclient2.getMyUserID(), msg.channel.transmitUsersQueue[0]);
+        assertTrue("default switch delay is ~500 msec", System.currentTimeMillis() - switchStart >= 500);
+
+        assertTrue("ttclient2, disable voice transmission", ttclient2.enableVoiceTransmission(false));
+        assertTrue("ttclient2, wait chan txq update", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
+        assertEquals("queue is empty", 0, msg.channel.transmitUsersQueue[0]);
+        assertTrue("ttclient1, drain client 1", waitCmdComplete(ttclient1, ttclient1.doPing(), DEF_WAIT));
+        assertTrue("ttclient2, drain client 2", waitCmdComplete(ttclient2, ttclient2.doPing(), DEF_WAIT));
+        
+        // validate 500 msec default switch timeout no longer applies
+        chan.nTransmitUsersQueueDelayMSec = 100;
+        assertTrue("update channel", waitCmdSuccess(ttclient1, ttclient1.doUpdateChannel(chan), DEF_WAIT));
+        assertTrue("get channel", ttclient1.getChannel(ttclient1.getMyChannelID(), chan));
+        assertEquals("default switch timeout is 100", 100, chan.nTransmitUsersQueueDelayMSec);
+        assertTrue("ttclient2, drain client 2", waitCmdComplete(ttclient2, ttclient2.doPing(), DEF_WAIT));
+
+        assertTrue("ttclient1, Enable voice transmission", ttclient1.enableVoiceTransmission(true));
+        assertTrue("ttclient2, wait chan txq update", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
+        assertEquals("ttclient1 is head in queue", ttclient1.getMyUserID(), msg.channel.transmitUsersQueue[0]);
+        
+        assertTrue("ttclient2, Enable voice transmission", ttclient2.enableVoiceTransmission(true));
+        assertTrue("ttclient2, wait chan txq update", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
+        assertEquals("ttclient2 is two in queue ", ttclient2.getMyUserID(), msg.channel.transmitUsersQueue[1]);
+
+        assertTrue("ttclient1, drain client 1", waitCmdComplete(ttclient1, ttclient1.doPing(), DEF_WAIT));
+        assertTrue("ttclient2, drain client 2", waitCmdComplete(ttclient2, ttclient2.doPing(), DEF_WAIT));
+
+        switchStart = System.currentTimeMillis();
+        assertTrue("ttclient1, disable voice transmission", ttclient1.enableVoiceTransmission(false));
+        assertTrue("ttclient2, wait chan txq update", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
+        assertEquals("ttclient2 is head in queue ", ttclient2.getMyUserID(), msg.channel.transmitUsersQueue[0]);
+        assertTrue("default switch delay is ~100 msec", System.currentTimeMillis() - switchStart >= chan.nTransmitUsersQueueDelayMSec);
+        assertTrue("default switch delay is less than 500 msec", System.currentTimeMillis() - switchStart < 500);
+    }
+    
+    @Test
     public void testAbusePrevention() {
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
@@ -3032,7 +3086,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
-    public void testUserTimeout() throws IOException {
+    public void testZUserTimeout() throws IOException {
 
         TeamTalkBase ttadmin = newClientInstance();
         connect(ttadmin);

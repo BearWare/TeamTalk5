@@ -1,0 +1,31 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c37a2f6..5f2b07c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -314,16 +314,16 @@ elseif(UNIX)
+     # OSS is intentionally off by default to avoid confusing users of PortAudio
+     # applications. OSS builds but there are no devices available on modern
+     # Linux systems.
+-    find_package(OSS)
+-    cmake_dependent_option(PA_USE_OSS "Enable support for OSS" OFF "OSS_FOUND" OFF)
+-    if(PA_USE_OSS)
+-      target_sources(PortAudio PRIVATE src/hostapi/oss/pa_unix_oss.c)
+-      target_compile_definitions(PortAudio PUBLIC PA_USE_OSS=1)
+-      set(PKGCONFIG_CFLAGS "${PKGCONFIG_CFLAGS} -DPA_USE_OSS=1")
+-      target_link_libraries(PortAudio PRIVATE OSS::oss)
+-      # The FindOSS.cmake module does not need to be installed like the JACK modules because it
+-      # does not link any library; it only adds an include directory and compile definition.
+-    endif()
++    # find_package(OSS)
++    # cmake_dependent_option(PA_USE_OSS "Enable support for OSS" OFF "OSS_FOUND" OFF)
++    # if(PA_USE_OSS)
++    #   target_sources(PortAudio PRIVATE src/hostapi/oss/pa_unix_oss.c)
++    #   target_compile_definitions(PortAudio PUBLIC PA_USE_OSS=1)
++    #   set(PKGCONFIG_CFLAGS "${PKGCONFIG_CFLAGS} -DPA_USE_OSS=1")
++    #   target_link_libraries(PortAudio PRIVATE OSS::oss)
++    #   # The FindOSS.cmake module does not need to be installed like the JACK modules because it
++    #   # does not link any library; it only adds an include directory and compile definition.
++    # endif()
+ 
+     check_include_file(sys/audioio.h HAVE_SYS_AUDIOIO_H)
+     cmake_dependent_option(AUDIOIO "Enable support for Solaris/NetBSD audio" ON "HAVE_SYS_AUDIOIO_H" AUDIOIO)

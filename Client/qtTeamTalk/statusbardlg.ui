@@ -21,7 +21,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_1">
       <item>
-       <widget class="StatusBarEventsTreeView" name="statusBarTreeView">
+       <widget class="MyTreeView" name="statusBarTreeView">
         <property name="editTriggers">
          <set>QAbstractItemView::NoEditTriggers</set>
         </property>
@@ -110,9 +110,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>StatusBarEventsTreeView</class>
+   <class>MyTreeView</class>
    <extends>QTreeView</extends>
-   <header>statusbareventsmodel.h</header>
+   <header>mytreeview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -5,7 +5,7 @@
 "%@ left channel" = "%@ غادرَ القناة";
 
 /* Web Login Controller */
-"%@, your username \"%@\" has been validated" = "%1$@, your username \"%2$@\" has been validated";
+"%@, your username \"%@\" has been validated" = "%1$@, اسم المستخدم الخاص بك \"%2$@\" تم التحقق منه";
 
 /* preferences */
 "%d %% - Default" = "%d %% - افتراضي";
@@ -42,7 +42,7 @@
 "Actions" = "الإجراءات";
 
 /* channel list */
-"Active" = "Active";
+"Active" = "نشط";
 
 /* serverlist */
 "Add new server entry" = "إضافة بيانات خادم جديد";
@@ -84,7 +84,7 @@
 "Audio Codec" = "ترميز الصوت";
 
 /* Web Login Controller */
-"Authenticate" = "Authenticate";
+"Authenticate" = "المصادقة";
 
 /* server entry */
 "Authentication" = "المصادقة";
@@ -93,16 +93,16 @@
 "Ban user" = "حظر المستخدم";
 
 /* server entry */
-"BearWare.dk Web Login" = "BearWare.dk Web Login";
+"BearWare.dk Web Login" = "تسجيل الدخول الى BearWare.dk";
 
 /* weblogin event */
-"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences";
+"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "فشل BearWare.dk في المصادقة. تحقق من BearWare.dk في التفضيلات";
 
 /* codec detail */
 "Bitrate" = "معدل البت";
 
 /* preferences */
-"Bjoern D. Rasmussen, contact@bearware.dk" = "حمد القصار (Hamad Alqassar) من فريق موقع التيم توك العربي , team4tt4ar@gmail.com";
+"Bjoern D. Rasmussen, contact@bearware.dk" = "مؤمل الجناحي (Muamal Aljanahi), muamal.aljanahi@gmail.com";
 
 /* text message type */
 "Broadcast message" = "رسالة عامة";
@@ -112,10 +112,10 @@
 "Broadcast Messages" = "الرسائل العامة";
 
 /* preferences */
-"Broadcast Text Message" = "Broadcast Text Message";
+"Broadcast Text Message" = "رسالة نصية عامة";
 
 /* Dialog message */
-"Cancel" = "Cancel";
+"Cancel" = "الغاء";
 
 /* channel list
    server entry */
@@ -141,7 +141,7 @@
 "Channel. %d users" = "قناة. %d من المستخدمين";
 
 /* server entry */
-"Check only if this server has enabled BearWare.dk Web Login" = "Check only if this server has enabled BearWare.dk Web Login";
+"Check only if this server has enabled BearWare.dk Web Login" = "حدد فقط إذا قام هذا الخادم بتمكين تسجيل الدخول إلى BearWare.dk";
 
 /* create channel */
 "Commands" = "الأوامر";
@@ -157,6 +157,9 @@
    tts event */
 "Connection lost" = "تم فقد الاتصال";
 
+/* server entry */
+"Country" = "الدولة";
+
 /* View Title */
 "Create Channel" = "أنشئ قناة";
 
@@ -164,7 +167,7 @@
 "Create new channel" = "إنشاء قناة جديدة";
 
 /* Sound Input */
-"Default" = "Default";
+"Default" = "افتراضي";
 
 /* preferences */
 "Default Subscriptions" = "الاشتراكات الافتراضية";
@@ -183,7 +186,7 @@
 "Double tap and hold to transmit. Triple tap fast to lock transmission." = "إنقر نقراً مزدوجا ثم ثبت إصبعك لفتح الإرسال , إنقر ثلاث نقرات بشكل سريع   لإقفال الإرسال";
 
 /* preferences */
-"Double tap to lock TX button" = "إنقر نقرتان    لقفل  ال TX button";
+"Double tap to lock TX button" = "إنقر نقرتان    لقفل الميكروفون";
 
 /* codec detail */
 "DTX" = "DTX";
@@ -192,7 +195,7 @@
 "Edit properties" = "تحرير الخصائص";
 
 /* server entry */
-"Encrypted" = "Encrypted";
+"Encrypted" = "مشفر";
 
 /* Dialog message */
 "Enter Password" = "أدخل كلمة المرور";
@@ -204,7 +207,7 @@
 "Error" = "خطأ";
 
 /* preferences */
-"Exclusive Mode Toggled" = "Exclusive Mode Toggled";
+"Exclusive Mode Toggled" = "تبديل الوضع الحصري";
 
 /* server entry */
 "Facebook Login" = "تسجيل الدخول عبر ال Facebook";
@@ -213,13 +216,13 @@
 "Facebook login was cancelled" = "تم إلغاء تسجيل الدخول عبر ال Facebook";
 
 /* preferences */
-"Female" = "Female";
+"Female" = "أنثى";
 
 /* codec detail */
 "Frame Size" = "Frame Size";
 
 /* preferences */
-"Gender" = "Gender";
+"Gender" = "الجنس";
 
 /* preferences
    user detail */
@@ -232,22 +235,22 @@
 "has left the channel" = "غادر القناة";
 
 /* TTS EVENT */
-"has logged on" = "قام بتسجيل الدخول";
+"has logged on" = "سجل دخول";
 
 /* TTS EVENT */
-"has logged out" = "قام بتسجيل الخروج";
+"has logged out" = "سجل خروج";
 
 /* preferences */
-"Headset TX Toggle" = "Headset TX Toggle";
+"Headset TX Toggle" = "تبديل المايكروفون عن طريق سماعة الرأس";
 
 /* hidden channel */
-"Hidden Channel" = "Hidden Channel";
+"Hidden Channel" = "قناة مخفية";
 
 /* server entry */
 "Host address" = "عنوان المضيف";
 
 /* channel list */
-"Inactive" = "Inactive";
+"Inactive" = "غير نشط";
 
 /* Dialog message */
 "Join" = "إنضم";
@@ -273,14 +276,17 @@
 /* preferences */
 "Limit length of names in channel list to %d characters" = "حد  طول الأسماء في قائمة القنوات إلى %d أحرف";
 
+/* serverlist */
+"Local server" = "خادم محلي";
+
 /* text message type */
 "Log message" = "سجل الرسالة";
 
 /* log entry */
-"Logged on to server" = "قام بتسجيل الدخول إلى الخادم";
+"Logged on to server" = "سجل دخول إلى الخادم";
 
 /* preferences */
-"Male" = "Male";
+"Male" = "ذكر";
 
 /* preferences */
 "Master Volume" = "الصوت الرئيسي";
@@ -300,7 +306,10 @@
 "Media file vs. voice volume" = "ملف الوسائط مقابل حجم الصوت";
 
 /* Dialog */
-"Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
+"Message limit exceeded by %d characters" = "تم تجاوز حد الرسالة بمقدار %d حرف";
+
+/* server entry */
+"Message of the Day" = "رسالة اليوم";
 
 /* preferences */
 "Microphone Gain" = "مستوى المايكرفون";
@@ -316,7 +325,7 @@
 "Move users here" = "نقل المستخدمين هنا";
 
 /* codec detail */
-"Music" = "الموسيقى";
+"Music" = "موسيقى";
 
 /* channel list */
 "Mute" = "كتم";
@@ -341,7 +350,7 @@
 "Nickname" = "الاسم المستعار";
 
 /* server entry */
-"Nickname (optional)" = "Nickname (optional)";
+"Nickname (optional)" = "الاسم المستعار (اختياري)";
 
 /* Dialog message */
 "No" = "لا";
@@ -360,10 +369,13 @@
 "No password" = "لا توجد كلمة مرور";
 
 /* create channel */
-"No Voice Activation" = "من دون تنشيط الصوت";
+"No Voice Activation" = "تعطيل وضع التنشيط الصوتي";
 
 /* default nickname */
-"Noname" = "Noname";
+"Noname" = "بدون اسم";
+
+/* serverlist */
+"Official server" = "الخادم الرسمي";
 
 /* Dialog
    Dialog message
@@ -395,10 +407,10 @@
 "Play sound when a user joins the channel" = "إصدار صوت  عندما ينضم المستخدم إلى القناة";
 
 /* preferences */
-"Play sound when a user leaves the channel" = "إصدار صوت  عندما يغادر  المستخدم  من  القناة";
+"Play sound when a user leaves the channel" = "إصدار صوت  عندما يغادر  المستخدم القناة";
 
 /* preferences */
-"Play sound when broadcast text message is received" = "Play sound when broadcast text message is received";
+"Play sound when broadcast text message is received" = "تشغيل الصوت عند استقبال رسالة نصية عامة";
 
 /* preferences */
 "Play sound when channel text message is received" = "إصدار صوتاً عندما تتلقى رسالة نصية من القناة";
@@ -413,13 +425,13 @@
 "Play sound when transmit ready in \"No Interruptions\" channel" = "تشغيل الصوت عند الإرسال في قناة \"لا توجد بها مقاطعات\" ";
 
 /* preferences */
-"Play sound when user logs off to the server" = "Play sound when user logs off to the server";
+"Play sound when user logs off to the server" = "تشغيل الصوت عندما يقوم المستخدم بتسجيل الخروج من الخادم";
 
 /* preferences */
-"Play sound when user logs on to the server" = "Play sound when user logs on to the server";
+"Play sound when user logs on to the server" = "تشغيل الصوت عندما يقوم المستخدم بتسجيل الدخول إلى الخادم";
 
 /* preferences */
-"Play sound when voice activation is triggered" = "Play sound when voice activation is triggered";
+"Play sound when voice activation is triggered" = "تشغيل الصوت عند تشغيل التنشيط الصوتي";
 
 /* preferences */
 "Play sound when voice transmission is toggled" = "إصدار تنبيه عندما تقوم بتبديل الصوت (أخذ المايكرفون)";
@@ -431,7 +443,7 @@
 "Popularity" = "شعبية";
 
 /* serverlist */
-"Preferences" = "تفضيلات";
+"Preferences" = "الاعدادات";
 
 /* Sound Input */
 "Preferred" = "Preferred";
@@ -515,7 +527,7 @@
 "Server List Entry" = "قائمة الخوادم";
 
 /* preferences */
-"Show male or female icon" = "Show male or female icon";
+"Show male or female icon" = "إظهار رمز ذكر أو أنثى";
 
 /* preferences */
 "Show Public Servers" = "إظهار الخوادم العامة";
@@ -589,7 +601,7 @@
 "Toggle to enable/disable transmission" = "تبديل لتمكين او  تعطيل الإرسال";
 
 /* preferences */
-"Toggle voice transmission using headset" = "تبديل انتقال الصوت باستخدام سماعة الرأس";
+"Toggle voice transmission using headset" = "Toggle voice transmission using headset";
 
 /* create channel */
 "Topic" = "الموضوع";
@@ -629,7 +641,7 @@
 "User" = "المستخدم";
 
 /* channel list */
-"User female" = "User female";
+"User female" = "أنثى";
 
 /* preferences */
 "User Joins Channel" = "ينضم المستخدم إلى القناة";
@@ -647,13 +659,13 @@
 "User logged in" = "تسجيل دخول المستخدم";
 
 /* preferences */
-"User Logged In" = "User Logged In";
+"User Logged In" = "تسجيل دخول المستخدم";
 
 /* preferences */
 "User logged out" = "تسجيل خروج المستخدم";
 
 /* preferences */
-"User Logged Out" = "User Logged Out";
+"User Logged Out" = "تسجيل خروج المستخدم";
 
 /* preferences
    user detail */
@@ -664,7 +676,13 @@
 "Username" = "اسم المستخدم";
 
 /* Web Login Controller */
-"Username or password incorrect" = "Username or password incorrect";
+"Username or password incorrect" = "اسم المستخدم او كلمة المرور غير صحيح";
+
+/* server entry */
+"Users Online" = "مستخدمين متصلين";
+
+/* serverlist */
+"Users: %d, Country: %@" = "المستخدمون: %1$d, الدولة: %2$@";
 
 /* codec detail */
 "Variable Bitrate" = "Variable Bitrate";
@@ -683,22 +701,22 @@
 "Voice" = "الصوت";
 
 /* preferences */
-"Voice Activation Level" = "مستوى تنشيط الصوت";
+"Voice Activation Level" = "مستوى التنشيط الصوتي";
 
 /* preferences */
-"Voice Activation Level: %d. Recommended: %d" = "مستوى تنشيط الصوت: %d. موصى به: %d";
+"Voice Activation Level: %d. Recommended: %d" = "مستوى التنشيط الصوتي: %d. موصى به: %d";
 
 /* preferences */
-"Voice Activation Level: Disabled" = "مستوى تنشيط الصوت: معطل";
+"Voice Activation Level: Disabled" = "مستوى التنشيط الصوتي: معطل";
 
 /* preferences */
-"Voice Activation Triggered" = "Voice Activation Triggered";
+"Voice Activation Triggered" = "تفعيل التنشيط الصوتي";
 
 /* preferences */
 "Voice Preprocessing" = "معالجة الصوت";
 
 /* preferences */
-"Voice Transmission Toggled" = "Voice Transmission Toggled";
+"Voice Transmission Toggled" = "تبديل نقل الصوت";
 
 /* user detail */
 "Voice Volume" = "مستوى الصوت";
@@ -710,7 +728,7 @@
 "Volume Controls" = "عناصر التحكم في مستوى الصوت";
 
 /* Web Login controller */
-"Web Login ID" = "Web Login ID";
+"Web Login ID" = "معرف تسجيل الدخول";
 
 /* preferences
    user detail */
@@ -723,13 +741,13 @@
 "You have been kicked from channel" = "You have been kicked from channel";
 
 /* Dialog */
-"You have been kicked from channel by %@" = "You have been kicked from channel by %@";
+"You have been kicked from channel by %@" = "لقد تم طردك من القناة من قبل %@";
 
 /* Dialog */
 "You have been kicked from server" = "You have been kicked from server";
 
 /* Dialog */
-"You have been kicked from server by %@" = "You have been kicked from server by %@";
+"You have been kicked from server by %@" = "لقد تم طردك من الخادم من قبل %@";
 
 /* speech */
 "You have selected %@" = " لقد اخترت %@";

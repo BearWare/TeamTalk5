@@ -161,6 +161,9 @@
    tts event */
 "Connection lost" = "Connection lost";
 
+/* server entry */
+"Country" = "Country";
+
 /* View Title */
 "Create Channel" = "Create Channel";
 
@@ -277,6 +280,9 @@
 /* preferences */
 "Limit length of names in channel list to %d characters" = "Limit length of names in channel list to %d characters";
 
+/* serverlist */
+"Local server" = "Local server";
+
 /* text message type */
 "Log message" = "Log message";
 
@@ -305,6 +311,9 @@
 
 /* Dialog */
 "Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
+
+/* server entry */
+"Message of the Day" = "Message of the Day";
 
 /* preferences */
 "Microphone Gain" = "Microphone Gain";
@@ -368,6 +377,9 @@
 
 /* default nickname */
 "Noname" = "Noname";
+
+/* serverlist */
+"Official server" = "Official server";
 
 /* Dialog
    Dialog message
@@ -672,6 +684,12 @@
 
 /* Web Login Controller */
 "Username or password incorrect" = "Username or password incorrect";
+
+/* server entry */
+"Users Online" = "Users Online";
+
+/* serverlist */
+"Users: %d, Country: %@" = "Users: %1$d, Country: %2$@";
 
 /* codec detail */
 "Variable Bitrate" = "Variable Bitrate";

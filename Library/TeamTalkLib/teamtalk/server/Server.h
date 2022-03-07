@@ -42,6 +42,7 @@ namespace teamtalk {
             diskquota = 0;
             maxdiskusage = 0;
             usertimeout = USER_TIMEOUT;
+            logevents = SERVERLOGEVENT_DEFAULT;
         }
     };
 

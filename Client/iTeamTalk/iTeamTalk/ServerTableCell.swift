@@ -28,5 +28,5 @@ class ServerTableCell : UITableViewCell {
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var connectBtn: UIButton!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var ipaddrLabel: UILabel!
+    @IBOutlet weak var detailLabel: UILabel!
 }

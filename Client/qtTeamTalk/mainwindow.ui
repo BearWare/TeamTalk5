@@ -1159,10 +1159,13 @@
     <addaction name="actionChangeNickname"/>
     <addaction name="actionChangeStatus"/>
     <addaction name="separator"/>
+    <addaction name="actionHearMyself"/>
+    <addaction name="separator"/>
     <addaction name="actionEnablePushToTalk"/>
     <addaction name="actionEnableVoiceActivation"/>
     <addaction name="actionEnableVideoTransmission"/>
     <addaction name="actionEnableDesktopSharing"/>
+    <addaction name="separator"/>
     <addaction name="menuNotifications"/>
    </widget>
    <widget class="QMenu" name="menuUsers">
@@ -2257,6 +2260,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+Shift+T</string>
+   </property>
+  </action>
+  <action name="actionHearMyself">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Hear Myself</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+3</string>
    </property>
   </action>
  </widget>

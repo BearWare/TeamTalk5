@@ -285,6 +285,8 @@
     <string name="text_quality">Quality</string>
     <string name="text_publicserver">Public server</string>
     <string name="text_localserver">Local server</string>
+    <string name="text_officialserver">Official server</string>
+    <string name="text_privateserver">Private server</string>
     <string name="text_passwdprot">Password protected</string>
     <string name="text_translator">Translated by Bjørn Damstedt Rasmussen</string>
     <string name="desktop_image">Desktop image</string>

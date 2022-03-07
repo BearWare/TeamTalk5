@@ -133,11 +133,13 @@ void ChatTextEdit::updateServer(const ServerProperties& srvprop)
     setTextCursor(cursor);
     appendPlainText(line);
     if (_Q(srvprop.szMOTD).size() > 0)
+    {
         line = dt + tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)) + "\r\n";
-    format.setForeground(QBrush(Qt::darkCyan));
-    cursor.setCharFormat(format);
-    setTextCursor(cursor);
-    appendPlainText(line);
+        format.setForeground(QBrush(Qt::darkCyan));
+        cursor.setCharFormat(format);
+        setTextCursor(cursor);
+        appendPlainText(line);
+    }
 
     //revert bold
     font.setBold(false);

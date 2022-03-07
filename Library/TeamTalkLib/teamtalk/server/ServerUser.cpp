@@ -639,6 +639,7 @@ ErrorMsg ServerUser::HandleJoinChannel(const mstrings_t& properties)
     GetProperty(properties, TT_MEDIAFILEUSERS, chanprop.transmitusers[STREAMTYPE_MEDIAFILE]);
     GetProperty(properties, TT_CHANMSGUSERS, chanprop.transmitusers[STREAMTYPE_CHANNELMSG]);
     GetProperty(properties, TT_PASSWORD, chanprop.passwd);
+    GetProperty(properties, TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay);
 
     if(chanprop.name.find(CHANNEL_SEPARATOR) != ACE_TString::npos)
     {
@@ -714,6 +715,7 @@ ErrorMsg ServerUser::HandleMakeChannel(const mstrings_t& properties)
     GetProperty(properties, TT_DESKTOPUSERS, chanprop.transmitusers[STREAMTYPE_DESKTOP]);
     GetProperty(properties, TT_MEDIAFILEUSERS, chanprop.transmitusers[STREAMTYPE_MEDIAFILE]);
     GetProperty(properties, TT_CHANMSGUSERS, chanprop.transmitusers[STREAMTYPE_CHANNELMSG]);
+    GetProperty(properties, TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay);
 
     if(chanprop.name.find(CHANNEL_SEPARATOR) != ACE_TString::npos)
     {
@@ -756,6 +758,7 @@ ErrorMsg ServerUser::HandleUpdateChannel(const mstrings_t& properties)
     if (HasProperty(properties, TT_CHANMSGUSERS))
         chanprop.transmitusers[STREAMTYPE_CHANNELMSG].clear();
     GetProperty(properties, TT_CHANMSGUSERS, chanprop.transmitusers[STREAMTYPE_CHANNELMSG]);
+    GetProperty(properties, TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay);
 
     if(GetUserRights() & USERRIGHT_MODIFY_CHANNELS)
     {
@@ -814,6 +817,7 @@ ErrorMsg ServerUser::HandleUpdateServer(const mstrings_t& properties)
     GetProperty(properties, TT_MEDIAFILETXLIMIT, srvprop.mediafiletxlimit);
     GetProperty(properties, TT_DESKTOPTXLIMIT, srvprop.desktoptxlimit);
     GetProperty(properties, TT_TOTALTXLIMIT, srvprop.totaltxlimit);
+    GetProperty(properties, TT_LOGEVENTS, srvprop.logevents);
 
     int tcpport = 0;
     TTASSERT(srvprop.tcpaddrs.size());
@@ -1266,6 +1270,7 @@ void ServerUser::DoServerUpdate(const ServerSettings& properties)
     AppendProperty(TT_MEDIAFILETXLIMIT, properties.mediafiletxlimit, command);
     AppendProperty(TT_DESKTOPTXLIMIT, properties.desktoptxlimit, command);
     AppendProperty(TT_TOTALTXLIMIT, properties.totaltxlimit, command);
+    AppendProperty(TT_LOGEVENTS, properties.logevents, command);
 
     AppendProperty(TT_VERSION, properties.version, command);
 
@@ -1495,6 +1500,8 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool encrypted)
         AppendProperty(TT_MEDIAFILEUSERS, channel.GetMediaFileUsers(), command);
     if (channel.GetChannelTextMsgUsers().size())
         AppendProperty(TT_CHANMSGUSERS, channel.GetChannelTextMsgUsers(), command);
+    if (channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT)
+        AppendProperty(TT_TRANSMITSWITCHDELAY, channel.GetTransmitSwitchDelay().msec(), command);
     command += ACE_TString(EOL);
 
     TransmitCommand(command);
@@ -1555,6 +1562,7 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
     if(channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT)
     {
         AppendProperty(TT_TRANSMITQUEUE, channel.GetTransmitQueue(), command);
+        AppendProperty(TT_TRANSMITSWITCHDELAY, channel.GetTransmitSwitchDelay().msec(), command);
     }
     command += ACE_TString(EOL);
 

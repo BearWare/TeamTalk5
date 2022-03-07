@@ -37,11 +37,13 @@ namespace teamtalk {
         typedef Channel<ServerChannel, ServerUser> PARENT;
         ServerChannel(int channelid);
         ServerChannel(channel_t& parent, int channelid, const ACE_TString& name);
-        //Used for channels with CHANNEL_SOLO_TRANSMIT 
-        bool CanTransmit(int userid, StreamType txtype, int streamid);
+        // Used for channels with CHANNEL_SOLO_TRANSMIT. 'modified' is only set if 'true'
+        bool CanTransmit(int userid, StreamType txtype, int streamid, bool* modified);
         void RemoveUser(int userid);
-        void ClearFromTransmitQueue(int userid);
+        void RemoveUser(int userid, bool* modified);
+        bool ClearFromTransmitQueue(int userid);
     private:
+        void Init();
         // userid -> last transmit time
         std::map<int, ACE_Time_Value> m_lastUserPacket;
         // userid -> stream id

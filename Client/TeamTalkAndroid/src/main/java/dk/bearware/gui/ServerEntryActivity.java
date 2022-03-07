@@ -192,7 +192,7 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
             case R.id.action_saveserver : {
                 Intent intent = this.getIntent();
                 ServerEntry server = getServerEntry();
-                server.public_server = false;
+                server.servertype = ServerEntry.ServerType.LOCAL;
                 setResult(RESULT_OK, Utils.putServerEntry(intent, server)); 
                 finish();
             }

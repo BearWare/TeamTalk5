@@ -10,6 +10,7 @@ The Preferences dialog has the following tabs:
 - [Connection](@ref connectiontab)
 - [Sound System](@ref soundsystemtab)
 - [Sound Events](@ref soundeventstab)
+- [Text to Speech](@ref texttospeechtab)
 - [Shortcuts](@ref shortcutstab)
 - [Video Capture](@ref videocapturetab)
 
@@ -24,7 +25,7 @@ transmit audio.
 
 - **Nickname**
   - The name other users will see as you when logging on to a server.
-  
+
 - **Gender**
   - This option selects whether other users should see you as a Male
     or Female.
@@ -32,7 +33,7 @@ transmit audio.
 - **Set away status after...**
   - If non-zero this option will automatically set you as away after
     the specified number of seconds.
-   
+
 - **BearWare.dk Web Login ID**
   - A BearWare.dk web login is required if a TeamTalk server specifies
     that you must [log on with the username \"bearware\"](@ref connectdlg).
@@ -52,7 +53,13 @@ transmit audio.
   - A so-called Push To Talk key combination can be set up so one has
     to hold down a set of keys in order to transmit audio data. This is
     especially useful to avoid echos from speakers.
-    
+
+- **Push To Talk Lock**
+  - The default behavior is to only transmit voice when the Push To
+    Talk key combination is held down. With this option the Push To
+    Talk key combination has to be pressed both for voice transmission
+    starting and voice transmission stop.
+
 - **Voice activated**
   - Instead of using a Push To Talk key combination one can simply
     have TeamTalk start transmitting whenever you're talking by
@@ -69,27 +76,48 @@ The items in the Display-tab are explained here:
 
 - **User interface language**
   - The language to use in the application.
-  
+
 - **Start minimized**
   - If enabled TeamTalk will minimized itself once it starts.
-  
+
 - **Minimize to tray icon**
   - If enabled TeamTalk will go in Windows system tray when
     minimized. The system tray is in the bottom right corner of
     Windows.
-    
+
 - **Always on top**
   - If enabled TeamTalk will always be in front of other running
     programs.
-    
+
+- **Enable VU-meter updates**
+  - The progress bar for voice activity can be disabled by using
+    option. This is useful for screen-readers.
+
 - **Show number of users in channel**
   - If enabled a parentesis will be shown on each channel with the
     number of users in the channel.
-    
+
+- **Show username instead of nickname**
+  - See usernames (login names) instead of nicknames in channels tree
+    view.
+
+- **Show last to talk in yellow**
+  - The last person to talk in a channel should be displayed with
+    yellow background.
+
+- **Show emojis and text for channel/user state**
+  - Emojis are shown in channels tree view for the channel or user's
+    current state. E.g. woman icon for female and ghost for hidden
+    channels.
+
+- **Show both server and channel name in window title**
+  - Main window's title bar should show both server's name and current
+    channel.
+
 - **Popup dialog when receiving text message**
   - If enabled a dialog window will pop up if someone writes you a
     text message.
-    
+
 - **Start video in popup dialog**
   - When a user starts transmitting video (from webcam) to the video
     session should be displayed in a separate dialog instead of in the
@@ -104,20 +132,35 @@ The items in the Display-tab are explained here:
 - **Start desktops in popup dialog**
   - When a user shares a desktop window it should be displayed in a
     separate dialog instead of the [Desktop-tab](@ref desktoptab).
-    
+
 - **Timestamp text messages**
   - If enabled each text message will have a timestamp telling when it
     was received.
-  
+
+- **Auto expand channels**
+  - By default channels, except the currently joined channel, are
+    collapsed. This option can be used to expand all channels
+    automatically.
+
+- **Double click on a channel**
+  - Change behavior of double clicking a channel in the channel tree
+    view.
+
+- **Sort channels by**
+  - Choose how channels should be sorted in channel tree view.
+
+- **Close dialog box when a file transfer is finished**
+  - Normally file transfer dialog stay open after transmission is
+    finished.
+
+- **Show a dialog box when excluded from channel or server**
+  - When kicked and/or banned from a server a dialog box can be
+    displayed to inform about this incident.
+
 - **Show statusbar events in chat-window**
   - If enabled all messages which are shown in the application's
     statusbar will also be put in the channel [chat-tab
     window](@ref chattab).
-    
-- **Check for program updates at start up**
-  - When TeamTalk starts it should check to see if there's a new
-    version available. If a new version is available a text message
-    will be shown in the [Chat-tab](@ref chattab).
 
 - **Show source in corner of video window**
   - If enabled the name of the person who is sending video will be
@@ -126,6 +169,19 @@ The items in the Display-tab are explained here:
 - **Maximum text length in channel list**
   - The names of users and channels can sometimes be very long. Use
     this option to limit the length names.
+
+- **Check for program updates at start up**
+  - When TeamTalk starts it should check to see if there's a new
+    version available. If a new version is available a text message
+    will be shown in the [Chat-tab](@ref chattab).
+
+- **Check for beta software updates on startup**
+  - Enable this option to be informed about new test versions of the
+    upcoming TeamTalk release.
+
+- **Show new version available in dialog box**
+  - New software versions are normally shown in status messages but a
+    dialog box can show the information instead.
 
 # Connection {#connectiontab}
 
@@ -143,7 +199,7 @@ The items in the Connection-tab are explained here:
 - **Reconnect on connection dropped**
   - If the connection to a server is lost TeamTalk should
     automatically reconnect to the server.
-  
+
 - **Join root channel upon connection**
   - If enabled TeamTalk will automatically join the root channel on
     the server after authentication.
@@ -156,15 +212,15 @@ The items in the Connection-tab are explained here:
     accomplish this by sending several "bogus" UDP-packets with
     different sizes to the server in order to figure out how big
     UDP-packets are allowed.
-  
+
 - **Add application to Windows Firewall exception list**
   - The Windows Firewall by default does not allow applications to
     receive data from unknown clients. This can cause TeamTalk not
     being able to communicate properly with server and other clients
     when using P2P mode. It is therefore recommended to add TeamTalk
     to the Windows Firewall exception list.
-  
-- **Default Subscriptions upon Connection** 
+
+- **Default Subscriptions upon Connection**
 
   - **User Messages**
     - By disabling this option all text message sent to you will be
@@ -201,13 +257,13 @@ The items in the Connection-tab are explained here:
     - By disabling this option all shared desktops will be ignored
       unless you explicitly subscribe to Desktop from a user in the
       [Subscriptions-menu](@ref subscriptionsmenu).
-      
+
   - **Desktop Access**
     - Setting up default subscriptions for desktop access can make
       others users automatically get control of mouse and keyboard.
       Desktop Access is also available in the
       [Subscriptions-menu](@ref subscriptionsmenu).
-    
+
 - **TCP port**
   - The socket used for TCP should bind to the specified port. Do not
     change unless you know what you're doing.
@@ -234,7 +290,7 @@ The items in the Sound System-tab are explained here:
 - **Windows Standard**
   - Windows default sound system. This typically is slower than
     DirectSound and Windows Audio Session.
-  
+
 - **ALSA**
   - This sound system is only available on Linux.
 
@@ -321,20 +377,32 @@ place.
 
 The items in the Sound Events-tab are explained here:
 
+- **Sounds pack**
+  - TeamTalk comes with a set of default sounds but these default
+    sound events can be changed by choosing another "Sound Pack".  New
+    sound packs can be added to TeamTalk by copying files to the
+    **Sounds** folder in TeamTalk's installation directory.
+
 - **New user**
-  - Play this sound when a new user joins your channel. 
+  - Play this sound when a new user joins your channel.
 
-- **Remove user**
-  - Play this sound when a user leaves your channel. 
+- **User removed**
+  - Play this sound when a user leaves your channel.
 
-- **Server lost** 
-  - Play this sound if TeamTalk drops its connection to the server. 
+- **Server lost**
+  - Play this sound if TeamTalk drops its connection to the server.
 
-- **New user message** 
+- **New user message**
   - Play this sound when a user to user text message is received.
 
-- **New channel message** 
+- **Private message sent**
+  - Play this sound when a new private text message is sent.
+
+- **New channel message**
   - Play this sound when a channel text message is received.
+
+- **Channel message sent**
+  - Play this sound when a channel text message is sent.
 
 - **Hotkey pressed**
   - Play this sound when the Push to Talk key combination is pressed.
@@ -347,7 +415,7 @@ The items in the Sound Events-tab are explained here:
   - Play this sound when a file is either added or deleted.
 
 - **File transfer complete**
-  - Play this sound when a file transfer is completed. 
+  - Play this sound when a file transfer is completed.
 
 - **New video session**
   - Play this sound when a new video stream can be seen in the
@@ -358,12 +426,61 @@ The items in the Sound Events-tab are explained here:
     [Desktops-tab](@ref desktoptab).
 
 - **User entered question-mode**
-  - Play this sound if a user in your channel changes status to
-    Question-mode.
+  - Play this sound when a user changes status to question mode.
 
 - **Desktop access request**
   - Play this sound when a user requests access to your shared desktop
     session.
+
+- **User logged in**
+  - Play this sound when a user logs in.
+
+- **User logged out**
+  - Play this sound when a user logs out.
+
+- **Voice activation enabled**
+  - Play this sound when voice activation is enabled from settings at startup.
+
+- **Voice activation disabled**
+  - Play this sound when voice activation is disabled from settings at startup.
+
+- **Mute master volume**
+  - Play this sound when master volume is muted.
+
+- **Unmute master volume**
+  - Play this sound when master volume is unmuted.
+
+- **Transmit ready in "No interruption" channel**
+  - Play this sound when it's your turn to speak in a channel
+    configured with channel option "No interruption", i.e. only one
+    can transmit.
+
+- **Transmit stopped in "No interruption" channel**
+  - Play this sound when it's no longer your turn to speak in a
+    channel configured with channel option "No interruption*,
+    i.e. only one can transmit.
+
+- **Voice activation triggered**
+  - Play this sound when microphone level has activated voice
+    transmission.
+
+- **Voice activation stopped**
+  - Play this sound when voice transmission stops due to microphone
+    level.
+
+- **Voice activation enabled via "Me" menu**
+  - Play this sound when voice activation is enabled from menu item.
+
+- **Voice activation disabled via "Me" menu**
+  - Play this sound when voice activation is disabled from menu item.
+
+# Text to Speech {#texttospeechtab}
+
+The Text to Speech tab is used to toggle text to speech events.
+
+![Text to Speech-tab in Preferences](pref_tts.png "Text to Speech-tab")
+
+Text to speech events can be used as an alternative to status messages.
 
 # Shortcuts {#shortcutstab}
 
@@ -373,7 +490,7 @@ The Shortcuts tab is for keyboard shortcuts (hotkey) for common tasks.
 
 The items in the Shortcuts-tab are explained here:
 
-- **Enable/disable voice activation** 
+- **Enable/disable voice activation**
   - Global hotkey to turn on/off voice activation.
 
 - **Increase volume**
@@ -382,16 +499,16 @@ The items in the Shortcuts-tab are explained here:
 - **Lower volume**
   - Global hotkey to lower the master volume.
 
-- **Enable/disable mute all** 
+- **Enable/disable mute all**
   - Global hotkey to mute all users.
 
-- **Increase microphone gain** 
+- **Increase microphone gain**
   - Global hotkey to increase the microphone volume.
 
-- **Lower microphone gain** 
-  -Global hotkey to low the microphone volume.
+- **Lower microphone gain**
+  - Global hotkey to low the microphone volume.
 
-- **Enable/disable video transmission** 
+- **Enable/disable video transmission**
   - Global hotkey to turn on/off video transmission.
 
 # Video Capture {#videocapturetab}
@@ -426,5 +543,5 @@ The items in the Video Capture-tab are explained here:
     section on how to configure the settings which are best for your
     Internet connection.
 
-- **Default** 
+- **Default**
   - Make TeamTalk choose the default settings.

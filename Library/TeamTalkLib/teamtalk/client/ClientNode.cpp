@@ -4456,6 +4456,8 @@ int ClientNode::DoJoinChannel(const ChannelProp& chanprop, bool forceexisting)
         AppendProperty(TT_DESKTOPUSERS, chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP), command);
         AppendProperty(TT_MEDIAFILEUSERS, chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE), command);
         AppendProperty(TT_CHANMSGUSERS, chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG), command);
+        if ((chanprop.chantype & CHANNEL_SOLO_TRANSMIT) && chanprop.transmitswitchdelay > 0)
+            AppendProperty(TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay, command);
     }
     else //already exists
     {
@@ -4661,6 +4663,8 @@ int ClientNode::DoMakeChannel(const ChannelProp& chanprop)
     AppendProperty(TT_DESKTOPUSERS, chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP), command);
     AppendProperty(TT_MEDIAFILEUSERS, chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE), command);
     AppendProperty(TT_CHANMSGUSERS, chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG), command);
+    if ((chanprop.chantype & CHANNEL_SOLO_TRANSMIT) && chanprop.transmitswitchdelay > 0)
+        AppendProperty(TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay, command);
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;
 
@@ -4691,6 +4695,9 @@ int ClientNode::DoUpdateChannel(const ChannelProp& chanprop)
     AppendProperty(TT_DESKTOPUSERS, chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP), command);
     AppendProperty(TT_MEDIAFILEUSERS, chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE), command);
     AppendProperty(TT_CHANMSGUSERS, chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG), command);
+    if (chanprop.chantype & CHANNEL_SOLO_TRANSMIT)
+        AppendProperty(TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay, command);
+
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;
 
@@ -4748,6 +4755,7 @@ int ClientNode::DoUpdateServer(const ServerInfo& serverprop)
     AppendProperty(TT_MEDIAFILETXLIMIT, serverprop.mediafiletxlimit, command);
     AppendProperty(TT_DESKTOPTXLIMIT, serverprop.desktoptxlimit, command);
     AppendProperty(TT_TOTALTXLIMIT, serverprop.totaltxlimit, command);
+    AppendProperty(TT_LOGEVENTS, serverprop.logevents, command);
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;
 
@@ -5182,6 +5190,7 @@ void ClientNode::HandleWelcome(const mstrings_t& properties)
         GetProperty(properties, TT_MAXLOGINSPERIP, m_serverinfo.max_logins_per_ipaddr);
         GetProperty(properties, TT_USERTIMEOUT, m_serverinfo.usertimeout);
         GetProperty(properties, TT_ACCESSTOKEN, m_serverinfo.accesstoken);
+        GetProperty(properties, TT_LOGEVENTS, m_serverinfo.logevents);
 
         //start keepalive timer for TCP (if not set, then set it to half the user timeout)
         UpdateKeepAlive(GetKeepAlive());
@@ -5253,6 +5262,7 @@ void ClientNode::HandleServerUpdate(const mstrings_t& properties)
     GetProperty(properties, TT_DESKTOPTXLIMIT, m_serverinfo.desktoptxlimit);
     GetProperty(properties, TT_TOTALTXLIMIT, m_serverinfo.totaltxlimit);
     GetProperty(properties, TT_ACCESSTOKEN, m_serverinfo.accesstoken);
+    GetProperty(properties, TT_LOGEVENTS, m_serverinfo.logevents);
 
     if(m_serverinfo.hostaddrs.size())
     {
@@ -5572,6 +5582,8 @@ void ClientNode::HandleAddChannel(const mstrings_t& properties)
     newchan->SetMediaFileUsers(chanprop.transmitusers[STREAMTYPE_MEDIAFILE]);
     GetProperty(properties, TT_CHANMSGUSERS, chanprop.transmitusers[STREAMTYPE_CHANNELMSG]);
     newchan->SetChannelTextMsgUsers(chanprop.transmitusers[STREAMTYPE_CHANNELMSG]);
+    GetProperty(properties, TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay);
+    newchan->SetTransmitSwitchDelay(ToTimeValue(chanprop.transmitswitchdelay));
 
 #if defined(ENABLE_ENCRYPTION)
     ACE_TString crypt_key;
@@ -5641,6 +5653,9 @@ void ClientNode::HandleUpdateChannel(const mstrings_t& properties)
     chan->SetMediaFileUsers(chanprop.transmitusers[STREAMTYPE_MEDIAFILE]);
     GetProperty(properties, TT_CHANMSGUSERS, chanprop.transmitusers[STREAMTYPE_CHANNELMSG]);
     chan->SetChannelTextMsgUsers(chanprop.transmitusers[STREAMTYPE_CHANNELMSG]);
+    GetProperty(properties, TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay);
+    chan->SetTransmitSwitchDelay(ToTimeValue(chanprop.transmitswitchdelay));
+    chan->SetTransmitSwitchDelay(ToTimeValue(chanprop.transmitswitchdelay));
 
 #if defined(ENABLE_ENCRYPTION)
     ACE_TString crypt_key;

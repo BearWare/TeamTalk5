@@ -361,7 +361,6 @@ bool HostEntry::sameHost(const HostEntry& host, bool nickcheck) const
            tcpport == host.tcpport &&
            udpport == host.udpport &&
            encrypted == host.encrypted &&
-           /* srvpasswd == host.srvpasswd && */ //don't include passwords
            (username == host.username || (isWebLogin(host.username, true) && isWebLogin(username, false))) &&
            /* password == host.password && */
            (!nickcheck || nickname == host.nickname) &&
@@ -533,64 +532,48 @@ void deleteServerEntry(const QString& name)
         setServerEntry(i, hosts[i]);
 }
 
-bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
+void processAuthXML(const QDomElement& hostElement, HostEntry& entry)
 {
-    Q_ASSERT(hostElement.tagName() == "host");
-    bool ok = true;
-    QDomElement tmp = hostElement.firstChildElement("name");
-    if(!tmp.isNull())
-        entry.name = tmp.text();
-    else ok = false;
-
-    tmp = hostElement.firstChildElement("address");
-    if(!tmp.isNull())
-        entry.ipaddr = tmp.text();
-    else ok = false;
-
-    tmp = hostElement.firstChildElement("tcpport");
-    if(!tmp.isNull())
-        entry.tcpport = tmp.text().toInt();
-    else ok = false;
-
-    tmp = hostElement.firstChildElement("udpport");
-    if(!tmp.isNull())
-        entry.udpport = tmp.text().toInt();
-    else ok = false;
-
-    tmp = hostElement.firstChildElement("encrypted");
-    if(!tmp.isNull())
-        entry.encrypted = (tmp.text().toLower() == "true" || tmp.text() == "1");
-
     QDomElement auth = hostElement.firstChildElement("auth");
-    if(!auth.isNull())
+    if (!auth.isNull())
     {
-        tmp = auth.firstChildElement("username");
-        if(!tmp.isNull())
+        QDomElement tmp = auth.firstChildElement("username");
+        if (!tmp.isNull())
             entry.username = tmp.text();
 
         tmp = auth.firstChildElement("password");
-        if(!tmp.isNull())
+        if (!tmp.isNull())
             entry.password = tmp.text();
 
         tmp = auth.firstChildElement("nickname");
-        if(!tmp.isNull())
+        if (!tmp.isNull())
             entry.nickname = tmp.text();
     }
+}
 
+void processJoinXML(const QDomElement& hostElement, HostEntry& entry)
+{
     QDomElement join = hostElement.firstChildElement("join");
     if(!join.isNull())
     {
-        tmp = join.firstChildElement("channel");
-        if(!tmp.isNull())
+        QDomElement tmp = join.firstChildElement("channel");
+        if (!tmp.isNull())
             entry.channel = tmp.text();
         tmp = join.firstChildElement("password");
-        if(!tmp.isNull())
+        if (!tmp.isNull())
             entry.chanpasswd = tmp.text();
     }
+}
 
+void processClientSetupXML(const QDomElement& hostElement, HostEntry& entry)
+{
     QDomElement client = hostElement.firstChildElement(CLIENTSETUP_TAG);
-    if(!client.isNull())
+    if (!client.isNull())
     {
+        QDomElement tmp = client.firstChildElement("nickname");
+        if (!tmp.isNull())
+            entry.nickname = tmp.text();
+
         tmp = client.firstChildElement("gender");
         if(!tmp.isNull())
         {
@@ -638,7 +621,7 @@ bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
             cap = tmp.firstChildElement("height");
             if(!cap.isNull())
                 entry.capformat.nHeight = cap.text().toInt();
-            
+
             cap = tmp.firstChildElement("fps-numerator");
             if(!cap.isNull())
                 entry.capformat.nFPS_Numerator = cap.text().toInt();
@@ -674,6 +657,40 @@ bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
             }
         }
     }
+}
+
+bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
+{
+    Q_ASSERT(hostElement.tagName() == "host");
+    bool ok = true;
+    QDomElement tmp = hostElement.firstChildElement("name");
+    if(!tmp.isNull())
+        entry.name = tmp.text();
+    else ok = false;
+
+    tmp = hostElement.firstChildElement("address");
+    if(!tmp.isNull())
+        entry.ipaddr = tmp.text();
+    else ok = false;
+
+    tmp = hostElement.firstChildElement("tcpport");
+    if(!tmp.isNull())
+        entry.tcpport = tmp.text().toInt();
+    else ok = false;
+
+    tmp = hostElement.firstChildElement("udpport");
+    if(!tmp.isNull())
+        entry.udpport = tmp.text().toInt();
+    else ok = false;
+
+    tmp = hostElement.firstChildElement("encrypted");
+    if(!tmp.isNull())
+        entry.encrypted = (tmp.text().toLower() == "true" || tmp.text() == "1");
+
+    processAuthXML(hostElement, entry);
+    processJoinXML(hostElement, entry);
+    processClientSetupXML(hostElement, entry);
+
     return ok;
 }
 

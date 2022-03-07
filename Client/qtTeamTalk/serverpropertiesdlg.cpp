@@ -23,11 +23,14 @@
 
 #include "serverpropertiesdlg.h"
 #include "appinfo.h"
+#include "serverlogeventsmodel.h"
+#include "settings.h"
 
 #include <QMessageBox>
 #include <QPushButton>
 
 extern TTInstance* ttInst;
+extern QSettings* ttSettings;
 
 ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
     : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
@@ -36,6 +39,8 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
     setWindowIcon(QIcon(APPICON));
     ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
+
+    ui.serverlogTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_SERVERLOG_EVENTS_HEADER).toByteArray());
 
     bool editable = (TT_GetMyUserRights(ttInst) & USERRIGHT_UPDATE_SERVERPROPERTIES);
 
@@ -66,6 +71,11 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
     ui.desktoptxSpinBox->setValue(m_srvprop.nMaxDesktopTxPerSecond/1024);
     ui.totaltxSpinBox->setValue(m_srvprop.nMaxTotalTxPerSecond/1024);
     ui.serverversionEdit->setText(_Q(m_srvprop.szServerVersion));
+    m_serverlogmodel = new ServerLogEventsModel(this);
+    ui.serverlogTreeView->setModel(m_serverlogmodel);
+    m_serverlogmodel->setServerLogEvents(m_srvprop.uServerLogEvents);
+    if (!versionSameOrLater(_Q(m_srvprop.szServerProtocolVersion), "5.10"))
+        ui.serverlogGroupBox->hide();
 
     if(!editable)
     {
@@ -89,7 +99,13 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
     else
     {
         ui.label_4->setTextInteractionFlags(Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard);
+        connect(ui.serverlogTreeView, &QAbstractItemView::doubleClicked, this, &ServerPropertiesDlg::slotServerLogToggled);
     }
+}
+
+ServerPropertiesDlg::~ServerPropertiesDlg()
+{
+    ttSettings->setValue(SETTINGS_DISPLAY_SERVERLOG_EVENTS_HEADER, ui.serverlogTreeView->header()->saveState());
 }
 
 void ServerPropertiesDlg::slotAccepted()
@@ -99,8 +115,7 @@ void ServerPropertiesDlg::slotAccepted()
     m_srvprop.nMaxLoginAttempts = ui.maxloginattemptsSpinBox->value();
     m_srvprop.nMaxLoginsPerIPAddress = ui.maxiploginsSpinBox->value();
     m_srvprop.nLoginDelayMSec = ui.logindelaySpinBox->value();
-    if(_Q(m_srvprop.szMOTDRaw).size() &&
-       _Q(m_srvprop.szMOTDRaw) != ui.motdTextEdit->toPlainText())
+    if (_Q(m_srvprop.szMOTDRaw) != ui.motdTextEdit->toPlainText())
     {
         QMessageBox answer;
         answer.setText(tr("Change message of the day?"));
@@ -122,6 +137,7 @@ void ServerPropertiesDlg::slotAccepted()
     m_srvprop.nMaxMediaFileTxPerSecond = ui.mediafiletxSpinBox->value()*1024;
     m_srvprop.nMaxDesktopTxPerSecond = ui.desktoptxSpinBox->value()*1024;
     m_srvprop.nMaxTotalTxPerSecond = ui.totaltxSpinBox->value()*1024;
+    m_srvprop.uServerLogEvents = m_serverlogmodel->getServerLogEvents();
 
     TT_DoUpdateServer(ttInst, &m_srvprop);
 }
@@ -132,4 +148,14 @@ void ServerPropertiesDlg::slotShowMOTDVars(bool checked)
         ui.motdTextEdit->setPlainText(_Q(m_srvprop.szMOTDRaw));
     else
         ui.motdTextEdit->setPlainText(_Q(m_srvprop.szMOTD));
+}
+
+void ServerPropertiesDlg::slotServerLogToggled(const QModelIndex &index)
+{
+    auto events = m_serverlogmodel->getServerLogEvents();
+    ServerLogEvent e = ServerLogEvent(index.internalId());
+    if (e & events)
+        m_serverlogmodel->setServerLogEvents(events & ~e);
+    else
+        m_serverlogmodel->setServerLogEvents(events | e);
 }

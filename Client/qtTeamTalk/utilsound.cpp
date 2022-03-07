@@ -58,30 +58,32 @@ QVector<SoundDevice> getSoundDevices()
     return result;
 }
 
-bool getSoundDevice(int deviceid, const QVector<SoundDevice>& devs,
-    SoundDevice& dev)
+bool getSoundDevice(int deviceid, const QVector<SoundDevice>& devs, SoundDevice& dev)
 {
-    for (int i = 0; i < devs.size(); i++)
-        if (devs[i].nDeviceID == deviceid)
+    for (auto d : devs)
+    {
+        if (d.nDeviceID == deviceid)
         {
-            dev = devs[i];
+            dev = d;
             return true;
         }
+    }
     return false;
 }
 
-bool getSoundDevice(const QString& devid, const QVector<SoundDevice>& devs,
-    SoundDevice& dev)
+bool getSoundDevice(const QString& devid, bool input, const QVector<SoundDevice>& devs, SoundDevice& dev)
 {
     if (devid.isEmpty())
         return false;
 
-    for (int i = 0; i < devs.size(); i++)
-        if (_Q(devs[i].szDeviceID) == devid)
+    for (auto d : devs)
+    {
+        if ( _Q(d.szDeviceID) == devid && ((input && d.nMaxInputChannels > 0) || (!input && d.nMaxOutputChannels > 0)))
         {
-            dev = devs[i];
+            dev = d;
             return true;
         }
+    }
     return false;
 }
 
@@ -103,8 +105,7 @@ bool isSoundDeviceEchoCapable(const SoundDevice& indev, const SoundDevice& outde
 
 int getDefaultSndInputDevice()
 {
-    SoundSystem sndsys = SoundSystem(ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM,
-        SOUNDSYSTEM_NONE).toInt());
+    SoundSystem sndsys = SoundSystem(ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_NONE).toInt());
     int inputid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL).toInt();
     if (sndsys != SOUNDSYSTEM_NONE)
         TT_GetDefaultSoundDevicesEx(sndsys, &inputid, nullptr);
@@ -115,8 +116,7 @@ int getDefaultSndInputDevice()
 
 int getDefaultSndOutputDevice()
 {
-    SoundSystem sndsys = (SoundSystem)ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM,
-        SOUNDSYSTEM_NONE).toInt();
+    SoundSystem sndsys = (SoundSystem)ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_NONE).toInt();
     int outputid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL).toInt();
     if (sndsys != SOUNDSYSTEM_NONE)
         TT_GetDefaultSoundDevicesEx(sndsys, nullptr, &outputid);
@@ -133,7 +133,7 @@ int getSoundInputFromUID(int inputid, const QString& uid)
     QVector<SoundDevice> inputdev = getSoundDevices();
 
     SoundDevice dev;
-    if (getSoundDevice(uid, inputdev, dev))
+    if (getSoundDevice(uid, true, inputdev, dev))
         inputid = dev.nDeviceID;
 
     return inputid;
@@ -147,7 +147,7 @@ int getSoundOutputFromUID(int outputid, const QString& uid)
     QVector<SoundDevice> outputdev = getSoundDevices();
 
     SoundDevice dev;
-    if (getSoundDevice(uid, outputdev, dev))
+    if (getSoundDevice(uid, false, outputdev, dev))
         outputid = dev.nDeviceID;
     return outputid;
 }

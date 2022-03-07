@@ -161,6 +161,9 @@
    tts event */
 "Connection lost" = "Conexão caiu";
 
+/* server entry */
+"Country" = "Country";
+
 /* View Title */
 "Create Channel" = "Criar canal";
 
@@ -168,7 +171,7 @@
 "Create new channel" = "Criar novo canal";
 
 /* Sound Input */
-"Default" = "Default";
+"Default" = "Padrão";
 
 /* preferences */
 "Default Subscriptions" = "Subscrições padrão";
@@ -251,7 +254,7 @@
 "Host address" = "Endereço";
 
 /* channel list */
-"Inactive" = "Inactive";
+"Inactive" = "Ausente";
 
 /* Dialog message */
 "Join" = "Entrar";
@@ -269,13 +272,16 @@
 "Join root channel after login" = "Entrar no canal inicial depois de conectar";
 
 /* log entry */
-"Joined %@" = "Entrou em %@";
+"Joined %@" = "Entrou no canal %@";
 
 /* channel list */
 "Kick user" = "Expulsar usuário";
 
 /* preferences */
-"Limit length of names in channel list to %d characters" = "O tamanho máximo de nomes na lista de canais é %d";
+"Limit length of names in channel list to %d characters" = "O tamanho máximo de caracteres em nomes na lista de canais é %d";
+
+/* serverlist */
+"Local server" = "Local server";
 
 /* text message type */
 "Log message" = "Mensagem de log";
@@ -290,7 +296,7 @@
 "Master Volume" = "Volume principal";
 
 /* preferences */
-"Maximum Text Length" = "Tamanho máximo de texto";
+"Maximum Text Length" = "Tamanho máximo do texto";
 
 /* preferences
    user detail */
@@ -304,7 +310,10 @@
 "Media file vs. voice volume" = "Volume de mídia (não o de voz)";
 
 /* Dialog */
-"Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
+"Message limit exceeded by %d characters" = "%d caracteres excedidos na mensagem de texto";
+
+/* server entry */
+"Message of the Day" = "Message of the Day";
 
 /* preferences */
 "Microphone Gain" = "Ganho do microfone";
@@ -368,6 +377,9 @@
 
 /* default nickname */
 "Noname" = "SemNome";
+
+/* serverlist */
+"Official server" = "Official server";
 
 /* Dialog
    Dialog message
@@ -440,10 +452,10 @@
 "Preferences" = "Preferências";
 
 /* Sound Input */
-"Preferred" = "Preferred";
+"Preferred" = "Preferido";
 
 /* preferences */
-"Pressing Return-key sends text message" = "Pressionar o botão nova linha irá enviar mensagens";
+"Pressing Return-key sends text message" = "Botão nova linha envia a mensagem";
 
 /* text message type */
 "Private message" = "Mensagem privada";
@@ -672,6 +684,12 @@
 
 /* Web Login Controller */
 "Username or password incorrect" = "Nome de usuário ou senha incorreta";
+
+/* server entry */
+"Users Online" = "Users Online";
+
+/* serverlist */
+"Users: %d, Country: %@" = "Users: %1$d, Country: %2$@";
 
 /* codec detail */
 "Variable Bitrate" = "Bitrate variada";
