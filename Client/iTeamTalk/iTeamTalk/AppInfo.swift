@@ -74,10 +74,11 @@ class AppInfo {
         return "client=" + getAppName() + "&version=" + getAppVersion() + "&dllversion=" + TEAMTALK_VERSION + "&os=" + OSTYPE
     }
     
-    static func getServersURL(publicservers: Bool, privateservers: Bool) -> String {
+    static func getServersURL(officialservers: Bool, publicservers: Bool, unofficialservers: Bool) -> String {
+        let officialstr = publicservers ? "1" : "0"
         let pubstr = publicservers ? "1" : "0"
-        let privstr = privateservers ? "1" : "0"
-        return "http://www.bearware.dk/teamtalk/tt5servers.php?public=\(pubstr)&private=\(privstr)&" + getDefaultUrlArgs()
+        let unofficialstr = unofficialservers ? "1" : "0"
+        return "http://www.bearware.dk/teamtalk/tt5servers.php?official=\(officialstr)&public=\(pubstr)&unofficial=\(unofficialstr)&" + getDefaultUrlArgs()
     }
 
     static func getUpdateURL() -> String {

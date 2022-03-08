@@ -141,7 +141,10 @@ class ServerListViewController : UITableViewController,
         servers = loadLocalServers()
         
         let defaults = UserDefaults.standard
-        if defaults.object(forKey: PREF_DISPLAY_PUBSERVERS) == nil || defaults.bool(forKey: PREF_DISPLAY_PUBSERVERS) {
+        var downloadServers = defaults.object(forKey: PREF_DISPLAY_OFFICIALSERVERS) == nil || defaults.bool(forKey: PREF_DISPLAY_OFFICIALSERVERS)
+        downloadServers = downloadServers || (defaults.object(forKey: PREF_DISPLAY_PUBLICSERVERS) == nil || defaults.bool(forKey: PREF_DISPLAY_PUBLICSERVERS))
+        downloadServers = downloadServers || (defaults.object(forKey: PREF_DISPLAY_UNOFFICIALSERVERS) != nil && defaults.bool(forKey: PREF_DISPLAY_UNOFFICIALSERVERS))
+        if downloadServers {
             Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(ServerListViewController.downloadServerList), userInfo: nil, repeats: false)
         }
 
@@ -174,7 +177,12 @@ class ServerListViewController : UITableViewController,
         // get xml-list of public server
         let serverparser = ServerParser()
         
-        if let serversurl = URL(string: AppInfo.getServersURL(publicservers: true, privateservers: true)) {
+        let defaults = UserDefaults.standard
+        let official = defaults.object(forKey: PREF_DISPLAY_OFFICIALSERVERS) == nil || defaults.bool(forKey: PREF_DISPLAY_OFFICIALSERVERS)
+        let publicc = defaults.object(forKey: PREF_DISPLAY_PUBLICSERVERS) == nil || defaults.bool(forKey: PREF_DISPLAY_PUBLICSERVERS)
+        let unofficial = defaults.object(forKey: PREF_DISPLAY_UNOFFICIALSERVERS) != nil && defaults.bool(forKey: PREF_DISPLAY_UNOFFICIALSERVERS)
+
+        if let serversurl = URL(string: AppInfo.getServersURL(officialservers: official, publicservers: publicc, unofficialservers: unofficial)) {
             
             if let parser = XMLParser(contentsOf: serversurl) {
                 parser.delegate = serverparser
@@ -232,7 +240,7 @@ class ServerListViewController : UITableViewController,
             cell.iconImageView.accessibilityLabel = NSLocalizedString("Public server", comment: "serverlist")
         case .PRIVATE :
             cell.iconImageView.image = UIImage(named: "teamtalk_orange.png")
-            cell.iconImageView.accessibilityLabel = NSLocalizedString("Private server", comment: "serverlist")
+            cell.iconImageView.accessibilityLabel = NSLocalizedString("Unofficial server", comment: "serverlist")
         }
         
         if #available(iOS 8.0, *) {

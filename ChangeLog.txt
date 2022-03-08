@@ -25,6 +25,7 @@ Default Qt Client
 Android Client
 - Fixed issue where all users and channels were not listed after initial login
 iOS Client
+- Choose Official/Public/Unofficial servers for initial server list
 - See number of active users on public servers
 - See location/country of public servers
 - Fixed issue where all users and channels were not listed after initial login

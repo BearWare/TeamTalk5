@@ -7,6 +7,9 @@
 /* Class = "UILabel"; text = "Blank"; ObjectID = "0QA-gn-V1p"; */
 "0QA-gn-V1p.text" = "Blank";
 
+/* Class = "UILabel"; text = "Show Public Servers"; ObjectID = "3DD-Ra-lNz"; */
+"3DD-Ra-lNz.text" = "Show Public Servers";
+
 /* Class = "UIButton"; normalTitle = "Send"; ObjectID = "3NI-HT-A3N"; */
 "3NI-HT-A3N.normalTitle" = "보내기";
 
@@ -79,14 +82,23 @@
 /* Class = "UILabel"; text = "Choose events to playback"; ObjectID = "eJb-Cn-ciJ"; */
 "eJb-Cn-ciJ.text" = "읽어줄 이벤트 선택";
 
+/* Class = "UILabel"; text = "Show Unofficial Servers"; ObjectID = "feN-jH-qaq"; */
+"feN-jH-qaq.text" = "Show Unofficial Servers";
+
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
 "Fu9-tA-eYj.text" = "Blank";
 
 /* Class = "UIViewController"; title = "Chat Channel"; ObjectID = "gA8-TJ-0RU"; */
 "gA8-TJ-0RU.title" = "채팅 채널";
 
+/* Class = "UILabel"; text = "Show public servers in server list"; ObjectID = "GeK-hh-gst"; */
+"GeK-hh-gst.text" = "Show public servers in server list";
+
 /* Class = "UILabel"; text = "Title"; ObjectID = "GFy-mN-epU"; */
 "GFy-mN-epU.text" = "Title";
+
+/* Class = "UILabel"; text = "Show Public Servers"; ObjectID = "gPj-u1-dPn"; */
+"gPj-u1-dPn.text" = "Show Public Servers";
 
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
 "Hcv-zz-riB.text" = "BearWare.dk 웹 로그인";
@@ -135,6 +147,9 @@
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "nVj-7w-Sta"; */
 "nVj-7w-Sta.text" = "Blank";
+
+/* Class = "UILabel"; text = "Show Official Servers"; ObjectID = "o2H-Vm-Vjd"; */
+"o2H-Vm-Vjd.text" = "Show Official Servers";
 
 /* Class = "UITableViewController"; title = "BearWare.dk Web Login"; ObjectID = "o7z-cC-U4w"; */
 "o7z-cC-U4w.title" = "BearWare.dk 웹 로그인";

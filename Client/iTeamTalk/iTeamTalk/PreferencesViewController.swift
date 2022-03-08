@@ -36,8 +36,10 @@ let PREF_DISPLAY_SHOWUSERNAME = "display_showusername_preference"
 let PREF_DISPLAY_PROXIMITY = "display_proximity_sensor"
 let PREF_DISPLAY_POPUPTXTMSG = "display_popuptxtmsg_preference"
 let PREF_DISPLAY_LIMITTEXT = "display_limittext_preference"
-let PREF_DISPLAY_PUBSERVERS = "display_publicservers_preference"
 let PREF_DISPLAY_SORTCHANNELS = "display_sortchannels_preference"
+let PREF_DISPLAY_OFFICIALSERVERS = "display_officialservers_preference"
+let PREF_DISPLAY_PUBLICSERVERS = "display_publicservers_preference"
+let PREF_DISPLAY_UNOFFICIALSERVERS = "display_unofficialservers_preference"
 
 let PREF_MASTER_VOLUME = "mastervolume_preference"
 let PREF_MICROPHONE_GAIN = "microphonegain_preference"
@@ -184,13 +186,9 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         limittextstepper.addTarget(self, action: #selector(PreferencesViewController.limittextChanged(_:)), for: .valueChanged)
         display_items.append(limittextcell!)
         
-        let pubservercell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let pubsrv = settings.object(forKey: PREF_DISPLAY_PUBSERVERS) == nil || settings.bool(forKey: PREF_DISPLAY_PUBSERVERS)
-        let pubserverswitch = newTableCellSwitch(pubservercell, label: NSLocalizedString("Show Public Servers", comment: "preferences"), initial: pubsrv)
-        pubservercell.detailTextLabel!.text = NSLocalizedString("Show public servers in server list", comment: "preferences")
-        pubserverswitch.addTarget(self, action: #selector(PreferencesViewController.showpublicserversChanged(_:)), for: .valueChanged)
-        display_items.append(pubservercell)
-
+        let pubservercell = tableView.dequeueReusableCell(withIdentifier: "ShowPublicServers")
+        display_items.append(pubservercell!)
+        
         let showusernamecell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         let showusername = settings.object(forKey: PREF_DISPLAY_SHOWUSERNAME) != nil && settings.bool(forKey: PREF_DISPLAY_SHOWUSERNAME)
         let showusernameswitch = newTableCellSwitch(showusernamecell, label: NSLocalizedString("Show Usernames", comment: "preferences"), initial: showusername)
@@ -488,11 +486,6 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         limittextcell!.detailTextLabel!.text = txt
     }
     
-    @objc func showpublicserversChanged(_ sender: UISwitch) {
-        let defaults = UserDefaults.standard
-        defaults.set(sender.isOn, forKey: PREF_DISPLAY_PUBSERVERS)
-    }
-
     @objc func showusernameChanged(_ sender: UISwitch) {
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_DISPLAY_SHOWUSERNAME)

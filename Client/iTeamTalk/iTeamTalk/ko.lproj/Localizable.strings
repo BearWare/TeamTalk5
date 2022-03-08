@@ -533,6 +533,9 @@
 "Server List Entry" = "서버 목록 항목";
 
 /* preferences */
+"Show in Server List" = "Show in Server List";
+
+/* preferences */
 "Show male or female icon" = "성별 이모티콘 보기";
 
 /* preferences */
@@ -636,6 +639,9 @@
 
 /* server entry */
 "UDP Port" = "UDP 포트";
+
+/* serverlist */
+"Unofficial server" = "Unofficial server";
 
 /* preferences */
 "Use echo cancellation and automatic gain control" = "자동으로 반향을 제거하고 말하기 음량을 조절함";

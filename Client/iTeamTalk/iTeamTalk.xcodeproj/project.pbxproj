@@ -41,6 +41,7 @@
 		254B7A841BA0C72700BE0DEF /* ServerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */; };
 		254C084B1C345E3700C98566 /* newuser.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 254C08491C345E3700C98566 /* newuser.mp3 */; };
 		254C084C1C345E3700C98566 /* removeuser.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 254C084A1C345E3700C98566 /* removeuser.mp3 */; };
+		2593F5BA27D6984E0048431A /* PublicServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2593F5B927D6984E0048431A /* PublicServerViewController.swift */; };
 		2597EF84275EA20300FCEE28 /* UtilSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597EF83275EA20300FCEE28 /* UtilSound.swift */; };
 		2597EF86275EA29D00FCEE28 /* UtilTTS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597EF85275EA29D00FCEE28 /* UtilTTS.swift */; };
 		259B12F91C4182E7008A355E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 259B12F71C4182E7008A355E /* Localizable.strings */; };
@@ -131,6 +132,7 @@
 		254C084A1C345E3700C98566 /* removeuser.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = removeuser.mp3; sourceTree = "<group>"; };
 		256328171C41A9F20055373F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		256328191C41A9F20055373F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2593F5B927D6984E0048431A /* PublicServerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicServerViewController.swift; sourceTree = "<group>"; };
 		2597EF83275EA20300FCEE28 /* UtilSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilSound.swift; sourceTree = "<group>"; };
 		2597EF85275EA29D00FCEE28 /* UtilTTS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilTTS.swift; sourceTree = "<group>"; };
 		259B12F81C4182E7008A355E /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				25DF9A011C5E00E100469BA8 /* License.swift */,
 				253713351BC8F0C700A7ADB3 /* MainTabBarController.swift */,
 				25AA20691BE933310089AD54 /* PreferencesViewController.swift */,
+				2593F5B927D6984E0048431A /* PublicServerViewController.swift */,
 				254B7A811B9F73F300BE0DEF /* ServerDetailViewController.swift */,
 				254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */,
 				254B7A6C1B98BCFC00BE0DEF /* ServerTableCell.swift */,
@@ -453,6 +456,7 @@
 				25DD929F1BB2FA0E00779988 /* Common.swift in Sources */,
 				2516CB721BA9FE8B00EF9A17 /* UserDetailViewController.swift in Sources */,
 				25DF9A021C5E00E100469BA8 /* License.swift in Sources */,
+				2593F5BA27D6984E0048431A /* PublicServerViewController.swift in Sources */,
 				251B87C9225000E8009DC5AC /* WebLoginViewController.swift in Sources */,
 				25BA014921557F48003C836D /* SoundEventsViewController.swift in Sources */,
 				25A062751BA477CB00DC1F9B /* ChannelTableCell.swift in Sources */,

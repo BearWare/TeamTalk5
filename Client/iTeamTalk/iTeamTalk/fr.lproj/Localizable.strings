@@ -533,6 +533,9 @@
 "Server List Entry" = "Entrée de la liste de serveurs";
 
 /* preferences */
+"Show in Server List" = "Show in Server List";
+
+/* preferences */
 "Show male or female icon" = "Afficher les icônes homme/femme";
 
 /* preferences */
@@ -636,6 +639,9 @@
 
 /* server entry */
 "UDP Port" = "Port UDP";
+
+/* serverlist */
+"Unofficial server" = "Unofficial server";
 
 /* preferences */
 "Use echo cancellation and automatic gain control" = "Utiliser l'annulation d'écho et le contrôle automatique du volume";

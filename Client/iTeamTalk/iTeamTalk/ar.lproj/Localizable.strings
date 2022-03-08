@@ -527,6 +527,9 @@
 "Server List Entry" = "قائمة الخوادم";
 
 /* preferences */
+"Show in Server List" = "Show in Server List";
+
+/* preferences */
 "Show male or female icon" = "إظهار رمز ذكر أو أنثى";
 
 /* preferences */
@@ -630,6 +633,9 @@
 
 /* server entry */
 "UDP Port" = "منفذ UDP";
+
+/* serverlist */
+"Unofficial server" = "Unofficial server";
 
 /* preferences */
 "Use echo cancellation and automatic gain control" = "استخدام إلغاء الصدى والتحكم بالميكروفون بشكل تلقائي";
