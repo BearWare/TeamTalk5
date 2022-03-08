@@ -21,7 +21,7 @@ HEADERS    = mainwindow.h preferencesdlg.h uservideowidget.h \
              audiopreprocessordlg.h ttseventsmodel.h \
              statusbardlg.h statusbareventsmodel.h mycombobox.h \
              utilsound.h utilvideo.h utiltts.h utilui.h utilhotkey.h \
-             serverlogeventsmodel.h keypresstreeview.h
+             serverlogeventsmodel.h mytreeview.h
 
 SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              channelstree.cpp channeldlg.cpp userinfodlg.cpp \
@@ -39,7 +39,7 @@ SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              bearwarelogindlg.cpp audiopreprocessordlg.cpp ttseventsmodel.cpp \
              statusbardlg.cpp statusbareventsmodel.cpp mycombobox.cpp \
              utilsound.cpp utilvideo.cpp utiltts.cpp utilui.cpp utilhotkey.cpp \
-             serverlogeventsmodel.cpp keypresstreeview.cpp
+             serverlogeventsmodel.cpp mytreeview.cpp
 
 FORMS      = mainwindow.ui channel.ui preferences.ui \
              serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui \
