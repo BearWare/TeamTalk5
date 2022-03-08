@@ -35,13 +35,12 @@ class FilesView : public MyTreeView
 public:
     FilesView(QWidget* parent);
 
-    QList<int> selectedFiles(QStringList* fileNames = nullptr);
+    QStringList selectedFiles();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dragMoveEvent(QDragMoveEvent* event) override;
     void dropEvent(QDropEvent* event) override;
-    void mousePressEvent(QMouseEvent* event) override;
 
 signals:
     void filesSelected(bool);

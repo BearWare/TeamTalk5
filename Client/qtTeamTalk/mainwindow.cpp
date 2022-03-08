@@ -4972,7 +4972,8 @@ void MainWindow::slotChannelsUploadFile(bool /*checked =false */)
 
 void MainWindow::slotChannelsDownloadFile(bool /*checked =false */)
 {
-    int fileid = (int)ui.filesView->currentIndex().internalId();
+    auto index = ui.filesView->currentIndex();
+    int fileid = (int)m_proxyFilesModel->mapToSource(index).internalId();
     int channelid = m_filesmodel->getChannelID();
     RemoteFile remotefile;
     if(fileid>0 && channelid>0 && 
@@ -4997,8 +4998,9 @@ void MainWindow::slotChannelsDeleteFile(bool /*checked =false */)
     int channelid = m_filesmodel->getChannelID();
     if(!channelid)
         return;
-    QStringList filenames;
-    QList<int> files = ui.filesView->selectedFiles(&filenames);
+    QStringList filenames = ui.filesView->selectedFiles();
+    QItemSelectionModel* sel = ui.filesView->selectionModel();
+    QModelIndexList files = sel->selectedRows();
     bool delete_ok = false;
     QMessageBox answer;
     QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
@@ -5025,23 +5027,31 @@ void MainWindow::slotChannelsDeleteFile(bool /*checked =false */)
             delete_ok = false;
     }
 
-    for(int i=0;i<files.size() && delete_ok;i++)
-        TT_DoDeleteFile(ttInst, channelid, files[i]);
+    if (delete_ok)
+    {
+        for (QModelIndex index : files)
+        {
+            index = m_proxyFilesModel->mapToSource(index);
+            TT_DoDeleteFile(ttInst, channelid, index.internalId());
+        }
+    }
 }
 
 void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)   
 {
-    if (!ui.filesView->currentIndex().isValid())
-        return;
-
     QMenu menu(this);
     QMenu* sortMenu = menu.addMenu(tr("Sort By..."));
     QAction* sortName = sortMenu->addAction(tr("&Name"));
     QAction* sortSize = sortMenu->addAction(tr("&Size"));
     QAction* sortOwner = sortMenu->addAction(tr("&Owner"));
     QAction* sortUpload = sortMenu->addAction(tr("&Upload Date"));
+    QAction* upload = menu.addAction(ui.actionUploadFile->text());
     QAction* download = menu.addAction(ui.actionDownloadFile->text());
     QAction* del = menu.addAction(ui.actionDeleteFile->text());
+    auto index = ui.filesView->currentIndex();
+    download->setEnabled(index.isValid());
+    del->setEnabled(index.isValid());
+
     if (QAction* action = menu.exec(QCursor::pos()))
     {
         auto sortToggle = m_proxyFilesModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
@@ -5053,9 +5063,11 @@ void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)
             m_proxyFilesModel->sort(COLUMN_INDEX_OWNER, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_OWNER? sortToggle : Qt::AscendingOrder);
         else if (action == sortUpload)
             m_proxyFilesModel->sort(COLUMN_INDEX_UPLOADED, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_UPLOADED? sortToggle : Qt::AscendingOrder);
-        else if(action == download)
+        else if (action == upload)
+            slotChannelsUploadFile();
+        else if (action == download)
             slotChannelsDownloadFile();
-        else if(action == del)
+        else if (action == del)
             slotChannelsDeleteFile();
         ttSettings->setValue(SETTINGS_DISPLAY_FILESHEADER, ui.filesView->header()->saveState());
     }
