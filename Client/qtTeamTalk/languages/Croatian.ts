@@ -1503,7 +1503,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="218"/>
         <location filename="../mainwindow.ui" line="243"/>
         <location filename="../mainwindow.ui" line="246"/>
-        <location filename="../mainwindow.cpp" line="2959"/>
+        <location filename="../mainwindow.cpp" line="2963"/>
         <source>Microphone gain</source>
         <translation>Pojačanje mikrofona</translation>
     </message>
@@ -1542,8 +1542,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="402"/>
-        <location filename="../mainwindow.ui" line="1717"/>
-        <location filename="../mainwindow.cpp" line="6539"/>
+        <location filename="../mainwindow.ui" line="1723"/>
+        <location filename="../mainwindow.cpp" line="6572"/>
         <source>&amp;Video</source>
         <translation>&amp;Video</translation>
     </message>
@@ -1601,13 +1601,13 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="677"/>
-        <location filename="../mainwindow.cpp" line="6547"/>
+        <location filename="../mainwindow.cpp" line="6580"/>
         <source>&amp;Desktops</source>
         <translation>&amp;Radne površine</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="963"/>
-        <location filename="../mainwindow.cpp" line="2828"/>
+        <location filename="../mainwindow.cpp" line="2832"/>
         <source>&amp;Files</source>
         <translation>&amp;Datoteke</translation>
     </message>
@@ -1617,328 +1617,328 @@ p, li { white-space: pre-wrap; }
         <translation>Popis datoteka</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1079"/>
-        <location filename="../mainwindow.ui" line="1082"/>
+        <location filename="../mainwindow.ui" line="1085"/>
+        <location filename="../mainwindow.ui" line="1088"/>
         <source>Upload</source>
         <translation>Prenesi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1033"/>
-        <location filename="../mainwindow.ui" line="1036"/>
+        <location filename="../mainwindow.ui" line="1039"/>
+        <location filename="../mainwindow.ui" line="1042"/>
         <source>Download</source>
         <translation>Preuzmi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1056"/>
-        <location filename="../mainwindow.ui" line="1059"/>
+        <location filename="../mainwindow.ui" line="1062"/>
+        <location filename="../mainwindow.ui" line="1065"/>
         <source>Delete</source>
         <translation>Izbriši</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1116"/>
+        <location filename="../mainwindow.ui" line="1122"/>
         <source>C&amp;lient</source>
         <translation>K&amp;lijent</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1150"/>
+        <location filename="../mainwindow.ui" line="1156"/>
         <source>&amp;Me</source>
         <translation>&amp;Ja</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1173"/>
+        <location filename="../mainwindow.ui" line="1179"/>
         <source>&amp;Users</source>
         <translation>&amp;Korisnici</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1177"/>
+        <location filename="../mainwindow.ui" line="1183"/>
         <source>&amp;Subscriptions</source>
         <translation>&amp;Pretplate</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1197"/>
+        <location filename="../mainwindow.ui" line="1203"/>
         <source>&amp;Advanced</source>
         <translation>&amp;Napredno</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1210"/>
+        <location filename="../mainwindow.ui" line="1216"/>
         <source>&amp;Mute</source>
         <translation>&amp;Bez zvuka</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1217"/>
+        <location filename="../mainwindow.ui" line="1223"/>
         <source>&amp;Kick</source>
         <translation>&amp;Izbaci</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1263"/>
+        <location filename="../mainwindow.ui" line="1269"/>
         <source>&amp;Channels</source>
         <translation>&amp;Kanali</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1267"/>
+        <location filename="../mainwindow.ui" line="1273"/>
         <source>&amp;Channel Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1290"/>
+        <location filename="../mainwindow.ui" line="1296"/>
         <source>&amp;Server</source>
         <translation>&amp;Poslužitelj</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1305"/>
+        <location filename="../mainwindow.ui" line="1311"/>
         <source>&amp;Help</source>
         <translation>&amp;Pomoć</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1368"/>
+        <location filename="../mainwindow.ui" line="1374"/>
         <source>&amp;Server List</source>
         <translation>Pop&amp;is poslužitelja</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1371"/>
-        <location filename="../mainwindow.ui" line="1612"/>
+        <location filename="../mainwindow.ui" line="1377"/>
+        <location filename="../mainwindow.ui" line="1618"/>
         <source>F3</source>
         <translation>F3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1383"/>
+        <location filename="../mainwindow.ui" line="1389"/>
         <source>&amp;Connect</source>
         <translation>&amp;Poveži</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1386"/>
+        <location filename="../mainwindow.ui" line="1392"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1415"/>
+        <location filename="../mainwindow.ui" line="1421"/>
         <source>&amp;Preferences</source>
         <translation>&amp;Postavke</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1418"/>
+        <location filename="../mainwindow.ui" line="1424"/>
         <source>F4</source>
         <translation>F4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1423"/>
-        <location filename="../mainwindow.cpp" line="2388"/>
+        <location filename="../mainwindow.ui" line="1429"/>
+        <location filename="../mainwindow.cpp" line="2392"/>
         <source>&amp;Exit</source>
         <translation>&amp;Izađi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1435"/>
+        <location filename="../mainwindow.ui" line="1441"/>
         <source>Enable &amp;Push To Talk</source>
         <translation>Uključi funkciju „&amp;pritisni za govor”</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1438"/>
+        <location filename="../mainwindow.ui" line="1444"/>
         <source>Ctrl+Shift+T</source>
         <translation>Ctrl+Shift+T</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1443"/>
+        <location filename="../mainwindow.ui" line="1449"/>
         <source>&amp;About</source>
         <translation>&amp;Informacije</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1451"/>
+        <location filename="../mainwindow.ui" line="1457"/>
         <source>&amp;Manual</source>
         <translation>Priruč&amp;nik</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1454"/>
+        <location filename="../mainwindow.ui" line="1460"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1459"/>
+        <location filename="../mainwindow.ui" line="1465"/>
         <source>Server &amp;Properties</source>
         <translation>&amp;Svojstva poslužitelja</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1462"/>
+        <location filename="../mainwindow.ui" line="1468"/>
         <source>F9</source>
         <translation>F9</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1467"/>
+        <location filename="../mainwindow.ui" line="1473"/>
         <source>&amp;Create Channel</source>
         <translation>St&amp;vori kanal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1470"/>
+        <location filename="../mainwindow.ui" line="1476"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1475"/>
+        <location filename="../mainwindow.ui" line="1481"/>
         <source>&amp;Update Channel</source>
         <translation>&amp;Aktualiziraj kanal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1478"/>
+        <location filename="../mainwindow.ui" line="1484"/>
         <source>Shift+F7</source>
         <translation>Shift+F7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1483"/>
+        <location filename="../mainwindow.ui" line="1489"/>
         <source>&amp;Delete Channel</source>
         <translation>&amp;Izbriši kanal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1486"/>
+        <location filename="../mainwindow.ui" line="1492"/>
         <source>F8</source>
         <translation>F8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1491"/>
-        <location filename="../mainwindow.cpp" line="5572"/>
+        <location filename="../mainwindow.ui" line="1497"/>
+        <location filename="../mainwindow.cpp" line="5605"/>
         <source>&amp;Join Channel</source>
         <translation>&amp;Pridruži se kanalu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1494"/>
+        <location filename="../mainwindow.ui" line="1500"/>
         <source>Ctrl+J</source>
         <translation>Ctrl+J</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1506"/>
+        <location filename="../mainwindow.ui" line="1512"/>
         <source>Enable Voice &amp;Activation</source>
         <translation>Omogući &amp;aktiviranje glasa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1509"/>
+        <location filename="../mainwindow.ui" line="1515"/>
         <source>Ctrl+Shift+A</source>
         <translation>Ctrl+Shift+A</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1514"/>
+        <location filename="../mainwindow.ui" line="1520"/>
         <source>Change &amp;Nickname</source>
         <translation>Promijeni &amp;nadimak</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1517"/>
+        <location filename="../mainwindow.ui" line="1523"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1522"/>
+        <location filename="../mainwindow.ui" line="1528"/>
         <source>Change &amp;Status</source>
         <translation>Promijeni &amp;stanje</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1525"/>
+        <location filename="../mainwindow.ui" line="1531"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1530"/>
+        <location filename="../mainwindow.ui" line="1536"/>
         <source>&amp;View User Information</source>
         <translation>&amp;Pogledaj korisničke podatke</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1533"/>
+        <location filename="../mainwindow.ui" line="1539"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1553"/>
+        <location filename="../mainwindow.ui" line="1559"/>
         <source>Mute &amp;All</source>
         <translation>Isključi zvuk z&amp;a sve</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1556"/>
+        <location filename="../mainwindow.ui" line="1562"/>
         <source>Ctrl+M</source>
         <translation>Ctrl+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1561"/>
+        <location filename="../mainwindow.ui" line="1567"/>
         <source>Up&amp;load File</source>
         <translation>Pre&amp;nesi datoteku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1564"/>
+        <location filename="../mainwindow.ui" line="1570"/>
         <source>Shift+F5</source>
         <translation>Shift+F5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1569"/>
+        <location filename="../mainwindow.ui" line="1575"/>
         <source>D&amp;ownload File</source>
         <translation>Pre&amp;uzmi datoteku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1572"/>
+        <location filename="../mainwindow.ui" line="1578"/>
         <source>Shift+F6</source>
         <translation>Shift+F6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1577"/>
+        <location filename="../mainwindow.ui" line="1583"/>
         <source>Dele&amp;te File</source>
         <translation>&amp;Izbriši datoteku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1580"/>
+        <location filename="../mainwindow.ui" line="1586"/>
         <source>Shift+Del</source>
         <translation>Shift+Del</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1585"/>
+        <location filename="../mainwindow.ui" line="1591"/>
         <source>&amp;Banned Users</source>
         <translation>&amp;Blokirani korisnici</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1588"/>
+        <location filename="../mainwindow.ui" line="1594"/>
         <source>Ctrl+Shift+B</source>
         <translation>Ctrl+Shift+B</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1593"/>
+        <location filename="../mainwindow.ui" line="1599"/>
         <source>&amp;User Accounts</source>
         <translation>&amp;Korisnički računi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1596"/>
+        <location filename="../mainwindow.ui" line="1602"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1601"/>
+        <location filename="../mainwindow.ui" line="1607"/>
         <source>&amp;Save Configuration</source>
         <translation>&amp;Spremi konfiguraciju</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1604"/>
+        <location filename="../mainwindow.ui" line="1610"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1609"/>
+        <location filename="../mainwindow.ui" line="1615"/>
         <source>&amp;View Channel Info</source>
         <translation>&amp;Pogledaj podatke kanala</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1633"/>
+        <location filename="../mainwindow.ui" line="1639"/>
         <source>M&amp;essages</source>
         <translation>Poruk&amp;e</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1636"/>
+        <location filename="../mainwindow.ui" line="1642"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1641"/>
+        <location filename="../mainwindow.ui" line="1647"/>
         <source>Kick and &amp;Ban From Server</source>
         <translation>Izbaci i &amp;blokiraj s poslužitelja</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2187"/>
+        <location filename="../mainwindow.ui" line="2193"/>
         <source>Ctrl+Alt+Shift+M</source>
         <translation>Ctrl+Alt+Shift+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1653"/>
+        <location filename="../mainwindow.ui" line="1659"/>
         <source>&amp;Op</source>
         <translation>&amp;Operator</translation>
     </message>
@@ -1948,1493 +1948,1518 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1120"/>
+        <location filename="../mainwindow.ui" line="1126"/>
         <source>S&amp;ound Configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1124"/>
+        <location filename="../mainwindow.ui" line="1130"/>
         <source>&amp;Input Devices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1129"/>
+        <location filename="../mainwindow.ui" line="1135"/>
         <source>&amp;Output Devices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1154"/>
+        <location filename="../mainwindow.ui" line="1160"/>
         <source>&amp;Notifications</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1227"/>
+        <location filename="../mainwindow.ui" line="1233"/>
         <source>&amp;User Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1234"/>
+        <location filename="../mainwindow.ui" line="1240"/>
         <source>&amp;Transmit Control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1394"/>
+        <location filename="../mainwindow.ui" line="1400"/>
         <source>&amp;Enable Echo Cancellation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1402"/>
+        <location filename="../mainwindow.ui" line="1408"/>
         <source>Enable &amp;Automatic Gain Control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1410"/>
+        <location filename="../mainwindow.ui" line="1416"/>
         <source>Enable &amp;Denoising</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1538"/>
+        <location filename="../mainwindow.ui" line="1544"/>
         <source>&amp;Speak User Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1541"/>
+        <location filename="../mainwindow.ui" line="1547"/>
         <source>Ctrl+G</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1617"/>
+        <location filename="../mainwindow.ui" line="1623"/>
         <source>&amp;Speak Channel Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1620"/>
+        <location filename="../mainwindow.ui" line="1626"/>
         <source>Ctrl+Alt+G</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1625"/>
+        <location filename="../mainwindow.ui" line="1631"/>
         <source>S&amp;peak Channel State</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1628"/>
+        <location filename="../mainwindow.ui" line="1634"/>
         <source>Ctrl+Shift+G</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1656"/>
+        <location filename="../mainwindow.ui" line="1662"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1661"/>
+        <location filename="../mainwindow.ui" line="1667"/>
         <source>&amp;Volume</source>
         <translation>&amp;Glasnoća</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1664"/>
+        <location filename="../mainwindow.ui" line="1670"/>
         <source>Ctrl+U</source>
         <translation>Ctrl+U</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1676"/>
+        <location filename="../mainwindow.ui" line="1682"/>
         <source>V&amp;oice</source>
         <translation>G&amp;las</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1679"/>
+        <location filename="../mainwindow.ui" line="1685"/>
         <source>Ctrl+4</source>
         <translation>Ctrl+4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1691"/>
+        <location filename="../mainwindow.ui" line="1697"/>
         <source>&amp;User Messages</source>
         <translation>Por&amp;uke korisnika</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1694"/>
+        <location filename="../mainwindow.ui" line="1700"/>
         <source>Ctrl+1</source>
         <translation>Ctrl+1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1702"/>
+        <location filename="../mainwindow.ui" line="1708"/>
         <source>&amp;Channel Messages</source>
         <translation>Poru&amp;ke kanala</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1705"/>
+        <location filename="../mainwindow.ui" line="1711"/>
         <source>Ctrl+2</source>
         <translation>Ctrl+2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1720"/>
+        <location filename="../mainwindow.ui" line="1726"/>
         <source>Ctrl+5</source>
         <translation>Ctrl+5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1728"/>
+        <location filename="../mainwindow.ui" line="1734"/>
         <source>&amp;Broadcast Messages</source>
         <translation>&amp;Javne poruke</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1731"/>
+        <location filename="../mainwindow.ui" line="1737"/>
         <source>Ctrl+3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1743"/>
+        <location filename="../mainwindow.ui" line="1749"/>
         <source>Enable &amp;Video Transmission</source>
         <translation>Uključi prijenos &amp;videa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1746"/>
+        <location filename="../mainwindow.ui" line="1752"/>
         <source>Ctrl+Shift+V</source>
         <translation>Ctrl+Shift+V</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1754"/>
+        <location filename="../mainwindow.ui" line="1760"/>
         <source>&amp;Stream Audio File to Channel</source>
         <translation>&amp;Prijenos audio datoteke na kanal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1757"/>
+        <location filename="../mainwindow.ui" line="1763"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1762"/>
+        <location filename="../mainwindow.ui" line="1768"/>
         <source>Stream Audio &amp;File to User</source>
         <translation>Prije&amp;nos audio datoteke korisniku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1765"/>
+        <location filename="../mainwindow.ui" line="1771"/>
         <source>Ctrl+Shift+W</source>
         <translation>Ctrl+Shift+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1777"/>
+        <location filename="../mainwindow.ui" line="1783"/>
         <source>Record Conversations to &amp;Disk</source>
         <translation>Snimi konverzacije na &amp;disk</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1780"/>
+        <location filename="../mainwindow.ui" line="1786"/>
         <source>Specify a folder where audio from users will be stored</source>
         <translation>Odredi mapu za spremanje zvuka korisnika</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1783"/>
+        <location filename="../mainwindow.ui" line="1789"/>
         <source>Ctrl+Alt+A</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1795"/>
+        <location filename="../mainwindow.ui" line="1801"/>
         <source>Intercept User Messages</source>
         <translation>Primaj poruke korisnika</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1798"/>
+        <location filename="../mainwindow.ui" line="1804"/>
         <source>Ctrl+Shift+1</source>
         <translation>Ctrl+Shift+1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1806"/>
+        <location filename="../mainwindow.ui" line="1812"/>
         <source>Intercept Channel Messages</source>
         <translation>Primaj poruke na kanalu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1809"/>
+        <location filename="../mainwindow.ui" line="1815"/>
         <source>Ctrl+Shift+2</source>
         <translation>Ctrl+Shift+2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1821"/>
+        <location filename="../mainwindow.ui" line="1827"/>
         <source>Intercept Audio</source>
         <translation>Primaj zvuk</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1824"/>
+        <location filename="../mainwindow.ui" line="1830"/>
         <source>Ctrl+Shift+4</source>
         <translation>Ctrl+Shift+4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1836"/>
+        <location filename="../mainwindow.ui" line="1842"/>
         <source>Intercept Video</source>
         <translation>Primaj video</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1839"/>
+        <location filename="../mainwindow.ui" line="1845"/>
         <source>Ctrl+Shift+5</source>
         <translation>Ctrl+Shift+5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1844"/>
+        <location filename="../mainwindow.ui" line="1850"/>
         <source>&amp;Broadcast Message</source>
         <translation>&amp;Javna poruka</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1852"/>
+        <location filename="../mainwindow.ui" line="1858"/>
         <source>&amp;Increase Voice Volume</source>
         <translation>Po&amp;većaj glasnoću glasa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1860"/>
+        <location filename="../mainwindow.ui" line="1866"/>
         <source>&amp;Lower Voice Volume</source>
         <translation>&amp;Smanji glasnoću glasa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1868"/>
+        <location filename="../mainwindow.ui" line="1874"/>
         <source>&amp;Store User(s) for Move</source>
         <translation>&amp;Spremi korisnike za premještanje</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1871"/>
+        <location filename="../mainwindow.ui" line="1877"/>
         <source>Ctrl+Alt+X</source>
         <translation>Ctrl+Alt+X</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1876"/>
+        <location filename="../mainwindow.ui" line="1882"/>
         <source>&amp;Move User(s)</source>
         <translation>Pre&amp;mjesti korisnike</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1879"/>
+        <location filename="../mainwindow.ui" line="1885"/>
         <source>Ctrl+Alt+V</source>
         <translation>Ctrl+Alt+V</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1888"/>
+        <location filename="../mainwindow.ui" line="1894"/>
         <source>&amp;BearWare.dk Website</source>
         <translation>&amp;BearWare.dk web stranica</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1896"/>
+        <location filename="../mainwindow.ui" line="1902"/>
         <source>Allow V&amp;oice Transmission</source>
         <translation>D&amp;opusti prijenos glasa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1899"/>
+        <location filename="../mainwindow.ui" line="1905"/>
         <source>Ctrl+Alt+Q</source>
         <translation>Ctrl+Alt+Q</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1907"/>
+        <location filename="../mainwindow.ui" line="1913"/>
         <source>Allow Video Transmission</source>
         <translation>Dopusti prijenos videa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1910"/>
+        <location filename="../mainwindow.ui" line="1916"/>
         <source>Ctrl+Alt+W</source>
         <translation>Ctrl+Alt+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1918"/>
+        <location filename="../mainwindow.ui" line="1924"/>
         <source>Allow All V&amp;oice Transmission</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1921"/>
+        <location filename="../mainwindow.ui" line="1927"/>
         <source>Ctrl+Alt+Shift+Q</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1929"/>
+        <location filename="../mainwindow.ui" line="1935"/>
         <source>Allow All Video Transmission</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1932"/>
+        <location filename="../mainwindow.ui" line="1938"/>
         <source>Ctrl+Alt+Shift+W</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1937"/>
+        <location filename="../mainwindow.ui" line="1943"/>
         <source>Server S&amp;tatistics</source>
         <translation>S&amp;tatistika poslužitelja</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1940"/>
+        <location filename="../mainwindow.ui" line="1946"/>
         <source>Shift+F9</source>
         <translation>Shift+F9</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1945"/>
+        <location filename="../mainwindow.ui" line="1951"/>
         <source>&amp;New Client Instance</source>
         <translation>&amp;Novi primjerak klijenta</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1948"/>
+        <location filename="../mainwindow.ui" line="1954"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1956"/>
+        <location filename="../mainwindow.ui" line="1962"/>
         <source>&amp;Online Users</source>
         <translation>&amp;Online korisnici</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1959"/>
+        <location filename="../mainwindow.ui" line="1965"/>
         <source>Ctrl+Shift+U</source>
         <translation>Ctrl+Shift+U</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1971"/>
+        <location filename="../mainwindow.ui" line="1977"/>
         <source>Enable Question Mode</source>
         <translation>Uključi modus pitanja</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1974"/>
+        <location filename="../mainwindow.ui" line="1980"/>
         <source>Show blinking icon</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1986"/>
+        <location filename="../mainwindow.ui" line="1992"/>
         <source>Enable Desktop Sharing</source>
         <translation>Uključi dijeljenje radne površine</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1989"/>
+        <location filename="../mainwindow.ui" line="1995"/>
         <source>Ctrl+Shift+D</source>
         <translation>Ctrl+Shift+D</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1997"/>
+        <location filename="../mainwindow.ui" line="2003"/>
         <source>Enable Text-To-Speech Events</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2000"/>
+        <location filename="../mainwindow.ui" line="2006"/>
         <source>Ctrl+Alt+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2008"/>
+        <location filename="../mainwindow.ui" line="2014"/>
         <source>Enable Sound Events</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2011"/>
+        <location filename="../mainwindow.ui" line="2017"/>
         <source>Ctrl+Alt+Z</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2019"/>
+        <location filename="../mainwindow.ui" line="2025"/>
         <source>Allow Desktop Transmission</source>
         <translation>Dopusti prijenos radne površine</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2022"/>
+        <location filename="../mainwindow.ui" line="2028"/>
         <source>Ctrl+Alt+E</source>
         <translation>Ctrl+Alt+E</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2030"/>
+        <location filename="../mainwindow.ui" line="2036"/>
         <source>Allow All Desktop Transmission</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2033"/>
+        <location filename="../mainwindow.ui" line="2039"/>
         <source>Ctrl+Alt+Shift+E</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2045"/>
+        <location filename="../mainwindow.ui" line="2051"/>
         <source>&amp;Desktop</source>
         <translation>&amp;Radna površina</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2048"/>
+        <location filename="../mainwindow.ui" line="2054"/>
         <source>Ctrl+6</source>
         <translation>Ctrl+6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2060"/>
+        <location filename="../mainwindow.ui" line="2066"/>
         <source>Intercept Desktop</source>
         <translation>Primaj radnu površinu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2063"/>
+        <location filename="../mainwindow.ui" line="2069"/>
         <source>Ctrl+Shift+6</source>
         <translation>Ctrl+Shift+6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2075"/>
+        <location filename="../mainwindow.ui" line="2081"/>
         <source>Stream &amp;Media File to Channel</source>
         <translation>Prijenos &amp;medijske datoteke na kanal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2078"/>
+        <location filename="../mainwindow.ui" line="2084"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2090"/>
+        <location filename="../mainwindow.ui" line="2096"/>
         <source>Desktop Acce&amp;ss</source>
         <translation>Pri&amp;stup radnoj površini</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2102"/>
+        <location filename="../mainwindow.ui" line="2108"/>
         <source>Allow Desktop Access</source>
         <translation>Dopusti pristup radnoj površini</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2105"/>
+        <location filename="../mainwindow.ui" line="2111"/>
         <source>Ctrl+7</source>
         <translation>Ctrl+7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2113"/>
+        <location filename="../mainwindow.ui" line="2119"/>
         <source>&amp;Deny</source>
         <translation>&amp;Zabrani</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2125"/>
+        <location filename="../mainwindow.ui" line="2131"/>
         <source>Media File Stream</source>
         <translation>Prijenos medijske datoteke</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2128"/>
+        <location filename="../mainwindow.ui" line="2134"/>
         <source>Ctrl+8</source>
         <translation>Ctrl+8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2140"/>
+        <location filename="../mainwindow.ui" line="2146"/>
         <source>Intercept Media File Stream</source>
         <translation>Primaj prijenos medijske datoteke</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2143"/>
+        <location filename="../mainwindow.ui" line="2149"/>
         <source>Ctrl+Shift+8</source>
         <translation>Ctrl+Shift+8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2151"/>
+        <location filename="../mainwindow.ui" line="2157"/>
         <source>Allow Media File Transmission</source>
         <translation>Dopusti prijenos medijske datoteke</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2154"/>
+        <location filename="../mainwindow.ui" line="2160"/>
         <source>Ctrl+Alt+R</source>
         <translation>Ctrl+Alt+R</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2162"/>
+        <location filename="../mainwindow.ui" line="2168"/>
         <source>Allow All Media File Transmission</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2165"/>
+        <location filename="../mainwindow.ui" line="2171"/>
         <source>Ctrl+Alt+Shift+R</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2173"/>
+        <location filename="../mainwindow.ui" line="2179"/>
         <source>Mu&amp;te Voice</source>
         <translation>Isključi &amp;zvuk glasa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2176"/>
+        <location filename="../mainwindow.ui" line="2182"/>
         <source>Ctrl+Shift+M</source>
         <translation>Ctrl+Shift+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2184"/>
+        <location filename="../mainwindow.ui" line="2190"/>
         <source>Mute Media File</source>
         <translation>Isključi zvuk medijske datoteke</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2192"/>
+        <location filename="../mainwindow.ui" line="2198"/>
         <source>Kick From Channel</source>
         <translation>Izbaci iz kanala</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2195"/>
+        <location filename="../mainwindow.ui" line="2201"/>
         <source>Ctrl+K</source>
         <translation>Ctrl+K</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2200"/>
+        <location filename="../mainwindow.ui" line="2206"/>
         <source>Kick From Server</source>
         <translation>Izbaci iz poslužitelja</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2203"/>
+        <location filename="../mainwindow.ui" line="2209"/>
         <source>Ctrl+Alt+K</source>
         <translation>Ctrl+Alt+K</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2208"/>
+        <location filename="../mainwindow.ui" line="2214"/>
         <source>Increase Media File Volume</source>
         <translation>Povećaj glasnoću medijske datoteke</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2216"/>
+        <location filename="../mainwindow.ui" line="2222"/>
         <source>Lower Media File Volume</source>
         <translation>Smanji glasnoću medijske datoteke</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2224"/>
+        <location filename="../mainwindow.ui" line="2230"/>
         <source>R&amp;eset Preferences to Default</source>
         <translation>Vrati postavk&amp;e na standardne vrijednosti</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2229"/>
+        <location filename="../mainwindow.ui" line="2235"/>
         <source>Kick and Ban From &amp;Channel</source>
         <translation>Izbaci i blokiraj s &amp;kanala</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2232"/>
+        <location filename="../mainwindow.ui" line="2238"/>
         <source>Ctrl+B</source>
         <translation>Ctrl+B</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2237"/>
+        <location filename="../mainwindow.ui" line="2243"/>
         <source>Banned Users From Channel</source>
         <translation>Blokirani korisnici na kanalu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2240"/>
+        <location filename="../mainwindow.ui" line="2246"/>
         <source>Ctrl+Alt+Shift+B</source>
         <translation>Ctrl+Alt+Shift+B</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2248"/>
+        <location filename="../mainwindow.ui" line="2254"/>
         <source>Allow Channel Text Messages</source>
         <translation>Dopusti tekstualne poruke na kanalu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2251"/>
+        <location filename="../mainwindow.ui" line="2257"/>
         <source>Ctrl+Alt+T</source>
         <translation>Ctrl+Alt+T</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2259"/>
+        <location filename="../mainwindow.ui" line="2265"/>
         <source>Allow All Channel Text Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2262"/>
+        <location filename="../mainwindow.ui" line="2268"/>
         <source>Ctrl+Alt+Shift+T</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2270"/>
+        <location filename="../mainwindow.ui" line="2276"/>
         <source>&amp;Hear Myself</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2273"/>
+        <location filename="../mainwindow.ui" line="2279"/>
         <source>Ctrl+Shift+3</source>
         <translation type="unfinished">Ctrl+Shift+3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="886"/>
-        <location filename="../mainwindow.cpp" line="2497"/>
+        <location filename="../mainwindow.cpp" line="890"/>
+        <location filename="../mainwindow.cpp" line="2501"/>
         <source>Firewall exception</source>
         <translation>Iznimka vatrozida</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="887"/>
+        <location filename="../mainwindow.cpp" line="891"/>
         <source>Failed to remove %1 from Windows Firewall exceptions.</source>
         <translation>%1 nije uklonjen iz popisa iznimaka Windows vatrozida.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="903"/>
+        <location filename="../mainwindow.cpp" line="907"/>
         <source>Startup arguments</source>
         <translation>Argumenti za pokretanje</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="904"/>
+        <location filename="../mainwindow.cpp" line="908"/>
         <source>Program argument &quot;%1&quot; is unrecognized.</source>
         <translation>Programski argument „%1” nije prepoznat.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1933"/>
+        <location filename="../mainwindow.cpp" line="1937"/>
         <source>Connected to %1 TCP port %2 UDP port %3</source>
         <translation>Povezano na %1 TCP priključak %2 UDP priključak %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="969"/>
-        <location filename="../mainwindow.cpp" line="1868"/>
+        <location filename="../mainwindow.cpp" line="973"/>
+        <location filename="../mainwindow.cpp" line="1872"/>
         <source>Failed to connect to %1 TCP port %2 UDP port %3</source>
         <translation>Neuspjelo povezivanje na %1 TCP priključak %2 UDP priključak %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="630"/>
+        <location filename="../mainwindow.cpp" line="634"/>
         <source>Translate</source>
         <translation>Prevedi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="761"/>
+        <location filename="../mainwindow.cpp" line="765"/>
         <source>%1 has detected usage of a screenreader on your computer. Do you wish to enable accessibility options offered by %1 with recommended settings?</source>
         <translation>%1 je otkrio upotrebu čitača ekrana na tvom računalu. Želiš li uključiti opcije pristupačnosti koje nudi %1 s preporučenim postavkama?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="783"/>
+        <location filename="../mainwindow.cpp" line="787"/>
         <location filename="../settings.h" line="245"/>
         <source>Default</source>
         <translation type="unfinished">Standardno</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="786"/>
+        <location filename="../mainwindow.cpp" line="790"/>
         <source>Your sounds pack %1 don&apos;t exist, would you like to use default sounds pack?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="979"/>
+        <location filename="../mainwindow.cpp" line="983"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
         <translation>Veza izgubljena na %1 TCP priključak %2 UDP priključak %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="983"/>
+        <location filename="../mainwindow.cpp" line="987"/>
         <source>Connection to server lost</source>
         <translation>Veza s poslužiteljem izgubljena</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1118"/>
-        <location filename="../mainwindow.cpp" line="1120"/>
+        <location filename="../mainwindow.cpp" line="1122"/>
+        <location filename="../mainwindow.cpp" line="1124"/>
         <source>%1 has logged in</source>
         <translation>%1 se prijavio/la</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1137"/>
-        <location filename="../mainwindow.cpp" line="1139"/>
+        <location filename="../mainwindow.cpp" line="1141"/>
+        <location filename="../mainwindow.cpp" line="1143"/>
         <source>%1 has logged out</source>
         <translation>%1 se odjavio/la</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2706"/>
-        <location filename="../mainwindow.cpp" line="2756"/>
-        <location filename="../mainwindow.cpp" line="4651"/>
-        <location filename="../mainwindow.cpp" line="5316"/>
+        <location filename="../mainwindow.cpp" line="2710"/>
+        <location filename="../mainwindow.cpp" line="2760"/>
+        <location filename="../mainwindow.cpp" line="4655"/>
+        <location filename="../mainwindow.cpp" line="5349"/>
         <source>root</source>
         <translation>administrator</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1262"/>
+        <location filename="../mainwindow.cpp" line="1266"/>
         <source>File %1 added</source>
         <translation>Datoteka %1 dodana</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1037"/>
-        <location filename="../mainwindow.cpp" line="1040"/>
+        <location filename="../mainwindow.cpp" line="1041"/>
+        <location filename="../mainwindow.cpp" line="1044"/>
         <source>Kicked from server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1038"/>
+        <location filename="../mainwindow.cpp" line="1042"/>
         <source>You have been kicked from server by %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1041"/>
+        <location filename="../mainwindow.cpp" line="1045"/>
         <source>You have been kicked from server by unknown user</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1057"/>
-        <location filename="../mainwindow.cpp" line="1060"/>
+        <location filename="../mainwindow.cpp" line="1061"/>
+        <location filename="../mainwindow.cpp" line="1064"/>
         <source>Kicked from channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1058"/>
+        <location filename="../mainwindow.cpp" line="1062"/>
         <source>You have been kicked from channel by %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1061"/>
+        <location filename="../mainwindow.cpp" line="1065"/>
         <source>You have been kicked from channel by unknown user</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1164"/>
+        <location filename="../mainwindow.cpp" line="1168"/>
         <source>%1 joined root channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1170"/>
+        <location filename="../mainwindow.cpp" line="1174"/>
         <source>%1 joined channel %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1201"/>
+        <location filename="../mainwindow.cpp" line="1205"/>
         <source>%1 left root channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1205"/>
+        <location filename="../mainwindow.cpp" line="1209"/>
         <source>%1 left channel %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1267"/>
+        <location filename="../mainwindow.cpp" line="1271"/>
         <source>File %1 added by %2</source>
         <translation>Datoteka %1 dodana od %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1288"/>
+        <location filename="../mainwindow.cpp" line="1292"/>
         <source>File %1 removed</source>
         <translation>Datoteka %1 uklonjena</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1292"/>
+        <location filename="../mainwindow.cpp" line="1296"/>
         <source>File %1 removed by %2</source>
         <translation>Datoteka %1 uklonjena od %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1327"/>
-        <location filename="../mainwindow.cpp" line="4987"/>
+        <location filename="../mainwindow.cpp" line="1331"/>
+        <location filename="../mainwindow.cpp" line="4992"/>
         <source>Failed to download file %1</source>
         <translation>Neuspjelo preuzimanje datoteke %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1331"/>
-        <location filename="../mainwindow.cpp" line="5657"/>
+        <location filename="../mainwindow.cpp" line="1335"/>
+        <location filename="../mainwindow.cpp" line="5690"/>
         <source>Failed to upload file %1</source>
         <translation>Neuspio prijenos datoteke %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1344"/>
+        <location filename="../mainwindow.cpp" line="1348"/>
         <source>Failed to initialize sound input device</source>
         <translation>Neuspjelo inicijaliziranje ulaznog uređaja zvuka</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1346"/>
+        <location filename="../mainwindow.cpp" line="1350"/>
         <source>Failed to initialize sound output device</source>
         <translation>Neuspjelo inicijaliziranje izlaznog uređaja zvuka</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1348"/>
+        <location filename="../mainwindow.cpp" line="1352"/>
         <source>Failed to initialize audio codec</source>
         <translation>Neuspjelo inicijaliziranje kodera zvuka</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1351"/>
+        <location filename="../mainwindow.cpp" line="1355"/>
         <source>Failed to initialize audio configuration</source>
         <translation>Neuspjelo inicijaliziranje konfiguracije zvuka</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1354"/>
+        <location filename="../mainwindow.cpp" line="1358"/>
         <source>Internal message queue overloaded</source>
         <translation>Interni red poruka preopterećen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1360"/>
+        <location filename="../mainwindow.cpp" line="1364"/>
         <source>Internal Error</source>
         <translation>Interna greška</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1390"/>
+        <location filename="../mainwindow.cpp" line="1394"/>
         <source>Streaming from %1 started</source>
         <translation>Prijenos sa %1 započet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1418"/>
+        <location filename="../mainwindow.cpp" line="1422"/>
         <source>Error streaming media file to channel</source>
         <translation>Greška u prijenosu medijske datoteke na kanal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1422"/>
+        <location filename="../mainwindow.cpp" line="1426"/>
         <source>Started streaming media file to channel</source>
         <translation>Započet prijenos medijske datoteke na kanal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1425"/>
+        <location filename="../mainwindow.cpp" line="1429"/>
         <source>Finished streaming media file to channel</source>
         <translation>Završen prijenos medijske datoteke na kanal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1429"/>
+        <location filename="../mainwindow.cpp" line="1433"/>
         <source>Aborted streaming media file to channel</source>
         <translation>Prekid prijenosa medijske datoteke na kanal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1484"/>
-        <location filename="../mainwindow.cpp" line="1514"/>
+        <location filename="../mainwindow.cpp" line="1488"/>
+        <location filename="../mainwindow.cpp" line="1518"/>
         <source>New video session from %1</source>
         <translation>Nova video sesija od %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1539"/>
+        <location filename="../mainwindow.cpp" line="1543"/>
         <source>New desktop session from %1</source>
         <translation>Nova desktop sesija od %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1565"/>
+        <location filename="../mainwindow.cpp" line="1569"/>
         <source>Your desktop session was cancelled</source>
         <translation>Tvoja desktop sesija je otkazana</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1584"/>
+        <location filename="../mainwindow.cpp" line="1588"/>
         <source>Writing audio file %1 for %2</source>
         <translation>Pisanje audio datoteke %1 za %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1589"/>
+        <location filename="../mainwindow.cpp" line="1593"/>
         <source>Failed to write audio file %1 for %2</source>
         <translation>Neuspjelo zapisivanje audio datoteke %1 za %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1594"/>
+        <location filename="../mainwindow.cpp" line="1598"/>
         <source>Finished audio file %1</source>
         <translation>Završena audio datoteka %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1598"/>
+        <location filename="../mainwindow.cpp" line="1602"/>
         <source>Aborted audio file %1</source>
         <translation>Prekid audio datoteke %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1677"/>
+        <location filename="../mainwindow.cpp" line="1681"/>
         <source>Banned Users in Channel %1</source>
         <translation>Blokirani korisnici na kanalu %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1806"/>
+        <location filename="../mainwindow.cpp" line="1810"/>
         <source>Cannot join channel %1</source>
         <translation>Pridruživanje kanalu %1 nije moguće</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1847"/>
+        <location filename="../mainwindow.cpp" line="1851"/>
         <source>Using sound input: %1</source>
         <translation>Upotreba unosa zvuka: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1847"/>
+        <location filename="../mainwindow.cpp" line="1851"/>
         <source>Using sound output: %2</source>
         <translation>Upotreba rezultata zvuka: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1860"/>
+        <location filename="../mainwindow.cpp" line="1864"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
         <translation>Povezivanje na %1 TCP priključak %2 UDP priključak %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1916"/>
+        <location filename="../mainwindow.cpp" line="1920"/>
         <source>Logged out from %1, TCP port %2, UDP port %3</source>
         <translation>Odjavio/la se iz %1, TCP priključak %2, UDP priključak %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1919"/>
+        <location filename="../mainwindow.cpp" line="1923"/>
         <source>Disconnected from server</source>
         <translation>Odspojeno od poslužitelja</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1937"/>
+        <location filename="../mainwindow.cpp" line="1941"/>
         <source>Connected to %1</source>
         <translation>Povezano na %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1955"/>
-        <location filename="../mainwindow.cpp" line="2882"/>
+        <location filename="../mainwindow.cpp" line="1959"/>
+        <location filename="../mainwindow.cpp" line="2886"/>
         <source>Error</source>
         <translation>Greška</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1961"/>
+        <location filename="../mainwindow.cpp" line="1965"/>
         <source>Syntax error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1963"/>
+        <location filename="../mainwindow.cpp" line="1967"/>
         <source>Unknown command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1965"/>
+        <location filename="../mainwindow.cpp" line="1969"/>
         <source>The server uses a protocol which is incompatible with the client instance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1967"/>
+        <location filename="../mainwindow.cpp" line="1971"/>
         <source>Unknown audio codec</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1969"/>
+        <location filename="../mainwindow.cpp" line="1973"/>
         <source>This client is not compatible with the server, so the action cannot be performed.</source>
         <translation>Ovaj klijent nije kompatibilan s poslužiteljem, stoga se radnja ne može izvršiti.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1972"/>
+        <location filename="../mainwindow.cpp" line="1976"/>
         <source>The username is invalid</source>
         <translation>Korisničko ime je neispravno</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1979"/>
-        <location filename="../mainwindow.cpp" line="2012"/>
-        <location filename="../mainwindow.cpp" line="3723"/>
-        <location filename="../mainwindow.cpp" line="3739"/>
-        <location filename="../mainwindow.cpp" line="3754"/>
-        <location filename="../mainwindow.cpp" line="4108"/>
-        <location filename="../mainwindow.cpp" line="4803"/>
-        <location filename="../mainwindow.cpp" line="5125"/>
-        <location filename="../mainwindow.cpp" line="5388"/>
-        <location filename="../mainwindow.cpp" line="5411"/>
+        <location filename="../mainwindow.cpp" line="1983"/>
+        <location filename="../mainwindow.cpp" line="2016"/>
+        <location filename="../mainwindow.cpp" line="3727"/>
+        <location filename="../mainwindow.cpp" line="3743"/>
+        <location filename="../mainwindow.cpp" line="3758"/>
+        <location filename="../mainwindow.cpp" line="4112"/>
+        <location filename="../mainwindow.cpp" line="4807"/>
+        <location filename="../mainwindow.cpp" line="5158"/>
+        <location filename="../mainwindow.cpp" line="5421"/>
+        <location filename="../mainwindow.cpp" line="5444"/>
         <source>&amp;Ok</source>
         <translation>&amp;U redu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1983"/>
-        <location filename="../mainwindow.cpp" line="1991"/>
-        <location filename="../mainwindow.cpp" line="2031"/>
-        <location filename="../mainwindow.cpp" line="2036"/>
+        <location filename="../mainwindow.cpp" line="1987"/>
+        <location filename="../mainwindow.cpp" line="1995"/>
+        <location filename="../mainwindow.cpp" line="2035"/>
+        <location filename="../mainwindow.cpp" line="2040"/>
         <source>Login error</source>
         <translation>Greška u prijavi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1984"/>
+        <location filename="../mainwindow.cpp" line="1988"/>
         <source>Invalid user account. Type username:</source>
         <translation>Neispravan korisnički račun. Upiši korisničko ime:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1992"/>
+        <location filename="../mainwindow.cpp" line="1996"/>
         <source>Invalid user account. Type password:</source>
         <translation>Neispravan korisnički račun. Upiši lozinku:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2017"/>
+        <location filename="../mainwindow.cpp" line="2021"/>
         <source>Join channel error</source>
         <translation>Greška u pridruživanju kanalu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2018"/>
+        <location filename="../mainwindow.cpp" line="2022"/>
         <source>Incorrect channel password. Try again:</source>
         <translation>Neispravna lozinka za kanal. Pokušaj ponovo:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2032"/>
+        <location filename="../mainwindow.cpp" line="2036"/>
         <source>Banned from server</source>
         <translation>Blokiran na poslužitelju</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2034"/>
+        <location filename="../mainwindow.cpp" line="2038"/>
         <source>Command not authorized</source>
         <translation>Naredba nije autorizirana</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2037"/>
+        <location filename="../mainwindow.cpp" line="2041"/>
         <source>Maximum number of users on server exceeded</source>
         <translation>Maksimalni broj korisnika na poslužitelju prekoračen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2039"/>
+        <location filename="../mainwindow.cpp" line="2043"/>
         <source>Maximum disk usage exceeded</source>
         <translation>Maksimalna upotreba memorije prekoračena</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2041"/>
+        <location filename="../mainwindow.cpp" line="2045"/>
         <source>Maximum number of users in channel exceeded</source>
         <translation>Maksimalni broj korisnika u kanalu prekoračen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2043"/>
+        <location filename="../mainwindow.cpp" line="2047"/>
         <source>Incorrect channel operator password</source>
         <translation>Neispravna lozinka operatora kanala</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2045"/>
+        <location filename="../mainwindow.cpp" line="2049"/>
         <source>The maximum number of channels has been exceeded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2047"/>
+        <location filename="../mainwindow.cpp" line="2051"/>
         <source>Command flooding prevented by server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2051"/>
+        <location filename="../mainwindow.cpp" line="2055"/>
         <source>Already logged in</source>
         <translation>Već je prijavljen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2053"/>
+        <location filename="../mainwindow.cpp" line="2057"/>
         <source>Cannot perform action because client is currently not logged in</source>
         <translation>Nije moguće izvršiti radnju jer klijent trenutačno nije prijavljen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2056"/>
+        <location filename="../mainwindow.cpp" line="2060"/>
         <source>Cannot join the same channel twice</source>
         <translation>Dvostruko pridruživanje istom kanalu nije moguće</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2058"/>
+        <location filename="../mainwindow.cpp" line="2062"/>
         <source>Channel already exists</source>
         <translation>Kanal već postoji</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2064"/>
+        <location filename="../mainwindow.cpp" line="2068"/>
         <source>User not found</source>
         <translation>Korisnik nije pronađen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2067"/>
+        <location filename="../mainwindow.cpp" line="2071"/>
         <source>Server failed to open file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2069"/>
+        <location filename="../mainwindow.cpp" line="2073"/>
         <source>The login service is currently unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2071"/>
+        <location filename="../mainwindow.cpp" line="2075"/>
         <source>This channel cannot be hidden</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2073"/>
+        <location filename="../mainwindow.cpp" line="2077"/>
         <source>Channel not found</source>
         <translation>Kanal nije pronađen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2075"/>
+        <location filename="../mainwindow.cpp" line="2079"/>
         <source>Cannot leave channel because not in channel.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2077"/>
+        <location filename="../mainwindow.cpp" line="2081"/>
         <source>Banned user not found</source>
         <translation>Blokirani korisnik nije pronađen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2079"/>
+        <location filename="../mainwindow.cpp" line="2083"/>
         <source>File transfer not found</source>
         <translation>Prijenos datoteka nije pronađen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2081"/>
+        <location filename="../mainwindow.cpp" line="2085"/>
         <source>User account not found</source>
         <translation>Korisnički račun nije pronađen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2083"/>
+        <location filename="../mainwindow.cpp" line="2087"/>
         <source>File not found</source>
         <translation>Datoteka nije pronađena</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2085"/>
+        <location filename="../mainwindow.cpp" line="2089"/>
         <source>File already exists</source>
         <translation>Datoteka već postoji</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2087"/>
+        <location filename="../mainwindow.cpp" line="2091"/>
         <source>File sharing is disabled</source>
         <translation>Dijeljenje datoteka je isključeno</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2089"/>
+        <location filename="../mainwindow.cpp" line="2093"/>
         <source>Channel has active users</source>
         <translation>Kanal ima aktivne korisnike</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2094"/>
+        <location filename="../mainwindow.cpp" line="2098"/>
         <source>Unknown error occured</source>
         <translation>Dogodila se nepoznata greška</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2101"/>
+        <location filename="../mainwindow.cpp" line="2105"/>
         <source>The server reported an error:</source>
         <translation>Poslužitelj je javio grešku:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3655"/>
+        <location filename="../mainwindow.cpp" line="3659"/>
         <source>Text messages blocked by channel operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3659"/>
+        <location filename="../mainwindow.cpp" line="3663"/>
         <source>Voice transmission blocked by channel operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3663"/>
+        <location filename="../mainwindow.cpp" line="3667"/>
         <source>Media file transmission blocked by channel operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3667"/>
+        <location filename="../mainwindow.cpp" line="3671"/>
         <source>Video transmission blocked by channel operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3671"/>
+        <location filename="../mainwindow.cpp" line="3675"/>
         <source>Desktop transmission blocked by channel operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4008"/>
+        <location filename="../mainwindow.cpp" line="4012"/>
         <source>No Sound Device</source>
         <translation type="unfinished">Bez zvučnog uređaja</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4034"/>
+        <location filename="../mainwindow.cpp" line="4038"/>
         <source>&amp;Refresh Sound Devices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4114"/>
+        <location filename="../mainwindow.cpp" line="4118"/>
         <source>Specify new nickname for current server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4233"/>
+        <location filename="../mainwindow.cpp" line="4237"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4347"/>
+        <location filename="../mainwindow.cpp" line="4351"/>
         <source>Text-To-Speech enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4352"/>
+        <location filename="../mainwindow.cpp" line="4356"/>
         <source>Text-To-Speech disabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4362"/>
+        <location filename="../mainwindow.cpp" line="4366"/>
         <source>Sound events enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4367"/>
+        <location filename="../mainwindow.cpp" line="4371"/>
         <source>Sound events disabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4869"/>
-        <location filename="../mainwindow.cpp" line="5259"/>
+        <location filename="../mainwindow.cpp" line="4873"/>
+        <location filename="../mainwindow.cpp" line="5292"/>
         <source>Talking</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4912"/>
+        <location filename="../mainwindow.cpp" line="4916"/>
         <source>Nobody is active in this channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5259"/>
+        <location filename="../mainwindow.cpp" line="5043"/>
+        <source>Sort By...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5044"/>
+        <source>&amp;Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5045"/>
+        <source>&amp;Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5046"/>
+        <source>&amp;Owner</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5047"/>
+        <source>&amp;Upload Date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5292"/>
         <source>Mute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5714"/>
+        <location filename="../mainwindow.cpp" line="5747"/>
         <source>Character limit exceeded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5714"/>
+        <location filename="../mainwindow.cpp" line="5747"/>
         <source>Your message has exceeded the limit by %1 characters. Please reduce it and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6758"/>
+        <location filename="../mainwindow.cpp" line="6791"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6763"/>
+        <location filename="../mainwindow.cpp" line="6796"/>
         <source>New beta version available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6770"/>
+        <location filename="../mainwindow.cpp" line="6803"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4880"/>
-        <location filename="../mainwindow.cpp" line="5259"/>
+        <location filename="../mainwindow.cpp" line="4884"/>
+        <location filename="../mainwindow.cpp" line="5292"/>
         <source>Streaming</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5259"/>
+        <location filename="../mainwindow.cpp" line="5292"/>
         <source>Mute media file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4891"/>
-        <location filename="../mainwindow.cpp" line="5259"/>
+        <location filename="../mainwindow.cpp" line="4895"/>
+        <location filename="../mainwindow.cpp" line="5292"/>
         <source>Webcam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4902"/>
-        <location filename="../mainwindow.cpp" line="5259"/>
+        <location filename="../mainwindow.cpp" line="4906"/>
+        <location filename="../mainwindow.cpp" line="5292"/>
         <source>Desktop</source>
         <translation type="unfinished">Radna površina</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5259"/>
+        <location filename="../mainwindow.cpp" line="5292"/>
         <source>Channel Operator</source>
         <translation type="unfinished">Operator kanala</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5259"/>
+        <location filename="../mainwindow.cpp" line="5292"/>
         <source>Selected for move</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5263"/>
+        <location filename="../mainwindow.cpp" line="5296"/>
         <source>Administrator</source>
         <translation type="unfinished">Administrator</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5267"/>
+        <location filename="../mainwindow.cpp" line="5300"/>
         <source>User</source>
         <translation type="unfinished">Korisnik</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5285"/>
+        <location filename="../mainwindow.cpp" line="5318"/>
         <source>Online</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5288"/>
+        <location filename="../mainwindow.cpp" line="5321"/>
         <source>Away</source>
         <translation type="unfinished">Odsutno</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5291"/>
+        <location filename="../mainwindow.cpp" line="5324"/>
         <source>Question</source>
         <translation type="unfinished">Pitanje</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5316"/>
+        <location filename="../mainwindow.cpp" line="5349"/>
         <source>Channel</source>
         <translation type="unfinished">Kanal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5316"/>
+        <location filename="../mainwindow.cpp" line="5349"/>
         <source>Password protected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5316"/>
+        <location filename="../mainwindow.cpp" line="5349"/>
         <source>Classroom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5316"/>
+        <location filename="../mainwindow.cpp" line="5349"/>
         <source>Hidden</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5337"/>
+        <location filename="../mainwindow.cpp" line="5370"/>
         <source>Topic: %1</source>
         <translation type="unfinished">Tema: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5340"/>
+        <location filename="../mainwindow.cpp" line="5373"/>
         <source>%1 files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6745"/>
+        <location filename="../mainwindow.cpp" line="6778"/>
         <source>New version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="762"/>
-        <location filename="../mainwindow.cpp" line="787"/>
-        <location filename="../mainwindow.cpp" line="2486"/>
-        <location filename="../mainwindow.cpp" line="4768"/>
-        <location filename="../mainwindow.cpp" line="5000"/>
-        <location filename="../mainwindow.cpp" line="5176"/>
-        <location filename="../mainwindow.cpp" line="6653"/>
-        <location filename="../mainwindow.cpp" line="6734"/>
-        <location filename="../mainwindow.cpp" line="6759"/>
+        <location filename="../mainwindow.cpp" line="766"/>
+        <location filename="../mainwindow.cpp" line="791"/>
+        <location filename="../mainwindow.cpp" line="2490"/>
+        <location filename="../mainwindow.cpp" line="4772"/>
+        <location filename="../mainwindow.cpp" line="5006"/>
+        <location filename="../mainwindow.cpp" line="5209"/>
+        <location filename="../mainwindow.cpp" line="6686"/>
+        <location filename="../mainwindow.cpp" line="6767"/>
+        <location filename="../mainwindow.cpp" line="6792"/>
         <source>&amp;Yes</source>
         <translation>&amp;Da</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="763"/>
-        <location filename="../mainwindow.cpp" line="788"/>
-        <location filename="../mainwindow.cpp" line="2487"/>
-        <location filename="../mainwindow.cpp" line="4769"/>
-        <location filename="../mainwindow.cpp" line="5001"/>
-        <location filename="../mainwindow.cpp" line="5177"/>
-        <location filename="../mainwindow.cpp" line="6654"/>
-        <location filename="../mainwindow.cpp" line="6735"/>
-        <location filename="../mainwindow.cpp" line="6760"/>
+        <location filename="../mainwindow.cpp" line="767"/>
+        <location filename="../mainwindow.cpp" line="792"/>
+        <location filename="../mainwindow.cpp" line="2491"/>
+        <location filename="../mainwindow.cpp" line="4773"/>
+        <location filename="../mainwindow.cpp" line="5007"/>
+        <location filename="../mainwindow.cpp" line="5210"/>
+        <location filename="../mainwindow.cpp" line="6687"/>
+        <location filename="../mainwindow.cpp" line="6768"/>
+        <location filename="../mainwindow.cpp" line="6793"/>
         <source>&amp;No</source>
         <translation>&amp;Ne</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2596"/>
+        <location filename="../mainwindow.cpp" line="2600"/>
         <source>Channel message from %1: %2</source>
         <translation>Poruka kanala od %1: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2601"/>
+        <location filename="../mainwindow.cpp" line="2605"/>
         <source>Channel message sent: %1</source>
         <translation>Poruka kanala poslana: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2613"/>
+        <location filename="../mainwindow.cpp" line="2617"/>
         <source>Broadcast message from %1: %2</source>
         <translation>Javna poruka od %1: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2632"/>
+        <location filename="../mainwindow.cpp" line="2636"/>
         <source>Private message from %1: %2</source>
         <translation>Privatna poruka od %1: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2697"/>
-        <location filename="../mainwindow.cpp" line="2709"/>
+        <location filename="../mainwindow.cpp" line="2701"/>
+        <location filename="../mainwindow.cpp" line="2713"/>
         <source>Joined classroom channel %1</source>
         <translation>Pridružio/la se kanalu učionice %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2747"/>
-        <location filename="../mainwindow.cpp" line="2759"/>
+        <location filename="../mainwindow.cpp" line="2751"/>
+        <location filename="../mainwindow.cpp" line="2763"/>
         <source>Left classroom channel %1</source>
         <translation>Napustio/la je kanal učionice %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2751"/>
-        <location filename="../mainwindow.cpp" line="2763"/>
+        <location filename="../mainwindow.cpp" line="2755"/>
+        <location filename="../mainwindow.cpp" line="2767"/>
         <source>Left channel %1</source>
         <translation>Napustio/la je kanal %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4405"/>
+        <location filename="../mainwindow.cpp" line="4409"/>
         <source>Voice for %1 disabled</source>
         <translation>Glas za %1 isključen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4407"/>
+        <location filename="../mainwindow.cpp" line="4411"/>
         <source>Voice for %1 enabled</source>
         <translation>Glas za %1 uključen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4424"/>
+        <location filename="../mainwindow.cpp" line="4428"/>
         <source>Media files for %1 disabled</source>
         <translation>Medijska datoteka za %1 isključena</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4426"/>
+        <location filename="../mainwindow.cpp" line="4430"/>
         <source>Media files for %1 enabled</source>
         <translation>Medijska datoteka za %1 uključena</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4442"/>
+        <location filename="../mainwindow.cpp" line="4446"/>
         <source>Master volume disabled</source>
         <translation>Glavna glasnoća isključena</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4447"/>
+        <location filename="../mainwindow.cpp" line="4451"/>
         <source>Master volume enabled</source>
         <translation>Glavna glasnoća uključena</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4576"/>
+        <location filename="../mainwindow.cpp" line="4580"/>
         <source>Voice volume for %1 increased to %2%</source>
         <translation>Glasnoća glasa za %1 povećana na %2%</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4589"/>
+        <location filename="../mainwindow.cpp" line="4593"/>
         <source>Voice volume for %1 decreased to %2%</source>
         <translation>Glasnoća glasa za %1 smanjena na %2%</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4602"/>
+        <location filename="../mainwindow.cpp" line="4606"/>
         <source>Media files volume for %1 increased to %2%</source>
         <translation>Glasnoća medijskih datoteka za %1 povećana na %2 %</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4615"/>
+        <location filename="../mainwindow.cpp" line="4619"/>
         <source>Media files volume for %1 decreased to %2%</source>
         <translation>Glasnoća medijskih datoteka za %1 smanjena na %2 %</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4634"/>
+        <location filename="../mainwindow.cpp" line="4638"/>
         <source>%1 selected for move</source>
         <translation>%1 odabran/a za premještanje</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4652"/>
         <location filename="../mainwindow.cpp" line="4656"/>
+        <location filename="../mainwindow.cpp" line="4660"/>
         <source>Selected users has been moved to channel %1</source>
         <translation>Odabrani korisnici su premješteni na kanal %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5004"/>
+        <location filename="../mainwindow.cpp" line="5010"/>
         <source>Delete %1 files</source>
         <translation>Izbriši %1 datoteke</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5139"/>
+        <location filename="../mainwindow.cpp" line="5172"/>
         <source>Broadcast message sent: %1</source>
         <translation>Javna poruka poslana: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1948"/>
-        <location filename="../mainwindow.cpp" line="1949"/>
+        <location filename="../mainwindow.cpp" line="1952"/>
+        <location filename="../mainwindow.cpp" line="1953"/>
         <source>Server configuration saved</source>
         <translation>Konfiguracija poslužitelja je spremljena</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5568"/>
+        <location filename="../mainwindow.cpp" line="5601"/>
         <source>CTRL+L</source>
         <translation>CTRL+L</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5573"/>
+        <location filename="../mainwindow.cpp" line="5606"/>
         <source>CTRL+J</source>
         <translation>CTRL+J</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5882"/>
+        <location filename="../mainwindow.cpp" line="5915"/>
         <source>You can now transmit channel messages!</source>
         <translation>Sada možeš prenositi poruke na kanalu!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5884"/>
+        <location filename="../mainwindow.cpp" line="5917"/>
         <source>You can no longer transmit channel messages!</source>
         <translation>Više ne možeš prenositi poruke na kanalu!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5926"/>
+        <location filename="../mainwindow.cpp" line="5959"/>
         <source>You can now transmit mediafiles!</source>
         <translation>Sada možeš prenositi medijske datoteke!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5928"/>
+        <location filename="../mainwindow.cpp" line="5961"/>
         <source>You can no longer transmit mediafiles!</source>
         <translation>Više ne možeš prenositi medijske datoteke!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6541"/>
+        <location filename="../mainwindow.cpp" line="6574"/>
         <source>&amp;Video (%1)</source>
         <translation>&amp;Video (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6549"/>
+        <location filename="../mainwindow.cpp" line="6582"/>
         <source>&amp;Desktops (%1)</source>
         <translation>&amp;Radne površine (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6652"/>
+        <location filename="../mainwindow.cpp" line="6685"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6733"/>
+        <location filename="../mainwindow.cpp" line="6766"/>
         <source>A new version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>Dostupna je nova verzija za %1: %2. Želiš li sada otvoriti stranicu za preuzimanje?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6738"/>
+        <location filename="../mainwindow.cpp" line="6771"/>
         <source>New version available</source>
         <translation>Dostupna je nova verzija</translation>
     </message>
@@ -3447,463 +3472,463 @@ Možeš je preuzeti na sljedećoj stranici:
 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6846"/>
+        <location filename="../mainwindow.cpp" line="6879"/>
         <source>No available voices found for Text-To-Speech</source>
         <translation>Nema glasova za strojno čitanje teksta</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2386"/>
+        <location filename="../mainwindow.cpp" line="2390"/>
         <source>&amp;Restore</source>
         <translation>Ob&amp;novi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1029"/>
+        <location filename="../mainwindow.cpp" line="1033"/>
         <source>Kicked from server by %1</source>
         <translation>Izbačen s poslužitelja od %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1032"/>
+        <location filename="../mainwindow.cpp" line="1036"/>
         <source>Kicked from server by unknown user</source>
         <translation>Izbačen s poslužitelja od nepoznatog korisnika</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1049"/>
+        <location filename="../mainwindow.cpp" line="1053"/>
         <source>Kicked from channel by %1</source>
         <translation>Izbačen s kanala od %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1052"/>
+        <location filename="../mainwindow.cpp" line="1056"/>
         <source>Kicked from channel by unknown user</source>
         <translation>Izbačen s kanala od nepoznatog korisnika</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1980"/>
-        <location filename="../mainwindow.cpp" line="2013"/>
-        <location filename="../mainwindow.cpp" line="3724"/>
-        <location filename="../mainwindow.cpp" line="3740"/>
-        <location filename="../mainwindow.cpp" line="3755"/>
-        <location filename="../mainwindow.cpp" line="4109"/>
-        <location filename="../mainwindow.cpp" line="4804"/>
-        <location filename="../mainwindow.cpp" line="5126"/>
-        <location filename="../mainwindow.cpp" line="5389"/>
-        <location filename="../mainwindow.cpp" line="5412"/>
+        <location filename="../mainwindow.cpp" line="1984"/>
+        <location filename="../mainwindow.cpp" line="2017"/>
+        <location filename="../mainwindow.cpp" line="3728"/>
+        <location filename="../mainwindow.cpp" line="3744"/>
+        <location filename="../mainwindow.cpp" line="3759"/>
+        <location filename="../mainwindow.cpp" line="4113"/>
+        <location filename="../mainwindow.cpp" line="4808"/>
+        <location filename="../mainwindow.cpp" line="5159"/>
+        <location filename="../mainwindow.cpp" line="5422"/>
+        <location filename="../mainwindow.cpp" line="5445"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Odustani</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2485"/>
+        <location filename="../mainwindow.cpp" line="2489"/>
         <source>Do you wish to add %1 to the Windows Firewall exception list?</source>
         <translation>Želiš li dodati %1 u popis iznimaka Windows vatrozida?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2498"/>
+        <location filename="../mainwindow.cpp" line="2502"/>
         <source>Failed to add %1 to Windows Firewall exceptions.</source>
         <translation>%1 nije dodan u popis iznimaka Windows vatrozida.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2653"/>
+        <location filename="../mainwindow.cpp" line="2657"/>
         <source>%1 is requesting desktop access</source>
         <translation>%1 traži pristup radnoj površini</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2659"/>
-        <location filename="../mainwindow.cpp" line="4522"/>
+        <location filename="../mainwindow.cpp" line="2663"/>
+        <location filename="../mainwindow.cpp" line="4526"/>
         <source>%1 granted desktop access</source>
         <translation>%1 je odobrio/la pristup radnoj površini</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2665"/>
+        <location filename="../mainwindow.cpp" line="2669"/>
         <source>%1 retracted desktop access</source>
         <translation>%1 je opozvao/la pristup radnoj površini</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2701"/>
-        <location filename="../mainwindow.cpp" line="2713"/>
+        <location filename="../mainwindow.cpp" line="2705"/>
+        <location filename="../mainwindow.cpp" line="2717"/>
         <source>Joined channel %1</source>
         <translation>Pridružio/la se kanalu %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2825"/>
+        <location filename="../mainwindow.cpp" line="2829"/>
         <source>Files in channel: %1</source>
         <translation>Datoteke u kanalu: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2882"/>
+        <location filename="../mainwindow.cpp" line="2886"/>
         <source>Failed to start recording</source>
         <translation>Neuspjelo pokretanje snimanja</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2886"/>
+        <location filename="../mainwindow.cpp" line="2890"/>
         <source>Recording to file: %1</source>
         <translation>Snimanje u datoteku: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2940"/>
+        <location filename="../mainwindow.cpp" line="2944"/>
         <source>Microphone gain is controlled by channel</source>
         <translation>Pojačanjem mikrofona upravlja kanal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3316"/>
+        <location filename="../mainwindow.cpp" line="3320"/>
         <source>Failed to stream media file %1</source>
         <translation>Neuspio prijenos medijske datoteke %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3476"/>
+        <location filename="../mainwindow.cpp" line="3480"/>
         <source>Enable HotKey</source>
         <translation>Uključi tipkovni prečac</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3477"/>
+        <location filename="../mainwindow.cpp" line="3481"/>
         <source>Failed to register hotkey. Please try another key combination.</source>
         <translation>Neuspjelo registriranje prečaca. Pokušaj jednu drugu tipkovnu kombinaciju.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3482"/>
+        <location filename="../mainwindow.cpp" line="3486"/>
         <source>Push To Talk: </source>
         <translation>Pritisni za govor: </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3715"/>
-        <location filename="../mainwindow.cpp" line="3758"/>
+        <location filename="../mainwindow.cpp" line="3719"/>
+        <location filename="../mainwindow.cpp" line="3762"/>
         <source>New Profile</source>
         <translation>Novi profil</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3715"/>
+        <location filename="../mainwindow.cpp" line="3719"/>
         <source>Delete Profile</source>
         <translation>Izbriši profil</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3727"/>
-        <location filename="../mainwindow.cpp" line="3743"/>
+        <location filename="../mainwindow.cpp" line="3731"/>
+        <location filename="../mainwindow.cpp" line="3747"/>
         <source>New Client Instance</source>
         <translation>Novi primjerak klijenta</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3728"/>
+        <location filename="../mainwindow.cpp" line="3732"/>
         <source>Select profile</source>
         <translation>Odaberi profil</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3744"/>
+        <location filename="../mainwindow.cpp" line="3748"/>
         <source>Delete profile</source>
         <translation>Izbriši profil</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3759"/>
+        <location filename="../mainwindow.cpp" line="3763"/>
         <source>Profile name</source>
         <translation>Ime profila</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4116"/>
+        <location filename="../mainwindow.cpp" line="4120"/>
         <source>Specify new nickname</source>
         <translation>Odredi novi nadimak</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5940"/>
+        <location filename="../mainwindow.cpp" line="5973"/>
         <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
         <translation>Video uređaj nije ispravno konfiguriran. Provjeri postavke</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4244"/>
+        <location filename="../mainwindow.cpp" line="4248"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
         <translation>Neuspjelo konfiguriranje kodera videa. Provjeri postavke</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4290"/>
+        <location filename="../mainwindow.cpp" line="4294"/>
         <source>Failed to open X11 display.</source>
         <translation>Neuspjelo otvaranje X11 ekrana.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4309"/>
+        <location filename="../mainwindow.cpp" line="4313"/>
         <source>Failed to start desktop sharing</source>
         <translation>Neuspjelo pokretanje dijeljenja radne površine</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4727"/>
-        <location filename="../mainwindow.cpp" line="4740"/>
+        <location filename="../mainwindow.cpp" line="4731"/>
+        <location filename="../mainwindow.cpp" line="4744"/>
         <source>Failed to issue command to create channel</source>
         <translation>Neuspjelo izdavanje naredbe za stvaranje kanala</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4754"/>
+        <location filename="../mainwindow.cpp" line="4758"/>
         <source>Failed to issue command to update channel</source>
         <translation>Neuspjelo izdavanje naredbe za aktualiziranje kanala</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4767"/>
+        <location filename="../mainwindow.cpp" line="4771"/>
         <source>Are you sure you want to delete channel &quot;%1&quot;?</source>
         <translation>Stvarno želiš izbrisati kanal „%1”?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4779"/>
+        <location filename="../mainwindow.cpp" line="4783"/>
         <source>Failed to issue command to delete channel</source>
         <translation>Neuspjelo izdavanje naredbe za uklanjanje kanala</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4809"/>
-        <location filename="../mainwindow.cpp" line="5393"/>
+        <location filename="../mainwindow.cpp" line="4813"/>
+        <location filename="../mainwindow.cpp" line="5426"/>
         <source>Specify password</source>
         <translation>Odredi lozinku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4824"/>
+        <location filename="../mainwindow.cpp" line="4828"/>
         <source>Failed to issue command to join channel</source>
         <translation>Neuspjelo izdavanje naredbe za pridruživanje kanalu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4958"/>
+        <location filename="../mainwindow.cpp" line="4962"/>
         <source>Open File</source>
         <translation>Otvori datoteku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4978"/>
+        <location filename="../mainwindow.cpp" line="4983"/>
         <source>Save File</source>
         <translation>Spremi datoteku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5007"/>
+        <location filename="../mainwindow.cpp" line="5013"/>
         <source>Are you sure you want to delete &quot;%1&quot;?</source>
         <translation>Stvarno želiš izbrisati „%1”?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5016"/>
+        <location filename="../mainwindow.cpp" line="5022"/>
         <source>Are you sure you want to delete %1 file(s)?</source>
         <translation>Stvarno želiš izbrisati %1 datoteke?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5129"/>
+        <location filename="../mainwindow.cpp" line="5162"/>
         <source>Message to broadcast:</source>
         <translation>Javna poruka:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5175"/>
+        <location filename="../mainwindow.cpp" line="5208"/>
         <source>Are you sure you want to delete your existing settings?</source>
         <translation>Stvarno želiš izbrisati tvoje postojeće postavke?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5190"/>
+        <location filename="../mainwindow.cpp" line="5223"/>
         <source>Cannot find %1</source>
         <translation>Nije moguće pronaći %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5197"/>
+        <location filename="../mainwindow.cpp" line="5230"/>
         <source>Cannot remove %1</source>
         <translation>Nije moguće ukloniti %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5204"/>
+        <location filename="../mainwindow.cpp" line="5237"/>
         <source>Failed to copy %1 to %2</source>
         <translation>%1 nije kopirano u %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5408"/>
+        <location filename="../mainwindow.cpp" line="5441"/>
         <source>IP-address</source>
         <translation>IP adresa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5408"/>
+        <location filename="../mainwindow.cpp" line="5441"/>
         <source>Username</source>
         <translation>Korisničko ime</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5416"/>
+        <location filename="../mainwindow.cpp" line="5449"/>
         <source>Ban User From Channel</source>
         <translation>Blokiraj korisnika na kanalu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5415"/>
+        <location filename="../mainwindow.cpp" line="5448"/>
         <source>Ban user&apos;s</source>
         <translation>Blokiraj korisnički</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5567"/>
+        <location filename="../mainwindow.cpp" line="5600"/>
         <source>&amp;Leave Channel</source>
         <translation>&amp;Napusti kanal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5835"/>
+        <location filename="../mainwindow.cpp" line="5868"/>
         <source>The maximum number of users who can transmit is %1</source>
         <translation>Maksimalni broj korisnika koji smiju prenositi je %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5893"/>
+        <location filename="../mainwindow.cpp" line="5926"/>
         <source>You can now transmit audio!</source>
         <translation>Sada možeš prenositi zvuk!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5895"/>
+        <location filename="../mainwindow.cpp" line="5928"/>
         <source>You can no longer transmit audio!</source>
         <translation>Više ne možeš prenositi zvuk!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5904"/>
+        <location filename="../mainwindow.cpp" line="5937"/>
         <source>You can now transmit video!</source>
         <translation>Sada možeš prenositi video!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5906"/>
+        <location filename="../mainwindow.cpp" line="5939"/>
         <source>You can no longer transmit video!</source>
         <translation>Više ne možeš prenositi video!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5915"/>
+        <location filename="../mainwindow.cpp" line="5948"/>
         <source>You can now transmit desktop windows!</source>
         <translation>Sada možeš prenositi prozore radne površine!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5917"/>
+        <location filename="../mainwindow.cpp" line="5950"/>
         <source>You can no longer transmit desktop windows!</source>
         <translation>Više ne možeš prenositi prozore radne površine!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5939"/>
+        <location filename="../mainwindow.cpp" line="5972"/>
         <source>Start Webcam</source>
         <translation>Pokreni web kameru</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5961"/>
-        <location filename="../mainwindow.cpp" line="6013"/>
+        <location filename="../mainwindow.cpp" line="5994"/>
+        <location filename="../mainwindow.cpp" line="6046"/>
         <source>Myself</source>
         <translation>Ja</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1159"/>
+        <location filename="../mainwindow.cpp" line="1163"/>
         <source>%1 joined channel</source>
         <translation>%1 se pridružio/la kanalu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1197"/>
+        <location filename="../mainwindow.cpp" line="1201"/>
         <source>%1 left channel</source>
         <translation>%1 je napustio/la kanal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2832"/>
+        <location filename="../mainwindow.cpp" line="2836"/>
         <source>&amp;Files (%1)</source>
         <translation>&amp;Datoteke (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6381"/>
-        <location filename="../mainwindow.cpp" line="6386"/>
-        <location filename="../mainwindow.cpp" line="6391"/>
-        <location filename="../mainwindow.cpp" line="6396"/>
-        <location filename="../mainwindow.cpp" line="6401"/>
-        <location filename="../mainwindow.cpp" line="6406"/>
-        <location filename="../mainwindow.cpp" line="6411"/>
-        <location filename="../mainwindow.cpp" line="6416"/>
-        <location filename="../mainwindow.cpp" line="6421"/>
-        <location filename="../mainwindow.cpp" line="6426"/>
-        <location filename="../mainwindow.cpp" line="6431"/>
-        <location filename="../mainwindow.cpp" line="6436"/>
-        <location filename="../mainwindow.cpp" line="6443"/>
-        <location filename="../mainwindow.cpp" line="6448"/>
-        <location filename="../mainwindow.cpp" line="6453"/>
-        <location filename="../mainwindow.cpp" line="6458"/>
-        <location filename="../mainwindow.cpp" line="6463"/>
-        <location filename="../mainwindow.cpp" line="6468"/>
-        <location filename="../mainwindow.cpp" line="6473"/>
-        <location filename="../mainwindow.cpp" line="6478"/>
-        <location filename="../mainwindow.cpp" line="6483"/>
-        <location filename="../mainwindow.cpp" line="6488"/>
-        <location filename="../mainwindow.cpp" line="6493"/>
-        <location filename="../mainwindow.cpp" line="6498"/>
-        <location filename="../mainwindow.cpp" line="6503"/>
-        <location filename="../mainwindow.cpp" line="6508"/>
-        <location filename="../mainwindow.cpp" line="6513"/>
-        <location filename="../mainwindow.cpp" line="6518"/>
+        <location filename="../mainwindow.cpp" line="6414"/>
+        <location filename="../mainwindow.cpp" line="6419"/>
+        <location filename="../mainwindow.cpp" line="6424"/>
+        <location filename="../mainwindow.cpp" line="6429"/>
+        <location filename="../mainwindow.cpp" line="6434"/>
+        <location filename="../mainwindow.cpp" line="6439"/>
+        <location filename="../mainwindow.cpp" line="6444"/>
+        <location filename="../mainwindow.cpp" line="6449"/>
+        <location filename="../mainwindow.cpp" line="6454"/>
+        <location filename="../mainwindow.cpp" line="6459"/>
+        <location filename="../mainwindow.cpp" line="6464"/>
+        <location filename="../mainwindow.cpp" line="6469"/>
+        <location filename="../mainwindow.cpp" line="6476"/>
+        <location filename="../mainwindow.cpp" line="6481"/>
+        <location filename="../mainwindow.cpp" line="6486"/>
+        <location filename="../mainwindow.cpp" line="6491"/>
+        <location filename="../mainwindow.cpp" line="6496"/>
+        <location filename="../mainwindow.cpp" line="6501"/>
+        <location filename="../mainwindow.cpp" line="6506"/>
+        <location filename="../mainwindow.cpp" line="6511"/>
+        <location filename="../mainwindow.cpp" line="6516"/>
+        <location filename="../mainwindow.cpp" line="6521"/>
+        <location filename="../mainwindow.cpp" line="6526"/>
+        <location filename="../mainwindow.cpp" line="6531"/>
+        <location filename="../mainwindow.cpp" line="6536"/>
+        <location filename="../mainwindow.cpp" line="6541"/>
+        <location filename="../mainwindow.cpp" line="6546"/>
+        <location filename="../mainwindow.cpp" line="6551"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
         <translation>%1 je promijenio/la pretplatu „%2” u: %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6385"/>
-        <location filename="../mainwindow.cpp" line="6386"/>
-        <location filename="../mainwindow.cpp" line="6395"/>
-        <location filename="../mainwindow.cpp" line="6396"/>
-        <location filename="../mainwindow.cpp" line="6405"/>
-        <location filename="../mainwindow.cpp" line="6406"/>
-        <location filename="../mainwindow.cpp" line="6415"/>
-        <location filename="../mainwindow.cpp" line="6416"/>
-        <location filename="../mainwindow.cpp" line="6425"/>
-        <location filename="../mainwindow.cpp" line="6426"/>
-        <location filename="../mainwindow.cpp" line="6435"/>
-        <location filename="../mainwindow.cpp" line="6436"/>
-        <location filename="../mainwindow.cpp" line="6447"/>
+        <location filename="../mainwindow.cpp" line="6418"/>
+        <location filename="../mainwindow.cpp" line="6419"/>
+        <location filename="../mainwindow.cpp" line="6428"/>
+        <location filename="../mainwindow.cpp" line="6429"/>
+        <location filename="../mainwindow.cpp" line="6438"/>
+        <location filename="../mainwindow.cpp" line="6439"/>
         <location filename="../mainwindow.cpp" line="6448"/>
-        <location filename="../mainwindow.cpp" line="6457"/>
+        <location filename="../mainwindow.cpp" line="6449"/>
         <location filename="../mainwindow.cpp" line="6458"/>
-        <location filename="../mainwindow.cpp" line="6467"/>
+        <location filename="../mainwindow.cpp" line="6459"/>
         <location filename="../mainwindow.cpp" line="6468"/>
-        <location filename="../mainwindow.cpp" line="6477"/>
-        <location filename="../mainwindow.cpp" line="6478"/>
-        <location filename="../mainwindow.cpp" line="6487"/>
-        <location filename="../mainwindow.cpp" line="6488"/>
-        <location filename="../mainwindow.cpp" line="6497"/>
-        <location filename="../mainwindow.cpp" line="6498"/>
-        <location filename="../mainwindow.cpp" line="6507"/>
-        <location filename="../mainwindow.cpp" line="6508"/>
-        <location filename="../mainwindow.cpp" line="6517"/>
-        <location filename="../mainwindow.cpp" line="6518"/>
+        <location filename="../mainwindow.cpp" line="6469"/>
+        <location filename="../mainwindow.cpp" line="6480"/>
+        <location filename="../mainwindow.cpp" line="6481"/>
+        <location filename="../mainwindow.cpp" line="6490"/>
+        <location filename="../mainwindow.cpp" line="6491"/>
+        <location filename="../mainwindow.cpp" line="6500"/>
+        <location filename="../mainwindow.cpp" line="6501"/>
+        <location filename="../mainwindow.cpp" line="6510"/>
+        <location filename="../mainwindow.cpp" line="6511"/>
+        <location filename="../mainwindow.cpp" line="6520"/>
+        <location filename="../mainwindow.cpp" line="6521"/>
+        <location filename="../mainwindow.cpp" line="6530"/>
+        <location filename="../mainwindow.cpp" line="6531"/>
+        <location filename="../mainwindow.cpp" line="6540"/>
+        <location filename="../mainwindow.cpp" line="6541"/>
+        <location filename="../mainwindow.cpp" line="6550"/>
+        <location filename="../mainwindow.cpp" line="6551"/>
         <source>On</source>
         <translation>Uključeno</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6385"/>
-        <location filename="../mainwindow.cpp" line="6386"/>
-        <location filename="../mainwindow.cpp" line="6395"/>
-        <location filename="../mainwindow.cpp" line="6396"/>
-        <location filename="../mainwindow.cpp" line="6405"/>
-        <location filename="../mainwindow.cpp" line="6406"/>
-        <location filename="../mainwindow.cpp" line="6415"/>
-        <location filename="../mainwindow.cpp" line="6416"/>
-        <location filename="../mainwindow.cpp" line="6425"/>
-        <location filename="../mainwindow.cpp" line="6426"/>
-        <location filename="../mainwindow.cpp" line="6435"/>
-        <location filename="../mainwindow.cpp" line="6436"/>
-        <location filename="../mainwindow.cpp" line="6447"/>
+        <location filename="../mainwindow.cpp" line="6418"/>
+        <location filename="../mainwindow.cpp" line="6419"/>
+        <location filename="../mainwindow.cpp" line="6428"/>
+        <location filename="../mainwindow.cpp" line="6429"/>
+        <location filename="../mainwindow.cpp" line="6438"/>
+        <location filename="../mainwindow.cpp" line="6439"/>
         <location filename="../mainwindow.cpp" line="6448"/>
-        <location filename="../mainwindow.cpp" line="6457"/>
+        <location filename="../mainwindow.cpp" line="6449"/>
         <location filename="../mainwindow.cpp" line="6458"/>
-        <location filename="../mainwindow.cpp" line="6467"/>
+        <location filename="../mainwindow.cpp" line="6459"/>
         <location filename="../mainwindow.cpp" line="6468"/>
-        <location filename="../mainwindow.cpp" line="6477"/>
-        <location filename="../mainwindow.cpp" line="6478"/>
-        <location filename="../mainwindow.cpp" line="6487"/>
-        <location filename="../mainwindow.cpp" line="6488"/>
-        <location filename="../mainwindow.cpp" line="6497"/>
-        <location filename="../mainwindow.cpp" line="6498"/>
-        <location filename="../mainwindow.cpp" line="6507"/>
-        <location filename="../mainwindow.cpp" line="6508"/>
-        <location filename="../mainwindow.cpp" line="6517"/>
-        <location filename="../mainwindow.cpp" line="6518"/>
+        <location filename="../mainwindow.cpp" line="6469"/>
+        <location filename="../mainwindow.cpp" line="6480"/>
+        <location filename="../mainwindow.cpp" line="6481"/>
+        <location filename="../mainwindow.cpp" line="6490"/>
+        <location filename="../mainwindow.cpp" line="6491"/>
+        <location filename="../mainwindow.cpp" line="6500"/>
+        <location filename="../mainwindow.cpp" line="6501"/>
+        <location filename="../mainwindow.cpp" line="6510"/>
+        <location filename="../mainwindow.cpp" line="6511"/>
+        <location filename="../mainwindow.cpp" line="6520"/>
+        <location filename="../mainwindow.cpp" line="6521"/>
+        <location filename="../mainwindow.cpp" line="6530"/>
+        <location filename="../mainwindow.cpp" line="6531"/>
+        <location filename="../mainwindow.cpp" line="6540"/>
+        <location filename="../mainwindow.cpp" line="6541"/>
+        <location filename="../mainwindow.cpp" line="6550"/>
+        <location filename="../mainwindow.cpp" line="6551"/>
         <source>Off</source>
         <translation>Isključeno</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6612"/>
-        <location filename="../mainwindow.cpp" line="6621"/>
-        <location filename="../mainwindow.cpp" line="6631"/>
-        <location filename="../mainwindow.cpp" line="6642"/>
+        <location filename="../mainwindow.cpp" line="6645"/>
+        <location filename="../mainwindow.cpp" line="6654"/>
+        <location filename="../mainwindow.cpp" line="6664"/>
+        <location filename="../mainwindow.cpp" line="6675"/>
         <source>Load File</source>
         <translation>Učitaj datoteku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6613"/>
-        <location filename="../mainwindow.cpp" line="6622"/>
+        <location filename="../mainwindow.cpp" line="6646"/>
+        <location filename="../mainwindow.cpp" line="6655"/>
         <source>Failed to load file %1</source>
         <translation>Neuspjelo učitavanje datoteke %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6632"/>
+        <location filename="../mainwindow.cpp" line="6665"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
         <translation>Datoteka „%1” nije kompatibilna s %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6643"/>
+        <location filename="../mainwindow.cpp" line="6676"/>
         <source>Failed to extract host-information from %1</source>
         <translation>Neuspjelo izdvajanje podataka računala od %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6657"/>
+        <location filename="../mainwindow.cpp" line="6690"/>
         <source>Load %1 File</source>
         <translation>Učitaj %1 datoteku</translation>
     </message>
