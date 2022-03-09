@@ -1179,7 +1179,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransfer.ui" line="62"/>
         <source>Throughput:</source>
-        <translation>Throughput:</translation>
+        <translation>Пропускная способность:</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="79"/>
@@ -3700,24 +3700,6 @@ You can download it on the page below:
         <translation>Звуковые события отключены</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6745"/>
-        <source>New version available: %1
-You can download it on the page below:
-%2</source>
-        <translation>Доступна новая версия: %1
-You can download it on the page below:
-%2</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6770"/>
-        <source>New beta version available: %1
-You can download it on the page below:
-%2</source>
-        <translation>Доступна новая бета-версия: %1
-You can download it on the page below:
-%2</translation>
-    </message>
-    <message>
         <source>Streaming media file</source>
         <translation type="vanished">Транслирует медиа файл</translation>
     </message>
@@ -3992,13 +3974,6 @@ You can download it on the page below:
         <location filename="../mainwindow.cpp" line="6643"/>
         <source>Failed to extract host-information from %1</source>
         <translation>Не удалось извлечь информацию хоста из %1</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6652"/>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation>Файл %1 содержит %2 конфигурационные данные.
-Следует ли применить эти настройки?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6657"/>
