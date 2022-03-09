@@ -2828,12 +2828,12 @@ void MainWindow::updateChannelFiles(int channelid)
     TT_GetChannelPath(ttInst, channelid, chanpath);
     ui.channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
 
-    if(m_filesmodel->rowCount() == 0) {
+    if(m_proxyFilesModel->rowCount() == 0) {
         ui.tabWidget->setTabText(TAB_FILES, tr("&Files"));
         ui.deleteButton->setVisible(false);
         ui.downloadButton->setVisible(false);
     } else {
-        ui.tabWidget->setTabText(TAB_FILES, tr("&Files (%1)").arg(m_filesmodel->rowCount()));
+        ui.tabWidget->setTabText(TAB_FILES, tr("&Files (%1)").arg(m_proxyFilesModel->rowCount()));
         ui.deleteButton->setVisible(true);
         ui.downloadButton->setVisible(true);
     }
