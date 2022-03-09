@@ -3701,17 +3701,21 @@ You can download it on the page below:
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6745"/>
-        <source>New version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
+        <source>New version available: %1
+You can download it on the page below:
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая версия: %1
+You can download it on the page below:
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6770"/>
-        <source>New beta version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
+        <source>New beta version available: %1
+You can download it on the page below:
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая бета-версия: %1
+You can download it on the page below:
+%2</translation>
     </message>
     <message>
         <source>Streaming media file</source>
@@ -3991,9 +3995,10 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6652"/>
-        <source>The file %1 contains %2 setup information.<byte value="xd"/>
+        <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл %1 содержит %2 конфигурационные данные.
+Следует ли применить эти настройки?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6657"/>
@@ -4929,7 +4934,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="2445"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать/скрыть главное окно</translation>
     </message>
     <message>
         <source>Setup Keys</source>
@@ -5517,32 +5522,32 @@ the server has been verified.</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="684"/>
         <source>Sort By...</source>
-        <translation type="unfinished"></translation>
+        <translation>Сортировать по...</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="685"/>
         <source>De&amp;fault</source>
-        <translation type="unfinished"></translation>
+        <translation>По&amp;умолчанию</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="686"/>
         <source>&amp;Name</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Имя</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="687"/>
         <source>&amp;User Count</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Количество пользователей</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="688"/>
         <source>Country</source>
-        <translation type="unfinished">Страна</translation>
+        <translation>Страна</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="689"/>
         <source>&amp;Delete Selected Server</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Удалить Выбранный Сервер</translation>
     </message>
     <message>
         <source>Your private server will appear in a couple of minutes.
@@ -7090,32 +7095,32 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="788"/>
         <source>Sort By...</source>
-        <translation type="unfinished"></translation>
+        <translation>Сортировано По...</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="789"/>
         <source>&amp;Username</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Имя пользователя</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="790"/>
         <source>User &amp;Type</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Тип пользователя</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="791"/>
         <source>&amp;Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Канал</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="792"/>
         <source>&amp;Modified</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Изменено</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="793"/>
         <source>&amp;Delete Selected User</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Удалить выбранного пользователя</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="503"/>
