@@ -63,8 +63,12 @@ public class AppInfo {
                 + appversion + "&dllversion=" + TEAMTALK_VERSION + "&os=" + OSTYPE;
     }
 
-    public static String getServerListURL(Context context) {
-        String urlToRead = "http://www.bearware.dk/teamtalk/tt5servers.php?" + getDefautlUrlArgs(context);
+    public static String getServerListURL(Context context, boolean official, boolean publicc, boolean unofficial) {
+        String urlToRead = "http://www.bearware.dk/teamtalk/tt5servers.php?" +
+                getDefautlUrlArgs(context) +
+                "&official=" + (official ? "1" : "0") +
+                "&public=" + (publicc ? "1" : "0") +
+                "&unofficial=" + (unofficial ? "1" : "0");
         return urlToRead;
     }
 

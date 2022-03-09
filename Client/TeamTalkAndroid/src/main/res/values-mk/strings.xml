@@ -272,5 +272,10 @@
     <string name="permission_filetx">Прикачените датотеки ќе бидат недостапни</string>
     <string name="permission_internet">Клиентот ќе биде оневозможен да се конектира на серверите</string>
     <string name="permission_vibrate">Вибрирањето при притискање на копчето пуш ту ток ќе биде недостапно</string>
+    <string name="pref_summary_official_servers">Include official servers in Server List</string>
+    <string name="pref_title_official_servers">Show official servers</string>
+    <string name="pref_summary_unofficial_servers">Include unofficial servers in Server List</string>
+    <string name="pref_title_unofficial_servers">Show unofficial servers</string>
+    <string name="pref_header_serverlist">Server List</string>
 
 </resources>

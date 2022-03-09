@@ -355,4 +355,9 @@
     <string name="pref_summary_channel_message_sent">Falar mensagens enviadas no canal</string>
     <string name="text_tts_channel_message_sent">Mensagem enviada para o canal: %1$s</string>
     <string name="err_text_length">%1$d caracteres excedidos na mensagem</string>
+    <string name="pref_summary_official_servers">Include official servers in Server List</string>
+    <string name="pref_title_official_servers">Show official servers</string>
+    <string name="pref_summary_unofficial_servers">Include unofficial servers in Server List</string>
+    <string name="pref_title_unofficial_servers">Show unofficial servers</string>
+    <string name="pref_header_serverlist">Server List</string>
 </resources>

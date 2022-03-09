@@ -323,7 +323,7 @@ public class Utils {
                             entry.servertype = ServerEntry.ServerType.PUBLIC;
                             break;
                         case "private" :
-                            entry.servertype = ServerEntry.ServerType.PRIVATE;
+                            entry.servertype = ServerEntry.ServerType.UNOFFICIAL;
                             break;
                     }
                 }

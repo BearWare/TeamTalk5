@@ -281,5 +281,10 @@
     <string name="permission_vibrate">Vibración al pulsar para hablar será imposible</string>
     <string name="permission_wake_lock">Conexión con el servidor podrá perdirse cuando la pantalla está apagada</string>
     <string name="permission_read_phone_state">Detección de llamadas telefónicas será imposible</string>
+    <string name="pref_summary_official_servers">Include official servers in Server List</string>
+    <string name="pref_title_official_servers">Show official servers</string>
+    <string name="pref_summary_unofficial_servers">Include unofficial servers in Server List</string>
+    <string name="pref_title_unofficial_servers">Show unofficial servers</string>
+    <string name="pref_header_serverlist">Server List</string>
 
 </resources>

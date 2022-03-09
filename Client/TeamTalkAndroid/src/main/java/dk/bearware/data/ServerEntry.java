@@ -29,7 +29,7 @@ public class ServerEntry {
         LOCAL,
         OFFICIAL,
         PUBLIC,
-        PRIVATE
+        UNOFFICIAL
     }
 
     //key names from 'serverentry_preferences'

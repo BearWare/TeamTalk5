@@ -281,5 +281,10 @@
     <string name="permission_vibrate">Bergetar saat tahan dan bicara akan tidak tersedia</string>
     <string name="permission_wake_lock">Koneksi ke server bisa hilang ketika layar meredup</string>
     <string name="permission_read_phone_state">Deteksi panggilan masuk akan tidak memungkinkan</string>
+    <string name="pref_summary_official_servers">Include official servers in Server List</string>
+    <string name="pref_title_official_servers">Show official servers</string>
+    <string name="pref_summary_unofficial_servers">Include unofficial servers in Server List</string>
+    <string name="pref_title_unofficial_servers">Show unofficial servers</string>
+    <string name="pref_header_serverlist">Server List</string>
 
 </resources>

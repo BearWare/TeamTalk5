@@ -368,6 +368,11 @@
     <string name="pref_summary_channel_message_sent">أعلن عن رسائل القناة المرسلة</string>
     <string name="text_tts_channel_message_sent">تم إرسال رسالة الى القناة: %1$s</string>
     <string name="err_text_length">تم تجاوز طول الرسالة بمقدار %1$d حرف</string>
+    <string name="pref_summary_official_servers">Include official servers in Server List</string>
+    <string name="pref_title_official_servers">Show official servers</string>
+    <string name="pref_summary_unofficial_servers">Include unofficial servers in Server List</string>
+    <string name="pref_title_unofficial_servers">Show unofficial servers</string>
+    <string name="pref_header_serverlist">Server List</string>
 
 
 </resources>

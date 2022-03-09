@@ -339,4 +339,9 @@
   <string name="pref_summary_userloggedin_icon">Bir kullanıcı oturum açtığında ses oynat</string>
   <string name="pref_title_userloggedoff_icon">Kullanıcının oturumu kapatması</string>
   <string name="pref_summary_userloggedoff_icon">Bir kullanıcı oturumu kapattığında ses oynat</string>
+    <string name="pref_summary_official_servers">Include official servers in Server List</string>
+  <string name="pref_title_official_servers">Show official servers</string>
+    <string name="pref_summary_unofficial_servers">Include unofficial servers in Server List</string>
+  <string name="pref_title_unofficial_servers">Show unofficial servers</string>
+    <string name="pref_header_serverlist">Server List</string>
 </resources>

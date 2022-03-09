@@ -428,7 +428,7 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
                     img.setContentDescription(getString(R.string.text_publicserver));
                     img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
                     break;
-                case PRIVATE :
+                case UNOFFICIAL:
                     img.setImageResource(R.drawable.teamtalk_orange);
                     img.setContentDescription(getString(R.string.text_privateserver));
                     img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
@@ -533,7 +533,12 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
 
         @Override
         protected Void doInBackground(Void... params) {
-            String urlToRead = AppInfo.getServerListURL(ServerListActivity.this);
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+            String urlToRead = AppInfo.getServerListURL(ServerListActivity.this,
+                    pref.getBoolean(Preferences.PREF_GENERAL_OFFICIALSERVERS, true),
+                    pref.getBoolean(Preferences.PREF_GENERAL_PUBLICSERVERS, true),
+                    pref.getBoolean(Preferences.PREF_GENERAL_UNOFFICIALSERVERS, false));
 
             String xml = Utils.getURL(urlToRead);
             if(!xml.isEmpty())
@@ -562,13 +567,10 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
             loadLocalServers();        
         }
 
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        if(pref.getBoolean(Preferences.PREF_GENERAL_PUBLICSERVERS, true)) {
-            // Get public servers from http. TeamTalk DLL must be loaded by
-            // service, otherwise static methods are unavailable (for getting DLL
-            // version number).
-            new ServerListAsyncTask().execute();
-        }
+        // Get public servers from http. TeamTalk DLL must be loaded by
+        // service, otherwise static methods are unavailable (for getting DLL
+        // version number).
+        new ServerListAsyncTask().execute();
     }
     
     class VersionCheckAsyncTask extends AsyncTask<Void, Void, Void> {
@@ -783,8 +785,8 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
                 if (s2.servertype == ServerEntry.ServerType.PUBLIC)
                     return 0; // order of public servers are determined by xml-reply
                 return -1;
-            case PRIVATE:
-                if (s2.servertype == ServerEntry.ServerType.PRIVATE)
+            case UNOFFICIAL:
+                if (s2.servertype == ServerEntry.ServerType.UNOFFICIAL)
                     return s1.servername.compareToIgnoreCase(s2.servername);
                 return -1;
         }

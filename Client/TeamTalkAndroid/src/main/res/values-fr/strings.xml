@@ -370,6 +370,11 @@
     <string name="pref_summary_channel_message_sent">Annoncer les messages de canal envoyés</string>
     <string name="text_tts_channel_message_sent">Message de canal envoyé : %1$s</string>
     <string name="err_text_length">Le message dépasse la taille de %1$d caractères</string>
+    <string name="pref_summary_official_servers">Include official servers in Server List</string>
+    <string name="pref_title_official_servers">Show official servers</string>
+    <string name="pref_summary_unofficial_servers">Include unofficial servers in Server List</string>
+    <string name="pref_title_unofficial_servers">Show unofficial servers</string>
+    <string name="pref_header_serverlist">Server List</string>
 
 
 </resources>
