@@ -75,7 +75,7 @@ class AppInfo {
     }
     
     static func getServersURL(officialservers: Bool, publicservers: Bool, unofficialservers: Bool) -> String {
-        let officialstr = publicservers ? "1" : "0"
+        let officialstr = officialservers ? "1" : "0"
         let pubstr = publicservers ? "1" : "0"
         let unofficialstr = unofficialservers ? "1" : "0"
         return "http://www.bearware.dk/teamtalk/tt5servers.php?official=\(officialstr)&public=\(pubstr)&unofficial=\(unofficialstr)&" + getDefaultUrlArgs()
