@@ -4752,7 +4752,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="2445"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished"></translation>
+        <translation>显示/隐藏主窗口</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2497"/>
@@ -5116,10 +5116,6 @@ Should these settings be applied?</source>
         <translation>包括公共服务器（绿色）</translation>
     </message>
     <message>
-        <source>&amp;Delete</source>
-        <translation type="vanished">删除(&amp;D)</translation>
-    </message>
-    <message>
         <location filename="../serverlist.ui" line="94"/>
         <source>Server Information</source>
         <translation>服务器信息</translation>
@@ -5315,32 +5311,32 @@ the server has been verified.</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="684"/>
         <source>Sort By...</source>
-        <translation type="unfinished"></translation>
+        <translation>排序方式...</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="685"/>
         <source>De&amp;fault</source>
-        <translation type="unfinished"></translation>
+        <translation>默认(&amp;F)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="686"/>
         <source>&amp;Name</source>
-        <translation type="unfinished"></translation>
+        <translation>名称(&amp;N)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="687"/>
         <source>&amp;User Count</source>
-        <translation type="unfinished"></translation>
+        <translation>用户数(&amp;U)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="688"/>
         <source>Country</source>
-        <translation type="unfinished">国家</translation>
+        <translation>国家</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="689"/>
         <source>&amp;Delete Selected Server</source>
-        <translation type="unfinished"></translation>
+        <translation>删除选定服务器(&amp;D)</translation>
     </message>
 </context>
 <context>
@@ -6544,10 +6540,6 @@ the server has been verified.</source>
         <translation>活跃用户</translation>
     </message>
     <message>
-        <source>&amp;Delete</source>
-        <translation type="vanished">删除(&amp;D)</translation>
-    </message>
-    <message>
         <location filename="../useraccounts.ui" line="76"/>
         <source>Modify User Account</source>
         <translation>修改用户帐户</translation>
@@ -6801,10 +6793,6 @@ the server has been verified.</source>
         <translation>复选框</translation>
     </message>
     <message>
-        <source>Remove selected user</source>
-        <translation type="vanished">删除选定用户</translation>
-    </message>
-    <message>
         <location filename="../useraccounts.ui" line="644"/>
         <source>&amp;Clear</source>
         <translation>清除(&amp;C)</translation>
@@ -6869,32 +6857,32 @@ the server has been verified.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="788"/>
         <source>Sort By...</source>
-        <translation type="unfinished"></translation>
+        <translation>排序方式...</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="789"/>
         <source>&amp;Username</source>
-        <translation type="unfinished"></translation>
+        <translation>用户名(&amp;U)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="790"/>
         <source>User &amp;Type</source>
-        <translation type="unfinished"></translation>
+        <translation>用户类型(&amp;T)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="791"/>
         <source>&amp;Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>频道(&amp;C)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="792"/>
         <source>&amp;Modified</source>
-        <translation type="unfinished"></translation>
+        <translation>修改(&amp;M)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="793"/>
         <source>&amp;Delete Selected User</source>
-        <translation type="unfinished"></translation>
+        <translation>删除选定用户(&amp;D)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="503"/>
