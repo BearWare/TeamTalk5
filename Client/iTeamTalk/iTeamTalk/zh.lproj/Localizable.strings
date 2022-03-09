@@ -533,7 +533,7 @@
 "Server List Entry" = "服务器列表入口";
 
 /* preferences */
-"Show in Server List" = "Show in Server List";
+"Show in Server List" = "在服务器列表中显示";
 
 /* preferences */
 "Show male or female icon" = "显示男性或女性图标";
@@ -641,7 +641,7 @@
 "UDP Port" = "UDP 端口";
 
 /* serverlist */
-"Unofficial server" = "Unofficial server";
+"Unofficial server" = "非官方服务器";
 
 /* preferences */
 "Use echo cancellation and automatic gain control" = "使用回声消除和自动增益控制";
