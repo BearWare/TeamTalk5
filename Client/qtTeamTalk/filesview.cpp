@@ -40,18 +40,16 @@ FilesView::FilesView(QWidget* parent) : MyTreeView(parent)
     setAcceptDrops(true);
 }
 
-QList<int> FilesView::selectedFiles(QStringList* fileNames/* = nullptr*/)
+QStringList FilesView::selectedFiles()
 {
+    QStringList fileNames;
     QItemSelectionModel* sel = selectionModel();
-    QModelIndexList indexes = sel->selectedRows();//selectedIndexes ();
-    QList<int> files;
+    QModelIndexList indexes = sel->selectedRows();
     for(int i=0;i<indexes.size();i++)
     {
-        files.push_back(indexes[i].internalId());
-        if(fileNames)
-            fileNames->push_back(indexes[i].data(COLUMN_INDEX_NAME).toString());
+        fileNames.push_back(indexes[i].data(COLUMN_INDEX_NAME).toString());
     }
-    return files;
+    return fileNames;
 }
 
 void FilesView::dragEnterEvent(QDragEnterEvent *event)
@@ -85,21 +83,6 @@ void FilesView::dropEvent(QDropEvent *event)
     foreach(QUrl url, event->mimeData()->urls())
         files.push_back(url.toLocalFile());
     emit(uploadFiles(files));
-}
-
-void FilesView::mousePressEvent(QMouseEvent* event )
-{
-    QTreeView::mousePressEvent(event);
-
-    //QDrag* drag = new QDrag(this);
-    //QMimeData* mimedata = new QMimeData();;
-    ////QList<QUrl> urls;
-    ////urls.push_back(QUrl("foo.txt"));
-    ////mimedata->setUrls(urls);
-    ////drag->setMimeData(mimedata);
-    //int ret = drag->exec(Qt::CopyAction);
-    //mimedata = drag->mimeData();
-    //ret = ret;
 }
 
 void FilesView::slotNewSelection(const QItemSelection & selected)

@@ -31,6 +31,7 @@
 #include <QQueue>
 #include <QSystemTrayIcon>
 #include <QNetworkAccessManager>
+#include <QSortFilterProxyModel>
 
 #include "common.h"
 #include "utilsound.h"
@@ -128,6 +129,7 @@ protected:
 private:
     Ui::MainWindow ui;
     class FilesModel* m_filesmodel;
+    QSortFilterProxyModel* m_proxyFilesModel;
     QSystemTrayIcon* m_sysicon;
     QMenu* m_sysmenu;
     QLabel* m_pttlabel;
