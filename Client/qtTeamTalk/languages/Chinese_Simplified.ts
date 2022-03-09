@@ -3407,27 +3407,27 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="5043"/>
         <source>Sort By...</source>
-        <translation type="unfinished">排序方式...</translation>
+        <translation>排序方式...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5044"/>
         <source>&amp;Name</source>
-        <translation type="unfinished">名称(&amp;N)</translation>
+        <translation>名称(&amp;N)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5045"/>
         <source>&amp;Size</source>
-        <translation type="unfinished"></translation>
+        <translation>大小(&amp;S)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5046"/>
         <source>&amp;Owner</source>
-        <translation type="unfinished"></translation>
+        <translation>所有者(&amp;O)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5047"/>
         <source>&amp;Upload Date</source>
-        <translation type="unfinished"></translation>
+        <translation>上传日期(&amp;U)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5747"/>
