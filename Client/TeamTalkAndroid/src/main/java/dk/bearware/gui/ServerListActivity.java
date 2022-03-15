@@ -410,7 +410,7 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
             
             ImageView img = convertView.findViewById(R.id.servericon);
             TextView name = convertView.findViewById(R.id.server_name);
-            TextView address = convertView.findViewById(R.id.server_address);
+            TextView summary = convertView.findViewById(R.id.server_summary);
             name.setText(servers.get(position).servername);
             switch (servers.get(position).servertype) {
                 case LOCAL :
@@ -430,17 +430,18 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
                     break;
                 case UNOFFICIAL:
                     img.setImageResource(R.drawable.teamtalk_orange);
-                    img.setContentDescription(getString(R.string.text_privateserver));
+                    img.setContentDescription(getString(R.string.text_unofficialserver));
                     img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
                     break;
             }
-            address.setText(servers.get(position).ipaddr);
+            ServerEntry entry = servers.get(position);
+            summary.setText(getString(R.string.text_server_summary, entry.ipaddr, entry.tcpport, entry.stats_usercount, entry.stats_country));
             View editButton = convertView.findViewById(R.id.server_edit);
             if (editButton != null)
                 editButton.setOnClickListener(v -> onItemLongClick(getListFragment().getListView(), v, position, v.getId()));
             convertView.findViewById(R.id.server_remove).setOnClickListener(v -> {
                 AlertDialog.Builder alert = new AlertDialog.Builder(ServerListActivity.this);
-                alert.setMessage(getString(R.string.server_remove_confirmation, servers.get(position).servername));
+                alert.setMessage(getString(R.string.server_remove_confirmation, entry.servername));
                 alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
                     servers.remove(position);
                     notifyDataSetChanged();

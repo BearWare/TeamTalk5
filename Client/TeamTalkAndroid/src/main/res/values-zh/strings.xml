@@ -286,7 +286,7 @@
     <string name="text_publicserver">公共服务器</string>
     <string name="text_localserver">本地服务器</string>
     <string name="text_officialserver">官方服务器</string>
-    <string name="text_privateserver">私人服务器</string>
+    <string name="text_unofficialserver">Unofficial server</string>
     <string name="text_passwdprot">密码保护</string>
     <string name="text_translator">由海浪翻译</string>
     <string name="desktop_image">桌面图像</string>
@@ -375,6 +375,12 @@
     <string name="pref_summary_unofficial_servers">Include unofficial servers in Server List</string>
     <string name="pref_title_unofficial_servers">Show unofficial servers</string>
     <string name="pref_header_serverlist">Server List</string>
+    <string name="text_server_summary">%1$s:%2$d, Users: %3$d, Country: %4$s</string>
+    <string name="pref_title_server_connection">Connection</string>
+    <string name="pref_title_server_motd">Message of the Day</string>
+    <string name="pref_title_server_usercount">Users Online</string>
+    <string name="pref_title_server_country">Country</string>
+    <string name="pref_title_server_status">Server Status</string>
 
 
 </resources>

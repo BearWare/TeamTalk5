@@ -356,6 +356,32 @@ public class Utils {
                             entry.chanpasswd = nJoin.item(0).getTextContent();
                     }
                 }
+
+                //process <stats>
+                NodeList nListStats = eElement.getElementsByTagName("stats");
+                for(int k=0;k<nListStats.getLength();k++) {
+                    nNode = nListStats.item(k);
+                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element eElement1 = (Element) nNode;
+                        NodeList nStats = eElement1.getElementsByTagName("motd");
+                        if (nStats.getLength() > 0) {
+                            entry.stats_motd = nStats.item(0).getTextContent();
+                        }
+                        nStats = eElement1.getElementsByTagName("country");
+                        if (nStats.getLength() > 0) {
+                            entry.stats_country = nStats.item(0).getTextContent();
+                        }
+                        nStats = eElement1.getElementsByTagName("user-count");
+                        if (nStats.getLength() > 0) {
+                            try {
+                                entry.stats_usercount = Integer.parseInt(nStats.item(0).getTextContent());
+                            }
+                            catch (NumberFormatException e) {
+
+                            }
+                         }
+                    }
+                }
                 servers.add(entry);
             }
         }
