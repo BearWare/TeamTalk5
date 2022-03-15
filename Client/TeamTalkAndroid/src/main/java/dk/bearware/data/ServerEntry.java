@@ -29,7 +29,7 @@ public class ServerEntry {
         LOCAL,
         OFFICIAL,
         PUBLIC,
-        PRIVATE
+        UNOFFICIAL
     }
 
     //key names from 'serverentry_preferences'
@@ -44,7 +44,12 @@ public class ServerEntry {
                                KEY_CHANNEL = "channel",
                                KEY_CHANPASSWD = "chanpasswd",
                                KEY_REMEMBER_LAST_CHANNEL = "remember_last_channel",
-                               KEY_ENCRYPTED = "encrypted";
+                               KEY_ENCRYPTED = "encrypted",
+                               KEY_MOTD = "motd",
+                               KEY_USERCOUNT = "usercount",
+                               KEY_COUNTRY = "country",
+                               KEY_PREFSCREEN = "serverentry_preferencescreen",
+                               KEY_SRVSTATUS = "srv_status";
     
     public String servername = "";
     public String ipaddr = "";
@@ -55,4 +60,7 @@ public class ServerEntry {
     public boolean rememberLastChannel = true;
     public boolean encrypted = false;
     public ServerType servertype = ServerType.LOCAL;
+
+    public int stats_usercount = 0;
+    public String stats_motd = "", stats_country = "";
 }

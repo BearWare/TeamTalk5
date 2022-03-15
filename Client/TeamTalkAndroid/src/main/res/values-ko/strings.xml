@@ -362,4 +362,15 @@
     <string name="pref_summary_userloggedin_icon">사용자가 서버에 로그인했을 때 효과음을 재생합니다.</string>
     <string name="pref_title_userloggedoff_icon">서버 로그아웃</string>
     <string name="pref_summary_userloggedoff_icon">사용자가 서버로부터 로그아웃했을 때 효과음을 재생합니다.</string>
+    <string name="pref_summary_official_servers">Include official servers in Server List</string>
+    <string name="pref_title_official_servers">Show official servers</string>
+    <string name="pref_summary_unofficial_servers">Include unofficial servers in Server List</string>
+    <string name="pref_title_unofficial_servers">Show unofficial servers</string>
+    <string name="pref_header_serverlist">Server List</string>
+    <string name="text_server_summary">%1$s:%2$d, Users: %3$d, Country: %4$s</string>
+    <string name="pref_title_server_connection">Connection</string>
+    <string name="pref_title_server_motd">Message of the Day</string>
+    <string name="pref_title_server_usercount">Users Online</string>
+    <string name="pref_title_server_country">Country</string>
+    <string name="pref_title_server_status">Server Status</string>
 </resources>
