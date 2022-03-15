@@ -5164,6 +5164,8 @@ void MainWindow::slotServerBroadcastMessage(bool /*checked=false*/)
     QString bcast = inputDialog.textValue();
     if(!ok)
         return;
+    if (bcast.isEmpty())
+        return;
     TextMessage msg;
     msg.nMsgType = MSGTYPE_BROADCAST;
     msg.nFromUserID = TT_GetMyUserID(ttInst);
