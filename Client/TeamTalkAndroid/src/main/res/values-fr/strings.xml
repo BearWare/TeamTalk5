@@ -282,7 +282,7 @@
     <string name="text_publicserver">Serveur public</string>
     <string name="text_localserver">Serveur local</string>
     <string name="text_officialserver">Serveur officiel</string>
-    <string name="text_unofficialserver">Unofficial server</string>
+    <string name="text_unofficialserver">Serveur non-officiel</string>
     <string name="text_passwdprot">Protégé par mot de passe</string>
     <string name="text_translator">Traduit par Corentin Bacqué-Cazenave</string>
     <string name="desktop_image">Image du bureau</string>
@@ -370,17 +370,17 @@
     <string name="pref_summary_channel_message_sent">Annoncer les messages de canal envoyés</string>
     <string name="text_tts_channel_message_sent">Message de canal envoyé : %1$s</string>
     <string name="err_text_length">Le message dépasse la taille de %1$d caractères</string>
-    <string name="pref_summary_official_servers">Include official servers in Server List</string>
-    <string name="pref_title_official_servers">Show official servers</string>
-    <string name="pref_summary_unofficial_servers">Include unofficial servers in Server List</string>
-    <string name="pref_title_unofficial_servers">Show unofficial servers</string>
-    <string name="pref_header_serverlist">Server List</string>
-    <string name="text_server_summary">%1$s:%2$d, Users: %3$d, Country: %4$s</string>
-    <string name="pref_title_server_connection">Connection</string>
-    <string name="pref_title_server_motd">Message of the Day</string>
-    <string name="pref_title_server_usercount">Users Online</string>
-    <string name="pref_title_server_country">Country</string>
-    <string name="pref_title_server_status">Server Status</string>
+    <string name="pref_summary_official_servers">Inclure les serveurs officiels dans la liste de serveurs</string>
+    <string name="pref_title_official_servers">Afficher les serveurs officiels</string>
+    <string name="pref_summary_unofficial_servers">Inclure les serveurs non-officiels dans la liste de serveurs</string>
+    <string name="pref_title_unofficial_servers">Afficher les serveurs non-officiels</string>
+    <string name="pref_header_serverlist">Liste de serveurs</string>
+    <string name="text_server_summary">%1$s:%2$d, Utilisateurs: %3$d, Pays: %4$s</string>
+    <string name="pref_title_server_connection">Connexion</string>
+    <string name="pref_title_server_motd">Message du jour</string>
+    <string name="pref_title_server_usercount">Utilisateurs en ligne</string>
+    <string name="pref_title_server_country">Pays</string>
+    <string name="pref_title_server_status">Statut du serveur</string>
 
 
 </resources>
