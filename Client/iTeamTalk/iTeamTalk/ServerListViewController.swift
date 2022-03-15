@@ -161,12 +161,15 @@ class ServerListViewController : UITableViewController,
         // check for new version
         let updateparser = AppUpdateParser()
         
-        let parser = XMLParser(contentsOf: URL(string: AppInfo.getUpdateURL())!)!
-        parser.delegate = updateparser
-        parser.parse()
-        
-        if updateparser.registerUrl.isEmpty == false {
-            AppInfo.BEARWARE_REGISTRATION_WEBSITE = updateparser.registerUrl
+        if let url = URL(string: AppInfo.getUpdateURL()) {
+            if let parser = XMLParser(contentsOf: url) {
+                parser.delegate = updateparser
+                parser.parse()
+                
+                if updateparser.registerUrl.isEmpty == false {
+                    AppInfo.BEARWARE_REGISTRATION_WEBSITE = updateparser.registerUrl
+                }
+            }
         }
         
         nextappupdate = nextappupdate.addingTimeInterval(60 * 60 * 24)
@@ -334,9 +337,10 @@ class ServerListViewController : UITableViewController,
             // get server from either .tt file or tt-URL
             let serverparser = ServerParser()
             
-            let parser = XMLParser(contentsOf: url)!
-            parser.delegate = serverparser
-            parser.parse()
+            if let parser = XMLParser(contentsOf: url) {
+                parser.delegate = serverparser
+                parser.parse()
+            }
             
             for s in serverparser.servers {
                 currentServer = s
