@@ -27,7 +27,7 @@ enum ServerType {
     case LOCAL,
     OFFICIAL,
     PUBLIC,
-    PRIVATE
+    UNOFFICIAL
 }
 
 // Properties of a TeamTalk server to connect to
@@ -241,7 +241,7 @@ class ServerListViewController : UITableViewController,
         case .PUBLIC :
             cell.iconImageView.image = UIImage(named: "teamtalk_green.png")
             cell.iconImageView.accessibilityLabel = NSLocalizedString("Public server", comment: "serverlist")
-        case .PRIVATE :
+        case .UNOFFICIAL :
             cell.iconImageView.image = UIImage(named: "teamtalk_orange.png")
             cell.iconImageView.accessibilityLabel = NSLocalizedString("Unofficial server", comment: "serverlist")
         }
@@ -520,7 +520,7 @@ class ServerParser : NSObject, XMLParserDelegate {
                 currentServer.servertype = .PUBLIC
             }
             else if string == "private" {
-                currentServer.servertype = .PRIVATE
+                currentServer.servertype = .UNOFFICIAL
             }
         case "auth" : break
         case "join" : break
