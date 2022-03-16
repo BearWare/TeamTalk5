@@ -9,12 +9,12 @@
 import UIKit
 import Foundation
 
-let SECTION_PUBLICSERVERS = 0,
-    SECTION_SORTING = 1,
-    SECTIONS_COUNT = 1
-
 class PublicServerViewController : UITableViewController {
-    
+
+    let SECTION_PUBLICSERVERS = 0,
+        SECTION_SORTING = 1,
+        SECTIONS_COUNT = 1
+
     var publicserver_items = [UITableViewCell]()
     
     override func viewDidLoad() {
