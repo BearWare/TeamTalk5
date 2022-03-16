@@ -39,6 +39,7 @@ import androidx.preference.Preference;
 import androidx.preference.Preference.OnPreferenceChangeListener;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceScreen;
 
 import dk.bearware.BannedUser;
 import dk.bearware.Channel;
@@ -82,6 +83,10 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
         ServerEntry entry = Utils.getServerEntry(this.getIntent());
         if(entry != null) {
             showServer(entry);
+        }
+        else {
+            PreferenceScreen prefscreen = (PreferenceScreen)findPreference(ServerEntry.KEY_PREFSCREEN);
+            prefscreen.removePreference(findPreference(ServerEntry.KEY_SRVSTATUS));
         }
 
         findPreference(ServerEntry.KEY_SERVERNAME).setOnPreferenceChangeListener(this);
@@ -230,8 +235,21 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
     @Deprecated
     void showServer(ServerEntry entry) {
 
-        // host info
+        // server info
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_SERVERNAME), entry.servername, entry.servername);
+
+        // server status
+        if (entry.servertype == ServerEntry.ServerType.LOCAL) {
+            PreferenceScreen prefscreen = (PreferenceScreen)findPreference(ServerEntry.KEY_PREFSCREEN);
+            prefscreen.removePreference(findPreference(ServerEntry.KEY_SRVSTATUS));
+        }
+        else {
+            findPreference(ServerEntry.KEY_MOTD).setSummary(entry.stats_motd);
+            findPreference(ServerEntry.KEY_USERCOUNT).setSummary(String.valueOf(entry.stats_usercount));
+            findPreference(ServerEntry.KEY_COUNTRY).setSummary(entry.stats_country);
+        }
+
+        // connection
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_IPADDR), entry.ipaddr, entry.ipaddr);
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_TCPPORT), String.valueOf(entry.tcpport), String.valueOf(entry.tcpport));        
         Utils.setEditTextPreference(findPreference(ServerEntry.KEY_UDPPORT), String.valueOf(entry.udpport), String.valueOf(entry.udpport));

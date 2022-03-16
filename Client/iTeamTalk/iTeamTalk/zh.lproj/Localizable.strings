@@ -532,6 +532,9 @@
 /* server entry */
 "Server List Entry" = "服务器列表入口";
 
+/* server entry */
+"Server Status" = "Server Status";
+
 /* preferences */
 "Show in Server List" = "在服务器列表中显示";
 

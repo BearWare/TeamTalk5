@@ -27,7 +27,16 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
 
     var server = Server()
 
+    let SECTION_NAME = 0,
+        SECTION_STATUS = 1,
+        SECTION_CON = 2,
+        SECTION_AUTH = 3,
+        SECTION_CHAN = 4,
+        SECTION_ACTIONS = 5,
+        SECTION_COUNT = 6
+
     var nameItems = [UITableViewCell]()
+    var statusItems = [UITableViewCell]()
     var conItems = [UITableViewCell]()
     var authItems = [UITableViewCell]()
     var chanItems = [UITableViewCell]()
@@ -54,24 +63,25 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
         namefield!.delegate = self
         nameItems.append(namecell)
 
+        // Status section
         if server.servertype != .LOCAL {
             let usercountcell = UITableViewCell(style: .value1, reuseIdentifier: nil)
             usercountcell.selectionStyle = .none
             usercountcell.textLabel?.text = NSLocalizedString("Users Online", comment: "server entry")
             usercountcell.detailTextLabel?.text = String(server.stats_usercount)
-            nameItems.append(usercountcell)
+            statusItems.append(usercountcell)
             
             let motdcell = UITableViewCell(style: .value1, reuseIdentifier: nil)
             motdcell.selectionStyle = .none
             motdcell.textLabel?.text = NSLocalizedString("Message of the Day", comment: "server entry")
             motdcell.detailTextLabel?.text = server.stats_motd
-            nameItems.append(motdcell)
+            statusItems.append(motdcell)
             
             let countrycell = UITableViewCell(style: .value1, reuseIdentifier: nil)
             countrycell.selectionStyle = .none
             countrycell.textLabel?.text = NSLocalizedString("Country", comment: "server entry")
             countrycell.detailTextLabel?.text = server.stats_country
-            nameItems.append(countrycell)
+            statusItems.append(countrycell)
         }
 
         // Connection section
@@ -203,20 +213,22 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
+        return SECTION_COUNT
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
-        case 0 :
+        case SECTION_NAME :
             return NSLocalizedString("Server List Entry", comment: "server entry")
-        case 1 :
+        case SECTION_STATUS :
+            return NSLocalizedString("Server Status", comment: "server entry")
+        case SECTION_CON :
             return NSLocalizedString("Connection", comment: "server entry")
-        case 2 :
+        case SECTION_AUTH :
             return NSLocalizedString("Authentication", comment: "server entry")
-        case 3 :
+        case SECTION_CHAN :
             return NSLocalizedString("Join Channel", comment: "server entry")
-        case 4 :
+        case SECTION_ACTIONS :
             return NSLocalizedString("Actions", comment: "server entry")
         default :
             return nil
@@ -226,15 +238,17 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         switch section {
-        case 0 :
+        case SECTION_NAME :
             return nameItems.count
-        case 1 :
+        case SECTION_STATUS :
+            return statusItems.count
+        case SECTION_CON :
             return conItems.count
-        case 2 :
+        case SECTION_AUTH :
             return authItems.count
-        case 3 :
+        case SECTION_CHAN :
             return chanItems.count
-        case 4 :
+        case SECTION_ACTIONS :
             return actionItems.count
         default :
             return 0
@@ -244,15 +258,17 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch indexPath.section {
-        case 0 :
+        case SECTION_NAME :
             return nameItems[indexPath.row]
-        case 1 :
+        case SECTION_STATUS :
+            return statusItems[indexPath.row]
+        case SECTION_CON :
             return conItems[indexPath.row]
-        case 2 :
+        case SECTION_AUTH :
             return authItems[indexPath.row]
-        case 3 :
+        case SECTION_CHAN :
             return chanItems[indexPath.row]
-        case 4 :
+        case SECTION_ACTIONS :
             return actionItems[indexPath.row]
         default :
             break

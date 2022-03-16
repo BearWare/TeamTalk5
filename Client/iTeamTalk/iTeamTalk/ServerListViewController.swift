@@ -27,7 +27,7 @@ enum ServerType {
     case LOCAL,
     OFFICIAL,
     PUBLIC,
-    PRIVATE
+    UNOFFICIAL
 }
 
 // Properties of a TeamTalk server to connect to
@@ -161,12 +161,15 @@ class ServerListViewController : UITableViewController,
         // check for new version
         let updateparser = AppUpdateParser()
         
-        let parser = XMLParser(contentsOf: URL(string: AppInfo.getUpdateURL())!)!
-        parser.delegate = updateparser
-        parser.parse()
-        
-        if updateparser.registerUrl.isEmpty == false {
-            AppInfo.BEARWARE_REGISTRATION_WEBSITE = updateparser.registerUrl
+        if let url = URL(string: AppInfo.getUpdateURL()) {
+            if let parser = XMLParser(contentsOf: url) {
+                parser.delegate = updateparser
+                parser.parse()
+                
+                if updateparser.registerUrl.isEmpty == false {
+                    AppInfo.BEARWARE_REGISTRATION_WEBSITE = updateparser.registerUrl
+                }
+            }
         }
         
         nextappupdate = nextappupdate.addingTimeInterval(60 * 60 * 24)
@@ -238,7 +241,7 @@ class ServerListViewController : UITableViewController,
         case .PUBLIC :
             cell.iconImageView.image = UIImage(named: "teamtalk_green.png")
             cell.iconImageView.accessibilityLabel = NSLocalizedString("Public server", comment: "serverlist")
-        case .PRIVATE :
+        case .UNOFFICIAL :
             cell.iconImageView.image = UIImage(named: "teamtalk_orange.png")
             cell.iconImageView.accessibilityLabel = NSLocalizedString("Unofficial server", comment: "serverlist")
         }
@@ -334,9 +337,10 @@ class ServerListViewController : UITableViewController,
             // get server from either .tt file or tt-URL
             let serverparser = ServerParser()
             
-            let parser = XMLParser(contentsOf: url)!
-            parser.delegate = serverparser
-            parser.parse()
+            if let parser = XMLParser(contentsOf: url) {
+                parser.delegate = serverparser
+                parser.parse()
+            }
             
             for s in serverparser.servers {
                 currentServer = s
@@ -516,7 +520,7 @@ class ServerParser : NSObject, XMLParserDelegate {
                 currentServer.servertype = .PUBLIC
             }
             else if string == "private" {
-                currentServer.servertype = .PRIVATE
+                currentServer.servertype = .UNOFFICIAL
             }
         case "auth" : break
         case "join" : break

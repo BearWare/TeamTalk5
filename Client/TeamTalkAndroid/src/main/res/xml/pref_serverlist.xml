@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="showofficialservers_checkbox"
+        android:summary="@string/pref_summary_official_servers"
+        android:title="@string/pref_title_official_servers" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="showpublicservers_checkbox"
+        android:summary="@string/pref_summary_public_servers"
+        android:title="@string/pref_title_public_servers" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="showunofficialservers_checkbox"
+        android:summary="@string/pref_summary_unofficial_servers"
+        android:title="@string/pref_title_unofficial_servers" />
+</PreferenceScreen>

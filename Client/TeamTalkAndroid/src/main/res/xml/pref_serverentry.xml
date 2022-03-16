@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="@string/pref_title_server_props" >
+    android:title="@string/pref_title_server_props"
+    android:key="serverentry_preferencescreen">
 
     <PreferenceCategory
         android:key="srv_info"
@@ -12,6 +13,25 @@
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:persistent="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="srv_status"
+        android:title="@string/pref_title_server_status">
+        <Preference
+            android:key="usercount"
+            android:title="@string/pref_title_server_usercount" />
+        <Preference
+            android:key="motd"
+            android:title="@string/pref_title_server_motd" />
+        <Preference
+            android:key="country"
+            android:title="@string/pref_title_server_country" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="srv_connection"
+        android:title="@string/pref_title_server_connection">
         <EditTextPreference
             android:key="ipaddr"
             android:summary="@string/pref_summary_server_address"
@@ -23,7 +43,7 @@
             android:defaultValue="10333"
             android:key="tcpport"
             android:maxLength="5"
-            android:numeric="integer"
+            android:inputType="number"
             android:title="@string/pref_title_tcp_port"
             android:selectAllOnFocus="true"
             android:singleLine="true"
@@ -32,17 +52,18 @@
             android:defaultValue="10333"
             android:key="udpport"
             android:maxLength="5"
-            android:numeric="integer"
+            android:inputType="number"
             android:title="@string/pref_title_udp_port"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:persistent="false" />
-        <CheckBoxPreference 
-            android:key="encrypted" 
-            android:title="@string/pref_title_encription" 
+        <CheckBoxPreference
+            android:key="encrypted"
+            android:title="@string/pref_title_encription"
             android:defaultValue="false"
             android:persistent="false" />
     </PreferenceCategory>
+
     <PreferenceCategory
         android:key="auth_info"
         android:title="@string/pref_title_authentication" android:persistent="false">

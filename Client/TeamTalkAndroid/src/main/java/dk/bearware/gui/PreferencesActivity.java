@@ -225,9 +225,10 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
         return GeneralPreferenceFragment.class.getName().equals(fragmentName) ||
             SoundEventsPreferenceFragment.class.getName().equals(fragmentName) ||
             ConnectionPreferenceFragment.class.getName().equals(fragmentName) ||
+            ServerListPreferenceFragment.class.getName().equals(fragmentName) ||
             TtsPreferenceFragment.class.getName().equals(fragmentName) ||
             SoundSystemPreferenceFragment.class.getName().equals(fragmentName) ||
-                AboutPreferenceFragment.class.getName().equals(fragmentName);
+            AboutPreferenceFragment.class.getName().equals(fragmentName);
     }
 
     @Override
@@ -360,6 +361,19 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
             preference.setChecked(username.length() > 0);
         }
 
+    }
+
+    public static class ServerListPreferenceFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_serverlist);
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+        }
     }
 
     public static class SoundEventsPreferenceFragment extends PreferenceFragment {
