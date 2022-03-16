@@ -533,7 +533,7 @@
 "Server List Entry" = "Entrée de la liste de serveurs";
 
 /* server entry */
-"Server Status" = "Server Status";
+"Server Status" = "Statut du serveur";
 
 /* preferences */
 "Show in Server List" = "Afficher dans la liste de serveurs";
