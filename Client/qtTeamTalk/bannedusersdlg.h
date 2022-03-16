@@ -60,6 +60,7 @@ class BannedUsersDlg : public QDialog
 
 public:
     BannedUsersDlg(const bannedusers_t& bannedusers, const QString& chanpath, QWidget * parent = 0);
+    ~BannedUsersDlg();
 
 private:
     Ui::BannedUsersDlg ui;

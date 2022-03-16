@@ -135,5 +135,7 @@ public:
     ~RestoreIndex();
 };
 
+void saveWindowPosition(const QString& setting, QWidget* widget);
+void restoreWindowPosition(const QString& setting, QWidget* widget);
 
 #endif

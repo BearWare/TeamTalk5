@@ -65,14 +65,9 @@
 #include <QProcess>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QScreen>
 #include <QGuiApplication>
 #include <QKeyEvent>
 #include <QCloseEvent>
-
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-#include <QDesktopWidget>
-#endif
 
 #if defined(QT_TEXTTOSPEECH_LIB)
 #include <QTextToSpeech>
@@ -586,13 +581,7 @@ MainWindow::~MainWindow()
 
     if(windowState() == Qt::WindowNoState)
     {
-        QRect r = geometry();
-        QVariantList windowpos;
-        windowpos.push_back(r.x());
-        windowpos.push_back(r.y());
-        windowpos.push_back(r.width());
-        windowpos.push_back(r.height());
-        ttSettings->setValue(SETTINGS_DISPLAY_WINDOWPOS, windowpos);
+        saveWindowPosition(SETTINGS_DISPLAY_MAINWINDOWPOS, this);
         ttSettings->setValue(SETTINGS_DISPLAY_SPLITTER, ui.splitter->saveState());
         ttSettings->setValue(SETTINGS_DISPLAY_VIDEOSPLITTER, ui.videosplitter->saveState());
         ttSettings->setValue(SETTINGS_DISPLAY_DESKTOPSPLITTER, ui.desktopsplitter->saveState());
@@ -712,29 +701,7 @@ void MainWindow::loadSettings()
         slotMeEnableVideoTransmission();
 
     //move window to last position
-    QVariantList windowpos = ttSettings->value(SETTINGS_DISPLAY_WINDOWPOS).toList();
-    if(windowpos.size() == 4)
-    {
-        int x = windowpos[0].toInt();
-        int y = windowpos[1].toInt();
-        int w = windowpos[2].toInt();
-        int h = windowpos[3].toInt();
-
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-        int desktopW = QApplication::desktop()->width();
-        int desktopH = QApplication::desktop()->height();
-        if(x <= desktopW && y <= desktopH)
-            setGeometry(x, y, w, h);
-#else
-        // check that we are within bounds
-        QScreen* screen = QGuiApplication::screenAt(QPoint(x, y));
-        if (screen)
-            setGeometry(x, y, w, h);
-#endif
-        ui.splitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_SPLITTER).toByteArray());
-        ui.videosplitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_VIDEOSPLITTER).toByteArray());
-        ui.desktopsplitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_DESKTOPSPLITTER).toByteArray());
-    }
+    restoreWindowPosition(SETTINGS_DISPLAY_MAINWINDOWPOS, this);
     //set files header to last position
     ui.filesView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_FILESHEADER).toByteArray());
     // Maximize window if necessary

@@ -68,6 +68,8 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
+    restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_PREFERENCESWINDOWPOS).toByteArray());
+
     ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
@@ -258,6 +260,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
 
 PreferencesDlg::~PreferencesDlg()
 {
+    ttSettings->setValue(SETTINGS_DISPLAY_PREFERENCESWINDOWPOS, saveGeometry());
     TT_CloseSoundLoopbackTest(m_sndloop);
 }
 

@@ -25,6 +25,14 @@
 #include "settings.h"
 #include "bearwarelogindlg.h"
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#include <QDesktopWidget>
+#include <QApplication>
+#else
+#include <QScreen>
+#include <QGuiApplication>
+#endif
+
 extern QSettings* ttSettings;
 
 void setVideoTextBox(const QRect& rect, const QColor& bgcolor,
@@ -130,4 +138,42 @@ RestoreIndex::~RestoreIndex()
     m_row = std::min(m_row, m_view->model()->rowCount() - 1);
     m_column = std::min(m_column, m_view->model()->columnCount() - 1);
     m_view->setCurrentIndex(m_view->model()->index(m_row, m_column, m_parent));
+}
+
+void saveWindowPosition(const QString& setting, QWidget* widget)
+{
+    if (widget->windowState() == Qt::WindowNoState)
+    {
+        QRect r = widget->geometry();
+        QVariantList windowpos;
+        windowpos.push_back(r.x());
+        windowpos.push_back(r.y());
+        windowpos.push_back(r.width());
+        windowpos.push_back(r.height());
+        ttSettings->setValue(setting, windowpos);
+    }
+}
+
+void restoreWindowPosition(const QString& setting, QWidget* widget)
+{
+    QVariantList windowpos = ttSettings->value(setting).toList();
+    if (windowpos.size() == 4)
+    {
+        int x = windowpos[0].toInt();
+        int y = windowpos[1].toInt();
+        int w = windowpos[2].toInt();
+        int h = windowpos[3].toInt();
+
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+        int desktopW = QApplication::desktop()->width();
+        int desktopH = QApplication::desktop()->height();
+        if(x <= desktopW && y <= desktopH)
+            widget->setGeometry(x, y, w, h);
+#else
+        // check that we are within bounds
+        QScreen* screen = QGuiApplication::screenAt(QPoint(x, y));
+        if (screen)
+            widget->setGeometry(x, y, w, h);
+#endif
+    }
 }

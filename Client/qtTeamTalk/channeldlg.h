@@ -40,6 +40,7 @@ public:
     };
 
     ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * parent = 0);
+    ~ChannelDlg();
 
     Channel GetChannel() const;
     bool joinChannel() const;

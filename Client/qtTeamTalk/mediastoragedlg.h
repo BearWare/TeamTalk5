@@ -32,6 +32,7 @@ class MediaStorageDlg : public QDialog
 
 public:
     MediaStorageDlg(QWidget * parent = 0);
+    ~MediaStorageDlg();
 
 public:
     void accept();

@@ -39,6 +39,8 @@ OnlineUsersDlg::OnlineUsersDlg(QWidget* parent/* = 0 */)
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
 
+    restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_ONLINEUSERSWINDOWPOS).toByteArray());
+
     ui.treeView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui.treeView, &QWidget::customContextMenuRequested,
             this, &OnlineUsersDlg::slotTreeContextMenu);
@@ -56,6 +58,11 @@ OnlineUsersDlg::OnlineUsersDlg(QWidget* parent/* = 0 */)
 
     m_model->resetUsers();
     updateTitle();
+}
+
+OnlineUsersDlg::~OnlineUsersDlg()
+{
+    ttSettings->setValue(SETTINGS_DISPLAY_ONLINEUSERSWINDOWPOS, saveGeometry());
 }
 
 void OnlineUsersDlg::updateTitle()

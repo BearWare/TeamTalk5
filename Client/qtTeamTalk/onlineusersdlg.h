@@ -34,6 +34,7 @@ class OnlineUsersDlg : public QDialog
 
 public:
     OnlineUsersDlg(QWidget* parent = 0);
+    ~OnlineUsersDlg();
 
     void updateTitle();
 

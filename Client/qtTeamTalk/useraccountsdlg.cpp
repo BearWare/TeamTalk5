@@ -25,6 +25,7 @@
 #include "appinfo.h"
 #include "common.h"
 #include "settings.h"
+#include "utilui.h"
 
 #include <QMessageBox>
 #include <QInputDialog>

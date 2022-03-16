@@ -40,6 +40,7 @@ MediaStorageDlg::MediaStorageDlg(QWidget * parent/* = 0*/)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
+    restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_MEDIASTORAGEWINDOWPOS).toByteArray());
 
     connect(ui.singleCheckBox, &QAbstractButton::clicked,
             this, &MediaStorageDlg::slotUpdateUI);
@@ -92,6 +93,11 @@ MediaStorageDlg::MediaStorageDlg(QWidget * parent/* = 0*/)
     ui.usertextEdit->setText(ttSettings->value(SETTINGS_MEDIASTORAGE_USERLOGFOLDER).toString());
 
     slotUpdateUI();
+}
+
+MediaStorageDlg::~MediaStorageDlg()
+{
+    ttSettings->setValue(SETTINGS_DISPLAY_MEDIASTORAGEWINDOWPOS, saveGeometry());
 }
 
 void MediaStorageDlg::accept()

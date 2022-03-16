@@ -23,7 +23,11 @@
 
 #include "bannedusersdlg.h"
 #include "appinfo.h"
+#include "settings.h"
+
 #include <QPushButton>
+
+extern QSettings* ttSettings;
 
 enum
 {
@@ -158,6 +162,8 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
+    restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_BANNEDUSERSWINDOWPOS).toByteArray());
+
     ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
@@ -193,6 +199,11 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
     connect(ui.rightButton, &QAbstractButton::clicked, this, &BannedUsersDlg::slotUnbanUser);
     connect(ui.bannedTreeView, &QTreeView::doubleClicked, this, &BannedUsersDlg::slotUnbanUser);
     connect(ui.unbannedTreeView, &QTreeView::doubleClicked, this, &BannedUsersDlg::slotBanUser);
+}
+
+BannedUsersDlg::~BannedUsersDlg()
+{
+    ttSettings->setValue(SETTINGS_DISPLAY_BANNEDUSERSWINDOWPOS, saveGeometry());
 }
 
 void BannedUsersDlg::slotClose()

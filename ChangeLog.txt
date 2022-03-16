@@ -20,6 +20,7 @@ Default Qt Client
 - Use context menu to delete server or user
 - TTS message when navigating with arrow keys on macOS extends to all list
 - Media recording settings are restored at startup
+- Restore window position in commonly used dialogs
 - Fixed issue where all users and channels not were listed after initial login
 - Fixed labels for server abuse options in server properties
 - Fixed crash issue when using Cmd+4 on macOS 12.2

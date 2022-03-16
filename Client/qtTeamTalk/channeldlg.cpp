@@ -24,11 +24,13 @@
 #include "channeldlg.h"
 #include "appinfo.h"
 #include "utilui.h"
+#include "settings.h"
 
 #include <QPushButton>
 #include <QInputDialog>
 
 extern TTInstance* ttInst;
+extern QSettings* ttSettings;
 
 ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * parent/* = 0*/)
     : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
@@ -36,6 +38,9 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
+
+    restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_CHANNELWINDOWPOS).toByteArray());
+
     ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
@@ -241,6 +246,11 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
 
     slotUpdateSliderLabels();
     slotUpdateChannelPath(_Q(m_channel.szName));
+}
+
+ChannelDlg::~ChannelDlg()
+{
+    ttSettings->setValue(SETTINGS_DISPLAY_CHANNELWINDOWPOS, saveGeometry());
 }
 
 Channel ChannelDlg::GetChannel() const

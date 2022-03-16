@@ -26,6 +26,7 @@
 #include "settings.h"
 #include "utilsound.h"
 #include "utiltts.h"
+#include "utilui.h"
 
 #include <QDebug>
 #include <QMessageBox>
@@ -63,6 +64,7 @@ void TextMessageDlg::init(const User& user)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
+    restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_TEXTMSGWINDOWPOS).toByteArray());
     ui.newmsgTextEdit->setFocus();
 
     connect(ui.cancelButton, &QAbstractButton::clicked, this, &TextMessageDlg::slotCancel);
@@ -78,6 +80,7 @@ void TextMessageDlg::init(const User& user)
 
 TextMessageDlg::~TextMessageDlg()
 {
+    ttSettings->setValue(SETTINGS_DISPLAY_TEXTMSGWINDOWPOS, saveGeometry());
     emit(closedTextMessage(m_userid));
 }
 
