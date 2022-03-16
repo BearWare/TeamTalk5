@@ -42,7 +42,7 @@
 "Actions" = "Handlinger";
 
 /* channel list */
-"Active" = "Active";
+"Active" = "Aktiv";
 
 /* serverlist */
 "Add new server entry" = "Tilføj ny server";
@@ -112,10 +112,10 @@
 "Broadcast Messages" = "Udsend Beskeder";
 
 /* preferences */
-"Broadcast Text Message" = "Udsend tekstbesked";
+"Broadcast Text Message" = "Udsend Tekstbesked";
 
 /* Dialog message */
-"Cancel" = "Cancel";
+"Cancel" = "Annuller";
 
 /* channel list
    server entry */
@@ -141,7 +141,10 @@
 "Channel. %d users" = "Kanal. %d brugere";
 
 /* server entry */
-"Check only if this server has enabled BearWare.dk Web Login" = "Check only if this server has enabled BearWare.dk Web Login";
+"Check only if this server has enabled BearWare.dk Web Login" = "Vælg kun hvis server har BearWare.dk Web Login slået til";
+
+/* server entry */
+"Check only if this server has enabled Facebook login" = "Check only if this server has enabled Facebook login";
 
 /* create channel */
 "Commands" = "Kommandoer";
@@ -158,7 +161,7 @@
 "Connection lost" = "Mistet serverforbindelse";
 
 /* server entry */
-"Country" = "Country";
+"Country" = "Land";
 
 /* View Title */
 "Create Channel" = "Opret Kanal";
@@ -167,7 +170,7 @@
 "Create new channel" = "Opret ny kanal";
 
 /* Sound Input */
-"Default" = "Default";
+"Default" = "Standard";
 
 /* preferences */
 "Default Subscriptions" = "Standard Abonnering";
@@ -216,13 +219,13 @@
 "Facebook login was cancelled" = "Facebook login blev afbrudt";
 
 /* preferences */
-"Female" = "Female";
+"Female" = "Kvinde";
 
 /* codec detail */
 "Frame Size" = "Frame Size";
 
 /* preferences */
-"Gender" = "Gender";
+"Gender" = "Køn";
 
 /* preferences
    user detail */
@@ -244,25 +247,25 @@
 "Headset TX Toggle" = "Headset TX Omskifter";
 
 /* hidden channel */
-"Hidden Channel" = "Hidden Channel";
+"Hidden Channel" = "Skjult Kanal";
 
 /* server entry */
 "Host address" = "Serveradresse";
 
 /* channel list */
-"Inactive" = "Inactive";
+"Inactive" = "Inaktiv";
 
 /* Dialog message */
 "Join" = "Deltag";
 
 /* server entry */
-"Join Channel" = "Skift til kanal";
+"Join Channel" = "Skift til Kanal";
 
 /* channel list */
 "Join channel" = "Skift til kanal";
 
 /* preferences */
-"Join Root Channel" = "Skift til rodkanalen";
+"Join Root Channel" = "Skift til Rodkanalen";
 
 /* preferences */
 "Join root channel after login" = "Skift til rodkanalen efter login";
@@ -277,7 +280,7 @@
 "Limit length of names in channel list to %d characters" = "Begræns længden af navn i kanalliste til %d karakterer";
 
 /* serverlist */
-"Local server" = "Local server";
+"Local server" = "Lokale servere";
 
 /* text message type */
 "Log message" = "Log besked";
@@ -286,7 +289,7 @@
 "Logged on to server" = "Loggede på serveren";
 
 /* preferences */
-"Male" = "Male";
+"Male" = "Mand";
 
 /* preferences */
 "Master Volume" = "Hovedlydstyrke";
@@ -306,10 +309,10 @@
 "Media file vs. voice volume" = "Mediefil versus talelydstyrke";
 
 /* Dialog */
-"Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
+"Message limit exceeded by %d characters" = "Tekstlængde overskredet med %d characters";
 
 /* server entry */
-"Message of the Day" = "Message of the Day";
+"Message of the Day" = "Dagens Besked";
 
 /* preferences */
 "Microphone Gain" = "Mikrofonforstærkning";
@@ -350,7 +353,7 @@
 "Nickname" = "Kaldenavn";
 
 /* server entry */
-"Nickname (optional)" = "Nickname (optional)";
+"Nickname (optional)" = "Kaldenavn (valgfri)";
 
 /* Dialog message */
 "No" = "Nej";
@@ -375,7 +378,7 @@
 "Noname" = "Intet navn";
 
 /* serverlist */
-"Official server" = "Official server";
+"Official server" = "Officiel server";
 
 /* Dialog
    Dialog message
@@ -425,10 +428,10 @@
 "Play sound when transmit ready in \"No Interruptions\" channel" = "Afspil lyd når transmit er parat i \"No Interruptions\" channel";
 
 /* preferences */
-"Play sound when user logs off to the server" = "Play sound when user logs off to the server";
+"Play sound when user logs off to the server" = "Afspil lyd når bruger forlader server";
 
 /* preferences */
-"Play sound when user logs on to the server" = "Play sound when user logs on to the server";
+"Play sound when user logs on to the server" = "Afspil lyd når bruger logger ind på server";
 
 /* preferences */
 "Play sound when voice activation is triggered" = "Afspil lyd når stemmeaktivering bliver aktiveret";
@@ -533,7 +536,7 @@
 "Show in Server List" = "Show in Server List";
 
 /* preferences */
-"Show male or female icon" = "Show male or female icon";
+"Show male or female icon" = "Vis mand eller kvinde ikon";
 
 /* preferences */
 "Show Public Servers" = "Vis Offentlige Servere";
@@ -595,7 +598,7 @@
 "TCP Port" = "TCP Port";
 
 /* preferences */
-"Text To Speech Events" = "Tekst-tilTale Hændelser";
+"Text To Speech Events" = "Tekst til Tale Hændelser";
 
 /* preferences */
 "The rate of the speaking voice is %.1f" = "Tekst til tale vil ske ved hastigheden %.1f";
@@ -668,13 +671,13 @@
 "User logged in" = "Bruger loggede ind";
 
 /* preferences */
-"User Logged In" = "User Logged In";
+"User Logged In" = "Bruger Loggede Ind";
 
 /* preferences */
 "User logged out" = "Bruger loggede ud";
 
 /* preferences */
-"User Logged Out" = "User Logged Out";
+"User Logged Out" = "User Loggede Ud";
 
 /* preferences
    user detail */
@@ -688,16 +691,16 @@
 "Username or password incorrect" = "Forkert brugernavn eller adgangskode";
 
 /* server entry */
-"Users Online" = "Users Online";
+"Users Online" = "Brugere Online";
 
 /* serverlist */
-"Users: %d, Country: %@" = "Users: %1$d, Country: %2$@";
+"Users: %d, Country: %@" = "Brugere: %1$d, Land: %2$@";
 
 /* codec detail */
 "Variable Bitrate" = "Variable Bitrate";
 
 /* preferences */
-"Version Information" = "Versions Information";
+"Version Information" = "Version Information";
 
 /* channel list */
 "View" = "Vis";
@@ -747,19 +750,16 @@
 "Yes" = "Ja";
 
 /* Dialog */
-"You have been kicked from channel" = "You have been kicked from channel";
+"You have been kicked from channel" = "Du er blevet sparket ud af kanalen";
 
 /* Dialog */
-"You have been kicked from channel by %@" = "You have been kicked from channel by %@";
+"You have been kicked from channel by %@" = "Du er blevet sparket ud af kanalen af %@";
 
 /* Dialog */
-"You have been kicked from server" = "You have been kicked from server";
+"You have been kicked from server" = "Du er blevet sparket af serveren";
 
 /* Dialog */
-"You have been kicked from server by %@" = "You have been kicked from server by %@";
+"You have been kicked from server by %@" = "Du er blevet sparket af serveren af %@";
 
 /* speech */
 "You have selected %@" = "Du har valgt %@";
-
-/* server entry */
-"Check only if this server has enabled Facebook login" = "";
