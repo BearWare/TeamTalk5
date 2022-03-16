@@ -3254,27 +3254,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="5043"/>
         <source>Sort By...</source>
-        <translation type="unfinished"></translation>
+        <translation>Сортировать по...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5044"/>
         <source>&amp;Name</source>
-        <translation type="unfinished">&amp;Имя</translation>
+        <translation>&amp;Имя</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5045"/>
         <source>&amp;Size</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Размер</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5046"/>
         <source>&amp;Owner</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Владелец</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5047"/>
         <source>&amp;Upload Date</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Дата загрузки</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5162"/>
@@ -3726,17 +3726,21 @@ You can download it on the page below:
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6778"/>
-        <source>New version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
+        <source>New version available: %1
+You can download it on the page below:
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая версия: %1
+You can download it on the page below:
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6803"/>
-        <source>New beta version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
+        <source>New beta version available: %1
+You can download it on the page below:
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая бета-версия: %1
+You can download it on the page below:
+%2</translation>
     </message>
     <message>
         <source>Streaming media file</source>
@@ -4016,9 +4020,10 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6685"/>
-        <source>The file %1 contains %2 setup information.<byte value="xd"/>
+        <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл %1 содержит %2 конфигурационные данные.
+Следует ли применять эти настройки?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6690"/>
