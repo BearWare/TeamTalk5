@@ -23,12 +23,12 @@
 
 package dk.bearware;
 
-public class TextMessage
-{
+public class TextMessage {
     public int /* TextMsgType */ nMsgType;
     public int nFromUserID;
     public String szFromUsername;
     public int nToUserID;
     public int nChannelID;
     public String szMessage;
+    public boolean bMore;
 }

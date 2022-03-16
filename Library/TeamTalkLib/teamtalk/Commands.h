@@ -136,6 +136,7 @@
 #define TT_MODIFIEDTIME ACE_TEXT("modifiedtime") // v5.9
 #define TT_TRANSMITSWITCHDELAY ACE_TEXT("switchdelay") // v5.10
 #define TT_LOGEVENTS ACE_TEXT("logevents") // v5.10
+#define TT_TEXTMSG_MORE ACE_TEXT("more") // v5.10
 
 //    Client ---> Server
 //    -------------------------

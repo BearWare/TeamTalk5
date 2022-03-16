@@ -1566,6 +1566,7 @@ void Convert(const teamtalk::TextMessage& txtmsg, TextMessage& result)
     ACE_OS::strsncpy(result.szFromUsername, txtmsg.from_username.c_str(), TT_STRLEN);
     result.nToUserID = txtmsg.to_userid;
     result.nChannelID = txtmsg.channelid;
+    result.bMore = txtmsg.more;
 }
 
 void Convert(const TextMessage& txtmsg, teamtalk::TextMessage& result)
@@ -1575,6 +1576,7 @@ void Convert(const TextMessage& txtmsg, teamtalk::TextMessage& result)
     result.to_userid = txtmsg.nToUserID;
     result.content = txtmsg.szMessage;
     result.channelid = txtmsg.nChannelID;
+    result.more = txtmsg.bMore;
 }
 
 void Convert(const MediaFileProp& mediaprop, MediaFileInfo& result)

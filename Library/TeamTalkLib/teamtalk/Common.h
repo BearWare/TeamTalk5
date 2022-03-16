@@ -157,16 +157,13 @@ namespace teamtalk {
     //text messages for server and client
     struct TextMessage
     {
-        MsgType msgType;
-        int from_userid;
+        MsgType msgType = TTNoneMsg;
+        int from_userid = 0;
         ACE_TString from_username;
-        int to_userid;
+        int to_userid = 0;
         ACE_TString content;
-        int channelid;
-        TextMessage() : msgType(TTNoneMsg)
-        {
-            channelid = from_userid = to_userid = 0;
-        }
+        int channelid = 0;
+        bool more = false;
     };
 
     /* Remember to updated DLL header file when modifying this */
