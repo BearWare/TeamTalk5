@@ -764,3 +764,6 @@
 
 /* serverlist */
 "Unofficial server" = "Unofficial server";
+
+/* server entry */
+"Server Status" = "Server Status";

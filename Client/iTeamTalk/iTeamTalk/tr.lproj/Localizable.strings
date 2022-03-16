@@ -532,6 +532,9 @@
 /* server entry */
 "Server List Entry" = "Sunucu Listesi Girişi";
 
+/* server entry */
+"Server Status" = "Server Status";
+
 /* preferences */
 "Show in Server List" = "Show in Server List";
 

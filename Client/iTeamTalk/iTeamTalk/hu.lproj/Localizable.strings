@@ -526,6 +526,9 @@
 /* server entry */
 "Server List Entry" = "Szerver beírási pont";
 
+/* server entry */
+"Server Status" = "Server Status";
+
 /* preferences */
 "Show in Server List" = "Show in Server List";
 
