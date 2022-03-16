@@ -684,6 +684,10 @@ void MainWindow::loadSettings()
     ui.micSlider->setValue(value);
     slotMicrophoneGainChanged(value); //force update on equal
 
+    m_audiostorage_mode = ttSettings->value(SETTINGS_MEDIASTORAGE_MODE,
+                                            AUDIOSTORAGE_NONE).toUInt();
+
+
     if(ttSettings->value(SETTINGS_DISPLAY_ALWAYSONTOP, false).toBool())
     {
         setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
@@ -5589,7 +5593,9 @@ void MainWindow::slotUpdateUI()
 
     //ui.actionMuteAll->setEnabled(statemask & CLIENT_SOUND_READY);
     ui.actionMuteAll->setChecked(statemask & CLIENT_SNDOUTPUT_MUTE);
-    ui.actionMediaStorage->setChecked(m_audiostorage_mode != AUDIOSTORAGE_NONE);
+    bool storetextmsgs = ttSettings->value(SETTINGS_MEDIASTORAGE_CHANLOGFOLDER).toString().size() ||
+            ttSettings->value(SETTINGS_MEDIASTORAGE_USERLOGFOLDER).toString().size();
+    ui.actionMediaStorage->setChecked(m_audiostorage_mode != AUDIOSTORAGE_NONE || storetextmsgs);
 
     //Channel-menu items
     Channel chan = {};
