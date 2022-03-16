@@ -42,7 +42,7 @@
 "Actions" = "Aktionen";
 
 /* channel list */
-"Active" = "Active";
+"Active" = "Aktiv";
 
 /* serverlist */
 "Add new server entry" = "Neuer Servereintrag";
@@ -93,10 +93,10 @@
 "Ban user" = "Benutzer sperren";
 
 /* server entry */
-"BearWare.dk Web Login" = "BearWare.dk Web Login";
+"BearWare.dk Web Login" = "BearWare.dk-Web-Login";
 
 /* weblogin event */
-"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences";
+"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "Anmeldung über BearWare.dk-Web-Login fehlgeschlagen. Prüfe den BearWare.dk-Web-Login in den Voreinstellungen";
 
 /* codec detail */
 "Bitrate" = "Bitrate";
@@ -115,7 +115,7 @@
 "Broadcast Text Message" = "Server-Textnachricht";
 
 /* Dialog message */
-"Cancel" = "Cancel";
+"Cancel" = "Abbrechen";
 
 /* channel list
    server entry */
@@ -141,7 +141,7 @@
 "Channel. %d users" = "Raum. %d Benutzer";
 
 /* server entry */
-"Check only if this server has enabled BearWare.dk Web Login" = "Check only if this server has enabled BearWare.dk Web Login";
+"Check only if this server has enabled BearWare.dk Web Login" = "Nur aktivieren, wenn der Server BearWare.dk-Web-Login unterstützt";
 
 /* create channel */
 "Commands" = "Befehle";
@@ -158,7 +158,7 @@
 "Connection lost" = "Verbindung unterbrochen";
 
 /* server entry */
-"Country" = "Country";
+"Country" = "Land";
 
 /* View Title */
 "Create Channel" = "Raum erstellen";
@@ -167,7 +167,7 @@
 "Create new channel" = "Neuen Raum erstellen";
 
 /* Sound Input */
-"Default" = "Default";
+"Default" = "Standard";
 
 /* preferences */
 "Default Subscriptions" = "Standardempfang";
@@ -216,13 +216,13 @@
 "Facebook login was cancelled" = "Facebook-Login abgebrochen";
 
 /* preferences */
-"Female" = "Female";
+"Female" = "Weiblich";
 
 /* codec detail */
-"Frame Size" = "Frame Size";
+"Frame Size" = "Rahmengröße";
 
 /* preferences */
-"Gender" = "Gender";
+"Gender" = "Geschlecht";
 
 /* preferences
    user detail */
@@ -244,13 +244,13 @@
 "Headset TX Toggle" = "Headset-Übertragung umschalten";
 
 /* hidden channel */
-"Hidden Channel" = "Hidden Channel";
+"Hidden Channel" = "Versteckter Raum";
 
 /* server entry */
 "Host address" = "Hostadresse";
 
 /* channel list */
-"Inactive" = "Inactive";
+"Inactive" = "Inaktiv";
 
 /* Dialog message */
 "Join" = "Betreten";
@@ -277,16 +277,16 @@
 "Limit length of names in channel list to %d characters" = "Begrenze Namen in Raumliste auf %d Zeichen";
 
 /* serverlist */
-"Local server" = "Local server";
+"Local server" = "Lokaler Server";
 
 /* text message type */
-"Log message" = "Lognachricht";
+"Log message" = "Log-Nachricht";
 
 /* log entry */
 "Logged on to server" = "Auf Server eingeloggt";
 
 /* preferences */
-"Male" = "Male";
+"Male" = "Männlich";
 
 /* preferences */
 "Master Volume" = "Hauptlautstärke";
@@ -306,10 +306,10 @@
 "Media file vs. voice volume" = "Lautstärke Medien zu Sprache";
 
 /* Dialog */
-"Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
+"Message limit exceeded by %d characters" = "Nachrichtenlänge durch %d Zeichen überschritten";
 
 /* server entry */
-"Message of the Day" = "Message of the Day";
+"Message of the Day" = "Nachricht des Tages";
 
 /* preferences */
 "Microphone Gain" = "Mikrofonpegel";
@@ -375,7 +375,7 @@
 "Noname" = "Unbekannt";
 
 /* serverlist */
-"Official server" = "Official server";
+"Official server" = "Offizieller Server";
 
 /* Dialog
    Dialog message
@@ -425,10 +425,10 @@
 "Play sound when transmit ready in \"No Interruptions\" channel" = "Klang bei Übertragungsbereitschaft in unterbrechungsfreien Räumen abspielen";
 
 /* preferences */
-"Play sound when user logs off to the server" = "Play sound when user logs off to the server";
+"Play sound when user logs off to the server" = "Klang abspielen, wenn sich Benutzer vom Server abmeldet";
 
 /* preferences */
-"Play sound when user logs on to the server" = "Play sound when user logs on to the server";
+"Play sound when user logs on to the server" = "Klang abspielen, wenn sich Benutzer am Server anmeldet";
 
 /* preferences */
 "Play sound when voice activation is triggered" = "Klang beim Auslösen der Sprachaktivierung abspielen";
@@ -446,7 +446,7 @@
 "Preferences" = "Voreinstellungen";
 
 /* Sound Input */
-"Preferred" = "Preferred";
+"Preferred" = "Bevorzugt";
 
 /* preferences */
 "Pressing Return-key sends text message" = "Entertaste sendet Textnachricht";
@@ -500,7 +500,7 @@
 "Return Sends Message" = "Enter sendet Nachricht";
 
 /* channel list */
-"Return to previous channel" = "Zurück Zum vorherigen Raum";
+"Return to previous channel" = "Zurück zum vorherigen Raum";
 
 /* log entry */
 "root channel" = "Hauptraum";
@@ -530,10 +530,10 @@
 "Server Status" = "Server Status";
 
 /* preferences */
-"Show in Server List" = "Show in Server List";
+"Show in Server List" = "In Serverliste zeigen";
 
 /* preferences */
-"Show male or female icon" = "Show male or female icon";
+"Show male or female icon" = "Männliches oder weibliches Symbol anzeigen";
 
 /* preferences */
 "Show Public Servers" = "Öffentliche Server anzeigen";
@@ -579,7 +579,7 @@
 "Speex Variable Bitrate Codec" = "Speex-Codec (variable Bitrate)";
 
 /* Text message view */
-"Status Event" = "Status Event";
+"Status Event" = "Statusereignis";
 
 /* codec detail
    create channel */
@@ -638,7 +638,7 @@
 "UDP Port" = "UDP-Port";
 
 /* serverlist */
-"Unofficial server" = "Unofficial server";
+"Unofficial server" = "Inoffizieller Server";
 
 /* preferences */
 "Use echo cancellation and automatic gain control" = "Echounterdrückung und automatische Pegelkontrolle verwenden";
@@ -650,7 +650,7 @@
 "User" = "Benutzer";
 
 /* channel list */
-"User female" = "User female";
+"User female" = "Benutzer weiblich";
 
 /* preferences */
 "User Joins Channel" = "Benutzer betritt Raum";
@@ -668,13 +668,13 @@
 "User logged in" = "Benutzer angemeldet";
 
 /* preferences */
-"User Logged In" = "User Logged In";
+"User Logged In" = "Benutzer angemeldet";
 
 /* preferences */
 "User logged out" = "Benutzer abgemeldet";
 
 /* preferences */
-"User Logged Out" = "User Logged Out";
+"User Logged Out" = "Benutzer abgemeldet";
 
 /* preferences
    user detail */
@@ -688,10 +688,10 @@
 "Username or password incorrect" = "Benutzername oder Passwort falsch";
 
 /* server entry */
-"Users Online" = "Users Online";
+"Users Online" = "Benutzer online";
 
 /* serverlist */
-"Users: %d, Country: %@" = "Users: %1$d, Country: %2$@";
+"Users: %d, Country: %@" = "Benutzer: %1$d, Land: %2$@";
 
 /* codec detail */
 "Variable Bitrate" = "Variable Bitrate";
@@ -747,16 +747,16 @@
 "Yes" = "Ja";
 
 /* Dialog */
-"You have been kicked from channel" = "You have been kicked from channel";
+"You have been kicked from channel" = "Du wurdest aus dem Raum geworfen";
 
 /* Dialog */
-"You have been kicked from channel by %@" = "You have been kicked from channel by %@";
+"You have been kicked from channel by %@" = "Du wurdest von %@ aus dem Raum geworfen";
 
 /* Dialog */
-"You have been kicked from server" = "You have been kicked from server";
+"You have been kicked from server" = "Du wurdest vom Server geworfen";
 
 /* Dialog */
-"You have been kicked from server by %@" = "You have been kicked from server by %@";
+"You have been kicked from server by %@" = "Du wurdest von %@ vom Server geworfen";
 
 /* speech */
 "You have selected %@" = "Du hast %@ gewählt";

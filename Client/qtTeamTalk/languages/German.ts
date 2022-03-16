@@ -576,7 +576,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="194"/>
         <source>Setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Einrichtung</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="197"/>
@@ -840,12 +840,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="419"/>
         <source>Transmission Queue Delay</source>
-        <translation type="unfinished"></translation>
+        <translation>Verzögerung Übertragungswarteschlange</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="420"/>
         <source>Delay before switching to next user in queue (in msec)</source>
-        <translation type="unfinished"></translation>
+        <translation>Verzögerung bevor zum nächsten Nutzer in der Warteschlange gewechselt wird (in Msec)</translation>
     </message>
     <message>
         <source>%1 KBytes/sec</source>
@@ -2722,27 +2722,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="5043"/>
         <source>Sort By...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortieren nach...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5044"/>
         <source>&amp;Name</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Name</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5045"/>
         <source>&amp;Size</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Größe</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5046"/>
         <source>&amp;Owner</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Besitzer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5047"/>
         <source>&amp;Upload Date</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Hochgeladen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5162"/>
@@ -2811,52 +2811,52 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1965"/>
         <source>Syntax error</source>
-        <translation type="unfinished"></translation>
+        <translation>Syntaxfehler</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1967"/>
         <source>Unknown command</source>
-        <translation type="unfinished"></translation>
+        <translation>Unbekannter Befehl</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1969"/>
         <source>The server uses a protocol which is incompatible with the client instance</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Server verwendet ein Protokoll, das mit dem Client nicht kompatibel ist</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1971"/>
         <source>Unknown audio codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Unbekannter Audio-Codec</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2049"/>
         <source>The maximum number of channels has been exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>Die maximale Anzahl von Räumen wurde erreicht</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2051"/>
         <source>Command flooding prevented by server</source>
-        <translation type="unfinished"></translation>
+        <translation>Befehlsflutung vom Server verhindert</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2071"/>
         <source>Server failed to open file</source>
-        <translation type="unfinished"></translation>
+        <translation>Server konnte Datei nicht öffnen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2073"/>
         <source>The login service is currently unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Anmeldedienst ist derzeit nicht verfügbar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2075"/>
         <source>This channel cannot be hidden</source>
-        <translation type="unfinished"></translation>
+        <translation>Dieser Raum kann nicht versteckt werden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2079"/>
         <source>Cannot leave channel because not in channel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann einen Raum außerhalb des Raums nicht verlassen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4906"/>
@@ -3853,7 +3853,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="2276"/>
         <source>&amp;Hear Myself</source>
-        <translation type="unfinished"></translation>
+        <translation>Mich selbst &amp;hören</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2279"/>
@@ -4942,7 +4942,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferences.ui" line="2445"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Hauptfenster zeigen/verstecken</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2538"/>
@@ -5633,7 +5633,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferences.ui" line="2418"/>
         <source>Reinitialize sound devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Audiogeräte re-inizialisieren</translation>
     </message>
 </context>
 <context>
@@ -5699,7 +5699,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../serverlist.ui" line="83"/>
         <source>Include private servers (orange ones)</source>
-        <translation type="unfinished"></translation>
+        <translation>Private Server einschließen (in orange)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="196"/>
@@ -5819,12 +5819,12 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../serverlist.ui" line="337"/>
         <source>Store Server Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Server-Informationen speichern</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="388"/>
         <source>Publish Publicly</source>
-        <translation type="unfinished"></translation>
+        <translation>Veröffentlichen</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="417"/>
@@ -5888,12 +5888,12 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <location filename="../serverlistdlg.cpp" line="639"/>
         <location filename="../serverlistdlg.cpp" line="644"/>
         <source>Publish Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Server veröffentlichen</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="640"/>
         <source>Failed to publish server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Veröffentlichen des Servers.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="645"/>
@@ -5905,37 +5905,43 @@ Delete the published user account to unregister your server.
 
 The #teamtalkpublish# notification can be removed once
 the server has been verified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ändere deinen Servernamen, sodass er den Text #teamtalkpublish# enthält.
+Dies stellt sicher, dass der Server auch tatsächlich dir gehört.
+Ist dies erledigt, wird dein privater Server nach wenigen Minuten in der Liste erscheinen.
+
+Lösche das veröffentlichte Nutzerkonto, um die Registrierung aufzuheben.
+
+Der #teamtalkpublish#-Hinweis kann entfernt werden, sobald der Server bestätigt wurde.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="684"/>
         <source>Sort By...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortieren nach...</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="685"/>
         <source>De&amp;fault</source>
-        <translation type="unfinished"></translation>
+        <translation>S&amp;tandard</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="686"/>
         <source>&amp;Name</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Name</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="687"/>
         <source>&amp;User Count</source>
-        <translation type="unfinished"></translation>
+        <translation>Ben&amp;utzer</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="688"/>
         <source>Country</source>
-        <translation type="unfinished"></translation>
+        <translation>Land</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="689"/>
         <source>&amp;Delete Selected Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Gewählten Server &amp;löschen</translation>
     </message>
     <message>
         <source>Please fill the fields &apos;Entry name&apos;, &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
@@ -5964,42 +5970,42 @@ the server has been verified.</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="95"/>
         <source>Name</source>
-        <translation type="unfinished">Name</translation>
+        <translation>Name</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="96"/>
         <source>Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="97"/>
         <source>Country</source>
-        <translation type="unfinished"></translation>
+        <translation>Land</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="131"/>
         <source>Local server, Name: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokaler Server, Name: %1</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="133"/>
         <source>Official server</source>
-        <translation type="unfinished"></translation>
+        <translation>Offizieller Server</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="136"/>
         <source>Public server</source>
-        <translation type="unfinished"></translation>
+        <translation>Öffentlicher Server</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="139"/>
         <source>Private server</source>
-        <translation type="unfinished"></translation>
+        <translation>Privater server</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="142"/>
         <source>%1, Name: %2, Users: %3, Country: %4, MOTD: %5</source>
-        <translation type="unfinished"></translation>
+        <translation>%1, Name: %2, Benutzer: %3, Land: %4, MOTD: %5</translation>
     </message>
 </context>
 <context>
@@ -6007,145 +6013,145 @@ the server has been verified.</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="70"/>
         <source>Event</source>
-        <translation type="unfinished">Ereignis</translation>
+        <translation>Ereignis</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="71"/>
         <location filename="../serverlogeventsmodel.cpp" line="92"/>
         <location filename="../serverlogeventsmodel.cpp" line="150"/>
         <source>Enabled</source>
-        <translation type="unfinished">Eingeschaltet</translation>
+        <translation>Eingeschaltet</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="92"/>
         <location filename="../serverlogeventsmodel.cpp" line="150"/>
         <source>Disabled</source>
-        <translation type="unfinished">Ausgeschaltet</translation>
+        <translation>Ausgeschaltet</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="97"/>
         <source>User connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer verbunden</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="99"/>
         <source>User disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer getrennt</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="101"/>
         <source>User logged in</source>
-        <translation type="unfinished">Benutzer angemeldet</translation>
+        <translation>Benutzer angemeldet</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="103"/>
         <source>User logged out</source>
-        <translation type="unfinished">Benutzer abgemeldet</translation>
+        <translation>Benutzer abgemeldet</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="105"/>
         <source>User login failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzeranmeldung fehlgeschlagen</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="107"/>
         <source>User connection timed out</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeitüberschreitung der Benutzerverbindung</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="109"/>
         <source>User kicked</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer rausgeworfen</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="111"/>
         <source>User banned</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer gesperrt</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="113"/>
         <source>User ban removed</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer entsperrt</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="115"/>
         <source>User status updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzerstatus aktualisiert</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="117"/>
         <source>User joined channel</source>
-        <translation type="unfinished">Benutzer hat Raum betreten</translation>
+        <translation>Benutzer hat Raum betreten</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="119"/>
         <source>User left channel</source>
-        <translation type="unfinished">Benutzer hat Raum verlassen</translation>
+        <translation>Benutzer hat Raum verlassen</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="121"/>
         <source>User moved to other channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer in anderen Raum verschoben</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="123"/>
         <source>User sent private text message</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer hat private Textnachricht gesendet</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="125"/>
         <source>User sent custom text message</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer hat eigene Textnachricht gesendet</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="127"/>
         <source>User sent channel text message</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer hat Raumnachricht gesendet</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="129"/>
         <source>User sent broadcast text message</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer hat Servernachricht gesendet</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="131"/>
         <source>Channel created</source>
-        <translation type="unfinished"></translation>
+        <translation>Raum erstellt</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="133"/>
         <source>Channel updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Raum aktualisiert</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="135"/>
         <source>Channel removed</source>
-        <translation type="unfinished"></translation>
+        <translation>Raum gelöscht</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="137"/>
         <source>File uploaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Datei hochgeladen</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="139"/>
         <source>File downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Datei heruntergeladen</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="141"/>
         <source>File deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>Datei gelöscht</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="143"/>
         <source>Server updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Server aktualisiert</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="145"/>
         <source>Server configuration saved</source>
-        <translation type="unfinished">Server--Konfiguration gespeichert</translation>
+        <translation>Server-Konfiguration gespeichert</translation>
     </message>
 </context>
 <context>
@@ -6347,7 +6353,7 @@ the server has been verified.</source>
     <message>
         <location filename="../serverproperties.ui" line="467"/>
         <source>Server Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Serverprotokoll</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="498"/>
@@ -7620,32 +7626,32 @@ the server has been verified.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="788"/>
         <source>Sort By...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortieren nach...</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="789"/>
         <source>&amp;Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Ben&amp;utzername</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="790"/>
         <source>User &amp;Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer&amp;typ</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="791"/>
         <source>&amp;Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Raum</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="792"/>
         <source>&amp;Modified</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Geändert</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="793"/>
         <source>&amp;Delete Selected User</source>
-        <translation type="unfinished"></translation>
+        <translation>Gewählten Benutzer &amp;löschen</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="503"/>

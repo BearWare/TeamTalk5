@@ -106,6 +106,8 @@
     <string name="pref_summary_mediafile_volume">Lautstärke der Mediendateien gegenüber Sprachübertragungen</string>
     <string name="pref_title_speakerphone_checkbox">Telefonhörer einschalten</string>
     <string name="pref_summary_speakerphone_checkbox">Schaltet zwischen Telefonhörer und Lautsprecher um</string>
+    <string name="pref_title_bluetooth_headset_checkbox">Verwende Mikrofon des Bluetooth-Headsets</string>
+    <string name="pref_summary_bluetooth_headset_checkbox">Sofern ein Bluetooth-Headset verbunden ist, benutze dessen mikrofon</string>
     <string name="pref_title_voice_processing_checkbox">Sprachvorverarbeitung</string>
     <string name="pref_summary_voice_processing_checkbox">Echo-Unterdrückung und automatische Mikrofonpegel-Kontrolle</string>
     <string name="pref_title_public_servers">Zeige öffentliche Server</string>
@@ -205,6 +207,8 @@
     <string name="action_new_server">Neuer Server</string>
     <string name="action_refresh">Aktualisieren</string>
     <string name="action_import_serverlist">Aus Datei importieren</string>
+    <string name="action_export_serverlist">Serverliste exportieren</string>
+    <string name="serverlist_export_confirmation">Serverliste wurde als %1$s exportiert</string>
 
     <string name="pref_title_server_props">TeamTalk 5 Servereigenschaften</string>
     <string name="pref_title_server_info">Serverinformationen</string>
@@ -216,6 +220,7 @@
     <string name="pref_title_authentication">Anmeldung</string>
     <string name="pref_title_username">Benutzername</string>
     <string name="pref_title_password">Passwort</string>
+    <string name="pref_title_bearware">BearWare.dk-Web-Anmeldung</string>
     <string name="pref_title_join_channel">Raum betreten</string>
     <string name="pref_title_channel">Raum</string>
     <string name="pref_title_channel_password">Raumpasswort</string>
@@ -232,6 +237,7 @@
     <string name="upload_failed">Fehler beim Hochladen der Datei %1$s</string>
     <string name="alert_file_override">Die Datei %1$s existiert bereits. Soll sie überschrieben werden?</string>
     <string name="err_file_delete">Die Datei %1$s kann nicht gelöscht werden</string>
+    <string name="err_file_write">Kann Datei %1$s nicht schreiben</string>
     <string name="err_channel_remove">Raum %1$s kann nicht gelöscht werden</string>
     <string name="err_download_path">Downloadpfad %1$s ist nicht verfügbar</string>
     <string name="download_progress">%1$d%% heruntergeladen</string>
@@ -274,9 +280,13 @@
     <string name="text_bitrate">Bitrate</string>
     <string name="text_maxbitrate">Max. Bitrate</string>
     <string name="text_txinterval">Übertragungsintervall</string>
+    <string name="text_framesize">Rahmengröße</string>
+    <string name="text_vbr">Variable Bitrate</string>
     <string name="text_quality">Qualität</string>
     <string name="text_publicserver">Öffentlicher Server</string>
     <string name="text_localserver">Lokaler Server</string>
+    <string name="text_officialserver">Offizieller Server</string>
+    <string name="text_privateserver">Privater Server</string>
     <string name="text_passwdprot">Passwortgeschützt</string>
     <string name="text_translator">Übersetzt von Steffen Schultz</string>
     <string name="desktop_image">Desktop-Bild</string>
@@ -317,6 +327,7 @@
     <string name="permission_vibrate">Vibration bei Push-to-talk wird nicht verfügbar sein</string>
     <string name="permission_wake_lock">Server-Verbindung kann bei abgedunkeltem Bildschirm abreißen</string>
     <string name="permission_read_phone_state">Erkennung eingehender Telefonate wird nicht möglich sein</string>
+    <string name="permission_bluetooth">Benutzung von Bluetooth-Headsetmikrofonen wird nicht möglich sein</string>
 
     <string name="title_activity_web_login">WebLogin-Aktivität</string>
     <string name="weblogin_prop_title_bearwareid">Benutzername</string>
@@ -328,6 +339,37 @@
     <string name="text_bearwarelogin_success">%1$s dein Benutzername %2$s wurde bestätigt</string>
     <string name="text_bearwarelogin_failed">Fehler beim Authentifizieren des Benutzernamens %1$s (%2$s)</string>
     <string name="text_weblogin_authfailure">BearWare.dk Web-Login konnte nicht authentifiziert werden</string>
+    <string name="editmsg">Nachricht:</string>
+    <string name="filepathlab">Datei:</string>
+    <string name="channamelab">Raumname:</string>
+    <string name="chanpswlab">Raumpasswort:</string>
+    <string name="chantopiclab">Raumthema:</string>
+    <string name="chanoppswlab">Operator-Passwort:</string>
+    <string name="maxuserslab">Anzahl maximaler Benutzer:</string>
+    <string name="diskquotalab">Speicherplatz:</string>
+    <string name="bwidlab">Benutzername:</string>
+    <string name="bwpswlab">Passwort:</string>
+    <string name="ttversion">TeamTalk v</string>
+    <string name="ttdllversion">TeamTalk-DLL v</string>
+    <string name="pref_title_bearware_summary">Aktivieren, falls der Server die BearWare.dk-Web-Anmeldung unterstützt</string>
+    <string name="pref_cat_about">Über</string>
+    <string name="pref_title_contrib">Entwickler</string>
+    <string name="pref_title_translator">Übersetzer</string>
+    <string name="pref_title_libraries">Drittanbieter-Bibliotheken</string>
+    <string name="channel_prop_title_hiddenchannel">Versteckt</string>
+    <string name="pref_title_gender">Geschlecht</string>
+    <string name="pref_summary_gender">Aktivieren für weibliches Symbol</string>
+    <string name="user_state_away">Abwesend</string>
+    <string name="pref_title_userloggedin_icon">Benutzer angemeldet</string>
+    <string name="pref_summary_userloggedin_icon">Klang abspielen, wenn sich ein Benutzer anmeldet</string>
+    <string name="pref_title_userloggedoff_icon">Benutzer abgemeldet</string>
+    <string name="pref_summary_userloggedoff_icon">Klang abspielen, wenn sich ein Benutzer abmeldet</string>
+    <string name="pref_title_channel_message_sent_audio_icon">Raumnachricht gesendet</string>
+    <string name="pref_summary_channel_message_sent_audio_icon">Klang beim senden einer Raumnachricht abspielen</string>
+    <string name="pref_title_channel_message_sent">Gesendete Raumnachrichten</string>
+    <string name="pref_summary_channel_message_sent">Gesendete Raumnachrichten ansagen</string>
+    <string name="text_tts_channel_message_sent">Raumnachricht gesendet: %1$s</string>
+    <string name="err_text_length">Nachricht hat die zulässige Länge um %1$d Zeichen überschritten</string>
     <string name="pref_summary_official_servers">Include official servers in Server List</string>
     <string name="pref_title_official_servers">Show official servers</string>
     <string name="pref_summary_unofficial_servers">Include unofficial servers in Server List</string>

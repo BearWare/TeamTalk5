@@ -8,7 +8,7 @@
 "0QA-gn-V1p.text" = "Leer";
 
 /* Class = "UILabel"; text = "Show Public Servers"; ObjectID = "3DD-Ra-lNz"; */
-"3DD-Ra-lNz.text" = "Show Public Servers";
+"3DD-Ra-lNz.text" = "Öffentliche Server anzeigen";
 
 /* Class = "UIButton"; normalTitle = "Send"; ObjectID = "3NI-HT-A3N"; */
 "3NI-HT-A3N.normalTitle" = "Senden";
@@ -83,7 +83,7 @@
 "eJb-Cn-ciJ.text" = "Wähle die abzuspielenden Ereignisse";
 
 /* Class = "UILabel"; text = "Show Unofficial Servers"; ObjectID = "feN-jH-qaq"; */
-"feN-jH-qaq.text" = "Show Unofficial Servers";
+"feN-jH-qaq.text" = "Inoffizielle Server anzeigen";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
 "Fu9-tA-eYj.text" = "Leer";
@@ -92,13 +92,13 @@
 "gA8-TJ-0RU.title" = "Raumchat";
 
 /* Class = "UILabel"; text = "Show public servers in server list"; ObjectID = "GeK-hh-gst"; */
-"GeK-hh-gst.text" = "Show public servers in server list";
+"GeK-hh-gst.text" = "Öffentliche Server in Serverliste anzeigen";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "GFy-mN-epU"; */
-"GFy-mN-epU.text" = "Title";
+"GFy-mN-epU.text" = "Titel";
 
 /* Class = "UILabel"; text = "Show Public Servers"; ObjectID = "gPj-u1-dPn"; */
-"gPj-u1-dPn.text" = "Show Public Servers";
+"gPj-u1-dPn.text" = "Öffentliche Server anzeigen";
 
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
 "Hcv-zz-riB.text" = "BearWare.dk-Web-Login";
@@ -143,13 +143,13 @@
 "NA0-UK-wve.title" = "Voreinstellungen";
 
 /* Class = "UILabel"; text = "Select Microphone"; ObjectID = "ntU-ZP-sKb"; */
-"ntU-ZP-sKb.text" = "Select Microphone";
+"ntU-ZP-sKb.text" = "Mikrofon wählen";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "nVj-7w-Sta"; */
 "nVj-7w-Sta.text" = "Leer";
 
 /* Class = "UILabel"; text = "Show Official Servers"; ObjectID = "o2H-Vm-Vjd"; */
-"o2H-Vm-Vjd.text" = "Show Official Servers";
+"o2H-Vm-Vjd.text" = "Offizielle Server anzeigen";
 
 /* Class = "UITableViewController"; title = "BearWare.dk Web Login"; ObjectID = "o7z-cC-U4w"; */
 "o7z-cC-U4w.title" = "BearWare.dk-Web-Login";
@@ -170,7 +170,7 @@
 "Q0w-pu-giG.text" = "Ansagen einrichten";
 
 /* Class = "UILabel"; text = "Choose microphone input"; ObjectID = "qgW-1i-aGQ"; */
-"qgW-1i-aGQ.text" = "Choose microphone input";
+"qgW-1i-aGQ.text" = "Mikrofoneingang wählen";
 
 /* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */
 "rNU-2J-hMO.normalTitle" = "Kein Audio";
@@ -215,7 +215,7 @@
 "WRa-tI-lpY.normalTitle" = "Benutzer kicken und sperren";
 
 /* Class = "UITableViewController"; title = "Setup Sound Inputs"; ObjectID = "XmQ-1z-cFv"; */
-"XmQ-1z-cFv.title" = "Setup Sound Inputs";
+"XmQ-1z-cFv.title" = "Sound-Eingänge einrichten";
 
 /* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
 "Y9o-rs-HCe.title" = "Trennen";
