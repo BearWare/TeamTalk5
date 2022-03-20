@@ -884,85 +884,667 @@ bool MainWindow::parseArgs(const QStringList& args)
 }
 
 
-void MainWindow::processTTMessage(const TTMessage& msg)
+void MainWindow::clienteventConSuccess()
 {
-    switch(msg.nClientEvent)
+    //disable reconnect timer
+    killLocalTimer(TIMER_RECONNECT);
+
+    //switch to connected icon in tray
+    if(m_sysicon)
+        m_sysicon->setIcon(QIcon(APPTRAYICON_CON));
+
+    //reset stats
+    m_clientstats = {};
+
+    // retrieve initial welcome message and access token
+    TT_GetServerProperties(ttInst, &m_srvprop);
+
+    if (isWebLogin(m_host.username, true))
     {
-    case CLIENTEVENT_CON_SUCCESS :
+        QString username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
+        QString token = ttSettings->value(SETTINGS_GENERAL_BEARWARE_TOKEN).toString();
+        QString accesstoken = _Q(m_srvprop.szAccessToken);
+
+        username = QUrl::toPercentEncoding(username);
+        token = QUrl::toPercentEncoding(token);
+        accesstoken = QUrl::toPercentEncoding(accesstoken);
+
+        QString urlReq = WEBLOGIN_BEARWARE_URLTOKEN(username, token, accesstoken);
+
+        QUrl url(urlReq);
+
+        auto networkMgr = new QNetworkAccessManager(this);
+        connect(networkMgr, &QNetworkAccessManager::finished,
+            this, &MainWindow::slotBearWareAuthReply);
+
+        QNetworkRequest request(url);
+        networkMgr->get(request);
+    }
+    else
     {
-        //disable reconnect timer
-        killLocalTimer(TIMER_RECONNECT);
+        login();
+    }
+    updateWindowTitle();
+}
 
-        //switch to connected icon in tray
-        if(m_sysicon)
-            m_sysicon->setIcon(QIcon(APPTRAYICON_CON));
+void MainWindow::clienteventConFailed()
+{
+    Disconnect();
 
-        //reset stats
-        m_clientstats = {};
+    killLocalTimer(TIMER_RECONNECT);
+    if (ttSettings->value(SETTINGS_CONNECTION_RECONNECT, SETTINGS_CONNECTION_RECONNECT_DEFAULT).toBool())
+    {
+        m_timers[startTimer(5000)] = TIMER_RECONNECT;
+    }
 
-        // retrieve initial welcome message and access token
-        TT_GetServerProperties(ttInst, &m_srvprop);
+    addStatusMsg(STATUSBAR_BYPASS, tr("Failed to connect to %1 TCP port %2 UDP port %3")
+                 .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
+}
 
-        if (isWebLogin(m_host.username, true))
+void MainWindow::clienteventConLost()
+{
+    Disconnect();
+    if(ttSettings->value(SETTINGS_CONNECTION_RECONNECT, SETTINGS_CONNECTION_RECONNECT_DEFAULT).toBool())
+        m_timers[startTimer(5000)] = TIMER_RECONNECT;
+
+    addStatusMsg(STATUSBAR_BYPASS, tr("Connection lost to %1 TCP port %2 UDP port %3")
+                 .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
+
+    playSoundEvent(SOUNDEVENT_SERVERLOST);
+    addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Connection to server lost"));
+}
+
+void MainWindow::clienteventMyselfKicked(const TTMessage& msg)
+{
+    Q_ASSERT(msg.ttType == __USER || msg.ttType == __NONE);
+    if (msg.nSource == 0)
+    {
+        playSoundEvent(SOUNDEVENT_SERVERLOST);
+        if(ttSettings->value(SETTINGS_DISPLAY_CHANEXCLUDE_DLG, SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT).toBool() == false)
         {
-            QString username = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
-            QString token = ttSettings->value(SETTINGS_GENERAL_BEARWARE_TOKEN).toString();
-            QString accesstoken = _Q(m_srvprop.szAccessToken);
-
-            username = QUrl::toPercentEncoding(username);
-            token = QUrl::toPercentEncoding(token);
-            accesstoken = QUrl::toPercentEncoding(accesstoken);
-
-            QString urlReq = WEBLOGIN_BEARWARE_URLTOKEN(username, token, accesstoken);
-
-            QUrl url(urlReq);
-
-            auto networkMgr = new QNetworkAccessManager(this);
-            connect(networkMgr, &QNetworkAccessManager::finished,
-                this, &MainWindow::slotBearWareAuthReply);
-
-            QNetworkRequest request(url);
-            networkMgr->get(request);
+            if (msg.ttType == __USER)
+                addStatusMsg(STATUSBAR_BYPASS, tr("Kicked from server by %1")
+                    .arg(getDisplayName(msg.user)));
+            else
+                addStatusMsg(STATUSBAR_BYPASS, tr("Kicked from server by unknown user"));
         }
         else
         {
-            login();
+            if (msg.ttType == __USER)
+                QMessageBox::information(this, tr("Kicked from server"),
+                    QString(tr("You have been kicked from server by %1").arg(getDisplayName(msg.user))));
+            else
+                QMessageBox::information(this, tr("Kicked from server"),
+                    tr("You have been kicked from server by unknown user"));
         }
+    }
+    else
+    {
+        if(ttSettings->value(SETTINGS_DISPLAY_CHANEXCLUDE_DLG, SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT).toBool() == false)
+        {
+            if (msg.ttType == __USER)
+                addStatusMsg(STATUSBAR_BYPASS, tr("Kicked from channel by %1")
+                    .arg(getDisplayName(msg.user)));
+            else
+                addStatusMsg(STATUSBAR_BYPASS, tr("Kicked from channel by unknown user"));
+        }
+        else
+        {
+            if (msg.ttType == __USER)
+                QMessageBox::information(this, tr("Kicked from channel"),
+                    QString(tr("You have been kicked from channel by %1").arg(getDisplayName(msg.user))));
+            else
+                QMessageBox::information(this, tr("Kicked from channel"),
+                    tr("You have been kicked from channel by unknown user"));
+        }
+    }
+}
+
+void MainWindow::clienteventCmdProcessing(int cmdid, bool complete)
+{
+    //command reply starting -> store command reply ID
+    if (!complete)
+        m_current_cmdid = cmdid;
+
+    //check if a dialog should be opened to show server reply
+    cmdreply_t::iterator ite;
+    if (complete && /* Command has completed */
+        (ite = m_commands.find(cmdid)) != m_commands.end()) //Command we're interested in knowing the reply of
+    {
+        switch (*ite)
+        {
+        case CMD_COMPLETE_LOGIN:
+            cmdCompleteLoggedIn(TT_GetMyUserID(ttInst));
+            break;
+        case CMD_COMPLETE_JOINCHANNEL:
+            break;
+        case CMD_COMPLETE_LIST_CHANNELBANS:
+        case CMD_COMPLETE_LIST_SERVERBANS:
+            cmdCompleteListServers(*ite);
+        break;
+        case CMD_COMPLETE_LISTACCOUNTS:
+            cmdCompleteListUserAccounts();
+        break;
+        default:
+            break;
+        }
+    }
+
+    //command reply completed -> clear command reply ID
+    if (complete)
+    {
+        m_commands.remove(cmdid);
+        m_current_cmdid = 0;
+    }
+}
+
+void MainWindow::clienteventCmdChannelUpdate(const Channel& channel)
+{
+    if(m_mychannel.nChannelID == (int)channel.nChannelID)
+    {
+        m_mychannel = channel;
+        //update AGC, denoise, etc. if changed
+        updateAudioConfig();
         updateWindowTitle();
     }
+    emit(updateChannel(channel));
+}
+
+void MainWindow::clienteventCmdUserLoggedIn(const User& user)
+{
+    emit(userLogin(user));
+    QString audiofolder = ttSettings->value(SETTINGS_MEDIASTORAGE_AUDIOFOLDER).toString();
+    AudioFileFormat aff = (AudioFileFormat)ttSettings->value(SETTINGS_MEDIASTORAGE_FILEFORMAT, AFF_WAVE_FORMAT).toInt();
+    if(m_audiostorage_mode & AUDIOSTORAGE_SEPARATEFILES)
+        TT_SetUserMediaStorageDir(ttInst, user.nUserID, _W(audiofolder), nullptr, aff);
+
+    updateUserSubscription(user.nUserID);
+    if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN)
+    {
+        addStatusMsg(STATUSBAR_USER_LOGGEDIN, tr("%1 has logged in") .arg(getDisplayName(user)));
+        playSoundEvent(SOUNDEVENT_USERLOGGEDIN);
+        addTextToSpeechMessage(TTS_USER_LOGGEDIN, QString(tr("%1 has logged in") .arg(getDisplayName(user))));
+    }
+
+    // sync user settings from cache
+    QString cacheid = userCacheID(user);
+    if (m_usercache.find(cacheid) != m_usercache.end())
+        m_usercache[cacheid].sync(ttInst, user);
+}
+
+void MainWindow::clienteventCmdUserLoggedOut(const User& user)
+{
+    emit(userLogout(user));
+    //remove text-message history from this user
+    m_usermessages.remove(user.nUserID);
+    if (user.nUserID != TT_GetMyUserID(ttInst))
+    {
+        addStatusMsg(STATUSBAR_USER_LOGGEDOUT, tr("%1 has logged out") .arg(getDisplayName(user)));
+        playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
+        addTextToSpeechMessage(TTS_USER_LOGGEDOUT, QString(tr("%1 has logged out") .arg(getDisplayName(user))));
+    }
+
+    // sync user settings to cache
+    QString cacheid = userCacheID(user);
+    if (!cacheid.isEmpty())
+        m_usercache[cacheid] = UserCached(user);
+}
+
+void MainWindow::clienteventCmdUserJoined(const User& user)
+{
+    if (user.nUserID == TT_GetMyUserID(ttInst))
+        processMyselfJoined(user.nChannelID);
+
+    emit (userJoined(user.nChannelID, user));
+
+    if (m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN) {
+        if (user.nUserID != TT_GetMyUserID(ttInst)) {
+            Channel chan = {};
+            ui.channelsWidget->getChannel(user.nChannelID, chan);
+            QString userjoinchan = tr("%1 joined channel").arg(getDisplayName(user));
+            TextToSpeechEvent ttsType = TTS_USER_JOINED_SAME;
+            StatusBarEvent statusType = STATUSBAR_USER_JOINED_SAME;
+            if(chan.nParentID == 0 && user.nChannelID != m_mychannel.nChannelID)
+            {
+                userjoinchan = QString(tr("%1 joined root channel").arg(getDisplayName(user)));
+                ttsType = TTS_USER_JOINED;
+                statusType = STATUSBAR_USER_JOINED;
+            }
+            else if (user.nChannelID != m_mychannel.nChannelID)
+            {
+                userjoinchan = QString(tr("%1 joined channel %2").arg(getDisplayName(user)).arg(_Q(chan.szName)));
+                ttsType = TTS_USER_JOINED;
+                statusType = STATUSBAR_USER_JOINED;
+            }
+            addStatusMsg(statusType, userjoinchan);
+            addTextToSpeechMessage(ttsType, userjoinchan);
+        }
+    }
+
+    // sync user settings from cache
+    if ((m_myuseraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
+    {
+        QString cacheid = userCacheID(user);
+        if (m_usercache.find(cacheid) != m_usercache.end())
+            m_usercache[cacheid].sync(ttInst, user);
+    }
+}
+
+void MainWindow::clienteventCmdUserLeft(int prevchannelid, const User& user)
+{
+    if (user.nUserID == TT_GetMyUserID(ttInst))
+        processMyselfLeft(prevchannelid);
+    emit (userLeft(prevchannelid, user));
+    if (m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL) {
+        if (user.nUserID != TT_GetMyUserID(ttInst)) {
+            Channel chan = {};
+            ui.channelsWidget->getChannel(prevchannelid, chan);
+            QString userleftchan = tr("%1 left channel").arg(getDisplayName(user));
+            TextToSpeechEvent ttsType = TTS_USER_LEFT_SAME;
+            StatusBarEvent statusType = STATUSBAR_USER_LEFT_SAME;
+            if (chan.nParentID == 0 && prevchannelid != m_mychannel.nChannelID) {
+                userleftchan = QString(tr("%1 left root channel").arg(getDisplayName(user)));
+                ttsType = TTS_USER_LEFT;
+                statusType = STATUSBAR_USER_LEFT;
+            } else if (prevchannelid != m_mychannel.nChannelID) {
+                userleftchan = QString(tr("%1 left channel %2").arg(getDisplayName(user)).arg(_Q(chan.szName)));
+                statusType = STATUSBAR_USER_LEFT;
+            }
+            addStatusMsg(statusType, userleftchan);
+            addTextToSpeechMessage(ttsType, userleftchan);
+        }
+    }
+
+    if ((m_myuseraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
+    {
+        // sync user settings to cache
+        QString cacheid = userCacheID(user);
+        if (!cacheid.isEmpty())
+            m_usercache[cacheid] = UserCached(user);
+    }
+}
+
+void MainWindow::clienteventCmdUserUpdate(const User& user)
+{
+    User prev_user = {};
+    ui.channelsWidget->getUser(user.nUserID, prev_user);
+    Q_ASSERT(prev_user.nUserID);
+
+    emit(userUpdate(user));
+
+    if (user.nUserID != TT_GetMyUserID(ttInst) && user.nChannelID == m_mychannel.nChannelID)
+    {
+        if ((prev_user.nStatusMode & STATUSMODE_QUESTION) == 0 && (user.nStatusMode & STATUSMODE_QUESTION))
+           playSoundEvent(SOUNDEVENT_QUESTIONMODE);
+    }
+
+    //update desktop access button
+    if ((prev_user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT) != (user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT))
+       slotUpdateDesktopTabUI();
+}
+
+void MainWindow::clienteventCmdFileNew(const RemoteFile& file)
+{
+    //only update files list if we're not currently logging in or
+    //joining a channel
+    cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
+    if(m_filesmodel->getChannelID() == file.nChannelID &&
+       (ite == m_commands.end() || (*ite != CMD_COMPLETE_LOGIN &&
+                                    *ite != CMD_COMPLETE_JOINCHANNEL)) )
+    {
+        updateChannelFiles(file.nChannelID);
+        playSoundEvent(SOUNDEVENT_FILESUPD);
+        QString fileadd = tr("File %1 added").arg(_Q(file.szFileName));
+        User user;
+        if (m_host.username != _Q(file.szUsername) &&
+            TT_GetUserByUsername(ttInst, file.szUsername, &user))
+        {
+            fileadd = tr("File %1 added by %2").arg(_Q(file.szFileName)).arg(getDisplayName(user));
+        }
+        addStatusMsg(STATUSBAR_FILE_ADD, fileadd);
+        addTextToSpeechMessage(TTS_FILE_ADD, fileadd);
+    }
+}
+
+void MainWindow::clienteventCmdFileRemove(const RemoteFile& file)
+{
+    User user;
+    //only update files list if we're not currently logging in or
+    //joining a channel
+    cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
+    if(m_filesmodel->getChannelID() == file.nChannelID &&
+       (ite == m_commands.end() || (*ite != CMD_COMPLETE_LOGIN &&
+                                    *ite != CMD_COMPLETE_JOINCHANNEL)) )
+    {
+        updateChannelFiles(file.nChannelID);
+        playSoundEvent(SOUNDEVENT_FILESUPD);
+        QString filerem = tr("File %1 removed").arg(_Q(file.szFileName));
+        if (m_host.username != _Q(file.szUsername) &&
+            TT_GetUserByUsername(ttInst, file.szUsername, &user))
+        {
+            filerem = tr("File %1 removed by %2").arg(_Q(file.szFileName)).arg(getDisplayName(user));
+        }
+        addStatusMsg(STATUSBAR_FILE_REMOVE, filerem);
+        addTextToSpeechMessage(TTS_FILE_REMOVE, filerem);
+    }
+}
+
+void MainWindow::clienteventFileTransfer(const FileTransfer& filetransfer)
+{
+    emit(filetransferUpdate(filetransfer));
+
+    if (filetransfer.nStatus == FILETRANSFER_ACTIVE && filetransfer.nTransferred == 0)
+    {
+        FileTransferDlg* dlg = new FileTransferDlg(filetransfer, nullptr);
+        connect(this, &MainWindow::filetransferUpdate, dlg, &FileTransferDlg::slotTransferUpdate);
+        dlg->setAttribute(Qt::WA_DeleteOnClose);
+        dlg->show();
+    }
+    else if (filetransfer.nStatus == FILETRANSFER_ERROR && filetransfer.nTransferred == 0)
+    {
+        if (filetransfer.bInbound)
+            QMessageBox::critical(this, MENUTEXT(ui.actionDownloadFile->text()),
+                                  tr("Failed to download file %1")
+                                  .arg(_Q(filetransfer.szRemoteFileName)));
+        else
+            QMessageBox::critical(this, MENUTEXT(ui.actionUploadFile->text()),
+                                  tr("Failed to upload file %1")
+                                  .arg(_Q(filetransfer.szLocalFilePath)));
+    }
+}
+
+void MainWindow::clienteventInternalError(const ClientErrorMsg& clienterrormsg)
+{
+    bool critical = true;
+    QString textmsg;
+    switch (clienterrormsg.nErrorNo)
+    {
+        /***** Internal TeamTalk errors not related to commands ********/
+    case INTERR_SNDINPUT_FAILURE :
+        textmsg = tr("Failed to initialize sound input device"); break;
+    case INTERR_SNDOUTPUT_FAILURE :
+        textmsg = tr("Failed to initialize sound output device"); break;
+    case INTERR_AUDIOCODEC_INIT_FAILED :
+        textmsg = tr("Failed to initialize audio codec"); break;
+    case INTERR_SPEEXDSP_INIT_FAILED :
+        critical = false;
+        textmsg = tr("Failed to initialize audio configuration"); break;
+    case INTERR_TTMESSAGE_QUEUE_OVERFLOW :
+        critical = false;
+        textmsg = tr("Internal message queue overloaded"); break;
+    default :
+        textmsg = _Q(clienterrormsg.szErrorMsg);
+        break;
+    }
+    if (critical)
+        QMessageBox::critical(this, tr("Internal Error"), textmsg);
+    addStatusMsg(STATUSBAR_BYPASS, textmsg);
+}
+
+void MainWindow::clienteventUserStateChange(const User& user)
+{
+    emit(userStateChange(user));
+    if(user.uUserState & USERSTATE_VOICE)
+    {
+        m_talking.insert(user.nUserID);
+
+        if(m_sysicon && m_sysicon->isVisible() &&
+           m_talking.size() == 1)
+            m_sysicon->setIcon(QIcon(APPTRAYICON_ACTIVE));
+    }
+    else
+    {
+        m_talking.remove(user.nUserID);
+
+        if(m_sysicon && m_sysicon->isVisible() &&
+           m_talking.size() == 0)
+            m_sysicon->setIcon(QIcon(APPTRAYICON_CON));
+    }
+
+    if(user.uUserState & USERSTATE_MEDIAFILE_AUDIO && user.nUserID != TT_GetMyUserID(ttInst))
+    {
+        User nameuser;
+        TT_GetUser(ttInst, user.nUserID, &nameuser);
+        addStatusMsg(STATUSBAR_BYPASS, tr("Streaming from %1 started") .arg(getDisplayName(nameuser)));
+    } /*else {
+        if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN || m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL) {
+            User nameuser;
+            TT_GetUser(ttInst, user.nUserID, &nameuser);
+            addStatusMsg(event_d, tr("Streaming from %1 finished") .arg(getDisplayName(nameuser)));
+        }
+    }*/
+
+    if(m_talking.empty())
+        playSoundEvent(SOUNDEVENT_SILENCE);
+}
+
+void MainWindow::clienteventVoiceActivation(bool active)
+{
+    playSoundEvent(active? SOUNDEVENT_VOICEACTTRIG :  SOUNDEVENT_VOICEACTSTOP);
+    emit(updateMyself());
+    if (active)
+    {
+        transmitOn(STREAMTYPE_VOICE);
+    }
+}
+
+void MainWindow::clienteventStreamMediaFile(const MediaFileInfo& mediafileinfo)
+{
+    switch (mediafileinfo.nStatus)
+    {
+    case MFS_ERROR :
+        addStatusMsg(STATUSBAR_BYPASS, tr("Error streaming media file to channel"));
+        stopStreamMediaFile();
+        break;
+    case MFS_STARTED :
+        addStatusMsg(STATUSBAR_BYPASS, tr("Started streaming media file to channel"));
+        break;
+    case MFS_FINISHED :
+        addStatusMsg(STATUSBAR_BYPASS, tr("Finished streaming media file to channel"));
+        stopStreamMediaFile();
+        break;
+    case MFS_ABORTED :
+        addStatusMsg(STATUSBAR_BYPASS, tr("Aborted streaming media file to channel"));
+        stopStreamMediaFile();
+        break;
+    case MFS_CLOSED :
+    case MFS_PAUSED :
+    case MFS_PLAYING :
+        break;
+    }
+
+    if (mediafileinfo.nStatus == MFS_FINISHED &&
+       ttSettings->value(SETTINGS_STREAMMEDIA_LOOP, false).toBool())
+    {
+        startStreamMediaFile();
+    }
+
+    emit(mediaStreamUpdate(mediafileinfo));
+
+    //update if still talking
+    emit(updateMyself());
+}
+
+void MainWindow::clienteventUserVideoCapture(int source, int streamid)
+{
+    int userid = source | VIDEOTYPE_CAPTURE;
+
+    //if local video is disabled then don't process pending video
+    //frames
+    if (source == 0 && (TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY) == 0)
+        return;
+
+    //pass new video frame (if it's not being ignored)
+    if(m_vid_exclude.find(userid) != m_vid_exclude.end())
+        return;
+
+    if(m_user_video.find(userid) == m_user_video.end() &&
+       !ui.videogridWidget->userExists(userid))
+    {
+        //it's a new video session
+
+        if(ttSettings->value(SETTINGS_DISPLAY_VIDEOPOPUP, false).toBool())
+            slotNewUserVideoDlg(userid, QSize());
+        else
+            ui.videogridWidget->slotAddUser(userid);
+
+        playSoundEvent(SOUNDEVENT_NEWVIDEO);
+
+        User user;
+        if(TT_GetUser(ttInst, userid & VIDEOTYPE_USERMASK, &user))
+            addStatusMsg(STATUSBAR_BYPASS, tr("New video session from %1")
+                         .arg(getDisplayName(user)));
+    }
+    emit(newVideoCaptureFrame(userid, streamid));
+}
+
+void MainWindow::clienteventUserMediaFileVideo(int source, int streamid)
+{
+    int userid = source | VIDEOTYPE_MEDIAFILE;
+
+   //pass new video frame (if it's not being ignored)
+    if(m_vid_exclude.find(userid) != m_vid_exclude.end())
+        return;
+
+    if(m_user_video.find(userid) == m_user_video.end() &&
+       !ui.videogridWidget->userExists(userid))
+    {
+        //it's a new video session
+
+        if(ttSettings->value(SETTINGS_DISPLAY_VIDEOPOPUP, false).toBool())
+            slotNewUserVideoDlg(userid, QSize());
+        else
+            ui.videogridWidget->slotAddUser(userid);
+
+        playSoundEvent(SOUNDEVENT_NEWVIDEO);
+
+        User user;
+        if(TT_GetUser(ttInst, userid & VIDEOTYPE_USERMASK, &user))
+            addStatusMsg(STATUSBAR_BYPASS, tr("New video session from %1")
+            .arg(getDisplayName(user)));
+    }
+    emit(newMediaVideoFrame(userid, streamid));
+}
+
+void MainWindow::clienteventUserDesktopWindow(int source, int streamid)
+{
+    if (m_userdesktop.find(source) == m_userdesktop.end() &&
+       !ui.desktopgridWidget->userExists(source))
+    {
+        //it's a new desktop session
+
+        //sesion id == 0 means it has ended
+        if (streamid)
+        {
+            if(ttSettings->value(SETTINGS_DISPLAY_DESKTOPPOPUP, false).toBool())
+                slotDetachUserDesktop(source, QSize());
+            else
+                ui.desktopgridWidget->slotAddUser(source);
+
+            playSoundEvent(SOUNDEVENT_NEWDESKTOP);
+
+            User user;
+            if(ui.channelsWidget->getUser(source, user))
+                addStatusMsg(STATUSBAR_BYPASS, tr("New desktop session from %1")
+                .arg(getDisplayName(user)));
+        }
+    }
+    emit(newDesktopWindow(source, streamid));
+}
+
+void MainWindow::clienteventDesktopWindowTransfer(int source, int bytesremain)
+{
+    if (m_desktopsession_id != source) //new session
+        m_desktopsession_remain = 0;
+    m_desktopsession_id = source;
+
+    if(m_desktopsession_remain == 0)
+        m_desktopsession_total = bytesremain;
+    m_desktopsession_remain = bytesremain;
+
+    if (bytesremain == 0 && m_desktopsend_on_completion)
+    {
+        if(sendDesktopWindow())
+        {
+            restartSendDesktopWindowTimer();
+            m_desktopsend_on_completion = false;
+        }
+    }
+
+    if (source == 0)
+        addStatusMsg(STATUSBAR_BYPASS, tr("Your desktop session was cancelled"));
+}
+
+void MainWindow::clienteventUserRecordMediaFile(int source, const MediaFileInfo& mediafileinfo)
+{
+    User user = {};
+    ui.channelsWidget->getUser(source, user);
+
+    switch (mediafileinfo.nStatus)
+    {
+    case MFS_STARTED :
+        addStatusMsg(STATUSBAR_BYPASS, tr("Writing audio file %1 for %2")
+                     .arg(_Q(mediafileinfo.szFileName))
+                     .arg(getDisplayName(user)));
+        break;
+    case MFS_ERROR :
+        addStatusMsg(STATUSBAR_BYPASS, tr("Failed to write audio file %1 for %2")
+                     .arg(_Q(mediafileinfo.szFileName))
+                     .arg(getDisplayName(user)));
+        break;
+    case MFS_FINISHED :
+        addStatusMsg(STATUSBAR_BYPASS, tr("Finished audio file %1")
+                     .arg(_Q(mediafileinfo.szFileName)));
+        break;
+    case MFS_ABORTED :
+        addStatusMsg(STATUSBAR_BYPASS, tr("Aborted audio file %1")
+                     .arg(_Q(mediafileinfo.szFileName)));
+        break;
+    case MFS_CLOSED :
+    case MFS_PLAYING :
+    case MFS_PAUSED :
+        break;
+    }
+}
+
+void MainWindow::clienteventUserAudioBlock(int source, StreamTypes streamtypes)
+{
+    AudioBlock* block = TT_AcquireUserAudioBlock(ttInst, streamtypes, source);
+    if(block)
+    {
+        int mean = 0;
+        int size = block->nSamples * block->nChannels;
+        short* ptr = (short*)block->lpRawAudio;
+        for(int i=0;i<size;i++)
+            mean += ptr[i];
+        mean /= size;
+        qDebug() << "AudioBlock from #" << source
+            << "stream id" << block->nStreamID
+            << "index" << block->uSampleIndex
+            << "samples" << block->nSamples
+            << "avg" << mean;
+        TT_ReleaseUserAudioBlock(ttInst, block);
+    }
+}
+
+void MainWindow::processTTMessage(const TTMessage& msg)
+{
+    switch (msg.nClientEvent)
+    {
+    case CLIENTEVENT_CON_SUCCESS :
+        clienteventConSuccess();
     break;
     case CLIENTEVENT_CON_FAILED :
-    {
-        Disconnect();
-
-        killLocalTimer(TIMER_RECONNECT);
-        if (ttSettings->value(SETTINGS_CONNECTION_RECONNECT, SETTINGS_CONNECTION_RECONNECT_DEFAULT).toBool())
-        {
-            m_timers[startTimer(5000)] = TIMER_RECONNECT;
-        }
-
-        addStatusMsg(STATUSBAR_BYPASS, tr("Failed to connect to %1 TCP port %2 UDP port %3")
-                     .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
-    }
+        clienteventConFailed();
     break;
     case CLIENTEVENT_CON_LOST :
-    {
-        Disconnect();
-        if(ttSettings->value(SETTINGS_CONNECTION_RECONNECT, SETTINGS_CONNECTION_RECONNECT_DEFAULT).toBool())
-            m_timers[startTimer(5000)] = TIMER_RECONNECT;
-
-        addStatusMsg(STATUSBAR_BYPASS, tr("Connection lost to %1 TCP port %2 UDP port %3")
-                     .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
-
-        playSoundEvent(SOUNDEVENT_SERVERLOST);
-        addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Connection to server lost"));
-    }
+        clienteventConLost();
     break;
     case CLIENTEVENT_CON_MAX_PAYLOAD_UPDATED :
         qDebug() << "User #" << msg.nSource << "max payload is" << msg.nPayloadSize;
     break;
     case CLIENTEVENT_CMD_PROCESSING :
-        commandProcessing(msg.nSource, !msg.bActive);
+        clienteventCmdProcessing(msg.nSource, !msg.bActive);
         break;
     case CLIENTEVENT_CMD_ERROR :
     {
@@ -980,9 +1562,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     }
     break;
     case CLIENTEVENT_CMD_SUCCESS :
-    {
         emit(cmdSuccess(msg.nSource));
-    }
     break;
     case CLIENTEVENT_CMD_MYSELF_LOGGEDIN :
         //ui.chatEdit->updateServer();
@@ -993,284 +1573,62 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         Disconnect();
         break;
     case CLIENTEVENT_CMD_MYSELF_KICKED :
-    {
-        Q_ASSERT(msg.ttType == __USER || msg.ttType == __NONE);
-        if (msg.nSource == 0)
-        {
-            playSoundEvent(SOUNDEVENT_SERVERLOST);
-            if(ttSettings->value(SETTINGS_DISPLAY_CHANEXCLUDE_DLG, SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT).toBool() == false)
-            {
-                if (msg.ttType == __USER)
-                    addStatusMsg(STATUSBAR_BYPASS, tr("Kicked from server by %1")
-                        .arg(getDisplayName(msg.user)));
-                else
-                    addStatusMsg(STATUSBAR_BYPASS, tr("Kicked from server by unknown user"));
-            }
-            else
-            {
-                if (msg.ttType == __USER)
-                    QMessageBox::information(this, tr("Kicked from server"),
-                        QString(tr("You have been kicked from server by %1").arg(getDisplayName(msg.user))));
-                else
-                    QMessageBox::information(this, tr("Kicked from server"),
-                        tr("You have been kicked from server by unknown user"));
-            }
-        }
-        else
-        {
-            if(ttSettings->value(SETTINGS_DISPLAY_CHANEXCLUDE_DLG, SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT).toBool() == false)
-            {
-                if (msg.ttType == __USER)
-                    addStatusMsg(STATUSBAR_BYPASS, tr("Kicked from channel by %1")
-                        .arg(getDisplayName(msg.user)));
-                else
-                    addStatusMsg(STATUSBAR_BYPASS, tr("Kicked from channel by unknown user"));
-            }
-            else
-            {
-                if (msg.ttType == __USER)
-                    QMessageBox::information(this, tr("Kicked from channel"),
-                        QString(tr("You have been kicked from channel by %1").arg(getDisplayName(msg.user))));
-                else
-                    QMessageBox::information(this, tr("Kicked from channel"),
-                        tr("You have been kicked from channel by unknown user"));
-            }
-        }
-    }
+        clienteventMyselfKicked(msg);
     break;
     case CLIENTEVENT_CMD_SERVER_UPDATE :
-    {
         Q_ASSERT(msg.ttType == __SERVERPROPERTIES);
-
         ui.chatEdit->updateServer(msg.serverproperties);
-
         emit(serverUpdate(msg.serverproperties));
-
         m_srvprop = msg.serverproperties;
         updateWindowTitle();
-    }
     break;
     case CLIENTEVENT_CMD_SERVERSTATISTICS :
-    {
         Q_ASSERT(msg.ttType == __SERVERSTATISTICS);
         emit(serverStatistics(msg.serverstatistics));
-    }
     break;
     case CLIENTEVENT_CMD_CHANNEL_NEW :
         Q_ASSERT(msg.ttType == __CHANNEL);
         emit(newChannel(msg.channel));
         break;
     case CLIENTEVENT_CMD_CHANNEL_UPDATE :
-    {
         Q_ASSERT(msg.ttType == __CHANNEL);
-        
-        if(m_mychannel.nChannelID == (int)msg.channel.nChannelID)
-        {
-            m_mychannel = msg.channel;
-            //update AGC, denoise, etc. if changed
-            updateAudioConfig();
-            updateWindowTitle();
-        }
-        emit(updateChannel(msg.channel));
-    }
+        clienteventCmdChannelUpdate(msg.channel);
     break;
     case CLIENTEVENT_CMD_CHANNEL_REMOVE :
         Q_ASSERT(msg.ttType == __CHANNEL);
         emit(removeChannel(msg.channel));
         break;
     case CLIENTEVENT_CMD_USER_LOGGEDIN :
-    {
         Q_ASSERT(msg.ttType == __USER);
-        emit(userLogin(msg.user));
-        QString audiofolder = ttSettings->value(SETTINGS_MEDIASTORAGE_AUDIOFOLDER).toString();
-        AudioFileFormat aff = (AudioFileFormat)ttSettings->value(SETTINGS_MEDIASTORAGE_FILEFORMAT, AFF_WAVE_FORMAT).toInt();
-        if(m_audiostorage_mode & AUDIOSTORAGE_SEPARATEFILES)
-            TT_SetUserMediaStorageDir(ttInst, msg.user.nUserID, _W(audiofolder), nullptr, aff);
-
-        updateUserSubscription(msg.user.nUserID);
-        if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN)
-        {
-            addStatusMsg(STATUSBAR_USER_LOGGEDIN, tr("%1 has logged in") .arg(getDisplayName(msg.user)));
-            playSoundEvent(SOUNDEVENT_USERLOGGEDIN);
-            addTextToSpeechMessage(TTS_USER_LOGGEDIN, QString(tr("%1 has logged in") .arg(getDisplayName(msg.user))));
-        }
-
-        // sync user settings from cache
-        QString cacheid = userCacheID(msg.user);
-        if (m_usercache.find(cacheid) != m_usercache.end())
-            m_usercache[cacheid].sync(ttInst, msg.user);
-    }
+        clienteventCmdUserLoggedIn(msg.user);
     break;
     case CLIENTEVENT_CMD_USER_LOGGEDOUT :
-    {
         Q_ASSERT(msg.ttType == __USER);
-        emit(userLogout(msg.user));
-        //remove text-message history from this user
-        m_usermessages.remove(msg.user.nUserID);
-        if(msg.user.nUserID != TT_GetMyUserID(ttInst))
-        {
-            addStatusMsg(STATUSBAR_USER_LOGGEDOUT, tr("%1 has logged out") .arg(getDisplayName(msg.user)));
-            playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
-            addTextToSpeechMessage(TTS_USER_LOGGEDOUT, QString(tr("%1 has logged out") .arg(getDisplayName(msg.user))));
-        }
-
-        // sync user settings to cache
-        QString cacheid = userCacheID(msg.user);
-        if (!cacheid.isEmpty())
-            m_usercache[cacheid] = UserCached(msg.user);
-    }
+        clienteventCmdUserLoggedOut(msg.user);
     break;
     case CLIENTEVENT_CMD_USER_JOINED :
         Q_ASSERT(msg.ttType == __USER);
-        if(msg.user.nUserID == TT_GetMyUserID(ttInst))
-            processMyselfJoined(msg.user.nChannelID);
-
-        emit (userJoined(msg.user.nChannelID, msg.user));
-
-        if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN) {
-            if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
-                Channel chan = {};
-                ui.channelsWidget->getChannel(msg.user.nChannelID, chan);
-                QString userjoinchan = tr("%1 joined channel").arg(getDisplayName(msg.user));
-                TextToSpeechEvent ttsType = TTS_USER_JOINED_SAME;
-                StatusBarEvent statusType = STATUSBAR_USER_JOINED_SAME;
-                if(chan.nParentID == 0 && msg.user.nChannelID != m_mychannel.nChannelID)
-                {
-                    userjoinchan = QString(tr("%1 joined root channel").arg(getDisplayName(msg.user)));
-                    ttsType = TTS_USER_JOINED;
-                    statusType = STATUSBAR_USER_JOINED;
-                }
-                else if (msg.user.nChannelID != m_mychannel.nChannelID)
-                {
-                    userjoinchan = QString(tr("%1 joined channel %2").arg(getDisplayName(msg.user)).arg(_Q(chan.szName)));
-                    ttsType = TTS_USER_JOINED;
-                    statusType = STATUSBAR_USER_JOINED;
-                }
-                addStatusMsg(statusType, userjoinchan);
-                addTextToSpeechMessage(ttsType, userjoinchan);
-            }
-        }
-
-        // sync user settings from cache
-        if ((m_myuseraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
-        {
-            QString cacheid = userCacheID(msg.user);
-            if (m_usercache.find(cacheid) != m_usercache.end())
-                m_usercache[cacheid].sync(ttInst, msg.user);
-        }
-
+        clienteventCmdUserJoined(msg.user);
         break;
     case CLIENTEVENT_CMD_USER_LEFT :
         Q_ASSERT(msg.ttType == __USER);
-        if(msg.user.nUserID == TT_GetMyUserID(ttInst))
-            processMyselfLeft(msg.nSource);
-        emit (userLeft(msg.nSource, msg.user));
-        if(m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL) {
-            if(msg.user.nUserID != TT_GetMyUserID(ttInst)) {
-                Channel chan = {};
-                ui.channelsWidget->getChannel(msg.nSource, chan);
-                QString userleftchan = tr("%1 left channel").arg(getDisplayName(msg.user));
-                TextToSpeechEvent ttsType = TTS_USER_LEFT_SAME;
-                StatusBarEvent statusType = STATUSBAR_USER_LEFT_SAME;
-                if(chan.nParentID == 0 && msg.nSource != m_mychannel.nChannelID) {
-                    userleftchan = QString(tr("%1 left root channel").arg(getDisplayName(msg.user)));
-                    ttsType = TTS_USER_LEFT;
-                    statusType = STATUSBAR_USER_LEFT;
-                } else if(msg.nSource != m_mychannel.nChannelID) {
-                    userleftchan = QString(tr("%1 left channel %2").arg(getDisplayName(msg.user)).arg(_Q(chan.szName)));
-                    statusType = STATUSBAR_USER_LEFT;
-                }
-                addStatusMsg(statusType, userleftchan);
-                addTextToSpeechMessage(ttsType, userleftchan);
-            }
-        }
-
-        if ((m_myuseraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
-        {
-            // sync user settings to cache
-            QString cacheid = userCacheID(msg.user);
-            if (!cacheid.isEmpty())
-                m_usercache[cacheid] = UserCached(msg.user);
-        }
+        clienteventCmdUserLeft(msg.nSource, msg.user);
         break;
     case CLIENTEVENT_CMD_USER_UPDATE :
-    {
         Q_ASSERT(msg.ttType == __USER);
-
-        User prev_user = {};
-        ui.channelsWidget->getUser(msg.user.nUserID, prev_user);
-        Q_ASSERT(prev_user.nUserID);
-
-        emit(userUpdate(msg.user));
-
-        if(msg.user.nUserID != TT_GetMyUserID(ttInst) &&
-           msg.user.nChannelID == m_mychannel.nChannelID)
-        {
-            if((prev_user.nStatusMode & STATUSMODE_QUESTION) == 0 &&
-               (msg.user.nStatusMode & STATUSMODE_QUESTION))
-               playSoundEvent(SOUNDEVENT_QUESTIONMODE);
-        }
-
-        //update desktop access button
-        if((prev_user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT) !=
-           (msg.user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT))
-           slotUpdateDesktopTabUI();
-    }
+        clienteventCmdUserUpdate(msg.user);
     break;
     case CLIENTEVENT_CMD_USER_TEXTMSG :
         Q_ASSERT(msg.ttType == __TEXTMESSAGE);
         processTextMessage(MyTextMessage(msg.textmessage));
         break;
     case CLIENTEVENT_CMD_FILE_NEW :
-    {
         Q_ASSERT(msg.ttType == __REMOTEFILE);
-        const RemoteFile& file = msg.remotefile;
-        //only update files list if we're not currently logging in or 
-        //joining a channel
-        cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
-        if(m_filesmodel->getChannelID() == file.nChannelID &&
-           (ite == m_commands.end() || (*ite != CMD_COMPLETE_LOGIN && 
-                                        *ite != CMD_COMPLETE_JOINCHANNEL)) )
-        {
-            updateChannelFiles(file.nChannelID);
-            playSoundEvent(SOUNDEVENT_FILESUPD);
-            QString fileadd = tr("File %1 added").arg(_Q(file.szFileName));
-            User user;
-            if (m_host.username != _Q(file.szUsername) &&
-                TT_GetUserByUsername(ttInst, file.szUsername, &user))
-            {
-                fileadd = tr("File %1 added by %2").arg(_Q(file.szFileName)).arg(getDisplayName(user));
-            }
-            addStatusMsg(STATUSBAR_FILE_ADD, fileadd);
-            addTextToSpeechMessage(TTS_FILE_ADD, fileadd);
-        }
-    }
+        clienteventCmdFileNew(msg.remotefile);
     break;
     case CLIENTEVENT_CMD_FILE_REMOVE :
-    {
         Q_ASSERT(msg.ttType == __REMOTEFILE);
-        const RemoteFile& file = msg.remotefile;
-        User user; 
-        //only update files list if we're not currently logging in or 
-        //joining a channel
-        cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
-        if(m_filesmodel->getChannelID() == file.nChannelID &&
-           (ite == m_commands.end() || (*ite != CMD_COMPLETE_LOGIN && 
-                                        *ite != CMD_COMPLETE_JOINCHANNEL)) )
-        {
-            updateChannelFiles(file.nChannelID);
-            playSoundEvent(SOUNDEVENT_FILESUPD);
-            QString filerem = tr("File %1 removed").arg(_Q(file.szFileName));
-            if (m_host.username != _Q(file.szUsername) &&
-                TT_GetUserByUsername(ttInst, file.szUsername, &user))
-            {
-                filerem = tr("File %1 removed by %2").arg(_Q(file.szFileName)).arg(getDisplayName(user));
-            }
-            addStatusMsg(STATUSBAR_FILE_REMOVE, filerem);
-            addTextToSpeechMessage(TTS_FILE_REMOVE, filerem);
-        }
-
-    }
+        clienteventCmdFileRemove(msg.remotefile);
     break;
     case CLIENTEVENT_CMD_USERACCOUNT :
         Q_ASSERT(msg.ttType == __USERACCOUNT);
@@ -1282,262 +1640,43 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         break;
     case CLIENTEVENT_FILETRANSFER :
         Q_ASSERT(msg.ttType == __FILETRANSFER);
-
-        emit(filetransferUpdate(msg.filetransfer));
-
-        if(msg.filetransfer.nStatus == FILETRANSFER_ACTIVE &&
-           msg.filetransfer.nTransferred == 0)
-        {
-            FileTransferDlg* dlg = new FileTransferDlg(msg.filetransfer, nullptr);
-            connect(this, &MainWindow::filetransferUpdate, dlg,
-                    &FileTransferDlg::slotTransferUpdate);
-            dlg->setAttribute(Qt::WA_DeleteOnClose);
-            dlg->show();
-        }
-        else if(msg.filetransfer.nStatus == FILETRANSFER_ERROR &&
-                msg.filetransfer.nTransferred == 0)
-        {
-            if(msg.filetransfer.bInbound)
-                QMessageBox::critical(this, MENUTEXT(ui.actionDownloadFile->text()),
-                                        tr("Failed to download file %1")
-                                        .arg(_Q(msg.filetransfer.szRemoteFileName)));
-            else
-                QMessageBox::critical(this, MENUTEXT(ui.actionUploadFile->text()),
-                                        tr("Failed to upload file %1")
-                                        .arg(_Q(msg.filetransfer.szLocalFilePath)));
-        }
+        clienteventFileTransfer(msg.filetransfer);
         break;
     case CLIENTEVENT_INTERNAL_ERROR :
-    {
         Q_ASSERT(msg.ttType == __CLIENTERRORMSG);
-        bool critical = true;
-        QString textmsg;
-        switch(msg.clienterrormsg.nErrorNo)
-        {
-            /***** Internal TeamTalk errors not related to commands ********/
-        case INTERR_SNDINPUT_FAILURE :
-            textmsg = tr("Failed to initialize sound input device"); break;
-        case INTERR_SNDOUTPUT_FAILURE :
-            textmsg = tr("Failed to initialize sound output device"); break;
-        case INTERR_AUDIOCODEC_INIT_FAILED :
-            textmsg = tr("Failed to initialize audio codec"); break;
-        case INTERR_SPEEXDSP_INIT_FAILED :
-            critical = false;
-            textmsg = tr("Failed to initialize audio configuration"); break;
-        case INTERR_TTMESSAGE_QUEUE_OVERFLOW :
-            critical = false;
-            textmsg = tr("Internal message queue overloaded"); break;
-        default :
-            textmsg = _Q(msg.clienterrormsg.szErrorMsg);
-            break;
-        }
-        if(critical)
-            QMessageBox::critical(this, tr("Internal Error"), textmsg);
-        addStatusMsg(STATUSBAR_BYPASS, textmsg);
-    }
+        clienteventInternalError(msg.clienterrormsg);
     break;
     case CLIENTEVENT_USER_STATECHANGE :
-    {
         Q_ASSERT(msg.ttType == __USER);
-        const User& user = msg.user;
-        emit(userStateChange(user));
-        if(user.uUserState & USERSTATE_VOICE)
-        {
-            m_talking.insert(user.nUserID);
-
-            if(m_sysicon && m_sysicon->isVisible() &&
-               m_talking.size() == 1)
-                m_sysicon->setIcon(QIcon(APPTRAYICON_ACTIVE));
-        }
-        else
-        {
-            m_talking.remove(user.nUserID);
-
-            if(m_sysicon && m_sysicon->isVisible() &&
-               m_talking.size() == 0)
-                m_sysicon->setIcon(QIcon(APPTRAYICON_CON));
-        }
-
-        if(user.uUserState & USERSTATE_MEDIAFILE_AUDIO && user.nUserID != TT_GetMyUserID(ttInst))
-        {
-            User nameuser;
-            TT_GetUser(ttInst, user.nUserID, &nameuser);
-            addStatusMsg(STATUSBAR_BYPASS, tr("Streaming from %1 started") .arg(getDisplayName(nameuser)));
-        } /*else {
-            if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN || m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL) {
-                User nameuser;
-                TT_GetUser(ttInst, user.nUserID, &nameuser);
-                addStatusMsg(event_d, tr("Streaming from %1 finished") .arg(getDisplayName(nameuser)));
-            }
-        }*/
-        
-        if(m_talking.empty())
-            playSoundEvent(SOUNDEVENT_SILENCE);
-    }
+        clienteventUserStateChange(msg.user);
     break;
     case CLIENTEVENT_VOICE_ACTIVATION :
         Q_ASSERT(msg.ttType == __TTBOOL);
-        playSoundEvent(msg.bActive? SOUNDEVENT_VOICEACTTRIG :  SOUNDEVENT_VOICEACTSTOP);
-        emit(updateMyself());
-        if (msg.bActive)
-        {
-            transmitOn(STREAMTYPE_VOICE);
-        }
+        clienteventVoiceActivation(msg.bActive);
         break;
     case CLIENTEVENT_STREAM_MEDIAFILE :
-    {
         Q_ASSERT(msg.ttType == __MEDIAFILEINFO);
-        switch(msg.mediafileinfo.nStatus)
-        {
-        case MFS_ERROR :
-            addStatusMsg(STATUSBAR_BYPASS, tr("Error streaming media file to channel"));
-            stopStreamMediaFile();
-            break;
-        case MFS_STARTED :
-            addStatusMsg(STATUSBAR_BYPASS, tr("Started streaming media file to channel"));
-            break;
-        case MFS_FINISHED :
-            addStatusMsg(STATUSBAR_BYPASS, tr("Finished streaming media file to channel"));
-            stopStreamMediaFile();
-            break;
-        case MFS_ABORTED :
-            addStatusMsg(STATUSBAR_BYPASS, tr("Aborted streaming media file to channel"));
-            stopStreamMediaFile();
-            break;
-        case MFS_CLOSED :
-        case MFS_PAUSED :
-        case MFS_PLAYING :
-            break;
-        }
-
-        if(msg.mediafileinfo.nStatus == MFS_FINISHED &&
-           ttSettings->value(SETTINGS_STREAMMEDIA_LOOP, false).toBool())
-        {
-            startStreamMediaFile();
-        }
-
-        emit(mediaStreamUpdate(msg.mediafileinfo));
-
-        //update if still talking
-        emit(updateMyself());
-    }
+        clienteventStreamMediaFile(msg.mediafileinfo);
     break;
     case CLIENTEVENT_LOCAL_MEDIAFILE:
         emit(mediaPlaybackUpdate(msg.nSource, msg.mediafileinfo));
         break;
     case CLIENTEVENT_USER_VIDEOCAPTURE :
-    {
         Q_ASSERT(msg.ttType == __INT32);
-
         //local video is userID = 0 (msg.nSource)
-        int userid = msg.nSource | VIDEOTYPE_CAPTURE;
-
-        //if local video is disabled then don't process pending video
-        //frames
-        if(msg.nSource == 0 && 
-           (TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY) == 0)
-            break;
-    
-        //pass new video frame (if it's not being ignored)
-        if(m_vid_exclude.find(userid) != m_vid_exclude.end())
-            break;
-
-        if(m_user_video.find(userid) == m_user_video.end() &&
-           !ui.videogridWidget->userExists(userid))
-        {
-            //it's a new video session
-
-            if(ttSettings->value(SETTINGS_DISPLAY_VIDEOPOPUP, false).toBool())
-                slotNewUserVideoDlg(userid, QSize());
-            else
-                ui.videogridWidget->slotAddUser(userid);
-
-            playSoundEvent(SOUNDEVENT_NEWVIDEO);
-
-            User user;
-            if(TT_GetUser(ttInst, userid & VIDEOTYPE_USERMASK, &user))
-                addStatusMsg(STATUSBAR_BYPASS, tr("New video session from %1")
-                             .arg(getDisplayName(user)));
-        }
-        emit(newVideoCaptureFrame(userid, msg.nStreamID));
-    }
+        clienteventUserVideoCapture(msg.nSource, msg.nStreamID);
     break;
     case CLIENTEVENT_USER_MEDIAFILE_VIDEO :
-    {
         Q_ASSERT(msg.ttType == __INT32);
-
-        int userid = msg.nSource | VIDEOTYPE_MEDIAFILE;
-
-       //pass new video frame (if it's not being ignored)
-        if(m_vid_exclude.find(userid) != m_vid_exclude.end())
-            break;
-
-        if(m_user_video.find(userid) == m_user_video.end() &&
-           !ui.videogridWidget->userExists(userid))
-        {
-            //it's a new video session
-
-            if(ttSettings->value(SETTINGS_DISPLAY_VIDEOPOPUP, false).toBool())
-                slotNewUserVideoDlg(userid, QSize());
-            else
-                ui.videogridWidget->slotAddUser(userid);
-
-            playSoundEvent(SOUNDEVENT_NEWVIDEO);
-
-            User user;
-            if(TT_GetUser(ttInst, userid & VIDEOTYPE_USERMASK, &user))
-                addStatusMsg(STATUSBAR_BYPASS, tr("New video session from %1")
-                .arg(getDisplayName(user)));
-        }
-        emit(newMediaVideoFrame(userid, msg.nStreamID));
-    }
+        clienteventUserMediaFileVideo(msg.nSource, msg.nStreamID);
     break;
     case CLIENTEVENT_USER_DESKTOPWINDOW :
         Q_ASSERT(msg.ttType == __INT32);
-        if(m_userdesktop.find(msg.nSource) == m_userdesktop.end() &&
-           !ui.desktopgridWidget->userExists(msg.nSource))
-        {
-            //it's a new desktop session
-
-            //sesion id == 0 means it has ended
-            if(msg.nStreamID)
-            {
-                if(ttSettings->value(SETTINGS_DISPLAY_DESKTOPPOPUP, false).toBool())
-                    slotDetachUserDesktop(msg.nSource, QSize());
-                else
-                    ui.desktopgridWidget->slotAddUser(msg.nSource);
-
-                playSoundEvent(SOUNDEVENT_NEWDESKTOP);
-
-                User user;
-                if(ui.channelsWidget->getUser(msg.nSource, user))
-                    addStatusMsg(STATUSBAR_BYPASS, tr("New desktop session from %1")
-                    .arg(getDisplayName(user)));
-            }
-        }
-        emit(newDesktopWindow(msg.nSource, msg.nStreamID));
+        clienteventUserDesktopWindow(msg.nSource, msg.nStreamID);
         break;
     case CLIENTEVENT_DESKTOPWINDOW_TRANSFER :
         Q_ASSERT(msg.ttType == __INT32);
-        if(m_desktopsession_id != msg.nSource) //new session
-            m_desktopsession_remain = 0;
-        m_desktopsession_id = msg.nSource;
-
-        if(m_desktopsession_remain == 0)
-            m_desktopsession_total = msg.nBytesRemain;
-        m_desktopsession_remain = msg.nBytesRemain;
-
-        if(msg.nBytesRemain == 0 && m_desktopsend_on_completion)
-        {
-            if(sendDesktopWindow())
-            {
-                restartSendDesktopWindowTimer();
-                m_desktopsend_on_completion = false;
-            }
-        }
-
-        if(msg.nSource == 0)
-            addStatusMsg(STATUSBAR_BYPASS, tr("Your desktop session was cancelled"));
+        clienteventDesktopWindowTransfer(msg.nSource, msg.nBytesRemain);
         break;
     case CLIENTEVENT_USER_DESKTOPCURSOR :
         Q_ASSERT(msg.ttType == __DESKTOPINPUT);
@@ -1548,57 +1687,11 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         processDesktopInput(msg.nSource, msg.desktopinput);
         break;
     case CLIENTEVENT_USER_RECORD_MEDIAFILE :
-    {
         Q_ASSERT(msg.ttType == __MEDIAFILEINFO);
-        User user = {};
-        ui.channelsWidget->getUser(msg.nSource, user);
-
-        switch(msg.mediafileinfo.nStatus)
-        {
-        case MFS_STARTED :
-            addStatusMsg(STATUSBAR_BYPASS, tr("Writing audio file %1 for %2")
-                         .arg(_Q(msg.mediafileinfo.szFileName))
-                         .arg(getDisplayName(user)));
-            break;
-        case MFS_ERROR :
-            addStatusMsg(STATUSBAR_BYPASS, tr("Failed to write audio file %1 for %2")
-                         .arg(_Q(msg.mediafileinfo.szFileName))
-                         .arg(getDisplayName(user)));
-            break;
-        case MFS_FINISHED :
-            addStatusMsg(STATUSBAR_BYPASS, tr("Finished audio file %1")
-                         .arg(_Q(msg.mediafileinfo.szFileName)));
-            break;
-        case MFS_ABORTED :
-            addStatusMsg(STATUSBAR_BYPASS, tr("Aborted audio file %1")
-                         .arg(_Q(msg.mediafileinfo.szFileName)));
-            break;
-        case MFS_CLOSED :
-        case MFS_PLAYING :
-        case MFS_PAUSED :
-            break;
-        }
-    }
+        clienteventUserRecordMediaFile(msg.nSource, msg.mediafileinfo);
     break;
     case CLIENTEVENT_USER_AUDIOBLOCK :
-    {
-        AudioBlock* block = TT_AcquireUserAudioBlock(ttInst, msg.nStreamType, msg.nSource);
-        if(block)
-        {
-            int mean = 0;
-            int size = block->nSamples * block->nChannels;
-            short* ptr = (short*)block->lpRawAudio;
-            for(int i=0;i<size;i++)
-                mean += ptr[i];
-            mean /= size;
-            qDebug() << "AudioBlock from #" << msg.nSource 
-                << "stream id" << block->nStreamID 
-                << "index" << block->uSampleIndex 
-                << "samples" << block->nSamples
-                << "avg" << mean;
-            TT_ReleaseUserAudioBlock(ttInst, block);
-        }
-    }
+        clienteventUserAudioBlock(msg.nSource, msg.nStreamType);
     break;
     case CLIENTEVENT_HOTKEY :
         Q_ASSERT(msg.ttType == __TTBOOL);
@@ -1615,84 +1708,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         slotUpdateUI();
 }
 
-
-void MainWindow::commandProcessing(int cmdid, bool complete)
-{
-    //command reply starting -> store command reply ID
-    if(!complete)
-        m_current_cmdid = cmdid;
-
-    //check if a dialog should be opened to show server reply
-    cmdreply_t::iterator ite;
-    if(complete && /* Command has completed */
-       (ite = m_commands.find(cmdid)) != m_commands.end()) //Command we're interested in knowing the reply of
-    {
-        switch(*ite)
-        {
-        case CMD_COMPLETE_LOGIN :
-            cmdLoggedIn(TT_GetMyUserID(ttInst));
-            break;
-        case CMD_COMPLETE_JOINCHANNEL :
-            break;
-        case CMD_COMPLETE_LIST_CHANNELBANS :
-        case CMD_COMPLETE_LIST_SERVERBANS :
-        {
-            if(!m_bannedusersdlg)
-            {
-                QString chanpath;
-                if (*ite == CMD_COMPLETE_LIST_CHANNELBANS)
-                {
-                    int chanid = ui.channelsWidget->selectedChannel(true);
-                    TTCHAR path[TT_STRLEN] = {};
-                    TT_GetChannelPath(ttInst, chanid, path);
-                    chanpath = _Q(path);
-                }
-                m_bannedusersdlg = new BannedUsersDlg(m_bannedusers, chanpath);
-                if (chanpath.size())
-                    m_bannedusersdlg->setWindowTitle(tr("Banned Users in Channel %1").arg(chanpath));
-                connect(m_bannedusersdlg, &QDialog::finished,
-                        this, &MainWindow::slotClosedBannedUsersDlg);
-                m_bannedusersdlg->setAttribute(Qt::WA_DeleteOnClose);
-                m_bannedusersdlg->show();
-                m_bannedusers.clear();
-            }
-            else
-                m_bannedusersdlg->activateWindow();
-        }
-        break;
-        case CMD_COMPLETE_LISTACCOUNTS :
-        {
-            if(!m_useraccountsdlg)
-            {
-                m_useraccountsdlg = new UserAccountsDlg(m_useraccounts, UAD_READWRITE);
-                connect(this, &MainWindow::cmdSuccess, m_useraccountsdlg,
-                        &UserAccountsDlg::slotCmdSuccess);
-                connect(this, &MainWindow::cmdError, m_useraccountsdlg,
-                        &UserAccountsDlg::slotCmdError);
-                connect(m_useraccountsdlg, &QDialog::finished,
-                        this, &MainWindow::slotClosedUserAccountsDlg);
-                m_useraccountsdlg->setAttribute(Qt::WA_DeleteOnClose);
-                m_useraccountsdlg->show();
-                m_useraccounts.clear();
-            }
-            else
-                m_useraccountsdlg->activateWindow();
-        }
-        break;
-        default :
-            break;
-        }
-    }
-
-    //command reply completed -> clear command reply ID
-    if(complete)
-    {
-        m_commands.remove(cmdid);
-        m_current_cmdid = 0;
-    }
-}
-
-void MainWindow::cmdLoggedIn(int myuserid)
+void MainWindow::cmdCompleteLoggedIn(int myuserid)
 {
     Q_UNUSED(myuserid);
 
@@ -1785,6 +1801,50 @@ void MainWindow::cmdLoggedIn(int myuserid)
         if (cmdid > 0)
             m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
     }
+}
+
+void MainWindow::cmdCompleteListServers(CommandComplete complete)
+{
+    if (!m_bannedusersdlg)
+    {
+        QString chanpath;
+        if (complete == CMD_COMPLETE_LIST_CHANNELBANS)
+        {
+            int chanid = ui.channelsWidget->selectedChannel(true);
+            TTCHAR path[TT_STRLEN] = {};
+            TT_GetChannelPath(ttInst, chanid, path);
+            chanpath = _Q(path);
+        }
+        m_bannedusersdlg = new BannedUsersDlg(m_bannedusers, chanpath);
+        if (chanpath.size())
+            m_bannedusersdlg->setWindowTitle(tr("Banned Users in Channel %1").arg(chanpath));
+        connect(m_bannedusersdlg, &QDialog::finished,
+            this, &MainWindow::slotClosedBannedUsersDlg);
+        m_bannedusersdlg->setAttribute(Qt::WA_DeleteOnClose);
+        m_bannedusersdlg->show();
+        m_bannedusers.clear();
+    }
+    else
+        m_bannedusersdlg->activateWindow();
+}
+
+void MainWindow::cmdCompleteListUserAccounts()
+{
+    if (!m_useraccountsdlg)
+    {
+        m_useraccountsdlg = new UserAccountsDlg(m_useraccounts, UAD_READWRITE);
+        connect(this, &MainWindow::cmdSuccess, m_useraccountsdlg,
+            &UserAccountsDlg::slotCmdSuccess);
+        connect(this, &MainWindow::cmdError, m_useraccountsdlg,
+            &UserAccountsDlg::slotCmdError);
+        connect(m_useraccountsdlg, &QDialog::finished,
+            this, &MainWindow::slotClosedUserAccountsDlg);
+        m_useraccountsdlg->setAttribute(Qt::WA_DeleteOnClose);
+        m_useraccountsdlg->show();
+        m_useraccounts.clear();
+    }
+    else
+        m_useraccountsdlg->activateWindow();
 }
 
 void MainWindow::addStatusMsg(StatusBarEvent event, const QString& msg)
