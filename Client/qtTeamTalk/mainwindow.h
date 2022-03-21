@@ -222,10 +222,10 @@ private:
     // init selected sound devices
     void initSound();
 
-    //current command reply processing
-    void commandProcessing(int cmdid, bool complete);
     //command replies
-    void cmdLoggedIn(int myuserid);
+    void cmdCompleteLoggedIn(int myuserid);
+    void cmdCompleteListServers(CommandComplete complete);
+    void cmdCompleteListUserAccounts();
 
     QString getTitle();
     void updateWindowTitle();
@@ -433,6 +433,31 @@ private:
     void startTTS();
     void slotTextChanged();
     void slotEnableVoiceActivation(bool checked=false);
+
+    void clienteventConSuccess();
+    void clienteventConFailed();
+    void clienteventConLost();
+    void clienteventMyselfKicked(const TTMessage& msg);
+    void clienteventCmdProcessing(int cmdid, bool complete);
+    void clienteventCmdChannelUpdate(const Channel& channel);
+    void clienteventCmdUserLoggedIn(const User& user);
+    void clienteventCmdUserLoggedOut(const User& user);
+    void clienteventCmdUserJoined(const User& user);
+    void clienteventCmdUserLeft(int prevchannelid, const User& user);
+    void clienteventCmdUserUpdate(const User& user);
+    void clienteventCmdFileNew(const RemoteFile& file);
+    void clienteventCmdFileRemove(const RemoteFile& file);
+    void clienteventFileTransfer(const FileTransfer& filetransfer);
+    void clienteventInternalError(const ClientErrorMsg& clienterrormsg);
+    void clienteventUserStateChange(const User& user);
+    void clienteventVoiceActivation(bool active);
+    void clienteventStreamMediaFile(const MediaFileInfo& mediafileinfo);
+    void clienteventUserVideoCapture(int source, int streamid);
+    void clienteventUserMediaFileVideo(int source, int streamid);
+    void clienteventUserDesktopWindow(int source, int streamid);
+    void clienteventDesktopWindowTransfer(int source, int bytesremain);
+    void clienteventUserRecordMediaFile(int source, const MediaFileInfo& mediafileinfo);
+    void clienteventUserAudioBlock(int source, StreamTypes streamtypes);
 
 signals:
     /* Begin - CLIENTEVENT_* based events */
