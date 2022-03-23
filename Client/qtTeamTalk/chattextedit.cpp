@@ -212,7 +212,7 @@ void ChatTextEdit::joinedChannel(int channelid)
 
     //show topic in blue
     line = tr("Topic: %1").arg(_Q(chan.szTopic));
-    format.setForeground(QBrush(Qt::darkBlue));
+    format.setForeground(QBrush(Qt::darkYellow));
     cursor.setCharFormat(format);
     setTextCursor(cursor);
     appendPlainText(line);
