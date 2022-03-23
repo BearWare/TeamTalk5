@@ -99,6 +99,29 @@ protected:
     }
 };
 
+QString getTextMessagePrefix(const TextMessage& msg, const User& user)
+{
+    switch(msg.nMsgType)
+    {
+    case MSGTYPE_USER :
+        return QString("<%1>").arg(getDisplayName(user));
+    case MSGTYPE_CHANNEL :
+        if (msg.nChannelID != TT_GetMyChannelID(ttInst))
+        {
+            TTCHAR chpath[TT_STRLEN] = {};
+            TT_GetChannelPath(ttInst, msg.nChannelID, chpath);
+            return QString("<%1->%2>").arg(getDisplayName(user))
+                           .arg(_Q(chpath));
+        }
+        else
+            return QString("<%1>").arg(getDisplayName(user));
+    case MSGTYPE_BROADCAST :
+        return QString("<%1->BROADCAST>").arg(getDisplayName(user));
+    case MSGTYPE_CUSTOM : break;
+    }
+    return QString();
+}
+
 ChatTextEdit::ChatTextEdit(QWidget * parent/* = 0*/)
 : QPlainTextEdit(parent)
 {
@@ -216,31 +239,9 @@ QString ChatTextEdit::addTextMessage(const MyTextMessage& msg)
     QString dt = getTimeStamp(msg.receiveTime);
     QString line = dt;
 
-    switch(msg.nMsgType)
-    {
-    case MSGTYPE_USER :
-        line += QString("<%1>\r\n%2").arg(getDisplayName(user)).arg(_Q(msg.szMessage));
-        break;
-    case MSGTYPE_CHANNEL :
-        if(msg.nChannelID != TT_GetMyChannelID(ttInst))
-        {
-            TTCHAR chpath[TT_STRLEN] = {};
-            TT_GetChannelPath(ttInst, msg.nChannelID, chpath);
-            line += QString("<%1->%2>\r\n%3").arg(getDisplayName(user))
-                           .arg(_Q(chpath)).arg(_Q(msg.szMessage));
-        }
-        else
-            line += QString("<%1>\r\n%2").arg(getDisplayName(user))
-                           .arg(_Q(msg.szMessage));
-        break;
-    case MSGTYPE_BROADCAST :
-        line += QString("<%1->BROADCAST>\r\n%2").arg(getDisplayName(user))
-                       .arg(_Q(msg.szMessage));
-        break;
-    case MSGTYPE_CUSTOM : break;
-    }
+    line += QString("%1\r\n%2").arg(getTextMessagePrefix(msg, user)).arg(_Q(msg.szMessage));
 
-    if(TT_GetMyUserID(ttInst) == msg.nFromUserID)
+    if (TT_GetMyUserID(ttInst) == msg.nFromUserID)
     {
         QTextCharFormat format = textCursor().charFormat();
         QTextCharFormat original = format;
@@ -253,9 +254,11 @@ QString ChatTextEdit::addTextMessage(const MyTextMessage& msg)
         setTextCursor(cursor);
     }
     else
+    {
         appendPlainText(line);
-    limitText();
+    }
 
+    limitText();
     return line;
 }
 
