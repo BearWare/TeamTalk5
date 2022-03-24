@@ -33,6 +33,7 @@
 #include <QGuiApplication>
 #endif
 
+extern TTInstance* ttInst;
 extern QSettings* ttSettings;
 
 void setVideoTextBox(const QRect& rect, const QColor& bgcolor,
@@ -120,6 +121,57 @@ QString getBearWareWebLogin(QWidget* parent)
         }
     }
     return username;
+}
+
+textmessages_t buildTextMessages(const TextMessage& msg, const QString& content)
+{
+    Q_ASSERT(msg.szMessage[0] == '\0');
+
+    textmessages_t result;
+    MyTextMessage newmsg(msg);
+    QString remain = content;
+
+    if (remain.toUtf8().size() < TT_STRLEN - 1)
+    {
+        COPY_TTSTR(newmsg.szMessage, remain);
+        newmsg.bMore = FALSE;
+        result.append(newmsg);
+        return result;
+    }
+
+    newmsg.bMore = TRUE;
+
+    int curlen = remain.size();
+    while (remain.left(curlen).toUtf8().size() > TT_STRLEN - 1)
+        curlen /= 2;
+
+    int half = TT_STRLEN / 2;
+    while (half > 0)
+    {
+        auto utf8str = remain.left(curlen + half).toUtf8();
+        if (utf8str.size() <= TT_STRLEN - 1)
+            curlen += half;
+        if (utf8str.size() == TT_STRLEN - 1)
+            break;
+        half /= 2;
+    }
+
+    COPY_TTSTR(newmsg.szMessage, remain.left(curlen));
+    result.append(newmsg);
+    newmsg.szMessage[0] = {'\0'};
+    result.append(buildTextMessages(newmsg, remain.mid(curlen)));
+    return result;
+}
+
+bool sendTextMessage(const TextMessage& msg, const QString& content)
+{
+    bool sent = true;
+    auto messages = buildTextMessages(msg, content);
+    for (const auto& m : messages)
+    {
+        sent = sent && TT_DoTextMessage(ttInst, &m) > 0;
+    }
+    return sent;
 }
 
 RestoreIndex::RestoreIndex(QAbstractItemView* view)

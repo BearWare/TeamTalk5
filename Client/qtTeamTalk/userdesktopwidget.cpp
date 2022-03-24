@@ -22,6 +22,8 @@
  */
 
 #include "userdesktopwidget.h"
+#include "utilui.h"
+#include "common.h" //need to include Carbon.h
 
 #include <QPaintEngine>
 #include <QMouseEvent>
@@ -30,7 +32,6 @@
 #include <QMenu>
 #include <QDebug>
 
-#include "common.h" //need to include Carbon.h
 
 extern TTInstance* ttInst;
 
@@ -275,8 +276,7 @@ void UserDesktopWidget::slotContextMenu(const QPoint& p)
         m_access_requested = !m_access_requested;
         QString cmd = makeCustomCommand(TT_INTCMD_DESKTOP_ACCESS, 
                                         QString::number(m_access_requested));
-        COPY_TTSTR(msg.szMessage, cmd);
-        TT_DoTextMessage(ttInst, &msg);
+        sendTextMessage(msg, cmd);
     }
 }
 
