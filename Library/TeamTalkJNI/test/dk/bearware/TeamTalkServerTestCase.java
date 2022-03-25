@@ -1561,6 +1561,47 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertEquals("now two log events", 2, logevents.size());
     }
 
+    @Test
+    public void testTextMessageIndex() {
+        UserAccount useraccount = new UserAccount();
+
+        useraccount.szUsername = "guest";
+        useraccount.szPassword = "guest";
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
+            UserRight.USERRIGHT_MULTI_LOGIN;
+
+        useraccounts.add(useraccount);
+
+        TeamTalkSrv server = newServerInstance();
+        TeamTalkBase client1 = newClientInstance();
+        TeamTalkBase client2 = newClientInstance();
+
+        connect(server, client1);
+        connect(server, client2);
+
+        ServerInterleave interleave = new RunServer(server);
+
+        login(server, client1, getTestMethodName(), useraccount.szUsername, useraccount.szPassword);
+        login(server, client2, getTestMethodName(), useraccount.szUsername, useraccount.szPassword);
+
+        for (int i=0;i<57;++i) {
+            TextMessage txtmsg = new TextMessage();
+            txtmsg.nMsgType = TextMsgType.MSGTYPE_USER;
+            txtmsg.nToUserID = client2.getMyUserID();
+            txtmsg.szMessage = "My text message";
+            txtmsg.bMore = i < 56;
+            assertTrue("send text message #" + i, waitCmdSuccess(client1, client1.doTextMessage(txtmsg), DEF_WAIT, interleave));
+        }
+
+        TTMessage msg = new TTMessage();
+        for (int i=0;i<57;++i) {
+            assertTrue("message event", waitForEvent(client2, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg, interleave));
+            assertEquals("message more", i < 56, msg.textmessage.bMore);
+        }
+
+    }
+
     // @Test
     public void _testRunServer() {
 

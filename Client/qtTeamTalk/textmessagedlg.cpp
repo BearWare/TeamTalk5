@@ -114,7 +114,7 @@ void TextMessageDlg::timerEvent(QTimerEvent *event)
         if(m_textchanged)
         {
             ServerProperties srvprop;
-            if(TT_GetServerProperties(ttInst, &srvprop))
+            if (TT_GetServerProperties(ttInst, &srvprop))
             {
                 MyTextMessage msg;
                 msg.nFromUserID = TT_GetMyUserID(ttInst);
@@ -122,8 +122,7 @@ void TextMessageDlg::timerEvent(QTimerEvent *event)
                 msg.nToUserID = m_userid;
                 QString cmd = makeCustomCommand(TT_INTCMD_TYPING_TEXT,
                                                 QString::number((int)!ui.newmsgTextEdit->toPlainText().isEmpty()));
-                COPY_TTSTR(msg.szMessage, cmd);
-                if(TT_DoTextMessage(ttInst, &msg)>0)
+                if (sendTextMessage(msg, cmd))
                     emit(newMyselfTextMessage(msg));
             }
             m_textchanged = false;
@@ -158,23 +157,15 @@ void TextMessageDlg::slotSendTextMessage(const QString& txt_msg)
     msg.nChannelID = 0;
     msg.nMsgType = MSGTYPE_USER;
     msg.nToUserID = m_userid;
-    COPY_TTSTR(msg.szMessage, txt_msg);
 
-    if (txt_msg.toUtf8().size() < TT_STRLEN)
+    if (sendTextMessage(msg, txt_msg))
     {
-        if(TT_DoTextMessage(ttInst, &msg)>0)
-        {
-            ui.newmsgTextEdit->setPlainText("");
-            newMsg(msg, true);
-            emit(newMyselfTextMessage(msg));
-            playSoundEvent(SOUNDEVENT_USERMSGSENT);
-            addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_SEND, tr("Private message sent: %1").arg(msg.szMessage));
-            m_textchanged = false;
-        }
-    }
-    else
-    {
-        QMessageBox::information(this, tr("Character limit exceeded"), QString(tr("Your message has exceeded the limit by %1 characters. Please reduce it and try again.").arg(txt_msg.toUtf8().size() - TT_STRLEN + 1)));
+        ui.newmsgTextEdit->setPlainText("");
+        newMsg(msg, true);
+        emit(newMyselfTextMessage(msg));
+        playSoundEvent(SOUNDEVENT_USERMSGSENT);
+        addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_SEND, tr("Private message sent: %1").arg(msg.szMessage));
+        m_textchanged = false;
     }
 }
 

@@ -4,7 +4,7 @@
 /*
  * BearWare.dk TeamTalk 5 SDK.
  *
- * Copyright 2005-2018, BearWare.dk.
+ * Copyright 2005-2022, BearWare.dk.
  *
  * Read the License.txt file included with the TeamTalk 5 SDK for
  * terms of use.
@@ -2370,6 +2370,9 @@ extern "C" {
         /** @brief The actual text message. The message can be
          * multi-line (include EOL).  */
         TTCHAR szMessage[TT_STRLEN];
+        /** @brief Whether this text message is to be merged with next
+         * text message. */
+        TTBOOL bMore;
     } TextMessage;
     /** @} */
 

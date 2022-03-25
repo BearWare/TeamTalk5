@@ -101,7 +101,7 @@ protected:
 
 QString getTextMessagePrefix(const TextMessage& msg, const User& user)
 {
-    switch(msg.nMsgType)
+    switch (msg.nMsgType)
     {
     case MSGTYPE_USER :
         return QString("<%1>").arg(getDisplayName(user));
@@ -120,6 +120,11 @@ QString getTextMessagePrefix(const TextMessage& msg, const User& user)
     case MSGTYPE_CUSTOM : break;
     }
     return QString();
+}
+
+quint32 generateKey(const TextMessage& msg)
+{
+    return (msg.nMsgType << 16) | msg.nFromUserID;
 }
 
 ChatTextEdit::ChatTextEdit(QWidget * parent/* = 0*/)
@@ -233,13 +238,17 @@ void ChatTextEdit::joinedChannel(int channelid)
 QString ChatTextEdit::addTextMessage(const MyTextMessage& msg)
 {
     User user;
-    if(!TT_GetUser(ttInst, msg.nFromUserID, &user))
+    if (!TT_GetUser(ttInst, msg.nFromUserID, &user))
         return QString();
 
     QString dt = getTimeStamp(msg.receiveTime);
     QString line = dt;
+    QString content;
 
-    line += QString("%1\r\n%2").arg(getTextMessagePrefix(msg, user)).arg(_Q(msg.szMessage));
+    if (!mergeMessages(msg, content))
+        return QString();
+
+    line += QString("%1\r\n%2").arg(getTextMessagePrefix(msg, user)).arg(content);
 
     if (TT_GetMyUserID(ttInst) == msg.nFromUserID)
     {
@@ -295,37 +304,24 @@ void ChatTextEdit::limitText()
     }
 }
 
-void ChatTextEdit::mouseMoveEvent(QMouseEvent *e)
+bool ChatTextEdit::mergeMessages(const MyTextMessage& msg, QString& content)
 {
-    QPlainTextEdit::mouseMoveEvent(e);
-    if (currentUrl(cursorForPosition(e->pos())).size())
-        viewport()->setCursor(QCursor(Qt::PointingHandCursor));
-    else
-        viewport()->setCursor(QCursor(Qt::IBeamCursor));
-}
+    m_mergemessages[generateKey(msg)].push_back(msg);
 
-void ChatTextEdit::mouseReleaseEvent(QMouseEvent *e)
-{
-    QPlainTextEdit::mouseReleaseEvent(e);
-    
-    if(e->button() == Qt::RightButton)
-        return;
+    // prevent out-of-memory.
+    if (m_mergemessages[generateKey(msg)].size() > 1000)
+        m_mergemessages.remove(generateKey(msg));
 
-    QString url = currentUrl(cursorForPosition(e->pos()));
-    if(url.size())
-       QDesktopServices::openUrl(QUrl(url));
-}
-
-void ChatTextEdit::keyPressEvent(QKeyEvent* e)
-{
-    QPlainTextEdit::keyPressEvent(e);
-
-    if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
+    if (!msg.bMore)
     {
-        QString url = currentUrl(textCursor());
-        if (url.size())
-           QDesktopServices::openUrl(QUrl(url));
+        for (auto& m : m_mergemessages[generateKey(msg)])
+        {
+            content += _Q(m.szMessage);
+        }
+        m_mergemessages.remove(generateKey(msg));
     }
+
+    return !msg.bMore;
 }
 
 QString ChatTextEdit::currentUrl(const QTextCursor& cursor) const
@@ -369,4 +365,37 @@ QString ChatTextEdit::currentUrl(const QTextCursor& cursor) const
     }
 
     return url;
+}
+
+void ChatTextEdit::mouseMoveEvent(QMouseEvent *e)
+{
+    QPlainTextEdit::mouseMoveEvent(e);
+    if (currentUrl(cursorForPosition(e->pos())).size())
+        viewport()->setCursor(QCursor(Qt::PointingHandCursor));
+    else
+        viewport()->setCursor(QCursor(Qt::IBeamCursor));
+}
+
+void ChatTextEdit::mouseReleaseEvent(QMouseEvent *e)
+{
+    QPlainTextEdit::mouseReleaseEvent(e);
+    
+    if(e->button() == Qt::RightButton)
+        return;
+
+    QString url = currentUrl(cursorForPosition(e->pos()));
+    if(url.size())
+       QDesktopServices::openUrl(QUrl(url));
+}
+
+void ChatTextEdit::keyPressEvent(QKeyEvent* e)
+{
+    QPlainTextEdit::keyPressEvent(e);
+
+    if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
+    {
+        QString url = currentUrl(textCursor());
+        if (url.size())
+           QDesktopServices::openUrl(QUrl(url));
+    }
 }

@@ -5193,15 +5193,13 @@ void MainWindow::slotServerBroadcastMessage(bool /*checked=false*/)
     inputDialog.setLabelText(tr("Message to broadcast:"));
     ok = inputDialog.exec();
     QString bcast = inputDialog.textValue();
-    if(!ok)
+    if (!ok || bcast.isEmpty())
         return;
-    if (bcast.isEmpty())
-        return;
-    TextMessage msg;
+
+    MyTextMessage msg;
     msg.nMsgType = MSGTYPE_BROADCAST;
     msg.nFromUserID = TT_GetMyUserID(ttInst);
-    COPY_TTSTR(msg.szMessage, bcast);
-    TT_DoTextMessage(ttInst, &msg);
+    sendTextMessage(msg, bcast);
     addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST_SEND, tr("Broadcast message sent: %1").arg(msg.szMessage));
 }
 
@@ -5753,17 +5751,12 @@ void MainWindow::slotSendChannelMessage()
     if(txtmsg.isEmpty())
         return;
 
-    TextMessage msg;
+    MyTextMessage msg;
     msg.nFromUserID = TT_GetMyUserID(ttInst);
     msg.nChannelID = m_mychannel.nChannelID;
     msg.nMsgType = MSGTYPE_CHANNEL;
-    COPY_TTSTR(msg.szMessage, txtmsg);
 
-    if (txtmsg.toUtf8().size() < TT_STRLEN)
-    {
-        TT_DoTextMessage(ttInst, &msg);
-    }
-    else
+    if (!sendTextMessage(msg, txtmsg))
     {
         switch(ui.tabWidget->currentIndex())
         {
@@ -5779,7 +5772,6 @@ void MainWindow::slotSendChannelMessage()
         default :
             break;
         }
-        QMessageBox::information(this, tr("Character limit exceeded"), QString(tr("Your message has exceeded the limit by %1 characters. Please reduce it and try again.").arg(txtmsg.toUtf8().size() - TT_STRLEN + 1)));
     }
 
     transmitOn(STREAMTYPE_CHANNELMSG);
@@ -6324,8 +6316,7 @@ void MainWindow::slotAccessUserDesktop(bool enable)
     msg.nToUserID = userid;
     QString cmd = makeCustomCommand(TT_INTCMD_DESKTOP_ACCESS, 
                                     QString::number(enable));
-    COPY_TTSTR(msg.szMessage, cmd);
-    TT_DoTextMessage(ttInst, &msg);
+    sendTextMessage(msg, cmd);
 
     slotUpdateDesktopTabUI();
 }

@@ -42,15 +42,18 @@ public:
     QString addTextMessage(const MyTextMessage& msg);
     void addLogMessage(const QString& msg);
 
-protected:
-    void mouseMoveEvent(QMouseEvent *e) override;
-    void mouseReleaseEvent(QMouseEvent *e) override;
-    void keyPressEvent(QKeyEvent* e) override;
-
 private:
     static QString getTimeStamp(const QDateTime& tm, bool force_ts = false);
     void limitText();
     QString currentUrl(const QTextCursor& cursor) const;
+    bool mergeMessages(const MyTextMessage& msg, QString& content);
+    typedef QMap<quint32, textmessages_t> messages_t;
+    messages_t m_mergemessages;
+
+protected:
+    void mouseMoveEvent(QMouseEvent *e) override;
+    void mouseReleaseEvent(QMouseEvent *e) override;
+    void keyPressEvent(QKeyEvent* e) override;
 };
 
 #endif

@@ -124,6 +124,9 @@ QVariant getCurrentItemData(QComboBox* cbox, const QVariant& not_found = QVarian
 
 QString getBearWareWebLogin(QWidget* parent);
 
+textmessages_t buildTextMessages(const TextMessage& msg, const QString& content);
+bool sendTextMessage(const TextMessage& msg, const QString& content);
+
 class RestoreIndex
 {
     Q_DISABLE_COPY(RestoreIndex)
