@@ -133,6 +133,7 @@ Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\qtTeamTalk\languages\French.q
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\qtTeamTalk\languages\German.qm"; DestDir: "{app}\languages"; Components: client; Flags: ignoreversion;
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\qtTeamTalk\languages\Hebrew.qm"; DestDir: "{app}\languages"; Components: client; Flags: ignoreversion;
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\qtTeamTalk\languages\Hungarian.qm"; DestDir: "{app}\languages"; Components: client; Flags: ignoreversion;
+Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\qtTeamTalk\languages\Indonesian.qm"; DestDir: "{app}\languages"; Components: client; Flags: ignoreversion;
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\qtTeamTalk\languages\Italian.qm"; DestDir: "{app}\languages"; Components: client; Flags: ignoreversion;
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\qtTeamTalk\languages\Polish.qm"; DestDir: "{app}\languages"; Components: client; Flags: ignoreversion;
 Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\qtTeamTalk\languages\Portuguese_BR.qm"; DestDir: "{app}\languages"; Components: client; Flags: ignoreversion;

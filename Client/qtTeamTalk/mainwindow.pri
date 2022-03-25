@@ -110,6 +110,7 @@ TRANSLATIONS = languages/Bulgarian.ts \
                languages/German.ts \
                languages/Hebrew.ts \
                languages/Hungarian.ts \
+               languages/Indonesian.ts \
                languages/Italian.ts \
                languages/Polish.ts \
                languages/Portuguese_BR.ts \
