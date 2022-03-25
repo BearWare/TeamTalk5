@@ -428,12 +428,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatus.ui" line="50"/>
         <source>A&amp;way</source>
-        <translation>О&amp;тсутствует</translation>
+        <translation>Нет&amp; на месте</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="57"/>
         <source>&amp;Question</source>
-        <translation>&amp;Запрос</translation>
+        <translation>&amp;Вопрос</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="66"/>
@@ -829,7 +829,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="946"/>
         <source>Away</source>
-        <translation>Отсутствует</translation>
+        <translation>Нет на месте</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="949"/>
@@ -2947,7 +2947,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="5321"/>
         <source>Away</source>
-        <translation>Отсутствует</translation>
+        <translation>Нет на месте</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2390"/>
@@ -3725,24 +3725,6 @@ You can download it on the page below:
         <translation>Звуковые события отключены</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6778"/>
-        <source>New version available: %1
-You can download it on the page below:
-%2</source>
-        <translation>Доступна новая версия: %1
-You can download it on the page below:
-%2</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6803"/>
-        <source>New beta version available: %1
-You can download it on the page below:
-%2</source>
-        <translation>Доступна новая бета-версия: %1
-You can download it on the page below:
-%2</translation>
-    </message>
-    <message>
         <source>Streaming media file</source>
         <translation type="vanished">Транслирует медиа файл</translation>
     </message>
@@ -4017,13 +3999,6 @@ You can download it on the page below:
         <location filename="../mainwindow.cpp" line="6676"/>
         <source>Failed to extract host-information from %1</source>
         <translation>Не удалось извлечь информацию хоста из %1</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6685"/>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation>Файл %1 содержит %2 конфигурационные данные.
-Следует ли применять эти настройки?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6690"/>
@@ -5601,7 +5576,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="131"/>
         <source>Local server, Name: %1</source>
-        <translation>Местный сервер, имя: %1</translation>
+        <translation>Локальный сервер, имя: %1</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="133"/>
@@ -7414,7 +7389,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfodlg.cpp" line="67"/>
         <source>Away</source>
-        <translation>Отсутствует</translation>
+        <translation>Нет на месте</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="69"/>
