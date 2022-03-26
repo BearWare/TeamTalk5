@@ -2054,7 +2054,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1783"/>
         <source>Record Conversations to &amp;Disk</source>
-        <translation>记录绘画(&amp;D)</translation>
+        <translation>记录会话(&amp;D)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1786"/>
@@ -2692,12 +2692,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="1488"/>
         <location filename="../mainwindow.cpp" line="1518"/>
         <source>New video session from %1</source>
-        <translation>%1 的视频绘画</translation>
+        <translation>%1 的视频会话</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1543"/>
         <source>New desktop session from %1</source>
-        <translation>%1 的新桌面绘画</translation>
+        <translation>%1 的新桌面会话</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1569"/>
@@ -5138,7 +5138,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="76"/>
         <source>Include public servers (green ones)</source>
-        <translation>包括公共服务器（绿色）</translation>
+        <translation>包含公共服务器（绿色）</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="94"/>
