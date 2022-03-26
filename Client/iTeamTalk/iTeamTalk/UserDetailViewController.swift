@@ -257,8 +257,6 @@ class UserDetailViewController : UITableViewController, TeamTalkEvent {
     }
 
     func handleTTMessage(_ m: TTMessage) {
-        var m = m
-        
         switch m.nClientEvent {
             
         case CLIENTEVENT_CMD_SUCCESS :
@@ -270,10 +268,9 @@ class UserDetailViewController : UITableViewController, TeamTalkEvent {
         case CLIENTEVENT_CMD_ERROR :
             
             if m.nSource == kick_cmdid || m.nSource == kickban_cmdid {
-                var errmsg = getClientErrorMsg(&m).pointee
-                let s = String(cString: getClientErrorMsgString(ERRMESSAGE, &errmsg))
+                let errmsg = getClientErrorMsg(m.clienterrormsg, strprop: ERRMESSAGE)
                 if #available(iOS 8.0, *) {
-                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "user detail"), message: s, preferredStyle: UIAlertController.Style.alert)
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "user detail"), message: errmsg, preferredStyle: UIAlertController.Style.alert)
                     alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "user detail"), style: UIAlertAction.Style.default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
                     

@@ -218,10 +218,9 @@ class ChannelDetailViewController :
             }
         case CLIENTEVENT_CMD_ERROR :
             if m.nSource == cmdid {
-                var errmsg = getClientErrorMsg(&m).pointee
-                let s = String(cString: getClientErrorMsgString(ERRMESSAGE, &errmsg))
+                let errmsg = getClientErrorMsg(m.clienterrormsg, strprop: ERRMESSAGE)
                 if #available(iOS 8.0, *) {
-                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog message"), message: s, preferredStyle: UIAlertController.Style.alert)
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog message"), message: errmsg, preferredStyle: UIAlertController.Style.alert)
                     alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog message"), style: UIAlertAction.Style.default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
                     

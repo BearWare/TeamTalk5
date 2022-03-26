@@ -39,6 +39,7 @@ iOS Client
 - See number of active users on public servers
 - See location/country of public servers
 - See server's MOTD in Server Entry details
+- Text messages can exceed 512 characters
 - Fixed issue where all users and channels were not listed after initial login
 - Fixed background issue when writing text messages
 Server

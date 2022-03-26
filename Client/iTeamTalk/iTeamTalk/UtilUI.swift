@@ -145,7 +145,14 @@ struct MyTextMessage {
         self.msgtype = msgtype
         self.fromuserid = m.nFromUserID
     }
-    
+
+    init(fromuserid: INT32, nickname: String, msgtype: MsgType, content: String) {
+        self.fromuserid = fromuserid
+        self.message = content
+        self.nickname = nickname
+        self.msgtype = msgtype
+    }
+
     init(logmsg: String) {
         message = logmsg
         msgtype = .LOGMSG
@@ -253,4 +260,56 @@ func getDisplayName(_ user: User) -> String {
     }
     
     return limitText(nickname)
+}
+
+func buildTextMessages(_ msg: TextMessage, content: String) -> [TextMessage] {
+    
+    var result = [TextMessage]()
+    
+    var newmsg = msg;
+    
+    if content.lengthOfBytes(using: .utf8) < TT_STRLEN - 1 {
+        toTTString(content, dst: &newmsg.szMessage)
+        newmsg.bMore = FALSE
+        result.append(newmsg)
+        return result
+    }
+    
+    newmsg.bMore = TRUE
+    var curlen = content.count
+    while content.prefix(curlen).lengthOfBytes(using: .utf8) > TT_STRLEN - 1 {
+        curlen /= 2
+    }
+
+    var half = Int(TT_STRLEN) / 2;
+    while half > 0 {
+        let utf8len = content.prefix(curlen + half).lengthOfBytes(using: .utf8)
+        if utf8len <= TT_STRLEN - 1 {
+            curlen += half;
+        }
+        if utf8len == TT_STRLEN - 1 {
+            break;
+        }
+        half /= 2;
+    }
+    
+    toTTString(String(content.prefix(curlen)), dst: &newmsg.szMessage)
+
+    result.append(newmsg);
+    let remain = content.count - curlen
+    let messages = buildTextMessages(newmsg, content: String(content.suffix(remain)))
+    for m in messages {
+        result.append(m)
+    }
+
+    return result
+}
+
+func sendTextMessage(msg: TextMessage, content: String) -> Bool {
+    var sent = true
+    for m in buildTextMessages(msg, content: content) {
+        var m = m
+        sent = sent && TT_DoTextMessage(ttInst, &m) > 0
+    }
+    return sent
 }

@@ -35,6 +35,7 @@ class TextMessageViewController :
     @IBOutlet weak var msgTextViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var sendButtonBottomConstraint: NSLayoutConstraint!
     
+    // userid > 0 means private message session, i.e. MSGTYPE_USER
     var userid : INT32 = 0
     
     var delegate : MyTextMessageDelegate?
@@ -43,6 +44,41 @@ class TextMessageViewController :
 
     var messages = [Int : [MyTextMessage] ]()
     var curMessageSection = 0
+    
+    func generateKey(_ msg: TextMessage) -> Int {
+        return (Int(msg.nMsgType.rawValue) << 16) | Int(msg.nFromUserID)
+    }
+    
+    var mergemessages = [Int : [TextMessage] ]()
+    
+    func getTextMessageContent(_ msg: TextMessage) -> String? {
+        var msg = msg
+        let key = generateKey(msg)
+        if msg.bMore == TRUE {
+            if mergemessages[key] == nil {
+                mergemessages[key] = [TextMessage]()
+            }
+            mergemessages[key]!.append(msg)
+            
+            // prevent out-of-memory
+            if mergemessages[key]!.count > 1000 {
+                mergemessages.removeValue(forKey: key)
+            }
+        }
+        else if mergemessages[key] != nil {
+            var content = ""
+            for m in mergemessages[key]! {
+                var m = m
+                content += String(cString: getTextMessageString(MESSAGE, &m))
+            }
+            mergemessages.removeValue(forKey: key)
+            return content + String(cString: getTextMessageString(MESSAGE, &msg))
+        }
+        else {
+            return String(cString: getTextMessageString(MESSAGE, &msg))
+        }
+        return nil
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -174,19 +210,8 @@ class TextMessageViewController :
             return
         }
         
-        let utf8len = msgTextView.text.lengthOfBytes(using: .utf8)
-        if utf8len > TT_STRLEN - 1 {
-            let msg = String(format: NSLocalizedString("Message limit exceeded by %d characters", comment: "Dialog"), utf8len - Int(TT_STRLEN) + 1)
-            let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"),
-                                          message: msg, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            return
-        }
-        
         var msg = TextMessage()
         msg.nFromUserID = TT_GetMyUserID(ttInst)
-        toTTString(msgTextView.text, dst: &msg.szMessage)
         
         if userid == 0 {
             msg.nMsgType = MSGTYPE_CHANNEL
@@ -199,7 +224,7 @@ class TextMessageViewController :
             var user = User()
             TT_GetUser(ttInst, msg.nFromUserID, &user)
             let name = getDisplayName(user)
-            let mymsg = MyTextMessage(m: msg, nickname: name, msgtype: .PRIV_IM_MYSELF)
+            let mymsg = MyTextMessage(fromuserid: msg.nFromUserID, nickname: name, msgtype: .PRIV_IM_MYSELF, content: msgTextView.text)
 
             appendEventMessage(mymsg)
 
@@ -209,9 +234,7 @@ class TextMessageViewController :
             updateTableView()
         }
         
-        let cmdid = TT_DoTextMessage(ttInst, &msg)
-        
-        if cmdid > 0 {
+        if iTeamTalk.sendTextMessage(msg: msg, content: msgTextView.text) {
             msgTextView.text = ""
         }
     }
@@ -265,7 +288,8 @@ class TextMessageViewController :
             if (txtmsg.nMsgType == MSGTYPE_USER && txtmsg.nFromUserID == userid /* private message to this view controller */) ||
                 (txtmsg.nMsgType == MSGTYPE_CHANNEL && userid == 0 /* channel message to tab-bar chat */) ||
                 (txtmsg.nMsgType == MSGTYPE_BROADCAST && userid == 0 /* broadcast to tab-bar chat */) {
-                    
+                
+                if let content = getTextMessageContent(txtmsg) {
                     var user = User()
                     TT_GetUser(ttInst, txtmsg.nFromUserID, &user)
                     
@@ -281,9 +305,9 @@ class TextMessageViewController :
                     default :
                         break
                     }
-                    
+
                     let name = getDisplayName(user)
-                    let mymsg = MyTextMessage(m: txtmsg, nickname: name, msgtype: msgtype)
+                    let mymsg = MyTextMessage(fromuserid: txtmsg.nFromUserID, nickname: name, msgtype: msgtype, content: content)
                     appendEventMessage(mymsg)
                     
                     if tableView != nil {
@@ -291,6 +315,7 @@ class TextMessageViewController :
                     }
                     
                     speakTextMessage(txtmsg.nMsgType, mymsg: mymsg)
+                }
             }
         case CLIENTEVENT_CMD_USER_LOGGEDIN :
             
@@ -346,6 +371,16 @@ class TextMessageViewController :
                 if tableView != nil {
                     updateTableView()
                 }
+            }
+        case CLIENTEVENT_CMD_ERROR :
+            
+            let errmsg = getClientErrorMsg(m.clienterrormsg, strprop: ERRMESSAGE)
+            let txt = String(format: NSLocalizedString("Command failed: %@", comment: "log entry"),  errmsg)
+            let logmsg = MyTextMessage(logmsg: txt)
+            appendEventMessage(logmsg)
+            
+            if tableView != nil {
+                updateTableView()
             }
         default : break
         }
