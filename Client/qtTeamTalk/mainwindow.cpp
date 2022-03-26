@@ -5756,7 +5756,7 @@ void MainWindow::slotSendChannelMessage()
     msg.nChannelID = m_mychannel.nChannelID;
     msg.nMsgType = MSGTYPE_CHANNEL;
 
-    if (!sendTextMessage(msg, txtmsg))
+    if (sendTextMessage(msg, txtmsg).size() == 0)
     {
         switch(ui.tabWidget->currentIndex())
         {

@@ -305,7 +305,7 @@ struct UserCached
 struct MyTextMessage : TextMessage
 {
     QDateTime receiveTime;
-    MyTextMessage()
+    MyTextMessage() : TextMessage()
     {
         this->szFromUsername[0] = '\0';
         this->szMessage[0] = '\0';

@@ -122,8 +122,7 @@ void TextMessageDlg::timerEvent(QTimerEvent *event)
                 msg.nToUserID = m_userid;
                 QString cmd = makeCustomCommand(TT_INTCMD_TYPING_TEXT,
                                                 QString::number((int)!ui.newmsgTextEdit->toPlainText().isEmpty()));
-                if (sendTextMessage(msg, cmd))
-                    emit(newMyselfTextMessage(msg));
+                sendTextMessage(msg, cmd);
             }
             m_textchanged = false;
         }
@@ -158,11 +157,17 @@ void TextMessageDlg::slotSendTextMessage(const QString& txt_msg)
     msg.nMsgType = MSGTYPE_USER;
     msg.nToUserID = m_userid;
 
-    if (sendTextMessage(msg, txt_msg))
+    auto sentmessages = sendTextMessage(msg, txt_msg);
+    if (sentmessages.size() > 0)
     {
         ui.newmsgTextEdit->setPlainText("");
-        newMsg(msg, true);
-        emit(newMyselfTextMessage(msg));
+
+        for (auto& m : sentmessages)
+        {
+            newMsg(m, true);
+            emit(newMyselfTextMessage(m));
+        }
+
         playSoundEvent(SOUNDEVENT_USERMSGSENT);
         addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_SEND, tr("Private message sent: %1").arg(msg.szMessage));
         m_textchanged = false;

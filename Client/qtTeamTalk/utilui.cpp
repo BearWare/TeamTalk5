@@ -163,7 +163,7 @@ textmessages_t buildTextMessages(const TextMessage& msg, const QString& content)
     return result;
 }
 
-bool sendTextMessage(const TextMessage& msg, const QString& content)
+textmessages_t sendTextMessage(const TextMessage& msg, const QString& content)
 {
     bool sent = true;
     auto messages = buildTextMessages(msg, content);
@@ -171,7 +171,7 @@ bool sendTextMessage(const TextMessage& msg, const QString& content)
     {
         sent = sent && TT_DoTextMessage(ttInst, &m) > 0;
     }
-    return sent;
+    return sent ? messages : textmessages_t();
 }
 
 RestoreIndex::RestoreIndex(QAbstractItemView* view)
