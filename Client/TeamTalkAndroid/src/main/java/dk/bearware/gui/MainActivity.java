@@ -124,6 +124,7 @@ import dk.bearware.backend.TeamTalkConstants;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.FileListAdapter;
 import dk.bearware.data.MediaAdapter;
+import dk.bearware.data.MyTextMessage;
 import dk.bearware.data.Permissions;
 import dk.bearware.data.Preferences;
 import dk.bearware.data.ServerEntry;
@@ -842,21 +843,17 @@ private EditText newmsg;
             if (text.isEmpty())
                 return;
 
-            int utf8len = text.getBytes(StandardCharsets.UTF_8).length;
-            if (utf8len > Constants.TT_STRLEN - 1)
-            {
-                Toast.makeText(mainActivity,
-                        getString(R.string.err_text_length, utf8len - Constants.TT_STRLEN + 1),
-                        Toast.LENGTH_LONG).show();
-                return;
-            }
-                    
-            TextMessage textmsg = new TextMessage();
+            MyTextMessage textmsg = new MyTextMessage();
             textmsg.nMsgType = TextMsgType.MSGTYPE_CHANNEL;
             textmsg.nChannelID = mainActivity.ttclient.getMyChannelID();
             textmsg.szMessage = text;
-            int cmdid = mainActivity.ttclient.doTextMessage(textmsg);
-            if(cmdid>0) {
+
+            int cmdid = 0;
+            for (MyTextMessage m : textmsg.split()) {
+                cmdid = mainActivity.ttclient.doTextMessage(m);
+            }
+
+            if (cmdid > 0) {
                 mainActivity.activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_TEXTMSG);
                 newmsg.setText("");
             }

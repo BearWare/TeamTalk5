@@ -149,15 +149,6 @@ extends AppCompatActivity implements TeamTalkConnectionListener, CommandListener
             if(newmsg.isEmpty())
                 return;
 
-            int utf8len = newmsg.getBytes(StandardCharsets.UTF_8).length;
-            if (utf8len > Constants.TT_STRLEN - 1)
-            {
-                Toast.makeText(TextMessageActivity.this,
-                        getString(R.string.err_text_length, utf8len - Constants.TT_STRLEN + 1),
-                        Toast.LENGTH_LONG).show();
-                return;
-            }
-
             User myself = ttservice.getUsers().get(ttclient.getMyUserID());
             String name = Utils.getDisplayName(getBaseContext(), myself);
             MyTextMessage textmsg = new MyTextMessage(myself == null? "" : name);
@@ -166,9 +157,13 @@ extends AppCompatActivity implements TeamTalkConnectionListener, CommandListener
             textmsg.nFromUserID = ttclient.getMyUserID();
             textmsg.nToUserID = userid;
             textmsg.szMessage = newmsg;
-            int cmdid = ttclient.doTextMessage(textmsg);
-            if(cmdid>0) {
-                ttservice.getUserTextMsgs(userid).add(textmsg);
+
+            boolean sent = true;
+            for (MyTextMessage m : textmsg.split()) {
+                sent = sent && ttclient.doTextMessage(m) > 0;
+                ttservice.getUserTextMsgs(userid).add(m);
+            }
+            if (sent) {
                 send_msg.setText("");
                 adapter.notifyDataSetChanged();
             }

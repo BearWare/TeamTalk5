@@ -31,4 +31,14 @@ public class TextMessage {
     public int nChannelID;
     public String szMessage;
     public boolean bMore;
+    public TextMessage() {}
+    public TextMessage(TextMessage msg) {
+        this.nMsgType = msg.nMsgType;
+        this.nFromUserID = msg.nFromUserID;
+        this.szFromUsername = msg.szFromUsername;
+        this.nToUserID = msg.nToUserID;
+        this.nChannelID = msg.nChannelID;
+        this.szMessage = msg.szMessage;
+        this.bMore = msg.bMore;
+    }
 }
