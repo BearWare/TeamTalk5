@@ -268,7 +268,7 @@ func buildTextMessages(_ msg: TextMessage, content: String) -> [TextMessage] {
     
     var newmsg = msg;
     
-    if content.lengthOfBytes(using: .utf8) < TT_STRLEN - 1 {
+    if content.lengthOfBytes(using: .utf8) <= TT_STRLEN - 1 {
         toTTString(content, dst: &newmsg.szMessage)
         newmsg.bMore = FALSE
         result.append(newmsg)

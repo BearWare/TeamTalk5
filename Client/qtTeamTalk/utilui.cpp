@@ -131,7 +131,7 @@ textmessages_t buildTextMessages(const TextMessage& msg, const QString& content)
     MyTextMessage newmsg(msg);
     QString remain = content;
 
-    if (remain.toUtf8().size() < TT_STRLEN - 1)
+    if (remain.toUtf8().size() <= TT_STRLEN - 1)
     {
         COPY_TTSTR(newmsg.szMessage, remain);
         newmsg.bMore = FALSE;
