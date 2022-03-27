@@ -65,6 +65,7 @@ void TextMessageDlg::init(const User& user)
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
     restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_TEXTMSGWINDOWPOS).toByteArray());
+    ui.splitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_TEXTMSGWINDOWPOS_SPLITTER).toByteArray());
     ui.newmsgTextEdit->setFocus();
 
     connect(ui.cancelButton, &QAbstractButton::clicked, this, &TextMessageDlg::slotCancel);
@@ -81,6 +82,8 @@ void TextMessageDlg::init(const User& user)
 TextMessageDlg::~TextMessageDlg()
 {
     ttSettings->setValue(SETTINGS_DISPLAY_TEXTMSGWINDOWPOS, saveGeometry());
+    ttSettings->setValue(SETTINGS_DISPLAY_TEXTMSGWINDOWPOS_SPLITTER, ui.splitter->saveState());
+
     emit(closedTextMessage(m_userid));
 }
 
@@ -130,7 +133,7 @@ void TextMessageDlg::timerEvent(QTimerEvent *event)
 
     if(m_remote_typing_id == event->timerId())
     {
-        ui.newmsgLabel->setText(tr("New message"));
+        ui.newmsgGroupBox->setTitle(tr("New message"));
         killTimer(m_remote_typing_id);
         m_remote_typing_id = 0;
     }
@@ -187,7 +190,7 @@ void TextMessageDlg::newMsg(const MyTextMessage& msg, bool store)
     case MSGTYPE_USER :
     {
         QString line = ui.historyTextEdit->addTextMessage(msg);
-        ui.newmsgLabel->setText(tr("New message"));
+        ui.newmsgGroupBox->setTitle(tr("New message"));
 
         QString folder = ttSettings->value(SETTINGS_MEDIASTORAGE_USERLOGFOLDER).toString();
         if(store && folder.size())
@@ -209,7 +212,7 @@ void TextMessageDlg::newMsg(const MyTextMessage& msg, bool store)
         {
             if(cmd_msg[1] == "1")
             {
-                ui.newmsgLabel->setText(tr("New message - remote user typing."));
+                ui.newmsgGroupBox->setTitle(tr("New message - remote user typing."));
                 User remoteuser;
                 if (TT_GetUser(ttInst, m_userid, &remoteuser))
                 {
@@ -227,7 +230,7 @@ void TextMessageDlg::newMsg(const MyTextMessage& msg, bool store)
                 if(m_remote_typing_id)
                     killTimer(m_remote_typing_id);
                 m_remote_typing_id = 0;
-                ui.newmsgLabel->setText(tr("New message"));
+                ui.newmsgGroupBox->setTitle(tr("New message"));
             }
         }
         break;

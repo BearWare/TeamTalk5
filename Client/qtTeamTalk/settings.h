@@ -93,6 +93,7 @@
 #define SETTINGS_DISPLAY_STARTMINIMIZED             "display/startminimized"
 #define SETTINGS_DISPLAY_MAINWINDOWPOS              "display/windowposition"
 #define SETTINGS_DISPLAY_TEXTMSGWINDOWPOS           "display/textmsg-windowposition"
+#define SETTINGS_DISPLAY_TEXTMSGWINDOWPOS_SPLITTER  "display/textmsg-windowsplitter"
 #define SETTINGS_DISPLAY_ONLINEUSERSWINDOWPOS       "display/onlineusers-windowposition"
 #define SETTINGS_DISPLAY_USERACCOUNTSWINDOWPOS      "display/useraccount-windowposition"
 #define SETTINGS_DISPLAY_CHANNELWINDOWPOS           "display/channel-windowposition"
