@@ -206,8 +206,9 @@ void saveWindowPosition(const QString& setting, QWidget* widget)
     }
 }
 
-void restoreWindowPosition(const QString& setting, QWidget* widget)
+bool restoreWindowPosition(const QString& setting, QWidget* widget)
 {
+    bool success = false;
     QVariantList windowpos = ttSettings->value(setting).toList();
     if (windowpos.size() == 4)
     {
@@ -220,12 +221,19 @@ void restoreWindowPosition(const QString& setting, QWidget* widget)
         int desktopW = QApplication::desktop()->width();
         int desktopH = QApplication::desktop()->height();
         if(x <= desktopW && y <= desktopH)
+        {
             widget->setGeometry(x, y, w, h);
+            success = true;
+        }
 #else
         // check that we are within bounds
         QScreen* screen = QGuiApplication::screenAt(QPoint(x, y));
         if (screen)
+        {
             widget->setGeometry(x, y, w, h);
+            success = true;
+        }
 #endif
     }
+    return success;
 }

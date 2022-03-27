@@ -138,6 +138,6 @@ public:
 };
 
 void saveWindowPosition(const QString& setting, QWidget* widget);
-void restoreWindowPosition(const QString& setting, QWidget* widget);
+bool restoreWindowPosition(const QString& setting, QWidget* widget);
 
 #endif

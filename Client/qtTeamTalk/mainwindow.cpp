@@ -701,7 +701,12 @@ void MainWindow::loadSettings()
         slotMeEnableVideoTransmission();
 
     //move window to last position
-    restoreWindowPosition(SETTINGS_DISPLAY_MAINWINDOWPOS, this);
+    if (restoreWindowPosition(SETTINGS_DISPLAY_MAINWINDOWPOS, this))
+    {
+        ui.splitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_SPLITTER).toByteArray());
+        ui.videosplitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_VIDEOSPLITTER).toByteArray());
+        ui.desktopsplitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_DESKTOPSPLITTER).toByteArray());
+    }
     //set files header to last position
     ui.filesView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_FILESHEADER).toByteArray());
     // Maximize window if necessary
