@@ -3767,7 +3767,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
         <location filename="../mainwindow.cpp" line="6546"/>
         <location filename="../mainwindow.cpp" line="6551"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
-        <translation>%1 merubah langganan &quot;%2&quot; ke: %3</translation>
+        <translation>%1 mengubah langganan &quot;%2&quot; ke: %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6418"/>
@@ -4608,7 +4608,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="1646"/>
         <source>User entered question-mode</source>
-        <translation>Pengguna merubah status ke mode bertanya</translation>
+        <translation>Pengguna mengubah status ke mode bertanya</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1669"/>
@@ -6727,7 +6727,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../useraccounts.ui" line="461"/>
         <source>User can change nickname</source>
-        <translation>Pengguna dapat merubah nama panggilan</translation>
+        <translation>Pengguna dapat mengubah nama panggilan</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="468"/>
