@@ -1549,7 +1549,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="963"/>
         <location filename="../mainwindow.cpp" line="2832"/>
         <source>&amp;Files</source>
-        <translation>&amp;Berkas</translation>
+        <translation>B&amp;erkas</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="991"/>
@@ -1617,7 +1617,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1273"/>
         <source>&amp;Channel Information</source>
-        <translation>&amp;Informasi saluran</translation>
+        <translation>Infor&amp;masi saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1296"/>
@@ -1627,7 +1627,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1311"/>
         <source>&amp;Help</source>
-        <translation>&amp;Bantuan</translation>
+        <translation>Bant&amp;uan</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1374"/>
@@ -1890,7 +1890,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1126"/>
         <source>S&amp;ound Configuration</source>
-        <translation>k&amp;onfigurasi suara</translation>
+        <translation>konfi&amp;gurasi suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1130"/>
