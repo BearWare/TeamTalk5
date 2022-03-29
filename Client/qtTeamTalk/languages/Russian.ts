@@ -3725,20 +3725,6 @@ You can download it on the page below:
         <translation>Звуковые события отключены</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6809"/>
-        <source>New version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
-%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6834"/>
-        <source>New beta version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
-%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Streaming media file</source>
         <translation type="vanished">Транслирует медиа файл</translation>
     </message>
@@ -4011,12 +3997,6 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="6707"/>
         <source>Failed to extract host-information from %1</source>
         <translation>Не удалось извлечь информацию хоста из %1</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6716"/>
-        <source>The file %1 contains %2 setup information.<byte value="xd"/>
-Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6721"/>
@@ -6729,7 +6709,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../textmessage.ui" line="77"/>
         <source>Message</source>
-        <translation type="unfinished">Сообщение</translation>
+        <translation>Сообщение</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="136"/>
@@ -7115,7 +7095,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="789"/>
         <source>Sort By...</source>
-        <translation>Сортировано По...</translation>
+        <translation>Сортировать По...</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="790"/>
@@ -7219,6 +7199,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="67"/>
         <source>Modified</source>
+        <translatorcomment>	</translatorcomment>
         <translation>Изменён</translation>
     </message>
     <message>
@@ -7248,7 +7229,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="121"/>
         <source>Username: %1, Password: %2, Type: %3, Note: %4, Initial channel: %5, Modified: %6</source>
-        <translation>Имя пользователя: %1, Пароль: %2, Тип: %3, Примечание: %4, Канал поумолчанию: %5, Изменено: %6</translation>
+        <translation>Пользователь: %1, пароль: %2, тип: %3, примечание: %4, Канал поумолчанию: %5, Изменён: %6</translation>
     </message>
 </context>
 <context>
