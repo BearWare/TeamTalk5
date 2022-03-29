@@ -1553,7 +1553,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="963"/>
         <location filename="../mainwindow.cpp" line="2868"/>
         <source>&amp;Files</source>
-        <translation>&amp;Berkas</translation>
+        <translation>B&amp;erkas</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="991"/>
@@ -1621,7 +1621,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1273"/>
         <source>&amp;Channel Information</source>
-        <translation>&amp;Informasi saluran</translation>
+        <translation>Infor&amp;masi saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1296"/>
@@ -1631,7 +1631,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1311"/>
         <source>&amp;Help</source>
-        <translation>&amp;Bantuan</translation>
+        <translation>Bant&amp;uan</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1374"/>
@@ -1894,7 +1894,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1126"/>
         <source>S&amp;ound Configuration</source>
-        <translation>k&amp;onfigurasi suara</translation>
+        <translation>konfi&amp;gurasi suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1130"/>
@@ -3787,7 +3787,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
         <location filename="../mainwindow.cpp" line="6577"/>
         <location filename="../mainwindow.cpp" line="6582"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
-        <translation>%1 merubah langganan &quot;%2&quot; ke: %3</translation>
+        <translation>%1 mengubah langganan &quot;%2&quot; ke: %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6449"/>
@@ -4627,7 +4627,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="1646"/>
         <source>User entered question-mode</source>
-        <translation>Pengguna merubah status ke mode bertanya</translation>
+        <translation>Pengguna mengubah status ke mode bertanya</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1669"/>
@@ -6748,7 +6748,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../useraccounts.ui" line="461"/>
         <source>User can change nickname</source>
-        <translation>Pengguna dapat merubah nama panggilan</translation>
+        <translation>Pengguna dapat mengubah nama panggilan</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="468"/>
