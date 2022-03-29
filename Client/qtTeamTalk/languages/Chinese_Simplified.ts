@@ -3430,14 +3430,6 @@ You can download it on the page below:<byte value="xd"/>
         <translation>上传日期(&amp;U)</translation>
     </message>
     <message>
-        <source>Character limit exceeded</source>
-        <translation type="vanished">超出字符限制</translation>
-    </message>
-    <message>
-        <source>Your message has exceeded the limit by %1 characters. Please reduce it and try again.</source>
-        <translation type="vanished">您的消息已超出限制 %1 个字符，请减少内容并重试。</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6005"/>
         <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
         <translation>尚未配置视频设备属性。请检查‘首选项’中的设置</translation>
@@ -6508,7 +6500,7 @@ the server has been verified.</source>
     <message>
         <location filename="../textmessage.ui" line="77"/>
         <source>Message</source>
-        <translation type="unfinished">消息</translation>
+        <translation>消息</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="136"/>
@@ -6531,14 +6523,6 @@ the server has been verified.</source>
         <location filename="../textmessagedlg.cpp" line="175"/>
         <source>Private message sent: %1</source>
         <translation>私人消息： 我： %1</translation>
-    </message>
-    <message>
-        <source>Character limit exceeded</source>
-        <translation type="vanished">超出字符限制</translation>
-    </message>
-    <message>
-        <source>Your message has exceeded the limit by %1 characters. Please reduce it and try again.</source>
-        <translation type="vanished">您的消息已超出限制 %1 个字符，请减少内容并重试。</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="215"/>
