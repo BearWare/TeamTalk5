@@ -57,7 +57,7 @@ void processHostEntry(const QDomElement& hostElement, HostEntryEx& entry)
         if (tmp.text() == "public")
             entry.srvtype = SERVERTYPE_PUBLIC;
         if (tmp.text() == "private")
-            entry.srvtype = SERVERTYPE_PRIVATE;
+            entry.srvtype = SERVERTYPE_UNOFFICIAL;
     }
 }
 
@@ -136,8 +136,8 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
         case SERVERTYPE_PUBLIC:
             srvtype = tr("Public server");
             break;
-        case SERVERTYPE_PRIVATE:
-            srvtype = tr("Private server");
+        case SERVERTYPE_UNOFFICIAL:
+            srvtype = tr("Unofficial server");
             break;
         }
         return QString(tr("%1, Name: %2, Users: %3, Country: %4, MOTD: %5").arg(srvtype).arg(srv.name).arg(srv.usercount).arg(srv.country).arg(srv.motd));
@@ -153,7 +153,7 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
             return QColor(0x0,0x4A,0x7F);
         case SERVERTYPE_PUBLIC :
             return QColor(0x0C,0x52,0x28);
-        case SERVERTYPE_PRIVATE :
+        case SERVERTYPE_UNOFFICIAL :
             return QColor(0xFF,0x61,0xC);
         }
         break;
@@ -170,7 +170,7 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
                 break;
             case SERVERTYPE_OFFICIAL :
             case SERVERTYPE_PUBLIC :
-            case SERVERTYPE_PRIVATE :
+            case SERVERTYPE_UNOFFICIAL :
                 category = getServerType(getServers()[index.row()]);
                 id = getServers()[index.row()].id; // sort by id (order from www-server)
                 break;
@@ -654,7 +654,7 @@ void ServerListDlg::publishServerRequest(QNetworkReply* reply)
         QInputDialog::getText(this, tr("Publish Server Completed"),
                               tr("Update your server's properties so its server name includes the text #teamtalkpublish#.\n"
                               "This will verify that you're the owner of the server.\n"
-                              "Once the server is verified your private server will appear in a couple of minutes.\n\n"
+                              "Once the server is verified your server will appear in a couple of minutes.\n\n"
                               "The #teamtalkpublish# notification can be removed once\n"
                               "the server has been verified.\n\n"
                               "Delete the published user account to unregister your server."),
@@ -702,7 +702,6 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
         delServ->setEnabled(m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
     if (QAction* action = menu.exec(QCursor::pos()))
     {
-
         auto sortToggle = m_proxyModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
         if (action == sortDefault)
         {
@@ -724,6 +723,5 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
         }
         else if (action == delServ)
             emit(deleteSelectedServer());
-        ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_HEADERSIZES, ui.serverTreeView->header()->saveState());
     }
 }
