@@ -5333,7 +5333,7 @@ Should these settings be applied?</source>
         <location filename="../serverlistdlg.cpp" line="655"/>
         <source>Update your server&apos;s properties so its server name includes the text #teamtalkpublish#.
 This will verify that you&apos;re the owner of the server.
-Once the server is verified your private server will appear in a couple of minutes.
+Once the server is verified your server will appear in a couple of minutes.
 
 The #teamtalkpublish# notification can be removed once
 the server has been verified.
@@ -5413,8 +5413,8 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="140"/>
-        <source>Private server</source>
-        <translation>Serveur privé</translation>
+        <source>Unofficial server</source>
+        <translation>Serveur non-officiel</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="143"/>
