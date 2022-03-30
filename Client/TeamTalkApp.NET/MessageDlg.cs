@@ -66,6 +66,7 @@ namespace TeamTalkApp.NET
             msg.nMsgType = TextMsgType.MSGTYPE_USER;
             msg.nToUserID = userid;
             msg.szMessage = newmsgTextBox.Text;
+            msg.bMore = false;
             newmsgTextBox.Text = "";
             if (ttclient.DoTextMessage(msg) > 0)
                 NewMessage(msg);

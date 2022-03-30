@@ -1798,6 +1798,69 @@ namespace BearWare
         USERRIGHT_ALL                               = 0xFFFFFFFF & ~USERRIGHT_LOCKED_NICKNAME & ~USERRIGHT_LOCKED_STATUS
     }
 
+    /**
+     * @brief Events that are logged by the server, i.e. written to server's 
+     * log file.
+     * 
+     * @see BearWare.ServerProperties
+     * @see TeamTalkBase.DoUpdateServer() */
+    [Flags]
+    public enum ServerLogEvent : uint
+    {
+        /** @brief Nothing is logged to file by server. */
+        SERVERLOGEVENT_NONE = 0x00000000,
+        /** @brief User's IP-address is logged to file by serer. */
+        SERVERLOGEVENT_USER_CONNECTED = 0x00000001,
+        /** @brief User disconnected from server is logged to file by the server. */
+        SERVERLOGEVENT_USER_DISCONNECTED = 0x00000002,
+        /** @brief User logged in is logged to file by the server. */
+        SERVERLOGEVENT_USER_LOGGEDIN = 0x00000004,
+        /** @brief User logged out is logged to file by the server. */
+        SERVERLOGEVENT_USER_LOGGEDOUT = 0x00000008,
+        /** @brief User failed to log in is logged to file by the server.*/
+        SERVERLOGEVENT_USER_LOGINFAILED = 0x00000010,
+        /** @brief User disconnected due to connection timeout is logged to file by the server. */
+        SERVERLOGEVENT_USER_TIMEDOUT = 0x00000020,
+        /** @brief User was kicked is logged to file by the server. */
+        SERVERLOGEVENT_USER_KICKED = 0x00000040,
+        /** @brief User was banned is logged to file by the server. */
+        SERVERLOGEVENT_USER_BANNED = 0x00000080,
+        /** @brief User was removed from ban list is logged to file by the server. */
+        SERVERLOGEVENT_USER_UNBANNED = 0x00000100,
+        /** @brief User's status is logged to file by the server. */
+        SERVERLOGEVENT_USER_UPDATED = 0x00000200,
+        /** @brief User joined a channel is logged to file by the server. */
+        SERVERLOGEVENT_USER_JOINEDCHANNEL = 0x00000400,
+        /** @brief User left a channel is logged to file by the server. */
+        SERVERLOGEVENT_USER_LEFTCHANNEL = 0x00000800,
+        /** @brief User was moved to another channel is logged to file by the server. */
+        SERVERLOGEVENT_USER_MOVED = 0x00001000,
+        /** @brief User's private text messages are logged to file by the server. */
+        SERVERLOGEVENT_USER_TEXTMESSAGE_PRIVATE = 0x00002000,
+        /** @brief User's custom text messages are logged to file by the server. */
+        SERVERLOGEVENT_USER_TEXTMESSAGE_CUSTOM = 0x00004000,
+        /** @brief User's channel text messages are logged to file by the server. */
+        SERVERLOGEVENT_USER_TEXTMESSAGE_CHANNEL = 0x00008000,
+        /** @brief User's broadcast text messages are logged to file by the server. */
+        SERVERLOGEVENT_USER_TEXTMESSAGE_BROADCAST = 0x00010000,
+        /** @brief User created new channel is logged to file by the server. */
+        SERVERLOGEVENT_CHANNEL_CREATED = 0x00020000,
+        /** @brief User updated a channel is logged to file by the server. */
+        SERVERLOGEVENT_CHANNEL_UPDATED = 0x00040000,
+        /** @brief User removed a channel is logged to file by the server. */
+        SERVERLOGEVENT_CHANNEL_REMOVED = 0x00080000,
+        /** @brief User uploaded a file is logged to file by the server. */
+        SERVERLOGEVENT_FILE_UPLOADED = 0x00100000,
+        /** @brief User downloaded a file is logged to file by the server. */
+        SERVERLOGEVENT_FILE_DOWNLOADED = 0x00200000,
+        /** @brief User deleted a file is logged to file by the server. */
+        SERVERLOGEVENT_FILE_DELETED = 0x00400000,
+        /** @brief User updated server's properties is logged to file by the server. */
+        SERVERLOGEVENT_SERVER_UPDATED = 0x00800000,
+        /** @brief User saved server's configuration is logged to file by the server. */
+        SERVERLOGEVENT_SERVER_SAVECONFIG = 0x01000000,
+    }
+
     /** 
      * @brief A struct containing the properties of the server's
      * settings.
@@ -1888,6 +1951,12 @@ namespace BearWare
          * Read-only property. */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
         public string szAccessToken;
+        /** @brief The events that are logged on the server.
+         *
+         * @c uServerLogEvents is set after
+         * TeamTalkBase.OnCmdServerUpdate() during login.
+         * @see TeamTalkBase.DoLogin() */
+        public ServerLogEvent uServerLogEvents;
     }
 
     /**
@@ -2446,6 +2515,9 @@ namespace BearWare
          * multi-line (include EOL)  */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
         public string szMessage;
+        /** @brief Whether this text message is to be merged with next
+         * text message. */
+        public bool bMore;
     }
     /** @} */
 

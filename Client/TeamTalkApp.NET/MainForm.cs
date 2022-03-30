@@ -640,6 +640,7 @@ namespace TeamTalkApp.NET
                 msg.nToUserID = 0;
                 msg.szMessage = chanmsgTextBox.Text;
                 chanmsgTextBox.Text = "";
+                msg.bMore = false;
                 ttclient.DoTextMessage(msg);
             }
         }
@@ -1027,6 +1028,7 @@ namespace TeamTalkApp.NET
             msg.szFromUsername = ""; //not required
             msg.nToUserID = 0;
             msg.szMessage = InputBox.Get("Broadcast message", "Message");
+            msg.bMore = false;
             ttclient.DoTextMessage(msg);
         }
 
