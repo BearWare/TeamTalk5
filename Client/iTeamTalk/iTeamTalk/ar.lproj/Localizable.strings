@@ -143,6 +143,9 @@
 /* server entry */
 "Check only if this server has enabled BearWare.dk Web Login" = "حدد فقط إذا قام هذا الخادم بتمكين تسجيل الدخول إلى BearWare.dk";
 
+/* log entry */
+"Command failed: %@" = "Command failed: %@";
+
 /* create channel */
 "Commands" = "الأوامر";
 

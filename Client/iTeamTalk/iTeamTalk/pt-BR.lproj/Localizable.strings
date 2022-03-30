@@ -147,6 +147,9 @@
 /* server entry */
 "Check only if this server has enabled Facebook login" = "Apenas verificar se este servidor permitiu o login via Facebook";
 
+/* log entry */
+"Command failed: %@" = "Command failed: %@";
+
 /* create channel */
 "Commands" = "Comandos";
 

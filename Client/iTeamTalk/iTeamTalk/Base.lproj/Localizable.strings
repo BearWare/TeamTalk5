@@ -767,3 +767,6 @@
 
 /* server entry */
 "Server Status" = "Server Status";
+
+/* log entry */
+"Command failed: %@" = "Command failed: %@";
