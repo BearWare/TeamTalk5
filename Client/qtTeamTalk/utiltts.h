@@ -43,6 +43,7 @@ enum TextToSpeechEvent : qulonglong
     TTS_USER_TEXTMSG_PRIVATE_SEND = qulonglong(1) << 7,
     TTS_USER_TEXTMSG_PRIVATE_TYPING = qulonglong(1) << 35,
     TTS_USER_TEXTMSG_PRIVATE_TYPING_GLOBAL = qulonglong(1) << 36,
+    TTS_USER_QUESTIONMODE = qulonglong(1) << 37,
 
     TTS_USER_TEXTMSG_CHANNEL = qulonglong(1) << 8,
     TTS_USER_TEXTMSG_CHANNEL_SEND = qulonglong(1) << 9,
@@ -79,7 +80,7 @@ enum TextToSpeechEvent : qulonglong
     TTS_SERVER_CONNECTIVITY = qulonglong(1) << 34,
 
     // next free value
-    TTS_NEXT_UNUSED = qulonglong(1) << 37,
+    TTS_NEXT_UNUSED = qulonglong(1) << 38,
 };
 
 typedef qulonglong TTSEvents;

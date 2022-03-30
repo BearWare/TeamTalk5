@@ -39,6 +39,7 @@ TTSEventsModel::TTSEventsModel(QObject* parent)
     m_ttsevents.push_back(TTS_USER_LEFT);
     m_ttsevents.push_back(TTS_USER_JOINED_SAME);
     m_ttsevents.push_back(TTS_USER_LEFT_SAME);
+    m_ttsevents.push_back(TTS_USER_QUESTIONMODE);
     m_ttsevents.push_back(TTS_USER_TEXTMSG_PRIVATE);
     m_ttsevents.push_back(TTS_USER_TEXTMSG_PRIVATE_SEND);
     m_ttsevents.push_back(TTS_USER_TEXTMSG_PRIVATE_TYPING);
@@ -134,6 +135,8 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
             return tr("User is typing a private text message in focused window");
         case TTS_USER_TEXTMSG_PRIVATE_TYPING_GLOBAL :
            return tr("User is typing a private text message");
+        case TTS_USER_QUESTIONMODE :
+            return tr("User enabled question mode");
         case TTS_USER_TEXTMSG_CHANNEL :
             return tr("Received channel message");
         case TTS_USER_TEXTMSG_CHANNEL_SEND :

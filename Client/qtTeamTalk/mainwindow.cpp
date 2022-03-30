@@ -511,8 +511,8 @@ MainWindow::MainWindow(const QString& cfgfile)
     /* End - Help menu */
 
     /* Begin - Extra toolbar buttons */
-    connect(ui.actionEnableQuestionMode, &QAction::triggered,
-            this, &MainWindow::slotEnableQuestionMode);
+    connect(ui.actionToggleQuestionMode, &QAction::triggered,
+            this, &MainWindow::slotToggleQuestionMode);
     /* End - Extra toolbar buttons */
 
     /* Begin - CLIENTEVENT_* messages */
@@ -1180,7 +1180,10 @@ void MainWindow::clienteventCmdUserUpdate(const User& user)
     if (user.nUserID != TT_GetMyUserID(ttInst) && user.nChannelID == m_mychannel.nChannelID)
     {
         if ((prev_user.nStatusMode & STATUSMODE_QUESTION) == 0 && (user.nStatusMode & STATUSMODE_QUESTION))
+        {
            playSoundEvent(SOUNDEVENT_QUESTIONMODE);
+           addTextToSpeechMessage(TTS_USER_QUESTIONMODE, tr("%1 set question mode").arg(getDisplayName(user)));
+        }
     }
 
     //update desktop access button
@@ -6585,7 +6588,7 @@ void MainWindow::slotUserUpdate(const User& user)
     }
 }
 
-void MainWindow::slotEnableQuestionMode(bool checked)
+void MainWindow::slotToggleQuestionMode(bool checked)
 {
     if(checked)
         m_statusmode |= STATUSMODE_QUESTION;
