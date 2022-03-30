@@ -2519,7 +2519,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="763"/>
-        <location filename="../settings.h" line="254"/>
+        <location filename="../settings.h" line="256"/>
         <source>Default</source>
         <translation>默认</translation>
     </message>
@@ -5141,116 +5141,130 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverlist.ui" line="76"/>
+        <source>Include official servers (blue ones)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlist.ui" line="83"/>
         <source>Include public servers (green ones)</source>
         <translation>包含公共服务器（绿色）</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="94"/>
+        <location filename="../serverlist.ui" line="90"/>
+        <source>Include unofficial servers (orange ones)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlist.ui" line="101"/>
         <source>Server Information</source>
         <translation>服务器信息</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="102"/>
+        <location filename="../serverlist.ui" line="109"/>
         <source>Host IP-address</source>
         <translation>主机 IP 地址</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="144"/>
+        <location filename="../serverlist.ui" line="151"/>
         <source>TCP port</source>
         <translation>TCP 端口</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="157"/>
-        <location filename="../serverlist.ui" line="177"/>
+        <location filename="../serverlist.ui" line="164"/>
+        <location filename="../serverlist.ui" line="184"/>
         <source>Default: 10333</source>
         <translation>默认：10333</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="164"/>
+        <location filename="../serverlist.ui" line="171"/>
         <source>UDP port</source>
         <translation>UDP 端口</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="124"/>
-        <location filename="../serverlist.ui" line="127"/>
+        <location filename="../serverlist.ui" line="131"/>
+        <location filename="../serverlist.ui" line="134"/>
         <source>Remove entry</source>
         <translation>删除条目</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="83"/>
         <source>Include private servers (orange ones)</source>
-        <translation>包含私人服务器（橙色）</translation>
+        <translation type="vanished">包含私人服务器（橙色）</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="184"/>
+        <location filename="../serverlist.ui" line="191"/>
         <source>Encrypted server</source>
         <translation>加密服务器</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="193"/>
+        <location filename="../serverlist.ui" line="200"/>
         <source>Authentication (optional)</source>
         <translation>身份验证（可选）</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="196"/>
+        <location filename="../serverlist.ui" line="203"/>
         <source>Authentication</source>
         <translation>身份验证</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="202"/>
+        <location filename="../serverlist.ui" line="209"/>
         <source>Username</source>
         <translation>用户名</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="219"/>
-        <location filename="../serverlist.ui" line="274"/>
+        <location filename="../serverlist.ui" line="226"/>
+        <location filename="../serverlist.ui" line="281"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="236"/>
+        <location filename="../serverlist.ui" line="243"/>
         <source>Nickname (optional)</source>
         <translation>昵称（可选）</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="252"/>
-        <location filename="../serverlist.ui" line="255"/>
+        <location filename="../serverlist.ui" line="259"/>
+        <location filename="../serverlist.ui" line="262"/>
         <source>Join specific channel after authentication (optional)</source>
         <translation>身份验证后加入特定频道（可选）</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="261"/>
+        <location filename="../serverlist.ui" line="268"/>
         <source>Channel</source>
         <translation>频道</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="302"/>
+        <location filename="../serverlist.ui" line="309"/>
         <source>C&amp;lear</source>
         <translation>清除(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="322"/>
+        <location filename="../serverlist.ui" line="329"/>
         <source>&amp;Connect</source>
         <translation>连接(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="337"/>
+        <location filename="../serverlist.ui" line="344"/>
         <source>Store Server Information</source>
         <translation>存储服务器信息</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="345"/>
+        <location filename="../serverlist.ui" line="352"/>
         <source>Entry name</source>
         <translation>条目名称</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="362"/>
-        <location filename="../serverlist.ui" line="365"/>
+        <location filename="../serverlist.ui" line="391"/>
+        <source>&amp;Save to Server List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlist.ui" line="405"/>
+        <location filename="../serverlist.ui" line="408"/>
         <source>.tt files can be double-clicked and the client will automatically start and connect to the specified server</source>
         <translation>双击 .tt 文件，客户端将自动启动并连接到指定的服务器</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="368"/>
+        <location filename="../serverlist.ui" line="411"/>
         <source>&amp;Generate .tt File</source>
         <translation>生成 .tt 文件(&amp;G)</translation>
     </message>
@@ -5260,67 +5274,87 @@ Should these settings be applied?</source>
         <translation>导入 .tt 文件(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="388"/>
+        <location filename="../serverlist.ui" line="398"/>
         <source>Publish Publicly</source>
         <translation>公开发布</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="417"/>
         <source>&amp;Save</source>
-        <translation>保存(&amp;S)</translation>
+        <translation type="vanished">保存(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="365"/>
+        <location filename="../serverlistdlg.cpp" line="369"/>
         <source>Missing fields</source>
         <translation>缺少字段</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="366"/>
+        <location filename="../serverlistdlg.cpp" line="370"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation>请填写“主机IP地址”，“TCP端口”和“UDP端口”字段</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="426"/>
+        <location filename="../serverlistdlg.cpp" line="430"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="433"/>
-        <location filename="../serverlistdlg.cpp" line="442"/>
-        <location filename="../serverlistdlg.cpp" line="452"/>
-        <location filename="../serverlistdlg.cpp" line="463"/>
+        <location filename="../serverlistdlg.cpp" line="437"/>
+        <location filename="../serverlistdlg.cpp" line="446"/>
+        <location filename="../serverlistdlg.cpp" line="456"/>
+        <location filename="../serverlistdlg.cpp" line="467"/>
         <source>Load File</source>
         <translation>加载文件</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="434"/>
-        <location filename="../serverlistdlg.cpp" line="443"/>
+        <location filename="../serverlistdlg.cpp" line="438"/>
+        <location filename="../serverlistdlg.cpp" line="447"/>
         <source>Failed to load file %1</source>
         <translation>无法夹在文件 %1</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="453"/>
+        <location filename="../serverlistdlg.cpp" line="457"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
         <translation>文件 &quot;%1&quot; 与 %2 不兼容</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="464"/>
+        <location filename="../serverlistdlg.cpp" line="468"/>
         <source>Failed to extract host-information from %1</source>
         <translation>无法从 %1 读取主机信息</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="639"/>
-        <location filename="../serverlistdlg.cpp" line="644"/>
+        <location filename="../serverlistdlg.cpp" line="623"/>
+        <location filename="../serverlistdlg.cpp" line="649"/>
         <source>Publish Server</source>
         <translation>发布服务器</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="640"/>
+        <location filename="../serverlistdlg.cpp" line="624"/>
+        <source>Are you sure you want to publish the server named &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="650"/>
         <source>Failed to publish server.</source>
         <translation>无法发布服务器。</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="645"/>
+        <location filename="../serverlistdlg.cpp" line="654"/>
+        <source>Publish Server Completed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="655"/>
+        <source>Update your server&apos;s properties so its server name includes the text #teamtalkpublish#.
+This will verify that you&apos;re the owner of the server.
+Once the server is verified your private server will appear in a couple of minutes.
+
+The #teamtalkpublish# notification can be removed once
+the server has been verified.
+
+Delete the published user account to unregister your server.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Change your server&apos;s name to include the text #teamtalkpublish#.
 This will verify that you&apos;re the owner of the server.
 Once this is done your private server will appear in a couple of minutes.
@@ -5329,7 +5363,7 @@ Delete the published user account to unregister your server.
 
 The #teamtalkpublish# notification can be removed once
 the server has been verified.</source>
-        <translation>更改您的服务器名称以包含文本 #teamtalkpublish#。
+        <translation type="vanished">更改您的服务器名称以包含文本 #teamtalkpublish#。
 这将验证您是服务器的所有者。
 完成此操作后，您的私人服务器将在几分钟内出现。
 
@@ -5338,32 +5372,32 @@ the server has been verified.</source>
 服务器验证完成后 #teamtalkpublish# 可被删除。</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="684"/>
+        <location filename="../serverlistdlg.cpp" line="694"/>
         <source>Sort By...</source>
         <translation>排序方式...</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="685"/>
+        <location filename="../serverlistdlg.cpp" line="695"/>
         <source>De&amp;fault</source>
         <translation>默认(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="686"/>
+        <location filename="../serverlistdlg.cpp" line="696"/>
         <source>&amp;Name</source>
         <translation>名称(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="687"/>
+        <location filename="../serverlistdlg.cpp" line="697"/>
         <source>&amp;User Count</source>
         <translation>用户数(&amp;U)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="688"/>
+        <location filename="../serverlistdlg.cpp" line="698"/>
         <source>Country</source>
         <translation>国家</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="689"/>
+        <location filename="../serverlistdlg.cpp" line="699"/>
         <source>&amp;Delete Selected Server</source>
         <translation>删除选定服务器(&amp;D)</translation>
     </message>
@@ -5371,42 +5405,42 @@ the server has been verified.</source>
 <context>
     <name>ServerListModel</name>
     <message>
-        <location filename="../serverlistdlg.cpp" line="95"/>
+        <location filename="../serverlistdlg.cpp" line="96"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="96"/>
+        <location filename="../serverlistdlg.cpp" line="97"/>
         <source>Users</source>
         <translation>用户</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="97"/>
+        <location filename="../serverlistdlg.cpp" line="98"/>
         <source>Country</source>
         <translation>国家</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="131"/>
+        <location filename="../serverlistdlg.cpp" line="132"/>
         <source>Local server, Name: %1</source>
         <translation>本地服务器， 名称： %1</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="133"/>
+        <location filename="../serverlistdlg.cpp" line="134"/>
         <source>Official server</source>
         <translation>官方服务器</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="136"/>
+        <location filename="../serverlistdlg.cpp" line="137"/>
         <source>Public server</source>
         <translation>公共服务器</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="139"/>
+        <location filename="../serverlistdlg.cpp" line="140"/>
         <source>Private server</source>
         <translation>私人服务器</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="142"/>
+        <location filename="../serverlistdlg.cpp" line="143"/>
         <source>%1, Name: %2, Users: %3, Country: %4, MOTD: %5</source>
         <translation>%1， 名称： %2， 用户： %3， 国家： %4， 每日消息： %5</translation>
     </message>

@@ -2219,7 +2219,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="763"/>
-        <location filename="../settings.h" line="254"/>
+        <location filename="../settings.h" line="256"/>
         <source>Default</source>
         <translation type="unfinished">Privzeto</translation>
     </message>
@@ -5595,27 +5595,22 @@ Should these settings be applied?</source>
         <translation>Seznam strežnikov</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="76"/>
+        <location filename="../serverlist.ui" line="83"/>
         <source>Include public servers (green ones)</source>
         <translation>Pokaži javne strežnike</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="83"/>
-        <source>Include private servers (orange ones)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../serverlist.ui" line="196"/>
+        <location filename="../serverlist.ui" line="203"/>
         <source>Authentication</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="302"/>
+        <location filename="../serverlist.ui" line="309"/>
         <source>C&amp;lear</source>
         <translation>&amp;Izbriši</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="322"/>
+        <location filename="../serverlist.ui" line="329"/>
         <source>&amp;Connect</source>
         <translation>&amp;Poveži</translation>
     </message>
@@ -5624,7 +5619,7 @@ Should these settings be applied?</source>
         <translation type="vanished">&amp;Odstrani</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="94"/>
+        <location filename="../serverlist.ui" line="101"/>
         <source>Server Information</source>
         <translation>Informacija o strežniku</translation>
     </message>
@@ -5633,12 +5628,12 @@ Should these settings be applied?</source>
         <translation type="vanished">Shrani nastavitve strežnika</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="345"/>
+        <location filename="../serverlist.ui" line="352"/>
         <source>Entry name</source>
         <translation>Ime strežnika</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="102"/>
+        <location filename="../serverlist.ui" line="109"/>
         <source>Host IP-address</source>
         <translation>Host IP-naslov</translation>
     </message>
@@ -5648,34 +5643,44 @@ Should these settings be applied?</source>
         <translation>Poveži se s strežnikom</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="144"/>
+        <location filename="../serverlist.ui" line="76"/>
+        <source>Include official servers (blue ones)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlist.ui" line="90"/>
+        <source>Include unofficial servers (orange ones)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlist.ui" line="151"/>
         <source>TCP port</source>
         <translation>TCP port</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="157"/>
-        <location filename="../serverlist.ui" line="177"/>
+        <location filename="../serverlist.ui" line="164"/>
+        <location filename="../serverlist.ui" line="184"/>
         <source>Default: 10333</source>
         <translation>Privzeto: 10333</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="164"/>
+        <location filename="../serverlist.ui" line="171"/>
         <source>UDP port</source>
         <translation>UDP port</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="124"/>
-        <location filename="../serverlist.ui" line="127"/>
+        <location filename="../serverlist.ui" line="131"/>
+        <location filename="../serverlist.ui" line="134"/>
         <source>Remove entry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="184"/>
+        <location filename="../serverlist.ui" line="191"/>
         <source>Encrypted server</source>
         <translation type="unfinished">Šifriran server</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="193"/>
+        <location filename="../serverlist.ui" line="200"/>
         <source>Authentication (optional)</source>
         <translation>Avtorizacija (opcijsko)</translation>
     </message>
@@ -5688,29 +5693,29 @@ Should these settings be applied?</source>
         <translation type="obsolete">Prijava z uporabniškim imenom</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="202"/>
+        <location filename="../serverlist.ui" line="209"/>
         <source>Username</source>
         <translation>Uporabnik</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="219"/>
-        <location filename="../serverlist.ui" line="274"/>
+        <location filename="../serverlist.ui" line="226"/>
+        <location filename="../serverlist.ui" line="281"/>
         <source>Password</source>
         <translation>Geslo</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="236"/>
+        <location filename="../serverlist.ui" line="243"/>
         <source>Nickname (optional)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="252"/>
-        <location filename="../serverlist.ui" line="255"/>
+        <location filename="../serverlist.ui" line="259"/>
+        <location filename="../serverlist.ui" line="262"/>
         <source>Join specific channel after authentication (optional)</source>
         <translation>Prijava v izbrani kanal po avtorizaciji (opcijsko)</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="261"/>
+        <location filename="../serverlist.ui" line="268"/>
         <source>Channel</source>
         <translation>Kanal</translation>
     </message>
@@ -5720,19 +5725,23 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="337"/>
+        <location filename="../serverlist.ui" line="344"/>
         <source>Store Server Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="388"/>
+        <location filename="../serverlist.ui" line="391"/>
+        <source>&amp;Save to Server List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlist.ui" line="398"/>
         <source>Publish Publicly</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="417"/>
         <source>&amp;Save</source>
-        <translation>&amp;Shrani</translation>
+        <translation type="vanished">&amp;Shrani</translation>
     </message>
     <message>
         <source>&amp;Add/Update</source>
@@ -5743,100 +5752,110 @@ Should these settings be applied?</source>
         <translation type="obsolete">&amp;Izbriši</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="362"/>
-        <location filename="../serverlist.ui" line="365"/>
+        <location filename="../serverlist.ui" line="405"/>
+        <location filename="../serverlist.ui" line="408"/>
         <source>.tt files can be double-clicked and the client will automatically start and connect to the specified server</source>
         <translation>.tt datoteke lahko z dvojnim klikom avtomatsko povežete z določenim strežnikom</translation>
     </message>
     <message>
-        <location filename="../serverlist.ui" line="368"/>
+        <location filename="../serverlist.ui" line="411"/>
         <source>&amp;Generate .tt File</source>
         <translation>&amp;Generiraj .tt datoteko</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="365"/>
+        <location filename="../serverlistdlg.cpp" line="369"/>
         <source>Missing fields</source>
         <translation>Mankajoča polja</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="426"/>
+        <location filename="../serverlistdlg.cpp" line="430"/>
         <source>Open File</source>
         <translation type="unfinished">Odpri datoteko</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="433"/>
-        <location filename="../serverlistdlg.cpp" line="442"/>
-        <location filename="../serverlistdlg.cpp" line="452"/>
-        <location filename="../serverlistdlg.cpp" line="463"/>
+        <location filename="../serverlistdlg.cpp" line="437"/>
+        <location filename="../serverlistdlg.cpp" line="446"/>
+        <location filename="../serverlistdlg.cpp" line="456"/>
+        <location filename="../serverlistdlg.cpp" line="467"/>
         <source>Load File</source>
         <translation type="unfinished">Naloži datoteko</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="434"/>
-        <location filename="../serverlistdlg.cpp" line="443"/>
+        <location filename="../serverlistdlg.cpp" line="438"/>
+        <location filename="../serverlistdlg.cpp" line="447"/>
         <source>Failed to load file %1</source>
         <translation type="unfinished">Napaka nalaganja datoteke %1</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="453"/>
+        <location filename="../serverlistdlg.cpp" line="457"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="464"/>
+        <location filename="../serverlistdlg.cpp" line="468"/>
         <source>Failed to extract host-information from %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="639"/>
-        <location filename="../serverlistdlg.cpp" line="644"/>
+        <location filename="../serverlistdlg.cpp" line="623"/>
+        <location filename="../serverlistdlg.cpp" line="649"/>
         <source>Publish Server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="640"/>
+        <location filename="../serverlistdlg.cpp" line="624"/>
+        <source>Are you sure you want to publish the server named &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="650"/>
         <source>Failed to publish server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="645"/>
-        <source>Change your server&apos;s name to include the text #teamtalkpublish#.
-This will verify that you&apos;re the owner of the server.
-Once this is done your private server will appear in a couple of minutes.
-
-Delete the published user account to unregister your server.
-
-The #teamtalkpublish# notification can be removed once
-the server has been verified.</source>
+        <location filename="../serverlistdlg.cpp" line="654"/>
+        <source>Publish Server Completed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="684"/>
+        <location filename="../serverlistdlg.cpp" line="655"/>
+        <source>Update your server&apos;s properties so its server name includes the text #teamtalkpublish#.
+This will verify that you&apos;re the owner of the server.
+Once the server is verified your private server will appear in a couple of minutes.
+
+The #teamtalkpublish# notification can be removed once
+the server has been verified.
+
+Delete the published user account to unregister your server.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="694"/>
         <source>Sort By...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="685"/>
+        <location filename="../serverlistdlg.cpp" line="695"/>
         <source>De&amp;fault</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="686"/>
+        <location filename="../serverlistdlg.cpp" line="696"/>
         <source>&amp;Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="687"/>
+        <location filename="../serverlistdlg.cpp" line="697"/>
         <source>&amp;User Count</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="688"/>
+        <location filename="../serverlistdlg.cpp" line="698"/>
         <source>Country</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="689"/>
+        <location filename="../serverlistdlg.cpp" line="699"/>
         <source>&amp;Delete Selected Server</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5845,7 +5864,7 @@ the server has been verified.</source>
         <translation type="obsolete">Prosim izpolni naslednja polja Ime strežnika&apos;, &apos;Host IP-naslov&apos;, &apos;TCP port&apos; in &apos;UDP port&apos;</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="366"/>
+        <location filename="../serverlistdlg.cpp" line="370"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation>Prosim vnesite polja HOST IP naslov, TCP in UDP port</translation>
     </message>
@@ -5865,42 +5884,42 @@ the server has been verified.</source>
 <context>
     <name>ServerListModel</name>
     <message>
-        <location filename="../serverlistdlg.cpp" line="95"/>
+        <location filename="../serverlistdlg.cpp" line="96"/>
         <source>Name</source>
         <translation type="unfinished">Ime</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="96"/>
+        <location filename="../serverlistdlg.cpp" line="97"/>
         <source>Users</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="97"/>
+        <location filename="../serverlistdlg.cpp" line="98"/>
         <source>Country</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="131"/>
+        <location filename="../serverlistdlg.cpp" line="132"/>
         <source>Local server, Name: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="133"/>
+        <location filename="../serverlistdlg.cpp" line="134"/>
         <source>Official server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="136"/>
+        <location filename="../serverlistdlg.cpp" line="137"/>
         <source>Public server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="139"/>
+        <location filename="../serverlistdlg.cpp" line="140"/>
         <source>Private server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="142"/>
+        <location filename="../serverlistdlg.cpp" line="143"/>
         <source>%1, Name: %2, Users: %3, Country: %4, MOTD: %5</source>
         <translation type="unfinished"></translation>
     </message>
