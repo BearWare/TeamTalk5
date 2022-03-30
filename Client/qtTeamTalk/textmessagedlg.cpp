@@ -169,10 +169,10 @@ void TextMessageDlg::slotSendTextMessage(const QString& txt_msg)
         {
             newMsg(m, true);
             emit(newMyselfTextMessage(m));
-            addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_SEND, tr("Private message sent: %1").arg(_Q(m.szMessage)));
         }
 
         playSoundEvent(SOUNDEVENT_USERMSGSENT);
+        addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_SEND, tr("Private message sent: %1").arg(txt_msg));
         m_textchanged = false;
     }
 }
