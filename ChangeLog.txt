@@ -24,6 +24,8 @@ Default Qt Client
 - Restore window position and size in commonly used dialogs
 - Text messages can exceed 512 characters
 - Support for Indonesian language
+- Shortcut to toggle Question Mode
+- TTS event when an user set Question Mode
 - Fixed issue where all users and channels not were listed after initial login
 - Fixed labels for server abuse options in server properties
 - Fixed crash issue when using Cmd+4 on macOS 12.2
