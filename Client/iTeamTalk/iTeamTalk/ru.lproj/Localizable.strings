@@ -143,9 +143,6 @@
 /* server entry */
 "Check only if this server has enabled BearWare.dk Web Login" = "Check only if this server has enabled BearWare.dk Web Login";
 
-/* log entry */
-"Command failed: %@" = "Command failed: %@";
-
 /* create channel */
 "Commands" = "Команды";
 

@@ -147,9 +147,6 @@
 /* server entry */
 "Check only if this server has enabled Facebook login" = "Yalnızca bu sunucu Facebook Oturumu'nu etkinleştirdiyse işaretleyin";
 
-/* log entry */
-"Command failed: %@" = "Command failed: %@";
-
 /* create channel */
 "Commands" = "Komutlar";
 
