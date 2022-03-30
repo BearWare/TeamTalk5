@@ -410,7 +410,7 @@ private:
     void slotUserJoin(int channelid, const User& user);
     void slotUserLeft(int channelid, const User& user);
     void slotUserUpdate(const User& user);
-    void slotEnableQuestionMode(bool checked);
+    void slotToggleQuestionMode(bool checked);
 
     void slotUpdateVideoCount(int count);
     void slotUpdateDesktopCount(int count);

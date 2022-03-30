@@ -1114,7 +1114,7 @@
      <x>0</x>
      <y>0</y>
      <width>637</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuClient">
@@ -1164,6 +1164,7 @@
     </widget>
     <addaction name="actionChangeNickname"/>
     <addaction name="actionChangeStatus"/>
+    <addaction name="actionToggleQuestionMode"/>
     <addaction name="separator"/>
     <addaction name="actionHearMyself"/>
     <addaction name="separator"/>
@@ -1367,7 +1368,7 @@
    <addaction name="actionMuteAll"/>
    <addaction name="actionMediaStorage"/>
    <addaction name="separator"/>
-   <addaction name="actionEnableQuestionMode"/>
+   <addaction name="actionToggleQuestionMode"/>
   </widget>
   <action name="actionServerList">
    <property name="text">
@@ -1965,21 +1966,6 @@
     <string>Ctrl+Shift+U</string>
    </property>
   </action>
-  <action name="actionEnableQuestionMode">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/images/images/hand.png</normaloff>:/images/images/hand.png</iconset>
-   </property>
-   <property name="text">
-    <string>Enable Question Mode</string>
-   </property>
-   <property name="toolTip">
-    <string>Show blinking icon</string>
-   </property>
-  </action>
   <action name="actionEnableDesktopSharing">
    <property name="checkable">
     <bool>true</bool>
@@ -2279,6 +2265,24 @@
     <string>Ctrl+Shift+3</string>
    </property>
   </action>
+  <action name="actionToggleQuestionMode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/hand.png</normaloff>:/images/images/hand.png</iconset>
+   </property>
+   <property name="text">
+    <string>Toggle &amp;Question Mode</string>
+   </property>
+   <property name="toolTip">
+    <string>Show blinking icon</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F6</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -2315,6 +2319,7 @@
   </customwidget>
  </customwidgets>
  <resources>
+  <include location="resources.qrc"/>
   <include location="resources.qrc"/>
  </resources>
  <connections/>
