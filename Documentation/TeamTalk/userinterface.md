@@ -97,7 +97,7 @@ available though the menu items.
     [volume controls](@ref volumecontrols) below the
     [channels view](@ref channelsview). Move this slider left and
     right either changes the voice activation level.
-      
+
 - **Enable Video Transmission button**
     - The fourth button, which looks like a webcamera, is for enabling
       video transmission. Before this can be used a camera must be set
@@ -110,18 +110,18 @@ available though the menu items.
       a desktop application with other users in the same channel. A
       shared will be displayed in the [Desktop-tab](@ref desktoptab) for
       other users.
-  
+
 - **Mute All button**
   - The sixth button in the toolbar, with a speaker icon, is for
     muting all users in the channel you're participating in, so you
     can no longer hear them.
-    
+
 - **Recording Conversation to Disk button**
     - The seventh button, which looks like a record button, is for
       storing text chat-logs and audio files to disk. See section
       [Record Conversations to Disk](@ref recorddlg) on how to record
       conversations.
-  
+
 - **Show Blinking Icon button**
     - The last button, which looks like a hand, is for enabling the
     *Question status* mode. This will make you appear as a user with a
@@ -290,61 +290,117 @@ Each of the menu items in the Client menu are described here:
 In the Connect dialog you can specify the TeamTalk server you want to
 connect to. It also maintains a list of publicly available TeamTalk
 servers you can connect to. An example of public TeamTalk servers are
-shown in the screenshot below. The public servers will be shown in
-green.
+shown in the screenshot below.
 
 ![Connect to server dialog](dlg_connect.png "Connect dialog")
 
 If you manually want to connect to a TeamTalk server then the person
 who is running the server must provide the information for the fields
 Host IP-address, TCP port and UDP port along with a user account
-containing both username and password. If the server is hosted on an
-encrypted connection then the *Encrypted server* option must be
-checked.
+containing both username and password.
 
-### Authentication
+Each of the items in the dialog are explained here:
 
-Most TeamTalk server owners set up their own usernames and passwords
-for users. Some TeamTalk servers also support a publicly available login
-system provided by BearWare.dk.
+- **Server List**
+  - The available TeamTalk servers are listed here. Four types of
+    servers will be listed here:
+    - *Local servers*
+      - Servers that have been stored manually.
+    - *Official servers* shown in blue
+      - Public servers hosted by BearWare.dk.
+    - *Public servers* shown in green
+      - Public servers made available by BearWare.dk based on location
+        and language.
+    - *Unofficial servers* show in orange
+      - Public servers made available by TeamTalk users who host their
+        own server.
+- **Import .tt File**
+  - If you've received a .tt file from another TeamTalk user you can
+    import the server to the *Server List* by pressing this button.
+  - Other users can send you [.tt files](ref ttfiles) that have been
+    [generated](ref ttfile) to contain the information you need to join
+    their server.
+- **Include official servers (blue ones)**
+  - Select to filter in/out official servers.
+- **Include public servers (green ones)**
+  - Select to filter in/out public servers.
+- **Include unofficial servers (orange ones)**
+  - Select to filter in/out unofficial servers.
 
-- BearWare.dk Web Login
-  - If the username to log on to a server is "bearware" then you must
-    register a username on BearWare.dk and use this to log on to the
-    server.
+- **Server Information**
+  - All the information needed to connect to a server must be
+    specified here.
+  - **Host IP-address**
+    - The IP-address of the server to connect to. The list of previously
+    used servers are available by going through the items using
+    up/down arrow.
+  - **TCP port**
+    - The TCP port used by the server. Note that you can use *telnet*
+    or *nc* to this TCP port and gets textual output. The TeamTalk
+    protocol is human readable. Commands to login, logout, etc. are
+    sent on this port.
+  - **UDP port**
+    - The UDP port used by the server. Audio, video, desktop sessions,
+      etc. are transmitted on this port.
+  - **Encrypted server**
+    - If the TeamTalk server is a TeamTalk Server Pro then it can use
+      encryption.
+- **Authentication**
+  - **Username**
+    - The username that is required to log on to the server. This may be
+      blank.
+    - BearWare.dk Web Login
+    - If the username to log on to a server is "bearware" then you
+      must register a username on BearWare.dk and use this to log on
+      to the server.
+    - Learn more about setting up user accounts by reading the section
+      on [configuring TeamTalk servers](@ref teamtalkserver) or the
+      section about [User Accounts](@ref useraccountsdlg).
+  - **Password**
+    - The password that is required to log on to the server. This may be blank.
+    - If username is a BearWare.dk Web Login then no password is required.
+  - **Nickname**
+    - By default the nickname in [Preferences](@ref preferencesdlg) is
+      used to log on to a server. However, a separate nickname can be
+      used for a specific server.
+- **Join specific channel after authentication**
+  - **Channel**
+    - The channel to join after login.
+  - **Password**
+    - The password required to join the channel.
 
-Learn more about setting up user accounts by read the section on
-[configuring TeamTalk servers](@ref teamtalkserver) or the section
-about [User Accounts](@ref useraccountsdlg).
+Once you have filled out all the information you have been provided
+you can save the server to the Server List by filling the Entry name
+field and afterwards click **Save to Server List**.
 
-### Join specific channel after authentication
-
-To join a specific channel once you have logged on to the server can
-be done by filling out Channel and Password fields. Once you have
-filled out all the information you have been provided you can save the
-server to the Server List by filling the Entry name field and
-afterwards click **Save**. Finally click **Connect** to connect to the
-server.
-
-### Import .tt File
-
-Other users can send you [.tt files](ref ttfiles) that have been
-[generated](ref ttfile) to contain the information you need to join
-their server.
-
-### Generate .tt File
-
-If you want others to connect to the same TeamTalk server as you, you
-can press **Generate .tt File** so you'll generate a file you can email to
-the users who should also connect to the server. More information
-about the [Generate .tt File Dialog](@ref ttfile) is available
-[here](@ref ttfile).
-
-### Publish Publicly
-
-You can publish your own TeamTalk server as a "private server" so
-others can join it from the list when "Include private servers (orange
-ones)" is checked.
+- **Store Server Information**
+  - **Entry name**
+    - The name to be used when storing the server.
+  - **Save to Server**
+    - Store the fields in *Server Information* in the *Server List* on the left.
+  - **Publish Publicly**
+    - Publish the provided server information on BearWare.dk so others
+      can see the server as an *Unofficial server*. I.e. your server
+      will shown up publicly so others can join it from the server
+      list.
+    - After publishing your TeamTalk server you must put the text
+      \#teamtalkpublish\# into the server name using the
+      [Server Properties Dialog](@ref serverpropertiesdlg). This will
+      verify that you're the owner of the server.
+    - To have your server removed again either delete the user account
+      or put the text \#teamtalkdelete\# into the server name using the
+      [Server Properties Dialog](@ref serverpropertiesdlg). This will
+      verify that you're the owner of the server.
+    - When you have a TeamTalk server published you'll see a user
+      logging in at regular intervals in order to see how many users
+      are connected. This user can be disabled by putting in the text
+      \#teamtalkskip\# in the server name.
+  - **Generate .tt File**
+    - If you want others to connect to the same TeamTalk server as
+      you, you can press *Generate .tt File* so you'll generate a
+      file you can email to the users who should also connect to the
+      server. More information about the [Generate .tt File Dialog](@ref ttfile)
+      is available [here](@ref ttfile).
 
 ## Preferences Dialog {#preferencesdlg}
 
@@ -599,7 +655,7 @@ Being channel operator is similar to having the *User Right*
 [User can create/modify all channels](@ref useraccountsdlg) but
 instead of "all channels" the user can only make changes to the
 channels which the user is operator of.
-      
+
 When [creating a channel](@ref createchandlg) one can also set an
 *Operator password* so others can become channel-operators by
 entering this password.
@@ -622,7 +678,7 @@ messages from that user.
 Each of the menu items in the Subscriptions-menu are described here.
 
 - **User Messages**
-    - If checked you accept text messages from this user. 
+    - If checked you accept text messages from this user.
 - **Channel Messages**
     - If checked you accept channel text messages from this user.
 - **Broadcast Messages**
@@ -718,11 +774,11 @@ Each of the menu items in the Advanced-menu are described here.
 - **Increase Voice Volume**
     - This is basically a shortcut to Volume in [Users-menu](@ref usersmenu).
 - **Lower Voice Volume**
-    - This is basically a shortcut to Volume in [Users-menu](@ref usersmenu). 
+    - This is basically a shortcut to Volume in [Users-menu](@ref usersmenu).
 - **Increase Media File Volume**
     - This is basically a shortcut to Volume in [Users-menu](@ref usersmenu).
 - **Lower Media File Volume**
-    - This is basically a shortcut to Volume in [Users-menu](@ref usersmenu). 
+    - This is basically a shortcut to Volume in [Users-menu](@ref usersmenu).
 - **Store User(s) for Move**
     - Store the selected users (like clipboard) so they can be moved
       to another channel.
@@ -850,7 +906,7 @@ Each of the fields in the create channel dialog are described here:
       [User can create/modify all channels](@ref useraccountsdlg). The
       default *Disk Quota* is set up when
       [configuring the TeamTalk server](@ref teamtalkserver).
-      
+
 - **Permanent channel (stored on server)**
     - Only users with *User Right*
       [User can create/modify all channels](@ref useraccountsdlg) can
@@ -965,7 +1021,7 @@ Each of the fields in the create channel dialog are described here:
       quality.
 - **Volume level**
     - The reference volume all users in the channel should use.
-    
+
 ## Classroom Channel Type {#classroom}
 
 If there's many people in a channel it's often nescessary for someone
@@ -1098,7 +1154,7 @@ The remaining items are explained in the following sections.
 - **Delete**
     - Delete the seleced user account in the Active Users list.
 - **Add/Update**
-    - Create or update a user account. 
+    - Create or update a user account.
 
 ### Basic Account Properties
 
