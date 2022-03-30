@@ -108,10 +108,12 @@
 #define SETTINGS_DISPLAY_TTSHEADER                  "display/ttsheader"
 #define SETTINGS_DISPLAY_LOGSTATUSBAR               "display/log-statusbar"
 #define SETTINGS_DISPLAY_LOGSTATUSBAR_DEFAULT       true
+#define SETTINGS_DISPLAY_OFFICIALSERVERS            "display/show-official-servers"
+#define SETTINGS_DISPLAY_OFFICIALSERVERS_DEFAULT    true
 #define SETTINGS_DISPLAY_PUBLICSERVERS              "display/showfreeservers"
 #define SETTINGS_DISPLAY_PUBLICSERVERS_DEFAULT      true
-#define SETTINGS_DISPLAY_PRIVATESERVERS             "display/showprivateservers"
-#define SETTINGS_DISPLAY_PRIVATESERVERS_DEFAULT     false
+#define SETTINGS_DISPLAY_UNOFFICIALSERVERS          "display/show-unofficial-servers"
+#define SETTINGS_DISPLAY_UNOFFICIALSERVERS_DEFAULT  false
 #define SETTINGS_DISPLAY_LANGUAGE                   "display/language"
 #define SETTINGS_DISPLAY_APPUPDATE                  "display/check-appupdate"
 #define SETTINGS_DISPLAY_APPUPDATE_DEFAULT                  true

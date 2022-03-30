@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>725</width>
+    <width>938</width>
     <height>623</height>
    </rect>
   </property>
@@ -71,6 +71,13 @@
         </layout>
        </item>
        <item>
+        <widget class="QCheckBox" name="officialserverChkBox">
+         <property name="text">
+          <string>Include official servers (blue ones)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QCheckBox" name="publicserverChkBox">
          <property name="text">
           <string>Include public servers (green ones)</string>
@@ -78,15 +85,15 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="privateserverChkBox">
+        <widget class="QCheckBox" name="unofficialserverChkBox">
          <property name="text">
-          <string>Include private servers (orange ones)</string>
+          <string>Include unofficial servers (orange ones)</string>
          </property>
         </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
         <widget class="QGroupBox" name="groupBox_2">
@@ -357,40 +364,7 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
-             <widget class="QPushButton" name="genttButton">
-              <property name="toolTip">
-               <string>.tt files can be double-clicked and the client will automatically start and connect to the specified server</string>
-              </property>
-              <property name="whatsThis">
-               <string>.tt files can be double-clicked and the client will automatically start and connect to the specified server</string>
-              </property>
-              <property name="text">
-               <string>&amp;Generate .tt File</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <spacer name="horizontalSpacer_3">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QPushButton" name="publishButton">
-              <property name="text">
-               <string>Publish Publicly</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_2">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -414,9 +388,42 @@
                </sizepolicy>
               </property>
               <property name="text">
-               <string>&amp;Save</string>
+               <string>&amp;Save to Server List</string>
               </property>
              </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="publishButton">
+              <property name="text">
+               <string>Publish Publicly</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="genttButton">
+              <property name="toolTip">
+               <string>.tt files can be double-clicked and the client will automatically start and connect to the specified server</string>
+              </property>
+              <property name="whatsThis">
+               <string>.tt files can be double-clicked and the client will automatically start and connect to the specified server</string>
+              </property>
+              <property name="text">
+               <string>&amp;Generate .tt File</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </item>
