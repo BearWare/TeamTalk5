@@ -5095,20 +5095,19 @@ void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)
     {
         auto sortToggle = m_proxyFilesModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
         if (action == sortName)
-            m_proxyFilesModel->sort(COLUMN_INDEX_NAME, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_NAME ? sortToggle : Qt::AscendingOrder);
+            ui.filesView->header()->setSortIndicator(COLUMN_INDEX_NAME, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_NAME ? sortToggle : Qt::AscendingOrder);
         else if (action == sortSize)
-            m_proxyFilesModel->sort(COLUMN_INDEX_SIZE, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_SIZE ? sortToggle : Qt::AscendingOrder);
+            ui.filesView->header()->setSortIndicator(COLUMN_INDEX_SIZE, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_SIZE ? sortToggle : Qt::AscendingOrder);
         else if (action == sortOwner)
-            m_proxyFilesModel->sort(COLUMN_INDEX_OWNER, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_OWNER? sortToggle : Qt::AscendingOrder);
+            ui.filesView->header()->setSortIndicator(COLUMN_INDEX_OWNER, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_OWNER? sortToggle : Qt::AscendingOrder);
         else if (action == sortUpload)
-            m_proxyFilesModel->sort(COLUMN_INDEX_UPLOADED, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_UPLOADED? sortToggle : Qt::AscendingOrder);
+            ui.filesView->header()->setSortIndicator(COLUMN_INDEX_UPLOADED, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_UPLOADED? sortToggle : Qt::AscendingOrder);
         else if (action == upload)
             slotChannelsUploadFile();
         else if (action == download)
             slotChannelsDownloadFile();
         else if (action == del)
             slotChannelsDeleteFile();
-        ttSettings->setValue(SETTINGS_DISPLAY_FILESHEADER, ui.filesView->header()->saveState());
     }
 }
 
