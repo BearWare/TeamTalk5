@@ -834,7 +834,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="949"/>
         <source>Question</source>
-        <translation>Запрос</translation>
+        <translation>Вопрос</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="955"/>
@@ -2104,12 +2104,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2277"/>
         <source>Toggle &amp;Question Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>переключатель&amp;Режим вопрос</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2283"/>
         <source>Ctrl+F6</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+F6</translation>
     </message>
     <message>
         <source>Ctrl+Shift+K</source>
@@ -3583,7 +3583,7 @@ You can download it on the page below:
     <message>
         <location filename="../mainwindow.cpp" line="1185"/>
         <source>%1 set question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 вошёл в режим вопрос</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1959"/>
@@ -3740,17 +3740,21 @@ You can download it on the page below:
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6812"/>
-        <source>New version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
+        <source>New version available: %1
+You can download it on the page below:
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая версия: %1
+You can download it on the page below:
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6837"/>
-        <source>New beta version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
+        <source>New beta version available: %1
+You can download it on the page below:
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая бета-версия: %1
+You can download it on the page below:
+%2</translation>
     </message>
     <message>
         <source>Streaming media file</source>
@@ -4028,9 +4032,10 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6719"/>
-        <source>The file %1 contains %2 setup information.<byte value="xd"/>
+        <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл %1 содержит %2 конфигурационные данные.
+Следует ли применить эти настройки?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6724"/>
@@ -5347,7 +5352,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="76"/>
         <source>Include official servers (blue ones)</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить официальные серверы. (Помеченные синим)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="83"/>
@@ -5474,7 +5479,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="90"/>
         <source>Include unofficial servers (orange ones)</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить неофициальные серверы: (помеченные оранжевым)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="344"/>
@@ -5484,7 +5489,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="391"/>
         <source>&amp;Save to Server List</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Сохранить в списке серверов</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="398"/>
@@ -5543,7 +5548,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="624"/>
         <source>Are you sure you want to publish the server named &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы уверены, что хотите опубликовать сервер с именем &quot;%1&quot;?</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="650"/>
@@ -5553,7 +5558,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="654"/>
         <source>Publish Server Completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Сервер опубликован</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="655"/>
@@ -5565,7 +5570,14 @@ The #teamtalkpublish# notification can be removed once
 the server has been verified.
 
 Delete the published user account to unregister your server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Обновите свойства вашего сервера, чтобы его имя сервера включало текст #teamtalkpublish#.
+Это подтвердит, что вы являетесь владельцем сервера.
+Как только сервер будет проверен, ваш сервер появится через пару минут.
+
+Либо #teamtalkpublish# нотификация  может быть удалена после
+проверки сервера.
+
+Удалите опубликованную учетную запись пользователя, чтобы отменить регистрацию вашего сервера.</translation>
     </message>
     <message>
         <source>Change your server&apos;s name to include the text #teamtalkpublish#.
@@ -5657,7 +5669,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="140"/>
         <source>Unofficial server</source>
-        <translation type="unfinished"></translation>
+        <translation>Неофициальный сервер</translation>
     </message>
     <message>
         <source>Private server</source>
@@ -6632,7 +6644,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="139"/>
         <source>User enabled question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь включил режим вопрос</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="141"/>
@@ -6786,7 +6798,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../textmessage.ui" line="77"/>
         <source>Message</source>
-        <translation type="unfinished">Сообщение</translation>
+        <translation>Сообщение</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="136"/>
@@ -7471,7 +7483,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfodlg.cpp" line="69"/>
         <source>Question</source>
-        <translation>Запрос</translation>
+        <translation>Вопрос</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="71"/>
