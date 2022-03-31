@@ -418,7 +418,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatus.ui" line="57"/>
         <source>&amp;Question</source>
-        <translation>问题(&amp;Q)</translation>
+        <translation>提问(&amp;Q)</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="66"/>
@@ -810,7 +810,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="949"/>
         <source>Question</source>
-        <translation>问题</translation>
+        <translation>提问</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="955"/>
@@ -2219,16 +2219,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2277"/>
         <source>Toggle &amp;Question Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>切换提问模式(&amp;Q)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2283"/>
         <source>Ctrl+F6</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enable Question Mode</source>
-        <translation type="vanished">启用问题模式</translation>
+        <translation>Ctrl+F6</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2280"/>
@@ -2746,7 +2742,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1185"/>
         <source>%1 set question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 设为提问模式</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1890"/>
@@ -3622,7 +3618,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="5363"/>
         <source>Question</source>
-        <translation>问题</translation>
+        <translation>提问</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5388"/>
@@ -4611,7 +4607,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1646"/>
         <source>User entered question-mode</source>
-        <translation>用户进入问题模式</translation>
+        <translation>用户进入提问模式</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1669"/>
@@ -5142,7 +5138,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="76"/>
         <source>Include official servers (blue ones)</source>
-        <translation type="unfinished"></translation>
+        <translation>包含官方服务器（蓝色）</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="83"/>
@@ -5152,7 +5148,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="90"/>
         <source>Include unofficial servers (orange ones)</source>
-        <translation type="unfinished"></translation>
+        <translation>包含非官方服务器（橙色）</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="101"/>
@@ -5185,10 +5181,6 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="134"/>
         <source>Remove entry</source>
         <translation>删除条目</translation>
-    </message>
-    <message>
-        <source>Include private servers (orange ones)</source>
-        <translation type="vanished">包含私人服务器（橙色）</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="191"/>
@@ -5255,7 +5247,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="391"/>
         <source>&amp;Save to Server List</source>
-        <translation type="unfinished"></translation>
+        <translation>保存至服务器列表(&amp;S)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="405"/>
@@ -5277,10 +5269,6 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="398"/>
         <source>Publish Publicly</source>
         <translation>公开发布</translation>
-    </message>
-    <message>
-        <source>&amp;Save</source>
-        <translation type="vanished">保存(&amp;S)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="369"/>
@@ -5330,7 +5318,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="624"/>
         <source>Are you sure you want to publish the server named &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>您确定要发布名为“%1”的服务器吗</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="650"/>
@@ -5340,7 +5328,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="654"/>
         <source>Publish Server Completed</source>
-        <translation type="unfinished"></translation>
+        <translation>服务器发布完成</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="655"/>
@@ -5352,24 +5340,13 @@ The #teamtalkpublish# notification can be removed once
 the server has been verified.
 
 Delete the published user account to unregister your server.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Change your server&apos;s name to include the text #teamtalkpublish#.
-This will verify that you&apos;re the owner of the server.
-Once this is done your private server will appear in a couple of minutes.
-
-Delete the published user account to unregister your server.
-
-The #teamtalkpublish# notification can be removed once
-the server has been verified.</source>
-        <translation type="vanished">更改您的服务器名称以包含文本 #teamtalkpublish#。
+        <translation>更新服务器属性，使服务器名称包含文本 #teamtalkpublish#。
 这将验证您是服务器的所有者。
-完成此操作后，您的私人服务器将在几分钟内出现。
+一旦验证完成，您的服务器将在几分钟后出现。
 
-删除已发布的用户帐户以取消注册您的服务器。
+服务器验证通过后， #teamtalkpublish# 可被删除。
 
-服务器验证完成后 #teamtalkpublish# 可被删除。</translation>
+删除发布的用户帐户以取消注册您的服务器。</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="694"/>
@@ -5437,11 +5414,7 @@ the server has been verified.</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="140"/>
         <source>Unofficial server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Private server</source>
-        <translation type="vanished">私人服务器</translation>
+        <translation>非官方服务器</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="143"/>
@@ -6403,7 +6376,7 @@ the server has been verified.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="139"/>
         <source>User enabled question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>用户启用提问模式</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="141"/>
@@ -7222,7 +7195,7 @@ the server has been verified.</source>
     <message>
         <location filename="../userinfodlg.cpp" line="69"/>
         <source>Question</source>
-        <translation>问题</translation>
+        <translation>提问</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="71"/>
