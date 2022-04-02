@@ -6,6 +6,13 @@ namespace BearWare
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v59arelease
+ * - @ref v59afeatures
+ *   - @ref v59aserverlog
+ *   - @ref v59atextmessage
+ *   - @ref v59asolotransmit
+ * - @ref v59aapi
+ *
  * @ref v58brelease
  * - @ref v58bfeatures
  *   - @ref v58buseraccount
@@ -223,6 +230,37 @@ namespace BearWare
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v59arelease TeamTalk 5 SDK v. 5.9a release, April 2nd 2022
+ * 
+ * @subsection v59afeatures New features in v5.9a
+ *
+ * @subsubsection v59aserverlog Configurable server logging
+ *
+ * It's now possible to change log levels while the TeamTalk server is
+ * running. Setup @c uServerLogEvents in #BearWare.ServerProperties and issue
+ * BearWare.TeamTalkBase.DoUpdateServer(). @c uServerLogEvents is based on #BearWare.ServerLogEvent.
+ *
+ * @subsubsection v59atextmessage Create combined TextMessage
+ *
+ * #BearWare.TextMessage is limited to 511 characters but now it's possible to
+ * specify @c bMore on #BearWare.TextMessage to denote that a text message is
+ * part of a combined message.
+ *
+ * @subsubsection v59asolotransmit Configurable delay in queued conversations (solo transmit)
+ *
+ * A #BearWare.ChannelType.CHANNEL_SOLO_TRANSMIT #BearWare.Channel automatically switched to the
+ * next user after 500 msec of inactivity. This delay is now
+ * configurable using @c nTransmitUsersQueueDelayMSec on #BearWare.Channel.
+ *
+ * @subsection v59aapi API change in v5.9a
+ *
+ * - New enum #BearWare.ServerLogEvent
+ * - New field @c uServerLogEvents in #BearWare.ServerProperties
+ * - New field @c bMore in #BearWare.TextMessage
+ * - New field @c nTransmitUsersQueueDelayMSec in #BearWare.Channel
  *
  * <hr>
  *
