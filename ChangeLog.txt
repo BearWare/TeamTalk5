@@ -10,11 +10,11 @@ iOS Client
 Server
 
 
-Version 5.9.1, April 3rd
+Version 5.9.1, 2022/04/04
 Accessible Windows Client
 - Fixed private text messages not appearing in other clients
 
-Version 5.9, April 2nd
+Version 5.9, 2022/04/02
 Accessible Windows Client
 - Ability for WASAPI to use sound output device as sound input device (loopback audio)
 - Fixed issue where all users and channels were not listed after initial login
