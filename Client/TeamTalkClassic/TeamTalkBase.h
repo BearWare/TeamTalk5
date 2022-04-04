@@ -45,20 +45,18 @@ struct MyTextMessage : public TextMessage
 {
     CTime receiveTime;
     
-    MyTextMessage()
+    MyTextMessage() : TextMessage()
     {
         receiveTime = CTime::GetCurrentTime();
-        _tcsncpy_s(this->szFromUsername, _T(""), TT_STRLEN);
-        _tcsncpy_s(this->szMessage, _T(""), TT_STRLEN);
     }
     
-    explicit MyTextMessage(const TextMessage& msg)
-    : MyTextMessage()
+    explicit MyTextMessage(const TextMessage& msg) : MyTextMessage()
     {
         this->nChannelID = msg.nChannelID;
         this->nFromUserID = msg.nFromUserID;
         this->nMsgType = msg.nMsgType;
         this->nToUserID = msg.nToUserID;
+        this->bMore = msg.bMore;
         _tcsncpy_s(this->szFromUsername, msg.szFromUsername, TT_STRLEN);
         _tcsncpy_s(this->szMessage, msg.szMessage, TT_STRLEN);
     }
