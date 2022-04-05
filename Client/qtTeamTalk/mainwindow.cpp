@@ -5207,7 +5207,7 @@ void MainWindow::slotServerBroadcastMessage(bool /*checked=false*/)
     msg.nMsgType = MSGTYPE_BROADCAST;
     msg.nFromUserID = TT_GetMyUserID(ttInst);
     sendTextMessage(msg, bcast);
-    addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST_SEND, tr("Broadcast message sent: %1").arg(msg.szMessage));
+    addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST_SEND, tr("Broadcast message sent: %1").arg(bcast));
 }
 
 void MainWindow::slotServerServerProperties(bool /*checked =false */)
