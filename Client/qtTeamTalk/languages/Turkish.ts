@@ -44,58 +44,25 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.webmproject.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://webrtc.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebRTC&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Credits&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Teşekkürler&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Contributors&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Bjørn Damstedt Rasmussen, developer&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Katkıda Bulunanlar&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Bjørn Damstedt Rasmussen, geliştirici&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave, developer&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Translators&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Çevirmenler&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;贺稼栋, Chinese Simplified&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave, French&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Steffen Schultz, German&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Michał Ciołek, Polish&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ozancan Karataş, Turkish&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;João Carlos Ramos and JNylson, Portuguese from Brazil&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ozancan Karataş ve Engin Albayrak, Turkish&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Libraries&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TeamTalk uses the following libraries:&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.dre.vanderbilt.edu/~schmidt/ACE.html&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;ACE&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ffmpeg.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;FFmpeg&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OGG&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.openssl.org&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OpenSSL&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS-tools&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://portaudio.com/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;PortAudio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://qt.io&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Qt&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Speex&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;SpeexDSP&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.grinninglizard.com/tinyxml/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;TinyXML&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.webmproject.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://webrtc.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebRTC&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Yapımcılar&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Katkıda bulunanlar&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Bjørn Damstedt Rasmussen, geliştirici&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave, geliştirici&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Çevirenler&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave, Fransızca&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Steffen Schultz, Almanca&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Michał Ciołek, Lehçe&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ozancan Karataş, Türkçe&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Kitaplıklar&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;kütüphaneler&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TeamTalk aşağıdaki kitaplıkları kullanır:&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.dre.vanderbilt.edu/~schmidt/ACE.html&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;ACE&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ffmpeg.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;FFmpeg&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
@@ -115,12 +82,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on </source>
-        <translation>Derlenme </translation>
+        <translation>Derleme </translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="35"/>
         <source>Version </source>
-        <translation>Sürüm </translation>
+        <translation>Sürüm</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="37"/>
@@ -138,7 +105,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="14"/>
         <source>Audio Preprocessor Setup</source>
-        <translation>Ses Önişleyici Ayarlaması</translation>
+        <translation>Ses Önişleyici kurulumu</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="42"/>
@@ -148,7 +115,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="50"/>
         <source>Enable AGC</source>
-        <translation>AGC&apos;yi Etkinleştir</translation>
+        <translation>Otomatik ses ayarlamayı Etkinleştir</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="70"/>
@@ -169,12 +136,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="111"/>
         <source>Max Gain Increase Per Sec (dB)</source>
-        <translation>Sn Başına En Fazla Kazanç Artırma (dB)</translation>
+        <translation>Saniyede En Fazla Kazanç Artırma (dB)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="128"/>
         <source>Max Gain Decrease Per Sec (dB)</source>
-        <translation>Sn Başına En Fazla Kazanç Azaltma (dB)</translation>
+        <translation>Saniyede En Fazla Kazanç Azaltma (dB)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="146"/>
@@ -199,12 +166,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="230"/>
         <source>Mute left channel</source>
-        <translation>Sol kanalı sessize al</translation>
+        <translation>Sol kanalı sustur</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="237"/>
         <source>Mute right channel</source>
-        <translation>Sağ kanalı sessize al</translation>
+        <translation>Sağ kanalı sustur</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="32"/>
@@ -214,7 +181,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="33"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;İptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="56"/>
@@ -248,7 +215,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="168"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;İptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="194"/>
@@ -278,7 +245,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusers.ui" line="86"/>
         <source>Add to list of banned users</source>
-        <translation>Yasaklanan kullanıcıların listesine ekle</translation>
+        <translation>Yasaklanan kullanıcılar listesine ekle</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="89"/>
@@ -373,7 +340,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.ui" line="14"/>
         <source>Activate BearWare.dk Web Login</source>
-        <translation>BearWare.dk Web Oturumu&apos;nu Etkinleştir</translation>
+        <translation>BearWare.dk Web Oturumunu Etkinleştir</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="20"/>
@@ -383,7 +350,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.ui" line="26"/>
         <source>A BearWare.dk Web Login is used to identify a TeamTalk user. A login ID can be created on the BearWare.dk web site.</source>
-        <translation>Bir BearWare.dk Web Oturumu, bir TeamTalk kullanıcısının kimliğini saptamada kullanılır. BearWare.dk web sitesinde bir oturum kimliği oluşturulur.</translation>
+        <translation>Bir TeamTalk kullanıcısını tanımlamak için BearWare.dk Web Girişi kullanılır. BearWare.dk web sitesinde bir oturum açma kimliği oluşturulabilir.</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="51"/>
@@ -413,7 +380,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.cpp" line="49"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;İptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="113"/>
@@ -466,7 +433,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatusdlg.cpp" line="38"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;İptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
 </context>
 <context>
@@ -504,7 +471,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="100"/>
         <source>Operator password</source>
-        <translation>İşletmeci parolası</translation>
+        <translation>yönetici parolası</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="120"/>
@@ -514,7 +481,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="146"/>
         <source>Disk quota (KBytes)</source>
-        <translation>Disk kotası (KBayt)</translation>
+        <translation>Disk kotası (KB)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="172"/>
@@ -529,27 +496,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="187"/>
         <source>No interruptions (no simultaneous voice transmission)</source>
-        <translation>Söz kesintisi yok (eşzamanlı ses iletimi yok)</translation>
+        <translation>Kesinti yok (eşzamanlı ses aktarımı yok)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="194"/>
         <source>Setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Kur></translation>
     </message>
     <message>
         <location filename="../channel.ui" line="197"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="206"/>
         <source>Classroom (operator-controlled transmissions)</source>
-        <translation>Sınıf (işletmeci denetimli iletimler)</translation>
+        <translation>Sınıf (Yönetici denetimli iletimler)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="213"/>
         <source>Operator receive only (only operator see and hear users)</source>
-        <translation>Yalnızca işletmeci alır (kullanıcıları yalnızca işletmeci görür ve duyar)</translation>
+        <translation>Yalnızca yönetici alır (kullanıcıları yalnızca yönetici görür ve duyar)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="220"/>
@@ -665,7 +632,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="810"/>
         <source>Ensure all users in the channel have the same audio volume</source>
-        <translation>Kanaldaki tüm kullanıcıların aynı ses düzeyine sahip olmasını sağla</translation>
+        <translation>Kanaldaki tüm kullanıcıların aynı ses seviyesine sahip olduğundan emin olun</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="813"/>
@@ -680,7 +647,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="892"/>
         <source>&amp;Join channel on exit</source>
-        <translation>&amp;Çıkışta kanala katıl</translation>
+        <translation>Çıkışta kanala ka&amp;tıl</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="44"/>
@@ -692,7 +659,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../channeldlg.cpp" line="45"/>
         <location filename="../channeldlg.cpp" line="426"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;İptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="74"/>
@@ -727,7 +694,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="162"/>
         <source>Update Channel</source>
-        <translation>Kanalı Güncelleştir</translation>
+        <translation>Kanalı Güncelle</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="173"/>
@@ -737,12 +704,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="429"/>
         <source>Transmission Queue Delay</source>
-        <translation type="unfinished"></translation>
+        <translation>İletim Kuyruğu Gecikmesi</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="430"/>
         <source>Delay before switching to next user in queue (in msec)</source>
-        <translation type="unfinished"></translation>
+        <translation>Sıradaki bir sonraki kullanıcıya geçmeden önce gecikme (ms cinsinden)</translation>
     </message>
 </context>
 <context>
@@ -750,12 +717,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="820"/>
         <source>Expanded</source>
-        <translation>Genişletildi</translation>
+        <translation>açık</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="820"/>
         <source>Collapsed</source>
-        <translation>Daraltıldı</translation>
+        <translation>Kapalı</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="823"/>
@@ -808,7 +775,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="827"/>
         <source>Media files transmission allowed for everyone: %1</source>
-        <translation>Herkes için ortam dosyaları iletimine izin verildi: %1</translation>
+        <translation>Herkes için medya dosyaları iletimine izin verildi: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="831"/>
@@ -833,61 +800,61 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="835"/>
         <source>Media files transmission</source>
-        <translation>Ortam dosyaları iletimi</translation>
+        <translation>medya dosyaları iletimi</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="946"/>
         <source>Away</source>
-        <translation type="unfinished">Uzakta</translation>
+        <translation>Uzakta</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="949"/>
         <source>Question</source>
-        <translation type="unfinished">Soru</translation>
+        <translation>Soru</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="955"/>
         <source>Streaming media file</source>
-        <translation type="unfinished"></translation>
+        <translation>medya dosyası akışı</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="958"/>
         <source>Webcam</source>
-        <translation type="unfinished"></translation>
+        <translation>Web kamerası</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="970"/>
         <source>Administrator</source>
-        <translation type="unfinished">Yönetici</translation>
+        <translation>Yönetici</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="973"/>
         <source>Channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>kanal yöneticisi</translation>
     </message>
     <message>
         <source>, Away</source>
-        <translation type="vanished">, Uzakta</translation>
+        <translation>, Uzakta</translation>
     </message>
     <message>
         <source>, Question</source>
-        <translation type="vanished">, Soru</translation>
+        <translation>, Soru</translation>
     </message>
     <message>
         <source>, Streaming media file</source>
-        <translation type="vanished">, Ortam dosyası akıtıyor</translation>
+        <translation>medya dosyası akışı</translation>
     </message>
     <message>
         <source>, Webcam</source>
-        <translation type="vanished">, Web kamerası</translation>
+        <translation>, Web kamerası</translation>
     </message>
     <message>
         <source> (Administrator)</source>
-        <translation type="vanished"> (Yönetici)</translation>
+        <translation> (Yönetici)</translation>
     </message>
     <message>
         <source> (Channel operator)</source>
-        <translation type="vanished"> (Kanal işletmecisi)</translation>
+        <translation> (Kanal yöneticisi)</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1149"/>
@@ -912,7 +879,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="1153"/>
         <source>Media files transmission allowed: %1</source>
-        <translation>Ortam dosyaları iletimine izin verildi: %1</translation>
+        <translation>medya dosyaları iletimine izin verildi: %1</translation>
     </message>
 </context>
 <context>
@@ -930,12 +897,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="165"/>
         <source>Message of the Day: %1</source>
-        <translation>Günün İletisi: %1</translation>
+        <translation>Günün mesajı: %1</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="204"/>
         <source>Joined new channel</source>
-        <translation>Yeni kanala katılındı</translation>
+        <translation>Yeni kanala katıldı</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="212"/>
@@ -950,7 +917,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="226"/>
         <source>Disk quota: %1 KBytes</source>
-        <translation>Disk kotası: %1 KBayt</translation>
+        <translation>Disk kotası: %1 KB</translation>
     </message>
 </context>
 <context>
@@ -993,12 +960,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../customvideofmtdlg.cpp" line="34"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished">&amp;Tamam</translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../customvideofmtdlg.cpp" line="35"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;İptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
 </context>
 <context>
@@ -1016,7 +983,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="33"/>
         <source>&amp;Delete</source>
-        <translation>&amp;Sil</translation>
+        <translation>S&amp;il</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="60"/>
@@ -1026,7 +993,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="66"/>
         <source>Here it is possible to automatically give desktop access to a selected group of users on a server. This way it is not required to click &quot;Allow Desktop Access&quot; every time a user logs on.</source>
-        <translation>Burada bir sunucudaki seçilen bir kullanıcı grubuna otomatik olarak masaüstü erişimi vermek olanaklı. Bu yol, bir kullanıcı her oturum açtığında &quot;Masaüstü Erişimine İzin Ver&quot;i tıklamayı gerektirmez.</translation>
+        <translation>Burada bir sunucudaki seçilen bir kullanıcı grubuna otomatik olarak masaüstü erişimi verilebilir. Böylece kullanıcının her oturum açtığında &quot;Masaüstü Erişimine İzin Ver&quot;i tıklamasına gerek kalmaz.</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="78"/>
@@ -1061,12 +1028,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="179"/>
         <source>A&amp;dd</source>
-        <translation>Ek&amp;le</translation>
+        <translation>&amp;Ekle</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="186"/>
         <source>R&amp;emove</source>
-        <translation>Kal&amp;dır</translation>
+        <translation>&amp;Kaldır</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="197"/>
@@ -1086,7 +1053,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccessdlg.cpp" line="38"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;İptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../desktopaccessdlg.cpp" line="122"/>
@@ -1132,7 +1099,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopshare.ui" line="45"/>
         <source>Share specific window</source>
-        <translation>Belirtilen pencereyi paylaş</translation>
+        <translation>Belirli bir pencereyi paylaş</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="70"/>
@@ -1147,7 +1114,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopshare.ui" line="108"/>
         <source>Update interval</source>
-        <translation>Güncelleştirme aralığı</translation>
+        <translation>Güncelleme aralığı</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="140"/>
@@ -1167,7 +1134,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopsharedlg.cpp" line="55"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;İptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="162"/>
@@ -1221,12 +1188,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransfer.ui" line="127"/>
         <source>C&amp;lose when completed</source>
-        <translation>&amp;Tamamlandığında kapat</translation>
+        <translation>Tamamlandığında &amp;kapat</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="147"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;İptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="154"/>
@@ -1241,7 +1208,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransferdlg.cpp" line="116"/>
         <source>%1 KBytes/second, last second %2 bytes</source>
-        <translation>%1 KBayt/saniye, son saniye %2 bayt</translation>
+        <translation>%1 KB/s, son saniye %2 B</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="143"/>
@@ -1259,7 +1226,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filesmodel.cpp" line="43"/>
         <source>Name</source>
-        <translation>Ad</translation>
+        <translation>Dosya adı</translation>
     </message>
     <message>
         <location filename="../filesmodel.cpp" line="44"/>
@@ -1274,16 +1241,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filesmodel.cpp" line="46"/>
         <source>Date</source>
-        <translation type="unfinished"></translation>
+        <translation>Tarih</translation>
     </message>
     <message>
         <location filename="../filesmodel.cpp" line="108"/>
         <source>Name: %1, Size: %2, Owner: %3, Date: %4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name: %1, Size: %2, Owner: %3</source>
-        <translation type="vanished">Ad: %1, Boyut: %2, Sahip: %3</translation>
+        <translation>Dosya adı: %1, Boyut: %2, Sahip: %3, Tarih: %4</translation>
     </message>
 </context>
 <context>
@@ -1317,7 +1280,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="85"/>
         <source>Override client&apos;s predefined settings</source>
-        <translation>İstemcinin öntanımlı ayarlarını geçersizleştir</translation>
+        <translation>İstemcinin öntanımlı ayarlarını geçersiz kıl</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="94"/>
@@ -1347,7 +1310,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="184"/>
         <source>Neutral</source>
-        <translation>Cinsiyetsiz</translation>
+        <translation>Doğal</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="209"/>
@@ -1372,12 +1335,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="264"/>
         <source>Voice activated</source>
-        <translation>Ses etkinleştirme</translation>
+        <translation>Ses etkin</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="284"/>
         <source>Video Codec Settings</source>
-        <translation>Video Kodlayıcı/Çözücüsü Ayarları</translation>
+        <translation>Video Kodlayıcı/Çözücü Ayarları</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="287"/>
@@ -1402,7 +1365,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="428"/>
         <source>&amp;Save .tt File</source>
-        <translation>.tt Dosyası Kayde&amp;t</translation>
+        <translation>.tt Dosyası Ka&amp;ydet</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="435"/>
@@ -1451,7 +1414,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../keycomp.ui" line="38"/>
         <source>Hold down the keys which should be used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
-        <translation>Kısayol tuşu olarak kullanılacak tuşu basılı tutun. Shift, Ctrl ve Alt gibi değiştirici tuşlar diğer tuşlarla birleştirilerek kullanılabilir</translation>
+        <translation>Kısayol tuşu olarak kullanılması gereken tuşları basılı tutun. Shift, Ctrl ve Alt gibi değiştirici tuşlar, diğer tuşlarla birlikte kullanılabilir</translation>
     </message>
     <message>
         <location filename="../keycomp.ui" line="50"/>
@@ -1491,7 +1454,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="161"/>
         <location filename="../mainwindow.ui" line="164"/>
         <source>Master volume</source>
-        <translation>Ana düzey</translation>
+        <translation>Ana ses düzeyi</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="177"/>
@@ -1597,7 +1560,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="322"/>
         <source>Ch&amp;at</source>
-        <translation>&amp;Sohbet</translation>
+        <translation>S&amp;ohbet</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="677"/>
@@ -1614,7 +1577,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="991"/>
         <source>Files list</source>
-        <translation>Dosyalar listesi</translation>
+        <translation>Dosya listesi</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1085"/>
@@ -1637,7 +1600,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1122"/>
         <source>C&amp;lient</source>
-        <translation>İstemc&amp;i</translation>
+        <translation>&amp;istemci</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1156"/>
@@ -1647,7 +1610,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1180"/>
         <source>&amp;Users</source>
-        <translation>K&amp;ullanıcılar</translation>
+        <translation>&amp;Kullanıcılar</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1184"/>
@@ -1662,12 +1625,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1217"/>
         <source>&amp;Mute</source>
-        <translation>&amp;Sessize Al</translation>
+        <translation>&amp;Sustur</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1224"/>
         <source>&amp;Kick</source>
-        <translation>&amp;Uzaklaştır</translation>
+        <translation>&amp;At</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1270"/>
@@ -1677,7 +1640,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1274"/>
         <source>&amp;Channel Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal Bilgileri</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1297"/>
@@ -1692,7 +1655,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1375"/>
         <source>&amp;Server List</source>
-        <translation>&amp;Sunucu Listesi</translation>
+        <translation>Sunucu &amp;Listesi</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1378"/>
@@ -1724,11 +1687,11 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="1430"/>
         <location filename="../mainwindow.cpp" line="2431"/>
         <source>&amp;Exit</source>
-        <translation>&amp;Çıkış</translation>
+        <translation>&amp;Çık</translation>
     </message>
     <message>
         <source>Alt+F4</source>
-        <translation type="vanished">Alt+F4</translation>
+        <translation>Alt+F4</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1442"/>
@@ -1748,7 +1711,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1458"/>
         <source>&amp;Manual</source>
-        <translation>&amp;Kılavuz</translation>
+        <translation>&amp;Yardım</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1461"/>
@@ -1768,7 +1731,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1474"/>
         <source>&amp;Create Channel</source>
-        <translation>Kanal &amp;Oluştur</translation>
+        <translation>Kanal Olu&amp;ştur</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1477"/>
@@ -1778,7 +1741,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1482"/>
         <source>&amp;Update Channel</source>
-        <translation>Kanalı &amp;Güncelleştir</translation>
+        <translation>Kanalı &amp;Güncelle</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1485"/>
@@ -1788,7 +1751,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1490"/>
         <source>&amp;Delete Channel</source>
-        <translation>Kanalı &amp;Sil</translation>
+        <translation>Kanalı S&amp;il</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1493"/>
@@ -1799,7 +1762,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="1498"/>
         <location filename="../mainwindow.cpp" line="5646"/>
         <source>&amp;Join Channel</source>
-        <translation>Kanala &amp;Katıl</translation>
+        <translation>Kanala Ka&amp;tıl</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1501"/>
@@ -1809,7 +1772,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1513"/>
         <source>Enable Voice &amp;Activation</source>
-        <translation>Ses &amp;Etkinleştirmeyi Etkinleştir</translation>
+        <translation>Sesi &amp;Etkinleştir</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1516"/>
@@ -1819,7 +1782,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1521"/>
         <source>Change &amp;Nickname</source>
-        <translation>Rumu&amp;zu Değiştir</translation>
+        <translation>&amp;Rumuzu Değiştir</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1524"/>
@@ -1849,7 +1812,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1560"/>
         <source>Mute &amp;All</source>
-        <translation>&amp;Tümünü Sessize Al</translation>
+        <translation>Tümünü s&amp;ustur</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1563"/>
@@ -1869,7 +1832,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1576"/>
         <source>D&amp;ownload File</source>
-        <translation>Dosyayı İnd&amp;ir</translation>
+        <translation>Dosyayı İn&amp;dir</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1579"/>
@@ -1879,7 +1842,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1584"/>
         <source>Dele&amp;te File</source>
-        <translation>Dosyayı &amp;Sil</translation>
+        <translation>Dosyayı S&amp;il</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1587"/>
@@ -1919,12 +1882,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1616"/>
         <source>&amp;View Channel Info</source>
-        <translation>Kanal Bilgisini &amp;Görüntüle</translation>
+        <translation>Kanal &amp;Bilgisini Görüntüle</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1640"/>
         <source>M&amp;essages</source>
-        <translation>İlet&amp;iler</translation>
+        <translation>&amp;iletiler</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1643"/>
@@ -1934,7 +1897,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1648"/>
         <source>Kick and &amp;Ban From Server</source>
-        <translation>Uzaklaştır ve Sunucudan &amp;Yasakla</translation>
+        <translation>At ve Sunucudan &amp;Yasakla</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2179"/>
@@ -1944,7 +1907,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1660"/>
         <source>&amp;Op</source>
-        <translation>İşletme&amp;ci</translation>
+        <translation>&amp;Kanal yöneticisi</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="771"/>
@@ -1954,77 +1917,77 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1126"/>
         <source>S&amp;ound Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ses Yapılandırması</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1130"/>
         <source>&amp;Input Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Giriş aygıtları</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1135"/>
         <source>&amp;Output Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Çıkış aygıtları</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1160"/>
         <source>&amp;Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Bildirimler</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1234"/>
         <source>&amp;User Information</source>
-        <translation type="unfinished"></translation>
+        <translation>K&amp;ullanıcı bilgisi</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1241"/>
         <source>&amp;Transmit Control</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;İletim Kontrolü</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1401"/>
         <source>&amp;Enable Echo Cancellation</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Yankı İptalini Etkinleştir</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1409"/>
         <source>Enable &amp;Automatic Gain Control</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Otomatik Kazanç Kontrolünü Etkinleştir</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1417"/>
         <source>Enable &amp;Denoising</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Gürültü Gidermeyi Etkinleştir</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1545"/>
         <source>&amp;Speak User Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı Bilgilerini &amp;Söyle</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1548"/>
         <source>Ctrl+G</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+G</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1624"/>
         <source>&amp;Speak Channel Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal Bilgilerini S&amp;öyle</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1627"/>
         <source>Ctrl+Alt+G</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+G</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1632"/>
         <source>S&amp;peak Channel State</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal Durumunu Sö&amp;yle</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1635"/>
         <source>Ctrl+Shift+G</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+G</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1663"/>
@@ -2034,7 +1997,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1668"/>
         <source>&amp;Volume</source>
-        <translation>Dü&amp;zey</translation>
+        <translation>Ses &amp;düzeyi</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1671"/>
@@ -2054,7 +2017,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1698"/>
         <source>&amp;User Messages</source>
-        <translation>K&amp;ullanıcı İletileri</translation>
+        <translation>Kullanıcı &amp;İletileri</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1701"/>
@@ -2099,7 +2062,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1761"/>
         <source>&amp;Stream Audio File to Channel</source>
-        <translation>Kanala Ses Dosyası &amp;Akıt</translation>
+        <translation>Kanala &amp;Ses Dosyası yayımla</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1764"/>
@@ -2109,7 +2072,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1769"/>
         <source>Stream Audio &amp;File to User</source>
-        <translation>&amp;Kullanıcıya Ses Dosyası Akıt</translation>
+        <translation>Kullanıcıya S&amp;es Dosyası yayımla</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1772"/>
@@ -2234,22 +2197,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1925"/>
         <source>Allow All V&amp;oice Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tüm Ses İletimine İzin Ver</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1928"/>
         <source>Ctrl+Alt+Shift+Q</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Shift+Q</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1936"/>
         <source>Allow All Video Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Tüm Video İletimine İzin Ver</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1939"/>
         <source>Ctrl+Alt+Shift+W</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Shift+W</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1944"/>
@@ -2284,16 +2247,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2277"/>
         <source>Toggle &amp;Question Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Soru Modunu aç / kapat</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2283"/>
         <source>Ctrl+F6</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enable Question Mode</source>
-        <translation type="vanished">Soru Kipini Etkinleştir</translation>
+        <translation>Ctrl+F6</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2280"/>
@@ -2313,22 +2272,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1989"/>
         <source>Enable Text-To-Speech Events</source>
-        <translation type="unfinished"></translation>
+        <translation>Metin Okuma Olaylarını Etkinleştir</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1992"/>
         <source>Ctrl+Alt+S</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+S</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2000"/>
         <source>Enable Sound Events</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses Olaylarını Etkinleştir</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2003"/>
         <source>Ctrl+Alt+Z</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Z</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2011"/>
@@ -2343,12 +2302,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2022"/>
         <source>Allow All Desktop Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Tüm Masaüstü İletimlerine İzin Ver</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2025"/>
         <source>Ctrl+Alt+Shift+E</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Shift+E</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2037"/>
@@ -2373,7 +2332,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2067"/>
         <source>Stream &amp;Media File to Channel</source>
-        <translation>Kanala &amp;Ortam Dosyası Akıt</translation>
+        <translation>Kanala &amp;medya Dosyası yayımla</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2070"/>
@@ -2403,7 +2362,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2117"/>
         <source>Media File Stream</source>
-        <translation>Ortam Dosyası Akışı</translation>
+        <translation>Medya Dosyası Akışı</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2120"/>
@@ -2413,7 +2372,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2132"/>
         <source>Intercept Media File Stream</source>
-        <translation>Ortam Dosyası Akışını İzle</translation>
+        <translation>Medya Dosyası Akışını İzle</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2135"/>
@@ -2423,7 +2382,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2143"/>
         <source>Allow Media File Transmission</source>
-        <translation>Ortam Dosyası İletimine İzin Ver</translation>
+        <translation>Medya Dosyası İletimine İzin Ver</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2146"/>
@@ -2433,17 +2392,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2154"/>
         <source>Allow All Media File Transmission</source>
-        <translation type="unfinished"></translation>
+        <translation>Tüm Medya Dosyası İletimlerine İzin Ver</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2157"/>
         <source>Ctrl+Alt+Shift+R</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Shift+R</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2165"/>
         <source>Mu&amp;te Voice</source>
-        <translation>Sesi Sus&amp;tur</translation>
+        <translation>Sus&amp;tur</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2168"/>
@@ -2453,12 +2412,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2176"/>
         <source>Mute Media File</source>
-        <translation>Ortam Dosyasını Sessize Al</translation>
+        <translation>Medya Dosyasını sustur</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2184"/>
         <source>Kick From Channel</source>
-        <translation>Kanaldan Uzaklaştır</translation>
+        <translation>Kanaldan at</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2187"/>
@@ -2468,7 +2427,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2192"/>
         <source>Kick From Server</source>
-        <translation>Sunucudan Uzaklaştır</translation>
+        <translation>Sunucudan at</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2195"/>
@@ -2478,12 +2437,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2200"/>
         <source>Increase Media File Volume</source>
-        <translation>Ortam Dosyası Düzeyini Artır</translation>
+        <translation>Medya Dosyası sesini Artır</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2208"/>
         <source>Lower Media File Volume</source>
-        <translation>Ortam Dosyası Düzeyini Azalt</translation>
+        <translation>Medya Dosyası sesini Azalt</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2216"/>
@@ -2493,7 +2452,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2221"/>
         <source>Kick and Ban From &amp;Channel</source>
-        <translation>Uzaklaştır ve &amp;Kanaldan Yasakla</translation>
+        <translation>Kanaldan At ve &amp;Yasakla</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2224"/>
@@ -2513,7 +2472,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2240"/>
         <source>Allow Channel Text Messages</source>
-        <translation>Kanal İletilerine İzin Ver</translation>
+        <translation>Kanala metin iletilerine İzin Ver</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2243"/>
@@ -2523,22 +2482,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2251"/>
         <source>Allow All Channel Text Messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Tüm Kanal Metin iletilerine İzin Ver</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2254"/>
         <source>Ctrl+Alt+Shift+T</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+Shift+T</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2262"/>
         <source>&amp;Hear Myself</source>
-        <translation type="unfinished"></translation>
+        <translation>kendini duy</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2265"/>
         <source>Ctrl+Shift+3</source>
-        <translation type="unfinished">Ctrl+Shift+3</translation>
+        <translation>Ctrl+Shift+3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="866"/>
@@ -2549,7 +2508,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="867"/>
         <source>Failed to remove %1 from Windows Firewall exceptions.</source>
-        <translation>%1 öğesini Windows Güvenlik Duvarı ayrıcalıklarından kaldırma başarısız.</translation>
+        <translation>%1 Windows Güvenlik Duvarı ayrıcalıklarından kaldırılamadı.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="883"/>
@@ -2586,12 +2545,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="763"/>
         <location filename="../settings.h" line="256"/>
         <source>Default</source>
-        <translation type="unfinished">Varsayılan</translation>
+        <translation>Varsayılan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="766"/>
         <source>Your sounds pack %1 don&apos;t exist, would you like to use default sounds pack?</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 ses paketiniz mevcut değil, varsayılan ses paketini kullanmak ister misiniz?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="955"/>
@@ -2601,19 +2560,19 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="959"/>
         <source>Connection to server lost</source>
-        <translation>Sunucuyla bağlantının kesilmesi</translation>
+        <translation>Sunucuyla bağlantı kesildi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1069"/>
         <location filename="../mainwindow.cpp" line="1071"/>
         <source>%1 has logged in</source>
-        <translation>%1 oturum açtı</translation>
+        <translation>%1 giriş yaptı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
         <location filename="../mainwindow.cpp" line="1089"/>
         <source>%1 has logged out</source>
-        <translation>%1 oturumu kapattı</translation>
+        <translation>%1 sunucudan ayrıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2749"/>
@@ -2632,53 +2591,53 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="979"/>
         <location filename="../mainwindow.cpp" line="982"/>
         <source>Kicked from server</source>
-        <translation type="unfinished"></translation>
+        <translation>sunucudan atıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="980"/>
         <source>You have been kicked from server by %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 tarafından sunucudan atıldınız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="983"/>
         <source>You have been kicked from server by unknown user</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilinmeyen bir kullanıcı tarafından sunucudan atıldınız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="999"/>
         <location filename="../mainwindow.cpp" line="1002"/>
         <source>Kicked from channel</source>
-        <translation type="unfinished"></translation>
+        <translation>kanaldan atıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1000"/>
         <source>You have been kicked from channel by %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 tarafından kanaldan atıldınız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1003"/>
         <source>You have been kicked from channel by unknown user</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilinmeyen bir kullanıcı tarafından kanaldan atıldınız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1114"/>
         <source>%1 joined root channel</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 kök kanala katıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1120"/>
         <source>%1 joined channel %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1, %2 kanalına katıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1151"/>
         <source>%1 left root channel</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 kök kanaldan ayrıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1155"/>
         <source>%1 left channel %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1, %2 kanalından ayrıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
@@ -2730,7 +2689,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1282"/>
         <source>Internal message queue overloaded</source>
-        <translation>İç ileti sıralaması aşırı yüklü</translation>
+        <translation>iç mesaj kuyruğu aşırı yüklendi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1288"/>
@@ -2745,22 +2704,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1344"/>
         <source>Error streaming media file to channel</source>
-        <translation>Kanala ortam dosyası akıtılırken hata</translation>
+        <translation>Kanala medya dosyası akıtılırken hata</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
         <source>Started streaming media file to channel</source>
-        <translation>Kanala ortam dosyası akıtılmaya başladı</translation>
+        <translation>Kanala medya dosyası yayımı başladı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
         <source>Finished streaming media file to channel</source>
-        <translation>Kanala ortam dosyasının akıtılması bitti</translation>
+        <translation>Kanala medya dosyası yayımı bitti</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1355"/>
         <source>Aborted streaming media file to channel</source>
-        <translation>Kanala ortam dosyasının akıtılmasından vazgeçildi</translation>
+        <translation>Kanala medya dosyası yayımından vazgeçildi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1403"/>
@@ -2806,12 +2765,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1805"/>
         <source>Cannot join channel %1</source>
-        <translation>%1 kanalına katılınamıyor</translation>
+        <translation>%1 kanalına katılamadı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1185"/>
         <source>%1 set question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 soru modu ayarladı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1890"/>
@@ -2852,22 +2811,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2004"/>
         <source>Syntax error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sözdizimi hatası</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2006"/>
         <source>Unknown command</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilinmeyen komut</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2008"/>
         <source>The server uses a protocol which is incompatible with the client instance</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu, istemci örneğiyle uyumlu olmayan bir protokol kullanıyor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2010"/>
         <source>Unknown audio codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilinmeyen ses kodlayıcısı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2012"/>
@@ -2929,7 +2888,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2077"/>
         <source>Command not authorized</source>
-        <translation>Komuta yetkili değil</translation>
+        <translation>Komuta yetki verilmedi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2080"/>
@@ -2949,17 +2908,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2086"/>
         <source>Incorrect channel operator password</source>
-        <translation>Yanlış kanal işletmeci parolası</translation>
+        <translation>Yanlış kanal yönetici parolası</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2088"/>
         <source>The maximum number of channels has been exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>En fazla kanal sayısı aşıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2090"/>
         <source>Command flooding prevented by server</source>
-        <translation type="unfinished"></translation>
+        <translation>Komut taşması Sunucu tarafından önlendi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2094"/>
@@ -2969,7 +2928,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2096"/>
         <source>Cannot perform action because client is currently not logged in</source>
-        <translation>Eylem gerçekleştirilemiyor çünkü istemci şu anda oturum açmış değil</translation>
+        <translation>İstemci şu anda oturum açmadığından eylem gerçekleştirilemiyor.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2099"/>
@@ -2989,17 +2948,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2110"/>
         <source>Server failed to open file</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu dosyayı açamadı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2112"/>
         <source>The login service is currently unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Oturum açma hizmeti şu anda kullanılamıyor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2114"/>
         <source>This channel cannot be hidden</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu kanal gizlenemez</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2116"/>
@@ -3009,7 +2968,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2118"/>
         <source>Cannot leave channel because not in channel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanalda olmadığı için kanaldan çıkılamıyor.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2120"/>
@@ -3039,12 +2998,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2130"/>
         <source>File sharing is disabled</source>
-        <translation>Dosya paylaşımı etkisizleştirildi</translation>
+        <translation>Dosya paylaşımı devre dışı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2132"/>
         <source>Channel has active users</source>
-        <translation>Kanal etkin kullanıcılara sahip</translation>
+        <translation>Kanalda etkin kullanıcılar var</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2137"/>
@@ -3059,12 +3018,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4051"/>
         <source>No Sound Device</source>
-        <translation type="unfinished">Ses Aygıtı Yok</translation>
+        <translation>Ses Aygıtı Yok</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4077"/>
         <source>&amp;Refresh Sound Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ses aygıtlarını Yenile</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="742"/>
@@ -3116,24 +3075,24 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2740"/>
         <location filename="../mainwindow.cpp" line="2752"/>
         <source>Joined classroom channel %1</source>
-        <translation>%1 sınıf kanalına katılındı</translation>
+        <translation>%1 sınıf kanalına katıldınız.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2790"/>
         <location filename="../mainwindow.cpp" line="2802"/>
         <source>Left classroom channel %1</source>
-        <translation>%1 sınıf kanalından ayrılındı</translation>
+        <translation>%1 sınıf kanalından ayrıldınız.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2794"/>
         <location filename="../mainwindow.cpp" line="2806"/>
         <source>Left channel %1</source>
-        <translation>%1 kanalından ayrılındı</translation>
+        <translation>%1 kanalından ayrıldınız.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4448"/>
         <source>Voice for %1 disabled</source>
-        <translation>%1 için ses etkisizleştirildi</translation>
+        <translation>%1 için ses devre dışı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4450"/>
@@ -3143,22 +3102,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4467"/>
         <source>Media files for %1 disabled</source>
-        <translation>%1 için ortam dosyaları etkisizleştirildi</translation>
+        <translation>%1 için medya dosyaları devre dışı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4469"/>
         <source>Media files for %1 enabled</source>
-        <translation>%1 için ortam dosyaları etkinleştirildi</translation>
+        <translation>%1 için medya dosyaları etkinleştirildi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4485"/>
         <source>Master volume disabled</source>
-        <translation>Ana düzey etkisizleştirildi</translation>
+        <translation>Ana ses düzeyi devre dışı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4490"/>
         <source>Master volume enabled</source>
-        <translation>Ana düzey etkinleştirildi</translation>
+        <translation>Ana ses düzeyi etkinleştirildi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4619"/>
@@ -3173,12 +3132,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4645"/>
         <source>Media files volume for %1 increased to %2%</source>
-        <translation>%1 için ortam dosyaları düzeyi %2% değerine artırıldı</translation>
+        <translation>%1 için medya dosyaları düzeyi %2% değerine artırıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4658"/>
         <source>Media files volume for %1 decreased to %2%</source>
-        <translation>%1 için ortam dosyaları düzeyi %2% değerine azaltıldı</translation>
+        <translation>%1 için medya dosyaları düzeyi %2% değerine azaltıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4677"/>
@@ -3230,12 +3189,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="5994"/>
         <source>You can now transmit mediafiles!</source>
-        <translation>Şimdi ortam dosyaları iletebilirsiniz!</translation>
+        <translation>Şimdi medya dosyaları iletebilirsiniz!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5996"/>
         <source>You can no longer transmit mediafiles!</source>
-        <translation>Artık ortam dosyaları iletemezsiniz!</translation>
+        <translation>Artık medya dosyaları iletemezsiniz!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6608"/>
@@ -3262,31 +3221,33 @@ p, li { white-space: pre-wrap; }
         <source>New version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation>Yeni sürüm kullanılabilir: %1&lt;byte value=&quot;xd&quot;/&gt;
-Onu aşağıdaki sayfadan indirebilirsiniz:&lt;byte value=&quot;xd&quot;/&gt;
+        <translation>Yeni sürüm mevcut: %1<byte value="xd"/>
+Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
 %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6825"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 uygulamasının yeni bir beta sürümü mevcut: %2. İndirme sayfasını şimdi açmak istiyor musunuz?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6830"/>
         <source>New beta version available</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni beta sürümü mevcut</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6837"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni beta sürümü mevcut: %1<byte value="xd"/>
+Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6913"/>
         <source>No available voices found for Text-To-Speech</source>
-        <translation>Metin okuma için kullanılabilir sesler bulunamadı</translation>
+        <translation>Metin-Konuşma için uygun ses bulunamadı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2429"/>
@@ -3296,22 +3257,22 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="971"/>
         <source>Kicked from server by %1</source>
-        <translation>%1 tarafından sunucudan uzaklaştırıldı</translation>
+        <translation>%1 tarafından sunucudan atıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="974"/>
         <source>Kicked from server by unknown user</source>
-        <translation>Bilinmeyen kullanıcı tarafından sunucudan uzaklaştırıldı</translation>
+        <translation>Bilinmeyen kullanıcı tarafından sunucudan atıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="991"/>
         <source>Kicked from channel by %1</source>
-        <translation>%1 tarafından kanaldan uzaklaştırıldı</translation>
+        <translation>%1 tarafından kanaldan atıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="994"/>
         <source>Kicked from channel by unknown user</source>
-        <translation>Bilinmeyen kullanıcı tarafından kanaldan uzaklaştırıldı</translation>
+        <translation>Bilinmeyen kullanıcı tarafından kanaldan atıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2023"/>
@@ -3325,7 +3286,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="5461"/>
         <location filename="../mainwindow.cpp" line="5484"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;İptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2528"/>
@@ -3357,7 +3318,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="2744"/>
         <location filename="../mainwindow.cpp" line="2756"/>
         <source>Joined channel %1</source>
-        <translation>Katılınan kanal %1</translation>
+        <translation>%1 kanalına katıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2868"/>
@@ -3377,12 +3338,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="2983"/>
         <source>Microphone gain is controlled by channel</source>
-        <translation>Mikrofon kazancı kanal tarafından denetlenir</translation>
+        <translation>Mikrofon kazancı kanal tarafından denetleniyor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3359"/>
         <source>Failed to stream media file %1</source>
-        <translation>%1 ortam dosyasını akıtma başarısız</translation>
+        <translation>%1 medya dosyası yayımlama başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3519"/>
@@ -3402,27 +3363,27 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="3698"/>
         <source>Text messages blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Metin iletileri Kanal yöneticisi tarafından engellendi </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3702"/>
         <source>Voice transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses iletimi kanal yöneticisi tarafından engellendi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3706"/>
         <source>Media file transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Medya dosyası iletimi kanal yöneticisi tarafından engellendi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3710"/>
         <source>Video transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Video iletimi kanal yöneticisi tarafından engellendi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3714"/>
         <source>Desktop transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Masaüstü iletimi kanal yöneticisi tarafından engellendi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3758"/>
@@ -3459,7 +3420,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="4157"/>
         <source>Specify new nickname for current server</source>
-        <translation type="unfinished"></translation>
+        <translation>Mevcut sunucu için yeni rumuz belirtin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4159"/>
@@ -3469,52 +3430,52 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="4276"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Video cihazı düzgün yapılandırılmamış. Tercihler'deki ayarları kontrol edin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4405"/>
         <source>Sound events enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses olayları etkin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4410"/>
         <source>Sound events disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses olayları devre dışı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5082"/>
         <source>Sort By...</source>
-        <translation type="unfinished"></translation>
+        <translation>Şuna göre sırala...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5083"/>
         <source>&amp;Name</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;ad</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5084"/>
         <source>&amp;Size</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Boyut</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5085"/>
         <source>&amp;Owner</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;sahibi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5086"/>
         <source>&amp;Upload Date</source>
-        <translation type="unfinished"></translation>
+        <translation>Yükleme &amp;tarihi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6008"/>
         <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
-        <translation>Video aygıt özelliği yapılandırılamadı. &apos;Tercihler&apos;den ayarları denetleyin</translation>
+        <translation>Video aygıtı özelliği yapılandırılmamış. Tercihler'deki ayarları kontrol edin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4287"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
-        <translation>Video kodlayıcı/çözücüsünü yapılandırma başarısız. &apos;Tercihler&apos;den ayarları denetleyin</translation>
+        <translation>Video kodlayıcı bileşeni yapılandırılamadı. Tercihler'deki ayarları denetleyin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4333"/>
@@ -3524,28 +3485,28 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="4352"/>
         <source>Failed to start desktop sharing</source>
-        <translation>Masaüstü paylaşımına başlama başarısız</translation>
+        <translation>Masaüstü paylaşımını başlatma başarısız</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4390"/>
         <source>Text-To-Speech enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Metin-Konuşma etkin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4395"/>
         <source>Text-To-Speech disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Metin-Konuşma devre dışı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4770"/>
         <location filename="../mainwindow.cpp" line="4783"/>
         <source>Failed to issue command to create channel</source>
-        <translation>Kanal oluşturma komutunu sonuçlandırma başarısız</translation>
+        <translation>Kanal oluşturma komutu verilemedi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4797"/>
         <source>Failed to issue command to update channel</source>
-        <translation>Kanal güncelleştirme komutunu sonuçlandırma başarısız</translation>
+        <translation>Kanalı güncelleme komutu verilemedi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4810"/>
@@ -3555,7 +3516,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="4822"/>
         <source>Failed to issue command to delete channel</source>
-        <translation>Kanal silme komutunu sonuçlandırma başarısız</translation>
+        <translation>Kanalı silme komutu verilemedi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4852"/>
@@ -3566,12 +3527,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="4867"/>
         <source>Failed to issue command to join channel</source>
-        <translation>Kanala katılma komutunu sonuçlandırma başarısız</translation>
+        <translation>Kanala katılma komutu verilemedi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4955"/>
         <source>Nobody is active in this channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu kanalda kimse aktif değil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5001"/>
@@ -3622,100 +3583,100 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="4912"/>
         <location filename="../mainwindow.cpp" line="5331"/>
         <source>Talking</source>
-        <translation type="unfinished"></translation>
+        <translation>konuşuyor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5331"/>
         <source>Mute</source>
-        <translation type="unfinished"></translation>
+        <translation>sustur</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4923"/>
         <location filename="../mainwindow.cpp" line="5331"/>
         <source>Streaming</source>
-        <translation type="unfinished"></translation>
+        <translation>Yayımlanıyor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5331"/>
         <source>Mute media file</source>
-        <translation type="unfinished"></translation>
+        <translation>Medya dosyasını sustur</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4934"/>
         <location filename="../mainwindow.cpp" line="5331"/>
         <source>Webcam</source>
-        <translation type="unfinished"></translation>
+        <translation>Web kamerası</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4945"/>
         <location filename="../mainwindow.cpp" line="5331"/>
         <source>Desktop</source>
-        <translation type="unfinished">Masaüstü</translation>
+        <translation>Masaüstü</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5331"/>
         <source>Channel Operator</source>
-        <translation type="unfinished">Kanal İşletmecisi</translation>
+        <translation>Kanal yöneticisi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5331"/>
         <source>Selected for move</source>
-        <translation type="unfinished"></translation>
+        <translation>taşıma için seçildi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5335"/>
         <source>Administrator</source>
-        <translation type="unfinished">Yönetici</translation>
+        <translation>Yönetici</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5339"/>
         <source>User</source>
-        <translation type="unfinished">Kullanıcı</translation>
+        <translation>Kullanıcı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5357"/>
         <source>Online</source>
-        <translation type="unfinished"></translation>
+        <translation>Çevrim içi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5360"/>
         <source>Away</source>
-        <translation type="unfinished">Uzakta</translation>
+        <translation>Uzakta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5363"/>
         <source>Question</source>
-        <translation type="unfinished">Soru</translation>
+        <translation>Soru</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5388"/>
         <source>Channel</source>
-        <translation type="unfinished">Kanal</translation>
+        <translation>Kanal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5388"/>
         <source>Password protected</source>
-        <translation type="unfinished"></translation>
+        <translation>Parola korumalı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5388"/>
         <source>Classroom</source>
-        <translation type="unfinished"></translation>
+        <translation>Sınıf</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5388"/>
         <source>Hidden</source>
-        <translation type="unfinished"></translation>
+        <translation>Giçli</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5409"/>
         <source>Topic: %1</source>
-        <translation type="unfinished">Konu: %1</translation>
+        <translation>Konu: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5412"/>
         <source>%1 files</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 dosya</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5480"/>
@@ -3740,7 +3701,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="5641"/>
         <source>&amp;Leave Channel</source>
-        <translation>Kanaldan &amp;Ayrıl</translation>
+        <translation>Kanaldan Ayrı&amp;l</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5903"/>
@@ -3833,7 +3794,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="6580"/>
         <location filename="../mainwindow.cpp" line="6585"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
-        <translation>%1 &quot;%2&quot; aboneliğini değiştirdi: %3</translation>
+        <translation>%1, %2 aboneliğini %3 olarak değiştirdi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6452"/>
@@ -3932,13 +3893,13 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="6719"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
-        <translation>%1 dosyası %2 ayarlama bilgisi içeriyor.&lt;byte value=&quot;xd&quot;/&gt;
-Bu ayarlar uygulansın mı?</translation>
+        <translation>%1 dosyası %2 kurulum bilgisi içeriyor.<byte value="xd"/>
+Bu ayarlar uygulanmalı mı?</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="32"/>
         <source>NoName</source>
-        <translation>Ad Yok</translation>
+        <translation>Adsız</translation>
     </message>
 </context>
 <context>
@@ -3981,7 +3942,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../mediastorage.ui" line="67"/>
         <source>Media files</source>
-        <translation>Ortam dosyaları</translation>
+        <translation>Medya dosyaları</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="78"/>
@@ -3997,7 +3958,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../mediastorage.ui" line="119"/>
         <source>Store text message conversations</source>
-        <translation>Metin iletili görüşmeleri depola</translation>
+        <translation>Metin mesajı konuşmalarını sakla</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="125"/>
@@ -4029,7 +3990,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../mediastorage.ui" line="203"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;İptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="116"/>
@@ -4044,7 +4005,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../mediastoragedlg.cpp" line="129"/>
         <source>No stream type has been selected as audio input for recording</source>
-        <translation>Kaydetme için ses girişi olarak seçilen akış yok</translation>
+        <translation>Kayıt için ses girişi olarak hiçbir akış türü seçilmedi</translation>
     </message>
 </context>
 <context>
@@ -4063,7 +4024,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../onlineusers.ui" line="54"/>
         <source>Keep disconnected users</source>
-        <translation type="unfinished"></translation>
+        <translation>Bağlantısı kesilmiş kullanıcıları tut</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="114"/>
@@ -4073,32 +4034,32 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../onlineusersdlg.cpp" line="115"/>
         <source>M&amp;essages</source>
-        <translation>İlet&amp;iler</translation>
+        <translation>&amp;İletiler</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="118"/>
         <source>&amp;Op</source>
-        <translation>İşletme&amp;ci</translation>
+        <translation>Kanal y&amp;öneticisi</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="119"/>
         <source>&amp;Kick</source>
-        <translation>&amp;Uzaklaştır</translation>
+        <translation>&amp;At</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="120"/>
         <source>Kick and &amp;Ban</source>
-        <translation>Uzaklaştır ve &amp;Yasakla</translation>
+        <translation>At ve &amp;Yasakla</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="121"/>
         <source>Select User(s) for Move</source>
-        <translation type="unfinished"></translation>
+        <translation>Taşıma için Kullanıcıları Seçin</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="192"/>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
-        <translation type="unfinished">Kimlik: %1, Rumuz: %2, Durum iletisi: %3, Kullanıcı adı: %4, Kanal: %5, IP adresi: %6, Sürüm: %7</translation>
+        <translation>Kimlik: %1, Rumuz: %2, Durum iletisi: %3, Kullanıcı adı: %4, Kanal: %5, IP adresi: %6, Sürüm: %7</translation>
     </message>
 </context>
 <context>
@@ -4184,7 +4145,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="206"/>
         <source>BearWare.dk Web Login ID</source>
-        <translation>BearWare.dk Web Oturumu Kimliği</translation>
+        <translation>BearWare.dk Web girişi Kimliği</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="223"/>
@@ -4194,27 +4155,27 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="156"/>
         <source>Set away status after</source>
-        <translation>Uzakta durumunu</translation>
+        <translation>Şu süre sonunda uzakta durumuna ayarla (0 devre dışı anlamına gelir):</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="132"/>
         <source>Neutral</source>
-        <translation>Cinsiyetsiz</translation>
+        <translation>Doğal</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="173"/>
         <source>seconds of inactivity (0 means disabled)</source>
-        <translation>etkisizlik saniyesinden sonra ayarla (0 etkisizleştirildi demektir)</translation>
+        <translation>hareketsiz saniyeler</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="198"/>
         <source>BearWare.dk Web Login</source>
-        <translation>BearWare.dk Web Oturumu</translation>
+        <translation>BearWare.dk Web girişi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="245"/>
         <source>Restore volume settings and subscriptions on login for Web Login users</source>
-        <translation>Web Oturumu kullanıcıları için oturum açmada düzey ayarlarını ve abonelikleri geri yükle</translation>
+        <translation>Web Girişi kullanıcıları için oturum açarken ses düzeyi ayarlarını ve abonelikleri geri yükle</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="255"/>
@@ -4238,7 +4199,7 @@ Bu ayarlar uygulansın mı?</translation>
         <location filename="../preferences.ui" line="2435"/>
         <location filename="../preferences.ui" line="2462"/>
         <source>&amp;Setup Keys</source>
-        <translation>Tuşları &amp;Ayarla</translation>
+        <translation>Tu&amp;şları Ayarla</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="281"/>
@@ -4248,27 +4209,27 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="308"/>
         <source>Voice activated</source>
-        <translation>Ses etkinleştirme</translation>
+        <translation>Ses etkin</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="332"/>
         <source>Display</source>
-        <translation>Görüntü</translation>
+        <translation>Görünüm</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="338"/>
         <source>User Interface Settings</source>
-        <translation>Kullanıcı Arabirimi Ayarları</translation>
+        <translation>Kullanıcı Arayüzü Ayarları</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="350"/>
         <source>User interface language</source>
-        <translation>Kullanıcı arabirimi dili</translation>
+        <translation>Kullanıcı arayüzü dili</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="365"/>
         <source>Start minimized</source>
-        <translation>Küçültüp başlat</translation>
+        <translation>Simge durumunda başlat</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="372"/>
@@ -4283,7 +4244,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="386"/>
         <source>Enable VU-meter updates</source>
-        <translation>VU meter güncelleştirmelerini etkinleştir</translation>
+        <translation>VU meter güncellemelerini etkinleştir</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="393"/>
@@ -4293,12 +4254,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="400"/>
         <source>Show username instead of nickname</source>
-        <translation>Rumuzun yerine kullanıcı adını göster</translation>
+        <translation>Rumuz yerine kullanıcı adını göster</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="407"/>
         <source>Show last to talk in yellow</source>
-        <translation>Son konuşanı sarı göster</translation>
+        <translation>Son konuşanı sarıyla göster</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="414"/>
@@ -4342,11 +4303,11 @@ Bu ayarlar uygulansın mı?</translation>
     </message>
     <message>
         <source>Show user logs in/out in chat history</source>
-        <translation type="vanished">Sohbet geçmişinde kullanıcının oturum açmasını/kapatmasını göster</translation>
+        <translation>Sohbet geçmişinde kullanıcı giriş / çıkışlarını göster</translation>
     </message>
     <message>
         <source>Check for program updates at startup</source>
-        <translation type="vanished">Başlangıçta program güncelleştirmelerini denetle</translation>
+        <translation>Başlangıçta program güncellemelerini denetle</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="676"/>
@@ -4454,7 +4415,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="844"/>
         <source>Media Files</source>
-        <translation>Ortam Dosyaları</translation>
+        <translation>Medya Dosyaları</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="869"/>
@@ -4492,12 +4453,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1005"/>
         <source>Windows Audio Session</source>
-        <translation>Windows Audio Session</translation>
+        <translation>Windows Ses Oturumu</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1012"/>
         <source>DirectSound</source>
-        <translation>DirectSound</translation>
+        <translation>Doğrudan ses</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1019"/>
@@ -4512,7 +4473,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1033"/>
         <source>CoreAudio</source>
-        <translation>CoreAudio</translation>
+        <translation>çekirdek ses</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1057"/>
@@ -4553,7 +4514,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1205"/>
         <source>Media file vs. voice volume</source>
-        <translation>Ortam dosyası-ses düzeyi oranı</translation>
+        <translation>Medya dosyası-ses düzeyi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1242"/>
@@ -4612,7 +4573,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1481"/>
         <source>New broadcast message</source>
-        <translation>Yeni yayınlanan ileti</translation>
+        <translation>Yeni yayın iletisi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1314"/>
@@ -4622,12 +4583,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="557"/>
         <source>Configure events</source>
-        <translation type="unfinished"></translation>
+        <translation>Olayları yapılandır</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1282"/>
         <source>Sounds pack</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses paketi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1343"/>
@@ -4662,7 +4623,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1550"/>
         <source>Files updated</source>
-        <translation>Dosyalar güncelleştirildi</translation>
+        <translation>Dosyalar güncellendi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1573"/>
@@ -4692,62 +4653,62 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1692"/>
         <source>User logged in</source>
-        <translation>Kullanıcı oturum açtı</translation>
+        <translation>Kullanıcı giriş yaptı</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1715"/>
         <source>User logged out</source>
-        <translation>Kullanıcı oturumu kapattı</translation>
+        <translation>Kullanıcı ayrıldı</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1738"/>
         <source>Voice activation enabled</source>
-        <translation>Ses etkinleştirme etkinleştirildi</translation>
+        <translation>Ses etkin</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1761"/>
         <source>Voice activation disabled</source>
-        <translation>Ses etkinleştirme etkisizleştirildi</translation>
+        <translation>Ses devre dışı</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1784"/>
         <source>Mute master volume</source>
-        <translation>Ana düzeyi sessize al</translation>
+        <translation>Ana sesi sustur</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1807"/>
         <source>Unmute master volume</source>
-        <translation>Ana düzeyin sesini aç</translation>
+        <translation>Ana sesi aç</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1830"/>
         <source>Transmit ready in &quot;No interruption&quot; channel</source>
-        <translation>&quot;Söz kesintisi yok&quot; kanalı iletime hazır</translation>
+        <translation>&quot;kesintisiz&quot; kanalı iletime hazır</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1853"/>
         <source>Transmit stopped in &quot;No interruption&quot; channel</source>
-        <translation>&quot;Söz kesintisi yok&quot; kanalındaki iletimin durdurulması</translation>
+        <translation>&quot;kesintisiz&quot; kanalındaki iletim durduruldu</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1876"/>
         <source>Voice activation triggered</source>
-        <translation>Ses etkinleştirmenin tetiklenmesi</translation>
+        <translation>Ses etkinleştirme tetiklendi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1899"/>
         <source>Voice activation stopped</source>
-        <translation>Ses etkinleştirmenin durdurulması</translation>
+        <translation>Ses devre dışı</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1922"/>
         <source>Voice activation enabled via &quot;Me&quot; menu</source>
-        <translation>Ses etkinleştirmenin &quot;Ben&quot; menüsü üzerinden etkinleştirilmesi</translation>
+        <translation>Ses &quot;Ben&quot; menüsünden etkinleştirildi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1945"/>
         <source>Voice activation disabled via &quot;Me&quot; menu</source>
-        <translation>Ses etkinleştirmenin &quot;Ben&quot; menüsü üzerinden etkisizleştirilmesi</translation>
+        <translation>Ses &quot;Ben&quot; menüsünden devre dışı bırakıldı</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1989"/>
@@ -4757,7 +4718,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1995"/>
         <source>Enable/disable Text to Speech Events</source>
-        <translation>Metin okuma olaylarını etkinleştir/etkisizleştir</translation>
+        <translation>Metin okuma olayları etkin/devre dışı</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2025"/>
@@ -4767,7 +4728,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="2045"/>
         <source>C&amp;lear all</source>
-        <translation>Tümünü t&amp;emizle</translation>
+        <translation>Tümünü &amp;temizle</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2065"/>
@@ -4802,7 +4763,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="2191"/>
         <source>Use SAPI instead of current screenreader</source>
-        <translation type="unfinished"></translation>
+        <translation>Mevcut ekran okuyucu yerine SAPI kullanın</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2215"/>
@@ -4817,22 +4778,22 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="2229"/>
         <source>Enable/disable voice activation</source>
-        <translation>Ses etkinleştirmeyi etkinleştir/etkisizleştir</translation>
+        <translation>Sesi etkinleştir/kapat</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2256"/>
         <source>Increase volume</source>
-        <translation>Düzeyi artır</translation>
+        <translation>ses düzeyini artır</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2283"/>
         <source>Lower volume</source>
-        <translation>Düzeyi azalt</translation>
+        <translation>Ses düzeyini azalt</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2310"/>
         <source>Enable/disable mute all</source>
-        <translation>Tümünü sessize almayı etkinleştir/etkisizleştir</translation>
+        <translation>Tümünü sustur/aç</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2337"/>
@@ -4847,16 +4808,16 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="2391"/>
         <source>Enable/disable video transmission</source>
-        <translation>Video iletimini etkinleştir/etkisizleştir</translation>
+        <translation>Video iletimini etkinleştir/kapat</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2445"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Ana pencereyi göster/gizle</translation>
     </message>
     <message>
         <source>Setup Keys</source>
-        <translation type="vanished">Tuşları Ayarla</translation>
+        <translation>Tuşları Ayarla</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2497"/>
@@ -4939,12 +4900,12 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="462"/>
         <source>Open Wave File</source>
-        <translation>Dalga Dosyası Aç</translation>
+        <translation>Wave Dosyası Aç</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="463"/>
         <source>Wave files (*.wav)</source>
-        <translation>Dalga dosyaları (*.wav)</translation>
+        <translation>Wave dosyaları (*.wav)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="888"/>
@@ -4981,7 +4942,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="74"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;İptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="498"/>
@@ -5002,32 +4963,32 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="561"/>
         <source>Do nothing</source>
-        <translation type="unfinished"></translation>
+        <translation>Hiçbir şey yapma</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="562"/>
         <source>Join only</source>
-        <translation type="unfinished"></translation>
+        <translation>Yalnızca katıl</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="563"/>
         <source>Leave only</source>
-        <translation type="unfinished"></translation>
+        <translation>Yalnızca ayrıl</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="564"/>
         <source>Join or leave</source>
-        <translation type="unfinished"></translation>
+        <translation>Katıl veya ayrıl</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="568"/>
         <source>Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>artan</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="569"/>
         <source>Popularity</source>
-        <translation type="unfinished"></translation>
+        <translation>Popülerlik</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="657"/>
@@ -5075,7 +5036,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="1341"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
-        <translation>Bu ses aygıtı yapılandırması, yetersiz yankı iptali sağlıyor. Ayrıntılar için kılavuza bakın.</translation>
+        <translation>Bu ses aygıtı yapılandırması yetersiz yankı iptali sağlıyor. Ayrıntılar için kılavuza bakın.</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1359"/>
@@ -5085,7 +5046,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="1657"/>
         <source>Use SAPI instead of %1 screenreader</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 ekran okuyucu yerine SAPI kullanın</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1736"/>
@@ -5105,57 +5066,57 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../preferences.ui" line="298"/>
         <source>Press to transmit.  Press to stop transmit</source>
-        <translation type="unfinished"></translation>
+        <translation>İletmek için basın. İletimi durdurmak için basın</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="301"/>
         <source>Push To Talk Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>Bas Konuş Kilidi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="493"/>
         <source>Auto expand channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanalları otomatik genişlet</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="502"/>
         <source>Double click on a channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir kanala çift tıklayın</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="519"/>
         <source>Sort channels by</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanalları şuna göre sırala</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="534"/>
         <source>Close dialog box when a file transfer is finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya aktarımı tamamlandığında iletişim kutusunu kapat</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="541"/>
         <source>Show a dialog box when excluded from channel or server</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal veya sunucunun dışında bırakıldığında bir iletişim kutusu göster</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="662"/>
         <source>Check for software updates on startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Başlangıçta yazılım güncellemelerini denetle</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="669"/>
         <source>Check for beta software updates on startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Başlangıçta beta yazılım güncellemelerini denetle</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2184"/>
         <source>Speak selected item in lists</source>
-        <translation type="unfinished"></translation>
+        <translation>Listelerde seçili öğeyi söyle</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2418"/>
         <source>Reinitialize sound devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses aygıtlarını yeniden başlat</translation>
     </message>
 </context>
 <context>
@@ -5217,16 +5178,16 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverlist.ui" line="76"/>
         <source>Include official servers (blue ones)</source>
-        <translation type="unfinished"></translation>
+        <translation>Resmi sunucuları dahil et (mavi olanlar)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="83"/>
         <source>Include public servers (green ones)</source>
-        <translation>Kamu sunucularını kapsa (yeşil olanlar)</translation>
+        <translation>Genel sunucuları kapsa (yeşil olanlar)</translation>
     </message>
     <message>
         <source>&amp;Delete</source>
-        <translation type="vanished">&amp;Sil</translation>
+        <translation>&amp;Sil</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="101"/>
@@ -5289,7 +5250,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverlist.ui" line="243"/>
         <source>Nickname (optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>Rumuz (isteğe bağlı)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="259"/>
@@ -5315,7 +5276,7 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverlist.ui" line="344"/>
         <source>Store Server Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu Bilgilerini Depola</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="352"/>
@@ -5325,13 +5286,13 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverlist.ui" line="391"/>
         <source>&amp;Save to Server List</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu Listesine &amp;Kaydet</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="405"/>
         <location filename="../serverlist.ui" line="408"/>
         <source>.tt files can be double-clicked and the client will automatically start and connect to the specified server</source>
-        <translation>.tt dosyaları çift tıklanabilir; istemci otomatik olarak başlayacak ve belirtilen sunucuya bağlanacak</translation>
+        <translation>.tt dosyaları çift tıklanabilir; istemci otomatik olarak başlar ve belirtilen sunucuya bağlanır</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="411"/>
@@ -5341,21 +5302,21 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverlist.ui" line="54"/>
         <source>&amp;Import .tt File</source>
-        <translation>.tt Dosyasını İ&amp;çe Aktar</translation>
+        <translation>.tt Dosyasını i&amp;çe Aktar</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="90"/>
         <source>Include unofficial servers (orange ones)</source>
-        <translation type="unfinished"></translation>
+        <translation>Resmi olmayan sunucuları dahil et (turuncu olanlar)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="398"/>
         <source>Publish Publicly</source>
-        <translation type="unfinished"></translation>
+        <translation>Herkese Açık Olarak Yayınla</translation>
     </message>
     <message>
         <source>&amp;Save</source>
-        <translation type="vanished">&amp;Kaydet</translation>
+        <translation>&amp;Kaydet</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="369"/>
@@ -5394,28 +5355,28 @@ Bu ayarlar uygulansın mı?</translation>
     <message>
         <location filename="../serverlistdlg.cpp" line="468"/>
         <source>Failed to extract host-information from %1</source>
-        <translation>Ana bilgisayar bilgileri %1 üzerinden çıkartılamadı</translation>
+        <translation>Ana bilgisayar bilgileri %1 ögesinden çıkartılamadı</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="623"/>
         <location filename="../serverlistdlg.cpp" line="649"/>
         <source>Publish Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucuyu Yayınla</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="624"/>
         <source>Are you sure you want to publish the server named &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; adlı sunucuyu yayınlamak istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="650"/>
         <source>Failed to publish server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu yayınlanamadı.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="654"/>
         <source>Publish Server Completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu Yayınlama Tamamlandı</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="655"/>
@@ -5427,37 +5388,44 @@ The #teamtalkpublish# notification can be removed once
 the server has been verified.
 
 Delete the published user account to unregister your server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucunuzun özelliklerini, sunucu adında #teamtalkpublish# metnini içerecek şekilde güncelleyin.
+Bu, sunucunun sahibi olduğunuzu doğrulayacaktır.
+sunucunuz  doğrulandıktan sonra, birkaç dakika içinde görünecektir.
+
+#teamtalkpublish# bildirimi bir kez kaldırılabilir
+sunucu doğrulandı.
+
+Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="694"/>
         <source>Sort By...</source>
-        <translation type="unfinished"></translation>
+        <translation>Şuna göre sırala...</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="695"/>
         <source>De&amp;fault</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Varsayılan</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="696"/>
         <source>&amp;Name</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ad</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="697"/>
         <source>&amp;User Count</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kullanıcı Sayısı</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="698"/>
         <source>Country</source>
-        <translation type="unfinished"></translation>
+        <translation>Ülke</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="699"/>
         <source>&amp;Delete Selected Server</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Seçili Sunucuyu Sil</translation>
     </message>
 </context>
 <context>
@@ -5465,42 +5433,42 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="96"/>
         <source>Name</source>
-        <translation type="unfinished">Ad</translation>
+        <translation>Ad</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="97"/>
         <source>Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcılar</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="98"/>
         <source>Country</source>
-        <translation type="unfinished"></translation>
+        <translation>Ülke</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="132"/>
         <source>Local server, Name: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Yerel sunucu, Ad: %1</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="134"/>
         <source>Official server</source>
-        <translation type="unfinished"></translation>
+        <translation>Resmi sunucu</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="137"/>
         <source>Public server</source>
-        <translation type="unfinished"></translation>
+        <translation>Genel sunucu</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="140"/>
         <source>Unofficial server</source>
-        <translation type="unfinished"></translation>
+        <translation>resmi olmayan sunucu</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="143"/>
         <source>%1, Name: %2, Users: %3, Country: %4, MOTD: %5</source>
-        <translation type="unfinished"></translation>
+        <translation>%1, Ad: %2, Kullanıcılar: %3, Ülke: %4, Günün iletisi: %5</translation>
     </message>
 </context>
 <context>
@@ -5508,145 +5476,145 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="70"/>
         <source>Event</source>
-        <translation type="unfinished">Olay</translation>
+        <translation>Olay</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="71"/>
         <location filename="../serverlogeventsmodel.cpp" line="92"/>
         <location filename="../serverlogeventsmodel.cpp" line="150"/>
         <source>Enabled</source>
-        <translation type="unfinished">Etkinleştirildi</translation>
+        <translation>Etkin</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="92"/>
         <location filename="../serverlogeventsmodel.cpp" line="150"/>
         <source>Disabled</source>
-        <translation type="unfinished">Etkisizleştirildi</translation>
+        <translation>Devre dışı</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="97"/>
         <source>User connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı bağlandı</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="99"/>
         <source>User disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcının bağlantısı kesildi</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="101"/>
         <source>User logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı giriş yaptı</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="103"/>
         <source>User logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı Çıkış yaptı</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="105"/>
         <source>User login failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı girişi başarısız</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="107"/>
         <source>User connection timed out</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı bağlantısı zaman aşımına uğradı</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="109"/>
         <source>User kicked</source>
-        <translation type="unfinished"></translation>
+        <translation>kullanıcı atıldı</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="111"/>
         <source>User banned</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı yasaklandı</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="113"/>
         <source>User ban removed</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı yasağı kaldırıldı</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="115"/>
         <source>User status updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı durumu güncellendi</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="117"/>
         <source>User joined channel</source>
-        <translation type="unfinished">Kullanıcının kanala katılması</translation>
+        <translation>Kullanıcı kanala katıldı</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="119"/>
         <source>User left channel</source>
-        <translation type="unfinished">Kullanıcının kanaldan ayrılması</translation>
+        <translation>Kullanıcı kanaldan ayrıldı</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="121"/>
         <source>User moved to other channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı diğer kanala taşındı</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="123"/>
         <source>User sent private text message</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı özel metin iletisi gönderdi</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="125"/>
         <source>User sent custom text message</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı özel metin iletisi gönderdi</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="127"/>
         <source>User sent channel text message</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı kanal metin iletisi gönderdi</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="129"/>
         <source>User sent broadcast text message</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı metin iletisi yayımladı</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="131"/>
         <source>Channel created</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal oluşturuldu</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="133"/>
         <source>Channel updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal güncellendi</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="135"/>
         <source>Channel removed</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal kaldırıldı</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="137"/>
         <source>File uploaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya yüklendi</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="139"/>
         <source>File downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya indirildi</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="141"/>
         <source>File deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya silindi</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="143"/>
         <source>Server updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu güncellendi</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="145"/>
         <source>Server configuration saved</source>
-        <translation type="unfinished">Sunucu yapılandırması kaydedildi</translation>
+        <translation>Sunucu yapılandırması kaydedildi</translation>
     </message>
 </context>
 <context>
@@ -5681,7 +5649,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>Günün iletisi değişkenleri: %users% sunucudaki kullanıcı sayısı, %admins% sunucudaki yönetici sayısı, %uptime% sunucunun çevrimiçi olma zamanı, %voicetx% alınan KBayt, %voicerx% gönderilen KBayt ve %lastuser% oturum açan son kullanıcı.</translation>
+        <translation>Günün iletisi değişkenleri: %users% sunucudaki kullanıcı sayısı, %admins% sunucudaki yönetici sayısı, %uptime% sunucunun çevrimiçi olma zamanı, %voicetx% alınan KB, %voicerx% gönderilen KB ve %lastuser% giriş yapan son kullanıcı.</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="119"/>
@@ -5720,7 +5688,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverproperties.ui" line="343"/>
         <location filename="../serverproperties.ui" line="370"/>
         <source>KBytes/sec (0 = disabled)</source>
-        <translation>KBayt/sn (0 = etkisizleştirildi)</translation>
+        <translation>KB/sn (0 = devre dışı)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="286"/>
@@ -5740,43 +5708,43 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="350"/>
         <source>Media File TX max</source>
-        <translation>En fazla ortam dosyası iletimi</translation>
+        <translation>En fazla Medya dosyası iletimi</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="380"/>
         <source>Server Abuse</source>
-        <translation>Sunucu Tacizi</translation>
+        <translation>Sunucu Kötüye Kullanımı</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="386"/>
         <source>Max login attempts before ban</source>
-        <translation>Yasaklanmadan önce en fazla oturum açma girişimi</translation>
+        <translation>Yasaklanmadan önce en fazla giriş  denemesi</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="406"/>
         <location filename="../serverproperties.ui" line="433"/>
         <source>(0 = disabled)</source>
-        <translation>(0 = etkisizleştirildi)</translation>
+        <translation>(0 = devre dışı)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="413"/>
         <source>Max logins per IP-address</source>
-        <translation>IP adresi başına en fazla oturum</translation>
+        <translation>IP adresi başına en fazla giriş</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="440"/>
         <source>Login delay per IP-address</source>
-        <translation>IP adresi başına oturum açma gecikmesi</translation>
+        <translation>IP adresi başına giriş gecikmesi</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="457"/>
         <source>msec (0 = disabled)</source>
-        <translation>ms (0 = etkisizleştirildi)</translation>
+        <translation>ms (0 = devre dışı)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="467"/>
         <source>Server Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu Günlüğü</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="498"/>
@@ -5796,7 +5764,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="43"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;İptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="52"/>
@@ -5834,12 +5802,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstats.ui" line="32"/>
         <source>Media File RX/TX</source>
-        <translation>Alınan/İletilen ortam dosyası</translation>
+        <translation>Alınan/İletilen medya dosyası</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="49"/>
         <source>KBytes/sec</source>
-        <translation>KBayt/sn</translation>
+        <translation>KB/sn</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="66"/>
@@ -5854,7 +5822,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverstats.ui" line="245"/>
         <location filename="../serverstats.ui" line="278"/>
         <source>KBytes</source>
-        <translation>KBayt</translation>
+        <translation>KB</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="83"/>
@@ -5864,7 +5832,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstats.ui" line="112"/>
         <source>Update interval</source>
-        <translation>Güncelleştirme aralığı</translation>
+        <translation>Güncelleme aralığı</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="143"/>
@@ -5894,7 +5862,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstats.ui" line="285"/>
         <source>Users served</source>
-        <translation>Kullanıcılar sunuldu</translation>
+        <translation>Hizmet verilen kullanıcılar</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="305"/>
@@ -5912,37 +5880,37 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.ui" line="14"/>
         <source>Configure status bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Durum çubuğunu yapılandır</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="20"/>
         <source>Enable/disable status bar events</source>
-        <translation type="unfinished"></translation>
+        <translation>Durum çubuğu olaylarını aç/kapat</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="50"/>
         <source>Enable &amp;all</source>
-        <translation type="unfinished">&amp;Tümünü etkinleştir</translation>
+        <translation>&amp;Tümünü etkinleştir</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="70"/>
         <source>C&amp;lear all</source>
-        <translation type="unfinished">Tümünü t&amp;emizle</translation>
+        <translation>Tümünü &amp;temizle</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="90"/>
         <source>&amp;Revert</source>
-        <translation type="unfinished">Geri a&amp;l</translation>
+        <translation>&amp;Geri al</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="37"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished">&amp;Tamam</translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="38"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;İptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
 </context>
 <context>
@@ -5950,170 +5918,170 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="84"/>
         <source>Event</source>
-        <translation type="unfinished">Olay</translation>
+        <translation>Olay</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="85"/>
         <location filename="../statusbareventsmodel.cpp" line="106"/>
         <location filename="../statusbareventsmodel.cpp" line="176"/>
         <source>Enabled</source>
-        <translation type="unfinished">Etkinleştirildi</translation>
+        <translation>Etkin</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="106"/>
         <location filename="../statusbareventsmodel.cpp" line="176"/>
         <source>Disabled</source>
-        <translation type="unfinished">Etkisizleştirildi</translation>
+        <translation>Devre dışı</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="111"/>
         <source>User logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı giriş yaptı</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="113"/>
         <source>User logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı çıkış yaptı</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="115"/>
         <source>User joined channel</source>
-        <translation type="unfinished">Kullanıcının kanala katılması</translation>
+        <translation>Kullanıcı kanala katıldı</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="117"/>
         <source>User left channel</source>
-        <translation type="unfinished">Kullanıcının kanaldan ayrılması</translation>
+        <translation>Kullanıcı kanaldan ayrıldı</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="119"/>
         <source>User join current channel</source>
-        <translation type="unfinished">Kullanıcının şu anki kanala katılması</translation>
+        <translation>Kullanıcı şu anki kanala katıldı</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="121"/>
         <source>User left current channel</source>
-        <translation type="unfinished">Kullanıcının şu anki kanaldan ayrılması</translation>
+        <translation>Kullanıcı şu anki kanaldan ayrıldı</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="123"/>
         <source>Subscription private text message changed</source>
-        <translation type="unfinished">Özel metin iletisi aboneliğinin değişmesi</translation>
+        <translation>Özel metin iletisi aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="125"/>
         <source>Subscription channel text message changed</source>
-        <translation type="unfinished">Kanal metin iletisi aboneliğinin değişmesi</translation>
+        <translation>Kanal metin iletisi aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="127"/>
         <source>Subscription broadcast text message changed</source>
-        <translation type="unfinished">Yayınlanan metin iletisi aboneliğinin değişmesi</translation>
+        <translation>Yayınlanan metin iletisi aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="129"/>
         <source>Subscription voice stream changed</source>
-        <translation type="unfinished">Ses akışı aboneliğinin değişmesi</translation>
+        <translation>Ses akışı aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="131"/>
         <source>Subscription webcam stream changed</source>
-        <translation type="unfinished">Web kamerası akışı aboneliğinin değişmesi</translation>
+        <translation>Web kamerası akışı aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="133"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation type="unfinished">Paylaşılan masaüstü akışı aboneliğinin değişmesi</translation>
+        <translation>Paylaşılan masaüstü akışı aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="135"/>
         <source>Subscription desktop access changed</source>
-        <translation type="unfinished">Masaüstü erişimi aboneliğinin değişmesi</translation>
+        <translation>Masaüstü erişimi aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="137"/>
         <source>Subscription media file stream changed</source>
-        <translation type="unfinished">Ortam dosyası akışı aboneliğinin değişmesi</translation>
+        <translation>Medya dosyası akışı aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="139"/>
         <source>Subscription intercept private text message changed</source>
-        <translation type="unfinished">Özel metin iletisini izleme aboneliğinin değişmesi</translation>
+        <translation>Özel metin iletisini izleme aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="141"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation type="unfinished">Kanal metin iletisini izleme aboneliğinin değişmesi</translation>
+        <translation>Kanal metin iletisini izleme aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="143"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation type="unfinished">Ses akışını izleme aboneliğinin değişmesi</translation>
+        <translation>Ses akışını izleme aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="145"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation type="unfinished">Web kamerası akışını izleme aboneliğinin değişmesi</translation>
+        <translation>Web kamerası akışını izleme aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="147"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation type="unfinished">Masaüstü akışını izleme aboneliğinin değişmesi</translation>
+        <translation>Masaüstü akışını izleme aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="149"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation type="unfinished">Ortam dosyası akışını izleme aboneliğinin değişmesi</translation>
+        <translation>Medya dosyası akışını izleme aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="151"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation type="unfinished">Sınıf kanal iletisi iletimine izin vermenin değişmesi</translation>
+        <translation>Sınıf kanal iletisi iletimi izni değişti</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="153"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation type="unfinished">Sınıf ses iletimine izin vermenin değişmesi</translation>
+        <translation>Sınıf ses iletimi izni değişti</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="155"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation type="unfinished">Sınıf web kamerası iletimine izin vermenin değişmesi</translation>
+        <translation>Sınıf web kamerası iletimi izni değişti</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="157"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation type="unfinished">Sınıf masaüstü iletimine izin vermenin değişmesi</translation>
+        <translation>Sınıf masaüstü iletimi izni değişti</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="159"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation type="unfinished">Sınıf ortam dosyası iletimine izin vermenin değişmesi</translation>
+        <translation>Sınıf medya dosyası iletimi izni değişti</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="161"/>
         <source>File added</source>
-        <translation type="unfinished">Dosya eklenmesi</translation>
+        <translation>Dosya eklendi</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="163"/>
         <source>File removed</source>
-        <translation type="unfinished">Dosya kaldırılması</translation>
+        <translation>Dosya kaldırıldı</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="165"/>
         <source>Save server configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu yapılandırmasını kaydet</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="167"/>
         <source>Start a recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir kayıt başlat</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="169"/>
         <source>Transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>İletim kanal yöneticisi tarafından engellendi</translation>
     </message>
 </context>
 <context>
@@ -6121,17 +6089,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="14"/>
         <source>Stream Media File To Channel</source>
-        <translation>Kanala Ortam Dosyası Akıt</translation>
+        <translation>Kanala medya Dosyası yayımla</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="20"/>
         <source>Media File Properties</source>
-        <translation>Ortam Dosyası Özellikleri</translation>
+        <translation>Medya Dosyası Özellikleri</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="28"/>
         <source>Media file</source>
-        <translation>Ortam dosyası</translation>
+        <translation>Medya dosyası</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="45"/>
@@ -6159,24 +6127,24 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafile.ui" line="79"/>
         <location filename="../streammediafile.ui" line="82"/>
         <source>Delete from history</source>
-        <translation type="unfinished"></translation>
+        <translation>Geçmişten sil</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="85"/>
         <source>&amp;D</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;D</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="96"/>
         <location filename="../streammediafile.ui" line="99"/>
         <location filename="../streammediafiledlg.cpp" line="186"/>
         <source>Clear history</source>
-        <translation type="unfinished"></translation>
+        <translation>Geçmişi temizle</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="102"/>
         <source>&amp;L</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;L</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="117"/>
@@ -6196,12 +6164,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="178"/>
         <source>Co&amp;ntinuously play media file</source>
-        <translation type="unfinished"></translation>
+        <translation>Medya dosyasını &amp;sürekli çal</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="188"/>
         <source>Playback Settings</source>
-        <translation>Kayıttan Oynatma Ayarları</translation>
+        <translation>Çalma Ayarları</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="196"/>
@@ -6220,16 +6188,12 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafiledlg.cpp" line="437"/>
         <location filename="../streammediafiledlg.cpp" line="470"/>
         <source>&amp;Play</source>
-        <translation>&amp;Oynat</translation>
-    </message>
-    <message>
-        <source>&amp;Continuously play media file</source>
-        <translation type="vanished">Ortam dosyasını &amp;sürekli oynat</translation>
+        <translation>&amp;Çal</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="209"/>
         <source>&amp;Setup</source>
-        <translation>&amp;Ayarla</translation>
+        <translation>&amp;Kur</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="236"/>
@@ -6240,14 +6204,14 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="267"/>
         <source>Test playback</source>
-        <translation>Kayıttan oynatmayı sına</translation>
+        <translation>Çalmayı sına</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="304"/>
         <location filename="../streammediafiledlg.cpp" line="318"/>
         <location filename="../streammediafiledlg.cpp" line="356"/>
         <source>Play</source>
-        <translation>Oynat</translation>
+        <translation>Çal</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="323"/>
@@ -6273,7 +6237,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="483"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;İptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="67"/>
@@ -6298,27 +6262,27 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafiledlg.cpp" line="140"/>
         <source>Open Media File</source>
-        <translation>Ortam Dosyası Aç</translation>
+        <translation>medya Dosyası Aç</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="142"/>
         <source>Media files %1</source>
-        <translation>Ortam dosyaları %1</translation>
+        <translation>medya dosyaları %1</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="181"/>
         <source>Are you sure you want to clear stream history?</source>
-        <translation type="unfinished"></translation>
+        <translation>Akış geçmişini temizlemek istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="182"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;Evet</translation>
+        <translation>&amp;Evet</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="183"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;Hayır</translation>
+        <translation>&amp;Hayır</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="218"/>
@@ -6356,7 +6320,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafiledlg.cpp" line="318"/>
         <location filename="../streammediafiledlg.cpp" line="356"/>
         <source>Failed to play media file</source>
-        <translation>Ortam dosyasını oynatma başarısız</translation>
+        <translation>medya dosyasını çalma başarısız</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="321"/>
@@ -6368,12 +6332,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafiledlg.cpp" line="364"/>
         <source>Stream</source>
-        <translation>Akıt</translation>
+        <translation>yayımla</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="364"/>
         <source>Failed to stream media file</source>
-        <translation>Ortam dosyasını akıtma başarısız</translation>
+        <translation>medya dosyasını yayımlama başarısız</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="411"/>
@@ -6400,193 +6364,193 @@ Delete the published user account to unregister your server.</source>
         <location filename="../ttseventsmodel.cpp" line="114"/>
         <location filename="../ttseventsmodel.cpp" line="199"/>
         <source>Enabled</source>
-        <translation>Etkinleştirildi</translation>
+        <translation>Etkin</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="114"/>
         <location filename="../ttseventsmodel.cpp" line="199"/>
         <source>Disabled</source>
-        <translation>Etkisizleştirildi</translation>
+        <translation>Devre dışı</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="119"/>
         <source>User logged in</source>
-        <translation>Kullanıcının oturum açması</translation>
+        <translation>Kullanıcı giriş yaptı</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="121"/>
         <source>User logged out</source>
-        <translation>Kullanıcının oturumu kapatması</translation>
+        <translation>Kullanıcı çıkış yaptı</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="123"/>
         <source>User joined channel</source>
-        <translation>Kullanıcının kanala katılması</translation>
+        <translation>Kullanıcı kanala katıldı</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="125"/>
         <source>User left channel</source>
-        <translation>Kullanıcının kanaldan ayrılması</translation>
+        <translation>Kullanıcı kanaldan ayrıldı</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="127"/>
         <source>User join current channel</source>
-        <translation>Kullanıcının şu anki kanala katılması</translation>
+        <translation>Kullanıcı şu anki kanala katıldı</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="129"/>
         <source>User left current channel</source>
-        <translation>Kullanıcının şu anki kanaldan ayrılması</translation>
+        <translation>Kullanıcı şu anki kanaldan ayrıldı</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="131"/>
         <source>Received private message</source>
-        <translation>Özel ileti alınması</translation>
+        <translation>Özel ileti alındı</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="133"/>
         <source>Sent private message</source>
-        <translation>Özel ileti gönderilmesi</translation>
+        <translation>Özel ileti gönderildi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="135"/>
         <source>User is typing a private text message in focused window</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı odaklanmış pencerede özel bir metin iletisi yazıyor</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="137"/>
         <source>User is typing a private text message</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı özel bir metin iletisi yazıyor</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="139"/>
         <source>User enabled question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı soru modunu etkinleştirdi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="141"/>
         <source>Received channel message</source>
-        <translation>Kanal iletisi alınması</translation>
+        <translation>Kanal iletisi alındı</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="143"/>
         <source>Sent channel message</source>
-        <translation>Kanal iletisi gönderilmesi</translation>
+        <translation>Kanal iletisi gönderildi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="145"/>
         <source>Received broadcast message</source>
-        <translation>Yayınlanan ileti alınması</translation>
+        <translation>Yayımlanan ileti alındı</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="147"/>
         <source>Sent broadcast message</source>
-        <translation>Yayınlanan ileti gönderilmesi</translation>
+        <translation>Yayımlanan ileti gönderildi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="149"/>
         <source>Subscription private text message changed</source>
-        <translation>Özel metin iletisi aboneliğinin değişmesi</translation>
+        <translation>Özel metin iletisi aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="151"/>
         <source>Subscription channel text message changed</source>
-        <translation>Kanal metin iletisi aboneliğinin değişmesi</translation>
+        <translation>Kanal metin iletisi aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="153"/>
         <source>Subscription broadcast text message changed</source>
-        <translation>Yayınlanan metin iletisi aboneliğinin değişmesi</translation>
+        <translation>Yayınlanan metin iletisi aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="155"/>
         <source>Subscription voice stream changed</source>
-        <translation>Ses akışı aboneliğinin değişmesi</translation>
+        <translation>Ses akışı aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="157"/>
         <source>Subscription webcam stream changed</source>
-        <translation>Web kamerası akışı aboneliğinin değişmesi</translation>
+        <translation>Web kamerası akışı aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="159"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation>Paylaşılan masaüstü akışı aboneliğinin değişmesi</translation>
+        <translation>Paylaşılan masaüstü akışı aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="161"/>
         <source>Subscription desktop access changed</source>
-        <translation>Masaüstü erişimi aboneliğinin değişmesi</translation>
+        <translation>Masaüstü erişimi aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="163"/>
         <source>Subscription media file stream changed</source>
-        <translation>Ortam dosyası akışı aboneliğinin değişmesi</translation>
+        <translation>medya dosyası akışı aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="165"/>
         <source>Subscription intercept private text message changed</source>
-        <translation>Özel metin iletisini izleme aboneliğinin değişmesi</translation>
+        <translation>Özel metin iletisini izleme aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="167"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation>Kanal metin iletisini izleme aboneliğinin değişmesi</translation>
+        <translation>Kanal metin iletisini izleme aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="169"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation>Ses akışını izleme aboneliğinin değişmesi</translation>
+        <translation>Ses akışını izleme aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="171"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation>Web kamerası akışını izleme aboneliğinin değişmesi</translation>
+        <translation>Web kamerası akışını izleme aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="173"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation>Masaüstü akışını izleme aboneliğinin değişmesi</translation>
+        <translation>Masaüstü akışını izleme aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="175"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation>Ortam dosyası akışını izleme aboneliğinin değişmesi</translation>
+        <translation>medya dosyası akışını izleme aboneliği değişti</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="177"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation>Sınıf kanal iletisi iletimine izin vermenin değişmesi</translation>
+        <translation>Sınıf kanal iletisi iletimi izni değişti</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="179"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation>Sınıf ses iletimine izin vermenin değişmesi</translation>
+        <translation>Sınıf ses iletimi izni değişti</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="181"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation>Sınıf web kamerası iletimine izin vermenin değişmesi</translation>
+        <translation>Sınıf web kamerası iletimi izni değişti</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="183"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation>Sınıf masaüstü iletimine izin vermenin değişmesi</translation>
+        <translation>Sınıf masaüstü iletimi izni değişti</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="185"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation>Sınıf ortam dosyası iletimine izin vermenin değişmesi</translation>
+        <translation>Sınıf medya dosyası iletimi izni değişti</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="187"/>
         <source>File added</source>
-        <translation>Dosya eklenmesi</translation>
+        <translation>Dosya eklendi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="189"/>
         <source>File removed</source>
-        <translation>Dosya kaldırılması</translation>
+        <translation>Dosya kaldırıldı</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="191"/>
@@ -6615,7 +6579,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../textmessage.ui" line="77"/>
         <source>Message</source>
-        <translation type="unfinished">İleti</translation>
+        <translation>İleti</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="136"/>
@@ -6627,7 +6591,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../textmessage.ui" line="136"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;İptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../textmessage.ui" line="117"/>
@@ -6637,7 +6601,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../textmessagedlg.cpp" line="175"/>
         <source>Private message sent: %1</source>
-        <translation>Gönderilen özel ileti: %1</translation>
+        <translation>Özel ileti gönderildi: %1</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="215"/>
@@ -6648,7 +6612,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../textmessagedlg.cpp" line="220"/>
         <location filename="../textmessagedlg.cpp" line="222"/>
         <source>%1 is typing</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 yazıyor</translation>
     </message>
 </context>
 <context>
@@ -6665,7 +6629,7 @@ Delete the published user account to unregister your server.</source>
     </message>
     <message>
         <source>&amp;Delete</source>
-        <translation type="vanished">&amp;Sil</translation>
+        <translation>&amp;Sil</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="76"/>
@@ -6695,7 +6659,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="195"/>
         <source>User should automatically join this channel after login</source>
-        <translation>Kullanıcı oturum açtıktan sonra otomatik olarak bu kanala katılır</translation>
+        <translation>Kullanıcı giriş yaptıktan sonra otomatik olarak bu kanala katılır</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="90"/>
@@ -6720,13 +6684,13 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="119"/>
         <source>Disabled (inactive)</source>
-        <translation>Etkisizleştirildi (etkin değil)</translation>
+        <translation>Devre dışı (etkin değil)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="231"/>
         <location filename="../useraccounts.ui" line="234"/>
         <source>Auto-Operator Channels</source>
-        <translation>Otomatik İşletmeci Kanalları</translation>
+        <translation>Otomatik yöneticili Kanallar</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="240"/>
@@ -6736,12 +6700,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="250"/>
         <source>User will automatically become operator when joining these channels</source>
-        <translation>Kullanıcı bu kanallara katıldığında otomatik olarak işletmeci olacak</translation>
+        <translation>Kullanıcı bu kanallara katıldığında otomatik olarak yönetici olacak</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="263"/>
         <source>Available Channels</source>
-        <translation>Kullanılabilir Kanallar</translation>
+        <translation>Mevcut Kanallar</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="285"/>
@@ -6751,7 +6715,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="282"/>
         <source>Set selected user auto operator for selected channels</source>
-        <translation>Seçilen kullanıcıyı seçilen kanallar için otomatik işletmeci ayarla</translation>
+        <translation>Seçilen kullanıcıyı seçilen kanallar için otomatik yönetici yap</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="295"/>
@@ -6761,7 +6725,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="292"/>
         <source>No longer set selected user auto operator for selected channels</source>
-        <translation>Seçilen kullanıcıyı seçilen kanallar için artık otomatik işletmeci ayarlama</translation>
+        <translation>Artık seçilen kullanıcıyı seçilen kanallar için otomatik yönetici ayarlama</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="321"/>
@@ -6781,17 +6745,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="356"/>
         <source>kbps (0 = disabled)</source>
-        <translation>kbps (0 = etkisizleştirildi)</translation>
+        <translation>kbps (0 = devre dışı)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="380"/>
         <source>Abuse Prevention</source>
-        <translation>Taciz Önleme</translation>
+        <translation>Kötüye Kullanımı Önleme</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="386"/>
         <source>Flood Protection</source>
-        <translation>Sel Koruması</translation>
+        <translation>Taşma Koruması</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="392"/>
@@ -6803,7 +6767,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../useraccountsdlg.cpp" line="749"/>
         <location filename="../useraccountsdlg.cpp" line="758"/>
         <source>Limit issued commands</source>
-        <translation>Sonuçlandırılan komutları sınırla</translation>
+        <translation>Verilen komutları sınırla</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="441"/>
@@ -6813,7 +6777,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="447"/>
         <source>User can log in multiple times</source>
-        <translation>Kullanıcı çok kez oturum açabilir</translation>
+        <translation>Kullanıcı birden çok oturum açabilir</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="454"/>
@@ -6843,7 +6807,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="502"/>
         <source>User can update server properties</source>
-        <translation>Kullanıcı sunucu özelliklerini güncelleştirebilir</translation>
+        <translation>Kullanıcı sunucu özelliklerini güncelleyebilir</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="529"/>
@@ -6898,7 +6862,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="605"/>
         <source>User can make other users channel operator</source>
-        <translation>Kullanıcı diğer kullanıcıları kanal işletmecisi yapabilir</translation>
+        <translation>Kullanıcı diğer kullanıcıları kanal yöneticisi yapabilir</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="598"/>
@@ -6922,7 +6886,7 @@ Delete the published user account to unregister your server.</source>
     </message>
     <message>
         <source>Remove selected user</source>
-        <translation type="vanished">Seçilen kullanıcıyı kaldır</translation>
+        <translation>Seçilen kullanıcıyı kaldır</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="644"/>
@@ -6932,12 +6896,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="667"/>
         <source>&amp;Add/Update</source>
-        <translation>&amp;Ekle/Güncelleştir</translation>
+        <translation>&amp;Ekle/Güncelle</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="664"/>
         <source>Add or update user with specified informations</source>
-        <translation>Belirtilen bilgilerle kullanıcı ekle ya da güncelleştir</translation>
+        <translation>Belirtilen bilgilerle kullanıcı ekle ya da güncelle</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="624"/>
@@ -6947,12 +6911,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="245"/>
         <source>Disabled</source>
-        <translation>Etkisizleştirildi</translation>
+        <translation>Devre dışı</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="246"/>
         <source>10 commands in 10 sec.</source>
-        <translation>10 komut, 10 sn.</translation>
+        <translation>10 saniyede 10 komut.</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="247"/>
@@ -6984,42 +6948,42 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="509"/>
         <source>Add/Update</source>
-        <translation>Ekle/Güncelleştir</translation>
+        <translation>Ekle/Güncelle</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="789"/>
         <source>Sort By...</source>
-        <translation type="unfinished"></translation>
+        <translation>Şuna göre sırala...</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="790"/>
         <source>&amp;Username</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kullanıcı adı</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="791"/>
         <source>User &amp;Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı &amp;tipi</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="792"/>
         <source>&amp;Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kanal</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="793"/>
         <source>&amp;Modified</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Değiştirme</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="794"/>
         <source>&amp;Delete Selected User</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Seçilen Kullanıcıyı Sil</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="504"/>
         <source>Create anonymous user account?</source>
-        <translation>Belirsiz kullanıcı hesabı oluşturulsun mu?</translation>
+        <translation>Anonim kullanıcı hesabı oluşturulsun mu?</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="644"/>
@@ -7039,28 +7003,28 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="746"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;İptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="750"/>
         <source>Number of commands to allow (0 = disabled)</source>
-        <translation>İzin verilecek komutların sayısı (0 = etkisizleştirildi)</translation>
+        <translation>İzin verilecek komutların sayısı (0 = devre dışı)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="759"/>
         <source>Timeframe to allow %1 commands (in seconds)</source>
-        <translation>%1 komuta izin vermek için zaman aralığı (saniye cinsinden)</translation>
+        <translation>%1 komut için izin verilecek zaman aralığı (saniye cinsinden)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="225"/>
         <location filename="../useraccountsdlg.cpp" line="698"/>
         <source>Channel Operator</source>
-        <translation>Kanal İşletmecisi</translation>
+        <translation>Kanal yöneticisi</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="699"/>
         <source>The maximum number of channels where a user can automatically become channel operator is %1.</source>
-        <translation>Bir kullanıcının otomatik olarak kanal işletmecisi olabileceği en fazla kanal sayısı %1.</translation>
+        <translation>Bir kullanıcının otomatik olarak kanal yöneticisi olabileceği en fazla kanal sayısı %1.</translation>
     </message>
 </context>
 <context>
@@ -7093,7 +7057,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="67"/>
         <source>Modified</source>
-        <translation type="unfinished"></translation>
+        <translation>Değiştirme</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="95"/>
@@ -7111,7 +7075,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../useraccountsdlg.cpp" line="99"/>
         <location filename="../useraccountsdlg.cpp" line="118"/>
         <source>Disabled</source>
-        <translation>Etkisizleştirildi</translation>
+        <translation>devre dışı</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="101"/>
@@ -7122,11 +7086,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="121"/>
         <source>Username: %1, Password: %2, Type: %3, Note: %4, Initial channel: %5, Modified: %6</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Username: %1, Password: %2, Type: %3, Note: %4, Initial channel: %5</source>
-        <translation type="vanished">Kullanıcı adı: %1, Parola: %2, Tür: %3, Not: %4, İlk kanal: %5</translation>
+        <translation>Kullanıcı adı: %1, Şifre: %2, Tür: %3, Not: %4, İlk kanal: %5, Değiştirme: %6</translation>
     </message>
 </context>
 <context>
@@ -7341,7 +7301,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../uservideowidget.cpp" line="60"/>
         <source>Waiting for media file from %1</source>
-        <translation>%1 kullanıcısından ortam dosyası bekleniyor</translation>
+        <translation>%1 kullanıcısından medya dosyası bekleniyor</translation>
     </message>
 </context>
 <context>
@@ -7352,7 +7312,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../uservolume.ui" line="87"/>
         <location filename="../uservolumedlg.cpp" line="79"/>
         <source>Volume</source>
-        <translation>Düzey</translation>
+        <translation>Ses düzeyi</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="23"/>
@@ -7369,18 +7329,18 @@ Delete the published user account to unregister your server.</source>
         <location filename="../uservolume.ui" line="59"/>
         <location filename="../uservolume.ui" line="115"/>
         <source>Mute left</source>
-        <translation>Solu sessize al</translation>
+        <translation>Solu sustur</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="66"/>
         <location filename="../uservolume.ui" line="122"/>
         <source>Mute right</source>
-        <translation>Sağı sessize al</translation>
+        <translation>Sağı sustur</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="79"/>
         <source>Media File Volume Settings</source>
-        <translation>Ortam Dosyası Düzeyi Ayarları</translation>
+        <translation>medya Dosyası Düzeyi Ayarları</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="150"/>
@@ -7390,7 +7350,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../uservolumedlg.cpp" line="80"/>
         <source>Failed to change user&apos;s volume</source>
-        <translation>Kullanıcının düzeyini değiştirme başarısız</translation>
+        <translation>Kullanıcının ses düzeyini değiştirme başarısız</translation>
     </message>
 </context>
 <context>
@@ -7492,7 +7452,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../videotextdlg.cpp" line="42"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;İptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="188"/>
