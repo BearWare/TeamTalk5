@@ -722,6 +722,7 @@ class TextMessage(Structure):
     ("nToUserID", INT32),
     ("nChannelID", INT32),
     ("szMessage", TTCHAR*TT_STRLEN),
+    ("bMore", BOOL),
     ]
     def __init__(self):
         assert(DBG_SIZEOF(TTType.TEXTMESSAGE) == ctypes.sizeof(TextMessage))
