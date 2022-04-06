@@ -168,7 +168,7 @@ depend-ubuntu18:
                     libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
                     openjdk-11-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev yasm autoconf libtool pkg-config \
-                    libasound2-dev wget python g++
+                    libasound2-dev wget python g++ python3-pytest
 
 depend-ubuntu20:
 # Duplicate install in Docker/Dockerfile_ubuntu20

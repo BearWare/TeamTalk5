@@ -80,6 +80,12 @@ jobs:
         cp Library/TeamTalkLib/test/ttserverkey.pem Server/
         Server/tt5prosrv -d -wd Server/
 
+    - name: Run PyTest
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      run: |
+        source env.sh
+        pytest-3 Library/TeamTalkPy/test/teamtalk_test.py
+
     - name: Run Python client
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |
