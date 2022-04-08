@@ -445,6 +445,9 @@
     <item id="578">숨김</item>
     <item id="579">알 수 없는 사용자에 의해 서버에서 쫓겨남</item>
     <item id="580">%s에 의해 서버에서 쫓겨남</item>
+    <item id="581">글자 수 제한 초과</item>
+    <item id="582">글자 수 제한을 %d자 초과했습니다. 더 짧게 입력하십시오.</item>
+    <item id="583">날짜</item>
     <item id="1006">파일 목록</item>
     <item id="1008">항상 서버를 통해 보내기</item>
     <item id="1009">접속할 때 최상위 채널로 자동 입장</item>
@@ -748,7 +751,7 @@
     <item id="1507">서버 내 도배</item>
     <item id="1510">현재까지 도달한 동시 접속 인원</item>
     <item id="1511">KB</item>
-    <item id="1512">봉사자</item>
+    <item id="1512">누적 접속 인원</item>
     <item id="1513">미디어 파일 스트리밍</item>
     <item id="1514">마이크 볼륨 자동 조절</item>
     <item id="1515">장치 새로 고침</item>

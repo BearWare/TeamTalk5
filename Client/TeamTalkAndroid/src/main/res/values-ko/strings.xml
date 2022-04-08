@@ -352,7 +352,7 @@
     <string name="pref_title_bearware_summary">서버가 BearWare.dk 웹 로그인을 사용하는 경우에만 체크하십시오</string>
     <string name="pref_cat_about">앱 정보</string>
     <string name="pref_title_contrib">개발자</string>
-    <string name="pref_title_translator">Translator</string>
+    <string name="pref_title_translator">번역자</string>
     <string name="pref_title_libraries">Third Party 라이브러리</string>
     <string name="channel_prop_title_hiddenchannel">숨김</string>
     <string name="pref_title_gender">성별</string>
@@ -362,15 +362,15 @@
     <string name="pref_summary_userloggedin_icon">사용자가 서버에 로그인했을 때 효과음을 재생합니다.</string>
     <string name="pref_title_userloggedoff_icon">서버 로그아웃</string>
     <string name="pref_summary_userloggedoff_icon">사용자가 서버로부터 로그아웃했을 때 효과음을 재생합니다.</string>
-    <string name="pref_summary_official_servers">Include official servers in Server List</string>
-    <string name="pref_title_official_servers">Show official servers</string>
-    <string name="pref_summary_unofficial_servers">Include unofficial servers in Server List</string>
-    <string name="pref_title_unofficial_servers">Show unofficial servers</string>
-    <string name="pref_header_serverlist">Server List</string>
-    <string name="text_server_summary">%1$s:%2$d, Users: %3$d, Country: %4$s</string>
-    <string name="pref_title_server_connection">Connection</string>
-    <string name="pref_title_server_motd">Message of the Day</string>
-    <string name="pref_title_server_usercount">Users Online</string>
-    <string name="pref_title_server_country">Country</string>
-    <string name="pref_title_server_status">Server Status</string>
+    <string name="pref_summary_official_servers">서버 목록에 공식 서버를 출력합니다.</string>
+    <string name="pref_title_official_servers">공식 서버 보기</string>
+    <string name="pref_summary_unofficial_servers">서버 목록에 비공식 서버를 출력합니다.</string>
+    <string name="pref_title_unofficial_servers">비공식 서버 보기</string>
+    <string name="pref_header_serverlist">서버 목록</string>
+    <string name="text_server_summary">%1$s:%2$d, 접속자: %3$d, 국가: %4$s</string>
+    <string name="pref_title_server_connection">연결</string>
+    <string name="pref_title_server_motd">새소식</string>
+    <string name="pref_title_server_usercount">접속자</string>
+    <string name="pref_title_server_country">국가</string>
+    <string name="pref_title_server_status">서버 상태</string>
 </resources>
