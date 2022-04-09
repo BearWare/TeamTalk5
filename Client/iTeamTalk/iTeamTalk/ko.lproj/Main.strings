@@ -8,7 +8,7 @@
 "0QA-gn-V1p.text" = "Blank";
 
 /* Class = "UILabel"; text = "Show Public Servers"; ObjectID = "3DD-Ra-lNz"; */
-"3DD-Ra-lNz.text" = "Show Public Servers";
+"3DD-Ra-lNz.text" = "공식 서버 보기";
 
 /* Class = "UIButton"; normalTitle = "Send"; ObjectID = "3NI-HT-A3N"; */
 "3NI-HT-A3N.normalTitle" = "보내기";
@@ -83,7 +83,7 @@
 "eJb-Cn-ciJ.text" = "읽어줄 이벤트 선택";
 
 /* Class = "UILabel"; text = "Show Unofficial Servers"; ObjectID = "feN-jH-qaq"; */
-"feN-jH-qaq.text" = "Show Unofficial Servers";
+"feN-jH-qaq.text" = "비공식 서버 보기";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
 "Fu9-tA-eYj.text" = "Blank";
@@ -92,13 +92,13 @@
 "gA8-TJ-0RU.title" = "채팅 채널";
 
 /* Class = "UILabel"; text = "Show public servers in server list"; ObjectID = "GeK-hh-gst"; */
-"GeK-hh-gst.text" = "Show public servers in server list";
+"GeK-hh-gst.text" = "서버 목록에 공식 서버 노출";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "GFy-mN-epU"; */
 "GFy-mN-epU.text" = "Title";
 
 /* Class = "UILabel"; text = "Show Public Servers"; ObjectID = "gPj-u1-dPn"; */
-"gPj-u1-dPn.text" = "Show Public Servers";
+"gPj-u1-dPn.text" = "공식 서버 보기";
 
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
 "Hcv-zz-riB.text" = "BearWare.dk 웹 로그인";
@@ -143,13 +143,13 @@
 "NA0-UK-wve.title" = "설정";
 
 /* Class = "UILabel"; text = "Select Microphone"; ObjectID = "ntU-ZP-sKb"; */
-"ntU-ZP-sKb.text" = "Select Microphone";
+"ntU-ZP-sKb.text" = "마이크 선택";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "nVj-7w-Sta"; */
 "nVj-7w-Sta.text" = "Blank";
 
 /* Class = "UILabel"; text = "Show Official Servers"; ObjectID = "o2H-Vm-Vjd"; */
-"o2H-Vm-Vjd.text" = "Show Official Servers";
+"o2H-Vm-Vjd.text" = "공식 서버 보기";
 
 /* Class = "UITableViewController"; title = "BearWare.dk Web Login"; ObjectID = "o7z-cC-U4w"; */
 "o7z-cC-U4w.title" = "BearWare.dk 웹 로그인";
@@ -170,7 +170,7 @@
 "Q0w-pu-giG.text" = "알림 설정";
 
 /* Class = "UILabel"; text = "Choose microphone input"; ObjectID = "qgW-1i-aGQ"; */
-"qgW-1i-aGQ.text" = "Choose microphone input";
+"qgW-1i-aGQ.text" = "마이크 입력 선택";
 
 /* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */
 "rNU-2J-hMO.normalTitle" = "오디오 사용 안 함";
@@ -215,7 +215,7 @@
 "WRa-tI-lpY.normalTitle" = "내보내기 및 차단";
 
 /* Class = "UITableViewController"; title = "Setup Sound Inputs"; ObjectID = "XmQ-1z-cFv"; */
-"XmQ-1z-cFv.title" = "Setup Sound Inputs";
+"XmQ-1z-cFv.title" = "입력 장치 선택";
 
 /* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
 "Y9o-rs-HCe.title" = "연결 끊기";

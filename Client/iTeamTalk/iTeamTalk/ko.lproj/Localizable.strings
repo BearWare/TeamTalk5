@@ -162,7 +162,7 @@
 "Connection lost" = "연결 끊어짐";
 
 /* server entry */
-"Country" = "Country";
+"Country" = "국가";
 
 /* View Title */
 "Create Channel" = "채널 만들기";
@@ -171,7 +171,7 @@
 "Create new channel" = "새 채널 만들기";
 
 /* Sound Input */
-"Default" = "Default";
+"Default" = "기본";
 
 /* preferences */
 "Default Subscriptions" = "기본 수신";
@@ -281,7 +281,7 @@
 "Limit length of names in channel list to %d characters" = "채널 목록에 출력될 이름 길이를 %d자로 제한";
 
 /* serverlist */
-"Local server" = "Local server";
+"Local server" = "로컬 서버";
 
 /* text message type */
 "Log message" = "메시지 기록";
@@ -310,10 +310,10 @@
 "Media file vs. voice volume" = "미디어 파일 음량 대비 말하기 음량";
 
 /* Dialog */
-"Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
+"Message limit exceeded by %d characters" = "글자 수 제한을 %d자 초과했습니다.";
 
 /* server entry */
-"Message of the Day" = "Message of the Day";
+"Message of the Day" = "새소식";
 
 /* preferences */
 "Microphone Gain" = "마이크 음량";
@@ -354,7 +354,7 @@
 "Nickname" = "닉네임";
 
 /* server entry */
-"Nickname (optional)" = "Nickname (optional)";
+"Nickname (optional)" = "닉네임 (선택 사항)";
 
 /* Dialog message */
 "No" = "아니요";
@@ -379,7 +379,7 @@
 "Noname" = "이름 없음";
 
 /* serverlist */
-"Official server" = "Official server";
+"Official server" = "공식 서버";
 
 /* Dialog
    Dialog message
@@ -452,7 +452,7 @@
 "Preferences" = "설정";
 
 /* Sound Input */
-"Preferred" = "Preferred";
+"Preferred" = "선호";
 
 /* preferences */
 "Pressing Return-key sends text message" = "리턴 키를 누르면 메시지를 바로 전송함";
@@ -533,10 +533,10 @@
 "Server List Entry" = "서버 목록 항목";
 
 /* server entry */
-"Server Status" = "Server Status";
+"Server Status" = "서버 상태";
 
 /* preferences */
-"Show in Server List" = "Show in Server List";
+"Show in Server List" = "서버 목록에 보이기";
 
 /* preferences */
 "Show male or female icon" = "성별 이모티콘 보기";
@@ -545,7 +545,7 @@
 "Show Public Servers" = "공용 서버 보기";
 
 /* preferences */
-"Show public servers in server list" = "서버 목록에 공용 서버 출력";
+"Show public servers in server list" = "서버 목록에 공용 서버 노출";
 
 /* preferences */
 "Show Text Messages Instantly" = "메시지 즉시 보기";
@@ -644,7 +644,7 @@
 "UDP Port" = "UDP 포트";
 
 /* serverlist */
-"Unofficial server" = "Unofficial server";
+"Unofficial server" = "비공식 서버";
 
 /* preferences */
 "Use echo cancellation and automatic gain control" = "자동으로 반향을 제거하고 말하기 음량을 조절함";
@@ -695,10 +695,10 @@
 "Username or password incorrect" = "사용자 이름 또는 암호가 바르지 않습니다.";
 
 /* server entry */
-"Users Online" = "Users Online";
+"Users Online" = "접속자";
 
 /* serverlist */
-"Users: %d, Country: %@" = "Users: %1$d, Country: %2$@";
+"Users: %d, Country: %@" = "접속자: %1$d, 국가: %2$@";
 
 /* codec detail */
 "Variable Bitrate" = "가변 비트레이트";
