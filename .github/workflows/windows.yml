@@ -43,6 +43,11 @@ jobs:
     - name: Setup VSTest Path
       uses: darenm/Setup-VSTest@v1
 
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-cov
+
     - name: Init TeamTalk Client submodules
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |
@@ -109,6 +114,11 @@ jobs:
         cd output\Library\TeamTalk.NET\TeamTalkTest.NET\Release
         xcopy /S /Y /E ${{runner.workspace}}\TeamTalk5\Library\TeamTalkLib\test\testdata testdata\
         VSTest.Console.exe /Platform:${{ matrix.dotnetarch }} TeamTalk5Test.NET.dll
+
+    - name: Run PyTest
+      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkPy/test
+      run: |
+        pytest teamtalk_test.py
 
     - name: Run Python client
       working-directory: ${{runner.workspace}}/TeamTalk5/Client/ttserverlogpy

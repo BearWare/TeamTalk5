@@ -477,7 +477,7 @@ class AudioInputProgress(Structure):
     ("uElapsedMSec", UINT32)
     ]
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.AudioInputProgress) == ctypes.sizeof(AudioInputProgress))
+        assert(DBG_SIZEOF(TTType.AUDIOINPUTPROGRESS) == ctypes.sizeof(AudioInputProgress))
 
 class UserRight(UINT32):
     USERRIGHT_NONE = 0x00000000
@@ -845,7 +845,7 @@ class JitterConfig(Structure):
     ("nActiveAdaptiveDelayMSec", INT32)
     ]
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.JitterConfig) == ctypes.sizeof(JitterConfig))
+        assert(DBG_SIZEOF(TTType.JITTERCONFIG) == ctypes.sizeof(JitterConfig))
 
 class ClientError(INT32):
     CMDERR_SUCCESS = 0
