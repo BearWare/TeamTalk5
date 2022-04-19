@@ -226,7 +226,7 @@ func setupSoundDevices() {
         }
         else {
             if #available(iOS 10.0, *) {
-                catoptions = [ .allowAirPlay, .allowBluetoothA2DP ]
+                catoptions = [ .allowBluetooth, .allowAirPlay, .allowBluetoothA2DP ]
             } else {
                 catoptions = [ .allowBluetooth ]
             }
