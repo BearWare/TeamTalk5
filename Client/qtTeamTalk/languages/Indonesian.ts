@@ -414,7 +414,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatus.ui" line="50"/>
         <source>A&amp;way</source>
-        <translation>Pergi</translation>
+        <translation>Sib&amp;uk</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="57"/>
@@ -806,7 +806,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="946"/>
         <source>Away</source>
-        <translation>Sedang pergi.</translation>
+        <translation>Sedang sibuk.</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="949"/>
@@ -3049,7 +3049,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
         <source>Channel message from %1: %2</source>
-        <translation>%1 mengatakan: %2</translation>
+        <translation>Pesan saluran dari %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2644"/>
@@ -3064,7 +3064,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="2675"/>
         <source>Private message from %1: %2</source>
-        <translation>%1 mengatakan dalam pesan pribadi: %2</translation>
+        <translation>Pesan pribadi dari %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2740"/>
@@ -3648,7 +3648,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     <message>
         <location filename="../mainwindow.cpp" line="5360"/>
         <source>Away</source>
-        <translation>Sedang pergi.</translation>
+        <translation>Sedang sibuk.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5363"/>
@@ -3979,7 +3979,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../mediastorage.ui" line="196"/>
         <source>S&amp;top</source>
-        <translation>Di &amp;atas</translation>
+        <translation>Ber&amp;henti</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="189"/>
@@ -4161,7 +4161,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="156"/>
         <source>Set away status after</source>
-        <translation>Atur status ke pergi setelah</translation>
+        <translation>Atur status ke sibuk setelah</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="132"/>
@@ -5410,7 +5410,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../serverlistdlg.cpp" line="695"/>
         <source>De&amp;fault</source>
-        <translation>De&amp;foult</translation>
+        <translation>De&amp;fault</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="696"/>
@@ -7256,7 +7256,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../userinfodlg.cpp" line="67"/>
         <source>Away</source>
-        <translation>Sedang pergi</translation>
+        <translation>Sedang sibuk</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="69"/>
