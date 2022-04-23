@@ -38,6 +38,7 @@ Projects wrapping the client and server binaries in the TeamTalk SDK.
       for quickly building for Linux distributions e.g.:
       * `docker-compose run --rm ubuntu18 make -C /TeamTalk5/Build ubuntu18`
       * `docker-compose run --rm ubuntu20 make -C /TeamTalk5/Build ubuntu20`
+      * `docker-compose run --rm ubuntu22 make -C /TeamTalk5/Build ubuntu22`
 * [**TeamTalk_DLL**](Library/TeamTalk_DLL) (dependency: **TeamTalkLib**)
   * TeamTalk 5 C-API DLL
   * C-API header files for TeamTalk 5 DLL

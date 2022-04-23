@@ -55,6 +55,7 @@ ubuntu18:
 
 ubuntu19: ubuntu18
 ubuntu20: ubuntu18
+ubuntu22: ubuntu18
 
 centos7:
 	@echo TeamTalk depends on CMake 3.1 or later.
@@ -177,6 +178,13 @@ depend-ubuntu20:
                     openjdk-17-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev yasm autoconf libtool pkg-config \
                     libasound2-dev wget python g++
+
+depend-ubuntu22:
+	apt install qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev \
+                    libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
+                    openjdk-18-jdk ninja-build libpcap-dev junit4 cmake \
+                    libssl-dev yasm autoconf libtool pkg-config \
+                    libasound2-dev wget python2 g++ p7zip-full python3-pytest
 
 depend-ubuntu18-android:
 	apt install doxygen ninja-build junit4 cmake openjdk-11-jdk junit4 autoconf libtool pkg-config python
