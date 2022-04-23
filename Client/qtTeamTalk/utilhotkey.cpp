@@ -24,6 +24,8 @@
 #include "utilhotkey.h"
 #include "settings.h"
 
+#include <QKeySequence>
+
 extern QSettings* ttSettings;
 extern TTInstance* ttInst;
 
