@@ -6931,7 +6931,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="644"/>
         <source>Are you sure you want to delete user &quot;%1&quot;?</source>
-        <translation>您确定要删除用户“％1”吗？</translation>
+        <translation>您确定要删除用户“%1”吗？</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="649"/>
