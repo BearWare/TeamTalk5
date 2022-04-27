@@ -115,12 +115,6 @@ namespace BearWare
  * packetloss can be done using #BearWare.UserStatistics and
  * #BearWare.ClientStatistics.
  *
- * Note that bandwidth usage will be much higher when running in peer
- * to peer mode since each client must then broadcast data to all
- * users instead of having the server forward the audio and video
- * packets. Checkout the section @ref connectivity on the different
- * types of connections.
- * 
  * Every channel must configure which audio codec to use in order for
  * users to be able to talk to each other. The @a audiocodec member of
  * #BearWare.Channel specifies which audio codec
@@ -341,10 +335,8 @@ namespace BearWare
  * create a new connection with TeamTalkBase.Connect().
  *
  * When the client instance has joined a channel and wants to transmit
- * audio or video data to other users this can be done in two ways
- * depending on how the user application configures the client. One
- * way is forward through server and the other is peer to peer mode
- * which are explained in the following two sections.
+ * audio or video data to other users this can be done by calling
+ * TeamTalkBase.EnableTransmission().
  *
  * @section txforward Forward Through Server Transmission Mode
  *
