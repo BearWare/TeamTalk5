@@ -49,13 +49,17 @@ deb32:
 deb64:
 	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON -DTOOLCHAIN_OPENSSL=OFF" generic
 
-ubuntu18:
+ubuntu:
 	@echo May need to specify JAVA_HOME to help CMake find Java SDK
-	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON -DTOOLCHAIN_OPENSSL=OFF" generic
-
-ubuntu19: ubuntu18
-ubuntu20: ubuntu18
-ubuntu22: ubuntu18
+	$(MAKE) BUILDDIR=build-$(UBUNTUDIR) CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON -DTOOLCHAIN_OPENSSL=OFF" generic
+ubuntu18:
+	$(MAKE) UBUNTUDIR=$@ ubuntu
+ubuntu19:
+	$(MAKE) UBUNTUDIR=$@ ubuntu
+ubuntu20:
+	$(MAKE) UBUNTUDIR=$@ ubuntu
+ubuntu22:
+	$(MAKE) UBUNTUDIR=$@ ubuntu
 
 centos7:
 	@echo TeamTalk depends on CMake 3.1 or later.
