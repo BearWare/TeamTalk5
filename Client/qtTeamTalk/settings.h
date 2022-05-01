@@ -136,6 +136,8 @@
 #define SETTINGS_DISPLAY_CLOSE_FILEDIALOG_DEFAULT             false
 #define SETTINGS_DISPLAY_CHANEXCLUDE_DLG             "display/dlg-alert-exclude"
 #define SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT             false
+#define SETTINGS_DISPLAY_START_SERVERLIST             "display/serverlist-on-start"
+#define SETTINGS_DISPLAY_START_SERVERLIST_DEFAULT             false
 #define SETTINGS_DISPLAY_CHANNELSORT                 "display/sort-channels"
 #define SETTINGS_DISPLAY_CHANNELSORT_DEFAULT         CHANNELSORT_ASCENDING
 #define SETTINGS_DISPLAY_WINDOW_MAXIMIZE                          "display/window-maximized"
