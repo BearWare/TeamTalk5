@@ -543,6 +543,13 @@
                </widget>
               </item>
               <item>
+               <widget class="QCheckBox" name="startServerListChkBox">
+                <property name="text">
+                 <string>Show server list on startup</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <layout class="QHBoxLayout" name="horizontalLayout_18">
                 <item>
                  <widget class="QCheckBox" name="logstatusbarChkBox">
