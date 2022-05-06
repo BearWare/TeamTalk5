@@ -1869,7 +1869,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1648"/>
         <source>Kick and &amp;Ban From Server</source>
-        <translation>从服务器踢出(&amp;B)</translation>
+        <translation>从服务器踢出并禁止(&amp;B)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2179"/>
