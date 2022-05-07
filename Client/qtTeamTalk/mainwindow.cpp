@@ -724,7 +724,25 @@ void MainWindow::loadSettings()
 
     if(connect_ok)
         QTimer::singleShot(0, this, &MainWindow::slotConnectToLatest);
-
+// Ask to set language at first start
+    if (ttSettings->value(SETTINGS_GENERAL_FIRSTSTART, SETTINGS_GENERAL_FIRSTSTART_DEFAULT).toBool())
+    {
+        QDir dir( TRANSLATE_FOLDER, "*.qm", QDir::Name, QDir::Files);
+        QStringList languages = dir.entryList();
+        bool ok = false;
+        QInputDialog inputDialog;
+        inputDialog.setOkButtonText(tr("&Ok"));
+        inputDialog.setCancelButtonText(tr("&Cancel"));
+        inputDialog.setComboBoxItems(languages);
+        inputDialog.setComboBoxEditable(false);
+        inputDialog.setWindowTitle(tr("Choose language"));
+        inputDialog.setLabelText(tr("Select the language will be use by %1").arg(APPNAME_SHORT));
+        ok = inputDialog.exec();
+        QString choice = inputDialog.textValue();
+        if (ok)
+        {
+            ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, choice.remove(".qm"));
+        }
 #if defined(Q_OS_WINDOWS) && defined(ENABLE_TOLK)
     bool tolkLoaded = Tolk_IsLoaded();
     if (!tolkLoaded)
@@ -735,7 +753,7 @@ void MainWindow::loadSettings()
     if (!tolkLoaded)
         Tolk_Unload();
 
-    if (ttSettings->value(SETTINGS_GENERAL_FIRSTSTART, SETTINGS_GENERAL_FIRSTSTART_DEFAULT).toBool() && SRActive)
+    if (SRActive)
     {
         QMessageBox answer;
         answer.setText(tr("%1 has detected usage of a screenreader on your computer. Do you wish to enable accessibility options offered by %1 with recommended settings?").arg(APPNAME_SHORT));
@@ -750,12 +768,11 @@ void MainWindow::loadSettings()
         {
             ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_TOLK);
             ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, false);
-            ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, false);
         }
-        else
-            ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, false);
     }
 #endif
+        ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, false);
+    }
 // Sounds pack checks
     QString packset = ttSettings->value(SETTINGS_SOUNDS_PACK).toString();
     QString packname = QString("%1/%2").arg(SOUNDSPATH).arg(packset);
