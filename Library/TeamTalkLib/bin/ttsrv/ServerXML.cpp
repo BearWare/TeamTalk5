@@ -841,6 +841,8 @@ namespace teamtalk{
                 ReplaceElement(xmlChan, audcfgElement);
 
                 TiXmlElement txusersElement("transmit-users");
+                PutBoolean(txusersElement, "channelmsg-tx-all",
+                           chan.transmitusers[STREAMTYPE_CHANNELMSG].find(TRANSMITUSERS_FREEFORALL) != chan.transmitusers[STREAMTYPE_CHANNELMSG].end());
                 PutBoolean(txusersElement, "voice-tx-all",
                            chan.transmitusers[STREAMTYPE_VOICE].find(TRANSMITUSERS_FREEFORALL) != chan.transmitusers[STREAMTYPE_VOICE].end());
                 PutBoolean(txusersElement, "videocapture-tx-all",
@@ -1013,13 +1015,15 @@ namespace teamtalk{
                 TiXmlElement* txusersElement = child->FirstChildElement("transmit-users");
                 if(txusersElement)
                 {
-                    if(GetBoolean(*txusersElement, "voice-tx-all", b) && b)
+                    if (GetBoolean(*txusersElement, "channelmsg-tx-all", b) && b)
+                        newchan.transmitusers[STREAMTYPE_CHANNELMSG].insert(TRANSMITUSERS_FREEFORALL);
+                    if (GetBoolean(*txusersElement, "voice-tx-all", b) && b)
                         newchan.transmitusers[STREAMTYPE_VOICE].insert(TRANSMITUSERS_FREEFORALL);
-                    if(GetBoolean(*txusersElement, "videocapture-tx-all", b) && b)
+                    if (GetBoolean(*txusersElement, "videocapture-tx-all", b) && b)
                         newchan.transmitusers[STREAMTYPE_VIDEOCAPTURE].insert(TRANSMITUSERS_FREEFORALL);
-                    if(GetBoolean(*txusersElement, "mediafile-tx-all", b) && b)
+                    if (GetBoolean(*txusersElement, "mediafile-tx-all", b) && b)
                         newchan.transmitusers[STREAMTYPE_MEDIAFILE].insert(TRANSMITUSERS_FREEFORALL);
-                    if(GetBoolean(*txusersElement, "desktopshare-tx-all", b) && b)
+                    if (GetBoolean(*txusersElement, "desktopshare-tx-all", b) && b)
                         newchan.transmitusers[STREAMTYPE_DESKTOP].insert(TRANSMITUSERS_FREEFORALL);
                 }
 
