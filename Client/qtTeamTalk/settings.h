@@ -115,6 +115,7 @@
 #define SETTINGS_DISPLAY_UNOFFICIALSERVERS          "display/show-unofficial-servers"
 #define SETTINGS_DISPLAY_UNOFFICIALSERVERS_DEFAULT  false
 #define SETTINGS_DISPLAY_LANGUAGE                   "display/language"
+#define SETTINGS_DISPLAY_LANGUAGE_DEFAULT           ""
 #define SETTINGS_DISPLAY_APPUPDATE                  "display/check-appupdate"
 #define SETTINGS_DISPLAY_APPUPDATE_DEFAULT                  true
 #define SETTINGS_DISPLAY_APPUPDATE_BETA                  "display/check-beta-versions"

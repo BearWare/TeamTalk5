@@ -724,11 +724,12 @@ void MainWindow::loadSettings()
 
     if(connect_ok)
         QTimer::singleShot(0, this, &MainWindow::slotConnectToLatest);
-// Ask to set language at first start
-    if (ttSettings->value(SETTINGS_GENERAL_FIRSTSTART, SETTINGS_GENERAL_FIRSTSTART_DEFAULT).toBool())
+
+    // Ask to set language at first start
+    if (!ttSettings->contains(SETTINGS_DISPLAY_LANGUAGE))
     {
-        QDir dir( TRANSLATE_FOLDER, "*.qm", QDir::Name, QDir::Files);
-        QStringList languages = dir.entryList();
+        QStringList languages = extractLanguages();
+        languages.insert(0, SETTINGS_DISPLAY_LANGUAGE_DEFAULT); //default language is none
         bool ok = false;
         QInputDialog inputDialog;
         inputDialog.setOkButtonText(tr("&Ok"));
@@ -741,8 +742,13 @@ void MainWindow::loadSettings()
         QString choice = inputDialog.textValue();
         if (ok)
         {
-            ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, choice.remove(".qm"));
+            ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, choice);
+            switchLanguage(choice);
         }
+    }
+
+    if (ttSettings->value(SETTINGS_GENERAL_FIRSTSTART, SETTINGS_GENERAL_FIRSTSTART_DEFAULT).toBool())
+    {
 #if defined(Q_OS_WINDOWS) && defined(ENABLE_TOLK)
     bool tolkLoaded = Tolk_IsLoaded();
     if (!tolkLoaded)

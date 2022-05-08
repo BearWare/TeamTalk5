@@ -42,7 +42,6 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QDir>
-#include <QTranslator>
 #include <QVariant>
 #include <QKeyEvent>
 #if defined(QT_TEXTTOSPEECH_LIB)
@@ -52,7 +51,6 @@
 
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
-extern QTranslator* ttTranslator;
 #if defined(QT_TEXTTOSPEECH_LIB)
 extern QTextToSpeech* ttSpeech;
 #endif
@@ -546,18 +544,16 @@ void PreferencesDlg::slotTabChange(int index)
                                                      SETTINGS_DISPLAY_SERVNAME_DEFAULT).toBool());
 
         ui.languageBox->clear();
-        ui.languageBox->addItem("");
-        QDir dir( TRANSLATE_FOLDER, "*.qm", QDir::Name, QDir::Files);
-        QStringList languages = dir.entryList();
-        for(int i=0;i<languages.size();i++)
+        ui.languageBox->addItem(SETTINGS_DISPLAY_LANGUAGE_DEFAULT);
+        for(auto name : extractLanguages())
         {
-            QString name = languages[i].left(languages[i].size()-3);
             ui.languageBox->addItem(name, name);
         }
-        QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, "").toString();
-        int index = ui.languageBox->findData(lang);;
+        QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, SETTINGS_DISPLAY_LANGUAGE_DEFAULT).toString();
+        int index = ui.languageBox->findData(lang);
         if(index>=0)
             ui.languageBox->setCurrentIndex(index);
+
         ui.chanDbClickBox->addItem(tr("Do nothing"), ACTION_NOTHING);
         ui.chanDbClickBox->addItem(tr("Join only"), ACTION_JOIN);
         ui.chanDbClickBox->addItem(tr("Leave only"), ACTION_LEAVE);
@@ -850,20 +846,7 @@ void PreferencesDlg::slotSaveChanges()
             QString lang = ui.languageBox->itemData(index).toString();
             if(lang != ttSettings->value(SETTINGS_DISPLAY_LANGUAGE).toString())
             {
-                QApplication::removeTranslator(ttTranslator);
-                delete ttTranslator;
-                ttTranslator = nullptr;
-                if(!lang.isEmpty())
-                {
-                    ttTranslator = new QTranslator();
-                    if(ttTranslator->load(lang, TRANSLATE_FOLDER))
-                        QApplication::installTranslator(ttTranslator);
-                    else
-                    {
-                        delete ttTranslator;
-                        ttTranslator = nullptr;
-                    }
-                }
+                switchLanguage(lang);
             }
             ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE,
                         ui.languageBox->itemData(index).toString());
