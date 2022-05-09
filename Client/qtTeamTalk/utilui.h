@@ -140,5 +140,5 @@ public:
 void saveWindowPosition(const QString& setting, QWidget* widget);
 bool restoreWindowPosition(const QString& setting, QWidget* widget);
 QStringList extractLanguages();
-void switchLanguage(const QString& language);
+bool switchLanguage(const QString& language);
 #endif

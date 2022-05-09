@@ -243,7 +243,7 @@ bool restoreWindowPosition(const QString& setting, QWidget* widget)
 }
 
 
-void switchLanguage(const QString& language)
+bool switchLanguage(const QString& language)
 {
     QApplication::removeTranslator(ttTranslator);
     delete ttTranslator;
@@ -257,8 +257,10 @@ void switchLanguage(const QString& language)
         {
             delete ttTranslator;
             ttTranslator = nullptr;
+            return false;
         }
     }
+    return true;
 }
 
 QStringList extractLanguages()
