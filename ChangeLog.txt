@@ -6,6 +6,7 @@ Version 5.9.2, unreleased
 Accessible Windows Client
 Default Qt Client
 - Option to show server list on startup
+- Choose language at first startup
 Android Client
 iOS Client
 Server

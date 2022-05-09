@@ -24,7 +24,10 @@
 #include "utilui.h"
 #include "settings.h"
 #include "bearwarelogindlg.h"
+#include "appinfo.h"
 
+#include <QTranslator>
+#include <QDir>
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QDesktopWidget>
 #include <QApplication>
@@ -35,6 +38,7 @@
 
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
+extern QTranslator* ttTranslator;
 
 void setVideoTextBox(const QRect& rect, const QColor& bgcolor,
                      const QColor& fgcolor, const QString& text,
@@ -236,4 +240,34 @@ bool restoreWindowPosition(const QString& setting, QWidget* widget)
 #endif
     }
     return success;
+}
+
+
+bool switchLanguage(const QString& language)
+{
+    QApplication::removeTranslator(ttTranslator);
+    delete ttTranslator;
+    ttTranslator = nullptr;
+    if(!language.isEmpty())
+    {
+        ttTranslator = new QTranslator();
+        if(ttTranslator->load(language, TRANSLATE_FOLDER))
+            QApplication::installTranslator(ttTranslator);
+        else
+        {
+            delete ttTranslator;
+            ttTranslator = nullptr;
+            return false;
+        }
+    }
+    return true;
+}
+
+QStringList extractLanguages()
+{
+    QStringList languages;
+    QDir dir(TRANSLATE_FOLDER, "*.qm", QDir::Name, QDir::Files);
+    for (auto lang : dir.entryList())
+        languages.append(lang.left(lang.size()-3));
+    return languages;
 }
