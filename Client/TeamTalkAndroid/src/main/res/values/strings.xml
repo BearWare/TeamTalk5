@@ -37,7 +37,7 @@
     <string name="pref_cat_soundtest">Sound Test</string>
     <string name="pref_header_general">General</string>
     <string name="pref_title_nickname">Nickname</string>
-    <string name="pref_default_nickname">Noname</string>
+    <string name="pref_default_nickname">NoName</string>
     <string name="pref_title_proximity_sensor">Proximity sensor</string>
     <string name="pref_title_keep_screen_on">Keep screen on when connected</string>
     <string name="pref_title_vibrate">Vibrate on PTT</string>
@@ -208,7 +208,7 @@
     <string name="action_refresh">Refresh</string>
     <string name="action_import_serverlist">Import from a .tt File</string>
     <string name="action_export_serverlist">Export server list</string>
-    <string name="serverlist_export_confirmation">Server list has been exported in %1$s</string>
+    <string name="serverlist_export_confirmation">Server list has been exported to %1$s</string>
 
     <string name="pref_title_server_props">TeamTalk 5 Server Properties</string>
     <string name="pref_title_server_info">Server Information</string>
@@ -226,16 +226,16 @@
     <string name="pref_title_channel_password">Channel Password</string>
     <string name="pref_title_last_channel">Last Joined Channel</string>
 
-    <string name="pref_summary_server_name">This server will appear with this name in the Server List</string>
+    <string name="pref_summary_server_name">This server will appear with this name in the server list</string>
     <string name="pref_summary_server_address">The domain name or IP-address of the server</string>
 
     <string name="channel_password_prompt">Enter channel password</string>
     <string name="button_download">Download</string>
-    <string name="download_succeeded">File %1$s has been successfully downloaded and saved in %2$s</string>
+    <string name="download_succeeded">File %1$s has been successfully downloaded and saved to %2$s</string>
     <string name="download_failed">Failed to download file %1$s</string>
     <string name="upload_succeeded">File %1$s has been successfully uploaded</string>
     <string name="upload_failed">Failed to upload file %1$s</string>
-    <string name="alert_file_override">File %1$s already exists, override it?</string>
+    <string name="alert_file_override">File %1$s already exists. Override it?</string>
     <string name="err_file_delete">Cannot delete file %1$s</string>
     <string name="err_file_write">Cannot write file %1$s</string>
     <string name="err_channel_remove">Cannot delete channel %1$s</string>
@@ -246,8 +246,8 @@
     <string name="upload_started">Upload started</string>
     <string name="transfer_stopped">Transfer stopped</string>
     <string name="complete">Complete</string>
-    <string name="remote_file_exists">File %1$s already exists on the server in this channel</string>
-    <string name="remote_file_remove_confirmation">Do you really wish to remove file %1$s from the server?</string>
+    <string name="remote_file_exists">File %1$s already exists in this channel</string>
+    <string name="remote_file_remove_confirmation">Do you really wish to remove file %1$s from this channel?</string>
     <string name="server_remove_confirmation">Do you really wish to remove %1$s from the server list?</string>
     <string name="channel_remove_confirmation">Do you really wish to remove channel %1$s?</string>
     <string name="ban_confirmation">Do you really wish to ban user %1$s?</string>
@@ -338,7 +338,7 @@
     <string name="weblogin_prop_title_reset_web_login_id">Reset BearWare.dk Login ID</string>
     <string name="text_bearwarelogin_success">%1$s your username %2$s has been validated</string>
     <string name="text_bearwarelogin_failed">Failed to authenticate username %1$s (%2$s)</string>
-    <string name="text_weblogin_authfailure">BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences</string>
+    <string name="text_weblogin_authfailure">BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in preferences</string>
     <string name="editmsg">Message:</string>
     <string name="filepathlab">File:</string>
     <string name="channamelab">Channel\'s name:</string>
@@ -370,11 +370,11 @@
     <string name="pref_summary_channel_message_sent">Announce channel messages sent</string>
     <string name="text_tts_channel_message_sent">Channel message sent: %1$s</string>
     <string name="err_text_length">Message exceeded length by %1$d characters</string>
-    <string name="pref_summary_official_servers">Include official servers in Server List</string>
+    <string name="pref_summary_official_servers">Include official servers in server list</string>
     <string name="pref_title_official_servers">Show official servers</string>
-    <string name="pref_summary_unofficial_servers">Include unofficial servers in Server List</string>
+    <string name="pref_summary_unofficial_servers">Include unofficial servers in server list</string>
     <string name="pref_title_unofficial_servers">Show unofficial servers</string>
-    <string name="pref_header_serverlist">Server List</string>
+    <string name="pref_header_serverlist">Server list</string>
     <string name="text_server_summary">%1$s:%2$d, Users: %3$d, Country: %4$s</string>
     <string name="pref_title_server_connection">Connection</string>
     <string name="pref_title_server_motd">Message of the Day</string>
