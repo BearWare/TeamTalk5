@@ -180,12 +180,6 @@ jobs:
       run: |
         tt5prosvc.exe -u
 
-    - name: Upload Binary Artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: teamtalksdk-windows-${{ matrix.dotnetarch }}
-        path: ${{runner.workspace}}/install-teamtalk
-
     # Doxygen doesn't exist as GitHub action, so use pacman from MSYS64
     - uses: msys2/setup-msys2@v2
       with:
@@ -220,17 +214,20 @@ jobs:
         make ${{ matrix.portablearch }} ${{ matrix.portablearch }}pro
       shell: msys2 {0}
 
-    - uses: actions/upload-artifact@v2
+    - name: Archive TeamTalk SDK Binaries
+      uses: actions/upload-artifact@v2
       with:
-        name: teamtalk-windows-${{ matrix.portablearch }}
+        name: teamtalksdk-windows-${{ matrix.dotnetarch }}
         path: ${{runner.workspace}}/install-teamtalk
 
-    - uses: actions/upload-artifact@v2
+    - name: Build Portable Archive
+      uses: actions/upload-artifact@v2
       with:
         name: teamtalk-portable-${{ matrix.portablearch }}
         path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/TeamTalk_*_Portable
 
-    - uses: actions/upload-artifact@v2
+    - name: Build TeamTalk Pro Server Archive
+      uses: actions/upload-artifact@v2
       with:
         name: teamtalkpro-${{ matrix.portablearch }}
         path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalkpro-*-${{ matrix.portablearch }}
