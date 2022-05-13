@@ -21,11 +21,15 @@ jobs:
             cmakeplatform: Win32
             dotnetarch: x86
             qtarch: win32_msvc2019
+            msystem: MINGW32
+            portablearch: win32
           - name: VS2019Release64
             vmimage: windows-2019
             cmakeplatform: x64
             dotnetarch: x64
             qtarch: win64_msvc2019_64
+            msystem: MINGW64
+            portablearch: win64
 
     runs-on: ${{ matrix.vmimage }}
     name: ${{ matrix.name }}
@@ -187,3 +191,52 @@ jobs:
       with:
         name: teamtalksdk-windows-${{ matrix.dotnetarch }}
         path: ${{runner.workspace}}/install-${{ matrix.dotnetarch }}
+
+    # Doxygen doesn't exist as GitHub action, so use pacman from MSYS64
+    - uses: msys2/setup-msys2@v2
+      with:
+        msystem: ${{ matrix.msystem }}
+        path-type: inherit
+        install: make
+
+    - name: Install Doxygen in MSYS2 using pacman
+      run: pacman --noconfirm -S doxygen
+      shell: msys2 {0}
+
+    - name: Generate Doxygen documention from MSYS2
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build
+      run: make dox
+      shell: msys2 {0}
+
+    - name: Compile TeamTalk5.chm
+      working-directory: ${{runner.workspace}}/TeamTalk5/Documentation/TeamTalk
+      shell: cmd
+      run: |
+        "C:\Program Files (x86)\HTML Help Workshop\hhc.exe" output\index.hhp
+        EXIT /B 0
+
+    - name: Make Portable Setup Targets
+      working-directory: ${{runner.workspace}}
+      run: |
+        cd install-teamtalk
+        export TEAMTALK_INSTALLDIR=$PWD
+        cd ../TeamTalk5
+        source env.sh
+        cd Setup/Portable
+        make ${{ matrix.portablearch }} ${{ matrix.portablearch }}pro
+      shell: msys2 {0}
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: teamtalk-windows-${{ matrix.portablearch }}
+        path: ${{runner.workspace}}/install-teamtalk
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: teamtalk-portable-${{ matrix.portablearch }}
+        path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/TeamTalk_*_Portable
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: teamtalkpro-${{ matrix.portablearch }}
+        path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalkpro-*-${{ matrix.portablearch }}
