@@ -79,13 +79,13 @@ jobs:
         -DFEATURE_WEBRTC=OFF
         -DTOOLCHAIN_LIBVPX=OFF
         -DBUILD_TEAMTALK_CLIENT_DOTNET_EXAMPLE=OFF
-        -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.dotnetarch }}
+        -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-teamtalk
 
-    - name: Build CMake Projects
+    - name: Build and Install CMake Projects
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
-        cmake --build output --parallel 8 --config Release
+        cmake --build output --parallel 8 --config Release --target install
         echo ${{runner.workspace}}\TeamTalk5\Library\TeamTalk_DLL>> %GITHUB_PATH%
         echo ${{runner.workspace}}\TeamTalk5\Library\TeamTalkJNI\libs>> %GITHUB_PATH%
         echo PYTHONPATH=${{runner.workspace}}\TeamTalk5\Library\TeamTalkPy>> %GITHUB_ENV%
@@ -180,17 +180,11 @@ jobs:
       run: |
         tt5prosvc.exe -u
 
-    - name: Install CMake Projects
-      working-directory: ${{runner.workspace}}
-      shell: cmd
-      run: |
-        cmake --build output --parallel 8 --target install
-
     - name: Upload Binary Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: teamtalksdk-windows-${{ matrix.dotnetarch }}
-        path: ${{runner.workspace}}/install-${{ matrix.dotnetarch }}
+        path: ${{runner.workspace}}/install-teamtalk
 
     # Doxygen doesn't exist as GitHub action, so use pacman from MSYS64
     - uses: msys2/setup-msys2@v2
