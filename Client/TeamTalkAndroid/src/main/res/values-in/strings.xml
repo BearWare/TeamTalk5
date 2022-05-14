@@ -288,7 +288,7 @@
     <string name="text_officialserver">Server resmi</string>
     <string name="text_unofficialserver">Server tidak resmi</string>
     <string name="text_passwdprot">Dilindungi kata sandi</string>
-    <string name="text_translator">Diterjemahkan oleh: Pengguna TeamTalk Jom Borak Dan Gelegar Bangsa Multimedia</string>
+    <string name="text_translator">Diterjemahkan oleh Pengguna TeamTalk Jom Borak Dan Gelegar Bangsa Multimedia</string>
     <string name="desktop_image">Gambar desktop</string>
     <string name="channel_change_alert">Semua transfer aktif akan terhenti ketika beralih saluran</string>
     <string name="disconnect_alert">Semua transfer aktif akan terhenti ketika meninggalkan server</string>
