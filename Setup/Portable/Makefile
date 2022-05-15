@@ -168,15 +168,13 @@ winserverpro:
 winclient:
 	mkdir -p $(OUTDIR)/Client
 # Qt client
-	cp $(INSTALLDIR)/Client/qtTeamTalk/TeamTalk5.exe $(OUTDIR)/Client/
-	cp -r $(INSTALLDIR)/Client/qtTeamTalk/languages $(OUTDIR)/Client/
+	cp -r $(INSTALLDIR)/Client/qtTeamTalk/* $(OUTDIR)/Client/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5.ini $(OUTDIR)/Client/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5.ini $(OUTDIR)/Client/TeamTalk5.ini.default
 # Classic client
-	cp $(INSTALLDIR)/Client/TeamTalkClassic/TeamTalk5Classic.exe $(OUTDIR)/Client/
+	cp -r $(INSTALLDIR)/Client/TeamTalkClassic/* $(OUTDIR)/Client/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5Classic.xml $(OUTDIR)/Client/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5Classic.xml $(OUTDIR)/Client/TeamTalk5Classic.xml.default
-	cp -r $(INSTALLDIR)/Client/TeamTalkClassic/lng_classic $(OUTDIR)/Client/
 # Shared files
 	cp $(INSTALLDIR)/Library/TeamTalk_DLL/TeamTalk5.dll $(OUTDIR)/Client/
 	cp -r $(TEAMTALK_ROOT)/Setup/Client/Sounds $(OUTDIR)/Client/Sounds
@@ -184,14 +182,12 @@ winclient:
 
 linuxclient:
 	mkdir -p $(OUTDIR)/client
-	cp $(INSTALLDIR)/Client/qtTeamTalk/teamtalk5 $(OUTDIR)/client
+	cp -r $(INSTALLDIR)/Client/qtTeamTalk/* $(OUTDIR)/client/
 	strip $(OUTDIR)/client/teamtalk5
 	cp $(TEAMTALK_ROOT)/Setup/Client/Linux/TeamTalk5.ini $(OUTDIR)/client/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Linux/TeamTalk5.ini $(OUTDIR)/client/TeamTalk5.ini.default
 	cp $(INSTALLDIR)/Library/TeamTalk_DLL/libTeamTalk5.so $(OUTDIR)/client
 	strip $(OUTDIR)/client/libTeamTalk5.so
-	mkdir -p $(OUTDIR)/client/languages
-	cp -r $(INSTALLDIR)/Client/qtTeamTalk/languages $(OUTDIR)/client/
 	cp -r $(TEAMTALK_ROOT)/Setup/Client/Sounds $(OUTDIR)/client/sounds
 	cp $(TEAMTALK_ROOT)/Setup/Client/Linux/README_debian $(OUTDIR)/client/README
 	cp $(TEAMTALK_ROOT)/Setup/Client/Linux/run.sh $(OUTDIR)/client/run.sh
