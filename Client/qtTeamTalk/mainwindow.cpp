@@ -68,6 +68,7 @@
 #include <QGuiApplication>
 #include <QKeyEvent>
 #include <QCloseEvent>
+#include <QClipboard>
 
 #if defined(QT_TEXTTOSPEECH_LIB)
 #include <QTextToSpeech>
@@ -480,6 +481,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotChannelsDownloadFile);
     connect(ui.actionDeleteFile, &QAction::triggered,
             this, &MainWindow::slotChannelsDeleteFile);
+    connect(ui.actionShareChannel, &QAction::triggered,
+            this, &MainWindow::slotChannelsShare);
     /* End - Channels menu */
 
     /* Begin - Server menu */
@@ -5091,6 +5094,15 @@ void MainWindow::slotChannelsDeleteFile(bool /*checked =false */)
             TT_DoDeleteFile(ttInst, channelid, index.internalId());
         }
     }
+}
+
+void MainWindow::slotChannelsShare(bool checked/*=false*/)
+{
+    QClipboard *cp = QApplication::clipboard();
+    QString link = QString("tt://%1").arg(m_host.ipaddr);
+    cp->setText(link);
+    addStatusMsg(STATUSBAR_BYPASS, tr("Link copied to clipboard"));
+    addTextToSpeechMessage(tr("Link copied to clipboard"));
 }
 
 void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)   

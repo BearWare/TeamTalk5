@@ -1291,6 +1291,7 @@
     <addaction name="actionUploadFile"/>
     <addaction name="actionDownloadFile"/>
     <addaction name="actionDeleteFile"/>
+    <addaction name="actionShareChannel"/>
    </widget>
    <widget class="QMenu" name="menuServer">
     <property name="title">
@@ -2068,6 +2069,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionShareChannel">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Create a tt:// link to this Channel</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+C</string>
    </property>
   </action>
   <action name="actionDesktopInput">
