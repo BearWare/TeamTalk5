@@ -1518,7 +1518,7 @@ void MainWindow::clienteventUserRecordMediaFile(int source, const MediaFileInfo&
                      .arg(getDisplayName(user)));
         break;
     case MFS_FINISHED :
-        addStatusMsg(STATUSBAR_BYPASS, tr("Finished audio file %1")
+        addStatusMsg(STATUSBAR_BYPASS, tr("Finished writing audio file %1")
                      .arg(_Q(mediafileinfo.szFileName)));
         break;
     case MFS_ABORTED :
