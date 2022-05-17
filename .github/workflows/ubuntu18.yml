@@ -158,15 +158,21 @@ jobs:
         name: teamtalksdk-ubuntu18
         path: ${{runner.workspace}}/install
         
-    - name: Make Ubuntu Archive
+    - name: Make Ubuntu 18 Portable Archives
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |
         source env.sh
         cd Setup/Portable
-        make ubuntu18
+        make ubuntu18 ubuntu18pro
 
     - name: Upload TeamTalk Portable artifact
       uses: actions/upload-artifact@v2
       with:
         name: teamtalk-ubuntu18
         path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalk-*
+
+    - name: Upload TeamTalk Pro artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: teamtalkpro-ubuntu18
+        path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalkpro-*

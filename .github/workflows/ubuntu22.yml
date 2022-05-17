@@ -53,15 +53,21 @@ jobs:
         name: teamtalksdk-ubuntu22
         path: ${{runner.workspace}}/install
         
-    - name: Make Ubuntu Archive
+    - name: Make Ubuntu 22 Portable Archive
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |
         source env.sh
         cd Setup/Portable
-        make ubuntu22
+        make ubuntu22 ubuntu22pro
 
     - name: Upload TeamTalk Portable artifact
       uses: actions/upload-artifact@v2
       with:
         name: teamtalk-ubuntu22
         path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalk-*
+
+    - name: Upload TeamTalk Pro artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: teamtalkpro-ubuntu22
+        path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalkpro-*
