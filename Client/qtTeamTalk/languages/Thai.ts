@@ -1599,7 +1599,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../keycomp.ui" line="38"/>
-        <source>Hold down the keys which should be used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
+        <source>Hold down the keys that you want to used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
         <translatorcomment>การจัดการคีย์</translatorcomment>
         <translation>กดปุ่มใดๆที่ต้องการกำหนดบนแป้นพิมพ์ค้างไว้ หรือจะใช้ร่วมกับปุ่ม Ctrl และ Alt</translation>
     </message>
@@ -1610,7 +1610,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../keycomp.ui" line="72"/>
-        <source>This dialog closes when you have released all keys</source>
+        <source>This dialog will close automaticly when you released all keys</source>
         <translatorcomment>การจัดการคีย์</translatorcomment>
         <translation>หน้าต่างนี้จะถูกปิดทันที่หลังปล่อยปุ่มทั้งหมด</translation>
     </message>
@@ -1626,7 +1626,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="223"/>
-        <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
+        <source>macOS does not support only modifier keys. i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1651,7 +1651,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="955"/>
-        <source>Connection lost to %1 TCP port %2 UDP port %3</source>
+        <source>Connection to %1 TCP port %2 UDP port %3 lost</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การเชื่อมต่อกับ %1 TCP port %2 UDP port %3 หลุด</translation>
     </message>
@@ -2360,7 +2360,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="766"/>
-        <source>Your sounds pack %1 don&apos;t exist, would you like to use default sounds pack?</source>
+        <source>The sound pack %1 don&apos;t exist. Would you like to use default sound pack?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2470,7 +2470,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1504"/>
-        <source>Finished audio file %1</source>
+        <source>Finished writing audio file %1</source>
         <translation>ไฟล์เสียง %1 เสร็จสิ้น</translation>
     </message>
     <message>
@@ -4425,7 +4425,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1875"/>
-        <source>&amp;Store User(s) for Move</source>
+        <source>&amp;Select User(s) for Move</source>
         <translatorcomment>store user for move</translatorcomment>
         <translation>จัด&amp;เก็บ ผู้ใช้งาน เพื่อการย้ายที่</translation>
     </message>

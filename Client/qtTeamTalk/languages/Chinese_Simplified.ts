@@ -1389,7 +1389,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../keycomp.ui" line="38"/>
-        <source>Hold down the keys which should be used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
+        <source>Hold down the keys that you want to used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
         <translation>按下要用作热键的键。Shift， Ctrl 和 Alt 等修饰键可以与其他键组合使用</translation>
     </message>
     <message>
@@ -1399,7 +1399,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../keycomp.ui" line="72"/>
-        <source>This dialog closes when you have released all keys</source>
+        <source>This dialog will close automaticly when you released all keys</source>
         <translation>当您释放所有键后，此对话框将关闭</translation>
     </message>
     <message>
@@ -1414,7 +1414,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="223"/>
-        <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
+        <source>macOS does not support only modifier keys. i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
         <translation>macOS 不支持仅使用修饰键，即 Cmd，Option 和 Shift 必须与其他非修饰键结合使用。</translation>
     </message>
 </context>
@@ -2123,7 +2123,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1875"/>
-        <source>&amp;Store User(s) for Move</source>
+        <source>&amp;Select User(s) for Move</source>
         <translation>存储待移动用户(&amp;S)</translation>
     </message>
     <message>
@@ -2521,12 +2521,12 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="766"/>
-        <source>Your sounds pack %1 don&apos;t exist, would you like to use default sounds pack?</source>
+        <source>The sound pack %1 don&apos;t exist. Would you like to use default sound pack?</source>
         <translation>您的声音包 %1 不存在，您要使用默认声音包吗？</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="955"/>
-        <source>Connection lost to %1 TCP port %2 UDP port %3</source>
+        <source>Connection to %1 TCP port %2 UDP port %3 lost</source>
         <translation>连接丢失 %1 TCP 端口 %2 UDP 端口 %3</translation>
     </message>
     <message>
@@ -2721,7 +2721,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1504"/>
-        <source>Finished audio file %1</source>
+        <source>Finished writing audio file %1</source>
         <translation>完成音频文件 %1</translation>
     </message>
     <message>

@@ -1451,7 +1451,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../keycomp.ui" line="38"/>
-        <source>Hold down the keys which should be used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
+        <source>Hold down the keys that you want to used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
         <translation>Tenere Premuti I Tasti Che Dovrebbero Essere Utilizzati Come Hotkey. Tasti Come Shift, Ctrl e Alt Possono Essere Utilizzati In Combinazione Con Altri Tasti</translation>
     </message>
     <message>
@@ -1461,7 +1461,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../keycomp.ui" line="72"/>
-        <source>This dialog closes when you have released all keys</source>
+        <source>This dialog will close automaticly when you released all keys</source>
         <translation>Questo Dialog Si Chiuderà Appena Hai Lasciato Tutti I Tasti</translation>
     </message>
     <message>
@@ -1476,7 +1476,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="223"/>
-        <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
+        <source>macOS does not support only modifier keys. i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
         <translation>macOS non supporta solo i tasti modificatori, ovvero Cmd, Opzione e Maiusc devono essere utilizzati in combinazione con altri tasti non modificatori.</translation>
     </message>
 </context>
@@ -1495,7 +1495,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="955"/>
-        <source>Connection lost to %1 TCP port %2 UDP port %3</source>
+        <source>Connection to %1 TCP port %2 UDP port %3 lost</source>
         <translation>Connessione Persa Per %1 Porta TCP %2 Porta UDP %3</translation>
     </message>
     <message>
@@ -2110,7 +2110,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="766"/>
-        <source>Your sounds pack %1 don&apos;t exist, would you like to use default sounds pack?</source>
+        <source>The sound pack %1 don&apos;t exist. Would you like to use default sound pack?</source>
         <translation>Il tuo pacchetto di suoni %1 non esiste, vorresti usare il pacchetto di suoni predefinito?</translation>
     </message>
     <message>
@@ -2220,7 +2220,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1504"/>
-        <source>Finished audio file %1</source>
+        <source>Finished writing audio file %1</source>
         <translation>File audio finito %1</translation>
     </message>
     <message>
@@ -3892,7 +3892,7 @@ Devono essere applicate queste impostazioni?</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1875"/>
-        <source>&amp;Store User(s) for Move</source>
+        <source>&amp;Select User(s) for Move</source>
         <translation>&amp;Memorizza utente(i) per Movimento</translation>
     </message>
     <message>

@@ -1370,7 +1370,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../keycomp.ui" line="38"/>
-        <source>Hold down the keys which should be used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
+        <source>Hold down the keys that you want to used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
         <translation>Nyomja le a billentyűt, amit gyorsbillentyűként akar definiálni. Módosító billentyű, mint a Shift, Ctrl és Alt billentyű is használható, együtt más billentyűvel</translation>
     </message>
     <message>
@@ -1380,7 +1380,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../keycomp.ui" line="72"/>
-        <source>This dialog closes when you have released all keys</source>
+        <source>This dialog will close automaticly when you released all keys</source>
         <translation>A jelenlegi dialóg bezáródik, amint az összes billentyűt felengedte</translation>
     </message>
     <message>
@@ -1395,7 +1395,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="223"/>
-        <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
+        <source>macOS does not support only modifier keys. i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2244,7 +2244,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1875"/>
-        <source>&amp;Store User(s) for Move</source>
+        <source>&amp;Select User(s) for Move</source>
         <translation>&amp;Tárolja a felhasználó(kat) áthelyezéshez</translation>
     </message>
     <message>
@@ -2542,7 +2542,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="955"/>
-        <source>Connection lost to %1 TCP port %2 UDP port %3</source>
+        <source>Connection to %1 TCP port %2 UDP port %3 lost</source>
         <translation>Megszünt a %1 csatlakoztatása a %2 TCP porthoz, a %3 UDP porthoz</translation>
     </message>
     <message>
@@ -2696,7 +2696,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1504"/>
-        <source>Finished audio file %1</source>
+        <source>Finished writing audio file %1</source>
         <translation>A %1 audiófájl befejeződött</translation>
     </message>
     <message>
@@ -3416,7 +3416,7 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="766"/>
-        <source>Your sounds pack %1 don&apos;t exist, would you like to use default sounds pack?</source>
+        <source>The sound pack %1 don&apos;t exist. Would you like to use default sound pack?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
