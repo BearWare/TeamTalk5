@@ -5099,7 +5099,34 @@ void MainWindow::slotChannelsDeleteFile(bool /*checked =false */)
 void MainWindow::slotChannelsShare(bool checked/*=false*/)
 {
     QClipboard *cp = QApplication::clipboard();
-    QString link = QString("tt://%1").arg(m_host.ipaddr);
+    QString link = QString("tt://%1?tcpport=%2&udpport=%3&encrypted=%4").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport).arg(m_host.encrypted);
+    bool ok = false;
+    QInputDialog inputDialog;
+    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setCancelButtonText(tr("&Cancel"));
+    inputDialog.setInputMode(QInputDialog::TextInput);
+    inputDialog.setTextValue(m_host.username);
+    inputDialog.setWindowTitle(tr("Share channel"));
+    inputDialog.setLabelText(tr("Type username to use to share this channel:"));
+    ok = inputDialog.exec();
+    if (inputDialog.textValue().size()>0)
+        link += QString("&username=%5").arg(inputDialog.textValue());
+    if (ok)
+    {
+        inputDialog.setTextEchoMode(QLineEdit::Password);
+        inputDialog.setTextValue(m_host.password);
+        inputDialog.setWindowTitle(tr("Share channel"));
+        inputDialog.setLabelText(tr("Type password of this user account:"));
+        ok = inputDialog.exec();
+        if (ok && inputDialog.textValue().size()>0)
+            link += QString("&password=%6").arg(inputDialog.textValue());
+    }
+    if (TT_GetMyChannelID(ttInst) > 0)
+    {
+        link += QString("&channel=%7").arg(m_mychannel.szName);
+        if (m_mychannel.bPassword)
+            link += QString("&chanpasswd=%8").arg(m_mychannel.szPassword);
+    }
     cp->setText(link);
     addStatusMsg(STATUSBAR_BYPASS, tr("Link copied to clipboard"));
     addTextToSpeechMessage(tr("Link copied to clipboard"));
