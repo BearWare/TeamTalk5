@@ -949,7 +949,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
                 itemtext += ", " + tr("Question");
                 break;
             }
-            if((user.uUserState & USERSTATE_VOICE) || (user.nUserID == TT_GetMyUserID(ttInst) && isMyselfTalking() == TRUE))
+            if((user.uUserState & USERSTATE_VOICE) || (user.nUserID == TT_GetMyUserID(ttInst) && isMyselfTalking() == TRUE && userCanVoiceTx(TT_GetMyUserID(ttInst), chan) == TRUE))
                 itemtext += " 🎤";
             if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
                 itemtext += ", " + tr("Streaming media file");
