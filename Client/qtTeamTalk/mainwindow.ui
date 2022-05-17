@@ -1872,7 +1872,7 @@
   </action>
   <action name="actionStoreForMove">
    <property name="text">
-    <string>&amp;Select User(s) for Move</string>
+    <string>&amp;Store User(s) for Move</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+X</string>

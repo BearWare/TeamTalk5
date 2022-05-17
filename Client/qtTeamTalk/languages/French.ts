@@ -1389,7 +1389,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../keycomp.ui" line="38"/>
-        <source>Hold down the keys that you want to used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
+        <source>Hold down the keys which should be used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
         <translation>Maintenez enfoncées les touches qui doivent être utilisées pour ce raccourci. Les touches de modification comme CTRL, Alt et Maj peuvent être utilisées en combinaison avec d&apos;autres touches.</translation>
     </message>
     <message>
@@ -1399,7 +1399,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../keycomp.ui" line="72"/>
-        <source>This dialog will close automaticly when you released all keys</source>
+        <source>This dialog closes when you have released all keys</source>
         <translation>Ce dialogue se fermera lorsque vous aurez relâché toutes les touches</translation>
     </message>
     <message>
@@ -1414,7 +1414,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="223"/>
-        <source>macOS does not support only modifier keys. i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
+        <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
         <translation>macOS ne supporte pas les touches de modification seules, par exemple Commande, Option et Maj doivent être utilisées avec d&apos;autres touches qui ne sont pas des modificateurs.</translation>
     </message>
 </context>
@@ -2123,7 +2123,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1875"/>
-        <source>&amp;Select User(s) for Move</source>
+        <source>&amp;Store User(s) for Move</source>
         <translation>&amp;Sélectionner le(s) utilisateur(s) pour déplacer</translation>
     </message>
     <message>
@@ -2521,12 +2521,12 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="766"/>
-        <source>The sound pack %1 don&apos;t exist. Would you like to use default sound pack?</source>
+        <source>The sound pack %1 does not exist. Would you like to use the default sound pack?</source>
         <translation>Votre pack de sons %1 n&apos;existe pas, voulez-vous utiliser le pack de sons par défaut?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="955"/>
-        <source>Connection to %1 TCP port %2 UDP port %3 lost</source>
+        <source>Connection lost to %1 TCP port %2 UDP port %3</source>
         <translation>Connexion perdue à %1, port TCP %2, port UDP %3</translation>
     </message>
     <message>
@@ -2721,7 +2721,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1504"/>
-        <source>Finished writing audio file %1</source>
+        <source>Finished writing to audio file %1</source>
         <translation>Fichier audio %1 terminé</translation>
     </message>
     <message>

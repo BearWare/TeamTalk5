@@ -778,7 +778,7 @@ void MainWindow::loadSettings()
     if((!packdir.exists()) && packset != tr("Default"))
     {
         QMessageBox answer;
-        answer.setText(tr("The sound pack %1 don't exist. Would you like to use default sound pack?").arg(packset));
+        answer.setText(tr("The sound pack %1 does not exist. Would you like to use the default sound pack?").arg(packset));
         QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
         QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
         Q_UNUSED(NoButton);
@@ -969,7 +969,7 @@ void MainWindow::clienteventConLost()
     if(ttSettings->value(SETTINGS_CONNECTION_RECONNECT, SETTINGS_CONNECTION_RECONNECT_DEFAULT).toBool())
         m_timers[startTimer(5000)] = TIMER_RECONNECT;
 
-    addStatusMsg(STATUSBAR_BYPASS, tr("Connection to %1 TCP port %2 UDP port %3 lost")
+    addStatusMsg(STATUSBAR_BYPASS, tr("Connection lost to %1 TCP port %2 UDP port %3")
                  .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 
     playSoundEvent(SOUNDEVENT_SERVERLOST);
@@ -1518,7 +1518,7 @@ void MainWindow::clienteventUserRecordMediaFile(int source, const MediaFileInfo&
                      .arg(getDisplayName(user)));
         break;
     case MFS_FINISHED :
-        addStatusMsg(STATUSBAR_BYPASS, tr("Finished writing audio file %1")
+        addStatusMsg(STATUSBAR_BYPASS, tr("Finished writing to audio file %1")
                      .arg(_Q(mediafileinfo.szFileName)));
         break;
     case MFS_ABORTED :

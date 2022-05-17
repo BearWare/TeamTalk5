@@ -1531,8 +1531,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../keycomp.ui" line="38"/>
-        <source>Hold down the keys which should be used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
-        <oldsource>Hold down the keys which should be used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys.</oldsource>
+        <source><source>Finished writing to audio file %1</source></source>
+        <oldsource><source>Finished writing to audio file %1</source>.</oldsource>
         <translation>Hold tasterne nede som skal anvendes som genvejstast. Taster som Skift, Kontrol og Alt kan bruges i kombination med andre taster</translation>
     </message>
     <message>
@@ -1542,7 +1542,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../keycomp.ui" line="72"/>
-        <source>This dialog will close automaticly when you released all keys</source>
+        <source>This dialog closes when you have released all keys</source>
         <oldsource>This dialog closes when you have released all keys.</oldsource>
         <translation>Denne dialogboks lykker når du har givet slip for alle taster</translation>
     </message>
@@ -1558,7 +1558,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="223"/>
-        <source>macOS does not support only modifier keys. i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
+        <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1596,7 +1596,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="955"/>
-        <source>Connection to %1 TCP port %2 UDP port %3 lost</source>
+        <source>Connection lost to %1 TCP port %2 UDP port %3</source>
         <translation>Forbindelse forsvandt til %1 TCP port %2 UDP port %3</translation>
     </message>
     <message>
@@ -2332,7 +2332,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1504"/>
-        <source>Finished writing audio file %1</source>
+        <source>Finished writing to audio file %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2767,7 +2767,7 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="766"/>
-        <source>The sound pack %1 don&apos;t exist. Would you like to use default sound pack?</source>
+        <source>The sound pack %1 does not exist. Would you like to use the default sound pack?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3914,7 +3914,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1875"/>
-        <source>&amp;Select User(s) for Move</source>
+        <source>&amp;Store User(s) for Move</source>
         <translation>&amp;Gem Bruger(e) til Flytning</translation>
     </message>
     <message>
