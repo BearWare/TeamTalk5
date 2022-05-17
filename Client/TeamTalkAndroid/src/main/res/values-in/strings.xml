@@ -33,7 +33,7 @@
     <string name="text_cmd_servername">Nama server: </string>
     <string name="text_cmd_servermotd">Pesan hari ini: </string>
     <string name="pref_cat_subscriptions">Langganan</string>
-    <string name="pref_cat_tts">konfigurasikan suara pembaca layar</string>
+    <string name="pref_cat_tts">konfigurasikan suara teks ke ucapan</string>
     <string name="pref_cat_soundtest">Uji Suara</string>
     <string name="pref_header_general">Umum</string>
     <string name="pref_title_nickname">Nama Panggilan</string>
@@ -109,7 +109,7 @@
     <string name="pref_title_bluetooth_headset_checkbox">Gunakan mikrofon headset bluetooth</string>
     <string name="pref_summary_bluetooth_headset_checkbox">Saat headset bluetooth terhubung, gunakan mikrofon dari headset bluetooth</string>
     <string name="pref_title_voice_processing_checkbox">Aktifkan audio preprocessing</string>
-    <string name="pref_summary_voice_processing_checkbox">Menggunakan echo cancellation dan otomatis gain control</string>
+    <string name="pref_summary_voice_processing_checkbox">Gunakan pembatalan echo dan kontrol gain otomatis</string>
     <string name="pref_title_public_servers">Tampilkan server publik</string>
     <string name="pref_summary_public_servers">Sertakan server publik dalam Daftar Server</string>
 

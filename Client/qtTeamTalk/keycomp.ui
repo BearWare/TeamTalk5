@@ -35,7 +35,7 @@
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Hold down the keys which should be used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</string>
+         <string>Hold down the keys that you want to used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -69,7 +69,7 @@
       <item>
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>This dialog closes when you have released all keys</string>
+         <string>This dialog will close automaticly when you released all keys</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>

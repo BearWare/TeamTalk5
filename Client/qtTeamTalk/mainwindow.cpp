@@ -778,7 +778,7 @@ void MainWindow::loadSettings()
     if((!packdir.exists()) && packset != tr("Default"))
     {
         QMessageBox answer;
-        answer.setText(tr("Your sounds pack %1 don't exist, would you like to use default sounds pack?").arg(packset));
+        answer.setText(tr("The sound pack %1 don't exist. Would you like to use default sound pack?").arg(packset));
         QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
         QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
         Q_UNUSED(NoButton);
