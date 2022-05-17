@@ -5110,7 +5110,10 @@ void MainWindow::slotChannelsShare(bool checked/*=false*/)
     inputDialog.setLabelText(tr("Type username to use to share this channel:"));
     ok = inputDialog.exec();
     if (inputDialog.textValue().size()>0)
-        link += QString("&username=%5").arg(inputDialog.textValue());
+    {
+        QString username = QUrl::toPercentEncoding(inputDialog.textValue());
+        link += QString("&username=%5").arg(username);
+    }
     if (ok)
     {
         inputDialog.setTextEchoMode(QLineEdit::Password);
@@ -5119,13 +5122,20 @@ void MainWindow::slotChannelsShare(bool checked/*=false*/)
         inputDialog.setLabelText(tr("Type password of this user account:"));
         ok = inputDialog.exec();
         if (ok && inputDialog.textValue().size()>0)
-            link += QString("&password=%6").arg(inputDialog.textValue());
+        {
+            QString password = QUrl::toPercentEncoding(inputDialog.textValue());
+            link += QString("&password=%6").arg(password);
+        }
     }
     if (TT_GetMyChannelID(ttInst) > 0)
     {
-        link += QString("&channel=%7").arg(m_mychannel.szName);
+        QString channel = QUrl::toPercentEncoding(_Q(m_mychannel.szName));
+        link += QString("&channel=%7").arg(channel);
         if (m_mychannel.bPassword)
-            link += QString("&chanpasswd=%8").arg(m_mychannel.szPassword);
+        {
+            QString chanpswd = QUrl::toPercentEncoding(_Q(m_mychannel.szPassword));
+            link += QString("&chanpasswd=%8").arg(chanpswd);
+        }
     }
     cp->setText(link);
     addStatusMsg(STATUSBAR_BYPASS, tr("Link copied to clipboard"));
