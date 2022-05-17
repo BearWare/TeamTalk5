@@ -21,8 +21,8 @@
     <string name="text_con_failed">Gagal terhubung ke server. Mencoba menghubungkan kembali...</string>
     <string name="text_con_lost">Kehilangan koneksi ke server</string>
     <string name="text_con_success">Terhubung ke server</string>
-    <string name="text_con_cmderr">Gagal mengeluarkan perintah</string>
-    <string name="text_cmderr_login">Gagal mengeluarkan perintah login</string>
+    <string name="text_con_cmderr">Gagal untuk mengeluarkan perintah</string>
+    <string name="text_cmderr_login">Gagal untuk mengeluarkan perintah login</string>
     <string name="text_cmd_loggedin">terhubung ke server</string>
     <string name="text_cmd_joinchan">Bergabung ke saluran:</string>
     <string name="text_cmd_leftchan">Meninggalkan saluran:</string>
@@ -195,11 +195,11 @@
     <string name="name">Nama</string>
 
     <string name="err_init_sound_input">Gagal untuk menginisialisasi perangkat input suara</string>
-    <string name="err_init_sound_output">Gagal menginisialisasi perangkat output suara</string>
+    <string name="err_init_sound_output">Gagal untuk menginisialisasi perangkat output suara</string>
     <string name="err_retrieve_public_server_list">Gagal untuk mengambil daftar server publik</string>
     <string name="err_send_text_message">Gagal untuk mengirim pesan teks</string>
     <string name="err_connection">Koneksi gagal</string>
-    <string name="err_stream_media">Gagal melakukan streaming file media</string>
+    <string name="err_stream_media">Gagal untuk melakukan streaming file media</string>
 
     <string name="action_new_channel">saluran baru</string>
     <string name="action_save">Simpan</string>
@@ -232,9 +232,9 @@
     <string name="channel_password_prompt">Masukan kata sandi saluran</string>
     <string name="button_download">Unduh</string>
     <string name="download_succeeded">File %1$s telah berhasil diunduh dan disimpan ke %2$s</string>
-    <string name="download_failed">Gagal mengunduh file %1$s</string>
+    <string name="download_failed">Gagal untuk mengunduh file %1$s</string>
     <string name="upload_succeeded">File %1$s berhasil diunggah</string>
-    <string name="upload_failed">Gagal mengunggah file %1$s</string>
+    <string name="upload_failed">Gagal untuk mengunggah file %1$s</string>
     <string name="alert_file_override">File %1$s telah ada. Apakah anda ingin menggantinya?</string>
     <string name="err_file_delete">tidak dapat menghapus file %1$s</string>
     <string name="err_file_write">Tidak dapat menulis file %1$s</string>
@@ -307,7 +307,7 @@
     <string name="err_max_channels_exceeded">Terlalu banyak saluran</string>
     <string name="err_channel_already_exists">Saluran sudah ada</string>
     <string name="err_user_not_found">Nama pengguna tidak ditemukan</string>
-    <string name="err_openfile_failed">Server gagal membuka file</string>
+    <string name="err_openfile_failed">Server gagal untuk membuka file</string>
     <string name="err_filesharing_disabled">Server tidak mengizinkan transfer file</string>
     <string name="err_channel_has_users">Saluran tidak kosong</string>
 
@@ -337,7 +337,7 @@
     <string name="weblogin_prop_title_create_web_login_id">Buat ID Login BearWare.dk</string>
     <string name="weblogin_prop_title_reset_web_login_id">Setel ulang ID Login BearWare.dk</string>
     <string name="text_bearwarelogin_success">%1$s nama pengguna anda %2$s telah divalidasi</string>
-    <string name="text_bearwarelogin_failed">Gagal mengautentikasi nama pengguna %1$s (%2$s)</string>
+    <string name="text_bearwarelogin_failed">Gagal untuk mengautentikasi nama pengguna %1$s (%2$s)</string>
     <string name="text_weblogin_authfailure">Login Web BearWare.dk gagal diautentikasi. Periksa Login Web BearWare.dk di preferensi</string>
     <string name="editmsg">Pesan:</string>
     <string name="filepathlab">File:</string>
