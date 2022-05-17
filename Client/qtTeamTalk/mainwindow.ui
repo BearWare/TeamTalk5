@@ -2076,7 +2076,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Create a tt:// link to this Channel</string>
+    <string>Create a tt:// URL to This Channel</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+C</string>
