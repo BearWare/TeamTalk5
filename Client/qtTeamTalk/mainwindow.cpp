@@ -969,7 +969,7 @@ void MainWindow::clienteventConLost()
     if(ttSettings->value(SETTINGS_CONNECTION_RECONNECT, SETTINGS_CONNECTION_RECONNECT_DEFAULT).toBool())
         m_timers[startTimer(5000)] = TIMER_RECONNECT;
 
-    addStatusMsg(STATUSBAR_BYPASS, tr("Connection lost to %1 TCP port %2 UDP port %3")
+    addStatusMsg(STATUSBAR_BYPASS, tr("Connection to %1 TCP port %2 UDP port %3 lost")
                  .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 
     playSoundEvent(SOUNDEVENT_SERVERLOST);
