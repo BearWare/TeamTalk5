@@ -7,6 +7,7 @@ Accessible Windows Client
 Default Qt Client
 - Option to show server list on startup
 - Choose language at first startup
+- Ability to create a tt:// link to share channel
 Android Client
 iOS Client
 Server
