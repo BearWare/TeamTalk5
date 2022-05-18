@@ -57,7 +57,7 @@ ServerUser::ServerUser(int userid,
     //TTASSERT(handler.get_handle() != ACE_INVALID_HANDLE);
     m_nLastKeepAlive = 0;
 
-#if defined(ENABLE_ENCRYPTION)
+#if defined(ENABLE_TEAMTALKPRO)
     RAND_bytes(m_accesstoken, sizeof(m_accesstoken));
 #endif
 }
