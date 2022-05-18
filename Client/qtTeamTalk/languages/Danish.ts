@@ -1531,8 +1531,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../keycomp.ui" line="38"/>
-        <source><source>Finished writing to audio file %1</source></source>
-        <oldsource><source>Finished writing to audio file %1</source>.</oldsource>
+        <source>Hold down the keys which should be used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
         <translation>Hold tasterne nede som skal anvendes som genvejstast. Taster som Skift, Kontrol og Alt kan bruges i kombination med andre taster</translation>
     </message>
     <message>

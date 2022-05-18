@@ -1279,6 +1279,7 @@
     </widget>
     <addaction name="actionJoinChannel"/>
     <addaction name="menu_InfoChannel"/>
+    <addaction name="actionShareChannel"/>
     <addaction name="separator"/>
     <addaction name="actionCreateChannel"/>
     <addaction name="actionUpdateChannel"/>
@@ -2070,6 +2071,17 @@
     <string>Ctrl+S</string>
    </property>
   </action>
+  <action name="actionShareChannel">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Create a tt:// URL to This Channel</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+C</string>
+   </property>
+  </action>
   <action name="actionDesktopInput">
    <property name="checkable">
     <bool>true</bool>
@@ -2319,7 +2331,6 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="resources.qrc"/>
   <include location="resources.qrc"/>
  </resources>
  <connections/>
