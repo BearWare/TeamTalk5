@@ -5101,7 +5101,7 @@ void MainWindow::slotChannelsDeleteFile(bool /*checked =false */)
 void MainWindow::slotChannelsShare(bool checked/*=false*/)
 {
     QClipboard *cp = QApplication::clipboard();
-    QString link = QString("tt://%1?tcpport=%2&udpport=%3&encrypted=%4").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport).arg(m_host.encrypted);
+    QString link = QString("%5//%1?tcpport=%2&udpport=%3&encrypted=%4").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport).arg(m_host.encrypted).arg(TTLINK_PREFIX);
     bool ok = false;
     QInputDialog inputDialog;
     inputDialog.setOkButtonText(tr("&Ok"));
