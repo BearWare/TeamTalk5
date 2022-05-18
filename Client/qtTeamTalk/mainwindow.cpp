@@ -337,7 +337,9 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotClientAudioEffect);
     connect(ui.actionExit, &QAction::triggered,
             this, &MainWindow::slotClientExit);
-    /* End - File menu */
+    connect(ui.actionSpeakClientStats, &QAction::triggered,
+            this, &MainWindow::slotSpeakClientStats);
+    /* End - Client menu */
 
     /* Begin - Me menu */
     connect(ui.actionChangeNickname, &QAction::triggered,
@@ -7043,4 +7045,20 @@ void MainWindow::closeEvent(QCloseEvent *event)
 #else
     slotClientExit();
 #endif
+}
+
+void MainWindow::slotSpeakClientStats(bool checked/* = false*/)
+{
+    if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
+    {
+        ClientStatistics stats;
+        TT_GetClientStatistics(ttInst, &stats);
+        float rx = float(stats.nUdpBytesRecv - m_clientstats.nUdpBytesRecv);
+        float tx = float(stats.nUdpBytesSent - m_clientstats.nUdpBytesSent);
+        int ping = stats.nUdpPingTimeMs;
+        QString strstats = QString("RX: %1KB TX: %2KB").arg(rx / 1024.0, 2, 'f', 2, '0').arg(tx / 1024.0, 2, 'f', 2, '0');
+        if (ping != -1)
+            strstats += QString("PING: %3").arg(ping);
+        addTextToSpeechMessage(strstats);
+    }
 }

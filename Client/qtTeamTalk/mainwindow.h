@@ -434,6 +434,7 @@ private:
     void startTTS();
     void slotTextChanged();
     void slotEnableVoiceActivation(bool checked=false);
+    void slotSpeakClientStats(bool checked=false);
 
     void clienteventConSuccess();
     void clienteventConFailed();
