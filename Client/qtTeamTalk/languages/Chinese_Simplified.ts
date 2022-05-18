@@ -3441,7 +3441,7 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6008"/>
-        <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
+        <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translation>尚未配置视频设备属性。请检查‘首选项’中的设置</translation>
     </message>
     <message>

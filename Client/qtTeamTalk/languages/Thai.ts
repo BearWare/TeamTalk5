@@ -2295,7 +2295,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6008"/>
-        <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
+        <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>อุปกรณ์วีดีทัศน์ไม่ได้กำหนดค่าอย่างเหมาะสม ตรวจสอบการกำหนดค่าที่หัวข้อ การกำหนดค่า </translation>
     </message>

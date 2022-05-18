@@ -3058,7 +3058,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6008"/>
-        <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
+        <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translation>A videoeszköz helytelenűl lett configurálva.Ellenőrizze a beállításokat a &apos;Beállítások&apos;-nál</translation>
     </message>
     <message>

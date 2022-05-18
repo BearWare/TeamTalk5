@@ -2158,7 +2158,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6008"/>
-        <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
+        <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translation>Urządzenie wideo nie zostało skonfigurowane prawidłowo, sprawdź ustawienia w &quot;Opcjach&quot;</translation>
     </message>
     <message>

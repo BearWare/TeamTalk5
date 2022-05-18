@@ -3083,7 +3083,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6008"/>
-        <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
+        <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translation>Video apparaat is niet goed ingesteld controleer de instellingen in &quot;voorkeuren&quot;</translation>
     </message>
     <message>

@@ -6021,7 +6021,7 @@ void MainWindow::slotInitVideo()
     {
         if(!initVideoCaptureFromSettings())
             QMessageBox::warning(this, tr("Start Webcam"), 
-            tr("Video device hasn't been configured property. Check settings in 'Preferences'"));
+            tr("Video device hasn't been configured properly. Check settings in 'Preferences'"));
     }
     else
     {

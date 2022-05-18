@@ -156,7 +156,7 @@
     
     <string name="channel_prop_title_permanent">Saluran Permanen</string>
     <string name="channel_prop_title_nointerrupt">Tidak Ada Interupsi</string>
-    <string name="channel_prop_title_classroom">Ruang Kelas</string>
+    <string name="channel_prop_title_classroom">Kelas</string>
     <string name="channel_prop_title_oprecvonly">Hanya operator yang dapat menerima</string>
     <string name="channel_prop_title_novoiceact">Tidak Ada Aktivasi Suara</string>
     <string name="channel_prop_title_noaudiorecord">Tidak Ada Rekaman Audio</string>
@@ -332,7 +332,7 @@
     <string name="title_activity_web_login">AktivitasWebLogin</string>
     <string name="weblogin_prop_title_bearwareid">Nama Pengguna</string>
     <string name="weblogin_prop_title_bearwarepasswd">Kata sandi</string>
-    <string name="weblogin_prop_title_login">Masuk</string>
+    <string name="weblogin_prop_title_login">Login</string>
     <string name="weblogin_prop_title_web_login_id">ID login BearWare.dk</string>
     <string name="weblogin_prop_title_create_web_login_id">Buat ID Login BearWare.dk</string>
     <string name="weblogin_prop_title_reset_web_login_id">Setel ulang ID Login BearWare.dk</string>
