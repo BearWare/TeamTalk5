@@ -112,9 +112,18 @@ void MediaStorageDlg::accept()
     if((audiostorage_mode & (AUDIOSTORAGE_SEPARATEFILES | AUDIOSTORAGE_SINGLEFILE)) &&
        (folder.isEmpty() || !QDir(folder).exists()))
     {
-        QMessageBox::information(this, tr("Folder for audio files"),
-                                 tr("Folder for storing audio files does not exist"));
-        return;
+        QMessageBox answer;
+        answer.setText(tr("Folder for storing audio files does not exist. Do you want %1 to create it for you?").arg(APPNAME_SHORT));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        Q_UNUSED(NoButton);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(tr("Folder for audio files"));
+        answer.exec();
+        if(answer.clickedButton() == YesButton)
+            QDir(folder).mkpath(folder);
+        else
+            return;
     }
 
     StreamTypes sts = STREAMTYPE_NONE;
@@ -139,8 +148,38 @@ void MediaStorageDlg::accept()
     ttSettings->setValue(SETTINGS_MEDIASTORAGE_STREAMTYPES, sts);
 
     folder = ui.chanlogEdit->text();
+    if (folder.isEmpty() || !QDir(folder).exists())
+    {
+        QMessageBox answer;
+        answer.setText(tr("Folder for storing channel messages does not exist. Do you want %1 to create it for you?").arg(APPNAME_SHORT));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        Q_UNUSED(NoButton);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(tr("Folder for channel messages"));
+        answer.exec();
+        if(answer.clickedButton() == YesButton)
+            QDir(folder).mkpath(folder);
+        else
+            return;
+    }
     ttSettings->setValue(SETTINGS_MEDIASTORAGE_CHANLOGFOLDER, folder);
     folder = ui.usertextEdit->text();
+    if (folder.isEmpty() || !QDir(folder).exists())
+    {
+        QMessageBox answer;
+        answer.setText(tr("Folder for storing private text messages does not exist. Do you want %1 to create it for you?").arg(APPNAME_SHORT));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        Q_UNUSED(NoButton);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(tr("Folder for private text messages"));
+        answer.exec();
+        if(answer.clickedButton() == YesButton)
+            QDir(folder).mkpath(folder);
+        else
+            return;
+    }
     ttSettings->setValue(SETTINGS_MEDIASTORAGE_USERLOGFOLDER, folder);
 
     QDialog::accept();
