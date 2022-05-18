@@ -5720,6 +5720,7 @@ void MainWindow::slotUpdateUI()
 
     ui.actionJoinChannel->setEnabled(chanid>0);
     ui.actionViewChannelInfo->setEnabled(chanid>0);
+    ui.actionShareChannel->setEnabled(mychannel > 0);
     ui.actionSpeakChannelInfo->setEnabled(tts);
     ui.actionSpeakChannelStat->setEnabled(tts);
     ui.actionBannedUsersInChannel->setEnabled(chanid>0);
