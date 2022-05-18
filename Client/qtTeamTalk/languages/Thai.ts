@@ -2295,7 +2295,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6008"/>
-        <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
+        <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>อุปกรณ์วีดีทัศน์ไม่ได้กำหนดค่าอย่างเหมาะสม ตรวจสอบการกำหนดค่าที่หัวข้อ การกำหนดค่า </translation>
     </message>
@@ -2360,7 +2360,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="766"/>
-        <source>Your sounds pack %1 don&apos;t exist, would you like to use default sounds pack?</source>
+        <source>The sound pack %1 does not exist. Would you like to use the default sound pack?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2470,7 +2470,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1504"/>
-        <source>Finished audio file %1</source>
+        <source>Finished writing to audio file %1</source>
         <translation>ไฟล์เสียง %1 เสร็จสิ้น</translation>
     </message>
     <message>

@@ -1531,8 +1531,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../keycomp.ui" line="38"/>
-        <source>Hold down the keys which should be used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
-        <oldsource>Hold down the keys which should be used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys.</oldsource>
+        <source><source>Finished writing to audio file %1</source></source>
+        <oldsource><source>Finished writing to audio file %1</source>.</oldsource>
         <translation>Hold tasterne nede som skal anvendes som genvejstast. Taster som Skift, Kontrol og Alt kan bruges i kombination med andre taster</translation>
     </message>
     <message>
@@ -2332,7 +2332,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1504"/>
-        <source>Finished audio file %1</source>
+        <source>Finished writing to audio file %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2767,7 +2767,7 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="766"/>
-        <source>Your sounds pack %1 don&apos;t exist, would you like to use default sounds pack?</source>
+        <source>The sound pack %1 does not exist. Would you like to use the default sound pack?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3113,7 +3113,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6008"/>
-        <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
+        <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translation>Videoenhed kunne ikke konfigureres korrekt. Undersøg indstillingerne i &apos;Indstillinger&apos;</translation>
     </message>
     <message>

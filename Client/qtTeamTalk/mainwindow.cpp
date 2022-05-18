@@ -781,7 +781,7 @@ void MainWindow::loadSettings()
     if((!packdir.exists()) && packset != tr("Default"))
     {
         QMessageBox answer;
-        answer.setText(tr("Your sounds pack %1 don't exist, would you like to use default sounds pack?").arg(packset));
+        answer.setText(tr("The sound pack %1 does not exist. Would you like to use the default sound pack?").arg(packset));
         QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
         QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
         Q_UNUSED(NoButton);
@@ -1521,7 +1521,7 @@ void MainWindow::clienteventUserRecordMediaFile(int source, const MediaFileInfo&
                      .arg(getDisplayName(user)));
         break;
     case MFS_FINISHED :
-        addStatusMsg(STATUSBAR_BYPASS, tr("Finished audio file %1")
+        addStatusMsg(STATUSBAR_BYPASS, tr("Finished writing to audio file %1")
                      .arg(_Q(mediafileinfo.szFileName)));
         break;
     case MFS_ABORTED :
@@ -6070,7 +6070,7 @@ void MainWindow::slotInitVideo()
     {
         if(!initVideoCaptureFromSettings())
             QMessageBox::warning(this, tr("Start Webcam"), 
-            tr("Video device hasn't been configured property. Check settings in 'Preferences'"));
+            tr("Video device hasn't been configured properly. Check settings in 'Preferences'"));
     }
     else
     {

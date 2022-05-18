@@ -2521,7 +2521,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="766"/>
-        <source>Your sounds pack %1 don&apos;t exist, would you like to use default sounds pack?</source>
+        <source>The sound pack %1 does not exist. Would you like to use the default sound pack?</source>
         <translation>Votre pack de sons %1 n&apos;existe pas, voulez-vous utiliser le pack de sons par défaut?</translation>
     </message>
     <message>
@@ -2721,7 +2721,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1504"/>
-        <source>Finished audio file %1</source>
+        <source>Finished writing to audio file %1</source>
         <translation>Fichier audio %1 terminé</translation>
     </message>
     <message>
@@ -3441,7 +3441,7 @@ Vous pouvez la télécharger sur la page suivante:<byte value="xd"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6008"/>
-        <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
+        <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translation>Le périphérique vidéo ne peut pas être configuré correctement. Veuillez vérifier les paramètres dans &quot;Préférences&quot;</translation>
     </message>
     <message>
