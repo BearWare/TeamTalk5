@@ -11,6 +11,7 @@ Default Qt Client
 - 🎤 emoji and "Talking" not display for ourself if can't transmit in classroom channel
 - Ask to create storage folder for audio files, channel and private messages if does not exist
 - Option in "Client menu" to speak client statistics
+- Runs on Windows 7 (again) by using Qt DLLs
 Android Client
 iOS Client
 Server
