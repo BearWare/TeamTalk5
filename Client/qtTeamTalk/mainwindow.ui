@@ -1279,6 +1279,7 @@
     </widget>
     <addaction name="actionJoinChannel"/>
     <addaction name="menu_InfoChannel"/>
+    <addaction name="actionShareChannel"/>
     <addaction name="separator"/>
     <addaction name="actionCreateChannel"/>
     <addaction name="actionUpdateChannel"/>
@@ -1291,7 +1292,6 @@
     <addaction name="actionUploadFile"/>
     <addaction name="actionDownloadFile"/>
     <addaction name="actionDeleteFile"/>
-    <addaction name="actionShareChannel"/>
    </widget>
    <widget class="QMenu" name="menuServer">
     <property name="title">
@@ -2331,7 +2331,6 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="resources.qrc"/>
   <include location="resources.qrc"/>
  </resources>
  <connections/>
