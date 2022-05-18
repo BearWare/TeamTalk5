@@ -68,6 +68,7 @@
 #include <QGuiApplication>
 #include <QKeyEvent>
 #include <QCloseEvent>
+#include <QClipboard>
 
 #if defined(QT_TEXTTOSPEECH_LIB)
 #include <QTextToSpeech>
@@ -480,6 +481,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotChannelsDownloadFile);
     connect(ui.actionDeleteFile, &QAction::triggered,
             this, &MainWindow::slotChannelsDeleteFile);
+    connect(ui.actionShareChannel, &QAction::triggered,
+            this, &MainWindow::slotChannelsShare);
     /* End - Channels menu */
 
     /* Begin - Server menu */
@@ -5091,6 +5094,52 @@ void MainWindow::slotChannelsDeleteFile(bool /*checked =false */)
             TT_DoDeleteFile(ttInst, channelid, index.internalId());
         }
     }
+}
+
+void MainWindow::slotChannelsShare(bool checked/*=false*/)
+{
+    QClipboard *cp = QApplication::clipboard();
+    QString link = QString("tt://%1?tcpport=%2&udpport=%3&encrypted=%4").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport).arg(m_host.encrypted);
+    bool ok = false;
+    QInputDialog inputDialog;
+    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setCancelButtonText(tr("&Cancel"));
+    inputDialog.setInputMode(QInputDialog::TextInput);
+    inputDialog.setTextValue(m_host.username);
+    inputDialog.setWindowTitle(tr("Share channel"));
+    inputDialog.setLabelText(tr("Type username to use to share this channel:"));
+    ok = inputDialog.exec();
+    if (inputDialog.textValue().size()>0)
+    {
+        QString username = QUrl::toPercentEncoding(inputDialog.textValue());
+        link += QString("&username=%5").arg(username);
+    }
+    if (ok)
+    {
+        inputDialog.setTextEchoMode(QLineEdit::Password);
+        inputDialog.setTextValue(m_host.password);
+        inputDialog.setWindowTitle(tr("Share channel"));
+        inputDialog.setLabelText(tr("Type password of this user account:"));
+        ok = inputDialog.exec();
+        if (ok && inputDialog.textValue().size()>0)
+        {
+            QString password = QUrl::toPercentEncoding(inputDialog.textValue());
+            link += QString("&password=%6").arg(password);
+        }
+    }
+    if (TT_GetMyChannelID(ttInst) > 0)
+    {
+        QString channel = QUrl::toPercentEncoding(_Q(m_mychannel.szName));
+        link += QString("&channel=%7").arg(channel);
+        if (m_mychannel.bPassword)
+        {
+            QString chanpswd = QUrl::toPercentEncoding(_Q(m_mychannel.szPassword));
+            link += QString("&chanpasswd=%8").arg(chanpswd);
+        }
+    }
+    cp->setText(link);
+    addStatusMsg(STATUSBAR_BYPASS, tr("Link copied to clipboard"));
+    addTextToSpeechMessage(tr("Link copied to clipboard"));
 }
 
 void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)   
