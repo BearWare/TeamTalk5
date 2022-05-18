@@ -8,6 +8,7 @@ Default Qt Client
 - Option to show server list on startup
 - Choose language at first startup
 - Ability to create a tt:// link to share channel
+- 🎤 emoji and "Talking" not display for ourself if can't transmit in classroom channel
 Android Client
 iOS Client
 Server
