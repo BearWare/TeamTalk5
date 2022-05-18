@@ -1149,6 +1149,8 @@
     <addaction name="menuSoundConfiguration"/>
     <addaction name="actionMediaStorage"/>
     <addaction name="separator"/>
+    <addaction name="actionSpeakClientStats"/>
+    <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuMe">
@@ -1429,6 +1431,14 @@
   <action name="actionExit">
    <property name="text">
     <string>&amp;Exit</string>
+   </property>
+  </action>
+  <action name="actionSpeakClientStats">
+   <property name="text">
+    <string>&amp;Speak Client Statistics</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
    </property>
   </action>
   <action name="actionEnablePushToTalk">

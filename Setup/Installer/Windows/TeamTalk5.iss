@@ -39,24 +39,28 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 
 [Files]
 ;x86
-Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\qtTeamTalk\TeamTalk5.exe"; DestDir: "{app}"; Components: client; Flags: ignoreversion; Check: not Is64BitInstallMode;
-Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\TeamTalkClassic\TeamTalk5Classic.exe"; DestDir: "{app}"; Components: classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
-Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Library\TeamTalk_DLL\TeamTalk5.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
-Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Library\TeamTalk_DLL\dolapi32.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
-Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Library\TeamTalk_DLL\nvdaControllerClient32.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
-Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Library\TeamTalk_DLL\SAAPI32.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
-Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Library\TeamTalk_DLL\Tolk.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
-Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Server\tt5svc.exe"; DestDir: "{app}"; Components: server; Flags: ignoreversion; Check: not Is64BitInstallMode;
-Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Server\tt5srv.exe"; DestDir: "{app}"; Components: server; Flags: ignoreversion; Check: not Is64BitInstallMode;
+Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\qtTeamTalk\windeployqt\*"; Excludes: "vc_redist.x86.exe"; DestDir: "{app}"; Components: client; Flags: ignoreversion recursesubdirs; Check: not Is64BitInstallMode;
+Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Client\qtTeamTalk\windeployqt\vc_redist.x86.exe"; DestDir: {tmp}; Components: client; Flags: deleteafterinstall; Check: not Is64BitInstallMode;
+Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Build\install\win32\Client\qtTeamTalk\TeamTalk5.exe"; DestDir: "{app}"; Components: client; Flags: ignoreversion; Check: not Is64BitInstallMode;
+Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Build\install\win32\Client\TeamTalkClassic\TeamTalk5Classic.exe"; DestDir: "{app}"; Components: classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
+Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Build\install\win32\Library\TeamTalk_DLL\TeamTalk5.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
+Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Build\install\win32\Client\qtTeamTalk\dolapi32.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
+Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Build\install\win32\Client\qtTeamTalk\nvdaControllerClient32.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
+Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Build\install\win32\Client\qtTeamTalk\SAAPI32.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
+Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Build\install\win32\Client\qtTeamTalk\Tolk.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: not Is64BitInstallMode;
+Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Build\install\win32\Server\tt5svc.exe"; DestDir: "{app}"; Components: server; Flags: ignoreversion; Check: not Is64BitInstallMode;
+Source: "c:\tt5dist\TeamTalk5_x86\TeamTalk5\Build\install\win32\Server\tt5srv.exe"; DestDir: "{app}"; Components: server; Flags: ignoreversion; Check: not Is64BitInstallMode;
 ;x64
-Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Client\qtTeamTalk\TeamTalk5.exe"; DestDir: "{app}"; Components: client; Flags: ignoreversion; Check: Is64BitInstallMode;
-Source: "c:\tt5dist\TeamTalk5_x64\TeamTalk5\Client\TeamTalkClassic\TeamTalk5Classic.exe"; DestDir: "{app}"; Components: classic; Flags: ignoreversion; Check: Is64BitInstallMode;
-Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Library\TeamTalk_DLL\TeamTalk5.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: Is64BitInstallMode;
-Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Library\TeamTalk_DLL\nvdaControllerClient64.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: Is64BitInstallMode;
-Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Library\TeamTalk_DLL\SAAPI64.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: Is64BitInstallMode;
-Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Library\TeamTalk_DLL\Tolk.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: Is64BitInstallMode;
-Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Server\tt5svc.exe"; DestDir: "{app}"; Components: server; Flags: ignoreversion; Check: Is64BitInstallMode;
-Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Server\tt5srv.exe"; DestDir: "{app}"; Components: server; Flags: ignoreversion; Check: Is64BitInstallMode;
+Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Client\qtTeamTalk\windeployqt\*"; Excludes: "vc_redist.x64.exe"; DestDir: "{app}"; Components: client; Flags: ignoreversion recursesubdirs; Check: Is64BitInstallMode;
+Source: "c:\tt5dist\TeamTalk5_x64\TeamTalk5\Client\qtTeamTalk\windeployqt\vc_redist.x64.exe"; DestDir: {tmp}; Components: client; Flags: deleteafterinstall; Check: Is64BitInstallMode;
+Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Build\install\x64\Client\qtTeamTalk\TeamTalk5.exe"; DestDir: "{app}"; Components: client; Flags: ignoreversion; Check: Is64BitInstallMode;
+Source: "c:\tt5dist\TeamTalk5_x64\TeamTalk5\Build\install\x64\Client\TeamTalkClassic\TeamTalk5Classic.exe"; DestDir: "{app}"; Components: classic; Flags: ignoreversion; Check: Is64BitInstallMode;
+Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Build\install\x64\Library\TeamTalk_DLL\TeamTalk5.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: Is64BitInstallMode;
+Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Build\install\x64\Client\qtTeamTalk\nvdaControllerClient64.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: Is64BitInstallMode;
+Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Build\install\x64\Client\qtTeamTalk\SAAPI64.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: Is64BitInstallMode;
+Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Build\install\x64\Client\qtTeamTalk\Tolk.dll"; DestDir: "{app}"; Components: client classic; Flags: ignoreversion; Check: Is64BitInstallMode;
+Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Build\install\x64\Server\tt5svc.exe"; DestDir: "{app}"; Components: server; Flags: ignoreversion; Check: Is64BitInstallMode;
+Source: "C:\tt5dist\TeamTalk5_x64\TeamTalk5\Build\install\x64\Server\tt5srv.exe"; DestDir: "{app}"; Components: server; Flags: ignoreversion; Check: Is64BitInstallMode;
 
 ;cfg files
 Source: "C:\tt5dist\TeamTalk5_x86\TeamTalk5\Setup\Client\Windows\TeamTalk5.ini"; DestDir: "{app}"; DestName: "TeamTalk5.ini.default"; Components: client; Flags: ignoreversion;
@@ -192,6 +196,8 @@ Name: "{group}\TeamTalk 5 NT Service\Uninstall TeamTalk NT Service"; Filename: "
 Name: "{group}\TeamTalk 5 Console Server"; Filename: "{app}\tt5srv_console.bat"; WorkingDir: "{app}"; Components: server;
 
 [Run]
+Filename: "{tmp}\vc_redist.x86.exe"; Parameters: "/install /quiet /norestart"; Components: client; Check: not Is64BitInstallMode;
+Filename: "{tmp}\vc_redist.x64.exe"; Parameters: "/install /quiet /norestart"; Components: client; Check: Is64BitInstallMode;
 Filename: "{app}\TeamTalk5.exe"; Description: "{cm:LaunchProgram,TeamTalk}"; WorkingDir: "{app}"; Parameters: ""; Components: client; Flags: postinstall nowait skipifsilent
 Filename: "{app}\TeamTalk5Classic.exe"; Description: "{cm:LaunchProgram,TeamTalk}"; WorkingDir: "{app}"; Parameters: ""; Components: classic; Flags: postinstall nowait skipifsilent
 
