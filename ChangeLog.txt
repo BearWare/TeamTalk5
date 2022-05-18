@@ -10,6 +10,7 @@ Default Qt Client
 - Ability to create a tt:// link to share channel
 - 🎤 emoji and "Talking" not display for ourself if can't transmit in classroom channel
 - Ask to create storage folder for audio files, channel and private messages if does not exist
+- Runs on Windows 7 (again) by using Qt DLLs
 Android Client
 iOS Client
 Server
