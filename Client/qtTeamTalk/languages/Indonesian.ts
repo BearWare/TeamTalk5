@@ -806,7 +806,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="946"/>
         <source>Away</source>
-        <translation>Away.</translation>
+        <translation>Away</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="949"/>
