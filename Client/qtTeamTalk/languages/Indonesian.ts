@@ -3055,7 +3055,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="2656"/>
         <source>Broadcast message from %1: %2</source>
-        <translation>Pesan siaran dari %1: %2</translation>
+        <translation>Pesan broadcast dari %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2675"/>
