@@ -2490,8 +2490,9 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4276"/>
+        <location filename="../mainwindow.cpp" line="6008"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>O dispositivo de vídeo não foi configurado correctamente. Verifique as definições em &apos;Configurações&apos; </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4287"/>
@@ -3079,11 +3080,6 @@ You can download it on the page below:<byte value="xd"/>
 Should these settings be applied?</source>
         <translation type="obsolete">O ficheiro %1 contém informação de configuração %2.
 Devem estas configurações ser aplicadas?</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6008"/>
-        <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translation>O dispositivo de vídeo não foi configurado correctamente. Verifique as definições em &apos;Configurações&apos; </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6029"/>

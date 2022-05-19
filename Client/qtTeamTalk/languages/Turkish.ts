@@ -3429,6 +3429,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4276"/>
+        <location filename="../mainwindow.cpp" line="6008"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translation>Video cihazı düzgün yapılandırılmamış. Tercihler'deki ayarları kontrol edin</translation>
     </message>
@@ -3466,11 +3467,6 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="5086"/>
         <source>&amp;Upload Date</source>
         <translation>Yükleme &amp;tarihi</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6008"/>
-        <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translation>Video aygıtı özelliği yapılandırılmamış. Tercihler'deki ayarları kontrol edin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4287"/>

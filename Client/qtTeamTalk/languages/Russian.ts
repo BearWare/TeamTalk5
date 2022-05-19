@@ -3108,6 +3108,7 @@ p, li { white-space: pre-wrap; }
         <translation>Укажите новый ник</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="4276"/>
         <location filename="../mainwindow.cpp" line="6008"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translation>Устройство видео настроено не правильно. Проверьте это в диалоге &apos;Настройки&apos;</translation>
@@ -3722,11 +3723,6 @@ You can download it on the page below:
         <location filename="../mainwindow.cpp" line="4077"/>
         <source>&amp;Refresh Sound Devices</source>
         <translation>&amp;Обновить звуковые устройства</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4276"/>
-        <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translation>Видеоустройство настроено неправильно. Проверьте пораметры в разделе &quot;Настройки&quot;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4405"/>
