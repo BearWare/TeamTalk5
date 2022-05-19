@@ -2539,13 +2539,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="1069"/>
         <location filename="../mainwindow.cpp" line="1071"/>
         <source>%1 has logged in</source>
-        <translation>%1 telah masuk ke server</translation>
+        <translation>%1 telah masuk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
         <location filename="../mainwindow.cpp" line="1089"/>
         <source>%1 has logged out</source>
-        <translation>%1 telah keluar dari server</translation>
+        <translation>%1 telah keluar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2749"/>

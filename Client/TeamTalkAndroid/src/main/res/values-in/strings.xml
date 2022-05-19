@@ -113,8 +113,8 @@
     <string name="pref_title_public_servers">Tampilkan server publik</string>
     <string name="pref_summary_public_servers">Sertakan server publik dalam Daftar Server</string>
 
-    <string name="text_tts_loggedin">telah masuk ke server</string>
-    <string name="text_tts_loggedout">telah keluar dari server</string>
+    <string name="text_tts_loggedin">telah masuk</string>
+    <string name="text_tts_loggedout">telah keluar</string>
     <string name="text_tts_joined_chan">telah bergabung dengan saluran</string>
     <string name="text_tts_left_chan">meninggalkan saluran</string>
     <string name="text_tts_private_message">Pesan pribadi dari %1$s: %2$s</string>
