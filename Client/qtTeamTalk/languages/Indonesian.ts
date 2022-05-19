@@ -1582,7 +1582,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1156"/>
         <source>&amp;Me</source>
-        <translation>&amp;Saya</translation>
+        <translation>S&amp;aya</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1180"/>
@@ -1622,7 +1622,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1297"/>
         <source>&amp;Server</source>
-        <translation>S&amp;erver</translation>
+        <translation>&amp;Server</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1312"/>
