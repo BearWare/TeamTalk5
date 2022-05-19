@@ -1612,7 +1612,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1270"/>
         <source>&amp;Channels</source>
-        <translation>&amp;Saluran</translation>
+        <translation>Sal&amp;uran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1274"/>
