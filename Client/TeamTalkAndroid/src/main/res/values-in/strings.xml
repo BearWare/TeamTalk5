@@ -61,8 +61,8 @@
     <string name="pref_summary_transmitready_icon">Mainkan suara ketika transmisi siap di "Tidak Ada Interupsi" saluran</string>
     <string name="pref_title_userjoin_icon">Pengguna bergabung dengan saluran</string>
     <string name="pref_summary_userjoin_icon">Mainkan suara saat pengguna bergabung dengan saluran saat ini</string>
-    <string name="pref_title_userleft_icon">Pengguna keluar dari saluran</string>
-    <string name="pref_summary_userleft_icon">Mainkan suara saat pengguna keluar dari saluran saat ini</string>
+    <string name="pref_title_userleft_icon">Pengguna meninggalkan saluran</string>
+    <string name="pref_summary_userleft_icon">Mainkan suara saat pengguna meninggalkan saluran saat ini</string>
     <string name="pref_header_connection">Koneksi</string>
     <string name="pref_title_sub_txtmsg">Pesan teks</string>
     <string name="pref_summary_sub_txtmsg">Mengikuti pesan teks dari pengguna</string>
@@ -87,8 +87,8 @@
     <string name="pref_summary_server_logout">Umumkan nama pengguna yang keluar</string>
     <string name="pref_title_channel_join">Pengguna bergabung dengan saluran</string>
     <string name="pref_summary_channel_join">Umumkan nama pengguna yang bergabung dengan saluran</string>
-    <string name="pref_title_channel_leave">Pengguna keluar dari saluran</string>
-    <string name="pref_summary_channel_leave">Umumkan nama pengguna yang keluar dari saluran</string>
+    <string name="pref_title_channel_leave">Pengguna meninggalkan saluran</string>
+    <string name="pref_summary_channel_leave">Umumkan nama pengguna yang meninggalkan saluran</string>
     <string name="pref_title_private_message">Pesan pribadi</string>
     <string name="pref_summary_private_message">Umumkan pesan pribadi</string>
     <string name="pref_title_channel_message">Pesan saluran</string>
