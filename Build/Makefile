@@ -189,6 +189,8 @@ depend-ubuntu22:
                     openjdk-18-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev yasm autoconf libtool pkg-config \
                     libasound2-dev wget python2 g++ p7zip-full python3-pytest
+	@echo "Ensure a default python is set up for WebRTC to compile:"
+	@echo "# sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10"
 
 depend-ubuntu18-android:
 	apt install doxygen ninja-build junit4 cmake openjdk-11-jdk junit4 autoconf libtool pkg-config python
