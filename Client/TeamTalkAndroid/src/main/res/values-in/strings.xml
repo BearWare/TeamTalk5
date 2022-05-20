@@ -78,7 +78,7 @@
     <string name="pref_summary_sub_desktop">Mengikuti stream desktop</string>
     <string name="pref_title_sub_mediafile">Media File</string>
     <string name="pref_summary_sub_mediafile">Mengikuti stream media file</string>
-    <string name="pref_header_tts">TTS</string>
+    <string name="pref_header_tts">Teks Ke Ucapan</string>
     <string name="pref_title_speech_engine">Pilihan mesin tts</string>
     <string name="pref_summary_speech_engine">Pilih salah satu mesin TTS yang terpasang, berbeda dari pengaturan sistem saat ini</string>
     <string name="pref_title_server_login">Pengguna masuk ke server</string>
@@ -374,7 +374,7 @@
     <string name="pref_title_official_servers">Tampilkan server resmi</string>
     <string name="pref_summary_unofficial_servers">Sertakan server tidak resmi di daftar server</string>
     <string name="pref_title_unofficial_servers">Tampilkan server tidak resmi</string>
-    <string name="pref_header_serverlist">Daftar server</string>
+    <string name="pref_header_serverlist">Daftar Server</string>
     <string name="text_server_summary">%1$s:%2$d, Pengguna: %3$d, Negara: %4$s</string>
     <string name="pref_title_server_connection">Koneksi</string>
     <string name="pref_title_server_motd">Pesan Hari Ini</string>
