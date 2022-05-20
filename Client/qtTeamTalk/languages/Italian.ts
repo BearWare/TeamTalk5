@@ -2061,6 +2061,7 @@ p, li { white-space: pre-wrap; }
         <translation>Specifica Il Nuovo Nick</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="4276"/>
         <location filename="../mainwindow.cpp" line="6008"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translation>Il Dispositivo Video Non E&apos; Stato Configurato Correttamente. Controlla Le Impostazioni Sotto La Voce &apos;Preferenze&apos;</translation>
@@ -2354,11 +2355,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="4157"/>
         <source>Specify new nickname for current server</source>
         <translation>Specifica il nuovo nickname per il server attuale</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4276"/>
-        <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4287"/>

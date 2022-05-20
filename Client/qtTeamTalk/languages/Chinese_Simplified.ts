@@ -3401,6 +3401,7 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4276"/>
+        <location filename="../mainwindow.cpp" line="6008"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translation>未正确配置视频设备，请检查‘首选项’中的设置</translation>
     </message>
@@ -3438,11 +3439,6 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="5086"/>
         <source>&amp;Upload Date</source>
         <translation>上传日期(&amp;U)</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6008"/>
-        <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translation>尚未配置视频设备属性。请检查‘首选项’中的设置</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4287"/>

@@ -2294,6 +2294,7 @@ p, li { white-space: pre-wrap; }
         <translation>กำหนดชื่อเล่นใหม่</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="4276"/>
         <location filename="../mainwindow.cpp" line="6008"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
@@ -2617,11 +2618,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4157"/>
         <source>Specify new nickname for current server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4276"/>
-        <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

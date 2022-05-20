@@ -79,7 +79,7 @@
     <string name="pref_title_sub_mediafile">Media File</string>
     <string name="pref_summary_sub_mediafile">Subscribe to media file streams</string>
     <string name="pref_header_tts">Text to Speech</string>
-    <string name="pref_title_speech_engine">Tts engine selection</string>
+    <string name="pref_title_speech_engine">TTS engine selection</string>
     <string name="pref_summary_speech_engine">Select one of installed speech engines, different from system settings</string>
     <string name="pref_title_server_login">User logs on the server</string>
     <string name="pref_summary_server_login">Announce name of user logging in</string>
@@ -374,7 +374,7 @@
     <string name="pref_title_official_servers">Show official servers</string>
     <string name="pref_summary_unofficial_servers">Include unofficial servers in server list</string>
     <string name="pref_title_unofficial_servers">Show unofficial servers</string>
-    <string name="pref_header_serverlist">Server list</string>
+    <string name="pref_header_serverlist">Server List</string>
     <string name="text_server_summary">%1$s:%2$d, Users: %3$d, Country: %4$s</string>
     <string name="pref_title_server_connection">Connection</string>
     <string name="pref_title_server_motd">Message of the Day</string>

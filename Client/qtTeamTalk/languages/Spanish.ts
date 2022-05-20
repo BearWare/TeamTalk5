@@ -3055,6 +3055,7 @@ p, li { white-space: pre-wrap; }
         <translation>Especificar nuevo apodo</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="4276"/>
         <location filename="../mainwindow.cpp" line="6008"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translation>El dispositivo de vídeo no se ha configurado correctamente. Compruebe la configuración en Preferencias</translation>
@@ -3635,11 +3636,6 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="4077"/>
         <source>&amp;Refresh Sound Devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4276"/>
-        <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

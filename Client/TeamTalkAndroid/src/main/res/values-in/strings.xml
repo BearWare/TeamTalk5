@@ -16,19 +16,19 @@
     <string name="title_activity_text_message">Pesan teks</string>
     <string name="title_activity_preferences">Preferensi</string>
     <string name="title_activity_stream_media">Stream media file ke saluran</string>
-    <string name="action_createchannel">Buat</string>
+    <string name="action_createchannel">Cipta</string>
     <string name="action_updatechannel">Perbaharui</string>
     <string name="text_con_failed">Gagal terhubung ke server. Mencoba menghubungkan kembali...</string>
     <string name="text_con_lost">Kehilangan koneksi ke server</string>
     <string name="text_con_success">Terhubung ke server</string>
     <string name="text_con_cmderr">Gagal untuk mengeluarkan perintah</string>
     <string name="text_cmderr_login">Gagal untuk mengeluarkan perintah login</string>
-    <string name="text_cmd_loggedin">terhubung ke server</string>
-    <string name="text_cmd_joinchan">Bergabung ke saluran:</string>
+    <string name="text_cmd_loggedin">Log masuk ke server</string>
+    <string name="text_cmd_joinchan">Bergabung dengan saluran:</string>
     <string name="text_cmd_leftchan">Meninggalkan saluran:</string>
-    <string name="text_cmd_joinroot">Bergabung ke saluran utama</string>
+    <string name="text_cmd_joinroot">Bergabung dengan saluran utama</string>
     <string name="text_cmd_leftroot">meninggalkan saluran utama</string>
-    <string name="text_cmd_userjoinchan">Bergabung ke saluran</string>
+    <string name="text_cmd_userjoinchan">Bergabung dengan saluran</string>
     <string name="text_cmd_userleftchan">meninggalkan saluran</string>
     <string name="text_cmd_servername">Nama server: </string>
     <string name="text_cmd_servermotd">Pesan hari ini: </string>
@@ -45,8 +45,8 @@
     <string name="pref_title_audio_icons">Suara Tindakan</string>
     <string name="pref_title_rx_tx_audio_icon">Suara transmisi toggle</string>
     <string name="pref_summary_rx_tx_audio_icon">Mainkan suara ketika tombol bicara ditekan</string>
-    <string name="pref_title_vox_triggered_icon">Aktivasi suara otomatis</string>
-    <string name="pref_summary_vox_triggered_icon">Mainkan suara ketika suara aktivasi otomatis</string>
+    <string name="pref_title_vox_triggered_icon">Aktivasi suara dipicu</string>
+    <string name="pref_summary_vox_triggered_icon">Mainkan suara ketika aktivasi suara dipicu</string>
     <string name="pref_title_private_message_audio_icon">Pesan pribadi</string>
     <string name="pref_summary_private_message_audio_icon">Mainkan suara ketika menerima pesan pribadi</string>
     <string name="pref_title_channel_message_audio_icon">Pesan saluran</string>
@@ -59,10 +59,10 @@
     <string name="pref_summary_files_update_audio_icon">Mainkan suara ketika menambahkan atau menghapus file</string>
     <string name="pref_title_transmitready_icon">Modus eksklusif otomatis</string>
     <string name="pref_summary_transmitready_icon">Mainkan suara ketika transmisi siap di "Tidak Ada Interupsi" saluran</string>
-    <string name="pref_title_userjoin_icon">Pengguna bergabung ke saluran</string>
-    <string name="pref_summary_userjoin_icon">Mainkan suara saat pengguna bergabung ke saluran saat ini</string>
-    <string name="pref_title_userleft_icon">Pengguna keluar dari saluran</string>
-    <string name="pref_summary_userleft_icon">Mainkan suara saat pengguna keluar dari saluran saat ini</string>
+    <string name="pref_title_userjoin_icon">Pengguna bergabung dengan saluran</string>
+    <string name="pref_summary_userjoin_icon">Mainkan suara saat pengguna bergabung dengan saluran saat ini</string>
+    <string name="pref_title_userleft_icon">Pengguna meninggalkan saluran</string>
+    <string name="pref_summary_userleft_icon">Mainkan suara saat pengguna meninggalkan saluran saat ini</string>
     <string name="pref_header_connection">Koneksi</string>
     <string name="pref_title_sub_txtmsg">Pesan teks</string>
     <string name="pref_summary_sub_txtmsg">Mengikuti pesan teks dari pengguna</string>
@@ -78,17 +78,17 @@
     <string name="pref_summary_sub_desktop">Mengikuti stream desktop</string>
     <string name="pref_title_sub_mediafile">Media File</string>
     <string name="pref_summary_sub_mediafile">Mengikuti stream media file</string>
-    <string name="pref_header_tts">TTS</string>
-    <string name="pref_title_speech_engine">Pilihan mesin tts</string>
-    <string name="pref_summary_speech_engine">Pilih salah satu mesin TTS yang terpasang, berbeda dari pengaturan sistem saat ini</string>
+    <string name="pref_header_tts">Teks Ke Ucapan</string>
+    <string name="pref_title_speech_engine">Pilihan mesin TTS</string>
+    <string name="pref_summary_speech_engine">Pilih salah satu mesin ucapan yang terpasang, berbeda dari pengaturan sistem</string>
     <string name="pref_title_server_login">Pengguna masuk ke server</string>
     <string name="pref_summary_server_login">Umumkan nama pengguna yang masuk</string>
     <string name="pref_title_server_logout">pengguna keluar dari server</string>
     <string name="pref_summary_server_logout">Umumkan nama pengguna yang keluar</string>
-    <string name="pref_title_channel_join">Pengguna bergabung ke saluran</string>
-    <string name="pref_summary_channel_join">Umumkan nama pengguna yang bergabung ke saluran</string>
-    <string name="pref_title_channel_leave">Pengguna keluar dari saluran</string>
-    <string name="pref_summary_channel_leave">Umumkan nama pengguna yang keluar dari saluran</string>
+    <string name="pref_title_channel_join">Pengguna bergabung dengan saluran</string>
+    <string name="pref_summary_channel_join">Umumkan nama pengguna yang bergabung dengan saluran</string>
+    <string name="pref_title_channel_leave">Pengguna meninggalkan saluran</string>
+    <string name="pref_summary_channel_leave">Umumkan nama pengguna yang meninggalkan saluran</string>
     <string name="pref_title_private_message">Pesan pribadi</string>
     <string name="pref_summary_private_message">Umumkan pesan pribadi</string>
     <string name="pref_title_channel_message">Pesan saluran</string>
@@ -98,12 +98,12 @@
     <string name="pref_title_mute_speakers">Diamkan pengeras suara ketika menekan tombol bicara</string>
     <string name="pref_summary_mute_speakers">Aktifkan ini untuk menghindari echo dari pengeras suara</string>
     <string name="pref_title_show_usernames">Tampilkan nama pengguna</string>
-    <string name="pref_summary_show_usernames">tampilkan nama pengguna bukan nama panggilan</string>
+    <string name="pref_summary_show_usernames">tampilkan nama pengguna bukannya nama panggilan</string>
     <string name="pref_title_bearwareid">BearWare.dk WebLogin</string>
     <string name="pref_summary_bearwareid">Setup  BearWare.dk WebLogin</string>
 
     <string name="pref_title_mediafile_volume">Volume media file</string>
-    <string name="pref_summary_mediafile_volume">Media file vs. Volume suara</string>
+    <string name="pref_summary_mediafile_volume">Volume file media vs. suara</string>
     <string name="pref_title_speakerphone_checkbox">Aktifkan pengeras suara ponsel</string>
     <string name="pref_summary_speakerphone_checkbox">beralih dari telinga ke pengeras suara</string>
     <string name="pref_title_bluetooth_headset_checkbox">Gunakan mikrofon headset bluetooth</string>
@@ -113,9 +113,9 @@
     <string name="pref_title_public_servers">Tampilkan server publik</string>
     <string name="pref_summary_public_servers">Sertakan server publik dalam Daftar Server</string>
 
-    <string name="text_tts_loggedin">telah masuk ke server</string>
-    <string name="text_tts_loggedout">telah keluar dari server</string>
-    <string name="text_tts_joined_chan">telah bergabung ke saluran</string>
+    <string name="text_tts_loggedin">telah log masuk</string>
+    <string name="text_tts_loggedout">telah log keluar</string>
+    <string name="text_tts_joined_chan">telah bergabung dengan saluran</string>
     <string name="text_tts_left_chan">meninggalkan saluran</string>
     <string name="text_tts_private_message">Pesan pribadi dari %1$s: %2$s</string>
     <string name="text_tts_channel_message">Pesan saluran dari %1$s: %2$s</string>
@@ -271,8 +271,8 @@
     <string name="incvoxlevel">Tingkatkan tingkat aktivasi suara</string>
     <string name="vox_level_description">Tingkat aktivasi suara %1$s</string>
 
-    <string name="tx_on">Transmisi diaktifkan</string>
-    <string name="tx_off">Transmisi dinonaktifkan</string>
+    <string name="tx_on">Sedang transmisi diaktifkan</string>
+    <string name="tx_off">Transmisi tidak aktif</string>
 
     <string name="text_samplerate">samplerate</string>
     <string name="text_ignore_silence">Abaikan diam (DTX)</string>
@@ -324,7 +324,7 @@
     <string name="permission_filerx">Pengunduhan file tidak akan tersedia</string>
     <string name="permission_filetx">Unggah dan import file tidak akan tersedia</string>
     <string name="permission_internet">Client tidak akan dapat terhubung ke server</string>
-    <string name="permission_vibrate">Bergetar ketika tahan dan bicara tidak akan tersedia</string>
+    <string name="permission_vibrate">Bergetar ketika tekan untuk bicara tidak akan tersedia</string>
     <string name="permission_wake_lock">Koneksi server bisa terputus ketika layar redup</string>
     <string name="permission_read_phone_state">Deteksi panggilan masuk tidak akan tersedia</string>
     <string name="permission_bluetooth">Penggunaan mikrofon headset Bluetooth tidak akan tersedia</string>
@@ -360,10 +360,10 @@
     <string name="pref_title_gender">Jenis kelamin</string>
     <string name="pref_summary_gender">Aktifkan untuk ikon wanita</string>
     <string name="user_state_away">Away</string>
-    <string name="pref_title_userloggedin_icon">Pengguna masuk</string>
-    <string name="pref_summary_userloggedin_icon">Mainkan suara ketika pengguna masuk</string>
-    <string name="pref_title_userloggedoff_icon">Pengguna keluar</string>
-    <string name="pref_summary_userloggedoff_icon">Mainkan suara ketika pengguna keluar</string>
+    <string name="pref_title_userloggedin_icon">Pengguna log masuk</string>
+    <string name="pref_summary_userloggedin_icon">Mainkan suara ketika pengguna log masuk</string>
+    <string name="pref_title_userloggedoff_icon">Pengguna log keluar</string>
+    <string name="pref_summary_userloggedoff_icon">Mainkan suara ketika pengguna log keluar</string>
     <string name="pref_title_channel_message_sent_audio_icon">Pesan saluran terkirim</string>
     <string name="pref_summary_channel_message_sent_audio_icon">Mainkan suara ketika pesan saluran terkirim</string>
     <string name="pref_title_channel_message_sent">Pesan saluran terkirim</string>
@@ -374,7 +374,7 @@
     <string name="pref_title_official_servers">Tampilkan server resmi</string>
     <string name="pref_summary_unofficial_servers">Sertakan server tidak resmi di daftar server</string>
     <string name="pref_title_unofficial_servers">Tampilkan server tidak resmi</string>
-    <string name="pref_header_serverlist">Daftar server</string>
+    <string name="pref_header_serverlist">Daftar Server</string>
     <string name="text_server_summary">%1$s:%2$d, Pengguna: %3$d, Negara: %4$s</string>
     <string name="pref_title_server_connection">Koneksi</string>
     <string name="pref_title_server_motd">Pesan Hari Ini</string>

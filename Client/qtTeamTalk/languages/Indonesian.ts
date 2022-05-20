@@ -54,14 +54,14 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Bjørn Damstedt Rasmussen, pengembang&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave, pengembang&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Penerjermah&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;贺稼栋, Bahasa Tiongkok yang disederhanakan&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave, Perancis&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Steffen Schultz, Jerman&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Michał Ciołek, Polandia&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;João Carlos Ramos and JNylson, Portugis dari Brasil&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ozancan Karataş, Turki&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Infinity Art And Technology, Indonesia&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Penerjemah&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;贺稼栋, Chinese Simplified&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave, French&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Steffen Schultz, German&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Michał Ciołek, Polish&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;João Carlos Ramos and JNylson, Portuguese dari Brazil&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ozancan Karataş, Turkish&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Pengguna TeamTalk Jom Borak Dan Gelegar Bangsa Multimedia, Indonesian&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Perpustakaan&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TeamTalk menggunakan perpustakaan berikut:&lt;/p&gt;
@@ -83,7 +83,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on </source>
-        <translation>Disusun </translation>
+        <translation>Disusun pada </translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="35"/>
@@ -106,12 +106,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="14"/>
         <source>Audio Preprocessor Setup</source>
-        <translation>Penyiapan Audio Preprosesor</translation>
+        <translation>Setup Audio Preprocessor</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="42"/>
         <source>Automatic Gain Control (AGC)</source>
-        <translation>Kontrol Gain Penguatan Otomatis (AGC)</translation>
+        <translation>Kontrol Gain Otomatis (AGC)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="50"/>
@@ -121,7 +121,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="70"/>
         <source>Default</source>
-        <translation>Standar</translation>
+        <translation>Default</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="81"/>
@@ -132,17 +132,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="94"/>
         <source>Max Gain dB</source>
-        <translation>Maksimal Gain dB</translation>
+        <translation>Gain dB Maksimal</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="111"/>
         <source>Max Gain Increase Per Sec (dB)</source>
-        <translation>Tambah Gain Maksimum Perdetik (dB)</translation>
+        <translation>Peningkatan Gain Maksimum Per Detik (dB)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="128"/>
         <source>Max Gain Decrease Per Sec (dB)</source>
-        <translation>Kurangi Gain Maksimum Perdetik (dB)</translation>
+        <translation>Pengurangan Gain Maksimum Per Detik (dB)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="146"/>
@@ -157,7 +157,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="178"/>
         <source>Max Attenuation of noise (dB)</source>
-        <translation>Atenuasi noise Maksimal (dB)</translation>
+        <translation>Atenuasi noice maksimal (dB)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="219"/>
@@ -167,17 +167,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="230"/>
         <source>Mute left channel</source>
-        <translation>Bisukan saluran bagian kiri</translation>
+        <translation>Diamkan saluran kiri</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="237"/>
         <source>Mute right channel</source>
-        <translation>Bisukan saluran bagian kanan</translation>
+        <translation>Diamkan saluran kanan</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="32"/>
         <source>&amp;Ok</source>
-        <translation>&amp;Oke</translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="33"/>
@@ -206,12 +206,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../bannedusers.ui" line="14"/>
         <location filename="../bannedusers.ui" line="28"/>
         <source>Banned Users</source>
-        <translation>Larang Pengguna</translation>
+        <translation>Pengguna Yang Dilarang</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="167"/>
         <source>&amp;Ok</source>
-        <translation>&amp;Oke</translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="168"/>
@@ -221,17 +221,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="194"/>
         <source>Ban IP-address</source>
-        <translation>Larang alamat-IP</translation>
+        <translation>Ban alamat-IP</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="195"/>
         <source>Ban Username</source>
-        <translation>Larang nama pengguna</translation>
+        <translation>Ban Nama Pengguna</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="63"/>
         <source>Banned users</source>
-        <translation>Larang Pengguna</translation>
+        <translation>Pengguna yang dilarang</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="72"/>
@@ -241,7 +241,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusers.ui" line="79"/>
         <source>Enter an IP or an username to ban</source>
-        <translation>Masukan alamat-IP atau nama pengguna yang akan dilarang</translation>
+        <translation>Masukan IP atau nama pengguna untuk dilarang</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="86"/>
@@ -261,7 +261,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusers.ui" line="126"/>
         <source>Put back to banned users</source>
-        <translation>Kembalikan ke daftar pengguna yang dilarang</translation>
+        <translation>Kembalikan ke pengguna yang dilarang</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="151"/>
@@ -294,7 +294,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="61"/>
         <source>Ban Time</source>
-        <translation>Waktu</translation>
+        <translation>Waktu Larangan</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="62"/>
@@ -306,7 +306,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="63"/>
         <source>IP-address</source>
-        <translation>Alamat-IP</translation>
+        <translation>Alamat IP</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="93"/>
@@ -317,13 +317,13 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="95"/>
         <source>,IP</source>
-        <translation>,Alamat-IP</translation>
+        <translation>,IP</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="95"/>
         <location filename="../bannedusersdlg.cpp" line="114"/>
         <source>IP</source>
-        <translation>Alamat-IP</translation>
+        <translation>IP</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="97"/>
@@ -333,7 +333,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="117"/>
         <source>Nickname: %1, Username: %2, Ban type: %3, Ban time: %4, Channel path: %5, IP address: %6</source>
-        <translation>Nama panggilan: %1, Nama pengguna: %2, Jenis larangan: %3, Waktu: %4, Saluran: %5, Alamat-IP: %6</translation>
+        <translation>Nama panggilan: %1, Nama pengguna: %2, Jenis larangan: %3, Waktu larangan: %4, Jalur saluran: %5, Alamat IP: %6</translation>
     </message>
 </context>
 <context>
@@ -356,17 +356,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.ui" line="51"/>
         <source>C&amp;reate</source>
-        <translation>bu&amp;at</translation>
+        <translation>B&amp;uat</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="76"/>
         <source>Authentication</source>
-        <translation>Otentikasi</translation>
+        <translation>Autentikasi</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="84"/>
         <source>Username</source>
-        <translation>Nama Pengguna</translation>
+        <translation>Nama pengguna</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="97"/>
@@ -376,7 +376,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.cpp" line="48"/>
         <source>&amp;Ok</source>
-        <translation>&amp;oke</translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="49"/>
@@ -386,7 +386,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.cpp" line="113"/>
         <source>Failed to authenticate</source>
-        <translation>Gagal untuk mengotentikasi</translation>
+        <translation>Gagal untuk mengautentikasi</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="121"/>
@@ -409,17 +409,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatus.ui" line="43"/>
         <source>&amp;Available</source>
-        <translation>Tersedia</translation>
+        <translation>&amp;Tersedia</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="50"/>
         <source>A&amp;way</source>
-        <translation>Sib&amp;uk</translation>
+        <translation>S&amp;ibuk</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="57"/>
         <source>&amp;Question</source>
-        <translation>Ber&amp;tanya</translation>
+        <translation>&amp;Bertanya</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="66"/>
@@ -429,7 +429,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatusdlg.cpp" line="37"/>
         <source>&amp;Ok</source>
-        <translation>&amp;oke</translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="38"/>
@@ -447,7 +447,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="30"/>
         <source>Channel Information</source>
-        <translation>Informasi saluran</translation>
+        <translation>Informasi Saluran</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="36"/>
@@ -462,22 +462,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="63"/>
         <source>Topic</source>
-        <translation>Topik Saluran</translation>
+        <translation>Topik</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="80"/>
         <source>Password</source>
-        <translation>Kata sandi saluran</translation>
+        <translation>Kata sandi</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="100"/>
         <source>Operator password</source>
-        <translation>Kata sandi operator saluran</translation>
+        <translation>Kata sandi operator</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="120"/>
         <source>Max users</source>
-        <translation>Maksimal pengguna</translation>
+        <translation>Pengguna maksimal</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="146"/>
@@ -497,12 +497,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="187"/>
         <source>No interruptions (no simultaneous voice transmission)</source>
-        <translation>Tidak ada gangguan (tidak ada transmisi suara serentak)</translation>
+        <translation>Tidak ada interupsi (tidak ada transmisi suara serentak)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="194"/>
         <source>Setup</source>
-        <translation>Mempersiapkan</translation>
+        <translation>Setup</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="197"/>
@@ -512,7 +512,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="206"/>
         <source>Classroom (operator-controlled transmissions)</source>
-        <translation>Classroom (transmisi dikendalikan operator)</translation>
+        <translation>Kelas (transmisi yang dikendalikan operator)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="213"/>
@@ -522,7 +522,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="220"/>
         <source>No voice activation (only Push-to-Talk allowed)</source>
-        <translation>Tidak ada aktivasi suara (hanya Push-to-Talk yang diizinkan)</translation>
+        <translation>Tidak ada aktivasi suara (hanya tekan untuk bicara yang diizinkan)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="227"/>
@@ -532,12 +532,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="234"/>
         <source>Hidden channel (invisible and only known by name)</source>
-        <translation>Saluran tersembunyi (tidak terlihat dan hanya tersedia untuk user tertentu)</translation>
+        <translation>Saluran tersembunyi (tidak terlihat dan hanya diketahui dengan nama)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="248"/>
         <source>Audio Codec</source>
-        <translation>Codec audio</translation>
+        <translation>Codec Audio</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="256"/>
@@ -569,7 +569,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="548"/>
         <location filename="../channel.ui" line="740"/>
         <source>Transmit interval</source>
-        <translation>Transmisi interval</translation>
+        <translation>Interval transmisi</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="401"/>
@@ -623,22 +623,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="775"/>
         <source>Frame size</source>
-        <translation>Ukuran Frame</translation>
+        <translation>Ukuran frame</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="804"/>
         <source>Audio Configuration</source>
-        <translation>Konfigurasi audio</translation>
+        <translation>Konfigurasi Audio</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="810"/>
         <source>Ensure all users in the channel have the same audio volume</source>
-        <translation>Pastikan semua pengguna di saluran mengatur volume audio yang sama</translation>
+        <translation>Pastikan semua pengguna di saluran memiliki volume audio yang sama</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="813"/>
         <source>Enable fixed audio volume for all users</source>
-        <translation>Aktifkan volume audio yang sama untuk semua pengguna</translation>
+        <translation>Aktifkan volume audio tetap untuk semua pengguna</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="822"/>
@@ -648,13 +648,13 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="892"/>
         <source>&amp;Join channel on exit</source>
-        <translation>&amp;Gabung dengan saluran saat keluar</translation>
+        <translation>&amp;Gabung ke saluran ketika keluar</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="44"/>
         <location filename="../channeldlg.cpp" line="425"/>
         <source>&amp;Ok</source>
-        <translation>&amp;oke</translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="45"/>
@@ -665,7 +665,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="74"/>
         <source>No Audio</source>
-        <translation>Tidak ada audio</translation>
+        <translation>Tidak ada suara</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="94"/>
@@ -690,17 +690,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="147"/>
         <source>Create Channel</source>
-        <translation>Buat saluran</translation>
+        <translation>Cipta Saluran</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="162"/>
         <source>Update Channel</source>
-        <translation>Perbaharui saluran</translation>
+        <translation>Perbaharui Saluran</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="173"/>
         <source>View Channel Information</source>
-        <translation>Lihat informasi saluran</translation>
+        <translation>Lihat Informasi Saluran</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="429"/>
@@ -728,7 +728,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="823"/>
         <source>Text message transmission allowed for everyone: %1</source>
-        <translation>Mengirim pesan teks diizinkan untuk semua orang: %1</translation>
+        <translation>Transmisi pesan teks diizinkan untuk semua orang: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="823"/>
@@ -776,12 +776,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="827"/>
         <source>Media files transmission allowed for everyone: %1</source>
-        <translation>Transmisi streaming media file diizinkan untuk semua orang: %1</translation>
+        <translation>Transmisi file media diizinkan untuk semua orang: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="831"/>
         <source>Text message transmission</source>
-        <translation>Mengirim pesan teks</translation>
+        <translation>Transmisi pesan teks</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="832"/>
@@ -801,22 +801,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="835"/>
         <source>Media files transmission</source>
-        <translation>Transmisi stream media file</translation>
+        <translation>Transmisi file media</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="946"/>
         <source>Away</source>
-        <translation>Sedang sibuk.</translation>
+        <translation>Away</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="949"/>
         <source>Question</source>
-        <translation>Bertanya.</translation>
+        <translation>Pertanyaan.</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="955"/>
         <source>Streaming media file</source>
-        <translation>Streaming media file.</translation>
+        <translation>Streaming file media.</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="958"/>
@@ -826,7 +826,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="970"/>
         <source>Administrator</source>
-        <translation>Admin</translation>
+        <translation>Administrator</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="973"/>
@@ -836,7 +836,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="1149"/>
         <source>Text message transmission allowed: %1</source>
-        <translation>Mengirim pesan teks diizinkan: %1</translation>
+        <translation>Transmisi pesan teks diizinkan: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1150"/>
@@ -856,7 +856,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="1153"/>
         <source>Media files transmission allowed: %1</source>
-        <translation>Transmisi stream media file diizinkan: %1</translation>
+        <translation>Transmisi file media diizinkan: %1</translation>
     </message>
 </context>
 <context>
@@ -864,37 +864,37 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="141"/>
         <source>yyyy-MM-dd HH:mm:ss</source>
-        <translation>HH:mm:ss dd-MM-yyyy</translation>
+        <translation>yyyy-MM-dd HH:mm:ss</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="160"/>
         <source>Server Name: %1</source>
-        <translation>Nama server: %1.</translation>
+        <translation>Nama Server: %1.</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="165"/>
         <source>Message of the Day: %1</source>
-        <translation>Pesan hari ini: %1.</translation>
+        <translation>Pesan Hari Ini: %1.</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="204"/>
         <source>Joined new channel</source>
-        <translation>Bergabung dengan saluran baru,</translation>
+        <translation>Bergabung dengan saluran baru</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="212"/>
         <source>Channel: %1</source>
-        <translation>Nama saluran: %1.</translation>
+        <translation>Saluran: %1</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="219"/>
         <source>Topic: %1</source>
-        <translation>Topik saluran: %1.</translation>
+        <translation>Topik: %1</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="226"/>
         <source>Disk quota: %1 KBytes</source>
-        <translation>Kuota disk saluran: %1 KBytes</translation>
+        <translation>Kuota disk: %1 KBytes</translation>
     </message>
 </context>
 <context>
@@ -902,17 +902,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../customvideofmt.ui" line="14"/>
         <source>Custom Video Format</source>
-        <translation>Kastemisasi Format Video</translation>
+        <translation>Format Video Khusus</translation>
     </message>
     <message>
         <location filename="../customvideofmt.ui" line="20"/>
         <source>Video Format</source>
-        <translation>Format video</translation>
+        <translation>Format Video</translation>
     </message>
     <message>
         <location filename="../customvideofmt.ui" line="28"/>
         <source>Video Resolution</source>
-        <translation>Resolusi video</translation>
+        <translation>Resolusi Video</translation>
     </message>
     <message>
         <location filename="../customvideofmt.ui" line="48"/>
@@ -937,7 +937,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../customvideofmtdlg.cpp" line="34"/>
         <source>&amp;Ok</source>
-        <translation>&amp;oke</translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../customvideofmtdlg.cpp" line="35"/>
@@ -960,12 +960,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="33"/>
         <source>&amp;Delete</source>
-        <translation>&amp;hapus</translation>
+        <translation>&amp;Hapus</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="60"/>
         <source>Desktop Access Entry</source>
-        <translation>Masuk</translation>
+        <translation>Entri Akses Desktop</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="66"/>
@@ -975,7 +975,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="78"/>
         <source>Host IP-address</source>
-        <translation>Alamat-IP host</translation>
+        <translation>Alamat IP host</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="91"/>
@@ -990,12 +990,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="135"/>
         <source>&amp;Add</source>
-        <translation>&amp;tambahkan</translation>
+        <translation>&amp;Tambahkan</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="142"/>
         <source>&amp;Remove</source>
-        <translation>&amp;hapus</translation>
+        <translation>&amp;Hapus</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="153"/>
@@ -1005,12 +1005,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="179"/>
         <source>A&amp;dd</source>
-        <translation>Tambahka&amp;n</translation>
+        <translation>T&amp;ambahkan</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="186"/>
         <source>R&amp;emove</source>
-        <translation>Hapu&amp;s</translation>
+        <translation>H&amp;apus</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="197"/>
@@ -1020,12 +1020,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="217"/>
         <source>Add to &amp;Safe List</source>
-        <translation>Tambahkan ke da&amp;ftar aman</translation>
+        <translation>Tambahkan Ke &amp;Daftar Aman</translation>
     </message>
     <message>
         <location filename="../desktopaccessdlg.cpp" line="37"/>
         <source>&amp;Ok</source>
-        <translation>&amp;Oke</translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../desktopaccessdlg.cpp" line="38"/>
@@ -1035,12 +1035,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccessdlg.cpp" line="122"/>
         <source>Missing fields</source>
-        <translation>Bidang hilang</translation>
+        <translation>Kolom hilang</translation>
     </message>
     <message>
         <location filename="../desktopaccessdlg.cpp" line="123"/>
         <source>Please fill the field &apos;Host IP-address&apos;</source>
-        <translation>Silahkan isi kolom &apos;Alamat-IP host&apos;</translation>
+        <translation>Silahkan isi kolom &apos;Alamat IP host&apos;</translation>
     </message>
 </context>
 <context>
@@ -1061,7 +1061,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopshare.ui" line="20"/>
         <source>Window to Share</source>
-        <translation>Jendela yang akan Berbagikan</translation>
+        <translation>Jendela untuk Dibagi</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="26"/>
@@ -1081,7 +1081,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopshare.ui" line="70"/>
         <source>Shared Window Look</source>
-        <translation>Tampilan jendela saat dibagikan</translation>
+        <translation>Tampilan Jendela Bersama</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="78"/>
@@ -1091,7 +1091,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopshare.ui" line="108"/>
         <source>Update interval</source>
-        <translation>Perbaharui interval</translation>
+        <translation>Interval pembaharuan</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="140"/>
@@ -1106,7 +1106,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopsharedlg.cpp" line="54"/>
         <source>&amp;Ok</source>
-        <translation>&amp;Oke</translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="55"/>
@@ -1116,22 +1116,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopsharedlg.cpp" line="162"/>
         <source>Low (8-bit colors)</source>
-        <translation>Low (8-bit colors)</translation>
+        <translation>Rendah (warna 8-bit)</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="163"/>
         <source>Medium (16-bit colors)</source>
-        <translation>Sedang (16-bit warna)</translation>
+        <translation>Sedang (warna 16-bit)</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="164"/>
         <source>High (24-bit colors)</source>
-        <translation>Tinggi (24-bit warna)</translation>
+        <translation>Tinggi (warna 24-bit)</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="165"/>
         <source>Maximum (32-bit colors)</source>
-        <translation>Maksimum (32-bit warna)</translation>
+        <translation>Maksimum (warna 32-bit)</translation>
     </message>
 </context>
 <context>
@@ -1140,22 +1140,22 @@ p, li { white-space: pre-wrap; }
         <location filename="../filetransfer.ui" line="14"/>
         <location filename="../filetransferdlg.cpp" line="70"/>
         <source>File Transfer</source>
-        <translation>Transfer berkas</translation>
+        <translation>Transfer File</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="28"/>
         <source>Filename:</source>
-        <translation>Nama berkas:</translation>
+        <translation>Nama file:</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="45"/>
         <source>File size:</source>
-        <translation>Ukuran berkas:</translation>
+        <translation>Ukuran file:</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="62"/>
         <source>Throughput:</source>
-        <translation>Kecepatan:</translation>
+        <translation>throughput:</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="79"/>
@@ -1165,7 +1165,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransfer.ui" line="127"/>
         <source>C&amp;lose when completed</source>
-        <translation>Tutup jen&amp;dela ini ketika selesai</translation>
+        <translation>T&amp;utup jendela ini ketika selesai</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="147"/>
@@ -1175,12 +1175,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransfer.ui" line="154"/>
         <source>&amp;Open</source>
-        <translation>bu&amp;ka</translation>
+        <translation>&amp;Buka</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="71"/>
         <source>File transfer failed.</source>
-        <translation>Transfer berkas gagal.</translation>
+        <translation>Transfer file gagal.</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="116"/>
@@ -1195,7 +1195,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransferdlg.cpp" line="168"/>
         <source>Unable to open &quot;%1&quot;. File does not have a default file association</source>
-        <translation>Tidak dapat membuka &quot;%1&quot;. Berkas tidak memiliki asosiasi file default</translation>
+        <translation>Tidak dapat membuka &quot;%1&quot;. File tidak memiliki asosiasi file default</translation>
     </message>
 </context>
 <context>
@@ -1218,12 +1218,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filesmodel.cpp" line="46"/>
         <source>Date</source>
-        <translation>Waktu</translation>
+        <translation>Tanggal</translation>
     </message>
     <message>
         <location filename="../filesmodel.cpp" line="108"/>
         <source>Name: %1, Size: %2, Owner: %3, Date: %4</source>
-        <translation>Nama: %1, Ukuran: %2, Pemilik: %3, Waktu: %4</translation>
+        <translation>Nama: %1, Ukuran: %2, Pemilik: %3, Tanggal: %4</translation>
     </message>
 </context>
 <context>
@@ -1231,7 +1231,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="14"/>
         <source>Generate .tt File</source>
-        <translation>Buat berkas .tt</translation>
+        <translation>Hasilkan File .tt</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="22"/>
@@ -1252,16 +1252,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="79"/>
         <source>Client settings</source>
-        <translation>Pengaturan klien</translation>
-    </message>
-    <message>
-        <source>Override clients predefined settings</source>
-        <translation type="vanished">Ganti pengaturan standar klien</translation>
+        <translation>Pengaturan client</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="85"/>
         <source>Override client&apos;s predefined settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ganti pengaturan standard client</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="94"/>
@@ -1276,17 +1272,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="126"/>
         <source>Gender</source>
-        <translation>Umum</translation>
+        <translation>Jenis kelamin</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="161"/>
         <source>Male</source>
-        <translation>Laki-laki</translation>
+        <translation>Pria</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="174"/>
         <source>Female</source>
-        <translation>Perempuan</translation>
+        <translation>Wanita</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="184"/>
@@ -1301,17 +1297,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="224"/>
         <source>Push To Talk</source>
-        <translation>PTT</translation>
+        <translation>Tekan untuk bicara</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="234"/>
         <source>&amp;Setup Keys</source>
-        <translation>Atur &amp;pintasan</translation>
+        <translation>&amp;Pengaturan Tombol</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="241"/>
         <source>Key Combination</source>
-        <translation>Kombinasi pintasan</translation>
+        <translation>Kombinasi Tombol</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="264"/>
@@ -1321,12 +1317,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="284"/>
         <source>Video Codec Settings</source>
-        <translation>Pengaturan codec video</translation>
+        <translation>Pengaturan Codec Video</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="287"/>
         <source>Video Capture Settings</source>
-        <translation>Pengaturan penangkapan video</translation>
+        <translation>Pengaturan Pengambilan Video</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="296"/>
@@ -1346,7 +1342,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="428"/>
         <source>&amp;Save .tt File</source>
-        <translation>&amp;Simpan berkas .tt</translation>
+        <translation>&amp;Simpan File .tt</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="435"/>
@@ -1360,23 +1356,23 @@ p, li { white-space: pre-wrap; }
         <location filename="../generatettfiledlg.cpp" line="69"/>
         <location filename="../generatettfiledlg.cpp" line="80"/>
         <source>Any</source>
-        <translation>Setiap</translation>
+        <translation>Apapun</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="185"/>
         <location filename="../generatettfiledlg.cpp" line="193"/>
         <source>Save File</source>
-        <translation>Simpan berkas</translation>
+        <translation>Simpan File</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="186"/>
         <source>%1 File (*%1)</source>
-        <translation>%1 Berkas (*%1)</translation>
+        <translation>%1 File (*%1)</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="193"/>
         <source>Unable to save file</source>
-        <translation>Tidak dapat menyimpan Berkas</translation>
+        <translation>Tidak dapat menyimpan file</translation>
     </message>
 </context>
 <context>
@@ -1385,42 +1381,42 @@ p, li { white-space: pre-wrap; }
         <location filename="../keycomp.ui" line="20"/>
         <location filename="../keycompdlg.cpp" line="54"/>
         <source>Key Combination</source>
-        <translation>Kombinasi pintasan</translation>
+        <translation>Kombinasi Tombol</translation>
     </message>
     <message>
         <location filename="../keycomp.ui" line="32"/>
         <source>Setup Hotkey</source>
-        <translation>Atur tombol pintasan</translation>
+        <translation>Atur Tombol Pintasan</translation>
     </message>
     <message>
         <location filename="../keycomp.ui" line="38"/>
         <source>Hold down the keys which should be used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
-        <translation>Tahan tombol yang harus digunakan sebagai pintasan. Tombol pintasan seperti Shift, Ctrl dan Alt dapat digunakan untuk kombinasi dengan tombol lain</translation>
+        <translation>Tahan tombol yang harus digunakan sebagai hot key. Tombol modifier seperti Shift, Ctrl dan Alt boleh digunakan dalam kombinasi dengan tombol lain</translation>
     </message>
     <message>
         <location filename="../keycomp.ui" line="50"/>
         <source>Current key combination</source>
-        <translation>Tombol pintasan saat ini</translation>
+        <translation>Kombinasi tombol saat ini</translation>
     </message>
     <message>
         <location filename="../keycomp.ui" line="72"/>
         <source>This dialog closes when you have released all keys</source>
-        <translation>Dialog ini akan tertutup secara automatis, setelah tombol pintasan ditekan</translation>
+        <translation>Dialog ini akan ditutup ketika Anda telah melepaskan semua tombol</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="55"/>
         <source>Modifiers (Option, Control, Command and Shift) must be used in combination with other keys.</source>
-        <translation>Tombol berikut (Option, Control, Command dan Shift) harus digunakan dalam kombinasi dengan tombol lain.</translation>
+        <translation>Modifier (Option, Control, Command dan Shift) harus digunakan dalam kombinasi dengan tombol lain.</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="222"/>
         <source>Invalid key combination</source>
-        <translation>Kombinasi tombol tidak valid</translation>
+        <translation>Kombinasi tombol tidak sah</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="223"/>
         <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
-        <translation>macOS tidak hanya mendukung tombol pengubah, yaitu Cmd, Option, dan Shift harus digunakan bersama dengan tombol non-pengubah lainnya.</translation>
+        <translation>macOS tidak mendukung hanya tombol modifier, i.e. Cmd, Option, dan Shift harus digunakan bersama dengan tombol non-modifier lainnya.</translation>
     </message>
 </context>
 <context>
@@ -1456,7 +1452,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="284"/>
         <location filename="../mainwindow.ui" line="287"/>
         <source>Voice activation level</source>
-        <translation>Tingkat aktifasi suara</translation>
+        <translation>Tingkat aktivasi suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="343"/>
@@ -1501,13 +1497,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="490"/>
         <location filename="../mainwindow.ui" line="493"/>
         <source>Add User to Video Grid</source>
-        <translation>Tambahkan Pengguna ke dalam Kisi Video</translation>
+        <translation>Tambahkan Pengguna ke Kisi Video</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="526"/>
         <location filename="../mainwindow.ui" line="529"/>
         <source>Remove User From Video Grid</source>
-        <translation>Hapus Pengguna dari Kisi Video</translation>
+        <translation>Hapus Pengguna Dari Kisi Video</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="559"/>
@@ -1524,7 +1520,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="768"/>
         <source>Put back removed window</source>
-        <translation>Pasang kembali jendela yang dihapus</translation>
+        <translation>Letakkan kembali jendela yang dihapus</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="804"/>
@@ -1541,7 +1537,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="322"/>
         <source>Ch&amp;at</source>
-        <translation>&amp;obrolan</translation>
+        <translation>&amp;Obrolan</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="677"/>
@@ -1553,40 +1549,40 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="963"/>
         <location filename="../mainwindow.cpp" line="2871"/>
         <source>&amp;Files</source>
-        <translation>B&amp;erkas</translation>
+        <translation>&amp;File</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="991"/>
         <source>Files list</source>
-        <translation>Daftar berkas</translation>
+        <translation>Daftar file</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1085"/>
         <location filename="../mainwindow.ui" line="1088"/>
         <source>Upload</source>
-        <translation>Unggah berkas</translation>
+        <translation>Unggah</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1039"/>
         <location filename="../mainwindow.ui" line="1042"/>
         <source>Download</source>
-        <translation>Unduh berkas</translation>
+        <translation>Unduh</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1062"/>
         <location filename="../mainwindow.ui" line="1065"/>
         <source>Delete</source>
-        <translation>Hapus berkas</translation>
+        <translation>Hapus</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1122"/>
         <source>C&amp;lient</source>
-        <translation>&amp;Klien</translation>
+        <translation>C&amp;lient</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1156"/>
         <source>&amp;Me</source>
-        <translation>Sa&amp;ya</translation>
+        <translation>S&amp;aya</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1180"/>
@@ -1596,17 +1592,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1184"/>
         <source>&amp;Subscriptions</source>
-        <translation>Berlang&amp;ganan</translation>
+        <translation>&amp;Ikuti</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1204"/>
         <source>&amp;Advanced</source>
-        <translation>&amp;lanjutan</translation>
+        <translation>&amp;Lanjutan</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1217"/>
         <source>&amp;Mute</source>
-        <translation>&amp;bisukan</translation>
+        <translation>&amp;Diamkan</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1224"/>
@@ -1616,12 +1612,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1270"/>
         <source>&amp;Channels</source>
-        <translation>Salu&amp;ran</translation>
+        <translation>Sal&amp;uran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1274"/>
         <source>&amp;Channel Information</source>
-        <translation>Infor&amp;masi saluran</translation>
+        <translation>&amp;Informasi Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1297"/>
@@ -1631,12 +1627,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1312"/>
         <source>&amp;Help</source>
-        <translation>Bant&amp;uan</translation>
+        <translation>&amp;Bantuan</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1375"/>
         <source>&amp;Server List</source>
-        <translation>&amp;Daftar server</translation>
+        <translation>&amp;Daftar Server</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1378"/>
@@ -1657,7 +1653,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1422"/>
         <source>&amp;Preferences</source>
-        <translation>&amp;Pengaturan</translation>
+        <translation>&amp;Preferensi</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1425"/>
@@ -1668,12 +1664,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="1430"/>
         <location filename="../mainwindow.cpp" line="2431"/>
         <source>&amp;Exit</source>
-        <translation>&amp;Tutup program</translation>
+        <translation>&amp;Keluar</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1442"/>
         <source>Enable &amp;Push To Talk</source>
-        <translation>&amp;PTT</translation>
+        <translation>Hidupkan &amp;Tekan Untuk Bicara</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1445"/>
@@ -1698,7 +1694,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1466"/>
         <source>Server &amp;Properties</source>
-        <translation>&amp;Properti server</translation>
+        <translation>Properti &amp;Server</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1469"/>
@@ -1708,7 +1704,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1474"/>
         <source>&amp;Create Channel</source>
-        <translation>&amp;Buat saluran</translation>
+        <translation>&amp;Cipta Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1477"/>
@@ -1718,7 +1714,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1482"/>
         <source>&amp;Update Channel</source>
-        <translation>&amp;Perbaharui saluran</translation>
+        <translation>&amp;Perbaharui Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1485"/>
@@ -1728,7 +1724,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1490"/>
         <source>&amp;Delete Channel</source>
-        <translation>&amp;Hapus saluran</translation>
+        <translation>&amp;Hapus Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1493"/>
@@ -1739,7 +1735,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="1498"/>
         <location filename="../mainwindow.cpp" line="5646"/>
         <source>&amp;Join Channel</source>
-        <translation>&amp;Gabung saluran</translation>
+        <translation>&amp;Gabung Ke Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1501"/>
@@ -1749,7 +1745,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1513"/>
         <source>Enable Voice &amp;Activation</source>
-        <translation>&amp;Aktifkan suara aktifasi</translation>
+        <translation>Aktifkan Aktivasi &amp;Suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1516"/>
@@ -1759,7 +1755,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1521"/>
         <source>Change &amp;Nickname</source>
-        <translation>Ganti &amp;nama pengguna</translation>
+        <translation>Ganti &amp;Nama Panggilan</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1524"/>
@@ -1769,7 +1765,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1529"/>
         <source>Change &amp;Status</source>
-        <translation>Ganti &amp;status</translation>
+        <translation>Ganti &amp;Status</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1532"/>
@@ -1779,7 +1775,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1537"/>
         <source>&amp;View User Information</source>
-        <translation>Lihat &amp;informasi pengguna</translation>
+        <translation>&amp;Lihat Informasi Pengguna</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1540"/>
@@ -1789,7 +1785,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1560"/>
         <source>Mute &amp;All</source>
-        <translation>&amp;Bisukan semua pengguna</translation>
+        <translation>Diamkan &amp;Semua</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1563"/>
@@ -1799,7 +1795,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1568"/>
         <source>Up&amp;load File</source>
-        <translation>&amp;Unggah berkas</translation>
+        <translation>&amp;Unggah File</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1571"/>
@@ -1809,7 +1805,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1576"/>
         <source>D&amp;ownload File</source>
-        <translation>Un&amp;duh berkas</translation>
+        <translation>U&amp;nduh File</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1579"/>
@@ -1819,7 +1815,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1584"/>
         <source>Dele&amp;te File</source>
-        <translation>&amp;Hapus berkas</translation>
+        <translation>&amp;Hapus File</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1587"/>
@@ -1829,7 +1825,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1592"/>
         <source>&amp;Banned Users</source>
-        <translation>Larang pengguna</translation>
+        <translation>Pengguna Yang Dilarang</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1595"/>
@@ -1839,7 +1835,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1600"/>
         <source>&amp;User Accounts</source>
-        <translation>&amp;akun pengguna</translation>
+        <translation>&amp;Akun Pengguna</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1603"/>
@@ -1849,7 +1845,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1608"/>
         <source>&amp;Save Configuration</source>
-        <translation>Simpan ko&amp;nfigurasi</translation>
+        <translation>Simpan &amp;Konfigurasi</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1611"/>
@@ -1859,12 +1855,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1616"/>
         <source>&amp;View Channel Info</source>
-        <translation>Lihat &amp;informasi saluran</translation>
+        <translation> &amp;Lihat Info Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1640"/>
         <source>M&amp;essages</source>
-        <translation>Kirim p&amp;esan pribadi</translation>
+        <translation>&amp;Pesan</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1643"/>
@@ -1874,7 +1870,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1648"/>
         <source>Kick and &amp;Ban From Server</source>
-        <translation>Keluarkan dan &amp;larang dari server</translation>
+        <translation>Keluarkan dan &amp;Ban Dari Server</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2179"/>
@@ -1884,7 +1880,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1660"/>
         <source>&amp;Op</source>
-        <translation>&amp;Operator saluran</translation>
+        <translation>&amp;Op</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="771"/>
@@ -1894,42 +1890,42 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1126"/>
         <source>S&amp;ound Configuration</source>
-        <translation>konfi&amp;gurasi suara</translation>
+        <translation>K&amp;onfigurasi Suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1130"/>
         <source>&amp;Input Devices</source>
-        <translation>Perangkat &amp;input</translation>
+        <translation>&amp;Perangkat Input</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1135"/>
         <source>&amp;Output Devices</source>
-        <translation>Perangkat &amp;output</translation>
+        <translation>&amp;Perangkat Output</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1160"/>
         <source>&amp;Notifications</source>
-        <translation>&amp;Pemberitahuan</translation>
+        <translation>&amp;Notifikasi</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1234"/>
         <source>&amp;User Information</source>
-        <translation>&amp;Informasi pengguna</translation>
+        <translation>&amp;Informasi Pengguna</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1241"/>
         <source>&amp;Transmit Control</source>
-        <translation>Kontrol &amp;transmisi</translation>
+        <translation>&amp;Kontrol Transmisi</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1401"/>
         <source>&amp;Enable Echo Cancellation</source>
-        <translation>Aktifkan &amp;Echo Cancellation</translation>
+        <translation>&amp;Aktifkan Pembatalan Echo</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1409"/>
         <source>Enable &amp;Automatic Gain Control</source>
-        <translation>Aktifkan automatis &amp;Gain kontrol</translation>
+        <translation>Aktifkan &amp;kontrol gain otomatis</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1417"/>
@@ -1939,7 +1935,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1545"/>
         <source>&amp;Speak User Information</source>
-        <translation>&amp;Umumkan informasi pengguna</translation>
+        <translation>&amp;Ucapkan Informasi Pengguna</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1548"/>
@@ -1949,7 +1945,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1624"/>
         <source>&amp;Speak Channel Info</source>
-        <translation>&amp;Umumkan informasi saluran</translation>
+        <translation>&amp;Ucapkan Info Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1627"/>
@@ -1959,7 +1955,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1632"/>
         <source>S&amp;peak Channel State</source>
-        <translation>&amp;Umumkan aktifitas di saluran</translation>
+        <translation>U&amp;capkan Status Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1635"/>
@@ -2004,7 +2000,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1709"/>
         <source>&amp;Channel Messages</source>
-        <translation>&amp;Pesan saluran</translation>
+        <translation>&amp;Pesan Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1712"/>
@@ -2019,7 +2015,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1735"/>
         <source>&amp;Broadcast Messages</source>
-        <translation>&amp;Pesan siaran</translation>
+        <translation>&amp;Pesan Broadcast</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1738"/>
@@ -2029,7 +2025,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1750"/>
         <source>Enable &amp;Video Transmission</source>
-        <translation>Aktifkan transmisi &amp;video</translation>
+        <translation>Aktifkan &amp;Transmisi Video</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1753"/>
@@ -2039,7 +2035,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1761"/>
         <source>&amp;Stream Audio File to Channel</source>
-        <translation>&amp;Stream file audio ke saluran</translation>
+        <translation>&amp;Stream File Audio Ke Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1764"/>
@@ -2049,7 +2045,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1769"/>
         <source>Stream Audio &amp;File to User</source>
-        <translation>&amp;Stream file audio ke pengguna</translation>
+        <translation>Stream File &amp;Audio ke Pengguna</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1772"/>
@@ -2059,12 +2055,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1784"/>
         <source>Record Conversations to &amp;Disk</source>
-        <translation>Rekam percakapan ke &amp;disk</translation>
+        <translation>Rekam Percakapan Ke &amp;Disk</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1787"/>
         <source>Specify a folder where audio from users will be stored</source>
-        <translation>Tentukan folder tempat audio dari pengguna akan disimpan</translation>
+        <translation>Tentukan folder dimana audio dari pengguna akan disimpan</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1790"/>
@@ -2074,7 +2070,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1802"/>
         <source>Intercept User Messages</source>
-        <translation>Intercept pesan pengguna</translation>
+        <translation>Intercept Pesan Pengguna</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1805"/>
@@ -2084,7 +2080,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1813"/>
         <source>Intercept Channel Messages</source>
-        <translation>Intercept pesan saluran</translation>
+        <translation>Intercept Pesan Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1816"/>
@@ -2094,7 +2090,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1828"/>
         <source>Intercept Audio</source>
-        <translation>Intercept audio</translation>
+        <translation>Intercept Audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1831"/>
@@ -2104,7 +2100,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1843"/>
         <source>Intercept Video</source>
-        <translation>Intercept video</translation>
+        <translation>Intercept Video</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1846"/>
@@ -2114,22 +2110,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1851"/>
         <source>&amp;Broadcast Message</source>
-        <translation>&amp;Pesan siaran</translation>
+        <translation>&amp;Pesan Broadcast</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1859"/>
         <source>&amp;Increase Voice Volume</source>
-        <translation>Na&amp;ikan volume suara</translation>
+        <translation>&amp;Tingkatkan Volume Suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1867"/>
         <source>&amp;Lower Voice Volume</source>
-        <translation>&amp;Turunkan volume suara</translation>
+        <translation>&amp;Turunkan Volume Suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1875"/>
         <source>&amp;Store User(s) for Move</source>
-        <translation>Simpan pengguna &amp;untuk dipindahkan</translation>
+        <translation>&amp;Simpan Pengguna untuk Dipindah</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1878"/>
@@ -2139,7 +2135,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1883"/>
         <source>&amp;Move User(s)</source>
-        <translation>Pindahkan &amp;user</translation>
+        <translation>&amp;Pindahkan Pengguna</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1886"/>
@@ -2149,12 +2145,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1895"/>
         <source>&amp;BearWare.dk Website</source>
-        <translation>BearWare.dk &amp;Website</translation>
+        <translation>&amp;Situs Web BearWare.dk</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1903"/>
         <source>Allow V&amp;oice Transmission</source>
-        <translation>Izinkan transmisi &amp;suara</translation>
+        <translation>Izinkan Transmisi S&amp;uara</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1906"/>
@@ -2164,7 +2160,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1914"/>
         <source>Allow Video Transmission</source>
-        <translation>Izinkan transmisi &amp;video</translation>
+        <translation>Izinkan Transmisi Video</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1917"/>
@@ -2174,7 +2170,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1925"/>
         <source>Allow All V&amp;oice Transmission</source>
-        <translation>Izinkan semua pengguna untuk mentransmisikan &amp;suara</translation>
+        <translation>Izinkan Semua T&amp;ransmisi Suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1928"/>
@@ -2184,7 +2180,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1936"/>
         <source>Allow All Video Transmission</source>
-        <translation>Izinkan semua pengguna untuk mentransmisikan &amp;Video</translation>
+        <translation>Izinkan Semua Transmisi Video</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1939"/>
@@ -2194,7 +2190,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1944"/>
         <source>Server S&amp;tatistics</source>
-        <translation>St&amp;atistik server</translation>
+        <translation>Statistik S&amp;erver</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1947"/>
@@ -2204,7 +2200,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1952"/>
         <source>&amp;New Client Instance</source>
-        <translation>Buat Klie&amp;n baru</translation>
+        <translation>&amp;Instance Client Baru</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1955"/>
@@ -2214,7 +2210,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1963"/>
         <source>&amp;Online Users</source>
-        <translation>Pengguna &amp;online</translation>
+        <translation>&amp;Pengguna Yang Online</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1966"/>
@@ -2224,16 +2220,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2277"/>
         <source>Toggle &amp;Question Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Toggle Mode Pertanyaan</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2283"/>
         <source>Ctrl+F6</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enable Question Mode</source>
-        <translation type="vanished">Aktifkan mode bertanya</translation>
+        <translation>Ctrl+F6</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2280"/>
@@ -2243,7 +2235,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1978"/>
         <source>Enable Desktop Sharing</source>
-        <translation>Aktifkan berbagi desktop</translation>
+        <translation>Aktifkan Berbagi Desktop</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1981"/>
@@ -2253,7 +2245,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1989"/>
         <source>Enable Text-To-Speech Events</source>
-        <translation>Aktifkan pengumuman TTS</translation>
+        <translation>Aktifkan Event Teks Ke Ucapan</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1992"/>
@@ -2263,7 +2255,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2000"/>
         <source>Enable Sound Events</source>
-        <translation>Aktifkan suara pemberitahuan</translation>
+        <translation>Aktifkan Event Suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2003"/>
@@ -2273,7 +2265,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2011"/>
         <source>Allow Desktop Transmission</source>
-        <translation>Izinkan transmisi desktop</translation>
+        <translation>Izinkan Transmisi Desktop</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2014"/>
@@ -2283,7 +2275,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2022"/>
         <source>Allow All Desktop Transmission</source>
-        <translation>Izinkan semua pengguna untuk mentransmisikan desktop</translation>
+        <translation>Izinkan Semua Transmisi Desktop</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2025"/>
@@ -2313,7 +2305,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2067"/>
         <source>Stream &amp;Media File to Channel</source>
-        <translation>Stream &amp;media file ke saluran</translation>
+        <translation>Stream &amp;File Media Ke Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2070"/>
@@ -2323,12 +2315,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2082"/>
         <source>Desktop Acce&amp;ss</source>
-        <translation>Akses &amp;desktop</translation>
+        <translation>akses deskt&amp;op</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2094"/>
         <source>Allow Desktop Access</source>
-        <translation>Izinkan akses desktop</translation>
+        <translation>Izinkan Akses Desktop</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2097"/>
@@ -2338,12 +2330,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2105"/>
         <source>&amp;Deny</source>
-        <translation>&amp;Tolak</translation>
+        <translation>&amp;Ditolak</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2117"/>
         <source>Media File Stream</source>
-        <translation>Stream media file</translation>
+        <translation>Stream File Media</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2120"/>
@@ -2353,7 +2345,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2132"/>
         <source>Intercept Media File Stream</source>
-        <translation>Intercept stream media file</translation>
+        <translation>Intercept Stream File Media</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2135"/>
@@ -2363,7 +2355,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2143"/>
         <source>Allow Media File Transmission</source>
-        <translation>Izinkan stream media file</translation>
+        <translation>Izinkan Transmisi File Media</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2146"/>
@@ -2373,7 +2365,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2154"/>
         <source>Allow All Media File Transmission</source>
-        <translation>Izinkan semua orang untuk mentransmisikan stream media file</translation>
+        <translation>Izinkan Semua Transmisi File Media</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2157"/>
@@ -2383,7 +2375,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2165"/>
         <source>Mu&amp;te Voice</source>
-        <translation>&amp;Bisukan suara</translation>
+        <translation>Di&amp;amkan suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2168"/>
@@ -2393,12 +2385,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2176"/>
         <source>Mute Media File</source>
-        <translation>Bisukan media file</translation>
+        <translation>Diamkan File Media</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2184"/>
         <source>Kick From Channel</source>
-        <translation>Keluarkan dari saluran</translation>
+        <translation>Keluarkan Dari Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2187"/>
@@ -2408,7 +2400,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2192"/>
         <source>Kick From Server</source>
-        <translation>Keluarkan dari server</translation>
+        <translation>Keluarkan Dari Server</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2195"/>
@@ -2418,22 +2410,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2200"/>
         <source>Increase Media File Volume</source>
-        <translation>Naikan volume media file</translation>
+        <translation>Tingkatkan Volume File Media</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2208"/>
         <source>Lower Media File Volume</source>
-        <translation>Turunkan volume media file</translation>
+        <translation>Turunkan Volume File Media</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2216"/>
         <source>R&amp;eset Preferences to Default</source>
-        <translation>atu&amp;r ulang program ke pengaturan awal</translation>
+        <translation>A&amp;tur Ulang Preferensi Ke Default</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2221"/>
         <source>Kick and Ban From &amp;Channel</source>
-        <translation>Keluarkan dan &amp;larang dari saluran</translation>
+        <translation>Keluarkan Dan Ban Dari &amp;Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2224"/>
@@ -2443,7 +2435,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2229"/>
         <source>Banned Users From Channel</source>
-        <translation>Larang pengguna dari saluran</translation>
+        <translation>Pengguna yang Dilarang Dari Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2232"/>
@@ -2453,7 +2445,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2240"/>
         <source>Allow Channel Text Messages</source>
-        <translation>Izinkan mengirim pesan teks ke saluran</translation>
+        <translation>Izinkan Pesan Teks Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2243"/>
@@ -2463,7 +2455,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2251"/>
         <source>Allow All Channel Text Messages</source>
-        <translation>Izinkan semua orang mengirim pesan teks ke saluran</translation>
+        <translation>Izinkan Semua Pesan Teks Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2254"/>
@@ -2473,7 +2465,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2262"/>
         <source>&amp;Hear Myself</source>
-        <translation>Dengarkan Diri saya sendiri</translation>
+        <translation>Dengarkan Diri Saya Sendiri</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2265"/>
@@ -2484,22 +2476,22 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="866"/>
         <location filename="../mainwindow.cpp" line="2540"/>
         <source>Firewall exception</source>
-        <translation>Pengecualian firewall</translation>
+        <translation>Pengecualian Firewall</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="867"/>
         <source>Failed to remove %1 from Windows Firewall exceptions.</source>
-        <translation>Gagal menghapus %1 dari Pengecualian Windows Firewall</translation>
+        <translation>Gagal untuk menghapus %1 dari pengecualian Windows Firewall</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="883"/>
         <source>Startup arguments</source>
-        <translation>Argumen awal</translation>
+        <translation>Argumen startup</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="884"/>
         <source>Program argument &quot;%1&quot; is unrecognized.</source>
-        <translation>Argumen program &quot;%1&quot; tidak dapat dikenali</translation>
+        <translation>Argumen program &quot;%1&quot; tidak dikenali.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1976"/>
@@ -2515,12 +2507,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="623"/>
         <source>Translate</source>
-        <translation>Diterjemahkan</translation>
+        <translation>Terjemah</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="741"/>
         <source>%1 has detected usage of a screenreader on your computer. Do you wish to enable accessibility options offered by %1 with recommended settings?</source>
-        <translation>%1 telah mendeteksi penggunaan pembaca layar di komputer Anda. Apakah Anda ingin mengaktifkan opsi aksesibilitas yang ditawarkan oleh %1 dengan setelan yang disarankan?</translation>
+        <translation>%1 telah mendeteksi penggunaan pembaca layar di komputer Anda. Apakah Anda ingin mengaktifkan opsi aksesibilitas yang ditawarkan oleh %1 dengan pengaturan yang disarankan?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="763"/>
@@ -2530,30 +2522,30 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="766"/>
-        <source>Your sounds pack %1 don&apos;t exist, would you like to use default sounds pack?</source>
-        <translation>Paket suara Anda %1 tidak ada, apakah Anda ingin menggunakan paket suara default?</translation>
+        <source>The sound pack %1 does not exist. Would you like to use the default sound pack?</source>
+        <translation>Paket suara %1 tidak ada. Apakah Anda ingin menggunakan paket suara default?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="955"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
-        <translation>Kehilangan koneksi ke %1 TCP port %2 UDP port %3</translation>
+        <translation>Koneksi ke %1 TCP port %2 UDP port %3 terputus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="959"/>
         <source>Connection to server lost</source>
-        <translation>Koneksi ke server hilang</translation>
+        <translation>Koneksi ke server terputus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1069"/>
         <location filename="../mainwindow.cpp" line="1071"/>
         <source>%1 has logged in</source>
-        <translation>%1 online</translation>
+        <translation>%1 telah log masuk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
         <location filename="../mainwindow.cpp" line="1089"/>
         <source>%1 has logged out</source>
-        <translation>%1 offline</translation>
+        <translation>%1 telah log keluar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2749"/>
@@ -2561,12 +2553,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="4694"/>
         <location filename="../mainwindow.cpp" line="5388"/>
         <source>root</source>
-        <translation>root</translation>
+        <translation>utama</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1205"/>
         <source>File %1 added</source>
-        <translation>Berkas %1 ditambahkan</translation>
+        <translation>File %1 ditambahkan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="979"/>
@@ -2577,12 +2569,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="980"/>
         <source>You have been kicked from server by %1</source>
-        <translation>Anda dikeluarkan dari server oleh %1</translation>
+        <translation>Anda telah dikeluarkan dari server oleh %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="983"/>
         <source>You have been kicked from server by unknown user</source>
-        <translation>Anda dikeluarkan oleh pengguna tidak dikenal</translation>
+        <translation>Anda telah dikeluarkan dari server oleh pengguna yang tidak dikenal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="999"/>
@@ -2593,114 +2585,114 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1000"/>
         <source>You have been kicked from channel by %1</source>
-        <translation>Anda dikeluarkan dari saluran oleh %1</translation>
+        <translation>Anda telah dikeluarkan dari saluran oleh %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1003"/>
         <source>You have been kicked from channel by unknown user</source>
-        <translation>Anda dikeluarkan dari saluran oleh pengguna tidak dikenal</translation>
+        <translation>Anda telah dikeluarkan dari saluran oleh pengguna yang tidak dikenal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1114"/>
         <source>%1 joined root channel</source>
-        <translation>%1 bergabung dengan saluran root</translation>
+        <translation>%1 bergabung dengan saluran utama</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1120"/>
         <source>%1 joined channel %2</source>
-        <translation>%1 bergabung ke saluran %2</translation>
+        <translation>%1 bergabung dengan saluran %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1151"/>
         <source>%1 left root channel</source>
-        <translation>%1 keluar dari saluran root</translation>
+        <translation>%1 meninggalkan saluran utama</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1155"/>
         <source>%1 left channel %2</source>
-        <translation> %1 keluar dari saluran %2</translation>
+        <translation> %1 meninggalkan saluran %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>File %1 added by %2</source>
-        <translation>Berkas %1 ditambahkan oleh %2</translation>
+        <translation>File %1 ditambahkan oleh %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1229"/>
         <source>File %1 removed</source>
-        <translation>Berkas %1 dihapus</translation>
+        <translation>File %1 dihapus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>File %1 removed by %2</source>
-        <translation>Berkas %1 dihapus oleh %2</translation>
+        <translation>File %1 dihapus oleh %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1255"/>
         <location filename="../mainwindow.cpp" line="5031"/>
         <source>Failed to download file %1</source>
-        <translation>Gagal mengunduh berkas %1</translation>
+        <translation>Gagal untuk mengunduh file %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1259"/>
         <location filename="../mainwindow.cpp" line="5731"/>
         <source>Failed to upload file %1</source>
-        <translation>Gagal mengunggah berkas %1</translation>
+        <translation>Gagal untuk mengunggah file %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1272"/>
         <source>Failed to initialize sound input device</source>
-        <translation>Gagal menginisialisasi perangkat input suara</translation>
+        <translation>Gagal untuk menginisialisasi perangkat input suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1274"/>
         <source>Failed to initialize sound output device</source>
-        <translation>Gagal menginisialisasi perangkat output suara</translation>
+        <translation>Gagal untuk menginisialisasi perangkat output suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
         <source>Failed to initialize audio codec</source>
-        <translation>Gagal menginisialisasi codec audio</translation>
+        <translation>Gagal untuk menginisialisasi codec audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1279"/>
         <source>Failed to initialize audio configuration</source>
-        <translation>Gagal menginisialisasi konfigurasi audio</translation>
+        <translation>Gagal untuk menginisialisasi konfigurasi audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1282"/>
         <source>Internal message queue overloaded</source>
-        <translation>Antrian pesan internal terlampaui</translation>
+        <translation>Antrian pesan internal kelebihan beban</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1288"/>
         <source>Internal Error</source>
-        <translation>Kesalahan internal</translation>
+        <translation>Kesalahan Internal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1316"/>
         <source>Streaming from %1 started</source>
-        <translation>stream media file oleh %1 dimulai</translation>
+        <translation>Streaming dari %1 dimulai</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1344"/>
         <source>Error streaming media file to channel</source>
-        <translation>Kesalahan saat melakukan stream media file ke saluran</translation>
+        <translation>Kesalahan saat streaming file media ke saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
         <source>Started streaming media file to channel</source>
-        <translation>stream media file ke saluran dimulai</translation>
+        <translation>Streaming file media ke saluran dimulai</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1351"/>
         <source>Finished streaming media file to channel</source>
-        <translation>Stream media file ke saluran selesai</translation>
+        <translation>Streaming file media ke saluran Selesai</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1355"/>
         <source>Aborted streaming media file to channel</source>
-        <translation>stream media file ke saluran dibatalkan</translation>
+        <translation>Streaming file media ke saluran dibatalkan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1403"/>
@@ -2721,37 +2713,37 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1494"/>
         <source>Writing audio file %1 for %2</source>
-        <translation>Menulis berkas audio %1 untuk %2</translation>
+        <translation>Menulis file audio %1 untuk %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1499"/>
         <source>Failed to write audio file %1 for %2</source>
-        <translation>Gagal menulis berkas audio %1 untuk %2</translation>
+        <translation>Gagal untuk menulis file audio %1 untuk %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1504"/>
-        <source>Finished audio file %1</source>
-        <translation>Finished audio berkas %1</translation>
+        <source>Finished writing to audio file %1</source>
+        <translation>Selesai menulis ke file audio %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1508"/>
         <source>Aborted audio file %1</source>
-        <translation>Berkas audio %1 dibatalkan</translation>
+        <translation>File audio %1 dibatalkan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1828"/>
         <source>Banned Users in Channel %1</source>
-        <translation>Pengguna yang Dicekal di Saluran %1</translation>
+        <translation>Pengguna Yang Dilarang Di Saluran %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1805"/>
         <source>Cannot join channel %1</source>
-        <translation>Tidak dapat bergabung dengan saluran %1</translation>
+        <translation>Tidak dapat gabung ke saluran %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1185"/>
         <source>%1 set question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 mengatur mode pertanyaan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1890"/>
@@ -2771,7 +2763,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1959"/>
         <source>Logged out from %1, TCP port %2, UDP port %3</source>
-        <translation>Offline dari %1, TCP port %2, UDP port %3</translation>
+        <translation>Log keluar dari %1, TCP port %2, UDP port %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1962"/>
@@ -2802,22 +2794,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2008"/>
         <source>The server uses a protocol which is incompatible with the client instance</source>
-        <translation>Server menggunakan protokol yang tidak kompatibel dengan klien</translation>
+        <translation>Server menggunakan protokol yang tidak kompatibel dengan instance client</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2010"/>
         <source>Unknown audio codec</source>
-        <translation>Codec audio tidak diketahui</translation>
+        <translation>Codec audio tidak dikenal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2012"/>
         <source>This client is not compatible with the server, so the action cannot be performed.</source>
-        <translation>Klien ini tidak kompatibel dengan server, sehingga tindakan tidak dapat dilakukan.</translation>
+        <translation>Client ini tidak kompatibel dengan server, sehingga tindakan tidak dapat dilakukan.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2015"/>
         <source>The username is invalid</source>
-        <translation>Nama pengguna tidak dikenali</translation>
+        <translation>Nama pengguna tidak sah</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2022"/>
@@ -2831,7 +2823,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5460"/>
         <location filename="../mainwindow.cpp" line="5483"/>
         <source>&amp;Ok</source>
-        <translation>&amp;oke</translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2026"/>
@@ -2844,22 +2836,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2027"/>
         <source>Invalid user account. Type username:</source>
-        <translation>Nama pengguna tidak dikenali, tulis nama pengguna</translation>
+        <translation>Akun pengguna tidak valid. Ketik nama pengguna:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2035"/>
         <source>Invalid user account. Type password:</source>
-        <translation>Nama pengguna tidak dikenali, tulis kata sandi</translation>
+        <translation>Akun pengguna tidak valid. Ketik kata sandi:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2060"/>
         <source>Join channel error</source>
-        <translation>Kesalahan saat bergabung ke saluran</translation>
+        <translation>Kesalahan saat gabung ke saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2061"/>
         <source>Incorrect channel password. Try again:</source>
-        <translation>Kata sandi saluran salah, coba lagi</translation>
+        <translation>Kata sandi saluran salah. Coba lagi:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2075"/>
@@ -2869,57 +2861,57 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2077"/>
         <source>Command not authorized</source>
-        <translation>Perintah tidak diizinkan</translation>
+        <translation>Perintah tidak diotorisasi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2080"/>
         <source>Maximum number of users on server exceeded</source>
-        <translation>Maksimal pengguna di server terlampaui</translation>
+        <translation>Jumlah maksimum pengguna di server terlampaui</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2082"/>
         <source>Maximum disk usage exceeded</source>
-        <translation>Maksimum penggunaan disk terlampaui</translation>
+        <translation>Penggunaan disk maksimum terlampaui</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2084"/>
         <source>Maximum number of users in channel exceeded</source>
-        <translation>Maksimum pengguna dalam saluran terlampaui</translation>
+        <translation>Jumlah maksimum pengguna di saluran terlampaui</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2086"/>
         <source>Incorrect channel operator password</source>
-        <translation>Tidak dapat mengenali kata sandi operator saluran</translation>
+        <translation>Kata sandi operator saluran salah</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2088"/>
         <source>The maximum number of channels has been exceeded</source>
-        <translation>Maksimum pengguna dalam saluran terlampaui</translation>
+        <translation>Jumlah maksimum saluran telah terlampaui</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2090"/>
         <source>Command flooding prevented by server</source>
-        <translation>Perintah terlalu banyak. dicegah oleh server</translation>
+        <translation>Flood perintah dicegah oleh server</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2094"/>
         <source>Already logged in</source>
-        <translation>Telah Login</translation>
+        <translation>Telah log masuk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2096"/>
         <source>Cannot perform action because client is currently not logged in</source>
-        <translation>Tidak dapat melakukan tindakan karena klien saat ini tidak login</translation>
+        <translation>Tidak dapat melakukan tindakan karena client saat ini tidak log masuk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2099"/>
         <source>Cannot join the same channel twice</source>
-        <translation>Tidak dapat bergabung dengan saluran yang sama</translation>
+        <translation>Tidak dapat gabung ke saluran yang sama dua kali</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2101"/>
         <source>Channel already exists</source>
-        <translation>Saluran sudah tersedia</translation>
+        <translation>Saluran sudah ada</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2107"/>
@@ -2929,7 +2921,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2110"/>
         <source>Server failed to open file</source>
-        <translation>Server gagal ketika membuka file</translation>
+        <translation>Server gagal untuk membuka file</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2112"/>
@@ -2949,7 +2941,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2118"/>
         <source>Cannot leave channel because not in channel.</source>
-        <translation>Tidak dapat keluar dari saluran, karena sedang tidak di dalam saluran</translation>
+        <translation>Tidak dapat meninggalkan saluran karena tidak berada di saluran.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2120"/>
@@ -2959,66 +2951,70 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2122"/>
         <source>File transfer not found</source>
-        <translation>Transfer berkas tidak ditemukan</translation>
+        <translation>Transfer file tidak ditemukan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2124"/>
         <source>User account not found</source>
-        <translation>Nama pengguna tidak ditemukan</translation>
+        <translation>Akun pengguna tidak ditemukan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2126"/>
         <source>File not found</source>
-        <translation>Berkas tidak ditemukan</translation>
+        <translation>File tidak ditemukan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2128"/>
         <source>File already exists</source>
-        <translation>Berkas sudah tersedia</translation>
+        <translation>File sudah ada</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2130"/>
         <source>File sharing is disabled</source>
-        <translation>Berbagi berkas telah dimatikan</translation>
+        <translation>Berbagi file dinonaktifkan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2132"/>
         <source>Channel has active users</source>
-        <translation>Saluran memiliki pengguna aktif</translation>
+        <translation>Saluran memiliki pengguna yang aktif</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2137"/>
         <source>Unknown error occured</source>
-        <translation>Kesalahan tidak diketahui</translation>
+        <translation>Terjadi kesalahan yang tidak diketahui</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2144"/>
         <source>The server reported an error:</source>
-        <translation>Server menditeksi kesalahan:</translation>
+        <translation>Server melaporkan kesalahan:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4051"/>
         <source>No Sound Device</source>
-        <translation>Tidak ada perangkat suara</translation>
+        <translation>Tidak Ada Perangkat Suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4077"/>
         <source>&amp;Refresh Sound Devices</source>
-        <translation>Sega&amp;rkan perangkat suara</translation>
+        <translation>&amp;Segarkan Perangkat Suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6812"/>
         <source>New version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Versi baru tersedia: %1<byte value="xd"/>
+Anda dapat mengunduhnya pada halaman di bawah ini:<byte value="xd"/>
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6837"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Versi beta baru tersedia: %1<byte value="xd"/>
+Anda dapat mengunduhnya pada halaman di bawah ini:<byte value="xd"/>
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="742"/>
@@ -3054,12 +3050,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="2644"/>
         <source>Channel message sent: %1</source>
-        <translation> Pesan terkirim: %1</translation>
+        <translation>Pesan saluran terkirim: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2656"/>
         <source>Broadcast message from %1: %2</source>
-        <translation>Pesan siaran dari %1: %2</translation>
+        <translation>Pesan broadcast dari %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2675"/>
@@ -3070,39 +3066,39 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="2740"/>
         <location filename="../mainwindow.cpp" line="2752"/>
         <source>Joined classroom channel %1</source>
-        <translation>Bergabung ke saluran classroom %1</translation>
+        <translation>Bergabung dengan saluran kelas %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2790"/>
         <location filename="../mainwindow.cpp" line="2802"/>
         <source>Left classroom channel %1</source>
-        <translation>Keluar dari saluran classroom %1</translation>
+        <translation>Meninggalkan saluran kelas %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2794"/>
         <location filename="../mainwindow.cpp" line="2806"/>
         <source>Left channel %1</source>
-        <translation>Keluar dari saluran classroom %1</translation>
+        <translation>Meninggalkan saluran %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4448"/>
         <source>Voice for %1 disabled</source>
-        <translation>Suara %1 dinonaktifkan</translation>
+        <translation>Suara untuk %1 dinonaktifkan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4450"/>
         <source>Voice for %1 enabled</source>
-        <translation>Suara %1 diaktifkan</translation>
+        <translation>Suara untuk %1 diaktifkan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4467"/>
         <source>Media files for %1 disabled</source>
-        <translation>media file %1 dinonaktifkan</translation>
+        <translation>File media untuk %1 dinonaktifkan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4469"/>
         <source>Media files for %1 enabled</source>
-        <translation>Media file %1 diaktifkan</translation>
+        <translation>File media untuk %1 diaktifkan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4485"/>
@@ -3117,22 +3113,22 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="4619"/>
         <source>Voice volume for %1 increased to %2%</source>
-        <translation>Volume suara %1 %2%</translation>
+        <translation>Volume suara untuk %1 ditingkatkan menjadi %2%</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4632"/>
         <source>Voice volume for %1 decreased to %2%</source>
-        <translation>Volume suara %1 %2%</translation>
+        <translation>Volume suara untuk %1 diturunkan menjadi %2%</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4645"/>
         <source>Media files volume for %1 increased to %2%</source>
-        <translation>Volume media file %1 %2%</translation>
+        <translation>Volume file media untuk %1 ditingkatkan menjadi %2%</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4658"/>
         <source>Media files volume for %1 decreased to %2%</source>
-        <translation>Volume media file %1 %2%</translation>
+        <translation>Volume file media untuk %1 diturunkan menjadi %2%</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4677"/>
@@ -3148,12 +3144,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="5049"/>
         <source>Delete %1 files</source>
-        <translation>Hapus %1 berkas</translation>
+        <translation>Hapus file %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5211"/>
         <source>Broadcast message sent: %1</source>
-        <translation>Pesan siaran terkirim: %1</translation>
+        <translation>Pesan broadcast terkirim: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1991"/>
@@ -3174,22 +3170,22 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="5950"/>
         <source>You can now transmit channel messages!</source>
-        <translation>Anda sekarang dapat mengirim pesan teks ke saluran!</translation>
+        <translation>Anda sekarang dapat mengirimkan pesan saluran!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5952"/>
         <source>You can no longer transmit channel messages!</source>
-        <translation>Anda tidak dapat mengirim pesan teks ke saluran!</translation>
+        <translation>Anda tidak dapat lagi mengirimkan pesan saluran!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5994"/>
         <source>You can now transmit mediafiles!</source>
-        <translation>Anda sekarang dapat mentransmisikan media file!</translation>
+        <translation>Anda sekarang dapat mentransmisikan file media!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5996"/>
         <source>You can no longer transmit mediafiles!</source>
-        <translation>Anda tidak dapat mentransmisikan media file!</translation>
+        <translation>Anda tidak dapat lagi mentransmisikan file media!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6608"/>
@@ -3205,7 +3201,8 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="6719"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>File %1 mengandungi informasi setup %2.<byte value="xd"/>
+Haruskah pengaturan ini diterapkan?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6800"/>
@@ -3218,14 +3215,6 @@ Should these settings be applied?</source>
         <translation>Versi baru tersedia</translation>
     </message>
     <message>
-        <source>New version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="vanished">Versi baru tersedia: %1
-Anda dapat mengunduhnya pada halaman di bawah ini:
-%2</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6825"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>Versi beta baru dari %1 tersedia: %2. Apakah Anda ingin membuka halaman unduhan sekarang?</translation>
@@ -3236,17 +3225,9 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
         <translation>Versi beta baru tersedia</translation>
     </message>
     <message>
-        <source>New beta version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="vanished">Versi beta baru tersedia: %1
-Anda dapat mengunduhnya pada halaman di bawah ini:
-%2</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6913"/>
         <source>No available voices found for Text-To-Speech</source>
-        <translation>Tidak ada suara yang tersedia untuk TTS</translation>
+        <translation>Tidak ada suara yang tersedia untuk teks ke ucapan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2429"/>
@@ -3261,7 +3242,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     <message>
         <location filename="../mainwindow.cpp" line="974"/>
         <source>Kicked from server by unknown user</source>
-        <translation>Dikeluarkan dari server oleh pengguna tidak dikenal</translation>
+        <translation>Dikeluarkan dari server oleh pengguna yang tidak dikenal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="991"/>
@@ -3271,7 +3252,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     <message>
         <location filename="../mainwindow.cpp" line="994"/>
         <source>Kicked from channel by unknown user</source>
-        <translation>Dikeluarkan dari saluran oleh pengguna tidak dikenal</translation>
+        <translation>Dikeluarkan dari saluran oleh pengguna yang tidak dikenal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2023"/>
@@ -3295,7 +3276,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     <message>
         <location filename="../mainwindow.cpp" line="2541"/>
         <source>Failed to add %1 to Windows Firewall exceptions.</source>
-        <translation>Gagal menambahkan %1 ke pengecualian Windows Firewall.</translation>
+        <translation>Gagal untuk menambahkan %1 ke pengecualian Windows Firewall.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2696"/>
@@ -3306,100 +3287,100 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
         <location filename="../mainwindow.cpp" line="2702"/>
         <location filename="../mainwindow.cpp" line="4565"/>
         <source>%1 granted desktop access</source>
-        <translation>%1 diizinkan akses desktop</translation>
+        <translation>%1 diberikan akses desktop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2708"/>
         <source>%1 retracted desktop access</source>
-        <translation>%1 menghentikan akses desktop</translation>
+        <translation>%1 menarik kembali akses desktop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2744"/>
         <location filename="../mainwindow.cpp" line="2756"/>
         <source>Joined channel %1</source>
-        <translation>Bergabung ke saluran %1</translation>
+        <translation>Bergabung dengan saluran %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2868"/>
         <source>Files in channel: %1</source>
-        <translation>Berkas  di saluran: %1</translation>
+        <translation>File di saluran: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2925"/>
         <source>Failed to start recording</source>
-        <translation>Gagal memulai perekaman</translation>
+        <translation>Gagal untuk memulai perekaman</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2929"/>
         <source>Recording to file: %1</source>
-        <translation>Merekam ke berkas: %1</translation>
+        <translation>Merekam ke file: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2983"/>
         <source>Microphone gain is controlled by channel</source>
-        <translation>Gain mikrofon diatur oleh saluran</translation>
+        <translation>Gain mikrofon dikendalikan oleh saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3359"/>
         <source>Failed to stream media file %1</source>
-        <translation>Gagal melakukan stream media file %1</translation>
+        <translation>Gagal untuk stream file media %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3519"/>
         <source>Enable HotKey</source>
-        <translation>Aktifkan tombol pintasan</translation>
+        <translation>Aktifkan HotKey</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3520"/>
         <source>Failed to register hotkey. Please try another key combination.</source>
-        <translation>Gagal mendaftarkan tombol pintasan. Silahkan coba lagi dengan kombinasi tombol pintasan lainnya</translation>
+        <translation>Gagal untuk mendaftarkan hotkey. Silakan coba kombinasi tombol lain.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3525"/>
         <source>Push To Talk: </source>
-        <translation>PTT:</translation>
+        <translation>Tekan untuk bicara: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3698"/>
         <source>Text messages blocked by channel operator</source>
-        <translation>Mengirim pesan teks ke saluran tidak di izinkan oleh operator saluran</translation>
+        <translation>Pesan teks diblokir oleh operator saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3702"/>
         <source>Voice transmission blocked by channel operator</source>
-        <translation>Transmisi suara tidak diizinkan oleh operator saluran</translation>
+        <translation>Transmisi suara diblokir oleh operator saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3706"/>
         <source>Media file transmission blocked by channel operator</source>
-        <translation>Transmisi media file tidak diizinkan oleh operator saluran</translation>
+        <translation>Transmisi file media diblokir oleh operator saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3710"/>
         <source>Video transmission blocked by channel operator</source>
-        <translation>Transmisi video tidak diizinkan oleh operator saluran</translation>
+        <translation>Transmisi video diblokir oleh operator saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3714"/>
         <source>Desktop transmission blocked by channel operator</source>
-        <translation>Transmisi desktop tidak diizinkan oleh operator saluran</translation>
+        <translation>Transmisi desktop diblokir oleh operator saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3758"/>
         <location filename="../mainwindow.cpp" line="3801"/>
         <source>New Profile</source>
-        <translation>Profil baru</translation>
+        <translation>Profil Baru</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3758"/>
         <source>Delete Profile</source>
-        <translation>Hapus profil</translation>
+        <translation>Hapus Profil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3770"/>
         <location filename="../mainwindow.cpp" line="3786"/>
         <source>New Client Instance</source>
-        <translation>Buat Klien baru</translation>
+        <translation>Instance Client Baru</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3771"/>
@@ -3419,7 +3400,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     <message>
         <location filename="../mainwindow.cpp" line="4157"/>
         <source>Specify new nickname for current server</source>
-        <translation>Tentukan nama panggilan baru untuk server ini</translation>
+        <translation>Tentukan nama panggilan baru untuk server saat ini</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4159"/>
@@ -3428,23 +3409,24 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4276"/>
+        <location filename="../mainwindow.cpp" line="6008"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translation>Perangkat video belum dikonfigurasi dengan benar. Periksa pengaturan di pengaturan program</translation>
+        <translation>Perangkat video belum dikonfigurasi dengan benar. Periksa pengaturan di &apos;Preferensi&apos;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4405"/>
         <source>Sound events enabled</source>
-        <translation>Suara pemberitahuan diaktifkan</translation>
+        <translation>Event suara diaktifkan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4410"/>
         <source>Sound events disabled</source>
-        <translation>Suara pemberitahuan dinonaktifkan</translation>
+        <translation>Event suara dinonaktifkan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5082"/>
         <source>Sort By...</source>
-        <translation>Sortir dengan...</translation>
+        <translation>Diurutkan Berdasarkan...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5083"/>
@@ -3464,56 +3446,43 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     <message>
         <location filename="../mainwindow.cpp" line="5086"/>
         <source>&amp;Upload Date</source>
-        <translation>&amp;Waktu unggahan</translation>
-    </message>
-    <message>
-        <source>Character limit exceeded</source>
-        <translation type="vanished">Batas karakter terlampaui</translation>
-    </message>
-    <message>
-        <source>Your message has exceeded the limit by %1 characters. Please reduce it and try again.</source>
-        <translation type="vanished">Pesan Anda telah melampaui batas %1 karakter. Silahkan kurangi dan coba lagi.</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6008"/>
-        <source>Video device hasn&apos;t been configured property. Check settings in &apos;Preferences&apos;</source>
-        <translation>Perangkat video belum dikonfigurasi properti. Periksa pengaturan di pengaturan program</translation>
+        <translation>&amp;Tanggal Unggah</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4287"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
-        <translation>Gagal mengonfigurasi codec video. Periksa pengaturan di pengaturan program</translation>
+        <translation>Gagal untuk mengonfigurasi codec video. Periksa pengaturan di &apos;Preferensi&apos;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4333"/>
         <source>Failed to open X11 display.</source>
-        <translation>Gagal membuka tampilan X11</translation>
+        <translation>Gagal untuk membuka tampilan X11.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4352"/>
         <source>Failed to start desktop sharing</source>
-        <translation>Gagal memulai berbagi desktop</translation>
+        <translation>Gagal untuk memulai berbagi desktop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4390"/>
         <source>Text-To-Speech enabled</source>
-        <translation>TTS diaktifkan</translation>
+        <translation>Teks ke ucapan diaktifkan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4395"/>
         <source>Text-To-Speech disabled</source>
-        <translation>TTS dinonaktifkan</translation>
+        <translation>Teks ke ucapan dinonaktifkan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4770"/>
         <location filename="../mainwindow.cpp" line="4783"/>
         <source>Failed to issue command to create channel</source>
-        <translation>Gagal mengeluarkan perintah untuk membuat saluran</translation>
+        <translation>Gagal untuk mengeluarkan perintah untuk mencipta saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4797"/>
         <source>Failed to issue command to update channel</source>
-        <translation>Gagal mengeluarkan perintah untuk memperbaharui saluran</translation>
+        <translation>Gagal untuk mengeluarkan perintah untuk memperbarui saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4810"/>
@@ -3523,7 +3492,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     <message>
         <location filename="../mainwindow.cpp" line="4822"/>
         <source>Failed to issue command to delete channel</source>
-        <translation>Gagal mengeluarkan perintah untuk menghapus saluran</translation>
+        <translation>Gagal untuk mengeluarkan perintah untuk menghapus saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4852"/>
@@ -3534,22 +3503,22 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     <message>
         <location filename="../mainwindow.cpp" line="4867"/>
         <source>Failed to issue command to join channel</source>
-        <translation>Gagal mengeluarkan perintah untuk bergabung dengan saluran</translation>
+        <translation>Gagal untuk mengeluarkan perintah untuk bergabung ke saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4955"/>
         <source>Nobody is active in this channel</source>
-        <translation>Tidak ada aktifitas di saluran</translation>
+        <translation>Tidak ada yang aktif di saluran ini</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5001"/>
         <source>Open File</source>
-        <translation>Buka berkas</translation>
+        <translation>Buka File</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5022"/>
         <source>Save File</source>
-        <translation>Simpan berkas</translation>
+        <translation>Simpan File</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5052"/>
@@ -3559,17 +3528,17 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     <message>
         <location filename="../mainwindow.cpp" line="5061"/>
         <source>Are you sure you want to delete %1 file(s)?</source>
-        <translation>Apakah anda yakin ingin menghapus berkas %1?</translation>
+        <translation>Apakah anda yakin ingin menghapus file %1?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5201"/>
         <source>Message to broadcast:</source>
-        <translation>Tulis pesan siaran:</translation>
+        <translation>Pesan untuk broadcast:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5247"/>
         <source>Are you sure you want to delete your existing settings?</source>
-        <translation>Apakah anda yakin ingin menghapus pengaturan saat ini?</translation>
+        <translation>Apakah anda yakin ingin menghapus setelan anda yang sedia ada?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5262"/>
@@ -3584,7 +3553,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     <message>
         <location filename="../mainwindow.cpp" line="5276"/>
         <source>Failed to copy %1 to %2</source>
-        <translation>Gagal menyalin %1 ke %2</translation>
+        <translation>Gagal untuk menyalin %1 ke %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4912"/>
@@ -3595,7 +3564,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     <message>
         <location filename="../mainwindow.cpp" line="5331"/>
         <source>Mute</source>
-        <translation>Bisu</translation>
+        <translation>Diam</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4923"/>
@@ -3606,7 +3575,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     <message>
         <location filename="../mainwindow.cpp" line="5331"/>
         <source>Mute media file</source>
-        <translation>Bisukan media file</translation>
+        <translation>Diamkan file media</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4934"/>
@@ -3623,7 +3592,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     <message>
         <location filename="../mainwindow.cpp" line="5331"/>
         <source>Channel Operator</source>
-        <translation>Operator saluran</translation>
+        <translation>Operator Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5331"/>
@@ -3633,7 +3602,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     <message>
         <location filename="../mainwindow.cpp" line="5335"/>
         <source>Administrator</source>
-        <translation>Admin</translation>
+        <translation>Administrator</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5339"/>
@@ -3648,12 +3617,12 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     <message>
         <location filename="../mainwindow.cpp" line="5360"/>
         <source>Away</source>
-        <translation>Sedang sibuk.</translation>
+        <translation>Away</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5363"/>
         <source>Question</source>
-        <translation>Bertanya.</translation>
+        <translation>Pertanyaan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5388"/>
@@ -3668,7 +3637,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     <message>
         <location filename="../mainwindow.cpp" line="5388"/>
         <source>Classroom</source>
-        <translation>Classroom</translation>
+        <translation>Kelas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5388"/>
@@ -3678,42 +3647,42 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     <message>
         <location filename="../mainwindow.cpp" line="5409"/>
         <source>Topic: %1</source>
-        <translation>Topik saluran: %1</translation>
+        <translation>Topik: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5412"/>
         <source>%1 files</source>
-        <translation> %1 berkas</translation>
+        <translation>%1 file</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5480"/>
         <source>IP-address</source>
-        <translation>Alamat-IP</translation>
+        <translation>Alamat IP</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5480"/>
         <source>Username</source>
-        <translation>Nama pengguna</translation>
+        <translation>Nama Pengguna</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5488"/>
         <source>Ban User From Channel</source>
-        <translation>Larang pengguna dari saluran</translation>
+        <translation>Ban Pengguna Dari Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5487"/>
         <source>Ban user&apos;s</source>
-        <translation>Larang pengguna</translation>
+        <translation>Ban pengguna</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5641"/>
         <source>&amp;Leave Channel</source>
-        <translation>&amp;Keluar dari saluran</translation>
+        <translation>&amp;Tinggalkan Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5903"/>
         <source>The maximum number of users who can transmit is %1</source>
-        <translation>Jumlah maksimum pengguna yang dapat melakukan transmisi adalah %1</translation>
+        <translation>Jumlah maksimum pengguna yang dapat transmit adalah %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5961"/>
@@ -3723,7 +3692,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     <message>
         <location filename="../mainwindow.cpp" line="5963"/>
         <source>You can no longer transmit audio!</source>
-        <translation>Anda tidak dapat mentransmisikan audio!</translation>
+        <translation>Anda tidak dapat lagi mentransmisikan audio!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5972"/>
@@ -3733,7 +3702,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     <message>
         <location filename="../mainwindow.cpp" line="5974"/>
         <source>You can no longer transmit video!</source>
-        <translation>Anda tidak dapat mentransmisikan video!</translation>
+        <translation>Anda tidak dapat lagi mentransmisikan video!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5983"/>
@@ -3743,7 +3712,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
     <message>
         <location filename="../mainwindow.cpp" line="5985"/>
         <source>You can no longer transmit desktop windows!</source>
-        <translation>Anda tidak dapat mentransmisikan jendela desktop!</translation>
+        <translation>Anda tidak dapat lagi mentransmisikan jendela desktop!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6007"/>
@@ -3754,22 +3723,22 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
         <location filename="../mainwindow.cpp" line="6029"/>
         <location filename="../mainwindow.cpp" line="6081"/>
         <source>Myself</source>
-        <translation>Saya</translation>
+        <translation>Saya Sendiri</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1109"/>
         <source>%1 joined channel</source>
-        <translation>%1 bergabung ke saluran</translation>
+        <translation>%1 bergabung dengan saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1147"/>
         <source>%1 left channel</source>
-        <translation>%1 keluar dari saluran</translation>
+        <translation>%1 meninggalkan saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2875"/>
         <source>&amp;Files (%1)</source>
-        <translation>&amp;Berkas (%1)</translation>
+        <translation>&amp;File (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6448"/>
@@ -3801,7 +3770,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
         <location filename="../mainwindow.cpp" line="6580"/>
         <location filename="../mainwindow.cpp" line="6585"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
-        <translation>%1 mengubah langganan &quot;%2&quot; ke: %3</translation>
+        <translation>%1 mengubah langganan &quot;%2&quot; menjadi: %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6452"/>
@@ -3833,7 +3802,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
         <location filename="../mainwindow.cpp" line="6584"/>
         <location filename="../mainwindow.cpp" line="6585"/>
         <source>On</source>
-        <translation>Aktif</translation>
+        <translation>Hidup</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6452"/>
@@ -3865,7 +3834,7 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
         <location filename="../mainwindow.cpp" line="6584"/>
         <location filename="../mainwindow.cpp" line="6585"/>
         <source>Off</source>
-        <translation>Nonaktif</translation>
+        <translation>Mati</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6679"/>
@@ -3873,39 +3842,33 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
         <location filename="../mainwindow.cpp" line="6698"/>
         <location filename="../mainwindow.cpp" line="6709"/>
         <source>Load File</source>
-        <translation>Memuat berkas</translation>
+        <translation>Muat File</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6680"/>
         <location filename="../mainwindow.cpp" line="6689"/>
         <source>Failed to load file %1</source>
-        <translation>Gagal memuat berkas %1</translation>
+        <translation>Gagal untuk memuat file %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6699"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
-        <translation>Berkas &quot;%1&quot; tidak kompatibel dengan %2</translation>
+        <translation>File &quot;%1&quot; tidak kompatibel dengan %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6710"/>
         <source>Failed to extract host-information from %1</source>
-        <translation>Gagal mengekstrak informasi-host dari %1</translation>
+        <translation>Gagal untuk mengekstrak informasi host dari %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6724"/>
         <source>Load %1 File</source>
-        <translation>Memuat %1 berkas</translation>
-    </message>
-    <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="vanished">File %1 berisi informasi penyiapan %2.
-Haruskah pengaturan ini diterapkan?</translation>
+        <translation>Muat File %1</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="32"/>
         <source>NoName</source>
-        <translation>Tanpa Nama</translation>
+        <translation>TanpaNama</translation>
     </message>
 </context>
 <context>
@@ -3913,7 +3876,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../mediastorage.ui" line="14"/>
         <source>Record Conversations to Disk</source>
-        <translation>Rekam percakapan ke disk</translation>
+        <translation>Rekam Percakapan ke Disk</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="20"/>
@@ -3928,12 +3891,12 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../mediastorage.ui" line="35"/>
         <source>Single audio file for all users</source>
-        <translation>1 berkas audio untuk semua pengguna</translation>
+        <translation>File audio tunggal untuk semua pengguna</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="42"/>
         <source>Separate audio file for each user</source>
-        <translation>Pisahkan berkas audio untuk setiap pengguna</translation>
+        <translation>Pisahkan file audio untuk setiap pengguna</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="53"/>
@@ -3948,18 +3911,18 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../mediastorage.ui" line="67"/>
         <source>Media files</source>
-        <translation>Media file</translation>
+        <translation>File media</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="78"/>
         <source>Audio file format</source>
-        <translation>Format berkas audio</translation>
+        <translation>Format file audio</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="91"/>
         <location filename="../mediastoragedlg.cpp" line="115"/>
         <source>Folder for audio files</source>
-        <translation>Folder untuk berkas audio</translation>
+        <translation>Folder untuk file audio</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="119"/>
@@ -3969,17 +3932,17 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../mediastorage.ui" line="125"/>
         <source>Folder for channel log files</source>
-        <translation>Folder untuk berkas log</translation>
+        <translation>Folder untuk file log saluran</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="148"/>
         <source>Folder for user-to-user log files</source>
-        <translation>Folder berkas log untuk masing-masing pengguna</translation>
+        <translation>Folder untuk file log pengguna ke pengguna</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="196"/>
         <source>S&amp;top</source>
-        <translation>Ber&amp;henti</translation>
+        <translation>B&amp;erhenti</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="189"/>
@@ -4001,7 +3964,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../mediastoragedlg.cpp" line="116"/>
         <source>Folder for storing audio files does not exist</source>
-        <translation>Folder untuk menyimpan berkas audio tidak ada</translation>
+        <translation>Folder untuk menyimpan file audio tidak ada</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="128"/>
@@ -4019,33 +3982,33 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../onlineusers.ui" line="14"/>
         <source>Online Users</source>
-        <translation>Pengguna online</translation>
+        <translation>Pengguna yang online</translation>
     </message>
     <message>
         <location filename="../onlineusers.ui" line="20"/>
         <location filename="../onlineusersdlg.cpp" line="70"/>
         <source>Users Currently on Server</source>
-        <translation>Pengguna Saat Ini di Server</translation>
+        <translation>Pengguna Di Server Saat Ini</translation>
     </message>
     <message>
         <location filename="../onlineusers.ui" line="54"/>
         <source>Keep disconnected users</source>
-        <translation>Simpan pengguna yang telah offline</translation>
+        <translation>Simpan pengguna yang terputus</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="114"/>
         <source>&amp;View User Information</source>
-        <translation>Lihat &amp;informasi pengguna</translation>
+        <translation>&amp;Lihat Informasi Pengguna</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="115"/>
         <source>M&amp;essages</source>
-        <translation>Kirim &amp;pesan pribadi</translation>
+        <translation>P&amp;esan</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="118"/>
         <source>&amp;Op</source>
-        <translation>&amp;Operator saluran</translation>
+        <translation>&amp;Op</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="119"/>
@@ -4055,17 +4018,17 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../onlineusersdlg.cpp" line="120"/>
         <source>Kick and &amp;Ban</source>
-        <translation>Keluarkan dan &amp;larang</translation>
+        <translation>Keluarkan dan &amp;ban</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="121"/>
         <source>Select User(s) for Move</source>
-        <translation>Pilih pengg&amp;una untuk dipindahkan</translation>
+        <translation>Pilih Pengguna untuk Dipindah</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="192"/>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
-        <translation>ID: %1, Nama panggilan: %2, Status: %3, Nama pengguna: %4, Saluran: %5, Alamat-IP: %6, Versi: %7</translation>
+        <translation>ID: %1, Nama panggilan: %2, Pesan status: %3, Nama pengguna: %4, Saluran: %5, Alamat IP: %6, Versi: %7</translation>
     </message>
 </context>
 <context>
@@ -4078,12 +4041,12 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../onlineusersmodel.cpp" line="131"/>
         <source>Nickname</source>
-        <translation>Nama pengguna</translation>
+        <translation>Nama panggilan</translation>
     </message>
     <message>
         <location filename="../onlineusersmodel.cpp" line="133"/>
         <source>Status message</source>
-        <translation>Status</translation>
+        <translation>Pesan status</translation>
     </message>
     <message>
         <location filename="../onlineusersmodel.cpp" line="135"/>
@@ -4098,7 +4061,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../onlineusersmodel.cpp" line="139"/>
         <source>IP-address</source>
-        <translation>Alamat-IP</translation>
+        <translation>Alamat IP</translation>
     </message>
     <message>
         <location filename="../onlineusersmodel.cpp" line="141"/>
@@ -4108,7 +4071,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../onlineusersmodel.cpp" line="186"/>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
-        <translation>ID: %1, Nama panggilan: %2, Status: %3, Nama pengguna: %4, Saluran: %5, Alamat-IP: %6, Versi: %7</translation>
+        <translation>ID: %1, Nama panggilan: %2, Pesan status: %3, Nama pengguna: %4, Saluran: %5, Alamat IP: %6, Versi: %7</translation>
     </message>
 </context>
 <context>
@@ -4116,7 +4079,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="14"/>
         <source>Preferences</source>
-        <translation>Pengaturan Program</translation>
+        <translation>Preferensi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="36"/>
@@ -4126,7 +4089,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="42"/>
         <source>User Settings</source>
-        <translation>Pengaturan pengguna</translation>
+        <translation>Pengaturan Pengguna</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="50"/>
@@ -4141,12 +4104,12 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="115"/>
         <source>Male</source>
-        <translation>Laki-laki</translation>
+        <translation>Pria</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="125"/>
         <source>Female</source>
-        <translation>Perempuan</translation>
+        <translation>Wanita</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="206"/>
@@ -4161,7 +4124,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="156"/>
         <source>Set away status after</source>
-        <translation>Atur status ke sibuk setelah</translation>
+        <translation>Tetapkan kepada status away setelah</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="132"/>
@@ -4181,7 +4144,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="245"/>
         <source>Restore volume settings and subscriptions on login for Web Login users</source>
-        <translation>Kembalikan pengaturan volume dan langganan saat login untuk pengguna Web Login</translation>
+        <translation>Kembalikan pengaturan volume dan langganan ketika login untuk pengguna Web Login</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="255"/>
@@ -4191,7 +4154,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="267"/>
         <source>Push To Talk</source>
-        <translation>PTT</translation>
+        <translation>Tekan Untuk Bicara</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="274"/>
@@ -4205,17 +4168,17 @@ Haruskah pengaturan ini diterapkan?</translation>
         <location filename="../preferences.ui" line="2435"/>
         <location filename="../preferences.ui" line="2462"/>
         <source>&amp;Setup Keys</source>
-        <translation>&amp;Atur Pintasan</translation>
+        <translation>&amp;Atur Tombol</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="281"/>
         <source>Key Combination</source>
-        <translation>Kombinasi tombol</translation>
+        <translation>Kombinasi Tombol</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="308"/>
         <source>Voice activated</source>
-        <translation>Aktifasi suara</translation>
+        <translation>Suara diaktifkan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="332"/>
@@ -4235,12 +4198,12 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="365"/>
         <source>Start minimized</source>
-        <translation>Mulai meminimalkan</translation>
+        <translation>Perkecilkan ketika mulai</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="372"/>
         <source>Minimize to tray icon</source>
-        <translation>Minimalkan ke tray</translation>
+        <translation>Perkecil ke ikon tray</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="379"/>
@@ -4260,17 +4223,17 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="400"/>
         <source>Show username instead of nickname</source>
-        <translation>Tampilkan nama pengguna dan bukan nama panggilan</translation>
+        <translation>Tampilkan nama pengguna bukannya nama panggilan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="407"/>
         <source>Show last to talk in yellow</source>
-        <translation>Tampilkan terakhir yang berbicara dengan warna kuning</translation>
+        <translation>Tampilkan terakhir untuk bicara dengan warna kuning</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="414"/>
         <source>Show emojis and text for channel/user state</source>
-        <translation>Tampilkan emoji dan teks untuk saluran/pengguna</translation>
+        <translation>Tampilkan emoji dan teks untuk status saluran/pengguna</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="421"/>
@@ -4280,37 +4243,37 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="428"/>
         <source>Popup dialog when receiving text message</source>
-        <translation>Popup dialog saat menerima pesan pribadi</translation>
+        <translation>Tampilkan dialog ketika menerima pesan teks</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="435"/>
         <source>Start video in popup dialog</source>
-        <translation>Mulai video dalam popup dialog</translation>
+        <translation>Mulai video dalam dialog popup</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="442"/>
         <source>Closed video dialog should return to video-tab</source>
-        <translation>Vvideo tertutup dialog harus kembali ke tab video</translation>
+        <translation>Dialog video yang tertutup harus kembali ke tab video</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="479"/>
         <source>Start desktops in popup dialog</source>
-        <translation>Mulai desktops dalam popup dialog</translation>
+        <translation>Mulai desktop dalam dialog popup</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="486"/>
         <source>Timestamp text messages</source>
-        <translation>Tampilkan waktu pada riwayat pesan pribadi</translation>
+        <translation>stempel waktu untuk pesan teks</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="550"/>
         <source>Show statusbar events in chat-window</source>
-        <translation>Tampilkan acara bilah status di jendela obrolan</translation>
+        <translation>Tampilkan event status bar di jendela obrolan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="676"/>
         <source>Show new version available in dialog box</source>
-        <translation>Tampilkan versi baru yang tersedia di kotak dialog</translation>
+        <translation>Tampilkan versi baru yang tersedia dalam kotak dialog</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="587"/>
@@ -4335,27 +4298,27 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="723"/>
         <source>Client Connection</source>
-        <translation>Koneksi Klien</translation>
+        <translation>Koneksi Client</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="729"/>
         <source>Connect to latest host on startup</source>
-        <translation>Hubungkan ke host terbaru saat program dibuka</translation>
+        <translation>Hubungkan ke host terbaru ketika startup</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="736"/>
         <source>Reconnect on connection dropped</source>
-        <translation>Sambungkan kembali saat koneksi terputus</translation>
+        <translation>Sambungkan kembali apabila koneksi terputus</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="743"/>
         <source>Join root channel upon connection</source>
-        <translation>Gabung ke saluran root setelah terhubung ke server</translation>
+        <translation>Gabung ke saluran utama setelah terhubung</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="750"/>
         <source>Query server&apos;s maximum payload upon connection</source>
-        <translation>Muatan maksimum server kueri saat terhubung</translation>
+        <translation>Kueri muatan maksimum server setelah terhubung</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="757"/>
@@ -4366,22 +4329,22 @@ Haruskah pengaturan ini diterapkan?</translation>
         <location filename="../preferences.ui" line="764"/>
         <location filename="../preferences.ui" line="767"/>
         <source>Default Subscriptions upon Connection</source>
-        <translation>Langganan Default saat terhubung</translation>
+        <translation>Langganan Default Setelah Terhubung</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="775"/>
         <source>User Messages</source>
-        <translation>Pesan pribadi</translation>
+        <translation>Pesan Pengguna</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="782"/>
         <source>Channel Messages</source>
-        <translation>Pesan teks ke saluran</translation>
+        <translation>Pesan Saluran</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="789"/>
         <source>Broadcast Messages</source>
-        <translation>Pesan siaran</translation>
+        <translation>Pesan Broadcast</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="796"/>
@@ -4393,7 +4356,7 @@ Haruskah pengaturan ini diterapkan?</translation>
         <location filename="../preferences.ui" line="803"/>
         <location filename="../preferences.ui" line="2491"/>
         <source>Video Capture</source>
-        <translation>Penangkapan Video</translation>
+        <translation>Pengambilan Video</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="810"/>
@@ -4403,7 +4366,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="822"/>
         <source>Desktop Access</source>
-        <translation>Akses desktop</translation>
+        <translation>Akses Desktop</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="832"/>
@@ -4413,7 +4376,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="844"/>
         <source>Media Files</source>
-        <translation>Media file</translation>
+        <translation>File Media</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="869"/>
@@ -4441,27 +4404,27 @@ Haruskah pengaturan ini diterapkan?</translation>
         <location filename="../preferences.ui" line="978"/>
         <location filename="../preferencesdlg.cpp" line="1002"/>
         <source>Sound System</source>
-        <translation>Perangkat suara</translation>
+        <translation>Sistem Suara</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="984"/>
         <source>Sound System Settings</source>
-        <translation>Pengaturan perangkat suara</translation>
+        <translation>Pengaturan Sistem Suara</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1005"/>
         <source>Windows Audio Session</source>
-        <translation>Windows Audio Session</translation>
+        <translation>Sesi Audio Windows</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1012"/>
         <source>DirectSound</source>
-        <translation>DirectSound</translation>
+        <translation>SuaraLangsung</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1019"/>
         <source>Windows Standard</source>
-        <translation>Windows Standard</translation>
+        <translation>Standard Windows</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1026"/>
@@ -4492,27 +4455,27 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="1157"/>
         <source>&amp;Test Selected</source>
-        <translation>Uji &amp;perangkat</translation>
+        <translation>&amp;Uji Yang Terpilih</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1182"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
-        <translation>Aktifkan echo cancellation (hapus gema dari speaker)</translation>
+        <translation>Aktifkan pembatalan echo (hapus echo dari pengeras suara)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1189"/>
         <source>Enable automatic gain control (microphone level adjusted automatically)</source>
-        <translation>Aktifkan kontrol gain automatis (tingkat mikrofon disesuaikan secara otomatis)</translation>
+        <translation>Aktifkan kontrol gain otomatis (level mikrofon disesuaikan secara otomatis)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1196"/>
         <source>Enable denoising (suppress noise from microphone)</source>
-        <translation>Aktifkan denoising (menekan noise dari mikrofon)</translation>
+        <translation>Aktifkan denoising (hilangkan noise dari mikrofon)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1205"/>
         <source>Media file vs. voice volume</source>
-        <translation>Volume media file vs. volume suara</translation>
+        <translation>Volume file media vs. suara</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1242"/>
@@ -4524,7 +4487,7 @@ Haruskah pengaturan ini diterapkan?</translation>
         <location filename="../preferences.ui" line="1268"/>
         <location filename="../preferences.ui" line="1274"/>
         <source>Sound Events</source>
-        <translation>Suara pemberitahuan</translation>
+        <translation>Event Suara</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1333"/>
@@ -4571,17 +4534,17 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="1481"/>
         <source>New broadcast message</source>
-        <translation>Pesan siaran</translation>
+        <translation>Pesan broadcast baru</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1314"/>
         <source>New user</source>
-        <translation>Pengguna bergabung ke saluran</translation>
+        <translation>Pengguna baru</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="557"/>
         <source>Configure events</source>
-        <translation>Konfigurasikan acara</translation>
+        <translation>Konfigurasi event</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1282"/>
@@ -4591,27 +4554,27 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="1343"/>
         <source>User removed</source>
-        <translation>Pengguna keluar dari saluran</translation>
+        <translation>Pengguna dihapus</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1366"/>
         <source>Server lost</source>
-        <translation>Koneksi hilang</translation>
+        <translation>Server hilang</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1389"/>
         <source>New user message</source>
-        <translation>Pesan pribadi</translation>
+        <translation>Pesan pengguna baru</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1435"/>
         <source>New channel message</source>
-        <translation>Pesan teks ke saluran</translation>
+        <translation>Pesan saluran baru</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1504"/>
         <source>Hotkey pressed</source>
-        <translation>Tombol pintasan</translation>
+        <translation>Hotkey ditekan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1527"/>
@@ -4621,12 +4584,12 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="1550"/>
         <source>Files updated</source>
-        <translation>Berkas diperbarui</translation>
+        <translation>File diperbarui</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1573"/>
         <source>File transfer complete</source>
-        <translation>Transfer berkas selesai</translation>
+        <translation>Transfer file selesai</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1596"/>
@@ -4641,7 +4604,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="1646"/>
         <source>User entered question-mode</source>
-        <translation>Pengguna mengubah status ke mode bertanya</translation>
+        <translation>Pengguna memasuki mode pertanyaan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1669"/>
@@ -4651,27 +4614,27 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="1692"/>
         <source>User logged in</source>
-        <translation>Pengguna online</translation>
+        <translation>Pengguna log masuk</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1715"/>
         <source>User logged out</source>
-        <translation>Pengguna offline</translation>
+        <translation>Pengguna log keluar</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1738"/>
         <source>Voice activation enabled</source>
-        <translation>Aktifasi suara diaktifkan</translation>
+        <translation>Aktivasi suara diaktifkan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1761"/>
         <source>Voice activation disabled</source>
-        <translation>Aktifasi suara dinonaktifkan</translation>
+        <translation>Aktivasi suara dinonaktifkan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1784"/>
         <source>Mute master volume</source>
-        <translation>Bisukan volume utama</translation>
+        <translation>Diamkan volume utama</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1807"/>
@@ -4681,22 +4644,22 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="1830"/>
         <source>Transmit ready in &quot;No interruption&quot; channel</source>
-        <translation>Transmisi nyala di saluran &quot;Tanpa gangguan&quot;</translation>
+        <translation>Transmisi siap dalam saluran &quot;Tanpa gangguan&quot;</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1853"/>
         <source>Transmit stopped in &quot;No interruption&quot; channel</source>
-        <translation>Transmisi mati di saluran &quot;Tanpa gangguan&quot;</translation>
+        <translation>Transmisi berhenti dalam saluran &quot;Tanpa gangguan&quot;</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1876"/>
         <source>Voice activation triggered</source>
-        <translation>Aktivasi suara nyala</translation>
+        <translation>Aktivasi suara dipicu</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1899"/>
         <source>Voice activation stopped</source>
-        <translation>Aktifasi suara mati</translation>
+        <translation>Aktivasi suara dihentikan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1922"/>
@@ -4711,42 +4674,42 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="1989"/>
         <source>Text To Speech</source>
-        <translation>Pemberitahuan TTS</translation>
+        <translation>TeksKe Ucapan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1995"/>
         <source>Enable/disable Text to Speech Events</source>
-        <translation>Aktifkan/nonaktifkan pemberitahuan TTS</translation>
+        <translation>Aktifkan/nonaktifkan Acara Text Ke Ucapan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2025"/>
         <source>Enable &amp;all</source>
-        <translation>&amp;Aktifkan semua pemberitahuan</translation>
+        <translation>Aktifkan &amp;semua</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2045"/>
         <source>C&amp;lear all</source>
-        <translation>Nonaktifkan semua pemberitahuan</translation>
+        <translation>B&amp;ersihkan semua</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2065"/>
         <source>&amp;Revert</source>
-        <translation>Kembalikan ke pengatu&amp;ran sebelumnya</translation>
+        <translation>&amp;Kembalikan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2077"/>
         <source>Text to Speech Preferences</source>
-        <translation>Acara TTS</translation>
+        <translation>Preferensi Teks Ke Ucapan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2083"/>
         <source>Text to Speech Engine</source>
-        <translation>Mesin TTS</translation>
+        <translation>Mesin Teks Ke Ucapan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2109"/>
         <source>Voice rate</source>
-        <translation>Kecepatan Suara</translation>
+        <translation>Kecepatan suara</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2135"/>
@@ -4761,7 +4724,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="2191"/>
         <source>Use SAPI instead of current screenreader</source>
-        <translation>Gunakan SAPI dan bukan dari pembaca layar yang sedang digunakan</translation>
+        <translation>Gunakan SAPI bukannya pembaca layar saat ini</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2215"/>
@@ -4771,17 +4734,17 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="2221"/>
         <source>Keyboard Shortcuts</source>
-        <translation>Pintasan keyboard</translation>
+        <translation>Pintasan Keyboard</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2229"/>
         <source>Enable/disable voice activation</source>
-        <translation>Aktifkan/nonaktifkan aktifasi suara</translation>
+        <translation>Aktifkan/nonaktifkan aktivasi suara</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2256"/>
         <source>Increase volume</source>
-        <translation>Naikan volume</translation>
+        <translation>Tingkatkan volume</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2283"/>
@@ -4791,17 +4754,17 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="2310"/>
         <source>Enable/disable mute all</source>
-        <translation>Aktifkan/nonaktifkan bisukan seluruh suara</translation>
+        <translation>Aktifkan/nonaktifkan diamkan semua</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2337"/>
         <source>Increase microphone gain</source>
-        <translation>Naikan mikrofon gain</translation>
+        <translation>Tingkatkan gain mikrofon</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2364"/>
         <source>Lower microphone gain</source>
-        <translation>Turunkan mikrofon gain</translation>
+        <translation>Turunkan gain mikrofon</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2391"/>
@@ -4816,17 +4779,17 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="2497"/>
         <source>Video Capture Settings</source>
-        <translation>Pengaturan penangkapan video</translation>
+        <translation>Pengaturan Pengambilan Video</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2503"/>
         <source>Video Capture Device</source>
-        <translation>Perangkat penangkapan video</translation>
+        <translation>Perangkat Pengambilan Video</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2523"/>
         <source>Video Resolution</source>
-        <translation>Resolusi video</translation>
+        <translation>Resolusi Video</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2538"/>
@@ -4857,13 +4820,13 @@ Haruskah pengaturan ini diterapkan?</translation>
         <location filename="../preferences.ui" line="2600"/>
         <location filename="../preferencesdlg.cpp" line="1340"/>
         <source>Test Selected</source>
-        <translation>Uji yang dipilih</translation>
+        <translation>Uji Yang Terpilih</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2628"/>
         <location filename="../preferences.ui" line="2631"/>
         <source>Video Codec Settings</source>
-        <translation>Pengaturan codec video</translation>
+        <translation>Pengaturan Codec Video</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2639"/>
@@ -4878,28 +4841,28 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="375"/>
         <source>Default Input Device</source>
-        <translation>Perangkat input Default</translation>
+        <translation>Perangkat Input Default</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="408"/>
         <source>Default Output Device</source>
-        <translation>Perangkat output Default</translation>
+        <translation>Perangkat Output Default</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="392"/>
         <location filename="../preferencesdlg.cpp" line="421"/>
         <source>No Sound Device</source>
-        <translation>Tidak ada perangkat suara</translation>
+        <translation>Tidak Ada Perangkat Suara</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="462"/>
         <source>Open Wave File</source>
-        <translation>Buka berkas Wave</translation>
+        <translation>Buka File Wave</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="463"/>
         <source>Wave files (*.wav)</source>
-        <translation>Berkas Wave (*.wav)</translation>
+        <translation>File Wave (*.wav)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="888"/>
@@ -4910,12 +4873,12 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="889"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
-        <translation>Gagal menambahkan %1 ke Windows Firewall</translation>
+        <translation>Gagal untuk menambahkan %1 ke daftar pengecualian Windows Firewall</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="896"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
-        <translation>Gagal menghapus %1 dari pengecualian Windows Firewall</translation>
+        <translation>Gagal untuk menghapus %1 dari daftar pengecualian Windows Firewall</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1358"/>
@@ -4926,12 +4889,12 @@ Haruskah pengaturan ini diterapkan?</translation>
         <location filename="../preferencesdlg.cpp" line="1126"/>
         <location filename="../preferencesdlg.cpp" line="1154"/>
         <source>Video Device</source>
-        <translation>Perangkat video</translation>
+        <translation>Perangkat Video</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="73"/>
         <source>&amp;Ok</source>
-        <translation>&amp;Oke</translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="74"/>
@@ -4941,7 +4904,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="498"/>
         <source>&amp;Reset</source>
-        <translation>atu&amp;r ulang</translation>
+        <translation>&amp;Atur ulang</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="652"/>
@@ -4967,17 +4930,17 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="563"/>
         <source>Leave only</source>
-        <translation>Hanya keluar</translation>
+        <translation>Hanya tinggalkan</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="564"/>
         <source>Join or leave</source>
-        <translation>Gabung atau keluar</translation>
+        <translation>Gabung atau tinggalkan</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="568"/>
         <source>Ascending</source>
-        <translation>Sesuai abjad</translation>
+        <translation>Menaik</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="569"/>
@@ -4999,7 +4962,7 @@ Haruskah pengaturan ini diterapkan?</translation>
         <location filename="../preferencesdlg.cpp" line="1155"/>
         <location filename="../preferencesdlg.cpp" line="1777"/>
         <source>Failed to initialize video device</source>
-        <translation>Gagal menginisialisasi perangkat video</translation>
+        <translation>Gagal untuk menginisialisasi perangkat video</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1246"/>
@@ -5015,32 +4978,32 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="1269"/>
         <source>Max Output Channels %1</source>
-        <translation>Saluran output Maks %1</translation>
+        <translation>Saluran Output Maks %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1299"/>
         <source>Refresh Sound Devices</source>
-        <translation>Segarkan perangkat suara</translation>
+        <translation>Segarkan Perangkat Suara</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1300"/>
         <source>Failed to restart sound systems. Please restart application.</source>
-        <translation>Gagal memulai ulang perangkat suara. Silakan mulai ulang program.</translation>
+        <translation>Gagal untuk memulai ulang sistem suara. Silakan mulai ulang aplikasi.</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1341"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
-        <translation>Konfigurasi perangkat suara ini memberikan echo cancellation yang tidak optimal. Periksa manual untuk detailnya</translation>
+        <translation>Konfigurasi perangkat suara ini memberikan pembatalan echo yang tidak optimal. Periksa manual untuk detailnya.</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1359"/>
         <source>Failed to initialize new sound devices</source>
-        <translation>Gagal menginisialisasi perangkat suara baru</translation>
+        <translation>Gagal untuk menginisialisasi perangkat suara baru</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1657"/>
         <source>Use SAPI instead of %1 screenreader</source>
-        <translation>Gunakan SAPI dan bukan pembaca layar %1 </translation>
+        <translation>Gunakan SAPI bukannya pembaca layar %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1736"/>
@@ -5050,27 +5013,27 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="1829"/>
         <source>Default Video Capture</source>
-        <translation>Penangkapan Video Default</translation>
+        <translation>Pengambilan Video Default</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1830"/>
         <source>Unable to find preferred video capture settings</source>
-        <translation>Tidak dapat menemukan pengaturan penangkapan video yang disukai</translation>
+        <translation>Tidak dapat menemukan pengaturan pengambilan video pilihan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="298"/>
         <source>Press to transmit.  Press to stop transmit</source>
-        <translation>Tekan untuk memulai transmisi. Tekan untuk menghentikan transmisi</translation>
+        <translation>Tekan untuk transmisi. Tekan untuk menghentikan transmisi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="301"/>
         <source>Push To Talk Lock</source>
-        <translation>PTT dikunci</translation>
+        <translation>Kunci Tekan Untuk Bicara</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="493"/>
         <source>Auto expand channels</source>
-        <translation>Automatis luaskan saluran</translation>
+        <translation>Perluas saluran secara otomatis</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="502"/>
@@ -5085,22 +5048,22 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="534"/>
         <source>Close dialog box when a file transfer is finished</source>
-        <translation>Tutup kotak dialog saat transfer file selesai</translation>
+        <translation>Tutup kotak dialog apabila transfer file selesai</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="541"/>
         <source>Show a dialog box when excluded from channel or server</source>
-        <translation>Tampilkan kotak dialog saat dikecualikan dari saluran atau server</translation>
+        <translation>Tampilkan kotak dialog apabila dikecualikan dari saluran atau server</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="662"/>
         <source>Check for software updates on startup</source>
-        <translation>Periksa pembaharuan saat program dibuka</translation>
+        <translation>Periksa pembaruan perangkat lunak ketika startup</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="669"/>
         <source>Check for beta software updates on startup</source>
-        <translation>Periksa pembaharuan versi beta saat program dibuka</translation>
+        <translation>Periksa pembaruan beta perangkat lunak ketika startup</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2184"/>
@@ -5119,17 +5082,17 @@ Haruskah pengaturan ini diterapkan?</translation>
         <location filename="../utilsound.cpp" line="229"/>
         <location filename="../utilsound.cpp" line="283"/>
         <source>Failed to initialize sound duplex mode</source>
-        <translation>Gagal menginisialisasi mode dupleks suara</translation>
+        <translation>Gagal untuk menginisialisasi mode dupleks suara</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="237"/>
         <source>Failed to initialize sound input device</source>
-        <translation>Gagal menginisialisasi perangkat input suara</translation>
+        <translation>Gagal untuk menginisialisasi perangkat input suara</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="242"/>
         <source>Failed to initialize sound output device</source>
-        <translation>Gagal menginisialisasi perangkat output suara</translation>
+        <translation>Gagal untuk menginisialisasi perangkat output suara</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="257"/>
@@ -5144,12 +5107,12 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../utilsound.cpp" line="291"/>
         <source>Failed to initialize default sound input device</source>
-        <translation>Gagal menginisialisasi perangkat input suara default</translation>
+        <translation>Gagal untuk menginisialisasi perangkat input suara default</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="296"/>
         <source>Failed to initialize default sound output device</source>
-        <translation>Gagal menginisialisasi perangkat output suara default</translation>
+        <translation>Gagal untuk menginisialisasi perangkat output suara default</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="1119"/>
@@ -5162,37 +5125,37 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../serverlist.ui" line="14"/>
         <source>Connect to a Server</source>
-        <translation>Hubungkan ke Server</translation>
+        <translation>Hubungkan Ke Server</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="30"/>
         <source>Server List</source>
-        <translation>Daftar server</translation>
+        <translation>Daftar Server</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="76"/>
         <source>Include official servers (blue ones)</source>
-        <translation type="unfinished"></translation>
+        <translation>Sertakan server resmi (yang berwarna biru)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="83"/>
         <source>Include public servers (green ones)</source>
-        <translation>Sertakan server publik (berwarna hijau)</translation>
+        <translation>Sertakan server publik (yang berwarna hijau)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="90"/>
         <source>Include unofficial servers (orange ones)</source>
-        <translation type="unfinished"></translation>
+        <translation>Sertakan server tidak resmi (yang berwarna oranye)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="101"/>
         <source>Server Information</source>
-        <translation>Informasi server</translation>
+        <translation>Informasi Server</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="109"/>
         <source>Host IP-address</source>
-        <translation>Alamat-IP host</translation>
+        <translation>Alamat IP host</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="151"/>
@@ -5215,10 +5178,6 @@ Haruskah pengaturan ini diterapkan?</translation>
         <location filename="../serverlist.ui" line="134"/>
         <source>Remove entry</source>
         <translation>Hapus entri</translation>
-    </message>
-    <message>
-        <source>Include private servers (orange ones)</source>
-        <translation type="vanished">Sertakan server pribadi (berwarna oranye)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="191"/>
@@ -5255,7 +5214,7 @@ Haruskah pengaturan ini diterapkan?</translation>
         <location filename="../serverlist.ui" line="259"/>
         <location filename="../serverlist.ui" line="262"/>
         <source>Join specific channel after authentication (optional)</source>
-        <translation>Gabung dengan saluran tertentu setelah otentikasi (opsional)</translation>
+        <translation>Gabung ke saluran tertentu setelah otentikasi (opsional)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="268"/>
@@ -5265,7 +5224,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../serverlist.ui" line="309"/>
         <source>C&amp;lear</source>
-        <translation>Ber&amp;sihkan</translation>
+        <translation>B&amp;ersihkan</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="329"/>
@@ -5275,7 +5234,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../serverlist.ui" line="344"/>
         <source>Store Server Information</source>
-        <translation>Simpan info&amp;rmasi server</translation>
+        <translation>Simpan Informasi Server</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="352"/>
@@ -5285,47 +5244,43 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../serverlist.ui" line="391"/>
         <source>&amp;Save to Server List</source>
-        <translation type="unfinished"></translation>
+        <translation>Simpan Ke Daftar Server</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="405"/>
         <location filename="../serverlist.ui" line="408"/>
         <source>.tt files can be double-clicked and the client will automatically start and connect to the specified server</source>
-        <translation>File .tt dapat diklik dua kali dan klien akan secara otomatis memulai dan terhubung ke server yang ditentukan</translation>
+        <translation>File .tt dapat diklik dua kali dan client akan dimulai secara otomatis dan terhubung ke server yang ditentukan</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="411"/>
         <source>&amp;Generate .tt File</source>
-        <translation>Buat berkas .t&amp;t</translation>
+        <translation>&amp;Hasilkan File .tt</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="54"/>
         <source>&amp;Import .tt File</source>
-        <translation>&amp;impor berkas .tt</translation>
+        <translation>&amp;Import File .tt</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="398"/>
         <source>Publish Publicly</source>
-        <translation>Publikasikan secara Publik</translation>
-    </message>
-    <message>
-        <source>&amp;Save</source>
-        <translation type="vanished">Sim&amp;pan</translation>
+        <translation>Publikasikan Secara Publik</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="369"/>
         <source>Missing fields</source>
-        <translation>bidang hilang</translation>
+        <translation>Kolom hilang</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="370"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
-        <translation>Silahkan isi kolom &quot;Alamat-IP host&quot;, &quot;TCP port&quot; dan &quot;UDP port&quot;</translation>
+        <translation>Silahkan isi kolom &apos;Alamat IP Host&apos;, &apos;TCP port&apos; dan &apos;UDP port&apos;</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="430"/>
         <source>Open File</source>
-        <translation>Buka berkas</translation>
+        <translation>Buka File</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="437"/>
@@ -5333,13 +5288,13 @@ Haruskah pengaturan ini diterapkan?</translation>
         <location filename="../serverlistdlg.cpp" line="456"/>
         <location filename="../serverlistdlg.cpp" line="467"/>
         <source>Load File</source>
-        <translation>Muat berkas</translation>
+        <translation>Muat File</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="438"/>
         <location filename="../serverlistdlg.cpp" line="447"/>
         <source>Failed to load file %1</source>
-        <translation>Gagal saat memuat berkas %1</translation>
+        <translation>Gagal untuk memuat file %1</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="457"/>
@@ -5349,7 +5304,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../serverlistdlg.cpp" line="468"/>
         <source>Failed to extract host-information from %1</source>
-        <translation>Gagal mengekstrak informasi host dari %1</translation>
+        <translation>Gagal untuk mengekstrak informasi host dari %1</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="623"/>
@@ -5360,17 +5315,17 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../serverlistdlg.cpp" line="624"/>
         <source>Are you sure you want to publish the server named &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Apakah Anda yakin ingin memublikasikan server bernama &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="650"/>
         <source>Failed to publish server.</source>
-        <translation>Gagal untuk mempublikasikan server.</translation>
+        <translation>Gagal untuk memublikasikan server.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="654"/>
         <source>Publish Server Completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Selesai Mempublikasikan Server</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="655"/>
@@ -5382,30 +5337,19 @@ The #teamtalkpublish# notification can be removed once
 the server has been verified.
 
 Delete the published user account to unregister your server.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Change your server&apos;s name to include the text #teamtalkpublish#.
-This will verify that you&apos;re the owner of the server.
-Once this is done your private server will appear in a couple of minutes.
-
-Delete the published user account to unregister your server.
-
-The #teamtalkpublish# notification can be removed once
-the server has been verified.</source>
-        <translation type="vanished">Tambahkan teks  #teamtalkpublish# pada nama server anda.
+        <translation>Perbarui properti server Anda supaya nama servernya disertakan dengan teks #teamtalkpublish#.
 Ini akan memverifikasi bahwa Anda adalah pemilik server.
-Setelah ini, server pribadi Anda akan muncul dalam beberapa menit.
+Setelah server diverifikasi server Anda akan muncul dalam beberapa menit.
 
-Hapus akun pengguna yang anda daftarkan untuk membatalkan publikasi server Anda.
+Notifikasi #teamtalkpublish# boleh dihapus setelah
+server diverifikasi.
 
-teks #teamtalkpublish# dapat di hapus jika
-server telah diverifikasi.</translation>
+Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server anda.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="694"/>
         <source>Sort By...</source>
-        <translation>Sortir dengan...</translation>
+        <translation>Diurutkan Berdasarkan...</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="695"/>
@@ -5425,12 +5369,12 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../serverlistdlg.cpp" line="698"/>
         <source>Country</source>
-        <translation>Ne&amp;gara</translation>
+        <translation>Negara</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="699"/>
         <source>&amp;Delete Selected Server</source>
-        <translation>Hapus server &amp;yang dipilih</translation>
+        <translation>&amp;Hapus Server Yang Dipilih</translation>
     </message>
 </context>
 <context>
@@ -5468,16 +5412,12 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../serverlistdlg.cpp" line="140"/>
         <source>Unofficial server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Private server</source>
-        <translation type="vanished">Server pribadi</translation>
+        <translation>Server tidak resmi</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="143"/>
         <source>%1, Name: %2, Users: %3, Country: %4, MOTD: %5</source>
-        <translation>%1, Nama: %2, Pengguna: %3, Negara: %4, Pesan hari ini: %5</translation>
+        <translation>%1, Nama: %2, Pengguna: %3, Negara: %4, Pesan Hari Ini: %5</translation>
     </message>
 </context>
 <context>
@@ -5485,7 +5425,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="70"/>
         <source>Event</source>
-        <translation>Peristiwa</translation>
+        <translation>Event</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="71"/>
@@ -5513,17 +5453,17 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="101"/>
         <source>User logged in</source>
-        <translation>Pengguna online</translation>
+        <translation>Pengguna log masuk</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="103"/>
         <source>User logged out</source>
-        <translation>Pengguna offline</translation>
+        <translation>Pengguna log keluar</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="105"/>
         <source>User login failed</source>
-        <translation>Pengguna online gagal</translation>
+        <translation>Pengguna gagal masuk</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="107"/>
@@ -5558,7 +5498,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="119"/>
         <source>User left channel</source>
-        <translation>Pengguna keluar dari saluran</translation>
+        <translation>Pengguna meninggalkan saluran</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="121"/>
@@ -5578,12 +5518,12 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="127"/>
         <source>User sent channel text message</source>
-        <translation>Pengguna mengirim pesan teks ke saluran</translation>
+        <translation>Pengguna mengirim pesan teks saluran</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="129"/>
         <source>User sent broadcast text message</source>
-        <translation>Pengguna mengirim pesan siaran</translation>
+        <translation>Pengguna mengirim pesan teks broadcast</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="131"/>
@@ -5603,22 +5543,22 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="137"/>
         <source>File uploaded</source>
-        <translation>Berkas diunggah</translation>
+        <translation>File diunggah</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="139"/>
         <source>File downloaded</source>
-        <translation>Berkas diunduh</translation>
+        <translation>File diunduh</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="141"/>
         <source>File deleted</source>
-        <translation>Berkas dihapus</translation>
+        <translation>File dihapus</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="143"/>
         <source>Server updated</source>
-        <translation>Server diperbaharui</translation>
+        <translation>Server diperbarui</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="145"/>
@@ -5632,7 +5572,7 @@ server telah diverifikasi.</translation>
         <location filename="../serverproperties.ui" line="14"/>
         <location filename="../serverproperties.ui" line="25"/>
         <source>Server Properties</source>
-        <translation>Properti server</translation>
+        <translation>Properti Server</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="34"/>
@@ -5642,7 +5582,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../serverproperties.ui" line="47"/>
         <source>Max users</source>
-        <translation>Maksimal pengguna</translation>
+        <translation>Pengguna maksimal</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="73"/>
@@ -5658,7 +5598,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>variabel Pesan hari ini: %users% jumlah pengguna di server, %admins% jumlah admin di server, %uptime% waktu server online, %voicetx% KBytes diterima, %voicerx% KBytes terkirim dan %lastuser% pengguna terakhir yang online.</translation>
+        <translation>Variabel pesan hari ini: %users% jumlah pengguna di server, %admins% jumlah admin di server, %uptime% waktu server online, %voicetx% KBytes diterima, %voicerx% KBytes terkirim dan %lastuser% pengguna terakhir yang masuk.</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="119"/>
@@ -5673,17 +5613,17 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../serverproperties.ui" line="177"/>
         <source>User timeout</source>
-        <translation>Waktu tunggu pengguna</translation>
+        <translation>Waktu habis pengguna</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="209"/>
         <source>Auto save server changes</source>
-        <translation>Simpan otomatis perubahan server</translation>
+        <translation>Simpan perubahan server secara otomatis</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="236"/>
         <source>Server Bandwidth Limitations</source>
-        <translation>Batasan Bandwidth Server</translation>
+        <translation>Pembatasan Bandwidth Server</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="242"/>
@@ -5697,7 +5637,7 @@ server telah diverifikasi.</translation>
         <location filename="../serverproperties.ui" line="343"/>
         <location filename="../serverproperties.ui" line="370"/>
         <source>KBytes/sec (0 = disabled)</source>
-        <translation>KBytes/dtk (0 = dinonaktifkan)</translation>
+        <translation>KBytes/detik (0 = dinonaktifkan)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="286"/>
@@ -5717,7 +5657,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../serverproperties.ui" line="350"/>
         <source>Media File TX max</source>
-        <translation>Maksimal media file TX</translation>
+        <translation>Maksimal file media TX</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="380"/>
@@ -5738,7 +5678,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../serverproperties.ui" line="413"/>
         <source>Max logins per IP-address</source>
-        <translation>Maksimal. login per alamat IP</translation>
+        <translation>Maksimal login per alamat IP</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="440"/>
@@ -5748,12 +5688,12 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../serverproperties.ui" line="457"/>
         <source>msec (0 = disabled)</source>
-        <translation>mdtk (0 = dinonaktifkan)</translation>
+        <translation>mili detik (0 = dinonaktifkan)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="467"/>
         <source>Server Logging</source>
-        <translation>Log server</translation>
+        <translation>Pencatatan Server</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="498"/>
@@ -5768,7 +5708,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="42"/>
         <source>&amp;Ok</source>
-        <translation>&amp;Oke</translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="43"/>
@@ -5783,7 +5723,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="124"/>
         <source>Change message of the day?</source>
-        <translation>Ganti pesan hari ini?</translation>
+        <translation>Ubah pesan hari ini?</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="125"/>
@@ -5801,27 +5741,27 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../serverstats.ui" line="14"/>
         <source>Server Statistics</source>
-        <translation>Statistik server</translation>
+        <translation>Statistik Server</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="22"/>
         <source>Uptime</source>
-        <translation>Waktu aktif</translation>
+        <translation>Waktu berjalan</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="32"/>
         <source>Media File RX/TX</source>
-        <translation>Media File RX/TX</translation>
+        <translation>File Media RX/TX</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="49"/>
         <source>KBytes/sec</source>
-        <translation>KBytes/dtk</translation>
+        <translation>KBytes/detik</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="66"/>
         <source>Throughput RX/TX</source>
-        <translation>Kecepatan RX/TX</translation>
+        <translation>Throughput RX/TX</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="76"/>
@@ -5836,17 +5776,17 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../serverstats.ui" line="83"/>
         <source>msec</source>
-        <translation>mdtk</translation>
+        <translation>mili detik</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="112"/>
         <source>Update interval</source>
-        <translation>Perbarui interval</translation>
+        <translation>Interval untuk perbaharui</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="143"/>
         <source>Files RX/TX</source>
-        <translation>Berkas RX/TX</translation>
+        <translation>File RX/TX</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="153"/>
@@ -5876,7 +5816,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../serverstats.ui" line="305"/>
         <source>Users peak</source>
-        <translation>Total pengguna yang tercatat per alamat-IP</translation>
+        <translation>Pengguna terbanyak</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="342"/>
@@ -5889,32 +5829,32 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../statusbardlg.ui" line="14"/>
         <source>Configure status bar</source>
-        <translation>Konfigurasikan bilah status</translation>
+        <translation>Konfigurasi status bar</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="20"/>
         <source>Enable/disable status bar events</source>
-        <translation>Aktifkan/nonaktifkan acara dibilah status</translation>
+        <translation>Aktifkan/nonaktifkan event status bar</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="50"/>
         <source>Enable &amp;all</source>
-        <translation>&amp;Aktifkan semua</translation>
+        <translation>Aktifkan &amp;semua</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="70"/>
         <source>C&amp;lear all</source>
-        <translation>&amp;Nonaktifkan semua</translation>
+        <translation>B&amp;ersihkan semua</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="90"/>
         <source>&amp;Revert</source>
-        <translation>&amp;Kembalikan kepengaturan sebelumnya</translation>
+        <translation>&amp;Kembalikan</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="37"/>
         <source>&amp;Ok</source>
-        <translation>&amp;Oke</translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="38"/>
@@ -5927,7 +5867,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="84"/>
         <source>Event</source>
-        <translation>Acara</translation>
+        <translation>Event</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="85"/>
@@ -5945,12 +5885,12 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="111"/>
         <source>User logged in</source>
-        <translation>Pengguna online</translation>
+        <translation>Pengguna log masuk</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="113"/>
         <source>User logged out</source>
-        <translation>Pengguna offline</translation>
+        <translation>Pengguna log keluar</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="115"/>
@@ -5960,7 +5900,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="117"/>
         <source>User left channel</source>
-        <translation>Pengguna keluar dari saluran</translation>
+        <translation>Pengguna meninggalkan saluran</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="119"/>
@@ -5970,37 +5910,37 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="121"/>
         <source>User left current channel</source>
-        <translation>Pengguna keluar dari saluran saat ini</translation>
+        <translation>Pengguna meninggalkan saluran saat ini</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="123"/>
         <source>Subscription private text message changed</source>
-        <translation>Perubahan langganan pesan pribadi</translation>
+        <translation>Perubahan langganan pesan teks pribadi</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="125"/>
         <source>Subscription channel text message changed</source>
-        <translation>Perubahan langganan pesan teks di saluran</translation>
+        <translation>Perubahan langganan pesan teks saluran</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="127"/>
         <source>Subscription broadcast text message changed</source>
-        <translation>Perubahan langganan pesan siaran</translation>
+        <translation>Perubahan langganan pesan teks broadcast</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="129"/>
         <source>Subscription voice stream changed</source>
-        <translation>Perubahan langganan suara</translation>
+        <translation>Perubahan langganan stream suara</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="131"/>
         <source>Subscription webcam stream changed</source>
-        <translation>Perubahan langganan webcam</translation>
+        <translation>Perubahan langganan stream webcam</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="133"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation>Perubahan langganan berbagi desktop</translation>
+        <translation>Perubahan langganan stream berbagi desktop</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="135"/>
@@ -6010,72 +5950,72 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="137"/>
         <source>Subscription media file stream changed</source>
-        <translation>Perubahan langganan media file</translation>
+        <translation>Perubahan langganan stream file media</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="139"/>
         <source>Subscription intercept private text message changed</source>
-        <translation>Perubahan intercept pesan pribadi</translation>
+        <translation>Perubahan langganan intercept pesan teks pribadi</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="141"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation>Perubahan intercept pesan teks di saluran</translation>
+        <translation>Perubahan langganan intercept pesan teks saluran</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="143"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation>Perubahan intercept suara</translation>
+        <translation>Perubahan langganan intercept stream suara</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="145"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation>Perubahan intercept webcam</translation>
+        <translation>Perubahan langganan intercept stream webcam</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="147"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation>Perubahan intercept desktop</translation>
+        <translation>Perubahan langganan intercept stream desktop</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="149"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation>Perubahan intercept media file</translation>
+        <translation>Perubahan langganan intercept stream file media</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="151"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation>Perubahan Classroom pesan teks di saluran</translation>
+        <translation>Perubahan kelas mengizinkan transmisi pesan saluran</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="153"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation>Perubahan Classroom suara</translation>
+        <translation>Perubahan kelas mengizinkan transmisi suara</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="155"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation>Perubahan Classroom webcam</translation>
+        <translation>Perubahan kelas mengizinkan transmisi webcam</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="157"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation>Perubahan Classroom desktop</translation>
+        <translation>Perubahan kelas mengizinkan transmisi desktop</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="159"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation>Perubahan Classroom media file</translation>
+        <translation>Perubahan kelas mengizinkan transmisi file media</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="161"/>
         <source>File added</source>
-        <translation>Berkas ditambahkan</translation>
+        <translation>File ditambahkan</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="163"/>
         <source>File removed</source>
-        <translation>Berkas dihapus</translation>
+        <translation>File dihapus</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="165"/>
@@ -6085,12 +6025,12 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="167"/>
         <source>Start a recording</source>
-        <translation>Mulai merekam</translation>
+        <translation>Memulai rekaman</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="169"/>
         <source>Transmission blocked by channel operator</source>
-        <translation>Transmisi tidak diizinkan oleh operator saluran</translation>
+        <translation>Transmisi diblokir oleh operator saluran</translation>
     </message>
 </context>
 <context>
@@ -6098,17 +6038,17 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../streammediafile.ui" line="14"/>
         <source>Stream Media File To Channel</source>
-        <translation>Stream media file ke saluran</translation>
+        <translation>Stream File Media Ke Saluran</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="20"/>
         <source>Media File Properties</source>
-        <translation>Properti media file</translation>
+        <translation>Properti File Media</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="28"/>
         <source>Media file</source>
-        <translation>Media file</translation>
+        <translation>File media</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="45"/>
@@ -6119,7 +6059,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../streammediafile.ui" line="51"/>
         <source>&amp;B</source>
-        <translation>&amp;J</translation>
+        <translation>&amp;B</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="62"/>
@@ -6141,7 +6081,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../streammediafile.ui" line="85"/>
         <source>&amp;D</source>
-        <translation>&amp;W</translation>
+        <translation>&amp;D</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="96"/>
@@ -6153,7 +6093,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../streammediafile.ui" line="102"/>
         <source>&amp;L</source>
-        <translation>&amp;S</translation>
+        <translation>&amp;L</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="117"/>
@@ -6163,7 +6103,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../streammediafile.ui" line="138"/>
         <source>Video format:</source>
-        <translation>Format video</translation>
+        <translation>Format video:</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="159"/>
@@ -6173,7 +6113,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../streammediafile.ui" line="178"/>
         <source>Co&amp;ntinuously play media file</source>
-        <translation>Putar media file t&amp;erus menerus</translation>
+        <translation>Putar file media secara terus me&amp;nerus</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="188"/>
@@ -6188,7 +6128,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../streammediafile.ui" line="288"/>
         <source>S&amp;top</source>
-        <translation>Ber&amp;henti</translation>
+        <translation>Berhen&amp;ti</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="274"/>
@@ -6213,7 +6153,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../streammediafile.ui" line="267"/>
         <source>Test playback</source>
-        <translation>Atur pemutaran</translation>
+        <translation>Uji pemutaran</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="304"/>
@@ -6226,7 +6166,7 @@ server telah diverifikasi.</translation>
         <location filename="../streammediafile.ui" line="323"/>
         <location filename="../streammediafile.ui" line="326"/>
         <source>Video Codec Settings</source>
-        <translation>Pengaturan codec audio</translation>
+        <translation>Pengaturan Codec Video</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="334"/>
@@ -6241,7 +6181,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../streammediafile.ui" line="476"/>
         <source>&amp;OK</source>
-        <translation>&amp;Oke</translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="483"/>
@@ -6251,7 +6191,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../streammediafiledlg.cpp" line="67"/>
         <source>No Audio Preprocessor</source>
-        <translation>Tidak ada Audio Preprocessor</translation>
+        <translation>Tidak Ada Audio Preprocessor</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="68"/>
@@ -6271,12 +6211,12 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../streammediafiledlg.cpp" line="140"/>
         <source>Open Media File</source>
-        <translation>Buka media file</translation>
+        <translation>Buka File Media</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="142"/>
         <source>Media files %1</source>
-        <translation>Media file %1</translation>
+        <translation>File media %1</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="181"/>
@@ -6306,7 +6246,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../streammediafiledlg.cpp" line="222"/>
         <source>%1 audio channels</source>
-        <translation>%1 saluran audio</translation>
+        <translation>saluran audio %1</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="224"/>
@@ -6329,14 +6269,14 @@ server telah diverifikasi.</translation>
         <location filename="../streammediafiledlg.cpp" line="318"/>
         <location filename="../streammediafiledlg.cpp" line="356"/>
         <source>Failed to play media file</source>
-        <translation>Gagal memutar media file</translation>
+        <translation>Gagal untuk memutar file media</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="321"/>
         <location filename="../streammediafiledlg.cpp" line="432"/>
         <location filename="../streammediafiledlg.cpp" line="465"/>
         <source>&amp;Pause</source>
-        <translation>Je&amp;da</translation>
+        <translation>&amp;Jeda</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="364"/>
@@ -6346,7 +6286,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../streammediafiledlg.cpp" line="364"/>
         <source>Failed to stream media file</source>
-        <translation>Gagal untuk melakukan stream media file</translation>
+        <translation>Gagal untuk stream file media</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="411"/>
@@ -6358,7 +6298,7 @@ server telah diverifikasi.</translation>
         <location filename="../streammediafiledlg.cpp" line="411"/>
         <location filename="../streammediafiledlg.cpp" line="416"/>
         <source>Failed to activate audio preprocessor</source>
-        <translation>Gagal untuk mengaktifkan Audio Preprocessor</translation>
+        <translation>Gagal untuk mengaktifkan audio preprocessor</translation>
     </message>
 </context>
 <context>
@@ -6366,7 +6306,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../ttseventsmodel.cpp" line="92"/>
         <source>Event</source>
-        <translation>Acara</translation>
+        <translation>Event</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="93"/>
@@ -6384,12 +6324,12 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../ttseventsmodel.cpp" line="119"/>
         <source>User logged in</source>
-        <translation>Pengguna online</translation>
+        <translation>Pengguna log masuk</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="121"/>
         <source>User logged out</source>
-        <translation>Pengguna offline</translation>
+        <translation>Pengguna log keluar</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="123"/>
@@ -6399,7 +6339,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../ttseventsmodel.cpp" line="125"/>
         <source>User left channel</source>
-        <translation>Pengguna keluar dari saluran</translation>
+        <translation>Pengguna meninggalkan saluran</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="127"/>
@@ -6409,7 +6349,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../ttseventsmodel.cpp" line="129"/>
         <source>User left current channel</source>
-        <translation>Pengguna keluar dari saluran saat ini</translation>
+        <translation>Pengguna meninggalkan saluran saat ini</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="131"/>
@@ -6424,7 +6364,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../ttseventsmodel.cpp" line="135"/>
         <source>User is typing a private text message in focused window</source>
-        <translation>Pengguna sedang mengetik pesan teks pribadi di jendela yang difokuskan</translation>
+        <translation>Pengguna sedang mengetik pesan teks pribadi di jendela terfokus</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="137"/>
@@ -6434,57 +6374,57 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../ttseventsmodel.cpp" line="139"/>
         <source>User enabled question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Pengguna mengaktifkan mode pertanyaan</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="141"/>
         <source>Received channel message</source>
-        <translation>Menerima pesan teks di saluran</translation>
+        <translation>Menerima pesan saluran</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="143"/>
         <source>Sent channel message</source>
-        <translation>Pesan terkirim di saluran</translation>
+        <translation>Pesan saluran terkirim</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="145"/>
         <source>Received broadcast message</source>
-        <translation>Menerima pesan siaran</translation>
+        <translation>Menerima pesan broadcast</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="147"/>
         <source>Sent broadcast message</source>
-        <translation>Pesan siaran terkirim</translation>
+        <translation>Pesan broadcast terkirim</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="149"/>
         <source>Subscription private text message changed</source>
-        <translation>Perubahan langganan pesan pribadi</translation>
+        <translation>Perubahan langganan pesan teks pribadi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="151"/>
         <source>Subscription channel text message changed</source>
-        <translation>Perubahan langganan pesan teks di saluran</translation>
+        <translation>Perubahan langganan pesan teks saluran</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="153"/>
         <source>Subscription broadcast text message changed</source>
-        <translation>Perubahan langganan pesan siaran</translation>
+        <translation>Perubahan langganan pesan teks broadcast</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="155"/>
         <source>Subscription voice stream changed</source>
-        <translation>Perubahan langganan suara</translation>
+        <translation>Perubahan langganan stream suara</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="157"/>
         <source>Subscription webcam stream changed</source>
-        <translation>Perubahan langganan webcam</translation>
+        <translation>Perubahan langganan stream webcam</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="159"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation>Perubahan langganan berbagi desktop</translation>
+        <translation>Perubahan langganan stream berbagi desktop</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="161"/>
@@ -6494,72 +6434,72 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../ttseventsmodel.cpp" line="163"/>
         <source>Subscription media file stream changed</source>
-        <translation>Perubahan langganan media file</translation>
+        <translation>Perubahan langganan stream file media</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="165"/>
         <source>Subscription intercept private text message changed</source>
-        <translation>Perubahan intercept pesan pribadi</translation>
+        <translation>Perubahan langganan intercept pesan teks pribadi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="167"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation>Perubahan intercept pesan teks di saluran</translation>
+        <translation>Perubahan langganan intercept pesan teks saluran</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="169"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation>Perubahan intercept suara</translation>
+        <translation>Perubahan langganan intercept stream suara</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="171"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation>Perubahan intercept webcam</translation>
+        <translation>Perubahan langganan intercept stream webcam</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="173"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation>Perubahan intercept desktop</translation>
+        <translation>Perubahan langganan intercept stream desktop</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="175"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation>Perubahan intercept media file</translation>
+        <translation>Perubahan langganan intercept stream file media</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="177"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation>Perubahan Classroom pesan teks di saluran</translation>
+        <translation>Perubahan kelas mengizinkan transmisi pesan saluran</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="179"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation>Perubahan Classroom suara</translation>
+        <translation>Perubahan kelas mengizinkan transmisi suara</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="181"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation>Perubahan Classroom webcam</translation>
+        <translation>Perubahan kelas mengizinkan transmisi webcam</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="183"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation>Perubahan Classroom desktop</translation>
+        <translation>Perubahan kelas mengizinkan transmisi desktop</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="185"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation>Perubahan Classroom media file</translation>
+        <translation>Perubahan kelas mengizinkan transmisi file media</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="187"/>
         <source>File added</source>
-        <translation>Berkas ditambahkan</translation>
+        <translation>File ditambahkan</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="189"/>
         <source>File removed</source>
-        <translation>Berkas dihapus</translation>
+        <translation>File dihapus</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="191"/>
@@ -6569,7 +6509,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../ttseventsmodel.cpp" line="193"/>
         <source>Server connectivity</source>
-        <translation>Aktifitas server</translation>
+        <translation>Konektivitas server</translation>
     </message>
 </context>
 <context>
@@ -6578,7 +6518,7 @@ server telah diverifikasi.</translation>
         <location filename="../textmessage.ui" line="14"/>
         <location filename="../textmessagedlg.cpp" line="93"/>
         <source>Messages</source>
-        <translation>Pesan pribadi</translation>
+        <translation>Pesan</translation>
     </message>
     <message>
         <location filename="../textmessage.ui" line="45"/>
@@ -6588,14 +6528,14 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../textmessage.ui" line="77"/>
         <source>Message</source>
-        <translation type="unfinished">Pesan</translation>
+        <translation>Pesan</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="136"/>
         <location filename="../textmessagedlg.cpp" line="193"/>
         <location filename="../textmessagedlg.cpp" line="233"/>
         <source>New message</source>
-        <translation>Tulis Pesan</translation>
+        <translation>Pesan Baru</translation>
     </message>
     <message>
         <location filename="../textmessage.ui" line="136"/>
@@ -6610,26 +6550,18 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../textmessagedlg.cpp" line="175"/>
         <source>Private message sent: %1</source>
-        <translation>%1 Terkirim</translation>
-    </message>
-    <message>
-        <source>Character limit exceeded</source>
-        <translation type="vanished">Batas karakter terlampaui</translation>
-    </message>
-    <message>
-        <source>Your message has exceeded the limit by %1 characters. Please reduce it and try again.</source>
-        <translation type="vanished">Pesan Anda telah melampaui batas %1 karakter. Silahkan kurangi dan coba lagi.</translation>
+        <translation>Pesan pribadi terkirim: %1</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="215"/>
         <source>New message - remote user typing.</source>
-        <translation>Tulis pesan. &quot;Pengguna sedang mengetik&quot;.</translation>
+        <translation>Pesan baru - Pengguna remote sedang mengetik.</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="220"/>
         <location filename="../textmessagedlg.cpp" line="222"/>
         <source>%1 is typing</source>
-        <translation>%1 Sedang mengetik...</translation>
+        <translation>%1 Sedang mengetik</translation>
     </message>
 </context>
 <context>
@@ -6637,17 +6569,17 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../useraccounts.ui" line="14"/>
         <source>User Accounts</source>
-        <translation>Akun pengguna</translation>
+        <translation>Akun Pengguna</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="27"/>
         <source>Active Users</source>
-        <translation>Pengguna aktif</translation>
+        <translation>Pengguna yang aktif</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="76"/>
         <source>Modify User Account</source>
-        <translation>Ubah akun pengguna</translation>
+        <translation>Ubah Akun Pengguna</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="128"/>
@@ -6667,12 +6599,12 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../useraccounts.ui" line="185"/>
         <source>Initial Channel</source>
-        <translation>Saluran default</translation>
+        <translation>Saluran Inisial</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="195"/>
         <source>User should automatically join this channel after login</source>
-        <translation>Pengguna harus bergabung dengan saluran &quot;ini&quot; setelah online</translation>
+        <translation>Pengguna akan bergabung dengan saluran ini secara otomatis setelah log masuk</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="90"/>
@@ -6682,12 +6614,12 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../useraccounts.ui" line="112"/>
         <source>Administrator</source>
-        <translation>Admin</translation>
+        <translation>Administrator</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="102"/>
         <source>Default user</source>
-        <translation>Pengguna</translation>
+        <translation>Pengguna default</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="84"/>
@@ -6703,22 +6635,22 @@ server telah diverifikasi.</translation>
         <location filename="../useraccounts.ui" line="231"/>
         <location filename="../useraccounts.ui" line="234"/>
         <source>Auto-Operator Channels</source>
-        <translation>Operator saluran automatis</translation>
+        <translation>Operator Saluran Otomatis</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="240"/>
         <source>Selected Channels</source>
-        <translation>Saluran yang dipilih</translation>
+        <translation>Saluran Yang Dipilih</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="250"/>
         <source>User will automatically become operator when joining these channels</source>
-        <translation>Pengguna akan menjadi operator saat bergabung ke saluran</translation>
+        <translation>Pengguna akan secara otomatis menjadi operator ketika bergabung dengan saluran ini</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="263"/>
         <source>Available Channels</source>
-        <translation>Saluran yang tersedia</translation>
+        <translation>Saluran Yang Tersedia</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="285"/>
@@ -6728,7 +6660,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../useraccounts.ui" line="282"/>
         <source>Set selected user auto operator for selected channels</source>
-        <translation>Atur pengguna menjadi operator di saluran yang dipilih</translation>
+        <translation>Setel pengguna yang dipilih operator otomatis untuk saluran yang dipilih</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="295"/>
@@ -6738,22 +6670,22 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../useraccounts.ui" line="292"/>
         <source>No longer set selected user auto operator for selected channels</source>
-        <translation>Hapus pengguna dari operator saluran yang dipilih</translation>
+        <translation>Tidak lagi menyetel pengguna yang dipilih operator otomatis untuk saluran yang dipilih</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="321"/>
         <source>Codec Limitations</source>
-        <translation>Pembatasan codec</translation>
+        <translation>Pembatasan Codec</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="327"/>
         <source>Audio Codec Limitations</source>
-        <translation>Batasi codec audio</translation>
+        <translation>Pembatasan Codec Audio</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="333"/>
         <source>Max bitrate for audio codecs</source>
-        <translation>Maksimum bitrate codec audio</translation>
+        <translation>Bitrate maksimum untuk codec audio</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="356"/>
@@ -6768,12 +6700,12 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../useraccounts.ui" line="386"/>
         <source>Flood Protection</source>
-        <translation>Proteksi spamm</translation>
+        <translation>Proteksi Flood</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="392"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
-        <translation>Mencegah pengguna dari spam pesan teks dengan membatasi jumlah perintah yang dapat mereka keluarkan dalam jangka waktu tertentu.</translation>
+        <translation>Mencegah pengguna dari e.g. spam pesan teks dengan membatasi jumlah perintah yang dapat dikeluarkan dalam jangka waktu tertentu.</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="404"/>
@@ -6790,122 +6722,122 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../useraccounts.ui" line="447"/>
         <source>User can log in multiple times</source>
-        <translation>Pengguna dapat online beberapa kali</translation>
+        <translation>Pengguna boleh log masuk beberapa kali</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="454"/>
         <source>User can upload files</source>
-        <translation>Pengguna dapat mengunggah berkas</translation>
+        <translation>Pengguna boleh mengunggah file</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="481"/>
         <source>User can see users in all channels</source>
-        <translation>Pengguna dapat melihat pengguna lainnya di saluran</translation>
+        <translation>Pengguna boleh melihat pengguna di semua saluran</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="461"/>
         <source>User can change nickname</source>
-        <translation>Pengguna dapat mengubah nama panggilan</translation>
+        <translation>Pengguna boleh mengubah nama panggilan</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="468"/>
         <source>User can download files</source>
-        <translation>Pengguna dapat mengunduh berkas</translation>
+        <translation>Pengguna boleh mengunduh file</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="509"/>
         <source>User can create/modify all channels</source>
-        <translation>Pengguna dapat membuat atau memperbaharui semua saluran</translation>
+        <translation>Pengguna boleh mencipta/memodifikasi semua saluran</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="502"/>
         <source>User can update server properties</source>
-        <translation>Pengguna dapat memperbaharui properti server</translation>
+        <translation>Pengguna boleh memperbarui properti server</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="529"/>
         <source>User can create temporary channels</source>
-        <translation>Pengguna dapat membuat saluran sementara</translation>
+        <translation>Pengguna boleh mencipta saluran sementara</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="516"/>
         <source>User can transmit voice data (microphone)</source>
-        <translation>Pengguna dapat mentransmisikan audio (mikrofon)</translation>
+        <translation>Pengguna boleh mentransmisikan data suara (mikrofon)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="549"/>
         <source>User can broadcast text messages</source>
-        <translation>Pengguna dapat mengirim pesan siaran</translation>
+        <translation>Pengguna boleh broadcast pesan teks</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="536"/>
         <source>User can transmit video data (webcam)</source>
-        <translation>Pengguna dapat mentransmisikan video (webcam)</translation>
+        <translation>Pengguna boleh mentransmisikan data video (webcam)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="563"/>
         <source>User can kick users off the server</source>
-        <translation>Pengguna dapat mengeluarkan pengguna lainnya dari server</translation>
+        <translation>Pengguna boleh keluarkan pengguna dari server</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="556"/>
         <source>User can transmit audio files (wav, mp3 files)</source>
-        <translation>Pengguna dapat mentransmisikan media file audio (wav, mp3 atau sejenisnya)</translation>
+        <translation>Pengguna boleh mentransmisikan file audio (wav, file mp3)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="577"/>
         <source>User can ban users from server</source>
-        <translation>Pengguna dapat melarang pengguna lainnya dari server</translation>
+        <translation>Pengguna boleh ban pengguna dari server</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="570"/>
         <source>User can transmit video files (avi, mp4 files)</source>
-        <translation>Pengguna dapat mentransmisikan media file video (avi, mp4 atau sejenisnya)</translation>
+        <translation>Pengguna boleh mentransmisikan file video (avi, file mp4)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="591"/>
         <source>User can move users between channels</source>
-        <translation>Pengguna dapat memindahkan pengguna lainnya</translation>
+        <translation>Pengguna boleh memindahkan pengguna antar saluran</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="584"/>
         <source>User can transmit desktop sessions (shared desktop)</source>
-        <translation>Pengguna dapat mentransmisikan desktop (berbagi sesi desktop)</translation>
+        <translation>Pengguna boleh mentransmisikan sesi desktop (berbagi desktop)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="605"/>
         <source>User can make other users channel operator</source>
-        <translation>Pengguna dapat menjadikan operator saluran pengguna lainnya </translation>
+        <translation>Pengguna boleh menjadikan pengguna lain operator saluran</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="598"/>
         <source>User can get remote access to desktop sessions</source>
-        <translation>Pengguna bisa mendapatkan akses jarak jauh ke sesi desktop</translation>
+        <translation>Pengguna boleh mendapatkan akses jarak jauh ke sesi desktop</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="488"/>
         <source>User can record voice in all channels</source>
-        <translation>Pengguna dapat merekam percakapan di seluruh saluran</translation>
+        <translation>Pengguna boleh merekam suara di semua saluran</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="495"/>
         <source>User can see hidden channels</source>
-        <translation>Pengguna dapat melihat saluran tersembunyi</translation>
+        <translation>Pengguna boleh melihat saluran tersembunyi</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="612"/>
         <source>CheckBox</source>
-        <translation>Kotak Centang</translation>
+        <translation>KotakCentang</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="644"/>
         <source>&amp;Clear</source>
-        <translation>Ber&amp;sihkan</translation>
+        <translation>&amp;Bersihkan</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="667"/>
         <source>&amp;Add/Update</source>
-        <translation>T&amp;ambah/perbaharui</translation>
+        <translation>&amp;Tambahkan/Perbarui</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="664"/>
@@ -6915,7 +6847,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../useraccounts.ui" line="624"/>
         <source>C&amp;lose</source>
-        <translation>&amp;Tutup</translation>
+        <translation>T&amp;utup</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="245"/>
@@ -6930,17 +6862,17 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../useraccountsdlg.cpp" line="247"/>
         <source>10 commands in 1 minute</source>
-        <translation>10 perintah dalam 1 menit.</translation>
+        <translation>10 perintah dalam 1 menit</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="248"/>
         <source>60 commands in 1 minute</source>
-        <translation>60 perintah dalam 1 menit.</translation>
+        <translation>60 perintah dalam 1 menit</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="249"/>
         <source>Custom specified</source>
-        <translation>Tentukan ...</translation>
+        <translation>Ditentukan secara khusus</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="505"/>
@@ -6957,12 +6889,12 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../useraccountsdlg.cpp" line="509"/>
         <source>Add/Update</source>
-        <translation>Tambah/perbaharui</translation>
+        <translation>Tambahkan/Perbarui</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="789"/>
         <source>Sort By...</source>
-        <translation>Urutkan ...</translation>
+        <translation>Diurutkan Berdasarkan...</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="790"/>
@@ -6972,7 +6904,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../useraccountsdlg.cpp" line="791"/>
         <source>User &amp;Type</source>
-        <translation>&amp;Jenis</translation>
+        <translation>Jenis &amp;Pengguna</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="792"/>
@@ -6987,7 +6919,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../useraccountsdlg.cpp" line="794"/>
         <source>&amp;Delete Selected User</source>
-        <translation>&amp;Hapus pengguna yang dipilih</translation>
+        <translation>&amp;Hapus Pengguna Yang Dipilih</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="504"/>
@@ -6997,7 +6929,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../useraccountsdlg.cpp" line="644"/>
         <source>Are you sure you want to delete user &quot;%1&quot;?</source>
-        <translation>Apakah anda yakin ingin menghapus nama pengguna &quot;%1&quot;?</translation>
+        <translation>Apakah Anda yakin ingin menghapus pengguna &quot;%1&quot;?</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="649"/>
@@ -7007,7 +6939,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../useraccountsdlg.cpp" line="745"/>
         <source>&amp;Ok</source>
-        <translation>&amp;Oke</translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="746"/>
@@ -7028,7 +6960,7 @@ server telah diverifikasi.</translation>
         <location filename="../useraccounts.ui" line="225"/>
         <location filename="../useraccountsdlg.cpp" line="698"/>
         <source>Channel Operator</source>
-        <translation>Operator saluran</translation>
+        <translation>Operator Saluran</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="699"/>
@@ -7051,7 +6983,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../useraccountsdlg.cpp" line="64"/>
         <source>User Type</source>
-        <translation>Jenis pengguna</translation>
+        <translation>Jenis Pengguna</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="65"/>
@@ -7072,13 +7004,13 @@ server telah diverifikasi.</translation>
         <location filename="../useraccountsdlg.cpp" line="95"/>
         <location filename="../useraccountsdlg.cpp" line="114"/>
         <source>Administrator</source>
-        <translation>Admin</translation>
+        <translation>Administrator</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="97"/>
         <location filename="../useraccountsdlg.cpp" line="116"/>
         <source>Default User</source>
-        <translation>Pengguna</translation>
+        <translation>Pengguna Default</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="99"/>
@@ -7095,7 +7027,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../useraccountsdlg.cpp" line="121"/>
         <source>Username: %1, Password: %2, Type: %3, Note: %4, Initial channel: %5, Modified: %6</source>
-        <translation>Nama pengguna: %1, Kata sandi: %2, Jenis: %3, Catatan: %4, Saluran: %5, Diubah: %6.</translation>
+        <translation>Nama pengguna: %1, Kata sandi: %2, Jenis: %3, Catatan: %4, Saluran Inisial: %5, Diubah Pada: %6</translation>
     </message>
 </context>
 <context>
@@ -7110,7 +7042,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../userdesktopdlg.cpp" line="78"/>
         <source>Myself</source>
-        <translation>Saya</translation>
+        <translation>Saya sendiri</translation>
     </message>
 </context>
 <context>
@@ -7119,32 +7051,32 @@ server telah diverifikasi.</translation>
         <location filename="../userdesktopwidget.cpp" line="249"/>
         <location filename="../userdesktopwidget.cpp" line="266"/>
         <source>&amp;Save to Image File</source>
-        <translation>Simpan ke berkas &amp;gambar</translation>
+        <translation>&amp;Simpan menjadi File Gambar</translation>
     </message>
     <message>
         <location filename="../userdesktopwidget.cpp" line="255"/>
         <source>Retract &amp;Desktop Access</source>
-        <translation>Hentikan akses &amp;desktop</translation>
+        <translation>Tarik kembali akses &amp;desktop</translation>
     </message>
     <message>
         <location filename="../userdesktopwidget.cpp" line="257"/>
         <source>Request &amp;Desktop Access</source>
-        <translation>Minta &amp;akses desktop</translation>
+        <translation>Minta akses &amp;desktop</translation>
     </message>
     <message>
         <location filename="../userdesktopwidget.cpp" line="263"/>
         <source>Save File</source>
-        <translation>Simpan berkas</translation>
+        <translation>Simpan File</translation>
     </message>
     <message>
         <location filename="../userdesktopwidget.cpp" line="264"/>
         <source>PNG files (*.png)</source>
-        <translation>Berkas png (*.png)</translation>
+        <translation>File PNG (*.png)</translation>
     </message>
     <message>
         <location filename="../userdesktopwidget.cpp" line="266"/>
         <source>Failed to save file.</source>
-        <translation>Gagal menyimpan berkas.</translation>
+        <translation>Gagal untuk menyimpan file.</translation>
     </message>
 </context>
 <context>
@@ -7153,27 +7085,27 @@ server telah diverifikasi.</translation>
         <location filename="../userimagewidget.cpp" line="200"/>
         <location filename="../userimagewidget.cpp" line="210"/>
         <source>&amp;Save to Image File</source>
-        <translation>Simpan ke berkas &amp;gambar</translation>
+        <translation>&amp;Simpan menjadi File Gambar</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="201"/>
         <source>&amp;Flip image</source>
-        <translation>Ba&amp;likkan gambar</translation>
+        <translation>&amp;Balikkan gambar</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="207"/>
         <source>Save File</source>
-        <translation>Simpan berkas</translation>
+        <translation>Simpan File</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="208"/>
         <source>PNG files (*.png)</source>
-        <translation>Berkas png (*.png)</translation>
+        <translation>File PNG (*.png)</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="210"/>
         <source>Failed to save file.</source>
-        <translation>Gagal menyimpan berkas.</translation>
+        <translation>Gagal untuk menyimpan file.</translation>
     </message>
 </context>
 <context>
@@ -7181,12 +7113,12 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../userinfo.ui" line="14"/>
         <source>User Information</source>
-        <translation>Informasi pengguna</translation>
+        <translation>informasi Pengguna</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="23"/>
         <source>User ID</source>
-        <translation>ID pengguna</translation>
+        <translation>ID Pengguna</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="43"/>
@@ -7216,7 +7148,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../userinfo.ui" line="163"/>
         <source>IP-address</source>
-        <translation>Alamat-IP</translation>
+        <translation>Alamat IP</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="183"/>
@@ -7226,27 +7158,27 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../userinfo.ui" line="203"/>
         <source>Voice packet loss</source>
-        <translation>Paket suara hilang</translation>
+        <translation>Paket suara yang hilang</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="223"/>
         <source>Video frame loss</source>
-        <translation>Frame video hilang</translation>
+        <translation>Frame video yang hilang</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="243"/>
         <source>Audio file packets loss</source>
-        <translation>Paket audio hilang</translation>
+        <translation>Paket file audio yang hilang</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="256"/>
         <source>Video file frame loss</source>
-        <translation>Berkas frame video hilang</translation>
+        <translation>File frame video yang hilang</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="83"/>
         <source>Client name</source>
-        <translation>Nama klien</translation>
+        <translation>Nama client</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="65"/>
@@ -7256,12 +7188,12 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../userinfodlg.cpp" line="67"/>
         <source>Away</source>
-        <translation>Sedang sibuk</translation>
+        <translation>Away</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="69"/>
         <source>Question</source>
-        <translation>Bertanya</translation>
+        <translation>Pertanyaan</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="71"/>
@@ -7272,12 +7204,12 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../userinfodlg.cpp" line="88"/>
         <source>Administrator</source>
-        <translation>Admin</translation>
+        <translation>Administrator</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="90"/>
         <source>Default</source>
-        <translation>Pengguna</translation>
+        <translation>Default</translation>
     </message>
 </context>
 <context>
@@ -7292,7 +7224,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../uservideodlg.cpp" line="95"/>
         <source>Myself</source>
-        <translation>Saya</translation>
+        <translation>Saya sendiri</translation>
     </message>
 </context>
 <context>
@@ -7300,17 +7232,17 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../uservideowidget.cpp" line="54"/>
         <source>Waiting for local video</source>
-        <translation>Menunggu video lokal</translation>
+        <translation>Sedang menunggu video lokal</translation>
     </message>
     <message>
         <location filename="../uservideowidget.cpp" line="56"/>
         <source>Waiting for video from %1</source>
-        <translation>Menunggu video dari %1</translation>
+        <translation>Sedang menunggu video dari %1</translation>
     </message>
     <message>
         <location filename="../uservideowidget.cpp" line="60"/>
         <source>Waiting for media file from %1</source>
-        <translation>Menunggu media file dari %1</translation>
+        <translation>Sedang menunggu file media dari %1</translation>
     </message>
 </context>
 <context>
@@ -7326,40 +7258,40 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../uservolume.ui" line="23"/>
         <source>Voice Volume Settings</source>
-        <translation>Pengaturan volume suara</translation>
+        <translation>Pengaturan Volume Suara</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="53"/>
         <location filename="../uservolume.ui" line="109"/>
         <source>Stereo Option</source>
-        <translation>Pilihan stereo</translation>
+        <translation>Opsi Stereo</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="59"/>
         <location filename="../uservolume.ui" line="115"/>
         <source>Mute left</source>
-        <translation>Bisukan bagian kiri</translation>
+        <translation>Diamkan kiri</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="66"/>
         <location filename="../uservolume.ui" line="122"/>
         <source>Mute right</source>
-        <translation>Bisukan bagian kanan</translation>
+        <translation>Diamkan kanan</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="79"/>
         <source>Media File Volume Settings</source>
-        <translation>Pengaturan volume media file</translation>
+        <translation>Pengaturan Volume File Media</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="150"/>
         <source>&amp;Default</source>
-        <translation>De&amp;fault</translation>
+        <translation>&amp;Default</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="80"/>
         <source>Failed to change user&apos;s volume</source>
-        <translation>Gagal mengubah volume pengguna</translation>
+        <translation>Gagal untuk mengubah volume pengguna</translation>
     </message>
 </context>
 <context>
@@ -7380,7 +7312,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../videotext.ui" line="24"/>
         <source>Text to Show</source>
-        <translation>Teks untuk Ditampilkan</translation>
+        <translation>Teks Untuk Ditampilkan</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="30"/>
@@ -7400,7 +7332,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../videotext.ui" line="57"/>
         <source>Text Position</source>
-        <translation>Posisi teks</translation>
+        <translation>Posisi Teks</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="63"/>
@@ -7415,7 +7347,7 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../videotext.ui" line="80"/>
         <source>Top-Right</source>
-        <translation>Kanan atas</translation>
+        <translation>Kanan Atas</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="90"/>
@@ -7446,17 +7378,17 @@ server telah diverifikasi.</translation>
     <message>
         <location filename="../videotext.ui" line="145"/>
         <source>Width in percent</source>
-        <translation>Lebar dalam persen</translation>
+        <translation>Lebar dalam percent</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="174"/>
         <source>Height in percent</source>
-        <translation>Tinggi dalam persen</translation>
+        <translation>Tinggi dalam percent</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="41"/>
         <source>&amp;Ok</source>
-        <translation>&amp;Oke</translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="42"/>

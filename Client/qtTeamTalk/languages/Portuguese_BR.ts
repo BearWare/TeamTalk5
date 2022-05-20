@@ -2289,6 +2289,7 @@ p, li { white-space: pre-wrap; }
         <translation>Especifique novo apelido</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="4276"/>
         <location filename="../mainwindow.cpp" line="6008"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translation>Dispositivo de vídeo não configurado adequadamente. Verifique as configurações nas &apos;Preferências&apos;</translation>
@@ -2608,11 +2609,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="4157"/>
         <source>Specify new nickname for current server</source>
         <translation>Especifique o novo apelido para o servidor atual</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4276"/>
-        <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translation>O dispositivo de vídeo não foi configurado corretamente. Verifique as configurações em &apos;Preferências&apos;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4287"/>
