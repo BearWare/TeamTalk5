@@ -2472,7 +2472,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="4276"/>
         <location filename="../mainwindow.cpp" line="6008"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>視訊裝置未適當地設定. 請檢查&apos;偏好設定&apos;中的設定</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4287"/>
