@@ -15,7 +15,7 @@ Default Qt Client
 Android Client
 iOS Client
 Server
-
+- Removed OpenSSL dependency on tt5srv for Linux
 
 Version 5.9.1, 2022/04/04
 Accessible Windows Client

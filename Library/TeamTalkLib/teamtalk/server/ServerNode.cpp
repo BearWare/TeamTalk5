@@ -2572,14 +2572,10 @@ void ServerNode::CheckKeepAlive()
         {
             m_srvguard->OnUserDropped(*theDead[j]);
         }
-#if defined(ENABLE_ENCRYPTION)
         // SSL handler could be hanging in CryptStreamHandler::process_ssl()
         // therefore we have to forcefully delete the handler
         ACE_Event_Handler* h = RegisterStreamCallback(theDead[j]->ResetStreamHandle());
         delete h;
-#else
-        RegisterStreamCallback(theDead[j]->ResetStreamHandle());
-#endif
     }
 }
 
