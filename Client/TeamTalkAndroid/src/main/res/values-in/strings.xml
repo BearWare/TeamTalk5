@@ -324,7 +324,7 @@
     <string name="permission_filerx">Pengunduhan file tidak akan tersedia</string>
     <string name="permission_filetx">Unggah dan import file tidak akan tersedia</string>
     <string name="permission_internet">Client tidak akan dapat terhubung ke server</string>
-    <string name="permission_vibrate">Bergetar ketika tahan dan bicara tidak akan tersedia</string>
+    <string name="permission_vibrate">Bergetar ketika tekan untuk bicara tidak akan tersedia</string>
     <string name="permission_wake_lock">Koneksi server bisa terputus ketika layar redup</string>
     <string name="permission_read_phone_state">Deteksi panggilan masuk tidak akan tersedia</string>
     <string name="permission_bluetooth">Penggunaan mikrofon headset Bluetooth tidak akan tersedia</string>

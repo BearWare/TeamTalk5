@@ -522,7 +522,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="220"/>
         <source>No voice activation (only Push-to-Talk allowed)</source>
-        <translation>Tidak ada aktivasi suara (hanya Push-to-Talk yang diizinkan)</translation>
+        <translation>Tidak ada aktivasi suara (hanya tekan untuk bicara yang diizinkan)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="227"/>
