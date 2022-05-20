@@ -271,8 +271,8 @@
     <string name="incvoxlevel">Tingkatkan tingkat aktivasi suara</string>
     <string name="vox_level_description">Tingkat aktivasi suara %1$s</string>
 
-    <string name="tx_on">Transmisi diaktifkan</string>
-    <string name="tx_off">Transmisi dinonaktifkan</string>
+    <string name="tx_on">Sedang transmisi diaktifkan</string>
+    <string name="tx_off">Transmisi tidak aktif</string>
 
     <string name="text_samplerate">samplerate</string>
     <string name="text_ignore_silence">Abaikan diam (DTX)</string>
