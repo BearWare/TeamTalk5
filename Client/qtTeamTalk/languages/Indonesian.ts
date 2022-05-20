@@ -4223,7 +4223,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="400"/>
         <source>Show username instead of nickname</source>
-        <translation>Tampilkan nama pengguna bukannya nama panggilan</translation>
+        <translation>Tampilkan nama pengguna bukan nama panggilan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="407"/>
@@ -4724,7 +4724,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="2191"/>
         <source>Use SAPI instead of current screenreader</source>
-        <translation>Gunakan SAPI bukannya pembaca layar saat ini</translation>
+        <translation>Gunakan SAPI bukan pembaca layar saat ini</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2215"/>
@@ -5003,7 +5003,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="1657"/>
         <source>Use SAPI instead of %1 screenreader</source>
-        <translation>Gunakan SAPI bukannya pembaca layar %1</translation>
+        <translation>Gunakan SAPI bukan pembaca layar %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1736"/>
