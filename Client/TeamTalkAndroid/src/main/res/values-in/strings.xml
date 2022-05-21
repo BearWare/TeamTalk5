@@ -79,7 +79,7 @@
     <string name="pref_title_sub_mediafile">Media File</string>
     <string name="pref_summary_sub_mediafile">Mengikuti stream media file</string>
     <string name="pref_header_tts">Teks Ke Ucapan</string>
-    <string name="pref_title_speech_engine">Pilihan mesin TTS</string>
+    <string name="pref_title_speech_engine">Pilihan mesin teks ke ucapan</string>
     <string name="pref_summary_speech_engine">Pilih salah satu mesin ucapan yang terpasang, berbeda dari pengaturan sistem</string>
     <string name="pref_title_server_login">Pengguna masuk ke server</string>
     <string name="pref_summary_server_login">Umumkan nama pengguna yang masuk</string>
