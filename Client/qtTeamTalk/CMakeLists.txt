@@ -194,6 +194,8 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     find_program(MACDEPLOYQT_EXE_PATH macdeployqt)
+  elseif (MSVC)
+    find_program(WINDEPLOYQT_EXE_PATH windeployqt)
   endif()
 
   if (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE)
@@ -204,29 +206,14 @@ if (Qt5_FOUND OR Qt6_FOUND)
       option (BUILD_TEAMTALK_CLIENT_QT_DEPLOY "Deploy Qt shared libraries into 'windeployqt' subdirectory" ON)
 
       if (BUILD_TEAMTALK_CLIENT_QT_DEPLOY)
-        if (TARGET Qt5::qmake AND NOT TARGET Qt5::windeployqt)
-          get_target_property (_qt5_qmake_location Qt5::qmake IMPORTED_LOCATION)
-
-          execute_process (COMMAND "${_qt5_qmake_location}" -query QT_INSTALL_PREFIX
-            RESULT_VARIABLE return_code
-            OUTPUT_VARIABLE qt5_install_prefix
-            OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-          set (imported_location "${qt5_install_prefix}/bin/windeployqt.exe")
-
-          if (EXISTS ${imported_location})
-            add_executable (Qt5::windeployqt IMPORTED)
-            set_target_properties (Qt5::windeployqt PROPERTIES IMPORTED_LOCATION ${imported_location})
-          endif()
-        endif()
-
-        if (TARGET Qt5::windeployqt)
+        
+        if (WINDEPLOYQT_EXE_PATH-NOTFOUND)
+          message(WARNING "Cannot deploy Qt to TeamTalk 5 Installer due to missing windeployqt")
+        else()
           # execute windeployqt in a tmp directory after build
-          add_custom_command (TARGET ${TEAMTALK_TARGET}
-            POST_BUILD
+          add_custom_command (TARGET ${TEAMTALK_TARGET} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E remove_directory "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt"
-            COMMAND set PATH=%PATH%$<SEMICOLON>${qt5_install_prefix}/bin
-            COMMAND Qt5::windeployqt --no-quick-import --no-translations --no-system-d3d-compiler --no-virtualkeyboard --no-webkit2 --no-angle --no-opengl-sw --release --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt" "$<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>")
+            COMMAND ${WINDEPLOYQT_EXE_PATH} --no-quick-import --no-translations --no-system-d3d-compiler --no-virtualkeyboard --no-webkit2 --no-angle --no-opengl-sw --release --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt" "$<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>")
           install (DIRECTORY windeployqt/ DESTINATION Client/qtTeamTalk PATTERN "windeployqt/*" )
         endif()
       endif()
@@ -273,7 +260,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
       if (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE_PRODUCT)
 
         if (MACDEPLOYQT_EXECUTABLE-NOTFOUND)
-          message(WARNING "Cannot Build Qt TeamTalk 5 Installer due to missing macdeployqt")
+          message(WARNING "Cannot deploy Qt to TeamTalk 5 Installer due to missing macdeployqt")
         else()
 
           # Applies 'macdeployqt' for installing Qt frameworks, i.e. folder: TeamTalk5.app/Contents/Frameworks
