@@ -352,7 +352,7 @@ private:
     void slotChannelsUploadFile(bool checked=false);
     void slotChannelsDownloadFile(bool checked=false);
     void slotChannelsDeleteFile(bool checked=false);
-    void slotChannelsShare(bool checked=false);
+    void slotChannelsGenerateTTUrl(bool checked=false);
     
     void slotServerUserAccounts(bool checked=false);
     void slotServerBannedUsers(bool checked=false);
