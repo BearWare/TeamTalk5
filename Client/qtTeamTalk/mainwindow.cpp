@@ -5113,13 +5113,10 @@ void MainWindow::slotChannelsGenerateTTUrl(bool checked/*=false*/)
     inputDialog.setWindowTitle(tr("Share channel"));
     inputDialog.setLabelText(tr("Type username of user account:"));
     ok = inputDialog.exec();
-    if (inputDialog.textValue().size() > 0)
+    if (ok && inputDialog.textValue().size() > 0)
     {
         QString username = QUrl::toPercentEncoding(inputDialog.textValue());
         link += QString("&username=%1").arg(username);
-    }
-    if (ok)
-    {
         inputDialog.setTextEchoMode(QLineEdit::Password);
         inputDialog.setTextValue(m_host.password);
         inputDialog.setWindowTitle(tr("Share channel"));
