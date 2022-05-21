@@ -1281,7 +1281,7 @@
     </widget>
     <addaction name="actionJoinChannel"/>
     <addaction name="menu_InfoChannel"/>
-    <addaction name="actionShareChannel"/>
+    <addaction name="actionGenerateTTURL"/>
     <addaction name="separator"/>
     <addaction name="actionCreateChannel"/>
     <addaction name="actionUpdateChannel"/>
@@ -2081,12 +2081,12 @@
     <string>Ctrl+S</string>
    </property>
   </action>
-  <action name="actionShareChannel">
+  <action name="actionGenerateTTURL">
    <property name="checkable">
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Create a tt:// URL to This Channel</string>
+    <string>&amp;Generate tt:// URL to Clipboard</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+C</string>

@@ -483,8 +483,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotChannelsDownloadFile);
     connect(ui.actionDeleteFile, &QAction::triggered,
             this, &MainWindow::slotChannelsDeleteFile);
-    connect(ui.actionShareChannel, &QAction::triggered,
-            this, &MainWindow::slotChannelsShare);
+    connect(ui.actionGenerateTTURL, &QAction::triggered,
+            this, &MainWindow::slotChannelsGenerateTTUrl);
     /* End - Channels menu */
 
     /* Begin - Server menu */
@@ -5098,10 +5098,12 @@ void MainWindow::slotChannelsDeleteFile(bool /*checked =false */)
     }
 }
 
-void MainWindow::slotChannelsShare(bool checked/*=false*/)
+void MainWindow::slotChannelsGenerateTTUrl(bool checked/*=false*/)
 {
+    Q_UNUSED(checked);
+
     QClipboard *cp = QApplication::clipboard();
-    QString link = QString("tt://%1?tcpport=%2&udpport=%3&encrypted=%4").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport).arg(m_host.encrypted);
+    QString link = QString("%5//%1?tcpport=%2&udpport=%3&encrypted=%4").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport).arg(m_host.encrypted).arg(TTLINK_PREFIX);
     bool ok = false;
     QInputDialog inputDialog;
     inputDialog.setOkButtonText(tr("&Ok"));
@@ -5109,34 +5111,50 @@ void MainWindow::slotChannelsShare(bool checked/*=false*/)
     inputDialog.setInputMode(QInputDialog::TextInput);
     inputDialog.setTextValue(m_host.username);
     inputDialog.setWindowTitle(tr("Share channel"));
-    inputDialog.setLabelText(tr("Type username to use to share this channel:"));
+    inputDialog.setLabelText(tr("Type username of user account:"));
     ok = inputDialog.exec();
-    if (inputDialog.textValue().size()>0)
+    if (inputDialog.textValue().size() > 0)
     {
         QString username = QUrl::toPercentEncoding(inputDialog.textValue());
-        link += QString("&username=%5").arg(username);
+        link += QString("&username=%1").arg(username);
     }
     if (ok)
     {
         inputDialog.setTextEchoMode(QLineEdit::Password);
         inputDialog.setTextValue(m_host.password);
         inputDialog.setWindowTitle(tr("Share channel"));
-        inputDialog.setLabelText(tr("Type password of this user account:"));
+        inputDialog.setLabelText(tr("Type password of user account:"));
         ok = inputDialog.exec();
-        if (ok && inputDialog.textValue().size()>0)
+        if (ok && inputDialog.textValue().size() > 0)
         {
             QString password = QUrl::toPercentEncoding(inputDialog.textValue());
-            link += QString("&password=%6").arg(password);
+            link += QString("&password=%1").arg(password);
         }
     }
-    if (TT_GetMyChannelID(ttInst) > 0)
+
+    int chanid = ui.channelsWidget->selectedChannel(true);
+    Channel chan;
+    TTCHAR chanpath[TT_STRLEN];
+    if (ui.channelsWidget->getChannel(chanid, chan) && TT_GetChannelPath(ttInst, chanid, chanpath))
     {
-        QString channel = QUrl::toPercentEncoding(_Q(m_mychannel.szName));
-        link += QString("&channel=%7").arg(channel);
-        if (m_mychannel.bPassword)
+        QString channel = QUrl::toPercentEncoding(_Q(chanpath));
+        link += QString("&channel=%1").arg(channel);
+        QString chpasswd = m_channel_passwd[chan.nChannelID];
+        if (chan.bPassword)
         {
-            QString chanpswd = QUrl::toPercentEncoding(_Q(m_mychannel.szPassword));
-            link += QString("&chanpasswd=%8").arg(chanpswd);
+            inputDialog.setTextEchoMode(QLineEdit::Normal);
+            inputDialog.setTextValue(chpasswd);
+            inputDialog.setWindowTitle(tr("Share channel"));
+            inputDialog.setLabelText(tr("Type password of channel:"));
+            ok = inputDialog.exec();
+            if (ok && inputDialog.textValue().size() > 0)
+                chpasswd = inputDialog.textValue();
+        }
+
+        if (chpasswd.size())
+        {
+            chpasswd = QUrl::toPercentEncoding(chpasswd);
+            link += QString("&chanpasswd=%1").arg(chpasswd);
         }
     }
     cp->setText(link);
@@ -5720,6 +5738,7 @@ void MainWindow::slotUpdateUI()
 
     ui.actionJoinChannel->setEnabled(chanid>0);
     ui.actionViewChannelInfo->setEnabled(chanid>0);
+    ui.actionGenerateTTURL->setEnabled(chanid > 0);
     ui.actionSpeakChannelInfo->setEnabled(tts);
     ui.actionSpeakChannelStat->setEnabled(tts);
     ui.actionBannedUsersInChannel->setEnabled(chanid>0);
