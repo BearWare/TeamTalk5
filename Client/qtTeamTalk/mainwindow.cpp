@@ -5607,11 +5607,13 @@ void MainWindow::slotUpdateUI()
     bool auth = (statemask & CLIENT_AUTHORIZED);
     bool me_admin = (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN);
     bool me_op = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), user_chanid);
+    bool tts = ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt() != TTSENGINE_NONE;
 
     ui.actionConnect->setChecked( (statemask & CLIENT_CONNECTING) || (statemask & CLIENT_CONNECTED));
     ui.actionEnableEchoCancel->setChecked(ttSettings->value(SETTINGS_SOUND_ECHOCANCEL, SETTINGS_SOUND_ECHOCANCEL_DEFAULT).toBool());
     ui.actionEnableAGC->setChecked(ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool());
     ui.actionEnableDenoising->setChecked(ttSettings->value(SETTINGS_SOUND_DENOISING, SETTINGS_SOUND_DENOISING_DEFAULT).toBool());
+    ui.actionSpeakClientStats->setEnabled(tts);
     ui.actionChangeStatus->setEnabled(auth);
 #ifdef Q_OS_WIN32
     ui.actionEnablePushToTalk->setChecked(TT_HotKey_IsActive(ttInst, HOTKEY_PUSHTOTALK) >= 0);
@@ -5631,6 +5633,7 @@ void MainWindow::slotUpdateUI()
     ui.actionEnableDesktopSharing->setEnabled(mychannel>0);
     ui.actionEnableDesktopSharing->setChecked(statemask & CLIENT_DESKTOP_ACTIVE);
     ui.actionEnableTTS->setChecked(ttSettings->value(SETTINGS_TTS_ENABLE, SETTINGS_TTS_ENABLE_DEFAULT).toBool());
+    ui.actionEnableTTS->setEnabled(tts);
     ui.actionEnableSounds->setChecked(ttSettings->value(SETTINGS_SOUNDEVENT_ENABLE, SETTINGS_SOUNDEVENT_ENABLE_DEFAULT).toBool());
 
     User user  = {};
@@ -5658,6 +5661,7 @@ void MainWindow::slotUpdateUI()
     }
 
     ui.actionViewUserInformation->setEnabled(userid>0);
+    ui.actionSpeakUserInformation->setEnabled(tts);
     ui.actionMessages->setEnabled(userid>0);
     ui.actionMuteVoice->setEnabled(userid>0);
     ui.actionMuteMediaFile->setEnabled(userid>0);
@@ -5716,6 +5720,8 @@ void MainWindow::slotUpdateUI()
 
     ui.actionJoinChannel->setEnabled(chanid>0);
     ui.actionViewChannelInfo->setEnabled(chanid>0);
+    ui.actionSpeakChannelInfo->setEnabled(tts);
+    ui.actionSpeakChannelStat->setEnabled(tts);
     ui.actionBannedUsersInChannel->setEnabled(chanid>0);
     ui.actionCreateChannel->setEnabled(chanid>0 || mychannel>0);
     ui.actionUpdateChannel->setEnabled(chanid>0);
