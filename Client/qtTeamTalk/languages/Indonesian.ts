@@ -4268,7 +4268,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="550"/>
         <source>Show statusbar events in chat-window</source>
-        <translation>Tampilkan event status bar di jendela obrolan</translation>
+        <translation>Tampilkan event bilah status di jendela obrolan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="676"/>
@@ -4371,7 +4371,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="832"/>
         <source>Configure trusted list</source>
-        <translation>Konfigurasikan daftar tepercaya</translation>
+        <translation>Konfigurasi daftar tepercaya</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="844"/>
@@ -5829,12 +5829,12 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
     <message>
         <location filename="../statusbardlg.ui" line="14"/>
         <source>Configure status bar</source>
-        <translation>Konfigurasi status bar</translation>
+        <translation>Konfigurasi bilah status</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="20"/>
         <source>Enable/disable status bar events</source>
-        <translation>Aktifkan/nonaktifkan event status bar</translation>
+        <translation>Aktifkan/nonaktifkan event bilah status</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="50"/>
