@@ -33,7 +33,7 @@
     <string name="text_cmd_servername">Nama server: </string>
     <string name="text_cmd_servermotd">Pesan hari ini: </string>
     <string name="pref_cat_subscriptions">Langganan</string>
-    <string name="pref_cat_tts">konfigurasikan suara teks ke ucapan</string>
+    <string name="pref_cat_tts">konfigurasi suara Teks-Ke-Ucapan</string>
     <string name="pref_cat_soundtest">Uji Suara</string>
     <string name="pref_header_general">Umum</string>
     <string name="pref_title_nickname">Nama Panggilan</string>
@@ -78,8 +78,8 @@
     <string name="pref_summary_sub_desktop">Mengikuti stream desktop</string>
     <string name="pref_title_sub_mediafile">Media File</string>
     <string name="pref_summary_sub_mediafile">Mengikuti stream media file</string>
-    <string name="pref_header_tts">Teks Ke Ucapan</string>
-    <string name="pref_title_speech_engine">Pilihan mesin teks ke ucapan</string>
+    <string name="pref_header_tts">Teks-Ke-Ucapan</string>
+    <string name="pref_title_speech_engine">Pilihan mesin Teks-Ke-Ucapan</string>
     <string name="pref_summary_speech_engine">Pilih salah satu mesin ucapan yang terpasang, berbeda dari pengaturan sistem</string>
     <string name="pref_title_server_login">Pengguna masuk ke server</string>
     <string name="pref_summary_server_login">Umumkan nama pengguna yang masuk</string>

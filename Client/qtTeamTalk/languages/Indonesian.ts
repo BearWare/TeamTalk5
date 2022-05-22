@@ -2245,7 +2245,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1989"/>
         <source>Enable Text-To-Speech Events</source>
-        <translation>Aktifkan Event Teks Ke Ucapan</translation>
+        <translation>Aktifkan Event Teks-Ke-Ucapan</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1992"/>
@@ -3227,7 +3227,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="6913"/>
         <source>No available voices found for Text-To-Speech</source>
-        <translation>Tidak ada suara yang tersedia untuk teks ke ucapan</translation>
+        <translation>Tidak ada suara yang tersedia untuk Teks-Ke-Ucapan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2429"/>
@@ -3466,12 +3466,12 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="4390"/>
         <source>Text-To-Speech enabled</source>
-        <translation>Teks ke ucapan diaktifkan</translation>
+        <translation>Teks-Ke-Ucapan diaktifkan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4395"/>
         <source>Text-To-Speech disabled</source>
-        <translation>Teks ke ucapan dinonaktifkan</translation>
+        <translation>Teks-Ke-Ucapan dinonaktifkan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4770"/>
@@ -4674,12 +4674,12 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="1989"/>
         <source>Text To Speech</source>
-        <translation>TeksKe Ucapan</translation>
+        <translation>Teks Ke Ucapan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1995"/>
         <source>Enable/disable Text to Speech Events</source>
-        <translation>Aktifkan/nonaktifkan Acara Text Ke Ucapan</translation>
+        <translation>Aktifkan/nonaktifkan Acara Teks ke Ucapan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2025"/>
@@ -4699,12 +4699,12 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="2077"/>
         <source>Text to Speech Preferences</source>
-        <translation>Preferensi Teks Ke Ucapan</translation>
+        <translation>Preferensi Teks ke Ucapan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2083"/>
         <source>Text to Speech Engine</source>
-        <translation>Mesin Teks Ke Ucapan</translation>
+        <translation>Mesin Teks ke Ucapan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2109"/>
