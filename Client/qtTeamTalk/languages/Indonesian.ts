@@ -2539,13 +2539,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="1069"/>
         <location filename="../mainwindow.cpp" line="1071"/>
         <source>%1 has logged in</source>
-        <translation>%1 telah log masuk</translation>
+        <translation>%1 telah masuk ke server</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
         <location filename="../mainwindow.cpp" line="1089"/>
         <source>%1 has logged out</source>
-        <translation>%1 telah log keluar</translation>
+        <translation>%1 telah keluar dari server</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2749"/>
@@ -2763,7 +2763,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1959"/>
         <source>Logged out from %1, TCP port %2, UDP port %3</source>
-        <translation>Log keluar dari %1, TCP port %2, UDP port %3</translation>
+        <translation>Keluar dari %1, TCP port %2, UDP port %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1962"/>
@@ -2896,12 +2896,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2094"/>
         <source>Already logged in</source>
-        <translation>Telah log masuk</translation>
+        <translation>Telah masuk ke server</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2096"/>
         <source>Cannot perform action because client is currently not logged in</source>
-        <translation>Tidak dapat melakukan tindakan karena client saat ini tidak log masuk</translation>
+        <translation>Tidak dapat melakukan tindakan karena client tidak masuk ke server saat ini</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2099"/>
@@ -3632,7 +3632,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="5388"/>
         <source>Password protected</source>
-        <translation>Dilindungi kata sandi</translation>
+        <translation>Terlindung sandi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5388"/>
@@ -4614,12 +4614,12 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="1692"/>
         <source>User logged in</source>
-        <translation>Pengguna log masuk</translation>
+        <translation>Pengguna masuk ke server</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1715"/>
         <source>User logged out</source>
-        <translation>Pengguna log keluar</translation>
+        <translation>Pengguna keluar dari server</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1738"/>
@@ -5453,12 +5453,12 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="101"/>
         <source>User logged in</source>
-        <translation>Pengguna log masuk</translation>
+        <translation>Pengguna masuk ke server</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="103"/>
         <source>User logged out</source>
-        <translation>Pengguna log keluar</translation>
+        <translation>Pengguna keluar dari server</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="105"/>
@@ -5885,12 +5885,12 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
     <message>
         <location filename="../statusbareventsmodel.cpp" line="111"/>
         <source>User logged in</source>
-        <translation>Pengguna log masuk</translation>
+        <translation>Pengguna masuk ke server</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="113"/>
         <source>User logged out</source>
-        <translation>Pengguna log keluar</translation>
+        <translation>Pengguna keluar dari server</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="115"/>
@@ -6324,12 +6324,12 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
     <message>
         <location filename="../ttseventsmodel.cpp" line="119"/>
         <source>User logged in</source>
-        <translation>Pengguna log masuk</translation>
+        <translation>Pengguna masuk ke server</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="121"/>
         <source>User logged out</source>
-        <translation>Pengguna log keluar</translation>
+        <translation>Pengguna keluar dari server</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="123"/>
@@ -6604,7 +6604,7 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
     <message>
         <location filename="../useraccounts.ui" line="195"/>
         <source>User should automatically join this channel after login</source>
-        <translation>Pengguna akan bergabung dengan saluran ini secara otomatis setelah log masuk</translation>
+        <translation>Pengguna akan bergabung dengan saluran ini secara otomatis setelah masuk ke server</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="90"/>
@@ -6722,7 +6722,7 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
     <message>
         <location filename="../useraccounts.ui" line="447"/>
         <source>User can log in multiple times</source>
-        <translation>Pengguna boleh log masuk beberapa kali</translation>
+        <translation>Pengguna boleh masuk ke server beberapa kali</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="454"/>
