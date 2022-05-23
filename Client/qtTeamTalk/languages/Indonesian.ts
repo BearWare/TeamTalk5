@@ -409,17 +409,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatus.ui" line="43"/>
         <source>&amp;Available</source>
-        <translation>&amp;Tersedia</translation>
+        <translation>&amp;Ada</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="50"/>
         <source>A&amp;way</source>
-        <translation>S&amp;ibuk</translation>
+        <translation>A&amp;way</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="57"/>
         <source>&amp;Question</source>
-        <translation>&amp;Bertanya</translation>
+        <translation>&amp;Pertanyaan</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="66"/>
