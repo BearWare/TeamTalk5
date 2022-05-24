@@ -12,6 +12,7 @@ Default Qt Client
 - Ask to create storage folder for audio files, channel and private messages if does not exist
 - Option in "Client menu" to speak client statistics
 - Runs on Windows 7 (again) by using Qt DLLs
+- Add missing labels on trees of Online Users and Server List dialog
 Android Client
 iOS Client
 Server

@@ -46,6 +46,9 @@
         <property name="expandsOnDoubleClick">
          <bool>false</bool>
         </property>
+        <property name="accessibleName">
+         <string>Online users</string>
+        </property>
        </widget>
       </item>
       <item>
