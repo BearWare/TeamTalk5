@@ -23,7 +23,7 @@
     <string name="text_con_success">Terhubung ke server</string>
     <string name="text_con_cmderr">Gagal untuk mengeluarkan perintah</string>
     <string name="text_cmderr_login">Gagal untuk mengeluarkan perintah login</string>
-    <string name="text_cmd_loggedin">Log masuk ke server</string>
+    <string name="text_cmd_loggedin">masuk ke server</string>
     <string name="text_cmd_joinchan">Bergabung dengan saluran:</string>
     <string name="text_cmd_leftchan">Meninggalkan saluran:</string>
     <string name="text_cmd_joinroot">Bergabung dengan saluran utama</string>
@@ -33,7 +33,7 @@
     <string name="text_cmd_servername">Nama server: </string>
     <string name="text_cmd_servermotd">Pesan hari ini: </string>
     <string name="pref_cat_subscriptions">Langganan</string>
-    <string name="pref_cat_tts">konfigurasikan suara teks ke ucapan</string>
+    <string name="pref_cat_tts">konfigurasi suara Teks-Ke-Ucapan</string>
     <string name="pref_cat_soundtest">Uji Suara</string>
     <string name="pref_header_general">Umum</string>
     <string name="pref_title_nickname">Nama Panggilan</string>
@@ -78,8 +78,8 @@
     <string name="pref_summary_sub_desktop">Mengikuti stream desktop</string>
     <string name="pref_title_sub_mediafile">Media File</string>
     <string name="pref_summary_sub_mediafile">Mengikuti stream media file</string>
-    <string name="pref_header_tts">Teks Ke Ucapan</string>
-    <string name="pref_title_speech_engine">Pilihan mesin TTS</string>
+    <string name="pref_header_tts">Teks-Ke-Ucapan</string>
+    <string name="pref_title_speech_engine">Pilihan mesin Teks-Ke-Ucapan</string>
     <string name="pref_summary_speech_engine">Pilih salah satu mesin ucapan yang terpasang, berbeda dari pengaturan sistem</string>
     <string name="pref_title_server_login">Pengguna masuk ke server</string>
     <string name="pref_summary_server_login">Umumkan nama pengguna yang masuk</string>
@@ -98,7 +98,7 @@
     <string name="pref_title_mute_speakers">Diamkan pengeras suara ketika menekan tombol bicara</string>
     <string name="pref_summary_mute_speakers">Aktifkan ini untuk menghindari echo dari pengeras suara</string>
     <string name="pref_title_show_usernames">Tampilkan nama pengguna</string>
-    <string name="pref_summary_show_usernames">tampilkan nama pengguna bukannya nama panggilan</string>
+    <string name="pref_summary_show_usernames">tampilkan nama pengguna bukan nama panggilan</string>
     <string name="pref_title_bearwareid">BearWare.dk WebLogin</string>
     <string name="pref_summary_bearwareid">Setup  BearWare.dk WebLogin</string>
 
@@ -113,8 +113,8 @@
     <string name="pref_title_public_servers">Tampilkan server publik</string>
     <string name="pref_summary_public_servers">Sertakan server publik dalam Daftar Server</string>
 
-    <string name="text_tts_loggedin">telah log masuk</string>
-    <string name="text_tts_loggedout">telah log keluar</string>
+    <string name="text_tts_loggedin">telah masuk ke server</string>
+    <string name="text_tts_loggedout">telah keluar dari server</string>
     <string name="text_tts_joined_chan">telah bergabung dengan saluran</string>
     <string name="text_tts_left_chan">meninggalkan saluran</string>
     <string name="text_tts_private_message">Pesan pribadi dari %1$s: %2$s</string>
@@ -271,7 +271,7 @@
     <string name="incvoxlevel">Tingkatkan tingkat aktivasi suara</string>
     <string name="vox_level_description">Tingkat aktivasi suara %1$s</string>
 
-    <string name="tx_on">Sedang transmisi diaktifkan</string>
+    <string name="tx_on">Transmisi sedang aktif</string>
     <string name="tx_off">Transmisi tidak aktif</string>
 
     <string name="text_samplerate">samplerate</string>
@@ -287,8 +287,8 @@
     <string name="text_localserver">Server local</string>
     <string name="text_officialserver">Server resmi</string>
     <string name="text_unofficialserver">Server tidak resmi</string>
-    <string name="text_passwdprot">Dilindungi kata sandi</string>
-    <string name="text_translator">Diterjemahkan oleh Pengguna TeamTalk Jom Borak Dan Gelegar Bangsa Multimedia</string>
+    <string name="text_passwdprot">Terlindung sandi</string>
+    <string name="text_translator">Diterjemahkan oleh Pengguna TeamTalk Indonesia</string>
     <string name="desktop_image">Gambar desktop</string>
     <string name="channel_change_alert">Semua transfer aktif akan terhenti ketika beralih saluran</string>
     <string name="disconnect_alert">Semua transfer aktif akan terhenti ketika meninggalkan server</string>
@@ -360,10 +360,10 @@
     <string name="pref_title_gender">Jenis kelamin</string>
     <string name="pref_summary_gender">Aktifkan untuk ikon wanita</string>
     <string name="user_state_away">Away</string>
-    <string name="pref_title_userloggedin_icon">Pengguna log masuk</string>
-    <string name="pref_summary_userloggedin_icon">Mainkan suara ketika pengguna log masuk</string>
-    <string name="pref_title_userloggedoff_icon">Pengguna log keluar</string>
-    <string name="pref_summary_userloggedoff_icon">Mainkan suara ketika pengguna log keluar</string>
+    <string name="pref_title_userloggedin_icon">Pengguna masuk ke server</string>
+    <string name="pref_summary_userloggedin_icon">Mainkan suara ketika pengguna masuk ke server</string>
+    <string name="pref_title_userloggedoff_icon">Pengguna keluar dari server</string>
+    <string name="pref_summary_userloggedoff_icon">Mainkan suara ketika pengguna keluar dari server</string>
     <string name="pref_title_channel_message_sent_audio_icon">Pesan saluran terkirim</string>
     <string name="pref_summary_channel_message_sent_audio_icon">Mainkan suara ketika pesan saluran terkirim</string>
     <string name="pref_title_channel_message_sent">Pesan saluran terkirim</string>

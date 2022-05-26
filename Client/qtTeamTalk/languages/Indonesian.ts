@@ -61,7 +61,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Michał Ciołek, Polish&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;João Carlos Ramos and JNylson, Portuguese dari Brazil&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ozancan Karataş, Turkish&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Pengguna TeamTalk Jom Borak Dan Gelegar Bangsa Multimedia, Indonesian&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Pengguna TeamTalk Indonesia, Indonesian&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Perpustakaan&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TeamTalk menggunakan perpustakaan berikut:&lt;/p&gt;
@@ -409,17 +409,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatus.ui" line="43"/>
         <source>&amp;Available</source>
-        <translation>&amp;Tersedia</translation>
+        <translation>&amp;Ada</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="50"/>
         <source>A&amp;way</source>
-        <translation>S&amp;ibuk</translation>
+        <translation>A&amp;way</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="57"/>
         <source>&amp;Question</source>
-        <translation>&amp;Bertanya</translation>
+        <translation>&amp;Pertanyaan</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="66"/>
@@ -2245,7 +2245,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1989"/>
         <source>Enable Text-To-Speech Events</source>
-        <translation>Aktifkan Event Teks Ke Ucapan</translation>
+        <translation>Aktifkan Event Teks-Ke-Ucapan</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1992"/>
@@ -2539,13 +2539,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="1069"/>
         <location filename="../mainwindow.cpp" line="1071"/>
         <source>%1 has logged in</source>
-        <translation>%1 telah log masuk</translation>
+        <translation>%1 telah masuk ke server</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
         <location filename="../mainwindow.cpp" line="1089"/>
         <source>%1 has logged out</source>
-        <translation>%1 telah log keluar</translation>
+        <translation>%1 telah keluar dari server</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2749"/>
@@ -2763,7 +2763,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1959"/>
         <source>Logged out from %1, TCP port %2, UDP port %3</source>
-        <translation>Log keluar dari %1, TCP port %2, UDP port %3</translation>
+        <translation>Keluar dari %1, TCP port %2, UDP port %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1962"/>
@@ -2896,12 +2896,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2094"/>
         <source>Already logged in</source>
-        <translation>Telah log masuk</translation>
+        <translation>Telah masuk ke server</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2096"/>
         <source>Cannot perform action because client is currently not logged in</source>
-        <translation>Tidak dapat melakukan tindakan karena client saat ini tidak log masuk</translation>
+        <translation>Tidak dapat melakukan tindakan karena client tidak masuk ke server saat ini</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2099"/>
@@ -3227,7 +3227,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="6913"/>
         <source>No available voices found for Text-To-Speech</source>
-        <translation>Tidak ada suara yang tersedia untuk teks ke ucapan</translation>
+        <translation>Tidak ada suara yang tersedia untuk Teks-Ke-Ucapan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2429"/>
@@ -3466,12 +3466,12 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="4390"/>
         <source>Text-To-Speech enabled</source>
-        <translation>Teks ke ucapan diaktifkan</translation>
+        <translation>Teks-Ke-Ucapan diaktifkan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4395"/>
         <source>Text-To-Speech disabled</source>
-        <translation>Teks ke ucapan dinonaktifkan</translation>
+        <translation>Teks-Ke-Ucapan dinonaktifkan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4770"/>
@@ -3632,7 +3632,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="5388"/>
         <source>Password protected</source>
-        <translation>Dilindungi kata sandi</translation>
+        <translation>Terlindung sandi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5388"/>
@@ -4223,7 +4223,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="400"/>
         <source>Show username instead of nickname</source>
-        <translation>Tampilkan nama pengguna bukannya nama panggilan</translation>
+        <translation>Tampilkan nama pengguna bukan nama panggilan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="407"/>
@@ -4268,7 +4268,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="550"/>
         <source>Show statusbar events in chat-window</source>
-        <translation>Tampilkan event status bar di jendela obrolan</translation>
+        <translation>Tampilkan event bilah status di jendela obrolan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="676"/>
@@ -4371,7 +4371,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="832"/>
         <source>Configure trusted list</source>
-        <translation>Konfigurasikan daftar tepercaya</translation>
+        <translation>Konfigurasi daftar tepercaya</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="844"/>
@@ -4614,12 +4614,12 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="1692"/>
         <source>User logged in</source>
-        <translation>Pengguna log masuk</translation>
+        <translation>Pengguna masuk ke server</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1715"/>
         <source>User logged out</source>
-        <translation>Pengguna log keluar</translation>
+        <translation>Pengguna keluar dari server</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1738"/>
@@ -4674,12 +4674,12 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="1989"/>
         <source>Text To Speech</source>
-        <translation>TeksKe Ucapan</translation>
+        <translation>Teks Ke Ucapan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1995"/>
         <source>Enable/disable Text to Speech Events</source>
-        <translation>Aktifkan/nonaktifkan Acara Text Ke Ucapan</translation>
+        <translation>Aktifkan/nonaktifkan Acara Teks ke Ucapan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2025"/>
@@ -4699,12 +4699,12 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="2077"/>
         <source>Text to Speech Preferences</source>
-        <translation>Preferensi Teks Ke Ucapan</translation>
+        <translation>Preferensi Teks ke Ucapan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2083"/>
         <source>Text to Speech Engine</source>
-        <translation>Mesin Teks Ke Ucapan</translation>
+        <translation>Mesin Teks ke Ucapan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2109"/>
@@ -4724,7 +4724,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="2191"/>
         <source>Use SAPI instead of current screenreader</source>
-        <translation>Gunakan SAPI bukannya pembaca layar saat ini</translation>
+        <translation>Gunakan SAPI bukan pembaca layar saat ini</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2215"/>
@@ -5003,7 +5003,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="1657"/>
         <source>Use SAPI instead of %1 screenreader</source>
-        <translation>Gunakan SAPI bukannya pembaca layar %1</translation>
+        <translation>Gunakan SAPI bukan pembaca layar %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1736"/>
@@ -5453,12 +5453,12 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="101"/>
         <source>User logged in</source>
-        <translation>Pengguna log masuk</translation>
+        <translation>Pengguna masuk ke server</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="103"/>
         <source>User logged out</source>
-        <translation>Pengguna log keluar</translation>
+        <translation>Pengguna keluar dari server</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="105"/>
@@ -5829,12 +5829,12 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
     <message>
         <location filename="../statusbardlg.ui" line="14"/>
         <source>Configure status bar</source>
-        <translation>Konfigurasi status bar</translation>
+        <translation>Konfigurasi bilah status</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="20"/>
         <source>Enable/disable status bar events</source>
-        <translation>Aktifkan/nonaktifkan event status bar</translation>
+        <translation>Aktifkan/nonaktifkan event bilah status</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="50"/>
@@ -5885,12 +5885,12 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
     <message>
         <location filename="../statusbareventsmodel.cpp" line="111"/>
         <source>User logged in</source>
-        <translation>Pengguna log masuk</translation>
+        <translation>Pengguna masuk ke server</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="113"/>
         <source>User logged out</source>
-        <translation>Pengguna log keluar</translation>
+        <translation>Pengguna keluar dari server</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="115"/>
@@ -6324,12 +6324,12 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
     <message>
         <location filename="../ttseventsmodel.cpp" line="119"/>
         <source>User logged in</source>
-        <translation>Pengguna log masuk</translation>
+        <translation>Pengguna masuk ke server</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="121"/>
         <source>User logged out</source>
-        <translation>Pengguna log keluar</translation>
+        <translation>Pengguna keluar dari server</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="123"/>
@@ -6604,7 +6604,7 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
     <message>
         <location filename="../useraccounts.ui" line="195"/>
         <source>User should automatically join this channel after login</source>
-        <translation>Pengguna akan bergabung dengan saluran ini secara otomatis setelah log masuk</translation>
+        <translation>Pengguna akan bergabung dengan saluran ini secara otomatis setelah masuk ke server</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="90"/>
@@ -6722,7 +6722,7 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
     <message>
         <location filename="../useraccounts.ui" line="447"/>
         <source>User can log in multiple times</source>
-        <translation>Pengguna boleh log masuk beberapa kali</translation>
+        <translation>Pengguna boleh masuk ke server beberapa kali</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="454"/>
