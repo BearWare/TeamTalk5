@@ -2099,7 +2099,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1839"/>
         <source>Intercept Voice</source>
-        <translation>Intercepter l&apos;audio</translation>
+        <translation>Intercepter la voix</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1842"/>
