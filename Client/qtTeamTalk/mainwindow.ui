@@ -1836,7 +1836,7 @@
      <normaloff>:/images/images/voiceact.png</normaloff>:/images/images/voiceact.png</iconset>
    </property>
    <property name="text">
-    <string>Intercept Audio</string>
+    <string>Intercept Voice</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+4</string>

@@ -4383,7 +4383,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1828"/>
-        <source>Intercept Audio</source>
+        <source>Intercept Voice</source>
         <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>แอบฟังผูัใช้งานนี้</translation>
     </message>

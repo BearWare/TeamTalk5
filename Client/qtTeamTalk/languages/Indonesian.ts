@@ -2089,8 +2089,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1828"/>
-        <source>Intercept Audio</source>
-        <translation>Intercept Audio</translation>
+        <source>Intercept Voice</source>
+        <translation>Intercept Voice</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1831"/>

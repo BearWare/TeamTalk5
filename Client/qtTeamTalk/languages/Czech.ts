@@ -4175,7 +4175,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1828"/>
-        <source>Intercept Audio</source>
+        <source>Intercept Voice</source>
         <translation>Pozastavit Audio</translation>
     </message>
     <message>

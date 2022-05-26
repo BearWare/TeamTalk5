@@ -4313,7 +4313,7 @@ Essas configurações devem ser aplicadas?</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1828"/>
-        <source>Intercept Audio</source>
+        <source>Intercept Voice</source>
         <translation>Interceptar Áudio</translation>
     </message>
     <message>
