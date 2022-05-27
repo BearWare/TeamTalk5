@@ -1935,12 +1935,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1438"/>
         <source>&amp;Speak Client Statistics</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ucapkan Statistik Client</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1441"/>
         <source>Ctrl+T</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+T</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1556"/>
@@ -2230,12 +2230,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2089"/>
         <source>&amp;Generate tt:// URL to Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Hasilkan URL tt:// ke Clipboard</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2092"/>
         <source>Ctrl+Shift+C</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+C</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2299"/>
@@ -2543,7 +2543,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="786"/>
         <source>The sound pack %1 does not exist. Would you like to use the default sound pack?</source>
-        <translation>Paket suara %1 tidak ada. Apakah Anda ingin menggunakan paket suara default?</translation>
+        <translation>Paket suara %1 tidak tersedia. Apakah Anda ingin menggunakan paket suara default?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="977"/>
@@ -2850,12 +2850,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="633"/>
         <source>Choose language</source>
-        <translation type="unfinished"></translation>
+        <translation>Pilih bahasa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="634"/>
         <source>Select the language will be use by %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Pilih bahasa yang akan digunakan oleh %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2048"/>
@@ -3035,28 +3035,28 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5122"/>
         <location filename="../mainwindow.cpp" line="5144"/>
         <source>Share channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Bagikan saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5114"/>
         <source>Type username of user account:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ketik nama pengguna akun pengguna:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5123"/>
         <source>Type password of user account:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ketik kata sandi akun pengguna:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5145"/>
         <source>Type password of channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ketik kata sandi saluran:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5158"/>
         <location filename="../mainwindow.cpp" line="5159"/>
         <source>Link copied to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Tautan disalin ke clipboard</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6901"/>
@@ -4024,27 +4024,23 @@ Haruskah pengaturan ini diterapkan?</translation>
         <translation>&amp;Batal</translation>
     </message>
     <message>
-        <source>Folder for storing audio files does not exist</source>
-        <translation type="vanished">Folder untuk menyimpan file audio tidak ada</translation>
-    </message>
-    <message>
         <location filename="../mediastoragedlg.cpp" line="116"/>
         <source>Folder for storing audio files does not exist. Do you want %1 to create it for you?</source>
-        <translation type="unfinished"></translation>
+        <translation>Folder untuk menyimpan file audio tidak tersedia. Apakah Anda ingin %1 membuatnya untuk Anda?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="117"/>
         <location filename="../mediastoragedlg.cpp" line="155"/>
         <location filename="../mediastoragedlg.cpp" line="172"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;Ya</translation>
+        <translation>&amp;Ya</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="118"/>
         <location filename="../mediastoragedlg.cpp" line="156"/>
         <location filename="../mediastoragedlg.cpp" line="173"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;Tidak</translation>
+        <translation>&amp;Tidak</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="137"/>
@@ -4059,22 +4055,22 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../mediastoragedlg.cpp" line="154"/>
         <source>Folder for storing channel messages does not exist. Do you want %1 to create it for you?</source>
-        <translation type="unfinished"></translation>
+        <translation>Folder untuk menyimpan pesan saluran tidak tersedia. Apakah Anda ingin %1 membuatnya untuk Anda?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="159"/>
         <source>Folder for channel messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Folder untuk pesan saluran</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="171"/>
         <source>Folder for storing private text messages does not exist. Do you want %1 to create it for you?</source>
-        <translation type="unfinished"></translation>
+        <translation>Folder untuk menyimpan pesan teks pribadi tidak tersedia. Apakah Anda ingin %1 membuatnya untuk Anda?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="176"/>
         <source>Folder for private text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Folder untuk pesan teks pribadi</translation>
     </message>
 </context>
 <context>
@@ -4093,7 +4089,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../onlineusers.ui" line="50"/>
         <source>Online users</source>
-        <translation type="unfinished"></translation>
+        <translation>Pengguna yang online</translation>
     </message>
     <message>
         <location filename="../onlineusers.ui" line="57"/>
@@ -4649,7 +4645,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="548"/>
         <source>Show server list on startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Tampilkan daftar server ketika startup</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="564"/>
@@ -5292,7 +5288,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../serverlist.ui" line="48"/>
         <source>Server list</source>
-        <translation type="unfinished"></translation>
+        <translation>Daftar server</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="194"/>
