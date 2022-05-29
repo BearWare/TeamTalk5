@@ -1934,12 +1934,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1438"/>
         <source>&amp;Speak Client Statistics</source>
-        <translation type="unfinished"></translation>
+        <translation>朗读客户端统计数据(&amp;S)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1441"/>
         <source>Ctrl+T</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+T</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1556"/>
@@ -2229,12 +2229,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2089"/>
         <source>&amp;Generate tt:// URL to Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>生成 tt:// URL 到剪贴板(&amp;G)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2092"/>
         <source>Ctrl+Shift+C</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+C</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2299"/>
@@ -3287,12 +3287,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="633"/>
         <source>Choose language</source>
-        <translation type="unfinished"></translation>
+        <translation>选择语言</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="634"/>
         <source>Select the language will be use by %1</source>
-        <translation type="unfinished"></translation>
+        <translation>选择 %1 将使用的语言</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2550"/>
@@ -3454,28 +3454,28 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="5122"/>
         <location filename="../mainwindow.cpp" line="5144"/>
         <source>Share channel</source>
-        <translation type="unfinished"></translation>
+        <translation>分享频道</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5114"/>
         <source>Type username of user account:</source>
-        <translation type="unfinished"></translation>
+        <translation>输入用户账户的用户名：</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5123"/>
         <source>Type password of user account:</source>
-        <translation type="unfinished"></translation>
+        <translation>输入用户账户的密码：</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5145"/>
         <source>Type password of channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>输入频道密码：</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5158"/>
         <location filename="../mainwindow.cpp" line="5159"/>
         <source>Link copied to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>链接已复制到剪贴板</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5165"/>
@@ -4023,27 +4023,23 @@ Should these settings be applied?</source>
         <translation>取消(&amp;C)</translation>
     </message>
     <message>
-        <source>Folder for storing audio files does not exist</source>
-        <translation type="vanished">音频文件存储文件夹不存在</translation>
-    </message>
-    <message>
         <location filename="../mediastoragedlg.cpp" line="116"/>
         <source>Folder for storing audio files does not exist. Do you want %1 to create it for you?</source>
-        <translation type="unfinished"></translation>
+        <translation>用于存储音频文件的文件夹不存在。您想让 %1 为您创建它吗？</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="117"/>
         <location filename="../mediastoragedlg.cpp" line="155"/>
         <location filename="../mediastoragedlg.cpp" line="172"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">是(&amp;Y)</translation>
+        <translation>是(&amp;Y)</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="118"/>
         <location filename="../mediastoragedlg.cpp" line="156"/>
         <location filename="../mediastoragedlg.cpp" line="173"/>
         <source>&amp;No</source>
-        <translation type="unfinished">否(&amp;N)</translation>
+        <translation>否(&amp;N)</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="137"/>
@@ -4058,22 +4054,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastoragedlg.cpp" line="154"/>
         <source>Folder for storing channel messages does not exist. Do you want %1 to create it for you?</source>
-        <translation type="unfinished"></translation>
+        <translation>用于存储频道消息的文件夹不存在。您想让 %1 为您创建它吗？</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="159"/>
         <source>Folder for channel messages</source>
-        <translation type="unfinished"></translation>
+        <translation>频道消息文件夹</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="171"/>
         <source>Folder for storing private text messages does not exist. Do you want %1 to create it for you?</source>
-        <translation type="unfinished"></translation>
+        <translation>用于存储私人消息的文件夹不存在。您想让 %1 为您创建它吗？</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="176"/>
         <source>Folder for private text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>私人消息文件夹</translation>
     </message>
 </context>
 <context>
@@ -4092,7 +4088,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusers.ui" line="50"/>
         <source>Online users</source>
-        <translation type="unfinished"></translation>
+        <translation>在线用户</translation>
     </message>
     <message>
         <location filename="../onlineusers.ui" line="57"/>
@@ -4648,7 +4644,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="548"/>
         <source>Show server list on startup</source>
-        <translation type="unfinished"></translation>
+        <translation>启动时显示服务器列表</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="564"/>
@@ -5291,7 +5287,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="48"/>
         <source>Server list</source>
-        <translation type="unfinished"></translation>
+        <translation>服务器列表</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="194"/>
