@@ -146,10 +146,20 @@ QVariant ServerLogEventsModel::data(const QModelIndex& index, int role /*= Qt::D
         case SERVERLOGEVENT_NONE :
             break;
         }
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     case Qt::AccessibleTextRole :
         return QString("%1: %2").arg(data(index, Qt::DisplayRole).toString()).arg((m_serverlogselected & m_serverlogevents[index.row()])? tr("Enabled") : tr("Disabled"));
+#endif
+    case Qt::CheckStateRole :
+        return (m_serverlogselected & m_serverlogevents[index.row()])? Qt::Checked : Qt::Unchecked;
     }
     return QVariant();
+}
+
+Qt::ItemFlags ServerLogEventsModel::flags(const QModelIndex &index) const
+{
+    if (index.isValid())
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable |  Qt::ItemIsEditable;
 }
 
 QModelIndex ServerLogEventsModel::index(int row, int column, const QModelIndex& parent /*= QModelIndex()*/) const

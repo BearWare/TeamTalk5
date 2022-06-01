@@ -172,10 +172,20 @@ QVariant StatusBarEventsModel::data ( const QModelIndex & index, int role /*= Qt
         case STATUSBAR_BYPASS :
             break;
         }
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     case Qt::AccessibleTextRole :
         return QString("%1: %2").arg(data(index, Qt::DisplayRole).toString()).arg((m_statusbarselected & m_statusbarevents[index.row()])? tr("Enabled") : tr("Disabled"));
+#endif
+    case Qt::CheckStateRole :
+        return (m_statusbarselected & m_statusbarevents[index.row()])? Qt::Checked : Qt::Unchecked;
     }
     return QVariant();
+}
+
+Qt::ItemFlags StatusBarEventsModel::flags(const QModelIndex &index) const
+{
+    if (index.isValid())
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable |  Qt::ItemIsEditable;
 }
 
 QModelIndex StatusBarEventsModel::index ( int row, int column, const QModelIndex & /*parent*/ /*= QModelIndex()*/ ) const
