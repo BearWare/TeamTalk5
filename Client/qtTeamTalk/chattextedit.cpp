@@ -24,6 +24,8 @@
 #include "chattextedit.h"
 #include "settings.h"
 #include "appinfo.h"
+#include "utilsound.h"
+#include "utiltts.h"
 
 #include <QDateTime>
 #include <QTextCursor>
@@ -266,8 +268,26 @@ QString ChatTextEdit::addTextMessage(const MyTextMessage& msg)
     {
         appendPlainText(line);
     }
-
     limitText();
+    switch(msg.nMsgType)
+    {
+    case MSGTYPE_CHANNEL :
+    {
+        if (msg.nFromUserID != TT_GetMyUserID(ttInst))
+        {
+            User user;
+            if (TT_GetUser(ttInst, msg.nFromUserID, &user))
+                addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL, QString(tr("Channel message from %1: %2").arg(getDisplayName(user)).arg(content)));
+            playSoundEvent(SOUNDEVENT_CHANNELMSG);
+        }
+        else
+        {
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL_SEND, QString(tr("Channel message sent: %1").arg(content)));
+            playSoundEvent(SOUNDEVENT_CHANNELMSGSENT);
+        }
+        break;
+    }
+    }
     return line;
 }
 

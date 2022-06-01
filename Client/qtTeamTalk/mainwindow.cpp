@@ -2654,19 +2654,6 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
             }
             writeLogEntry(m_logChan, line);
         }
-        if (textmsg.nFromUserID != TT_GetMyUserID(ttInst))
-        {
-            User user;
-            if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
-                addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL, QString(tr("Channel message from %1: %2").arg(getDisplayName(user)).arg(_Q(textmsg.szMessage))));
-            playSoundEvent(SOUNDEVENT_CHANNELMSG);
-        }
-        else
-        {
-            addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL_SEND, QString(tr("Channel message sent: %1").arg(_Q(textmsg.szMessage))));
-            playSoundEvent(SOUNDEVENT_CHANNELMSGSENT);
-        }
-
         break;
     }
     case MSGTYPE_BROADCAST :
