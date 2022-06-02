@@ -175,9 +175,10 @@ QVariant StatusBarEventsModel::data ( const QModelIndex & index, int role /*= Qt
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     case Qt::AccessibleTextRole :
         return QString("%1: %2").arg(data(index, Qt::DisplayRole).toString()).arg((m_statusbarselected & m_statusbarevents[index.row()])? tr("Enabled") : tr("Disabled"));
-#endif
+#else
     case Qt::CheckStateRole :
         return (m_statusbarselected & m_statusbarevents[index.row()])? Qt::Checked : Qt::Unchecked;
+#endif
     }
     return QVariant();
 }

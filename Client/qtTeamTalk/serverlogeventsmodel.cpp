@@ -149,9 +149,10 @@ QVariant ServerLogEventsModel::data(const QModelIndex& index, int role /*= Qt::D
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     case Qt::AccessibleTextRole :
         return QString("%1: %2").arg(data(index, Qt::DisplayRole).toString()).arg((m_serverlogselected & m_serverlogevents[index.row()])? tr("Enabled") : tr("Disabled"));
-#endif
+#else
     case Qt::CheckStateRole :
         return (m_serverlogselected & m_serverlogevents[index.row()])? Qt::Checked : Qt::Unchecked;
+#endif
     }
     return QVariant();
 }
