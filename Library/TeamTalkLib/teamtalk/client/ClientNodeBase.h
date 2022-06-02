@@ -31,7 +31,9 @@
 #include <codec/MediaUtil.h>
 #include <teamtalk/PacketLayout.h>
 
+#include <ace/High_Res_Timer.h>
 #include <ace/Reactor.h>
+#include <ace/Timer_Heap.h>
 
 #include <condition_variable>
 #include <mutex>
@@ -126,6 +128,8 @@ namespace teamtalk {
         // Thread func running ClientNode's main event-loop
         int svc(void) override;
 
+        //timer queue we can change to high-resolution timer (monotomic)
+        ACE_Timer_Heap m_timer_queue;
         //the reactor associated with this client instance
         ACE_Reactor m_reactor;
         ACE_thread_t m_reactor_thread;
