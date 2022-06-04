@@ -159,8 +159,7 @@ QVariant ServerLogEventsModel::data(const QModelIndex& index, int role /*= Qt::D
 
 Qt::ItemFlags ServerLogEventsModel::flags(const QModelIndex &index) const
 {
-    if (index.isValid())
-        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable |  Qt::ItemIsEditable;
+    return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable |  Qt::ItemIsEditable;
 }
 
 QModelIndex ServerLogEventsModel::index(int row, int column, const QModelIndex& parent /*= QModelIndex()*/) const
