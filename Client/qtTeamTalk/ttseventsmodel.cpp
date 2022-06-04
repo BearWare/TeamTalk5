@@ -208,8 +208,7 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
 
 Qt::ItemFlags TTSEventsModel::flags(const QModelIndex &index) const
 {
-    if (index.isValid())
-        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable |  Qt::ItemIsEditable;
+    return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable |  Qt::ItemIsEditable;
 }
 
 QModelIndex TTSEventsModel::index ( int row, int column, const QModelIndex & /*parent*/ /*= QModelIndex()*/ ) const

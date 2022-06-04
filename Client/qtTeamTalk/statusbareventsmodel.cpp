@@ -185,8 +185,7 @@ QVariant StatusBarEventsModel::data ( const QModelIndex & index, int role /*= Qt
 
 Qt::ItemFlags StatusBarEventsModel::flags(const QModelIndex &index) const
 {
-    if (index.isValid())
-        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable |  Qt::ItemIsEditable;
+    return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable |  Qt::ItemIsEditable;
 }
 
 QModelIndex StatusBarEventsModel::index ( int row, int column, const QModelIndex & /*parent*/ /*= QModelIndex()*/ ) const
