@@ -124,18 +124,21 @@ static Bool qt_keypress_scanner(Display *, XEvent *event, XPointer arg)
     if (data->error)
         return false;
 
-    if (event->xkey.keycode != data->keycode) {
+    if (event->xkey.keycode != data->keycode)
+    {
         data->error = true;
         return false;
     }
 
-    if (event->type == KeyPress) {
+    if (event->type == KeyPress)
+    {
         data->error = (! data->release || event->xkey.time - data->timestamp > 10);
         return (! data->error);
     }
 
     // must be XKeyRelease event
-    if (data->release) {
+    if (data->release)
+    {
         // found a second release
         data->error = true;
         return false;
@@ -229,7 +232,8 @@ public:
                 auto_repeat_data.release = true;
                 auto_repeat_data.error = false;
                 if (XCheckIfEvent(dpy, &nextpress, &qt_keypress_scanner,
-                                  (XPointer) &auto_repeat_data)) {
+                                  (XPointer) &auto_repeat_data))
+                {
                     autor = true;
                     XPutBackEvent(dpy,&nextpress);
                 }

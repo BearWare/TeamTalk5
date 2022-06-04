@@ -1124,28 +1124,28 @@ void MainWindow::clienteventCmdUserJoined(const User& user)
 
     emit (userJoined(user.nChannelID, user));
 
-    if (m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN) {
-        if (user.nUserID != TT_GetMyUserID(ttInst)) {
-            Channel chan = {};
-            ui.channelsWidget->getChannel(user.nChannelID, chan);
-            QString userjoinchan = tr("%1 joined channel").arg(getDisplayName(user));
-            TextToSpeechEvent ttsType = TTS_USER_JOINED_SAME;
-            StatusBarEvent statusType = STATUSBAR_USER_JOINED_SAME;
-            if(chan.nParentID == 0 && user.nChannelID != m_mychannel.nChannelID)
-            {
-                userjoinchan = QString(tr("%1 joined root channel").arg(getDisplayName(user)));
-                ttsType = TTS_USER_JOINED;
-                statusType = STATUSBAR_USER_JOINED;
-            }
-            else if (user.nChannelID != m_mychannel.nChannelID)
-            {
-                userjoinchan = QString(tr("%1 joined channel %2").arg(getDisplayName(user)).arg(_Q(chan.szName)));
-                ttsType = TTS_USER_JOINED;
-                statusType = STATUSBAR_USER_JOINED;
-            }
-            addStatusMsg(statusType, userjoinchan);
-            addTextToSpeechMessage(ttsType, userjoinchan);
+    if (m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN &&
+        user.nUserID != TT_GetMyUserID(ttInst))
+    {
+        Channel chan = {};
+        ui.channelsWidget->getChannel(user.nChannelID, chan);
+        QString userjoinchan = tr("%1 joined channel").arg(getDisplayName(user));
+        TextToSpeechEvent ttsType = TTS_USER_JOINED_SAME;
+        StatusBarEvent statusType = STATUSBAR_USER_JOINED_SAME;
+        if(chan.nParentID == 0 && user.nChannelID != m_mychannel.nChannelID)
+        {
+            userjoinchan = QString(tr("%1 joined root channel").arg(getDisplayName(user)));
+            ttsType = TTS_USER_JOINED;
+            statusType = STATUSBAR_USER_JOINED;
         }
+        else if (user.nChannelID != m_mychannel.nChannelID)
+        {
+            userjoinchan = QString(tr("%1 joined channel %2").arg(getDisplayName(user)).arg(_Q(chan.szName)));
+            ttsType = TTS_USER_JOINED;
+            statusType = STATUSBAR_USER_JOINED;
+        }
+        addStatusMsg(statusType, userjoinchan);
+        addTextToSpeechMessage(ttsType, userjoinchan);
     }
 
     // sync user settings from cache
@@ -1162,24 +1162,28 @@ void MainWindow::clienteventCmdUserLeft(int prevchannelid, const User& user)
     if (user.nUserID == TT_GetMyUserID(ttInst))
         processMyselfLeft(prevchannelid);
     emit (userLeft(prevchannelid, user));
-    if (m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL) {
-        if (user.nUserID != TT_GetMyUserID(ttInst)) {
-            Channel chan = {};
-            ui.channelsWidget->getChannel(prevchannelid, chan);
-            QString userleftchan = tr("%1 left channel").arg(getDisplayName(user));
-            TextToSpeechEvent ttsType = TTS_USER_LEFT_SAME;
-            StatusBarEvent statusType = STATUSBAR_USER_LEFT_SAME;
-            if (chan.nParentID == 0 && prevchannelid != m_mychannel.nChannelID) {
-                userleftchan = QString(tr("%1 left root channel").arg(getDisplayName(user)));
-                ttsType = TTS_USER_LEFT;
-                statusType = STATUSBAR_USER_LEFT;
-            } else if (prevchannelid != m_mychannel.nChannelID) {
-                userleftchan = QString(tr("%1 left channel %2").arg(getDisplayName(user)).arg(_Q(chan.szName)));
-                statusType = STATUSBAR_USER_LEFT;
-            }
-            addStatusMsg(statusType, userleftchan);
-            addTextToSpeechMessage(ttsType, userleftchan);
+
+    if (m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL &&
+        user.nUserID != TT_GetMyUserID(ttInst))
+    {
+        Channel chan = {};
+        ui.channelsWidget->getChannel(prevchannelid, chan);
+        QString userleftchan = tr("%1 left channel").arg(getDisplayName(user));
+        TextToSpeechEvent ttsType = TTS_USER_LEFT_SAME;
+        StatusBarEvent statusType = STATUSBAR_USER_LEFT_SAME;
+        if (chan.nParentID == 0 && prevchannelid != m_mychannel.nChannelID)
+        {
+            userleftchan = QString(tr("%1 left root channel").arg(getDisplayName(user)));
+            ttsType = TTS_USER_LEFT;
+            statusType = STATUSBAR_USER_LEFT;
         }
+        else if (prevchannelid != m_mychannel.nChannelID)
+        {
+            userleftchan = QString(tr("%1 left channel %2").arg(getDisplayName(user)).arg(_Q(chan.szName)));
+            statusType = STATUSBAR_USER_LEFT;
+        }
+        addStatusMsg(statusType, userleftchan);
+        addTextToSpeechMessage(ttsType, userleftchan);
     }
 
     if ((m_myuseraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
@@ -1336,13 +1340,7 @@ void MainWindow::clienteventUserStateChange(const User& user)
         User nameuser;
         TT_GetUser(ttInst, user.nUserID, &nameuser);
         addStatusMsg(STATUSBAR_BYPASS, tr("Streaming from %1 started") .arg(getDisplayName(nameuser)));
-    } /*else {
-        if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN || m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL) {
-            User nameuser;
-            TT_GetUser(ttInst, user.nUserID, &nameuser);
-            addStatusMsg(event_d, tr("Streaming from %1 finished") .arg(getDisplayName(nameuser)));
-        }
-    }*/
+    }
 
     if(m_talking.empty())
         playSoundEvent(SOUNDEVENT_SILENCE);
@@ -2889,11 +2887,14 @@ void MainWindow::updateChannelFiles(int channelid)
     TT_GetChannelPath(ttInst, channelid, chanpath);
     ui.channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
 
-    if(m_proxyFilesModel->rowCount() == 0) {
+    if (m_proxyFilesModel->rowCount() == 0)
+    {
         ui.tabWidget->setTabText(TAB_FILES, tr("&Files"));
         ui.deleteButton->setVisible(false);
         ui.downloadButton->setVisible(false);
-    } else {
+    }
+    else
+    {
         ui.tabWidget->setTabText(TAB_FILES, tr("&Files (%1)").arg(m_proxyFilesModel->rowCount()));
         ui.deleteButton->setVisible(true);
         ui.downloadButton->setVisible(true);
