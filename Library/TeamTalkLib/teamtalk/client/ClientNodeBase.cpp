@@ -37,9 +37,10 @@ using namespace teamtalk;
 #endif
 
 ClientNodeBase::ClientNodeBase()
-    : m_reactor(new ACE_Select_Reactor(), true) //Ensure we don't use ACE_WFMO_Reactor!!!
+    : m_reactor(new ACE_Select_Reactor(nullptr, &m_timer_queue), true) //Ensure we don't use ACE_WFMO_Reactor!!!
     , m_reactor_thread(INVALID_THREAD_ID)
 {
+    m_timer_queue.set_time_policy(&ACE_High_Res_Timer::gettimeofday_hr);
     this->reactor(&m_reactor);
 }
 
