@@ -29,9 +29,11 @@
 #include <TeamTalkDefs.h>
 #include <teamtalk/Log.h>
 
-#include <ace/NT_Service.h>
+#include <ace/High_Res_Timer.h>
 #include <ace/Init_ACE.h>
+#include <ace/NT_Service.h>
 #include <ace/Select_Reactor.h>
+#include <ace/Timer_Heap.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -273,7 +275,9 @@ int RunServer(
     no_sigpipe.register_action (SIGPIPE, &original_action);
 
     int ret = ACE::set_handle_limit(-1);//client handler (must be BIG)
-    ACE_Select_Reactor selectReactor;
+    ACE_Timer_Heap timerheap;
+    timerheap.set_time_policy(&ACE_High_Res_Timer::gettimeofday_hr);
+    ACE_Select_Reactor selectReactor(nullptr, &timerheap);
     ACE_Reactor tcpReactor(&selectReactor);
     ACE_Reactor::instance(&tcpReactor);
     ACE_Reactor::instance()->owner (ACE_OS::thr_self ());
