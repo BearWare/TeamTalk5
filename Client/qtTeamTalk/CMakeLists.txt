@@ -210,9 +210,9 @@ if (Qt5_FOUND OR Qt6_FOUND)
         if (WINDEPLOYQT_EXE_PATH-NOTFOUND)
           message(WARNING "Cannot deploy Qt to TeamTalk 5 Installer due to missing windeployqt")
         else()
-          add_custom_target (QtTeamTalk5-windeploy-release
+          add_custom_target (QtTeamTalk5-windeploy-release ALL
             COMMAND ${CMAKE_COMMAND} -E remove_directory "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt"
-            COMMAND ${WINDEPLOYQT_EXE_PATH} --no-quick-import --no-translations --no-system-d3d-compiler --no-virtualkeyboard --no-webkit2 --no-angle --no-opengl-sw --release --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt" "${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>")
+            COMMAND ${WINDEPLOYQT_EXE_PATH} --no-quick-import --no-translations --no-system-d3d-compiler --no-virtualkeyboard --no-webkit2 --no-angle --no-opengl-sw --release --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt" "$<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>")
           install (DIRECTORY windeployqt/ DESTINATION Client/qtTeamTalk PATTERN "windeployqt/*" )
 
           add_custom_target (QtTeamTalk5-windeploy-debug
