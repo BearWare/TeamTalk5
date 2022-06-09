@@ -1962,12 +1962,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1438"/>
         <source>&amp;Speak Client Statistics</source>
-        <translation type="unfinished"></translation>
+        <translation>istemci İstatistiklerini Söyle</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1441"/>
         <source>Ctrl+T</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+T</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1556"/>
@@ -2257,12 +2257,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2089"/>
         <source>&amp;Generate tt:// URL to Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Panoya tt:// &amp;URL'si oluştur</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2092"/>
         <source>Ctrl+Shift+C</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+C</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2299"/>
@@ -3315,12 +3315,12 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="633"/>
         <source>Choose language</source>
-        <translation type="unfinished"></translation>
+        <translation>Dil seçin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="634"/>
         <source>Select the language will be use by %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 tarafından kullanılacak dili seçin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2550"/>
@@ -3482,28 +3482,28 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="5122"/>
         <location filename="../mainwindow.cpp" line="5144"/>
         <source>Share channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanalı paylaş</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5114"/>
         <source>Type username of user account:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı hesabının kullanıcı adını yazın:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5123"/>
         <source>Type password of user account:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı hesabının şifresini yazın:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5145"/>
         <source>Type password of channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanalın şifresini yazın:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5158"/>
         <location filename="../mainwindow.cpp" line="5159"/>
         <source>Link copied to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>link kopyalandı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5165"/>
@@ -4057,21 +4057,21 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../mediastoragedlg.cpp" line="116"/>
         <source>Folder for storing audio files does not exist. Do you want %1 to create it for you?</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses dosyalarını depolamak için klasör mevcut değil. %1'in sizin için oluşturmasını istiyor musunuz?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="117"/>
         <location filename="../mediastoragedlg.cpp" line="155"/>
         <location filename="../mediastoragedlg.cpp" line="172"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;Evet</translation>
+        <translation>&amp;Evet</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="118"/>
         <location filename="../mediastoragedlg.cpp" line="156"/>
         <location filename="../mediastoragedlg.cpp" line="173"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;Hayır</translation>
+        <translation>&amp;Hayır</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="137"/>
@@ -4086,22 +4086,22 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../mediastoragedlg.cpp" line="154"/>
         <source>Folder for storing channel messages does not exist. Do you want %1 to create it for you?</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal mesajlarını saklamak için klasör mevcut değil. %1'in sizin için oluşturmasını istiyor musunuz?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="159"/>
         <source>Folder for channel messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal mesajları için klasör</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="171"/>
         <source>Folder for storing private text messages does not exist. Do you want %1 to create it for you?</source>
-        <translation type="unfinished"></translation>
+        <translation>özel metin mesajlarını saklamak için mevcut değil. %1'in sizin için oluşturmasını istiyor musunuz?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="176"/>
         <source>Folder for private text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Özel metin mesajları için klasör</translation>
     </message>
 </context>
 <context>
@@ -4120,7 +4120,7 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../onlineusers.ui" line="50"/>
         <source>Online users</source>
-        <translation type="unfinished"></translation>
+        <translation>Çevrimiçi kullanıcılar</translation>
     </message>
     <message>
         <location filename="../onlineusers.ui" line="57"/>
@@ -4684,7 +4684,7 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../preferences.ui" line="548"/>
         <source>Show server list on startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Başlangıçta sunucu listesini göster</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="564"/>
@@ -5330,7 +5330,7 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../serverlist.ui" line="48"/>
         <source>Server list</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu listesi</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="194"/>
