@@ -13,10 +13,12 @@ Default Qt Client
 - Option in "Client menu" to speak client statistics
 - Runs on Windows 7 (again) by using Qt DLLs
 - Add missing labels on trees of Online Users and Server List dialog
+- Support for Ubuntu 22
 Android Client
 iOS Client
 Server
 - Removed OpenSSL dependency on tt5srv for Linux
+- Support for Ubuntu 22
 
 Version 5.9.1, 2022/04/04
 Accessible Windows Client
