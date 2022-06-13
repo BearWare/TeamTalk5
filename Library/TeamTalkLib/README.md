@@ -5,9 +5,21 @@ is familiar with [CMake](http://www.cmake.org). CMake is a build
 system that is able to build TeamTalk binaries and generate project
 files for various IDEs.
 
-Prior to invoking CMake and start building the tools required to build
-the TeamTalk dependencies (toolchain) must be installed. This is
-explained in the following section.
+The following secions explain how to build TeamTalk binaries using CMake:
+* [Install TeamTalk Toolchain Dependencies](#install-teamTalk-toolchain-dependencies)
+  * Install the tools required to build TeamTalk on the host build machine.
+* [Build TeamTalk Binaries](#build-teamTalk-binaries)
+  * Invoke CMake to start building the TeamTalk binaries.
+* [Toolchain Toggles for TeamTalk Build Targets](#toolchain-toggles-for-teamTalk-build-targets)
+  * Choose if a tool required by TeamTalk should be built by CMake or use
+    the tool already installed on the host build machine. E.g. use OPUS
+    installed by `apt install opus-dev` instead of manually building OPUS.
+* [Feature Toggles for TeamTalk Build Targets](#feature-toggles-for-teamTalk-build-targets)
+  * Choose what features should be compiled into the TeamTalk binaries.
+    E.g. disable Speex in the TeamTalk DLL.
+* [TeamTalk Build Targets](#teamTalk-build-targets)
+  * Toggle what TeamTalk binaries should be built by CMake. E.g. avoid
+    building TeamTalk server.
 
 ## Install TeamTalk Toolchain Dependencies
 
@@ -51,7 +63,7 @@ Building for Android platform is supported on Ubuntu 18.
 * To install build dependencies for Android on Ubuntu 18 run the
   following in TEAMTALK_ROOT:
   * `sudo make -C Build depend-ubuntu18`
-  * `sudo` is required because `apt install` is called.
+    * `sudo` is required because `apt install` is called.
 * Download [Android NDK r21e](https://developer.android.com/ndk) and
   unzip it. Make environment variable `ANDROID_NDK_HOME` point to the
   unzipped location.
@@ -82,6 +94,9 @@ there's different ways of doing this.
 
 ### Build TeamTalk Binaries for Windows
 
+Building TeamTalk for Windows is supported by
+[Visual Studio 2019](https://visualstudio.microsoft.com).
+
 To build TeamTalk for Windows first start *x86 Native Tools Command
 Prompt for VS 2019*. Use Git to clone
 [TeamTalk5](https://github.com/BearWare/TeamTalk5) repository into
@@ -95,6 +110,11 @@ Given that CMake managed to create a valid build configuration now
 start the build process:
 
 `cmake --build C:/builddir --config Release --target install`
+
+To get a Visual Studio solution file for building TeamTalk from Visual
+Studio 2019 run CMake like this:
+
+`cmake -G "Visual Studio 16 2019" -DBUILD_TEAMTALK_CORE=ON -S C:/TeamTalk5 -B C:/builddir -A Win32`
 
 Note that WebRTC dependency will create a folder in `C:\webrtc` where
 it downloads its repository.
