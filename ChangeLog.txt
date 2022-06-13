@@ -14,6 +14,7 @@ Default Qt Client
 - Runs on Windows 7 (again) by using Qt DLLs
 - Add missing labels on trees of Online Users and Server List dialog
 - Support for Ubuntu 22
+- Restore volume to "Media vs. voice" when using "Default" button on user volume dialog
 Android Client
 iOS Client
 Server
