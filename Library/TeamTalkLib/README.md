@@ -1,193 +1,331 @@
 # TeamTalkLib
 
-Building TeamTalkLib is enabled by toggling the
-[CMake](http://www.cmake.org) option *BUILD_TEAMTALK_CORE=ON*. This
-will cause CMake to process the TeamTalkLib folder and expose the
-build options for TeamTalkLib, e.g.
+Building the TeamTalk server and DLL binaries requires that the user
+is familiar with [CMake](http://www.cmake.org). CMake is a build
+system that is able to build TeamTalk binaries and generate project
+files for various IDEs.
 
-`# cmake -DBUILD_TEAMTALK_CORE=ON -S TeamTalk5 -B builddir`
+The following secions explain how to build TeamTalk binaries using CMake:
+* [Install TeamTalk Toolchain Dependencies](#install-teamTalk-toolchain-dependencies)
+  * Install the tools required to build TeamTalk on the host build machine.
+* [Build TeamTalk Binaries](#build-teamTalk-binaries)
+  * Invoke CMake to start building the TeamTalk binaries.
+* [Toolchain Toggles for TeamTalk Build Targets](#toolchain-toggles-for-teamTalk-build-targets)
+  * Choose if a tool required by TeamTalk should be built by CMake or use
+    the tool already installed on the host build machine. E.g. use OPUS
+    installed by `apt install opus-dev` instead of manually building OPUS.
+* [Feature Toggles for TeamTalk Build Targets](#feature-toggles-for-teamTalk-build-targets)
+  * Choose what features should be compiled into the TeamTalk binaries.
+    E.g. disable Speex in the TeamTalk DLL.
+* [TeamTalk Build Targets](#teamTalk-build-targets)
+  * Toggle what TeamTalk binaries should be built by CMake. E.g. avoid
+    building TeamTalk server.
 
-## TeamTalk Binaries
+## Install TeamTalk Toolchain Dependencies
 
-Which TeamTalk binaries to build are controlled by CMake options
-prefixed by *BUILD_TEAMTALK_*.
+TeamTalk depends on many external libraries, e.g. OpenSSL and OPUS,
+and these libraries require a certain set of tools to be installed on
+the build host in order to compile.
 
-Most interesting are:
+The following sections explain what tools to install on the build host
+depending on the platform.
 
-* BUILD_TEAMTALK_DLL
-  * TeamTalk 5 shared library
-  * Builds TeamTalk5.dll/libTeamTalk5.so
-* BUILD_TEAMTALK_PRODLL
-  * TeamTalk 5 Pro shared library
-  * Builds TeamTalk5Pro.dll/libTeamTalk5Pro.so
-* BUILD_TEAMTALK_LIB
-  * TeamTalk 5 static library used for iOS and Android
-  * Builds libTeamTalk5.a  
-* BUILD_TEAMTALK_PROLIB
-  * TeamTalk 5 Pro static library used for iOS and Android
-  * Builds libTeamTalk5Pro.a  
-* BUILD_TEAMTALK_SRVEXE
-  * TeamTalk 5 console/daemon server
-  * Builds tt5srv.exe/tt5srv
-* BUILD_TEAMTALK_PROSRVEXE
-  * TeamTalk 5 Pro console/daemon server
-  * Builds tt5prosrv.exe/tt5prosrv
-* BUILD_TEAMTALK_SVCEXE
-  * TeamTalk 5 NT service server
-  * Builds tt5svc.exe
-* BUILD_TEAMTALK_PROSVCEXE
-  * TeamTalk 5 NT service server
-  * Builds tt5prosvc.exe
+### Install TeamTalk Dependencies on Windows
 
-## Feature Toggles for TeamTalk Binaries
+Tools for building TeamTalk dependencies on Windows must be installed
+manually.
 
-What features to build into the TeamTalk binaries are controlled by
-CMake options prefixed by *FEATURE_*.
+* Install [ActivePerl](https://www.activestate.com/products/perl/) or
+  [Strawberry Perl](https://strawberryperl.com/) on Windows
+  * Place `perl.exe` in environment variable %PATH%.
+    * OpenSSL and ACE Framework uses Perl
+* Install [Cygwin](https://www.cygwin.com) in `C:/cygwin64`
+  * LibVPX requires *cygwin*
+* Download [yasm](http://yasm.tortall.net)
+    * Place `yasm.exe` for x64 in `C:/tt5dist/yasm/x64`
+    * Place `yasm.exe` for Win32 in `C:/tt5dist/yasm/win32`
+    * LibVPX requires *yasm*
 
-The following feature toggles are available:
+### Install TeamTalk Dependencies on Ubuntu 18
 
-* FEATURE_OPUS
-  * OPUS audio codec
-  * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Raspbian, Windows
-  * Toolchain mapping: *TOOLCHAIN_OPUS*
-* FEATURE_OPUSTOOLS
-  * OPUS .ogg file support
-  * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Raspbian, Windows
-* FEATURE_SPEEX
-  * Speex audio codec
-  * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Raspbian, Windows
-  * Toolchain mapping: *TOOLCHAIN_SPEEX*
-* FEATURE_SPEEXDSP
-  * SpeexDSP for audio processing (resampler, denoiser, AGC)
-  * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Raspbian, Windows
-  * Toolchain mapping: *TOOLCHAIN_SPEEXDSP*
-* FEATURE_FFMPEG
-  * FFmpeg for streaming and audio resampling
-  * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Raspbian
-  * Toolchain mapping: *TOOLCHAIN_FFMPEG*
-* FEATURE_V4L2
-  * Video for Linux 2 for video capture support
-  * Supported platforms: Ubuntu/Linux, Raspbian
-* FEATURE_AVF
-  * Audio Video Foundation for video capture support
-  * Supported platforms: macOS
-* FEATURE_WEBRTC
-  * WebRTC for audio processing
-  * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Windows
-* FEATURE_MSDMO
-  * Microsoft DirectX Media Object for audio resampling
-  * Supported platforms: Windows
-* FEATURE_MEDIAFOUNDATION
-  * Microsoft Media Foundation for audio and video streaming
-  * Supported platforms: Windows
-* FEATURE_LIBVPX
-  * libvpx (VP8) video codec
-  * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Raspbian, Windows
-  * Toolchain mapping: *TOOLCHAIN_LIBVPX*
-* FEATURE_OGG
-  * OGG file format
-  * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Raspbian, Windows
-  * Toolchain mapping: *TOOLCHAIN_OGG*
-* FEATURE_PORTAUDIO
-  * PortAudio sound system
-  * Supported platforms: macOS, Ubuntu/Linux, Raspbian, Windows
-  * Toolchain mapping: *TOOLCHAIN_PORTAUDIO*
-* FEATURE_OPENSLES
-  * OpenSL ES sound system
-  * Supported platforms: Android
-* FEATURE_AUDIOUNIT
-  * AudioUnit sound system
-  * Supported platforms: iOS
+A Makefile is available for Ubuntu 18 to install all the dependencies
+required to build TeamTalk binaries.
 
-## Toolchain Toggles for TeamTalk Binaries
+* To install build dependencies for Ubuntu 18 run the following in
+  TEAMTALK_ROOT:
+  * `sudo make -C Build depend-ubuntu18`
+    * `sudo` is required because `apt install` is called.
 
-CMake is able to build all TeamTalk's dependencies using the CMake
-options prefixed *TOOLCHAIN_*.
+### Install TeamTalk Dependencies for Android on Ubuntu 18
 
-On Ubuntu, Raspbian, etc. it may be desirable to use `apt install`
-to install TeamTalk dependencies instead of manually building
-them. E.g. to build TeamTalk binaries using an installed version of
-OpenSSL pass `-DTOOLCHAIN_OPENSSL=OFF`. This will make CMake
-compile using the the OpenSSL version installed in
-`/usr/include/openssl` instead of building OpenSSL manually.
+Building for Android platform is supported on Ubuntu 18.
 
-Being able to build TeamTalk's toolchain requires several dependencies
-to be installed on the build machine. Go to TEAMTALK_ROOT/Build and
-install the dependencies:
+* To install build dependencies for Android on Ubuntu 18 run the
+  following in TEAMTALK_ROOT:
+  * `sudo make -C Build depend-ubuntu18`
+    * `sudo` is required because `apt install` is called.
+* Download [Android NDK r21e](https://developer.android.com/ndk) and
+  unzip it. Make environment variable `ANDROID_NDK_HOME` point to the
+  unzipped location.
 
-* For macOS run
-* `make depend-mac`
-* For iOS on macOS run
-* `make depend-mac`
-* For Ubuntu 18 run:
-* `make depend-ubuntu18`
-* For Android on Ubuntu 18 run:
-* `make depend-ubuntu18`
+### Install TeamTalk Dependencies on macOS
+
+Build for macOS platform is supported by using [Homebrew](https://brew.sh).
+
+* To install build dependencies for macOS run the following in
+  TEAMTALK_ROOT:
+  * `make -C Build depend-mac`
+
+### Install TeamTalk Dependencies for iOS on macOS
+
+Build for iOS platform is supported by using [Homebrew](https://brew.sh) on macOS.
+
+* To install build dependencies for iOS on macOS run the following in
+  TEAMTALK_ROOT:
+  * `make -C Build depend-mac`
+
+
+## Build TeamTalk Binaries
+
+Now that all required tool dependencies have been
+[installed](#install-teamtalk-toolchain-dependencies) it is possible
+to build the TeamTalk binaries. Again depending on the platform
+there's different ways of doing this.
+
+### Build TeamTalk Binaries for Windows
+
+Building TeamTalk for Windows is supported by
+[Visual Studio 2019](https://visualstudio.microsoft.com).
+
+To build TeamTalk for Windows first start *x86 Native Tools Command
+Prompt for VS 2019*. Use Git to clone
+[TeamTalk5](https://github.com/BearWare/TeamTalk5) repository into
+`C:\TeamTalk5`.
+
+Now generate a valid build configuration using CMake:
+
+`cmake -DBUILD_TEAMTALK_CORE=ON -S C:/TeamTalk5 -B C:/builddir -A Win32`
+
+Given that CMake managed to create a valid build configuration now
+start the build process:
+
+`cmake --build C:/builddir --config Release --target install`
+
+To get a Visual Studio solution file for building TeamTalk from Visual
+Studio 2019 run CMake like this:
+
+`cmake -G "Visual Studio 16 2019" -DBUILD_TEAMTALK_CORE=ON -S C:/TeamTalk5 -B C:/builddir -A Win32`
+
+Note that WebRTC dependency will create a folder in `C:\webrtc` where
+it downloads its repository.
+
+### Build TeamTalk Binaries for Ubuntu 18
+
+Run the following command in TEAMTALK_ROOT:
+
+`make -C Build ubuntu18`
+
+This will cause `make` to call CMake to generate a valid build
+configuration and afterwards build the binaries.
+
+### Build TeamTalk Binaries for Android on Ubuntu 18
+
+Run the following command in TEAMTALK_ROOT:
+
+`make -C Build android-all`
+
+This will build TeamTalk binaries for architectures *armeabi-v7a*,
+*arm64-v8a*, *x86* and *x64*.
+
+### Build TeamTalk Binaries for macOS
+
+Run the following command in TEAMTALK_ROOT:
+
+`make -C Build mac`
+
+This will cause `make` to call CMake to generate a valid build
+configuration and afterwards build the binaries.
+
+### Build TeamTalk Binaries for iOS on macOS
+
+Run the following command in TEAMTALK_ROOT:
+
+`make -C Build ios-all`
+
+This will build TeamTalk binaries for architectures *armv7*,
+*arm64*, *i386* and *x64*.
+
+
+## Toolchain Toggles for TeamTalk Build Targets
+
+CMake is able to build all TeamTalk's dependencies as so-called
+*ExternalProjects*. All dependencies in TeamTalk's toolchain
+can be activated using the CMake options prefixed `TOOLCHAIN_`.
+
+To e.g. have TeamTalk avoid building OPUS and instead use OPUS
+already installed on the host machine, call CMake like this:
+
+`cmake -DTOOLCHAIN_OPUS=OFF -DBUILD_TEAMTALK_CORE=ON -S TeamTalk5 -B builddir`
 
 The following toolchain toggles are available:
 
-* TOOLCHAIN_BUILD_PREFIX
+* `TOOLCHAIN_BUILD_PREFIX`
   * Build toolchain dependencies in the specified directory
-* TOOLCHAIN_INSTALL_PREFIX
-  * Install dependencies in the specified directory  
-* TOOLCHAIN_BUILD_EXTERNALPROJECTS
-  * When *ON* builds all TeamTalk's dependencies and installs them into
-    *TOOLCHAIN_INSTALL_PREFIX*
-  * When *OFF* will make TeamTalk binaries build using the libraries
-    installed in *TOOLCHAIN_INSTALL_PREFIX*. This is useful to avoid
+* `TOOLCHAIN_INSTALL_PREFIX`
+  * Install dependencies in the specified directory
+* `TOOLCHAIN_BUILD_EXTERNALPROJECTS`
+  * When `ON` builds all TeamTalk's dependencies and installs them into
+    `TOOLCHAIN_INSTALL_PREFIX`
+  * When `OFF` will make TeamTalk binaries build using the libraries
+    installed in `TOOLCHAIN_INSTALL_PREFIX`. This is useful to avoid
     building the dependencies again after a new checkout or switching
     branch.
-* TOOLCHAIN_OPENSSL
-  * When *ON* builds OpenSSL.
-  * When *OFF* uses OpenSSL installed on host.
-  * *OFF* is only supported on Linux distributions and is recommended,
+* `TOOLCHAIN_OPENSSL`
+  * When `ON` builds OpenSSL.
+  * When `OFF` uses OpenSSL installed on host.
+  * `OFF` is only supported on Linux distributions and is recommended,
      since linking different versions of OpenSSL can cause problems.
-* TOOLCHAIN_ACE
-  * When *ON* builds ACE Framework
-  * When *OFF* uses ACE Framework installed on host.
-  * *OFF* is only supported on Linux distributions
+* `TOOLCHAIN_ACE`
+  * When `ON` builds ACE Framework
+  * When `OFF` uses ACE Framework installed on host.
+  * `OFF` is only supported on Linux distributions
   * Build ACE on Windows requires *ActivePerl* or *Strawberry Perl*
     * Place `perl.exe` in %PATH%.
-* TOOLCHAIN_TINYXML
-  * When *ON* builds TinyXML
-  * When *OFF* uses TinyXML installed on host.
-  * *OFF* is only supported on Linux distributions
-* TOOLCHAIN_ZLIB
-  * When *ON* builds ZLib
-  * When *OFF* uses ZLib installed on host.
-  * *OFF* is recommended on Linux, Android, iOS
-* TOOLCHAIN_CATCH2
-  * When *ON* enables Catch2 for unit tests
-  * When *OFF* ignore Catch2 unit tests
-* TOOLCHAIN_LIBVPX
-  * When *ON* enables LibVPX
-  * When *OFF* uses TinyXML installed on host.
+* `TOOLCHAIN_TINYXML`
+  * When `ON` builds TinyXML
+  * When `OFF` uses TinyXML installed on host.
+  * `OFF` is only supported on Linux distributions
+* `TOOLCHAIN_ZLIB`
+  * When `ON` builds ZLib
+  * When `OFF` uses ZLib installed on host.
+  * `OFF` is recommended on Linux, Android, iOS
+* `TOOLCHAIN_CATCH2`
+  * When `ON` enables Catch2 for unit tests
+  * When `OFF` ignore Catch2 unit tests
+* `TOOLCHAIN_LIBVPX`
+  * When `ON` enables LibVPX
+  * When `OFF` uses LibVPX installed on host.
   * Building LibVPX on Windows requires Cygwin, https://www.cygwin.com/
     * Install Cygwin in `C:/cygwin64`
   * Building LibVPX on Windows requires yasm, http://yasm.tortall.net/
     * Place `yasm.exe` for x64 in `C:/tt5dist/yasm/x64`
     * Place `yasm.exe` for Win32 in `C:/tt5dist/yasm/win32`
-* TOOLCHAIN_FFMPEG
-  * When *ON* builds FFmpeg
-  * When *OFF* uses FFmpeg installed on host.
-  * *OFF* is only supported on Linux distributions
-* TOOLCHAIN_OGG
-  * When *ON* builds OGG
-  * When *OFF* uses OGG installed on host.
-  * *OFF* is only supported on Linux distributions
-* TOOLCHAIN_OPUS
-  * When *ON* builds OPUS
-  * When *OFF* uses OPUS installed on host.
-  * *OFF* is only supported on Linux distributions
-* TOOLCHAIN_PORTAUDIO
-  * When *ON* builds PortAudio
-  * When *OFF* uses PortAudio installed on host.
-  * *OFF* is only supported on Linux distributions
-* TOOLCHAIN_SPEEX
-  * When *ON* builds Speex
-  * When *OFF* uses Speex installed on host.
-  * *OFF* is only supported on Linux distributions
-* TOOLCHAIN_SPEEXDSP
-  * When *ON* builds SpeexDSP
-  * When *OFF* uses SpeexDSP installed on host.
-  * *OFF* is only supported on Linux distributions
+* `TOOLCHAIN_FFMPEG`
+  * When `ON` builds FFmpeg
+  * When `OFF` uses FFmpeg installed on host.
+  * `OFF` is only supported on Linux distributions
+* `TOOLCHAIN_OGG`
+  * When `ON` builds OGG
+  * When `OFF` uses OGG installed on host.
+  * `OFF` is only supported on Linux distributions
+* `TOOLCHAIN_OPUS`
+  * When `ON` builds OPUS
+  * When `OFF` uses OPUS installed on host.
+  * `OFF` is only supported on Linux distributions
+* `TOOLCHAIN_PORTAUDIO`
+  * When `ON` builds PortAudio
+  * When `OFF` uses PortAudio installed on host.
+  * `OFF` is only supported on Linux distributions
+* `TOOLCHAIN_SPEEX`
+  * `OFF` is only supported on Linux distributions
+  * When `ON` builds Speex
+  * When `OFF` uses Speex installed on host.
+* `TOOLCHAIN_SPEEXDSP`
+  * When `ON` builds SpeexDSP
+  * When `OFF` uses SpeexDSP installed on host.
+  * `OFF` is only supported on Linux distributions
+
+## Feature Toggles for TeamTalk Build Targets
+
+What features to build into the TeamTalk binaries are controlled by
+CMake options prefixed by `FEATURE_`.
+
+To e.g. have TeamTalk built without OPUS support invoke CMake like this:
+`cmake -DFEATURE_OPUS=OFF -DBUILD_TEAMTALK_CORE=ON -S TeamTalk5 -B builddir`
+
+The following feature toggles are available:
+
+* `FEATURE_OPUS`
+  * OPUS audio codec
+  * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Raspbian, Windows
+  * Toolchain mapping: `TOOLCHAIN_OPUS`
+* `FEATURE_OPUSTOOLS`
+  * OPUS .ogg file support
+  * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Raspbian, Windows
+* `FEATURE_SPEEX`
+  * Speex audio codec
+  * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Raspbian, Windows
+  * Toolchain mapping: `TOOLCHAIN_SPEEX`
+* `FEATURE_SPEEXDSP`
+  * SpeexDSP for audio processing (resampler, denoiser, AGC)
+  * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Raspbian, Windows
+  * Toolchain mapping: `TOOLCHAIN_SPEEXDSP`
+* `FEATURE_FFMPEG`
+  * FFmpeg for streaming and audio resampling
+  * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Raspbian
+  * Toolchain mapping: `TOOLCHAIN_FFMPEG`
+* `FEATURE_V4L2`
+  * Video for Linux 2 for video capture support
+  * Supported platforms: Ubuntu/Linux, Raspbian
+* `FEATURE_AVF`
+  * Audio Video Foundation for video capture support
+  * Supported platforms: macOS
+* `FEATURE_WEBRTC`
+  * WebRTC for audio processing
+  * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Windows
+* `FEATURE_MSDMO`
+  * Microsoft DirectX Media Object for audio resampling
+  * Supported platforms: Windows
+* `FEATURE_MEDIAFOUNDATION`
+  * Microsoft Media Foundation for audio and video streaming
+  * Supported platforms: Windows
+* `FEATURE_LIBVPX`
+  * libvpx (VP8) video codec
+  * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Raspbian, Windows
+  * Toolchain mapping: `TOOLCHAIN_LIBVPX`
+* `FEATURE_OGG`
+  * OGG file format
+  * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Raspbian, Windows
+  * Toolchain mapping: `TOOLCHAIN_OGG`
+* `FEATURE_PORTAUDIO`
+  * PortAudio sound system
+  * Supported platforms: macOS, Ubuntu/Linux, Raspbian, Windows
+  * Toolchain mapping: `TOOLCHAIN_PORTAUDIO`
+* `FEATURE_OPENSLES`
+  * OpenSL ES sound system
+  * Supported platforms: Android
+* `FEATURE_AUDIOUNIT`
+  * AudioUnit sound system
+  * Supported platforms: iOS
+
+## TeamTalk Build Targets
+
+Which TeamTalk binaries to build are controlled by CMake options
+prefixed by `BUILD_TEAMTALK_`.
+
+Most interesting are:
+
+* `BUILD_TEAMTALK_DLL`
+  * TeamTalk 5 shared library
+  * Builds binary `TEAMTALK_ROOT/Library/TeamTalk_DLL/TeamTalk5.dll` or `libTeamTalk5.so`
+* `BUILD_TEAMTALK_PRODLL`
+  * TeamTalk 5 Pro shared library
+  * Builds binary `TEAMTALK_ROOT/Library/TeamTalk_DLL/TeamTalk5Pro.dll` or `libTeamTalk5Pro.so`
+* `BUILD_TEAMTALK_LIB`
+  * TeamTalk 5 static library used for iOS and Android
+  * Builds binary `TEAMTALK_ROOT/Library/TeamTalk_DLL/libTeamTalk5.a`
+* `BUILD_TEAMTALK_PROLIB`
+  * TeamTalk 5 Pro static library used for iOS and Android
+  * Builds binary `TEAMTALK_ROOT/Library/TeamTalk_DLL/libTeamTalk5Pro.a`
+* `BUILD_TEAMTALK_SRVEXE`
+  * TeamTalk 5 console/daemon server
+  * Builds binary `TEAMTALK_ROOT/Server/tt5srv.exe` or `tt5srv`
+* `BUILD_TEAMTALK_PROSRVEXE`
+  * TeamTalk 5 Pro console/daemon server
+  * Builds binary `TEAMTALK_ROOT/Server/tt5prosrv.exe` or `tt5prosrv`
+* `BUILD_TEAMTALK_SVCEXE`
+  * TeamTalk 5 NT service server
+  * Builds binary `TEAMTALK_ROOT/Server/tt5svc.exe`
+* `BUILD_TEAMTALK_PROSVCEXE`
+  * TeamTalk 5 NT service server
+  * Builds binary `TEAMTALK_ROOT/Server/tt5prosvc.exe`
