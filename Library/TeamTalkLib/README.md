@@ -140,7 +140,12 @@ This will build TeamTalk binaries for architectures *armv7*,
 
 CMake is able to build all TeamTalk's dependencies as so-called
 *ExternalProjects*. All dependencies in TeamTalk's toolchain
-can be activated using using the CMake options prefixed `TOOLCHAIN_`.
+can be activated using the CMake options prefixed `TOOLCHAIN_`.
+
+To e.g. have TeamTalk avoid building OPUS and instead use OPUS
+already installed on the host machine, call CMake like this:
+
+`cmake -DTOOLCHAIN_OPUS=OFF -DBUILD_TEAMTALK_CORE=ON -S TeamTalk5 -B builddir`
 
 The following toolchain toggles are available:
 
@@ -214,6 +219,9 @@ The following toolchain toggles are available:
 
 What features to build into the TeamTalk binaries are controlled by
 CMake options prefixed by `FEATURE_`.
+
+To e.g. have TeamTalk built without OPUS support invoke CMake like this:
+`cmake -DFEATURE_OPUS=OFF -DBUILD_TEAMTALK_CORE=ON -S TeamTalk5 -B builddir`
 
 The following feature toggles are available:
 
