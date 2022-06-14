@@ -24,10 +24,13 @@
 #include "uservolumedlg.h"
 #include "appinfo.h"
 #include "utilsound.h"
+#include <settings.h>
 
 #include <QMessageBox>
+#include <QSettings>
 
 extern TTInstance* ttInst;
+extern QSettings* ttSettings;
 
 UserVolumeDlg::UserVolumeDlg(int userid, QWidget * parent/* = 0*/)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
@@ -95,7 +98,7 @@ void UserVolumeDlg::slotMuteChannel()
 void UserVolumeDlg::slotDefaults()
 {
     ui.voicevolSlider->setValue(refVolumeToPercent(SOUND_VOLUME_DEFAULT));
-    ui.mfvolSlider->setValue(refVolumeToPercent(SOUND_VOLUME_DEFAULT));
+    ui.mfvolSlider->setValue(ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME, SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT).toInt());
     slotVolumeChanged(refVolumeToPercent(SOUND_VOLUME_DEFAULT));
 }
 
