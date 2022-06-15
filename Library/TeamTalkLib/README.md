@@ -23,7 +23,7 @@ The following secions explain how to build TeamTalk binaries using CMake:
 * [Toolchain Toggles for TeamTalk Build Targets](#toolchain-toggles-for-teamTalk-build-targets)
   * Choose if a tool required by TeamTalk should be built by CMake or use
     the tool already installed on the host build machine. E.g. use OPUS
-    installed by `apt install opus-dev` instead of manually building OPUS.
+    installed by `apt install libopus-dev` instead of manually building OPUS.
 * [Feature Toggles for TeamTalk Build Targets](#feature-toggles-for-teamTalk-build-targets)
   * Choose what features should be compiled into the TeamTalk binaries.
     E.g. disable Speex in the TeamTalk DLL.
