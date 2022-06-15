@@ -57,8 +57,8 @@ if (MSVC)
   endif()
   target_include_directories (zlib INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(zlib PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/$(PlatformName)/zlibd.lib
-    IMPORTED_LOCATION ${INSTALL_DIR}/lib/$(PlatformName)/zlib.lib)
+    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/zlibd.lib
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/zlib.lib)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 

@@ -58,8 +58,8 @@ if (MSVC)
   endif()
   target_include_directories (tinyxml INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(tinyxml PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/$(PlatformName)/tinyxmld.lib
-    IMPORTED_LOCATION ${INSTALL_DIR}/lib/$(PlatformName)/tinyxml.lib)
+    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxmld.lib
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxml.lib)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
