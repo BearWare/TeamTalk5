@@ -54,7 +54,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     set (CMAKE_OSX_ARCHITECTURES arm64;x86_64)
     message(WARNING "No architecture specified. Defaulting to ${CMAKE_OSX_ARCHITECTURES}")
   endif()
-  
+
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
   if (NOT CMAKE_OSX_DEPLOYMENT_TARGET)
@@ -111,7 +111,7 @@ if (FEATURE_FFMPEG)
 endif()
 
 # Sound system options
-if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" OR 
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" OR
     ${CMAKE_SYSTEM_NAME} MATCHES "Linux" OR
     ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
   option (FEATURE_PORTAUDIO "Build using PortAudio as sound system" ON)
@@ -233,7 +233,7 @@ if (BUILD_TEAMTALK_PRODLL)
 
   install (FILES ${CMAKE_CURRENT_LIST_DIR}/../TeamTalk_DLL/TeamTalk.h ${CMAKE_CURRENT_LIST_DIR}/../TeamTalk_DLL/TeamTalkSrv.h DESTINATION Library/TeamTalk_DLL)
   install (TARGETS TeamTalk5ProDLL DESTINATION Library/TeamTalk_DLL)
-  
+
   set_target_properties (TeamTalk5ProDLL PROPERTIES OUTPUT_NAME TeamTalk5Pro)
 
   if (MSVS_UNITTEST)
@@ -350,18 +350,21 @@ if (MSVC)
 
     target_link_libraries (tt5svc PRIVATE ${TTSRV_LINK_FLAGS} ${LINK_LIBS})
 
+    set_output_dir(tt5svc ${TEAMTALK_ROOT}/Server)
+
+    set_property(TARGET tt5svc PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Server")
+
+    file (TO_NATIVE_PATH "${TEAMTALK_ROOT}/Server/tt5svc.exe" TT5SVC_EXE_PATH)
+
     add_custom_command (
       TARGET tt5svc
       POST_BUILD
       COMMAND mt
-      ARGS -manifest tt5svc.exe.manifest "-outputresource:$(TargetPath);#1"
+      ARGS -manifest tt5svc.exe.manifest "-outputresource:${TT5SVC_EXE_PATH};#1"
       WORKING_DIRECTORY ${TEAMTALKLIB_ROOT}/build)
-
-    set_output_dir(tt5svc ${TEAMTALK_ROOT}/Server)
 
     install (TARGETS tt5svc DESTINATION Server)
 
-    set_property(TARGET tt5svc PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Server")
   endif()
 
   #################
@@ -379,17 +382,19 @@ if (MSVC)
 
     target_link_libraries (tt5prosvc PRIVATE ${TTSRVPRO_LINK_FLAGS} ${LINK_LIBS})
 
+    set_output_dir (tt5prosvc ${TEAMTALK_ROOT}/Server)
+
+    set_property(TARGET tt5prosvc PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Server")
+
+    file (TO_NATIVE_PATH "${TEAMTALK_ROOT}/Server/tt5prosvc.exe" TT5PROSVC_EXE_PATH)
+
     add_custom_command (TARGET tt5prosvc
       POST_BUILD
       COMMAND mt
-      ARGS -manifest tt5svc.exe.manifest "-outputresource:$(TargetPath);#1"
+      ARGS -manifest tt5svc.exe.manifest "-outputresource:${TT5PROSVC_EXE_PATH};#1"
       WORKING_DIRECTORY ${TEAMTALKLIB_ROOT}/build)
 
-    set_output_dir (tt5prosvc ${TEAMTALK_ROOT}/Server)
-
     install (TARGETS tt5prosvc DESTINATION Server)
-
-    set_property(TARGET tt5prosvc PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Server")
 
   endif()
 endif()
