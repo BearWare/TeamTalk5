@@ -7,9 +7,19 @@ files for various IDEs.
 
 The following secions explain how to build TeamTalk binaries using CMake:
 * [Install TeamTalk Toolchain Dependencies](#install-teamTalk-toolchain-dependencies)
-  * Install the tools required to build TeamTalk on the host build machine.
+  * Install the tools required to build TeamTalk on the host build platform:
+    * [Windows](#install-teamtalk-dependencies-on-windows)
+    * [Ubuntu 18](#install-teamtalk-dependencies-on-ubuntu-18)
+    * [Android on Ubuntu 18](#install-teamtalk-dependencies-for-android-on-ubuntu-18)
+    * [macOS](#install-teamtalk-dependencies-on-macos)
+    * [iOS on macOS](#install-teamtalk-dependencies-for-ios-on-macos)
 * [Build TeamTalk Binaries](#build-teamTalk-binaries)
-  * Invoke CMake to start building the TeamTalk binaries.
+  * Invoke CMake to start building the TeamTalk binaries on the host build platform:
+    * [Windows](#build-teamtalk-binaries-for-windows)
+    * [Ubuntu 18](#build-teamtalk-binaries-for-ubuntu-18)
+    * [Android on Ubuntu 18](#build-teamtalk-binaries-for-android-on-ubuntu-18)
+    * [macOS](#build-teamtalk-binaries-for-macos)
+    * [iOS on macOS](#build-teamtalk-binaries-for-ios-on-macos)
 * [Toolchain Toggles for TeamTalk Build Targets](#toolchain-toggles-for-teamTalk-build-targets)
   * Choose if a tool required by TeamTalk should be built by CMake or use
     the tool already installed on the host build machine. E.g. use OPUS
@@ -17,7 +27,7 @@ The following secions explain how to build TeamTalk binaries using CMake:
 * [Feature Toggles for TeamTalk Build Targets](#feature-toggles-for-teamTalk-build-targets)
   * Choose what features should be compiled into the TeamTalk binaries.
     E.g. disable Speex in the TeamTalk DLL.
-* [TeamTalk Build Targets](#teamTalk-build-targets)
+* [Toggles for TeamTalk Build Targets](#teamTalk-build-targets)
   * Toggle what TeamTalk binaries should be built by CMake. E.g. avoid
     building TeamTalk server.
 
