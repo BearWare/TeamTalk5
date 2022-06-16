@@ -49,8 +49,8 @@ if (MSVC)
   add_dependencies(tinyxml-classic tinyxml-classic-src)
   target_include_directories (tinyxml-classic INTERFACE ${SOURCE_DIR})
   set_target_properties(tinyxml-classic PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${SOURCE_DIR}/lib/$(PlatformName)/tinyxmld.lib
-    IMPORTED_LOCATION ${SOURCE_DIR}/lib/$(PlatformName)/tinyxml.lib)
+    IMPORTED_LOCATION_DEBUG ${SOURCE_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxmld.lib
+    IMPORTED_LOCATION ${SOURCE_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxml.lib)
   
   option (BUILD_TEAMTALK_CLIENT_MFC_EXAMPLE "Build TeamTalk 5 Classic for TeamTalk 5 Standard Edition" ON)
   option (BUILD_TEAMTALK_PROCLIENT_MFC_EXAMPLE "Build TeamTalk 5 Classic Pro for TeamTalk 5 Professional Edition" ON)

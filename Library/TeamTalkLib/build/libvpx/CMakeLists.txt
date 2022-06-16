@@ -82,8 +82,8 @@ if (MSVC)
   add_library(libvpx STATIC IMPORTED GLOBAL)
   target_include_directories (libvpx INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(libvpx PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/$(PlatformName)/Debug/vpxmtd.lib
-    IMPORTED_LOCATION ${INSTALL_DIR}/$(PlatformName)/Release/vpxmt.lib)
+    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/${CMAKE_VS_PLATFORM_NAME}/Debug/vpxmtd.lib
+    IMPORTED_LOCATION ${INSTALL_DIR}/${CMAKE_VS_PLATFORM_NAME}/Release/vpxmt.lib)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(libvpx libvpx-src)
   endif()

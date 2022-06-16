@@ -84,25 +84,25 @@ if (MSVC)
   endif()
   target_include_directories (ace INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(ace PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/$(PlatformName)/ACEsd.lib
-    IMPORTED_LOCATION ${INSTALL_DIR}/lib/$(PlatformName)/ACEs.lib)
+    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/ACEsd.lib
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/ACEs.lib)
 
   add_library(ace_ssl STATIC IMPORTED GLOBAL)
   set_target_properties(ace_ssl PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/$(PlatformName)/ACE_SSLsd.lib
-    IMPORTED_LOCATION ${INSTALL_DIR}/lib/$(PlatformName)/ACE_SSLs.lib)
+    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/ACE_SSLsd.lib
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/ACE_SSLs.lib)
   target_link_libraries(ace_ssl INTERFACE ace openssl-crypto openssl-ssl)
 
   add_library(ace_inet STATIC IMPORTED GLOBAL)
   set_target_properties(ace_inet PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/$(PlatformName)/ACE_INetsd.lib
-    IMPORTED_LOCATION ${INSTALL_DIR}/lib/$(PlatformName)/ACE_INets.lib)
+    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/ACE_INetsd.lib
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/ACE_INets.lib)
   target_link_libraries(ace_inet INTERFACE ace)
 
   add_library(ace_inet_ssl STATIC IMPORTED GLOBAL)
   set_target_properties(ace_inet_ssl PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/$(PlatformName)/ACE_INet_SSLsd.lib
-    IMPORTED_LOCATION ${INSTALL_DIR}/lib/$(PlatformName)/ACE_INet_SSLs.lib)
+    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/ACE_INet_SSLsd.lib
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/ACE_INet_SSLs.lib)
   target_link_libraries(ace_inet_ssl INTERFACE ace_inet ace_ssl)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")

@@ -58,8 +58,8 @@ if (MSVC)
   endif()
   target_include_directories (speex INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(speex PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/$(PlatformName)/libspeexd.lib
-    IMPORTED_LOCATION ${INSTALL_DIR}/lib/$(PlatformName)/libspeex_sse2.lib)
+    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/libspeexd.lib
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/libspeex_sse2.lib)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
