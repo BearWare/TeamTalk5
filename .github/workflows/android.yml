@@ -2,6 +2,9 @@ name: Android
 
 on: [push]
 
+env:
+  ANDROID_NDK_HOME: /usr/local/lib/android/sdk/ndk/21.4.7075529
+
 jobs:
   build:
     strategy:
