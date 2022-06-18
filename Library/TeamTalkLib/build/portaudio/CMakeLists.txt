@@ -23,6 +23,8 @@ if (MSVC)
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_PORTAUDIO}
       INSTALL_COMMAND   ${CMAKE_COMMAND} --build . --target install --config Debug
       COMMAND           ${CMAKE_COMMAND} --build . --target install --config Release
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/portaudiod.lib
+                        <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/portaudio.lib
       )
     ExternalProject_Get_Property(portaudio-src INSTALL_DIR)
     file(MAKE_DIRECTORY ${INSTALL_DIR}/include)

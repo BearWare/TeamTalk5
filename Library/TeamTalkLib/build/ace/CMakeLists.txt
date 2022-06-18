@@ -46,6 +46,14 @@ if (MSVC)
         INSTALL_COMMAND   cd <SOURCE_DIR>
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\install.bat <INSTALL_DIR>
         DEPENDS           openssl-src
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/ACEsd.lib
+                          <INSTALL_DIR>/lib/ACEs.lib
+                          <INSTALL_DIR>/lib/ACE_SSLsd.lib
+                          <INSTALL_DIR>/lib/ACE_SSLs.lib
+                          <INSTALL_DIR>/lib/ACE_INetsd.lib
+                          <INSTALL_DIR>/lib/ACE_INets.lib
+                          <INSTALL_DIR>/lib/ACE_INet_SSLsd.lib
+                          <INSTALL_DIR>/lib/ACE_INet_SSLs.lib
         )
       ExternalProject_Get_Property(ACE-src INSTALL_DIR)
     else()
@@ -76,6 +84,14 @@ if (MSVC)
         INSTALL_COMMAND   cd <SOURCE_DIR>
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\install.bat <INSTALL_DIR>
         DEPENDS           openssl-src
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/ACEsd.lib
+                          <INSTALL_DIR>/lib/ACEs.lib
+                          <INSTALL_DIR>/lib/ACE_SSLsd.lib
+                          <INSTALL_DIR>/lib/ACE_SSLs.lib
+                          <INSTALL_DIR>/lib/ACE_INetsd.lib
+                          <INSTALL_DIR>/lib/ACE_INets.lib
+                          <INSTALL_DIR>/lib/ACE_INet_SSLsd.lib
+                          <INSTALL_DIR>/lib/ACE_INet_SSLs.lib
         )
       ExternalProject_Get_Property(ACE-src INSTALL_DIR)
     endif()

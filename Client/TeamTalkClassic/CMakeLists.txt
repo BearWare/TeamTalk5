@@ -30,6 +30,7 @@ if (MSVC)
       BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 tinyxml.sln -target:tinyxml /property:Configuration=Debug
       COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 tinyxml.sln -target:tinyxml /property:Configuration=Release
       INSTALL_COMMAND   ""
+      BUILD_BYPRODUCTS  <SOURCE_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxmld.lib <SOURCE_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxml.lib
       )
   else()
     ExternalProject_Add(tinyxml-classic-src
@@ -41,6 +42,7 @@ if (MSVC)
       BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 tinyxml.sln -target:tinyxml /property:Configuration=Debug
       COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 tinyxml.sln -target:tinyxml /property:Configuration=Release
       INSTALL_COMMAND   ""
+      BUILD_BYPRODUCTS  <SOURCE_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxmld.lib <SOURCE_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxml.lib
       )
   endif()
   ExternalProject_Get_Property(tinyxml-classic-src SOURCE_DIR)

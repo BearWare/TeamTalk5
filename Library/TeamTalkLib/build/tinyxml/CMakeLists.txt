@@ -28,6 +28,8 @@ if (MSVC)
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
         COMMAND           cd <SOURCE_DIR>
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxmld.lib
+                          <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxml.lib
         )
     else()
       ExternalProject_Add(tinyxml-src
@@ -44,6 +46,8 @@ if (MSVC)
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
         COMMAND           cd <SOURCE_DIR>
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxmld.lib
+                          <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxml.lib
         )
     endif()
     ExternalProject_Get_Property(tinyxml-src INSTALL_DIR)
