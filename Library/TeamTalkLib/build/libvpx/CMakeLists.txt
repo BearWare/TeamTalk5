@@ -45,6 +45,8 @@ if (MSVC)
         COMMAND           cd <SOURCE_DIR>/build-x64
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat x64 <INSTALL_DIR>
         BUILD_IN_SOURCE   TRUE
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/${CMAKE_VS_PLATFORM_NAME}/Debug/vpxmtd.lib
+                          <INSTALL_DIR>/${CMAKE_VS_PLATFORM_NAME}/Release/vpxmt.lib
         )
     else()
       find_program(YASM_EXE_WIN32_PATH yasm.exe PATHS C:/tt5dist/yasm/win32)
@@ -71,6 +73,8 @@ if (MSVC)
         COMMAND           cd <SOURCE_DIR>/build-win32
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat win32 <INSTALL_DIR>
         BUILD_IN_SOURCE   TRUE
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/${CMAKE_VS_PLATFORM_NAME}/Debug/vpxmtd.lib
+                          <INSTALL_DIR>/${CMAKE_VS_PLATFORM_NAME}/Release/vpxmt.lib
         )
     endif()
     ExternalProject_Get_Property(libvpx-src INSTALL_DIR)

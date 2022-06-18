@@ -26,6 +26,7 @@ if (MSVC)
         COMMAND           nmake
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
         INSTALL_COMMAND   nmake install
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.lib <INSTALL_DIR>/lib/libssl.lib
         )
     else()
       ExternalProject_Add(openssl-src
@@ -39,6 +40,7 @@ if (MSVC)
         COMMAND           nmake
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
         INSTALL_COMMAND   nmake install
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.lib <INSTALL_DIR>/lib/libssl.lib
         )
     endif()
     ExternalProject_Get_Property(openssl-src INSTALL_DIR)
