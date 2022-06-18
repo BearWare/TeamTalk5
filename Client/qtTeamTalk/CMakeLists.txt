@@ -212,13 +212,13 @@ if (Qt5_FOUND OR Qt6_FOUND)
         else()
           add_custom_target (QtTeamTalk5-windeploy-release ALL
             COMMAND ${CMAKE_COMMAND} -E remove_directory "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt"
-            COMMAND ${WINDEPLOYQT_EXE_PATH} --no-quick-import --no-translations --no-system-d3d-compiler --no-virtualkeyboard --no-webkit2 --no-angle --no-opengl-sw --release --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt" "$<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>")
-
-          install (DIRECTORY windeployqt/ DESTINATION Client/qtTeamTalk PATTERN "windeployqt/*" )
+            COMMAND ${WINDEPLOYQT_EXE_PATH} --no-quick-import --no-translations --no-system-d3d-compiler --no-virtualkeyboard --no-webkit2 --no-angle --no-opengl-sw --release --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt" "$<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>"
+            DEPENDS ${TEAMTALK_TARGET})
 
           add_custom_target (QtTeamTalk5-windeploy-debug
             COMMAND ${CMAKE_COMMAND} -E remove_directory "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt-debug"
-            COMMAND ${WINDEPLOYQT_EXE_PATH} --no-quick-import --no-translations --no-system-d3d-compiler --no-virtualkeyboard --no-webkit2 --no-angle --no-opengl-sw --debug --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt-debug" "$<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>")
+            COMMAND ${WINDEPLOYQT_EXE_PATH} --no-quick-import --no-translations --no-system-d3d-compiler --no-virtualkeyboard --no-webkit2 --no-angle --no-opengl-sw --debug --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt-debug" "$<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>"
+            DEPENDS ${TEAMTALK_TARGET})
 
           # OpenSSL DLLs are not deployed by windeployqt.exe so we need to copy them manually.
           # Qt Maintenance Tool is able to download and install Qt's OpenSSL binaries. These files
@@ -233,6 +233,8 @@ if (Qt5_FOUND OR Qt6_FOUND)
           if (QT_OPENSSL_LIBCRYPTODLL_PATH-NOTFOUND OR QT_OPENSSL_LIBSSLDLL_PATH-NOTFOUND)
             message (WARNING "Cannot find OpenSSL's libcrypto.dll and libssl.dll for Qt deployed DLLs")
           else()
+            message ("OpenSSL libcrypto.dll for Qt deployment found here: ${QT_OPENSSL_LIBCRYPTODLL_PATH}")
+            message ("OpenSSL libssl.dll for Qt deployment found here: ${QT_OPENSSL_LIBSSLDLL_PATH}")
             add_custom_target (QtTeamTalk-openssl-deploy-release ALL
               COMMAND ${CMAKE_COMMAND} -E copy ${QT_OPENSSL_LIBCRYPTODLL_PATH} ${QT_OPENSSL_LIBSSLDLL_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt"
               DEPENDS QtTeamTalk5-windeploy-release)
@@ -241,6 +243,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
               DEPENDS QtTeamTalk5-windeploy-debug)
           endif()
 
+          install (DIRECTORY windeployqt/ DESTINATION Client/qtTeamTalk PATTERN "windeployqt/*" )
         endif()
       endif()
 
