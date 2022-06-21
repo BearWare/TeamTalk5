@@ -243,7 +243,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
               DEPENDS QtTeamTalk5-windeploy-debug)
           endif()
 
-          install (DIRECTORY windeployqt/ DESTINATION Client/qtTeamTalk PATTERN "windeployqt/*" )
+          install (DIRECTORY windeployqt DESTINATION Client/qtTeamTalk/)
         endif()
       endif()
 
