@@ -4837,7 +4837,7 @@ void MainWindow::slotUsersAdvancedRelayUserMediaFile(bool checked/* = false*/)
             tr("To relay media file stream from other channel you must enable subscription \"Intercept Media File\".\n"
                 "Do you wish to to do this now?"), QMessageBox::No | QMessageBox::Yes) == QMessageBox::Yes)
         {
-            slotUsersSubscriptionsInterceptVoice(checked);
+            slotUsersSubscriptionsInterceptMediaFile(checked);
         }
     }
 
