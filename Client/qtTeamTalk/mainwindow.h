@@ -219,7 +219,7 @@ private:
     //list of desktop access users
     QVector<DesktopAccessEntry> m_desktopaccess_entries;
     // user being relayed
-    int m_relayvoice_userid = 0;
+    int m_relayvoice_userid = 0, m_relaymediafile_userid = 0;
 
     // init selected sound devices
     void initSound();
@@ -261,7 +261,7 @@ private:
     void toggleAllowStreamTypeForAll(bool checked, StreamType st);
     void toggleAllowStreamType(bool checked, StreamType st);
     void transmitOn(StreamType st);
-    void relayVoiceStream(int userid, bool enable);
+    void relayAudioStream(int userid, StreamType st, bool enable);
 #if defined(Q_OS_LINUX)
     void executeDesktopInput(const DesktopInput& input);
 #endif
@@ -339,7 +339,8 @@ private:
     void slotUsersAdvancedVideoAllowed(bool checked=false);
     void slotUsersAdvancedDesktopAllowed(bool checked=false);
     void slotUsersAdvancedMediaFileAllowed(bool checked=false);
-    void slotUsersAdvancedRelayUserVoice(bool checked=false);
+    void slotUsersAdvancedRelayUserVoice(bool checked = false);
+    void slotUsersAdvancedRelayUserMediaFile(bool checked=false);
     void slotUsersMuteVoiceAll(bool checked=false);
 
     void slotChannelsCreateChannel(bool checked=false);
