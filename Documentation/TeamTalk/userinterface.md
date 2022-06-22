@@ -785,6 +785,14 @@ Each of the menu items in the Advanced-menu are described here.
 - **Move User(s)**
     - Move the selected users, i.e. those from *Store User(s) for
       Move*, to the selected channel.
+- **Relay Voice Stream**
+    - Replace own microphone input (voice stream) with this user's voice stream.
+      If user is not in the same channel then ensure to toggle "Intercept Voice"
+      in [Subscriptions menu](@ref subscriptionsmenu).
+- **Relay Media File Stream**
+    - Replace own microphone input (voice stream) with this user's media file stream.
+      If user is not in the same channel then ensure to toggle "Intercept Media File"
+      in [Subscriptions menu](@ref subscriptionsmenu).
 
 # Channels-Menu {#channelsmenu}
 

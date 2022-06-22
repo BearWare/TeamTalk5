@@ -15,6 +15,7 @@ Default Qt Client
 - Add missing labels on trees of Online Users and Server List dialog
 - Support for Ubuntu 22
 - Restore volume to "Media vs. voice" when using "Default" button on user volume dialog
+- Relay other user's voice stream or media file stream as own microphone input
 Android Client
 iOS Client
 Server
