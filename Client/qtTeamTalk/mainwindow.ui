@@ -1114,7 +1114,7 @@
      <x>0</x>
      <y>0</y>
      <width>637</width>
-     <height>24</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuClient">
@@ -1215,6 +1215,7 @@
      <addaction name="separator"/>
      <addaction name="separator"/>
      <addaction name="actionRelayVoiceStream"/>
+     <addaction name="actionRelayMediaFileStream"/>
     </widget>
     <widget class="QMenu" name="menuMute">
      <property name="title">
@@ -2318,6 +2319,14 @@
    </property>
    <property name="text">
     <string>&amp;Relay Voice Stream</string>
+   </property>
+  </action>
+  <action name="actionRelayMediaFileStream">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Relay Media &amp;File Stream</string>
    </property>
   </action>
  </widget>

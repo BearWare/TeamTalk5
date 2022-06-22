@@ -445,6 +445,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotUsersAdvancedDesktopAllowed);
     connect(ui.actionRelayVoiceStream, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedRelayUserVoice);
+    connect(ui.actionRelayMediaFileStream, &QAction::triggered,
+        this, &MainWindow::slotUsersAdvancedRelayUserMediaFile);
     connect(ui.actionAllowMediaFileTransmission, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedMediaFileAllowed);
     connect(ui.actionAllowAllChannelTextMessages, &QAction::triggered,
@@ -1166,8 +1168,8 @@ void MainWindow::clienteventCmdUserLeft(int prevchannelid, const User& user)
 
     emit (userLeft(prevchannelid, user));
 
-    if (m_relayvoice_userid == user.nUserID)
-        relayVoiceStream(m_relayvoice_userid, false);
+    if (user.nUserID == m_relayvoice_userid || user.nUserID == m_relayvoice_userid)
+        relayAudioStream(user.nUserID, STREAMTYPE_NONE, false);
 
     if (m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL &&
         user.nUserID != TT_GetMyUserID(ttInst))
@@ -1546,8 +1548,7 @@ void MainWindow::clienteventUserAudioBlock(int source, StreamTypes streamtypes)
     AudioBlock* block = TT_AcquireUserAudioBlock(ttInst, streamtypes, source);
     if (block)
     {
-        Q_ASSERT(m_relayvoice_userid == source);
-        if (m_relayvoice_userid == source)
+        if (m_relayvoice_userid == source || m_relaymediafile_userid == source)
         {
             TT_InsertAudioBlock(ttInst, block);
         }
@@ -1972,8 +1973,7 @@ void MainWindow::Disconnect()
 
     m_srvprop = {};
     m_mychannel = {};
-    if (m_relayvoice_userid)
-        relayVoiceStream(m_relayvoice_userid, false);
+    relayAudioStream(0, STREAMTYPE_NONE, false);
 
     m_useraccounts.clear();
     m_bannedusers.clear();
@@ -3746,18 +3746,36 @@ void MainWindow::transmitOn(StreamType st)
     }
 }
 
-void MainWindow::relayVoiceStream(int userid, bool enable)
+void MainWindow::relayAudioStream(int userid, StreamType st, bool enable)
 {
-    if (enable)
-    {
-        TT_EnableAudioBlockEvent(ttInst, userid, STREAMTYPE_VOICE, true);
-        m_relayvoice_userid = userid;
-    }
-    else
+    if (m_relayvoice_userid)
     {
         TT_EnableAudioBlockEvent(ttInst, userid, STREAMTYPE_VOICE, false);
         TT_InsertAudioBlock(ttInst, nullptr);
         m_relayvoice_userid = 0;
+    }
+
+    if (m_relaymediafile_userid)
+    {
+        TT_EnableAudioBlockEvent(ttInst, userid, STREAMTYPE_MEDIAFILE_AUDIO, false);
+        TT_InsertAudioBlock(ttInst, nullptr);
+        m_relaymediafile_userid = 0;
+    }
+
+    if (enable)
+    {
+        TT_EnableAudioBlockEvent(ttInst, userid, st, true);
+        switch (st)
+        {
+        case STREAMTYPE_VOICE:
+            m_relayvoice_userid = userid;
+            break;
+        case STREAMTYPE_MEDIAFILE_AUDIO :
+            m_relaymediafile_userid = userid;
+            break;
+        default :
+            Q_ASSERT(0);
+        }
     }
 }
 
@@ -4788,13 +4806,43 @@ void MainWindow::slotUsersAdvancedMediaFileAllowed(bool checked/*=false*/)
 
 void MainWindow::slotUsersAdvancedRelayUserVoice(bool checked/*=false*/)
 {
-    int userid = ui.channelsWidget->selectedUser();
-    if (m_relayvoice_userid)
-        relayVoiceStream(m_relayvoice_userid, false);
+    User user;
+    if (!ui.channelsWidget->getSelectedUser(user))
+        return;
 
-    relayVoiceStream(userid, checked);
+    if (checked && user.nChannelID != m_mychannel.nChannelID &&
+        (user.uLocalSubscriptions & SUBSCRIBE_INTERCEPT_VOICE) == SUBSCRIBE_NONE)
+    {
+        if (QMessageBox::information(this, MENUTEXT(ui.actionRelayVoiceStream->text()),
+            tr("To relay voice stream from other channel you must enable subscription \"Intercept Voice\".\n"
+                "Do you wish to to do this now?"), QMessageBox::No | QMessageBox::Yes) == QMessageBox::Yes)
+        {
+            slotUsersSubscriptionsInterceptVoice(checked);
+        }
+    }
+
+    relayAudioStream(user.nUserID, STREAMTYPE_VOICE, checked);
 }
 
+void MainWindow::slotUsersAdvancedRelayUserMediaFile(bool checked/* = false*/)
+{
+    User user;
+    if (!ui.channelsWidget->getSelectedUser(user))
+        return;
+
+    if (checked && user.nChannelID != m_mychannel.nChannelID &&
+        (user.uLocalSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE) == SUBSCRIBE_NONE)
+    {
+        if (QMessageBox::information(this, MENUTEXT(ui.actionRelayMediaFileStream->text()),
+            tr("To relay media file stream from other channel you must enable subscription \"Intercept Media File\".\n"
+                "Do you wish to to do this now?"), QMessageBox::No | QMessageBox::Yes) == QMessageBox::Yes)
+        {
+            slotUsersSubscriptionsInterceptVoice(checked);
+        }
+    }
+
+    relayAudioStream(user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO, checked);
+}
 
 void MainWindow::slotChannelsCreateChannel(bool /*checked =false */)
 {
@@ -5742,7 +5790,9 @@ void MainWindow::slotUpdateUI()
     ui.actionStoreForMove->setEnabled(userid>0 && (userrights & USERRIGHT_MOVE_USERS));
     ui.actionMoveUser->setEnabled(m_moveusers.size() && (userrights & USERRIGHT_MOVE_USERS));
     ui.actionRelayVoiceStream->setEnabled(userid > 0);
-    ui.actionRelayVoiceStream->setChecked(userid == m_relayvoice_userid);
+    ui.actionRelayVoiceStream->setChecked(userid > 0 && userid == m_relayvoice_userid);
+    ui.actionRelayMediaFileStream->setEnabled(userid > 0);
+    ui.actionRelayMediaFileStream->setChecked(userid > 0 && userid == m_relaymediafile_userid);
 
     //ui.actionMuteAll->setEnabled(statemask & CLIENT_SOUND_READY);
     ui.actionMuteAll->setChecked(statemask & CLIENT_SNDOUTPUT_MUTE);
