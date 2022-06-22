@@ -168,11 +168,12 @@ winserverpro:
 winclient:
 	mkdir -p $(OUTDIR)/Client
 # Qt client
-	cp -r $(INSTALLDIR)/Client/qtTeamTalk/* $(OUTDIR)/Client/
+	cp $(INSTALLDIR)/Client/qtTeamTalk/TeamTalk5.exe $(OUTDIR)/Client/
+	cp -r $(INSTALLDIR)/Client/qtTeamTalk/windeployqt/* $(OUTDIR)/Client/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5.ini $(OUTDIR)/Client/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5.ini $(OUTDIR)/Client/TeamTalk5.ini.default
 # Classic client
-	cp -r $(INSTALLDIR)/Client/TeamTalkClassic/* $(OUTDIR)/Client/
+	cp $(INSTALLDIR)/Client/TeamTalkClassic/TeamTalk5Classic.exe $(OUTDIR)/Client/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5Classic.xml $(OUTDIR)/Client/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5Classic.xml $(OUTDIR)/Client/TeamTalk5Classic.xml.default
 # Shared files
