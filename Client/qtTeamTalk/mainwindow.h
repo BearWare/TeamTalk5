@@ -256,6 +256,7 @@ private:
     void loadHotKeys();
     void enableHotKey(HotKeyID id, const hotkey_t& hk);
     void disableHotKey(HotKeyID id);
+    void pttHotKey(bool active);
     void checkAppUpdate();
     void toggleAllowStreamType(bool checked, int userid, int channelid, StreamType st);
     void toggleAllowStreamTypeForAll(bool checked, StreamType st);
