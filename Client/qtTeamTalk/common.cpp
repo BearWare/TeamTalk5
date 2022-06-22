@@ -1171,5 +1171,7 @@ bool openLogFile(QFile& file, const QString& folder, const QString& name)
 
 bool writeLogEntry(QFile& file, const QString& line)
 {
-    return file.write(QString(line + "\r\n").toUtf8())>0;
+    bool ret =  file.write(QString(line + "\r\n").toUtf8()) > 0;
+    file.flush();
+    return ret;
 }
