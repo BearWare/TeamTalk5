@@ -4847,7 +4847,7 @@ void MainWindow::slotUsersAdvancedRelayUserVoice(bool checked/*=false*/)
     {
         if (QMessageBox::information(this, MENUTEXT(ui.actionRelayVoiceStream->text()),
             tr("To relay voice stream from other channel you must enable subscription \"Intercept Voice\".\n"
-                "Do you wish to to do this now?"), QMessageBox::No | QMessageBox::Yes) == QMessageBox::Yes)
+                "Do you wish to do this now?"), QMessageBox::No | QMessageBox::Yes) == QMessageBox::Yes)
         {
             slotUsersSubscriptionsInterceptVoice(checked);
         }
@@ -4867,7 +4867,7 @@ void MainWindow::slotUsersAdvancedRelayUserMediaFile(bool checked/* = false*/)
     {
         if (QMessageBox::information(this, MENUTEXT(ui.actionRelayMediaFileStream->text()),
             tr("To relay media file stream from other channel you must enable subscription \"Intercept Media File\".\n"
-                "Do you wish to to do this now?"), QMessageBox::No | QMessageBox::Yes) == QMessageBox::Yes)
+                "Do you wish to do this now?"), QMessageBox::No | QMessageBox::Yes) == QMessageBox::Yes)
         {
             slotUsersSubscriptionsInterceptMediaFile(checked);
         }
