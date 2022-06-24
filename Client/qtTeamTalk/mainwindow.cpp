@@ -4329,13 +4329,19 @@ void MainWindow::slotMeHearMyself(bool checked/*=false*/)
 
 void MainWindow::slotMeEnableVoiceActivation(bool checked, SoundEvent on, SoundEvent off)
 {
-    TT_EnableVoiceActivation(ttInst, checked);
-    ui.voiceactSlider->setVisible(checked);
-    ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, checked);
-    if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
-        emit(updateMyself());
+    if (!TT_EnableVoiceActivation(ttInst, checked) && checked)
+    {
+        addStatusMsg(STATUSBAR_BYPASS, tr("Failed to enable voice activation"));
+    }
+    else
+    {
+        ui.voiceactSlider->setVisible(checked);
+        ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, checked);
+        if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
+            emit(updateMyself());
+        playSoundEvent(checked == true?on:off);
+    }
     slotUpdateUI();
-    playSoundEvent(checked == true?on:off);
 }
 
 void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
