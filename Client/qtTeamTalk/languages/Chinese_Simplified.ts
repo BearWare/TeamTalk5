@@ -2249,12 +2249,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2321"/>
         <source>&amp;Relay Voice Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>转播语音流(&amp;R)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2329"/>
         <source>Relay Media &amp;File Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>转播媒体文件流(&amp;F)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2305"/>
@@ -3307,7 +3307,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="2284"/>
         <source>Voice transmission failed</source>
-        <translation type="unfinished"></translation>
+        <translation>语音传输失败</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2569"/>
@@ -3451,7 +3451,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="4344"/>
         <source>Failed to enable voice activation</source>
-        <translation type="unfinished"></translation>
+        <translation>无法企用语音激活</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4369"/>
@@ -3473,13 +3473,15 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="4849"/>
         <source>To relay voice stream from other channel you must enable subscription &quot;Intercept Voice&quot;.
 Do you wish to do this now?</source>
-        <translation type="unfinished"></translation>
+        <translation>要转播其他频道的语音流，您必须启用“拦截语音”订阅。
+您现在想这样做吗？</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4869"/>
         <source>To relay media file stream from other channel you must enable subscription &quot;Intercept Media File&quot;.
 Do you wish to do this now?</source>
-        <translation type="unfinished"></translation>
+        <translation>要转播其他频道的媒体文件流，您必须启用"拦截媒体文件"订阅。
+您现在想这样做吗？</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5225"/>
