@@ -61,8 +61,6 @@
 
 #define SETTINGS_DISPLAY_MESSAGEPOPUP               "display/msgpopup"
 #define SETTINGS_DISPLAY_VIDEOPOPUP                 "display/videopopup"
-#define SETTINGS_DISPLAY_VIDEORETURNTOGRID          "display/videoreturntogrid"
-#define SETTINGS_DISPLAY_VIDEORETURNTOGRID_DEFAULT  true
 #define SETTINGS_DISPLAY_DESKTOPPOPUP               "display/desktoppopup"
 #define SETTINGS_DISPLAY_VIDEOTEXT_WIDTH            "display/videotext-pane-width"
 #define SETTINGS_DISPLAY_VIDEOTEXT_WIDTH_DEFAULT    30.0
