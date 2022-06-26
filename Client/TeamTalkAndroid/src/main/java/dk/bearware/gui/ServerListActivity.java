@@ -770,26 +770,51 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
     @Override
     public int compare(ServerEntry s1, ServerEntry s2) {
         switch (s1.servertype) {
-            case LOCAL:
-                if (s2.servertype == ServerEntry.ServerType.LOCAL)
-                    return s1.servername.compareToIgnoreCase(s2.servername);
-                return -1;
+            case LOCAL :
+                switch (s2.servertype) {
+                    case LOCAL :
+                        return s1.servername.compareToIgnoreCase(s2.servername);
+                    case OFFICIAL :
+                    case PUBLIC :
+                    case UNOFFICIAL :
+                        return -1;
+                }
+                break;
+
             case OFFICIAL:
-                if (s2.servertype == ServerEntry.ServerType.LOCAL)
-                    return 1;
-                if (s2.servertype == ServerEntry.ServerType.OFFICIAL)
-                    return 0; // order of public servers are determined by xml-reply
-                return -1;
-            case PUBLIC:
-                if (s2.servertype == ServerEntry.ServerType.LOCAL || s2.servertype == ServerEntry.ServerType.OFFICIAL)
-                    return 1;
-                if (s2.servertype == ServerEntry.ServerType.PUBLIC)
-                    return 0; // order of public servers are determined by xml-reply
-                return -1;
+                switch (s2.servertype) {
+                    case LOCAL :
+                        return 1;
+                    case OFFICIAL :
+                        return 0; // order determined by xml-reply (from web-request)
+                    case PUBLIC :
+                    case UNOFFICIAL :
+                        return -1;
+                }
+                break;
+
+            case PUBLIC :
+                switch (s2.servertype) {
+                    case LOCAL :
+                    case OFFICIAL :
+                        return 1;
+                    case PUBLIC :
+                        return 0; // order determined by xml-reply (from web-request)
+                    case UNOFFICIAL :
+                        return -1;
+                }
+                break;
+
             case UNOFFICIAL:
-                if (s2.servertype == ServerEntry.ServerType.UNOFFICIAL)
-                    return s1.servername.compareToIgnoreCase(s2.servername);
-                return -1;
+                switch (s2.servertype) {
+                    case LOCAL :
+                    case OFFICIAL :
+                    case PUBLIC :
+                        return 1;
+                    case UNOFFICIAL :
+                        return s1.servername.compareToIgnoreCase(s2.servername);
+                }
+                break;
         }
         return 0;
     }

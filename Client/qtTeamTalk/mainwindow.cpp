@@ -443,6 +443,10 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotUsersAdvancedVideoAllowed);
     connect(ui.actionAllowDesktopTransmission, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedDesktopAllowed);
+    connect(ui.actionRelayVoiceStream, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedRelayUserVoice);
+    connect(ui.actionRelayMediaFileStream, &QAction::triggered,
+        this, &MainWindow::slotUsersAdvancedRelayUserMediaFile);
     connect(ui.actionAllowMediaFileTransmission, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedMediaFileAllowed);
     connect(ui.actionAllowAllChannelTextMessages, &QAction::triggered,
@@ -1161,7 +1165,11 @@ void MainWindow::clienteventCmdUserLeft(int prevchannelid, const User& user)
 {
     if (user.nUserID == TT_GetMyUserID(ttInst))
         processMyselfLeft(prevchannelid);
+
     emit (userLeft(prevchannelid, user));
+
+    if (user.nUserID == m_relayvoice_userid || user.nUserID == m_relayvoice_userid)
+        relayAudioStream(user.nUserID, STREAMTYPE_NONE, false);
 
     if (m_commands[m_current_cmdid] != CMD_COMPLETE_JOINCHANNEL &&
         user.nUserID != TT_GetMyUserID(ttInst))
@@ -1538,19 +1546,15 @@ void MainWindow::clienteventUserRecordMediaFile(int source, const MediaFileInfo&
 void MainWindow::clienteventUserAudioBlock(int source, StreamTypes streamtypes)
 {
     AudioBlock* block = TT_AcquireUserAudioBlock(ttInst, streamtypes, source);
-    if(block)
+    if (block)
     {
-        int mean = 0;
-        int size = block->nSamples * block->nChannels;
-        short* ptr = (short*)block->lpRawAudio;
-        for(int i=0;i<size;i++)
-            mean += ptr[i];
-        mean /= size;
-        qDebug() << "AudioBlock from #" << source
-            << "stream id" << block->nStreamID
-            << "index" << block->uSampleIndex
-            << "samples" << block->nSamples
-            << "avg" << mean;
+        if (m_relayvoice_userid == source || m_relaymediafile_userid == source)
+        {
+            if (!TT_InsertAudioBlock(ttInst, block))
+            {
+                qDebug() << "Failed to insert audioblock";
+            }
+        }
         TT_ReleaseUserAudioBlock(ttInst, block);
     }
 }
@@ -1721,6 +1725,9 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     case CLIENTEVENT_USER_AUDIOBLOCK :
         clienteventUserAudioBlock(msg.nSource, msg.nStreamType);
     break;
+    case CLIENTEVENT_AUDIOINPUT :
+        qDebug() << "Active audio input #" << msg.nSource << " " << msg.audioinputprogress.uElapsedMSec << " msec. Queue: " << msg.audioinputprogress.uQueueMSec;
+        break;
     case CLIENTEVENT_HOTKEY :
         Q_ASSERT(msg.ttType == __TTBOOL);
         hotkeyToggle((HotKeyID)msg.nSource, (bool)msg.bActive);
@@ -1969,6 +1976,7 @@ void MainWindow::Disconnect()
 
     m_srvprop = {};
     m_mychannel = {};
+    relayAudioStream(0, STREAMTYPE_NONE, false);
 
     m_useraccounts.clear();
     m_bannedusers.clear();
@@ -2195,27 +2203,7 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
     switch(id)
     {
     case HOTKEY_PUSHTOTALK :
-        if (ttSettings->value(SETTINGS_GENERAL_PUSHTOTALKLOCK,
-                              SETTINGS_GENERAL_PUSHTOTALKLOCK_DEFAULT).toBool())
-        {
-            if (active)
-            {
-                bool tx = (TT_GetFlags(ttInst) & CLIENT_TX_VOICE) != CLIENT_CLOSED;
-                TT_EnableVoiceTransmission(ttInst, !tx);
-                emit(updateMyself());
-                playSoundEvent(SOUNDEVENT_HOTKEY);
-                if (!tx)
-                    transmitOn(STREAMTYPE_VOICE);
-            }
-        }
-        else
-        {
-            TT_EnableVoiceTransmission(ttInst, active);
-            emit(updateMyself());
-            playSoundEvent(SOUNDEVENT_HOTKEY);
-            if (active)
-                transmitOn(STREAMTYPE_VOICE);
-        }
+        pttHotKey(active);
         break;
     case HOTKEY_VOICEACTIVATION :
         if(active)
@@ -2264,6 +2252,39 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
         break;
     }
 }
+
+void MainWindow::pttHotKey(bool active)
+{
+    bool pttfail = false;
+    if (ttSettings->value(SETTINGS_GENERAL_PUSHTOTALKLOCK,
+                          SETTINGS_GENERAL_PUSHTOTALKLOCK_DEFAULT).toBool())
+    {
+        if (active)
+        {
+            bool tx = (TT_GetFlags(ttInst) & CLIENT_TX_VOICE) != CLIENT_CLOSED;
+            pttfail = !TT_EnableVoiceTransmission(ttInst, !tx);
+            emit(updateMyself());
+            playSoundEvent(SOUNDEVENT_HOTKEY);
+            if (!tx)
+                transmitOn(STREAMTYPE_VOICE);
+        }
+    }
+    else
+    {
+        pttfail = !TT_EnableVoiceTransmission(ttInst, active) && active;
+        emit(updateMyself());
+        playSoundEvent(SOUNDEVENT_HOTKEY);
+        if (active)
+            transmitOn(STREAMTYPE_VOICE);
+    }
+
+    // PTT will e.g. fail during audio stream relay
+    if (pttfail)
+    {
+        addStatusMsg(STATUSBAR_BYPASS, tr("Voice transmission failed"));
+    }
+}
+
 
 void MainWindow::timerEvent(QTimerEvent *event)
 {
@@ -2632,6 +2653,9 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         line = ui.chatEdit->addTextMessage(textmsg);
         ui.videochatEdit->addTextMessage(textmsg);
         ui.desktopchatEdit->addTextMessage(textmsg);
+        // ChatTextEdit will merge TextMessages into one string if 'textmsg' is a combined TextMessage
+        if (line.isEmpty())
+            break;
 
         //setup channel text logging
         QString chanlog = ttSettings->value(SETTINGS_MEDIASTORAGE_CHANLOGFOLDER).toString();
@@ -2652,30 +2676,37 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
             }
             writeLogEntry(m_logChan, line);
         }
+
         if (textmsg.nFromUserID != TT_GetMyUserID(ttInst))
         {
             User user;
             if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
-                addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL, QString(tr("Channel message from %1: %2").arg(getDisplayName(user)).arg(_Q(textmsg.szMessage))));
+                addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL, QString(tr("Channel message from %1: %2").arg(getDisplayName(user)).arg(line)));
             playSoundEvent(SOUNDEVENT_CHANNELMSG);
         }
         else
         {
-            addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL_SEND, QString(tr("Channel message sent: %1").arg(_Q(textmsg.szMessage))));
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL_SEND, QString(tr("Channel message sent: %1").arg(line)));
             playSoundEvent(SOUNDEVENT_CHANNELMSGSENT);
         }
 
         break;
     }
     case MSGTYPE_BROADCAST :
-        ui.chatEdit->addTextMessage(textmsg);
+    {
+        QString line;
+        line = ui.chatEdit->addTextMessage(textmsg);
         ui.videochatEdit->addTextMessage(textmsg);
         ui.desktopchatEdit->addTextMessage(textmsg);
+        if (line.isEmpty())
+            break;
+
         User user;
         if (ui.channelsWidget->getUser(textmsg.nFromUserID, user) && user.nUserID != TT_GetMyUserID(ttInst))
-            addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST, QString(tr("Broadcast message from %1: %2").arg(getDisplayName(user)).arg(_Q(textmsg.szMessage))));
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST, QString(tr("Broadcast message from %1: %2").arg(getDisplayName(user)).arg(line)));
         playSoundEvent(SOUNDEVENT_BROADCASTMSG);
         break;
+    }
     case MSGTYPE_USER :
     {
         if(ttSettings->value(SETTINGS_DISPLAY_MESSAGEPOPUP, true).toBool())
@@ -3741,6 +3772,39 @@ void MainWindow::transmitOn(StreamType st)
     }
 }
 
+void MainWindow::relayAudioStream(int userid, StreamType st, bool enable)
+{
+    if (m_relayvoice_userid)
+    {
+        TT_EnableAudioBlockEvent(ttInst, userid, STREAMTYPE_VOICE, false);
+        TT_InsertAudioBlock(ttInst, nullptr);
+        m_relayvoice_userid = 0;
+    }
+
+    if (m_relaymediafile_userid)
+    {
+        TT_EnableAudioBlockEvent(ttInst, userid, STREAMTYPE_MEDIAFILE_AUDIO, false);
+        TT_InsertAudioBlock(ttInst, nullptr);
+        m_relaymediafile_userid = 0;
+    }
+
+    if (enable)
+    {
+        TT_EnableAudioBlockEvent(ttInst, userid, st, true);
+        switch (st)
+        {
+        case STREAMTYPE_VOICE:
+            m_relayvoice_userid = userid;
+            break;
+        case STREAMTYPE_MEDIAFILE_AUDIO :
+            m_relaymediafile_userid = userid;
+            break;
+        default :
+            Q_ASSERT(0);
+        }
+    }
+}
+
 void MainWindow::toggleAllowStreamTypeForAll(bool checked, StreamType st)
 {
     int channelid = ui.channelsWidget->selectedChannel(true);
@@ -4275,13 +4339,19 @@ void MainWindow::slotMeHearMyself(bool checked/*=false*/)
 
 void MainWindow::slotMeEnableVoiceActivation(bool checked, SoundEvent on, SoundEvent off)
 {
-    TT_EnableVoiceActivation(ttInst, checked);
-    ui.voiceactSlider->setVisible(checked);
-    ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, checked);
-    if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
-        emit(updateMyself());
+    if (!TT_EnableVoiceActivation(ttInst, checked) && checked)
+    {
+        addStatusMsg(STATUSBAR_BYPASS, tr("Failed to enable voice activation"));
+    }
+    else
+    {
+        ui.voiceactSlider->setVisible(checked);
+        ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, checked);
+        if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
+            emit(updateMyself());
+        playSoundEvent(checked == true?on:off);
+    }
     slotUpdateUI();
-    playSoundEvent(checked == true?on:off);
 }
 
 void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
@@ -4766,6 +4836,45 @@ void MainWindow::slotUsersAdvancedMediaFileAllowed(bool checked/*=false*/)
         toggleAllowStreamTypeForAll(checked, STREAMTYPE_MEDIAFILE);
 }
 
+void MainWindow::slotUsersAdvancedRelayUserVoice(bool checked/*=false*/)
+{
+    User user;
+    if (!ui.channelsWidget->getSelectedUser(user))
+        return;
+
+    if (checked && user.nChannelID != m_mychannel.nChannelID &&
+        (user.uLocalSubscriptions & SUBSCRIBE_INTERCEPT_VOICE) == SUBSCRIBE_NONE)
+    {
+        if (QMessageBox::information(this, MENUTEXT(ui.actionRelayVoiceStream->text()),
+            tr("To relay voice stream from other channel you must enable subscription \"Intercept Voice\".\n"
+                "Do you wish to do this now?"), QMessageBox::No | QMessageBox::Yes) == QMessageBox::Yes)
+        {
+            slotUsersSubscriptionsInterceptVoice(checked);
+        }
+    }
+
+    relayAudioStream(user.nUserID, STREAMTYPE_VOICE, checked);
+}
+
+void MainWindow::slotUsersAdvancedRelayUserMediaFile(bool checked/* = false*/)
+{
+    User user;
+    if (!ui.channelsWidget->getSelectedUser(user))
+        return;
+
+    if (checked && user.nChannelID != m_mychannel.nChannelID &&
+        (user.uLocalSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE) == SUBSCRIBE_NONE)
+    {
+        if (QMessageBox::information(this, MENUTEXT(ui.actionRelayMediaFileStream->text()),
+            tr("To relay media file stream from other channel you must enable subscription \"Intercept Media File\".\n"
+                "Do you wish to do this now?"), QMessageBox::No | QMessageBox::Yes) == QMessageBox::Yes)
+        {
+            slotUsersSubscriptionsInterceptMediaFile(checked);
+        }
+    }
+
+    relayAudioStream(user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO, checked);
+}
 
 void MainWindow::slotChannelsCreateChannel(bool /*checked =false */)
 {
@@ -5626,6 +5735,8 @@ void MainWindow::slotUpdateUI()
     bool me_admin = (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN);
     bool me_op = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), user_chanid);
     bool tts = ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt() != TTSENGINE_NONE;
+    bool voiceactivated = (statemask & CLIENT_SNDINPUT_VOICEACTIVATED);
+    bool voicetx = (statemask & CLIENT_TX_VOICE);
 
     ui.actionConnect->setChecked( (statemask & CLIENT_CONNECTING) || (statemask & CLIENT_CONNECTED));
     ui.actionEnableEchoCancel->setChecked(ttSettings->value(SETTINGS_SOUND_ECHOCANCEL, SETTINGS_SOUND_ECHOCANCEL_DEFAULT).toBool());
@@ -5638,7 +5749,7 @@ void MainWindow::slotUpdateUI()
 #elif defined(Q_OS_LINUX) || defined(Q_OS_DARWIN)
     ui.actionEnablePushToTalk->setChecked(m_hotkeys.find(HOTKEY_PUSHTOTALK) != m_hotkeys.end());
 #endif
-    ui.actionEnableVoiceActivation->setChecked(statemask & CLIENT_SNDINPUT_VOICEACTIVATED);
+    ui.actionEnableVoiceActivation->setChecked(voiceactivated);
     ui.actionHearMyself->setEnabled(m_mychannel.nChannelID > 0);
     User myself;
     if (ui.channelsWidget->getUser(TT_GetMyUserID(ttInst), myself))
@@ -5712,6 +5823,10 @@ void MainWindow::slotUpdateUI()
     ui.actionLowerMediaFileVolume->setEnabled(userid>0 && user.nVolumeMediaFile > SOUND_VOLUME_MIN);
     ui.actionStoreForMove->setEnabled(userid>0 && (userrights & USERRIGHT_MOVE_USERS));
     ui.actionMoveUser->setEnabled(m_moveusers.size() && (userrights & USERRIGHT_MOVE_USERS));
+    ui.actionRelayVoiceStream->setEnabled(userid > 0 && !voiceactivated && !voicetx);
+    ui.actionRelayVoiceStream->setChecked(userid > 0 && userid == m_relayvoice_userid);
+    ui.actionRelayMediaFileStream->setEnabled(userid > 0 && !voiceactivated && !voicetx);
+    ui.actionRelayMediaFileStream->setChecked(userid > 0 && userid == m_relaymediafile_userid);
 
     //ui.actionMuteAll->setEnabled(statemask & CLIENT_SOUND_READY);
     ui.actionMuteAll->setChecked(statemask & CLIENT_SNDOUTPUT_MUTE);

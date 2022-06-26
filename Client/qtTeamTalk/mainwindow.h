@@ -218,6 +218,8 @@ private:
     QPoint m_lastCursorPos;
     //list of desktop access users
     QVector<DesktopAccessEntry> m_desktopaccess_entries;
+    // user being relayed
+    int m_relayvoice_userid = 0, m_relaymediafile_userid = 0;
 
     // init selected sound devices
     void initSound();
@@ -237,7 +239,6 @@ private:
     void processMyselfJoined(int channelid);
     void processMyselfLeft(int channelid);
     TextMessageDlg* getTextMessageDlg(int userid);
-    int getVideoStreamID(int userid) const;
     void killLocalTimer(TimerEvent e);
     bool timerExists(TimerEvent e);
     void updateChannelFiles(int channelid);
@@ -255,11 +256,13 @@ private:
     void loadHotKeys();
     void enableHotKey(HotKeyID id, const hotkey_t& hk);
     void disableHotKey(HotKeyID id);
+    void pttHotKey(bool active);
     void checkAppUpdate();
     void toggleAllowStreamType(bool checked, int userid, int channelid, StreamType st);
     void toggleAllowStreamTypeForAll(bool checked, StreamType st);
     void toggleAllowStreamType(bool checked, StreamType st);
     void transmitOn(StreamType st);
+    void relayAudioStream(int userid, StreamType st, bool enable);
 #if defined(Q_OS_LINUX)
     void executeDesktopInput(const DesktopInput& input);
 #endif
@@ -337,6 +340,8 @@ private:
     void slotUsersAdvancedVideoAllowed(bool checked=false);
     void slotUsersAdvancedDesktopAllowed(bool checked=false);
     void slotUsersAdvancedMediaFileAllowed(bool checked=false);
+    void slotUsersAdvancedRelayUserVoice(bool checked = false);
+    void slotUsersAdvancedRelayUserMediaFile(bool checked=false);
     void slotUsersMuteVoiceAll(bool checked=false);
 
     void slotChannelsCreateChannel(bool checked=false);
