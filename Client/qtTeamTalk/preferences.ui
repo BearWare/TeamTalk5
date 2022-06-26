@@ -437,13 +437,6 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="returnvidChkBox">
-                <property name="text">
-                 <string>Closed video dialog should return to video-tab</string>
-                </property>
-               </widget>
-              </item>
-              <item>
                <spacer name="verticalSpacer_11">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
@@ -2861,6 +2854,7 @@
   </customwidget>
  </customwidgets>
  <resources>
+  <include location="resources.qrc"/>
   <include location="resources.qrc"/>
  </resources>
  <connections>

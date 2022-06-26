@@ -6397,18 +6397,7 @@ void MainWindow::slotUserVideoDlgClosing(int userid)
         //check to see if video session is still active
         if((user.uUserState & USERSTATE_VIDEOCAPTURE) == USERSTATE_NONE)
             return;
-        //add back to grid (if enabled)
-        if(ttSettings->value(SETTINGS_DISPLAY_VIDEORETURNTOGRID,
-                             SETTINGS_DISPLAY_VIDEORETURNTOGRID_DEFAULT).toBool())
-            ui.videogridWidget->slotAddUser(userid);
-        else
-        {
-            Subscriptions subs = SUBSCRIBE_VIDEOCAPTURE;
-            if(user.uLocalSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE)
-                subs |= SUBSCRIBE_INTERCEPT_VIDEOCAPTURE;
-            subscribeCommon(false, subs, userid & VIDEOTYPE_USERMASK);
-            m_vid_exclude.insert(userid);
-        }
+        ui.videogridWidget->slotAddUser(userid);
     }
     break;
     case VIDEOTYPE_MEDIAFILE :
@@ -6426,18 +6415,8 @@ void MainWindow::slotUserVideoDlgClosing(int userid)
         //check to see if video session is still active
         if((user.uUserState & USERSTATE_MEDIAFILE_VIDEO) == USERSTATE_NONE)
             return;
-        //add back to grid (if enabled)
-        if(ttSettings->value(SETTINGS_DISPLAY_VIDEORETURNTOGRID,
-                             SETTINGS_DISPLAY_VIDEORETURNTOGRID_DEFAULT).toBool())
-            ui.videogridWidget->slotAddUser(userid);
-        else
-        {
-            Subscriptions subs = SUBSCRIBE_MEDIAFILE;
-            if(user.uLocalSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE)
-                subs |= SUBSCRIBE_INTERCEPT_MEDIAFILE;
-            subscribeCommon(false, subs, userid & VIDEOTYPE_USERMASK);
-            m_vid_exclude.insert(userid);
-        }
+
+        ui.videogridWidget->slotAddUser(userid);
     }
     break;
     }
