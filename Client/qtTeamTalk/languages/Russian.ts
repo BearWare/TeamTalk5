@@ -2124,12 +2124,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2321"/>
         <source>&amp;Relay Voice Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ретрансляция Голосового Потока</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2329"/>
         <source>Relay Media &amp;File Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ретрансляция потока медиафайла</translation>
     </message>
     <message>
         <source>Ctrl+Shift+K</source>
@@ -3142,7 +3142,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4344"/>
         <source>Failed to enable voice activation</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось включить голосовую активацию</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4369"/>
@@ -3240,13 +3240,15 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="4849"/>
         <source>To relay voice stream from other channel you must enable subscription &quot;Intercept Voice&quot;.
 Do you wish to do this now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы ретранслировать голосовой поток с другого канала, вы должны включить подписку &quot;Перехватывать голос&quot;.
+Вы хотите сделать это сейчас?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4869"/>
         <source>To relay media file stream from other channel you must enable subscription &quot;Intercept Media File&quot;.
 Do you wish to do this now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы ретранслировать поток медиафайлов с другого канала, вы должны включить подписку &quot;Перехватывать медиафайлы&quot;.
+Вы хотите сделать это сейчас?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4902"/>
@@ -3542,10 +3544,12 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7019"/>
-        <source>New version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
+        <source>New version available: %1
+You can download it on the page below:
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая версия: %1
+Вы можете скачать её на странице ниже:
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7032"/>
@@ -3559,10 +3563,12 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7044"/>
-        <source>New beta version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
+        <source>New beta version available: %1
+You can download it on the page below:
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая бета-версия: %1
+Вы можете скачать её на странице ниже:
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7120"/>
@@ -3755,7 +3761,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="2284"/>
         <source>Voice transmission failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Сбой передачи голоса</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
@@ -4118,9 +4124,10 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6926"/>
-        <source>The file %1 contains %2 setup information.<byte value="xd"/>
+        <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл %1 содержит %2 конфигурационные данные.
+Следует ли применять эти настройки?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6931"/>
