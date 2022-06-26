@@ -177,7 +177,7 @@
             <item>
              <widget class="QCheckBox" name="disableVoiceActCheckBox">
               <property name="text">
-               <string>Disable voice activation in case of inactivity</string>
+               <string>Disable voice activation when inactive</string>
               </property>
              </widget>
             </item>
