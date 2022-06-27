@@ -30,7 +30,7 @@
 #include <QDialog>
 
 #define COMPANYNAME         "BearWare.dk"
-#define APPVERSION_SHORT    "5.9.2"
+#define APPVERSION_SHORT    "5.10.0"
 #define APPVERSION_POSTFIX  " - Unreleased"
 #define APPVERSION          TEAMTALK_VERSION APPVERSION_POSTFIX
 
