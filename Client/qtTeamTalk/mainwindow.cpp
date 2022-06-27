@@ -2384,7 +2384,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
                     m_statusmode &= ~STATUSMODE_AWAY;
                     TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
                     m_idled_out = false;
-                    if (isMyselfTalking() == FALSE && ttSettings->value(SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT, SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT_DEFAULT).toBool() == true)
+                    if (ttSettings->value(SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT, SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT_DEFAULT).toBool() == true)
                         slotEnableVoiceActivation(true);
                 }
             }
