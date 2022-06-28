@@ -4386,10 +4386,6 @@ Haruskah pengaturan ini diterapkan?</translation>
         <translation>Mulai video dalam dialog popup</translation>
     </message>
     <message>
-        <source>Closed video dialog should return to video-tab</source>
-        <translation type="vanished">Dialog video yang tertutup harus kembali ke tab video</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="479"/>
         <source>Start desktops in popup dialog</source>
         <translation>Mulai desktop dalam dialog popup</translation>
