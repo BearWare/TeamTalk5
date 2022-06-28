@@ -81,10 +81,6 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>Translated by Bjoern D. Rasmussen</source>
-        <translation type="vanished">Перевёл Руслан Колодяжный</translation>
-    </message>
-    <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on </source>
         <translation>Скомпелировано на </translation>
@@ -729,10 +725,6 @@ p, li { white-space: pre-wrap; }
         <source>Delay before switching to next user in queue (in msec)</source>
         <translation>Задержка перед переключением на следующего пользователя в очереди (в мс)</translation>
     </message>
-    <message>
-        <source>Note that Echo Cancellation, Denoising and Audio Configuration currently isn&apos;t supported in stereo mode.</source>
-        <translation type="obsolete">Обратите внимание, что Эхоподавление, шумоподавление и Настройки аудио в настоящее время  не поддерживаются в режиме стерео.</translation>
-    </message>
 </context>
 <context>
     <name>ChannelsTree</name>
@@ -1202,10 +1194,6 @@ p, li { white-space: pre-wrap; }
         <translation>От&amp;крыть</translation>
     </message>
     <message>
-        <source>File tranfer failed.</source>
-        <translation type="vanished">Передача файла не удалась</translation>
-    </message>
-    <message>
         <location filename="../filetransferdlg.cpp" line="71"/>
         <source>File transfer failed.</source>
         <translation>Не удалось передать файл.</translation>
@@ -1446,10 +1434,6 @@ p, li { white-space: pre-wrap; }
         <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
         <translation>macOS не поддерживает только клавиши-модификаторы, т. е. Cmd, Option и Shift должны использоваться в сочетании с другими клавишами, не являющимися модификаторами.</translation>
     </message>
-    <message>
-        <source>Mac OS X does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
-        <translation type="vanished">Mac OS X не поддерживает только клавиши-модификаторы, т.е. Cmd, Option и Shift должны использоваться в сочитании с другими, не модификационными, клавишами.</translation>
-    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -1485,10 +1469,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="287"/>
         <source>Voice activation level</source>
         <translation>Уровень голосовой активации</translation>
-    </message>
-    <message>
-        <source>Chat</source>
-        <translation type="vanished">Чат</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="343"/>
@@ -1548,18 +1528,10 @@ p, li { white-space: pre-wrap; }
         <translation>Запуск/Остановка Вебкамеры</translation>
     </message>
     <message>
-        <source>Desktops</source>
-        <translation type="vanished">Рабочие столы</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="732"/>
         <location filename="../mainwindow.ui" line="735"/>
         <source>Detach selected window</source>
         <translation>Отделить выбранное окно</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="768"/>
@@ -1577,10 +1549,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="846"/>
         <source>Request desktop access</source>
         <translation>Запрос доступа к рабочему столу</translation>
-    </message>
-    <message>
-        <source>Files</source>
-        <translation type="vanished">Файлы</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="322"/>
@@ -1765,10 +1733,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2476"/>
         <source>&amp;Exit</source>
         <translation>В&amp;ыход</translation>
-    </message>
-    <message>
-        <source>Alt+F4</source>
-        <translation type="vanished">Alt+F4</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1456"/>
@@ -2132,10 +2096,6 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;Ретрансляция потока медиафайла</translation>
     </message>
     <message>
-        <source>Ctrl+Shift+K</source>
-        <translation type="vanished">Ctrl+Shift+K</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1674"/>
         <source>&amp;Op</source>
         <translation>&amp;Оп</translation>
@@ -2291,26 +2251,14 @@ p, li { white-space: pre-wrap; }
         <translation>Сетевое &amp;Сообщение</translation>
     </message>
     <message>
-        <source>Ctrl+Alt+B</source>
-        <translation type="vanished">Ctrl+Alt+B</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1873"/>
         <source>&amp;Increase Voice Volume</source>
         <translation>У&amp;величить Громкость Голоса</translation>
     </message>
     <message>
-        <source>Ctrl+Right</source>
-        <translation type="vanished">Ctrl+Right</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1881"/>
         <source>&amp;Lower Voice Volume</source>
         <translation>У&amp;меньшить Громкость Голоса</translation>
-    </message>
-    <message>
-        <source>Ctrl+Left</source>
-        <translation type="vanished">Ctrl+Left</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1889"/>
@@ -2387,10 +2335,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="1980"/>
         <source>Ctrl+Shift+U</source>
         <translation>Ctrl+Shift+U</translation>
-    </message>
-    <message>
-        <source>Enable Question Mode</source>
-        <translation type="vanished">Разрешить Режим Запроса</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2305"/>
@@ -2548,10 +2492,6 @@ p, li { white-space: pre-wrap; }
         <translation>Ctrl+Alt+Shift+B</translation>
     </message>
     <message>
-        <source>Ctrl+Alt+Оњ</source>
-        <translation type="obsolete">Ctrl+Alt+Оњ</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="2209"/>
         <source>Kick From Channel</source>
         <translation>Выгнать Из Канала</translation>
@@ -2577,17 +2517,9 @@ p, li { white-space: pre-wrap; }
         <translation>Увеличить Громкость Медиа Файла</translation>
     </message>
     <message>
-        <source>Ctrl+Shift+Right</source>
-        <translation type="vanished">Ctrl+Shift+Right</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="2233"/>
         <source>Lower Media File Volume</source>
         <translation>Уменьшить Громкость Медиа Файла</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+Left</source>
-        <translation type="vanished">Ctrl+Shift+Left</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="892"/>
@@ -2625,22 +2557,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="981"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
         <translation>Соединение прервано с %1 TCP порт %2 UDP порт %3</translation>
-    </message>
-    <message>
-        <source>Logged in</source>
-        <translation type="vanished">Вход</translation>
-    </message>
-    <message>
-        <source>Logged out</source>
-        <translation type="vanished">Выход</translation>
-    </message>
-    <message>
-        <source>Kicked by %1</source>
-        <translation type="vanished">Выгнал %1</translation>
-    </message>
-    <message>
-        <source>Kicked by unknown user</source>
-        <translation type="vanished">Выгнал неизвестный пользователь</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1095"/>
@@ -2796,22 +2712,6 @@ p, li { white-space: pre-wrap; }
         <translation>Не удалось подключиться к каналу %1</translation>
     </message>
     <message>
-        <source>Failed to initialize sound duplex mode</source>
-        <translation type="vanished">Не удалось инициализировать дуплексный режим звука</translation>
-    </message>
-    <message>
-        <source>Switching to default sound devices</source>
-        <translation type="vanished">Переключение на звуковые устройства поумолчанию</translation>
-    </message>
-    <message>
-        <source>Unable to get default sound devices</source>
-        <translation type="vanished">Не удалось определить звуковые устройства поумолчанию</translation>
-    </message>
-    <message>
-        <source>Failed to initialize default sound devices</source>
-        <translation type="vanished">Не удалось инициализировать звуковые устройства поумолчанию</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1930"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
         <translation>Соединение с %1 TCP порт %2 UDP порт %3</translation>
@@ -2821,10 +2721,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2983"/>
         <source>Error</source>
         <translation>Ошибка</translation>
-    </message>
-    <message>
-        <source>This client is not compatible with the server,  so the action cannot be performed.</source>
-        <translation type="vanished">Этот клиент не совместим с сервером, поэтому действие не может быть выполнено.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2040"/>
@@ -3057,10 +2953,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2923"/>
         <source>Files in channel: %1</source>
         <translation>Файлов в канале: %1</translation>
-    </message>
-    <message>
-        <source>Files (%1)</source>
-        <translation type="vanished">Файлы (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2983"/>
@@ -3376,22 +3268,6 @@ Do you wish to do this now?</source>
         <translation>Сетевое сообщение отправлено: %1</translation>
     </message>
     <message>
-        <source>New version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="vanished">Доступна новая версия: %1
-Вы можете скачать её на странице ниже:
-%2</translation>
-    </message>
-    <message>
-        <source>New beta version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="vanished">Доступна новая бета-версия: %1
-Вы можете скачать её на странице ниже:
-%2</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2019"/>
         <location filename="../mainwindow.cpp" line="2020"/>
         <source>Server configuration saved</source>
@@ -3525,12 +3401,6 @@ You can download it on the page below:
         <location filename="../mainwindow.cpp" line="5686"/>
         <source>Ban User From Channel</source>
         <translation>Заблокировать пользователя в канале</translation>
-    </message>
-    <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="vanished">файл %1 содержит %2 пораметры.
-Следует ли применить эти настройки?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6990"/>
@@ -3847,10 +3717,6 @@ You can download it on the page below:
         <translation>Звуковые события отключены</translation>
     </message>
     <message>
-        <source>Streaming media file</source>
-        <translation type="vanished">Транслирует медиа файл</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="5849"/>
         <source>&amp;Leave Channel</source>
         <translation>&amp;Покинуть Канал</translation>
@@ -3864,14 +3730,6 @@ You can download it on the page below:
         <location filename="../mainwindow.cpp" line="5855"/>
         <source>CTRL+J</source>
         <translation>CTRL+J</translation>
-    </message>
-    <message>
-        <source>Character limit exceeded</source>
-        <translation type="vanished">Превышен лимит символов</translation>
-    </message>
-    <message>
-        <source>Your message has exceeded the limit by %1 characters. Please reduce it and try again.</source>
-        <translation type="vanished">Привышено количество символов в сообщении на %1. Пожалуйста, уменьшите его и повторите попытку.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6114"/>
@@ -4087,18 +3945,6 @@ You can download it on the page below:
         <translation>Выкл</translation>
     </message>
     <message>
-        <source>Video</source>
-        <translation type="vanished">Видео</translation>
-    </message>
-    <message>
-        <source>Video (%1)</source>
-        <translation type="vanished">Видео (%1)</translation>
-    </message>
-    <message>
-        <source>Desktops (%1)</source>
-        <translation type="vanished">Рабочие столы (%1)</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6869"/>
         <location filename="../mainwindow.cpp" line="6878"/>
         <location filename="../mainwindow.cpp" line="6888"/>
@@ -4133,10 +3979,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.cpp" line="6914"/>
         <source>Load %1 File</source>
         <translation>Загрузка Файла %1</translation>
-    </message>
-    <message>
-        <source>New version available: %1</source>
-        <translation type="vanished">Доступна новая версия: %1</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="32"/>
@@ -4198,10 +4040,6 @@ Should these settings be applied?</source>
         <translation>Папка для звуковых файлов</translation>
     </message>
     <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
-    </message>
-    <message>
         <location filename="../mediastorage.ui" line="119"/>
         <source>Store text message conversations</source>
         <translation>Сохранить переписку</translation>
@@ -4237,10 +4075,6 @@ Should these settings be applied?</source>
         <location filename="../mediastorage.ui" line="203"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Отмена</translation>
-    </message>
-    <message>
-        <source>Folder for storing audio files does not exist</source>
-        <translation type="vanished">Папка для сохранения звуковых файлов не существует</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="116"/>
@@ -4571,10 +4405,6 @@ Should these settings be applied?</source>
         <translation>Запускать видео во всплывающем диалоге</translation>
     </message>
     <message>
-        <source>Closed video dialog should return to video-tab</source>
-        <translation type="vanished">Закрытие диалога видео возвращает к видео-вкладке</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="479"/>
         <source>Start desktops in popup dialog</source>
         <translation>Запуск рабочих столов во всплывающем диалоге</translation>
@@ -4590,17 +4420,9 @@ Should these settings be applied?</source>
         <translation>Показывать строку состояния событий в окне чата</translation>
     </message>
     <message>
-        <source>Check for program updates at startup</source>
-        <translation type="vanished">Проверять обновления программы при запуске</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="594"/>
         <source>Show source in corner of video window</source>
         <translation>Показать источник в углу окна видео</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="628"/>
@@ -4768,10 +4590,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="1164"/>
         <source>&amp;Test Selected</source>
         <translation>&amp;Тестировать Выбранное</translation>
-    </message>
-    <message>
-        <source>Enable duplex mode (required for echo cancellation)</source>
-        <translation type="vanished">Разрешить дуплексный режим (рекомендуется для эхоподавления)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1189"/>
@@ -5118,10 +4936,6 @@ Should these settings be applied?</source>
         <translation>Показать/скрыть главное окно</translation>
     </message>
     <message>
-        <source>Setup Keys</source>
-        <translation type="vanished">Установка Клавиш</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="2504"/>
         <source>Video Capture Settings</source>
         <translation>Настройки Захвата Видео</translation>
@@ -5297,18 +5111,6 @@ Should these settings be applied?</source>
         <translation>Инициализация Звука</translation>
     </message>
     <message>
-        <source>Failed to initialize sound duplex mode</source>
-        <translation type="vanished">Не удалось инициализировать дуплексный режим звука</translation>
-    </message>
-    <message>
-        <source>Failed to initialize new sound input device</source>
-        <translation type="vanished">Не удалось инициализировать новое входное звуковое устройство</translation>
-    </message>
-    <message>
-        <source>Failed to initialize new sound output device</source>
-        <translation type="vanished">Не удалось инициализировать новое выходное звуковое устройство</translation>
-    </message>
-    <message>
         <location filename="../preferencesdlg.cpp" line="1112"/>
         <location filename="../preferencesdlg.cpp" line="1140"/>
         <source>Video Device</source>
@@ -5472,10 +5274,6 @@ Should these settings be applied?</source>
         <translation>Не удалось инициализировать устройство вывода звука по умолчанию</translation>
     </message>
     <message>
-        <source>Failed to initialize default sound devices</source>
-        <translation type="obsolete">Не удалось инициализировать звуковые устройства поумолчанию</translation>
-    </message>
-    <message>
         <location filename="../common.cpp" line="1119"/>
         <source>Conference</source>
         <translation>Конференция</translation>
@@ -5502,10 +5300,6 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="86"/>
         <source>Include public servers (green ones)</source>
         <translation>Показывать публичные серверы</translation>
-    </message>
-    <message>
-        <source>&amp;Delete</source>
-        <translation type="vanished">&amp;Удалить</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="104"/>
@@ -5538,10 +5332,6 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="137"/>
         <source>Remove entry</source>
         <translation>Удалить запись</translation>
-    </message>
-    <message>
-        <source>Include private servers (orange ones)</source>
-        <translation type="vanished">Включить частные серверы. Помечены оранжевым</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="194"/>
@@ -5596,10 +5386,6 @@ Should these settings be applied?</source>
         <translation>&amp;Подключиться</translation>
     </message>
     <message>
-        <source>Save Server Information</source>
-        <translation type="vanished">Сохранить Информацию Сервера</translation>
-    </message>
-    <message>
         <location filename="../serverlist.ui" line="355"/>
         <source>Entry name</source>
         <translation>название</translation>
@@ -5644,10 +5430,6 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="401"/>
         <source>Publish Publicly</source>
         <translation>Публиковать Публично</translation>
-    </message>
-    <message>
-        <source>&amp;Save</source>
-        <translation type="vanished">&amp;Сохранить</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="369"/>
@@ -5729,24 +5511,6 @@ Delete the published user account to unregister your server.</source>
 Удалите опубликованную учетную запись пользователя, чтобы отменить регистрацию вашего сервера.</translation>
     </message>
     <message>
-        <source>Change your server&apos;s name to include the text #teamtalkpublish#.
-This will verify that you&apos;re the owner of the server.
-Once this is done your private server will appear in a couple of minutes.
-
-Delete the published user account to unregister your server.
-
-The #teamtalkpublish# notification can be removed once
-the server has been verified.</source>
-        <translation type="vanished">Измените имя вашего сервера, чтобы добавить  #teamtalkpublish#.
-Это подтвердит, что вы являетесь владельцем сервера.
-Как только это будет сделано, ваш личный сервер появится через пару минут.
-
-Удалите опубликованную учетную запись пользователя, чтобы отменить регистрацию вашего сервера.
-
-сервер #teamtalkpublish# может быть удалён после
-проверки учётной записи.</translation>
-    </message>
-    <message>
         <location filename="../serverlistdlg.cpp" line="694"/>
         <source>Sort By...</source>
         <translation>Сортировать по...</translation>
@@ -5775,12 +5539,6 @@ the server has been verified.</source>
         <location filename="../serverlistdlg.cpp" line="699"/>
         <source>&amp;Delete Selected Server</source>
         <translation>&amp;Удалить Выбранный Сервер</translation>
-    </message>
-    <message>
-        <source>Your private server will appear in a couple of minutes.
-Delete the published user account to unregister your server.</source>
-        <translation type="vanished">Ваш частный сервер появится через пару минут.
-Удалите опубликованную учетную запись пользователя, чтобы отменить регистрацию вашего сервера.</translation>
     </message>
 </context>
 <context>
@@ -5819,10 +5577,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverlistdlg.cpp" line="140"/>
         <source>Unofficial server</source>
         <translation>Неофициальный сервер</translation>
-    </message>
-    <message>
-        <source>Private server</source>
-        <translation type="vanished">Частный сервер</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="143"/>
@@ -6467,10 +6221,6 @@ Delete the published user account to unregister your server.</source>
         <translation>Обзор</translation>
     </message>
     <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
-    </message>
-    <message>
         <location filename="../streammediafile.ui" line="62"/>
         <location filename="../streammediafile.ui" line="65"/>
         <source>Refresh</source>
@@ -6519,10 +6269,6 @@ Delete the published user account to unregister your server.</source>
         <source>Co&amp;ntinuously play media file</source>
         <translatorcomment>	</translatorcomment>
         <translation>Не&amp;прерывное воспроизведение медиа файла</translation>
-    </message>
-    <message>
-        <source>Continuously play media file</source>
-        <translation type="vanished">Непрерывное воспроизведение медиа-файла</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="188"/>
@@ -6972,18 +6718,6 @@ Delete the published user account to unregister your server.</source>
         <translation>Личное сообщение отправлено: %1</translation>
     </message>
     <message>
-        <source>New message (%1 of 512 characters)</source>
-        <translation type="vanished">Новое сообщение (%1 из 512 символов)</translation>
-    </message>
-    <message>
-        <source>Character limit exceeded</source>
-        <translation type="vanished">Превышен лимит символов</translation>
-    </message>
-    <message>
-        <source>Your message has exceeded the limit by %1 characters. Please reduce it and try again.</source>
-        <translation type="vanished">Ваше сообщение превысило колличество на %1 символов. Пожалуйста, уменьшите его и повторите попытку.</translation>
-    </message>
-    <message>
         <location filename="../textmessagedlg.cpp" line="215"/>
         <source>New message - remote user typing.</source>
         <translation>Новое сообщение - удалённый пользователь печатает</translation>
@@ -7006,10 +6740,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../useraccounts.ui" line="27"/>
         <source>Active Users</source>
         <translation>Активные Пользователи</translation>
-    </message>
-    <message>
-        <source>&amp;Delete</source>
-        <translation type="vanished">&amp;Удалить</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="76"/>
@@ -7263,10 +6993,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../useraccounts.ui" line="612"/>
         <source>CheckBox</source>
         <translation>флажок</translation>
-    </message>
-    <message>
-        <source>Remove selected user</source>
-        <translation type="vanished">Удалить выбранного пользователя</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="644"/>
@@ -7797,10 +7523,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../videotext.ui" line="105"/>
         <source>Text Appearance</source>
         <translation>Внешний вид текста</translation>
-    </message>
-    <message>
-        <source>Text Apperance</source>
-        <translation type="vanished">Внешний вид Текста</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="111"/>
