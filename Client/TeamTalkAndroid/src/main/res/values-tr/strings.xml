@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="app_name">TeamTalk</string>
-  <string name="title_activity_server_list">TeamTalk 5 Sunucuları</string>
+  <string name="title_activity_server_list">TeamTalk</string>
   <string name="action_settings">Ayarlar</string>
   <string name="action_exit">Çıkış</string>
   <string name="title_activity_server_entry">TeamTalk 5 Sunucu Özellikleri</string>
