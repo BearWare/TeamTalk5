@@ -5931,7 +5931,6 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstats.ui" line="22"/>
         <source>Uptime</source>
-        <translatorcomment>no portuguese word for that. we use the same.</translatorcomment>
         <translation>Tempo de atividade</translation>
     </message>
     <message>

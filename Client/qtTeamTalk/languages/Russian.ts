@@ -93,7 +93,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../aboutdlg.cpp" line="37"/>
         <source>TeamTalk 64-bit DLL version %1.</source>
-        <translatorcomment>	</translatorcomment>
         <translation>Версия TeamTalk 64-bit DLL  %1.</translation>
     </message>
     <message>
@@ -117,20 +116,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="50"/>
         <source>Enable AGC</source>
-        <translatorcomment>	</translatorcomment>
         <translation>Имя Сервера</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="70"/>
         <source>Default</source>
-        <translatorcomment>		</translatorcomment>
         <translation>По умолчанию</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="81"/>
         <location filename="../audiopreprocessor.ui" line="202"/>
         <source>Gain Level</source>
-        <translatorcomment>	</translatorcomment>
         <translation>Уровень Усиления</translation>
     </message>
     <message>
@@ -225,7 +221,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="194"/>
         <source>Ban IP-address</source>
-        <translatorcomment>	</translatorcomment>
         <translation>Заблокировать IP-адрес</translation>
     </message>
     <message>
@@ -261,13 +256,11 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusers.ui" line="116"/>
         <source>Remove banned user</source>
-        <translatorcomment>	</translatorcomment>
         <translation>Разблокировать пользователя</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="126"/>
         <source>Put back to banned users</source>
-        <translatorcomment>	</translatorcomment>
         <translation>Вернуть к заблокированным пользователям</translation>
     </message>
     <message>
@@ -353,7 +346,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.ui" line="20"/>
         <source>BearWare.dk Web Login</source>
-        <translatorcomment>	</translatorcomment>
         <translation>BearWare.dk Веб-Вход</translation>
     </message>
     <message>
@@ -384,7 +376,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.cpp" line="48"/>
         <source>&amp;Ok</source>
-        <translatorcomment>					</translatorcomment>
         <translation>&amp;Ok</translation>
     </message>
     <message>
@@ -413,7 +404,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatus.ui" line="31"/>
         <source>Status mode</source>
-        <translatorcomment>	</translatorcomment>
         <translation>Режим статуса</translation>
     </message>
     <message>
@@ -623,7 +613,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="701"/>
         <source>Kbps</source>
-        <translatorcomment>KBPS</translatorcomment>
         <translation>КБайт/сек</translation>
     </message>
     <message>
@@ -634,7 +623,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="775"/>
         <source>Frame size</source>
-        <translatorcomment>	</translatorcomment>
         <translation>Размер кадра</translation>
     </message>
     <message>
@@ -660,7 +648,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="892"/>
         <source>&amp;Join channel on exit</source>
-        <translatorcomment>Присоединиться к каналу после выхода</translatorcomment>
         <translation>&amp;Присоединиться к каналу при выходе</translation>
     </message>
     <message>
@@ -755,7 +742,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="1152"/>
         <location filename="../channelstree.cpp" line="1153"/>
         <source>Yes</source>
-        <translatorcomment>Да</translatorcomment>
         <translation></translation>
     </message>
     <message>
@@ -800,7 +786,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="832"/>
         <source>Voice transmission</source>
-        <translatorcomment>Передача голоса</translatorcomment>
         <translation></translation>
     </message>
     <message>
@@ -841,7 +826,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="970"/>
         <source>Administrator</source>
-        <translatorcomment>	</translatorcomment>
         <translation>Администратор</translation>
     </message>
     <message>
@@ -1678,7 +1662,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1318"/>
         <source>&amp;Help</source>
-        <translatorcomment>	</translatorcomment>
         <translation>&amp;Помощь</translation>
     </message>
     <message>
@@ -1690,7 +1673,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="1384"/>
         <location filename="../mainwindow.ui" line="1633"/>
         <source>F3</source>
-        <translatorcomment>	</translatorcomment>
         <translation>F3</translation>
     </message>
     <message>
@@ -2328,7 +2310,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1977"/>
         <source>&amp;Online Users</source>
-        <translatorcomment>	</translatorcomment>
         <translation>&amp;Пользователи в Сети</translation>
     </message>
     <message>
@@ -6267,7 +6248,6 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="178"/>
         <source>Co&amp;ntinuously play media file</source>
-        <translatorcomment>	</translatorcomment>
         <translation>Не&amp;прерывное воспроизведение медиа файла</translation>
     </message>
     <message>

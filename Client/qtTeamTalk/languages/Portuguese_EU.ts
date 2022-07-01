@@ -532,7 +532,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="755"/>
         <location filename="../channel.ui" line="788"/>
         <source>msec</source>
-        <translatorcomment>ms</translatorcomment>
         <translation>mseg</translation>
     </message>
     <message>
@@ -932,7 +931,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="60"/>
         <source>Desktop Access Entry</source>
-        <translatorcomment>translated as &quot;Desktop Access&quot;</translatorcomment>
         <translation>Registo de acesso ao ambiente de trabalho</translation>
     </message>
     <message>
@@ -3725,7 +3723,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1783"/>
         <source>Stream Audio &amp;File to User</source>
-        <translatorcomment>Removed &quot;to user&quot; since this menu is already in user context.</translatorcomment>
         <translation>&amp;Stream de ficheiro áudio</translation>
     </message>
     <message>
@@ -3881,7 +3878,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1775"/>
         <source>&amp;Stream Audio File to Channel</source>
-        <translatorcomment>Removed &quot;to channel&quot; since this menu is already in channel context.</translatorcomment>
         <translation>&amp;Stream de ficheiro áudio</translation>
     </message>
     <message>
@@ -3950,13 +3946,11 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastorage.ui" line="35"/>
         <source>Single audio file for all users</source>
-        <translatorcomment>long text for portuguese. Adapted a short version meaning &quot;Single file&quot;. Suggestion for english text: Storage mode options: File per Channel and File per User.</translatorcomment>
         <translation>Ficheiro único</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="42"/>
         <source>Separate audio file for each user</source>
-        <translatorcomment>Adapted to become shorter in porguese. Translation &quot;File per user&quot;</translatorcomment>
         <translation>Ficheiro por utilizador</translation>
     </message>
     <message>
@@ -3983,7 +3977,6 @@ Should these settings be applied?</source>
         <location filename="../mediastorage.ui" line="91"/>
         <location filename="../mediastoragedlg.cpp" line="121"/>
         <source>Folder for audio files</source>
-        <translatorcomment>not using full translation (removed &quot;audio files&quot;) since the field text is already in a context area for audio conversation meaning that each field is already related with áudio.</translatorcomment>
         <translation>Pasta para ficheiros áudio</translation>
     </message>
     <message>
@@ -3994,7 +3987,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastorage.ui" line="125"/>
         <source>Folder for channel log files</source>
-        <translatorcomment>not using full translation since field is alreay in the contexto of channel log files, removed repetition of &quot;log files&quot; for each text field description.</translatorcomment>
         <translation>Pasta p/ficheiros log do canal</translation>
     </message>
     <message>
@@ -4305,7 +4297,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="379"/>
         <source>Minimize to tray icon</source>
-        <translatorcomment>minimize to notification area (microsoft terms)</translatorcomment>
         <translation>Minimizar para área de notificação</translation>
     </message>
     <message>
@@ -5263,7 +5254,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="355"/>
         <source>Entry name</source>
-        <translatorcomment>The strict translation would be &quot;Nome da entrada&quot; but its better understood as &quot;Nome do servidor&quot; meaning &quot;Server name&quot;.</translatorcomment>
         <translation>Nome do servidor</translation>
     </message>
     <message>

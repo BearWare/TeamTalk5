@@ -3562,7 +3562,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="2122"/>
         <source>Ctrl+7</source>
-        <translatorcomment>Ctrl+7</translatorcomment>
         <translation>Ctrl+7</translation>
     </message>
     <message>
@@ -5706,7 +5705,6 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="177"/>
         <source>User timeout</source>
-        <translatorcomment>potom bude odpojený</translatorcomment>
         <translation>Maximálny čas nečinnosti užívateľa</translation>
     </message>
     <message>

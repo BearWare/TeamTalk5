@@ -6,7 +6,6 @@
     <message>
         <location filename="../about.ui" line="14"/>
         <source>About</source>
-        <translatorcomment>p.scheepers 2013</translatorcomment>
         <translation>Info</translation>
     </message>
     <message>
@@ -4273,7 +4272,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="315"/>
         <source>Voice activated</source>
-        <translatorcomment>stel hier in of je aansturing wil via stem</translatorcomment>
         <translation>Stem activatie</translation>
     </message>
     <message>
@@ -5256,7 +5254,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="355"/>
         <source>Entry name</source>
-        <translatorcomment>cvlsb.no-ip.org</translatorcomment>
         <translation>Toegangs naam (url)</translation>
     </message>
     <message>

@@ -365,25 +365,21 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatus.ui" line="14"/>
         <source>Change Status</source>
-        <translatorcomment>การจัดการสภานะภาพผู้ใช้งาน</translatorcomment>
         <translation>เปลี่ยนสถานะภาพ</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="31"/>
         <source>Status mode</source>
-        <translatorcomment>การจัดการสภานะภาพผู้ใช้งาน</translatorcomment>
         <translation>กำหนดสถานะภาพ</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="43"/>
         <source>&amp;Available</source>
-        <translatorcomment>การจัดการสภานะภาพผู้ใช้งาน</translatorcomment>
         <translation>&amp;พร้อมติดต่อ</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="50"/>
         <source>A&amp;way</source>
-        <translatorcomment>การจัดการสภานะภาพผู้ใช้งาน</translatorcomment>
         <translation>ไ&amp;ม่พร้อมติดต่อ</translation>
     </message>
     <message>
@@ -394,7 +390,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatus.ui" line="66"/>
         <source>Message</source>
-        <translatorcomment>การจัดการสภานะภาพผู้ใช้งาน</translatorcomment>
         <translation>ข้อความที่ต้องการแสดง</translation>
     </message>
     <message>
@@ -413,43 +408,36 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="14"/>
         <source>Channel</source>
-        <translatorcomment>การจัดการห้องสนทนา</translatorcomment>
         <translation>ห้องสนทนา</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="30"/>
         <source>Channel Information</source>
-        <translatorcomment>การจัดการห้องสนทนา</translatorcomment>
         <translation>ข้อมูลห้องสนทนา</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="50"/>
         <source>Channel name</source>
-        <translatorcomment>การจัดการห้องสนทนา</translatorcomment>
         <translation>ชื่อห้องสนทนา</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="63"/>
         <source>Topic</source>
-        <translatorcomment>การจัดการห้องสนทนา</translatorcomment>
         <translation>หัวข้อของการสนทนา</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="80"/>
         <source>Password</source>
-        <translatorcomment>การจัดการห้องสนทนา</translatorcomment>
         <translation>รหัสผ่าน</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="100"/>
         <source>Operator password</source>
-        <translatorcomment>การจัดการห้องสนทนา</translatorcomment>
         <translation>รหัสผ่านของผู้ควบคุม</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="120"/>
         <source>Max users</source>
-        <translatorcomment>การจัดการห้องสนทนา</translatorcomment>
         <translation>จำนวนผู้ใช้งานสูงสุด</translation>
     </message>
     <message>
@@ -506,7 +494,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="213"/>
         <source>Operator receive only (only operator see and hear users)</source>
-        <translatorcomment>เฉพาะผู้ควบคุมห้องเท่านั้นที่จะได้เห็นและได้ยินเสียงของผู้ใช้งาน</translatorcomment>
         <translation>เฉพาะผู้ควบคุมเท่านั้น (ผู้ควบคุมเท่านั้นที่จะเห็นและได้ยินเสียงผู้ใช้งาน)</translation>
     </message>
     <message>
@@ -607,7 +594,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="36"/>
         <source>Channel path</source>
-        <translatorcomment>การจัดการห้องสนทนา</translatorcomment>
         <translation>ตำแหน่งที่ตั้งของห้องสนทนาในเซิฟเวอร์</translation>
     </message>
     <message>
@@ -618,14 +604,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="256"/>
         <source>Codec type</source>
-        <translatorcomment>การจัดการห้องสนทนา</translatorcomment>
         <translation>ประเภทของการบีบอัดเสียง</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="323"/>
         <location filename="../channel.ui" line="464"/>
         <source>Quality</source>
-        <translatorcomment>การจัดการห้องสนทนา</translatorcomment>
         <translation>คุณภาพเสียง</translation>
     </message>
     <message>
@@ -649,19 +633,16 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="74"/>
         <source>No Audio</source>
-        <translatorcomment>การจัดการห้องสนทนา</translatorcomment>
         <translation>งดใช้เสียง</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="94"/>
         <source>Mono</source>
-        <translatorcomment>การจัดการห้องสนทนา</translatorcomment>
         <translation>เสียงโมโน</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="95"/>
         <source>Stereo</source>
-        <translatorcomment>การจัดการห้องสนทนา</translatorcomment>
         <translation>เสียงสเตอริโอ</translation>
     </message>
     <message>
@@ -677,19 +658,16 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="147"/>
         <source>Create Channel</source>
-        <translatorcomment>การจัดการห้องสนทนา</translatorcomment>
         <translation>สร้างห้องสนทนาใหม่</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="162"/>
         <source>Update Channel</source>
-        <translatorcomment>การจัดการห้องสนทนา</translatorcomment>
         <translation>ปรับปรุงห้องสนทนา</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="173"/>
         <source>View Channel Information</source>
-        <translatorcomment>การจัดการห้องสนทนา</translatorcomment>
         <translation>ดูข้อมูลห้องสนทนา</translation>
     </message>
     <message>
@@ -859,37 +837,31 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="160"/>
         <source>Server Name: %1</source>
-        <translatorcomment>การจัดการเซิฟเวอร์</translatorcomment>
         <translation>ชื่อเซิฟเวอร์: %1</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="165"/>
         <source>Message of the Day: %1</source>
-        <translatorcomment>การจัดการเซิฟเวอร์</translatorcomment>
         <translation>ข้อความประชาสัมพันธ์: %1</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="204"/>
         <source>Joined new channel</source>
-        <translatorcomment>การจัดการเซิฟเวอร์</translatorcomment>
         <translation>เข้าห้องสนทนาใหม่</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="212"/>
         <source>Channel: %1</source>
-        <translatorcomment>การจัดการเซิฟเวอร์</translatorcomment>
         <translation>ห้องสนทนา: %1</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="219"/>
         <source>Topic: %1</source>
-        <translatorcomment>การจัดการเซิฟเวอร์</translatorcomment>
         <translation>หัวข้อการสนทนา: %1</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="226"/>
         <source>Disk quota: %1 KBytes</source>
-        <translatorcomment>การจัดการเซิฟเวอร์</translatorcomment>
         <translation>พื้นที่ hard disk ที่ยอมให้ใช้: %1 KBytes</translation>
     </message>
 </context>
@@ -1137,19 +1109,16 @@ p, li { white-space: pre-wrap; }
         <location filename="../filetransfer.ui" line="14"/>
         <location filename="../filetransferdlg.cpp" line="70"/>
         <source>File Transfer</source>
-        <translatorcomment>การโอนย้ายไฟล์</translatorcomment>
         <translation>การโอนย้ายไฟล์</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="28"/>
         <source>Filename:</source>
-        <translatorcomment>การโอนย้ายไฟล์</translatorcomment>
         <translation>ชื่อไฟล์:</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="45"/>
         <source>File size:</source>
-        <translatorcomment>การโอนย้ายไฟล์</translatorcomment>
         <translation>ขนาดไฟล์:</translation>
     </message>
     <message>
@@ -1160,25 +1129,21 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransfer.ui" line="79"/>
         <source>Destination:</source>
-        <translatorcomment>การโอนย้ายไฟล์</translatorcomment>
         <translation>ปลายทางที่ส่งไฟล์:</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="127"/>
         <source>C&amp;lose when completed</source>
-        <translatorcomment>การโอนย้ายไฟล์</translatorcomment>
         <translation>&amp;ปิดหน้าต่างเมื่อเสร็จสิ้น</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="147"/>
         <source>&amp;Cancel</source>
-        <translatorcomment>การโอนย้ายไฟล์</translatorcomment>
         <translation>&amp;ยกเลิก</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="154"/>
         <source>&amp;Open</source>
-        <translatorcomment>การโอนย้ายไฟล์</translatorcomment>
         <translation>เปิ&amp;ด</translation>
     </message>
     <message>
@@ -1195,7 +1160,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransferdlg.cpp" line="143"/>
         <source>&amp;Close</source>
-        <translatorcomment>การโอนย้ายไฟล์</translatorcomment>
         <translation>&amp;ปิด</translation>
     </message>
     <message>
@@ -1387,19 +1351,16 @@ p, li { white-space: pre-wrap; }
         <location filename="../keycomp.ui" line="20"/>
         <location filename="../keycompdlg.cpp" line="54"/>
         <source>Key Combination</source>
-        <translatorcomment>การจัดการคีย์</translatorcomment>
         <translation>การกดคีย์พร้อมกัน</translation>
     </message>
     <message>
         <location filename="../keycomp.ui" line="32"/>
         <source>Setup Hotkey</source>
-        <translatorcomment>การจัดการคีย์</translatorcomment>
         <translation>กำหนด ปุ่มลัด</translation>
     </message>
     <message>
         <location filename="../keycomp.ui" line="38"/>
         <source>Hold down the keys which should be used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
-        <translatorcomment>การจัดการคีย์</translatorcomment>
         <translation>กดปุ่มใดๆที่ต้องการกำหนดบนแป้นพิมพ์ค้างไว้ หรือจะใช้ร่วมกับปุ่ม Ctrl และ Alt</translation>
     </message>
     <message>
@@ -1410,7 +1371,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../keycomp.ui" line="72"/>
         <source>This dialog closes when you have released all keys</source>
-        <translatorcomment>การจัดการคีย์</translatorcomment>
         <translation>หน้าต่างนี้จะถูกปิดทันที่หลังปล่อยปุ่มทั้งหมด</translation>
     </message>
     <message>
@@ -1434,71 +1394,60 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2004"/>
         <source>Connected to %1 TCP port %2 UDP port %3</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เข้าใช้งานที่ %1 TCP port %2 UDP port %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="971"/>
         <location filename="../mainwindow.cpp" line="1938"/>
         <source>Failed to connect to %1 TCP port %2 UDP port %3</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การเชื่อมต่อไปยัง %1 TCP port %2 UDP port %3 ไม่สำเร็จ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="981"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การเชื่อมต่อกับ %1 TCP port %2 UDP port %3 หลุด</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2799"/>
         <location filename="../mainwindow.cpp" line="2811"/>
         <source>Joined channel %1</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เข้าห้องสนทนา %1 </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1136"/>
         <source>%1 joined channel</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>%1 เข้าร่วมห้องสนทนา</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1179"/>
         <source>%1 left channel</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>%1 ออกจากห้องสนทนา</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1289"/>
         <location filename="../mainwindow.cpp" line="5169"/>
         <source>Failed to download file %1</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การดาวโหลดไฟล์ %1 ล้มเหลว</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1293"/>
         <location filename="../mainwindow.cpp" line="5942"/>
         <source>Failed to upload file %1</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การอัพโหลดไฟล์ %1 ล้มเหลว</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1306"/>
         <source>Failed to initialize sound input device</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>อุปกรณ์รับเสียงเข้ามีปัญหาใช้การไม่ได้</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1308"/>
         <source>Failed to initialize sound output device</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>อุปกรณ์ส่งเสียงออกมีปัญหาใช้การไม่ได้</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1322"/>
         <source>Internal Error</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เกิดความผิดพลาดภายใน</translation>
     </message>
     <message>
@@ -1540,14 +1489,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1930"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>กำลังเชื่อมต่อไปยัง %1 TCP port %2 UDP port %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2026"/>
         <location filename="../mainwindow.cpp" line="2983"/>
         <source>Error</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เกิดความผิดพลาด</translation>
     </message>
     <message>
@@ -1556,61 +1503,51 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2102"/>
         <location filename="../mainwindow.cpp" line="2107"/>
         <source>Login error</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การเข้าใช้งานเกิดความผิดพลาด</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2055"/>
         <source>Invalid user account. Type username:</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่มีบัญชีผู้ใช้งานนี้ โปรดลองอีกครั้งหนึ่ง:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2063"/>
         <source>Invalid user account. Type password:</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>รหัสผ่านของผู้ใช้งานไม่ถูก โปรดลองอีกครั้งหนึ่ง:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2088"/>
         <source>Join channel error</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การเข้าใช้ห้องสนทนาเกิดความผิดพลาด</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2089"/>
         <source>Incorrect channel password. Try again:</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>รหัสผ่านเข้าห้องสนทนาผิดพลาด โปรดลองอีกครั้งหนึ่ง:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2103"/>
         <source>Banned from server</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ท่านถูกห้ามใช้งานเซิฟเวอร์นี้</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2105"/>
         <source>Command not authorized</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>คำสั่งใช้งานไม่ได้</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2108"/>
         <source>Maximum number of users on server exceeded</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เกินจำนวนผู้ใช้งานสูงสุดที่กำหนดไว้ในเซิฟเวอร์นี้</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2110"/>
         <source>Maximum disk usage exceeded</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เกินพื้นที่ hard disk ที่กำหนดไว้</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2112"/>
         <source>Maximum number of users in channel exceeded</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เกินจำนวนสูงสุดที่กำหนดไว้ในห้องสนทนานี้</translation>
     </message>
     <message>
@@ -1621,91 +1558,76 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2122"/>
         <source>Already logged in</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ท่านได้เข้าใช้งานแล้ว</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2124"/>
         <source>Cannot perform action because client is currently not logged in</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่สามารถใช้งานได้เพราะผู้ใช้งานไม่ได้ login</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2127"/>
         <source>Cannot join the same channel twice</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่สามารถเข้าห้องสนทนาเดียวกันได้</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2129"/>
         <source>Channel already exists</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ห้องสนทนาได้ถูกสร้างไว้แล้ว</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2135"/>
         <source>User not found</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่พบผู้ใช้งาน</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2144"/>
         <source>Channel not found</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่พบห้องสนทนา</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2148"/>
         <source>Banned user not found</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่พบผู้ถูกระงับใช้งาน</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2150"/>
         <source>File transfer not found</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่พบการโอนย้ายไฟล์</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2152"/>
         <source>User account not found</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่พบบัญชีผู้ใช้งาน</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2154"/>
         <source>File not found</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่พบไฟล์</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2156"/>
         <source>File already exists</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไฟล์นี้มีอยู่แล้ว</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2158"/>
         <source>File sharing is disabled</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่สามารถใช้ไฟล์ร่วมกันได้</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2160"/>
         <source>Channel has active users</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ห้องสนทนานี้มีผู้ใช้งานอยู่</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2165"/>
         <source>Unknown error occured</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เกิดความผิดพลาดที่ไม่ทราบสาเหตุ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2172"/>
         <source>The server reported an error:</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เซิฟเวอร์รายงานความผิดพลาด:</translation>
     </message>
     <message>
@@ -1763,7 +1685,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4449"/>
         <source>Failed to start desktop sharing</source>
-        <translatorcomment>เกิดปัญหาขณะเริ่มใช้งานการแสดงหน้าจอ desktop ร่วมกัน</translatorcomment>
         <translation>ไม่สามารถแสดงภาพ desktop ร่วมกันได้</translation>
     </message>
     <message>
@@ -1779,7 +1700,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1832"/>
         <source>Cannot join channel %1</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไม่สามารถเข้าร่วมห้องสนทนา %1 ได้</translation>
     </message>
     <message>
@@ -1817,7 +1737,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2474"/>
         <source>&amp;Restore</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ดึงกลับมาใหม่</translation>
     </message>
     <message>
@@ -1920,13 +1839,11 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="1436"/>
         <location filename="../mainwindow.cpp" line="2476"/>
         <source>&amp;Exit</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ออก</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2923"/>
         <source>Files in channel: %1</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ไฟล์ในห้องสนทนา: %1</translation>
     </message>
     <message>
@@ -1937,27 +1854,23 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="3578"/>
         <source>Failed to register hotkey. Please try another key combination.</source>
-        <translatorcomment>ในกรณีที่ปุ่มที่เลือกใช้งานไม่ได้ โปรดเลือกปุ่มอื่นแทน</translatorcomment>
         <translation>การใช้งานปุ่มลัดล้มเหลว โปรดเลือกปุ่มอื่นแทน.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4250"/>
         <source>Specify new nickname</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>กำหนดชื่อเล่นใหม่</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4373"/>
         <location filename="../mainwindow.cpp" line="6219"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>อุปกรณ์วีดีทัศน์ไม่ได้กำหนดค่าอย่างเหมาะสม ตรวจสอบการกำหนดค่าที่หัวข้อ การกำหนดค่า </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4906"/>
         <location filename="../mainwindow.cpp" line="4919"/>
         <source>Failed to issue command to create channel</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การสั่งสร้างห้องสนทนาไม่สำเร็จ</translation>
     </message>
     <message>
@@ -2365,32 +2278,27 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="4933"/>
         <source>Failed to issue command to update channel</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การสั่งปรับปรุงห้องสนทนาไม่สำเร็จ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4946"/>
         <source>Are you sure you want to delete channel &quot;%1&quot;?</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ท่านแน่ใจไหมที่จะลบห้องสนทนา &quot;%1&quot;?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4958"/>
         <source>Failed to issue command to delete channel</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การสั่งลบห้องสนทนาไม่สำเร็จ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4988"/>
         <location filename="../mainwindow.cpp" line="5663"/>
         <source>Specify password</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>กำหนดรหัสผ่าน</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5003"/>
         <source>Failed to issue command to join channel</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การสั่งเข้าร่วมห้องสนทนาล้มเหลว</translation>
     </message>
     <message>
@@ -2401,13 +2309,11 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5139"/>
         <source>Open File</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เปิดไฟล์</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5160"/>
         <source>Save File</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>บันทึกไฟล์</translation>
     </message>
     <message>
@@ -2471,7 +2377,6 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5399"/>
         <source>Message to broadcast:</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ข้อความที่ต้องการประกาศ:</translation>
     </message>
     <message>
@@ -2897,7 +2802,6 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="6240"/>
         <location filename="../mainwindow.cpp" line="6292"/>
         <source>Myself</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ตัวฉันเอง</translation>
     </message>
     <message>
@@ -2916,14 +2820,12 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="6888"/>
         <location filename="../mainwindow.cpp" line="6899"/>
         <source>Load File</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>โอนย้ายข้อมูล</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6870"/>
         <location filename="../mainwindow.cpp" line="6879"/>
         <source>Failed to load file %1</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>การโอนย้ายข้อมูล %1 ไม่สำเร็จ</translation>
     </message>
     <message>
@@ -2952,14 +2854,12 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="161"/>
         <location filename="../mainwindow.ui" line="164"/>
         <source>Master volume</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>แผงควบคุมเสียงหลัก</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="177"/>
         <location filename="../mainwindow.ui" line="199"/>
         <source>Voice level</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ระดับเสียง</translation>
     </message>
     <message>
@@ -2968,7 +2868,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="246"/>
         <location filename="../mainwindow.cpp" line="3060"/>
         <source>Microphone gain</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ขยายเสียงไมค์</translation>
     </message>
     <message>
@@ -2976,14 +2875,12 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="284"/>
         <location filename="../mainwindow.ui" line="287"/>
         <source>Voice activation level</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ระดับเสียงที่ใช้เปิดไมค์</translation>
     </message>
     <message>
     <message>
         <location filename="../mainwindow.ui" line="383"/>
         <source>Send text message</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ส่งข้อความเป็นตัวอักษร</translation>
     </message>
     <message>
@@ -2991,7 +2888,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="661"/>
         <location filename="../mainwindow.ui" line="947"/>
         <source>Sen&amp;d</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ส่งข้อความ</translation>
     </message>
     <message>
@@ -2999,28 +2895,24 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="1738"/>
         <location filename="../mainwindow.cpp" line="6796"/>
         <source>&amp;Video</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;วีดีทัศน์</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="490"/>
         <location filename="../mainwindow.ui" line="493"/>
         <source>Add User to Video Grid</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เพิ่มผู้ใช้งานในหน้าแสดงวีดีทัศน์</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="526"/>
         <location filename="../mainwindow.ui" line="529"/>
         <source>Remove User From Video Grid</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ลบผู้ใช้งานออกจากหน้าแสดงวีดีทัศน์</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="457"/>
         <location filename="../mainwindow.ui" line="460"/>
         <source>Detach User Video</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ขยายหน้าต่างวีดีทัศน์</translation>
     </message>
     <message>
@@ -3032,7 +2924,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="559"/>
         <location filename="../mainwindow.ui" line="562"/>
         <source>Start/Stop Webcam</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เริ่ม/หยุด กล้อง</translation>
     </message>
     <message>
@@ -3063,51 +2954,43 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="1085"/>
         <location filename="../mainwindow.ui" line="1088"/>
         <source>Upload</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ส่งไฟล์ไป</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1039"/>
         <location filename="../mainwindow.ui" line="1042"/>
         <source>Download</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>รับไฟล์มา</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1062"/>
         <location filename="../mainwindow.ui" line="1065"/>
         <source>Delete</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ลบ</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1122"/>
         <source>C&amp;lient</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;การเชื่อมต่อเซิฟเวอร์</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1158"/>
         <source>&amp;Me</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ตัวฉันเอง</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1182"/>
         <source>&amp;Users</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ผู้ใช้งาน</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1186"/>
         <source>&amp;Subscriptions</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;เลือกใช้งาน</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1206"/>
         <source>&amp;Advanced</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ขั้นสูง</translation>
     </message>
     <message>
@@ -3123,25 +3006,21 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1275"/>
         <source>&amp;Channels</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ห้องสนทนา</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1303"/>
         <source>&amp;Server</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;เซิฟเวอร์</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1318"/>
         <source>&amp;Help</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ช่วยเหลือ</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1381"/>
         <source>&amp;Server List</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;รายชื่อเซิฟเวอร์</translation>
     </message>
     <message>
@@ -3153,7 +3032,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1396"/>
         <source>&amp;Connect</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เชื่อ&amp;มต่อ</translation>
     </message>
     <message>
@@ -3164,7 +3042,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1428"/>
         <source>&amp;Preferences</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ก&amp;ารกำหนดค่า</translation>
     </message>
     <message>
@@ -3175,7 +3052,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1456"/>
         <source>Enable &amp;Push To Talk</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เลือกใช้วิธี ก&amp;ดพูด</translation>
     </message>
     <message>
@@ -3186,13 +3062,11 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1464"/>
         <source>&amp;About</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เกี่ยวกับ&amp;โปรแกรมทีมท๊อค</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1472"/>
         <source>&amp;Manual</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;คู่มือใช้งาน</translation>
     </message>
     <message>
@@ -3203,7 +3077,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1480"/>
         <source>Server &amp;Properties</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>คุณ&amp;สมบัติของเซิฟเวอร์</translation>
     </message>
     <message>
@@ -3214,7 +3087,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1488"/>
         <source>&amp;Create Channel</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ส&amp;ร้างห้องสนทนา</translation>
     </message>
     <message>
@@ -3225,7 +3097,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1496"/>
         <source>&amp;Update Channel</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ปรั&amp;บปรุงห้องสนทนา</translation>
     </message>
     <message>
@@ -3236,7 +3107,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1504"/>
         <source>&amp;Delete Channel</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ลบห้องสนทนา</translation>
     </message>
     <message>
@@ -3248,7 +3118,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="1512"/>
         <location filename="../mainwindow.cpp" line="5854"/>
         <source>&amp;Join Channel</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เ&amp;ข้าร่วมห้องสนทนา</translation>
     </message>
     <message>
@@ -3259,7 +3128,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1527"/>
         <source>Enable Voice &amp;Activation</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เลือกใช้&amp;งานการเปิดไมค์ด้วยเสียง</translation>
     </message>
     <message>
@@ -3280,7 +3148,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1543"/>
         <source>Change &amp;Status</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เปลี่ยน&amp;สถานะภาพ</translation>
     </message>
     <message>
@@ -3291,7 +3158,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1551"/>
         <source>&amp;View User Information</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ดูข้อมูลผู้ใช้งาน</translation>
     </message>
     <message>
@@ -3322,7 +3188,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1582"/>
         <source>Up&amp;load File</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ส่&amp;งไฟล์</translation>
     </message>
     <message>
@@ -3333,7 +3198,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1590"/>
         <source>D&amp;ownload File</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;รับไฟล์</translation>
     </message>
     <message>
@@ -3344,7 +3208,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1598"/>
         <source>Dele&amp;te File</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>&amp;ลบไฟล์</translation>
     </message>
     <message>
@@ -3725,7 +3588,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1622"/>
         <source>&amp;Save Configuration</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>บัน&amp;ทึกค่าที่กำหนดไว้</translation>
     </message>
     <message>
@@ -3736,13 +3598,11 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1630"/>
         <source>&amp;View Channel Info</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ดูข้อ&amp;มูลห้องสนทนา</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1654"/>
         <source>M&amp;essages</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ข้อ&amp;ความ</translation>
     </message>
     <message>
@@ -3753,7 +3613,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1222"/>
         <source>&amp;Mute</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ปิ&amp;ดเสียง</translation>
     </message>
     <message>
@@ -3900,7 +3759,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1229"/>
         <source>&amp;Kick</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เชิญ&amp;ผู้ใช้งานออก</translation>
     </message>
     <message>
@@ -3921,7 +3779,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1674"/>
         <source>&amp;Op</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ผู้&amp;ควบคุม</translation>
     </message>
     <message>
@@ -3932,7 +3789,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1682"/>
         <source>&amp;Volume</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ระ&amp;ดับความดังของเสียง</translation>
     </message>
     <message>
@@ -3943,25 +3799,21 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1712"/>
         <source>&amp;User Messages</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ข้อความ&amp;ถึงผู้ใช้งาน</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1723"/>
         <source>&amp;Channel Messages</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ข้อความ&amp;ประจำห้องสนทนา</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1749"/>
         <source>&amp;Broadcast Messages</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ข้อค&amp;วามประชาสัมพันธ์</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1764"/>
         <source>Enable &amp;Video Transmission</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>เปิดใช้&amp;งานการส่งภาพวีดีทัศน์</translation>
     </message>
     <message>
@@ -3972,7 +3824,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1775"/>
         <source>&amp;Stream Audio File to Channel</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ส่งไฟล์เ&amp;สียงไปที่ห้องสนทนา</translation>
     </message>
     <message>
@@ -3983,7 +3834,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1783"/>
         <source>Stream Audio &amp;File to User</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ส่งไฟล์เสียงไป&amp;ยังผู้ใช้งาน</translation>
     </message>
     <message>
@@ -3994,7 +3844,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1801"/>
         <source>Specify a folder where audio from users will be stored</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>กำหนดโฟลเดอร์ที่ใช้เก็บไฟล์เสียง</translation>
     </message>
     <message>
@@ -4005,37 +3854,31 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1816"/>
         <source>Intercept User Messages</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>แอบอ่านการส่งข้อความของผู้ใช้งานนี้</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1827"/>
         <source>Intercept Channel Messages</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>แอบอ่านข้อความของห้องสนทนา</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1842"/>
         <source>Intercept Voice</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>แอบฟังผูัใช้งานนี้</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1857"/>
         <source>Intercept Video</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>แอบดูวีดีทัศน์ผู้ใช้งานนี้</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1865"/>
         <source>&amp;Broadcast Message</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ข้อความ&amp;ประชาสัมพันธ์</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1889"/>
         <source>&amp;Store User(s) for Move</source>
-        <translatorcomment>store user for move</translatorcomment>
         <translation>จัด&amp;เก็บ ผู้ใช้งาน เพื่อการย้ายที่</translation>
     </message>
     <message>
@@ -4076,7 +3919,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1897"/>
         <source>&amp;Move User(s)</source>
-        <translatorcomment>หน้าต่างหลัก</translatorcomment>
         <translation>ย้าย&amp;ผู้ใช้งาน</translation>
     </message>
     <message>
@@ -4337,43 +4179,36 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="14"/>
         <source>Preferences</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>กำหนดค่าใช้งาน</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="36"/>
         <source>General</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>ทั่วไป</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="42"/>
         <source>User Settings</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>กำหนดค่าผู้ใช้งาน</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="50"/>
         <source>Nickname</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>ชื่อเล่น</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="83"/>
         <source>Gender</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>เพศ</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="115"/>
         <source>Male</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>ชาย</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="125"/>
         <source>Female</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>หญิง</translation>
     </message>
     <message>
@@ -4389,7 +4224,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="156"/>
         <source>Set away status after</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>กำหนดสถานะเป็น ห่างคอม หลัง</translation>
     </message>
     <message>
@@ -4400,7 +4234,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="173"/>
         <source>seconds of inactivity (0 means disabled)</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>วินาที เมื่อหยุดใช้งานคอม (0 หมายถึงปิดใช้งาน)</translation>
     </message>
     <message>
@@ -4416,13 +4249,11 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="262"/>
         <source>Voice Transmission Mode</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>วิธีการส่งเสียง</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="274"/>
         <source>Push To Talk</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>กดเพื่อพูด</translation>
     </message>
     <message>
@@ -4437,25 +4268,21 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="2442"/>
         <location filename="../preferences.ui" line="2469"/>
         <source>&amp;Setup Keys</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>กำ&amp;หนดปุ่มกดเพื่อพูด</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="288"/>
         <source>Key Combination</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>ใช้งานร่วมกัน 2 ปุ่ม</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="315"/>
         <source>Voice activated</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>ใช้เสียงเปิดไมค์</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="339"/>
         <source>Display</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>แสดง</translation>
     </message>
     <message>
@@ -4471,19 +4298,16 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="372"/>
         <source>Start minimized</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>ลดขนาดโปรแกรมขณะใช้งาน</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="379"/>
         <source>Minimize to tray icon</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>ซ่อนโปรแกรมขณะใช้งาน</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="386"/>
         <source>&amp;Always on top</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>ให้โ&amp;ปรแกรมอยู่ด้านหน้าเสมอ</translation>
     </message>
     <message>
@@ -4494,7 +4318,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="400"/>
         <source>Show number of users in channel</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>แสดงจำนวนผู้ใช้งานในห้องสนทนา</translation>
     </message>
     <message>
@@ -4520,13 +4343,11 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="435"/>
         <source>Popup dialog when receiving text message</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>แสดงหน้าต่างข้อความทันทีที่มีข้อความ</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="486"/>
         <source>Timestamp text messages</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>แสดงเวลาที่ข้อความ</translation>
     </message>
     <message>
@@ -4774,31 +4595,26 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="724"/>
         <source>Connection</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>การเชื่อมต่อ</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="730"/>
         <source>Client Connection</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>การเชื่อมต่อของลูกข่าย</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="736"/>
         <source>Connect to latest host on startup</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>เชื่อมต่อไปยังเซิฟเวอร์ล่าสุด เมื่อเปิดใช้งานโปรแกรม</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="743"/>
         <source>Reconnect on connection dropped</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>เชื่อมต่ออีกครั้งหลังหลุดออกไป</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="750"/>
         <source>Join root channel upon connection</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>ยังไม่เข้าห้องใดๆ ทันทีที่เชื่อมต่อ</translation>
     </message>
     <message>
@@ -4846,7 +4662,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="876"/>
         <location filename="../preferences.ui" line="879"/>
         <source>Local Socket Settings</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>การกำหนดค่าสำหรับ local socket</translation>
     </message>
     <message>
@@ -4869,13 +4684,11 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="985"/>
         <location filename="../preferencesdlg.cpp" line="988"/>
         <source>Sound System</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>ระบบเสียง</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="991"/>
         <source>Sound System Settings</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>การกำหนดค่าระบบเสียง</translation>
     </message>
     <message>
@@ -4906,7 +4719,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1064"/>
         <source>Input device</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>อุปกรณ์สำหรับนำเสียงเข้าระบบ</translation>
     </message>
     <message>
@@ -4923,7 +4735,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1164"/>
         <source>&amp;Test Selected</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>ทด&amp;สอบตามที่เลือก</translation>
     </message>
     <message>
@@ -4935,56 +4746,47 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="1249"/>
         <location filename="../preferences.ui" line="2788"/>
         <source>&amp;Default</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>&amp;ค่าที่กำหนดไว้แล้ว</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1275"/>
         <location filename="../preferences.ui" line="1281"/>
         <source>Sound Events</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>เสียงตามเหตุการณ์</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1321"/>
         <source>New user</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>เมื่อมีผู้ใช้งานเข้ามาใหม่</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1350"/>
         <source>User removed</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>ผู้ใช้งานถูกย้ายออกไป</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1373"/>
         <source>Server lost</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>เซิฟเวอร์หล่ม</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1396"/>
         <source>New user message</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>มีข้อความใหม่จากผู้ใช้งาน</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1442"/>
         <source>New channel message</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>มีข้อความจากห้องสนทนาใหม่</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1511"/>
         <source>Hotkey pressed</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>เมื่อกดปุ่มลัด</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1534"/>
         <source>Channel silent</source>
-        <translatorcomment>การกำหนดค่าใช้งาน</translatorcomment>
         <translation>เมื่อห้องสนทนาเงียบ</translation>
     </message>
     <message>
@@ -5428,13 +5230,11 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="30"/>
         <source>Server List</source>
-        <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
         <translation>รายชื่อเซิฟเวอร์ทั้งหมด</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="86"/>
         <source>Include public servers (green ones)</source>
-        <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
         <translation>แสดงเซิฟเวอร์สาธารณะ (สีเขียว)</translation>
     </message>
     <message>
@@ -5450,20 +5250,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="332"/>
         <source>&amp;Connect</source>
-        <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
         <translation>เ&amp;ชื่อมต่อ</translation>
     </message>
     <message>
     <message>
         <location filename="../serverlist.ui" line="104"/>
         <source>Server Information</source>
-        <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
         <translation>ข้อมูลเซิฟเวอร์</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="355"/>
         <source>Entry name</source>
-        <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
         <translation>ชื่อที่ตั้งไว้</translation>
     </message>
     <message>
@@ -5500,7 +5297,6 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="167"/>
         <location filename="../serverlist.ui" line="187"/>
         <source>Default: 10333</source>
-        <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
         <translation>ค่าปกติ: 10333</translation>
     </message>
     <message>
@@ -5522,20 +5318,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="203"/>
         <source>Authentication (optional)</source>
-        <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
         <translation>สิทธิพิเศษ (ไม่ใส่ก็ได้)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="212"/>
         <source>Username</source>
-        <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
         <translation>ชื่อผู้ใช้งาน</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="229"/>
         <location filename="../serverlist.ui" line="284"/>
         <source>Password</source>
-        <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
         <translation>รหัสผ่าน</translation>
     </message>
     <message>
@@ -5547,13 +5340,11 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="262"/>
         <location filename="../serverlist.ui" line="265"/>
         <source>Join specific channel after authentication (optional)</source>
-        <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
         <translation>เข้าห้องสนทนาที่กำหนดไว้ทันทีหลังจากใช้สิทธิพิเศษ (ไม่ใช้ก็ได้)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="271"/>
         <source>Channel</source>
-        <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
         <translation>ห้องสนทนา</translation>
     </message>
     <message>
@@ -5580,19 +5371,16 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="408"/>
         <location filename="../serverlist.ui" line="411"/>
         <source>.tt files can be double-clicked and the client will automatically start and connect to the specified server</source>
-        <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
         <translation>ไฟล์ .tt สามารถเริ่มใช้งานได้ทันทีและผู้ใช้งานสามารถเข้าเซิฟเวอร์ที่กำหนดไว้เมื่อดับเบิลคลิก</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="414"/>
         <source>&amp;Generate .tt File</source>
-        <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
         <translation>&amp;สร้างไฟล์ .tt</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="369"/>
         <source>Missing fields</source>
-        <translatorcomment>รายชื่อเซิฟเวอร์</translatorcomment>
         <translation>หัวข้อที่เรียกไม่มี</translation>
     </message>
     <message>
@@ -7289,25 +7077,21 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="62"/>
         <source>Username</source>
-        <translatorcomment>บัญชีผู้ใช้งาน</translatorcomment>
         <translation type="unfinished">ชื่อผู้ใช้งาน</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="63"/>
         <source>Password</source>
-        <translatorcomment>บัญชีผู้ใช้งาน</translatorcomment>
         <translation>รหัสผ่าน</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="64"/>
         <source>User Type</source>
-        <translatorcomment>บัญชีผู้ใช้งาน</translatorcomment>
         <translation>ประเภทของผู้ใช้งาน</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="65"/>
         <source>Note</source>
-        <translatorcomment>บัญชีผู้ใช้งาน</translatorcomment>
         <translation>บันทึกช่วยจำ</translation>
     </message>
     <message>
@@ -7324,14 +7108,12 @@ Delete the published user account to unregister your server.</source>
         <location filename="../useraccountsdlg.cpp" line="95"/>
         <location filename="../useraccountsdlg.cpp" line="114"/>
         <source>Administrator</source>
-        <translatorcomment>บัญชีผู้ใช้งาน</translatorcomment>
         <translation>ผู้ดูแลระบบ</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="97"/>
         <location filename="../useraccountsdlg.cpp" line="116"/>
         <source>Default User</source>
-        <translatorcomment>บัญชีผู้ใช้งาน</translatorcomment>
         <translation>ผู้ใช้งานปกติ</translation>
     </message>
     <message>
@@ -7515,7 +7297,6 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfodlg.cpp" line="69"/>
         <source>Question</source>
-        <translatorcomment>กดเมื่อต้องการถาม</translatorcomment>
         <translation>คำถาม</translation>
     </message>
     <message>

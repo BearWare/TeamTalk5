@@ -535,7 +535,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="548"/>
         <location filename="../channel.ui" line="740"/>
         <source>Transmit interval</source>
-        <translatorcomment>vagy: Adási távolság</translatorcomment>
         <translation>Adási időköz</translation>
     </message>
     <message>

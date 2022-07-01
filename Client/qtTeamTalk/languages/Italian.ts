@@ -77,7 +77,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="42"/>
         <source>Automatic Gain Control (AGC)</source>
-        <translatorcomment>	</translatorcomment>
         <translation>Controllo automatico del guadagno (CAG)</translation>
     </message>
     <message>
@@ -279,7 +278,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../bannedusersdlg.cpp" line="93"/>
         <location filename="../bannedusersdlg.cpp" line="112"/>
         <source>User</source>
-        <translatorcomment>	</translatorcomment>
         <translation>Utente</translation>
     </message>
     <message>
@@ -724,7 +722,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="1152"/>
         <location filename="../channelstree.cpp" line="1153"/>
         <source>No</source>
-        <translatorcomment>	</translatorcomment>
         <translation>No</translation>
     </message>
     <message>
@@ -770,7 +767,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="835"/>
         <source>Media files transmission</source>
-        <translatorcomment>	</translatorcomment>
         <translation>Trasmissione di file multimediali</translation>
     </message>
     <message>
@@ -1193,7 +1189,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filesmodel.cpp" line="108"/>
         <source>Name: %1, Size: %2, Owner: %3, Date: %4</source>
-        <translatorcomment>	</translatorcomment>
         <translation>Nome: %1, Dimensione: %2, Proprietario: %3, Data: %4</translation>
     </message>
 </context>
@@ -5838,7 +5833,6 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="126"/>
         <source>&amp;No</source>
-        <translatorcomment>	</translatorcomment>
         <translation>&amp;No</translation>
     </message>
 </context>
@@ -6302,7 +6296,6 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafiledlg.cpp" line="67"/>
         <source>No Audio Preprocessor</source>
-        <translatorcomment>	</translatorcomment>
         <translation>Nessun preprocessore audio</translation>
     </message>
     <message>
@@ -6338,7 +6331,6 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafiledlg.cpp" line="183"/>
         <source>&amp;No</source>
-        <translatorcomment>	</translatorcomment>
         <translation>&amp;No</translation>
     </message>
     <message>
