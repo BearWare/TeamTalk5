@@ -7177,8 +7177,8 @@ void MainWindow::slotSpeakClientStats(bool checked/* = false*/)
     float rx = float(stats.nUdpBytesRecv - m_clientstats.nUdpBytesRecv);
     float tx = float(stats.nUdpBytesSent - m_clientstats.nUdpBytesSent);
     int ping = stats.nUdpPingTimeMs;
-    QString strstats = QString("RX: %1KB TX: %2KB ").arg(rx / 1024.0, 2, 'f', 2, '0').arg(tx / 1024.0, 2, 'f', 2, '0');
+    QString strstats = QString("RX: %1KB TX: %2KB").arg(rx / 1024.0, 2, 'f', 2, '0').arg(tx / 1024.0, 2, 'f', 2, '0');
     if (ping >= 0)
-        strstats += QString("PING: %3").arg(ping);
+        strstats += QString(" PING: %3").arg(ping);
     addTextToSpeechMessage(strstats);
 }
