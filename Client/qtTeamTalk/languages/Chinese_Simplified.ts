@@ -4385,10 +4385,6 @@ Should these settings be applied?</source>
         <translation>在弹出对话框中启动视频</translation>
     </message>
     <message>
-        <source>Closed video dialog should return to video-tab</source>
-        <translation type="vanished">关闭视频对话框应返回视频标签</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="479"/>
         <source>Start desktops in popup dialog</source>
         <translation>在弹出对话框中启动桌面</translation>
@@ -4677,7 +4673,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="180"/>
         <source>Disable voice activation when inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>不活动时禁用语音激活</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="548"/>
