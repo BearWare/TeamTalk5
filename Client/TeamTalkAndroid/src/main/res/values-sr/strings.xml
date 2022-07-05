@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">TeamTalk</string>
-    <string name="title_activity_server_list">TeamTalk</string>
+    <string name="title_activity_server_list">Poslužitelji TeamTalk5</string>
     <string name="action_settings">Postavke</string>
     <string name="action_exit">Izlaz</string>
     <string name="title_activity_server_entry">Postavke TeamTalk5 servera</string>

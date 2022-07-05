@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">TeamTalk</string>
-    <string name="title_activity_server_list">TeamTalk</string>
+    <string name="title_activity_server_list">TeamTalk 5 Servers</string>
     <string name="action_settings">الاعدادات</string>
     <string name="action_exit">خروج</string>
     <string name="title_activity_server_entry">خصائص الخادم</string>

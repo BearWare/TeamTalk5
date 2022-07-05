@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">TeamTalk</string>
-    <string name="title_activity_server_list">TeamTalk</string>
+    <string name="title_activity_server_list">Тимток 5 сервери</string>
     <string name="action_settings">нагодувања</string>
     <string name="action_exit">Излес</string>
     <string name="title_activity_server_entry">својства на серверите во Тимток 5</string>

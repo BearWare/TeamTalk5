@@ -833,6 +833,30 @@ p, li { white-space: pre-wrap; }
         <translation>kanal yöneticisi</translation>
     </message>
     <message>
+        <source>, Away</source>
+        <translation type="vanished">, Uzakta</translation>
+    </message>
+    <message>
+        <source>, Question</source>
+        <translation type="vanished">, Soru</translation>
+    </message>
+    <message>
+        <source>, Streaming media file</source>
+        <translation type="vanished">medya dosyası akışı</translation>
+    </message>
+    <message>
+        <source>, Webcam</source>
+        <translation type="vanished">, Web kamerası</translation>
+    </message>
+    <message>
+        <source> (Administrator)</source>
+        <translation type="vanished"> (Yönetici)</translation>
+    </message>
+    <message>
+        <source> (Channel operator)</source>
+        <translation type="vanished"> (Kanal yöneticisi)</translation>
+    </message>
+    <message>
         <location filename="../channelstree.cpp" line="1149"/>
         <source>Text message transmission allowed: %1</source>
         <translation>Metin iletisi iletimine izin verildi: %1</translation>
@@ -1664,6 +1688,10 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2476"/>
         <source>&amp;Exit</source>
         <translation>&amp;Çık</translation>
+    </message>
+    <message>
+        <source>Alt+F4</source>
+        <translation type="vanished">Alt+F4</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1456"/>
@@ -4055,6 +4083,10 @@ Bu ayarlar uygulanmalı mı?</translation>
         <translation>İ&amp;ptal</translation>
     </message>
     <message>
+        <source>Folder for storing audio files does not exist</source>
+        <translation type="vanished">Ses dosyalarını depolamak için klasör yok</translation>
+    </message>
+    <message>
         <location filename="../mediastoragedlg.cpp" line="116"/>
         <source>Folder for storing audio files does not exist. Do you want %1 to create it for you?</source>
         <translation>Ses dosyalarını depolamak için klasör mevcut değil. %1&apos;in sizin için oluşturmasını istiyor musunuz?</translation>
@@ -4383,6 +4415,10 @@ Bu ayarlar uygulanmalı mı?</translation>
         <translation>Videoyu açılır iletişim kutusunda başlat</translation>
     </message>
     <message>
+        <source>Closed video dialog should return to video-tab</source>
+        <translation type="vanished">Kapatılan video iletişim kutusunu video sekmesine döndür</translation>
+    </message>
+    <message>
         <location filename="../preferences.ui" line="479"/>
         <source>Start desktops in popup dialog</source>
         <translation>Masaüstlerini açılır iletişim kutusunda başlat</translation>
@@ -4396,6 +4432,14 @@ Bu ayarlar uygulanmalı mı?</translation>
         <location filename="../preferences.ui" line="557"/>
         <source>Show statusbar events in chat-window</source>
         <translation>Sohbet penceresinde durum çubuğu olaylarını göster</translation>
+    </message>
+    <message>
+        <source>Show user logs in/out in chat history</source>
+        <translation type="vanished">Sohbet geçmişinde kullanıcı giriş / çıkışlarını göster</translation>
+    </message>
+    <message>
+        <source>Check for program updates at startup</source>
+        <translation type="vanished">Başlangıçta program güncellemelerini denetle</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="683"/>
@@ -4914,6 +4958,10 @@ Bu ayarlar uygulanmalı mı?</translation>
         <translation>Ana pencereyi göster/gizle</translation>
     </message>
     <message>
+        <source>Setup Keys</source>
+        <translation type="vanished">Tuşları Ayarla</translation>
+    </message>
+    <message>
         <location filename="../preferences.ui" line="2504"/>
         <source>Video Capture Settings</source>
         <translation>Video Yakalama Ayarları</translation>
@@ -5280,6 +5328,10 @@ Bu ayarlar uygulanmalı mı?</translation>
         <translation>Genel sunucuları kapsa (yeşil olanlar)</translation>
     </message>
     <message>
+        <source>&amp;Delete</source>
+        <translation type="vanished">&amp;Sil</translation>
+    </message>
+    <message>
         <location filename="../serverlist.ui" line="104"/>
         <source>Server Information</source>
         <translation>Sunucu Bilgileri</translation>
@@ -5408,6 +5460,10 @@ Bu ayarlar uygulanmalı mı?</translation>
         <location filename="../serverlist.ui" line="401"/>
         <source>Publish Publicly</source>
         <translation>Herkese Açık Olarak Yayınla</translation>
+    </message>
+    <message>
+        <source>&amp;Save</source>
+        <translation type="vanished">&amp;Kaydet</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="369"/>
@@ -6719,6 +6775,10 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <translation>Etkin Kullanıcılar</translation>
     </message>
     <message>
+        <source>&amp;Delete</source>
+        <translation type="vanished">&amp;Sil</translation>
+    </message>
+    <message>
         <location filename="../useraccounts.ui" line="76"/>
         <source>Modify User Account</source>
         <translation>Kullanıcı Hesabını Değiştir</translation>
@@ -6970,6 +7030,10 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../useraccounts.ui" line="612"/>
         <source>CheckBox</source>
         <translation>OnayKutusu</translation>
+    </message>
+    <message>
+        <source>Remove selected user</source>
+        <translation type="vanished">Seçilen kullanıcıyı kaldır</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="644"/>
