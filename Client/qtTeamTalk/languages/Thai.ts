@@ -486,7 +486,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-    <message>
         <location filename="../channel.ui" line="206"/>
         <source>Classroom (operator-controlled transmissions)</source>
         <translation>รูปแบบห้องเรียน (ผู้สร้างห้องควบคุมการสนทนาของผู้ใช้ทุกคน)</translation>
@@ -617,7 +616,6 @@ p, li { white-space: pre-wrap; }
         <source>Audio channels</source>
         <translation>วิธีการส่งเสียง</translation>
     </message>
-    <message>
     <message>
         <location filename="../channeldlg.cpp" line="44"/>
         <location filename="../channeldlg.cpp" line="425"/>
@@ -1146,7 +1144,6 @@ p, li { white-space: pre-wrap; }
         <source>&amp;Open</source>
         <translation>เปิ&amp;ด</translation>
     </message>
-    <message>
     <message>
         <location filename="../filetransferdlg.cpp" line="71"/>
         <source>File transfer failed.</source>
@@ -2878,7 +2875,6 @@ Should these settings be applied?</source>
         <translation>ระดับเสียงที่ใช้เปิดไมค์</translation>
     </message>
     <message>
-    <message>
         <location filename="../mainwindow.ui" line="383"/>
         <source>Send text message</source>
         <translation>ส่งข้อความเป็นตัวอักษร</translation>
@@ -2949,7 +2945,6 @@ Should these settings be applied?</source>
         <source>Request desktop access</source>
         <translation>ร้องขอการเข้าดูหน้าจอ</translation>
     </message>
-    <message>
     <message>
         <location filename="../mainwindow.ui" line="1085"/>
         <location filename="../mainwindow.ui" line="1088"/>
@@ -5252,7 +5247,6 @@ Should these settings be applied?</source>
         <source>&amp;Connect</source>
         <translation>เ&amp;ชื่อมต่อ</translation>
     </message>
-    <message>
     <message>
         <location filename="../serverlist.ui" line="104"/>
         <source>Server Information</source>
