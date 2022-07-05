@@ -47,10 +47,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Translated by Bjoern D. Rasmussen</source>
-        <translation type="vanished">Fordította Szakács Péter</translation>
-    </message>
-    <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on </source>
         <translation type="unfinished"></translation>
@@ -539,7 +535,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="548"/>
         <location filename="../channel.ui" line="740"/>
         <source>Transmit interval</source>
-        <translatorcomment>vagy: Adási távolság</translatorcomment>
         <translation>Adási időköz</translation>
     </message>
     <message>
@@ -682,10 +677,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../channeldlg.cpp" line="430"/>
         <source>Delay before switching to next user in queue (in msec)</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Note that Echo Cancellation, Denoising and Audio Configuration currently isn&apos;t supported in stereo mode.</source>
-        <translation type="obsolete">Megjegyzés: A víszhangszűrés, zajszűrés és a hang konfigurálása jelenleg sztereó üzemmódban nem támogatott.</translation>
     </message>
 </context>
 <context>
@@ -1154,10 +1145,6 @@ p, li { white-space: pre-wrap; }
         <translation>Meg&amp;nyitás</translation>
     </message>
     <message>
-        <source>File tranfer failed.</source>
-        <translation type="vanished">A fájlátvitel sikertelen.</translation>
-    </message>
-    <message>
         <location filename="../filetransferdlg.cpp" line="71"/>
         <source>File transfer failed.</source>
         <translation type="unfinished"></translation>
@@ -1398,10 +1385,6 @@ p, li { white-space: pre-wrap; }
         <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Mac OS X does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
-        <translation type="vanished">Mac OS X nem támogatja a módosító billentyű egyedűli használatát, azaz a Cmd, Option és Shift billentyűt együtt kell használni más nem módosító billentyűvel.</translation>
-    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -1437,10 +1420,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="287"/>
         <source>Voice activation level</source>
         <translation>Hang aktiválási szint</translation>
-    </message>
-    <message>
-        <source>Chat</source>
-        <translation type="vanished">Beszélgetés</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="343"/>
@@ -1500,18 +1479,10 @@ p, li { white-space: pre-wrap; }
         <translation>A Webkamera indítása/leállítása</translation>
     </message>
     <message>
-        <source>Desktops</source>
-        <translation type="vanished">Desktops</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="732"/>
         <location filename="../mainwindow.ui" line="735"/>
         <source>Detach selected window</source>
         <translation>A kiválasztott ablak leválasztása</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="768"/>
@@ -1529,10 +1500,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="846"/>
         <source>Request desktop access</source>
         <translation>Asztali hozzáférés kérése</translation>
-    </message>
-    <message>
-        <source>Files</source>
-        <translation type="vanished">Fájlok</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="322"/>
@@ -1715,10 +1682,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2476"/>
         <source>&amp;Exit</source>
         <translation>&amp;Kilépés</translation>
-    </message>
-    <message>
-        <source>Alt+F4</source>
-        <translation type="vanished">Alt+F4</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1456"/>
@@ -2082,10 +2045,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Ctrl+Shift+K</source>
-        <translation type="vanished">Ctrl+Shift+K</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1674"/>
         <source>&amp;Op</source>
         <translation>&amp;Op</translation>
@@ -2241,26 +2200,14 @@ p, li { white-space: pre-wrap; }
         <translation>Ü&amp;zenet közzététele</translation>
     </message>
     <message>
-        <source>Ctrl+Alt+B</source>
-        <translation type="vanished">Ctrl+Alt+B</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1873"/>
         <source>&amp;Increase Voice Volume</source>
         <translation>&amp;Hangerő csökkentése</translation>
     </message>
     <message>
-        <source>Ctrl+Right</source>
-        <translation type="vanished">Ctrl+Right</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1881"/>
         <source>&amp;Lower Voice Volume</source>
         <translation>&amp;Hangerő csökkentése</translation>
-    </message>
-    <message>
-        <source>Ctrl+Left</source>
-        <translation type="vanished">Ctrl+Left</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1889"/>
@@ -2336,10 +2283,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="1980"/>
         <source>Ctrl+Shift+U</source>
         <translation>Ctrl+Shift+U</translation>
-    </message>
-    <message>
-        <source>Enable Question Mode</source>
-        <translation type="vanished">Kérdező mód bekapcsolása</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2305"/>
@@ -2472,10 +2415,6 @@ p, li { white-space: pre-wrap; }
         <translation>Médiafájl elnémítása</translation>
     </message>
     <message>
-        <source>Ctrl+Alt+Μ</source>
-        <translation type="vanished">Ctrl+Alt+M</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="2209"/>
         <source>Kick From Channel</source>
         <translation>Eltávolítás a csatornábúl</translation>
@@ -2501,17 +2440,9 @@ p, li { white-space: pre-wrap; }
         <translation>Médiafájl hangerő növelése</translation>
     </message>
     <message>
-        <source>Ctrl+Shift+Right</source>
-        <translation type="vanished">Ctrl+Shift+Right</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="2233"/>
         <source>Lower Media File Volume</source>
         <translation>Médiafájl hangerő csökkentése</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+Left</source>
-        <translation type="vanished">Ctrl+Shift+Left</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2241"/>
@@ -2574,22 +2505,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="981"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
         <translation>Megszünt a %1 csatlakoztatása a %2 TCP porthoz, a %3 UDP porthoz</translation>
-    </message>
-    <message>
-        <source>Logged in</source>
-        <translation type="vanished">Bejelentkezve</translation>
-    </message>
-    <message>
-        <source>Logged out</source>
-        <translation type="vanished">Kijelentkezve</translation>
-    </message>
-    <message>
-        <source>Kicked by %1</source>
-        <translation type="vanished">%1 eltávolította</translation>
-    </message>
-    <message>
-        <source>Kicked by unknown user</source>
-        <translation type="vanished">Ismeretlen felhasználó eltávolította</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1095"/>
@@ -2745,22 +2660,6 @@ p, li { white-space: pre-wrap; }
         <translation>Nem tud csatlakozni a %1 csatornához</translation>
     </message>
     <message>
-        <source>Failed to initialize sound duplex mode</source>
-        <translation type="vanished">Kétoldalú hangkapcsolat indítása sikertelen</translation>
-    </message>
-    <message>
-        <source>Switching to default sound devices</source>
-        <translation type="vanished">Kapcsolás az alapértelmezett hangeszközre</translation>
-    </message>
-    <message>
-        <source>Unable to get default sound devices</source>
-        <translation type="vanished">Nem lehet elérni az alapértelmezett hangeszközöket</translation>
-    </message>
-    <message>
-        <source>Failed to initialize default sound devices</source>
-        <translation type="vanished">Az alapértelmezett hangeszköz indítása sikertelen</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1930"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
         <translation>%1 csatlakoztatása a %2 TCP porthoz, %3 UDP porthoz</translation>
@@ -2770,10 +2669,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2983"/>
         <source>Error</source>
         <translation>Hiba</translation>
-    </message>
-    <message>
-        <source>This client is not compatible with the server,  so the action cannot be performed.</source>
-        <translation type="vanished">Ez az ügyfél nem kompatibilis a szerverrel, így az akció nem hajtható végre.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2040"/>
@@ -3006,10 +2901,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2923"/>
         <source>Files in channel: %1</source>
         <translation>%1 fájl a csatornában</translation>
-    </message>
-    <message>
-        <source>Files (%1)</source>
-        <translation type="vanished">Fájlok (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2983"/>
@@ -3859,12 +3750,6 @@ Do you wish to do this now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="obsolete">A %1 fájl %2 beállítási információt tartalmaz.
-Alkalmazzuk ezeket a beállításokat?</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1136"/>
         <source>%1 joined channel</source>
         <translation>%1 csatlakozott a csatornához</translation>
@@ -4002,18 +3887,6 @@ Alkalmazzuk ezeket a beállításokat?</translation>
         <translation>Ki</translation>
     </message>
     <message>
-        <source>Video</source>
-        <translation type="vanished">Video</translation>
-    </message>
-    <message>
-        <source>Video (%1)</source>
-        <translation type="vanished">Video (%1)</translation>
-    </message>
-    <message>
-        <source>Desktops (%1)</source>
-        <translation type="vanished">Asztal (%1)</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6869"/>
         <location filename="../mainwindow.cpp" line="6878"/>
         <location filename="../mainwindow.cpp" line="6888"/>
@@ -4047,10 +3920,6 @@ Alkalmazzuk ezeket a beállításokat?</translation>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New version available: %1</source>
-        <translation type="vanished">Új verzió elérhető: %1</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="32"/>
@@ -4112,10 +3981,6 @@ Should these settings be applied?</source>
         <translation>Mappa a hangfájlok részére</translation>
     </message>
     <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
-    </message>
-    <message>
         <location filename="../mediastorage.ui" line="119"/>
         <source>Store text message conversations</source>
         <translation>Mentse el a szöveges üzenetváltásokat</translation>
@@ -4151,10 +4016,6 @@ Should these settings be applied?</source>
         <location filename="../mediastorage.ui" line="203"/>
         <source>&amp;Cancel</source>
         <translation type="unfinished">&amp;Mégse</translation>
-    </message>
-    <message>
-        <source>Folder for storing audio files does not exist</source>
-        <translation type="vanished">Nincs mappa a hangfájlok tárolásához</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="116"/>
@@ -4485,10 +4346,6 @@ Should these settings be applied?</source>
         <translation>Video indulás felugró ablakban</translation>
     </message>
     <message>
-        <source>Closed video dialog should return to video-tab</source>
-        <translation type="vanished">A video dialógusablak zárásakor térjen vissza a video-tabhoz</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="479"/>
         <source>Start desktops in popup dialog</source>
         <translation>Asztalok indulása felugró ablakban</translation>
@@ -4504,17 +4361,9 @@ Should these settings be applied?</source>
         <translation>A státuszbar eseményt jelenítse meg a csevegő ablakban</translation>
     </message>
     <message>
-        <source>Check for program updates at startup</source>
-        <translation type="vanished">Program frissítések keresése induláskor</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="594"/>
         <source>Show source in corner of video window</source>
         <translation>Mutassa a forrást a video ablak sarkában</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="628"/>
@@ -4682,10 +4531,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="1164"/>
         <source>&amp;Test Selected</source>
         <translation>Kiválasztott &amp;Test</translation>
-    </message>
-    <message>
-        <source>Enable duplex mode (required for echo cancellation)</source>
-        <translation type="vanished">Duplex mód engedélyezése (visszhangelnyomáshoz szükséges)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1189"/>
@@ -5032,10 +4877,6 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Setup Keys</source>
-        <translation type="vanished">Billentyűk beállítása</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="2504"/>
         <source>Video Capture Settings</source>
         <translation>A video rögzítés beállításai</translation>
@@ -5211,18 +5052,6 @@ Should these settings be applied?</source>
         <translation>Hang indítása</translation>
     </message>
     <message>
-        <source>Failed to initialize sound duplex mode</source>
-        <translation type="vanished">Hang duplex módú indítása sikertelen</translation>
-    </message>
-    <message>
-        <source>Failed to initialize new sound input device</source>
-        <translation type="vanished">Új hang bemeneti eszköz indítása sikertelen</translation>
-    </message>
-    <message>
-        <source>Failed to initialize new sound output device</source>
-        <translation type="vanished">Új hang kimeneti eszköz indítása sikertelen</translation>
-    </message>
-    <message>
         <location filename="../preferencesdlg.cpp" line="1112"/>
         <location filename="../preferencesdlg.cpp" line="1140"/>
         <source>Video Device</source>
@@ -5386,10 +5215,6 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Failed to initialize default sound devices</source>
-        <translation type="obsolete">Az alapértelmezett hangeszköz indítása sikertelen</translation>
-    </message>
-    <message>
         <location filename="../common.cpp" line="1119"/>
         <source>Conference</source>
         <translation>Konferencia</translation>
@@ -5416,10 +5241,6 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="86"/>
         <source>Include public servers (green ones)</source>
         <translation>Beleértve a nyilvános szervereket (zöld színnel jelezve)</translation>
-    </message>
-    <message>
-        <source>&amp;Delete</source>
-        <translation type="vanished">&amp;Törlés</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="104"/>
@@ -5511,10 +5332,6 @@ Should these settings be applied?</source>
         <translation>&amp;Csatlakozás</translation>
     </message>
     <message>
-        <source>Save Server Information</source>
-        <translation type="vanished">Mentse a szerver információkat</translation>
-    </message>
-    <message>
         <location filename="../serverlist.ui" line="355"/>
         <source>Entry name</source>
         <translation>Adja meg a mentendő fájl nevét</translation>
@@ -5554,10 +5371,6 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="401"/>
         <source>Publish Publicly</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Save</source>
-        <translation type="vanished">&amp;Mentés</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="369"/>
@@ -6342,10 +6155,6 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
-    </message>
-    <message>
         <location filename="../streammediafile.ui" line="62"/>
         <location filename="../streammediafile.ui" line="65"/>
         <source>Refresh</source>
@@ -6393,10 +6202,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafile.ui" line="178"/>
         <source>Co&amp;ntinuously play media file</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Continuously play media file</source>
-        <translation type="vanished">Folyamatosan játssza a médiafájlt</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="188"/>
@@ -6868,10 +6673,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../useraccounts.ui" line="27"/>
         <source>Active Users</source>
         <translation>Aktív felhasználó</translation>
-    </message>
-    <message>
-        <source>&amp;Delete</source>
-        <translation type="vanished">&amp;Törlés</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="76"/>
@@ -7655,10 +7456,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../videotext.ui" line="105"/>
         <source>Text Appearance</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Text Apperance</source>
-        <translation type="vanished">A szöveg megjelenése</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="111"/>
