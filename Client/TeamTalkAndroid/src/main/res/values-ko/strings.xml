@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">TeamTalk</string>
-    <string name="title_activity_server_list">TeamTalk 5 Server</string>
+    <string name="title_activity_server_list">TeamTalk</string>
     <string name="action_settings">설정</string>
     <string name="action_exit">종료</string>
     <string name="title_activity_server_entry">TeamTalk 5 Server 속성</string>

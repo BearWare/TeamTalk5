@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">TeamTalk</string>
-    <string name="title_activity_server_list">Servidores TeamTalk 5</string>
+    <string name="title_activity_server_list">TeamTalk</string>
     <string name="action_settings">Configurações</string>
     <string name="action_exit">Sair</string>
     <string name="title_activity_server_entry">Propriedades do servidor</string>

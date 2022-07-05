@@ -47,10 +47,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Translated by Bjoern D. Rasmussen</source>
-        <translation type="vanished">תרגום עברי: נתי ב</translation>
-    </message>
-    <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on </source>
         <translation type="unfinished"></translation>
@@ -450,18 +446,6 @@ p, li { white-space: pre-wrap; }
         <translation>נפח דיסק (KBytes)</translation>
     </message>
     <message>
-        <source>Static channel (persistent)</source>
-        <translation type="obsolete">ערוץ קבוע</translation>
-    </message>
-    <message>
-        <source>Echo channel (hear yourself)</source>
-        <translation type="obsolete">ערוץ שמע עצמי</translation>
-    </message>
-    <message>
-        <source>No simultaneous audio transmission</source>
-        <translation type="obsolete">משתמש יחיד בלבד יכול לדבר בזמן נתון</translation>
-    </message>
-    <message>
         <location filename="../channel.ui" line="206"/>
         <source>Classroom (operator-controlled transmissions)</source>
         <translation type="unfinished"></translation>
@@ -572,10 +556,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enable denoising</source>
-        <translation type="obsolete">אפשר סינון רעש</translation>
-    </message>
-    <message>
         <location filename="../channel.ui" line="36"/>
         <source>Channel path</source>
         <translation>נתיב הערוץ</translation>
@@ -635,10 +615,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="656"/>
         <source>Audio channels</source>
         <translation>ערוצי שמע</translation>
-    </message>
-    <message>
-        <source>Bytes per second</source>
-        <translation type="obsolete">בתים לשנייה</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="44"/>
@@ -885,69 +861,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../chattextedit.cpp" line="226"/>
         <source>Disk quota: %1 KBytes</source>
         <translation>%1 KB :נפח דיסק</translation>
-    </message>
-</context>
-<context>
-    <name>ConnectDlg</name>
-    <message>
-        <source>Connect to a Server</source>
-        <translation type="obsolete">התחבר לשרת</translation>
-    </message>
-    <message>
-        <source>Server Information</source>
-        <translation type="obsolete">מידע על השרת</translation>
-    </message>
-    <message>
-        <source>Host IP-address</source>
-        <translation type="obsolete">IP כתובת</translation>
-    </message>
-    <message>
-        <source>TCP port</source>
-        <translation type="obsolete">TCP פורט</translation>
-    </message>
-    <message>
-        <source>Default: 10333</source>
-        <translation type="obsolete">ברירת מחדל: 10333</translation>
-    </message>
-    <message>
-        <source>UDP port</source>
-        <translation type="obsolete">UDP פורט</translation>
-    </message>
-    <message>
-        <source>Authentication (optional)</source>
-        <translation type="obsolete">אופציונלי) אימות)</translation>
-    </message>
-    <message>
-        <source>Server password</source>
-        <translation type="obsolete">סיסמת שרת</translation>
-    </message>
-    <message>
-        <source>Optional</source>
-        <translation type="obsolete">אופציונלי</translation>
-    </message>
-    <message>
-        <source>Login using user account</source>
-        <translation type="obsolete">התחבר עם שם משתמש</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation type="obsolete">שם משתמש</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation type="obsolete">סיסמה</translation>
-    </message>
-    <message>
-        <source>Username and password is only needed if the server requires user accounts</source>
-        <translation type="obsolete">שם משתמש וסיסמה: נדרשים רק אם השרת דורש חשבון משתמש</translation>
-    </message>
-    <message>
-        <source>Join specific channel after authentication (optional)</source>
-        <translation type="obsolete">אופציונלי) הצטרף לערוץ ספציפי לאחר אימות)</translation>
-    </message>
-    <message>
-        <source>Channel</source>
-        <translation type="obsolete">ערוץ</translation>
     </message>
 </context>
 <context>
@@ -1231,10 +1144,6 @@ p, li { white-space: pre-wrap; }
         <translation>פ&amp;תח</translation>
     </message>
     <message>
-        <source>File tranfer failed.</source>
-        <translation type="vanished">.העברת הקובץ נכשלה</translation>
-    </message>
-    <message>
         <location filename="../filetransferdlg.cpp" line="71"/>
         <source>File transfer failed.</source>
         <translation type="unfinished"></translation>
@@ -1495,58 +1404,10 @@ p, li { white-space: pre-wrap; }
         <translation>אבד החיבור לשרת %1 פורט TCP %2 פורט UDP %3</translation>
     </message>
     <message>
-        <source>Established P2P connection to %1</source>
-        <translation type="obsolete">התבצע חיבור P2P ל %1</translation>
-    </message>
-    <message>
-        <source>Failed to establish P2P connection to %1</source>
-        <translation type="obsolete">נכשל חיבור P2P ל %1</translation>
-    </message>
-    <message>
-        <source>%1 will be unavailable for audio transmission</source>
-        <translation type="obsolete">%1 יהיה לא זמין לשידור שמע</translation>
-    </message>
-    <message>
-        <source>%1 will be unavailable for video transmission</source>
-        <translation type="obsolete">%1 לא יהיה זמין לשידור וידאו</translation>
-    </message>
-    <message>
-        <source>Logged in</source>
-        <translation type="vanished">מחובר</translation>
-    </message>
-    <message>
-        <source>Logged out</source>
-        <translation type="vanished">מנותק</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2799"/>
         <location filename="../mainwindow.cpp" line="2811"/>
         <source>Joined channel %1</source>
         <translation>%1 הצטרפות לערוץ</translation>
-    </message>
-    <message>
-        <source>Kicked by %1</source>
-        <translation type="vanished">נבעטת עלידי %1</translation>
-    </message>
-    <message>
-        <source>Kicked by unknown user</source>
-        <translation type="vanished">נבעטת עלידי משתמש לא ידוע</translation>
-    </message>
-    <message>
-        <source>Peer to peer networking is required for audio transmission on this server. Now enabled!</source>
-        <translation type="obsolete">חיבור ישיר בין משתמשים דרוש לשידור שמע על השרת זהז!</translation>
-    </message>
-    <message>
-        <source>Peer to peer networking for audio disabled!</source>
-        <translation type="obsolete">דרישת חיבור ישיר בין משתמשים עבור שמע בוטלה!</translation>
-    </message>
-    <message>
-        <source>Peer to peer networking is required for video transmission on this server. Now enabled!</source>
-        <translation type="obsolete">חיבור משתמשים ישיר דרוש לשידור וידאו!</translation>
-    </message>
-    <message>
-        <source>Peer to peer networking for video disabled!</source>
-        <translation type="obsolete">דרישת חיבור ישיר בין משתמשים לשידור וידאו בוטלה!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1136"/>
@@ -1584,22 +1445,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="1322"/>
         <source>Internal Error</source>
         <translation>שגיאה פנימית</translation>
-    </message>
-    <message>
-        <source>Error streaming audio file to %1</source>
-        <translation type="obsolete">%1 שגיאה בהזרמת קובץ שמע אל</translation>
-    </message>
-    <message>
-        <source>Started streaming audio file to %1</source>
-        <translation type="obsolete">%1 התחלת הזרמת קובץ שמע אל</translation>
-    </message>
-    <message>
-        <source>Finished streaming audio file to %1</source>
-        <translation type="obsolete">%1 נסתיימה הזרמת שמע אל</translation>
-    </message>
-    <message>
-        <source>Aborted streaming audio file to %1</source>
-        <translation type="obsolete">%1 בוטלה הזרמת שמע אל</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1372"/>
@@ -1643,18 +1488,10 @@ p, li { white-space: pre-wrap; }
         <translation>מתחבר אל %1 פורט TCP %2 פורט UDP %3</translation>
     </message>
     <message>
-        <source>Failed to connect to server</source>
-        <translation type="obsolete">נכשלה התחברות לשרת</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2026"/>
         <location filename="../mainwindow.cpp" line="2983"/>
         <source>Error</source>
         <translation>שגיאה</translation>
-    </message>
-    <message>
-        <source>This client is not compatible with the server,  so the action cannot be performed.</source>
-        <translation type="vanished">תוכנת לקוח זו לא תואמת לשרת, לכן פעולה זו לא יכולה להתבצע</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2054"/>
@@ -1663,10 +1500,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2107"/>
         <source>Login error</source>
         <translation>שגיאת כניסה</translation>
-    </message>
-    <message>
-        <source>Incorrect server password. Try again:</source>
-        <translation type="obsolete">סיסמה שגוייה. נסה שנית:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2055"/>
@@ -1699,10 +1532,6 @@ p, li { white-space: pre-wrap; }
         <translation>פקודה לא מורשת</translation>
     </message>
     <message>
-        <source>Channel creation not allowed</source>
-        <translation type="obsolete">יצירת ערוץ אסורה</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2108"/>
         <source>Maximum number of users on server exceeded</source>
         <translation>מספר המשתמשים על השרת הגיעה לגבול המקסימלי</translation>
@@ -1716,10 +1545,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2112"/>
         <source>Maximum number of users in channel exceeded</source>
         <translation>מספר המשתמשים בערוץ הגיע לגבול המקסימלי</translation>
-    </message>
-    <message>
-        <source>Modifying subscriptions is not allowed</source>
-        <translation type="obsolete">שינוי בהרשמה אסור</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2114"/>
@@ -1785,10 +1610,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2158"/>
         <source>File sharing is disabled</source>
         <translation>שיתוף קבצים בוטל</translation>
-    </message>
-    <message>
-        <source>Server has active users</source>
-        <translation type="obsolete">בשרת יש משתמשים פעילים</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2160"/>
@@ -2005,18 +1826,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="6219"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translation>התקן וידאו לא הוגדר כשורה. בדוק הגדרות תחת - העדפות</translation>
-    </message>
-    <message>
-        <source>Open Wave File</source>
-        <translation type="obsolete">פתח קובץ שמע</translation>
-    </message>
-    <message>
-        <source>Wave files (*.wav)</source>
-        <translation type="obsolete">קובץ שמע (*.wav)</translation>
-    </message>
-    <message>
-        <source>Failed to stream file %1</source>
-        <translation type="obsolete">%1 כשלון בהזרמת קובץ שמע</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4906"/>
@@ -3002,10 +2811,6 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video</source>
-        <translation type="obsolete">וידאו</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6869"/>
         <location filename="../mainwindow.cpp" line="6878"/>
         <location filename="../mainwindow.cpp" line="6888"/>
@@ -3041,10 +2846,6 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>New version available: %1</source>
-        <translation type="vanished">%1 גירסה חדשה זמינה</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="139"/>
         <location filename="../mainwindow.ui" line="161"/>
         <location filename="../mainwindow.ui" line="164"/>
@@ -3071,10 +2872,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="287"/>
         <source>Voice activation level</source>
         <translation>רמת הפעלה קולית</translation>
-    </message>
-    <message>
-        <source>Chat</source>
-        <translation type="vanished">צ&apos;אט</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="383"/>
@@ -3146,10 +2943,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="846"/>
         <source>Request desktop access</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Files</source>
-        <translation type="vanished">קבצים</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1085"/>
@@ -3878,17 +3671,9 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>List &amp;Banned Users</source>
-        <translation type="obsolete">ה&amp;צגת משתמשים חסומים</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1609"/>
         <source>Ctrl+Shift+B</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>List &amp;User Accounts</source>
-        <translation type="obsolete">הצ&amp;גת חשבונות משתמשים</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1617"/>
@@ -3986,10 +3771,6 @@ Should these settings be applied?</source>
         <translation></translation>
     </message>
     <message>
-        <source>Kick and &amp;Ban</source>
-        <translation type="obsolete">בעט ו&amp;חסום</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1674"/>
         <source>&amp;Op</source>
         <translation></translation>
@@ -4008,10 +3789,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="1685"/>
         <source>Ctrl+U</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>&amp;Audio</source>
-        <translation type="obsolete">&amp;שמע</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1712"/>
@@ -4059,10 +3836,6 @@ Should these settings be applied?</source>
         <translation></translation>
     </message>
     <message>
-        <source>Store &amp;Audio to Disk</source>
-        <translation type="obsolete">&amp;שמור שמע לדיסק</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1801"/>
         <source>Specify a folder where audio from users will be stored</source>
         <translation>הגדר תיקייה שבה ישמרו קבצי שמע ממשתמשים</translation>
@@ -4098,14 +3871,6 @@ Should these settings be applied?</source>
         <translation>&amp;שדר הודעה</translation>
     </message>
     <message>
-        <source>&amp;Increase Volume (+10)</source>
-        <translation type="obsolete">(+10) ה&amp;גבר ווליום</translation>
-    </message>
-    <message>
-        <source>&amp;Lower Volume (-10)</source>
-        <translation type="obsolete">(-10) ה&amp;נמך ווליום</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1889"/>
         <source>&amp;Store User(s) for Move</source>
         <translation type="unfinished"></translation>
@@ -4139,10 +3904,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="1961"/>
         <source>Shift+F9</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Store for Move</source>
-        <translation type="obsolete">&amp;שמור להעברה</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1892"/>
@@ -4362,10 +4123,6 @@ Should these settings be applied?</source>
         <location filename="../onlineusersdlg.cpp" line="192"/>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Stream Audio &amp;File to User</source>
-        <translation type="obsolete">ש&amp;דר קובץ שמע למשתמש</translation>
     </message>
 </context>
 <context>
@@ -4591,10 +4348,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="557"/>
         <source>Show statusbar events in chat-window</source>
         <translation>הצג ארועי סטטוס בחלון שיחה</translation>
-    </message>
-    <message>
-        <source>Check for program updates at startup</source>
-        <translation type="vanished">בדוק עדכוני גרסה בהתחלה</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="683"/>
@@ -4890,10 +4643,6 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video</source>
-        <translation type="obsolete">וידאו</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="817"/>
         <source>Desktop</source>
         <translation type="unfinished"></translation>
@@ -4902,18 +4651,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="829"/>
         <source>Desktop Access</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Peer to Peer Data Transmission (P2P Networking)</source>
-        <translation type="obsolete">(P2P Networking) חיבור ישיר בין משתמשים </translation>
-    </message>
-    <message>
-        <source>Peer to peer transmission of audio data</source>
-        <translation type="obsolete">התחבר ישיר עבור שידור שמע</translation>
-    </message>
-    <message>
-        <source>Peer to peer transmission of video data</source>
-        <translation type="obsolete">התחבר ישיר עבור שידור וידאו</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="876"/>
@@ -4998,14 +4735,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="1189"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enable 3D-sound</source>
-        <translation type="obsolete">אפשר קול בשלושה מימדים</translation>
-    </message>
-    <message>
-        <source>Enable denoising</source>
-        <translation type="obsolete">אפשר סינון רעש</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1249"/>
@@ -5151,10 +4880,6 @@ Should these settings be applied?</source>
         <translation>הפעלה/ביטול שידור וידאו</translation>
     </message>
     <message>
-        <source>Setup Keys</source>
-        <translation type="vanished">הגדר מקשים</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="810"/>
         <location filename="../preferences.ui" line="2498"/>
         <source>Video Capture</source>
@@ -5211,14 +4936,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="2646"/>
         <source>Codec</source>
         <translation>קידוד</translation>
-    </message>
-    <message>
-        <source>Quality</source>
-        <translation type="obsolete">איכות</translation>
-    </message>
-    <message>
-        <source>Bit Rate</source>
-        <translation type="obsolete">קצב סיביות</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="373"/>
@@ -5332,14 +5049,6 @@ Should these settings be applied?</source>
         <location filename="../preferencesdlg.cpp" line="1344"/>
         <source>Sound Initialization</source>
         <translation>איתחול שמע</translation>
-    </message>
-    <message>
-        <source>Failed to initialize new sound input device</source>
-        <translation type="vanished">כשלון אתחול כניסת קול חדשה</translation>
-    </message>
-    <message>
-        <source>Failed to initialize new sound output device</source>
-        <translation type="vanished">כישלון איתחול יציאת קול חדשה</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1112"/>
@@ -5538,10 +5247,6 @@ Should these settings be applied?</source>
         <translation>&amp;התחבר</translation>
     </message>
     <message>
-        <source>&amp;Delete</source>
-        <translation type="vanished">&amp;מחק</translation>
-    </message>
-    <message>
         <location filename="../serverlist.ui" line="104"/>
         <source>Server Information</source>
         <translation>הגדרות שרת</translation>
@@ -5614,14 +5319,6 @@ Should these settings be applied?</source>
         <translation>אופציונלי) אימות)</translation>
     </message>
     <message>
-        <source>Server password</source>
-        <translation type="obsolete">סיסמת שרת</translation>
-    </message>
-    <message>
-        <source>Login using user account</source>
-        <translation type="obsolete">התחבר באמצעות חשבון משתמש</translation>
-    </message>
-    <message>
         <location filename="../serverlist.ui" line="212"/>
         <source>Username</source>
         <translation>שם משתמש</translation>
@@ -5662,14 +5359,6 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="401"/>
         <source>Publish Publicly</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Add/Update</source>
-        <translation type="obsolete">&amp;הוסף/עדכן</translation>
-    </message>
-    <message>
-        <source>&amp;Clear</source>
-        <translation type="obsolete">&amp;נקה</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="408"/>
@@ -5780,25 +5469,9 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please fill the fields &apos;Entry name&apos;, &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
-        <translation type="obsolete">נא למלא שם כתובת ופורטים</translation>
-    </message>
-    <message>
         <location filename="../serverlistdlg.cpp" line="370"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save File</source>
-        <translation type="obsolete">שמירת קובץ</translation>
-    </message>
-    <message>
-        <source>%1 File (*%1)</source>
-        <translation type="obsolete">%1 קובץ (*%1)</translation>
-    </message>
-    <message>
-        <source>Unable to save file</source>
-        <translation type="obsolete">אי אפשר לשמור קובץ</translation>
     </message>
 </context>
 <context>
@@ -6004,10 +5677,6 @@ Delete the published user account to unregister your server.</source>
         <translation>שם שרת</translation>
     </message>
     <message>
-        <source>Server password</source>
-        <translation type="obsolete">סיסמת שרת</translation>
-    </message>
-    <message>
         <location filename="../serverproperties.ui" line="47"/>
         <source>Max users</source>
         <translation>מס&apos; משתמשים מקסימלי</translation>
@@ -6047,50 +5716,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverproperties.ui" line="99"/>
         <source>Show variables</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>User Rights</source>
-        <translation type="obsolete">הרשאות משתמשים</translation>
-    </message>
-    <message>
-        <source>Users can create channels</source>
-        <translation type="obsolete">משתמשים יכולים ליצור ערוצים</translation>
-    </message>
-    <message>
-        <source>Users can become channel operators</source>
-        <translation type="obsolete">משתמשים יכולים להיות מפעילי ערוץ</translation>
-    </message>
-    <message>
-        <source>Users can login without a user account</source>
-        <translation type="obsolete">משתמשים יכולים להתחבר ללא חשבון משתמש</translation>
-    </message>
-    <message>
-        <source>Multiple users can use the same user account</source>
-        <translation type="obsolete">אפשר למספר משתמשים להשתמש באותו חשבון</translation>
-    </message>
-    <message>
-        <source>Users can see users in all channels</source>
-        <translation type="obsolete">משתמשים יכולים לראות משתמשים בכל הערוצים</translation>
-    </message>
-    <message>
-        <source>Users can broadcast text messages</source>
-        <translation type="obsolete">משתמשים יכולים לשדר הודעות טקסט</translation>
-    </message>
-    <message>
-        <source>Users can issue channel commands</source>
-        <translation type="obsolete">משתמשים יכולים לתת פקודות ערוץ</translation>
-    </message>
-    <message>
-        <source>Users can modify subscriptions</source>
-        <translation type="obsolete">משתמשים יכולים לשנות מנויים</translation>
-    </message>
-    <message>
-        <source>Users can forward/relay audio through server</source>
-        <translation type="obsolete">משתמשים יכולים להעביר/לממסר שמע דרך השרת</translation>
-    </message>
-    <message>
-        <source>Users can forward/relay video through server</source>
-        <translation type="obsolete">משתמשים יכולים להעביר/לממסר וידאו דרך השרת</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="236"/>
@@ -6649,14 +6274,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafile.ui" line="334"/>
         <source>Codec</source>
         <translation type="unfinished">קידוד</translation>
-    </message>
-    <message>
-        <source>Quality</source>
-        <translation type="obsolete">איכות</translation>
-    </message>
-    <message>
-        <source>Bit Rate</source>
-        <translation type="obsolete">קצב סיביות</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="476"/>
@@ -7330,14 +6947,6 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Add</source>
-        <translation type="obsolete">&amp;הוסף</translation>
-    </message>
-    <message>
-        <source>&amp;Delete</source>
-        <translation type="vanished">&amp;מחק</translation>
-    </message>
-    <message>
         <location filename="../useraccountsdlg.cpp" line="245"/>
         <source>Disabled</source>
         <translation type="unfinished"></translation>
@@ -7570,14 +7179,6 @@ Delete the published user account to unregister your server.</source>
 <context>
     <name>UserImageWidget</name>
     <message>
-        <source>Waiting for video from %1</source>
-        <translation type="obsolete">%1 ממתין לוידאו מ</translation>
-    </message>
-    <message>
-        <source>Waiting for local video</source>
-        <translation type="obsolete">ממתין לוידאו עצמי</translation>
-    </message>
-    <message>
         <location filename="../userimagewidget.cpp" line="200"/>
         <location filename="../userimagewidget.cpp" line="210"/>
         <source>&amp;Save to Image File</source>
@@ -7667,17 +7268,9 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>P2P connection</source>
-        <translation type="obsolete">P2P חיבור</translation>
-    </message>
-    <message>
         <location filename="../userinfo.ui" line="183"/>
         <source>Version</source>
         <translation>גירסה</translation>
-    </message>
-    <message>
-        <source>Audio packet loss</source>
-        <translation type="obsolete">איבוד חבילות קול</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="223"/>
@@ -7714,14 +7307,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../userinfodlg.cpp" line="92"/>
         <source>Unknown</source>
         <translation>לא ידוע</translation>
-    </message>
-    <message>
-        <source>Yes</source>
-        <translation type="obsolete">כן</translation>
-    </message>
-    <message>
-        <source>No</source>
-        <translation type="obsolete">לא</translation>
     </message>
 </context>
 <context>
