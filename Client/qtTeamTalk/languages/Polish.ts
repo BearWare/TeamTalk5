@@ -6130,6 +6130,7 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
+<context>
     <name>StreamMediaFileDlg</name>
     <message>
         <location filename="../streammediafile.ui" line="14"/>
