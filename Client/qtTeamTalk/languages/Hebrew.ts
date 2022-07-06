@@ -941,7 +941,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="78"/>
         <source>Host IP-address</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">IP כתובת </translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="91"/>
@@ -2163,6 +2163,16 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="2688"/>
+        <source>Channel message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2710"/>
+        <source>Broadcast message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="2757"/>
         <location filename="../mainwindow.cpp" line="4662"/>
         <source>%1 granted desktop access</source>
@@ -2700,18 +2710,8 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
-        <source>Channel message from %1: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2693"/>
         <source>Channel message sent: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2710"/>
-        <source>Broadcast message from %1: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5795,7 +5795,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="498"/>
         <source>Server Information</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הגדרות שרת</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="507"/>

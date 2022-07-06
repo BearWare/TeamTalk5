@@ -3002,6 +3002,16 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="2688"/>
+        <source>Channel message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2710"/>
+        <source>Broadcast message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="3756"/>
         <source>Text messages blocked by channel operator</source>
         <translation type="unfinished"></translation>
@@ -3292,9 +3302,8 @@ You can download it on the page below:<byte value="xd"/>
         <translation>&amp;Ne</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
         <source>Channel message from %1: %2</source>
-        <translation>Poruka kanala od %1: %2</translation>
+        <translation type="vanished">Poruka kanala od %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2693"/>
@@ -3302,9 +3311,8 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Poruka kanala poslana: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2710"/>
         <source>Broadcast message from %1: %2</source>
-        <translation>Javna poruka od %1: %2</translation>
+        <translation type="vanished">Javna poruka od %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>

@@ -167,9 +167,6 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>AudioStorageDlg</name>
-</context>
-<context>
     <name>BannedUsersDlg</name>
     <message>
         <location filename="../bannedusers.ui" line="14"/>
@@ -2067,6 +2064,16 @@ p, li { white-space: pre-wrap; }
         <translation>Gemmer lyd til filen: %1</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="2688"/>
+        <source>Channel message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2710"/>
+        <source>Broadcast message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="3041"/>
         <source>Microphone gain is controlled by channel</source>
         <translation type="unfinished"></translation>
@@ -2590,18 +2597,8 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
-        <source>Channel message from %1: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2693"/>
         <source>Channel message sent: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2710"/>
-        <source>Broadcast message from %1: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

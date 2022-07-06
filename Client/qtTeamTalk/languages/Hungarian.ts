@@ -2876,6 +2876,16 @@ p, li { white-space: pre-wrap; }
         <translation>%1 hozzáadása a Windows tűzfal kivételek listájához sikertelen.</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="2688"/>
+        <source>Channel message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2710"/>
+        <source>Broadcast message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="2751"/>
         <source>%1 is requesting desktop access</source>
         <translation>%1 asztali hozzáférést kér</translation>
@@ -3506,18 +3516,8 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
-        <source>Channel message from %1: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2693"/>
         <source>Channel message sent: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2710"/>
-        <source>Broadcast message from %1: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

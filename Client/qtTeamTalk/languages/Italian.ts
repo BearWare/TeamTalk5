@@ -1749,6 +1749,16 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="2688"/>
+        <source>Channel message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2710"/>
+        <source>Broadcast message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="4142"/>
         <source>No Sound Device</source>
         <translation type="unfinished">Nessun dispositivo audio</translation>
@@ -2684,9 +2694,8 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Ban utente</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
         <source>Channel message from %1: %2</source>
-        <translation>Messaggio del canale da %1: %2</translation>
+        <translation type="vanished">Messaggio del canale da %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2693"/>
@@ -2694,9 +2703,8 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Messaggio del canale inviato: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2710"/>
         <source>Broadcast message from %1: %2</source>
-        <translation>Messaggio trasmesso da %1: %2</translation>
+        <translation type="vanished">Messaggio trasmesso da %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>

@@ -2110,6 +2110,16 @@ p, li { white-space: pre-wrap; }
         <translation>Falha ao iniciar gravação</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="2688"/>
+        <source>Channel message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2710"/>
+        <source>Broadcast message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="2987"/>
         <source>Recording to file: %1</source>
         <translation>Gravando para arquivo: %1</translation>
@@ -2719,9 +2729,8 @@ Você pode baixá-lo na página abaixo:
         <translation>%1 deixou canal %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
         <source>Channel message from %1: %2</source>
-        <translation>Mensagem do canal de %1: %2</translation>
+        <translation type="vanished">Mensagem do canal de %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2693"/>
@@ -2729,9 +2738,8 @@ Você pode baixá-lo na página abaixo:
         <translation>Mensagem do canal enviada: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2710"/>
         <source>Broadcast message from %1: %2</source>
-        <translation>Mensagem de transmissão de %1: %2</translation>
+        <translation type="vanished">Mensagem de transmissão de %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>

@@ -2071,6 +2071,16 @@ p, li { white-space: pre-wrap; }
         <translation>Fehler beim Starten der Aufnahme</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="2688"/>
+        <source>Channel message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2710"/>
+        <source>Broadcast message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="2987"/>
         <source>Recording to file: %1</source>
         <translation>Aufzeichnung in Datei: %1</translation>
@@ -2686,9 +2696,8 @@ Du kannst sie auf folgender Seite herunterladen:<byte value="xd"/>
         <translation>%1 hat den Raum %2 verlassen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
         <source>Channel message from %1: %2</source>
-        <translation>Raumnachricht von %1: %2</translation>
+        <translation type="vanished">Raumnachricht von %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2693"/>
@@ -2696,9 +2705,8 @@ Du kannst sie auf folgender Seite herunterladen:<byte value="xd"/>
         <translation>Raumnachricht gesendet: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2710"/>
         <source>Broadcast message from %1: %2</source>
-        <translation>Server-Nachricht von %1: %2</translation>
+        <translation type="vanished">Server-Nachricht von %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>
