@@ -159,6 +159,7 @@ void TextMessageDlg::slotSendTextMessage(const QString& txt_msg)
     msg.nChannelID = 0;
     msg.nMsgType = MSGTYPE_USER;
     msg.nToUserID = m_userid;
+    msg.moreMessage = txt_msg;
 
     auto sentmessages = sendTextMessage(msg, txt_msg);
     if (sentmessages.size() > 0)
@@ -167,9 +168,9 @@ void TextMessageDlg::slotSendTextMessage(const QString& txt_msg)
 
         for (auto& m : sentmessages)
         {
-            newMsg(m, true);
             emit(newMyselfTextMessage(m));
         }
+        newMsg(msg, true);
 
         playSoundEvent(SOUNDEVENT_USERMSGSENT);
         addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_SEND, tr("Private message sent: %1").arg(txt_msg));

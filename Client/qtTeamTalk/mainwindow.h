@@ -34,6 +34,7 @@
 #include <QSortFilterProxyModel>
 
 #include "common.h"
+#include "textmessagecontainer.h"
 #include "utilsound.h"
 #include "utilui.h"
 #include "utilhotkey.h"
@@ -210,8 +211,7 @@ private:
     int m_desktopsession_total;
     int m_desktopsession_remain;
     bool m_desktopsend_on_completion;
-    typedef QMap<int, textmessages_t> usermessages_t;
-    usermessages_t m_usermessages;
+    TextMessageContainer m_textmessages;
     QVector<UserAccount> m_useraccounts;
     QVector<BannedUser> m_bannedusers;
     //position of mouse cursor
@@ -394,7 +394,6 @@ private:
     void slotSendChannelMessage();
     void slotUserDoubleClicked(int userid);
     void slotChannelDoubleClicked(int channelid);
-    void slotNewTextMessage(const MyTextMessage& textmsg);
     void slotNewMyselfTextMessage(const MyTextMessage& textmsg);
     void slotTextMessageClosed(int userid);
     void slotTransmitUsersChanged(int channelid, const QMap<int,StreamTypes>&);

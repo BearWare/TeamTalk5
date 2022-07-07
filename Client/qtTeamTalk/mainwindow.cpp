@@ -561,8 +561,6 @@ MainWindow::MainWindow(const QString& cfgfile)
             &ChannelsTree::slotUpdateMyself);
     connect(this, &MainWindow::newVideoCaptureFrame, ui.channelsWidget,
             &ChannelsTree::slotUserVideoFrame);
-    connect(this, &MainWindow::newTextMessage,
-            this, &MainWindow::slotNewTextMessage);
     connect(this, &MainWindow::cmdSuccess, this, &MainWindow::slotCmdSuccess);
     /* End - CLIENTEVENT_* messages */
 
@@ -1107,7 +1105,7 @@ void MainWindow::clienteventCmdUserLoggedOut(const User& user)
 {
     emit(userLogout(user));
     //remove text-message history from this user
-    m_usermessages.remove(user.nUserID);
+    m_textmessages.clearUserTextMessages(user.nUserID);
     if (user.nUserID != TT_GetMyUserID(ttInst))
     {
         addStatusMsg(STATUSBAR_USER_LOGGEDOUT, tr("%1 has logged out") .arg(getDisplayName(user)));
@@ -1651,9 +1649,13 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         clienteventCmdUserUpdate(msg.user);
     break;
     case CLIENTEVENT_CMD_USER_TEXTMSG :
+    {
         Q_ASSERT(msg.ttType == __TEXTMESSAGE);
-        processTextMessage(MyTextMessage(msg.textmessage));
+        MyTextMessage mymsg = m_textmessages.addTextMessage(msg.textmessage);
+        if (mymsg.nMsgType != MSGTYPE_NONE)
+            processTextMessage(mymsg);
         break;
+    }
     case CLIENTEVENT_CMD_FILE_NEW :
         Q_ASSERT(msg.ttType == __REMOTEFILE);
         clienteventCmdFileNew(msg.remotefile);
@@ -1980,6 +1982,7 @@ void MainWindow::Disconnect()
 
     m_useraccounts.clear();
     m_bannedusers.clear();
+    m_textmessages.clear();
 
     if(m_sysicon)
         m_sysicon->setIcon(QIcon(APPTRAYICON));
@@ -2628,9 +2631,9 @@ TextMessageDlg* MainWindow::getTextMessageDlg(int userid)
             return nullptr;
 
         TextMessageDlg* dlg;
-        usermessages_t::iterator ii = m_usermessages.find(userid);
-        if(ii != m_usermessages.end())
-            dlg = new TextMessageDlg(user, ii.value(), nullptr);
+        auto messages = m_textmessages.getUserTextMessages(userid);
+        if (messages)
+            dlg = new TextMessageDlg(user, *messages, nullptr);
         else
             dlg = new TextMessageDlg(user, nullptr);
 
@@ -2653,13 +2656,9 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
     {
     case MSGTYPE_CHANNEL :
     {
-        QString line;
-        line = ui.chatEdit->addTextMessage(textmsg);
+        QString line = ui.chatEdit->addTextMessage(textmsg);
         ui.videochatEdit->addTextMessage(textmsg);
         ui.desktopchatEdit->addTextMessage(textmsg);
-        // ChatTextEdit will merge TextMessages into one string if 'textmsg' is a combined TextMessage
-        if (line.isEmpty())
-            break;
 
         //setup channel text logging
         QString chanlog = ttSettings->value(SETTINGS_MEDIASTORAGE_CHANLOGFOLDER).toString();
@@ -2685,12 +2684,12 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         {
             User user;
             if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
-                addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL, QString(tr("Channel message: %1").arg(line)));
+                addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL, QString(tr("Channel message from %1: %2").arg(getDisplayName(user)).arg(textmsg.moreMessage)));
             playSoundEvent(SOUNDEVENT_CHANNELMSG);
         }
         else
         {
-            addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL_SEND, QString(tr("Channel message sent: %1").arg(line)));
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL_SEND, QString(tr("Channel message sent: %1").arg(textmsg.moreMessage)));
             playSoundEvent(SOUNDEVENT_CHANNELMSGSENT);
         }
 
@@ -2698,22 +2697,19 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
     }
     case MSGTYPE_BROADCAST :
     {
-        QString line;
-        line = ui.chatEdit->addTextMessage(textmsg);
+        ui.chatEdit->addTextMessage(textmsg);
         ui.videochatEdit->addTextMessage(textmsg);
         ui.desktopchatEdit->addTextMessage(textmsg);
-        if (line.isEmpty())
-            break;
 
         User user;
         if (ui.channelsWidget->getUser(textmsg.nFromUserID, user) && user.nUserID != TT_GetMyUserID(ttInst))
-            addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST, QString(tr("Broadcast message: %1").arg(line)));
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST, QString(tr("Broadcast message from %1: %2").arg(getDisplayName(user)).arg(textmsg.moreMessage)));
         playSoundEvent(SOUNDEVENT_BROADCASTMSG);
         break;
     }
     case MSGTYPE_USER :
     {
-        if(ttSettings->value(SETTINGS_DISPLAY_MESSAGEPOPUP, true).toBool())
+        if(ttSettings->value(SETTINGS_DISPLAY_MESSAGEPOPUP, SETTINGS_DISPLAY_MESSAGEPOPUP_DEFAULT).toBool())
         {
             TextMessageDlg* dlg = getTextMessageDlg(textmsg.nFromUserID);
             if(dlg)
@@ -2727,7 +2723,7 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         emit(newTextMessage(textmsg));
         User user;
         if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
-            addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE, QString(tr("Private message from %1: %2").arg(getDisplayName(user)).arg(_Q(textmsg.szMessage))));
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE, QString(tr("Private message from %1: %2").arg(getDisplayName(user)).arg(textmsg.moreMessage)));
         playSoundEvent(SOUNDEVENT_USERMSG);
         break;
     }
@@ -2767,6 +2763,8 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         }
     }
     break;
+    case MSGTYPE_NONE :
+        break;
     }
 }
 
@@ -6056,36 +6054,12 @@ void MainWindow::slotChannelDoubleClicked(int)
     slotChannelsJoinChannel(false);
 }
 
-void MainWindow::slotNewTextMessage(const MyTextMessage& textmsg)
-{
-    if(textmsg.nMsgType != MSGTYPE_USER)
-        return;
-
-    usermessages_t::iterator ii = m_usermessages.find(textmsg.nFromUserID);
-    if(ii != m_usermessages.end())
-        ii.value().push_back(textmsg);
-    else
-    {
-        textmessages_t msgs;
-        msgs.push_back(textmsg);
-        m_usermessages.insert(textmsg.nFromUserID, msgs);
-    }
-}
-
 void MainWindow::slotNewMyselfTextMessage(const MyTextMessage& textmsg)
 {
     if(textmsg.nMsgType != MSGTYPE_USER)
         return;
 
-    usermessages_t::iterator ii = m_usermessages.find(textmsg.nToUserID);
-    if(ii != m_usermessages.end())
-        ii.value().push_back(MyTextMessage(textmsg));
-    else
-    {
-        textmessages_t msgs;
-        msgs.push_back(MyTextMessage(textmsg));
-        m_usermessages.insert(textmsg.nToUserID, msgs);
-    }
+    m_textmessages.addTextMessage(textmsg);
 }
 
 void MainWindow::slotTextMessageClosed(int userid)

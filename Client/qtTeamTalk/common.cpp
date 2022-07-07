@@ -157,9 +157,9 @@ QString makeCustomCommand(const QString& cmd, const QString& value)
     return QString("%1\r\n%2").arg(cmd).arg(value);
 }
 
-QStringList getCustomCommand(const TextMessage& msg)
+QStringList getCustomCommand(const MyTextMessage& msg)
 {
-    return _Q(msg.szMessage).split("\r\n");
+    return msg.moreMessage.split("\r\n");
 }
 
 void initDefaultAudioCodec(AudioCodec& audiocodec)

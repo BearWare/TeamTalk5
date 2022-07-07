@@ -305,6 +305,7 @@ struct UserCached
 struct MyTextMessage : TextMessage
 {
     QDateTime receiveTime;
+    QString moreMessage;
     MyTextMessage() : TextMessage()
     {
         this->szFromUsername[0] = '\0';
@@ -327,13 +328,14 @@ struct MyTextMessage : TextMessage
         strncpy(this->szFromUsername, msg.szFromUsername, TT_STRLEN);
         strncpy(this->szMessage, msg.szMessage, TT_STRLEN);
 #endif
+        moreMessage = _Q(this->szMessage);
     }
 };
 
 typedef QList<MyTextMessage> textmessages_t;
 
 QString makeCustomCommand(const QString& cmd, const QString& value);
-QStringList getCustomCommand(const TextMessage& msg);
+QStringList getCustomCommand(const MyTextMessage& msg);
 
 void initDefaultAudioCodec(AudioCodec& codec);
 AudioPreprocessor initDefaultAudioPreprocessor(AudioPreprocessorType preprocessortype);
