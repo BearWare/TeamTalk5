@@ -3036,16 +3036,6 @@ p, li { white-space: pre-wrap; }
         <translation>Transmisi suara gagal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
-        <source>Channel message: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2710"/>
-        <source>Broadcast message: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="4142"/>
         <source>No Sound Device</source>
         <translation>Tidak Ada Perangkat Suara</translation>
@@ -3147,8 +3137,9 @@ Anda dapat mengunduhnya pada halaman di bawah ini:<byte value="xd"/>
         <translation>&amp;Tidak</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="2688"/>
         <source>Channel message from %1: %2</source>
-        <translation type="vanished">Pesan saluran dari %1: %2</translation>
+        <translation>Pesan saluran dari %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2693"/>
@@ -3156,8 +3147,9 @@ Anda dapat mengunduhnya pada halaman di bawah ini:<byte value="xd"/>
         <translation>Pesan saluran terkirim: %1</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="2710"/>
         <source>Broadcast message from %1: %2</source>
-        <translation type="vanished">Pesan broadcast dari %1: %2</translation>
+        <translation>Pesan broadcast dari %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>

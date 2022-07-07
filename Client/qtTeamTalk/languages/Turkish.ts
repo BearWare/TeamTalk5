@@ -3056,8 +3056,9 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;Hayır</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="2688"/>
         <source>Channel message from %1: %2</source>
-        <translation type="vanished">%1 kullanıcısından kanal iletisi: %2</translation>
+        <translation>%1 kullanıcısından kanal iletisi: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2693"/>
@@ -3065,8 +3066,9 @@ p, li { white-space: pre-wrap; }
         <translation>Gönderilen kanal iletisi: %1</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="2710"/>
         <source>Broadcast message from %1: %2</source>
-        <translation type="vanished">%1 kullanıcısından yayınlanan ileti: %2</translation>
+        <translation>%1 kullanıcısından yayınlanan ileti: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>
@@ -3316,16 +3318,6 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="2586"/>
         <source>Failed to add %1 to Windows Firewall exceptions.</source>
         <translation>%1 öğesini Windows Güvenlik Duvarı ayrıcalıklarına ekleme başarısız.</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
-        <source>Channel message: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2710"/>
-        <source>Broadcast message: %1</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2751"/>

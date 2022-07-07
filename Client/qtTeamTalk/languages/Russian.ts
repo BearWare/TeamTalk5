@@ -2909,16 +2909,6 @@ p, li { white-space: pre-wrap; }
         <translation>Не удалось добавить %1 в исключения брандмауэра Windows.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
-        <source>Channel message: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2710"/>
-        <source>Broadcast message: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2751"/>
         <source>%1 is requesting desktop access</source>
         <translation>%1 запрашивает доступ к рабочему столу</translation>
@@ -3259,20 +3249,6 @@ Do you wish to do this now?</source>
         <translation>Сетевое сообщение отправлено: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7002"/>
-        <source>New version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
-%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="7027"/>
-        <source>New beta version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
-%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2019"/>
         <location filename="../mainwindow.cpp" line="2020"/>
         <source>Server configuration saved</source>
@@ -3408,12 +3384,6 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Заблокировать пользователя в канале</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6909"/>
-        <source>The file %1 contains %2 setup information.<byte value="xd"/>
-Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6990"/>
         <source>A new version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>Доступна новая версия %1: %2. Вы хотите открыть страницу загрузки прямо сейчас?</translation>
@@ -3424,10 +3394,11 @@ Should these settings be applied?</source>
         <translation>Доступна новая версия</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="7002"/>
         <source>New version available: %1
 You can download it on the page below:
 %2</source>
-        <translation type="vanished">Доступна новая версия: %1
+        <translation>Доступна новая версия: %1
 Вы можете скачать её на странице ниже:
 %2</translation>
     </message>
@@ -3442,10 +3413,11 @@ You can download it on the page below:
         <translation>Доступна новая бета-версия</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="7027"/>
         <source>New beta version available: %1
 You can download it on the page below:
 %2</source>
-        <translation type="vanished">Доступна новая бета-версия: %1
+        <translation>Доступна новая бета-версия: %1
 Вы можете скачать её на странице ниже:
 %2</translation>
     </message>
@@ -3643,8 +3615,9 @@ You can download it on the page below:
         <translation>Сбой передачи голоса</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="2688"/>
         <source>Channel message from %1: %2</source>
-        <translation type="vanished">Сообщение канала от %1: %2</translation>
+        <translation>Сообщение канала от %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2693"/>
@@ -3652,8 +3625,9 @@ You can download it on the page below:
         <translation>Сообщение канала отправлено: %1</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="2710"/>
         <source>Broadcast message from %1: %2</source>
-        <translation type="vanished">Сетевое сообщение от %1: %2</translation>
+        <translation>Сетевое сообщение от %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>
@@ -3976,9 +3950,10 @@ You can download it on the page below:
         <translation>Не удалось извлечь информацию хоста из %1</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="6909"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="vanished">Файл %1 содержит %2 Конфигурационные данные.
+        <translation>Файл %1 содержит %2 Конфигурационные данные.
 Следует ли применять эти настройки?</translation>
     </message>
     <message>
