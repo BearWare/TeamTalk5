@@ -2690,7 +2690,7 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         }
         else
         {
-            addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL_SEND, QString(tr("Channel message sent: %1").arg(line)));
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL_SEND, QString(tr("Channel message sent: %1").arg(line.remove(ui.chatEdit->getTimeStamp(textmsg.receiveTime)).remove(getDisplayName(user)).remove("<>\r\n"))));
             playSoundEvent(SOUNDEVENT_CHANNELMSGSENT);
         }
 
