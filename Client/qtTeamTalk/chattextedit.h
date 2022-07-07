@@ -41,9 +41,9 @@ public:
 
     QString addTextMessage(const MyTextMessage& msg);
     void addLogMessage(const QString& msg);
+    static QString getTimeStamp(const QDateTime& tm, bool force_ts = false);
 
 private:
-    static QString getTimeStamp(const QDateTime& tm, bool force_ts = false);
     void limitText();
     QString currentUrl(const QTextCursor& cursor) const;
     bool mergeMessages(const MyTextMessage& msg, QString& content);
