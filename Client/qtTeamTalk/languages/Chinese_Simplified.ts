@@ -3056,17 +3056,9 @@ p, li { white-space: pre-wrap; }
         <translation>否(&amp;N)</translation>
     </message>
     <message>
-        <source>Channel message from %1: %2</source>
-        <translation type="vanished">%1： %2</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2693"/>
         <source>Channel message sent: %1</source>
         <translation>我： %1</translation>
-    </message>
-    <message>
-        <source>Broadcast message from %1: %2</source>
-        <translation type="vanished">广播消息： %1： %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>
@@ -3320,12 +3312,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="2688"/>
         <source>Channel message: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2710"/>
         <source>Broadcast message: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>广播消息： %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2751"/>
