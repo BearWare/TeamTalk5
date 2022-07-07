@@ -2367,8 +2367,10 @@ extern "C" {
      * @see CLIENTEVENT_CMD_USER_TEXTMSG */ 
     typedef enum TextMsgType
     {
-         /** @brief A User to user text message. A message of this
-          * type can be sent across channels. */
+        /** @brief An incomplete text message */
+        MSGTYPE_NONE      = 0,
+        /** @brief A User to user text message. A message of this
+         * type can be sent across channels. */
         MSGTYPE_USER      = 1,
         /** @brief A User to channel text message. Users of type
          * #USERTYPE_DEFAULT can only send this text message to the

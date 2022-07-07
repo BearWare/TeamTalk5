@@ -117,14 +117,10 @@ QString getTextMessagePrefix(const TextMessage& msg, const User& user)
             return QString("<%1>").arg(getDisplayName(user));
     case MSGTYPE_BROADCAST :
         return QString("<%1->BROADCAST>").arg(getDisplayName(user));
-    case MSGTYPE_CUSTOM : break;
+    case MSGTYPE_CUSTOM :
+    case MSGTYPE_NONE : break;
     }
     return QString();
-}
-
-quint32 generateKey(const TextMessage& msg)
-{
-    return (msg.nMsgType << 16) | msg.nFromUserID;
 }
 
 ChatTextEdit::ChatTextEdit(QWidget * parent/* = 0*/)
@@ -243,12 +239,8 @@ QString ChatTextEdit::addTextMessage(const MyTextMessage& msg)
 
     QString dt = getTimeStamp(msg.receiveTime);
     QString line = dt;
-    QString content;
 
-    if (!mergeMessages(msg, content))
-        return QString();
-
-    line += QString("%1\r\n%2").arg(getTextMessagePrefix(msg, user)).arg(content);
+    line += QString("%1\r\n%2").arg(getTextMessagePrefix(msg, user)).arg(msg.moreMessage);
 
     if (TT_GetMyUserID(ttInst) == msg.nFromUserID)
     {
@@ -268,6 +260,7 @@ QString ChatTextEdit::addTextMessage(const MyTextMessage& msg)
     }
 
     limitText();
+
     return line;
 }
 
@@ -302,26 +295,6 @@ void ChatTextEdit::limitText()
             cursor.deleteChar();
         cursor.movePosition(QTextCursor::End);
     }
-}
-
-bool ChatTextEdit::mergeMessages(const MyTextMessage& msg, QString& content)
-{
-    m_mergemessages[generateKey(msg)].push_back(msg);
-
-    // prevent out-of-memory.
-    if (m_mergemessages[generateKey(msg)].size() > 1000)
-        m_mergemessages.remove(generateKey(msg));
-
-    if (!msg.bMore)
-    {
-        for (auto& m : m_mergemessages[generateKey(msg)])
-        {
-            content += _Q(m.szMessage);
-        }
-        m_mergemessages.remove(generateKey(msg));
-    }
-
-    return !msg.bMore;
 }
 
 QString ChatTextEdit::currentUrl(const QTextCursor& cursor) const

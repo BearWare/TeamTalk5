@@ -62,6 +62,7 @@
 #define SETTINGS_GENERAL_PROFILENAME                "general_/profilename"
 
 #define SETTINGS_DISPLAY_MESSAGEPOPUP               "display/msgpopup"
+#define SETTINGS_DISPLAY_MESSAGEPOPUP_DEFAULT       true
 #define SETTINGS_DISPLAY_VIDEOPOPUP                 "display/videopopup"
 #define SETTINGS_DISPLAY_DESKTOPPOPUP               "display/desktoppopup"
 #define SETTINGS_DISPLAY_VIDEOTEXT_WIDTH            "display/videotext-pane-width"
