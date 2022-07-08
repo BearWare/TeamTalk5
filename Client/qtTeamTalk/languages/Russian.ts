@@ -2911,12 +2911,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2688"/>
         <source>Channel message: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Сообщение канала: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2710"/>
         <source>Broadcast message: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Сетевое сообщение: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2751"/>
@@ -3260,17 +3260,21 @@ Do you wish to do this now?</source>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7002"/>
-        <source>New version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
+        <source>New version available: %1
+You can download it on the page below:
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая версия: %1
+Вы можете скачать её на странице ниже:
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7027"/>
-        <source>New beta version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
+        <source>New beta version available: %1
+You can download it on the page below:
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая бета-версия: %1
+Вы можете скачать её на странице ниже:
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2019"/>
@@ -3409,9 +3413,10 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6909"/>
-        <source>The file %1 contains %2 setup information.<byte value="xd"/>
+        <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл %1 содержит %2 конфигурационные данные.
+Следует ли применять эти настройки?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6990"/>
