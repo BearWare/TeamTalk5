@@ -47,11 +47,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Translated by Bjoern D. Rasmussen</source>
-        <translatorcomment>Portuguese_EU v1.0</translatorcomment>
-        <translation type="vanished">Traduzido por Filipe Vieira</translation>
-    </message>
-    <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on </source>
         <translation type="unfinished"></translation>
@@ -169,51 +164,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../audiopreprocessordlg.cpp" line="67"/>
         <source>Speex DSP Audio Preprocessor</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>AudioStorageDlg</name>
-    <message>
-        <source>Store Audio to Disk</source>
-        <translation type="obsolete">Armazenar Áudio para Disco</translation>
-    </message>
-    <message>
-        <source>Audio file storage</source>
-        <translation type="obsolete">Armazenamento de ficheiros áudio</translation>
-    </message>
-    <message>
-        <source>Storage mode</source>
-        <translation type="obsolete">Modo de armazenamento</translation>
-    </message>
-    <message>
-        <source>Single audio file for all users</source>
-        <translatorcomment>to keep it short &quot;Common file&quot; was used.</translatorcomment>
-        <translation type="obsolete">Ficheiro único</translation>
-    </message>
-    <message>
-        <source>Separate audio file for each user</source>
-        <translatorcomment>to keep it short &quot;Individual files&quot; was used.</translatorcomment>
-        <translation type="obsolete">Ficheiro por utilizador</translation>
-    </message>
-    <message>
-        <source>Audio file format</source>
-        <translation type="obsolete">Formato ficheiro</translation>
-    </message>
-    <message>
-        <source>Folder for audio files</source>
-        <translation type="obsolete">Pasta de destino</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="obsolete">...</translation>
-    </message>
-    <message>
-        <source>Storage mode not selected</source>
-        <translation type="obsolete">Modo de armazenamento não selecionado</translation>
-    </message>
-    <message>
-        <source>Folder for storing audio files does not exist</source>
-        <translation type="obsolete">Pasta para armazenar arquivos de áudio não existe</translation>
     </message>
 </context>
 <context>
@@ -536,33 +486,9 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Static channel (persistent)</source>
-        <translation type="obsolete">Canal estático (persistente)</translation>
-    </message>
-    <message>
-        <source>Echo channel (hear yourself)</source>
-        <translation type="obsolete">Canal eco (ouvir áudio do próprio)</translation>
-    </message>
-    <message>
-        <source>No simultaneous audio transmission</source>
-        <translation type="obsolete">Não transmitir áudio em simultâneo</translation>
-    </message>
-    <message>
-        <source>No interruptions (no simultaneous audio transmission)</source>
-        <translation type="obsolete">Sem interrupções (sem transmissão simultânea de áudio)</translation>
-    </message>
-    <message>
         <location filename="../channel.ui" line="206"/>
         <source>Classroom (operator-controlled transmissions)</source>
         <translation>Sala de Aula (transmissões controladas por operador)</translation>
-    </message>
-    <message>
-        <source>Echo video (see own video stream)</source>
-        <translation type="obsolete">Canal eco vídeo (ver vídeo do próprio)</translation>
-    </message>
-    <message>
-        <source>Echo desktop (see your shared desktop)</source>
-        <translation type="obsolete">Canal eco ambiente de trabalho (ver amb. trab.do próprio)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="213"/>
@@ -606,12 +532,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="755"/>
         <location filename="../channel.ui" line="788"/>
         <source>msec</source>
-        <translatorcomment>ms</translatorcomment>
         <translation>mseg</translation>
-    </message>
-    <message>
-        <source>CELT 0.5.2 codec is obsolete.</source>
-        <translation type="obsolete">CELT 0.5.2 codec obsoleto.</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="501"/>
@@ -670,17 +591,9 @@ p, li { white-space: pre-wrap; }
         <translation>Nível do volume</translation>
     </message>
     <message>
-        <source>Enable denoising</source>
-        <translation type="obsolete">Remoção de ruído</translation>
-    </message>
-    <message>
         <location filename="../channel.ui" line="36"/>
         <source>Channel path</source>
         <translation>Caminho do canal</translation>
-    </message>
-    <message>
-        <source>Operator-controlled transmissions (classroom)</source>
-        <translation type="obsolete">Transmissões controladas por operador (sala de aula)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="248"/>
@@ -693,35 +606,15 @@ p, li { white-space: pre-wrap; }
         <translation>Tipo de codec</translation>
     </message>
     <message>
-        <source>8 KHz</source>
-        <translation type="obsolete">8 Khz</translation>
-    </message>
-    <message>
-        <source>16 KHz</source>
-        <translation type="obsolete">16 Khz</translation>
-    </message>
-    <message>
-        <source>32 KHz</source>
-        <translation type="obsolete">32 Khz</translation>
-    </message>
-    <message>
         <location filename="../channel.ui" line="323"/>
         <location filename="../channel.ui" line="464"/>
         <source>Quality</source>
         <translation>Qualidade</translation>
     </message>
     <message>
-        <source>44.1 KHz</source>
-        <translation type="obsolete">44.1 Khz</translation>
-    </message>
-    <message>
         <location filename="../channel.ui" line="656"/>
         <source>Audio channels</source>
         <translation>Canais de áudio</translation>
-    </message>
-    <message>
-        <source>Bytes per second</source>
-        <translation type="obsolete">Bytes por segundo</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="44"/>
@@ -784,14 +677,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../channeldlg.cpp" line="430"/>
         <source>Delay before switching to next user in queue (in msec)</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 KBytes/sec</source>
-        <translation type="obsolete">%1 KBytes/sec</translation>
-    </message>
-    <message>
-        <source>Note that Echo Cancellation, Denoising and Audio Configuration currently isn&apos;t supported in stereo mode.</source>
-        <translation type="obsolete">Note-se que o cancelamento de eco, remoção de ruído e configuração de áudio, não são actualmente suportadas em modo Estéreo.</translation>
     </message>
 </context>
 <context>
@@ -979,77 +864,6 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>ConnectDlg</name>
-    <message>
-        <source>Connect to a Server</source>
-        <translation type="obsolete">Ligar a servidor</translation>
-    </message>
-    <message>
-        <source>Server Information</source>
-        <translation type="obsolete">Informações do servidor</translation>
-    </message>
-    <message>
-        <source>Host IP-address</source>
-        <translation type="obsolete">Endereço/IP</translation>
-    </message>
-    <message>
-        <source>E.g. 192.168.1.154</source>
-        <translation type="obsolete">Ex: 192.168.1.154</translation>
-    </message>
-    <message>
-        <source>TCP port</source>
-        <translation type="obsolete">Porta TCP</translation>
-    </message>
-    <message>
-        <source>10333</source>
-        <translation type="obsolete">10333</translation>
-    </message>
-    <message>
-        <source>Default: 10333</source>
-        <translation type="obsolete">Por defeito: 10300</translation>
-    </message>
-    <message>
-        <source>UDP port</source>
-        <translation type="obsolete">Porta UDP</translation>
-    </message>
-    <message>
-        <source>Authentication (optional)</source>
-        <translation type="obsolete">Autenticação (opcional)</translation>
-    </message>
-    <message>
-        <source>Server password</source>
-        <translation type="obsolete">Palavra-chave do servidor</translation>
-    </message>
-    <message>
-        <source>Optional</source>
-        <translation type="obsolete">Opcional</translation>
-    </message>
-    <message>
-        <source>Login using user account</source>
-        <translation type="obsolete">Aceder com conta de utilizador</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation type="obsolete">Nome de utilizador</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation type="obsolete">Palavra-chave</translation>
-    </message>
-    <message>
-        <source>Username and password is only needed if the server requires user accounts</source>
-        <translation type="obsolete">Nome de utilizador e password só é necessário se o servidor requerer autenticação de utilizador</translation>
-    </message>
-    <message>
-        <source>Join specific channel after authentication (optional)</source>
-        <translation type="obsolete">Entrar num canal específico após autenticar (opcional)</translation>
-    </message>
-    <message>
-        <source>Channel</source>
-        <translation type="obsolete">Canal</translation>
-    </message>
-</context>
-<context>
     <name>CustomVideoFmtDlg</name>
     <message>
         <location filename="../customvideofmt.ui" line="14"/>
@@ -1117,7 +931,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="60"/>
         <source>Desktop Access Entry</source>
-        <translatorcomment>translated as &quot;Desktop Access&quot;</translatorcomment>
         <translation>Registo de acesso ao ambiente de trabalho</translation>
     </message>
     <message>
@@ -1329,10 +1142,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../filetransfer.ui" line="154"/>
         <source>&amp;Open</source>
         <translation>&amp;Abrir</translation>
-    </message>
-    <message>
-        <source>File tranfer failed.</source>
-        <translation type="vanished">Transferência de ficheiro falhou.</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="71"/>
@@ -1575,10 +1384,6 @@ p, li { white-space: pre-wrap; }
         <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Mac OS X does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
-        <translation type="vanished">Mac OS X não suporta exclusivamente teclas de modificadoras, ou seja, Cmd, Option e Shift devem ser utilizados em combinação com outras teclas não-modificadoras.</translation>
-    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -1599,58 +1404,10 @@ p, li { white-space: pre-wrap; }
         <translation>Ligação perdida a %1 port TCP %2 port UDP %3</translation>
     </message>
     <message>
-        <source>Established P2P connection to %1</source>
-        <translation type="obsolete">Estabelecida ligação P2P a %1</translation>
-    </message>
-    <message>
-        <source>Failed to establish P2P connection to %1</source>
-        <translation type="obsolete">Falha ao estabelecer ligação P2P a %1</translation>
-    </message>
-    <message>
-        <source>%1 will be unavailable for audio transmission</source>
-        <translation type="obsolete">%1 estará indisponível para a transmissão de áudio</translation>
-    </message>
-    <message>
-        <source>%1 will be unavailable for video transmission</source>
-        <translation type="obsolete">%1 estará indisponível para a transmissão de vídeo</translation>
-    </message>
-    <message>
-        <source>Logged in</source>
-        <translation type="vanished">Sessão iniciada</translation>
-    </message>
-    <message>
-        <source>Logged out</source>
-        <translation type="vanished">Sessão terminada</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2799"/>
         <location filename="../mainwindow.cpp" line="2811"/>
         <source>Joined channel %1</source>
         <translation>Entrou no canal %1</translation>
-    </message>
-    <message>
-        <source>Kicked by %1</source>
-        <translation type="vanished">Expulso por %1</translation>
-    </message>
-    <message>
-        <source>Kicked by unknown user</source>
-        <translation type="vanished">Expulso por utilizador desconhecido</translation>
-    </message>
-    <message>
-        <source>Peer to peer networking is required for audio transmission on this server. Now enabled!</source>
-        <translation type="obsolete">Interligação P2P é necessária para transmitir audio neste servidor. Agora activada!</translation>
-    </message>
-    <message>
-        <source>Peer to peer networking for audio disabled!</source>
-        <translation type="obsolete">Ligação Ponto-a-Ponto para áudio desativada!</translation>
-    </message>
-    <message>
-        <source>Peer to peer networking is required for video transmission on this server. Now enabled!</source>
-        <translation type="obsolete">Interligação P2P é necessária para transmitir vídeo neste servidor. Agora activada!</translation>
-    </message>
-    <message>
-        <source>Peer to peer networking for video disabled!</source>
-        <translation type="obsolete">Ligação Ponto-a-Ponto para vídeo desativada!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1136"/>
@@ -1690,22 +1447,6 @@ p, li { white-space: pre-wrap; }
         <translation>Erro Interno</translation>
     </message>
     <message>
-        <source>Error streaming audio file to %1</source>
-        <translation type="obsolete">Erro no streaming de ficheiro áudio para %1</translation>
-    </message>
-    <message>
-        <source>Started streaming audio file to %1</source>
-        <translation type="obsolete">Iniciado o streaming de ficheiro áudio para %1</translation>
-    </message>
-    <message>
-        <source>Finished streaming audio file to %1</source>
-        <translation type="obsolete">Terminado o streaming de ficheiro áudio para %1</translation>
-    </message>
-    <message>
-        <source>Aborted streaming audio file to %1</source>
-        <translation type="obsolete">Abortado o streaming de ficheiro áudio para %1</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1372"/>
         <source>Error streaming media file to channel</source>
         <translation>Erro no streaming do ficheiro mídia para o canal</translation>
@@ -1742,37 +1483,9 @@ p, li { white-space: pre-wrap; }
         <translation>A sua sessão de ambiente de trabalho foi cancelada</translation>
     </message>
     <message>
-        <source>Failed to write audio file for %1</source>
-        <translation type="obsolete">Falha ao gravar ficheiro audio para %1</translation>
-    </message>
-    <message>
-        <source>Failed to initialize sound duplex mode</source>
-        <translation type="vanished">Falha ao inicializar o modo de som duplex</translation>
-    </message>
-    <message>
-        <source>Switching to default sound devices</source>
-        <translation type="vanished">Alterar para dispositivos de som padrão</translation>
-    </message>
-    <message>
-        <source>Unable to get default sound devices</source>
-        <translation type="vanished">Não foi possível obter dispositivos de som padrão</translation>
-    </message>
-    <message>
-        <source>Failed to initialize default sound devices</source>
-        <translation type="vanished">Falha ao inicializar dispositivos de som padrão</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1930"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
         <translation>Ligando a %1 porta TCP %2 porta UDP %3</translation>
-    </message>
-    <message>
-        <source>Failed to connect to encrypted server</source>
-        <translation type="obsolete">Falha ao ligar a servidor encriptado</translation>
-    </message>
-    <message>
-        <source>Failed to connect to server</source>
-        <translation type="obsolete">Falha ao ligar a servidor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2026"/>
@@ -1781,20 +1494,12 @@ p, li { white-space: pre-wrap; }
         <translation>Erro</translation>
     </message>
     <message>
-        <source>This client is not compatible with the server,  so the action cannot be performed.</source>
-        <translation type="vanished">Este cliente não é compatível com o servidor, logo a ação não pode ser realizada.</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2054"/>
         <location filename="../mainwindow.cpp" line="2062"/>
         <location filename="../mainwindow.cpp" line="2102"/>
         <location filename="../mainwindow.cpp" line="2107"/>
         <source>Login error</source>
         <translation>Erro de login</translation>
-    </message>
-    <message>
-        <source>Incorrect server password. Try again:</source>
-        <translation type="obsolete">Palavra-chave do servidor incorreta. Tente novamente:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2055"/>
@@ -1827,10 +1532,6 @@ p, li { white-space: pre-wrap; }
         <translation>Comando não autorizado</translation>
     </message>
     <message>
-        <source>Channel creation not allowed</source>
-        <translation type="obsolete">Não é permitida a criação de canais</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2108"/>
         <source>Maximum number of users on server exceeded</source>
         <translation>Excedido o número máximo de utilizadores no servidor</translation>
@@ -1844,10 +1545,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2112"/>
         <source>Maximum number of users in channel exceeded</source>
         <translation>Excedido o número máximo de utilizadores no canal</translation>
-    </message>
-    <message>
-        <source>Modifying subscriptions is not allowed</source>
-        <translation type="obsolete">A modificação de subscrições não é permitida</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2114"/>
@@ -1913,10 +1610,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2158"/>
         <source>File sharing is disabled</source>
         <translation>Partilha de ficheiros está desativada</translation>
-    </message>
-    <message>
-        <source>Server has active users</source>
-        <translation type="obsolete">O servidor tem utilizadores activos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2160"/>
@@ -1999,18 +1692,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5199"/>
         <source>Are you sure you want to delete %1 file(s)?</source>
         <translation>Tem a certeza que pretende eliminar &quot;%1&quot; ficheiro(s)?</translation>
-    </message>
-    <message>
-        <source>Video</source>
-        <translation type="vanished">Vídeo</translation>
-    </message>
-    <message>
-        <source>Video (%1)</source>
-        <translation type="vanished">Vídeo (%1)</translation>
-    </message>
-    <message>
-        <source>Desktops (%1)</source>
-        <translation type="vanished">Ambientes de trabalho (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1832"/>
@@ -2175,18 +1856,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="4250"/>
         <source>Specify new nickname</source>
         <translation>Indique o novo pseudónimo</translation>
-    </message>
-    <message>
-        <source>Open Wave File</source>
-        <translation type="obsolete">Abrir ficheiro Wave</translation>
-    </message>
-    <message>
-        <source>Wave files (*.wav)</source>
-        <translation type="obsolete">Ficheiros Wave (*.wav)</translation>
-    </message>
-    <message>
-        <source>Failed to stream file %1</source>
-        <translation type="obsolete">Falha no stream do ficheiro %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4906"/>
@@ -2397,13 +2066,19 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Ausente</translation>
     </message>
     <message>
-        <source>Files (%1)</source>
-        <translation type="vanished">Ficheiros (%1)</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2983"/>
         <source>Failed to start recording</source>
         <translation>Falha ao iniciar gravação</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2688"/>
+        <source>Channel message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2710"/>
+        <source>Broadcast message: %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2987"/>
@@ -3017,18 +2692,8 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
-        <source>Channel message from %1: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2693"/>
         <source>Channel message sent: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2710"/>
-        <source>Broadcast message from %1: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3140,20 +2805,10 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="obsolete">O ficheiro %1 contém informação de configuração %2.
-Devem estas configurações ser aplicadas?</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6240"/>
         <location filename="../mainwindow.cpp" line="6292"/>
         <source>Myself</source>
         <translation>Eu próprio</translation>
-    </message>
-    <message>
-        <source>%1 set subscription &quot;%2&quot; on you to: %3</source>
-        <translation type="obsolete">%1 atribuiu subscrição &quot;%2&quot; a si para: %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6869"/>
@@ -3191,10 +2846,6 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>New version available: %1</source>
-        <translation type="vanished">Nova versão disponível: %1</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="139"/>
         <location filename="../mainwindow.ui" line="161"/>
         <location filename="../mainwindow.ui" line="164"/>
@@ -3221,10 +2872,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="287"/>
         <source>Voice activation level</source>
         <translation>Nível de ativação por voz</translation>
-    </message>
-    <message>
-        <source>Chat</source>
-        <translation type="vanished">Conversação</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="383"/>
@@ -3275,18 +2922,10 @@ Should these settings be applied?</source>
         <translation>Iniciar/Terminar Webcam</translation>
     </message>
     <message>
-        <source>Desktops</source>
-        <translation type="vanished">Ambientes de trabalho</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="732"/>
         <location filename="../mainwindow.ui" line="735"/>
         <source>Detach selected window</source>
         <translation>Separar janela selecionada</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="768"/>
@@ -3304,10 +2943,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="846"/>
         <source>Request desktop access</source>
         <translation>Pedir acesso ao ambiente de trabalho</translation>
-    </message>
-    <message>
-        <source>Files</source>
-        <translation type="vanished">Ficheiros</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1085"/>
@@ -3397,10 +3032,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="1431"/>
         <source>F4</source>
         <translation>F4</translation>
-    </message>
-    <message>
-        <source>Alt+F4</source>
-        <translation type="vanished">Alt+F4</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1456"/>
@@ -3783,26 +3414,6 @@ Should these settings be applied?</source>
         <translation>Ctrl+Alt+K</translation>
     </message>
     <message>
-        <source>Ctrl+Shift+Right</source>
-        <translation type="vanished">Ctrl+Shift+Right</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+Left</source>
-        <translation type="vanished">Ctrl+Shift+Left</translation>
-    </message>
-    <message>
-        <source>Store Audio to Disk</source>
-        <translation type="obsolete">Armazenar áudio para disco</translation>
-    </message>
-    <message>
-        <source>Start/stop recording audio to files</source>
-        <translation type="obsolete">Iniciar/parar gravação de aúdio para ficheiros</translation>
-    </message>
-    <message>
-        <source>Enable Question Mode</source>
-        <translation type="vanished">Ativar modo de pergunta</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="2305"/>
         <source>Show blinking icon</source>
         <translation>Mostrar ícone a piscar</translation>
@@ -4085,17 +3696,9 @@ Should these settings be applied?</source>
         <translation>Shift+Del</translation>
     </message>
     <message>
-        <source>List &amp;Banned Users</source>
-        <translation type="obsolete">Listar utilizadores &amp;banidos</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1609"/>
         <source>Ctrl+Shift+B</source>
         <translation>Ctrl+Shift+B</translation>
-    </message>
-    <message>
-        <source>List &amp;User Accounts</source>
-        <translation type="obsolete">Listar contas de &amp;utilizador</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1617"/>
@@ -4118,43 +3721,14 @@ Should these settings be applied?</source>
         <translation>&amp;Ver informações do canal</translation>
     </message>
     <message>
-        <source>Shift+F3</source>
-        <translation type="obsolete">Shift+F3</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1783"/>
         <source>Stream Audio &amp;File to User</source>
-        <translatorcomment>Removed &quot;to user&quot; since this menu is already in user context.</translatorcomment>
         <translation>&amp;Stream de ficheiro áudio</translation>
-    </message>
-    <message>
-        <source>Store &amp;Audio to Disk</source>
-        <translation type="obsolete">Armazenar &amp;áudio para disco</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1804"/>
         <source>Ctrl+Alt+A</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>&amp;Increase Volume (+10)</source>
-        <translation type="obsolete">Aumentar &amp;volume (+10)</translation>
-    </message>
-    <message>
-        <source>Ctrl+Right</source>
-        <translation type="vanished">Ctrl+Right</translation>
-    </message>
-    <message>
-        <source>&amp;Lower Volume (-10)</source>
-        <translation type="obsolete">&amp;Diminuir volume (-10)</translation>
-    </message>
-    <message>
-        <source>Ctrl+Left</source>
-        <translation type="vanished">Ctrl+Left</translation>
-    </message>
-    <message>
-        <source>&amp;Store for Move</source>
-        <translation type="obsolete">&amp;Armazenar para mover</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1892"/>
@@ -4247,10 +3821,6 @@ Should these settings be applied?</source>
         <translation>Silenciar Ficheiro Mídia</translation>
     </message>
     <message>
-        <source>Ctrl+Alt+Μ</source>
-        <translation type="vanished">Ctrl+Alt+Μ</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="2209"/>
         <source>Kick From Channel</source>
         <translation>Expulsar do Canal</translation>
@@ -4259,14 +3829,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="2212"/>
         <source>Ctrl+K</source>
         <translation>Ctrl+K</translation>
-    </message>
-    <message>
-        <source>Kick and &amp;Ban</source>
-        <translation type="obsolete">Expulsar e &amp;banir</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+K</source>
-        <translation type="vanished">Ctrl+Shift+K</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1674"/>
@@ -4287,10 +3849,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="1685"/>
         <source>Ctrl+U</source>
         <translation>Ctrl+U</translation>
-    </message>
-    <message>
-        <source>&amp;Audio</source>
-        <translation type="obsolete">&amp;Áudio</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1712"/>
@@ -4320,7 +3878,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1775"/>
         <source>&amp;Stream Audio File to Channel</source>
-        <translatorcomment>Removed &quot;to channel&quot; since this menu is already in channel context.</translatorcomment>
         <translation>&amp;Stream de ficheiro áudio</translation>
     </message>
     <message>
@@ -4334,17 +3891,9 @@ Should these settings be applied?</source>
         <translation>Ctrl+Shift+W</translation>
     </message>
     <message>
-        <source>Store &amp;Audio From Channel to Disk</source>
-        <translation type="obsolete">Armazenar &amp;áudio do canal para disco</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1801"/>
         <source>Specify a folder where audio from users will be stored</source>
         <translation>Especifique a pasta onde o áudio dos utilizadores será armazenado</translation>
-    </message>
-    <message>
-        <source>Ctrl+Alt+F</source>
-        <translation type="obsolete">Ctrl+Alt+F</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1816"/>
@@ -4372,10 +3921,6 @@ Should these settings be applied?</source>
         <translation>&amp;Difundir mensagem</translation>
     </message>
     <message>
-        <source>Ctrl+Alt+B</source>
-        <translation type="vanished">Ctrl+Alt+B</translation>
-    </message>
-    <message>
         <location filename="../common.cpp" line="32"/>
         <source>NoName</source>
         <translation type="unfinished"></translation>
@@ -4401,13 +3946,11 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastorage.ui" line="35"/>
         <source>Single audio file for all users</source>
-        <translatorcomment>long text for portuguese. Adapted a short version meaning &quot;Single file&quot;. Suggestion for english text: Storage mode options: File per Channel and File per User.</translatorcomment>
         <translation>Ficheiro único</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="42"/>
         <source>Separate audio file for each user</source>
-        <translatorcomment>Adapted to become shorter in porguese. Translation &quot;File per user&quot;</translatorcomment>
         <translation>Ficheiro por utilizador</translation>
     </message>
     <message>
@@ -4434,12 +3977,7 @@ Should these settings be applied?</source>
         <location filename="../mediastorage.ui" line="91"/>
         <location filename="../mediastoragedlg.cpp" line="121"/>
         <source>Folder for audio files</source>
-        <translatorcomment>not using full translation (removed &quot;audio files&quot;) since the field text is already in a context area for audio conversation meaning that each field is already related with áudio.</translatorcomment>
         <translation>Pasta para ficheiros áudio</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="119"/>
@@ -4449,7 +3987,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastorage.ui" line="125"/>
         <source>Folder for channel log files</source>
-        <translatorcomment>not using full translation since field is alreay in the contexto of channel log files, removed repetition of &quot;log files&quot; for each text field description.</translatorcomment>
         <translation>Pasta p/ficheiros log do canal</translation>
     </message>
     <message>
@@ -4478,10 +4015,6 @@ Should these settings be applied?</source>
         <location filename="../mediastorage.ui" line="203"/>
         <source>&amp;Cancel</source>
         <translation type="unfinished">&amp;Cancelar</translation>
-    </message>
-    <message>
-        <source>Folder for storing audio files does not exist</source>
-        <translation type="vanished">Não existe pasta para armazenar ficheiros áudio</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="116"/>
@@ -4590,10 +4123,6 @@ Should these settings be applied?</source>
         <location filename="../onlineusersdlg.cpp" line="192"/>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Stream Audio &amp;File to User</source>
-        <translation type="obsolete">&amp;Stream de ficheiro áudio para utilizador</translation>
     </message>
 </context>
 <context>
@@ -4768,7 +4297,6 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="379"/>
         <source>Minimize to tray icon</source>
-        <translatorcomment>minimize to notification area (microsoft terms)</translatorcomment>
         <translation>Minimizar para área de notificação</translation>
     </message>
     <message>
@@ -4820,10 +4348,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="557"/>
         <source>Show statusbar events in chat-window</source>
         <translation>Mostrar eventos da barra de estado na janela de chat</translation>
-    </message>
-    <message>
-        <source>Check for program updates at startup</source>
-        <translation type="vanished">Verificar atualizações ao iniciar</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="683"/>
@@ -5053,10 +4577,6 @@ Should these settings be applied?</source>
         <translation>Iniciar ambientes de trabalho em janela de popup</translation>
     </message>
     <message>
-        <source>Closed video dialog should return to video-tab</source>
-        <translation type="vanished">Fechar diálogo vídeo retorna ao tab.vídeo</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="594"/>
         <source>Show source in corner of video window</source>
         <translation>Mostrar origem no canto da janela de vídeo</translation>
@@ -5123,14 +4643,6 @@ Should these settings be applied?</source>
         <translation>Mensagens de Difusão</translation>
     </message>
     <message>
-        <source>Audio</source>
-        <translation type="obsolete">Áudio</translation>
-    </message>
-    <message>
-        <source>Video</source>
-        <translation type="obsolete">Vídeo</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="817"/>
         <source>Desktop</source>
         <translation>Ambiente de trabalho</translation>
@@ -5139,18 +4651,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="829"/>
         <source>Desktop Access</source>
         <translation>Acesso ao ambiente de trabalho</translation>
-    </message>
-    <message>
-        <source>Peer to Peer Data Transmission (P2P Networking)</source>
-        <translation type="obsolete">Transmissão de dados Ponto-a-Ponto (P2P Networking)</translation>
-    </message>
-    <message>
-        <source>Peer to peer transmission of audio data</source>
-        <translation type="obsolete">Transmissão P2P de áudio</translation>
-    </message>
-    <message>
-        <source>Peer to peer transmission of video data</source>
-        <translation type="obsolete">Transmissão P2P de vídeo</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="876"/>
@@ -5232,21 +4732,9 @@ Should these settings be applied?</source>
         <translation>&amp;Testar seleção</translation>
     </message>
     <message>
-        <source>Enable duplex mode (required for echo cancellation)</source>
-        <translation type="vanished">Modo duplex (necessário para cancelamento de eco)</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="1189"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
         <translation>Cancelamento de eco (remover eco dos altifalantes)</translation>
-    </message>
-    <message>
-        <source>Enable 3D-sound</source>
-        <translation type="obsolete">Som 3D</translation>
-    </message>
-    <message>
-        <source>Enable denoising</source>
-        <translation type="obsolete">Remoção de ruído</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1249"/>
@@ -5321,10 +4809,6 @@ Should these settings be applied?</source>
         <translation>Utilizador em modo de pergunta</translation>
     </message>
     <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="803"/>
         <location filename="../preferences.ui" line="2103"/>
         <source>Voice</source>
@@ -5396,10 +4880,6 @@ Should these settings be applied?</source>
         <translation>Transmissão de vídeo (Lig./Desl.)</translation>
     </message>
     <message>
-        <source>Setup Keys</source>
-        <translation type="vanished">Configurar teclas</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="810"/>
         <location filename="../preferences.ui" line="2498"/>
         <source>Video Capture</source>
@@ -5456,18 +4936,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="2646"/>
         <source>Codec</source>
         <translation>Codec</translation>
-    </message>
-    <message>
-        <source>Quality</source>
-        <translation type="obsolete">Qualidade</translation>
-    </message>
-    <message>
-        <source>Bit Rate</source>
-        <translation type="obsolete">Taxa de Bits</translation>
-    </message>
-    <message>
-        <source>KBps</source>
-        <translation type="obsolete">KBps</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="373"/>
@@ -5588,22 +5056,6 @@ Should these settings be applied?</source>
         <translation>Inicializar som</translation>
     </message>
     <message>
-        <source>Failed to initialize sound duplex mode</source>
-        <translation type="vanished">Falha ao inicializar o modo de som duplex</translation>
-    </message>
-    <message>
-        <source>Failed to initialize new sound input device</source>
-        <translation type="vanished">Falha ao inicializar o dispositivo de entrada de som</translation>
-    </message>
-    <message>
-        <source>Failed to initialize new sound output device</source>
-        <translation type="vanished">Falha ao inicializar o dispositivo de saida de som</translation>
-    </message>
-    <message>
-        <source>Failed to enable echo cancellation</source>
-        <translation type="obsolete">Falha ao ativar cancelamento de eco</translation>
-    </message>
-    <message>
         <location filename="../preferencesdlg.cpp" line="1112"/>
         <location filename="../preferencesdlg.cpp" line="1140"/>
         <source>Video Device</source>
@@ -5636,10 +5088,6 @@ Should these settings be applied?</source>
         <location filename="../preferencesdlg.cpp" line="1285"/>
         <source>Refresh Sound Devices</source>
         <translation>Atualizar Dispositivos de Som</translation>
-    </message>
-    <message>
-        <source>To refresh sound devices the client must be disconnected.</source>
-        <translation type="obsolete">Para atualizar dispositivos de som o cliente deve estar desconectado.</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1286"/>
@@ -5766,10 +5214,6 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Failed to initialize default sound devices</source>
-        <translation type="obsolete">Falha ao inicializar dispositivos de som padrão</translation>
-    </message>
-    <message>
         <location filename="../common.cpp" line="1119"/>
         <source>Conference</source>
         <translation>Conferência</translation>
@@ -5803,22 +5247,13 @@ Should these settings be applied?</source>
         <translation>&amp;Ligar</translation>
     </message>
     <message>
-        <source>&amp;Delete</source>
-        <translation type="vanished">&amp;Eliminar</translation>
-    </message>
-    <message>
         <location filename="../serverlist.ui" line="104"/>
         <source>Server Information</source>
         <translation>Informações do servidor</translation>
     </message>
     <message>
-        <source>Save Server Information</source>
-        <translation type="vanished">Gravar Informações do servidor</translation>
-    </message>
-    <message>
         <location filename="../serverlist.ui" line="355"/>
         <source>Entry name</source>
-        <translatorcomment>The strict translation would be &quot;Nome da entrada&quot; but its better understood as &quot;Nome do servidor&quot; meaning &quot;Server name&quot;.</translatorcomment>
         <translation>Nome do servidor</translation>
     </message>
     <message>
@@ -5879,14 +5314,6 @@ Should these settings be applied?</source>
         <translation>Autenticação (opcional)</translation>
     </message>
     <message>
-        <source>Server password</source>
-        <translation type="obsolete">Palavra-chave do servidor</translation>
-    </message>
-    <message>
-        <source>Login using user account</source>
-        <translation type="obsolete">Aceder com conta de utilizador</translation>
-    </message>
-    <message>
         <location filename="../serverlist.ui" line="212"/>
         <source>Username</source>
         <translation>Nome de utilizador</translation>
@@ -5932,18 +5359,6 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="401"/>
         <source>Publish Publicly</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Save</source>
-        <translation type="vanished">&amp;Gravar</translation>
-    </message>
-    <message>
-        <source>&amp;Add/Update</source>
-        <translation type="obsolete">&amp;Adicionar/Actualizar</translation>
-    </message>
-    <message>
-        <source>&amp;Clear</source>
-        <translation type="obsolete">&amp;Limpar</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="408"/>
@@ -6054,25 +5469,9 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please fill the fields &apos;Entry name&apos;, &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
-        <translation type="obsolete">Preencha os campos &apos;Nome da entrada&apos;, &apos;Endereço IP do host&apos;, &apos;Porta TCP&apos;, &apos;Portal UDP&apos;</translation>
-    </message>
-    <message>
         <location filename="../serverlistdlg.cpp" line="370"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation>Preencha os campos &apos;Endereço IP do host&apos;, &apos;Porta TCP&apos; e &apos;Porta UDP&apos;</translation>
-    </message>
-    <message>
-        <source>Save File</source>
-        <translation type="obsolete">Gravar ficheiro</translation>
-    </message>
-    <message>
-        <source>%1 File (*%1)</source>
-        <translation type="obsolete">%1 Ficheiro (*%1)</translation>
-    </message>
-    <message>
-        <source>Unable to save file</source>
-        <translation type="obsolete">Não foi possivel gravar o ficheiro</translation>
     </message>
 </context>
 <context>
@@ -6278,10 +5677,6 @@ Delete the published user account to unregister your server.</source>
         <translation>Nome do servidor</translation>
     </message>
     <message>
-        <source>Server password</source>
-        <translation type="obsolete">Palavra-chave do servidor</translation>
-    </message>
-    <message>
         <location filename="../serverproperties.ui" line="47"/>
         <source>Max users</source>
         <translation>Máx. utilizadores</translation>
@@ -6323,77 +5718,9 @@ Delete the published user account to unregister your server.</source>
         <translation>Mostrar variáveis</translation>
     </message>
     <message>
-        <source>User Rights</source>
-        <translation type="obsolete">Permissões do utilizador</translation>
-    </message>
-    <message>
-        <source>Users can create channels</source>
-        <translation type="obsolete">Criar canais</translation>
-    </message>
-    <message>
-        <source>Users can become channel operators</source>
-        <translation type="obsolete">Tornar-se operadores de canal</translation>
-    </message>
-    <message>
-        <source>Users can login without a user account</source>
-        <translation type="obsolete">Aceder sem conta de utilizador</translation>
-    </message>
-    <message>
-        <source>Multiple users can use the same user account</source>
-        <translation type="obsolete">Múltiplos utilizadores podem usar a mesma conta</translation>
-    </message>
-    <message>
-        <source>Users can see users in all channels</source>
-        <translation type="obsolete">Ver utilizadores em todos os canais</translation>
-    </message>
-    <message>
-        <source>Users can broadcast text messages</source>
-        <translation type="obsolete">Difundir mensagens de texto</translation>
-    </message>
-    <message>
-        <source>Users can issue channel commands</source>
-        <translation type="obsolete">Enviar comandos de canal</translation>
-    </message>
-    <message>
-        <source>Users can modify subscriptions</source>
-        <translation type="obsolete">Modificar subscrições</translation>
-    </message>
-    <message>
-        <source>Users can forward/relay audio through server</source>
-        <translation type="obsolete">Encaminhar áudio através do servidor</translation>
-    </message>
-    <message>
-        <source>Users can forward/relay video through server</source>
-        <translation type="obsolete">Encaminhar vídeo através do servidor</translation>
-    </message>
-    <message>
-        <source>Users can forward/relay desktops through server</source>
-        <translation type="obsolete">Encaminhar ambientes de trabalho através do servidor</translation>
-    </message>
-    <message>
-        <source>Users can forward/relay desktop access through server</source>
-        <translation type="obsolete">Encaminhar acesso ao ambiente de trabalho através do servidor</translation>
-    </message>
-    <message>
-        <source>Audio Codec Limitations</source>
-        <translation type="obsolete">Limitações do codec áudio</translation>
-    </message>
-    <message>
-        <source>Max bitrate for audio codecs</source>
-        <translation type="obsolete">Bitrate máximo</translation>
-    </message>
-    <message>
-        <source>kbps (0 = disabled)</source>
-        <translation type="obsolete">kbps (0 = inativo)</translation>
-    </message>
-    <message>
         <location filename="../serverproperties.ui" line="236"/>
         <source>Server Bandwidth Limitations</source>
         <translation>Limitações de largura de banda do servidor</translation>
-    </message>
-    <message>
-        <source>Audio TX max</source>
-        <translation type="obsolete">Máximo TX de Áudio</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="380"/>
@@ -6804,38 +6131,6 @@ Delete the published user account to unregister your server.</source>
     </message>
 </context>
 <context>
-    <name>StreamAudioFileDlg</name>
-    <message>
-        <source>Stream Audio File</source>
-        <translation type="obsolete">Stream de ficheiro áudio</translation>
-    </message>
-    <message>
-        <source>Audio Stream Properties</source>
-        <translation type="obsolete">Definições do Stream áudio</translation>
-    </message>
-    <message>
-        <source>Audio File</source>
-        <translation type="obsolete">Ficheiro áudio</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="obsolete">...</translation>
-    </message>
-    <message>
-        <source>Continuously play audio file</source>
-        <translatorcomment>using interface context to simplify translation</translatorcomment>
-        <translation type="obsolete">Reproduzir continuamente</translation>
-    </message>
-    <message>
-        <source>Open Wave File</source>
-        <translation type="obsolete">Abrir ficheiro Wave</translation>
-    </message>
-    <message>
-        <source>Wave files (*.wav)</source>
-        <translation type="obsolete">Ficheiros Wave (*.wav)</translation>
-    </message>
-</context>
-<context>
     <name>StreamMediaFileDlg</name>
     <message>
         <location filename="../streammediafile.ui" line="14"/>
@@ -6857,10 +6152,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafile.ui" line="48"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="62"/>
@@ -6964,26 +6255,14 @@ Delete the published user account to unregister your server.</source>
         <translation>Bitrate</translation>
     </message>
     <message>
-        <source>Stream audio</source>
-        <translation type="obsolete">Enviar áudio</translation>
-    </message>
-    <message>
         <location filename="../streammediafile.ui" line="138"/>
         <source>Video format:</source>
         <translation>Formato vídeo:</translation>
     </message>
     <message>
-        <source>Stream video</source>
-        <translation type="obsolete">Enviar vídeo</translation>
-    </message>
-    <message>
         <location filename="../streammediafile.ui" line="159"/>
         <source>Duration:</source>
         <translation>Duração:</translation>
-    </message>
-    <message>
-        <source>Continuously play media file</source>
-        <translation type="vanished">Reproduzir continuamente</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="323"/>
@@ -6995,14 +6274,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafile.ui" line="334"/>
         <source>Codec</source>
         <translation>Codec</translation>
-    </message>
-    <message>
-        <source>Quality</source>
-        <translation type="obsolete">Qualidade</translation>
-    </message>
-    <message>
-        <source>Bit Rate</source>
-        <translation type="obsolete">Taxa de Bits</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="476"/>
@@ -7018,10 +6289,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafiledlg.cpp" line="140"/>
         <source>Open Media File</source>
         <translation>Abrir ficheiro mídia</translation>
-    </message>
-    <message>
-        <source>Media files (*.*)</source>
-        <translation type="obsolete">Ficheiros mídia (*.*)</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="67"/>
@@ -7675,25 +6942,9 @@ Delete the published user account to unregister your server.</source>
         <translation>&amp;Fechar</translation>
     </message>
     <message>
-        <source>&amp;Add</source>
-        <translation type="obsolete">&amp;Adicionar</translation>
-    </message>
-    <message>
-        <source>&amp;Delete</source>
-        <translation type="vanished">&amp;Eliminar</translation>
-    </message>
-    <message>
-        <source>New</source>
-        <translation type="obsolete">Novo</translation>
-    </message>
-    <message>
         <location filename="../useraccounts.ui" line="285"/>
         <source>Add</source>
         <translation>Adicionar</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="obsolete">Eliminar</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="245"/>
@@ -7928,14 +7179,6 @@ Delete the published user account to unregister your server.</source>
 <context>
     <name>UserImageWidget</name>
     <message>
-        <source>Waiting for video from %1</source>
-        <translation type="obsolete">A aguardar vídeo de %1</translation>
-    </message>
-    <message>
-        <source>Waiting for local video</source>
-        <translation type="obsolete">A aguardar vídeo local</translation>
-    </message>
-    <message>
         <location filename="../userimagewidget.cpp" line="200"/>
         <location filename="../userimagewidget.cpp" line="210"/>
         <source>&amp;Save to Image File</source>
@@ -8025,17 +7268,9 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>P2P connection</source>
-        <translation type="obsolete">Ligação P2P</translation>
-    </message>
-    <message>
         <location filename="../userinfo.ui" line="183"/>
         <source>Version</source>
         <translation>Versão</translation>
-    </message>
-    <message>
-        <source>Audio packet loss</source>
-        <translation type="obsolete">Perda de pacotes áudio</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="223"/>
@@ -8072,14 +7307,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../userinfodlg.cpp" line="92"/>
         <source>Unknown</source>
         <translation>Desconhecido</translation>
-    </message>
-    <message>
-        <source>Yes</source>
-        <translation type="obsolete">Sim</translation>
-    </message>
-    <message>
-        <source>No</source>
-        <translation type="obsolete">Não</translation>
     </message>
 </context>
 <context>
@@ -8228,10 +7455,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../videotext.ui" line="105"/>
         <source>Text Appearance</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Text Apperance</source>
-        <translation type="vanished">Aparência do texto</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="111"/>

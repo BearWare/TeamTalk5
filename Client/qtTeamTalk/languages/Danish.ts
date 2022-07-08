@@ -47,10 +47,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Translated by Bjoern D. Rasmussen</source>
-        <translation type="vanished">Oversat af Bjørn D. Rasmussen</translation>
-    </message>
-    <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on </source>
         <translation type="unfinished"></translation>
@@ -168,45 +164,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../audiopreprocessordlg.cpp" line="67"/>
         <source>Speex DSP Audio Preprocessor</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>AudioStorageDlg</name>
-    <message>
-        <source>Store Audio to Disk</source>
-        <translation type="obsolete">Gem lyd til disk</translation>
-    </message>
-    <message>
-        <source>Audio file storage</source>
-        <translation type="obsolete">Lagring af lydfiler</translation>
-    </message>
-    <message>
-        <source>Storage mode</source>
-        <translation type="obsolete">Lagringsform</translation>
-    </message>
-    <message>
-        <source>Single audio file for all users</source>
-        <translation type="obsolete">Enkelt lydfil for hver bruger</translation>
-    </message>
-    <message>
-        <source>Separate audio file for each user</source>
-        <translation type="obsolete">Separate lydfiler for hver bruger</translation>
-    </message>
-    <message>
-        <source>Audio file format</source>
-        <translation type="obsolete">Lydfilformat</translation>
-    </message>
-    <message>
-        <source>Folder for audio files</source>
-        <translation type="obsolete">Folder til lydfiler</translation>
-    </message>
-    <message>
-        <source>Storage mode not selected</source>
-        <translation type="obsolete">Lagringsform ikke valgt</translation>
-    </message>
-    <message>
-        <source>Folder for storing audio files does not exist</source>
-        <translation type="obsolete">Folder til lagring af lydfiler findes ikke</translation>
     </message>
 </context>
 <context>
@@ -531,34 +488,9 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Static channel (persistent)</source>
-        <translation type="obsolete">Statisk kanal (vedvarende)</translation>
-    </message>
-    <message>
-        <source>Echo channel (hear yourself)</source>
-        <translation type="obsolete">Ekko kanal (hør dig selv)</translation>
-    </message>
-    <message>
-        <source>No simultaneous audio transmission</source>
-        <oldsource>Single user transmission (no duplex)</oldsource>
-        <translation type="obsolete">Ingen samtidige lydtransmissioner</translation>
-    </message>
-    <message>
-        <source>No interruptions (no simultaneous audio transmission)</source>
-        <translation type="obsolete">Ingen afbrydelser (ingen samtidige lydtransmissioner)</translation>
-    </message>
-    <message>
         <location filename="../channel.ui" line="206"/>
         <source>Classroom (operator-controlled transmissions)</source>
         <translation>Klasseværelse (kanalejer styrer transmissioner)</translation>
-    </message>
-    <message>
-        <source>Echo video (see own video stream)</source>
-        <translation type="obsolete">Ekko video (see egen videostrøm)</translation>
-    </message>
-    <message>
-        <source>Echo desktop (see your shared desktop)</source>
-        <translation type="obsolete">Ekko skrivebord (see dit eget delte skrivebord) </translation>
     </message>
     <message>
         <location filename="../channel.ui" line="213"/>
@@ -603,10 +535,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="788"/>
         <source>msec</source>
         <translation>msek</translation>
-    </message>
-    <message>
-        <source>CELT 0.5.2 codec is obsolete.</source>
-        <translation type="obsolete">CELT 0.5.2 codec&apos;et er forældet.</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="501"/>
@@ -665,17 +593,9 @@ p, li { white-space: pre-wrap; }
         <translation>Lydniveau</translation>
     </message>
     <message>
-        <source>Enable denoising</source>
-        <translation type="obsolete">Aktiver støjreduktion</translation>
-    </message>
-    <message>
         <location filename="../channel.ui" line="36"/>
         <source>Channel path</source>
         <translation>Kanalsti</translation>
-    </message>
-    <message>
-        <source>Operator-controlled transmissions (classroom)</source>
-        <translation type="obsolete">Kanalejer styrer transmissioner (klasseværelse)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="248"/>
@@ -695,19 +615,10 @@ p, li { white-space: pre-wrap; }
         <translation>Kvalitet</translation>
     </message>
     <message>
-        <source>Delay before sending audio packet</source>
-        <oldsource>Delay before sending packet</oldsource>
-        <translation type="obsolete">Ventetid før afsending af lydpakke</translation>
-    </message>
-    <message>
         <location filename="../channel.ui" line="656"/>
         <source>Audio channels</source>
         <oldsource>Audio Channels</oldsource>
         <translation>Lydkanaler</translation>
-    </message>
-    <message>
-        <source>Bytes per second</source>
-        <translation type="obsolete">Bytes per sekund</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="44"/>
@@ -770,18 +681,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../channeldlg.cpp" line="430"/>
         <source>Delay before switching to next user in queue (in msec)</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Note that Echo Cancellation, Denoising and Audio Configuration currently isn&apos;t supported in stereo mode.</source>
-        <translation type="obsolete">Bemærk at Ekkofjernelse, Støjreduktion og Lydkonfiguration i øjeblikket ikke er understøttet i stereo.</translation>
-    </message>
-    <message>
-        <source>%1 msec</source>
-        <translation type="obsolete">%1 msek</translation>
-    </message>
-    <message>
-        <source>%1 KBytes/sec</source>
-        <translation type="obsolete">%1 KBytes/sek</translation>
     </message>
 </context>
 <context>
@@ -967,71 +866,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../chattextedit.cpp" line="226"/>
         <source>Disk quota: %1 KBytes</source>
         <translation>Diskplads: %1 KBytes</translation>
-    </message>
-</context>
-<context>
-    <name>ConnectDlg</name>
-    <message>
-        <source>Connect to a Server</source>
-        <translation type="obsolete">Opret Forbindelse til Server</translation>
-    </message>
-    <message>
-        <source>Server Information</source>
-        <translation type="obsolete">Serverinformation</translation>
-    </message>
-    <message>
-        <source>Host IP-address</source>
-        <oldsource>Host address</oldsource>
-        <translation type="obsolete">Server&apos;s IP-addresse</translation>
-    </message>
-    <message>
-        <source>E.g. 192.168.1.154</source>
-        <translation type="obsolete">Eks. 192.168.1.154</translation>
-    </message>
-    <message>
-        <source>Default: 10333</source>
-        <translation type="obsolete">Standard: 10333</translation>
-    </message>
-    <message>
-        <source>UDP port</source>
-        <translation type="obsolete">UDP port</translation>
-    </message>
-    <message>
-        <source>Authentication (optional)</source>
-        <translation type="obsolete">Autorisation (valgfri)</translation>
-    </message>
-    <message>
-        <source>Server password</source>
-        <translation type="obsolete">Server kodeord</translation>
-    </message>
-    <message>
-        <source>Optional</source>
-        <translation type="obsolete">Valgfri</translation>
-    </message>
-    <message>
-        <source>Login using user account</source>
-        <translation type="obsolete">Log på med brugerkonto</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation type="obsolete">Brugernavn</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation type="obsolete">Kodeord</translation>
-    </message>
-    <message>
-        <source>Username and password is only needed if the server requires user accounts</source>
-        <oldsource>Username and password is only needed if the server requires user accounts.</oldsource>
-        <translation type="obsolete">Brugernavn og kodeord er kun nødvendigt hvis server anvender brugerkonti</translation>
-    </message>
-    <message>
-        <source>Join specific channel after authentication (optional)</source>
-        <translation type="obsolete">Indtræd i specifik kanal efter brugergodkendelse (valgfri)</translation>
-    </message>
-    <message>
-        <source>Channel</source>
-        <translation type="obsolete">Kanal</translation>
     </message>
 </context>
 <context>
@@ -1315,10 +1149,6 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;Åben</translation>
     </message>
     <message>
-        <source>File tranfer failed.</source>
-        <translation type="vanished">Filoverførsel fejlede.</translation>
-    </message>
-    <message>
         <location filename="../filetransferdlg.cpp" line="71"/>
         <source>File transfer failed.</source>
         <translation type="unfinished"></translation>
@@ -1560,10 +1390,6 @@ p, li { white-space: pre-wrap; }
         <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Mac OS X does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
-        <translation type="vanished">Mac OS X understøtter ikke blot modificeringstaster, dvs. Cmd, Option og Skift skal anvendes i kombination med andre ikke-modificeringstaster.</translation>
-    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -1599,42 +1425,10 @@ p, li { white-space: pre-wrap; }
         <translation>Forbindelse forsvandt til %1 TCP port %2 UDP port %3</translation>
     </message>
     <message>
-        <source>Established P2P connection to %1</source>
-        <translation type="obsolete">Oprettede P2P forbindelse til %1</translation>
-    </message>
-    <message>
-        <source>Failed to establish P2P connection to %1</source>
-        <translation type="obsolete">Kunne ikke oprette P2P forbindelse til %1</translation>
-    </message>
-    <message>
-        <source>%1 will be unavailable for audio transmission</source>
-        <translation type="obsolete">%1 vil ikke være tilgængelig for lydtransmissioner</translation>
-    </message>
-    <message>
-        <source>%1 will be unavailable for video transmission</source>
-        <translation type="obsolete">%1 vil ikke være tilgængelig for videotransmissioner</translation>
-    </message>
-    <message>
-        <source>Logged in</source>
-        <translation type="vanished">Loggede ind</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2799"/>
         <location filename="../mainwindow.cpp" line="2811"/>
         <source>Joined channel %1</source>
         <translation>Indtrådte i kanal %1</translation>
-    </message>
-    <message>
-        <source>Kicked by %1</source>
-        <translation type="vanished">Sparket ud af %1</translation>
-    </message>
-    <message>
-        <source>Peer to peer networking is required for audio transmission on this server. Enable in Client-&gt;Preferences-&gt;Connection.</source>
-        <translation type="obsolete">Peer til peer forbindelser er påkrævet for lydtransmissioner på denne server. Aktiver det i Klient-&gt;Indstillinger-&gt;Forbindelse.</translation>
-    </message>
-    <message>
-        <source>Peer to peer networking is required for video transmission on this server. Enable in Client-&gt;Preferences-&gt;Connection.</source>
-        <translation type="obsolete">Peer til peer forbindelser er påkrævet for videotransmissioner på denne server. Aktiver det i Klient-&gt;Indstillinger-&gt;Forbindelse.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1136"/>
@@ -1662,22 +1456,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="1322"/>
         <source>Internal Error</source>
         <translation>Intern Fejl</translation>
-    </message>
-    <message>
-        <source>Error streaming audio file to %1</source>
-        <translation type="obsolete">Fejl ved streaming af lydfil til %1</translation>
-    </message>
-    <message>
-        <source>Started streaming audio file to %1</source>
-        <translation type="obsolete">Startede streaming af lydfil til %1</translation>
-    </message>
-    <message>
-        <source>Finished streaming audio file to %1</source>
-        <translation type="obsolete">Færdiggjorde streaming af lydfil til %1</translation>
-    </message>
-    <message>
-        <source>Aborted streaming audio file to %1</source>
-        <translation type="obsolete">Annullerede streaming af lydfil til %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1306"/>
@@ -1715,30 +1493,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="910"/>
         <source>Program argument &quot;%1&quot; is unrecognized.</source>
         <translation>Program argument &quot;%1&quot; er ukendt.</translation>
-    </message>
-    <message>
-        <source>Logged out</source>
-        <translation type="vanished">Loggede ud</translation>
-    </message>
-    <message>
-        <source>Kicked by unknown user</source>
-        <translation type="vanished">Sparket ud af ukendt bruger</translation>
-    </message>
-    <message>
-        <source>Peer to peer networking is required for audio transmission on this server. Now enabled!</source>
-        <translation type="obsolete">Peer til peer netværk er påkrævet for at sende lyd på denne server. Nu slået til!</translation>
-    </message>
-    <message>
-        <source>Peer to peer networking for audio disabled!</source>
-        <translation type="obsolete">Peer til peer netværk for lyd slået fra!</translation>
-    </message>
-    <message>
-        <source>Peer to peer networking is required for video transmission on this server. Now enabled!</source>
-        <translation type="obsolete">Peer til peer netværk er påkrævet for at sende video på denne server. Nu slået til!</translation>
-    </message>
-    <message>
-        <source>Peer to peer networking for video disabled!</source>
-        <translation type="obsolete">Peer til peer netværk for video slået fra!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1308"/>
@@ -1783,37 +1537,9 @@ p, li { white-space: pre-wrap; }
         <translation>Din skrivebordssession blev annulleret</translation>
     </message>
     <message>
-        <source>Failed to write audio file for %1</source>
-        <translation type="obsolete">Skrivning til lydfil %1 fejlede</translation>
-    </message>
-    <message>
-        <source>Failed to initialize sound duplex mode</source>
-        <translation type="vanished">Fejl i initialiseringen af lyd i duplex tilstand</translation>
-    </message>
-    <message>
-        <source>Switching to default sound devices</source>
-        <translation type="vanished">Skifter til standard lydenheder</translation>
-    </message>
-    <message>
-        <source>Unable to get default sound devices</source>
-        <translation type="vanished">Kan ikke finde standard lydenheder</translation>
-    </message>
-    <message>
-        <source>Failed to initialize default sound devices</source>
-        <translation type="vanished">Fejl ved initialisering af standard lydenheder</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1930"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
         <translation>Opretter forbindelse til %1 TCP port %2 UDP port %3</translation>
-    </message>
-    <message>
-        <source>Failed to connect to encrypted server</source>
-        <translation type="obsolete">Kunne ikke oprette forbindelse til krypteret server</translation>
-    </message>
-    <message>
-        <source>Failed to connect to server</source>
-        <translation type="obsolete">Fejl ved opretning af forbindelse til server</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2026"/>
@@ -1822,20 +1548,12 @@ p, li { white-space: pre-wrap; }
         <translation>Fejl</translation>
     </message>
     <message>
-        <source>This client is not compatible with the server,  so the action cannot be performed.</source>
-        <translation type="vanished">Denne klient er ikke kompatibel med denne server, så denne handling kunne ikke udføres.</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2054"/>
         <location filename="../mainwindow.cpp" line="2062"/>
         <location filename="../mainwindow.cpp" line="2102"/>
         <location filename="../mainwindow.cpp" line="2107"/>
         <source>Login error</source>
         <translation>Loginfejl</translation>
-    </message>
-    <message>
-        <source>Incorrect server password. Try again:</source>
-        <translation type="obsolete">Forkert server kodeord. Prøv igen:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2055"/>
@@ -1868,10 +1586,6 @@ p, li { white-space: pre-wrap; }
         <translation>Ulovlig kommando</translation>
     </message>
     <message>
-        <source>Channel creation not allowed</source>
-        <translation type="obsolete">Kanaloprettelse er ikke tilladt</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2108"/>
         <source>Maximum number of users on server exceeded</source>
         <translation>Maksimum antal bruger på serveren er overskredet</translation>
@@ -1885,11 +1599,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2112"/>
         <source>Maximum number of users in channel exceeded</source>
         <translation>Maksimum antal brugere i kanal er overskredet</translation>
-    </message>
-    <message>
-        <source>Modifying subscriptions is not allowed</source>
-        <oldsource>Subscriptions are disabled</oldsource>
-        <translation type="obsolete">Ændring i abonnering ikke tilladt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2114"/>
@@ -1956,10 +1665,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2158"/>
         <source>File sharing is disabled</source>
         <translation>Filoverførsel er ikke aktiveret</translation>
-    </message>
-    <message>
-        <source>Server has active users</source>
-        <translation type="obsolete">Serveren har aktive brugere</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2160"/>
@@ -2042,18 +1747,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5199"/>
         <source>Are you sure you want to delete %1 file(s)?</source>
         <translation>Er du sikker på at du vil slette %1 file(r)?</translation>
-    </message>
-    <message>
-        <source>Video</source>
-        <translation type="vanished">Video</translation>
-    </message>
-    <message>
-        <source>Video (%1)</source>
-        <translation type="vanished">Video (%1)</translation>
-    </message>
-    <message>
-        <source>Desktops (%1)</source>
-        <translation type="vanished">Skriveborde (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1832"/>
@@ -2220,19 +1913,6 @@ p, li { white-space: pre-wrap; }
         <translation>Angiv nyt øgenavn</translation>
     </message>
     <message>
-        <source>Open Wave File</source>
-        <translation type="obsolete">Åben wavefil</translation>
-    </message>
-    <message>
-        <source>Wave files (*.wav)</source>
-        <translation type="obsolete">Wave filer (*.wav)</translation>
-    </message>
-    <message>
-        <source>Failed to stream file %1</source>
-        <oldsource>Failed to stream &quot;%1&quot; to user</oldsource>
-        <translation type="obsolete">Fejl ved streaming af fil &quot;%1&quot;</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="4906"/>
         <location filename="../mainwindow.cpp" line="4919"/>
         <source>Failed to issue command to create channel</source>
@@ -2379,13 +2059,19 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Væk</translation>
     </message>
     <message>
-        <source>Files (%1)</source>
-        <translation type="vanished">Filer (%1)</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2987"/>
         <source>Recording to file: %1</source>
         <translation>Gemmer lyd til filen: %1</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2688"/>
+        <source>Channel message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2710"/>
+        <source>Broadcast message: %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3041"/>
@@ -2911,18 +2597,8 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
-        <source>Channel message from %1: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2693"/>
         <source>Channel message sent: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2710"/>
-        <source>Broadcast message from %1: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3182,14 +2858,6 @@ Should these settings be applied?</source>
         <translation>Mig selv</translation>
     </message>
     <message>
-        <source>%1 set subscription &quot;%2&quot; on you to: %3</source>
-        <translation type="obsolete">%1 satte abonnement &quot;%2&quot; til dig til: %3</translation>
-    </message>
-    <message>
-        <source>New version available: %1</source>
-        <translation type="vanished">Ny version tilgængelig: %1</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="139"/>
         <location filename="../mainwindow.ui" line="161"/>
         <location filename="../mainwindow.ui" line="164"/>
@@ -3271,10 +2939,6 @@ Should these settings be applied?</source>
         <translation>Frigør Bruger Video</translation>
     </message>
     <message>
-        <source>Files</source>
-        <translation type="vanished">Filer</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1085"/>
         <location filename="../mainwindow.ui" line="1088"/>
         <source>Upload</source>
@@ -3285,10 +2949,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="1042"/>
         <source>Download</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>&amp;Client</source>
-        <translation type="obsolete">&amp;Klient</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1158"/>
@@ -3733,18 +3393,6 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Store Audio to Disk</source>
-        <translation type="obsolete">Gem Lyd til Disk</translation>
-    </message>
-    <message>
-        <source>Start/stop recording audio to files</source>
-        <translation type="obsolete">Start/stop optagelse af lyd til filer</translation>
-    </message>
-    <message>
-        <source>Enable Question Mode</source>
-        <translation type="vanished">Aktiver Spørgsmål-tilstand</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="2305"/>
         <source>Show blinking icon</source>
         <translation>Vis blinkende ikon</translation>
@@ -3818,10 +3466,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="2130"/>
         <source>&amp;Deny</source>
         <translation>&amp;Afvis</translation>
-    </message>
-    <message>
-        <source>Del</source>
-        <translation type="obsolete">Slet</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1122"/>
@@ -3955,17 +3599,9 @@ Should these settings be applied?</source>
         <translation>Shift+Del</translation>
     </message>
     <message>
-        <source>List &amp;Banned Users</source>
-        <translation type="obsolete">Vis &amp;Blokerede Brugere</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1609"/>
         <source>Ctrl+Shift+B</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>List &amp;User Accounts</source>
-        <translation type="obsolete">Vis &amp;Brugerkonti</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1617"/>
@@ -3991,10 +3627,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="1783"/>
         <source>Stream Audio &amp;File to User</source>
         <translation>Stream &amp;Lydfil til Bruger</translation>
-    </message>
-    <message>
-        <source>Store &amp;Audio to Disk</source>
-        <translation type="obsolete">Gem &amp;Lyd til Disk</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1804"/>
@@ -4037,22 +3669,6 @@ Should these settings be applied?</source>
         <translation></translation>
     </message>
     <message>
-        <source>Store &amp;Audio From Channel to Disk</source>
-        <translation type="obsolete">Gem Lyd Fra K&amp;anal til disk</translation>
-    </message>
-    <message>
-        <source>&amp;Increase Volume (+10)</source>
-        <translation type="obsolete">&amp;Forøg Lydstyrke (+ 10)</translation>
-    </message>
-    <message>
-        <source>&amp;Lower Volume (-10)</source>
-        <translation type="obsolete">&amp;Reducer Lydstyrke (- 10)</translation>
-    </message>
-    <message>
-        <source>&amp;Store for Move</source>
-        <translation type="obsolete">&amp;Gem til Flytning</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1892"/>
         <source>Ctrl+Alt+X</source>
         <translation></translation>
@@ -4071,10 +3687,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="1654"/>
         <source>M&amp;essages</source>
         <translation>B&amp;eskeder</translation>
-    </message>
-    <message>
-        <source>Desktops</source>
-        <translation type="vanished">Skriveborde</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="732"/>
@@ -4236,10 +3848,6 @@ Should these settings be applied?</source>
         <translation></translation>
     </message>
     <message>
-        <source>Kick and &amp;Ban</source>
-        <translation type="obsolete">Spark ud og &amp;Bloker</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1674"/>
         <source>&amp;Op</source>
         <translation>&amp;Op</translation>
@@ -4258,10 +3866,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="1685"/>
         <source>Ctrl+U</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>&amp;Audio</source>
-        <translation type="obsolete">&amp;Lyd</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1712"/>
@@ -4299,17 +3903,9 @@ Should these settings be applied?</source>
         <translation></translation>
     </message>
     <message>
-        <source>Stream &amp;Audio File to User</source>
-        <translation type="obsolete">Stream Lydfil til &amp;Bruger</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1786"/>
         <source>Ctrl+Shift+W</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>Specify &amp;Audio Storage</source>
-        <translation type="obsolete">Angiv &amp;Lydfil Lager</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1801"/>
@@ -4438,10 +4034,6 @@ Should these settings be applied?</source>
         <translation type="unfinished">&amp;Afbryd</translation>
     </message>
     <message>
-        <source>Folder for storing audio files does not exist</source>
-        <translation type="obsolete">Folder til lagring af lydfiler findes ikke</translation>
-    </message>
-    <message>
         <location filename="../mediastoragedlg.cpp" line="116"/>
         <source>Folder for storing audio files does not exist. Do you want %1 to create it for you?</source>
         <translation type="unfinished"></translation>
@@ -4548,10 +4140,6 @@ Should these settings be applied?</source>
         <location filename="../onlineusersdlg.cpp" line="192"/>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Stream Audio &amp;File to User</source>
-        <translation type="obsolete">Stream &amp;Lydfil til Bruger</translation>
     </message>
 </context>
 <context>
@@ -4781,10 +4369,6 @@ Should these settings be applied?</source>
         <translation>Vis hændelser fra statuslinie i chat-vindue</translation>
     </message>
     <message>
-        <source>Check for program updates at startup</source>
-        <translation type="vanished">Check for programopdateringer ved opstart</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="683"/>
         <source>Show new version available in dialog box</source>
         <translation type="unfinished"></translation>
@@ -5012,10 +4596,6 @@ Should these settings be applied?</source>
         <translation>Start skriveborde i nyt vindue</translation>
     </message>
     <message>
-        <source>Closed video dialog should return to video-tab</source>
-        <translation type="vanished">Lukket videodialogboks skal returnere til video-faneblad</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="594"/>
         <source>Show source in corner of video window</source>
         <translation>Vis kilde i hjørnet af videovindue</translation>
@@ -5082,14 +4662,6 @@ Should these settings be applied?</source>
         <translation>Broadcastbeskeder</translation>
     </message>
     <message>
-        <source>Audio</source>
-        <translation type="obsolete">Lyd</translation>
-    </message>
-    <message>
-        <source>Video</source>
-        <translation type="obsolete">Video</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="817"/>
         <source>Desktop</source>
         <translation>Skrivebord</translation>
@@ -5098,18 +4670,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="829"/>
         <source>Desktop Access</source>
         <translation>Skrivebordsadgang</translation>
-    </message>
-    <message>
-        <source>Peer to Peer Data Transmission (P2P Networking)</source>
-        <translation type="obsolete">Peer til Peer Data Transmission (P2P Netværk)</translation>
-    </message>
-    <message>
-        <source>Peer to peer transmission of audio data</source>
-        <translation type="obsolete">Peer til peer transmission af lyddata</translation>
-    </message>
-    <message>
-        <source>Peer to peer transmission of video data</source>
-        <translation type="obsolete">Peer til peer transmission af videodata</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="876"/>
@@ -5193,21 +4753,9 @@ Should these settings be applied?</source>
         <translation>&amp;Test Valgte</translation>
     </message>
     <message>
-        <source>Enable duplex mode (required for echo cancellation)</source>
-        <translation type="vanished">Aktiver duplex tilstand (påkrævet for ekkefjernelse)</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="1189"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
         <translation>Aktiver ekkofjernelse (fjern ekko fra højttalere)</translation>
-    </message>
-    <message>
-        <source>Enable 3D-sound</source>
-        <translation type="obsolete">Aktiver 3D-lyd</translation>
-    </message>
-    <message>
-        <source>Enable denoising</source>
-        <translation type="obsolete">Aktiver støjreduktion</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1249"/>
@@ -5353,10 +4901,6 @@ Should these settings be applied?</source>
         <translation>Aktiver/deaktiver video transmission</translation>
     </message>
     <message>
-        <source>Setup Keys</source>
-        <translation type="vanished">Angiv Taster</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="810"/>
         <location filename="../preferences.ui" line="2498"/>
         <source>Video Capture</source>
@@ -5413,10 +4957,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="2646"/>
         <source>Codec</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>Quality</source>
-        <translation type="obsolete">Kvalitet</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="373"/>
@@ -5530,22 +5070,6 @@ Should these settings be applied?</source>
         <location filename="../preferencesdlg.cpp" line="1344"/>
         <source>Sound Initialization</source>
         <translation>Lydinitialisering</translation>
-    </message>
-    <message>
-        <source>Failed to initialize sound duplex mode</source>
-        <translation type="vanished">Fejl ved initialiseringen af lyd i duplex tilstand</translation>
-    </message>
-    <message>
-        <source>Failed to initialize new sound input device</source>
-        <translation type="vanished">Fejl ved initialisering af ny lydindspilningsehed</translation>
-    </message>
-    <message>
-        <source>Failed to initialize new sound output device</source>
-        <translation type="vanished">Fejl ved initialisering af ny lydafspilningsenhed</translation>
-    </message>
-    <message>
-        <source>Failed to enable echo cancellation</source>
-        <translation type="obsolete">Fejl ved aktivering af ekkofjernelse</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1112"/>
@@ -5711,10 +5235,6 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Failed to initialize default sound devices</source>
-        <translation type="obsolete">Fejl ved initialisering af standard lydenheder</translation>
-    </message>
-    <message>
         <location filename="../common.cpp" line="1119"/>
         <source>Conference</source>
         <translation>Konference</translation>
@@ -5728,10 +5248,6 @@ Should these settings be applied?</source>
         <translation>Serverliste</translation>
     </message>
     <message>
-        <source>Include free servers (green ones)</source>
-        <translation type="obsolete">Inkluder gratis servere (de grønne)</translation>
-    </message>
-    <message>
         <location filename="../serverlist.ui" line="86"/>
         <source>Include public servers (green ones)</source>
         <translation>Inkluder offentlige servere (de grønne)</translation>
@@ -5740,10 +5256,6 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="332"/>
         <source>&amp;Connect</source>
         <translation>&amp;Opret Forbindelse</translation>
-    </message>
-    <message>
-        <source>&amp;Delete</source>
-        <translation type="vanished">&amp;Slet</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="104"/>
@@ -5759,10 +5271,6 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="312"/>
         <source>C&amp;lear</source>
         <translation>Nu&amp;lstil</translation>
-    </message>
-    <message>
-        <source>Save Server Information</source>
-        <translation type="vanished">Gem Server Information</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="355"/>
@@ -5828,14 +5336,6 @@ Should these settings be applied?</source>
         <translation>Autorisation (valgfri)</translation>
     </message>
     <message>
-        <source>Server password</source>
-        <translation type="obsolete">Server kodeord</translation>
-    </message>
-    <message>
-        <source>Login using user account</source>
-        <translation type="obsolete">Log på med brugerkonto</translation>
-    </message>
-    <message>
         <location filename="../serverlist.ui" line="212"/>
         <source>Username</source>
         <translation>Brugernavn</translation>
@@ -5881,18 +5381,6 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="401"/>
         <source>Publish Publicly</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Save</source>
-        <translation type="vanished">&amp;Gem</translation>
-    </message>
-    <message>
-        <source>&amp;Add/Update</source>
-        <translation type="obsolete">&amp;Tilføj/Opdater</translation>
-    </message>
-    <message>
-        <source>&amp;Clear</source>
-        <translation type="obsolete">&amp;Ryd</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="408"/>
@@ -6004,26 +5492,9 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please fill the fields &apos;Entry name&apos;, &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
-        <oldsource>Please fill the fields &apos;Entry name&apos;, &apos;Host address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</oldsource>
-        <translation type="obsolete">Sørg for at felterne &quot;Feltnavn&quot;, &quot;Server&apos;s IP-addresse&quot;, &quot;TCP port&quot; og &quot;UDP port&quot; er udfyldte</translation>
-    </message>
-    <message>
         <location filename="../serverlistdlg.cpp" line="370"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation>Udfyld felterne &apos;Server&apos;s IP-addresse&apos;, &apos;TCP port&apos; og &apos;UDP port&apos;</translation>
-    </message>
-    <message>
-        <source>Save File</source>
-        <translation type="obsolete">Gem Fil</translation>
-    </message>
-    <message>
-        <source>%1 File (*%1)</source>
-        <translation type="obsolete">%1 Fil (*%1)</translation>
-    </message>
-    <message>
-        <source>Unable to save file</source>
-        <translation type="obsolete">Ikke i stand til at gemme fil</translation>
     </message>
 </context>
 <context>
@@ -6229,10 +5700,6 @@ Delete the published user account to unregister your server.</source>
         <translation>Servernavn</translation>
     </message>
     <message>
-        <source>Server password</source>
-        <translation type="obsolete">Server kodeord</translation>
-    </message>
-    <message>
         <location filename="../serverproperties.ui" line="47"/>
         <source>Max users</source>
         <translation>Maks brugere</translation>
@@ -6274,74 +5741,6 @@ Delete the published user account to unregister your server.</source>
         <translation>Vis variabler</translation>
     </message>
     <message>
-        <source>User Rights</source>
-        <translation type="obsolete">Brugerrettigheder</translation>
-    </message>
-    <message>
-        <source>Users can create channels</source>
-        <translation type="obsolete">Brugere kan oprette kanaler</translation>
-    </message>
-    <message>
-        <source>Users can become channel operators</source>
-        <oldsource>Users can become operators</oldsource>
-        <translation type="obsolete">Brugere kan blive kanaloperatorer</translation>
-    </message>
-    <message>
-        <source>Users can login without a user account</source>
-        <oldsource>Users can login without an account</oldsource>
-        <translation type="obsolete">Brugere kan logge ind uden en brugerkonto</translation>
-    </message>
-    <message>
-        <source>Multiple users can use the same user account</source>
-        <translation type="obsolete">Flere brugere kan anvende samme brugerkonto</translation>
-    </message>
-    <message>
-        <source>Users can see users in all channels</source>
-        <translation type="obsolete">Brugere kan se brugere i andre kanaler</translation>
-    </message>
-    <message>
-        <source>Users can broadcast text messages</source>
-        <translation type="obsolete">Brugere kan broadcaste tekstbeskeder</translation>
-    </message>
-    <message>
-        <source>Users can issue channel commands</source>
-        <translation type="obsolete">Brugere kan sende kanalkommandoer</translation>
-    </message>
-    <message>
-        <source>Users can modify subscriptions</source>
-        <translation type="obsolete">Brugere kan ændre abonnering</translation>
-    </message>
-    <message>
-        <source>Users can forward/relay audio through server</source>
-        <oldsource>Users can forward/relay audio</oldsource>
-        <translation type="obsolete">Brugere kan videresende lyd gennem server</translation>
-    </message>
-    <message>
-        <source>Users can forward/relay video through server</source>
-        <oldsource>Users can forward/relay video</oldsource>
-        <translation type="obsolete">Brugere kan videresende video gennem server</translation>
-    </message>
-    <message>
-        <source>Users can forward/relay desktops through server</source>
-        <translation type="obsolete">Brugere kan videresende skriveborde gennem serveren</translation>
-    </message>
-    <message>
-        <source>Users can forward/relay desktop access through server</source>
-        <translation type="obsolete">Brugere kan videresende skrivebordsadgang gennem serveren</translation>
-    </message>
-    <message>
-        <source>Audio Codec Limitations</source>
-        <translation type="obsolete">Lydcodec Begrænsninger</translation>
-    </message>
-    <message>
-        <source>Max bitrate for audio codecs</source>
-        <translation type="obsolete">Max bitrate for lydcodecs</translation>
-    </message>
-    <message>
-        <source>kbps (0 = disabled)</source>
-        <translation type="obsolete">kbps (0 = deaktiveret)</translation>
-    </message>
-    <message>
         <location filename="../serverproperties.ui" line="380"/>
         <source>Server Abuse</source>
         <translation>Servermisbrug</translation>
@@ -6363,17 +5762,9 @@ Delete the published user account to unregister your server.</source>
         <translation>Max antal login per IP-adresse</translation>
     </message>
     <message>
-        <source>kbps (0 = no disabled)</source>
-        <translation type="obsolete">kbps (0 = deaktiveret)</translation>
-    </message>
-    <message>
         <location filename="../serverproperties.ui" line="236"/>
         <source>Server Bandwidth Limitations</source>
         <translation>Server Båndbredde Begrænsninger</translation>
-    </message>
-    <message>
-        <source>Audio TX max</source>
-        <translation type="obsolete">Lyd TX max</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="262"/>
@@ -6763,33 +6154,6 @@ Delete the published user account to unregister your server.</source>
     </message>
 </context>
 <context>
-    <name>StreamAudioFileDlg</name>
-    <message>
-        <source>Stream Audio File</source>
-        <translation type="obsolete">Stream Lydfil</translation>
-    </message>
-    <message>
-        <source>Audio Stream Properties</source>
-        <translation type="obsolete">Lyd Stream Indstillinger</translation>
-    </message>
-    <message>
-        <source>Audio File</source>
-        <translation type="obsolete">Lydfil</translation>
-    </message>
-    <message>
-        <source>Continuously play audio file</source>
-        <translation type="obsolete">Gentag afspilning af lydfil</translation>
-    </message>
-    <message>
-        <source>Open Wave File</source>
-        <translation type="obsolete">Åben wavefil</translation>
-    </message>
-    <message>
-        <source>Wave files (*.wav)</source>
-        <translation type="obsolete">Wave filer (*.wav)</translation>
-    </message>
-</context>
-<context>
     <name>StreamMediaFileDlg</name>
     <message>
         <location filename="../streammediafile.ui" line="14"/>
@@ -6914,26 +6278,14 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Stream audio</source>
-        <translation type="obsolete">Stream lyd</translation>
-    </message>
-    <message>
         <location filename="../streammediafile.ui" line="138"/>
         <source>Video format:</source>
         <translation>Videoformat:</translation>
     </message>
     <message>
-        <source>Stream video</source>
-        <translation type="obsolete">Stream video</translation>
-    </message>
-    <message>
         <location filename="../streammediafile.ui" line="159"/>
         <source>Duration:</source>
         <translation>Varighed:</translation>
-    </message>
-    <message>
-        <source>Continuously play media file</source>
-        <translation type="vanished">Afspil mediefil kontinuerligt</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="323"/>
@@ -6945,14 +6297,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafile.ui" line="334"/>
         <source>Codec</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>Quality</source>
-        <translation type="obsolete">Kvalitet</translation>
-    </message>
-    <message>
-        <source>Bit Rate</source>
-        <translation type="obsolete">Bitrate</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="476"/>
@@ -6968,10 +6312,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafiledlg.cpp" line="140"/>
         <source>Open Media File</source>
         <translation>Åben Mediefil</translation>
-    </message>
-    <message>
-        <source>Media files (*.*)</source>
-        <translation type="obsolete">Mediefiler (*.*)</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="67"/>
@@ -7626,25 +6966,9 @@ Delete the published user account to unregister your server.</source>
         <translation>&amp;Luk</translation>
     </message>
     <message>
-        <source>&amp;Add</source>
-        <translation type="obsolete">&amp;Tilføj</translation>
-    </message>
-    <message>
-        <source>&amp;Delete</source>
-        <translation type="vanished">&amp;Slet</translation>
-    </message>
-    <message>
-        <source>New</source>
-        <translation type="obsolete">Ny</translation>
-    </message>
-    <message>
         <location filename="../useraccounts.ui" line="285"/>
         <source>Add</source>
         <translation>Tilføj</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="obsolete">Slet</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="245"/>
@@ -7879,14 +7203,6 @@ Delete the published user account to unregister your server.</source>
 <context>
     <name>UserImageWidget</name>
     <message>
-        <source>Waiting for video from %1</source>
-        <translation type="obsolete">Venter på video fra %1</translation>
-    </message>
-    <message>
-        <source>Waiting for local video</source>
-        <translation type="obsolete">Venter på video fra lokal</translation>
-    </message>
-    <message>
         <location filename="../userimagewidget.cpp" line="200"/>
         <location filename="../userimagewidget.cpp" line="210"/>
         <source>&amp;Save to Image File</source>
@@ -7976,17 +7292,9 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>P2P connection</source>
-        <translation type="obsolete">P2P forbindelse</translation>
-    </message>
-    <message>
         <location filename="../userinfo.ui" line="183"/>
         <source>Version</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>Audio packet loss</source>
-        <translation type="obsolete">Lydpakketab</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="223"/>
@@ -8023,14 +7331,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../userinfodlg.cpp" line="92"/>
         <source>Unknown</source>
         <translation>Ukendt</translation>
-    </message>
-    <message>
-        <source>Yes</source>
-        <translation type="obsolete">Ja</translation>
-    </message>
-    <message>
-        <source>No</source>
-        <translation type="obsolete">Nej</translation>
     </message>
 </context>
 <context>
@@ -8179,10 +7479,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../videotext.ui" line="105"/>
         <source>Text Appearance</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Text Apperance</source>
-        <translation type="vanished">Tekstfremvisning</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="111"/>

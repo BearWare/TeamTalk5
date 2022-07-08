@@ -47,10 +47,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Translated by Bjoern D. Rasmussen</source>
-        <translation type="vanished">Přeložil kotamuda</translation>
-    </message>
-    <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on </source>
         <translation type="unfinished"></translation>
@@ -168,49 +164,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../audiopreprocessordlg.cpp" line="67"/>
         <source>Speex DSP Audio Preprocessor</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>AudioStorageDlg</name>
-    <message>
-        <source>Store Audio to Disk</source>
-        <translation type="obsolete">Uložit Audio na disk</translation>
-    </message>
-    <message>
-        <source>Audio file storage</source>
-        <translation type="obsolete">Úložiště zvukového souboru</translation>
-    </message>
-    <message>
-        <source>Storage mode</source>
-        <translation type="obsolete">Mód</translation>
-    </message>
-    <message>
-        <source>Single audio file for all users</source>
-        <translation type="obsolete">Jeden soubor pro všechny uživatele</translation>
-    </message>
-    <message>
-        <source>Separate audio file for each user</source>
-        <translation type="obsolete">Každý uživatel má vlastní soubor</translation>
-    </message>
-    <message>
-        <source>Audio file format</source>
-        <translation type="obsolete">Formát souboru</translation>
-    </message>
-    <message>
-        <source>Folder for audio files</source>
-        <translation type="obsolete">Adresář souboru</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="obsolete">...</translation>
-    </message>
-    <message>
-        <source>Storage mode not selected</source>
-        <translation type="obsolete">Není nastaveno úložiště</translation>
-    </message>
-    <message>
-        <source>Folder for storing audio files does not exist</source>
-        <translation type="obsolete">Adresář pro uložení audio souboru neexistuje</translation>
     </message>
 </context>
 <context>
@@ -533,33 +486,9 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Static channel (persistent)</source>
-        <translation type="obsolete">Stálý kanál (trvalý)</translation>
-    </message>
-    <message>
-        <source>Echo channel (hear yourself)</source>
-        <translation type="obsolete">Ozvěna kanálu (slyším sám sebe)</translation>
-    </message>
-    <message>
-        <source>No simultaneous audio transmission</source>
-        <translation type="obsolete">Obousměrný audio přenos vypnut</translation>
-    </message>
-    <message>
-        <source>No interruptions (no simultaneous audio transmission)</source>
-        <translation type="obsolete">Žádné přerušení (Obousměrný audio přenos vypnut)</translation>
-    </message>
-    <message>
         <location filename="../channel.ui" line="206"/>
         <source>Classroom (operator-controlled transmissions)</source>
         <translation>Na tomto kanálu (operátor kontroluje přenosy)</translation>
-    </message>
-    <message>
-        <source>Echo video (see own video stream)</source>
-        <translation type="obsolete">Zapni video (zobrazí video přenosy)</translation>
-    </message>
-    <message>
-        <source>Echo desktop (see your shared desktop)</source>
-        <translation type="obsolete">Zapni Plochu (zobrazí sdílené Plochy)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="213"/>
@@ -604,10 +533,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="788"/>
         <source>msec</source>
         <translation>msec</translation>
-    </message>
-    <message>
-        <source>CELT 0.5.2 codec is obsolete.</source>
-        <translation type="obsolete">CELT 0.5.2 kodek je zastaralý.</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="501"/>
@@ -666,17 +591,9 @@ p, li { white-space: pre-wrap; }
         <translation>Úroveň hlasitosti</translation>
     </message>
     <message>
-        <source>Enable denoising</source>
-        <translation type="obsolete">Šumový filtr</translation>
-    </message>
-    <message>
         <location filename="../channel.ui" line="36"/>
         <source>Channel path</source>
         <translation>Cesta kanálu</translation>
-    </message>
-    <message>
-        <source>Operator-controlled transmissions (classroom)</source>
-        <translation type="obsolete">Operátor kontroluje přenos (ve třídě)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="248"/>
@@ -689,35 +606,15 @@ p, li { white-space: pre-wrap; }
         <translation>Typ kodeku</translation>
     </message>
     <message>
-        <source>8 KHz</source>
-        <translation type="obsolete">8 KHz</translation>
-    </message>
-    <message>
-        <source>16 KHz</source>
-        <translation type="obsolete">16 KHz</translation>
-    </message>
-    <message>
-        <source>32 KHz</source>
-        <translation type="obsolete">32 KHz</translation>
-    </message>
-    <message>
         <location filename="../channel.ui" line="323"/>
         <location filename="../channel.ui" line="464"/>
         <source>Quality</source>
         <translation>Kvalita</translation>
     </message>
     <message>
-        <source>44.1 KHz</source>
-        <translation type="obsolete">44.1 KHz</translation>
-    </message>
-    <message>
         <location filename="../channel.ui" line="656"/>
         <source>Audio channels</source>
         <translation>Audio kanál</translation>
-    </message>
-    <message>
-        <source>Bytes per second</source>
-        <translation type="obsolete">Bytů za sekundu</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="44"/>
@@ -780,10 +677,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../channeldlg.cpp" line="430"/>
         <source>Delay before switching to next user in queue (in msec)</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Note that Echo Cancellation, Denoising and Audio Configuration currently isn&apos;t supported in stereo mode.</source>
-        <translation type="obsolete">Všimněte si, že potlačení ozvěny, odstranění šumu a nastavení zvuku v současné době není podporováno v režimu stereo.</translation>
     </message>
 </context>
 <context>
@@ -968,77 +861,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../chattextedit.cpp" line="226"/>
         <source>Disk quota: %1 KBytes</source>
         <translation>Disková kvóta:%1 KBytes</translation>
-    </message>
-</context>
-<context>
-    <name>ConnectDlg</name>
-    <message>
-        <source>Connect to a Server</source>
-        <translation type="obsolete">Připojit se k servru</translation>
-    </message>
-    <message>
-        <source>Server Information</source>
-        <translation type="obsolete">Informace o servru</translation>
-    </message>
-    <message>
-        <source>Host IP-address</source>
-        <translation type="obsolete">Adresa servru</translation>
-    </message>
-    <message>
-        <source>E.g. 192.168.1.154</source>
-        <translation type="obsolete">Např. 192.168.1.15</translation>
-    </message>
-    <message>
-        <source>TCP port</source>
-        <translation type="obsolete">TCP port</translation>
-    </message>
-    <message>
-        <source>10333</source>
-        <translation type="obsolete">10333</translation>
-    </message>
-    <message>
-        <source>Default: 10333</source>
-        <translation type="obsolete">Standardně:10333</translation>
-    </message>
-    <message>
-        <source>UDP port</source>
-        <translation type="obsolete">UDP port</translation>
-    </message>
-    <message>
-        <source>Authentication (optional)</source>
-        <translation type="obsolete">Autentizace (nepovinná)</translation>
-    </message>
-    <message>
-        <source>Server password</source>
-        <translation type="obsolete">Heslo servru</translation>
-    </message>
-    <message>
-        <source>Optional</source>
-        <translation type="obsolete">Nepovinné</translation>
-    </message>
-    <message>
-        <source>Login using user account</source>
-        <translation type="obsolete">Přihlášení pomocí uživatelského účtu</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation type="obsolete">Uživatelské jméno</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation type="obsolete">Heslo</translation>
-    </message>
-    <message>
-        <source>Username and password is only needed if the server requires user accounts</source>
-        <translation type="obsolete">Uživatelské jméno a heslo je li potřebné při přihlašování</translation>
-    </message>
-    <message>
-        <source>Join specific channel after authentication (optional)</source>
-        <translation type="obsolete">Připojit specifický kanál po autentifikaci (nepovinné)</translation>
-    </message>
-    <message>
-        <source>Channel</source>
-        <translation type="obsolete">Kanál</translation>
     </message>
 </context>
 <context>
@@ -1322,10 +1144,6 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;Start</translation>
     </message>
     <message>
-        <source>File tranfer failed.</source>
-        <translation type="vanished">Přenos souboru selhal.</translation>
-    </message>
-    <message>
         <location filename="../filetransferdlg.cpp" line="71"/>
         <source>File transfer failed.</source>
         <translation type="unfinished"></translation>
@@ -1566,10 +1384,6 @@ p, li { white-space: pre-wrap; }
         <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Mac OS X does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
-        <translation type="vanished">Mac OS X není podporován. Pouze klávesy Cmd Option a Shiht mohou být použiti s běžnými klávesami.</translation>
-    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -1590,58 +1404,10 @@ p, li { white-space: pre-wrap; }
         <translation>Odpojeno od %1 TCP port %2 UDP port%3</translation>
     </message>
     <message>
-        <source>Established P2P connection to %1</source>
-        <translation type="obsolete">Chyba P2P spojení %1</translation>
-    </message>
-    <message>
-        <source>Failed to establish P2P connection to %1</source>
-        <translation type="obsolete">Chyba připojení P2P %1</translation>
-    </message>
-    <message>
-        <source>%1 will be unavailable for audio transmission</source>
-        <translation type="obsolete">%1 nedostupný audio přenos</translation>
-    </message>
-    <message>
-        <source>%1 will be unavailable for video transmission</source>
-        <translation type="obsolete">%1 nedostupný video přenos</translation>
-    </message>
-    <message>
-        <source>Logged in</source>
-        <translation type="vanished">Připojen</translation>
-    </message>
-    <message>
-        <source>Logged out</source>
-        <translation type="vanished">Odpojen</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2799"/>
         <location filename="../mainwindow.cpp" line="2811"/>
         <source>Joined channel %1</source>
         <translation>Připojen kanál %1</translation>
-    </message>
-    <message>
-        <source>Kicked by %1</source>
-        <translation type="vanished">Vykopnut %1</translation>
-    </message>
-    <message>
-        <source>Kicked by unknown user</source>
-        <translation type="vanished">Vykopnut neznámý uživatele</translation>
-    </message>
-    <message>
-        <source>Peer to peer networking is required for audio transmission on this server. Now enabled!</source>
-        <translation type="obsolete">P2P audio Zapnuto!</translation>
-    </message>
-    <message>
-        <source>Peer to peer networking for audio disabled!</source>
-        <translation type="obsolete">P2P pro Audio zakázáno!</translation>
-    </message>
-    <message>
-        <source>Peer to peer networking is required for video transmission on this server. Now enabled!</source>
-        <translation type="obsolete">P2P video zapnuto!</translation>
-    </message>
-    <message>
-        <source>Peer to peer networking for video disabled!</source>
-        <translation type="obsolete">P2P pro video zakázáno!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1136"/>
@@ -1681,22 +1447,6 @@ p, li { white-space: pre-wrap; }
         <translation>Interní chyba</translation>
     </message>
     <message>
-        <source>Error streaming audio file to %1</source>
-        <translation type="obsolete">Chyba ukládání audio souboru %1</translation>
-    </message>
-    <message>
-        <source>Started streaming audio file to %1</source>
-        <translation type="obsolete">Ukládání audia do %1</translation>
-    </message>
-    <message>
-        <source>Finished streaming audio file to %1</source>
-        <translation type="obsolete">Audio soubor %1 uložen</translation>
-    </message>
-    <message>
-        <source>Aborted streaming audio file to %1</source>
-        <translation type="obsolete">Nezdařený záznam audio souboru %1</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1372"/>
         <source>Error streaming media file to channel</source>
         <translation>Chyba při vytváření media souboru na kanále</translation>
@@ -1733,37 +1483,9 @@ p, li { white-space: pre-wrap; }
         <translation>Tvoje sdílení Plochy je zrušeno</translation>
     </message>
     <message>
-        <source>Failed to write audio file for %1</source>
-        <translation type="obsolete">Chyba zápisu audio souboru %1</translation>
-    </message>
-    <message>
-        <source>Failed to initialize sound duplex mode</source>
-        <translation type="vanished">Nepodařilo se inicializovat zvukový duplexní režim</translation>
-    </message>
-    <message>
-        <source>Switching to default sound devices</source>
-        <translation type="vanished">Přechod na výchozí zvukové zařízení</translation>
-    </message>
-    <message>
-        <source>Unable to get default sound devices</source>
-        <translation type="vanished">Nelze nastavit výchozí zvukové zařízení</translation>
-    </message>
-    <message>
-        <source>Failed to initialize default sound devices</source>
-        <translation type="vanished">Chyba inicializace výchozího zvukového zařízení</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1930"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
         <translation>Připojuji k %1 TCP port %2 UDP port%3</translation>
-    </message>
-    <message>
-        <source>Failed to connect to encrypted server</source>
-        <translation type="obsolete">Chyba připojení na šifrovaný servr</translation>
-    </message>
-    <message>
-        <source>Failed to connect to server</source>
-        <translation type="obsolete">Chyba připojení k servru</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2026"/>
@@ -1772,20 +1494,12 @@ p, li { white-space: pre-wrap; }
         <translation>Chyba</translation>
     </message>
     <message>
-        <source>This client is not compatible with the server,  so the action cannot be performed.</source>
-        <translation type="vanished">Tato verze není kompatibilní se servrem, akce nebude provedena.</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2054"/>
         <location filename="../mainwindow.cpp" line="2062"/>
         <location filename="../mainwindow.cpp" line="2102"/>
         <location filename="../mainwindow.cpp" line="2107"/>
         <source>Login error</source>
         <translation>Chyba připojení</translation>
-    </message>
-    <message>
-        <source>Incorrect server password. Try again:</source>
-        <translation type="obsolete">Nesprávné heslo servru. Zadej znovu:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2055"/>
@@ -1818,10 +1532,6 @@ p, li { white-space: pre-wrap; }
         <translation>Neautorizovaný příklaz</translation>
     </message>
     <message>
-        <source>Channel creation not allowed</source>
-        <translation type="obsolete">Vytvoření kanálu zakázáno</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2108"/>
         <source>Maximum number of users on server exceeded</source>
         <translation>Překročen počet uživatelů na servru</translation>
@@ -1835,10 +1545,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2112"/>
         <source>Maximum number of users in channel exceeded</source>
         <translation>Překročen počet uživatelů na kanále</translation>
-    </message>
-    <message>
-        <source>Modifying subscriptions is not allowed</source>
-        <translation type="obsolete">Změna nastavení zakázána</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2114"/>
@@ -1904,10 +1610,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2158"/>
         <source>File sharing is disabled</source>
         <translation>Zdílení souboru vypnuto</translation>
-    </message>
-    <message>
-        <source>Server has active users</source>
-        <translation type="obsolete">Na servru jsou aktivní uživatelé</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2160"/>
@@ -1990,18 +1692,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5199"/>
         <source>Are you sure you want to delete %1 file(s)?</source>
         <translation>Opravdu chcete smazat %1 soubor(ů)?</translation>
-    </message>
-    <message>
-        <source>Video</source>
-        <translation type="vanished">Video</translation>
-    </message>
-    <message>
-        <source>Video (%1)</source>
-        <translation type="vanished">Video (%1)</translation>
-    </message>
-    <message>
-        <source>Desktops (%1)</source>
-        <translation type="vanished">Plocha (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1832"/>
@@ -2172,18 +1862,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="6219"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translation>Nastav Video. Nastavení Videa</translation>
-    </message>
-    <message>
-        <source>Open Wave File</source>
-        <translation type="obsolete">Otevři soubor WAV</translation>
-    </message>
-    <message>
-        <source>Wave files (*.wav)</source>
-        <translation type="obsolete">WAV soubor (*.wav)</translation>
-    </message>
-    <message>
-        <source>Failed to stream file %1</source>
-        <translation type="obsolete">Chyba souboru %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4906"/>
@@ -2394,13 +2072,19 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Pryč</translation>
     </message>
     <message>
-        <source>Files (%1)</source>
-        <translation type="vanished">Soubory (%1)</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2983"/>
         <source>Failed to start recording</source>
         <translation>Chyba při záznamenávání</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2688"/>
+        <source>Channel message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2710"/>
+        <source>Broadcast message: %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2987"/>
@@ -3008,18 +2692,8 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
-        <source>Channel message from %1: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2693"/>
         <source>Channel message sent: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2710"/>
-        <source>Broadcast message from %1: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3137,16 +2811,6 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="obsolete">Soubir %1 obsahuje %2 informace o nastavení.
-Má se toto nastavení aplikovat?</translation>
-    </message>
-    <message>
-        <source>%1 set subscription &quot;%2&quot; on you to: %3</source>
-        <translation type="obsolete">%1 napiš popis &quot;%2&quot; na vás: %3</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6869"/>
         <location filename="../mainwindow.cpp" line="6878"/>
         <location filename="../mainwindow.cpp" line="6888"/>
@@ -3182,10 +2846,6 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>New version available: %1</source>
-        <translation type="vanished">Nová verze dostupná %1</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="139"/>
         <location filename="../mainwindow.ui" line="161"/>
         <location filename="../mainwindow.ui" line="164"/>
@@ -3212,10 +2872,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="287"/>
         <source>Voice activation level</source>
         <translation>Nastavení úrovně aktivace hlasem</translation>
-    </message>
-    <message>
-        <source>Chat</source>
-        <translation type="vanished">Čet</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="383"/>
@@ -3266,18 +2922,10 @@ Should these settings be applied?</source>
         <translation>Webcam zap/vyp</translation>
     </message>
     <message>
-        <source>Desktops</source>
-        <translation type="vanished">Sdílená Plocha</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="732"/>
         <location filename="../mainwindow.ui" line="735"/>
         <source>Detach selected window</source>
         <translation>Odpojit označené okno</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="768"/>
@@ -3295,10 +2943,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="846"/>
         <source>Request desktop access</source>
         <translation>Zádosti o přístup na plochu</translation>
-    </message>
-    <message>
-        <source>Files</source>
-        <translation type="vanished">Soubory</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1085"/>
@@ -3398,10 +3042,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="1431"/>
         <source>F4</source>
         <translation>F4</translation>
-    </message>
-    <message>
-        <source>Alt+F4</source>
-        <translation type="vanished">Alt+F4</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1456"/>
@@ -3855,26 +3495,6 @@ Should these settings be applied?</source>
         <translation>Ctrl+Alt+K</translation>
     </message>
     <message>
-        <source>Ctrl+Shift+Right</source>
-        <translation type="vanished">Ctrl+Shift+Vpravo</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+Left</source>
-        <translation type="vanished">Ctrl+Shift+Vlevo</translation>
-    </message>
-    <message>
-        <source>Store Audio to Disk</source>
-        <translation type="obsolete">Úložiště audia</translation>
-    </message>
-    <message>
-        <source>Start/stop recording audio to files</source>
-        <translation type="obsolete">Zapnutí/vypnutí záznamu audia</translation>
-    </message>
-    <message>
-        <source>Enable Question Mode</source>
-        <translation type="vanished">Mód dotazování</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="2305"/>
         <source>Show blinking icon</source>
         <translation>Ukaž blikající iconu</translation>
@@ -3950,17 +3570,9 @@ Should these settings be applied?</source>
         <translation>&amp;Zakaž</translation>
     </message>
     <message>
-        <source>List &amp;Banned Users</source>
-        <translation type="obsolete">Seznam &amp;zakázaných uživatelů</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1609"/>
         <source>Ctrl+Shift+B</source>
         <translation>Ctrl+Shift+B</translation>
-    </message>
-    <message>
-        <source>List &amp;User Accounts</source>
-        <translation type="obsolete">Seznam &amp;uživatelů</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1617"/>
@@ -3981,10 +3593,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="1630"/>
         <source>&amp;View Channel Info</source>
         <translation>&amp;Ukaž informace kanálu</translation>
-    </message>
-    <message>
-        <source>Shift+F3</source>
-        <translation type="obsolete">Shift+F3</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1654"/>
@@ -4153,10 +3761,6 @@ Should these settings be applied?</source>
         <translation>Vypnout zvuk media souboru</translation>
     </message>
     <message>
-        <source>Ctrl+Alt+Μ</source>
-        <translation type="vanished">Ctrl+Alt+M</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="2209"/>
         <source>Kick From Channel</source>
         <translation>Vykopnou z kanálu</translation>
@@ -4165,14 +3769,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="2212"/>
         <source>Ctrl+K</source>
         <translation>Ctrl+K</translation>
-    </message>
-    <message>
-        <source>Kick and &amp;Ban</source>
-        <translation type="obsolete">Vykopnout a &amp;Zakázat</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+K</source>
-        <translation type="vanished">Ctrl+Shift+K</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1674"/>
@@ -4193,10 +3789,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="1685"/>
         <source>Ctrl+U</source>
         <translation>Ctrl+U</translation>
-    </message>
-    <message>
-        <source>&amp;Audio</source>
-        <translation type="obsolete">&amp;Audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1712"/>
@@ -4244,10 +3836,6 @@ Should these settings be applied?</source>
         <translation>Ctrl+Shift+W</translation>
     </message>
     <message>
-        <source>Store &amp;Audio to Disk</source>
-        <translation type="obsolete">Uložit &amp;Audio na disk</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1801"/>
         <source>Specify a folder where audio from users will be stored</source>
         <translation>Specifikuj audio adresář</translation>
@@ -4283,26 +3871,6 @@ Should these settings be applied?</source>
         <translation>&amp;Zpráva</translation>
     </message>
     <message>
-        <source>Ctrl+Alt+B</source>
-        <translation type="vanished">Ctrl+Alt+B</translation>
-    </message>
-    <message>
-        <source>&amp;Increase Volume (+10)</source>
-        <translation type="obsolete">&amp;Přidej hlasitost (10)</translation>
-    </message>
-    <message>
-        <source>Ctrl+Right</source>
-        <translation type="vanished">Ctrl+Vpravo</translation>
-    </message>
-    <message>
-        <source>&amp;Lower Volume (-10)</source>
-        <translation type="obsolete">&amp;Snížení hlasitosti (-10)</translation>
-    </message>
-    <message>
-        <source>Ctrl+Left</source>
-        <translation type="vanished">Ctrl+Vlevo</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1889"/>
         <source>&amp;Store User(s) for Move</source>
         <translation>&amp;Označit uživatele pro přesun</translation>
@@ -4336,10 +3904,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.ui" line="1961"/>
         <source>Shift+F9</source>
         <translation>Shift+F9</translation>
-    </message>
-    <message>
-        <source>&amp;Store for Move</source>
-        <translation type="obsolete">&amp;Změna úložiště</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1892"/>
@@ -4416,10 +3980,6 @@ Should these settings be applied?</source>
         <translation>Adresář souboru</translation>
     </message>
     <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
-    </message>
-    <message>
         <location filename="../mediastorage.ui" line="119"/>
         <source>Store text message conversations</source>
         <translation>Nastavení zpráv konverzace</translation>
@@ -4455,10 +4015,6 @@ Should these settings be applied?</source>
         <location filename="../mediastorage.ui" line="203"/>
         <source>&amp;Cancel</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Folder for storing audio files does not exist</source>
-        <translation type="vanished">Adresář pro uložení audio souboru neexistuje</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="116"/>
@@ -4567,10 +4123,6 @@ Should these settings be applied?</source>
         <location filename="../onlineusersdlg.cpp" line="192"/>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Stream Audio &amp;File to User</source>
-        <translation type="obsolete">Stahuj au&amp;dio do souboru uživatele</translation>
     </message>
 </context>
 <context>
@@ -4796,10 +4348,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="557"/>
         <source>Show statusbar events in chat-window</source>
         <translation>Zobraz stav v záhlaví okna zpráv</translation>
-    </message>
-    <message>
-        <source>Check for program updates at startup</source>
-        <translation type="vanished">Zjisti aktualizace po spuštění</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="683"/>
@@ -5029,10 +4577,6 @@ Should these settings be applied?</source>
         <translation>Plocha do okna</translation>
     </message>
     <message>
-        <source>Closed video dialog should return to video-tab</source>
-        <translation type="vanished">Uzavření okna videa návrat do karty-videa</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="594"/>
         <source>Show source in corner of video window</source>
         <translation>Zobraz zdroj v rohu video okna</translation>
@@ -5099,14 +4643,6 @@ Should these settings be applied?</source>
         <translation>Zprávy o přenosu</translation>
     </message>
     <message>
-        <source>Audio</source>
-        <translation type="obsolete">Audio</translation>
-    </message>
-    <message>
-        <source>Video</source>
-        <translation type="obsolete">Video</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="817"/>
         <source>Desktop</source>
         <translation>Sdílená Plocha</translation>
@@ -5115,18 +4651,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="829"/>
         <source>Desktop Access</source>
         <translation>Přístup na plochu</translation>
-    </message>
-    <message>
-        <source>Peer to Peer Data Transmission (P2P Networking)</source>
-        <translation type="obsolete">P2P připojení</translation>
-    </message>
-    <message>
-        <source>Peer to peer transmission of audio data</source>
-        <translation type="obsolete">Připoj přes P2P audio</translation>
-    </message>
-    <message>
-        <source>Peer to peer transmission of video data</source>
-        <translation type="obsolete">Připoj přes P2P video</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="876"/>
@@ -5208,21 +4732,9 @@ Should these settings be applied?</source>
         <translation>&amp;Spustit test</translation>
     </message>
     <message>
-        <source>Enable duplex mode (required for echo cancellation)</source>
-        <translation type="vanished">Zapnout duplexní režim (potřebné pro potlačení ozvěny)</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="1189"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
         <translation>Odstranit ozvěnu (odstraní ozvěnu z přenosu) </translation>
-    </message>
-    <message>
-        <source>Enable 3D-sound</source>
-        <translation type="obsolete">Zapni 3D zvuk</translation>
-    </message>
-    <message>
-        <source>Enable denoising</source>
-        <translation type="obsolete">Šumový filtr</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1249"/>
@@ -5297,10 +4809,6 @@ Should these settings be applied?</source>
         <translation>Uživatel zadal dotaz</translation>
     </message>
     <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="803"/>
         <location filename="../preferences.ui" line="2103"/>
         <source>Voice</source>
@@ -5372,10 +4880,6 @@ Should these settings be applied?</source>
         <translation>Video přenost zap/vyp</translation>
     </message>
     <message>
-        <source>Setup Keys</source>
-        <translation type="vanished">Nastavení klávesy</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="810"/>
         <location filename="../preferences.ui" line="2498"/>
         <source>Video Capture</source>
@@ -5432,14 +4936,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="2646"/>
         <source>Codec</source>
         <translation>Kodek</translation>
-    </message>
-    <message>
-        <source>Quality</source>
-        <translation type="obsolete">Kvalita</translation>
-    </message>
-    <message>
-        <source>Bit Rate</source>
-        <translation type="obsolete">Bit Rate</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="373"/>
@@ -5560,22 +5056,6 @@ Should these settings be applied?</source>
         <translation>Inicializace zvuku</translation>
     </message>
     <message>
-        <source>Failed to initialize sound duplex mode</source>
-        <translation type="vanished">Nepodařilo se inicializovat zvukový duplexní režim</translation>
-    </message>
-    <message>
-        <source>Failed to initialize new sound input device</source>
-        <translation type="vanished">Chyba inicializace zvukového vstupu</translation>
-    </message>
-    <message>
-        <source>Failed to initialize new sound output device</source>
-        <translation type="vanished">Chyba inicializace zvukového výstupu</translation>
-    </message>
-    <message>
-        <source>Failed to enable echo cancellation</source>
-        <translation type="obsolete">Nepodařilo se odstranit ozvěnu</translation>
-    </message>
-    <message>
         <location filename="../preferencesdlg.cpp" line="1112"/>
         <location filename="../preferencesdlg.cpp" line="1140"/>
         <source>Video Device</source>
@@ -5608,10 +5088,6 @@ Should these settings be applied?</source>
         <location filename="../preferencesdlg.cpp" line="1285"/>
         <source>Refresh Sound Devices</source>
         <translation>Aktualizovat zvukové zařízení</translation>
-    </message>
-    <message>
-        <source>To refresh sound devices the client must be disconnected.</source>
-        <translation type="obsolete">Chcete-li aktualizovat zvukové zařízení, musíte se odpojit.</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1286"/>
@@ -5738,10 +5214,6 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Failed to initialize default sound devices</source>
-        <translation type="obsolete">Chyba inicializace výchozího zvukového zařízení</translation>
-    </message>
-    <message>
         <location filename="../common.cpp" line="1119"/>
         <source>Conference</source>
         <translation>Konference</translation>
@@ -5775,17 +5247,9 @@ Should these settings be applied?</source>
         <translation>P&amp;řipojit</translation>
     </message>
     <message>
-        <source>&amp;Delete</source>
-        <translation type="vanished">S&amp;maž</translation>
-    </message>
-    <message>
         <location filename="../serverlist.ui" line="104"/>
         <source>Server Information</source>
         <translation>Informace o Servru</translation>
-    </message>
-    <message>
-        <source>Save Server Information</source>
-        <translation type="vanished">Ukládání nastavení servru</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="355"/>
@@ -5850,14 +5314,6 @@ Should these settings be applied?</source>
         <translation>Autentizace</translation>
     </message>
     <message>
-        <source>Server password</source>
-        <translation type="obsolete">Heslo servru</translation>
-    </message>
-    <message>
-        <source>Login using user account</source>
-        <translation type="obsolete">Přihlásit se uživatelským účtem</translation>
-    </message>
-    <message>
         <location filename="../serverlist.ui" line="212"/>
         <source>Username</source>
         <translation>Uživatelské jméno</translation>
@@ -5903,18 +5359,6 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="401"/>
         <source>Publish Publicly</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Save</source>
-        <translation type="vanished">&amp;Ulož</translation>
-    </message>
-    <message>
-        <source>&amp;Add/Update</source>
-        <translation type="obsolete">&amp;Přidat/Aktualizovat</translation>
-    </message>
-    <message>
-        <source>&amp;Clear</source>
-        <translation type="obsolete">&amp;Smaž</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="408"/>
@@ -6025,25 +5469,9 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please fill the fields &apos;Entry name&apos;, &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
-        <translation type="obsolete">Prosím zadejte (Jméno servru), (Jeho adresu) a (Nastavení portů)</translation>
-    </message>
-    <message>
         <location filename="../serverlistdlg.cpp" line="370"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
         <translation>Prosím vyplňte &apos;Host IP-adresu&apos;, &apos;TCP port&apos; a &apos;UDP port&apos;</translation>
-    </message>
-    <message>
-        <source>Save File</source>
-        <translation type="obsolete">Uložit soubor</translation>
-    </message>
-    <message>
-        <source>%1 File (*%1)</source>
-        <translation type="obsolete">%1 Soubor (*%1)</translation>
-    </message>
-    <message>
-        <source>Unable to save file</source>
-        <translation type="obsolete">Nelze uložit soubor</translation>
     </message>
 </context>
 <context>
@@ -6249,10 +5677,6 @@ Delete the published user account to unregister your server.</source>
         <translation>Jméno servru</translation>
     </message>
     <message>
-        <source>Server password</source>
-        <translation type="obsolete">Heslo servru</translation>
-    </message>
-    <message>
         <location filename="../serverproperties.ui" line="47"/>
         <source>Max users</source>
         <translation>Max uživatelů</translation>
@@ -6294,77 +5718,9 @@ Delete the published user account to unregister your server.</source>
         <translation>ukaž proměnné</translation>
     </message>
     <message>
-        <source>User Rights</source>
-        <translation type="obsolete">Uživatelská práva</translation>
-    </message>
-    <message>
-        <source>Users can create channels</source>
-        <translation type="obsolete">Uživatelé mohou vytvářet kanály</translation>
-    </message>
-    <message>
-        <source>Users can become channel operators</source>
-        <translation type="obsolete">Uživatelé se mohou stát operátorem kanálu</translation>
-    </message>
-    <message>
-        <source>Users can login without a user account</source>
-        <translation type="obsolete">Uživatelé se mohou přihlásit bez uživatelského účtu</translation>
-    </message>
-    <message>
-        <source>Multiple users can use the same user account</source>
-        <translation type="obsolete">Všichni mouhou používat jedno uživatelské konto</translation>
-    </message>
-    <message>
-        <source>Users can see users in all channels</source>
-        <translation type="obsolete">Uživatelé vidí ostatní na všech kanálech</translation>
-    </message>
-    <message>
-        <source>Users can broadcast text messages</source>
-        <translation type="obsolete">Uživatelé mohou odesílat textové zprávy</translation>
-    </message>
-    <message>
-        <source>Users can issue channel commands</source>
-        <translation type="obsolete">Uživatelé mohou používat uživatelské příkazy kanálu</translation>
-    </message>
-    <message>
-        <source>Users can modify subscriptions</source>
-        <translation type="obsolete">Uživatelé mohou měnit svá nastavení</translation>
-    </message>
-    <message>
-        <source>Users can forward/relay audio through server</source>
-        <translation type="obsolete">Uživatelé mohou odesílat audio</translation>
-    </message>
-    <message>
-        <source>Users can forward/relay video through server</source>
-        <translation type="obsolete">Uživatelé mohou odesílat video</translation>
-    </message>
-    <message>
-        <source>Users can forward/relay desktops through server</source>
-        <translation type="obsolete">Uživatelé mohou sdílet Plochu</translation>
-    </message>
-    <message>
-        <source>Users can forward/relay desktop access through server</source>
-        <translation type="obsolete">Uživatelé mohou sdílet přístupy na Plochu </translation>
-    </message>
-    <message>
-        <source>Audio Codec Limitations</source>
-        <translation type="obsolete">Limity audio kodeku</translation>
-    </message>
-    <message>
-        <source>Max bitrate for audio codecs</source>
-        <translation type="obsolete">Max bitrate pro audio kodek</translation>
-    </message>
-    <message>
-        <source>kbps (0 = disabled)</source>
-        <translation type="obsolete">kbps (0=vypnuto)</translation>
-    </message>
-    <message>
         <location filename="../serverproperties.ui" line="236"/>
         <source>Server Bandwidth Limitations</source>
         <translation>Limity propustnosti servru</translation>
-    </message>
-    <message>
-        <source>Audio TX max</source>
-        <translation type="obsolete">Audio TX max</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="380"/>
@@ -6775,37 +6131,6 @@ Delete the published user account to unregister your server.</source>
     </message>
 </context>
 <context>
-    <name>StreamAudioFileDlg</name>
-    <message>
-        <source>Stream Audio File</source>
-        <translation type="obsolete">Zaznamenávej zvuk</translation>
-    </message>
-    <message>
-        <source>Audio Stream Properties</source>
-        <translation type="obsolete">Nastavení záznamu zvuku</translation>
-    </message>
-    <message>
-        <source>Audio File</source>
-        <translation type="obsolete">Audio soubor</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="obsolete">...</translation>
-    </message>
-    <message>
-        <source>Continuously play audio file</source>
-        <translation type="obsolete">Nepřetržitě přehrávej</translation>
-    </message>
-    <message>
-        <source>Open Wave File</source>
-        <translation type="obsolete">Otevři Wave soubor</translation>
-    </message>
-    <message>
-        <source>Wave files (*.wav)</source>
-        <translation type="obsolete">Wave soubor (*.wav)</translation>
-    </message>
-</context>
-<context>
     <name>StreamMediaFileDlg</name>
     <message>
         <location filename="../streammediafile.ui" line="14"/>
@@ -6827,10 +6152,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafile.ui" line="48"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="62"/>
@@ -6934,26 +6255,14 @@ Delete the published user account to unregister your server.</source>
         <translation>Bitrate</translation>
     </message>
     <message>
-        <source>Stream audio</source>
-        <translation type="obsolete">Zaznamenej Audio</translation>
-    </message>
-    <message>
         <location filename="../streammediafile.ui" line="138"/>
         <source>Video format:</source>
         <translation>Video formát:</translation>
     </message>
     <message>
-        <source>Stream video</source>
-        <translation type="obsolete">Zaznamenej Video</translation>
-    </message>
-    <message>
         <location filename="../streammediafile.ui" line="159"/>
         <source>Duration:</source>
         <translation>Trvání:</translation>
-    </message>
-    <message>
-        <source>Continuously play media file</source>
-        <translation type="vanished">Nepřetržitě hrající media soubor</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="323"/>
@@ -6965,14 +6274,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafile.ui" line="334"/>
         <source>Codec</source>
         <translation>Kodek</translation>
-    </message>
-    <message>
-        <source>Quality</source>
-        <translation type="obsolete">Kvalita</translation>
-    </message>
-    <message>
-        <source>Bit Rate</source>
-        <translation type="obsolete">Bit Rate</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="476"/>
@@ -6988,10 +6289,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafiledlg.cpp" line="140"/>
         <source>Open Media File</source>
         <translation>Otevři Media soubor</translation>
-    </message>
-    <message>
-        <source>Media files (*.*)</source>
-        <translation type="obsolete">Media soubor (*.*)</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="67"/>
@@ -7650,14 +6947,6 @@ Delete the published user account to unregister your server.</source>
         <translation>&amp;Zavřít</translation>
     </message>
     <message>
-        <source>&amp;Add</source>
-        <translation type="obsolete">&amp;Přidat</translation>
-    </message>
-    <message>
-        <source>&amp;Delete</source>
-        <translation type="vanished">&amp;Smaž</translation>
-    </message>
-    <message>
         <location filename="../useraccountsdlg.cpp" line="245"/>
         <source>Disabled</source>
         <translation type="unfinished"></translation>
@@ -7890,14 +7179,6 @@ Delete the published user account to unregister your server.</source>
 <context>
     <name>UserImageWidget</name>
     <message>
-        <source>Waiting for video from %1</source>
-        <translation type="obsolete">Čekám na video z %1</translation>
-    </message>
-    <message>
-        <source>Waiting for local video</source>
-        <translation type="obsolete">Čekám na video</translation>
-    </message>
-    <message>
         <location filename="../userimagewidget.cpp" line="200"/>
         <location filename="../userimagewidget.cpp" line="210"/>
         <source>&amp;Save to Image File</source>
@@ -7987,17 +7268,9 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>P2P connection</source>
-        <translation type="obsolete">P2P připojení</translation>
-    </message>
-    <message>
         <location filename="../userinfo.ui" line="183"/>
         <source>Version</source>
         <translation>Verze</translation>
-    </message>
-    <message>
-        <source>Audio packet loss</source>
-        <translation type="obsolete">Ztracené audio pakety</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="223"/>
@@ -8034,14 +7307,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../userinfodlg.cpp" line="92"/>
         <source>Unknown</source>
         <translation>Neznámý</translation>
-    </message>
-    <message>
-        <source>Yes</source>
-        <translation type="obsolete">Ano</translation>
-    </message>
-    <message>
-        <source>No</source>
-        <translation type="obsolete">Ne</translation>
     </message>
 </context>
 <context>
@@ -8190,10 +7455,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../videotext.ui" line="105"/>
         <source>Text Appearance</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Text Apperance</source>
-        <translation type="vanished">Vzhled textu</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="111"/>

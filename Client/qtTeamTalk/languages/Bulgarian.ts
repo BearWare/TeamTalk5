@@ -47,10 +47,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Translated by Bjoern D. Rasmussen</source>
-        <translation type="vanished">Превод на български Владимир Димов</translation>
-    </message>
-    <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on </source>
         <translation type="unfinished"></translation>
@@ -682,10 +678,6 @@ p, li { white-space: pre-wrap; }
         <source>Delay before switching to next user in queue (in msec)</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Note that Echo Cancellation, Denoising and Audio Configuration currently isn&apos;t supported in stereo mode.</source>
-        <translation type="obsolete">Обърнете внимание че Спиране на ехото и Аудио настройките понастоящем не се потдържат в система Стерео.</translation>
-    </message>
 </context>
 <context>
     <name>ChannelsTree</name>
@@ -1152,10 +1144,6 @@ p, li { white-space: pre-wrap; }
         <translation>О&amp;твори</translation>
     </message>
     <message>
-        <source>File tranfer failed.</source>
-        <translation type="vanished">Файловият трансфер е провален.</translation>
-    </message>
-    <message>
         <location filename="../filetransferdlg.cpp" line="71"/>
         <source>File transfer failed.</source>
         <translation type="unfinished"></translation>
@@ -1396,10 +1384,6 @@ p, li { white-space: pre-wrap; }
         <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Mac OS X does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
-        <translation type="vanished">Mac OS X - не поддържа само програматорни клавиши като Cmd, Option и Shift, трябва да бъдат използвани в комбинация с други не програматорни клавиши.</translation>
-    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -1435,10 +1419,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="287"/>
         <source>Voice activation level</source>
         <translation>Ниво на гласова активация</translation>
-    </message>
-    <message>
-        <source>Chat</source>
-        <translation type="vanished">Чат</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="343"/>
@@ -1498,10 +1478,6 @@ p, li { white-space: pre-wrap; }
         <translation>Старт/Стоп Уебкамера</translation>
     </message>
     <message>
-        <source>Desktops</source>
-        <translation type="vanished">Работни плотове</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="732"/>
         <location filename="../mainwindow.ui" line="735"/>
         <source>Detach selected window</source>
@@ -1523,10 +1499,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="846"/>
         <source>Request desktop access</source>
         <translation>Изискай достъп до работния плот</translation>
-    </message>
-    <message>
-        <source>Files</source>
-        <translation type="vanished">Файлове</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="322"/>
@@ -2252,10 +2224,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enable Question Mode</source>
-        <translation type="vanished">Разреши режим &quot;Въпрос&quot;</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="2305"/>
         <source>Show blinking icon</source>
         <translation>Покажи мигаща икона</translation>
@@ -2538,22 +2506,6 @@ p, li { white-space: pre-wrap; }
         <translation>Връзката изгубена към %1 TCP port %2 UDP port %3</translation>
     </message>
     <message>
-        <source>Logged in</source>
-        <translation type="vanished">Вписване</translation>
-    </message>
-    <message>
-        <source>Logged out</source>
-        <translation type="vanished">Отписване</translation>
-    </message>
-    <message>
-        <source>Kicked by %1</source>
-        <translation type="vanished">Изгонен от%1</translation>
-    </message>
-    <message>
-        <source>Kicked by unknown user</source>
-        <translation type="vanished">Изгонен от непознат потребител</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1095"/>
         <location filename="../mainwindow.cpp" line="1097"/>
         <source>%1 has logged in</source>
@@ -2707,22 +2659,6 @@ p, li { white-space: pre-wrap; }
         <translation>Неможе да се влезе в канал %1</translation>
     </message>
     <message>
-        <source>Failed to initialize sound duplex mode</source>
-        <translation type="vanished">Неуспех да разпознае звуков режим дуплекс</translation>
-    </message>
-    <message>
-        <source>Switching to default sound devices</source>
-        <translation type="vanished">Превключване към аудио устройства по подразбиране</translation>
-    </message>
-    <message>
-        <source>Unable to get default sound devices</source>
-        <translation type="vanished">Неможе да намери аудио устройства по подразбиране</translation>
-    </message>
-    <message>
-        <source>Failed to initialize default sound devices</source>
-        <translation type="vanished">Неможе да разпознае аудио устройства по подразбиране</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1930"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
         <translation>Свързване към %1 TCP port %2 UDP port %3</translation>
@@ -2732,10 +2668,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2983"/>
         <source>Error</source>
         <translation>Грешка</translation>
-    </message>
-    <message>
-        <source>This client is not compatible with the server,  so the action cannot be performed.</source>
-        <translation type="vanished">Клиента не е съвместим със сървъра, и действието неможе да бъде изпълнено.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2040"/>
@@ -2943,6 +2875,16 @@ p, li { white-space: pre-wrap; }
         <translation>Неуспех да добави %1 към изключенията на защитната стена на Windows.</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="2688"/>
+        <source>Channel message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2710"/>
+        <source>Broadcast message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="2751"/>
         <source>%1 is requesting desktop access</source>
         <translation>%1 поиска достъп до работния плот</translation>
@@ -2968,10 +2910,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2923"/>
         <source>Files in channel: %1</source>
         <translation>Файлове в канала: %1</translation>
-    </message>
-    <message>
-        <source>Files (%1)</source>
-        <translation type="vanished">Файлове (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2983"/>
@@ -3577,18 +3515,8 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
-        <source>Channel message from %1: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2693"/>
         <source>Channel message sent: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2710"/>
-        <source>Broadcast message from %1: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3821,12 +3749,6 @@ Do you wish to do this now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="obsolete">Файлът %1 съдържа %2 информация с настройки.
-Да приложа ли тези настройки?</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1136"/>
         <source>%1 joined channel</source>
         <translation>%1 влезе в канала</translation>
@@ -3964,18 +3886,6 @@ Should these settings be applied?</source>
         <translation>Изкл</translation>
     </message>
     <message>
-        <source>Video</source>
-        <translation type="vanished">Видео</translation>
-    </message>
-    <message>
-        <source>Video (%1)</source>
-        <translation type="vanished">Видео (%1)</translation>
-    </message>
-    <message>
-        <source>Desktops (%1)</source>
-        <translation type="vanished">Работни плотове (%1)</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6869"/>
         <location filename="../mainwindow.cpp" line="6878"/>
         <location filename="../mainwindow.cpp" line="6888"/>
@@ -4009,10 +3919,6 @@ Should these settings be applied?</source>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New version available: %1</source>
-        <translation type="vanished">Налична е нова версия:  %1</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="32"/>
@@ -4109,10 +4015,6 @@ Should these settings be applied?</source>
         <location filename="../mediastorage.ui" line="203"/>
         <source>&amp;Cancel</source>
         <translation type="unfinished">&amp;Откажи</translation>
-    </message>
-    <message>
-        <source>Folder for storing audio files does not exist</source>
-        <translation type="vanished">Папката за съхранение на аудио файлове не съществува</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="116"/>
@@ -4443,10 +4345,6 @@ Should these settings be applied?</source>
         <translation>Започни видео в изкачащ (popup) прозорец</translation>
     </message>
     <message>
-        <source>Closed video dialog should return to video-tab</source>
-        <translation type="vanished">Затворения видео диалогов прозорец да се върне към видео таба</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="479"/>
         <source>Start desktops in popup dialog</source>
         <translation>Започни десктоп в изкачащ прозорец</translation>
@@ -4460,10 +4358,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="557"/>
         <source>Show statusbar events in chat-window</source>
         <translation>Покажи лентата на състоянието в чат прозореца</translation>
-    </message>
-    <message>
-        <source>Check for program updates at startup</source>
-        <translation type="vanished">Проверявай за актуализации при стартиране</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="683"/>
@@ -4651,10 +4545,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="1164"/>
         <source>&amp;Test Selected</source>
         <translation>&amp;Тествай  избраните</translation>
-    </message>
-    <message>
-        <source>Enable duplex mode (required for echo cancellation)</source>
-        <translation type="vanished">Разреши режим дуплекс (изисква се за отстраняване на ехото)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1189"/>
@@ -4986,10 +4876,6 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Setup Keys</source>
-        <translation type="vanished">Настрой клавиши</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="2504"/>
         <source>Video Capture Settings</source>
         <translation>Настройки за видео извличане</translation>
@@ -5165,18 +5051,6 @@ Should these settings be applied?</source>
         <translation>Звуково разпознаване</translation>
     </message>
     <message>
-        <source>Failed to initialize sound duplex mode</source>
-        <translation type="vanished">Неуспех да разпознае звуков режим на дуплекс</translation>
-    </message>
-    <message>
-        <source>Failed to initialize new sound input device</source>
-        <translation type="vanished">Неуспех да разпознае ново входящо звуково устройство</translation>
-    </message>
-    <message>
-        <source>Failed to initialize new sound output device</source>
-        <translation type="vanished">Неуспех да разпознае ново изходящо звуково устройство</translation>
-    </message>
-    <message>
         <location filename="../preferencesdlg.cpp" line="1112"/>
         <location filename="../preferencesdlg.cpp" line="1140"/>
         <source>Video Device</source>
@@ -5340,10 +5214,6 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Failed to initialize default sound devices</source>
-        <translation type="obsolete">Неможе да разпознае аудио устройства по подразбиране</translation>
-    </message>
-    <message>
         <location filename="../common.cpp" line="1119"/>
         <source>Conference</source>
         <translation>Конферентен</translation>
@@ -5370,10 +5240,6 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="86"/>
         <source>Include public servers (green ones)</source>
         <translation>Вкл.публични сървъри (зелени)</translation>
-    </message>
-    <message>
-        <source>&amp;Delete</source>
-        <translation type="vanished">&amp;Изтрий</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="104"/>
@@ -5465,10 +5331,6 @@ Should these settings be applied?</source>
         <translation>&amp;Свържи се</translation>
     </message>
     <message>
-        <source>Save Server Information</source>
-        <translation type="vanished">Запази информацията за сървъра</translation>
-    </message>
-    <message>
         <location filename="../serverlist.ui" line="355"/>
         <source>Entry name</source>
         <translation>Въведи име</translation>
@@ -5508,10 +5370,6 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="401"/>
         <source>Publish Publicly</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Save</source>
-        <translation type="vanished">&amp;Запази</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="369"/>
@@ -6296,10 +6154,6 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
-    </message>
-    <message>
         <location filename="../streammediafile.ui" line="62"/>
         <location filename="../streammediafile.ui" line="65"/>
         <source>Refresh</source>
@@ -6347,10 +6201,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafile.ui" line="178"/>
         <source>Co&amp;ntinuously play media file</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Continuously play media file</source>
-        <translation type="vanished">Постоянно повтаряй файла</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="188"/>
@@ -6822,10 +6672,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../useraccounts.ui" line="27"/>
         <source>Active Users</source>
         <translation>Активни потребители</translation>
-    </message>
-    <message>
-        <source>&amp;Delete</source>
-        <translation type="vanished">&amp;Изтрий</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="76"/>
@@ -7609,10 +7455,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../videotext.ui" line="105"/>
         <source>Text Appearance</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Text Apperance</source>
-        <translation type="vanished">Изглед на текста</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="111"/>

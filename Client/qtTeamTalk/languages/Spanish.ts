@@ -47,10 +47,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Translated by Bjoern D. Rasmussen</source>
-        <translation type="vanished">Traducido por 30LOM004 - EA1IMW (Eugenio), revisado por Azahara Jiménez Vela y José Manuel Delicado Alcolea</translation>
-    </message>
-    <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on </source>
         <translation type="unfinished"></translation>
@@ -682,10 +678,6 @@ p, li { white-space: pre-wrap; }
         <source>Delay before switching to next user in queue (in msec)</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Note that Echo Cancellation, Denoising and Audio Configuration currently isn&apos;t supported in stereo mode.</source>
-        <translation type="obsolete">Cancelar Eco, Eliminar  Ruido y la Configuración de Audio actual, no soporta el modo estereo.</translation>
-    </message>
 </context>
 <context>
     <name>ChannelsTree</name>
@@ -1152,10 +1144,6 @@ p, li { white-space: pre-wrap; }
         <translation>Abrir</translation>
     </message>
     <message>
-        <source>File tranfer failed.</source>
-        <translation type="vanished">Transferencia de archivo fallida.</translation>
-    </message>
-    <message>
         <location filename="../filetransferdlg.cpp" line="71"/>
         <source>File transfer failed.</source>
         <translation type="unfinished"></translation>
@@ -1396,10 +1384,6 @@ p, li { white-space: pre-wrap; }
         <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Mac OS X does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
-        <translation type="vanished">Mac OS X no soporta sólo las teclas modificadoras Comando, Opción y Shift, estas deben utilizarse en combinación con otras teclas no modificadoras.</translation>
-    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -1435,10 +1419,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="287"/>
         <source>Voice activation level</source>
         <translation>Nivel de activación por voz</translation>
-    </message>
-    <message>
-        <source>Chat</source>
-        <translation type="vanished">Chat</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="343"/>
@@ -1498,18 +1478,10 @@ p, li { white-space: pre-wrap; }
         <translation>Iniciar/Detener Webcam</translation>
     </message>
     <message>
-        <source>Desktops</source>
-        <translation type="vanished">Escritorios</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="732"/>
         <location filename="../mainwindow.ui" line="735"/>
         <source>Detach selected window</source>
         <translation>Desanclar Ventana seleccionada</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="768"/>
@@ -1527,10 +1499,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="846"/>
         <source>Request desktop access</source>
         <translation>Solicitar Acceso al Escritorio</translation>
-    </message>
-    <message>
-        <source>Files</source>
-        <translation type="vanished">Archivos</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="322"/>
@@ -1713,10 +1681,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2476"/>
         <source>&amp;Exit</source>
         <translation>Salir</translation>
-    </message>
-    <message>
-        <source>Alt+F4</source>
-        <translation type="vanished">Alt+F4</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1456"/>
@@ -2080,10 +2044,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Ctrl+Shift+K</source>
-        <translation type="vanished">Ctrl+Shift+K</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1674"/>
         <source>&amp;Op</source>
         <translation>Operador</translation>
@@ -2239,26 +2199,14 @@ p, li { white-space: pre-wrap; }
         <translation>Difundir Mensaje</translation>
     </message>
     <message>
-        <source>Ctrl+Alt+B</source>
-        <translation type="vanished">Ctrl+alt+B</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1873"/>
         <source>&amp;Increase Voice Volume</source>
         <translation>Subir Volumen de Voz</translation>
     </message>
     <message>
-        <source>Ctrl+Right</source>
-        <translation type="vanished">Ctrl+flecha derecha</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="1881"/>
         <source>&amp;Lower Voice Volume</source>
         <translation>Bajar Volumen de Voz</translation>
-    </message>
-    <message>
-        <source>Ctrl+Left</source>
-        <translation type="vanished">Ctrl+flecha izquierda</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1889"/>
@@ -2334,10 +2282,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="1980"/>
         <source>Ctrl+Shift+U</source>
         <translation>Ctrl+Shift+U</translation>
-    </message>
-    <message>
-        <source>Enable Question Mode</source>
-        <translation type="vanished">Habilitar Modo Pregunta</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2305"/>
@@ -2470,10 +2414,6 @@ p, li { white-space: pre-wrap; }
         <translation>Silenciar emisión de archivo Multimedia</translation>
     </message>
     <message>
-        <source>Ctrl+Alt+Μ</source>
-        <translation type="vanished">Ctrl+alt+Μ</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="2209"/>
         <source>Kick From Channel</source>
         <translation>Expulsar del Canal</translation>
@@ -2499,17 +2439,9 @@ p, li { white-space: pre-wrap; }
         <translation>Aumentar Volumen del Archivo Multimedia</translation>
     </message>
     <message>
-        <source>Ctrl+Shift+Right</source>
-        <translation type="vanished">Ctrl+shift+flecha derecha</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="2233"/>
         <source>Lower Media File Volume</source>
         <translation>Bajar Volumen del archivo multimedia</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+Left</source>
-        <translation type="vanished">Ctrl+shift+flecha izquierda</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2241"/>
@@ -2572,22 +2504,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="981"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
         <translation>Conexión a %1 puerto TCP %2 puerto UDP %3 perdida</translation>
-    </message>
-    <message>
-        <source>Logged in</source>
-        <translation type="vanished">Sesión iniciada</translation>
-    </message>
-    <message>
-        <source>Logged out</source>
-        <translation type="vanished">Sesión cerrada</translation>
-    </message>
-    <message>
-        <source>Kicked by %1</source>
-        <translation type="vanished">Expulsado por %1</translation>
-    </message>
-    <message>
-        <source>Kicked by unknown user</source>
-        <translation type="vanished">Expulsado por Usuario desconocido</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1095"/>
@@ -2743,22 +2659,6 @@ p, li { white-space: pre-wrap; }
         <translation>No puedes unirte al Canal %1</translation>
     </message>
     <message>
-        <source>Failed to initialize sound duplex mode</source>
-        <translation type="vanished">Fallo al iniciar el modo dúplex de sonido</translation>
-    </message>
-    <message>
-        <source>Switching to default sound devices</source>
-        <translation type="vanished">Usando dispositivos de sonido por defecto</translation>
-    </message>
-    <message>
-        <source>Unable to get default sound devices</source>
-        <translation type="vanished">No se han podido obtener los dispositivos de sonido por defecto</translation>
-    </message>
-    <message>
-        <source>Failed to initialize default sound devices</source>
-        <translation type="vanished">Fallo al iniciar los dispositivos de sonido por defecto</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1930"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
         <translation>Conectando a %1 puerto TCP %2 puerto UDP %3</translation>
@@ -2768,10 +2668,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2983"/>
         <source>Error</source>
         <translation>Error</translation>
-    </message>
-    <message>
-        <source>This client is not compatible with the server,  so the action cannot be performed.</source>
-        <translation type="vanished">Este cliente no es compatible con el servidor, por lo que la acción no se puede realizar.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2040"/>
@@ -2979,6 +2875,16 @@ p, li { white-space: pre-wrap; }
         <translation>Fallo al incluir %1 en la lista de excepciones del Firewall de Windows</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="2688"/>
+        <source>Channel message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2710"/>
+        <source>Broadcast message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="2751"/>
         <source>%1 is requesting desktop access</source>
         <translation>%1 solicita acceso al escritorio</translation>
@@ -3004,10 +2910,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2923"/>
         <source>Files in channel: %1</source>
         <translation>Archivos en el Canal: %1</translation>
-    </message>
-    <message>
-        <source>Files (%1)</source>
-        <translation type="vanished">Archivos (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2983"/>
@@ -3613,18 +3515,8 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
-        <source>Channel message from %1: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2693"/>
         <source>Channel message sent: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2710"/>
-        <source>Broadcast message from %1: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3857,12 +3749,6 @@ Do you wish to do this now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="obsolete">El archivo %1 contiene %2 información de configuración.
-¿Quiere aplicar estos ajustes?</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1136"/>
         <source>%1 joined channel</source>
         <translation>%1 se ha unido al Canal</translation>
@@ -4000,18 +3886,6 @@ Should these settings be applied?</source>
         <translation>Apagado</translation>
     </message>
     <message>
-        <source>Video</source>
-        <translation type="vanished">Vídeo</translation>
-    </message>
-    <message>
-        <source>Video (%1)</source>
-        <translation type="vanished">Vídeo (%1)</translation>
-    </message>
-    <message>
-        <source>Desktops (%1)</source>
-        <translation type="vanished">Escritorios (%1)</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6869"/>
         <location filename="../mainwindow.cpp" line="6878"/>
         <location filename="../mainwindow.cpp" line="6888"/>
@@ -4045,10 +3919,6 @@ Should these settings be applied?</source>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New version available: %1</source>
-        <translation type="vanished">Hay una nueva versión disponible: %1</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="32"/>
@@ -4110,10 +3980,6 @@ Should these settings be applied?</source>
         <translation>Carpeta para archivos de audio</translation>
     </message>
     <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
-    </message>
-    <message>
         <location filename="../mediastorage.ui" line="119"/>
         <source>Store text message conversations</source>
         <translation>Almacenar Conversaciones de Texto</translation>
@@ -4149,10 +4015,6 @@ Should these settings be applied?</source>
         <location filename="../mediastorage.ui" line="203"/>
         <source>&amp;Cancel</source>
         <translation type="unfinished">Cancelar</translation>
-    </message>
-    <message>
-        <source>Folder for storing audio files does not exist</source>
-        <translation type="vanished">La carpeta para almacenar archivos de audio no existe</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="116"/>
@@ -4483,10 +4345,6 @@ Should these settings be applied?</source>
         <translation>Iniciar vídeo en diálogo emergente</translation>
     </message>
     <message>
-        <source>Closed video dialog should return to video-tab</source>
-        <translation type="vanished">Al cerrar el diálogo de vídeo se debería volver a la pestaña de vídeo</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="479"/>
         <source>Start desktops in popup dialog</source>
         <translation>Mostrar escritorios en diálogos emergentes</translation>
@@ -4502,17 +4360,9 @@ Should these settings be applied?</source>
         <translation>Mostrar eventos de la barra de estado en la ventana de chat</translation>
     </message>
     <message>
-        <source>Check for program updates at startup</source>
-        <translation type="vanished">Buscar actualizaciones del programa al iniciar</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="594"/>
         <source>Show source in corner of video window</source>
         <translation>Mostrar la fuente en la esquina de la ventana de vídeo</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="628"/>
@@ -4680,10 +4530,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="1164"/>
         <source>&amp;Test Selected</source>
         <translation>Probar seleccionados</translation>
-    </message>
-    <message>
-        <source>Enable duplex mode (required for echo cancellation)</source>
-        <translation type="vanished">Activar Modo dúplex (necesario para la cancelación de eco)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1189"/>
@@ -5030,10 +4876,6 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Setup Keys</source>
-        <translation type="vanished">Configurar Teclas</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="2504"/>
         <source>Video Capture Settings</source>
         <translation>Configuración de Captura de Vídeo</translation>
@@ -5146,18 +4988,6 @@ Should these settings be applied?</source>
         <location filename="../preferencesdlg.cpp" line="1344"/>
         <source>Sound Initialization</source>
         <translation>Inicialización de Sonido</translation>
-    </message>
-    <message>
-        <source>Failed to initialize sound duplex mode</source>
-        <translation type="vanished">Fallo al iniciar el sonido en modo dúplex</translation>
-    </message>
-    <message>
-        <source>Failed to initialize new sound input device</source>
-        <translation type="vanished">Fallo al iniciar el nuevo dispositivo de entrada de sonido</translation>
-    </message>
-    <message>
-        <source>Failed to initialize new sound output device</source>
-        <translation type="vanished">Fallo al iniciar el nuevo dispositivo de salida de sonido</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="71"/>
@@ -5384,10 +5214,6 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Failed to initialize default sound devices</source>
-        <translation type="obsolete">Fallo al iniciar los dispositivos de sonido por defecto</translation>
-    </message>
-    <message>
         <location filename="../common.cpp" line="1119"/>
         <source>Conference</source>
         <translation>Comferencia</translation>
@@ -5414,10 +5240,6 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="86"/>
         <source>Include public servers (green ones)</source>
         <translation>Ver servidores públicos (color verde)</translation>
-    </message>
-    <message>
-        <source>&amp;Delete</source>
-        <translation type="vanished">Borrar</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="104"/>
@@ -5509,10 +5331,6 @@ Should these settings be applied?</source>
         <translation>Conectar</translation>
     </message>
     <message>
-        <source>Save Server Information</source>
-        <translation type="vanished">Guardar Información en el  Servidor</translation>
-    </message>
-    <message>
         <location filename="../serverlist.ui" line="355"/>
         <source>Entry name</source>
         <translation>Nombre de la entrada</translation>
@@ -5552,10 +5370,6 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="401"/>
         <source>Publish Publicly</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Save</source>
-        <translation type="vanished">Guardar</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="369"/>
@@ -6340,10 +6154,6 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
-    </message>
-    <message>
         <location filename="../streammediafile.ui" line="62"/>
         <location filename="../streammediafile.ui" line="65"/>
         <source>Refresh</source>
@@ -6391,10 +6201,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafile.ui" line="178"/>
         <source>Co&amp;ntinuously play media file</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Continuously play media file</source>
-        <translation type="vanished">Reproducir  archivo multimedia  continuamente</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="188"/>
@@ -6483,10 +6289,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafiledlg.cpp" line="140"/>
         <source>Open Media File</source>
         <translation>Abrir Archivo Multimedia</translation>
-    </message>
-    <message>
-        <source>Media files (*.*)</source>
-        <translation type="obsolete">Archivos multimedia (*,*)</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="67"/>
@@ -6870,10 +6672,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../useraccounts.ui" line="27"/>
         <source>Active Users</source>
         <translation>Usuarios Activos</translation>
-    </message>
-    <message>
-        <source>&amp;Delete</source>
-        <translation type="vanished">Eliminar</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="76"/>
@@ -7657,10 +7455,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../videotext.ui" line="105"/>
         <source>Text Appearance</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Text Apperance</source>
-        <translation type="vanished">Apariencia del Texto</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="111"/>

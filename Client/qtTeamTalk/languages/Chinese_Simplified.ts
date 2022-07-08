@@ -3056,19 +3056,9 @@ p, li { white-space: pre-wrap; }
         <translation>否(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
-        <source>Channel message from %1: %2</source>
-        <translation>%1： %2</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2693"/>
         <source>Channel message sent: %1</source>
         <translation>我： %1</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2710"/>
-        <source>Broadcast message from %1: %2</source>
-        <translation>广播消息： %1： %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>
@@ -3318,6 +3308,16 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="2586"/>
         <source>Failed to add %1 to Windows Firewall exceptions.</source>
         <translation>无法将 %1 添加到Windows防火墙例外中。</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2688"/>
+        <source>Channel message: %1</source>
+        <translation>%1</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2710"/>
+        <source>Broadcast message: %1</source>
+        <translation>广播消息： %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2751"/>

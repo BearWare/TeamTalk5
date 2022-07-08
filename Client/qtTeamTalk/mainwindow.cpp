@@ -2685,7 +2685,7 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         {
             User user;
             if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
-                addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL, QString(tr("Channel message from %1: %2").arg(getDisplayName(user)).arg(line)));
+                addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL, QString(tr("Channel message: %1").arg(line)));
             playSoundEvent(SOUNDEVENT_CHANNELMSG);
         }
         else
@@ -2707,7 +2707,7 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
 
         User user;
         if (ui.channelsWidget->getUser(textmsg.nFromUserID, user) && user.nUserID != TT_GetMyUserID(ttInst))
-            addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST, QString(tr("Broadcast message from %1: %2").arg(getDisplayName(user)).arg(line)));
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST, QString(tr("Broadcast message: %1").arg(line)));
         playSoundEvent(SOUNDEVENT_BROADCASTMSG);
         break;
     }

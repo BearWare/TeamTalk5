@@ -1165,7 +1165,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransfer.ui" line="127"/>
         <source>C&amp;lose when completed</source>
-        <translation>T&amp;utup jendela ini ketika selesai</translation>
+        <translation>T&amp;utup jendela ini apabilaai</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="147"/>
@@ -1401,7 +1401,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../keycomp.ui" line="72"/>
         <source>This dialog closes when you have released all keys</source>
-        <translation>Dialog ini akan ditutup ketika Anda telah melepaskan semua tombol</translation>
+        <translation>Dialog ini akan ditutup apabila Anda telah melepaskan semua tombol</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="55"/>
@@ -2250,12 +2250,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2321"/>
         <source>&amp;Relay Voice Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Relay Stream Suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2329"/>
         <source>Relay Media &amp;File Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Relay Stream &amp;File Media</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2305"/>
@@ -3033,6 +3033,16 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2284"/>
         <source>Voice transmission failed</source>
+        <translation>Transmisi suara gagal</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2688"/>
+        <source>Channel message: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2710"/>
+        <source>Broadcast message: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3048,19 +3058,21 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4348"/>
         <source>Failed to enable voice activation</source>
-        <translation type="unfinished"></translation>
+        <translation>Gagal untuk aktifkan aktivasi suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4853"/>
         <source>To relay voice stream from other channel you must enable subscription &quot;Intercept Voice&quot;.
 Do you wish to do this now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Untuk relay stream suara dari saluran lain, Anda harus mengaktifkan langganan &quot;Intercept Suara&quot;.
+Apakah Anda ingin melakukannya sekarang?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4873"/>
         <source>To relay media file stream from other channel you must enable subscription &quot;Intercept Media File&quot;.
 Do you wish to do this now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Untuk relay stream file media dari saluran lain, Anda harus mengaktifkan langganan &quot;Intercept File Media&quot;.
+Apakah Anda ingin melakukannya sekarang?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5229"/>
@@ -3135,9 +3147,8 @@ Anda dapat mengunduhnya pada halaman di bawah ini:<byte value="xd"/>
         <translation>&amp;Tidak</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
         <source>Channel message from %1: %2</source>
-        <translation>Pesan saluran dari %1: %2</translation>
+        <translation type="vanished">Pesan saluran dari %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2693"/>
@@ -3145,9 +3156,8 @@ Anda dapat mengunduhnya pada halaman di bawah ini:<byte value="xd"/>
         <translation>Pesan saluran terkirim: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2710"/>
         <source>Broadcast message from %1: %2</source>
-        <translation>Pesan broadcast dari %1: %2</translation>
+        <translation type="vanished">Pesan broadcast dari %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>
@@ -4376,16 +4386,12 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="435"/>
         <source>Popup dialog when receiving text message</source>
-        <translation>Tampilkan dialog ketika menerima pesan teks</translation>
+        <translation>Tampilkan dialog apabila menerima pesan teks</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="442"/>
         <source>Start video in popup dialog</source>
         <translation>Mulai video dalam dialog popup</translation>
-    </message>
-    <message>
-        <source>Closed video dialog should return to video-tab</source>
-        <translation type="vanished">Dialog video yang tertutup harus kembali ke tab video</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="479"/>
@@ -4435,7 +4441,7 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="736"/>
         <source>Connect to latest host on startup</source>
-        <translation>Hubungkan ke host terbaru ketika startup</translation>
+        <translation>Hubungkan ke host terbaru saat startup</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="743"/>
@@ -4676,12 +4682,12 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="180"/>
         <source>Disable voice activation when inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>Nonaktifkan aktivasi suara saat tidak aktif</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="548"/>
         <source>Show server list on startup</source>
-        <translation>Tampilkan daftar server ketika startup</translation>
+        <translation>Tampilkan daftar server saat startup</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="564"/>
@@ -5200,12 +5206,12 @@ Haruskah pengaturan ini diterapkan?</translation>
     <message>
         <location filename="../preferences.ui" line="669"/>
         <source>Check for software updates on startup</source>
-        <translation>Periksa pembaruan perangkat lunak ketika startup</translation>
+        <translation>Periksa pembaruan perangkat lunak saat startup</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="676"/>
         <source>Check for beta software updates on startup</source>
-        <translation>Periksa pembaruan beta perangkat lunak ketika startup</translation>
+        <translation>Periksa pembaruan beta perangkat lunak saat startup</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2191"/>
@@ -6792,7 +6798,7 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
     <message>
         <location filename="../useraccounts.ui" line="250"/>
         <source>User will automatically become operator when joining these channels</source>
-        <translation>Pengguna akan secara otomatis menjadi operator ketika bergabung dengan saluran ini</translation>
+        <translation>Pengguna akan secara otomatis menjadi operator apabila bergabung dengan saluran ini</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="263"/>
