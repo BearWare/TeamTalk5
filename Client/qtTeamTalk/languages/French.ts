@@ -3022,12 +3022,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2687"/>
         <source>Channel message from %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Message de canal de %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2706"/>
         <source>Broadcast message from %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Message général de %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4140"/>
@@ -3318,14 +3318,6 @@ Vous pouvez la télécharger sur la page suivante:
         <location filename="../mainwindow.cpp" line="2589"/>
         <source>Failed to add %1 to Windows Firewall exceptions.</source>
         <translation>Échec à l&apos;ajout de %1 à la liste des exceptions du pare-feu Windows</translation>
-    </message>
-    <message>
-        <source>Channel message: %1</source>
-        <translation type="vanished">Message de canal: %1</translation>
-    </message>
-    <message>
-        <source>Broadcast message: %1</source>
-        <translation type="vanished">Message général: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2747"/>
