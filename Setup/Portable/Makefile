@@ -20,7 +20,7 @@ scp:
 	true
 
 win32:
-	$(eval TT5DIST=TeamTalk_$(VERSION)_Portable)
+	$(eval TT5DIST=TeamTalk_$(VERSION)_Portable-win32)
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
@@ -32,7 +32,7 @@ win32:
 	make TT5DIST=$(TT5DIST) arczip
 
 win64:
-	$(eval TT5DIST=TeamTalk_$(VERSION)_Portable)
+	$(eval TT5DIST=TeamTalk_$(VERSION)_Portable-win64)
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
