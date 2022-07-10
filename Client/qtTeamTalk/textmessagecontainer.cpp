@@ -23,6 +23,8 @@
 
 #include "textmessagecontainer.h"
 
+extern TTInstance* ttInst;
+
 quint32 generateKey(const TextMessage& msg)
 {
     return (msg.nMsgType << 16) | msg.nFromUserID;
@@ -59,15 +61,16 @@ void TextMessageContainer::addCompleteTextMessage(const MyTextMessage& msg)
     case MSGTYPE_CUSTOM :
         break;
     case MSGTYPE_USER :
-        if (msg.nFromUserID)
-        {
-            m_usermessages[msg.nFromUserID].append(msg);
-        }
-        else
+        Q_ASSERT(msg.nFromUserID);
+        if (msg.nFromUserID == TT_GetMyUserID(ttInst))
         {
             // text message from 'myself' to this user
             Q_ASSERT(msg.nToUserID);
             m_usermessages[msg.nToUserID].append(msg);
+        }
+        else
+        {
+            m_usermessages[msg.nFromUserID].append(msg);
         }
     }
 }
