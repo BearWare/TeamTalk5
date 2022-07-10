@@ -189,6 +189,7 @@ linuxclient:
 	mkdir -p $(OUTDIR)/client
 	cp -r $(INSTALLDIR)/Client/qtTeamTalk/* $(OUTDIR)/client/
 	strip $(OUTDIR)/client/teamtalk5
+	rm -f $(OUTDIR)/client/teamtalk5pro
 	cp $(TEAMTALK_ROOT)/Setup/Client/Linux/TeamTalk5.ini $(OUTDIR)/client/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Linux/TeamTalk5.ini $(OUTDIR)/client/TeamTalk5.ini.default
 	cp $(INSTALLDIR)/Library/TeamTalk_DLL/libTeamTalk5.so $(OUTDIR)/client
