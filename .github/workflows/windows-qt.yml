@@ -130,7 +130,7 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: teamtalk-portable-${{ matrix.portablearch }}
-        path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/TeamTalk_*_Portable
+        path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/TeamTalk_*_Portable-${{ matrix.portablearch }}
 
     - uses: actions/upload-artifact@v2
       with:
