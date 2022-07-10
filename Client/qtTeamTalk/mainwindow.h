@@ -243,6 +243,7 @@ private:
     bool timerExists(TimerEvent e);
     void updateChannelFiles(int channelid);
     void updateUserSubscription(int userid);
+    void updateIdleTimeout();
     /* 'mode' is mask of 'AudioStorageMode' */
     void updateAudioStorage(bool enable, AudioStorageMode mode);
     void updateAudioConfig();
@@ -263,6 +264,7 @@ private:
     void toggleAllowStreamType(bool checked, StreamType st);
     void transmitOn(StreamType st);
     void relayAudioStream(int userid, StreamType st, bool enable);
+    void enableVoiceActivation(bool checked, SoundEvent on = SOUNDEVENT_VOICEACTON, SoundEvent off = SOUNDEVENT_VOICEACTOFF);
 #if defined(Q_OS_LINUX)
     void executeDesktopInput(const DesktopInput& input);
 #endif
@@ -298,7 +300,7 @@ private:
     void slotMeChangeStatus(bool checked=false);
     void slotMeEnablePushToTalk(bool checked=false);
     void slotMeHearMyself(bool checked=false);
-    void slotMeEnableVoiceActivation(bool checked=false, SoundEvent on = SOUNDEVENT_VOICEACTON, SoundEvent off = SOUNDEVENT_VOICEACTOFF);
+    void slotMeEnableVoiceActivation(bool checked=false);
     void slotMeEnableVideoTransmission(bool checked=false);
     void slotMeEnableDesktopSharing(bool checked=false);
     void slotMeEnableTTS(bool checked=false);
@@ -437,7 +439,6 @@ private:
     void slotClosedBannedUsersDlg(int);
     void startTTS();
     void slotTextChanged();
-    void slotEnableVoiceActivation(bool checked=false);
     void slotSpeakClientStats(bool checked=false);
 
     void clienteventConSuccess();

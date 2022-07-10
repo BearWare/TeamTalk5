@@ -351,7 +351,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     connect(ui.actionEnablePushToTalk, &QAction::triggered,
             this, &MainWindow::slotMeEnablePushToTalk);
     connect(ui.actionEnableVoiceActivation, &QAction::triggered,
-            this, &MainWindow::slotEnableVoiceActivation);
+            this, &MainWindow::slotMeEnableVoiceActivation);
     connect(ui.actionEnableVideoTransmission, &QAction::triggered,
             this, &MainWindow::slotMeEnableVideoTransmission);
     connect(ui.actionEnableDesktopSharing, &QAction::triggered,
@@ -2367,31 +2367,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
                 m_prev_desktopsession_id = m_desktopsession_id;
         }
 
-        if(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
-        {
-            //change to away status if idle-time has been exceeded
-            int idle_time = ttSettings->value(SETTINGS_GENERAL_AUTOAWAY, SETTINGS_GENERAL_AUTOAWAY_DEFAULT).toInt();
-            if(idle_time != 0)
-            {
-                QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
-                if (isComputerIdle(idle_time) && (m_statusmode & STATUSMODE_MODE) == STATUSMODE_AVAILABLE)
-                {
-                    m_statusmode |= STATUSMODE_AWAY;
-                    TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
-                    m_idled_out = true;
-                    if (ttSettings->value(SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT, SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT_DEFAULT).toBool() == true)
-                        slotEnableVoiceActivation(false);
-                }
-                else if (m_idled_out && !isComputerIdle(idle_time))
-                {
-                    m_statusmode &= ~STATUSMODE_AWAY;
-                    TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
-                    m_idled_out = false;
-                    if (ttSettings->value(SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT, SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT_DEFAULT).toBool() == true)
-                        slotEnableVoiceActivation(true);
-                }
-            }
-        }
+        updateIdleTimeout();
         break;
     case TIMER_VUMETER_UPDATE :
     {
@@ -2457,6 +2433,44 @@ void MainWindow::timerEvent(QTimerEvent *event)
     default :
         Q_ASSERT(0);
         break;
+    }
+}
+
+void MainWindow::updateIdleTimeout()
+{
+    //change to away status if idle-time has been exceeded
+    int idle_time = ttSettings->value(SETTINGS_GENERAL_AUTOAWAY, SETTINGS_GENERAL_AUTOAWAY_DEFAULT).toInt();
+    if (idle_time != 0)
+    {
+        QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+        if (isComputerIdle(idle_time) && (m_statusmode & STATUSMODE_MODE) == STATUSMODE_AVAILABLE)
+        {
+            m_statusmode |= STATUSMODE_AWAY;
+            if (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
+            {
+                TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
+            }
+            m_idled_out = true;
+            if (ttSettings->value(SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT, SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT_DEFAULT).toBool() &&
+                ttSettings->value(SETTINGS_GENERAL_VOICEACTIVATED, SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT).toBool())
+            {
+                enableVoiceActivation(false);
+            }
+        }
+        else if (m_idled_out && !isComputerIdle(idle_time))
+        {
+            m_statusmode &= ~STATUSMODE_AWAY;
+            if (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
+            {
+                TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
+            }
+            m_idled_out = false;
+            if (ttSettings->value(SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT, SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT_DEFAULT).toBool() &&
+                ttSettings->value(SETTINGS_GENERAL_VOICEACTIVATED, SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT).toBool())
+            {
+                enableVoiceActivation(true);
+            }
+        }
     }
 }
 
@@ -4339,7 +4353,13 @@ void MainWindow::slotMeHearMyself(bool checked/*=false*/)
     }
 }
 
-void MainWindow::slotMeEnableVoiceActivation(bool checked, SoundEvent on, SoundEvent off)
+void MainWindow::slotMeEnableVoiceActivation(bool checked)
+{
+    ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, checked);
+    enableVoiceActivation(checked, SOUNDEVENT_VOICEACTMEON, SOUNDEVENT_VOICEACTMEOFF);
+}
+
+void MainWindow::enableVoiceActivation(bool checked, SoundEvent on, SoundEvent off)
 {
     if (!TT_EnableVoiceActivation(ttInst, checked) && checked)
     {
@@ -4348,10 +4368,9 @@ void MainWindow::slotMeEnableVoiceActivation(bool checked, SoundEvent on, SoundE
     else
     {
         ui.voiceactSlider->setVisible(checked);
-        ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, checked);
-        if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
+        if (TT_GetFlags(ttInst) & CLIENT_CONNECTED)
             emit(updateMyself());
-        playSoundEvent(checked == true?on:off);
+        playSoundEvent(checked == true ? on : off);
     }
     slotUpdateUI();
 }
@@ -7099,11 +7118,6 @@ void MainWindow::slotTextChanged()
     ui.sendButton->setVisible(ui.msgEdit->text().size()>0);
     ui.videosendButton->setVisible(ui.videomsgEdit->text().size()>0);
     ui.desktopsendButton->setVisible(ui.desktopmsgEdit->text().size()>0);
-}
-
-void MainWindow::slotEnableVoiceActivation(bool checked)
-{
-    slotMeEnableVoiceActivation(checked, SOUNDEVENT_VOICEACTMEON, SOUNDEVENT_VOICEACTMEOFF);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* e)
