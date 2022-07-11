@@ -3424,13 +3424,6 @@ Should these settings be applied?</source>
         <translation>Доступна новая версия</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6976"/>
-        <source>New version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6989"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>Доступна новая бета-версия %1: %2. Вы хотите открыть страницу загрузки прямо сейчас?</translation>
@@ -3439,13 +3432,6 @@ You can download it on the page below:
         <location filename="../mainwindow.cpp" line="6994"/>
         <source>New beta version available</source>
         <translation>Доступна новая бета-версия</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="7001"/>
-        <source>New beta version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7077"/>
@@ -3974,12 +3960,6 @@ You can download it on the page below:
         <location filename="../mainwindow.cpp" line="6874"/>
         <source>Failed to extract host-information from %1</source>
         <translation>Не удалось извлечь информацию хоста из %1</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6883"/>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6888"/>
