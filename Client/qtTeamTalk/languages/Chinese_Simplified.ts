@@ -3022,12 +3022,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2687"/>
         <source>Channel message from %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1： %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2706"/>
         <source>Broadcast message from %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>广播消息： %1： %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4140"/>
@@ -3318,14 +3318,6 @@ You can download it on the page below:
         <location filename="../mainwindow.cpp" line="2589"/>
         <source>Failed to add %1 to Windows Firewall exceptions.</source>
         <translation>无法将 %1 添加到Windows防火墙例外中。</translation>
-    </message>
-    <message>
-        <source>Channel message: %1</source>
-        <translation type="vanished">%1</translation>
-    </message>
-    <message>
-        <source>Broadcast message: %1</source>
-        <translation type="vanished">广播消息： %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2747"/>
