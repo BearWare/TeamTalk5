@@ -661,7 +661,7 @@ void MainWindow::loadSettings()
     slotMeEnablePushToTalk(ptt);
     bool vox = ttSettings->value(SETTINGS_GENERAL_VOICEACTIVATED,
                                  SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT).toBool();
-    slotMeEnableVoiceActivation(vox);
+    enableVoiceActivation(vox, SOUNDEVENT_VOICEACTON, SOUNDEVENT_VOICEACTOFF);
 
     //load shortcuts
     loadHotKeys();
