@@ -13,21 +13,27 @@ set (TOOLCHAIN_INSTALL_PREFIX_ACE ${TOOLCHAIN_INSTALL_PREFIX}/ace)
 if (MSVC)
 
   file(TO_NATIVE_PATH ${TOOLCHAIN_INSTALL_PREFIX_ACE} TOOLCHAIN_INSTALL_PREFIX_ACE_NATIVE)
-  
+
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
+
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/build_win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/build_win.bat @ONLY)
+
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
       ExternalProject_Add(ACE-src
         GIT_REPOSITORY    https://github.com/bear101/ACE
-        GIT_TAG           4933f7d4b92
+        GIT_TAG           ACE+TAO-6_5_12
         GIT_SUBMODULES_RECURSE TRUE
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
+        PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
+        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
+        COMMAND           git submodule add https://github.com/bear101/MPC ACE/MPC
+        COMMAND           git submodule update --init ACE/MPC
+        COMMAND           git -C ACE/MPC checkout ACE+TAO-6_5_12
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
         CONFIGURE_COMMAND ""
         BUILD_IN_SOURCE   TRUE
-        BUILD_COMMAND     cd <SOURCE_DIR>/ACE
-        COMMAND           set SSL_ROOT=${OPENSSL_DIR}
-        COMMAND           build.bat
+        BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build_win.bat
         COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 ace\\ace.sln -target:ACE /property:Configuration=Debug
         COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 ace\\ace.sln -target:ACE /property:Configuration=Release
         COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 ace\\ace.sln -target:SSL /property:Configuration=Debug
@@ -45,16 +51,19 @@ if (MSVC)
     else()
       ExternalProject_Add(ACE-src
         GIT_REPOSITORY    https://github.com/bear101/ACE
-        GIT_TAG           4933f7d4b92
+        GIT_TAG           ACE+TAO-6_5_12
         GIT_SUBMODULES_RECURSE TRUE
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
+        PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
+        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
+        COMMAND           git submodule add https://github.com/bear101/MPC ACE/MPC
+        COMMAND           git submodule update --init ACE/MPC
+        COMMAND           git -C ACE/MPC checkout ACE+TAO-6_5_12
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
         CONFIGURE_COMMAND ""
         BUILD_IN_SOURCE   TRUE
-        BUILD_COMMAND     cd <SOURCE_DIR>/ACE
-        COMMAND           set SSL_ROOT=${OPENSSL_DIR}
-        COMMAND           build.bat
+        BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build_win.bat
         COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 ace\\ace.sln -target:ACE /property:Configuration=Debug
         COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 ace\\ace.sln -target:ACE /property:Configuration=Release
         COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 ace\\ace.sln -target:SSL /property:Configuration=Debug
@@ -84,25 +93,25 @@ if (MSVC)
   endif()
   target_include_directories (ace INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(ace PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/ACEsd.lib
-    IMPORTED_LOCATION ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/ACEs.lib)
+    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/ACEsd.lib
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/ACEs.lib)
 
   add_library(ace_ssl STATIC IMPORTED GLOBAL)
   set_target_properties(ace_ssl PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/ACE_SSLsd.lib
-    IMPORTED_LOCATION ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/ACE_SSLs.lib)
+    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/ACE_SSLsd.lib
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/ACE_SSLs.lib)
   target_link_libraries(ace_ssl INTERFACE ace openssl-crypto openssl-ssl)
 
   add_library(ace_inet STATIC IMPORTED GLOBAL)
   set_target_properties(ace_inet PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/ACE_INetsd.lib
-    IMPORTED_LOCATION ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/ACE_INets.lib)
+    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/ACE_INetsd.lib
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/ACE_INets.lib)
   target_link_libraries(ace_inet INTERFACE ace)
 
   add_library(ace_inet_ssl STATIC IMPORTED GLOBAL)
   set_target_properties(ace_inet_ssl PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/ACE_INet_SSLsd.lib
-    IMPORTED_LOCATION ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/ACE_INet_SSLs.lib)
+    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/ACE_INet_SSLsd.lib
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/ACE_INet_SSLs.lib)
   target_link_libraries(ace_inet_ssl INTERFACE ace_inet ace_ssl)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -124,11 +133,13 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(ACE-src
       GIT_REPOSITORY    https://github.com/bear101/ACE
-      GIT_TAG           4b99a3e24c9
+      GIT_TAG           ACE+TAO-6_5_12
       GIT_SUBMODULES_RECURSE TRUE
       GIT_SHALLOW       TRUE
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
+      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
+      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
       # Create 'platform_macros.GNU'
       CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
@@ -223,9 +234,11 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
     ExternalProject_Add(ACE-src
       GIT_REPOSITORY    https://github.com/bear101/ACE
-      GIT_TAG           f1f6fade7da
+      GIT_TAG           ACE+TAO-6_5_12
       GIT_SUBMODULES_RECURSE TRUE
       GIT_SHALLOW       TRUE
+      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
+      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
@@ -312,9 +325,11 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
     ExternalProject_Add(ACE-src
       GIT_REPOSITORY    https://github.com/bear101/ACE
-      GIT_TAG           f1f6fade7da
+      GIT_TAG           ACE+TAO-6_5_12
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
+      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
+      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
       # Create 'platform_macros.GNU'
       CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
@@ -414,9 +429,12 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
     ExternalProject_Add(ACE-src
       GIT_REPOSITORY    https://github.com/bear101/ACE
-      GIT_TAG           0ee1bc40c77
+      GIT_TAG           ACE+TAO-6_5_12
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
+      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Make-CROSS_COMPILE-configurable-for-Android.patch
+      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
+      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
       # Create 'platform_macros.GNU'
       CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU

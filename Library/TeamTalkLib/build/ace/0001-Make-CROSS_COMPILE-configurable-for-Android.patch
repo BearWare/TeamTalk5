@@ -1,0 +1,46 @@
+From 0ee1bc40c77c0d236804fb4f7d22f6bd4c8efd1f Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B8rn=20Damstedt=20Rasmussen?= <contact@bearware.dk>
+Date: Wed, 25 Aug 2021 13:46:38 +0200
+Subject: [PATCH] Make CROSS_COMPILE configurable for Android
+
+---
+ ACE/include/makeinclude/platform_android.GNU | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/ACE/include/makeinclude/platform_android.GNU b/ACE/include/makeinclude/platform_android.GNU
+index fd3525162b2..1322fd2e4f3 100644
+--- a/ACE/include/makeinclude/platform_android.GNU
++++ b/ACE/include/makeinclude/platform_android.GNU
+@@ -55,7 +55,7 @@ endif
+ # in some Cortex-A8 implementations
+ 
+ ifeq ($(ANDROID_ABI),armeabi-v7a)
+-  CROSS_COMPILE := arm-linux-androideabi-
++  CROSS_COMPILE ?= arm-linux-androideabi-
+   FLAGS_C_CC += -march=armv7-a -mfloat-abi=softfp
+   ifeq ($(android_neon),1)
+     FLAGS_C_CC += -mfpu=neon
+@@ -66,17 +66,17 @@ ifeq ($(ANDROID_ABI),armeabi-v7a)
+ endif
+ 
+ ifeq ($(ANDROID_ABI),arm64-v8a)
+-  CROSS_COMPILE := aarch64-linux-android-
++  CROSS_COMPILE ?= aarch64-linux-android-
+   FLAGS_C_CC += -march=armv8-a
+   LDFLAGS    += -march=armv8-a
+ endif
+ 
+ ifeq ($(ANDROID_ABI),x86)
+-  CROSS_COMPILE := i686-linux-android-
++  CROSS_COMPILE ?= i686-linux-android-
+ endif
+ 
+ ifeq ($(ANDROID_ABI),x86_64)
+-  CROSS_COMPILE := x86_64-linux-android-
++  CROSS_COMPILE ?= x86_64-linux-android-
+ endif
+ 
+ ifndef CROSS_COMPILE
+-- 
+2.20.1
+
