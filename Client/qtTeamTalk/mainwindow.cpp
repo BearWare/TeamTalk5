@@ -2723,6 +2723,12 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
     }
     case MSGTYPE_USER :
     {
+        ui.channelsWidget->setUserMessaged(textmsg.nFromUserID, true);
+        emit(newTextMessage(textmsg));
+        User user;
+        if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE, QString(tr("Private message from %1: %2").arg(getDisplayName(user)).arg(textmsg.moreMessage)));
+
         if(ttSettings->value(SETTINGS_DISPLAY_MESSAGEPOPUP, SETTINGS_DISPLAY_MESSAGEPOPUP_DEFAULT).toBool())
         {
             TextMessageDlg* dlg = getTextMessageDlg(textmsg.nFromUserID);
@@ -2733,11 +2739,6 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
                 dlg->raise();
             }
         }
-        ui.channelsWidget->setUserMessaged(textmsg.nFromUserID, true);
-        emit(newTextMessage(textmsg));
-        User user;
-        if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
-            addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE, QString(tr("Private message from %1: %2").arg(getDisplayName(user)).arg(textmsg.moreMessage)));
         playSoundEvent(SOUNDEVENT_USERMSG);
         break;
     }
