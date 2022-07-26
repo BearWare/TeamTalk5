@@ -1297,6 +1297,26 @@
              <widget class="QComboBox" name="spackBox"/>
             </item>
             <item>
+             <widget class="QLabel" name="sndVolLabel">
+              <property name="text">
+               <string>Sounds volume</string>
+              </property>
+              <property name="buddy">
+               <cstring>sndVolSpinBox</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="sndVolSpinBox">
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="minimum">
+               <number>0</number>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="horizontalSpacer_26">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>

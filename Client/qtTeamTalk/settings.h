@@ -260,6 +260,8 @@
 #define SETTINGS_SOUNDS_PACK_DEFAULT           QT_TRANSLATE_NOOP("MainWindow", "Default")
 #define SETTINGS_SOUNDEVENT_ENABLE                   "soundevents/sounds-enable"
 #define SETTINGS_SOUNDEVENT_ENABLE_DEFAULT           true
+#define SETTINGS_SOUNDEVENT_VOLUME                 "soundevents/volume"
+#define SETTINGS_SOUNDEVENT_VOLUME_DEFAULT                 100
 
 #define SETTINGS_SHORTCUTS_VOICEACTIVATION          "shortcuts/voiceactivation"
 #define SETTINGS_SHORTCUTS_INCVOLUME                "shortcuts/volume-inc"
