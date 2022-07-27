@@ -24,6 +24,7 @@ Default Qt Client
 - Fixed request to create folder for channel and private histories if none is specified in "Store conversation" dialog
 - Fixed username/password not being applied in "Generate .tt File" dialog
 Android Client
+- Don't display male emoji if neutral user
 - Support for Danish language
 iOS Client
 -
