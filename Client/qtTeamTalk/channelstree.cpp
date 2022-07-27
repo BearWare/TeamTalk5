@@ -817,7 +817,9 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
             if (!item->data(COLUMN_MEDIAFILE, Qt::CheckStateRole).isNull())
                 item->setData(COLUMN_MEDIAFILE, Qt::CheckStateRole, QVariant());
         }
+#if QT_VERSION < QT_VERSION_CHECK(6,4,0)
         item->setData(COLUMN_ITEM, Qt::AccessibleTextRole, QString("%1: %2").arg(channame).arg((item->isExpanded()? tr("Expanded"):tr("Collapsed"))));
+#endif
         if (chan.uChannelType & CHANNEL_CLASSROOM)
         {
             item->setData(COLUMN_CHANMSG, Qt::AccessibleTextRole, QString(tr("Text message transmission allowed for everyone: %1").arg(userCanChanMessage(TT_CLASSROOM_FREEFORALL, chan)?tr("Yes"):tr("No"))));
