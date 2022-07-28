@@ -59,10 +59,10 @@ KeyCompDlg::~KeyCompDlg()
 #if defined(Q_OS_WIN32) && QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-bool MainWindow::nativeEvent(const QByteArray& eventType, void* message,
+bool KeyCompDlg::nativeEvent(const QByteArray& eventType, void* message,
                              long* result)
 #else
-bool MainWindow::nativeEvent(const QByteArray& eventType, void* message,
+bool KeyCompDlg::nativeEvent(const QByteArray& eventType, void* message,
                              qintptr* result)
 #endif
 {
