@@ -141,13 +141,23 @@ if (Qt5_FOUND OR Qt6_FOUND)
     resources.qrc mainwindow.rc
     )
 
-  find_package(Qt5LinguistTools)
-  if (Qt5LinguistTools_FOUND)
-    file (GLOB TS_FILES ${CMAKE_CURRENT_SOURCE_DIR}/languages/*.ts)
-    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/languages)
-    qt5_add_translation (QM_FILES ${TS_FILES})
-    add_custom_target(QtTeamTalk5-Translations DEPENDS ${QM_FILES})
-    install (FILES ${QM_FILES} DESTINATION Client/qtTeamTalk/languages)
+  # Setup translations
+  file (GLOB TS_FILES ${CMAKE_CURRENT_SOURCE_DIR}/languages/*.ts)
+  set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/languages)
+  if (Qt6_FOUND)
+    find_package(Qt6LinguistTools)
+    if (Qt6LinguistTools_FOUND)
+      qt6_add_translation (QM_FILES ${TS_FILES})
+      add_custom_target(QtTeamTalk5-Translations DEPENDS ${QM_FILES})
+        install (FILES ${QM_FILES} DESTINATION Client/qtTeamTalk/languages)
+    endif()
+  else()
+    find_package(Qt5LinguistTools)
+    if (Qt5LinguistTools_FOUND)
+      qt5_add_translation (QM_FILES ${TS_FILES})
+      add_custom_target(QtTeamTalk5-Translations DEPENDS ${QM_FILES})
+        install (FILES ${QM_FILES} DESTINATION Client/qtTeamTalk/languages)
+    endif()
   endif()
 
   if (Qt6_FOUND)
@@ -161,8 +171,6 @@ if (Qt5_FOUND OR Qt6_FOUND)
   endif()
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    # Don't set to to "TeamTalk5" on macOS since we still build with
-    # QMake
     set (TEAMTALK_TARGET TeamTalk5)
     set (TEAMTALKPRO_TARGET TeamTalk5Pro)
   elseif (MSVC)
@@ -246,7 +254,6 @@ if (Qt5_FOUND OR Qt6_FOUND)
           install (DIRECTORY windeployqt DESTINATION Client/qtTeamTalk/)
         endif()
       endif()
-
     elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       add_executable (${TEAMTALK_TARGET} ${QTTEAMTALK_SOURCES})
       set_target_properties(${TEAMTALK_TARGET} PROPERTIES
