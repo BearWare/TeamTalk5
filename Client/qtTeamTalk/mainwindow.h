@@ -125,7 +125,7 @@ protected:
 
 #if defined(Q_OS_WIN32) && QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     bool nativeEvent(const QByteArray& eventType, void* message,
-                     long* result);
+                     qintptr* result);
 #endif
 private:
     Ui::MainWindow ui;
