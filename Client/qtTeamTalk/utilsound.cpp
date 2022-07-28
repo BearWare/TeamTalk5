@@ -465,6 +465,7 @@ void playSoundEvent(SoundEvent event)
 #else
             static QSoundEffect* effect = new QSoundEffect(ttSettings);
             effect->setSource(QUrl::fromLocalFile(filename));
+            effect->setVolume(ttSettings->value(SETTINGS_SOUNDEVENT_VOLUME, SETTINGS_SOUNDEVENT_VOLUME_DEFAULT).toInt()/100.0);
             effect->play();
 #endif
         }
