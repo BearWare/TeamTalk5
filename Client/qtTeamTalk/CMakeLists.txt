@@ -27,7 +27,6 @@ if (QT_BUILD_QTFRAMEWORK)
   add_subdirectory(qt)
 endif()
 
-# Handle QMake support for Visual Studio
 if (MSVC)
   option (BUILD_TEAMTALK_CLIENT_QT_MULTITHREADED "Build TeamTalk Qt-based clients as Multi-Threaded (/MT) instead of Multi-Threaded DLL (/MD)" OFF)
   if (BUILD_TEAMTALK_CLIENT_QT_MULTITHREADED)
@@ -41,28 +40,6 @@ if (MSVC)
       endif()
     endforeach(flag_var)
   endif()
-
-  # QMake must have generated .vcxproj file prior
-  option (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE_WITH_QMAKE "Build TeamTalk Qt client example using QMake" OFF)
-
-  if (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE_WITH_QMAKE)
-    include_external_msproject (QtTeamTalk5 ${CMAKE_CURRENT_LIST_DIR}/TeamTalk5.vcxproj)
-
-    if (BUILD_TEAMTALK_DLL)
-      add_dependencies (QtTeamTalk5 TeamTalk5DLL)
-    endif()
-  endif()
-
-  option (BUILD_TEAMTALK_PROCLIENT_QT_EXAMPLE_WITH_QMAKE "Build TeamTalk Qt client example using QMake" OFF)
-
-  if (BUILD_TEAMTALK_PROCLIENT_QT_EXAMPLE_WITH_QMAKE)
-    include_external_msproject (QtTeamTalk5Pro ${CMAKE_CURRENT_LIST_DIR}/TeamTalk5Pro.vcxproj)
-
-    if (BUILD_TEAMTALK_PRODLL)
-      add_dependencies (QtTeamTalk5Pro TeamTalk5ProDLL)
-    endif()
-  endif()
-
 endif()
 
 # Locate Qt Framework
