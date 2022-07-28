@@ -1286,7 +1286,7 @@
             <item>
              <widget class="QLabel" name="label_spack">
               <property name="text">
-               <string>Sounds pack</string>
+               <string>Sound pack</string>
               </property>
               <property name="buddy">
                <cstring>spackBox</cstring>
@@ -1299,7 +1299,7 @@
             <item>
              <widget class="QLabel" name="sndVolLabel">
               <property name="text">
-               <string>Sounds volume</string>
+               <string>Sound event volume level</string>
               </property>
               <property name="buddy">
                <cstring>sndVolSpinBox</cstring>
