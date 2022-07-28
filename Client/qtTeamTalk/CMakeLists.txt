@@ -33,7 +33,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 else()
   find_package (Qt5 COMPONENTS Widgets Xml Network Multimedia TextToSpeech)
 endif()
-find_package (Qt6 COMPONENTS Widgets Xml Network Multimedia)
+find_package (Qt6 COMPONENTS Widgets Xml Network Multimedia TextToSpeech)
 
 if (Qt5_FOUND OR Qt6_FOUND)
 
