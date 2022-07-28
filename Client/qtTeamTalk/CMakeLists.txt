@@ -27,21 +27,6 @@ if (QT_BUILD_QTFRAMEWORK)
   add_subdirectory(qt)
 endif()
 
-if (MSVC)
-  option (BUILD_TEAMTALK_CLIENT_QT_MULTITHREADED "Build TeamTalk Qt-based clients as Multi-Threaded (/MT) instead of Multi-Threaded DLL (/MD)" OFF)
-  if (BUILD_TEAMTALK_CLIENT_QT_MULTITHREADED)
-    foreach (flag_var
-        CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
-        CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO
-        CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
-        CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
-      if (${flag_var} MATCHES "/MD")
-        STRING(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
-      endif()
-    endforeach(flag_var)
-  endif()
-endif()
-
 # Locate Qt Framework
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   find_package (Qt5 COMPONENTS Widgets Xml Network Multimedia TextToSpeech X11Extras)
@@ -51,6 +36,21 @@ endif()
 find_package (Qt6 COMPONENTS Widgets Xml Network Multimedia)
 
 if (Qt5_FOUND OR Qt6_FOUND)
+
+  if (MSVC)
+    option (BUILD_TEAMTALK_CLIENT_QT_MULTITHREADED "Build TeamTalk Qt-based clients as Multi-Threaded (/MT) instead of Multi-Threaded DLL (/MD)" OFF)
+    if (BUILD_TEAMTALK_CLIENT_QT_MULTITHREADED)
+      foreach (flag_var
+          CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
+          CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO
+          CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
+          CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+        if (${flag_var} MATCHES "/MD")
+          STRING(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
+        endif()
+      endforeach(flag_var)
+    endif()
+  endif()
 
   if (Qt5_FOUND)
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
