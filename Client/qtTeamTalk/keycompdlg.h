@@ -42,8 +42,13 @@ public:
 
 protected:
 #if defined(Q_OS_WIN32) && QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     bool nativeEvent(const QByteArray& eventType, void* message,
                      long* result);
+#else
+    bool nativeEvent(const QByteArray& eventType, void* message,
+                     qintptr* result);
+#endif
 #elif defined(Q_OS_WIN32)
     bool winEvent(MSG *message, long *result);
 #elif defined(Q_OS_LINUX) || defined(Q_OS_DARWIN)
