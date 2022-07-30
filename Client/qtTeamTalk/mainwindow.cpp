@@ -3840,7 +3840,7 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
     QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
     QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
     answer.setIcon(QMessageBox::Question);
-    answer.setWindowTitle(Start new instance);
+    answer.setWindowTitle(tr("Start new instance"));
     answer.exec();
     if(answer.clickedButton() == YesButton)
     {
