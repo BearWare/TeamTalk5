@@ -425,7 +425,7 @@
 "Play sound when connection is dropped" = "Jouer un son lorsque la connexion est interrompue";
 
 /* preferences */
-"Play sound when private text message is received" = "Jouer un son lorsqu'un message texte privé est reçu";
+"Play sound when private text message is received" = "Jouer un son lorsqu'un message privé est reçu";
 
 /* preferences */
 "Play sound when transmit ready in \"No Interruptions\" channel" = "Jouer un son lorsque la transmission est prête dans un canal \"Sans interruption\"";
@@ -464,10 +464,10 @@
 "Private server" = "Serveur privé";
 
 /* preferences */
-"Private Text Message" = "Message texte privé";
+"Private Text Message" = "Message privé";
 
 /* TTS EVENT */
-"Private text message from %@. %@" = "Message texte privé de %@ : %@";
+"Private text message from %@. %@" = "Message privé de %@ : %@";
 
 /* preferences */
 "Proximity Sensor" = "Capteur de proximité";
