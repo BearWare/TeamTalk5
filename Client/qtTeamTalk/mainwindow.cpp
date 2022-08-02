@@ -3883,6 +3883,8 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
 
     if (ok)
     {
+        QStringList args;
+
         if(choice == delprofile)
         {
             profilenames.removeAll(newprofile);
@@ -3921,14 +3923,16 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
             else return;
         }
         else if (choice == curprofile)
+        {
             inipath = ttSettings->fileName();
+            args.push_back("-noconnect");
+        }
         else 
         {
             inipath = profiles[choice];
         }
 
         QString path = QApplication::applicationFilePath();
-        QStringList args = { "-noconnect" };
         args.push_back(QString("-cfg"));
         args.push_back(inipath);
 
