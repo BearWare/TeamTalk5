@@ -7,6 +7,7 @@ Accessible Windows Client
 -
 Default Qt Client
 - Option to configure sound events volume
+- Ability to start new client instance using the same profile
 Android Client
 -
 iOS Client

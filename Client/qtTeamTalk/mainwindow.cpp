@@ -3863,11 +3863,12 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
     }
     
 
-    const QString newprofile = tr("New Profile"), delprofile = tr("Delete Profile");
+    const QString newprofile = tr("New Profile"), delprofile = tr("Delete Profile"), curprofile = tr("Current Profile");
     if(profiles.size() < MAX_PROFILES)
         profilenames.push_back(newprofile);
     if(profiles.size() > 0)
         profilenames.push_back(delprofile);
+    profilenames.push_back(curprofile);
 
     bool ok = false;
     QInputDialog inputDialog;
@@ -3919,6 +3920,8 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
             }
             else return;
         }
+        else if (choice == curprofile)
+            inipath = ttSettings->fileName();
         else 
         {
             inipath = profiles[choice];
