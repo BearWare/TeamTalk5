@@ -78,6 +78,9 @@ if (MSVC)
       set (WEBRTC_PATCH_CMD2 echo "Skipping WebRTC patching")
     endif()
 
+    # WebRTC for Windows depends on Windows SDK v10.0.20348.0. This
+    # can be downloaded from Visual Studio Installer
+
     ExternalProject_Add(webrtc-src
       DOWNLOAD_COMMAND  ${WEBRTC_FETCH_CMD1}
       COMMAND           ${WEBRTC_FETCH_CMD2}
