@@ -11,6 +11,12 @@
         android:title="@string/pref_title_speech_engine" />
 
     <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="talkback_tts_checkbox"
+        android:summary="@string/pref_summary_talkback_tts"
+        android:title="@string/pref_title_talkback_tts" />
+
+    <CheckBoxPreference
         android:defaultValue="false"
         android:key="server_login_checkbox"
         android:summary="@string/pref_summary_server_login"

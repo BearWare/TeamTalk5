@@ -387,7 +387,10 @@ implements TeamTalkConnectionListener,
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         if (ttsWrapper == null)
+        {
             ttsWrapper = new TTSWrapper(this, prefs.getString("pref_speech_engine", TTSWrapper.defaultEngineName));
+            boolean TBTTS = prefs.getBoolean("talkback_tts_checkbox", true);
+        }
         if (mConnection == null)
             mConnection = new TeamTalkConnection(this);
 
@@ -1878,7 +1881,7 @@ private EditText newmsg;
             audioIcons.play(sounds.get(SOUND_USERLOGGEDIN), 1.0f, 1.0f, 0, 0, 1.0f);
         if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_login_checkbox", false)) {
             String name = Utils.getDisplayName(getBaseContext(), user);
-            ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_loggedin));
+            ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_loggedin), TBTTS);
         }
     }
 
@@ -1888,7 +1891,7 @@ private EditText newmsg;
             audioIcons.play(sounds.get(SOUND_USERLOGGEDOFF), 1.0f, 1.0f, 0, 0, 1.0f);
         if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_logout_checkbox", false)) {
             String name = Utils.getDisplayName(getBaseContext(), user);
-            ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_loggedout));
+            ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_loggedout), TBTTS);
         }
     }
 
@@ -1933,7 +1936,7 @@ private EditText newmsg;
                         audioIcons.play(sounds.get(SOUND_USERJOIN), 1.0f, 1.0f, 0, 0, 1.0f);
                     if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_join_checkbox", false)) {
                         String name = Utils.getDisplayName(getBaseContext(), user);
-                        ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_joined_chan));
+                        ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_joined_chan), TBTTS);
                     }
                 }
                 accessibilityAssistant.unlockEvents();
@@ -1979,7 +1982,7 @@ private EditText newmsg;
                         audioIcons.play(sounds.get(SOUND_USERLEFT), 1.0f, 1.0f, 0, 0, 1.0f);
                 if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_leave_checkbox", false)) {
                     String name = Utils.getDisplayName(getBaseContext(), user);
-                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_left_chan));
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_left_chan), TBTTS);
                 }
             }
             accessibilityAssistant.unlockEvents();
@@ -2007,14 +2010,14 @@ private EditText newmsg;
                 if (ttsWrapper != null && prefs.getBoolean("channel_message_checkbox", false)) {
                     User sender = ttservice.getUsers().get(textmessage.nFromUserID);
                     String name = Utils.getDisplayName(getBaseContext(), sender);
-                    ttsWrapper.speak(getString(R.string.text_tts_channel_message, (sender != null) ? name : "", textmessage.szMessage));
+                    ttsWrapper.speak(getString(R.string.text_tts_channel_message, (sender != null) ? name : "", textmessage.szMessage), TBTTS);
                 }
             }
             else if (textmessage.nFromUserID == ttservice.getTTInstance().getMyUserID()) {
                 if (sounds.get(SOUND_CHANMSGSENT) != 0)
                     audioIcons.play(sounds.get(SOUND_CHANMSGSENT), 1.0f, 1.0f, 0, 0, 1.0f);
                 if (ttsWrapper != null && prefs.getBoolean("channel_message_sent_checkbox", false)) {
-                    ttsWrapper.speak(getString(R.string.text_tts_channel_message_sent, textmessage.szMessage));
+                    ttsWrapper.speak(getString(R.string.text_tts_channel_message_sent, textmessage.szMessage), TBTTS);
                 }
             }
             Log.d(TAG, "Channel message in " + this.hashCode());
@@ -2029,7 +2032,7 @@ private EditText newmsg;
             if (ttsWrapper != null && prefs.getBoolean("broadcast_message_checkbox", false)) {
                 User sender = ttservice.getUsers().get(textmessage.nFromUserID);
                 String name = Utils.getDisplayName(getBaseContext(), sender);
-                ttsWrapper.speak(getString(R.string.text_tts_broadcast_message, (sender != null) ? name : "", textmessage.szMessage));
+                ttsWrapper.speak(getString(R.string.text_tts_broadcast_message, (sender != null) ? name : "", textmessage.szMessage), TBTTS);
             }
             break;
         case TextMsgType.MSGTYPE_USER :
@@ -2040,7 +2043,7 @@ private EditText newmsg;
             String name = Utils.getDisplayName(getBaseContext(), sender);
             String senderName = (sender != null) ? name : "";
             if (ttsWrapper != null && prefs.getBoolean("private_message_checkbox", false))
-                ttsWrapper.speak(getString(R.string.text_tts_private_message, senderName, textmessage.szMessage));
+                ttsWrapper.speak(getString(R.string.text_tts_private_message, senderName, textmessage.szMessage), TBTTS);
             Intent action = new Intent(this, TextMessageActivity.class);
             Notification.Builder notification = new Notification.Builder(this);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

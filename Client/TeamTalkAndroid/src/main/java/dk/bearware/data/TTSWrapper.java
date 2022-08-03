@@ -59,12 +59,16 @@ public class TTSWrapper {
         }
     }
 
-    public void speak(String text) {
-        if (tts != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                tts.speak(text, TextToSpeech.QUEUE_ADD, null, null);
-            } else {
-                tts.speak(text, TextToSpeech.QUEUE_ADD, null);
+    public void speak(String text, boolean useTB) {
+        if (useTB == true) {
+            announceForAccessibility(text);
+        } else {
+            if (tts != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    tts.speak(text, TextToSpeech.QUEUE_ADD, null, null);
+                } else {
+                    tts.speak(text, TextToSpeech.QUEUE_ADD, null);
+                }
             }
         }
     }
