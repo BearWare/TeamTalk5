@@ -9,6 +9,11 @@ set (QT_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/install CACHE STRING "Install
 
 if (MSVC)
   if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+
+    if (NOT CMAKE_VS_PLATFORM_NAME)
+      set (CMAKE_VS_PLATFORM_NAME x64)
+    endif()
+
     ExternalProject_Add(Qt-openssl-src
       PREFIX            ${QT_BUILD_PREFIX}
       GIT_REPOSITORY    https://github.com/bear101/openssl
@@ -24,6 +29,11 @@ if (MSVC)
     ExternalProject_Get_Property(Qt-openssl-src INSTALL_DIR)
     set (OPENSSL_DIR ${INSTALL_DIR})
   else()
+
+    if (NOT CMAKE_VS_PLATFORM_NAME)
+      set (CMAKE_VS_PLATFORM_NAME win32)
+    endif()
+
     ExternalProject_Add(Qt-openssl-src
       PREFIX            ${QT_BUILD_PREFIX}
       GIT_REPOSITORY    https://github.com/bear101/openssl

@@ -13,6 +13,11 @@ set (TOOLCHAIN_INSTALL_PREFIX_ZLIB ${TOOLCHAIN_INSTALL_PREFIX}/zlib)
 if (MSVC)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+
+      if (NOT CMAKE_VS_PLATFORM_NAME)
+        set (CMAKE_VS_PLATFORM_NAME x64)
+      endif()
+
       ExternalProject_Add(zlib-src
         GIT_REPOSITORY    https://github.com/bear101/zlib
         GIT_TAG           56c3219
@@ -31,6 +36,11 @@ if (MSVC)
                           <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/zlib.lib
         )
     else()
+
+      if (NOT CMAKE_VS_PLATFORM_NAME)
+        set (CMAKE_VS_PLATFORM_NAME win32)
+      endif()
+
       ExternalProject_Add(zlib-src
         GIT_REPOSITORY    https://github.com/bear101/zlib
         GIT_TAG           56c3219

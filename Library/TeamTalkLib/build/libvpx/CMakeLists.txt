@@ -21,6 +21,11 @@ if (MSVC)
     endif()
 
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+
+      if (NOT CMAKE_VS_PLATFORM_NAME)
+        set (CMAKE_VS_PLATFORM_NAME x64)
+      endif()
+
       find_path(YASM_EXE_DIRECTORY yasm.exe PATHS C:/tt5dist/yasm/x64)
       if (YASM_EXE_DIRECTORY-NOTFOUND)
         message(WARNING "yasm.exe is required to build libvpx. See https://yasm.tortall.net")
@@ -49,6 +54,11 @@ if (MSVC)
                           <INSTALL_DIR>/${CMAKE_VS_PLATFORM_NAME}/Release/vpxmt.lib
         )
     else()
+
+      if (NOT CMAKE_VS_PLATFORM_NAME)
+        set (CMAKE_VS_PLATFORM_NAME win32)
+      endif()
+
       find_path(YASM_EXE_DIRECTORY yasm.exe PATHS C:/tt5dist/yasm/win32)
       if (YASM_EXE_DIRECTORY-NOTFOUND)
         message(WARNING "yasm.exe is required to build libvpx. See https://yasm.tortall.net")
@@ -95,7 +105,7 @@ if (MSVC)
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
-    
+
     ExternalProject_Add(libvpx-arm64-src
       GIT_REPOSITORY    https://github.com/bear101/libvpx
       GIT_TAG           v1.11.0
@@ -127,7 +137,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libvpx.a
       )
     ExternalProject_Get_Property(libvpx-intel-src INSTALL_DIR)
-    
+
     # Use 'lipo' to create universal binary
     file(MAKE_DIRECTORY ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}/lib)
     file(MAKE_DIRECTORY ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}/include)
@@ -141,7 +151,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     add_custom_target (libvpx-src DEPENDS ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}/lib/libvpx.a
       ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}/include/vpx/vpx_codec.h)
-    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX})    
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX})
   else()
     set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX})
   endif(TOOLCHAIN_BUILD_EXTERNALPROJECTS)
@@ -206,7 +216,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   else()
     set (LIBVPX_TARGET --target=x86_64-linux-gcc)
   endif()
-  
+
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(libvpx-src
       GIT_REPOSITORY    https://github.com/bear101/libvpx
@@ -249,7 +259,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
   set (LIBVPX_EXPORT export PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:$ENV{PATH})
-  
+
   if ("armeabi-v7a" STREQUAL "${ANDROID_ABI}")
     list (APPEND LIBVPX_EXPORT && export CROSS=arm-linux-androideabi-)
     list (APPEND LIBVPX_EXPORT && export CC=clang\ --target=armv7a-linux-android${ANDROID_PLATFORM_LEVEL})
@@ -273,7 +283,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   else()
     message(FATAL_ERROR "Unknown Android architecture")
   endif()
-  
+
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(libvpx-src
       GIT_REPOSITORY    https://github.com/bear101/libvpx
@@ -312,5 +322,5 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       target_link_options(libvpx INTERFACE "-Wl,-Bsymbolic")
     endif()
   endif()
-  
+
 endif()
