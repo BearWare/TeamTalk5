@@ -11,9 +11,13 @@ include(ExternalProject)
 set (TOOLCHAIN_INSTALL_PREFIX_TINYXML ${TOOLCHAIN_INSTALL_PREFIX}/tinyxml)
 
 if (MSVC)
-
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+
+      if (NOT CMAKE_VS_PLATFORM_NAME)
+        set (CMAKE_VS_PLATFORM_NAME x64)
+      endif()
+
       ExternalProject_Add(tinyxml-src
         GIT_REPOSITORY    https://github.com/bear101/tinyxml
         GIT_TAG           224ab4ea35ded8ee95f13c84c30592abf5292af8
@@ -32,6 +36,11 @@ if (MSVC)
                           <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxml.lib
         )
     else()
+
+      if (NOT CMAKE_VS_PLATFORM_NAME)
+        set (CMAKE_VS_PLATFORM_NAME win32)
+      endif()
+
       ExternalProject_Add(tinyxml-src
         GIT_REPOSITORY    https://github.com/bear101/tinyxml
         GIT_TAG           224ab4ea35ded8ee95f13c84c30592abf5292af8
