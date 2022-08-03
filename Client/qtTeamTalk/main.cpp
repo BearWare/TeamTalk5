@@ -350,13 +350,13 @@ int main(int argc, char *argv[])
 #if defined(Q_OS_WIN32)
     // Use QWindowsIntegration plugin to distinguish Alt+Gr from Ctrl+Alt on Windows
     // https://qthub.com/static/doc/qt5/qtdoc/qpa.html
-    std::vector< char* > argv_;
+    std::vector< const char* > argv_;
     for (int i = 0; i < argc; ++i)
         argv_.push_back(argv[i]);
     argv_.push_back("-platform");
     argv_.push_back("windows:altgr");
     argc = int(argv_.size());
-    MyQApplication app(argc, &argv_[0]);
+    MyQApplication app(argc, const_cast<char**>(&argv_[0]));
 #elif defined(Q_OS_LINUX) || defined(Q_OS_DARWIN)
     MyQApplication app(argc, argv);
 #else

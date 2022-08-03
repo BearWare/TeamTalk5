@@ -33,6 +33,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 else()
   find_package (Qt5 COMPONENTS Widgets Xml Network Multimedia TextToSpeech)
 endif()
+# TextToSpeech was introduced in Qt 6.4
 find_package (Qt6 COMPONENTS Widgets Xml Network Multimedia TextToSpeech)
 
 if (Qt5_FOUND OR Qt6_FOUND)
@@ -138,7 +139,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
   endif()
 
   if (Qt6_FOUND)
-    set (TEAMTALK_LINK_FLAGS Qt6::Widgets Qt6::Xml Qt6::Network Qt6::Multimedia)
+    set (TEAMTALK_LINK_FLAGS Qt6::Widgets Qt6::Xml Qt6::Network Qt6::Multimedia Qt6::TextToSpeech)
   else()
     if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       set (TEAMTALK_LINK_FLAGS Qt5::Widgets Qt5::Xml Qt5::Network Qt5::Multimedia Qt5::TextToSpeech Qt5::X11Extras -lX11)
@@ -195,14 +196,22 @@ if (Qt5_FOUND OR Qt6_FOUND)
         if (WINDEPLOYQT_EXE_PATH-NOTFOUND)
           message(WARNING "Cannot deploy Qt to TeamTalk 5 Installer due to missing windeployqt")
         else()
+
+          if (Qt6_FOUND)
+            set (QT_DEPLOY_ARGS --verbose 2)
+          else()
+            # Qt5_FOUND
+            set (QT_DEPLOY_ARGS --no-webkit2 --no-angle)
+          endif()
+
           add_custom_target (QtTeamTalk5-windeploy-release ALL
             COMMAND ${CMAKE_COMMAND} -E remove_directory "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt"
-            COMMAND ${WINDEPLOYQT_EXE_PATH} --no-quick-import --no-translations --no-system-d3d-compiler --no-virtualkeyboard --no-webkit2 --no-angle --no-opengl-sw --release --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt" "$<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>"
+            COMMAND ${WINDEPLOYQT_EXE_PATH} --no-quick-import --no-translations --no-system-d3d-compiler --no-virtualkeyboard ${QT_DEPLOY_ARGS} --no-opengl-sw --release --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt" "$<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>"
             DEPENDS ${TEAMTALK_TARGET})
 
           add_custom_target (QtTeamTalk5-windeploy-debug
             COMMAND ${CMAKE_COMMAND} -E remove_directory "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt-debug"
-            COMMAND ${WINDEPLOYQT_EXE_PATH} --no-quick-import --no-translations --no-system-d3d-compiler --no-virtualkeyboard --no-webkit2 --no-angle --no-opengl-sw --debug --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt-debug" "$<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>"
+            COMMAND ${WINDEPLOYQT_EXE_PATH} --no-quick-import --no-translations --no-system-d3d-compiler --no-virtualkeyboard ${QT_DEPLOY_ARGS} --no-opengl-sw --debug --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt-debug" "$<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>"
             DEPENDS ${TEAMTALK_TARGET})
 
           # OpenSSL DLLs are not deployed by windeployqt.exe so we need to copy them manually.
