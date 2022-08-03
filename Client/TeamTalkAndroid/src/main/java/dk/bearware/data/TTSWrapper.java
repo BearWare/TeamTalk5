@@ -31,6 +31,9 @@ import android.util.Log;
 import java.util.Collections;
 import java.util.List;
 
+PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+boolean isScreenOn = pm.isInteractive();
+
 public class TTSWrapper {
     private static final String TAG = "bearware";
     private static TextToSpeech tts;
@@ -60,7 +63,7 @@ public class TTSWrapper {
     }
 
     public void speak(String text, boolean useTB) {
-        if (useTB == true) {
+        if (useTB == true && isScreenOn == true) {
             announceForAccessibility(text);
         } else {
             if (tts != null) {
