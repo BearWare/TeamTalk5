@@ -14,7 +14,8 @@ if (MSVC)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(ogg-src
       GIT_REPOSITORY    https://github.com/bear101/ogg
-      GIT_TAG           49d8bab
+      GIT_TAG           v1.3.3
+      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-d-suffix-to-debug-build-and-switch-to-MT.patch
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ogg
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
@@ -23,8 +24,8 @@ if (MSVC)
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OGG}
       INSTALL_COMMAND   ${CMAKE_COMMAND} --build . --target install --config Debug
       COMMAND           ${CMAKE_COMMAND} --build . --target install --config Release
-      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/oggd.lib
-                        <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/ogg.lib
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/oggd.lib
+                        <INSTALL_DIR>/lib/ogg.lib
       )
     ExternalProject_Get_Property(ogg-src INSTALL_DIR)
     file(MAKE_DIRECTORY ${INSTALL_DIR}/include)

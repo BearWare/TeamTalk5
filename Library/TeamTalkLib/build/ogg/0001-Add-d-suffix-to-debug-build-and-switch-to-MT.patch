@@ -1,0 +1,36 @@
+From 2a98db07b2d27c7e457fdd6c7240e362a870fb8b Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B8rn=20Damstedt=20Rasmussen?= <contact@bearware.dk>
+Date: Wed, 25 Nov 2020 20:28:54 +0100
+Subject: [PATCH] Add 'd' suffix to debug build and switch to /MT
+
+---
+ CMakeLists.txt | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 54a13c0..00497c5 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -104,6 +104,19 @@ set_target_properties(
+     PUBLIC_HEADER "${OGG_HEADERS}"
+ )
+ 
++if (MSVC)
++    foreach (flag_var
++      CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
++      CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO
++      CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
++      CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
++    if (${flag_var} MATCHES "/MD")
++      STRING(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
++    endif()
++    endforeach(flag_var)
++    set_property(TARGET ogg PROPERTY OUTPUT_NAME_DEBUG oggd)
++endif()
++
+ if(BUILD_FRAMEWORK)
+     set_target_properties(ogg PROPERTIES
+         FRAMEWORK TRUE
+-- 
+2.32.0
+
