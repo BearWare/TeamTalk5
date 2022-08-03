@@ -14,7 +14,8 @@ if (MSVC)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(opus-src
       GIT_REPOSITORY    https://github.com/bear101/opus
-      GIT_TAG           5e292322
+      GIT_TAG           v1.3.1
+      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-d-suffix-to-debug-build-and-MT-option.patch
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
       CMAKE_ARGS        -DAVX_SUPPORTED=OFF -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
@@ -23,8 +24,8 @@ if (MSVC)
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPUS}
       INSTALL_COMMAND   ${CMAKE_COMMAND} --build . --target install --config Debug
       COMMAND           ${CMAKE_COMMAND} --build . --target install --config Release
-      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/opusd.lib
-                        <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/opus.lib
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/opusd.lib
+                        <INSTALL_DIR>/lib/opus.lib
       )
     ExternalProject_Get_Property(opus-src INSTALL_DIR)
     file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
