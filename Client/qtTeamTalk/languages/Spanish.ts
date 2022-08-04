@@ -3565,19 +3565,19 @@ Puedes descargarla en la siguiente página:
         <location filename="../mainwindow.cpp" line="2793"/>
         <location filename="../mainwindow.cpp" line="2805"/>
         <source>Joined classroom channel %1</source>
-        <translation>Se unió al canal aula %1</translation>
+        <translation>Te uniste al canal aula %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2843"/>
         <location filename="../mainwindow.cpp" line="2855"/>
         <source>Left classroom channel %1</source>
-        <translation>Abandonó el canal aula %1</translation>
+        <translation>Abandonaste el canal aula %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2847"/>
         <location filename="../mainwindow.cpp" line="2859"/>
         <source>Left channel %1</source>
-        <translation>Abandonó el canal %1</translation>
+        <translation>Abandonaste el canal %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3754"/>
