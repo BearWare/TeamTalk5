@@ -35,6 +35,9 @@ jobs:
         sudo make -C Build depend-ubuntu18
         dpkg -l
 
+    - name: Print env
+      run: printenv | sort
+
     - name: Init TeamTalk Library submodules
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |

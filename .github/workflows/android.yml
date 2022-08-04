@@ -2,9 +2,6 @@ name: Android
 
 on: [push]
 
-env:
-  ANDROID_NDK_HOME: /usr/local/lib/android/sdk/ndk/21.4.7075529
-
 jobs:
   build:
     strategy:
@@ -24,8 +21,17 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - uses: nttld/setup-ndk@v1
+      id: setup-ndk
+      with:
+        ndk-version: r21e
+        add-to-path: false
+
     - name: Refresh Ubuntu-repo
       run: sudo apt update
+
+    - name: Print env
+      run: printenv | sort
 
     - name: Install TeamTalk Library Dependencies
       working-directory: ${{runner.workspace}}/TeamTalk5
@@ -35,6 +41,8 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: |
         make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.maketarget }}" ${{ matrix.maketarget }}
+      env:
+        ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
     - name: Doxygen Documentation
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
