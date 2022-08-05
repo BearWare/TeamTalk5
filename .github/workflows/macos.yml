@@ -20,8 +20,8 @@ jobs:
         distribution: 'temurin'
         java-version: '11'
 
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v3
+#   - name: Install Qt
+#     uses: jurplel/install-qt-action@v3
 
     - name: Install Toolchain Dependencies
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
