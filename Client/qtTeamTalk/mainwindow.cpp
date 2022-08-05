@@ -1998,9 +1998,9 @@ void MainWindow::login()
     QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, SETTINGS_GENERAL_NICKNAME_DEFAULT).toString();
     if(m_host.nickname.size())
         nick = m_host.nickname;
-
+    QString client = QString("%1 (%2)").arg(APPNAME_SHORT).arg(OSTYPE);
     int cmdid = TT_DoLoginEx(ttInst, _W(nick), _W(m_host.username),
-                             _W(m_host.password), _W(QString(APPNAME_SHORT)));
+                             _W(m_host.password), _W(client));
     if (cmdid>0)
         m_commands.insert(cmdid, CMD_COMPLETE_LOGIN);
 
