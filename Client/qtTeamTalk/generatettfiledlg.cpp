@@ -146,10 +146,11 @@ void GenerateTTFileDlg::slotVideoCodecChange(int)
 
 void GenerateTTFileDlg::slotSaveTTFile()
 {
+    m_hostentry.username = ui.usernameEdit->text();
+    m_hostentry.password = ui.passwordEdit->text();
+
     if(ui.overrideChkBox->isChecked())
     {
-        m_hostentry.username = ui.usernameEdit->text();
-        m_hostentry.password = ui.passwordEdit->text();
         m_hostentry.nickname = ui.nicknameEdit->text();
 
         if (ui.maleRadioButton->isChecked())
