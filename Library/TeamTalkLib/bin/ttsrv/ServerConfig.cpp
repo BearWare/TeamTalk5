@@ -775,7 +775,7 @@ bool HasBearWareWebLogin(teamtalk::ServerXML& xmlSettings)
 {
     int i = 0;
     UserAccount ua;
-    while (xmlSettings.GetNextUser(++i, ua))
+    while (xmlSettings.GetNextUser(i++, ua))
     {
         if (ua.username == ACE_TEXT(WEBLOGIN_BEARWARE_USERNAME))
             return true;
