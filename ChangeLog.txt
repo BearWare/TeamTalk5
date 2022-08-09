@@ -14,7 +14,7 @@ Android Client
 iOS Client
 -
 Server
--
+- TeamTalk Pro server can use email as login name on initial authentication
 
 Version 5.10, 2022/07/17
 Accessible Windows Client
