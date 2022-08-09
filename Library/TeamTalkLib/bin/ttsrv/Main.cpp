@@ -778,8 +778,8 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
             bwid = LocalToUnicode(printGetString(UnicodeToLocal(bwid).c_str()).c_str());
             cout << "Type password: ";
             ACE_TString passwd = LocalToUnicode(printGetPassword("").c_str());
-            ACE_TString newtoken;
-            switch (LoginBearWareAccount(bwid, passwd, newtoken))
+            ACE_TString newtoken, loginid;
+            switch (LoginBearWareAccount(bwid, passwd, newtoken, loginid))
             {
             case 1 :
                 cout << endl << "Login successful." << endl << endl;
@@ -790,9 +790,10 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
                 cout << "Store access token in " << TEAMTALK_SETTINGSFILE << "? ";
                 if (printGetBool(false))
                 {
-                    xmlSettings.SetBearWareWebLogin(UnicodeToUtf8(bwid).c_str(), UnicodeToUtf8(newtoken).c_str());
+                    xmlSettings.SetBearWareWebLogin(UnicodeToUtf8(loginid).c_str(), UnicodeToUtf8(newtoken).c_str());
                     xmlSettings.SaveFile();
                 }
+                bwid = loginid;
                 token = newtoken.c_str();
                 break;
             case -1 :
@@ -807,6 +808,7 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
 
         if (AuthBearWareAccount(bwid, token) == 0)
         {
+            std::cerr << "Failed to authenticate BearWare.dk WebLogin: " << UnicodeToLocal(bwid).c_str() << std::endl;
             xmlSettings.SetBearWareWebLogin(UnicodeToUtf8(bwid).c_str(), "");
             continue;
         }
