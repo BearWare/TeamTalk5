@@ -35,6 +35,7 @@
 #include <QDomDocument>
 #include <QDesktopServices>
 #include <QPushButton>
+#include <QFile>
 
 extern QSettings* ttSettings;
 
@@ -116,6 +117,8 @@ void BearWareLoginDlg::slotHttpReply(QNetworkReply* reply)
     {
         ttSettings->setValue(SETTINGS_GENERAL_BEARWARE_USERNAME, username);
         ttSettings->setValue(SETTINGS_GENERAL_BEARWARE_TOKEN, token);
+
+        QFile::setPermissions(ttSettings->fileName(), QFileDevice::ReadOwner | QFileDevice::WriteOwner);
 
         QMessageBox::information(this, this->windowTitle(),
                                  tr("%1, your username \"%2\" has been validated.").arg(nickname).arg(username), QMessageBox::Ok);
