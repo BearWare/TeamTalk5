@@ -604,7 +604,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::loadSettings()
 {
-
     QString iniversion = ttSettings->value(SETTINGS_GENERAL_VERSION,
                                            SETTINGS_GENERAL_VERSION_DEFAULT).toString();
     if (!versionSameOrLater(iniversion, "5.1"))
@@ -619,6 +618,14 @@ void MainWindow::loadSettings()
         // Gender changed in 5.2 format
         Gender gender = ttSettings->value(SETTINGS_GENERAL_GENDER).toBool() ? GENDER_MALE : GENDER_FEMALE;
         ttSettings->setValue(SETTINGS_GENERAL_GENDER, gender);
+        ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
+    }
+    if (!versionSameOrLater(iniversion, "5.3"))
+    {
+        if (ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME, "").toString().size())
+        {
+            QFile::setPermissions(ttSettings->fileName(), QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+        }
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
 

@@ -34,7 +34,7 @@
 #elif defined(Q_OS_DARWIN)
 #define SOUNDSPATH                                     "/Applications/TeamTalk5.app/Contents/Resources/Sounds"
 #endif
-#define SETTINGS_VERSION                            "5.2"
+#define SETTINGS_VERSION                            "5.3"
 #define SETTINGS_GENERAL_VERSION                    "version"
 #define SETTINGS_GENERAL_VERSION_DEFAULT            SETTINGS_VERSION
 #define SETTINGS_GENERAL_FIRSTSTART                 "general_/first-start"
