@@ -26,8 +26,7 @@
 enum
 {
     COLUMN_NAME = 0,
-    COLUMN_CHECK = 1,
-    COLUMN_COUNT = 2,
+    COLUMN_COUNT,
 };
 
 TTSEventsModel::TTSEventsModel(QObject* parent)
@@ -90,7 +89,6 @@ QVariant TTSEventsModel::headerData ( int section, Qt::Orientation orientation, 
             switch(section)
             {
             case COLUMN_NAME: return tr("Event");
-            case COLUMN_CHECK: return tr("Enabled");
             }
         }
         break;
@@ -110,8 +108,6 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
     switch(role)
     {
     case Qt::DisplayRole :
-        if (index.column() == COLUMN_CHECK)
-            return (m_ttsselected & m_ttsevents[index.row()])? tr("Enabled") : tr("Disabled");
         Q_ASSERT(index.column() == COLUMN_NAME);
         switch(m_ttsevents[index.row()])
         {
@@ -198,10 +194,9 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     case Qt::AccessibleTextRole :
         return QString("%1: %2").arg(data(index, Qt::DisplayRole).toString()).arg((m_ttsselected & m_ttsevents[index.row()])? tr("Enabled") : tr("Disabled"));
-#else
+#endif
     case Qt::CheckStateRole :
         return (m_ttsselected & m_ttsevents[index.row()])? Qt::Checked : Qt::Unchecked;
-#endif
     }
     return QVariant();
 }
