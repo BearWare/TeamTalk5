@@ -81,6 +81,8 @@ if (MSVC)
     # WebRTC for Windows depends on Windows SDK v10.0.20348.0. This
     # can be downloaded from Visual Studio Installer
 
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/webrtc_cfg_win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/webrtc_cfg_win.bat)
+    
     ExternalProject_Add(webrtc-src
       DOWNLOAD_COMMAND  ${WEBRTC_FETCH_CMD1}
       COMMAND           ${WEBRTC_FETCH_CMD2}
@@ -94,12 +96,11 @@ if (MSVC)
       COMMAND           ${WEBRTC_PATCH_CMD2}
       UPDATE_COMMAND    ""
       INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}
-      CONFIGURE_COMMAND SET DEPOT_TOOLS_WIN_TOOLCHAIN=0
-      COMMAND           SET PATH=${DEPOTTOOLS_DIR_NATIVE}$<SEMICOLON>%PATH%$<SEMICOLON>
+      CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/webrtc_cfg_win.bat
       COMMAND           cd ${WEBRTC_SOURCE_ROOT}
       COMMAND           CALL gn gen <INSTALL_DIR>\\lib\\debug
-      COMMAND           CALL gn gen <INSTALL_DIR>\\lib\\release
-      BUILD_COMMAND     SET DEPOT_TOOLS_WIN_TOOLCHAIN=0
+      COMMAND           CALL gn gen <INSTALL_DIR>\\lib\\release      
+      BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/webrtc_cfg_win.bat
       COMMAND           CALL ninja -v -C <INSTALL_DIR>\\lib\\debug teamtalk
       COMMAND           CALL ninja -v -C <INSTALL_DIR>\\lib\\release teamtalk
       INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT}
