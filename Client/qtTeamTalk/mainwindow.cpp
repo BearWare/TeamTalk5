@@ -69,6 +69,7 @@
 #include <QKeyEvent>
 #include <QCloseEvent>
 #include <QClipboard>
+#include <QSysInfo>
 
 #if defined(QT_TEXTTOSPEECH_LIB)
 #include <QTextToSpeech>
@@ -1998,7 +1999,7 @@ void MainWindow::login()
     QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, SETTINGS_GENERAL_NICKNAME_DEFAULT).toString();
     if(m_host.nickname.size())
         nick = m_host.nickname;
-    QString client = QString("%1 (%2)").arg(APPNAME_SHORT).arg(OSTYPE);
+    QString client = QString("%1 (%2)").arg(APPNAME_SHORT).arg(QSysInfo::productType());
     int cmdid = TT_DoLoginEx(ttInst, _W(nick), _W(m_host.username),
                              _W(m_host.password), _W(client));
     if (cmdid>0)
