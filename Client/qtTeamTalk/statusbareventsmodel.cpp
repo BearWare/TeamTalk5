@@ -26,8 +26,7 @@
 enum
 {
     COLUMN_NAME = 0,
-    COLUMN_CHECK = 1,
-    COLUMN_COUNT = 2,
+    COLUMN_COUNT,
 };
 
 StatusBarEventsModel::StatusBarEventsModel(QObject* parent)
@@ -82,7 +81,6 @@ QVariant StatusBarEventsModel::headerData ( int section, Qt::Orientation orienta
             switch(section)
             {
             case COLUMN_NAME: return tr("Event");
-            case COLUMN_CHECK: return tr("Enabled");
             }
         }
         break;
@@ -102,8 +100,6 @@ QVariant StatusBarEventsModel::data ( const QModelIndex & index, int role /*= Qt
     switch(role)
     {
     case Qt::DisplayRole :
-        if (index.column() == COLUMN_CHECK)
-            return (m_statusbarselected & m_statusbarevents[index.row()])? tr("Enabled") : tr("Disabled");
         Q_ASSERT(index.column() == COLUMN_NAME);
         switch(m_statusbarevents[index.row()])
         {
@@ -175,10 +171,9 @@ QVariant StatusBarEventsModel::data ( const QModelIndex & index, int role /*= Qt
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     case Qt::AccessibleTextRole :
         return QString("%1: %2").arg(data(index, Qt::DisplayRole).toString()).arg((m_statusbarselected & m_statusbarevents[index.row()])? tr("Enabled") : tr("Disabled"));
-#else
+#endif
     case Qt::CheckStateRole :
         return (m_statusbarselected & m_statusbarevents[index.row()])? Qt::Checked : Qt::Unchecked;
-#endif
     }
     return QVariant();
 }
