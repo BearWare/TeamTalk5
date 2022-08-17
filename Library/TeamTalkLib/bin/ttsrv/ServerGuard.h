@@ -54,6 +54,7 @@ namespace teamtalk {
         void OnUserBanned(const ServerUser& banner, const BannedUser& ban);
         void OnUserUnbanned(const ServerUser& user, const BannedUser& ban);
         void OnUserUpdated(const ServerUser& user);
+        void OnUserSubscribe(const ServerUser& user, const ServerUser& subscriptuser);
         void OnUserJoinChannel(const ServerUser& user, const ServerChannel& channel);
         void OnUserLeaveChannel(const ServerUser& user, const ServerChannel& channel);
         void OnUserMoved(const ServerUser& mover, const ServerUser& movee);

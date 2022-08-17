@@ -430,6 +430,7 @@ namespace teamtalk {
         virtual void OnUserBanned(const ServerUser& banner, const BannedUser& ban) = 0;
         virtual void OnUserUnbanned(const ServerUser& user, const BannedUser& ban) = 0;
         virtual void OnUserUpdated(const ServerUser& user) = 0;
+        virtual void OnUserSubscribe(const ServerUser& user, const ServerUser& subscriptuser) = 0;
         virtual void OnUserJoinChannel(const ServerUser& user, const ServerChannel& channel) = 0;
         virtual void OnUserLeaveChannel(const ServerUser& user, const ServerChannel& channel) = 0;
         virtual void OnUserMoved(const ServerUser& mover, const ServerUser& movee) = 0;
