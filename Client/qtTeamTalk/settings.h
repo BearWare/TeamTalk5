@@ -305,8 +305,10 @@
 #define SETTINGS_TTS_SAPI                         "texttospeech/force-sapi"
 #define SETTINGS_TTS_SAPI_DEFAULT                 false
 #elif defined(Q_OS_DARWIN)
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
 #define SETTINGS_TTS_SPEAKLISTS                         "texttospeech/speak-lists"
 #define SETTINGS_TTS_SPEAKLISTS_DEFAULT                 true
+#endif
 #endif
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
