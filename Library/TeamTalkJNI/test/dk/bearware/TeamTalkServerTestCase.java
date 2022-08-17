@@ -1599,9 +1599,65 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
             assertTrue("message event", waitForEvent(client2, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg, interleave));
             assertEquals("message more", i < 56, msg.textmessage.bMore);
         }
-
     }
 
+    @Test
+    public void testAutoOperator() {
+        
+        TeamTalkSrv server = newServerInstance();
+        ServerInterleave interleave = new RunServer(server);
+
+        TeamTalkBase admin = newClientInstance();
+        TeamTalkBase client = newClientInstance();
+
+        connect(server, admin);
+        login(server, admin, getTestMethodName(), ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        Channel chan = buildDefaultChannel(admin, getTestMethodName());
+        chan.uChannelType |= ChannelType.CHANNEL_PERMANENT;
+        chan.szPassword = "password";
+        chan.szOpPassword = "oppassword";
+
+        assertTrue("perm chan", waitCmdSuccess(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave));
+
+        int permid = admin.getChannelIDFromPath(getTestMethodName());
+        
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = "guest";
+        useraccount.szPassword = "guest";
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN;
+        useraccounts.add(useraccount);
+
+        connect(server, client);
+        login(server, client, getTestMethodName(), useraccount.szUsername, useraccount.szPassword);
+
+        Channel tmp = new Channel();
+        assertTrue("get chan", client.getChannel(permid, tmp));
+        assertEquals("No chan password", "", tmp.szPassword);
+        assertEquals("No chan oppassword", "", tmp.szOpPassword);
+
+        assertTrue("disconnect", client.disconnect());
+
+        useraccount.autoOperatorChannels[0] = permid;
+
+        connect(server, client);
+        login(server, client, getTestMethodName(), useraccount.szUsername, useraccount.szPassword);
+        assertTrue("get chan", client.getChannel(permid, tmp));
+        assertEquals("Chan password", "password", tmp.szPassword);
+        assertEquals("Chan oppassword", "oppassword", tmp.szOpPassword);
+
+        assertTrue("get admin chan", admin.getChannel(permid, chan));
+        chan.szPassword = "foo";
+        chan.szOpPassword = "foo2";
+        assertTrue("updateperm chan", waitCmdSuccess(admin, admin.doUpdateChannel(chan), DEF_WAIT, interleave));
+
+        assertTrue("update client", waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
+        assertTrue("get chan", client.getChannel(permid, tmp));
+        assertEquals("Client see chan password", "foo", tmp.szPassword);
+        assertEquals("Client see oppassword", "foo2", tmp.szOpPassword);
+    }
+    
     // @Test
     public void _testRunServer() {
 
