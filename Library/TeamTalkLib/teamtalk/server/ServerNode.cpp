@@ -4169,6 +4169,8 @@ ErrorMsg ServerNode::UserSubscribe(int userid, int subuserid,
             StartDesktopTransmitter(*subscriptuser, *user, *chan);
     }
 
+    m_srvguard->OnUserSubscribe(*user, *subscriptuser);
+
     return ErrorMsg(TT_CMDERR_SUCCESS);
 }
 
@@ -4196,6 +4198,8 @@ ErrorMsg ServerNode::UserUnsubscribe(int userid, int subuserid,
         //if active desktop then stop it
         if(subscrip & (SUBSCRIBE_DESKTOP | SUBSCRIBE_INTERCEPT_DESKTOP))
             StopDesktopTransmitter(*subscriptuser, *user, true);
+
+        m_srvguard->OnUserSubscribe(*user, *subscriptuser);
 
         return ErrorMsg(TT_CMDERR_SUCCESS);
     }

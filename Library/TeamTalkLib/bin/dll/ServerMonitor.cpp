@@ -161,6 +161,11 @@ void ServerMonitor::OnUserUpdated(const teamtalk::ServerUser& user)
         i->second(m_ttInst, i->first, &suser);
 }
 
+void ServerMonitor::OnUserSubscribe(const teamtalk::ServerUser& user, const teamtalk::ServerUser& subscriptuser)
+{
+
+}
+
 void ServerMonitor::OnUserJoinChannel(const teamtalk::ServerUser& user,
                                       const teamtalk::ServerChannel& channel)
 {
