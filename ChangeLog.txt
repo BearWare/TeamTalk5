@@ -12,6 +12,7 @@ Default Qt Client
 - See OS used by client in "User Information" dialog
 - "Entry name" in "Connect to a Server" dialog now shows server list name
 - "Entry name" is now default file name for saving .tt file in "Generate .tt File" dialog
+- See Qt version on "About" dialog
 - Fixed username/password not being applied in "Generate .tt File" dialog
 - Only 64-bit Windows is now supported
 - MacOS changed to Qt 6.4
