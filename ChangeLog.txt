@@ -4,16 +4,19 @@
 
 Version 5.11, unreleased
 Accessible Windows Client
--
+- Only 64-bit Windows is now supported
 Default Qt Client
 - Option to configure sound events volume
 - Ability to start new client instance using the same profile
 - Ability to connect to latest host in new profile
-- MacOS changed to Qt 6.4
 - See OS used by client in "User Information" dialog
 - "Entry name" in "Connect to a Server" dialog now shows server list name
 - "Entry name" is now default file name for saving .tt file in "Generate .tt File" dialog
+- See Qt version on "About" dialog
 - Fixed username/password not being applied in "Generate .tt File" dialog
+- Only 64-bit Windows is now supported
+- MacOS changed to Qt 6.4
+- Windows changed to Qt 6.4 means Windows 7 is no longer supported
 Android Client
 -
 iOS Client
@@ -21,6 +24,7 @@ iOS Client
 Server
 - TeamTalk Pro server can use email as login name on initial authentication
 - Subscription changes are written to log file
+- Only 64-bit Windows is now supported
 
 Version 5.10, 2022/07/17
 Accessible Windows Client
