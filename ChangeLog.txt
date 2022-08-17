@@ -23,6 +23,7 @@ iOS Client
 -
 Server
 - TeamTalk Pro server can use email as login name on initial authentication
+- Passwords of auto operator channel are forwarded to clients
 - Subscription changes are written to log file
 - Only 64-bit Windows is now supported
 
