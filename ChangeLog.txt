@@ -15,6 +15,7 @@ Default Qt Client
 - "Entry name" is now default file name for saving .tt file in "Generate .tt File" dialog
 - Fixed username/password not being applied in "Generate .tt File" dialog
 - Only 64-bit Windows is now supported
+- Windows 7 is no longer supported
 Android Client
 -
 iOS Client
