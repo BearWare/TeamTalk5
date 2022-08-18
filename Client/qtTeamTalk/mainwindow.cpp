@@ -7097,6 +7097,15 @@ void MainWindow::startTTS()
         ttSpeech = new QTextToSpeech(this);
         ttSpeech->setRate(ttSettings->value(SETTINGS_TTS_RATE, SETTINGS_TTS_RATE_DEFAULT).toDouble());
         ttSpeech->setVolume(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
+        int localeIndex = ttSettings->value(SETTINGS_TTS_LOCALE).toInt();
+        QVector<QLocale> locales = ttSpeech->availableLocales();
+        if (locales.size())
+        {
+            if (localeIndex < locales.size())
+                ttSpeech->setLocale(locales[localeIndex]);
+            else
+                ttSpeech->setLocale(locales[localeIndex]);
+        }
         int voiceIndex = ttSettings->value(SETTINGS_TTS_VOICE).toInt();
         QVector<QVoice> voices = ttSpeech->availableVoices();
         if (voices.size())

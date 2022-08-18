@@ -17,6 +17,7 @@ Default Qt Client
 - Only 64-bit Windows is now supported
 - MacOS changed to Qt 6.4
 - Windows changed to Qt 6.4 means Windows 7 is no longer supported
+- Option to choose TTS language with "Default" engine
 Android Client
 -
 iOS Client
