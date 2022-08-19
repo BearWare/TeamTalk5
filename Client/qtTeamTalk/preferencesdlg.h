@@ -136,6 +136,7 @@ private:
     void slotEventVoiceActMeOff();
     //TTS
     void slotUpdateTTSTab();
+    void slotTTSLocaleChanged(const QString& locale);
     //keyboard shortcuts
     void shortcutSetup(HotKeyID hotkey, bool enable, QLineEdit* shortcutedit);
     //video tab

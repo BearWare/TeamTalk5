@@ -17,6 +17,8 @@ Default Qt Client
 - Only 64-bit Windows is now supported
 - MacOS changed to Qt 6.4
 - Windows changed to Qt 6.4 means Windows 7 is no longer supported
+- Option to choose TTS language with "Default" engine
+- Reconfiguration of selected voice for TTS required
 - Fixed request to create folder for channel and private histories if none is specified in "Store conversation" dialog
 - TTS message when trying to reconnect to server
 Android Client
