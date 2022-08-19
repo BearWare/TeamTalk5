@@ -1119,7 +1119,7 @@ void PreferencesDlg::slotSaveChanges()
     {
         ttSettings->setValue(SETTINGS_TTS_ACTIVEEVENTS, m_ttsmodel->getTTSEvents());
         ttSettings->setValue(SETTINGS_TTS_ENGINE, getCurrentItemData(ui.ttsengineComboBox, TTSENGINE_NONE));
-        ttSettings->setValue(SETTINGS_TTS_LOCALE, ui.ttsLocaleComboBox->currentIndex());
+        ttSettings->setValue(SETTINGS_TTS_LOCALE, getCurrentItemData(ui.ttsLocaleComboBox, ""));
         ttSettings->setValue(SETTINGS_TTS_VOICE, ui.ttsVoiceComboBox->currentIndex());
         ttSettings->setValue(SETTINGS_TTS_RATE, ui.ttsVoiceRateSpinBox->value());
         ttSettings->setValue(SETTINGS_TTS_VOLUME, ui.ttsVoiceVolumeSpinBox->value());
@@ -1616,13 +1616,12 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.ttsVoiceRateSpinBox->setValue(ttSettings->value(SETTINGS_TTS_RATE, SETTINGS_TTS_RATE_DEFAULT).toDouble());
         ui.ttsVoiceVolumeSpinBox->setValue(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
         ui.ttsLocaleComboBox->clear();
-        QVector<QLocale> Locales = ttSpeech->availableLocales();
-        foreach (const QLocale &locale, Locales)
+        foreach (const QLocale &locale, ttSpeech->availableLocales())
         {
-            ui.ttsLocaleComboBox->addItem(locale.nativeLanguageName());
+            ui.ttsLocaleComboBox->addItem(locale.nativeLanguageName(), locale.nativeLanguageName());
         }
-        ui.ttsLocaleComboBox->setCurrentIndex(ttSettings->value(SETTINGS_TTS_LOCALE).toInt());
-        ttSpeech->setLocale(Locales[ui.ttsLocaleComboBox->currentIndex()]);
+        ui.ttsLocaleComboBox->model()->sort(0);
+        setCurrentItemData(ui.ttsLocaleComboBox, ttSettings->value(SETTINGS_TTS_LOCALE));
         ui.ttsVoiceComboBox->clear();
         QVector<QVoice> Voices = ttSpeech->availableVoices();
         foreach (const QVoice &voice, Voices)

@@ -7097,14 +7097,14 @@ void MainWindow::startTTS()
         ttSpeech = new QTextToSpeech(this);
         ttSpeech->setRate(ttSettings->value(SETTINGS_TTS_RATE, SETTINGS_TTS_RATE_DEFAULT).toDouble());
         ttSpeech->setVolume(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
-        int localeIndex = ttSettings->value(SETTINGS_TTS_LOCALE).toInt();
+        QString locale = ttSettings->value(SETTINGS_TTS_LOCALE).toString();
         QVector<QLocale> locales = ttSpeech->availableLocales();
-        if (locales.size())
+        auto selLocale = std::find_if(locales.begin(), locales.end(), [locale](const QLocale& l) {
+           return l.nativeLanguageName() == locale;
+        });
+        if (selLocale != locales.end())
         {
-            if (localeIndex < locales.size())
-                ttSpeech->setLocale(locales[localeIndex]);
-            else
-                ttSpeech->setLocale(locales[localeIndex]);
+            ttSpeech->setLocale(*selLocale);
         }
         int voiceIndex = ttSettings->value(SETTINGS_TTS_VOICE).toInt();
         QVector<QVoice> voices = ttSpeech->availableVoices();
