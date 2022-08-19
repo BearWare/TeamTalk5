@@ -2394,6 +2394,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
     case TIMER_RECONNECT :
         Q_ASSERT( (TT_GetFlags(ttInst) & CLIENT_CONNECTED) == 0);
         Disconnect();
+        addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Trying reconnect"));
         Connect();
         break;
     case TIMER_STATUSMSG :
