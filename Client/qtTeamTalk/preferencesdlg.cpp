@@ -208,6 +208,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     ui.ttsTreeView->setModel(m_ttsmodel);
     connect(ui.ttsTreeView, &QAbstractItemView::doubleClicked, this, &PreferencesDlg::slotTTSEventToggled);
     connect(ui.ttsengineComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &PreferencesDlg::slotUpdateTTSTab);
+    connect(ui.ttsLocaleComboBox, &QComboBox::currentTextChanged, this, &PreferencesDlg::slotTTSLocaleChanged);
     connect(ui.ttsEnableallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSEnableAll);
     connect(ui.ttsClearallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSClearAll);
     connect(ui.ttsRevertButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSRevert);
@@ -1668,6 +1669,29 @@ void PreferencesDlg::slotUpdateTTSTab()
     case TTSENGINE_NONE :
     break;
     }
+}
+
+void PreferencesDlg::slotTTSLocaleChanged(const QString& locale)
+{
+#if defined(QT_TEXTTOSPEECH_LIB)
+    QVector<QLocale> locales = ttSpeech->availableLocales();
+    auto selLocale = std::find_if(locales.begin(), locales.end(), [locale](const QLocale& l) {
+       return l.nativeLanguageName() == locale;
+    });
+
+    if (selLocale != locales.end())
+    {
+        ttSpeech->setLocale(*selLocale);
+
+        ui.ttsVoiceComboBox->clear();
+        foreach (const QVoice &voice, ttSpeech->availableVoices())
+        {
+            ui.ttsVoiceComboBox->addItem(voice.name(), voice.name());
+        }
+        ui.ttsVoiceComboBox->model()->sort(0);
+        setCurrentItemData(ui.ttsVoiceComboBox, ttSettings->value(SETTINGS_TTS_VOICE));
+    }
+#endif
 }
 
 void PreferencesDlg::shortcutSetup(HotKeyID hotkey, bool enable, QLineEdit* shortcutedit)
