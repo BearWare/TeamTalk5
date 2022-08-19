@@ -21,6 +21,7 @@ Default Qt Client
 - Reconfiguration of selected voice for TTS required
 - Fixed request to create folder for channel and private histories if none is specified in "Store conversation" dialog
 - TTS message when trying to reconnect to server
+- Ability to see input and ouput device informations using tab key in "Preferences" dialog
 Android Client
 -
 iOS Client

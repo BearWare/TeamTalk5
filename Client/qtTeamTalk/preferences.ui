@@ -1099,6 +1099,9 @@
               <property name="wordWrap">
                <bool>true</bool>
               </property>
+              <property name="textInteractionFlags">
+                <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+              </property>
              </widget>
             </item>
             <item row="2" column="0">
@@ -1138,6 +1141,9 @@
               </property>
               <property name="wordWrap">
                <bool>true</bool>
+              </property>
+              <property name="textInteractionFlags">
+                <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
               </property>
              </widget>
             </item>

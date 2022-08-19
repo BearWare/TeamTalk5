@@ -1242,6 +1242,7 @@ void PreferencesDlg::slotSoundInputChange(int index)
             devinfo += " " + QString::number(dev.inputSampleRates[i]);
     }
     ui.inputinfoLabel->setText(devinfo);
+    ui.inputinfoLabel->setAccessibleName(devinfo);
     slotUpdateSoundCheckBoxes();
 }
 
@@ -1265,6 +1266,7 @@ void PreferencesDlg::slotSoundOutputChange(int index)
             devinfo += " " + QString::number(dev.outputSampleRates[i]);
     }
     ui.outputinfoLabel->setText(devinfo);
+    ui.outputinfoLabel->setAccessibleName(devinfo);
     slotUpdateSoundCheckBoxes();
 }
 
