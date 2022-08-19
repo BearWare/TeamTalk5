@@ -42,6 +42,7 @@ namespace teamtalk {
         void RemoveUser(int userid);
         void RemoveUser(int userid, bool* modified);
         bool ClearFromTransmitQueue(int userid);
+        void UpdateChannelBans();
     private:
         void Init();
         // userid -> last transmit time

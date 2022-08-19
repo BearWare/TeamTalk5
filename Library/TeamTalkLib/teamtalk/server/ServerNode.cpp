@@ -3686,7 +3686,10 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
         if(chanprop.name.empty())
             return ErrorMsg(TT_CMDERR_CHANNEL_ALREADY_EXISTS);
 
+        bool newname = chanprop.name != chan->GetName();
         chan->SetName(chanprop.name);
+        if (newname)
+            chan->UpdateChannelBans();
     }
     chan->SetTopic(chanprop.topic);
     chan->SetMaxDiskUsage(chanprop.diskquota);

@@ -27,6 +27,7 @@ Server
 - Passwords of auto operator channel are forwarded to clients
 - Subscription changes are written to log file
 - Only 64-bit Windows is now supported
+- Fixed bug where bans on renamed channel has no effect
 
 Version 5.10, 2022/07/17
 Accessible Windows Client
