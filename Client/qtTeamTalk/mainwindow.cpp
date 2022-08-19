@@ -7106,14 +7106,27 @@ void MainWindow::startTTS()
         {
             ttSpeech->setLocale(*selLocale);
         }
-        int voiceIndex = ttSettings->value(SETTINGS_TTS_VOICE).toInt();
-        QVector<QVoice> voices = ttSpeech->availableVoices();
-        if (voices.size())
+        else if (locales.size())
         {
-            if (voiceIndex < voices.size())
-                ttSpeech->setVoice(voices[voiceIndex]);
-            else
-                ttSpeech->setVoice(voices[voiceIndex]);
+            qDebug() << "Locales found";
+        }
+        else
+        {
+            addStatusMsg(STATUSBAR_BYPASS, tr("Language %1 not found for Text-To-Speech").arg(locale));
+        }
+        QString voice = ttSettings->value(SETTINGS_TTS_VOICE).toString();
+        QVector<QVoice> voices = ttSpeech->availableVoices();
+        auto selVoice = std::find_if(voices.begin(), voices.end(), [voice](const QVoice& v) {
+           return v.name() == voice;
+        });
+        if (selVoice != voices.end())
+        {
+            ttSpeech->setVoice(*selVoice);
+        }
+        else if (voices.size())
+        {
+            addStatusMsg(STATUSBAR_BYPASS, tr("Voice %1 not found for Text-To-Speech. Switching to %2").arg(voice).arg(voices[0].name()));
+            ttSpeech->setVoice(voices[0]);
         }
         else
         {

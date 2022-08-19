@@ -1120,7 +1120,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_TTS_ACTIVEEVENTS, m_ttsmodel->getTTSEvents());
         ttSettings->setValue(SETTINGS_TTS_ENGINE, getCurrentItemData(ui.ttsengineComboBox, TTSENGINE_NONE));
         ttSettings->setValue(SETTINGS_TTS_LOCALE, getCurrentItemData(ui.ttsLocaleComboBox, ""));
-        ttSettings->setValue(SETTINGS_TTS_VOICE, ui.ttsVoiceComboBox->currentIndex());
+        ttSettings->setValue(SETTINGS_TTS_VOICE, getCurrentItemData(ui.ttsVoiceComboBox, ""));
         ttSettings->setValue(SETTINGS_TTS_RATE, ui.ttsVoiceRateSpinBox->value());
         ttSettings->setValue(SETTINGS_TTS_VOLUME, ui.ttsVoiceVolumeSpinBox->value());
 #if defined(Q_OS_LINUX)
@@ -1623,12 +1623,12 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.ttsLocaleComboBox->model()->sort(0);
         setCurrentItemData(ui.ttsLocaleComboBox, ttSettings->value(SETTINGS_TTS_LOCALE));
         ui.ttsVoiceComboBox->clear();
-        QVector<QVoice> Voices = ttSpeech->availableVoices();
-        foreach (const QVoice &voice, Voices)
+        foreach (const QVoice &voice, ttSpeech->availableVoices())
         {
-            ui.ttsVoiceComboBox->addItem(voice.name());
+            ui.ttsVoiceComboBox->addItem(voice.name(), voice.name());
         }
-        ui.ttsVoiceComboBox->setCurrentIndex(ttSettings->value(SETTINGS_TTS_VOICE).toInt());
+        ui.ttsVoiceComboBox->model()->sort(0);
+        setCurrentItemData(ui.ttsVoiceComboBox, ttSettings->value(SETTINGS_TTS_VOICE));
 
 #if defined(Q_OS_DARWIN)
 #if QT_VERSION >= QT_VERSION_CHECK(6,4,0)
