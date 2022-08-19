@@ -19,6 +19,8 @@ Default Qt Client
 - Windows changed to Qt 6.4 means Windows 7 is no longer supported
 - Option to choose TTS language with "Default" engine
 - Reconfiguration of selected voice for TTS required
+- Fixed request to create folder for channel and private histories if none is specified in "Store conversation" dialog
+- TTS message when trying to reconnect to server
 Android Client
 -
 iOS Client
@@ -28,6 +30,7 @@ Server
 - Passwords of auto operator channel are forwarded to clients
 - Subscription changes are written to log file
 - Only 64-bit Windows is now supported
+- Fixed bug where bans on renamed channel has no effect
 
 Version 5.10, 2022/07/17
 Accessible Windows Client
