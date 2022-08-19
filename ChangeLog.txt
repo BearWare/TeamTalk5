@@ -17,6 +17,7 @@ Default Qt Client
 - Only 64-bit Windows is now supported
 - MacOS changed to Qt 6.4
 - Windows changed to Qt 6.4 means Windows 7 is no longer supported
+- Fixed request to create folder for channel and private histories if none is specified in "Store conversation" dialog
 Android Client
 -
 iOS Client
