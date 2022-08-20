@@ -80,13 +80,9 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>Compiled on </source>
-        <translation type="vanished">编译于 </translation>
-    </message>
-    <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on %1 %2 using Qt %3 (Qt %4 used by this instance).</source>
-        <translation type="unfinished"></translation>
+        <translation>编译于 %1 %2 使用 Qt %3 (本实例使用 Qt %4)。</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="35"/>
@@ -3218,7 +3214,8 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="6918"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>文件 %1 包含 %2 的设置信息。<byte value="xd"/>
+您想要应用这些设置吗？</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6999"/>
@@ -3231,14 +3228,6 @@ Should these settings be applied?</source>
         <translation>新版本可用</translation>
     </message>
     <message>
-        <source>New version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="vanished">新版本可用： %1
-您可在以下页面下载：
-%2</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="7024"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>有新的 %1 测试版可用： %2。你想现在打开下载页面吗？</translation>
@@ -3247,14 +3236,6 @@ You can download it on the page below:
         <location filename="../mainwindow.cpp" line="7029"/>
         <source>New beta version available</source>
         <translation>新测试版可升级</translation>
-    </message>
-    <message>
-        <source>New beta version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="vanished">新测试版可用： %1
-你可从以下页面下载：
-%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7134"/>
@@ -3320,7 +3301,7 @@ You can download it on the page below:
     <message>
         <location filename="../mainwindow.cpp" line="2397"/>
         <source>Trying to reconnect to %1 port %2</source>
-        <translation type="unfinished"></translation>
+        <translation>正尝试重新连接 %1 端口 %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2596"/>
@@ -3433,7 +3414,7 @@ You can download it on the page below:
     <message>
         <location filename="../mainwindow.cpp" line="3868"/>
         <source>Current Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>当前配置</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3881"/>
@@ -3559,24 +3540,28 @@ Do you wish to do this now?</source>
         <source>New version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>新版本可用： %1<byte value="xd"/>
+您可在以下页面下载：<byte value="xd"/>
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7036"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>新测试版可用： %1<byte value="xd"/>
+您可在以下页面下载：<byte value="xd"/>
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7116"/>
         <source>Language %1 not found for Text-To-Speech</source>
-        <translation type="unfinished"></translation>
+        <translation>未找到文本转语音的语言 %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7129"/>
         <source>Voice %1 not found for Text-To-Speech. Switching to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>未找到文本转语音的语音 %1。切换至 %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4415"/>
@@ -3994,12 +3979,6 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="6923"/>
         <source>Load %1 File</source>
         <translation>加载 %1 文件</translation>
-    </message>
-    <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="vanished">文件 %1 包含 %2 的设置。
-是否应用这些设置？</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="32"/>
@@ -4662,12 +4641,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1289"/>
         <source>Sound pack</source>
-        <translation type="unfinished"></translation>
+        <translation>声音包</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1302"/>
         <source>Sound event volume level</source>
-        <translation type="unfinished"></translation>
+        <translation>声音事件音量级别</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1360"/>
@@ -4735,10 +4714,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="564"/>
         <source>Configure events</source>
         <translation>配置事件</translation>
-    </message>
-    <message>
-        <source>Sounds pack</source>
-        <translation type="vanished">声音包</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1370"/>
@@ -4898,7 +4873,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="2123"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>语言</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2149"/>
