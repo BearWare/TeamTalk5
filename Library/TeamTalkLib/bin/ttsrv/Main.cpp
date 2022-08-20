@@ -766,53 +766,8 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
 #if defined(ENABLE_TEAMTALKPRO)
     while (HasBearWareWebLogin(xmlSettings))
     {
-        std::string bwidUtf8, tokenUtf8;
-        xmlSettings.GetBearWareWebLogin(bwidUtf8, tokenUtf8);
-        ACE_TString bwid = Utf8ToUnicode(bwidUtf8.c_str());
-        ACE_TString token = Utf8ToUnicode(tokenUtf8.c_str());
-
-        while (token.empty())
-        {
-            cout << "To use BearWare.dk WebLogin please provide your credentials." << endl;
-            cout << "Type username: ";
-            bwid = LocalToUnicode(printGetString(UnicodeToLocal(bwid).c_str()).c_str());
-            cout << "Type password: ";
-            ACE_TString passwd = LocalToUnicode(printGetPassword("").c_str());
-            ACE_TString newtoken, loginid;
-            switch (LoginBearWareAccount(bwid, passwd, newtoken, loginid))
-            {
-            case 1 :
-                cout << endl << "Login successful." << endl << endl;
-                cout << "To avoid providing your credentials every time the server is started" << endl;
-                cout << "it is recommended to store your access token in the server's configuration" << endl;
-                cout << "file." << endl << endl;
-                cout << "Only do so if " << TEAMTALK_SETTINGSFILE << " is inaccessible to everyone but yourself." << endl << endl;
-                cout << "Store access token in " << TEAMTALK_SETTINGSFILE << "? ";
-                if (printGetBool(false))
-                {
-                    xmlSettings.SetBearWareWebLogin(UnicodeToUtf8(loginid).c_str(), UnicodeToUtf8(newtoken).c_str());
-                    xmlSettings.SaveFile();
-                }
-                bwid = loginid;
-                token = newtoken.c_str();
-                break;
-            case -1 :
-                cout << "Unable to contact BearWare.dk WebLogin" << endl;
-                break;
-            default :
-            case 0 :
-                cout << "Login failed. Please try again." << endl;
-                break;
-            }
-        }
-
-        if (AuthBearWareAccount(bwid, token) == 0)
-        {
-            std::cerr << "Failed to authenticate BearWare.dk WebLogin: " << UnicodeToLocal(bwid).c_str() << std::endl;
-            xmlSettings.SetBearWareWebLogin(UnicodeToUtf8(bwid).c_str(), "");
-            continue;
-        }
-        break;
+        if (LoginBearWare(xmlSettings))
+            break;
     }
 #endif
 
