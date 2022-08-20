@@ -81,21 +81,21 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
 
     if(!editable)
     {
-        ui.servernameEdit->setEnabled(false);
-        ui.maxusersSpinBox->setEnabled(false);
-        ui.motdTextEdit->setEnabled(false);
-        ui.tcpportSpinBox->setEnabled(false);
-        ui.udpportSpinBox->setEnabled(false);
-        ui.usertimeoutSpinBox->setEnabled(false);
+        ui.servernameEdit->setReadOnly(true);
+        ui.maxusersSpinBox->setReadOnly(true);
+        ui.motdTextEdit->setReadOnly(true);
+        ui.tcpportSpinBox->setReadOnly(true);
+        ui.udpportSpinBox->setReadOnly(true);
+        ui.usertimeoutSpinBox->setReadOnly(true);
         ui.autosaveBox->setEnabled(false);
-        ui.maxloginattemptsSpinBox->setEnabled(false);
-        ui.maxiploginsSpinBox->setEnabled(false);
-        ui.logindelaySpinBox->setEnabled(false);
-        ui.audtxSpinBox->setEnabled(false);
-        ui.videotxSpinBox->setEnabled(false);
-        ui.mediafiletxSpinBox->setEnabled(false);
-        ui.desktoptxSpinBox->setEnabled(false);
-        ui.totaltxSpinBox->setEnabled(false);
+        ui.maxloginattemptsSpinBox->setReadOnly(true);
+        ui.maxiploginsSpinBox->setReadOnly(true);
+        ui.logindelaySpinBox->setReadOnly(true);
+        ui.audtxSpinBox->setReadOnly(true);
+        ui.videotxSpinBox->setReadOnly(true);
+        ui.mediafiletxSpinBox->setReadOnly(true);
+        ui.desktoptxSpinBox->setReadOnly(true);
+        ui.totaltxSpinBox->setReadOnly(true);
         ui.motdChkBox->hide();
     }
     else
