@@ -937,11 +937,11 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
 
         QString itemtext;
         QString name = getDisplayName(user);
-        if(emoji && item->data(COLUMN_ITEM, Qt::UserRole).toInt() & MESSAGED_TYPE)
-            itemtext += "✉ ";
         itemtext += name;
         if (emoji)
         {
+            if(item->data(COLUMN_ITEM, Qt::UserRole).toInt() & MESSAGED_TYPE)
+                itemtext += " ✉";
             switch (user.nStatusMode & STATUSMODE_MODE)
             {
             case STATUSMODE_AWAY :
