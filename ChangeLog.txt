@@ -19,6 +19,7 @@ Default Qt Client
 - Ability to see input and ouput device informations using tab key in "Preferences" dialog
 - Ability to start new client instance using the same profile
 - Ability to connect to latest host in new profile
+- BearWare.dk WebLogin changes file permission on TeamTalk5.ini to 600
 - Fixed request to create folder for channel and private histories if none is specified in "Store conversation" dialog
 - Fixed username/password not being applied in "Generate .tt File" dialog
 Android Client
@@ -27,6 +28,8 @@ iOS Client
 -
 Server
 - TeamTalk Pro server can use email as login name on initial authentication
+- BearWare.dk WebLogin account requires initial login upon startup
+- BearWare.dk WebLogin changes file permission on tt5prosrv.xml to 600
 - Passwords of auto operator channel are forwarded to clients
 - Subscription changes are written to log file
 - Only 64-bit Windows is now supported
