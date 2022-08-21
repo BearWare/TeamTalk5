@@ -25,7 +25,7 @@
 #include "Commands.h"
 #include <time.h>
 #include <ace/Date_Time.h>
-
+#include <regex>
 
 namespace teamtalk
 {
@@ -43,6 +43,20 @@ namespace teamtalk
     UserAccount::UserAccount()
     {
         lastupdated = ACE_OS::gettimeofday();
+    }
+
+    bool UserAccount::IsWebLogin() const
+    {
+#if defined(ENABLE_TEAMTALKPRO)
+        ACE_TString bwregex = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + ACE_TString(ACE_TEXT("$"));
+#if defined(UNICODE)
+        return std::regex_search(username.c_str(), std::wregex(bwregex.c_str()));
+#else
+        return std::regex_search(username.c_str(), std::regex(bwregex.c_str()));
+#endif
+#else
+        return false;
+#endif
     }
 
     ACE_TString DateToString(const ACE_Time_Value& tv)
