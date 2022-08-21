@@ -31,6 +31,7 @@ Server
 - BearWare.dk WebLogin account requires initial login upon startup
 - BearWare.dk WebLogin changes file permission on tt5prosrv.xml to 600
 - Passwords of auto operator channel are forwarded to clients
+- Operator status is resumed after disconnect when using BearWare.dk WebLogin
 - Subscription changes are written to log file
 - Only 64-bit Windows is now supported
 - Fixed bug where bans on renamed channel has no effect
