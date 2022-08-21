@@ -86,7 +86,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on %1 %2 using Qt %3 (Qt %4 used by this instance).</source>
-        <translation type="unfinished"></translation>
+        <translation>Qt %3 kullanılarak %1 %2 üzerinde derlendi (bu örnek tarafından kullanılan Qt %4).</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="35"/>
@@ -3026,7 +3026,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2397"/>
         <source>Trying to reconnect to %1 port %2</source>
-        <translation type="unfinished"></translation>
+        <translation>yeniden bağlanmaya çalışılıyor %1 port %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4168"/>
@@ -3260,12 +3260,12 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="7116"/>
         <source>Language %1 not found for Text-To-Speech</source>
-        <translation type="unfinished"></translation>
+        <translation>Metin-Konuşma için %1 dili bulunamadı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7129"/>
         <source>Voice %1 not found for Text-To-Speech. Switching to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Metin-Konuşma için %1 sesi bulunamadı. %2'ye geçiliyor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7134"/>
@@ -3447,7 +3447,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="3868"/>
         <source>Current Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>geçerli profil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3881"/>
@@ -4652,12 +4652,12 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1289"/>
         <source>Sound pack</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses paketi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1302"/>
         <source>Sound event volume level</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses olayı ses seviyesi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1360"/>
@@ -4888,7 +4888,7 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../preferences.ui" line="2123"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Dil</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2149"/>
