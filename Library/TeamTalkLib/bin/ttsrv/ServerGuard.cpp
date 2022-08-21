@@ -27,7 +27,6 @@
 #include <ace/OS_NS_sys_stat.h>
 
 #include <sstream>
-#include <regex>
 
 #include <teamtalk/Commands.h>
 #include <teamtalk/Log.h>
@@ -724,15 +723,7 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
     if (useraccount.username == ACE_TEXT(WEBLOGIN_BEARWARE_USERNAME))
         return TT_CMDERR_INVALID_ACCOUNT;
 
-    bool bearware = false;
-    ACE_TString bwregex = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + ACE_TString(ACE_TEXT("$"));
-#if defined(UNICODE)
-    bearware |= std::regex_search(useraccount.username.c_str(), std::wregex(bwregex.c_str()));
-#else
-    bearware |= std::regex_search(useraccount.username.c_str(), std::regex(bwregex.c_str()));
-#endif
-
-    if (bearware)
+    if (useraccount.IsWebLogin())
     {
         auto i = m_pendinglogin.find(user.GetUserID());
         if(i != m_pendinglogin.end())

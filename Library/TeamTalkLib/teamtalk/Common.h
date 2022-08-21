@@ -262,6 +262,7 @@ namespace teamtalk {
         ACE_Time_Value lastupdated;
         
         UserAccount();
+        bool IsWebLogin() const;
     };
     typedef std::vector<UserAccount> useraccounts_t;
 

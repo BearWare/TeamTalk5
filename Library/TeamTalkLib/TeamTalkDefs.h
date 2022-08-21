@@ -31,6 +31,10 @@
 
 #if defined(ENABLE_TEAMTALKPRO)
 #define TEAMTALK_LIB_NAME "TeamTalk5Pro"
+
+#define WEBLOGIN_BEARWARE_USERNAME  "bearware"
+#define WEBLOGIN_BEARWARE_POSTFIX   "@bearware.dk"
+#define WEBLOGIN_URL                "https://login.bearware.dk/teamtalk/weblogin.php?"
 #else
 #define TEAMTALK_LIB_NAME "TeamTalk5"
 #endif
