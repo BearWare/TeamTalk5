@@ -2882,6 +2882,9 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
         ErrorMsg err = m_srvguard->JoinChannel(*user, *newchan);
         if(!err.success())
             return err;
+
+        if (newchan->IsOwner(*user))
+            makeop = true;
     }
 
     if(!newchan)
@@ -3630,6 +3633,8 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
     chan->SetDesktopUsers(chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP));
     chan->SetMediaFileUsers(chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE));
     chan->SetChannelTextMsgUsers(chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG));
+    if (user)
+        chan->SetOwner(*user);
 
     //forward new channel to users
     ServerChannel::users_t users;

@@ -160,3 +160,14 @@ void ServerChannel::UpdateChannelBans()
             b.chanpath = GetChannelPath();
     }
 }
+
+void ServerChannel::SetOwner(const ServerUser& user)
+{
+    if (user.GetUserAccount().IsWebLogin())
+        m_usernameOwner = user.GetUserAccount().username;
+}
+
+bool ServerChannel::IsOwner(const ServerUser& user) const
+{
+    return user.GetUserAccount().IsWebLogin() && m_usernameOwner == user.GetUserAccount().username;
+}
