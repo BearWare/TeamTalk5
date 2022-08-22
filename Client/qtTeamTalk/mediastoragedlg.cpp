@@ -148,7 +148,7 @@ void MediaStorageDlg::accept()
     ttSettings->setValue(SETTINGS_MEDIASTORAGE_STREAMTYPES, sts);
 
     folder = ui.chanlogEdit->text();
-    if (folder.size() > 0 && folder.isEmpty() || !QDir(folder).exists())
+    if ((folder.size() > 0 && folder.isEmpty()) || !QDir(folder).exists())
     {
         QMessageBox answer;
         answer.setText(tr("Folder for storing channel messages does not exist. Do you want %1 to create it for you?").arg(APPNAME_SHORT));
@@ -165,7 +165,7 @@ void MediaStorageDlg::accept()
     }
     ttSettings->setValue(SETTINGS_MEDIASTORAGE_CHANLOGFOLDER, folder);
     folder = ui.usertextEdit->text();
-    if (folder.size() > 0 && folder.isEmpty() || !QDir(folder).exists())
+    if ((folder.size() > 0 && folder.isEmpty()) || !QDir(folder).exists())
     {
         QMessageBox answer;
         answer.setText(tr("Folder for storing private text messages does not exist. Do you want %1 to create it for you?").arg(APPNAME_SHORT));

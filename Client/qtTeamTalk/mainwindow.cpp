@@ -827,7 +827,7 @@ bool MainWindow::parseArgs(const QStringList& args)
         {
             //Slash is removed by Qt 5.3.1 by mistake, therefore /+ for slashes
             //Bug: https://bugreports.qt.io/browse/QTBUG-39972
-            QRegularExpression rx(QString("%1/+([^\\??!/]*)/?\\??").arg(TTLINK_PREFIX));
+            QRegularExpression rx(QString("%1/+([^\\?\?!/]*)/?\\??").arg(TTLINK_PREFIX));
             QRegularExpressionMatch m = rx.match(args[i]);
             if (m.hasMatch())
             {
@@ -7314,7 +7314,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 #endif
 }
 
-void MainWindow::slotSpeakClientStats(bool checked/* = false*/)
+void MainWindow::slotSpeakClientStats(bool /*checked = false*/)
 {
     ClientStatistics stats = {};
     TT_GetClientStatistics(ttInst, &stats);
