@@ -301,7 +301,7 @@ bool isComputerIdle(int idle_secs)
 {
     int64_t os_idle_secs = 0;
     io_iterator_t iter = 0;
-    if (IOServiceGetMatchingServices(kIOMasterPortDefault, 
+    if (IOServiceGetMatchingServices(kIOMainPortDefault,
                                      IOServiceMatching("IOHIDSystem"), 
                                      &iter) == KERN_SUCCESS)
     {
@@ -322,7 +322,7 @@ bool isComputerIdle(int idle_secs)
                     if (CFNumberGetValue(obj, kCFNumberSInt64Type, 
                                          &nanoseconds))
                     {
-// Divide by 10^9 to convert from nanoseconds to seconds.
+                        // Divide by 10^9 to convert from nanoseconds to seconds.
                         os_idle_secs = (nanoseconds >> 30); 
                     }
                 }
