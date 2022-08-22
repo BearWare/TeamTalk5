@@ -39,7 +39,7 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
     setWindowIcon(QIcon(APPICON));
     restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_SERVERPROPERTIESWINDOWPOS).toByteArray());
 
-    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
+    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&OK"));
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
     ui.serverlogTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_SERVERLOG_EVENTS_HEADER).toByteArray());

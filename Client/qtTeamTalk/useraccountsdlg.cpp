@@ -742,7 +742,7 @@ void UserAccountsDlg::slotCustomCmdLimit(int index)
         m_abuse.nCommandsIntervalMSec = 60000;
         break;
     case LIMITCMD_CUSTOM :
-        inputDialog.setOkButtonText(tr("&Ok"));
+        inputDialog.setOkButtonText(tr("&OK"));
         inputDialog.setCancelButtonText(tr("&Cancel"));
         inputDialog.setInputMode(QInputDialog::IntInput);
         inputDialog.setIntValue(m_abuse.nCommandsLimit);
