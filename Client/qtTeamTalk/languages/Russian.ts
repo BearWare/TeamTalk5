@@ -87,7 +87,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on %1 %2 using Qt %3 (Qt %4 used by this instance).</source>
-        <translation type="unfinished"></translation>
+        <translation>скомпилирован на %1 %2 Используется Qt %3 (Qt %4 используется этим экземпляром).</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="35"/>
@@ -3432,7 +3432,9 @@ Should these settings be applied?</source>
         <source>New version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая версия: %1
+Вы можете скачать её на странице ниже:
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7024"/>
@@ -3449,17 +3451,19 @@ You can download it on the page below:<byte value="xd"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая бета-версия: %1
+Вы можете скачать её на странице ниже:
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7116"/>
         <source>Language %1 not found for Text-To-Speech</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7129"/>
         <source>Voice %1 not found for Text-To-Speech. Switching to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Голос %1 не найден для преобразования текста в речь. переключение на %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7134"/>
@@ -3657,7 +3661,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="2397"/>
         <source>Trying to reconnect to %1 port %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Пытаюсь восстановить соединение с %1: порт %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2707"/>
@@ -3725,7 +3729,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="3868"/>
         <source>Current Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Текущий профиль</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4168"/>
@@ -4003,7 +4007,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="6918"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6923"/>
@@ -4897,7 +4901,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="2123"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Язык</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2149"/>
@@ -5261,12 +5265,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1289"/>
         <source>Sound pack</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1302"/>
         <source>Sound event volume level</source>
-        <translation type="unfinished"></translation>
+        <translation>Громкость звуковых событий</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2224"/>
