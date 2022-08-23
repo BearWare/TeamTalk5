@@ -41,7 +41,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
 
     restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_CHANNELWINDOWPOS).toByteArray());
 
-    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
+    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&OK"));
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
     connect(ui.singletxchanBox, &QAbstractButton::clicked,
@@ -423,7 +423,7 @@ void ChannelDlg::slotAudioChannelChanged(int aud_channels)
 void ChannelDlg::slotSoloTransmitDelay()
 {
     QInputDialog inputDialog;
-    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setOkButtonText(tr("&OK"));
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setInputMode(QInputDialog::TextInput);
     inputDialog.setTextValue(QString::number(m_channel.nTransmitUsersQueueDelayMSec));

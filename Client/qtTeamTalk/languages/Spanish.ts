@@ -179,7 +179,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="32"/>
-        <source>&amp;Ok</source>
+        <source>&amp;OK</source>
         <translation>&amp;Aceptar</translation>
     </message>
     <message>
@@ -213,7 +213,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="167"/>
-        <source>&amp;Ok</source>
+        <source>&amp;OK</source>
         <translation>&amp;Aceptar</translation>
     </message>
     <message>
@@ -378,7 +378,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="48"/>
-        <source>&amp;Ok</source>
+        <source>&amp;OK</source>
         <translation>&amp;Aceptar</translation>
     </message>
     <message>
@@ -431,7 +431,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="37"/>
-        <source>&amp;Ok</source>
+        <source>&amp;OK</source>
         <translation>&amp;Aceptar</translation>
     </message>
     <message>
@@ -656,7 +656,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="44"/>
         <location filename="../channeldlg.cpp" line="425"/>
-        <source>&amp;Ok</source>
+        <source>&amp;OK</source>
         <translation>&amp;Aceptar</translation>
     </message>
     <message>
@@ -939,7 +939,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../customvideofmtdlg.cpp" line="34"/>
-        <source>&amp;Ok</source>
+        <source>&amp;OK</source>
         <translation>&amp;Aceptar</translation>
     </message>
     <message>
@@ -1027,7 +1027,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../desktopaccessdlg.cpp" line="37"/>
-        <source>&amp;Ok</source>
+        <source>&amp;OK</source>
         <translation>&amp;Aceptar</translation>
     </message>
     <message>
@@ -1108,7 +1108,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="54"/>
-        <source>&amp;Ok</source>
+        <source>&amp;OK</source>
         <translation>&amp;Aceptar</translation>
     </message>
     <message>
@@ -2729,7 +2729,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5426"/>
         <location filename="../mainwindow.cpp" line="5689"/>
         <location filename="../mainwindow.cpp" line="5712"/>
-        <source>&amp;Ok</source>
+        <source>&amp;OK</source>
         <translation>&amp;Aceptar</translation>
     </message>
     <message>
@@ -5076,7 +5076,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="71"/>
-        <source>&amp;Ok</source>
+        <source>&amp;OK</source>
         <translation>&amp;Aceptar</translation>
     </message>
     <message>
@@ -5906,7 +5906,7 @@ Elimina la cuenta de usuario publicada para quitar el servidor de la lista.</tra
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="42"/>
-        <source>&amp;Ok</source>
+        <source>&amp;OK</source>
         <translation>&amp;Aceptar</translation>
     </message>
     <message>
@@ -6052,7 +6052,7 @@ Elimina la cuenta de usuario publicada para quitar el servidor de la lista.</tra
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="37"/>
-        <source>&amp;Ok</source>
+        <source>&amp;OK</source>
         <translation>&amp;Aceptar</translation>
     </message>
     <message>
@@ -7131,7 +7131,7 @@ Elimina la cuenta de usuario publicada para quitar el servidor de la lista.</tra
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="745"/>
-        <source>&amp;Ok</source>
+        <source>&amp;OK</source>
         <translation>&amp;Aceptar</translation>
     </message>
     <message>
@@ -7580,7 +7580,7 @@ Elimina la cuenta de usuario publicada para quitar el servidor de la lista.</tra
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="41"/>
-        <source>&amp;Ok</source>
+        <source>&amp;OK</source>
         <translation>&amp;Aceptar</translation>
     </message>
     <message>
