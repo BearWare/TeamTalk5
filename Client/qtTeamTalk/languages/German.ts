@@ -47,10 +47,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Compiled on </source>
-        <translation type="vanished">Kompiliert am </translation>
-    </message>
-    <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on %1 %2 using Qt %3 (Qt %4 used by this instance).</source>
         <translation type="unfinished"></translation>
@@ -2640,14 +2636,6 @@ Should these settings be applied?</source>
         <translation>Neue Version verfügbar</translation>
     </message>
     <message>
-        <source>New version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="vanished">Neue Version verfügbar: %1
-Du kannst sie auf der folgenden Seite herunterladen:
-%2</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="7024"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>Eine neue Beta-Version von %1 ist verfügbar: %2. Möchtest du die Download-Seite öffnen?</translation>
@@ -2656,14 +2644,6 @@ Du kannst sie auf der folgenden Seite herunterladen:
         <location filename="../mainwindow.cpp" line="7029"/>
         <source>New beta version available</source>
         <translation>Neue Beta-Version verfügbar</translation>
-    </message>
-    <message>
-        <source>New beta version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="vanished">Neue Beta-Version verfügbar: %1
-Du kannst sie auf folgender Seite herunterladen:
-%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7134"/>
@@ -2884,12 +2864,6 @@ Du kannst sie auf folgender Seite herunterladen:
         <location filename="../mainwindow.cpp" line="6923"/>
         <source>Load %1 File</source>
         <translation>Lade %1 Datei</translation>
-    </message>
-    <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="vanished">Die Datei %1 enthält %2 Einrichtungsinformationen.
-Sollen diese Einstellungen übernommen werden?</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="139"/>
@@ -4429,10 +4403,6 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <location filename="../preferences.ui" line="1212"/>
         <source>Media file vs. voice volume</source>
         <translation>Lautstärke Medien zu Sprache</translation>
-    </message>
-    <message>
-        <source>Sounds pack</source>
-        <translation type="vanished">Soundpaket</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1360"/>

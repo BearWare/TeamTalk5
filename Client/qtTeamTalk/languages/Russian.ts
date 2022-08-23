@@ -81,10 +81,6 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>Compiled on </source>
-        <translation type="vanished">Скомпелировано на </translation>
-    </message>
-    <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on %1 %2 using Qt %3 (Qt %4 used by this instance).</source>
         <translation>скомпилирован на %1 %2 Используется Qt %3 (Qt %4 используется этим экземпляром).</translation>
@@ -2913,14 +2909,6 @@ p, li { white-space: pre-wrap; }
         <translation>Не удалось добавить %1 в исключения брандмауэра Windows.</translation>
     </message>
     <message>
-        <source>Channel message: %1</source>
-        <translation type="vanished">Сообщение канала: %1</translation>
-    </message>
-    <message>
-        <source>Broadcast message: %1</source>
-        <translation type="vanished">Сетевое сообщение: %1</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2768"/>
         <source>%1 is requesting desktop access</source>
         <translation>%1 запрашивает доступ к рабочему столу</translation>
@@ -3261,22 +3249,6 @@ Do you wish to do this now?</source>
         <translation>Сетевое сообщение отправлено: %1</translation>
     </message>
     <message>
-        <source>New version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="vanished">Доступна новая версия: %1
-Вы можете скачать её на странице ниже:
-%2</translation>
-    </message>
-    <message>
-        <source>New beta version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="vanished">Доступна новая бета-версия: %1
-Вы можете скачать её на странице ниже:
-%2</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2023"/>
         <location filename="../mainwindow.cpp" line="2024"/>
         <source>Server configuration saved</source>
@@ -3410,12 +3382,6 @@ You can download it on the page below:
         <location filename="../mainwindow.cpp" line="5717"/>
         <source>Ban User From Channel</source>
         <translation>Заблокировать пользователя в канале</translation>
-    </message>
-    <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="vanished">Файл %1 содержит %2 конфигурационные данные.
-Следует ли применять эти настройки?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6999"/>
@@ -4696,10 +4662,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="839"/>
         <source>Configure trusted list</source>
         <translation>Настройка списка доверенных лиц</translation>
-    </message>
-    <message>
-        <source>Sounds pack</source>
-        <translation type="vanished">Звуковой пакет</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1360"/>

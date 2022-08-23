@@ -47,10 +47,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Compiled on </source>
-        <translation type="vanished">Compilato il </translation>
-    </message>
-    <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on %1 %2 using Qt %3 (Qt %4 used by this instance).</source>
         <translation type="unfinished"></translation>
@@ -2686,14 +2682,6 @@ Do you wish to do this now?</source>
         <translation>Nuova versione disponibile</translation>
     </message>
     <message>
-        <source>New version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="vanished">Nuova versione disponibile: %1
-Puoi scaricarlo nella pagina sottostante:
-%2</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="7024"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation type="unfinished"></translation>
@@ -2876,12 +2864,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.cpp" line="6923"/>
         <source>Load %1 File</source>
         <translation>Carica %1 file</translation>
-    </message>
-    <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="vanished">Il file %1 contiene le informazioni di installazione di %2.
-Devono essere applicate queste impostazioni?</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="139"/>
@@ -4421,10 +4403,6 @@ Devono essere applicate queste impostazioni?</translation>
         <location filename="../preferences.ui" line="1212"/>
         <source>Media file vs. voice volume</source>
         <translation>File multimediale rispetto al volume della voce</translation>
-    </message>
-    <message>
-        <source>Sounds pack</source>
-        <translation type="vanished">Pacchetto suoni</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1360"/>

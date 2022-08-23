@@ -80,10 +80,6 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>Compiled on </source>
-        <translation type="vanished">Compilado em </translation>
-    </message>
-    <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on %1 %2 using Qt %3 (Qt %4 used by this instance).</source>
         <translation type="unfinished"></translation>
@@ -2667,14 +2663,6 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Nova versão disponível</translation>
     </message>
     <message>
-        <source>New version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="vanished">Nova versão disponível: %1
-Você pode baixá-lo na página abaixo:
-%2</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="7024"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>Uma nova versão beta de %1 está disponível: %2. Deseja abrir a página de download agora?</translation>
@@ -2683,14 +2671,6 @@ Você pode baixá-lo na página abaixo:
         <location filename="../mainwindow.cpp" line="7029"/>
         <source>New beta version available</source>
         <translation>Nova versão beta disponível</translation>
-    </message>
-    <message>
-        <source>New beta version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="vanished">Nova versão beta disponível: %1
-Você pode baixá-lo na página abaixo:
-%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7134"/>
@@ -2917,12 +2897,6 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.cpp" line="6923"/>
         <source>Load %1 File</source>
         <translation>Carregar Arquivo %1</translation>
-    </message>
-    <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="vanished">O arquivo %1 Contém %2 informações de configuração.
-Essas configurações devem ser aplicadas?</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="139"/>
@@ -4462,10 +4436,6 @@ Essas configurações devem ser aplicadas?</translation>
         <location filename="../preferences.ui" line="1212"/>
         <source>Media file vs. voice volume</source>
         <translation>Arquivo de mídia vs. volume de voz</translation>
-    </message>
-    <message>
-        <source>Sounds pack</source>
-        <translation type="vanished">Pacote de sons</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1360"/>
