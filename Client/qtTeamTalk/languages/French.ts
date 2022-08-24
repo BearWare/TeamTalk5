@@ -175,8 +175,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="32"/>
-        <source>&amp;Ok</source>
-        <translation>&amp;Ok</translation>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="33"/>
@@ -209,8 +209,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="167"/>
-        <source>&amp;Ok</source>
-        <translation>&amp;Ok</translation>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="168"/>
@@ -374,8 +374,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="48"/>
-        <source>&amp;Ok</source>
-        <translation>&amp;Ok</translation>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="49"/>
@@ -427,8 +427,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="37"/>
-        <source>&amp;Ok</source>
-        <translation>&amp;Ok</translation>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="38"/>
@@ -652,8 +652,8 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="44"/>
         <location filename="../channeldlg.cpp" line="425"/>
-        <source>&amp;Ok</source>
-        <translation>&amp;Ok</translation>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="45"/>
@@ -935,8 +935,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../customvideofmtdlg.cpp" line="34"/>
-        <source>&amp;Ok</source>
-        <translation>&amp;Ok</translation>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../customvideofmtdlg.cpp" line="35"/>
@@ -1023,8 +1023,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../desktopaccessdlg.cpp" line="37"/>
-        <source>&amp;Ok</source>
-        <translation>&amp;Ok</translation>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../desktopaccessdlg.cpp" line="38"/>
@@ -1104,8 +1104,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="54"/>
-        <source>&amp;Ok</source>
-        <translation>&amp;Ok</translation>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="55"/>
@@ -2853,8 +2853,8 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5426"/>
         <location filename="../mainwindow.cpp" line="5689"/>
         <location filename="../mainwindow.cpp" line="5712"/>
-        <source>&amp;Ok</source>
-        <translation>&amp;Ok</translation>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2058"/>
@@ -5062,8 +5062,8 @@ Vous pouvez la télécharger sur la page suivante:<byte value="xd"/>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="71"/>
-        <source>&amp;Ok</source>
-        <translation>&amp;Ok</translation>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="72"/>
@@ -5881,8 +5881,8 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="42"/>
-        <source>&amp;Ok</source>
-        <translation>&amp;Ok</translation>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="43"/>
@@ -6027,8 +6027,8 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="37"/>
-        <source>&amp;Ok</source>
-        <translation>&amp;Ok</translation>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="38"/>
@@ -7106,8 +7106,8 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="745"/>
-        <source>&amp;Ok</source>
-        <translation>&amp;Ok</translation>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="746"/>
@@ -7555,8 +7555,8 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="41"/>
-        <source>&amp;Ok</source>
-        <translation>&amp;Ok</translation>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="42"/>

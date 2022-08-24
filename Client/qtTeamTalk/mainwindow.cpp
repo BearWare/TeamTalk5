@@ -636,7 +636,7 @@ void MainWindow::loadSettings()
         languages.insert(0, SETTINGS_DISPLAY_LANGUAGE_DEFAULT); //default language is none
         bool ok = false;
         QInputDialog inputDialog;
-        inputDialog.setOkButtonText(tr("&Ok"));
+        inputDialog.setOkButtonText(tr("&OK"));
         inputDialog.setCancelButtonText(tr("&Cancel"));
         inputDialog.setComboBoxItems(languages);
         inputDialog.setComboBoxEditable(false);
@@ -2058,7 +2058,7 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
         {
             bool ok = false;
             QInputDialog inputDialog;
-            inputDialog.setOkButtonText(tr("&Ok"));
+            inputDialog.setOkButtonText(tr("&OK"));
             inputDialog.setCancelButtonText(tr("&Cancel"));
             inputDialog.setInputMode(QInputDialog::TextInput);
             inputDialog.setTextValue(m_host.username);
@@ -2091,7 +2091,7 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
         {
             bool ok = false;
             QInputDialog inputDialog;
-            inputDialog.setOkButtonText(tr("&Ok"));
+            inputDialog.setOkButtonText(tr("&OK"));
             inputDialog.setCancelButtonText(tr("&Cancel"));
             inputDialog.setInputMode(QInputDialog::TextInput);
             inputDialog.setTextEchoMode(QLineEdit::Password);
@@ -3881,7 +3881,7 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
 
     bool ok = false;
     QInputDialog inputDialog;
-    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setOkButtonText(tr("&OK"));
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setComboBoxItems(profilenames);
     inputDialog.setComboBoxEditable(false);
@@ -3899,7 +3899,7 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
             profilenames.removeAll(newprofile);
             profilenames.removeAll(delprofile);
             QInputDialog inputDialog;
-            inputDialog.setOkButtonText(tr("&Ok"));
+            inputDialog.setOkButtonText(tr("&OK"));
             inputDialog.setCancelButtonText(tr("&Cancel"));
             inputDialog.setComboBoxItems(profilenames);
             inputDialog.setComboBoxEditable(false);
@@ -3914,7 +3914,7 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
         else if(choice == newprofile)
         {
             QInputDialog inputDialog;
-            inputDialog.setOkButtonText(tr("&Ok"));
+            inputDialog.setOkButtonText(tr("&OK"));
             inputDialog.setCancelButtonText(tr("&Cancel"));
             inputDialog.setInputMode(QInputDialog::TextInput);
             inputDialog.setTextValue(QString("Profile %1").arg(freeno));
@@ -4272,7 +4272,7 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
         nick = m_host.nickname;
     bool ok = false;
     QInputDialog inputDialog;
-    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setOkButtonText(tr("&OK"));
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setInputMode(QInputDialog::TextInput);
     inputDialog.setTextValue(nick);
@@ -5017,7 +5017,7 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
         {
             bool ok = false;
             QInputDialog inputDialog;
-            inputDialog.setOkButtonText(tr("&Ok"));
+            inputDialog.setOkButtonText(tr("&OK"));
             inputDialog.setCancelButtonText(tr("&Cancel"));
             inputDialog.setInputMode(QInputDialog::TextInput);
             inputDialog.setTextEchoMode(QLineEdit::Password);
@@ -5260,7 +5260,7 @@ void MainWindow::slotChannelsGenerateTTUrl(bool checked/*=false*/)
     QString link = QString("%5//%1?tcpport=%2&udpport=%3&encrypted=%4").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport).arg(m_host.encrypted).arg(TTLINK_PREFIX);
     bool ok = false;
     QInputDialog inputDialog;
-    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setOkButtonText(tr("&OK"));
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setInputMode(QInputDialog::TextInput);
     inputDialog.setTextValue(m_host.username);
@@ -5430,7 +5430,7 @@ void MainWindow::slotServerBroadcastMessage(bool /*checked=false*/)
 {
     bool ok = false;
     QInputDialog inputDialog;
-    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setOkButtonText(tr("&OK"));
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setInputMode(QInputDialog::TextInput);
     inputDialog.setWindowTitle(MENUTEXT(ui.actionBroadcastMessage->text()));
@@ -5693,7 +5693,7 @@ void MainWindow::slotUsersOp(int userid, int chanid)
     {
         bool ok = false;
         QInputDialog inputDialog;
-        inputDialog.setOkButtonText(tr("&Ok"));
+        inputDialog.setOkButtonText(tr("&OK"));
         inputDialog.setCancelButtonText(tr("&Cancel"));
         inputDialog.setInputMode(QInputDialog::TextInput);
         inputDialog.setTextEchoMode(QLineEdit::Password);
@@ -5716,7 +5716,7 @@ void MainWindow::slotUsersKickBan(int userid, int chanid)
     QStringList items = { tr("IP-address"), tr("Username") };
     bool ok = false;
     QInputDialog inputDialog;
-    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setOkButtonText(tr("&OK"));
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setComboBoxItems(items);
     inputDialog.setComboBoxEditable(false);
