@@ -9,17 +9,26 @@ jobs:
         include:
           - name: Android armeabi-v7a
             maketarget: android-armeabi-v7a
+            arch: armeabi-v7a
           - name: Android arm64-v8a
             maketarget: android-arm64-v8a
+            arch: arm64-v8a
           - name: Android x86
             maketarget: android-x86
+            arch: x86
           - name: Android x86_64
             maketarget: android-x64
+            arch: x86_64
 
     runs-on: ubuntu-18.04
     name: ${{ matrix.name }}
     steps:
     - uses: actions/checkout@v2
+
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: '11'
 
     - uses: nttld/setup-ndk@v1
       id: setup-ndk
@@ -35,14 +44,30 @@ jobs:
 
     - name: Install TeamTalk Library Dependencies
       working-directory: ${{runner.workspace}}/TeamTalk5
-      run: sudo make -C Build depend-ubuntu18
+      run: sudo make -C Build depend-ubuntu18-android
 
-    - name: Build TeamTalk Library
+    - name: Build TeamTalk Library for Android
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: |
         make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.maketarget }}" ${{ matrix.maketarget }}
       env:
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+
+    - name: Build TeamTalk 5 Java Tests
+      working-directory: ${{runner.workspace}}
+      run: |
+        cmake -S ${{runner.workspace}}/TeamTalk5 -B build-host
+        cmake --build build-host --target TeamTalk5Test
+        cmake --build build-host --target TeamTalk5ProTest
+        cmake --build build-host --target TeamTalk5SrvTest
+
+    - name: Build TeamTalk Android Client
+      working-directory: ${{runner.workspace}}/TeamTalk5/Client/TeamTalkAndroid
+      run: |
+        ln -s ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI/libs/TeamTalk5.jar ${{runner.workspace}}/TeamTalk5/Client/TeamTalkAndroid/libs/TeamTalk5.jar
+        ln -s ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI/libs/TeamTalk5Test.jar ${{runner.workspace}}/TeamTalk5/Client/TeamTalkAndroid/libs/TeamTalk5Test.jar
+        ln -s ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI/libs/${{ matrix.arch }}/libTeamTalk5-jni.so ${{runner.workspace}}/TeamTalk5/Client/TeamTalkAndroid/src/main/jniLibs/${{ matrix.arch }}/libTeamTalk5-jni.so
+        ./gradlew build -x packageRelease
 
     - name: Doxygen Documentation
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
