@@ -80,10 +80,6 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>Compiled on </source>
-        <translation type="vanished">Derleme </translation>
-    </message>
-    <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on %1 %2 using Qt %3 (Qt %4 used by this instance).</source>
         <translation>Qt %3 kullanılarak %1 %2 üzerinde derlendi (bu örnek tarafından kullanılan Qt %4).</translation>
@@ -3339,14 +3335,6 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
         <translation>%1 öğesini Windows Güvenlik Duvarı ayrıcalıklarına ekleme başarısız.</translation>
     </message>
     <message>
-        <source>Channel message: %1</source>
-        <translation type="vanished">Kanal mesajı: %1</translation>
-    </message>
-    <message>
-        <source>Broadcast message: %1</source>
-        <translation type="vanished">Yayın mesajı: %1</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2768"/>
         <source>%1 is requesting desktop access</source>
         <translation>%1 masaüstü erişimi istiyor</translation>
@@ -4725,10 +4713,6 @@ Bu ayarlar uygulanmalı mı?</translation>
         <location filename="../preferences.ui" line="564"/>
         <source>Configure events</source>
         <translation>Olayları yapılandır</translation>
-    </message>
-    <message>
-        <source>Sounds pack</source>
-        <translation type="vanished">Ses paketi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1370"/>

@@ -80,10 +80,6 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>Compiled on </source>
-        <translation type="vanished">Compilado el día </translation>
-    </message>
-    <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on %1 %2 using Qt %3 (Qt %4 used by this instance).</source>
         <translation type="unfinished"></translation>
@@ -3331,14 +3327,6 @@ Should these settings be applied?</source>
         <translation>Nueva versión disponible</translation>
     </message>
     <message>
-        <source>New version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="vanished">Nueva versión disponible: %1
-Puedes descargarla en la siguiente página:
-%2</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="7024"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>Una nueva versión beta de %1 está disponible: %2. ¿Te gustaría descargarla ahora?</translation>
@@ -3347,14 +3335,6 @@ Puedes descargarla en la siguiente página:
         <location filename="../mainwindow.cpp" line="7029"/>
         <source>New beta version available</source>
         <translation>Nueva versión beta disponible</translation>
-    </message>
-    <message>
-        <source>New beta version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="vanished">Nueva versión beta disponible: %1
-Puedes descargarla en la siguiente página:
-%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7134"/>
@@ -3994,12 +3974,6 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="6923"/>
         <source>Load %1 File</source>
         <translation>Cargar archivo %1</translation>
-    </message>
-    <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="vanished">El archivo %1 contiene la siguiente información de configuración: %2.
-¿Deberían estos ajustes ser aplicados?</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="32"/>
@@ -4683,10 +4657,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="839"/>
         <source>Configure trusted list</source>
         <translation>Configurar lista de confianza</translation>
-    </message>
-    <message>
-        <source>Sounds pack</source>
-        <translation type="vanished">Pack de sonidos</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1360"/>

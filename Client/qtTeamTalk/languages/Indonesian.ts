@@ -81,13 +81,9 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>Compiled on </source>
-        <translation type="vanished">Disusun pada </translation>
-    </message>
-    <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on %1 %2 using Qt %3 (Qt %4 used by this instance).</source>
-        <translation type="unfinished"></translation>
+        <translation>Disusun pada %1 %2 menggunakan Qt %3 (Qt %4 digunakan oleh instance ini).</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="35"/>
@@ -694,7 +690,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="147"/>
         <source>Create Channel</source>
-        <translation>Cipta Saluran</translation>
+        <translation>Buat Saluran</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="162"/>
@@ -1708,7 +1704,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1488"/>
         <source>&amp;Create Channel</source>
-        <translation>&amp;Cipta Saluran</translation>
+        <translation>&amp;Buat Saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1491"/>
@@ -3042,12 +3038,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2397"/>
         <source>Trying to reconnect to %1 port %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Mencoba menyambung kembali ke %1 port %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3868"/>
         <source>Current Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Profil Saat Ini</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4168"/>
@@ -3105,22 +3101,6 @@ Apakah Anda ingin melakukannya sekarang?</translation>
         <location filename="../mainwindow.cpp" line="5306"/>
         <source>Link copied to clipboard</source>
         <translation>Tautan disalin ke clipboard</translation>
-    </message>
-    <message>
-        <source>New version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="vanished">Versi baru tersedia: %1
-Anda dapat mengunduhnya pada halaman di bawah ini:
-%2</translation>
-    </message>
-    <message>
-        <source>New beta version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="vanished">Versi beta baru tersedia: %1
-Anda dapat mengunduhnya pada halaman di bawah ini:
-%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="766"/>
@@ -3304,12 +3284,6 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
         <translation>&amp;Desktop (%1)</translation>
     </message>
     <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="vanished">File %1 mengandungi informasi setup %2.
-Haruskah pengaturan ini diterapkan?</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6999"/>
         <source>A new version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>Versi baru %1 tersedia: %2. Apakah Anda ingin membuka halaman unduhan sekarang?</translation>
@@ -3324,7 +3298,9 @@ Haruskah pengaturan ini diterapkan?</translation>
         <source>New version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Versi baru tersedia: %1<byte value="xd"/>
+Anda dapat mengunduhnya pada halaman di bawah ini:<byte value="xd"/>
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7024"/>
@@ -3341,17 +3317,19 @@ You can download it on the page below:<byte value="xd"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Versi beta baru tersedia: %1<byte value="xd"/>
+Anda dapat mengunduhnya pada halaman di bawah ini:<byte value="xd"/>
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7116"/>
         <source>Language %1 not found for Text-To-Speech</source>
-        <translation type="unfinished"></translation>
+        <translation>Bahasa %1 tidak ditemukan untuk Teks-Ke-Ucapan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7129"/>
         <source>Voice %1 not found for Text-To-Speech. Switching to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Suara %1 tidak ditemukan untuk Teks-Ke-Ucapan. Beralih ke %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7134"/>
@@ -3608,7 +3586,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="4937"/>
         <location filename="../mainwindow.cpp" line="4950"/>
         <source>Failed to issue command to create channel</source>
-        <translation>Gagal untuk mengeluarkan perintah untuk mencipta saluran</translation>
+        <translation>Gagal untuk mengeluarkan perintah untuk membuat saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4964"/>
@@ -3995,7 +3973,8 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="6918"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>The file %1 contains %2 setup information.<byte value="xd"/>
+Should these settings be applied?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6923"/>
@@ -4663,12 +4642,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1289"/>
         <source>Sound pack</source>
-        <translation type="unfinished"></translation>
+        <translation>Paket suara</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1302"/>
         <source>Sound event volume level</source>
-        <translation type="unfinished"></translation>
+        <translation>Tingkat volume event suara</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1360"/>
@@ -4736,10 +4715,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="564"/>
         <source>Configure events</source>
         <translation>Konfigurasi event</translation>
-    </message>
-    <message>
-        <source>Sounds pack</source>
-        <translation type="vanished">Paket suara</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1370"/>
@@ -4899,7 +4874,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="2123"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Bahasa</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2149"/>
@@ -6941,7 +6916,7 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
     <message>
         <location filename="../useraccounts.ui" line="509"/>
         <source>User can create/modify all channels</source>
-        <translation>Pengguna boleh mencipta/memodifikasi semua saluran</translation>
+        <translation>Pengguna boleh membuat/memodifikasi semua saluran</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="502"/>
@@ -6951,7 +6926,7 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
     <message>
         <location filename="../useraccounts.ui" line="529"/>
         <source>User can create temporary channels</source>
-        <translation>Pengguna boleh mencipta saluran sementara</translation>
+        <translation>Pengguna boleh membuat saluran sementara</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="516"/>

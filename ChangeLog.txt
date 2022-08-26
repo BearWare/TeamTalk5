@@ -16,7 +16,7 @@ Default Qt Client
 - Option to choose Text-To-Speech language with "Default" engine
 - Reconfiguration of selected voice for Text-To-Speech required
 - Text-To-Speech message when trying to reconnect to server
-- Ability to see input and ouput device informations using tab key in "Preferences" dialog
+- Ability to see input and output device informations using tab key in "Preferences" dialog
 - Ability to start new client instance using the same profile
 - Ability to connect to latest host in new profile
 - BearWare.dk WebLogin changes file permission on TeamTalk5.ini to 600
