@@ -20,6 +20,7 @@ Default Qt Client
 - Ability to start new client instance using the same profile
 - Ability to connect to latest host in new profile
 - BearWare.dk WebLogin changes file permission on TeamTalk5.ini to 600
+- Text-To-Speech message on classroom changes
 - Fixed request to create folder for channel and private histories if none is specified in "Store conversation" dialog
 - Fixed username/password not being applied in "Generate .tt File" dialog
 Android Client
