@@ -6177,7 +6177,7 @@ void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& n
     {
         User user = {};
         ui.channelsWidget->getUser(id, user);
-        QString name = (id == TT_CLASSROOM_FREEFORALL) ? tr("Everyone") : getDisplayName(user);
+        QString name = (id == TT_CLASSROOM_FREEFORALL) ? tr("Everyone") : (user.nUserID == TT_GetMyUserID(ttInst)) ? tr("You") : getDisplayName(user);
 
         QString msg;
         bool before = false, after = false;
