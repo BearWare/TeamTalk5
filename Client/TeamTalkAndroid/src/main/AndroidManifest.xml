@@ -115,11 +115,6 @@
             android:label="@string/title_activity_audio_codec">
         </activity>
 
-        <activity
-            android:name=".FilePickerActivity"
-            android:label="@string/title_activity_filepicker">
-        </activity>
-
         <receiver android:name=".MediaButtonEventReceiver"
             android:enabled="true"
             android:exported="true">
