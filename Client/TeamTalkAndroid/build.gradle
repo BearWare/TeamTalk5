@@ -52,10 +52,11 @@ android {
         maven { url 'https://maven.google.com/' }
         maven { url 'https://jitpack.io' }
     }
-
-    lintOptions {
+    lint {
         checkReleaseBuilds false
+        disable 'MissingTranslation'
     }
+
 }
 
 dependencies {
