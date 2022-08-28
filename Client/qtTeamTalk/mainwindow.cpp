@@ -6177,7 +6177,18 @@ void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& n
     {
         User user = {};
         ui.channelsWidget->getUser(id, user);
-        QString name = (id == TT_CLASSROOM_FREEFORALL) ? tr("Everyone") : (user.nUserID == TT_GetMyUserID(ttInst)) ? tr("You") : getDisplayName(user);
+        QString strNo = tr("%1 can no longer transmit", "%1 can no longer transmit voice").arg(getDisplayName(user));
+        QString strYes = tr("%1 can now transmit", "%1 can now transmit voice").arg(getDisplayName(user));
+        if (id == TT_CLASSROOM_FREEFORALL)
+        {
+            strNo = tr("Everyone can no longer transmit", "Everyone can no longer transmit voice");
+            strYes = tr("Everyone can now transmit", "Everyone can now transmit voice");
+        }
+        if (user.nUserID == TT_GetMyUserID(ttInst))
+        {
+            strNo = tr("You can no longer transmit", "You can no longer transmit voice");
+            strYes = tr("You can now transmit", "You can now transmit voice");
+        }
 
         QString msg;
         bool before = false, after = false;
@@ -6186,9 +6197,9 @@ void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& n
         if (before != after)
         {
             if (after)
-                msg = tr("%1 can now transmit channel messages!").arg(name);
+                msg = tr("%1 channel messages", "can now transmit ...").arg(strYes);
             else
-                msg = tr("%1 can no longer transmit channel messages!").arg(name);
+                msg = tr("%1 channel messages", "can no longer transmit ...").arg(strNo);
             addStatusMsg(STATUSBAR_CLASSROOM_CHANMSG_TX, msg);
             addTextToSpeechMessage(TTS_CLASSROOM_CHANMSG_TX, msg);
         }
@@ -6197,9 +6208,9 @@ void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& n
         if (before != after)
         {
             if (after)
-                msg = tr("%1 can now transmit audio!").arg(name);
+                msg = tr("%1 voice", "can now transmit ...").arg(strYes);
             else
-                msg = tr("%1 can no longer transmit audio!").arg(name);
+                msg = tr("%1 voice", "can no longer transmit...").arg(strNo);
             addStatusMsg(STATUSBAR_CLASSROOM_VOICE_TX, msg);
             addTextToSpeechMessage(TTS_CLASSROOM_VOICE_TX, msg);
         }
@@ -6208,9 +6219,9 @@ void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& n
         if (before != after)
         {
             if (after)
-                msg = tr("%1 can now transmit video!").arg(name);
+                msg = tr("%1 video", "can now transmit ...").arg(strYes);
             else
-                msg = tr("%1 can no longer transmit video!").arg(name);
+                msg = tr("%1 video", "can no longer transmit ...").arg(strNo);
             addStatusMsg(STATUSBAR_CLASSROOM_VIDEO_TX, msg);
             addTextToSpeechMessage(TTS_CLASSROOM_VIDEO_TX, msg);
         }
@@ -6219,9 +6230,9 @@ void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& n
         if (before != after)
         {
             if (after)
-                msg = tr("%1 can now transmit desktop windows!").arg(name);
+                msg = tr("%1 desktop windows", "can now transmit ...").arg(strYes);
             else
-                msg = tr("%1 can no longer transmit desktop windows!").arg(name);
+                msg = tr("%1 desktop windows", "can no longer transmit ...").arg(strNo);
             addStatusMsg(STATUSBAR_CLASSROOM_DESKTOP_TX, msg);
             addTextToSpeechMessage(TTS_CLASSROOM_DESKTOP_TX, msg);
         }
@@ -6230,9 +6241,9 @@ void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& n
         if (before != after)
         {
             if (after)
-                msg = tr("%1 can now transmit mediafiles!").arg(name);
+                msg = tr("%1 media files", "can now transmit ...").arg(strYes);
             else
-                msg = tr("%1 can no longer transmit mediafiles!").arg(name);
+                msg = tr("%1 media files", "can no longer transmit ...").arg(strNo);
             addStatusMsg(STATUSBAR_CLASSROOM_MEDIAFILE_TX, msg);
             addTextToSpeechMessage(TTS_CLASSROOM_MEDIAFILE_TX, msg);
         }
