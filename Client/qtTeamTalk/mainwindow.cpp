@@ -6166,63 +6166,76 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
         oldchan.transmitUsersQueue[0] == TT_GetMyUserID(ttInst))
         playSoundEvent(SOUNDEVENT_TRANSMITQUEUE_STOP);
 
-    //specific to classroom channel
-    QString msg;
-    bool before = false, after = false;
-    before = userCanChanMessage(TT_GetMyUserID(ttInst), oldchan);
-    after = userCanChanMessage(TT_GetMyUserID(ttInst), chan);
-    if(before != after)
+    updateClassroomChannel(oldchan, chan);
+}
+
+void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& newchan)
+{
+    auto userids = ui.channelsWidget->getUsersInChannel(newchan.nChannelID);
+    userids.push_back(TT_CLASSROOM_FREEFORALL);
+    for (auto id : userids)
     {
-        if(after)
-            msg = tr("You can now transmit channel messages!");
-        else
-            msg = tr("You can no longer transmit channel messages!");
-        addStatusMsg(STATUSBAR_CLASSROOM_CHANMSG_TX, msg);
-        addTextToSpeechMessage(TTS_CLASSROOM_CHANMSG_TX, msg);
-    }
-    before = userCanVoiceTx(TT_GetMyUserID(ttInst), oldchan);
-    after = userCanVoiceTx(TT_GetMyUserID(ttInst), chan);
-    if(before != after)
-    {
-        if(after)
-            msg = tr("You can now transmit audio!");
-        else
-            msg = tr("You can no longer transmit audio!");
-        addStatusMsg(STATUSBAR_CLASSROOM_VOICE_TX, msg);
-        addTextToSpeechMessage(TTS_CLASSROOM_VOICE_TX, msg);
-    }
-    before = userCanVideoTx(TT_GetMyUserID(ttInst), oldchan);
-    after = userCanVideoTx(TT_GetMyUserID(ttInst), chan);
-    if(before != after)
-    {
-        if(after)
-            msg = tr("You can now transmit video!");
-        else
-            msg = tr("You can no longer transmit video!");
-        addStatusMsg(STATUSBAR_CLASSROOM_VIDEO_TX, msg);
-        addTextToSpeechMessage(TTS_CLASSROOM_VIDEO_TX, msg);
-    }
-    before = userCanDesktopTx(TT_GetMyUserID(ttInst), oldchan);
-    after = userCanDesktopTx(TT_GetMyUserID(ttInst), chan);
-    if(before != after)
-    {
-        if(after)
-            msg = tr("You can now transmit desktop windows!");
-        else
-            msg = tr("You can no longer transmit desktop windows!");
-        addStatusMsg(STATUSBAR_CLASSROOM_DESKTOP_TX, msg);
-        addTextToSpeechMessage(TTS_CLASSROOM_DESKTOP_TX, msg);
-    }
-    before = userCanMediaFileTx(TT_GetMyUserID(ttInst), oldchan);
-    after = userCanMediaFileTx(TT_GetMyUserID(ttInst), chan);
-    if(before != after)
-    {
-        if(after)
-            msg = tr("You can now transmit mediafiles!");
-        else
-            msg = tr("You can no longer transmit mediafiles!");
-        addStatusMsg(STATUSBAR_CLASSROOM_MEDIAFILE_TX, msg);
-        addTextToSpeechMessage(TTS_CLASSROOM_MEDIAFILE_TX, msg);
+        User user = {};
+        ui.channelsWidget->getUser(id, user);
+        QString name = (id == TT_CLASSROOM_FREEFORALL) ? tr("Everyone") : (user.nUserID == TT_GetMyUserID(ttInst)) ? tr("You") : getDisplayName(user);
+
+        QString msg;
+        bool before = false, after = false;
+        before = userCanChanMessage(id, oldchan);
+        after = userCanChanMessage(id, newchan);
+        if (before != after)
+        {
+            if (after)
+                msg = tr("%1 can now transmit channel messages!").arg(name);
+            else
+                msg = tr("%1 can no longer transmit channel messages!").arg(name);
+            addStatusMsg(STATUSBAR_CLASSROOM_CHANMSG_TX, msg);
+            addTextToSpeechMessage(TTS_CLASSROOM_CHANMSG_TX, msg);
+        }
+        before = userCanVoiceTx(id, oldchan);
+        after = userCanVoiceTx(id, newchan);
+        if (before != after)
+        {
+            if (after)
+                msg = tr("%1 can now transmit audio!").arg(name);
+            else
+                msg = tr("%1 can no longer transmit audio!").arg(name);
+            addStatusMsg(STATUSBAR_CLASSROOM_VOICE_TX, msg);
+            addTextToSpeechMessage(TTS_CLASSROOM_VOICE_TX, msg);
+        }
+        before = userCanVideoTx(id, oldchan);
+        after = userCanVideoTx(id, newchan);
+        if (before != after)
+        {
+            if (after)
+                msg = tr("%1 can now transmit video!").arg(name);
+            else
+                msg = tr("%1 can no longer transmit video!").arg(name);
+            addStatusMsg(STATUSBAR_CLASSROOM_VIDEO_TX, msg);
+            addTextToSpeechMessage(TTS_CLASSROOM_VIDEO_TX, msg);
+        }
+        before = userCanDesktopTx(id, oldchan);
+        after = userCanDesktopTx(id, newchan);
+        if (before != after)
+        {
+            if (after)
+                msg = tr("%1 can now transmit desktop windows!").arg(name);
+            else
+                msg = tr("%1 can no longer transmit desktop windows!").arg(name);
+            addStatusMsg(STATUSBAR_CLASSROOM_DESKTOP_TX, msg);
+            addTextToSpeechMessage(TTS_CLASSROOM_DESKTOP_TX, msg);
+        }
+        before = userCanMediaFileTx(id, oldchan);
+        after = userCanMediaFileTx(id, newchan);
+        if (before != after)
+        {
+            if (after)
+                msg = tr("%1 can now transmit mediafiles!").arg(name);
+            else
+                msg = tr("%1 can no longer transmit mediafiles!").arg(name);
+            addStatusMsg(STATUSBAR_CLASSROOM_MEDIAFILE_TX, msg);
+            addTextToSpeechMessage(TTS_CLASSROOM_MEDIAFILE_TX, msg);
+        }
     }
 }
 

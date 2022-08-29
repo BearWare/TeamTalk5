@@ -1144,6 +1144,8 @@ private EditText newmsg;
                 
                 boolean talking = (user.uUserState & UserState.USERSTATE_VOICE) != 0;
                 boolean female = (user.nStatusMode & TeamTalkConstants.STATUSMODE_FEMALE) != 0;
+                boolean neutral = (user.nStatusMode & TeamTalkConstants.STATUSMODE_NEUTRAL) != 0;
+                boolean male = !female && !neutral;
                 boolean away =  (user.nStatusMode & TeamTalkConstants.STATUSMODE_AWAY) != 0;
                 int icon_resource;
                 
@@ -1155,9 +1157,13 @@ private EditText newmsg;
                         icon_resource = R.drawable.woman_green;
                         nickname.setContentDescription(getString(R.string.user_state_now_speaking, name) + " 👩");
                     }
-                    else {
+                    else if(male) {
                         icon_resource = R.drawable.man_green;
                         nickname.setContentDescription(getString(R.string.user_state_now_speaking, name) + " 👨");
+                    }
+                    else {
+                        icon_resource = R.drawable.man_green;
+                        nickname.setContentDescription(getString(R.string.user_state_now_speaking, name));
                     }
                 }
                 else {
@@ -1165,9 +1171,13 @@ private EditText newmsg;
                         icon_resource = away? R.drawable.woman_orange : R.drawable.woman_blue;
                         nickname.setContentDescription(name + " 👩");
                     }
-                    else {
+                    else if(male) {
                         icon_resource = away? R.drawable.man_orange : R.drawable.man_blue;
                         nickname.setContentDescription(name + " 👨");
+                    }
+                    else {
+                        icon_resource = away? R.drawable.man_orange : R.drawable.man_blue;
+                        nickname.setContentDescription(name);
                     }
                 }
                 status.setContentDescription(away ? getString(R.string.user_state_away) : null);

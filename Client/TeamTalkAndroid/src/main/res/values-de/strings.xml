@@ -286,7 +286,6 @@
     <string name="text_publicserver">Öffentlicher Server</string>
     <string name="text_localserver">Lokaler Server</string>
     <string name="text_officialserver">Offizieller Server</string>
-    <string name="text_privateserver">Privater Server</string>
     <string name="text_passwdprot">Passwortgeschützt</string>
     <string name="text_translator">Übersetzt von Steffen Schultz</string>
     <string name="desktop_image">Desktop-Bild</string>

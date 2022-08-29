@@ -270,6 +270,7 @@ private:
     void transmitOn(StreamType st);
     void relayAudioStream(int userid, StreamType st, bool enable);
     void enableVoiceActivation(bool checked, SoundEvent on = SOUNDEVENT_VOICEACTON, SoundEvent off = SOUNDEVENT_VOICEACTOFF);
+    void updateClassroomChannel(const Channel& oldchan, const Channel& newchan);
 #if defined(Q_OS_LINUX)
     void executeDesktopInput(const DesktopInput& input);
 #endif
