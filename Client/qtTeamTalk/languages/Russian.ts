@@ -705,7 +705,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="194"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Закрыть</translation>
+        <translation>&amp;Закрыть</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="430"/>
@@ -747,7 +747,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="1154"/>
         <location filename="../channelstree.cpp" line="1155"/>
         <source>Yes</source>
-        <translation></translation>
+        <translation>Да</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="825"/>
@@ -791,7 +791,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="834"/>
         <source>Voice transmission</source>
-        <translation></translation>
+        <translation>Передача голоса</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="835"/>
@@ -3226,6 +3226,7 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5320"/>
         <source>&amp;Name</source>
+        <translatorcomment>	</translatorcomment>
         <translation>&amp;Имя</translation>
     </message>
     <message>
@@ -3391,57 +3392,57 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="6180"/>
         <source>Everyone</source>
-        <translation type="unfinished"></translation>
+        <translation>Каждый</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6189"/>
         <source>%1 can now transmit channel messages!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Теперь может отправлять сообщения в канал!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6191"/>
         <source>%1 can no longer transmit channel messages!</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6200"/>
         <source>%1 can now transmit audio!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Теперь может передавать аудио!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6202"/>
         <source>%1 can no longer transmit audio!</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6211"/>
         <source>%1 can now transmit video!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Теперь может передавать видео!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6213"/>
         <source>%1 can no longer transmit video!</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6222"/>
         <source>%1 can now transmit desktop windows!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Теперь может передавать окна рабочего стола!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6224"/>
         <source>%1 can no longer transmit desktop windows!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Больше не может передавать окна рабочего стола!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6233"/>
         <source>%1 can now transmit mediafiles!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 теперь может передавать медиафайлы!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6235"/>
         <source>%1 can no longer transmit mediafiles!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 больше не может передавать медиафайлы!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7019"/>
@@ -4353,6 +4354,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="262"/>
         <source>Voice Transmission Mode</source>
+        <translatorcomment>	</translatorcomment>
         <translation>Режим Передачи Голоса</translation>
     </message>
     <message>
@@ -4808,7 +4810,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1679"/>
         <source>User entered question-mode</source>
-        <translation>Пользователь вошёл в режим запроса</translation>
+        <translation>Пользователь вошёл в режим вопрос</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1702"/>
@@ -4913,6 +4915,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="2129"/>
         <source>Language</source>
+        <translatorcomment>	</translatorcomment>
         <translation>Язык</translation>
     </message>
     <message>
@@ -4938,11 +4941,13 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="2261"/>
         <source>Shortcuts</source>
+        <translatorcomment>	</translatorcomment>
         <translation>Горячие клавиши</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2267"/>
         <source>Keyboard Shortcuts</source>
+        <translatorcomment>	</translatorcomment>
         <translation>Сочетания клавиш</translation>
     </message>
     <message>
