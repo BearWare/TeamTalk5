@@ -3189,97 +3189,97 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="6180"/>
         <source>%1 can no longer transmit</source>
         <comment>%1 can no longer transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 ne peut plus transmettre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6181"/>
         <source>%1 can now transmit</source>
         <comment>%1 can now transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 peut maintenant transmettre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6184"/>
         <source>Everyone can no longer transmit</source>
         <comment>Everyone can no longer transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>Plus personne ne peut transmettre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6185"/>
         <source>Everyone can now transmit</source>
         <comment>Everyone can now transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tout le monde peut maintenant transmettre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6189"/>
         <source>You can no longer transmit</source>
         <comment>You can no longer transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>Vous ne pouvez plus transmettre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6190"/>
         <source>You can now transmit</source>
         <comment>You can now transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>Vous pouvez maintenant transmettre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6200"/>
         <source>%1 channel messages</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 des messages de canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6202"/>
         <source>%1 channel messages</source>
         <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 de messages de canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6211"/>
         <source>%1 voice</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 la voix</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6213"/>
         <source>%1 voice</source>
         <comment>can no longer transmit...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 la voix</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6222"/>
         <source>%1 video</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 de la vidéo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6224"/>
         <source>%1 video</source>
         <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 de la vidéo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6233"/>
         <source>%1 desktop windows</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 des fenêtres de bureau</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6235"/>
         <source>%1 desktop windows</source>
         <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 de fenêtre de bureau</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6244"/>
         <source>%1 media files</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 des fichiers média</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6246"/>
         <source>%1 media files</source>
         <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 de fichiers média</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6838"/>
@@ -3615,50 +3615,6 @@ Souhaitez-vous le faire maintenant?</translation>
         <location filename="../mainwindow.cpp" line="5323"/>
         <source>&amp;Upload Date</source>
         <translation>&amp;Date de téléversement</translation>
-    </message>
-    <message>
-        <source>Everyone</source>
-        <translation type="vanished">Tout le monde</translation>
-    </message>
-    <message>
-        <source>%1 can now transmit channel messages!</source>
-        <translation type="vanished">%1 peut maintenant transmettre des messages de canal!</translation>
-    </message>
-    <message>
-        <source>%1 can no longer transmit channel messages!</source>
-        <translation type="vanished">%1 ne peut plus transmettre de message de canal!</translation>
-    </message>
-    <message>
-        <source>%1 can now transmit audio!</source>
-        <translation type="vanished">%1 peut maintenant transmettre de l&apos;audio!</translation>
-    </message>
-    <message>
-        <source>%1 can no longer transmit audio!</source>
-        <translation type="vanished">%1 ne peut plus transmettre d&apos;audio!</translation>
-    </message>
-    <message>
-        <source>%1 can now transmit video!</source>
-        <translation type="vanished">%1 peut maintenant transmettre de la vidéo!</translation>
-    </message>
-    <message>
-        <source>%1 can no longer transmit video!</source>
-        <translation type="vanished">%1 ne peut plus transmettre de la vidéo!</translation>
-    </message>
-    <message>
-        <source>%1 can now transmit desktop windows!</source>
-        <translation type="vanished">%1 peut maintenant transmettre des fenêtres de bureau!</translation>
-    </message>
-    <message>
-        <source>%1 can no longer transmit desktop windows!</source>
-        <translation type="vanished">%1 ne peut plus transmettre de fenêtre de bureau!</translation>
-    </message>
-    <message>
-        <source>%1 can now transmit mediafiles!</source>
-        <translation type="vanished">%1 peut maintenant transmettre des fichiers média!</translation>
-    </message>
-    <message>
-        <source>%1 can no longer transmit mediafiles!</source>
-        <translation type="vanished">%1 ne peut plus transmettre de fichier média!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7042"/>
