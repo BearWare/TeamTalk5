@@ -3189,97 +3189,97 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="6180"/>
         <source>%1 can no longer transmit</source>
         <comment>%1 can no longer transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 无法再传输</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6181"/>
         <source>%1 can now transmit</source>
         <comment>%1 can now transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 现可传输</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6184"/>
         <source>Everyone can no longer transmit</source>
         <comment>Everyone can no longer transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>每个人都无法再传输</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6185"/>
         <source>Everyone can now transmit</source>
         <comment>Everyone can now transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>现在每个人都可传输</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6189"/>
         <source>You can no longer transmit</source>
         <comment>You can no longer transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>您无法再传输</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6190"/>
         <source>You can now transmit</source>
         <comment>You can now transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>您现可传输</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6200"/>
         <source>%1 channel messages</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1频道消息</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6202"/>
         <source>%1 channel messages</source>
         <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1频道消息</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6211"/>
         <source>%1 voice</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1语音</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6213"/>
         <source>%1 voice</source>
         <comment>can no longer transmit...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1语音</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6222"/>
         <source>%1 video</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1视频</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6224"/>
         <source>%1 video</source>
         <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1视频</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6233"/>
         <source>%1 desktop windows</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1桌面窗口</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6235"/>
         <source>%1 desktop windows</source>
         <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1桌面窗口</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6244"/>
         <source>%1 media files</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1媒体文件</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6246"/>
         <source>%1 media files</source>
         <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1媒体文件</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6838"/>
@@ -3615,50 +3615,6 @@ Do you wish to do this now?</source>
         <location filename="../mainwindow.cpp" line="5323"/>
         <source>&amp;Upload Date</source>
         <translation>上传日期(&amp;U)</translation>
-    </message>
-    <message>
-        <source>Everyone</source>
-        <translation type="vanished">每个人</translation>
-    </message>
-    <message>
-        <source>%1 can now transmit channel messages!</source>
-        <translation type="vanished">%1 现可传输频道消息！</translation>
-    </message>
-    <message>
-        <source>%1 can no longer transmit channel messages!</source>
-        <translation type="vanished">%1 无法传输频道消息！</translation>
-    </message>
-    <message>
-        <source>%1 can now transmit audio!</source>
-        <translation type="vanished">%1 现可传输音频！</translation>
-    </message>
-    <message>
-        <source>%1 can no longer transmit audio!</source>
-        <translation type="vanished">%1 无法传输音频！</translation>
-    </message>
-    <message>
-        <source>%1 can now transmit video!</source>
-        <translation type="vanished">%1 现可传输视频！</translation>
-    </message>
-    <message>
-        <source>%1 can no longer transmit video!</source>
-        <translation type="vanished">%1 无法传输视频！</translation>
-    </message>
-    <message>
-        <source>%1 can now transmit desktop windows!</source>
-        <translation type="vanished">%1 现可传输桌面窗口！</translation>
-    </message>
-    <message>
-        <source>%1 can no longer transmit desktop windows!</source>
-        <translation type="vanished">%1 无法传输桌面窗口！</translation>
-    </message>
-    <message>
-        <source>%1 can now transmit mediafiles!</source>
-        <translation type="vanished">%1 现可传输媒体文件！</translation>
-    </message>
-    <message>
-        <source>%1 can no longer transmit mediafiles!</source>
-        <translation type="vanished">%1 无法传输媒体文件！</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7042"/>
