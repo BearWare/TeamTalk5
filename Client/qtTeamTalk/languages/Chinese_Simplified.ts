@@ -704,7 +704,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="194"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">关闭(&amp;C)</translation>
+        <translation>关闭(&amp;C)</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="430"/>
@@ -3186,22 +3186,6 @@ p, li { white-space: pre-wrap; }
         <translation>CTRL+J</translation>
     </message>
     <message>
-        <source>You can now transmit channel messages!</source>
-        <translation type="vanished">您现在可以发送频道消息！</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit channel messages!</source>
-        <translation type="vanished">您无法再发送频道消息！</translation>
-    </message>
-    <message>
-        <source>You can now transmit mediafiles!</source>
-        <translation type="vanished">您可以传输媒体文件!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit mediafiles!</source>
-        <translation type="vanished">您无法传输媒体文件!</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6827"/>
         <source>&amp;Video (%1)</source>
         <translation>视频 (%1) (&amp;V)</translation>
@@ -3539,57 +3523,57 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="6180"/>
         <source>Everyone</source>
-        <translation type="unfinished"></translation>
+        <translation>每个人</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6189"/>
         <source>%1 can now transmit channel messages!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 现可传输频道消息！</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6191"/>
         <source>%1 can no longer transmit channel messages!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 无法传输频道消息！</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6200"/>
         <source>%1 can now transmit audio!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 现可传输音频！</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6202"/>
         <source>%1 can no longer transmit audio!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 无法传输音频！</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6211"/>
         <source>%1 can now transmit video!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 现可传输视频！</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6213"/>
         <source>%1 can no longer transmit video!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 无法传输视频！</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6222"/>
         <source>%1 can now transmit desktop windows!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 现可传输桌面窗口！</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6224"/>
         <source>%1 can no longer transmit desktop windows!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 无法传输桌面窗口！</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6233"/>
         <source>%1 can now transmit mediafiles!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 现可传输媒体文件！</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6235"/>
         <source>%1 can no longer transmit mediafiles!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 无法传输媒体文件！</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7031"/>
@@ -3854,30 +3838,6 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="6130"/>
         <source>The maximum number of users who can transmit is %1</source>
         <translation>最大可传输用户数为 %1</translation>
-    </message>
-    <message>
-        <source>You can now transmit audio!</source>
-        <translation type="vanished">您现在可以传输音频！</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit audio!</source>
-        <translation type="vanished">您不能传输音频！</translation>
-    </message>
-    <message>
-        <source>You can now transmit video!</source>
-        <translation type="vanished">您现在可以传输视频！</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit video!</source>
-        <translation type="vanished">您无法传输视频！</translation>
-    </message>
-    <message>
-        <source>You can now transmit desktop windows!</source>
-        <translation type="vanished">您现在可以传输桌面窗口！</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit desktop windows!</source>
-        <translation type="vanished">您无法传输桌面窗口！</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6247"/>
