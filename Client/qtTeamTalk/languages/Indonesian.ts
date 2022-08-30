@@ -3339,22 +3339,6 @@ Apakah Anda ingin melakukannya sekarang?</translation>
         <translation>CTRL+J</translation>
     </message>
     <message>
-        <source>You can now transmit channel messages!</source>
-        <translation type="vanished">Anda sekarang dapat mengirimkan pesan saluran!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit channel messages!</source>
-        <translation type="vanished">Anda tidak dapat lagi mengirimkan pesan saluran!</translation>
-    </message>
-    <message>
-        <source>You can now transmit mediafiles!</source>
-        <translation type="vanished">Anda sekarang dapat mentransmisikan file media!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit mediafiles!</source>
-        <translation type="vanished">Anda tidak dapat lagi mentransmisikan file media!</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6838"/>
         <source>&amp;Video (%1)</source>
         <translation>&amp;Video (%1)</translation>
@@ -3873,30 +3857,6 @@ Anda dapat mengunduhnya pada halaman di bawah ini:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="6130"/>
         <source>The maximum number of users who can transmit is %1</source>
         <translation>Jumlah maksimum pengguna yang dapat transmit adalah %1</translation>
-    </message>
-    <message>
-        <source>You can now transmit audio!</source>
-        <translation type="vanished">Anda sekarang dapat mentransmisikan audio!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit audio!</source>
-        <translation type="vanished">Anda tidak dapat lagi mentransmisikan audio!</translation>
-    </message>
-    <message>
-        <source>You can now transmit video!</source>
-        <translation type="vanished">Anda sekarang dapat mentransmisikan video!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit video!</source>
-        <translation type="vanished">Anda tidak dapat lagi mentransmisikan video!</translation>
-    </message>
-    <message>
-        <source>You can now transmit desktop windows!</source>
-        <translation type="vanished">Anda sekarang dapat mentransmisikan jendela desktop!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit desktop windows!</source>
-        <translation type="vanished">Anda tidak dapat lagi mentransmisikan jendela desktop!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6258"/>

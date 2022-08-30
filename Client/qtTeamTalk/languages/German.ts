@@ -2867,46 +2867,6 @@ Should these settings be applied?</source>
         <translation>Es können maximal %1 Benutzer übertragen</translation>
     </message>
     <message>
-        <source>You can now transmit channel messages!</source>
-        <translation type="vanished">Du kannst jetzt Raumnachrichten senden!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit channel messages!</source>
-        <translation type="vanished">Du kannst keine Raumnachrichten mehr senden!</translation>
-    </message>
-    <message>
-        <source>You can now transmit audio!</source>
-        <translation type="vanished">Du kannst keine Audiodaten senden!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit audio!</source>
-        <translation type="vanished">Du kannst keine weiteren Audiodaten senden!</translation>
-    </message>
-    <message>
-        <source>You can now transmit video!</source>
-        <translation type="vanished">Du kannst keine Videodaten senden!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit video!</source>
-        <translation type="vanished">Du kannst keine weiteren Videodaten senden!</translation>
-    </message>
-    <message>
-        <source>You can now transmit desktop windows!</source>
-        <translation type="vanished">Du kannst jetzt Desktopfenster übertragen!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit desktop windows!</source>
-        <translation type="vanished">Du kannst keine Desktopfenster mehr übertragen!</translation>
-    </message>
-    <message>
-        <source>You can now transmit mediafiles!</source>
-        <translation type="vanished">Du kannst jetzt Mediendateien senden!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit mediafiles!</source>
-        <translation type="vanished">Du kannst keine Mediendateien senden!</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6258"/>
         <source>Start Webcam</source>
         <translation>Webcam starten</translation>

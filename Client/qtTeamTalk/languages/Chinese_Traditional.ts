@@ -2867,30 +2867,6 @@ Should these settings be applied?</source>
         <translation>能夠傳輸之使用者之最大數量為 %1</translation>
     </message>
     <message>
-        <source>You can now transmit audio!</source>
-        <translation type="vanished">你現在可以傳輸語音了!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit audio!</source>
-        <translation type="vanished">你無法再傳輸語音了!</translation>
-    </message>
-    <message>
-        <source>You can now transmit video!</source>
-        <translation type="vanished">你現在可以傳輸視訊了!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit video!</source>
-        <translation type="vanished">你無法再傳輸視訊了!</translation>
-    </message>
-    <message>
-        <source>You can now transmit desktop windows!</source>
-        <translation type="vanished">你現在可以傳輸桌面視窗了!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit desktop windows!</source>
-        <translation type="vanished">你無法再傳輸桌面視窗了!</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6258"/>
         <source>Start Webcam</source>
         <translation>啟動網路視訊</translation>

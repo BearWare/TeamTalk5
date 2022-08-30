@@ -2863,30 +2863,6 @@ Do you wish to do this now?</source>
         <translation>Maksimum antal brugere som kan transmitere er %1</translation>
     </message>
     <message>
-        <source>You can now transmit audio!</source>
-        <translation type="vanished">Du kan nu transmittere lyd!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit audio!</source>
-        <translation type="vanished">Du kan ikke længere transmittere lyd!</translation>
-    </message>
-    <message>
-        <source>You can now transmit video!</source>
-        <translation type="vanished">Du kan nu transmittere video!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit video!</source>
-        <translation type="vanished">Du kan ikke længere transmittere video!</translation>
-    </message>
-    <message>
-        <source>You can now transmit desktop windows!</source>
-        <translation type="vanished">Du kan nu transmitere skrivebordsvinduer!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit desktop windows!</source>
-        <translation type="vanished">Du kan ikke længere transmitere skrivebordsvinduer!</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6258"/>
         <source>Start Webcam</source>
         <translation>Start Webkamera</translation>

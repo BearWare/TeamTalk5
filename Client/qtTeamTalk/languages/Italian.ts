@@ -2861,46 +2861,6 @@ Do you wish to do this now?</source>
         <translation>Il massimo numero di utenti che possono trasmettere è %1</translation>
     </message>
     <message>
-        <source>You can now transmit channel messages!</source>
-        <translation type="vanished">Ora puoi trasmettere messaggi di canale!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit channel messages!</source>
-        <translation type="vanished">Non puoi più trasmettere messaggi di canale!</translation>
-    </message>
-    <message>
-        <source>You can now transmit audio!</source>
-        <translation type="vanished">Ora puoi più trasmettere l&apos;audio!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit audio!</source>
-        <translation type="vanished">Non puoi più trasmettere l&apos;audio!</translation>
-    </message>
-    <message>
-        <source>You can now transmit video!</source>
-        <translation type="vanished">Ora puoi più trasmettere il video!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit video!</source>
-        <translation type="vanished">Non puoi più trasmettere il video!</translation>
-    </message>
-    <message>
-        <source>You can now transmit desktop windows!</source>
-        <translation type="vanished">Ora puoi più trasmettere la finestra desktop!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit desktop windows!</source>
-        <translation type="vanished">Non puoi più trasmettere la finestra del desktop!</translation>
-    </message>
-    <message>
-        <source>You can now transmit mediafiles!</source>
-        <translation type="vanished">Ora puoi trasmettere file multimediali!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit mediafiles!</source>
-        <translation type="vanished">Non puoi più trasmettere file multimediali!</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6258"/>
         <source>Start Webcam</source>
         <translation>Avvia Webcam</translation>

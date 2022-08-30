@@ -2851,30 +2851,6 @@ Do you wish to do this now?</source>
         <translation>Het maximaal aantal gebruikers die kunnen zenden is %1</translation>
     </message>
     <message>
-        <source>You can now transmit audio!</source>
-        <translation type="vanished">U kunt nu audio uitzenden!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit audio!</source>
-        <translation type="vanished">U kunt geen audio meer uitzenden!</translation>
-    </message>
-    <message>
-        <source>You can now transmit video!</source>
-        <translation type="vanished">U kunt nu video uitzenden!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit video!</source>
-        <translation type="vanished">U kunt geen video meer uitzenden!</translation>
-    </message>
-    <message>
-        <source>You can now transmit desktop windows!</source>
-        <translation type="vanished">U kunt nu uw windows bureaublad uitzenden!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit desktop windows!</source>
-        <translation type="vanished">U kunt niet langer uw windows bureaublad uitzenden!</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6258"/>
         <source>Start Webcam</source>
         <translation>Start Webcam</translation>

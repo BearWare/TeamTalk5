@@ -3686,30 +3686,6 @@ Do you wish to do this now?</source>
         <translation>Az átviteli lehetőséggel bíró felhasználók maximális száma %1</translation>
     </message>
     <message>
-        <source>You can now transmit audio!</source>
-        <translation type="vanished">Most lehetséges a hangátvitel!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit audio!</source>
-        <translation type="vanished">Most már nem lehetséges a hangátvitel!</translation>
-    </message>
-    <message>
-        <source>You can now transmit video!</source>
-        <translation type="vanished">Most lehetséges a video átvitel!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit video!</source>
-        <translation type="vanished">Most már nem lehetséges a video átvitel!</translation>
-    </message>
-    <message>
-        <source>You can now transmit desktop windows!</source>
-        <translation type="vanished">Most továbbíthatja az asztali ablakokat!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit desktop windows!</source>
-        <translation type="vanished">Most már nem továbbíthatja az asztali ablakokat!</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6258"/>
         <source>Start Webcam</source>
         <translation>A Webkamera indítása</translation>

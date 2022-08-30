@@ -3431,22 +3431,6 @@ You can download it on the page below:<byte value="xd"/>
         <translation>CTRL+J</translation>
     </message>
     <message>
-        <source>You can now transmit channel messages!</source>
-        <translation type="vanished">Sada možeš prenositi poruke na kanalu!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit channel messages!</source>
-        <translation type="vanished">Više ne možeš prenositi poruke na kanalu!</translation>
-    </message>
-    <message>
-        <source>You can now transmit mediafiles!</source>
-        <translation type="vanished">Sada možeš prenositi medijske datoteke!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit mediafiles!</source>
-        <translation type="vanished">Više ne možeš prenositi medijske datoteke!</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6838"/>
         <source>&amp;Video (%1)</source>
         <translation>&amp;Video (%1)</translation>
@@ -3759,30 +3743,6 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="6130"/>
         <source>The maximum number of users who can transmit is %1</source>
         <translation>Maksimalni broj korisnika koji smiju prenositi je %1</translation>
-    </message>
-    <message>
-        <source>You can now transmit audio!</source>
-        <translation type="vanished">Sada možeš prenositi zvuk!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit audio!</source>
-        <translation type="vanished">Više ne možeš prenositi zvuk!</translation>
-    </message>
-    <message>
-        <source>You can now transmit video!</source>
-        <translation type="vanished">Sada možeš prenositi video!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit video!</source>
-        <translation type="vanished">Više ne možeš prenositi video!</translation>
-    </message>
-    <message>
-        <source>You can now transmit desktop windows!</source>
-        <translation type="vanished">Sada možeš prenositi prozore radne površine!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit desktop windows!</source>
-        <translation type="vanished">Više ne možeš prenositi prozore radne površine!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6258"/>
