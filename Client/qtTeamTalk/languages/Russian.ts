@@ -3342,7 +3342,7 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5599"/>
         <source>Question</source>
-        <translation>Запрос</translation>
+        <translation>Вопрос</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5624"/>
@@ -3881,97 +3881,98 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="6180"/>
         <source>%1 can no longer transmit</source>
         <comment>%1 can no longer transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 больше не может передавать</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6181"/>
         <source>%1 can now transmit</source>
         <comment>%1 can now transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 теперь может передавать</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6184"/>
         <source>Everyone can no longer transmit</source>
         <comment>Everyone can no longer transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>Все больше не могут передавать</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6185"/>
         <source>Everyone can now transmit</source>
         <comment>Everyone can now transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>Теперь каждый может передавать</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6189"/>
         <source>You can no longer transmit</source>
         <comment>You can no longer transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>Вы больше не можете передавать</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6190"/>
         <source>You can now transmit</source>
         <comment>You can now transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translatorcomment>	</translatorcomment>
+        <translation>Теперь вы можете передавать</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6200"/>
         <source>%1 channel messages</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 сообщения канала</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6202"/>
         <source>%1 channel messages</source>
         <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 сообщения канала</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6211"/>
         <source>%1 voice</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 голос</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6213"/>
         <source>%1 voice</source>
         <comment>can no longer transmit...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 голос</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6222"/>
         <source>%1 video</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 видео</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6224"/>
         <source>%1 video</source>
         <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 видео</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6233"/>
         <source>%1 desktop windows</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 окна рабочего стола</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6235"/>
         <source>%1 desktop windows</source>
         <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 окна рабочего стола</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6244"/>
         <source>%1 media files</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 медиафайлы</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6246"/>
         <source>%1 media files</source>
         <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 медиафайлы</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6678"/>
@@ -7357,7 +7358,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userdesktopwidget.cpp" line="257"/>
         <source>Request &amp;Desktop Access</source>
-        <translation>Запрос &amp;Доступа к рабочему столу</translation>
+        <translation>&amp;Запрос Доступа к рабочему столу</translation>
     </message>
     <message>
         <location filename="../userdesktopwidget.cpp" line="263"/>
