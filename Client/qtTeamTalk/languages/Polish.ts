@@ -2861,30 +2861,6 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Maksymalna ilość użytkowników, którzy mogą nadawać to %1</translation>
     </message>
     <message>
-        <source>You can now transmit audio!</source>
-        <translation type="vanished">Możesz teraz nadawać audio!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit audio!</source>
-        <translation type="vanished">Nie możesz już nadawać audio!</translation>
-    </message>
-    <message>
-        <source>You can now transmit video!</source>
-        <translation type="vanished">Możesz teraz nadawać video!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit video!</source>
-        <translation type="vanished">Nie możesz już nadawać video!</translation>
-    </message>
-    <message>
-        <source>You can now transmit desktop windows!</source>
-        <translation type="vanished">Możesz udostępnić swój pulpit!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit desktop windows!</source>
-        <translation type="vanished">Nie możesz udostępniać swojego pulpitu!</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6258"/>
         <source>Start Webcam</source>
         <translation>Uruchom kamerę</translation>

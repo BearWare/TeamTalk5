@@ -2861,30 +2861,6 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Maksimalno število uporabnikov, ki lahko oddaja je %1</translation>
     </message>
     <message>
-        <source>You can now transmit audio!</source>
-        <translation type="vanished">Sedaj lahko oddajaša audio!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit audio!</source>
-        <translation type="vanished">Ne moreš več oddajati audiia!</translation>
-    </message>
-    <message>
-        <source>You can now transmit video!</source>
-        <translation type="vanished">Ne moreš oddajati videa!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit video!</source>
-        <translation type="vanished">Ne moreš več oddajati videa!</translation>
-    </message>
-    <message>
-        <source>You can now transmit desktop windows!</source>
-        <translation type="vanished">Sedaj lahko oddajaš svoje namizje!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit desktop windows!</source>
-        <translation type="vanished">Ne moreš več oddajati svojega namizja!</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6258"/>
         <source>Start Webcam</source>
         <translation>Vključi spletno kamero</translation>
