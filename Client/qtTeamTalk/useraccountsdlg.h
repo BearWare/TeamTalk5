@@ -24,37 +24,9 @@
 #ifndef USERACCOUNTSDLG_H
 #define USERACCOUNTSDLG_H
 
-#include "common.h"
+#include "useraccountsmodel.h"
 
-#include <QAbstractItemModel>
-#include <QSortFilterProxyModel>
-#include <QVector>
-#include <QSet>
 #include "ui_useraccounts.h"
-
-
-typedef QVector<UserAccount> useraccounts_t;
-
-
-class UserAccountsModel : public QAbstractItemModel
-{
-    Q_OBJECT
-public:
-    UserAccountsModel(QObject* parent);
-    QVariant headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
-    int columnCount ( const QModelIndex & parent = QModelIndex() ) const;
-    QVariant data ( const QModelIndex & index, int role = Qt::DisplayRole ) const;
-    QModelIndex index ( int row, int column, const QModelIndex & parent = QModelIndex() ) const;
-    QModelIndex parent ( const QModelIndex & index ) const;
-    int rowCount ( const QModelIndex & parent = QModelIndex() ) const;
-
-    void addRegUser(const UserAccount& user, bool do_reset);
-    void delRegUser(int index);
-    void delRegUser(const QString& username);
-    const useraccounts_t& getUsers() const { return m_users; }
-private:
-    useraccounts_t m_users;
-};
 
 enum UserAccountsDisplay
 {
