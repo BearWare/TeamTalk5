@@ -2697,7 +2697,7 @@ void MainWindow::subscribeCommon(bool checked, Subscriptions subs, int userid/* 
         subTypeTTS = TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE;
         subTypeSB = STATUSBAR_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE;
         break;
-    default:
+    case SUBSCRIBE_NONE :
         break;
     }
     QVector<int> userids;
@@ -2709,7 +2709,7 @@ void MainWindow::subscribeCommon(bool checked, Subscriptions subs, int userid/* 
 
     foreach(userid, userids)
     {
-        User user;
+        User user = {};
         ui.channelsWidget->getUser(userid, user);
         if(checked)
         {
