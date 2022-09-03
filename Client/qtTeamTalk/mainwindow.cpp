@@ -2663,7 +2663,7 @@ void MainWindow::subscribeCommon(bool checked, Subscriptions subs, int userid/* 
         subTypeSB = STATUSBAR_SUBSCRIPTIONS_DESKTOPINPUT;
         break;
     case SUBSCRIBE_MEDIAFILE :
-        subType = tr("Mediafiles");
+        subType = tr("Media files");
         subTypeTTS = TTS_SUBSCRIPTIONS_MEDIAFILE;
         subTypeSB = STATUSBAR_SUBSCRIPTIONS_MEDIAFILE;
         break;
@@ -2673,7 +2673,7 @@ void MainWindow::subscribeCommon(bool checked, Subscriptions subs, int userid/* 
         subTypeSB = STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE;
         break;
     case SUBSCRIBE_INTERCEPT_CHANNEL_MSG :
-        subType = tr("Intercep channel messages");
+        subType = tr("Intercept channel messages");
         subTypeTTS = TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL;
         subTypeSB = STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL;
         break;
@@ -2693,7 +2693,7 @@ void MainWindow::subscribeCommon(bool checked, Subscriptions subs, int userid/* 
         subTypeSB = STATUSBAR_SUBSCRIPTIONS_INTERCEPT_DESKTOP;
         break;
     case SUBSCRIBE_INTERCEPT_MEDIAFILE :
-        subType = tr("Intercept mediafiles");
+        subType = tr("Intercept media files");
         subTypeTTS = TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE;
         subTypeSB = STATUSBAR_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE;
         break;
