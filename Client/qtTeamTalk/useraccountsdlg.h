@@ -51,7 +51,8 @@ protected:
 
 private:
     Ui::UserAccountsDlg ui;
-    UserAccountsModel* m_model;
+    UserAccountsModel* m_useraccountsModel;
+    UserRightsModel* m_userrightsModel;
     QSortFilterProxyModel* m_proxyModel;
     int m_add_cmdid, m_del_cmdid;
 
@@ -62,6 +63,8 @@ private:
     void lockUI(bool locked);
     void showUserAccount(const UserAccount& useraccount);
     void updateUserRights(const UserAccount& useraccount);
+    void toggleUserRights(const QModelIndex &index);
+    UserTypes getUserType();
     UserAccountsDisplay m_uad;
 
 private:

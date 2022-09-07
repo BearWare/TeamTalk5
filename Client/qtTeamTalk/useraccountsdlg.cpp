@@ -54,13 +54,16 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
 
-    m_model = new UserAccountsModel(this);
+    m_useraccountsModel = new UserAccountsModel(this);
     m_proxyModel = new QSortFilterProxyModel(this);
-    m_proxyModel->setSourceModel(m_model);
+    m_proxyModel->setSourceModel(m_useraccountsModel);
     ui.usersTreeView->setModel(m_proxyModel);
     m_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
     m_proxyModel->sort(COLUMN_INDEX_USERNAME, Qt::AscendingOrder);
-    ui.checkBox->hide();
+
+    m_userrightsModel = new UserRightsModel(this);
+    ui.userrightsTreeView->setModel(m_userrightsModel);
+    connect(ui.userrightsTreeView, &QAbstractItemView::doubleClicked, this, &UserAccountsDlg::toggleUserRights);
 
 #if defined(Q_OS_MAC)
     auto font = ui.usersTreeView->font();
@@ -103,7 +106,7 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
             this, &UserAccountsDlg::slotCustomCmdLimit);
 
     for(int i=0;i<useraccounts.size();i++)
-        m_model->addRegUser(useraccounts[i], i+1 == useraccounts.size());
+        m_useraccountsModel->addRegUser(useraccounts[i], i+1 == useraccounts.size());
 
     for(int i=0;i<COLUMN_COUNT_USERACCOUNTS;i++)
         ui.usersTreeView->resizeColumnToContents(i);
@@ -146,14 +149,14 @@ void UserAccountsDlg::slotCmdSuccess(int cmdid)
 {
     if(cmdid == m_add_cmdid)
     {
-        m_model->addRegUser(m_add_user, true); //here we disregard that the command might fail
+        m_useraccountsModel->addRegUser(m_add_user, true); //here we disregard that the command might fail
         m_add_cmdid = 0;
         m_add_user = {};
         lockUI(false);
     }
     if(cmdid == m_del_cmdid)
     {
-        m_model->delRegUser(m_del_username); //here we disregard that the command might fail
+        m_useraccountsModel->delRegUser(m_del_username); //here we disregard that the command might fail
         m_del_cmdid = 0;
         m_del_username.clear();
         lockUI(false);
@@ -177,7 +180,6 @@ void UserAccountsDlg::slotCmdError(int /*error*/, int cmdid)
 
 void UserAccountsDlg::lockUI(bool locked)
 {
-    //ui.usersTreeView->setEnabled(!locked);
     ui.usernameEdit->setEnabled(!locked);
     ui.passwordEdit->setEnabled(!locked);
     ui.defaultuserBtn->setEnabled(!locked);
@@ -191,7 +193,6 @@ void UserAccountsDlg::lockUI(bool locked)
     ui.rmopBtn->setEnabled(!locked);
     ui.audmaxbpsSpinBox->setEnabled(!locked);
     ui.limitcmdComboBox->setEnabled(!locked);
-    ui.groupBox_4->setEnabled(!locked);
     ui.addButton->setEnabled(!locked);
     ui.newButton->setEnabled(!locked);
 }
@@ -282,49 +283,18 @@ void UserAccountsDlg::showUserAccount(const UserAccount& useraccount)
 
 void UserAccountsDlg::updateUserRights(const UserAccount& useraccount)
 {
-    ui.multiloginBox->setChecked(useraccount.uUserRights & USERRIGHT_MULTI_LOGIN);
-    ui.chnickBox->setChecked((useraccount.uUserRights & USERRIGHT_LOCKED_NICKNAME) == USERRIGHT_NONE);
-    ui.viewallusersBox->setChecked(useraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS);
-    ui.viewhiddenchanBox->setChecked(useraccount.uUserRights & USERRIGHT_VIEW_HIDDEN_CHANNELS);
-    ui.permchannelsBox->setChecked(useraccount.uUserRights & USERRIGHT_MODIFY_CHANNELS);
-    ui.tempchannelsBox->setChecked(useraccount.uUserRights & USERRIGHT_CREATE_TEMPORARY_CHANNEL);
-    ui.clientbroadcastBox->setChecked(useraccount.uUserRights & USERRIGHT_TEXTMESSAGE_BROADCAST);
-    ui.kickusersBox->setChecked(useraccount.uUserRights & USERRIGHT_KICK_USERS);
-    ui.banusersBox->setChecked(useraccount.uUserRights & USERRIGHT_BAN_USERS);
-    ui.moveusersBox->setChecked(useraccount.uUserRights & USERRIGHT_MOVE_USERS);
-    ui.chanopBox->setChecked(useraccount.uUserRights & USERRIGHT_OPERATOR_ENABLE);
-    ui.uploadfilesBox->setChecked(useraccount.uUserRights & USERRIGHT_UPLOAD_FILES);
-    ui.downloadfilesBox->setChecked(useraccount.uUserRights & USERRIGHT_DOWNLOAD_FILES);
-    ui.recordBox->setChecked(useraccount.uUserRights & USERRIGHT_RECORD_VOICE);
-    ui.srvpropBox->setChecked(useraccount.uUserRights & USERRIGHT_UPDATE_SERVERPROPERTIES);
-    ui.transmitvoiceBox->setChecked(useraccount.uUserRights & USERRIGHT_TRANSMIT_VOICE);
-    ui.transmitvideoBox->setChecked(useraccount.uUserRights & USERRIGHT_TRANSMIT_VIDEOCAPTURE);
-    ui.transmitdesktopBox->setChecked(useraccount.uUserRights & USERRIGHT_TRANSMIT_DESKTOP);
-    ui.transmitdesktopaccessBox->setChecked(useraccount.uUserRights & USERRIGHT_TRANSMIT_DESKTOPINPUT);
-    ui.transmitaudiofileBox->setChecked(useraccount.uUserRights & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO);
-    ui.transmitvideofileBox->setChecked(useraccount.uUserRights & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO);
+    m_userrightsModel->setUserRights(useraccount.uUserType, useraccount.uUserRights);
+}
 
-    ui.multiloginBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
-    ui.chnickBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
-    ui.viewallusersBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
-    ui.viewhiddenchanBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
-    ui.permchannelsBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
-    ui.tempchannelsBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
-    ui.clientbroadcastBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
-    ui.kickusersBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
-    ui.banusersBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
-    ui.moveusersBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
-    ui.chanopBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
-    ui.uploadfilesBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
-    ui.downloadfilesBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
-    ui.recordBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
-    ui.srvpropBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
-    ui.transmitvoiceBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
-    ui.transmitvideoBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
-    ui.transmitdesktopBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
-    ui.transmitdesktopaccessBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
-    ui.transmitaudiofileBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
-    ui.transmitvideofileBox->setEnabled((useraccount.uUserType & USERTYPE_ADMIN) == USERTYPE_NONE);
+void UserAccountsDlg::toggleUserRights(const QModelIndex &index)
+{
+    auto events = m_userrightsModel->getUserRights();
+    UserRight e = UserRight(index.internalId());
+    if (e & events)
+        m_userrightsModel->setUserRights(getUserType(), events & ~e);
+    else
+        m_userrightsModel->setUserRights(getUserType(), events | e);
+
 }
 
 void UserAccountsDlg::slotClearUser()
@@ -366,97 +336,9 @@ void UserAccountsDlg::slotAddUser()
     m_add_user = {};
     COPY_TTSTR(m_add_user.szUsername, ui.usernameEdit->text().trimmed());
     COPY_TTSTR(m_add_user.szPassword, ui.passwordEdit->text());
-    if (ui.adminBtn->isChecked())
-        m_add_user.uUserType = USERTYPE_ADMIN;
-    else if (ui.defaultuserBtn->isChecked())
-        m_add_user.uUserType = USERTYPE_DEFAULT;
-    else if (ui.disableduserBtn->isChecked())
-        m_add_user.uUserType = USERTYPE_NONE;
+    m_add_user.uUserType = getUserType();
 
-    if(ui.multiloginBox->isChecked())
-        m_add_user.uUserRights |= USERRIGHT_MULTI_LOGIN;
-    else
-        m_add_user.uUserRights &= ~USERRIGHT_MULTI_LOGIN;
-    if(ui.chnickBox->isChecked())
-        m_add_user.uUserRights &= ~USERRIGHT_LOCKED_NICKNAME;
-    else
-        m_add_user.uUserRights |= USERRIGHT_LOCKED_NICKNAME;
-    if(ui.viewallusersBox->isChecked())
-        m_add_user.uUserRights |= USERRIGHT_VIEW_ALL_USERS;
-    else
-        m_add_user.uUserRights &= ~USERRIGHT_VIEW_ALL_USERS;
-    if (ui.viewhiddenchanBox->isChecked())
-        m_add_user.uUserRights |= USERRIGHT_VIEW_HIDDEN_CHANNELS;
-    else
-        m_add_user.uUserRights &= ~USERRIGHT_VIEW_HIDDEN_CHANNELS;
-    if(ui.permchannelsBox->isChecked())
-        m_add_user.uUserRights |= USERRIGHT_MODIFY_CHANNELS;
-    else
-        m_add_user.uUserRights &= ~USERRIGHT_MODIFY_CHANNELS;
-    if(ui.tempchannelsBox->isChecked())
-        m_add_user.uUserRights |= USERRIGHT_CREATE_TEMPORARY_CHANNEL;
-    else
-        m_add_user.uUserRights &= ~USERRIGHT_CREATE_TEMPORARY_CHANNEL;
-    if(ui.clientbroadcastBox->isChecked())
-        m_add_user.uUserRights |= USERRIGHT_TEXTMESSAGE_BROADCAST;
-    else
-        m_add_user.uUserRights &= ~USERRIGHT_TEXTMESSAGE_BROADCAST;
-    if(ui.kickusersBox->isChecked())
-        m_add_user.uUserRights |= USERRIGHT_KICK_USERS;
-    else
-        m_add_user.uUserRights &= ~USERRIGHT_KICK_USERS;
-    if(ui.banusersBox->isChecked())
-        m_add_user.uUserRights |= USERRIGHT_BAN_USERS;
-    else
-        m_add_user.uUserRights &= ~USERRIGHT_BAN_USERS;
-    if(ui.moveusersBox->isChecked())
-        m_add_user.uUserRights |= USERRIGHT_MOVE_USERS;
-    else
-        m_add_user.uUserRights &= ~USERRIGHT_MOVE_USERS;
-    if(ui.chanopBox->isChecked())
-        m_add_user.uUserRights |= USERRIGHT_OPERATOR_ENABLE;
-    else
-        m_add_user.uUserRights &= ~USERRIGHT_OPERATOR_ENABLE;
-    if(ui.uploadfilesBox->isChecked())
-        m_add_user.uUserRights |= USERRIGHT_UPLOAD_FILES;
-    else
-        m_add_user.uUserRights &= ~USERRIGHT_UPLOAD_FILES;
-    if(ui.downloadfilesBox->isChecked())
-        m_add_user.uUserRights |= USERRIGHT_DOWNLOAD_FILES;
-    else
-        m_add_user.uUserRights &= ~USERRIGHT_DOWNLOAD_FILES;
-    if(ui.recordBox->isChecked())
-        m_add_user.uUserRights |= USERRIGHT_RECORD_VOICE;
-    else
-        m_add_user.uUserRights &= ~USERRIGHT_RECORD_VOICE;
-    if(ui.srvpropBox->isChecked())
-        m_add_user.uUserRights |= USERRIGHT_UPDATE_SERVERPROPERTIES;
-    else
-        m_add_user.uUserRights &= ~USERRIGHT_UPDATE_SERVERPROPERTIES;
-    if(ui.transmitvoiceBox->isChecked())
-        m_add_user.uUserRights |= USERRIGHT_TRANSMIT_VOICE;
-    else
-        m_add_user.uUserRights &= ~USERRIGHT_TRANSMIT_VOICE;
-    if(ui.transmitvideoBox->isChecked())
-        m_add_user.uUserRights |= USERRIGHT_TRANSMIT_VIDEOCAPTURE;
-    else
-        m_add_user.uUserRights &= ~USERRIGHT_TRANSMIT_VIDEOCAPTURE;
-    if(ui.transmitdesktopBox->isChecked())
-        m_add_user.uUserRights |= USERRIGHT_TRANSMIT_DESKTOP;
-    else
-        m_add_user.uUserRights &= ~USERRIGHT_TRANSMIT_DESKTOP;
-    if(ui.transmitdesktopaccessBox->isChecked())
-        m_add_user.uUserRights |= USERRIGHT_TRANSMIT_DESKTOPINPUT;
-    else
-        m_add_user.uUserRights &= ~USERRIGHT_TRANSMIT_DESKTOPINPUT;
-    if(ui.transmitaudiofileBox->isChecked())
-        m_add_user.uUserRights |= USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO;
-    else
-        m_add_user.uUserRights &= ~USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO;
-    if(ui.transmitvideofileBox->isChecked())
-        m_add_user.uUserRights |= USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO;
-    else
-        m_add_user.uUserRights &= ~USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO;
+    m_add_user.uUserRights = m_userrightsModel->getUserRights();
 
     COPY_TTSTR(m_add_user.szNote, ui.noteEdit->toPlainText());
     COPY_TTSTR(m_add_user.szInitChannel, ui.channelComboBox->lineEdit()->text().trimmed());
@@ -492,7 +374,7 @@ void UserAccountsDlg::slotDelUser()
     if (index < 0)
         return;
     QMessageBox answer;
-    answer.setText(tr("Are you sure you want to delete user \"%1\"?").arg(_Q(m_model->getUsers()[index].szUsername)));
+    answer.setText(tr("Are you sure you want to delete user \"%1\"?").arg(_Q(m_useraccountsModel->getUsers()[index].szUsername)));
     QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
     QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
     Q_UNUSED(YesButton);
@@ -501,8 +383,8 @@ void UserAccountsDlg::slotDelUser()
     answer.exec();
     if(answer.clickedButton() == NoButton)
         return;
-    m_del_cmdid = TT_DoDeleteUserAccount(ttInst, m_model->getUsers()[index].szUsername);
-    m_del_username = _Q(m_model->getUsers()[index].szUsername);
+    m_del_cmdid = TT_DoDeleteUserAccount(ttInst, m_useraccountsModel->getUsers()[index].szUsername);
+    m_del_username = _Q(m_useraccountsModel->getUsers()[index].szUsername);
 
     lockUI(true);
 }
@@ -514,7 +396,7 @@ void UserAccountsDlg::slotUserSelected(const QModelIndex & index )
     {
         return;
     }
-    showUserAccount(m_model->getUsers()[i]);
+    showUserAccount(m_useraccountsModel->getUsers()[i]);
 }
 
 void UserAccountsDlg::slotEdited(const QString&)
@@ -522,21 +404,31 @@ void UserAccountsDlg::slotEdited(const QString&)
     ui.addButton->setEnabled(ui.usernameEdit->text().size());
 }
 
-void UserAccountsDlg::slotUserTypeChanged()
+UserTypes UserAccountsDlg::getUserType()
 {
     if (ui.adminBtn->isChecked())
+        return USERTYPE_ADMIN;
+    else if (ui.defaultuserBtn->isChecked())
+        return USERTYPE_DEFAULT;
+    else if (ui.disableduserBtn->isChecked())
+        return USERTYPE_NONE;
+    else
+        return USERTYPE_NONE;
+}
+
+void UserAccountsDlg::slotUserTypeChanged()
+{
+    m_add_user.uUserType = getUserType();
+    if (ui.adminBtn->isChecked())
     {
-        m_add_user.uUserType = USERTYPE_ADMIN;
         m_add_user.uUserRights = USERRIGHT_NONE;
     }
     else if (ui.defaultuserBtn->isChecked())
     {
-        m_add_user.uUserType = USERTYPE_DEFAULT;
         m_add_user.uUserRights = USERRIGHT_DEFAULT;
     }
     else
     {
-        m_add_user.uUserType = USERTYPE_NONE;
         m_add_user.uUserRights = USERRIGHT_DEFAULT;
     }
     updateUserRights(m_add_user);

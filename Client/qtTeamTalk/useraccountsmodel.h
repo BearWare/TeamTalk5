@@ -60,5 +60,25 @@ private:
     useraccounts_t m_users;
 };
 
+class UserRightsModel : public QAbstractItemModel
+{
+    Q_OBJECT
+public:
+    UserRightsModel(QObject* parent);
+    int columnCount(const QModelIndex & parent = QModelIndex()) const;
+    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
+    QModelIndex index(int row, int column, const QModelIndex & parent = QModelIndex()) const;
+    QModelIndex parent(const QModelIndex & index) const;
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+    int rowCount(const QModelIndex & parent = QModelIndex()) const;
+    void setUserRights(UserTypes usertypes, UserRights rights);
+    UserRights getUserRights() const;
+
+private:
+    void insertUserRights();
+    void itemChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles = QVector<int>());
+    QVector<UserRight> m_userrights;
+    UserRights m_activeUserRights = USERRIGHT_DEFAULT;
+};
 
 #endif // USERACCOUNTSMODEL_H
