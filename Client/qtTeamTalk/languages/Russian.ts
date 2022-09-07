@@ -3390,38 +3390,6 @@ Do you wish to do this now?</source>
         <translation>Заблокировать пользователя в канале</translation>
     </message>
     <message>
-        <source>Everyone</source>
-        <translation type="vanished">Каждый</translation>
-    </message>
-    <message>
-        <source>%1 can now transmit channel messages!</source>
-        <translation type="vanished">%1 Теперь может отправлять сообщения в канал!</translation>
-    </message>
-    <message>
-        <source>%1 can now transmit audio!</source>
-        <translation type="vanished">%1 Теперь может передавать аудио!</translation>
-    </message>
-    <message>
-        <source>%1 can now transmit video!</source>
-        <translation type="vanished">%1 Теперь может передавать видео!</translation>
-    </message>
-    <message>
-        <source>%1 can now transmit desktop windows!</source>
-        <translation type="vanished">%1 Теперь может передавать окна рабочего стола!</translation>
-    </message>
-    <message>
-        <source>%1 can no longer transmit desktop windows!</source>
-        <translation type="vanished">%1 Больше не может передавать окна рабочего стола!</translation>
-    </message>
-    <message>
-        <source>%1 can now transmit mediafiles!</source>
-        <translation type="vanished">%1 теперь может передавать медиафайлы!</translation>
-    </message>
-    <message>
-        <source>%1 can no longer transmit mediafiles!</source>
-        <translation type="vanished">%1 больше не может передавать медиафайлы!</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="7030"/>
         <source>A new version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>Доступна новая версия %1: %2. Вы хотите открыть страницу загрузки прямо сейчас?</translation>
@@ -3774,46 +3742,6 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="6130"/>
         <source>The maximum number of users who can transmit is %1</source>
         <translation>Максимальное количество пользователей, могущих передавать %1</translation>
-    </message>
-    <message>
-        <source>You can now transmit channel messages!</source>
-        <translation type="vanished">Теперь вы можете отправлять сообщения в канал!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit channel messages!</source>
-        <translation type="vanished">Вы больше не можете отправлять сообщения в канал!</translation>
-    </message>
-    <message>
-        <source>You can now transmit audio!</source>
-        <translation type="vanished">Теперь вы можете передавать звук!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit audio!</source>
-        <translation type="vanished">Вы больше не можете передавать звук!</translation>
-    </message>
-    <message>
-        <source>You can now transmit video!</source>
-        <translation type="vanished">Теперь вы можете передавать видео!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit video!</source>
-        <translation type="vanished">Вы больше не можете передавать видео!</translation>
-    </message>
-    <message>
-        <source>You can now transmit desktop windows!</source>
-        <translation type="vanished">Теперь вы можете передавать окна рабочего стола!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit desktop windows!</source>
-        <translation type="vanished">Вы больше не можете передавать окна рабочего стола!</translation>
-    </message>
-    <message>
-        <source>You can now transmit mediafiles!</source>
-        <translation type="vanished">Теперь вы можете передавать медиа файлы!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit mediafiles!</source>
-        <translation type="vanished">Вы больше не можете передавать медиа файлы!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6258"/>

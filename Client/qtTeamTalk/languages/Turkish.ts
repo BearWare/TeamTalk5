@@ -3191,22 +3191,6 @@ p, li { white-space: pre-wrap; }
         <translation>CTRL+J</translation>
     </message>
     <message>
-        <source>You can now transmit channel messages!</source>
-        <translation type="vanished">Şimdi kanal iletileri iletebilirsiniz!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit channel messages!</source>
-        <translation type="vanished">Artık kanal iletileri iletemezsiniz!</translation>
-    </message>
-    <message>
-        <source>You can now transmit mediafiles!</source>
-        <translation type="vanished">Şimdi medya dosyaları iletebilirsiniz!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit mediafiles!</source>
-        <translation type="vanished">Artık medya dosyaları iletemezsiniz!</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6838"/>
         <source>&amp;Video (%1)</source>
         <translation>&amp;Video (%1)</translation>
@@ -3887,30 +3871,6 @@ Do you wish to do this now?</source>
         <location filename="../mainwindow.cpp" line="6130"/>
         <source>The maximum number of users who can transmit is %1</source>
         <translation>İletebilecek en fazla kullanıcı sayısı %1</translation>
-    </message>
-    <message>
-        <source>You can now transmit audio!</source>
-        <translation type="vanished">Şimdi ses iletebilirsiniz!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit audio!</source>
-        <translation type="vanished">Artık ses iletemezsiniz!</translation>
-    </message>
-    <message>
-        <source>You can now transmit video!</source>
-        <translation type="vanished">Şimdi video iletebilirsiniz!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit video!</source>
-        <translation type="vanished">Artık video iletemezsiniz!</translation>
-    </message>
-    <message>
-        <source>You can now transmit desktop windows!</source>
-        <translation type="vanished">Şimdi masaüstü pencereleri iletebilirsiniz!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit desktop windows!</source>
-        <translation type="vanished">Artık masaüstü pencereleri iletemezsiniz!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6258"/>

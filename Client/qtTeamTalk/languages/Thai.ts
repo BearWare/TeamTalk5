@@ -2862,30 +2862,6 @@ You can download it on the page below:<byte value="xd"/>
         <translation>จำนวนผู้ใช้งานสูงสุดที่สามารถสื่อสารได้ %1</translation>
     </message>
     <message>
-        <source>You can now transmit audio!</source>
-        <translation type="vanished">ตอนนี้ท่านสามารถเส่งเสียงได้!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit audio!</source>
-        <translation type="vanished">ท่านไม่สามารถส่งเสียงต่อไปได้!</translation>
-    </message>
-    <message>
-        <source>You can now transmit video!</source>
-        <translation type="vanished">ตอนนี้ท่านสามารถส่งวีดีทัศน์ได้!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit video!</source>
-        <translation type="vanished">ท่านไม่สามารถส่งวีดีทัศน์ได้อีก!</translation>
-    </message>
-    <message>
-        <source>You can now transmit desktop windows!</source>
-        <translation type="vanished">ท่านสามารถส่งภาพแสดงหน้าจอ desktop ได้แล้ว!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit desktop windows!</source>
-        <translation type="vanished">ท่านไม่สามารถส่งภาพแสดงหน้าจอ desktop ได้อีก!</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6258"/>
         <source>Start Webcam</source>
         <translation>เริ่มการใช้งานกล้องวีดีโอผ่านอินเตอร์เน็ต</translation>

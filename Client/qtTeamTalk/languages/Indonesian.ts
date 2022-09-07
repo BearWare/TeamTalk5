@@ -705,7 +705,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="194"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Tutup</translation>
+        <translation>&amp;Tutup</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="430"/>
@@ -3110,98 +3110,82 @@ Apakah Anda ingin melakukannya sekarang?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="6180"/>
         <source>%1 can no longer transmit</source>
-        <comment>%1 can no longer transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 tidak dapat lagi mentransmisikan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6181"/>
         <source>%1 can now transmit</source>
-        <comment>%1 can now transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 sekarang dapat mentransmisikan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6184"/>
         <source>Everyone can no longer transmit</source>
-        <comment>Everyone can no longer transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>Semua orang tidak dapat lagi mentransmisikan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6185"/>
         <source>Everyone can now transmit</source>
-        <comment>Everyone can now transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>Semua orang sekarang dapat mentransmisikan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6189"/>
         <source>You can no longer transmit</source>
-        <comment>You can no longer transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>Anda tidak dapat lagi mentransmisikan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6190"/>
         <source>You can now transmit</source>
-        <comment>You can now transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>Anda sekarang dapat mentransmisikan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6200"/>
         <source>%1 channel messages</source>
-        <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 pesan saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6202"/>
         <source>%1 channel messages</source>
-        <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 pesan saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6211"/>
         <source>%1 voice</source>
-        <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6213"/>
         <source>%1 voice</source>
-        <comment>can no longer transmit...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6222"/>
         <source>%1 video</source>
-        <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 video</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6224"/>
         <source>%1 video</source>
-        <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 video</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6233"/>
         <source>%1 desktop windows</source>
-        <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 jendela desktop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6235"/>
         <source>%1 desktop windows</source>
-        <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 jendela desktop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6244"/>
         <source>%1 media files</source>
-        <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 file media</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6246"/>
         <source>%1 media files</source>
-        <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 file media</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="773"/>
@@ -3353,22 +3337,6 @@ Apakah Anda ingin melakukannya sekarang?</translation>
         <location filename="../mainwindow.cpp" line="5895"/>
         <source>CTRL+J</source>
         <translation>CTRL+J</translation>
-    </message>
-    <message>
-        <source>You can now transmit channel messages!</source>
-        <translation type="vanished">Anda sekarang dapat mengirimkan pesan saluran!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit channel messages!</source>
-        <translation type="vanished">Anda tidak dapat lagi mengirimkan pesan saluran!</translation>
-    </message>
-    <message>
-        <source>You can now transmit mediafiles!</source>
-        <translation type="vanished">Anda sekarang dapat mentransmisikan file media!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit mediafiles!</source>
-        <translation type="vanished">Anda tidak dapat lagi mentransmisikan file media!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6838"/>
@@ -3889,30 +3857,6 @@ Anda dapat mengunduhnya pada halaman di bawah ini:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="6130"/>
         <source>The maximum number of users who can transmit is %1</source>
         <translation>Jumlah maksimum pengguna yang dapat transmit adalah %1</translation>
-    </message>
-    <message>
-        <source>You can now transmit audio!</source>
-        <translation type="vanished">Anda sekarang dapat mentransmisikan audio!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit audio!</source>
-        <translation type="vanished">Anda tidak dapat lagi mentransmisikan audio!</translation>
-    </message>
-    <message>
-        <source>You can now transmit video!</source>
-        <translation type="vanished">Anda sekarang dapat mentransmisikan video!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit video!</source>
-        <translation type="vanished">Anda tidak dapat lagi mentransmisikan video!</translation>
-    </message>
-    <message>
-        <source>You can now transmit desktop windows!</source>
-        <translation type="vanished">Anda sekarang dapat mentransmisikan jendela desktop!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit desktop windows!</source>
-        <translation type="vanished">Anda tidak dapat lagi mentransmisikan jendela desktop!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6258"/>

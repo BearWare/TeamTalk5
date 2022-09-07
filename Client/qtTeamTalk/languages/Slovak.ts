@@ -2861,30 +2861,6 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Maximálny počet užívateľov, ktorí môžu prenášať je %1</translation>
     </message>
     <message>
-        <source>You can now transmit audio!</source>
-        <translation type="vanished">Teraz môžete prenášať zvuk!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit audio!</source>
-        <translation type="vanished">Už nemôžete prenášať zvuk!</translation>
-    </message>
-    <message>
-        <source>You can now transmit video!</source>
-        <translation type="vanished">Teraz môžete prenášať video!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit video!</source>
-        <translation type="vanished">Už nemôžete prenášať video!</translation>
-    </message>
-    <message>
-        <source>You can now transmit desktop windows!</source>
-        <translation type="vanished">Teraz môžete prenášať pracovnú plochu!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit desktop windows!</source>
-        <translation type="vanished">Už nemôžete prenášať pracovnú plochu!</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6258"/>
         <source>Start Webcam</source>
         <translation>Spustiť webkameru</translation>

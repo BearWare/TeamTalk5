@@ -487,6 +487,9 @@
           <property name="expandsOnDoubleClick">
            <bool>false</bool>
           </property>
+          <property name="accessibleName">
+           <string>Server events logged</string>
+          </property>
          </widget>
         </item>
        </layout>

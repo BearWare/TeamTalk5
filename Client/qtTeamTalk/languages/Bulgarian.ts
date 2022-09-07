@@ -3685,30 +3685,6 @@ Do you wish to do this now?</source>
         <translation>Максималния брой на потребителите които могат да излъчват е %1</translation>
     </message>
     <message>
-        <source>You can now transmit audio!</source>
-        <translation type="vanished">Вече можете да излъчвате аудио!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit audio!</source>
-        <translation type="vanished">Вече неможете да излъчвате аудио!</translation>
-    </message>
-    <message>
-        <source>You can now transmit video!</source>
-        <translation type="vanished">Вече можете да излъчвате видео!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit video!</source>
-        <translation type="vanished">Вече неможете да излъчвате видео!</translation>
-    </message>
-    <message>
-        <source>You can now transmit desktop windows!</source>
-        <translation type="vanished">Вече можете да излъчвате прозорци от работния плот!</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit desktop windows!</source>
-        <translation type="vanished">Вече неможете да излъчвате прозорци от работния плот!</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6258"/>
         <source>Start Webcam</source>
         <translation>Стартирай уебкамерата</translation>
