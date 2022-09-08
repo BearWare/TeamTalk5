@@ -63,7 +63,6 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
 
     m_userrightsModel = new UserRightsModel(this);
     ui.userrightsTreeView->setModel(m_userrightsModel);
-    connect(ui.userrightsTreeView, &QAbstractItemView::doubleClicked, this, &UserAccountsDlg::toggleUserRights);
 
 #if defined(Q_OS_MAC)
     auto font = ui.usersTreeView->font();
@@ -134,7 +133,10 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
         lockUI(true);
     }
     else
+    {
+        connect(ui.userrightsTreeView, &QAbstractItemView::doubleClicked, this, &UserAccountsDlg::toggleUserRights);
         slotClearUser();
+    }
     ui.usersTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_USERACCOUNTS_HEADERSIZES).toByteArray());
     restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_USERACCOUNTSDLG_SIZE).toByteArray());
 }

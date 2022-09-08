@@ -223,6 +223,47 @@
            <property name="currentIndex">
             <number>0</number>
            </property>
+           <widget class="QWidget" name="tab_4">
+            <attribute name="title">
+             <string>User Rights</string>
+            </attribute>
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <item>
+              <widget class="QGroupBox" name="groupBox_4">
+               <property name="title">
+                <string>User Actions Allowed on Server</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout">
+                <item>
+                 <widget class="MyTreeView" name="userrightsTreeView">
+                  <property name="editTriggers">
+                   <set>QAbstractItemView::NoEditTriggers</set>
+                  </property>
+                  <property name="showDropIndicator" stdset="0">
+                   <bool>false</bool>
+                  </property>
+                  <property name="alternatingRowColors">
+                   <bool>true</bool>
+                  </property>
+                  <property name="rootIsDecorated">
+                   <bool>false</bool>
+                  </property>
+                  <property name="itemsExpandable">
+                   <bool>false</bool>
+                  </property>
+                  <property name="expandsOnDoubleClick">
+                   <bool>false</bool>
+                  </property>
+                  <attribute name="headerVisible">
+                   <bool>false</bool>
+                  </attribute>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
            <widget class="QWidget" name="tab">
             <attribute name="title">
              <string>Channel Operator</string>
@@ -437,40 +478,6 @@
           </widget>
          </item>
         </layout>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_4">
-         <property name="title">
-          <string>User Rights</string>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_8">
-          <item>
-           <widget class="MyTreeView" name="userrightsTreeView">
-            <property name="editTriggers">
-             <set>QAbstractItemView::NoEditTriggers</set>
-            </property>
-            <property name="showDropIndicator" stdset="0">
-             <bool>false</bool>
-            </property>
-            <property name="alternatingRowColors">
-             <bool>true</bool>
-            </property>
-            <property name="rootIsDecorated">
-             <bool>false</bool>
-            </property>
-            <property name="itemsExpandable">
-             <bool>false</bool>
-            </property>
-            <property name="expandsOnDoubleClick">
-             <bool>false</bool>
-            </property>
-            <attribute name="headerVisible">
-             <bool>false</bool>
-            </attribute>
-           </widget>
-          </item>
-         </layout>
-        </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">

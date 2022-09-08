@@ -290,11 +290,6 @@ int UserRightsModel::rowCount(const QModelIndex & /*parent = QModelIndex()*/) co
     return m_userrights.size();
 }
 
-Qt::ItemFlags UserRightsModel::flags(const QModelIndex &index) const
-{
-    return QAbstractItemModel::flags(index) | Qt::ItemIsUserCheckable;
-}
-
 void UserRightsModel::setUserRights(UserTypes usertypes, UserRights rights)
 {
     this->beginResetModel();
