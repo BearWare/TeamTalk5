@@ -22,6 +22,7 @@ Default Qt Client
 - BearWare.dk WebLogin changes file permission on TeamTalk5.ini to 600
 - Text-To-Speech message on classroom changes
 - Status bar and TTS event when changing subscription
+- Checkboxes in "User Accounts" dialog replaced by tree view
 - Fixed request to create folder for channel and private histories if none is specified in "Store conversation" dialog
 - Fixed username/password not being applied in "Generate .tt File" dialog
 Android Client
