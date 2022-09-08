@@ -5284,7 +5284,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1295"/>
         <source>Sound pack</source>
-        <translation></translation>
+        <translation>Звуковой пакет</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1308"/>
@@ -6414,7 +6414,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="483"/>
         <source>&amp;Cancel</source>
-        <translation>О&amp;тмена</translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="67"/>
