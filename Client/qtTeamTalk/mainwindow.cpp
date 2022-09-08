@@ -4013,7 +4013,6 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
             if(ok && newname.size())
             {
                 inipath = QString("%1.%2").arg(inipath).arg(freeno);
-                QFile::copy(ttSettings->fileName(), inipath);
                 QSettings settings(inipath, QSettings::IniFormat, this);
                 settings.setValue(SETTINGS_GENERAL_PROFILENAME, newname);
             }
