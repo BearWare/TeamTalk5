@@ -254,6 +254,9 @@
                   <property name="expandsOnDoubleClick">
                    <bool>false</bool>
                   </property>
+                  <property name="accessibleName">
+                   <string>User Rights</string>
+                  </property>
                   <attribute name="headerVisible">
                    <bool>false</bool>
                   </attribute>
