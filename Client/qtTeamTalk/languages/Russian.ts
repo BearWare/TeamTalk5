@@ -2916,79 +2916,79 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2631"/>
         <source>Private messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Личные сообщения</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2636"/>
         <source>Channel messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Сообщения канала</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2641"/>
         <source>Broadcast messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Сетевые сообщения</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
         <source>Voice</source>
-        <translation type="unfinished">Голос</translation>
+        <translation>Голос</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2651"/>
         <source>Video</source>
-        <translation type="unfinished">Видео</translation>
+        <translation>Видео</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2661"/>
         <source>Desktop input</source>
-        <translation type="unfinished"></translation>
+        <translation>Передача с рабочего стола</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2666"/>
         <source>Media files</source>
-        <translation type="unfinished">Медиа файлы</translation>
+        <translation>Медиафайлы</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2671"/>
         <source>Intercept private messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Перехват личных сообщений</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2676"/>
         <source>Intercept channel messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Перехват сообщений канала</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2681"/>
         <source>Intercept voice</source>
-        <translation type="unfinished"></translation>
+        <translation>Перехват голоса</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2686"/>
         <source>Intercept video capture</source>
-        <translation type="unfinished"></translation>
+        <translation>Перехват видео</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2691"/>
         <source>Intercept desktop</source>
-        <translation type="unfinished"></translation>
+        <translation>Перехват рабочего стола</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2696"/>
         <source>Intercept media files</source>
-        <translation type="unfinished"></translation>
+        <translation>Перехват медиафайлов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2720"/>
         <location filename="../mainwindow.cpp" line="2721"/>
         <source>Subscription &quot;%1&quot; enabled for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Подписка &quot;%1&quot; включена на %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>
         <location filename="../mainwindow.cpp" line="2731"/>
         <source>Subscription &quot;%1&quot; disabled for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Подписка &quot;%1&quot; отключена на %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2863"/>
@@ -6007,7 +6007,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="491"/>
         <source>Server events logged</source>
-        <translation type="unfinished"></translation>
+        <translation>События сервера зарегистрированы</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="501"/>
@@ -6983,12 +6983,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="71"/>
         <source>User accounts</source>
-        <translation type="unfinished"></translation>
+        <translation>Учетные записи пользователей</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="234"/>
         <source>User Actions Allowed on Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Действия пользователя, разрешенные на сервере</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="368"/>
@@ -7514,122 +7514,123 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="211"/>
         <source>User can log in multiple times</source>
-        <translation type="unfinished">Пользователь может войти несколько раз</translation>
+        <translation>Пользователь может войти несколько раз</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="213"/>
         <source>User can see users in all channels</source>
-        <translation type="unfinished">Пользователь может видеть пользователей во всех каналах</translation>
+        <translation>Пользователь может видеть пользователей во всех каналах</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="215"/>
         <source>User can see hidden channels</source>
-        <translation type="unfinished">Пользователь может видеть скрытые каналы</translation>
+        <translation>Пользователь может видеть скрытые каналы</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="217"/>
         <source>User can create/modify all channels</source>
-        <translation type="unfinished">Пользователь может создавать/изменять все каналы</translation>
+        <translation>Пользователь может создавать/изменять все каналы</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="219"/>
         <source>User can create temporary channels</source>
-        <translation type="unfinished">Пользователь может создавать временные каналы</translation>
+        <translation>Пользователь может создавать временные каналы</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="221"/>
         <source>User can broadcast text messages</source>
-        <translation type="unfinished">Пользователь может отправлять сетевые сообщения</translation>
+        <translation>Пользователь может отправлять сетевые сообщения</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="223"/>
         <source>User can kick users off the server</source>
-        <translation type="unfinished">Пользователь может выгонять пользователей с сервера</translation>
+        <translation>Пользователь может выгонять пользователей с сервера</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="225"/>
         <source>User can ban users from server</source>
-        <translation type="unfinished">Пользователь может блокировать пользователей на сервере</translation>
+        <translation>Пользователь может блокировать пользователей на сервере</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="227"/>
         <source>User can move users between channels</source>
-        <translation type="unfinished">Пользователь может перемещать пользователей между каналами</translation>
+        <translation>Пользователь может перемещать пользователей между каналами</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="229"/>
         <source>User can make other users channel operator</source>
-        <translation type="unfinished">Пользователь может сделать других пользователей операторами канала</translation>
+        <translation>Пользователь может сделать других пользователей операторами канала</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="231"/>
         <source>User can upload files</source>
-        <translation type="unfinished">Пользователь может выгружать файлы</translation>
+        <translation>Пользователь может выгружать файлы</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="233"/>
         <source>User can download files</source>
-        <translation type="unfinished">Пользователь может загружать файлы</translation>
+        <translation>Пользователь может загружать файлы</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="235"/>
         <source>User can record voice in all channels</source>
-        <translation type="unfinished">Пользователь может записывать голос во всех каналах</translation>
+        <translation>Пользователь может записывать голос во всех каналах</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="237"/>
         <source>User can update server properties</source>
-        <translation type="unfinished">Пользователь может обновлять свойства сервера</translation>
+        <translation>Пользователь может обновлять свойства сервера</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="239"/>
         <source>User can transmit voice data (microphone)</source>
-        <translation type="unfinished">Пользователь может передавать голосовые данные (микрофон)</translation>
+        <translation>Пользователь может передавать голосовые данные (микрофон)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="241"/>
         <source>User can transmit video data (webcam)</source>
-        <translation type="unfinished">Пользователь может передавать видео данные (веб-камера)</translation>
+        <translation>Пользователь может передавать видео данные (веб-камера)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="243"/>
         <source>User can transmit desktop sessions (shared desktop)</source>
-        <translation type="unfinished">Пользователь может передавать сессии рабочего стола (предоставление рабочего стола)</translation>
+        <translation>Пользователь может передавать сессии рабочего стола (предоставление рабочего стола)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="245"/>
         <source>User can get remote access to desktop sessions</source>
-        <translation type="unfinished">Пользователь может получить  удаленный доступ к сессиям рабочего стола</translation>
+        <translation>Пользователь может получить  удаленный доступ к сессиям рабочего стола</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="247"/>
         <source>User can transmit audio files (wav, mp3 files)</source>
-        <translation type="unfinished">Пользователь может передавать звуковые файлы (файлы wav, mp3)</translation>
+        <translation>Пользователь может передавать звуковые файлы (файлы wav, mp3)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="249"/>
         <source>User can transmit video files (avi, mp4 files)</source>
-        <translation type="unfinished">Пользователь может передавать видео файлы (файлы avi, mp4)</translation>
+        <translation>Пользователь может передавать видео файлы (файлы avi, mp4)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="255"/>
         <source>User can change nickname</source>
-        <translation type="unfinished">Пользователь может изменить ник</translation>
+        <translation>Пользователь может изменить ник</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="257"/>
         <source>User can change status mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь может изменить режим статуса</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="263"/>
         <source>Enabled</source>
-        <translation type="unfinished">Включено</translation>
+        <translation>Включено</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="263"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>	</translatorcomment>
+        <translation>Отключено</translation>
     </message>
 </context>
 <context>
