@@ -2084,7 +2084,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1816"/>
         <source>Intercept User Messages</source>
-        <translation>拦截用户消息</translation>
+        <translation>截取用户消息</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1819"/>
@@ -2094,7 +2094,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1827"/>
         <source>Intercept Channel Messages</source>
-        <translation>拦截频道消息</translation>
+        <translation>截取频道消息</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1830"/>
@@ -2104,7 +2104,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1842"/>
         <source>Intercept Voice</source>
-        <translation>拦截语音</translation>
+        <translation>截取语音</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1845"/>
@@ -2114,7 +2114,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1857"/>
         <source>Intercept Video</source>
-        <translation>拦截视频</translation>
+        <translation>截取视频</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1860"/>
@@ -2329,7 +2329,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2066"/>
         <source>Intercept Desktop</source>
-        <translation>拦截桌面</translation>
+        <translation>截取桌面</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2069"/>
@@ -2379,7 +2379,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2157"/>
         <source>Intercept Media File Stream</source>
-        <translation>拦截媒体文件流</translation>
+        <translation>截取媒体文件流</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2160"/>
@@ -3397,79 +3397,79 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.cpp" line="2631"/>
         <source>Private messages</source>
-        <translation type="unfinished"></translation>
+        <translation>私人消息</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2636"/>
         <source>Channel messages</source>
-        <translation type="unfinished"></translation>
+        <translation>频道消息</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2641"/>
         <source>Broadcast messages</source>
-        <translation type="unfinished"></translation>
+        <translation>广播消息</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
         <source>Voice</source>
-        <translation type="unfinished">语音</translation>
+        <translation>语音</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2651"/>
         <source>Video</source>
-        <translation type="unfinished">视频</translation>
+        <translation>视频</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2661"/>
         <source>Desktop input</source>
-        <translation type="unfinished"></translation>
+        <translation>桌面输入</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2666"/>
         <source>Media files</source>
-        <translation type="unfinished">媒体文件</translation>
+        <translation>媒体文件</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2671"/>
         <source>Intercept private messages</source>
-        <translation type="unfinished"></translation>
+        <translation>截取私人消息</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2676"/>
         <source>Intercept channel messages</source>
-        <translation type="unfinished"></translation>
+        <translation>截取频道消息</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2681"/>
         <source>Intercept voice</source>
-        <translation type="unfinished"></translation>
+        <translation>截取语音</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2686"/>
         <source>Intercept video capture</source>
-        <translation type="unfinished"></translation>
+        <translation>截取视频</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2691"/>
         <source>Intercept desktop</source>
-        <translation type="unfinished"></translation>
+        <translation>截取桌面</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2696"/>
         <source>Intercept media files</source>
-        <translation type="unfinished"></translation>
+        <translation>截取媒体文件</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2720"/>
         <location filename="../mainwindow.cpp" line="2721"/>
         <source>Subscription &quot;%1&quot; enabled for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>为 %2 启用订阅 &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>
         <location filename="../mainwindow.cpp" line="2731"/>
         <source>Subscription &quot;%1&quot; disabled for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>为 %2 禁用订阅 &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2863"/>
@@ -3630,14 +3630,14 @@ Should these settings be applied?</source>
         <location filename="../mainwindow.cpp" line="4978"/>
         <source>To relay voice stream from other channel you must enable subscription &quot;Intercept Voice&quot;.
 Do you wish to do this now?</source>
-        <translation>要转播其他频道的语音流，您必须启用“拦截语音”订阅。
+        <translation>要转播其他频道的语音流，您必须启用“截取语音”订阅。
 您现在想这样做吗？</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4998"/>
         <source>To relay media file stream from other channel you must enable subscription &quot;Intercept Media File&quot;.
 Do you wish to do this now?</source>
-        <translation>要转播其他频道的媒体文件流，您必须启用&quot;拦截媒体文件&quot;订阅。
+        <translation>要转播其他频道的媒体文件流，您必须启用&quot;截取媒体文件&quot;订阅。
 您现在想这样做吗？</translation>
     </message>
     <message>
@@ -6000,7 +6000,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="491"/>
         <source>Server events logged</source>
-        <translation type="unfinished"></translation>
+        <translation>记录的服务器事件</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="501"/>
@@ -6259,32 +6259,32 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="135"/>
         <source>Subscription intercept private text message changed</source>
-        <translation>更改拦截私人消息订阅</translation>
+        <translation>更改截取私人消息订阅</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="137"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation>更改拦截频道消息订阅</translation>
+        <translation>更改截取频道消息订阅</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="139"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation>更改拦截语音订阅</translation>
+        <translation>更改截取语音订阅</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="141"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation>更改拦截视频订阅</translation>
+        <translation>更改截取视频订阅</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="143"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation>更改拦截桌面共享订阅</translation>
+        <translation>更改截取桌面共享订阅</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="145"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation>更改拦截媒体文件流订阅</translation>
+        <translation>更改截取媒体文件流订阅</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="147"/>
@@ -6740,32 +6740,32 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="161"/>
         <source>Subscription intercept private text message changed</source>
-        <translation>更改拦截私人消息订阅</translation>
+        <translation>更改截取私人消息订阅</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="163"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation>更改拦截频道消息订阅</translation>
+        <translation>更改截取频道消息订阅</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="165"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation>更改拦截语音订阅</translation>
+        <translation>更改截取语音订阅</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="167"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation>更改拦截视频订阅</translation>
+        <translation>更改截取视频订阅</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="169"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation>更改拦截桌面共享订阅</translation>
+        <translation>更改截取桌面共享订阅</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="171"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation>更改拦截媒体文件流订阅</translation>
+        <translation>更改截取媒体文件流订阅</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="173"/>
@@ -6976,12 +6976,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="71"/>
         <source>User accounts</source>
-        <translation type="unfinished"></translation>
+        <translation>用户账户</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="234"/>
         <source>User Actions Allowed on Server</source>
-        <translation type="unfinished"></translation>
+        <translation>服务器上允许的用户行为</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="368"/>
@@ -7030,94 +7030,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../useraccounts.ui" line="258"/>
         <source>User Rights</source>
         <translation>用户权限</translation>
-    </message>
-    <message>
-        <source>User can log in multiple times</source>
-        <translation type="vanished">用户可多次登录</translation>
-    </message>
-    <message>
-        <source>User can upload files</source>
-        <translation type="vanished">用户可上传文件</translation>
-    </message>
-    <message>
-        <source>User can see users in all channels</source>
-        <translation type="vanished">用户可查看所有频道用户</translation>
-    </message>
-    <message>
-        <source>User can change nickname</source>
-        <translation type="vanished">用户可更改昵称</translation>
-    </message>
-    <message>
-        <source>User can download files</source>
-        <translation type="vanished">用户可下载文件</translation>
-    </message>
-    <message>
-        <source>User can create/modify all channels</source>
-        <translation type="vanished">用户可创建/修改所有频道</translation>
-    </message>
-    <message>
-        <source>User can update server properties</source>
-        <translation type="vanished">用户可更新服务器属性</translation>
-    </message>
-    <message>
-        <source>User can create temporary channels</source>
-        <translation type="vanished">用户可创建临时频道</translation>
-    </message>
-    <message>
-        <source>User can transmit voice data (microphone)</source>
-        <translation type="vanished">用户可传输语音数据（通过麦克风）</translation>
-    </message>
-    <message>
-        <source>User can broadcast text messages</source>
-        <translation type="vanished">用户可发送广播消息</translation>
-    </message>
-    <message>
-        <source>User can transmit video data (webcam)</source>
-        <translation type="vanished">用户可传输视频数据（通过网络摄像头</translation>
-    </message>
-    <message>
-        <source>User can kick users off the server</source>
-        <translation type="vanished">用户可从服务器踢出用户</translation>
-    </message>
-    <message>
-        <source>User can transmit audio files (wav, mp3 files)</source>
-        <translation type="vanished">用户可传输音频文件（WAV，MP3等文件）</translation>
-    </message>
-    <message>
-        <source>User can ban users from server</source>
-        <translation type="vanished">用户可从服务器禁止用户</translation>
-    </message>
-    <message>
-        <source>User can transmit video files (avi, mp4 files)</source>
-        <translation type="vanished">用户可传输视频文件（AVI，MP4文件）</translation>
-    </message>
-    <message>
-        <source>User can move users between channels</source>
-        <translation type="vanished">用户可在频道之间移动用户</translation>
-    </message>
-    <message>
-        <source>User can transmit desktop sessions (shared desktop)</source>
-        <translation type="vanished">用户可发送桌面会话（共享桌面）</translation>
-    </message>
-    <message>
-        <source>User can make other users channel operator</source>
-        <translation type="vanished">用户可指定其他用户为频道管理员</translation>
-    </message>
-    <message>
-        <source>User can get remote access to desktop sessions</source>
-        <translation type="vanished">用户可远程访问桌面会话</translation>
-    </message>
-    <message>
-        <source>User can record voice in all channels</source>
-        <translation type="vanished">用户可在所有频道中录音</translation>
-    </message>
-    <message>
-        <source>User can see hidden channels</source>
-        <translation type="vanished">用户可看到隐藏频道</translation>
-    </message>
-    <message>
-        <source>CheckBox</source>
-        <translation type="vanished">复选框</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="510"/>
@@ -7507,122 +7419,122 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="211"/>
         <source>User can log in multiple times</source>
-        <translation type="unfinished">用户可多次登录</translation>
+        <translation>用户可多次登录</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="213"/>
         <source>User can see users in all channels</source>
-        <translation type="unfinished">用户可查看所有频道用户</translation>
+        <translation>用户可查看所有频道用户</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="215"/>
         <source>User can see hidden channels</source>
-        <translation type="unfinished">用户可看到隐藏频道</translation>
+        <translation>用户可看到隐藏频道</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="217"/>
         <source>User can create/modify all channels</source>
-        <translation type="unfinished">用户可创建/修改所有频道</translation>
+        <translation>用户可创建/修改所有频道</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="219"/>
         <source>User can create temporary channels</source>
-        <translation type="unfinished">用户可创建临时频道</translation>
+        <translation>用户可创建临时频道</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="221"/>
         <source>User can broadcast text messages</source>
-        <translation type="unfinished">用户可发送广播消息</translation>
+        <translation>用户可发送广播消息</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="223"/>
         <source>User can kick users off the server</source>
-        <translation type="unfinished">用户可从服务器踢出用户</translation>
+        <translation>用户可从服务器踢出用户</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="225"/>
         <source>User can ban users from server</source>
-        <translation type="unfinished">用户可从服务器禁止用户</translation>
+        <translation>用户可从服务器禁止用户</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="227"/>
         <source>User can move users between channels</source>
-        <translation type="unfinished">用户可在频道之间移动用户</translation>
+        <translation>用户可在频道之间移动用户</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="229"/>
         <source>User can make other users channel operator</source>
-        <translation type="unfinished">用户可指定其他用户为频道管理员</translation>
+        <translation>用户可指定其他用户为频道管理员</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="231"/>
         <source>User can upload files</source>
-        <translation type="unfinished">用户可上传文件</translation>
+        <translation>用户可上传文件</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="233"/>
         <source>User can download files</source>
-        <translation type="unfinished">用户可下载文件</translation>
+        <translation>用户可下载文件</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="235"/>
         <source>User can record voice in all channels</source>
-        <translation type="unfinished">用户可在所有频道中录音</translation>
+        <translation>用户可在所有频道中录音</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="237"/>
         <source>User can update server properties</source>
-        <translation type="unfinished">用户可更新服务器属性</translation>
+        <translation>用户可更新服务器属性</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="239"/>
         <source>User can transmit voice data (microphone)</source>
-        <translation type="unfinished">用户可传输语音数据（通过麦克风）</translation>
+        <translation>用户可传输语音数据（通过麦克风）</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="241"/>
         <source>User can transmit video data (webcam)</source>
-        <translation type="unfinished">用户可传输视频数据（通过网络摄像头</translation>
+        <translation>用户可传输视频数据（通过网络摄像头</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="243"/>
         <source>User can transmit desktop sessions (shared desktop)</source>
-        <translation type="unfinished">用户可发送桌面会话（共享桌面）</translation>
+        <translation>用户可发送桌面会话（共享桌面）</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="245"/>
         <source>User can get remote access to desktop sessions</source>
-        <translation type="unfinished">用户可远程访问桌面会话</translation>
+        <translation>用户可远程访问桌面会话</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="247"/>
         <source>User can transmit audio files (wav, mp3 files)</source>
-        <translation type="unfinished">用户可传输音频文件（WAV，MP3等文件）</translation>
+        <translation>用户可传输音频文件（WAV，MP3等文件）</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="249"/>
         <source>User can transmit video files (avi, mp4 files)</source>
-        <translation type="unfinished">用户可传输视频文件（AVI，MP4文件）</translation>
+        <translation>用户可传输视频文件（AVI，MP4文件）</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="255"/>
         <source>User can change nickname</source>
-        <translation type="unfinished">用户可更改昵称</translation>
+        <translation>用户可更改昵称</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="257"/>
         <source>User can change status mode</source>
-        <translation type="unfinished"></translation>
+        <translation>用户可更改状态模式</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="263"/>
         <source>Enabled</source>
-        <translation type="unfinished">已启用</translation>
+        <translation>启用</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="263"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>禁用</translation>
     </message>
 </context>
 <context>
