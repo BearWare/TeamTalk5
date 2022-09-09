@@ -2622,6 +2622,84 @@ void MainWindow::firewallInstall()
 
 void MainWindow::subscribeCommon(bool checked, Subscriptions subs, int userid/* = 0*/)
 {
+    QString subType;
+    TextToSpeechEvent subTypeTTS;
+    StatusBarEvent subTypeSB;
+    switch (subs)
+    {
+    case SUBSCRIBE_USER_MSG :
+        subType = tr("Private messages");
+        subTypeTTS = TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_TEXTMSG_PRIVATE;
+        break;
+    case SUBSCRIBE_CHANNEL_MSG :
+        subType = tr("Channel messages");
+        subTypeTTS = TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_TEXTMSG_CHANNEL;
+        break;
+    case SUBSCRIBE_BROADCAST_MSG :
+        subType = tr("Broadcast messages");
+        subTypeTTS = TTS_SUBSCRIPTIONS_TEXTMSG_BROADCAST;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_TEXTMSG_BROADCAST;
+        break;
+    case SUBSCRIBE_VOICE :
+        subType = tr("Voice");
+        subTypeTTS = TTS_SUBSCRIPTIONS_VOICE;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_VOICE;
+        break;
+    case SUBSCRIBE_VIDEOCAPTURE :
+        subType = tr("Video");
+        subTypeTTS = TTS_SUBSCRIPTIONS_VIDEO;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_VIDEO;
+        break;
+    case SUBSCRIBE_DESKTOP :
+        subType = tr("Desktop");
+        subTypeTTS = TTS_SUBSCRIPTIONS_DESKTOP;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_DESKTOP;
+        break;
+    case SUBSCRIBE_DESKTOPINPUT :
+        subType = tr("Desktop input");
+        subTypeTTS = TTS_SUBSCRIPTIONS_DESKTOPINPUT;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_DESKTOPINPUT;
+        break;
+    case SUBSCRIBE_MEDIAFILE :
+        subType = tr("Media files");
+        subTypeTTS = TTS_SUBSCRIPTIONS_MEDIAFILE;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_MEDIAFILE;
+        break;
+    case SUBSCRIBE_INTERCEPT_USER_MSG :
+        subType = tr("Intercept private messages");
+        subTypeTTS = TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE;
+        break;
+    case SUBSCRIBE_INTERCEPT_CHANNEL_MSG :
+        subType = tr("Intercept channel messages");
+        subTypeTTS = TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL;
+        break;
+    case SUBSCRIBE_INTERCEPT_VOICE :
+        subType = tr("Intercept voice");
+        subTypeTTS = TTS_SUBSCRIPTIONS_INTERCEPT_VOICE;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VOICE;
+        break;
+    case SUBSCRIBE_INTERCEPT_VIDEOCAPTURE :
+        subType = tr("Intercept video capture");
+        subTypeTTS = TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VIDEO;
+        break;
+    case SUBSCRIBE_INTERCEPT_DESKTOP :
+        subType = tr("Intercept desktop");
+        subTypeTTS = TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_INTERCEPT_DESKTOP;
+        break;
+    case SUBSCRIBE_INTERCEPT_MEDIAFILE :
+        subType = tr("Intercept media files");
+        subTypeTTS = TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE;
+        break;
+    case SUBSCRIBE_NONE :
+        break;
+    }
     QVector<int> userids;
 
     if(userid == 0)
@@ -2631,17 +2709,27 @@ void MainWindow::subscribeCommon(bool checked, Subscriptions subs, int userid/* 
 
     foreach(userid, userids)
     {
+        User user = {};
+        ui.channelsWidget->getUser(userid, user);
         if(checked)
         {
             int cmdid = TT_DoSubscribe(ttInst, userid, subs);
             if(cmdid>0)
+            {
                 m_commands[cmdid] = CMD_COMPLETE_SUBSCRIBE;
+                addTextToSpeechMessage(subTypeTTS, tr("Subscription \"%1\" enabled for %2").arg(subType).arg(getDisplayName(user)));
+                addStatusMsg(subTypeSB, tr("Subscription \"%1\" enabled for %2").arg(subType).arg(getDisplayName(user)));
+            }
         }
         else
         {
             int cmdid = TT_DoUnsubscribe(ttInst, userid, subs);
             if(cmdid>0)
+            {
                 m_commands[cmdid] = CMD_COMPLETE_UNSUBSCRIBE;
+                addTextToSpeechMessage(subTypeTTS, tr("Subscription \"%1\" disabled for %2").arg(subType).arg(getDisplayName(user)));
+                addStatusMsg(subTypeSB, tr("Subscription \"%1\" disabled for %2").arg(subType).arg(getDisplayName(user)));
+            }
         }
     }
 }
@@ -3925,7 +4013,6 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
             if(ok && newname.size())
             {
                 inipath = QString("%1.%2").arg(inipath).arg(freeno);
-                QFile::copy(ttSettings->fileName(), inipath);
                 QSettings settings(inipath, QSettings::IniFormat, this);
                 settings.setValue(SETTINGS_GENERAL_PROFILENAME, newname);
             }

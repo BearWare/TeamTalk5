@@ -190,6 +190,7 @@
 typedef QVector<int> userids_t;
 typedef QMap<int, Channel> channels_t;
 typedef QMap<int, User> users_t;
+typedef QVector<UserAccount> useraccounts_t;
 
 bool userCanChanMessage(int userid, const Channel& chan, bool includeFreeForAll = false);
 bool userCanVoiceTx(int userid, const Channel& chan, bool includeFreeForAll = false);
