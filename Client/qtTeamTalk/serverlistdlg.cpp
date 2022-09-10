@@ -342,7 +342,6 @@ ServerListDlg::~ServerListDlg()
 
 void ServerListDlg::showHostEntry(const HostEntry& entry)
 {
-    ui.nameEdit->setText(entry.name);
     ui.hostaddrBox->lineEdit()->setText(entry.ipaddr);
     ui.tcpportEdit->setText(QString::number(entry.tcpport));
     ui.udpportEdit->setText(QString::number(entry.udpport));
@@ -356,6 +355,8 @@ void ServerListDlg::showHostEntry(const HostEntry& entry)
     ui.nicknameEdit->setText(entry.nickname);
     ui.channelEdit->setText(entry.channel);
     ui.chanpasswdEdit->setText(entry.chanpasswd);
+    if (!entry.name.isEmpty())
+        ui.nameEdit->setText(entry.name);
 
     ui.clearButton->setEnabled(true);
 }

@@ -42,12 +42,16 @@ namespace teamtalk {
         void RemoveUser(int userid);
         void RemoveUser(int userid, bool* modified);
         bool ClearFromTransmitQueue(int userid);
+        void UpdateChannelBans();
+        void SetOwner(const ServerUser& user);
+        bool IsOwner(const ServerUser& user) const;
     private:
         void Init();
         // userid -> last transmit time
         std::map<int, ACE_Time_Value> m_lastUserPacket;
         // userid -> stream id
         std::map<int, int> m_blockStreams, m_activeStreams;
+        ACE_TString m_usernameOwner;
     };
 }
 

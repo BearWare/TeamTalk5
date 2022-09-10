@@ -68,7 +68,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     setWindowIcon(QIcon(APPICON));
     restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_PREFERENCESWINDOWPOS).toByteArray());
 
-    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
+    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&OK"));
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
     initDefaultVideoFormat(m_vidfmt);
@@ -208,6 +208,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     ui.ttsTreeView->setModel(m_ttsmodel);
     connect(ui.ttsTreeView, &QAbstractItemView::doubleClicked, this, &PreferencesDlg::slotTTSEventToggled);
     connect(ui.ttsengineComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &PreferencesDlg::slotUpdateTTSTab);
+    connect(ui.ttsLocaleComboBox, &QComboBox::currentTextChanged, this, &PreferencesDlg::slotTTSLocaleChanged);
     connect(ui.ttsEnableallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSEnableAll);
     connect(ui.ttsClearallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSClearAll);
     connect(ui.ttsRevertButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSRevert);
@@ -1119,7 +1120,8 @@ void PreferencesDlg::slotSaveChanges()
     {
         ttSettings->setValue(SETTINGS_TTS_ACTIVEEVENTS, m_ttsmodel->getTTSEvents());
         ttSettings->setValue(SETTINGS_TTS_ENGINE, getCurrentItemData(ui.ttsengineComboBox, TTSENGINE_NONE));
-        ttSettings->setValue(SETTINGS_TTS_VOICE, ui.ttsVoiceComboBox->currentIndex());
+        ttSettings->setValue(SETTINGS_TTS_LOCALE, getCurrentItemData(ui.ttsLocaleComboBox, ""));
+        ttSettings->setValue(SETTINGS_TTS_VOICE, getCurrentItemData(ui.ttsVoiceComboBox, ""));
         ttSettings->setValue(SETTINGS_TTS_RATE, ui.ttsVoiceRateSpinBox->value());
         ttSettings->setValue(SETTINGS_TTS_VOLUME, ui.ttsVoiceVolumeSpinBox->value());
 #if defined(Q_OS_LINUX)
@@ -1127,7 +1129,9 @@ void PreferencesDlg::slotSaveChanges()
 #elif defined(Q_OS_WIN)
         ttSettings->setValue(SETTINGS_TTS_SAPI, ui.ttsForceSapiChkBox->isChecked());
 #elif defined(Q_OS_DARWIN)
+#if QT_VERSION >= QT_VERSION_CHECK(6,4,0)
         ttSettings->setValue(SETTINGS_TTS_SPEAKLISTS, ui.ttsSpeakListsChkBox->isChecked());
+#endif
 #endif
         ttSettings->setValue(SETTINGS_DISPLAY_TTSHEADER, ui.ttsTreeView->header()->saveState());
     }
@@ -1238,6 +1242,7 @@ void PreferencesDlg::slotSoundInputChange(int index)
             devinfo += " " + QString::number(dev.inputSampleRates[i]);
     }
     ui.inputinfoLabel->setText(devinfo);
+    ui.inputinfoLabel->setAccessibleName(devinfo);
     slotUpdateSoundCheckBoxes();
 }
 
@@ -1261,6 +1266,7 @@ void PreferencesDlg::slotSoundOutputChange(int index)
             devinfo += " " + QString::number(dev.outputSampleRates[i]);
     }
     ui.outputinfoLabel->setText(devinfo);
+    ui.outputinfoLabel->setAccessibleName(devinfo);
     slotUpdateSoundCheckBoxes();
 }
 
@@ -1572,6 +1578,8 @@ void PreferencesDlg::slotEventVoiceActMeOff()
 
 void PreferencesDlg::slotUpdateTTSTab()
 {
+    ui.label_ttslocale->hide();
+    ui.ttsLocaleComboBox->hide();
     ui.label_ttsvoice->hide();
     ui.ttsVoiceComboBox->hide();
 
@@ -1592,6 +1600,8 @@ void PreferencesDlg::slotUpdateTTSTab()
     case TTSENGINE_QT :
     {
 #if defined(QT_TEXTTOSPEECH_LIB)
+        ui.label_ttslocale->show();
+        ui.ttsLocaleComboBox->show();
         ui.label_ttsvoice->show();
         ui.ttsVoiceComboBox->show();
         ui.label_ttsvoicerate->show();
@@ -1599,23 +1609,34 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.label_ttsvoicevolume->show();
         ui.ttsVoiceVolumeSpinBox->show();
 #if defined(Q_OS_DARWIN)
+#if QT_VERSION < QT_VERSION_CHECK(6,4,0)
         ui.ttsSpeakListsChkBox->show();
+#endif
 #endif
         delete ttSpeech;
         ttSpeech = new QTextToSpeech(this);
 
         ui.ttsVoiceRateSpinBox->setValue(ttSettings->value(SETTINGS_TTS_RATE, SETTINGS_TTS_RATE_DEFAULT).toDouble());
         ui.ttsVoiceVolumeSpinBox->setValue(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
-        ui.ttsVoiceComboBox->clear();
-        QVector<QVoice> Voices = ttSpeech->availableVoices();
-        foreach (const QVoice &voice, Voices)
+        ui.ttsLocaleComboBox->clear();
+        foreach (const QLocale &locale, ttSpeech->availableLocales())
         {
-            ui.ttsVoiceComboBox->addItem(voice.name());
+            ui.ttsLocaleComboBox->addItem(locale.nativeLanguageName(), locale.nativeLanguageName());
         }
-        ui.ttsVoiceComboBox->setCurrentIndex(ttSettings->value(SETTINGS_TTS_VOICE).toInt());
+        ui.ttsLocaleComboBox->model()->sort(0);
+        setCurrentItemData(ui.ttsLocaleComboBox, ttSettings->value(SETTINGS_TTS_LOCALE));
+        ui.ttsVoiceComboBox->clear();
+        foreach (const QVoice &voice, ttSpeech->availableVoices())
+        {
+            ui.ttsVoiceComboBox->addItem(voice.name(), voice.name());
+        }
+        ui.ttsVoiceComboBox->model()->sort(0);
+        setCurrentItemData(ui.ttsVoiceComboBox, ttSettings->value(SETTINGS_TTS_VOICE));
 
 #if defined(Q_OS_DARWIN)
+#if QT_VERSION >= QT_VERSION_CHECK(6,4,0)
         ui.ttsSpeakListsChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SPEAKLISTS, SETTINGS_TTS_SPEAKLISTS_DEFAULT).toBool());
+#endif
 #endif
 #endif /* QT_TEXTTOSPEECH_LIB */
     }
@@ -1650,6 +1671,29 @@ void PreferencesDlg::slotUpdateTTSTab()
     case TTSENGINE_NONE :
     break;
     }
+}
+
+void PreferencesDlg::slotTTSLocaleChanged(const QString& locale)
+{
+#if defined(QT_TEXTTOSPEECH_LIB)
+    QVector<QLocale> locales = ttSpeech->availableLocales();
+    auto selLocale = std::find_if(locales.begin(), locales.end(), [locale](const QLocale& l) {
+       return l.nativeLanguageName() == locale;
+    });
+
+    if (selLocale != locales.end())
+    {
+        ttSpeech->setLocale(*selLocale);
+
+        ui.ttsVoiceComboBox->clear();
+        foreach (const QVoice &voice, ttSpeech->availableVoices())
+        {
+            ui.ttsVoiceComboBox->addItem(voice.name(), voice.name());
+        }
+        ui.ttsVoiceComboBox->model()->sort(0);
+        setCurrentItemData(ui.ttsVoiceComboBox, ttSettings->value(SETTINGS_TTS_VOICE));
+    }
+#endif
 }
 
 void PreferencesDlg::shortcutSetup(HotKeyID hotkey, bool enable, QLineEdit* shortcutedit)

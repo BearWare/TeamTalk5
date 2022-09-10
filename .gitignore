@@ -1,6 +1,5 @@
 ./*.sln
 ./*.bat
-build-*
 CMakeFiles
 CMakeLists.txt.user
 TAGS

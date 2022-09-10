@@ -35,6 +35,7 @@
 #include <QDomDocument>
 #include <QDesktopServices>
 #include <QPushButton>
+#include <QFile>
 
 extern QSettings* ttSettings;
 
@@ -45,7 +46,7 @@ BearWareLoginDlg::BearWareLoginDlg(QWidget *parent) :
     ui(new Ui::BearWareLoginDlg)
 {
     ui->setupUi(this);
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&OK"));
     ui->buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
     connect(ui->registerButton, &QAbstractButton::clicked, this, &BearWareLoginDlg::slotRegister);
@@ -116,6 +117,8 @@ void BearWareLoginDlg::slotHttpReply(QNetworkReply* reply)
     {
         ttSettings->setValue(SETTINGS_GENERAL_BEARWARE_USERNAME, username);
         ttSettings->setValue(SETTINGS_GENERAL_BEARWARE_TOKEN, token);
+
+        QFile::setPermissions(ttSettings->fileName(), QFileDevice::ReadOwner | QFileDevice::WriteOwner);
 
         QMessageBox::information(this, this->windowTitle(),
                                  tr("%1, your username \"%2\" has been validated.").arg(nickname).arg(username), QMessageBox::Ok);

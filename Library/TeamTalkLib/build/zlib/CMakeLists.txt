@@ -13,6 +13,11 @@ set (TOOLCHAIN_INSTALL_PREFIX_ZLIB ${TOOLCHAIN_INSTALL_PREFIX}/zlib)
 if (MSVC)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+
+      if (NOT CMAKE_VS_PLATFORM_NAME)
+        set (CMAKE_VS_PLATFORM_NAME x64)
+      endif()
+
       ExternalProject_Add(zlib-src
         GIT_REPOSITORY    https://github.com/bear101/zlib
         GIT_TAG           56c3219
@@ -27,8 +32,15 @@ if (MSVC)
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
         COMMAND           cd <SOURCE_DIR>
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/zlibd.lib
+                          <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/zlib.lib
         )
     else()
+
+      if (NOT CMAKE_VS_PLATFORM_NAME)
+        set (CMAKE_VS_PLATFORM_NAME win32)
+      endif()
+
       ExternalProject_Add(zlib-src
         GIT_REPOSITORY    https://github.com/bear101/zlib
         GIT_TAG           56c3219
@@ -43,6 +55,8 @@ if (MSVC)
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
         COMMAND           cd <SOURCE_DIR>
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/zlibd.lib
+                          <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/zlib.lib
         )
     endif()
     ExternalProject_Get_Property(zlib-src INSTALL_DIR)

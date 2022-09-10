@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.11.0.5090"
+#define TEAMTALK_VERSION "5.11.0.5094"
 
 
 #if defined(WIN32)
@@ -3154,8 +3154,9 @@ extern "C" {
          * #TT_DoLogin can now be called in order to logon to the
          * server.
          *
-         * @param nSource 0
-         * @param ttType #__NONE
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__NONE
          * @see TT_Connect */
         CLIENTEVENT_CON_SUCCESS = CLIENTEVENT_NONE + 10,
         /** 
@@ -3164,8 +3165,9 @@ extern "C" {
          * This event is posted if #TT_Connect fails. Ensure to call
          * #TT_Disconnect before calling #TT_Connect again.
          *
-         * @param nSource 0
-         * @param ttType #__NONE
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__NONE
          * @see TT_Connect */
         CLIENTEVENT_CON_FAILED = CLIENTEVENT_NONE + 20,
         /** 
@@ -3180,17 +3182,19 @@ extern "C" {
          * Ensure to call #TT_Disconnect before calling #TT_Connect
          * again.
          *
-         * @param nSource 0
-         * @param ttType #__NONE
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__NONE
          * @see TT_Connect */
         CLIENTEVENT_CON_LOST = CLIENTEVENT_NONE + 30,
         /**
          * @brief The maximum size of the payload put into UDP packets
          * has been updated.
          *
-         * @param nSource Ignored
-         * @param ttType #__INT32
-         * @param nPayloadSize Placed in union of #TTMessage. The
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource Ignored
+         * - #TTMessage.ttType #__INT32
+         * - #TTMessage.nPayloadSize Placed in union of #TTMessage. The
          * maximum size in bytes of the payload data which is put in
          * UDP packets. 0 means the max payload query failed.  @see
          * TT_QueryMaxPayload() */
@@ -3202,10 +3206,11 @@ extern "C" {
          * Read section @ref cmdprocessing on how to use command
          * processing in the user application.
          *
-         * @param nSource Command ID being processed (returned by
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource Command ID being processed (returned by
          * TT_Do* commands)
-         * @param ttType #__TTBOOL
-         * @param bActive Placed in union of #TTMessage. Is TRUE if
+         * - #TTMessage.ttType #__TTBOOL
+         * - #TTMessage.bActive Placed in union of #TTMessage. Is TRUE if
          * command ID started processing and FALSE if the command has
          * finished processing. */
         CLIENTEVENT_CMD_PROCESSING = CLIENTEVENT_NONE + 200,
@@ -3217,10 +3222,11 @@ extern "C" {
          * returned by the TT_Do* command. Section @ref cmdprocessing
          * explains how to use command ID.
          *
-         * @param nSource The command ID returned from the TT_Do*
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource The command ID returned from the TT_Do*
          * commands.
-         * @param ttType #__CLIENTERRORMSG
-         * @param clienterrormsg Placed in union of #TTMessage. Contains
+         * - #TTMessage.ttType #__CLIENTERRORMSG
+         * - #TTMessage.clienterrormsg Placed in union of #TTMessage. Contains
          * error description. */
         CLIENTEVENT_CMD_ERROR = CLIENTEVENT_NONE + 210,
         /**
@@ -3231,9 +3237,10 @@ extern "C" {
          * returned by the TT_Do* command. Section @ref cmdprocessing
          * explains how to use command ID.
          *
-         * @param nSource The command ID returned from the TT_Do*
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource The command ID returned from the TT_Do*
          * commands.
-         * @param ttType #__NONE */
+         * - #TTMessage.ttType #__NONE */
         CLIENTEVENT_CMD_SUCCESS = CLIENTEVENT_NONE + 220,
         /** 
          * @brief The client instance successfully logged on to
@@ -3247,10 +3254,11 @@ extern "C" {
          * #CLIENTEVENT_CMD_USER_LOGGEDIN and
          * #CLIENTEVENT_CMD_USER_JOINED for every user on the server.
          *
-         * @param nSource The client instance's user ID, i.e. what can now 
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource The client instance's user ID, i.e. what can now 
          * be retrieved through TT_GetMyUserID().
-         * @param ttType #__USERACCOUNT
-         * @param useraccount Placed in union of #TTMessage.
+         * - #TTMessage.ttType #__USERACCOUNT
+         * - #TTMessage.useraccount Placed in union of #TTMessage.
          * @see TT_DoLogin */
         CLIENTEVENT_CMD_MYSELF_LOGGEDIN = CLIENTEVENT_NONE + 230,
         /** 
@@ -3258,26 +3266,29 @@ extern "C" {
          *
          * A response to #TT_DoLogout.
          *
-         * @param nSource 0
-         * @param ttType #__NONE
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__NONE
          * @see TT_DoLogout */
         CLIENTEVENT_CMD_MYSELF_LOGGEDOUT = CLIENTEVENT_NONE + 240,
         /** 
          * @brief The client instance was kicked from a channel.
          *
-         * @param nSource If greater than zero indicates local client
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource If greater than zero indicates local client
          * instance was kicked from a channel. Otherwise kicked from
          * server.
-         * @param ttType #__USER if kicked by a user otherwise #__NONE.
-         * @param user Placed in union of #TTMessage if @a ttType
+         * - #TTMessage.ttType #__USER if kicked by a user otherwise #__NONE.
+         * - #TTMessage.user Placed in union of #TTMessage if @a ttType
          * equals #__USER otherwise #__NONE. */
         CLIENTEVENT_CMD_MYSELF_KICKED = CLIENTEVENT_NONE + 250,
         /**
          * @brief A new user logged on to the server.
          *
-         * @param nSource 0
-         * @param ttType #__USER
-         * @param user Placed in union of #TTMessage.
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__USER
+         * - #TTMessage.user Placed in union of #TTMessage.
          *
          * @see TT_DoLogin
          * @see TT_GetUser To retrieve user.
@@ -3289,9 +3300,10 @@ extern "C" {
          * This event is called when a user logs out with
          * #TT_DoLogout or disconnects with #TT_Disconnect.
          *
-         * @param nSource 0
-         * @param ttType #__USER
-         * @param user Placed in union of #TTMessage.
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__USER
+         * - #TTMessage.user Placed in union of #TTMessage.
          *
          * @see TT_DoLogout
          * @see TT_Disconnect
@@ -3300,34 +3312,38 @@ extern "C" {
         /**
          * @brief User changed properties.
          *
-         * @param nSource 0
-         * @param ttType #__USER
-         * @param user Placed in union of #TTMessage.
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__USER
+         * - #TTMessage.user Placed in union of #TTMessage.
          *
          * @see TT_GetUser To retrieve user. */
         CLIENTEVENT_CMD_USER_UPDATE = CLIENTEVENT_NONE + 280,
         /** 
          * @brief A user has joined a channel.
          *
-         * @param nSource 0
-         * @param ttType #__USER
-         * @param user Placed in union of #TTMessage.
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__USER
+         * - #TTMessage.user Placed in union of #TTMessage.
          *
          * @see TT_GetUser To retrieve user. */
         CLIENTEVENT_CMD_USER_JOINED = CLIENTEVENT_NONE + 290,
         /** 
          * @brief User has left a channel.
          *
-         * @param nSource Channel ID of previous channel.
-         * @param ttType #__USER
-         * @param user Placed in union of #TTMessage. */
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource Channel ID of previous channel.
+         * - #TTMessage.ttType #__USER
+         * - #TTMessage.user Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_USER_LEFT = CLIENTEVENT_NONE + 300,
         /** 
          * @brief A user has sent a text-message.
          *
-         * @param nSource 0
-         * @param ttType #__TEXTMESSAGE
-         * @param textmessage Placed in union of #TTMessage.
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__TEXTMESSAGE
+         * - #TTMessage.textmessage Placed in union of #TTMessage.
          *
          * @see TT_GetUser To retrieve user.
          * @see TT_DoTextMessage() to send text message. */
@@ -3335,18 +3351,20 @@ extern "C" {
         /** 
          * @brief A new channel has been created.
          *
-         * @param nSource 0
-         * @param ttType #__CHANNEL
-         * @param channel Placed in union of #TTMessage.
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__CHANNEL
+         * - #TTMessage.channel Placed in union of #TTMessage.
          *
          * @see TT_GetChannel To retrieve channel. */
         CLIENTEVENT_CMD_CHANNEL_NEW = CLIENTEVENT_NONE + 320,
         /** 
          * @brief A channel's properties has been updated.
          *
-         * @param nSource 0
-         * @param ttType #__CHANNEL
-         * @param channel Placed in union of #TTMessage.
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__CHANNEL
+         * - #TTMessage.channel Placed in union of #TTMessage.
          *
          * @see TT_GetChannel To retrieve channel. */
         CLIENTEVENT_CMD_CHANNEL_UPDATE = CLIENTEVENT_NONE + 330,
@@ -3356,9 +3374,10 @@ extern "C" {
          * Note that calling the #TT_GetChannel with the channel ID
          * will fail because the channel is no longer there.
          *
-         * @param nSource 0
-         * @param ttType #__CHANNEL
-         * @param channel Placed in union of #TTMessage. */
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__CHANNEL
+         * - #TTMessage.channel Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_CHANNEL_REMOVE = CLIENTEVENT_NONE + 340,
         /** 
          * @brief Server has updated its settings (server name, MOTD,
@@ -3366,18 +3385,20 @@ extern "C" {
          * 
          * Get new settings in @c serverproperties of #TTMessage.
          *
-         * @param nSource 0
-         * @param ttType #__SERVERPROPERTIES
-         * @param serverproperties Placed in union of #TTMessage. */
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__SERVERPROPERTIES
+         * - #TTMessage.serverproperties Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_SERVER_UPDATE = CLIENTEVENT_NONE + 350,
         /** 
          * @brief Server statistics available.
          *
          * This is a response to TT_DoServerStatistics()
          *
-         * @param nSource 0
-         * @param ttType #__SERVERSTATISTICS
-         * @param serverstatistics Placed in union of #TTMessage. */
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__SERVERSTATISTICS
+         * - #TTMessage.serverstatistics Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_SERVERSTATISTICS = CLIENTEVENT_NONE + 360,
         /** 
          * @brief A new file is added to a channel. 
@@ -3385,36 +3406,40 @@ extern "C" {
          * Use TT_GetChannelFile() to get information about the
          * file.
          *
-         * @param nSource 0
-         * @param ttType #__REMOTEFILE
-         * @param remotefile Placed in union of #TTMessage.
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__REMOTEFILE
+         * - #TTMessage.remotefile Placed in union of #TTMessage.
          *
          * @see TT_GetChannelFile To retrieve file. */
         CLIENTEVENT_CMD_FILE_NEW = CLIENTEVENT_NONE + 370,
         /** 
          * @brief A file has been removed from a channel.
          *
-         * @param nSource 0
-         * @param ttType #__REMOTEFILE
-         * @param remotefile Placed in union of #TTMessage. */
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__REMOTEFILE
+         * - #TTMessage.remotefile Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_FILE_REMOVE = CLIENTEVENT_NONE + 380,
         /** 
          * @brief A user account has been received from the server.
          *
          * This message is posted as a result of TT_DoListUserAccounts()
          *
-         * @param nSource 0
-         * @param ttType #__USERACCOUNT
-         * @param useraccount Placed in union of #TTMessage. */
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__USERACCOUNT
+         * - #TTMessage.useraccount Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_USERACCOUNT = CLIENTEVENT_NONE + 390,
         /** 
          * @brief A banned user has been received from the server.
          *
          * This message is posted as a result of TT_DoListBans()
          *
-         * @param nSource 0
-         * @param ttType #__BANNEDUSER
-         * @param useraccount Placed in union of #TTMessage. */
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__BANNEDUSER
+         * - #TTMessage.useraccount Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_BANNEDUSER  = CLIENTEVENT_NONE + 400,
         /**
          * @brief A user state has changed.
@@ -3430,9 +3455,10 @@ extern "C" {
          * - A user has started/stopped a media file stream, i.e.
          *   i.e. #USERSTATE_MEDIAFILE_AUDIO or #USERSTATE_MEDIAFILE_VIDEO
          *
-         * @param nSource 0
-         * @param ttType #__USER.
-         * @param user Placed in union of #TTMessage.
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__USER.
+         * - #TTMessage.user Placed in union of #TTMessage.
          *
          * @see TT_SetUserStoppedTalkingDelay */
         CLIENTEVENT_USER_STATECHANGE = CLIENTEVENT_NONE + 500,
@@ -3442,9 +3468,10 @@ extern "C" {
          *
          * Use #TT_AcquireUserVideoCaptureFrame to display the video frame.
          *
-         * @param nSource User's ID.
-         * @param ttType #__INT32
-         * @param nStreamID Placed in union of #TTMessage. The ID of
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource User's ID.
+         * - #TTMessage.ttType #__INT32
+         * - #TTMessage.nStreamID Placed in union of #TTMessage. The ID of
          * the video stream currently active for this user. If stream
          * ID becomes 0 it means the current stream has been
          * closed.  */
@@ -3455,9 +3482,10 @@ extern "C" {
          *
          * Use TT_AcquireUserMediaVideoFrame() to display the video frame.
          *
-         * @param nSource User's ID.
-         * @param ttType #__INT32
-         * @param nStreamID Placed in union of #TTMessage. The ID of
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource User's ID.
+         * - #TTMessage.ttType #__INT32
+         * - #TTMessage.nStreamID Placed in union of #TTMessage. The ID of
          * the video stream currently active for this user. If stream
          * ID becomes 0 it means the current stream has been
          * closed.  */
@@ -3469,9 +3497,10 @@ extern "C" {
          * Use TT_AcquireUserDesktopWindow() to retrieve the bitmap of the
          * desktop window.
          *
-         * @param nSource The user's ID.
-         * @param ttType #__INT32
-         * @param nStreamID Placed in union of #TTMessage. The ID of the
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource The user's ID.
+         * - #TTMessage.ttType #__INT32
+         * - #TTMessage.nStreamID Placed in union of #TTMessage. The ID of the
          * desktop window's session. If this ID changes it means the
          * user has started a new session. If the session ID becomes 0
          * it means the desktop session has been closed by the user.
@@ -3483,9 +3512,10 @@ extern "C" {
          * Use TT_SendDesktopCursorPosition() to send the position of
          * the mouse cursor.
          *
-         * @param nSource The user ID of the owner of the mouse cursor.
-         * @param ttType #__DESKTOPINPUT
-         * @param desktopinput Placed in union of #TTMessage. Contains 
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource The user ID of the owner of the mouse cursor.
+         * - #TTMessage.ttType #__DESKTOPINPUT
+         * - #TTMessage.desktopinput Placed in union of #TTMessage. Contains 
          * the coordinates of the mouse cursor. */
         CLIENTEVENT_USER_DESKTOPCURSOR = CLIENTEVENT_NONE + 540,
         /**
@@ -3507,9 +3537,10 @@ extern "C" {
          * See @ref rxdesktopinput for more information on receiving
          * desktop input.
          *
-         * @param nSource User ID
-         * @param ttType #__DESKTOPINPUT
-         * @param desktopinput Placed in union of #TTMessage. */
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource User ID
+         * - #TTMessage.ttType #__DESKTOPINPUT
+         * - #TTMessage.desktopinput Placed in union of #TTMessage. */
         CLIENTEVENT_USER_DESKTOPINPUT = CLIENTEVENT_NONE + 550,
         /** 
          * @brief A media file recording has changed status.
@@ -3518,9 +3549,10 @@ extern "C" {
          * audio from a user to a specified folder. Every time an
          * audio file is being processed this event is posted.
          *
-         * @param nSource The user's ID.
-         * @param ttType #__MEDIAFILEINFO
-         * @param mediafileinfo Placed in union of
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource The user's ID.
+         * - #TTMessage.ttType #__MEDIAFILEINFO
+         * - #TTMessage.mediafileinfo Placed in union of
          * #TTMessage. Properties for the media file currently being
          * recorded */
         CLIENTEVENT_USER_RECORD_MEDIAFILE = CLIENTEVENT_NONE + 560,
@@ -3536,9 +3568,10 @@ extern "C" {
          *
          * Call TT_AcquireUserAudioBlock() to extract the #AudioBlock.
          *
-         * @param nSource The user ID. @see TT_LOCAL_USERID
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource The user ID. @see TT_LOCAL_USERID
          * @see TT_MUTEX_USERID
-         * @param ttType #__STREAMTYPE */
+         * - #TTMessage.ttType #__STREAMTYPE */
         CLIENTEVENT_USER_AUDIOBLOCK = CLIENTEVENT_NONE + 570,
         /** 
          * @brief An internal error occurred in the client instance.
@@ -3549,17 +3582,19 @@ extern "C" {
          * For at list of internal error messages check out #ClientError
          * with errors prefixed @c INTERR_*
          *
-         * @param nSource 0
-         * @param ttType #__CLIENTERRORMSG
-         * @param clienterrormsg Placed in union of #TTMessage. Contains
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__CLIENTERRORMSG
+         * - #TTMessage.clienterrormsg Placed in union of #TTMessage. Contains
          * information on what caused an error. */
         CLIENTEVENT_INTERNAL_ERROR = CLIENTEVENT_NONE + 1000,
         /** 
          * @brief Voice activation has triggered transmission.
          *
-         * @param nSource 0
-         * @param ttType #__TTBOOL
-         * @param bActive Placed in union of #TTMessage. TRUE if voice
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__TTBOOL
+         * - #TTMessage.bActive Placed in union of #TTMessage. TRUE if voice
          * is being transmitted due to voice level high than
          * activation level.
          *
@@ -3571,9 +3606,10 @@ extern "C" {
         /** 
          * @brief A hotkey has been acticated or deactivated.
          *
-         * @param nSource The hotkey ID passed to TT_HotKey_Register().
-         * @param ttType #__TTBOOL
-         * @param bActive Placed in union of #TTMessage. TRUE when
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource The hotkey ID passed to TT_HotKey_Register().
+         * - #TTMessage.ttType #__TTBOOL
+         * - #TTMessage.bActive Placed in union of #TTMessage. TRUE when
          * hotkey is active and FALSE when it becomes inactive.
          *
          * @see TT_HotKey_Register
@@ -3591,10 +3627,11 @@ extern "C" {
          * Use #TT_HotKey_GetKeyString to get a key description of the 
          * pressed key.
          *
-         * @param nSource The virtual key code. Look here for a list of virtual
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource The virtual key code. Look here for a list of virtual
          * key codes: http://msdn.microsoft.com/en-us/library/ms645540(VS.85).aspx
-         * @param ttType #__TTBOOL
-         * @param bActive Placed in union of #TTMessage. TRUE when key
+         * - #TTMessage.ttType #__TTBOOL
+         * - #TTMessage.bActive Placed in union of #TTMessage. TRUE when key
          * is down and FALSE when released.
          * @see TT_HotKey_InstallTestHook */
         CLIENTEVENT_HOTKEY_TEST = CLIENTEVENT_NONE + 1030,
@@ -3608,9 +3645,10 @@ extern "C" {
          * reads the #FileTransfer object and it has completed the
          * transfer.
          *
-         * @param nSource 0
-         * @param ttType #__FILETRANSFER
-         * @param filetransfer Placed in union of #TTMessage. Properties 
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__FILETRANSFER
+         * - #TTMessage.filetransfer Placed in union of #TTMessage. Properties 
          * and status information about the file transfer.
          *
          * @see TT_GetFileTransferInfo To retrieve #FileTransfer. */
@@ -3622,11 +3660,12 @@ extern "C" {
          * When the transmission has completed the flag #CLIENT_TX_DESKTOP
          * will be cleared from the local client instance.
          *
-         * @param nSource The desktop session's ID. If the desktop session ID
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource The desktop session's ID. If the desktop session ID
          * becomes 0 it means the desktop session has been closed and/or
          * cancelled.
-         * @param ttType #__INT32
-         * @param nBytesRemain Placed in union of #TTMessage. The number of
+         * - #TTMessage.ttType #__INT32
+         * - #TTMessage.nBytesRemain Placed in union of #TTMessage. The number of
          * bytes remaining before transmission of last desktop window
          * completes. When remaining bytes is 0 TT_SendDesktopWindow()
          * can be called again. */
@@ -3638,9 +3677,10 @@ extern "C" {
          * TT_StartStreamingMediaFileToChannel() to monitor progress
          * of streaming.
          *
-         * @param nSource 0
-         * @param ttType #__MEDIAFILEINFO
-         * @param mediafileinfo Placed in union of #TTMessage. Contains
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__MEDIAFILEINFO
+         * - #TTMessage.mediafileinfo Placed in union of #TTMessage. Contains
          * properties and status information about the media file 
          * being streamed. */
         CLIENTEVENT_STREAM_MEDIAFILE = CLIENTEVENT_NONE + 1060,
@@ -3649,14 +3689,15 @@ extern "C" {
          *
          * This event is called as a result of TT_InitLocalPlayback()
          * to monitor progress of playback.
-         * @param nSource Session ID returned by TT_InitLocalPlayback()
-         * @param ttType #__MEDIAFILEINFO
-         * @param mediafileinfo Placed in union of #TTMessage. Contains
+         *
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource Session ID returned by TT_InitLocalPlayback()
+         * - #TTMessage.ttType #__MEDIAFILEINFO
+         * - #TTMessage.mediafileinfo Placed in union of #TTMessage. Contains
          * properties and status information about the media file
          * being played.
          */
          CLIENTEVENT_LOCAL_MEDIAFILE = CLIENTEVENT_NONE + 1070,
-
         /**
          * @brief Progress is audio being injected as
          * #STREAMTYPE_VOICE.
@@ -3670,34 +3711,36 @@ extern "C" {
          * has ended. An audio input session has ended when an empty
          * #AudioBlock has been inserted using TT_InsertAudioBlock().
          *
-         * @param nSource Stream ID used for sending audio input.
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource Stream ID used for sending audio input.
          * The stream ID will appear in #AudioBlock's @c nStreamID
          * on the receiving side.
-         * @param ttType #__AUDIOINPUTPROGRESS
-         * @param audioinputprogress Placed in union of #TTMessage.
+         * - #TTMessage.ttType #__AUDIOINPUTPROGRESS
+         * - #TTMessage.audioinputprogress Placed in union of #TTMessage.
          * Tells how much audio remains in queue. The queue should 
          * be refilled as long as the audio input should remain active.
          */
         CLIENTEVENT_AUDIOINPUT = CLIENTEVENT_NONE + 1080,
         /**
-        * @brief The first voice packet of a new voice stream
-        * has been received.
-        *
-        * This time of this event may differ significantly from the start
-        * of the voice playout that is notified via
-        * #CLIENTEVENT_USER_STATECHANGE due to jitter buffering.
-        *
-        * The time between #CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET
-        * and #CLIENTEVENT_USER_STATECHANGE is the fixed jitter delay
-        * configuration plus the currently active adaptive jitter
-        * buffering in the nActiveAdaptiveDelayMSec member of the
-        * User struct
-        *
-        * @param nSource Stream ID. This can be mapped to #AudioBlock.
-        * @param ttType #__USER.
-        * @param user Placed in union of #TTMessage.
-        *
-        * @see TT_SetUserJitterControl */
+         * @brief The first voice packet of a new voice stream
+         * has been received.
+         *
+         * This time of this event may differ significantly from the start
+         * of the voice playout that is notified via
+         * #CLIENTEVENT_USER_STATECHANGE due to jitter buffering.
+         *
+         * The time between #CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET
+         * and #CLIENTEVENT_USER_STATECHANGE is the fixed jitter delay
+         * configuration plus the currently active adaptive jitter
+         * buffering in the nActiveAdaptiveDelayMSec member of the
+         * User struct
+         *
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource Stream ID. This can be mapped to #AudioBlock.
+         * - #TTMessage.ttType #__USER.
+         * - #TTMessage.user Placed in union of #TTMessage.
+         *
+         * @see TT_SetUserJitterControl */
         CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET = CLIENTEVENT_NONE + 1090,
     } ClientEvent;
 

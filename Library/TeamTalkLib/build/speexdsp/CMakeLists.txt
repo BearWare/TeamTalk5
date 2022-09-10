@@ -13,6 +13,11 @@ set (TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP ${TOOLCHAIN_INSTALL_PREFIX}/speexdsp)
 if (MSVC)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+
+      if (NOT CMAKE_VS_PLATFORM_NAME)
+        set (CMAKE_VS_PLATFORM_NAME x64)
+      endif()
+
       ExternalProject_Add(speexdsp-src
         GIT_REPOSITORY    https://github.com/bear101/speexdsp
         GIT_TAG           2907b00
@@ -27,9 +32,16 @@ if (MSVC)
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
         COMMAND           cd <SOURCE_DIR>
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/libspeexdspd.lib
+                          <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/libspeexdsp_sse.lib
         )
       ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)
     else()
+
+      if (NOT CMAKE_VS_PLATFORM_NAME)
+        set (CMAKE_VS_PLATFORM_NAME win32)
+      endif()
+
       ExternalProject_Add(speexdsp-src
         GIT_REPOSITORY    https://github.com/bear101/speexdsp
         GIT_TAG           2907b00
@@ -44,6 +56,8 @@ if (MSVC)
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
         COMMAND           cd <SOURCE_DIR>
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/libspeexdspd.lib
+                          <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/libspeexdsp_sse.lib
         )
       ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)
     endif()

@@ -21,14 +21,21 @@ if (MSVC)
     endif()
 
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-      find_program(YASM_EXE_WIN64_PATH yasm.exe PATHS C:/tt5dist/yasm/x64)
-      if (YASM_EXE_WIN64_PATH-NOTFOUND)
-        message(WARNING "yasm.exe is required to build libvpx. See https://yasm.tortall.net")
-      else()
-        message("Found YASM for libvpx here: ${YASM_EXE_WIN64_PATH}")
+
+      if (NOT CMAKE_VS_PLATFORM_NAME)
+        set (CMAKE_VS_PLATFORM_NAME x64)
       endif()
 
-      set (CMAKE_MSVCIDE_RUN_PATH C:/tt5dist/yasm/x64)
+      find_path(YASM_EXE_DIRECTORY yasm.exe PATHS C:/tt5dist/yasm/x64)
+      if (YASM_EXE_DIRECTORY-NOTFOUND)
+        message(WARNING "yasm.exe is required to build libvpx. See https://yasm.tortall.net")
+      else()
+        message("Found YASM for libvpx here: ${YASM_EXE_DIRECTORY}")
+      endif()
+
+      file (TO_NATIVE_PATH ${YASM_EXE_DIRECTORY} YASM_EXE_DIRECTORY_NATIVE)
+      set (LIBVPX_WIN_TARGET x86_64-win64-vs16)
+      configure_file(${CMAKE_CURRENT_LIST_DIR}/build-libvpx-win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win64.bat @ONLY)
 
       ExternalProject_Add(libvpx-src
         GIT_REPOSITORY    https://github.com/bear101/libvpx
@@ -36,25 +43,32 @@ if (MSVC)
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
         CONFIGURE_COMMAND ""
-        BUILD_COMMAND     IF EXIST build-x64 rmdir /Q /S build-x64
-        COMMAND           mkdir build-x64
-        COMMAND           C:\\cygwin64\\bin\\bash.exe --login -c "cd $OLDPWD/build-x64 && ../configure --target=x86_64-win64-vs16 --disable-examples --disable-docs --enable-static-msvcrt --disable-unit-tests && make"
+        BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win64.bat
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}
         INSTALL_COMMAND   cd <SOURCE_DIR>
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
-        COMMAND           cd <SOURCE_DIR>/build-x64
+        COMMAND           cd <SOURCE_DIR>/build-${LIBVPX_WIN_TARGET}
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat x64 <INSTALL_DIR>
         BUILD_IN_SOURCE   TRUE
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/${CMAKE_VS_PLATFORM_NAME}/Debug/vpxmtd.lib
+                          <INSTALL_DIR>/${CMAKE_VS_PLATFORM_NAME}/Release/vpxmt.lib
         )
     else()
-      find_program(YASM_EXE_WIN32_PATH yasm.exe PATHS C:/tt5dist/yasm/win32)
-      if (YASM_EXE_WIN32_PATH-NOTFOUND)
-        message(WARNING "yasm.exe is required to build libvpx. See https://yasm.tortall.net")
-      else()
-        message("Found YASM for libvpx here: ${YASM_EXE_WIN32_PATH}")
+
+      if (NOT CMAKE_VS_PLATFORM_NAME)
+        set (CMAKE_VS_PLATFORM_NAME win32)
       endif()
 
-      set (CMAKE_MSVCIDE_RUN_PATH C:/tt5dist/yasm/win32)
+      find_path(YASM_EXE_DIRECTORY yasm.exe PATHS C:/tt5dist/yasm/win32)
+      if (YASM_EXE_DIRECTORY-NOTFOUND)
+        message(WARNING "yasm.exe is required to build libvpx. See https://yasm.tortall.net")
+      else()
+        message("Found YASM.exe for libvpx here: ${YASM_EXE_DIRECTORY}")
+      endif()
+
+      file (TO_NATIVE_PATH ${YASM_EXE_DIRECTORY} YASM_EXE_DIRECTORY_NATIVE)
+      set (LIBVPX_WIN_TARGET x86-win32-vs16)
+      configure_file(${CMAKE_CURRENT_LIST_DIR}/build-libvpx-win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win32.bat @ONLY)
 
       ExternalProject_Add(libvpx-src
         GIT_REPOSITORY    https://github.com/bear101/libvpx
@@ -62,15 +76,15 @@ if (MSVC)
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
         CONFIGURE_COMMAND ""
-        BUILD_COMMAND     IF EXIST build-win32 rmdir /Q /S build-win32
-        COMMAND           mkdir build-win32
-        COMMAND           C:\\cygwin64\\bin\\bash.exe --login -c "cd $OLDPWD/build-win32 && ../configure --target=x86-win32-vs16 --disable-examples --disable-docs --enable-static-msvcrt --disable-unit-tests && make"
+        BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win32.bat
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}
         INSTALL_COMMAND   cd <SOURCE_DIR>
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
-        COMMAND           cd <SOURCE_DIR>/build-win32
+        COMMAND           cd <SOURCE_DIR>/build-${LIBVPX_WIN_TARGET}
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat win32 <INSTALL_DIR>
         BUILD_IN_SOURCE   TRUE
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/${CMAKE_VS_PLATFORM_NAME}/Debug/vpxmtd.lib
+                          <INSTALL_DIR>/${CMAKE_VS_PLATFORM_NAME}/Release/vpxmt.lib
         )
     endif()
     ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
@@ -91,7 +105,7 @@ if (MSVC)
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
-    
+
     ExternalProject_Add(libvpx-arm64-src
       GIT_REPOSITORY    https://github.com/bear101/libvpx
       GIT_TAG           v1.11.0
@@ -123,7 +137,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libvpx.a
       )
     ExternalProject_Get_Property(libvpx-intel-src INSTALL_DIR)
-    
+
     # Use 'lipo' to create universal binary
     file(MAKE_DIRECTORY ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}/lib)
     file(MAKE_DIRECTORY ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}/include)
@@ -137,7 +151,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     add_custom_target (libvpx-src DEPENDS ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}/lib/libvpx.a
       ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}/include/vpx/vpx_codec.h)
-    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX})    
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX})
   else()
     set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX})
   endif(TOOLCHAIN_BUILD_EXTERNALPROJECTS)
@@ -202,7 +216,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   else()
     set (LIBVPX_TARGET --target=x86_64-linux-gcc)
   endif()
-  
+
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(libvpx-src
       GIT_REPOSITORY    https://github.com/bear101/libvpx
@@ -245,7 +259,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
   set (LIBVPX_EXPORT export PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:$ENV{PATH})
-  
+
   if ("armeabi-v7a" STREQUAL "${ANDROID_ABI}")
     list (APPEND LIBVPX_EXPORT && export CROSS=arm-linux-androideabi-)
     list (APPEND LIBVPX_EXPORT && export CC=clang\ --target=armv7a-linux-android${ANDROID_PLATFORM_LEVEL})
@@ -269,7 +283,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   else()
     message(FATAL_ERROR "Unknown Android architecture")
   endif()
-  
+
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(libvpx-src
       GIT_REPOSITORY    https://github.com/bear101/libvpx
@@ -308,5 +322,5 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       target_link_options(libvpx INTERFACE "-Wl,-Bsymbolic")
     endif()
   endif()
-  
+
 endif()

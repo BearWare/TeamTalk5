@@ -34,7 +34,7 @@
 #elif defined(Q_OS_DARWIN)
 #define SOUNDSPATH                                     "/Applications/TeamTalk5.app/Contents/Resources/Sounds"
 #endif
-#define SETTINGS_VERSION                            "5.2"
+#define SETTINGS_VERSION                            "5.3"
 #define SETTINGS_GENERAL_VERSION                    "version"
 #define SETTINGS_GENERAL_VERSION_DEFAULT            SETTINGS_VERSION
 #define SETTINGS_GENERAL_FIRSTSTART                 "general_/first-start"
@@ -293,6 +293,7 @@
 #define SETTINGS_TTS_ACTIVEEVENTS_DEFAULT           TTSEvents(TTS_USER_LOGGEDIN | TTS_USER_LOGGEDOUT | TTS_USER_JOINED_SAME | TTS_USER_LEFT_SAME | TTS_USER_TEXTMSG_PRIVATE | TTS_USER_TEXTMSG_CHANNEL | TTS_USER_TEXTMSG_BROADCAST | TTS_FILE_ADD | TTS_FILE_REMOVE | TTS_MENU_ACTIONS)
 #define SETTINGS_TTS_ENGINE                         "texttospeech/tts-engine"
 #define SETTINGS_TTS_ENGINE_DEFAULT                 TTSENGINE_NONE
+#define SETTINGS_TTS_LOCALE                         "texttospeech/tts-language"
 #define SETTINGS_TTS_VOICE                         "texttospeech/tts-voice"
 #define SETTINGS_TTS_RATE                         "texttospeech/tts-rate"
 #define SETTINGS_TTS_RATE_DEFAULT                 0.0
@@ -305,8 +306,10 @@
 #define SETTINGS_TTS_SAPI                         "texttospeech/force-sapi"
 #define SETTINGS_TTS_SAPI_DEFAULT                 false
 #elif defined(Q_OS_DARWIN)
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
 #define SETTINGS_TTS_SPEAKLISTS                         "texttospeech/speak-lists"
 #define SETTINGS_TTS_SPEAKLISTS_DEFAULT                 true
+#endif
 #endif
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"

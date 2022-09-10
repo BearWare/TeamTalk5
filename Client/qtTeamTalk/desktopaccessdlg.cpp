@@ -23,18 +23,15 @@
 
 #include "desktopaccessdlg.h"
 #include "appinfo.h"
-#include "settings.h"
 
 #include <QMessageBox>
-
-extern QSettings* ttSettings;
 
 DesktopAccessDlg::DesktopAccessDlg(QWidget* parent)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
-    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
+    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&OK"));
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
     connect(ui.delBtn, &QAbstractButton::clicked,

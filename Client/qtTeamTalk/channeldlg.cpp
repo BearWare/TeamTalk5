@@ -41,7 +41,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
 
     restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_CHANNELWINDOWPOS).toByteArray());
 
-    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Ok"));
+    ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&OK"));
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
     connect(ui.singletxchanBox, &QAbstractButton::clicked,
@@ -191,6 +191,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
         ui.agcBox->setEnabled(false);
         ui.gainlevelSlider->setEnabled(false);
         ui.buttonBox->setStandardButtons(QDialogButtonBox::Close);
+        ui.buttonBox->button(QDialogButtonBox::Close)->setText(tr("&Close"));
         ui.joinchanBox->setEnabled(false);
         break;
     }
@@ -355,19 +356,19 @@ void ChannelDlg::setAudioCodecReadonly()
 
     ui.spx_srateBox->setEnabled(false);
     ui.spx_qualitySlider->setEnabled(false);
-    ui.spx_txdelaySpinBox->setEnabled(false);
+    ui.spx_txdelaySpinBox->setReadOnly(true);
 
     ui.spxvbr_srateBox->setEnabled(false);
     ui.spxvbr_qualitySlider->setEnabled(false);
-    ui.spxvbr_maxbpsSpinBox->setEnabled(false);
+    ui.spxvbr_maxbpsSpinBox->setReadOnly(true);
     ui.spxvbr_dtxBox->setEnabled(false);
-    ui.spxvbr_txdelaySpinBox->setEnabled(false);
+    ui.spxvbr_txdelaySpinBox->setReadOnly(true);
 
     ui.opus_channelsBox->setEnabled(false);
     ui.opus_appBox->setEnabled(false);
-    ui.opus_bpsSpinBox->setEnabled(false);
+    ui.opus_bpsSpinBox->setReadOnly(true);
     ui.opus_srateBox->setEnabled(false);
-    ui.opus_txdelaySpinBox->setEnabled(false);
+    ui.opus_txdelaySpinBox->setReadOnly(true);
     ui.opus_framesizeComboBox->setEnabled(false);
     ui.opus_vbrCheckBox->setEnabled(false);
     ui.opus_dtxBox->setEnabled(false);
@@ -422,7 +423,7 @@ void ChannelDlg::slotAudioChannelChanged(int aud_channels)
 void ChannelDlg::slotSoloTransmitDelay()
 {
     QInputDialog inputDialog;
-    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setOkButtonText(tr("&OK"));
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setInputMode(QInputDialog::TextInput);
     inputDialog.setTextValue(QString::number(m_channel.nTransmitUsersQueueDelayMSec));

@@ -31,7 +31,10 @@ public class TeamTalkConstants {
     public static final int STATUSMODE_MODE             = 0x000000FF;
 
     public static final int STATUSMODE_FLAGS            = 0xFFFFFF00;
+
+    public static final int STATUSMODE_MALE             = 0x00000000;
     public static final int STATUSMODE_FEMALE           = 0x00000100;
+    public static final int STATUSMODE_NEUTRAL          = 0x00001000;
     public static final int STATUSMODE_VIDEOTX          = 0x00000200;
     public static final int STATUSMODE_DESKTOP          = 0x00000400;
     public static final int STATUSMODE_STREAM_MEDIAFILE = 0x00000800;

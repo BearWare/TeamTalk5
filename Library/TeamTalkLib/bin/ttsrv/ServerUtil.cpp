@@ -170,7 +170,7 @@ void RotateLogfile(const ACE_TString& cwd, const ACE_TString& logname,
 
 #if defined(ENABLE_TEAMTALKPRO)
 
-int LoginBearWareAccount(const ACE_TString& username, const ACE_TString& passwd, ACE_TString& token)
+int LoginBearWareAccount(const ACE_TString& username, const ACE_TString& passwd, ACE_TString& token, ACE_TString& loginid)
 {
     std::string usernameUtf8 = UnicodeToUtf8(username).c_str();
     std::string passwdUtf8 = UnicodeToUtf8(passwd).c_str();
@@ -197,6 +197,7 @@ int LoginBearWareAccount(const ACE_TString& username, const ACE_TString& passwd,
             std::string nickname = xmldoc.GetValue(false, "teamtalk/bearware/nickname", "");
             std::string username = xmldoc.GetValue(false, "teamtalk/bearware/username", "");
             token = Utf8ToUnicode(xmldoc.GetValue(false, "teamtalk/bearware/token", "").c_str());
+            loginid = Utf8ToUnicode(username.c_str());
             return token.length() > 0;
         }
         return 0;

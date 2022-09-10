@@ -1627,8 +1627,8 @@ TEST_CASE("TestWebLogin")
         return;
     }
 
-    ACE_TString token;
-    REQUIRE(LoginBearWareAccount(ACE_TEXT("foo"), ACE_TEXT("bar"), token) == 0);
+    ACE_TString token, loginid;
+    REQUIRE(LoginBearWareAccount(ACE_TEXT("foo"), ACE_TEXT("bar"), token, loginid) == 0);
 }
 #endif
 

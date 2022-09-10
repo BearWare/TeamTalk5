@@ -69,6 +69,7 @@
 #include <QKeyEvent>
 #include <QCloseEvent>
 #include <QClipboard>
+#include <QSysInfo>
 
 #if defined(QT_TEXTTOSPEECH_LIB)
 #include <QTextToSpeech>
@@ -603,7 +604,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::loadSettings()
 {
-
     QString iniversion = ttSettings->value(SETTINGS_GENERAL_VERSION,
                                            SETTINGS_GENERAL_VERSION_DEFAULT).toString();
     if (!versionSameOrLater(iniversion, "5.1"))
@@ -620,6 +620,14 @@ void MainWindow::loadSettings()
         ttSettings->setValue(SETTINGS_GENERAL_GENDER, gender);
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
+    if (!versionSameOrLater(iniversion, "5.3"))
+    {
+        if (ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME, "").toString().size())
+        {
+            QFile::setPermissions(ttSettings->fileName(), QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+        }
+        ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
+    }
 
     // Ask to set language at first start
     if (!ttSettings->contains(SETTINGS_DISPLAY_LANGUAGE))
@@ -628,7 +636,7 @@ void MainWindow::loadSettings()
         languages.insert(0, SETTINGS_DISPLAY_LANGUAGE_DEFAULT); //default language is none
         bool ok = false;
         QInputDialog inputDialog;
-        inputDialog.setOkButtonText(tr("&Ok"));
+        inputDialog.setOkButtonText(tr("&OK"));
         inputDialog.setCancelButtonText(tr("&Cancel"));
         inputDialog.setComboBoxItems(languages);
         inputDialog.setComboBoxEditable(false);
@@ -819,7 +827,7 @@ bool MainWindow::parseArgs(const QStringList& args)
         {
             //Slash is removed by Qt 5.3.1 by mistake, therefore /+ for slashes
             //Bug: https://bugreports.qt.io/browse/QTBUG-39972
-            QRegularExpression rx(QString("%1/+([^\\??!/]*)/?\\??").arg(TTLINK_PREFIX));
+            QRegularExpression rx(QString("%1/+([^\\?\?!/]*)/?\\??").arg(TTLINK_PREFIX));
             QRegularExpressionMatch m = rx.match(args[i]);
             if (m.hasMatch())
             {
@@ -1998,9 +2006,9 @@ void MainWindow::login()
     QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, SETTINGS_GENERAL_NICKNAME_DEFAULT).toString();
     if(m_host.nickname.size())
         nick = m_host.nickname;
-
+    QString client = QString("%1 (%2)").arg(APPNAME_SHORT).arg(QSysInfo::productType());
     int cmdid = TT_DoLoginEx(ttInst, _W(nick), _W(m_host.username),
-                             _W(m_host.password), _W(QString(APPNAME_SHORT)));
+                             _W(m_host.password), _W(client));
     if (cmdid>0)
         m_commands.insert(cmdid, CMD_COMPLETE_LOGIN);
 
@@ -2050,7 +2058,7 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
         {
             bool ok = false;
             QInputDialog inputDialog;
-            inputDialog.setOkButtonText(tr("&Ok"));
+            inputDialog.setOkButtonText(tr("&OK"));
             inputDialog.setCancelButtonText(tr("&Cancel"));
             inputDialog.setInputMode(QInputDialog::TextInput);
             inputDialog.setTextValue(m_host.username);
@@ -2083,7 +2091,7 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
         {
             bool ok = false;
             QInputDialog inputDialog;
-            inputDialog.setOkButtonText(tr("&Ok"));
+            inputDialog.setOkButtonText(tr("&OK"));
             inputDialog.setCancelButtonText(tr("&Cancel"));
             inputDialog.setInputMode(QInputDialog::TextInput);
             inputDialog.setTextEchoMode(QLineEdit::Password);
@@ -2393,6 +2401,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
     case TIMER_RECONNECT :
         Q_ASSERT( (TT_GetFlags(ttInst) & CLIENT_CONNECTED) == 0);
         Disconnect();
+        addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Trying to reconnect to %1 port %2").arg(m_host.ipaddr).arg(m_host.tcpport));
         Connect();
         break;
     case TIMER_STATUSMSG :
@@ -2613,6 +2622,84 @@ void MainWindow::firewallInstall()
 
 void MainWindow::subscribeCommon(bool checked, Subscriptions subs, int userid/* = 0*/)
 {
+    QString subType;
+    TextToSpeechEvent subTypeTTS;
+    StatusBarEvent subTypeSB;
+    switch (subs)
+    {
+    case SUBSCRIBE_USER_MSG :
+        subType = tr("Private messages");
+        subTypeTTS = TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_TEXTMSG_PRIVATE;
+        break;
+    case SUBSCRIBE_CHANNEL_MSG :
+        subType = tr("Channel messages");
+        subTypeTTS = TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_TEXTMSG_CHANNEL;
+        break;
+    case SUBSCRIBE_BROADCAST_MSG :
+        subType = tr("Broadcast messages");
+        subTypeTTS = TTS_SUBSCRIPTIONS_TEXTMSG_BROADCAST;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_TEXTMSG_BROADCAST;
+        break;
+    case SUBSCRIBE_VOICE :
+        subType = tr("Voice");
+        subTypeTTS = TTS_SUBSCRIPTIONS_VOICE;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_VOICE;
+        break;
+    case SUBSCRIBE_VIDEOCAPTURE :
+        subType = tr("Video");
+        subTypeTTS = TTS_SUBSCRIPTIONS_VIDEO;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_VIDEO;
+        break;
+    case SUBSCRIBE_DESKTOP :
+        subType = tr("Desktop");
+        subTypeTTS = TTS_SUBSCRIPTIONS_DESKTOP;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_DESKTOP;
+        break;
+    case SUBSCRIBE_DESKTOPINPUT :
+        subType = tr("Desktop input");
+        subTypeTTS = TTS_SUBSCRIPTIONS_DESKTOPINPUT;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_DESKTOPINPUT;
+        break;
+    case SUBSCRIBE_MEDIAFILE :
+        subType = tr("Media files");
+        subTypeTTS = TTS_SUBSCRIPTIONS_MEDIAFILE;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_MEDIAFILE;
+        break;
+    case SUBSCRIBE_INTERCEPT_USER_MSG :
+        subType = tr("Intercept private messages");
+        subTypeTTS = TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE;
+        break;
+    case SUBSCRIBE_INTERCEPT_CHANNEL_MSG :
+        subType = tr("Intercept channel messages");
+        subTypeTTS = TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL;
+        break;
+    case SUBSCRIBE_INTERCEPT_VOICE :
+        subType = tr("Intercept voice");
+        subTypeTTS = TTS_SUBSCRIPTIONS_INTERCEPT_VOICE;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VOICE;
+        break;
+    case SUBSCRIBE_INTERCEPT_VIDEOCAPTURE :
+        subType = tr("Intercept video capture");
+        subTypeTTS = TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VIDEO;
+        break;
+    case SUBSCRIBE_INTERCEPT_DESKTOP :
+        subType = tr("Intercept desktop");
+        subTypeTTS = TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_INTERCEPT_DESKTOP;
+        break;
+    case SUBSCRIBE_INTERCEPT_MEDIAFILE :
+        subType = tr("Intercept media files");
+        subTypeTTS = TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE;
+        subTypeSB = STATUSBAR_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE;
+        break;
+    case SUBSCRIBE_NONE :
+        break;
+    }
     QVector<int> userids;
 
     if(userid == 0)
@@ -2622,17 +2709,27 @@ void MainWindow::subscribeCommon(bool checked, Subscriptions subs, int userid/* 
 
     foreach(userid, userids)
     {
+        User user = {};
+        ui.channelsWidget->getUser(userid, user);
         if(checked)
         {
             int cmdid = TT_DoSubscribe(ttInst, userid, subs);
             if(cmdid>0)
+            {
                 m_commands[cmdid] = CMD_COMPLETE_SUBSCRIBE;
+                addTextToSpeechMessage(subTypeTTS, tr("Subscription \"%1\" enabled for %2").arg(subType).arg(getDisplayName(user)));
+                addStatusMsg(subTypeSB, tr("Subscription \"%1\" enabled for %2").arg(subType).arg(getDisplayName(user)));
+            }
         }
         else
         {
             int cmdid = TT_DoUnsubscribe(ttInst, userid, subs);
             if(cmdid>0)
+            {
                 m_commands[cmdid] = CMD_COMPLETE_UNSUBSCRIBE;
+                addTextToSpeechMessage(subTypeTTS, tr("Subscription \"%1\" disabled for %2").arg(subType).arg(getDisplayName(user)));
+                addStatusMsg(subTypeSB, tr("Subscription \"%1\" disabled for %2").arg(subType).arg(getDisplayName(user)));
+            }
         }
     }
 }
@@ -3872,7 +3969,7 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
 
     bool ok = false;
     QInputDialog inputDialog;
-    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setOkButtonText(tr("&OK"));
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setComboBoxItems(profilenames);
     inputDialog.setComboBoxEditable(false);
@@ -3883,12 +3980,14 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
 
     if (ok)
     {
+        QStringList args;
+
         if(choice == delprofile)
         {
             profilenames.removeAll(newprofile);
             profilenames.removeAll(delprofile);
             QInputDialog inputDialog;
-            inputDialog.setOkButtonText(tr("&Ok"));
+            inputDialog.setOkButtonText(tr("&OK"));
             inputDialog.setCancelButtonText(tr("&Cancel"));
             inputDialog.setComboBoxItems(profilenames);
             inputDialog.setComboBoxEditable(false);
@@ -3903,7 +4002,7 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
         else if(choice == newprofile)
         {
             QInputDialog inputDialog;
-            inputDialog.setOkButtonText(tr("&Ok"));
+            inputDialog.setOkButtonText(tr("&OK"));
             inputDialog.setCancelButtonText(tr("&Cancel"));
             inputDialog.setInputMode(QInputDialog::TextInput);
             inputDialog.setTextValue(QString("Profile %1").arg(freeno));
@@ -3914,21 +4013,22 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
             if(ok && newname.size())
             {
                 inipath = QString("%1.%2").arg(inipath).arg(freeno);
-                QFile::copy(ttSettings->fileName(), inipath);
                 QSettings settings(inipath, QSettings::IniFormat, this);
                 settings.setValue(SETTINGS_GENERAL_PROFILENAME, newname);
             }
             else return;
         }
         else if (choice == curprofile)
+        {
             inipath = ttSettings->fileName();
+            args.push_back("-noconnect");
+        }
         else 
         {
             inipath = profiles[choice];
         }
 
         QString path = QApplication::applicationFilePath();
-        QStringList args = { "-noconnect" };
         args.push_back(QString("-cfg"));
         args.push_back(inipath);
 
@@ -4259,7 +4359,7 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
         nick = m_host.nickname;
     bool ok = false;
     QInputDialog inputDialog;
-    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setOkButtonText(tr("&OK"));
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setInputMode(QInputDialog::TextInput);
     inputDialog.setTextValue(nick);
@@ -5004,7 +5104,7 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
         {
             bool ok = false;
             QInputDialog inputDialog;
-            inputDialog.setOkButtonText(tr("&Ok"));
+            inputDialog.setOkButtonText(tr("&OK"));
             inputDialog.setCancelButtonText(tr("&Cancel"));
             inputDialog.setInputMode(QInputDialog::TextInput);
             inputDialog.setTextEchoMode(QLineEdit::Password);
@@ -5247,7 +5347,7 @@ void MainWindow::slotChannelsGenerateTTUrl(bool checked/*=false*/)
     QString link = QString("%5//%1?tcpport=%2&udpport=%3&encrypted=%4").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport).arg(m_host.encrypted).arg(TTLINK_PREFIX);
     bool ok = false;
     QInputDialog inputDialog;
-    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setOkButtonText(tr("&OK"));
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setInputMode(QInputDialog::TextInput);
     inputDialog.setTextValue(m_host.username);
@@ -5417,7 +5517,7 @@ void MainWindow::slotServerBroadcastMessage(bool /*checked=false*/)
 {
     bool ok = false;
     QInputDialog inputDialog;
-    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setOkButtonText(tr("&OK"));
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setInputMode(QInputDialog::TextInput);
     inputDialog.setWindowTitle(MENUTEXT(ui.actionBroadcastMessage->text()));
@@ -5680,7 +5780,7 @@ void MainWindow::slotUsersOp(int userid, int chanid)
     {
         bool ok = false;
         QInputDialog inputDialog;
-        inputDialog.setOkButtonText(tr("&Ok"));
+        inputDialog.setOkButtonText(tr("&OK"));
         inputDialog.setCancelButtonText(tr("&Cancel"));
         inputDialog.setInputMode(QInputDialog::TextInput);
         inputDialog.setTextEchoMode(QLineEdit::Password);
@@ -5703,7 +5803,7 @@ void MainWindow::slotUsersKickBan(int userid, int chanid)
     QStringList items = { tr("IP-address"), tr("Username") };
     bool ok = false;
     QInputDialog inputDialog;
-    inputDialog.setOkButtonText(tr("&Ok"));
+    inputDialog.setOkButtonText(tr("&OK"));
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setComboBoxItems(items);
     inputDialog.setComboBoxEditable(false);
@@ -5733,8 +5833,10 @@ void MainWindow::slotTreeSelectionChanged()
         updateChannelFiles(channelid);
     }
 #if defined(Q_OS_DARWIN)
+#if QT_VERSION >= QT_VERSION_CHECK(6,4,0)
     if (ttSettings->value(SETTINGS_TTS_SPEAKLISTS, SETTINGS_TTS_SPEAKLISTS_DEFAULT).toBool() == true)
         addTextToSpeechMessage(ui.channelsWidget->getItemText());
+#endif
 #endif
 }
 
@@ -6151,63 +6253,87 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
         oldchan.transmitUsersQueue[0] == TT_GetMyUserID(ttInst))
         playSoundEvent(SOUNDEVENT_TRANSMITQUEUE_STOP);
 
-    //specific to classroom channel
-    QString msg;
-    bool before = false, after = false;
-    before = userCanChanMessage(TT_GetMyUserID(ttInst), oldchan);
-    after = userCanChanMessage(TT_GetMyUserID(ttInst), chan);
-    if(before != after)
+    updateClassroomChannel(oldchan, chan);
+}
+
+void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& newchan)
+{
+    auto userids = ui.channelsWidget->getUsersInChannel(newchan.nChannelID);
+    userids.push_back(TT_CLASSROOM_FREEFORALL);
+    for (auto id : userids)
     {
-        if(after)
-            msg = tr("You can now transmit channel messages!");
-        else
-            msg = tr("You can no longer transmit channel messages!");
-        addStatusMsg(STATUSBAR_CLASSROOM_CHANMSG_TX, msg);
-        addTextToSpeechMessage(TTS_CLASSROOM_CHANMSG_TX, msg);
-    }
-    before = userCanVoiceTx(TT_GetMyUserID(ttInst), oldchan);
-    after = userCanVoiceTx(TT_GetMyUserID(ttInst), chan);
-    if(before != after)
-    {
-        if(after)
-            msg = tr("You can now transmit audio!");
-        else
-            msg = tr("You can no longer transmit audio!");
-        addStatusMsg(STATUSBAR_CLASSROOM_VOICE_TX, msg);
-        addTextToSpeechMessage(TTS_CLASSROOM_VOICE_TX, msg);
-    }
-    before = userCanVideoTx(TT_GetMyUserID(ttInst), oldchan);
-    after = userCanVideoTx(TT_GetMyUserID(ttInst), chan);
-    if(before != after)
-    {
-        if(after)
-            msg = tr("You can now transmit video!");
-        else
-            msg = tr("You can no longer transmit video!");
-        addStatusMsg(STATUSBAR_CLASSROOM_VIDEO_TX, msg);
-        addTextToSpeechMessage(TTS_CLASSROOM_VIDEO_TX, msg);
-    }
-    before = userCanDesktopTx(TT_GetMyUserID(ttInst), oldchan);
-    after = userCanDesktopTx(TT_GetMyUserID(ttInst), chan);
-    if(before != after)
-    {
-        if(after)
-            msg = tr("You can now transmit desktop windows!");
-        else
-            msg = tr("You can no longer transmit desktop windows!");
-        addStatusMsg(STATUSBAR_CLASSROOM_DESKTOP_TX, msg);
-        addTextToSpeechMessage(TTS_CLASSROOM_DESKTOP_TX, msg);
-    }
-    before = userCanMediaFileTx(TT_GetMyUserID(ttInst), oldchan);
-    after = userCanMediaFileTx(TT_GetMyUserID(ttInst), chan);
-    if(before != after)
-    {
-        if(after)
-            msg = tr("You can now transmit mediafiles!");
-        else
-            msg = tr("You can no longer transmit mediafiles!");
-        addStatusMsg(STATUSBAR_CLASSROOM_MEDIAFILE_TX, msg);
-        addTextToSpeechMessage(TTS_CLASSROOM_MEDIAFILE_TX, msg);
+        User user = {};
+        ui.channelsWidget->getUser(id, user);
+        QString strNo = tr("%1 can no longer transmit", "%1 can no longer transmit voice").arg(getDisplayName(user));
+        QString strYes = tr("%1 can now transmit", "%1 can now transmit voice").arg(getDisplayName(user));
+        if (id == TT_CLASSROOM_FREEFORALL)
+        {
+            strNo = tr("Everyone can no longer transmit", "Everyone can no longer transmit voice");
+            strYes = tr("Everyone can now transmit", "Everyone can now transmit voice");
+        }
+        if (user.nUserID == TT_GetMyUserID(ttInst))
+        {
+            strNo = tr("You can no longer transmit", "You can no longer transmit voice");
+            strYes = tr("You can now transmit", "You can now transmit voice");
+        }
+
+        QString msg;
+        bool before = false, after = false;
+        before = userCanChanMessage(id, oldchan);
+        after = userCanChanMessage(id, newchan);
+        if (before != after)
+        {
+            if (after)
+                msg = tr("%1 channel messages", "can now transmit ...").arg(strYes);
+            else
+                msg = tr("%1 channel messages", "can no longer transmit ...").arg(strNo);
+            addStatusMsg(STATUSBAR_CLASSROOM_CHANMSG_TX, msg);
+            addTextToSpeechMessage(TTS_CLASSROOM_CHANMSG_TX, msg);
+        }
+        before = userCanVoiceTx(id, oldchan);
+        after = userCanVoiceTx(id, newchan);
+        if (before != after)
+        {
+            if (after)
+                msg = tr("%1 voice", "can now transmit ...").arg(strYes);
+            else
+                msg = tr("%1 voice", "can no longer transmit...").arg(strNo);
+            addStatusMsg(STATUSBAR_CLASSROOM_VOICE_TX, msg);
+            addTextToSpeechMessage(TTS_CLASSROOM_VOICE_TX, msg);
+        }
+        before = userCanVideoTx(id, oldchan);
+        after = userCanVideoTx(id, newchan);
+        if (before != after)
+        {
+            if (after)
+                msg = tr("%1 video", "can now transmit ...").arg(strYes);
+            else
+                msg = tr("%1 video", "can no longer transmit ...").arg(strNo);
+            addStatusMsg(STATUSBAR_CLASSROOM_VIDEO_TX, msg);
+            addTextToSpeechMessage(TTS_CLASSROOM_VIDEO_TX, msg);
+        }
+        before = userCanDesktopTx(id, oldchan);
+        after = userCanDesktopTx(id, newchan);
+        if (before != after)
+        {
+            if (after)
+                msg = tr("%1 desktop windows", "can now transmit ...").arg(strYes);
+            else
+                msg = tr("%1 desktop windows", "can no longer transmit ...").arg(strNo);
+            addStatusMsg(STATUSBAR_CLASSROOM_DESKTOP_TX, msg);
+            addTextToSpeechMessage(TTS_CLASSROOM_DESKTOP_TX, msg);
+        }
+        before = userCanMediaFileTx(id, oldchan);
+        after = userCanMediaFileTx(id, newchan);
+        if (before != after)
+        {
+            if (after)
+                msg = tr("%1 media files", "can now transmit ...").arg(strYes);
+            else
+                msg = tr("%1 media files", "can no longer transmit ...").arg(strNo);
+            addStatusMsg(STATUSBAR_CLASSROOM_MEDIAFILE_TX, msg);
+            addTextToSpeechMessage(TTS_CLASSROOM_MEDIAFILE_TX, msg);
+        }
     }
 }
 
@@ -7090,14 +7216,36 @@ void MainWindow::startTTS()
         ttSpeech = new QTextToSpeech(this);
         ttSpeech->setRate(ttSettings->value(SETTINGS_TTS_RATE, SETTINGS_TTS_RATE_DEFAULT).toDouble());
         ttSpeech->setVolume(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
-        int voiceIndex = ttSettings->value(SETTINGS_TTS_VOICE).toInt();
-        QVector<QVoice> voices = ttSpeech->availableVoices();
-        if (voices.size())
+        QString locale = ttSettings->value(SETTINGS_TTS_LOCALE).toString();
+        QVector<QLocale> locales = ttSpeech->availableLocales();
+        auto selLocale = std::find_if(locales.begin(), locales.end(), [locale](const QLocale& l) {
+           return l.nativeLanguageName() == locale;
+        });
+        if (selLocale != locales.end())
         {
-            if (voiceIndex < voices.size())
-                ttSpeech->setVoice(voices[voiceIndex]);
-            else
-                ttSpeech->setVoice(voices[voiceIndex]);
+            ttSpeech->setLocale(*selLocale);
+        }
+        else if (locales.size())
+        {
+            qDebug() << "Locales found";
+        }
+        else
+        {
+            addStatusMsg(STATUSBAR_BYPASS, tr("Language %1 not found for Text-To-Speech").arg(locale));
+        }
+        QString voice = ttSettings->value(SETTINGS_TTS_VOICE).toString();
+        QVector<QVoice> voices = ttSpeech->availableVoices();
+        auto selVoice = std::find_if(voices.begin(), voices.end(), [voice](const QVoice& v) {
+           return v.name() == voice;
+        });
+        if (selVoice != voices.end())
+        {
+            ttSpeech->setVoice(*selVoice);
+        }
+        else if (voices.size())
+        {
+            addStatusMsg(STATUSBAR_BYPASS, tr("Voice %1 not found for Text-To-Speech. Switching to %2").arg(voice).arg(voices[0].name()));
+            ttSpeech->setVoice(voices[0]);
         }
         else
         {
@@ -7166,7 +7314,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 #endif
 }
 
-void MainWindow::slotSpeakClientStats(bool checked/* = false*/)
+void MainWindow::slotSpeakClientStats(bool /*checked = false*/)
 {
     ClientStatistics stats = {};
     TT_GetClientStatistics(ttInst, &stats);

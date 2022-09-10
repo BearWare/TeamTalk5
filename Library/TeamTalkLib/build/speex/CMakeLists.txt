@@ -13,6 +13,11 @@ set (TOOLCHAIN_INSTALL_PREFIX_SPEEX ${TOOLCHAIN_INSTALL_PREFIX}/speex)
 if (MSVC)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+
+      if (NOT CMAKE_VS_PLATFORM_NAME)
+        set (CMAKE_VS_PLATFORM_NAME x64)
+      endif()
+
       ExternalProject_Add(speex-src
         GIT_REPOSITORY    https://github.com/bear101/speex
         GIT_TAG           62ad6a6
@@ -27,9 +32,16 @@ if (MSVC)
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
         COMMAND           cd <SOURCE_DIR>
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/libspeexd.lib
+                          <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/libspeex_sse2.lib
         )
       ExternalProject_Get_Property(speex-src INSTALL_DIR)
     else()
+
+      if (NOT CMAKE_VS_PLATFORM_NAME)
+        set (CMAKE_VS_PLATFORM_NAME win32)
+      endif()
+
       ExternalProject_Add(speex-src
         GIT_REPOSITORY    https://github.com/bear101/speex
         GIT_TAG           62ad6a6
@@ -44,6 +56,8 @@ if (MSVC)
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
         COMMAND           cd <SOURCE_DIR>
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/libspeexd.lib
+                          <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/libspeex_sse2.lib
         )
       ExternalProject_Get_Property(speex-src INSTALL_DIR)
     endif()

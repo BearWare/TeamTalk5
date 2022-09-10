@@ -16,12 +16,12 @@ apply plugin: 'com.android.application'
 
 android {
     buildToolsVersion '30.0.3'
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     defaultConfig {
         applicationId "dk.bearware.gui"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -52,17 +52,18 @@ android {
         maven { url 'https://maven.google.com/' }
         maven { url 'https://jitpack.io' }
     }
-
-    lintOptions {
+    lint {
         checkReleaseBuilds false
+        disable 'MissingTranslation'
     }
+
 }
 
 dependencies {
     implementation 'com.google.code.gson:gson:2.2.4'
-    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.annotation:annotation:1.2.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core:1.3.0'
+    implementation 'androidx.core:core:1.6.0'
     implementation 'androidx.fragment:fragment:1.2.5'
     implementation 'androidx.media:media:1.4.3'
     implementation 'androidx.preference:preference:1.1.1'

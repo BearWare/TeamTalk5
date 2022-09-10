@@ -151,3 +151,23 @@ void ServerChannel::RemoveUser(int userid)
 {
     RemoveUser(userid, nullptr);
 }
+
+void ServerChannel::UpdateChannelBans()
+{
+    for (auto& b : m_bans)
+    {
+        if (b.bantype & BANTYPE_CHANNEL)
+            b.chanpath = GetChannelPath();
+    }
+}
+
+void ServerChannel::SetOwner(const ServerUser& user)
+{
+    if (user.GetUserAccount().IsWebLogin())
+        m_usernameOwner = user.GetUserAccount().username;
+}
+
+bool ServerChannel::IsOwner(const ServerUser& user) const
+{
+    return user.GetUserAccount().IsWebLogin() && m_usernameOwner == user.GetUserAccount().username;
+}

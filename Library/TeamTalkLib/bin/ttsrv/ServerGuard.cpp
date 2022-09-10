@@ -27,7 +27,6 @@
 #include <ace/OS_NS_sys_stat.h>
 
 #include <sstream>
-#include <regex>
 
 #include <teamtalk/Commands.h>
 #include <teamtalk/Log.h>
@@ -259,6 +258,57 @@ void ServerGuard::OnUserUpdated(const ServerUser& user)
     oss << ACE_TEXT("UDP address: ") << user.GetUdpAddress().get_host_addr() << ACE_TEXT(":");
     oss << user.GetUdpAddress().get_port_number() << ACE_TEXT(" updated.");
 
+    TT_LOG(oss.str().c_str());
+}
+
+void ServerGuard::OnUserSubscribe(const ServerUser& user, const ServerUser& subscriptuser)
+{
+    tostringstream oss;
+    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
+    oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
+    if (user.GetUsername().length())
+        oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
+    oss << ACE_TEXT("changed subscription to #") << subscriptuser.GetUserID() << ACE_TEXT(" ");
+    oss << ACE_TEXT("nickname: \"") << LogPrepare(subscriptuser.GetNickname()).c_str() << ACE_TEXT("\" ");
+    if (subscriptuser.GetUsername().length())
+        oss << ACE_TEXT("username: \"") << LogPrepare(subscriptuser.GetUsername()).c_str() << ACE_TEXT("\": ");
+
+    tostringstream oss_sub;
+    auto subscriptions = user.GetSubscriptions(subscriptuser);
+    if (subscriptions & SUBSCRIBE_USER_MSG)
+        oss_sub << (oss_sub.str().size() ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("um");
+    if (subscriptions & SUBSCRIBE_CHANNEL_MSG)
+        oss_sub << (oss_sub.str().size() ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("cm");
+    if (subscriptions & SUBSCRIBE_BROADCAST_MSG)
+        oss_sub << (oss_sub.str().size() ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("bm");
+    if (subscriptions & SUBSCRIBE_CUSTOM_MSG)
+        oss_sub << (oss_sub.str().size() ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("mm");
+    if (subscriptions & SUBSCRIBE_VOICE)
+        oss_sub << (oss_sub.str().size() ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("vo");
+    if (subscriptions & SUBSCRIBE_VIDEOCAPTURE)
+        oss_sub << (oss_sub.str().size() ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("vi");
+    if (subscriptions & SUBSCRIBE_DESKTOP)
+        oss_sub << (oss_sub.str().size() ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("de");
+    if (subscriptions & SUBSCRIBE_DESKTOPINPUT)
+        oss_sub << (oss_sub.str().size() ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("di");
+    if (subscriptions & SUBSCRIBE_MEDIAFILE)
+        oss_sub << (oss_sub.str().size() ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("mf");
+    if (subscriptions & SUBSCRIBE_INTERCEPT_USER_MSG)
+        oss_sub << (oss_sub.str().size() ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("UM");
+    if (subscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG)
+        oss_sub << (oss_sub.str().size() ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("CM");
+    if (subscriptions & SUBSCRIBE_INTERCEPT_CUSTOM_MSG)
+        oss_sub << (oss_sub.str().size() ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("MM");
+    if (subscriptions & SUBSCRIBE_INTERCEPT_VOICE)
+        oss_sub << (oss_sub.str().size() ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("VO");
+    if (subscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE)
+        oss_sub << (oss_sub.str().size() ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("VI");
+    if (subscriptions & SUBSCRIBE_INTERCEPT_DESKTOP)
+        oss_sub << (oss_sub.str().size() ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("DE");
+    if (subscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE)
+        oss_sub << (oss_sub.str().size() ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("MF");
+
+    oss << oss_sub.str() << ACE_TEXT(".");
     TT_LOG(oss.str().c_str());
 }
 
@@ -673,15 +723,7 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
     if (useraccount.username == ACE_TEXT(WEBLOGIN_BEARWARE_USERNAME))
         return TT_CMDERR_INVALID_ACCOUNT;
 
-    bool bearware = false;
-    ACE_TString bwregex = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + ACE_TString(ACE_TEXT("$"));
-#if defined(UNICODE)
-    bearware |= std::regex_search(useraccount.username.c_str(), std::wregex(bwregex.c_str()));
-#else
-    bearware |= std::regex_search(useraccount.username.c_str(), std::regex(bwregex.c_str()));
-#endif
-
-    if (bearware)
+    if (useraccount.IsWebLogin())
     {
         auto i = m_pendinglogin.find(user.GetUserID());
         if(i != m_pendinglogin.end())

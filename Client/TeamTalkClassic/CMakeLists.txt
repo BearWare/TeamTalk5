@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.1)
 project (TeamTalk5Classic)
 
+include(CMakeDependentOption)
+
 function(set_output_dir target dir)
   set_target_properties (${target} PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${dir}
@@ -19,8 +21,13 @@ include (ttclassic.cmake)
 if (MSVC)
 
   set (PLATFORMTOOLSET "/property:PlatformToolset=v142")
-  
+
   if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+
+    if (NOT CMAKE_VS_PLATFORM_NAME)
+      set (CMAKE_VS_PLATFORM_NAME x64)
+    endif()
+
     ExternalProject_Add(tinyxml-classic-src
       GIT_REPOSITORY    https://github.com/bear101/tinyxml
       GIT_TAG           224ab4ea35ded8ee95f13c84c30592abf5292af8
@@ -30,9 +37,15 @@ if (MSVC)
       BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 tinyxml.sln -target:tinyxml /property:Configuration=Debug
       COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 tinyxml.sln -target:tinyxml /property:Configuration=Release
       INSTALL_COMMAND   ""
+      BUILD_BYPRODUCTS  <SOURCE_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxmld.lib <SOURCE_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxml.lib
       )
   else()
-    ExternalProject_Add(tinyxml-classic-src
+
+      if (NOT CMAKE_VS_PLATFORM_NAME)
+        set (CMAKE_VS_PLATFORM_NAME win32)
+      endif()
+
+      ExternalProject_Add(tinyxml-classic-src
       GIT_REPOSITORY    https://github.com/bear101/tinyxml
       GIT_TAG           224ab4ea35ded8ee95f13c84c30592abf5292af8
       UPDATE_COMMAND    ""
@@ -41,6 +54,7 @@ if (MSVC)
       BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 tinyxml.sln -target:tinyxml /property:Configuration=Debug
       COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 tinyxml.sln -target:tinyxml /property:Configuration=Release
       INSTALL_COMMAND   ""
+      BUILD_BYPRODUCTS  <SOURCE_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxmld.lib <SOURCE_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxml.lib
       )
   endif()
   ExternalProject_Get_Property(tinyxml-classic-src SOURCE_DIR)
@@ -51,9 +65,15 @@ if (MSVC)
   set_target_properties(tinyxml-classic PROPERTIES
     IMPORTED_LOCATION_DEBUG ${SOURCE_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxmld.lib
     IMPORTED_LOCATION ${SOURCE_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxml.lib)
-  
-  option (BUILD_TEAMTALK_CLIENT_MFC_EXAMPLE "Build TeamTalk 5 Classic for TeamTalk 5 Standard Edition" ON)
-  option (BUILD_TEAMTALK_PROCLIENT_MFC_EXAMPLE "Build TeamTalk 5 Classic Pro for TeamTalk 5 Professional Edition" ON)
+
+  if ("${CMAKE_GENERATOR}" MATCHES "Visual Studio")
+    set (VS_BUILD 1)
+  else()
+    set (VS_BUILD 0)
+  endif()
+
+  cmake_dependent_option (BUILD_TEAMTALK_CLIENT_MFC_EXAMPLE "Build TeamTalk 5 Classic for TeamTalk 5 Standard Edition" ON "VS_BUILD" OFF)
+  cmake_dependent_option (BUILD_TEAMTALK_PROCLIENT_MFC_EXAMPLE "Build TeamTalk 5 Classic Pro for TeamTalk 5 Professional Edition" ON "VS_BUILD" OFF)
 
   set(CMAKE_MFC_FLAG 1)
 

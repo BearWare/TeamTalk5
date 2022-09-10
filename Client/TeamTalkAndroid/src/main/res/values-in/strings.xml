@@ -16,7 +16,7 @@
     <string name="title_activity_text_message">Pesan teks</string>
     <string name="title_activity_preferences">Preferensi</string>
     <string name="title_activity_stream_media">Stream media file ke saluran</string>
-    <string name="action_createchannel">Cipta</string>
+    <string name="action_createchannel">Buat</string>
     <string name="action_updatechannel">Perbaharui</string>
     <string name="text_con_failed">Gagal terhubung ke server. Mencoba menghubungkan kembali...</string>
     <string name="text_con_lost">Kehilangan koneksi ke server</string>

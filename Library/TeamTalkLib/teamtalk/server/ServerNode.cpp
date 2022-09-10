@@ -2882,6 +2882,9 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
         ErrorMsg err = m_srvguard->JoinChannel(*user, *newchan);
         if(!err.success())
             return err;
+
+        if (newchan->IsOwner(*user))
+            makeop = true;
     }
 
     if(!newchan)
@@ -3630,6 +3633,8 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
     chan->SetDesktopUsers(chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP));
     chan->SetMediaFileUsers(chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE));
     chan->SetChannelTextMsgUsers(chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG));
+    if (user)
+        chan->SetOwner(*user);
 
     //forward new channel to users
     ServerChannel::users_t users;
@@ -3686,7 +3691,10 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
         if(chanprop.name.empty())
             return ErrorMsg(TT_CMDERR_CHANNEL_ALREADY_EXISTS);
 
+        bool newname = chanprop.name != chan->GetName();
         chan->SetName(chanprop.name);
+        if (newname)
+            chan->UpdateChannelBans();
     }
     chan->SetTopic(chanprop.topic);
     chan->SetMaxDiskUsage(chanprop.diskquota);
@@ -4169,6 +4177,8 @@ ErrorMsg ServerNode::UserSubscribe(int userid, int subuserid,
             StartDesktopTransmitter(*subscriptuser, *user, *chan);
     }
 
+    m_srvguard->OnUserSubscribe(*user, *subscriptuser);
+
     return ErrorMsg(TT_CMDERR_SUCCESS);
 }
 
@@ -4196,6 +4206,8 @@ ErrorMsg ServerNode::UserUnsubscribe(int userid, int subuserid,
         //if active desktop then stop it
         if(subscrip & (SUBSCRIBE_DESKTOP | SUBSCRIBE_INTERCEPT_DESKTOP))
             StopDesktopTransmitter(*subscriptuser, *user, true);
+
+        m_srvguard->OnUserSubscribe(*user, *subscriptuser);
 
         return ErrorMsg(TT_CMDERR_SUCCESS);
     }

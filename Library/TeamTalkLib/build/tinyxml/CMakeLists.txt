@@ -11,9 +11,13 @@ include(ExternalProject)
 set (TOOLCHAIN_INSTALL_PREFIX_TINYXML ${TOOLCHAIN_INSTALL_PREFIX}/tinyxml)
 
 if (MSVC)
-
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+
+      if (NOT CMAKE_VS_PLATFORM_NAME)
+        set (CMAKE_VS_PLATFORM_NAME x64)
+      endif()
+
       ExternalProject_Add(tinyxml-src
         GIT_REPOSITORY    https://github.com/bear101/tinyxml
         GIT_TAG           224ab4ea35ded8ee95f13c84c30592abf5292af8
@@ -28,8 +32,15 @@ if (MSVC)
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
         COMMAND           cd <SOURCE_DIR>
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxmld.lib
+                          <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxml.lib
         )
     else()
+
+      if (NOT CMAKE_VS_PLATFORM_NAME)
+        set (CMAKE_VS_PLATFORM_NAME win32)
+      endif()
+
       ExternalProject_Add(tinyxml-src
         GIT_REPOSITORY    https://github.com/bear101/tinyxml
         GIT_TAG           224ab4ea35ded8ee95f13c84c30592abf5292af8
@@ -44,6 +55,8 @@ if (MSVC)
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
         COMMAND           cd <SOURCE_DIR>
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxmld.lib
+                          <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxml.lib
         )
     endif()
     ExternalProject_Get_Property(tinyxml-src INSTALL_DIR)

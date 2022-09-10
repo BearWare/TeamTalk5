@@ -51,18 +51,18 @@ if (MSVC)
       )
     ExternalProject_Get_Property(depot-tools SOURCE_DIR)
     set (DEPOTTOOLS_DIR ${SOURCE_DIR})
-
-    set (CMAKE_MSVCIDE_RUN_PATH ${DEPOTTOOLS_DIR})
+    file (TO_NATIVE_PATH ${DEPOTTOOLS_DIR} DEPOTTOOLS_DIR_NATIVE)
 
     if (NOT EXISTS ${WEBRTC_SOURCE_ROOT})
       message (WARNING "WebRTC is not present in ${WEBRTC_SOURCE_ROOT}. Downloading... This takes a loooong time")
       set (WEBRTC_FETCH_CMD1 SET DEPOT_TOOLS_WIN_TOOLCHAIN=0)
-      set (WEBRTC_FETCH_CMD2 cd ${WEBRTC_FETCH_PATH})
-      set (WEBRTC_FETCH_CMD3 CALL fetch --nohooks webrtc)
-      set (WEBRTC_FETCH_CMD4 CALL gclient sync --with_branch_heads --with_tags)
-      set (WEBRTC_FETCH_CMD5 cd ${WEBRTC_SOURCE_ROOT})
-      set (WEBRTC_FETCH_CMD6 CALL git checkout branch-heads/4332)
-      set (WEBRTC_FETCH_CMD7 CALL gclient sync -D)
+      set (WEBRTC_FETCH_CMD2 SET PATH=${DEPOTTOOLS_DIR_NATIVE}$<SEMICOLON>%PATH%$<SEMICOLON>)
+      set (WEBRTC_FETCH_CMD3 cd ${WEBRTC_FETCH_PATH})
+      set (WEBRTC_FETCH_CMD4 CALL fetch --nohooks webrtc)
+      set (WEBRTC_FETCH_CMD5 CALL gclient sync --with_branch_heads --with_tags)
+      set (WEBRTC_FETCH_CMD6 cd ${WEBRTC_SOURCE_ROOT})
+      set (WEBRTC_FETCH_CMD7 CALL git checkout branch-heads/4332)
+      set (WEBRTC_FETCH_CMD8 CALL gclient sync -D)
       set (WEBRTC_PATCH_CMD1 cd ${WEBRTC_SOURCE_ROOT})
       set (WEBRTC_PATCH_CMD2 CALL git apply ${CMAKE_CURRENT_LIST_DIR}\\libteamtalk-r4332.patch)
     else()
@@ -73,10 +73,16 @@ if (MSVC)
       set (WEBRTC_FETCH_CMD5 echo "Skipping WebRTC fetching")
       set (WEBRTC_FETCH_CMD6 echo "Skipping WebRTC fetching")
       set (WEBRTC_FETCH_CMD7 echo "Skipping WebRTC fetching")
+      set (WEBRTC_FETCH_CMD8 echo "Skipping WebRTC fetching")
       set (WEBRTC_PATCH_CMD1 echo "Skipping WebRTC patching")
       set (WEBRTC_PATCH_CMD2 echo "Skipping WebRTC patching")
     endif()
 
+    # WebRTC for Windows depends on Windows SDK v10.0.20348.0. This
+    # can be downloaded from Visual Studio Installer
+
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/webrtc_cfg_win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/webrtc_cfg_win.bat)
+    
     ExternalProject_Add(webrtc-src
       DOWNLOAD_COMMAND  ${WEBRTC_FETCH_CMD1}
       COMMAND           ${WEBRTC_FETCH_CMD2}
@@ -85,15 +91,16 @@ if (MSVC)
       COMMAND           ${WEBRTC_FETCH_CMD5}
       COMMAND           ${WEBRTC_FETCH_CMD6}
       COMMAND           ${WEBRTC_FETCH_CMD7}
+      COMMAND           ${WEBRTC_FETCH_CMD8}
       PATCH_COMMAND     ${WEBRTC_PATCH_CMD1}
       COMMAND           ${WEBRTC_PATCH_CMD2}
       UPDATE_COMMAND    ""
       INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}
-      CONFIGURE_COMMAND SET DEPOT_TOOLS_WIN_TOOLCHAIN=0
+      CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/webrtc_cfg_win.bat
       COMMAND           cd ${WEBRTC_SOURCE_ROOT}
       COMMAND           CALL gn gen <INSTALL_DIR>\\lib\\debug
-      COMMAND           CALL gn gen <INSTALL_DIR>\\lib\\release
-      BUILD_COMMAND     SET DEPOT_TOOLS_WIN_TOOLCHAIN=0
+      COMMAND           CALL gn gen <INSTALL_DIR>\\lib\\release      
+      BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/webrtc_cfg_win.bat
       COMMAND           CALL ninja -v -C <INSTALL_DIR>\\lib\\debug teamtalk
       COMMAND           CALL ninja -v -C <INSTALL_DIR>\\lib\\release teamtalk
       INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT}

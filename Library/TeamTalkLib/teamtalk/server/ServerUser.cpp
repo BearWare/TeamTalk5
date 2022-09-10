@@ -1456,8 +1456,9 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool encrypted)
         AppendProperty(TT_PARENTID, channel.GetParentChannel()->GetChannelID(), command);
         AppendProperty(TT_CHANNAME, channel.GetName(), command);
     }
-    if((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) ||
-       channel.IsOperator(GetUserID()))
+    if ((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) ||
+        channel.IsOperator(GetUserID()) ||
+        GetUserAccount().auto_op_channels.find(channel.GetChannelID()) != GetUserAccount().auto_op_channels.end())
     {
         if (channel.GetPassword().length())
             AppendProperty(TT_PASSWORD, channel.GetPassword(), command);
@@ -1523,8 +1524,9 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
     AppendProperty(TT_CHANNELID, channel.GetChannelID(), command);
     AppendProperty(TT_CHANNAME, channel.GetName(), command);
 
-    if((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) ||
-       channel.IsOperator(GetUserID()))
+    if ((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) ||
+        channel.IsOperator(GetUserID()) ||
+        GetUserAccount().auto_op_channels.find(channel.GetChannelID()) != GetUserAccount().auto_op_channels.end())
     {
         AppendProperty(TT_PASSWORD, channel.GetPassword(), command);
         AppendProperty(TT_OPPASSWORD, channel.GetOpPassword(), command);

@@ -4,16 +4,43 @@
 
 Version 5.11, unreleased
 Accessible Windows Client
--
+- Only 64-bit Windows is now supported
 Default Qt Client
+- MacOS changed to Qt 6.4 means macOS 10.14 is minimum
+- Windows changed to Qt 6.4 means Windows 10 is minimum
+- See Qt version on "About" dialog
 - Option to configure sound events volume
+- See OS used by client in "User Information" dialog
+- "Entry name" in "Connect to a Server" dialog now shows server list name
+- "Entry name" is now default file name for saving .tt file in "Generate .tt File" dialog
+- Option to choose Text-To-Speech language with "Default" engine
+- Reconfiguration of selected voice for Text-To-Speech required
+- Text-To-Speech message when trying to reconnect to server
+- Ability to see input and output device informations using tab key in "Preferences" dialog
 - Ability to start new client instance using the same profile
+- Ability to connect to latest host in new profile
+- BearWare.dk WebLogin changes file permission on TeamTalk5.ini to 600
+- Text-To-Speech message on classroom changes
+- Status bar and TTS event when changing subscription
+- Checkboxes in "User Accounts" dialog replaced by tree view
+- New profile now starts with blank settings
+- Fixed request to create folder for channel and private histories if none is specified in "Store conversation" dialog
+- Fixed username/password not being applied in "Generate .tt File" dialog
 Android Client
 - Ability to use TalkBack for TTS events
+- Don't display male emoji if neutral user
+- Support for Danish language
 iOS Client
 -
 Server
--
+- TeamTalk Pro server can use email as login name on initial authentication
+- BearWare.dk WebLogin account requires initial login upon startup
+- BearWare.dk WebLogin changes file permission on tt5prosrv.xml to 600
+- Passwords of auto operator channel are forwarded to clients
+- Operator status is resumed after disconnect when using BearWare.dk WebLogin
+- Subscription changes are written to log file
+- Only 64-bit Windows is now supported
+- Fixed bug where bans on renamed channel has no effect
 
 Version 5.10, 2022/07/17
 Accessible Windows Client

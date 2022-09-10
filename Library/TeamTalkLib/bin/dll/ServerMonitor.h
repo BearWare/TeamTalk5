@@ -53,6 +53,8 @@ public:
     void OnUserUnbanned(const teamtalk::ServerUser& user,
                         const teamtalk::BannedUser& ban);
     void OnUserUpdated(const teamtalk::ServerUser& user);
+    void OnUserSubscribe(const teamtalk::ServerUser& user,
+                         const teamtalk::ServerUser& subscriptuser);
     void OnUserJoinChannel(const teamtalk::ServerUser& user,
                            const teamtalk::ServerChannel& channel);
     void OnUserLeaveChannel(const teamtalk::ServerUser& user,

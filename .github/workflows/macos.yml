@@ -21,7 +21,7 @@ jobs:
         java-version: '11'
 
     - name: Install Qt
-      uses: jurplel/install-qt-action@v3
+      uses: jurplel/install-qt-action@v2
 
     - name: Install Toolchain Dependencies
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
