@@ -3048,17 +3048,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2631"/>
         <source>Private messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Pesan pribadi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2636"/>
         <source>Channel messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Pesan saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2641"/>
         <source>Broadcast messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Pesan Broadcast</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
