@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.1)
 project (TeamTalk5Classic)
 
 include(CMakeDependentOption)
+include(ExternalProject)
 
 function(set_output_dir target dir)
   set_target_properties (${target} PROPERTIES
