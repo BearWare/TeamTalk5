@@ -6,7 +6,7 @@
     <string name="action_settings">Pengaturan</string>
     <string name="action_exit">Keluar</string>
     <string name="title_activity_server_entry">Properti TeamTalk 5 Server</string>
-    <string name="title_activity_main">TeamTalk 5 for Android</string>
+    <string name="title_activity_main">TeamTalk 5 untuk Android</string>
     <string name="title_section_channels">Saluran</string>
     <string name="title_section_chat">Obrolan</string>
     <string name="title_section_media">Media stream</string>
@@ -142,7 +142,7 @@
     <string name="action_select">Pilih Untuk Dipindah</string>
     <string name="action_upload">Unggah File</string>
     <string name="action_stream">Stream media file</string>
-    <string name="button_select_media_file">Browse</string>
+    <string name="button_select_media_file">Jelajahi</string>
     <string name="button_stream_media_file">Stream</string>
     <string name="button_msg">Pesan</string>
     <string name="button_send">Kirim</string>
@@ -160,7 +160,7 @@
     <string name="channel_prop_title_oprecvonly">Hanya operator yang dapat menerima</string>
     <string name="channel_prop_title_novoiceact">Tidak Ada Aktivasi Suara</string>
     <string name="channel_prop_title_noaudiorecord">Tidak Ada Rekaman Audio</string>
-    
+
 
     <string name="user_prop_title_username">Nama Pengguna</string>
     <string name="user_prop_title_clientname">Nama Client</string>

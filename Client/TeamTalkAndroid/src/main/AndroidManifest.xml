@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="dk.bearware.gui"
-    android:versionCode="111"
-    android:versionName="5.9.2">
+    android:versionCode="112"
+    android:versionName="5.11">
     <queries>
         <intent>
             <action android:name="android.intent.action.TTS_SERVICE" />
@@ -25,6 +25,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
     <!-- BLUETOOTH is needed to use bluetooth headset microphone -->
     <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"></uses-permission>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"></uses-permission>
 <uses-permission android:name="android.hardware.sensor.proximity"></uses-permission>
 
@@ -46,7 +47,8 @@
             android:name=".ServerListActivity"
             android:icon="@drawable/teamtalk_blue"
             android:label="@string/app_name"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

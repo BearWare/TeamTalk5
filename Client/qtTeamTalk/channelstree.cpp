@@ -487,7 +487,11 @@ void ChannelsTree::dropEvent(QDropEvent *event)
         return;
     }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    QTreeWidgetItem* item = itemAt(event->position().toPoint());
+#else
     QTreeWidgetItem* item = itemAt(event->pos());
+#endif
     if(!item || item->type() != CHANNEL_TYPE)
         return;
     int chanid = item->data(COLUMN_ITEM, Qt::UserRole).toInt();
@@ -528,7 +532,11 @@ void ChannelsTree::dragMoveEvent(QDragMoveEvent * event)
         event->ignore();
         return;
     }
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    QTreeWidgetItem* item = itemAt(event->position().toPoint());
+#else
     QTreeWidgetItem* item = itemAt(event->pos());
+#endif
     if(!item || item->type() != CHANNEL_TYPE)
     {
         event->ignore();

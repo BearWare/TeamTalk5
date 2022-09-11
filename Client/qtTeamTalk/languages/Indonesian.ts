@@ -3048,17 +3048,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2631"/>
         <source>Private messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Pesan pribadi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2636"/>
         <source>Channel messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Pesan saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2641"/>
         <source>Broadcast messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Pesan Broadcast</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
@@ -3183,50 +3183,6 @@ Apakah Anda ingin melakukannya sekarang?</translation>
         <location filename="../mainwindow.cpp" line="5400"/>
         <source>Link copied to clipboard</source>
         <translation>Tautan disalin ke clipboard</translation>
-    </message>
-    <message>
-        <source>%1 can no longer transmit</source>
-        <translation type="vanished">%1 tidak dapat lagi mentransmisikan</translation>
-    </message>
-    <message>
-        <source>%1 can now transmit</source>
-        <translation type="vanished">%1 sekarang dapat mentransmisikan</translation>
-    </message>
-    <message>
-        <source>Everyone can no longer transmit</source>
-        <translation type="vanished">Semua orang tidak dapat lagi mentransmisikan</translation>
-    </message>
-    <message>
-        <source>Everyone can now transmit</source>
-        <translation type="vanished">Semua orang sekarang dapat mentransmisikan</translation>
-    </message>
-    <message>
-        <source>You can no longer transmit</source>
-        <translation type="vanished">Anda tidak dapat lagi mentransmisikan</translation>
-    </message>
-    <message>
-        <source>You can now transmit</source>
-        <translation type="vanished">Anda sekarang dapat mentransmisikan</translation>
-    </message>
-    <message>
-        <source>%1 channel messages</source>
-        <translation type="vanished">%1 pesan saluran</translation>
-    </message>
-    <message>
-        <source>%1 voice</source>
-        <translation type="vanished">%1 suara</translation>
-    </message>
-    <message>
-        <source>%1 video</source>
-        <translation type="vanished">%1 video</translation>
-    </message>
-    <message>
-        <source>%1 desktop windows</source>
-        <translation type="vanished">%1 jendela desktop</translation>
-    </message>
-    <message>
-        <source>%1 media files</source>
-        <translation type="vanished">%1 file media</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="773"/>
@@ -7076,94 +7032,6 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
         <location filename="../useraccounts.ui" line="258"/>
         <source>User Rights</source>
         <translation>Hak Pengguna</translation>
-    </message>
-    <message>
-        <source>User can log in multiple times</source>
-        <translation type="vanished">Pengguna boleh masuk ke server beberapa kali</translation>
-    </message>
-    <message>
-        <source>User can upload files</source>
-        <translation type="vanished">Pengguna boleh mengunggah file</translation>
-    </message>
-    <message>
-        <source>User can see users in all channels</source>
-        <translation type="vanished">Pengguna boleh melihat pengguna di semua saluran</translation>
-    </message>
-    <message>
-        <source>User can change nickname</source>
-        <translation type="vanished">Pengguna boleh mengubah nama panggilan</translation>
-    </message>
-    <message>
-        <source>User can download files</source>
-        <translation type="vanished">Pengguna boleh mengunduh file</translation>
-    </message>
-    <message>
-        <source>User can create/modify all channels</source>
-        <translation type="vanished">Pengguna boleh membuat/memodifikasi semua saluran</translation>
-    </message>
-    <message>
-        <source>User can update server properties</source>
-        <translation type="vanished">Pengguna boleh memperbarui properti server</translation>
-    </message>
-    <message>
-        <source>User can create temporary channels</source>
-        <translation type="vanished">Pengguna boleh membuat saluran sementara</translation>
-    </message>
-    <message>
-        <source>User can transmit voice data (microphone)</source>
-        <translation type="vanished">Pengguna boleh mentransmisikan data suara (mikrofon)</translation>
-    </message>
-    <message>
-        <source>User can broadcast text messages</source>
-        <translation type="vanished">Pengguna boleh broadcast pesan teks</translation>
-    </message>
-    <message>
-        <source>User can transmit video data (webcam)</source>
-        <translation type="vanished">Pengguna boleh mentransmisikan data video (webcam)</translation>
-    </message>
-    <message>
-        <source>User can kick users off the server</source>
-        <translation type="vanished">Pengguna boleh keluarkan pengguna dari server</translation>
-    </message>
-    <message>
-        <source>User can transmit audio files (wav, mp3 files)</source>
-        <translation type="vanished">Pengguna boleh mentransmisikan file audio (wav, file mp3)</translation>
-    </message>
-    <message>
-        <source>User can ban users from server</source>
-        <translation type="vanished">Pengguna boleh ban pengguna dari server</translation>
-    </message>
-    <message>
-        <source>User can transmit video files (avi, mp4 files)</source>
-        <translation type="vanished">Pengguna boleh mentransmisikan file video (avi, file mp4)</translation>
-    </message>
-    <message>
-        <source>User can move users between channels</source>
-        <translation type="vanished">Pengguna boleh memindahkan pengguna antar saluran</translation>
-    </message>
-    <message>
-        <source>User can transmit desktop sessions (shared desktop)</source>
-        <translation type="vanished">Pengguna boleh mentransmisikan sesi desktop (berbagi desktop)</translation>
-    </message>
-    <message>
-        <source>User can make other users channel operator</source>
-        <translation type="vanished">Pengguna boleh menjadikan pengguna lain operator saluran</translation>
-    </message>
-    <message>
-        <source>User can get remote access to desktop sessions</source>
-        <translation type="vanished">Pengguna boleh mendapatkan akses jarak jauh ke sesi desktop</translation>
-    </message>
-    <message>
-        <source>User can record voice in all channels</source>
-        <translation type="vanished">Pengguna boleh merekam suara di semua saluran</translation>
-    </message>
-    <message>
-        <source>User can see hidden channels</source>
-        <translation type="vanished">Pengguna boleh melihat saluran tersembunyi</translation>
-    </message>
-    <message>
-        <source>CheckBox</source>
-        <translation type="vanished">KotakCentang</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="510"/>

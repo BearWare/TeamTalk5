@@ -23,11 +23,8 @@
 
 #include "desktopaccessdlg.h"
 #include "appinfo.h"
-#include "settings.h"
 
 #include <QMessageBox>
-
-extern QSettings* ttSettings;
 
 DesktopAccessDlg::DesktopAccessDlg(QWidget* parent)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
