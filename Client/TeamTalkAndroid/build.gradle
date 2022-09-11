@@ -53,7 +53,6 @@ android {
         maven { url 'https://jitpack.io' }
     }
     lint {
-        checkReleaseBuilds false
         disable 'MissingTranslation'
     }
 
