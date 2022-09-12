@@ -2064,7 +2064,7 @@ private EditText newmsg;
             notification.setSmallIcon(R.drawable.message)
                 .setContentTitle(getString(R.string.private_message_notification, senderName))
                 .setContentText(getString(R.string.private_message_notification_hint))
-                .setContentIntent(PendingIntent.getActivity(this, textmessage.nFromUserID, action.putExtra(TextMessageActivity.EXTRA_USERID, textmessage.nFromUserID), 0))
+                .setContentIntent(PendingIntent.getActivity(this, textmessage.nFromUserID, action.putExtra(TextMessageActivity.EXTRA_USERID, textmessage.nFromUserID), PendingIntent.FLAG_IMMUTABLE))
                 .setAutoCancel(true);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 notification.setChannelId("TT_PM");

@@ -666,7 +666,7 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
                 
         TextView tv_version = findViewById(R.id.version_textview);
         TextView tv_dllversion = findViewById(R.id.dllversion_textview);
-        tv_version.setText(getString(R.string.ttversion) + version + AppInfo.APPVERSION_POSTFIX);
+        tv_version.setText(String.format("%s%s%s Build %d", getString(R.string.ttversion), version, AppInfo.APPVERSION_POSTFIX, BuildConfig.VERSION_CODE));
         tv_dllversion.setText(getString(R.string.ttdllversion) + TeamTalkBase.getVersion());
 
         new VersionCheckAsyncTask().execute();
