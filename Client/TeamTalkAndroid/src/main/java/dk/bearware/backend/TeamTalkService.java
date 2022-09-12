@@ -305,10 +305,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
                     mChannel.setSound(null, null);
                     notificationManager.createNotificationChannel(mChannel);
                 }
-                int intentFlags = PendingIntent.FLAG_UPDATE_CURRENT;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    intentFlags |= PendingIntent.FLAG_IMMUTABLE;
-                }
+                int intentFlags = PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE;
                 widget.setSmallIcon(R.drawable.teamtalk_green)
                     .setContentTitle(getString(R.string.app_name))
                     .setContentIntent(PendingIntent.getActivity(this, 0, ui, intentFlags))
