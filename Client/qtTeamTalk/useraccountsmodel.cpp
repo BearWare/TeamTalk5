@@ -188,7 +188,7 @@ void UserRightsModel::insertUserRights()
     m_userrights.push_back(USERRIGHT_TRANSMIT_DESKTOPINPUT);
     m_userrights.push_back(USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO);
     m_userrights.push_back(USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO);
-    m_userrights.push_back(USERRIGHT_LOCKED_STATUS);
+    //m_userrights.push_back(USERRIGHT_LOCKED_STATUS);
 }
 
 int UserRightsModel::columnCount(const QModelIndex & /*parent = QModelIndex()*/) const
