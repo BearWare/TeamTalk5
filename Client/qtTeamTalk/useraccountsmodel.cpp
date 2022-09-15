@@ -188,7 +188,7 @@ void UserRightsModel::insertUserRights()
     m_userrights.push_back(USERRIGHT_TRANSMIT_DESKTOPINPUT);
     m_userrights.push_back(USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO);
     m_userrights.push_back(USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO);
-    m_userrights.push_back(USERRIGHT_LOCKED_STATUS);
+    //m_userrights.push_back(USERRIGHT_LOCKED_STATUS);
 }
 
 int UserRightsModel::columnCount(const QModelIndex & /*parent = QModelIndex()*/) const
@@ -258,10 +258,8 @@ QVariant UserRightsModel::data(const QModelIndex & index, int role /*= Qt::Displ
         }
 
         break;
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     case Qt::AccessibleTextRole :
         return QString("%1: %2").arg(data(index, Qt::DisplayRole).toString()).arg((m_activeUserRights & m_userrights[index.row()])? tr("Enabled") : tr("Disabled"));
-#endif
     case Qt::CheckStateRole :
         switch (m_userrights[index.row()])
         {
