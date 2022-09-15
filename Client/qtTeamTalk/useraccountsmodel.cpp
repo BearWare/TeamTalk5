@@ -258,10 +258,8 @@ QVariant UserRightsModel::data(const QModelIndex & index, int role /*= Qt::Displ
         }
 
         break;
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     case Qt::AccessibleTextRole :
         return QString("%1: %2").arg(data(index, Qt::DisplayRole).toString()).arg((m_activeUserRights & m_userrights[index.row()])? tr("Enabled") : tr("Disabled"));
-#endif
     case Qt::CheckStateRole :
         switch (m_userrights[index.row()])
         {
