@@ -1602,7 +1602,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
-    public void testAutoOperator() {
+    public void testAutoOperatorChannelPassword() {
         
         TeamTalkSrv server = newServerInstance();
         ServerInterleave interleave = new RunServer(server);
@@ -1657,6 +1657,83 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertEquals("Client see chan password", "foo", tmp.szPassword);
         assertEquals("Client see oppassword", "foo2", tmp.szOpPassword);
     }
+
+    @Test
+    public void testAutoOperatorChannelUpdate() {
+        
+        TeamTalkSrv server = newServerInstance();
+        ServerInterleave interleave = new RunServer(server);
+
+        TeamTalkBase admin = newClientInstance();
+        TeamTalkBase client = newClientInstance();
+        TeamTalkBase client2 = newClientInstance();
+
+        connect(server, admin);
+        login(server, admin, getTestMethodName(), ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        Channel chan = buildDefaultChannel(admin, getTestMethodName());
+        chan.uChannelType |= ChannelType.CHANNEL_PERMANENT;
+        chan.szPassword = "password";
+        chan.szOpPassword = "oppassword";
+
+        assertTrue("perm chan", waitCmdSuccess(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave));
+
+        int permid = admin.getChannelIDFromPath(getTestMethodName());
+        
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = "guest";
+        useraccount.szPassword = "guest";
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN;
+        useraccount.autoOperatorChannels[0] = permid;
+        useraccounts.add(useraccount);
+
+        UserAccount noopuseraccount = new UserAccount();
+        noopuseraccount.szUsername = "guest";
+        noopuseraccount.szPassword = "guest";
+        noopuseraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        noopuseraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN;
+        useraccounts.add(noopuseraccount);
+        
+        connect(server, client);
+        login(server, client, getTestMethodName(), useraccount.szUsername, useraccount.szPassword);
+
+        connect(server, client2);
+        login(server, client2, getTestMethodName(), noopuseraccount.szUsername, noopuseraccount.szPassword);
+        
+        Channel tmp = new Channel();
+        assertTrue("get chan", client.getChannel(permid, tmp));
+
+        // test auto-op can update channels not joined
+        tmp.szPassword = "foo";
+        assertTrue("updateperm chan", waitCmdSuccess(client, client.doUpdateChannel(tmp), DEF_WAIT, interleave));
+        assertTrue("update client", waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
+
+        tmp = new Channel();
+        assertTrue("get chan", client.getChannel(permid, tmp));
+        
+        assertEquals("Client updated chan password", "foo", tmp.szPassword);
+
+        // test auto-op can kick from channels not joined
+        assertTrue("admin join", waitCmdSuccess(admin, admin.doJoinChannelByID(permid, "foo"), DEF_WAIT, interleave));
+        assertTrue("update client", waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
+        assertTrue("update client2", waitCmdComplete(client2, client2.doPing(), DEF_WAIT, interleave));
+        assertTrue("cannot kick", waitCmdError(client2, client2.doKickUser(admin.getMyUserID(), admin.getMyChannelID()), DEF_WAIT, interleave));
+        assertTrue("kick from chan", waitCmdSuccess(client, client.doKickUser(admin.getMyUserID(), admin.getMyChannelID()), DEF_WAIT, interleave));
+
+        // test auto-op can ban from channels not joined
+        assertTrue("admin join", waitCmdSuccess(admin, admin.doJoinChannelByID(permid, "foo"), DEF_WAIT, interleave));
+        assertTrue("update client", waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
+        assertTrue("update client2", waitCmdComplete(client2, client2.doPing(), DEF_WAIT, interleave));
+        assertTrue("cannot ban from chan", waitCmdError(client2, client2.doBanUser(admin.getMyUserID(), admin.getMyChannelID()), DEF_WAIT, interleave));
+        // ServerCallback in this test class overrides ban outcome
+        // assertTrue("ban from chan", waitCmdSuccess(client, client.doBanUser(admin.getMyUserID(), admin.getMyChannelID()), DEF_WAIT, interleave));
+
+        // test auto-op can list bans
+        assertTrue("update client", waitCmdSuccess(client, client.doListBans(permid, 0, 100), DEF_WAIT, interleave));
+        assertTrue("update client2", waitCmdError(client2, client2.doListBans(permid, 0, 100), DEF_WAIT, interleave));
+    }
+    
     
     // @Test
     public void _testRunServer() {

@@ -297,13 +297,14 @@ namespace teamtalk {
         {
             channel_t sub;
             for(size_t i=0;i<m_subChannels.size();i++)
+            {
                 if(stringcmpnocase(m_subChannels[i]->GetName(), name))
                 {
                     sub = m_subChannels[i];
                     break;
                 }
-
-                return sub;
+            }
+            return sub;
         }
         const channels_t& GetSubChannels() const
         {
