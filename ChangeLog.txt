@@ -38,6 +38,8 @@ Server
 - Passwords of auto operator channel are forwarded to clients
 - Operator status is resumed after disconnect when using BearWare.dk WebLogin
 - Subscription changes are written to log file
+- Auto operators can update channels they have not joined
+- Auto operators can kick/ban from channels they have not joined
 - Only 64-bit Windows is now supported
 - Fixed bug where bans on renamed channel has no effect
 
