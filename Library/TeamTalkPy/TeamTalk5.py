@@ -23,7 +23,6 @@ import os
 import ctypes
 from time import sleep
 from enum import IntEnum
-import threading
 from ctypes import *
 from ctypes.util import find_library
 
@@ -1223,9 +1222,6 @@ class TeamTalk(object):
         self._tt = _InitTeamTalkPoll()
         if not self._tt:
             raise TeamTalkError("failed to initialize")
-        self._loop = threading.Thread(target=self._ttEventLoop)
-        self._loop.setDaemon(True)
-        self._loop.start()
 
     def closeTeamTalk(self):
         return _CloseTeamTalk(self._tt)
@@ -1233,42 +1229,41 @@ class TeamTalk(object):
     def __del__(self):
         self.closeTeamTalk()
 
-    def _ttEventLoop(self):
-        while True:
-            msg = self.getMessage()
-            event = msg.nClientEvent
-            if event == ClientEvent.CLIENTEVENT_CON_SUCCESS:
-                self.onConSuccess()
-            if event == ClientEvent.CLIENTEVENT_CON_LOST:
-                self.onConLost()
-            if event == ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN:
-                self.onMyselfLoggedIn(msg.nSource, msg.useraccount)
-            if event == ClientEvent.CLIENTEVENT_CMD_MYSELF_KICKED:
-                self.onMyselfKicked(msg.nSource, msg.user)
-            if event == ClientEvent.CLIENTEVENT_CMD_USER_LOGGEDIN:
-                self.onUserLoggedIn(msg.user)
-            if event == ClientEvent.CLIENTEVENT_CMD_USER_LOGGEDOUT:
-                self.onUserLoggedOut(msg.user)
-            if event == ClientEvent.CLIENTEVENT_CMD_USER_UPDATE:
-                self.onUserUpdate(msg.user)
-            if event == ClientEvent.CLIENTEVENT_CMD_USER_JOINED:
-                self.onUserJoined(msg.user)
-            if event == ClientEvent.CLIENTEVENT_CMD_USER_LEFT:
-                self.onUserLeft(msg.nSource, msg.user)
-            if event == ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG:
-                self.onTextMessage(msg.textmessage)
-            if event == ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW:
-                self.onChannelNew(msg.channel)
-            if event == ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE:
-                self.onChannelUpdate(msg.channel)
-            if event == ClientEvent.CLIENTEVENT_CMD_CHANNEL_REMOVE:
-                self.onChannelRemove(msg.channel)
-            if event == ClientEvent.CLIENTEVENT_CMD_SERVER_UPDATE:
-                self.onServerUpdate(msg.serverproperties)
-            if event == ClientEvent.CLIENTEVENT_CMD_FILE_NEW:
-                self.onFileNew(msg.remotefile)
-            if event == ClientEvent.CLIENTEVENT_CMD_FILE_REMOVE:
-                self.onFileRemove(msg.remotefile)
+    def runEventLoop(self):
+        msg = self.getMessage()
+        event = msg.nClientEvent
+        if event == ClientEvent.CLIENTEVENT_CON_SUCCESS:
+            self.onConSuccess()
+        if event == ClientEvent.CLIENTEVENT_CON_LOST:
+            self.onConLost()
+        if event == ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN:
+            self.onMyselfLoggedIn(msg.nSource, msg.useraccount)
+        if event == ClientEvent.CLIENTEVENT_CMD_MYSELF_KICKED:
+            self.onMyselfKicked(msg.nSource, msg.user)
+        if event == ClientEvent.CLIENTEVENT_CMD_USER_LOGGEDIN:
+            self.onUserLoggedIn(msg.user)
+        if event == ClientEvent.CLIENTEVENT_CMD_USER_LOGGEDOUT:
+            self.onUserLoggedOut(msg.user)
+        if event == ClientEvent.CLIENTEVENT_CMD_USER_UPDATE:
+            self.onUserUpdate(msg.user)
+        if event == ClientEvent.CLIENTEVENT_CMD_USER_JOINED:
+            self.onUserJoined(msg.user)
+        if event == ClientEvent.CLIENTEVENT_CMD_USER_LEFT:
+            self.onUserLeft(msg.nSource, msg.user)
+        if event == ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG:
+            self.onTextMessage(msg.textmessage)
+        if event == ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW:
+            self.onChannelNew(msg.channel)
+        if event == ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE:
+            self.onChannelUpdate(msg.channel)
+        if event == ClientEvent.CLIENTEVENT_CMD_CHANNEL_REMOVE:
+            self.onChannelRemove(msg.channel)
+        if event == ClientEvent.CLIENTEVENT_CMD_SERVER_UPDATE:
+            self.onServerUpdate(msg.serverproperties)
+        if event == ClientEvent.CLIENTEVENT_CMD_FILE_NEW:
+            self.onFileNew(msg.remotefile)
+        if event == ClientEvent.CLIENTEVENT_CMD_FILE_REMOVE:
+            self.onFileRemove(msg.remotefile)
 
     def getMessage(self, nWaitMS=-1):
         msg = TTMessage()

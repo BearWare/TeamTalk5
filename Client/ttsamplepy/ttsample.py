@@ -104,6 +104,6 @@ if __name__ == "__main__":
         ttClient = TTClient("localhost", 10333, 10333, "Nickname", "username", "password")
         ttClient.start()
         while True:
-            pass
+            ttClient.tt.runEventLoop()
     except Exception as e:
         print(e)
