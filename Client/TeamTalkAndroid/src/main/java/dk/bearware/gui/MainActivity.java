@@ -1463,10 +1463,7 @@ private EditText newmsg;
 
         // if channel has audio configuration enabled then we should switch to AGC
 
-        boolean showIncDecButton = true;
-        if (mychannel != null && mychannel.audiocfg.bEnableAGC && ttservice != null && !ttservice.isVoiceActivationEnabled()) {
-            showIncDecButton = false;
-        }
+        boolean showIncDecButton = mychannel == null || !mychannel.audiocfg.bEnableAGC || ttservice == null || ttservice.isVoiceActivationEnabled();
 
         findViewById(R.id.mikeDec).setVisibility(showIncDecButton ? View.VISIBLE : View.GONE);
         findViewById(R.id.mikeInc).setVisibility(showIncDecButton ? View.VISIBLE : View.GONE);

@@ -263,7 +263,7 @@ public class Utils {
             rd.close();
         }
         catch(IOException e) {
-            Log.d(TAG, "Failed to receive URL: "+urlToRead+". " + e.toString());
+            Log.d(TAG, "Failed to receive URL: "+urlToRead+". " + e);
         }
         
         return result.toString();

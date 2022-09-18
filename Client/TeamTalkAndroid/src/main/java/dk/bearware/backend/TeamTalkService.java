@@ -123,7 +123,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
 
-    private TeamTalkEventHandler mEventHandler = new TeamTalkEventHandler();
+    private final TeamTalkEventHandler mEventHandler = new TeamTalkEventHandler();
     private BluetoothHeadsetHelper bluetoothHeadsetHelper;
     private TelephonyManager telephonyManager;
     private boolean listeningPhoneStateChanges;
@@ -334,7 +334,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         }
     }
 
-    private PhoneStateListener phoneStateListener = new PhoneStateListener() {
+    private final PhoneStateListener phoneStateListener = new PhoneStateListener() {
             int myStatus = 0;
 
             @Override

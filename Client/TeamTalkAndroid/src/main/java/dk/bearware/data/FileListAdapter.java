@@ -85,8 +85,8 @@ implements ClientListener, Comparator<RemoteFile> {
     private TeamTalkService ttService;
     private TeamTalkBase ttClient;
     private Vector<RemoteFile> remoteFiles;
-    private Map<String, FileTransfer> downloads;
-    private SparseArray<Notification.Builder> uploads;
+    private final Map<String, FileTransfer> downloads;
+    private final SparseArray<Notification.Builder> uploads;
     private volatile int chanId;
     private volatile boolean needRefresh;
 

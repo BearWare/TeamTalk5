@@ -21,15 +21,15 @@ import androidx.core.app.ActivityCompat;
 public class BluetoothHeadsetHelper {
 
     public interface HeadsetConnectionListener {
-        public void onHeadsetConnected();
+        void onHeadsetConnected();
 
-        public void onHeadsetDisconnected();
+        void onHeadsetDisconnected();
     }
 
     public interface ScoAudioConnectionListener {
-        public void onScoAudioConnected();
+        void onScoAudioConnected();
 
-        public void onScoAudioDisconnected();
+        void onScoAudioDisconnected();
     }
 
 
@@ -163,7 +163,7 @@ public class BluetoothHeadsetHelper {
     }
 
 
-    private BroadcastReceiver connectionEventReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver connectionEventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -197,7 +197,7 @@ public class BluetoothHeadsetHelper {
         }
     };
 
-    private BroadcastReceiver stateChangeEventReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver stateChangeEventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -217,7 +217,7 @@ public class BluetoothHeadsetHelper {
         }
     };
 
-    private BluetoothProfile.ServiceListener headsetProfileListener = new BluetoothProfile.ServiceListener() {
+    private final BluetoothProfile.ServiceListener headsetProfileListener = new BluetoothProfile.ServiceListener() {
         @Override
         public void onServiceConnected(int profile, BluetoothProfile proxy) {
             if (profile == BluetoothProfile.HEADSET) {
