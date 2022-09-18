@@ -43,8 +43,8 @@ public class TextMessageAdapter extends BaseAdapter {
 
     private Vector<MyTextMessage> messages;
     
-    private LayoutInflater inflater;
-    private AccessibilityAssistant accessibilityAssistant;
+    private final LayoutInflater inflater;
+    private final AccessibilityAssistant accessibilityAssistant;
     
     private int myuserid;
     

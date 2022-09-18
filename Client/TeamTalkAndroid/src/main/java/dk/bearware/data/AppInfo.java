@@ -83,7 +83,7 @@ public class AppInfo {
             username = URLEncoder.encode(username, "utf-8");
             password = URLEncoder.encode(password, "utf-8");
         } catch (UnsupportedEncodingException e) {
-            Log.e(TAG, "Unable to encode username/password: " + e.toString());
+            Log.e(TAG, "Unable to encode username/password: " + e);
         }
         String urlToRead = "https://www.bearware.dk/teamtalk/weblogin.php?" + getDefautlUrlArgs(context) +
                 "&service=bearware&action=auth&username=" + username + "&password=" + password;
@@ -97,7 +97,7 @@ public class AppInfo {
             token = URLEncoder.encode(token, "utf-8");
             accesstoken = URLEncoder.encode(accesstoken, "utf-8");
         } catch (UnsupportedEncodingException e) {
-            Log.e(TAG, "Unable to encode username/token: " + e.toString());
+            Log.e(TAG, "Unable to encode username/token: " + e);
         }
         String urlToRead = "https://www.bearware.dk/teamtalk/weblogin.php?" + getDefautlUrlArgs(context) +
                 "&service=bearware&action=clientauth&username=" + username + "&token=" + token +
