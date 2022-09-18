@@ -40,7 +40,8 @@
         <activity
             android:name=".WebLoginActivity"
             android:label="@string/title_activity_web_login"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false">
         </activity>
 
         <activity
@@ -66,7 +67,8 @@
 
         <activity
             android:name=".ServerEntryActivity"
-            android:label="@string/title_activity_server_entry">
+            android:label="@string/title_activity_server_entry"
+            android:exported="false">
         </activity>
 
         <activity
@@ -74,17 +76,20 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_main"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateUnchanged|adjustResize">
+            android:windowSoftInputMode="stateUnchanged|adjustResize"
+            android:exported="false">
         </activity>
 
         <activity
             android:name=".ChannelPropActivity"
-            android:label="@string/title_activity_channel_prop">
+            android:label="@string/title_activity_channel_prop"
+            android:exported="false">
         </activity>
 
         <activity
             android:name=".StreamMediaActivity"
-            android:label="@string/title_activity_stream_media">
+            android:label="@string/title_activity_stream_media"
+            android:exported="false">
         </activity>
 
         <service
@@ -95,13 +100,15 @@
 
         <activity
             android:name=".UserPropActivity"
-            android:label="@string/title_activity_user_prop">
+            android:label="@string/title_activity_user_prop"
+            android:exported="false">
         </activity>
 
         <activity
             android:name=".TextMessageActivity"
             android:label="@string/title_activity_text_message"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:exported="false">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="dk.bearware.gui.MainActivity" />
@@ -109,12 +116,14 @@
 
         <activity
             android:name=".PreferencesActivity"
-            android:label="@string/title_activity_preferences">
+            android:label="@string/title_activity_preferences"
+            android:exported="false">
         </activity>
 
         <activity
             android:name=".AudioCodecActivity"
-            android:label="@string/title_activity_audio_codec">
+            android:label="@string/title_activity_audio_codec"
+            android:exported="false">
         </activity>
 
         <receiver android:name=".MediaButtonEventReceiver"
