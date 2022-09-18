@@ -29,6 +29,8 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -84,7 +86,12 @@ public class Permissions {
                 errormessage = context.getString(R.string.permission_read_phone_state);
                 break;
             case MY_PERMISSIONS_BLUETOOTH:
-                stringPermission = Manifest.permission.BLUETOOTH;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    stringPermission = Manifest.permission.BLUETOOTH_CONNECT;
+                }
+                else {
+                    stringPermission = Manifest.permission.BLUETOOTH;
+                }
                 errormessage = context.getString(R.string.permission_bluetooth);
                 break;
             default :
