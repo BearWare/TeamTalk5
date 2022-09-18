@@ -1814,13 +1814,14 @@ private EditText newmsg;
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE :
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("*/*");
-                    Intent i = Intent.createChooser(intent, "File");
-                    startActivityForResult(i, REQUEST_SELECT_FILE);
+            case Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("*/*");
+                Intent i = Intent.createChooser(intent, "File");
+                startActivityForResult(i, REQUEST_SELECT_FILE);
                 break;
             case Permissions.MY_PERMISSIONS_REQUEST_WAKE_LOCK:
                 wakeLock.acquire();
@@ -1833,8 +1834,8 @@ private EditText newmsg;
                 if ((mConnection != null) && mConnection.isBound())
                     ttservice.watchBluetoothHeadset();
                 break;
-            case Permissions.MY_PERMISSIONS_REQUEST_VIBRATE :
-            case Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE :
+            case Permissions.MY_PERMISSIONS_REQUEST_VIBRATE:
+            case Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE:
             default:
                 break;
         }
