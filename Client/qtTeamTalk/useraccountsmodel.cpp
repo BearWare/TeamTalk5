@@ -259,7 +259,14 @@ QVariant UserRightsModel::data(const QModelIndex & index, int role /*= Qt::Displ
 
         break;
     case Qt::AccessibleTextRole :
-        return QString("%1: %2").arg(data(index, Qt::DisplayRole).toString()).arg((m_activeUserRights & m_userrights[index.row()])? tr("Enabled") : tr("Disabled"));
+        switch (m_userrights[index.row()])
+        {
+        case USERRIGHT_LOCKED_NICKNAME :
+        case USERRIGHT_LOCKED_STATUS :
+            return QString("%1: %2").arg(data(index, Qt::DisplayRole).toString()).arg((m_activeUserRights & m_userrights[index.row()])? tr("Disabled") : tr("Enabled"));
+        default :
+            return QString("%1: %2").arg(data(index, Qt::DisplayRole).toString()).arg((m_activeUserRights & m_userrights[index.row()])? tr("Enabled") : tr("Disabled"));
+        }
     case Qt::CheckStateRole :
         switch (m_userrights[index.row()])
         {
