@@ -1233,37 +1233,37 @@ class TeamTalk(object):
         msg = self.getMessage()
         event = msg.nClientEvent
         if event == ClientEvent.CLIENTEVENT_CON_SUCCESS:
-            self.onConSuccess()
+            self.onConnectSuccess()
         if event == ClientEvent.CLIENTEVENT_CON_LOST:
-            self.onConLost()
+            self.onConnectionLost()
         if event == ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN:
-            self.onMyselfLoggedIn(msg.nSource, msg.useraccount)
+            self.onCmdMyselfLoggedIn(msg.nSource, msg.useraccount)
         if event == ClientEvent.CLIENTEVENT_CMD_MYSELF_KICKED:
-            self.onMyselfKicked(msg.nSource, msg.user)
+            self.onCmdMyselfKickedFromChannel(msg.nSource, msg.user)
         if event == ClientEvent.CLIENTEVENT_CMD_USER_LOGGEDIN:
-            self.onUserLoggedIn(msg.user)
+            self.onCmdUserLoggedIn(msg.user)
         if event == ClientEvent.CLIENTEVENT_CMD_USER_LOGGEDOUT:
-            self.onUserLoggedOut(msg.user)
+            self.onCmdUserLoggedOut(msg.user)
         if event == ClientEvent.CLIENTEVENT_CMD_USER_UPDATE:
-            self.onUserUpdate(msg.user)
+            self.onCmdUserUpdate(msg.user)
         if event == ClientEvent.CLIENTEVENT_CMD_USER_JOINED:
-            self.onUserJoined(msg.user)
+            self.onCmdUserJoinedChannel(msg.user)
         if event == ClientEvent.CLIENTEVENT_CMD_USER_LEFT:
-            self.onUserLeft(msg.nSource, msg.user)
+            self.onCmdUserLeft(msg.nSource, msg.user)
         if event == ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG:
-            self.onTextMessage(msg.textmessage)
+            self.onCmdUserTextMessage(msg.textmessage)
         if event == ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW:
-            self.onChannelNew(msg.channel)
+            self.onCmdChannelNew(msg.channel)
         if event == ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE:
-            self.onChannelUpdate(msg.channel)
+            self.onCmdChannelUpdate(msg.channel)
         if event == ClientEvent.CLIENTEVENT_CMD_CHANNEL_REMOVE:
-            self.onChannelRemove(msg.channel)
+            self.onCmdChannelRemove(msg.channel)
         if event == ClientEvent.CLIENTEVENT_CMD_SERVER_UPDATE:
-            self.onServerUpdate(msg.serverproperties)
+            self.onCmdServerUpdate(msg.serverproperties)
         if event == ClientEvent.CLIENTEVENT_CMD_FILE_NEW:
-            self.onFileNew(msg.remotefile)
+            self.onCmdFileNew(msg.remotefile)
         if event == ClientEvent.CLIENTEVENT_CMD_FILE_REMOVE:
-            self.onFileRemove(msg.remotefile)
+            self.onCmdFileRemove(msg.remotefile)
 
     def getMessage(self, nWaitMS=-1):
         msg = TTMessage()
@@ -1420,50 +1420,50 @@ class TeamTalk(object):
 
     # event handling
 
-    def onConSuccess(self):
+    def onConnectSuccess(self):
         pass
 
-    def onConLost(self):
+    def onConnectionLost(self):
         pass
 
-    def onMyselfLoggedIn(self, userID, userAccount):
+    def onCmdMyselfLoggedIn(self, userID, userAccount):
         pass
 
-    def onMyselfKicked(self, channelID, user):
+    def onCmdMyselfKickedFromChannel(self, channelID, user):
         pass
 
-    def onUserLoggedIn(self, user):
+    def onCmdUserLoggedIn(self, user):
         pass
 
-    def onUserLoggedOut(self, user):
+    def onCmdUserLoggedOut(self, user):
         pass
 
-    def onUserUpdate(self, user):
+    def onCmdUserUpdate(self, user):
         pass
 
-    def onUserJoined(self, user):
+    def onCmdUserJoinedChannel(self, user):
         pass
 
-    def onUserLeft(self, channelID, user):
+    def onCmdUserLeftChannel(self, channelID, user):
         pass
 
-    def onChannelNew(self, channel):
+    def onCmdChannelNew(self, channel):
         pass
 
-    def onChannelUpdate(self, channel):
+    def onCmdChannelUpdate(self, channel):
         pass
 
-    def onChannelRemove(self, channel):
+    def onCmdChannelRemove(self, channel):
         pass
 
-    def onTextMessage(self, message):
+    def onCmdUserTextMessage(self, message):
         pass
 
-    def onServerUpdate(self, serverProperties):
+    def onCmdServerUpdate(self, serverProperties):
         pass
 
-    def onFileNew(self, remoteFile):
+    def onCmdFileNew(self, remoteFile):
         pass
 
-    def onFileRemove(self, remoteFile):
+    def onCmdFileRemove(self, remoteFile):
         pass

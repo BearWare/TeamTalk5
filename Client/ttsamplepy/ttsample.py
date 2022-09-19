@@ -10,21 +10,21 @@ class TTClient():
         self.userName = userName
         self.password = password
         self.tt = TeamTalk5.TeamTalk()
-        self.tt.onConSuccess = self.onConSuccess
-        self.tt.onMyselfLoggedIn = self.onMyselfLoggedIn
-        self.tt.onMyselfKicked = self.onMyselfKicked
-        self.tt.onUserLoggedIn = self.onUserLoggedIn
-        self.tt.onUserLoggedOut = self.onUserLoggedOut
-        self.tt.onUserUpdate = self.onUserUpdate
-        self.tt.onUserJoined = self.onUserJoined
-        self.tt.onUserLeft = self.onUserLeft
-        self.tt.onChannelNew = self.onChannelNew
-        self.tt.onChannelUpdate = self.onChannelUpdate
-        self.tt.onChannelRemove = self.onChannelRemove
-        self.tt.onTextMessage = self.onTextMessage
-        self.tt.onServerUpdate = self.onServerUpdate
-        self.tt.onFileNew = self.onFileNew
-        self.tt.onFileRemove = self.onFileRemove
+        self.tt.onConnectSuccess = self.onConnectSuccess
+        self.tt.onCmdMyselfLoggedIn = self.onCmdMyselfLoggedIn
+        self.tt.onCmdMyselfKickedFromChannel = self.onCmdMyselfKickedFromChannel
+        self.tt.onCmdUserLoggedIn = self.onCmdUserLoggedIn
+        self.tt.onCmdUserLoggedOut = self.onCmdUserLoggedOut
+        self.tt.onCmdUserUpdate = self.onCmdUserUpdate
+        self.tt.onCmdUserJoinedChannel = self.onCmdUserJoinedChannel
+        self.tt.onCmdUserLeftChannel = self.onCmdUserLeftChannel
+        self.tt.onCmdChannelNew = self.onCmdChannelNew
+        self.tt.onCmdChannelUpdate = self.onCmdChannelUpdate
+        self.tt.onCmdChannelRemove = self.onCmdChannelRemove
+        self.tt.onCmdUserTextMessage = self.onCmdUserTextMessage
+        self.tt.onCmdServerUpdate = self.onCmdServerUpdate
+        self.tt.onCmdFileNew = self.onCmdFileNew
+        self.tt.onCmdFileRemove = self.onCmdFileRemove
 
     def start(self):
         self.connect()
@@ -32,47 +32,47 @@ class TTClient():
     def connect(self):
         self.tt.connect(self.host, self.tcpPort, self.udpPort)
 
-    def onConSuccess(self):
+    def onConnectSuccess(self):
         self.tt.doLogin(self.nickName, self.userName, self.password, "ttsamplepy")
 
-    def onConLost(self):
+    def onConnectionLost(self):
         self.connect()
 
-    def onMyselfLoggedIn(self,userID, userAccount):
+    def onCmdMyselfLoggedIn(self,userID, userAccount):
         print(f"Hello {userAccount.szUsername}. Your User ID is {userID}")
         channelID = self.tt.getChannelIDFromPath("/testChannel/")
         self.tt.doJoinChannelByID(channelID, "")
 
-    def onMyselfKicked(self, channelID, user):
+    def onCmdMyselfKickedFromChannel(self, channelID, user):
         print(f"kicked from {channelID} by {user.szUsername}")
 
-    def onUserLoggedIn(self, user):
+    def onCmdUserLoggedIn(self, user):
         print(f"{user.szUsername} with nickname {user.szNickname} has logged in")
 
-    def onUserLoggedOut(self, user):
+    def onCmdUserLoggedOut(self, user):
         print(f"{user.szUsername} with nickname {user.szNickname} has logged out")
 
-    def onUserUpdate(self, user):
+    def onCmdUserUpdate(self, user):
         print(f"{user.szUsername}was updated")
 
-    def onUserJoined(self, user):
+    def onCmdUserJoinedChannel(self, user):
         channel = self.tt.getChannel(user.nChannelID)
         print(f"{user.szUsername} with nickname {user.szNickname} has joined to channel {channel.szName}")
 
-    def onUserLeft(self, channelID, user):
+    def onCmdUserLeftChannel(self, channelID, user):
         channel = self.tt.getChannel(channelID)
         print(f"{user.szUsername} with nickname {user.szNickname} has left channel {channel.szName}")
 
-    def onChannelNew(self, channel):
+    def onCmdChannelNew(self, channel):
         print(f"channel {channel.szName} was added")
 
-    def onChannelUpdate(self, channel):
+    def onCmdChannelUpdate(self, channel):
         print(f"channel {channel.szName} was updated")
 
-    def onChannelRemove(self, channel):
+    def onCmdChannelRemove(self, channel):
         print(f"channel {channel.szName} was removed")
 
-    def onTextMessage(self, message):
+    def onCmdUserTextMessage(self, message):
         msgType = message.nMsgType
         if msgType == TeamTalk5.TextMsgType.MSGTYPE_USER:
             self.onUserMessage(message.nFromUserID, message.szFromUsername, message.szMessage)
@@ -90,13 +90,13 @@ class TTClient():
     def onBroadcastMessage(self, fromUserID, fromUserName, msgText):
         print(f"Broadcast message from userid: {fromUserID}, username: {fromUserName} {msgText}")
 
-    def onServerUpdate(self, serverProperties):
+    def onCmdServerUpdate(self, serverProperties):
         print(f"Welcome to server {serverProperties.szServerName}")
 
-    def onFileNew(self, remoteFile):
+    def onCmdFileNew(self, remoteFile):
         print(f"file {remoteFile.szFileName} was added")
 
-    def onFileRemove(self, remoteFile):
+    def onCmdFileRemove(self, remoteFile):
         print(f"file {remoteFile.szFileName} was removed")
 
 if __name__ == "__main__":
