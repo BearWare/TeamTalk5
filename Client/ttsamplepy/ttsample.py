@@ -1,4 +1,5 @@
 import TeamTalk5
+from TeamTalk5 import ttstr
 
 
 class TTClient():
@@ -33,15 +34,15 @@ class TTClient():
         self.tt.connect(self.host, self.tcpPort, self.udpPort)
 
     def onConnectSuccess(self):
-        self.tt.doLogin(self.nickName, self.userName, self.password, "ttsamplepy")
+        self.tt.doLogin(self.nickName, self.userName, self.password, ttstr("ttsamplepy"))
 
     def onConnectionLost(self):
         self.connect()
 
     def onCmdMyselfLoggedIn(self,userID, userAccount):
         print(f"Hello {userAccount.szUsername}. Your User ID is {userID}")
-        channelID = self.tt.getChannelIDFromPath("/testChannel/")
-        self.tt.doJoinChannelByID(channelID, "")
+        channelID = self.tt.getChannelIDFromPath(ttstr("/testChannel/"))
+        self.tt.doJoinChannelByID(channelID, ttstr(""))
 
     def onCmdMyselfKickedFromChannel(self, channelID, user):
         print(f"kicked from {channelID} by {user.szUsername}")
@@ -101,7 +102,7 @@ class TTClient():
 
 if __name__ == "__main__":
     try:
-        ttClient = TTClient("localhost", 10333, 10333, "Nickname", "username", "password")
+        ttClient = TTClient(ttstr("localhost"), 10333, 10333, ttstr("Nickname"), ttstr("username"), ttstr("password"))
         ttClient.start()
         while True:
             ttClient.tt.runEventLoop()
