@@ -286,6 +286,7 @@
     <string name="text_publicserver">Öffentlicher Server</string>
     <string name="text_localserver">Lokaler Server</string>
     <string name="text_officialserver">Offizieller Server</string>
+    <string name="text_unofficialserver">Inoffizieller Server</string>
     <string name="text_passwdprot">Passwortgeschützt</string>
     <string name="text_translator">Übersetzt von Steffen Schultz</string>
     <string name="desktop_image">Desktop-Bild</string>
@@ -380,5 +381,6 @@
     <string name="pref_title_server_usercount">Users Online</string>
     <string name="pref_title_server_country">Country</string>
     <string name="pref_title_server_status">Server Status</string>
+
 
 </resources>
