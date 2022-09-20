@@ -3850,7 +3850,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             TTMessage msg = new TTMessage();
             assertTrue("get voice event", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
             if ((msg.user.uUserState & UserState.USERSTATE_VOICE) != 0)
-                ids.remove(msg.user.nUserID);
+                ids.removeElement(msg.user.nUserID);
         } while(ids.size() > 0);
 
         waitForEvent(rxclient, ClientEvent.CLIENTEVENT_NONE, 2000);
@@ -3868,7 +3868,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             TTMessage msg = new TTMessage();
             assertTrue("get voice stop event", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
             if ((msg.user.uUserState & UserState.USERSTATE_VOICE) == UserState.USERSTATE_NONE)
-                ids.remove(msg.user.nUserID);
+                ids.removeElement(msg.user.nUserID);
         } while(ids.size()>0);
     }
 
