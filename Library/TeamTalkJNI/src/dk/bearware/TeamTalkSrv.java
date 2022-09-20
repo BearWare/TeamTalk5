@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -24,18 +24,20 @@
 package dk.bearware;
 
 public abstract class TeamTalkSrv /* Java 1.7 implements AutoCloseable */ {
-    
+
     long ttsInst = 0;
 
     ServerCallback serverCallback;
     ServerLogger serverLogger;
 
+    @SuppressWarnings({"deprecation","removal"})
+    @Override
     protected void finalize( ) throws Throwable {
         closeTeamTalk();
     }
 
     public void close() {
-        closeTeamTalk();        
+        closeTeamTalk();
     }
 
     public static native String getVersion();
