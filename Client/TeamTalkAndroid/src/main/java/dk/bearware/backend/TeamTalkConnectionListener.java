@@ -25,7 +25,7 @@ package dk.bearware.backend;
 
 public interface TeamTalkConnectionListener {
 
-    public void onServiceConnected(TeamTalkService service);
-    public void onServiceDisconnected(TeamTalkService service);
+    void onServiceConnected(TeamTalkService service);
+    void onServiceDisconnected(TeamTalkService service);
 
 }

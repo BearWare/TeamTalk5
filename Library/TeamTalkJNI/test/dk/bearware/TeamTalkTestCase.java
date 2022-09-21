@@ -2910,7 +2910,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("ttclient1, Enable voice transmission", ttclient1.enableVoiceTransmission(true));
         assertTrue("ttclient2, wait chan txq update", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
         assertEquals("ttclient1 is head in queue ", ttclient1.getMyUserID(), msg.channel.transmitUsersQueue[0]);
-        
+
         assertTrue("ttclient2, Enable voice transmission", ttclient2.enableVoiceTransmission(true));
         assertTrue("ttclient2, wait chan txq update", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
         assertEquals("ttclient2 is two in queue ", ttclient2.getMyUserID(), msg.channel.transmitUsersQueue[1]);
@@ -2929,7 +2929,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("queue is empty", 0, msg.channel.transmitUsersQueue[0]);
         assertTrue("ttclient1, drain client 1", waitCmdComplete(ttclient1, ttclient1.doPing(), DEF_WAIT));
         assertTrue("ttclient2, drain client 2", waitCmdComplete(ttclient2, ttclient2.doPing(), DEF_WAIT));
-        
+
         // validate 500 msec default switch timeout no longer applies
         chan.nTransmitUsersQueueDelayMSec = 100;
         assertTrue("update channel", waitCmdSuccess(ttclient1, ttclient1.doUpdateChannel(chan), DEF_WAIT));
@@ -2940,7 +2940,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("ttclient1, Enable voice transmission", ttclient1.enableVoiceTransmission(true));
         assertTrue("ttclient2, wait chan txq update", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
         assertEquals("ttclient1 is head in queue", ttclient1.getMyUserID(), msg.channel.transmitUsersQueue[0]);
-        
+
         assertTrue("ttclient2, Enable voice transmission", ttclient2.enableVoiceTransmission(true));
         assertTrue("ttclient2, wait chan txq update", waitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg));
         assertEquals("ttclient2 is two in queue ", ttclient2.getMyUserID(), msg.channel.transmitUsersQueue[1]);
@@ -2955,7 +2955,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("default switch delay is ~100 msec", System.currentTimeMillis() - switchStart >= chan.nTransmitUsersQueueDelayMSec);
         assertTrue("default switch delay is less than 500 msec", System.currentTimeMillis() - switchStart < 500);
     }
-    
+
     @Test
     public void testAbusePrevention() {
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
@@ -3850,7 +3850,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             TTMessage msg = new TTMessage();
             assertTrue("get voice event", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
             if ((msg.user.uUserState & UserState.USERSTATE_VOICE) != 0)
-                ids.remove(new Integer(msg.user.nUserID));
+                ids.removeElement(msg.user.nUserID);
         } while(ids.size() > 0);
 
         waitForEvent(rxclient, ClientEvent.CLIENTEVENT_NONE, 2000);
@@ -3868,7 +3868,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             TTMessage msg = new TTMessage();
             assertTrue("get voice stop event", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
             if ((msg.user.uUserState & UserState.USERSTATE_VOICE) == UserState.USERSTATE_NONE)
-                ids.remove(new Integer(msg.user.nUserID));
+                ids.removeElement(msg.user.nUserID);
         } while(ids.size()>0);
     }
 

@@ -45,6 +45,7 @@ namespace teamtalk {
         void UpdateChannelBans();
         void SetOwner(const ServerUser& user);
         bool IsOwner(const ServerUser& user) const;
+        bool IsAutoOperator(const ServerUser& user) const;
     private:
         void Init();
         // userid -> last transmit time

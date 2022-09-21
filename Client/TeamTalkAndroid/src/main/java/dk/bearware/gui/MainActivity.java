@@ -1463,10 +1463,7 @@ private EditText newmsg;
 
         // if channel has audio configuration enabled then we should switch to AGC
 
-        boolean showIncDecButton = true;
-        if (mychannel != null && mychannel.audiocfg.bEnableAGC && ttservice != null && !ttservice.isVoiceActivationEnabled()) {
-            showIncDecButton = false;
-        }
+        boolean showIncDecButton = mychannel == null || !mychannel.audiocfg.bEnableAGC || ttservice == null || ttservice.isVoiceActivationEnabled();
 
         findViewById(R.id.mikeDec).setVisibility(showIncDecButton ? View.VISIBLE : View.GONE);
         findViewById(R.id.mikeInc).setVisibility(showIncDecButton ? View.VISIBLE : View.GONE);
@@ -1814,13 +1811,14 @@ private EditText newmsg;
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE :
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("*/*");
-                    Intent i = Intent.createChooser(intent, "File");
-                    startActivityForResult(i, REQUEST_SELECT_FILE);
+            case Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("*/*");
+                Intent i = Intent.createChooser(intent, "File");
+                startActivityForResult(i, REQUEST_SELECT_FILE);
                 break;
             case Permissions.MY_PERMISSIONS_REQUEST_WAKE_LOCK:
                 wakeLock.acquire();
@@ -1833,8 +1831,8 @@ private EditText newmsg;
                 if ((mConnection != null) && mConnection.isBound())
                     ttservice.watchBluetoothHeadset();
                 break;
-            case Permissions.MY_PERMISSIONS_REQUEST_VIBRATE :
-            case Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE :
+            case Permissions.MY_PERMISSIONS_REQUEST_VIBRATE:
+            case Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE:
             default:
                 break;
         }
@@ -2064,7 +2062,7 @@ private EditText newmsg;
             notification.setSmallIcon(R.drawable.message)
                 .setContentTitle(getString(R.string.private_message_notification, senderName))
                 .setContentText(getString(R.string.private_message_notification_hint))
-                .setContentIntent(PendingIntent.getActivity(this, textmessage.nFromUserID, action.putExtra(TextMessageActivity.EXTRA_USERID, textmessage.nFromUserID), 0))
+                .setContentIntent(PendingIntent.getActivity(this, textmessage.nFromUserID, action.putExtra(TextMessageActivity.EXTRA_USERID, textmessage.nFromUserID), PendingIntent.FLAG_IMMUTABLE))
                 .setAutoCancel(true);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 notification.setChannelId("TT_PM");

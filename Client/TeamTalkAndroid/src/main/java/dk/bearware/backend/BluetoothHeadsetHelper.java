@@ -3,6 +3,7 @@ package dk.bearware.backend;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
@@ -12,18 +13,23 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
+
+import androidx.core.app.ActivityCompat;
 
 public class BluetoothHeadsetHelper {
 
     public interface HeadsetConnectionListener {
-        public void onHeadsetConnected();
-        public void onHeadsetDisconnected();
+        void onHeadsetConnected();
+
+        void onHeadsetDisconnected();
     }
 
     public interface ScoAudioConnectionListener {
-        public void onScoAudioConnected();
-        public void onScoAudioDisconnected();
+        void onScoAudioConnected();
+
+        void onScoAudioDisconnected();
     }
 
 
@@ -157,12 +163,15 @@ public class BluetoothHeadsetHelper {
     }
 
 
-    private BroadcastReceiver connectionEventReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver connectionEventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
                 BluetoothDevice connectedHeadset = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                if (ActivityCompat.checkSelfPermission(BluetoothHeadsetHelper.this.context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
                 BluetoothClass bluetoothClass = connectedHeadset.getBluetoothClass();
                 if (bluetoothClass != null) {
                     int deviceClass = bluetoothClass.getDeviceClass();
@@ -175,44 +184,47 @@ public class BluetoothHeadsetHelper {
             } else if (BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED.equals(action)) {
                 int state = intent.getIntExtra(BluetoothHeadset.EXTRA_STATE, BluetoothHeadset.STATE_DISCONNECTED);
                 switch (state) {
-                case BluetoothHeadset.STATE_CONNECTED:
-                    onHeadsetConnected();
-                    break;
-                case BluetoothHeadset.STATE_DISCONNECTED:
-                    onHeadsetDisconnected();
-                    break;
-                default:
-                    break;
+                    case BluetoothHeadset.STATE_CONNECTED:
+                        onHeadsetConnected();
+                        break;
+                    case BluetoothHeadset.STATE_DISCONNECTED:
+                        onHeadsetDisconnected();
+                        break;
+                    default:
+                        break;
                 }
             }
         }
     };
 
-    private BroadcastReceiver stateChangeEventReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver stateChangeEventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (AudioManager.ACTION_SCO_AUDIO_STATE_UPDATED.equals(action)) {
                 int state = intent.getIntExtra(AudioManager.EXTRA_SCO_AUDIO_STATE, AudioManager.SCO_AUDIO_STATE_ERROR);
                 switch (state) {
-                case AudioManager.SCO_AUDIO_STATE_CONNECTED:
-                    onScoAudioConnected();
-                    break;
-                case AudioManager.SCO_AUDIO_STATE_DISCONNECTED:
-                    onScoAudioDisconnected();
-                    break;
-                default:
-                    break;
+                    case AudioManager.SCO_AUDIO_STATE_CONNECTED:
+                        onScoAudioConnected();
+                        break;
+                    case AudioManager.SCO_AUDIO_STATE_DISCONNECTED:
+                        onScoAudioDisconnected();
+                        break;
+                    default:
+                        break;
                 }
             }
         }
     };
 
-    private BluetoothProfile.ServiceListener headsetProfileListener = new BluetoothProfile.ServiceListener() {
+    private final BluetoothProfile.ServiceListener headsetProfileListener = new BluetoothProfile.ServiceListener() {
         @Override
         public void onServiceConnected(int profile, BluetoothProfile proxy) {
             if (profile == BluetoothProfile.HEADSET) {
                 bluetoothHeadset = (BluetoothHeadset) proxy;
+                if (ActivityCompat.checkSelfPermission(BluetoothHeadsetHelper.this.context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
                 if (!bluetoothHeadset.getConnectedDevices().isEmpty())
                     onHeadsetConnected();
                 context.registerReceiver(connectionEventReceiver, new IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED));

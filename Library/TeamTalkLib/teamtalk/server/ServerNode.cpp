@@ -3163,8 +3163,10 @@ ErrorMsg ServerNode::UserKick(int userid, int kick_userid, int chanid,
         if(!chan->UserExists(kick_userid))
             return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
-        if(force_kick || (kicker->GetUserRights() & USERRIGHT_KICK_USERS) ||
-           chan->IsOperator(userid))
+        if (force_kick ||
+            (kicker->GetUserRights() & USERRIGHT_KICK_USERS) ||
+            chan->IsOperator(userid) ||
+            chan->IsAutoOperator(*kicker))
         {
             kickee->DoKicked(userid, true);
 
@@ -3228,9 +3230,9 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
             ban = ban_user->GetBan(ban.bantype, ban.chanpath);
         }
 
-        if((banner->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
+        if ((banner->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
         {
-            if (!banchan || !banchan->IsOperator(userid))
+            if (!banchan || (!banchan->IsOperator(userid) && !banchan->IsAutoOperator(*banner)))
                 return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
         }
 
@@ -3256,9 +3258,9 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
             ban.chanpath = banchan->GetChannelPath();
         }
 
-        if((banner->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
+        if ((banner->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
         {
-            if (banchan && banchan->IsOperator(userid))
+            if (banchan && (banchan->IsOperator(userid) || banchan->IsAutoOperator(*banner)))
                 err = m_srvguard->AddUserBan(*banner, ban);
             else
                 return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
@@ -3307,7 +3309,7 @@ ErrorMsg ServerNode::UserUnBan(int userid, const BannedUser& ban)
 
     if((user->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
     {
-        if (banchan && banchan->IsOperator(userid))
+        if (banchan && (banchan->IsOperator(userid) || banchan->IsAutoOperator(*user)))
             err = m_srvguard->RemoveUserBan(*user, ban);
         else
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
@@ -3353,7 +3355,7 @@ ErrorMsg ServerNode::UserListServerBans(int userid, int chanid, int index, int c
 
     if((user->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
     {
-        if (!banchan || !banchan->IsOperator(userid))
+        if (!banchan || (!banchan->IsOperator(userid) && !banchan->IsAutoOperator(*user)))
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
     }
 
@@ -3474,18 +3476,16 @@ ErrorMsg ServerNode::UserUpdateChannel(int userid, const ChannelProp& chanprop)
     }
 
     //user can update channel if either admin or operator of channel
-    if((user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS))
+    if ((user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS))
         return UpdateChannel(chanprop, user.get());
-    else if(chan->IsOperator(userid))
+    else if (chan->IsOperator(userid) || chan->IsAutoOperator(*user))
     {
         //don't allow operator to change static channel property
-        if( (chanprop.chantype & CHANNEL_PERMANENT) !=
-            (chan->GetChannelType() & CHANNEL_PERMANENT))
+        if ((chanprop.chantype & CHANNEL_PERMANENT) != (chan->GetChannelType() & CHANNEL_PERMANENT))
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
         //don't allow operator to change name of static channel
-        if( (chan->GetChannelType() & CHANNEL_PERMANENT) &&
-            chanprop.name != chan->GetName())
+        if ((chan->GetChannelType() & CHANNEL_PERMANENT) && chanprop.name != chan->GetName())
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
         return UpdateChannel(chanprop, user.get());

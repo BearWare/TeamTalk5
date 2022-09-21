@@ -45,7 +45,7 @@ implements UserListener
 {
     public static final String TAG = "bearware";
 
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
     
     public DesktopAdapter(Context context) {
         super(context);

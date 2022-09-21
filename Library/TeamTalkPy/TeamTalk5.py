@@ -1229,6 +1229,42 @@ class TeamTalk(object):
     def __del__(self):
         self.closeTeamTalk()
 
+    def runEventLoop(self):
+        msg = self.getMessage()
+        event = msg.nClientEvent
+        if event == ClientEvent.CLIENTEVENT_CON_SUCCESS:
+            self.onConnectSuccess()
+        if event == ClientEvent.CLIENTEVENT_CON_LOST:
+            self.onConnectionLost()
+        if event == ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN:
+            self.onCmdMyselfLoggedIn(msg.nSource, msg.useraccount)
+        if event == ClientEvent.CLIENTEVENT_CMD_MYSELF_KICKED:
+            self.onCmdMyselfKickedFromChannel(msg.nSource, msg.user)
+        if event == ClientEvent.CLIENTEVENT_CMD_USER_LOGGEDIN:
+            self.onCmdUserLoggedIn(msg.user)
+        if event == ClientEvent.CLIENTEVENT_CMD_USER_LOGGEDOUT:
+            self.onCmdUserLoggedOut(msg.user)
+        if event == ClientEvent.CLIENTEVENT_CMD_USER_UPDATE:
+            self.onCmdUserUpdate(msg.user)
+        if event == ClientEvent.CLIENTEVENT_CMD_USER_JOINED:
+            self.onCmdUserJoinedChannel(msg.user)
+        if event == ClientEvent.CLIENTEVENT_CMD_USER_LEFT:
+            self.onCmdUserLeft(msg.nSource, msg.user)
+        if event == ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG:
+            self.onCmdUserTextMessage(msg.textmessage)
+        if event == ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW:
+            self.onCmdChannelNew(msg.channel)
+        if event == ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE:
+            self.onCmdChannelUpdate(msg.channel)
+        if event == ClientEvent.CLIENTEVENT_CMD_CHANNEL_REMOVE:
+            self.onCmdChannelRemove(msg.channel)
+        if event == ClientEvent.CLIENTEVENT_CMD_SERVER_UPDATE:
+            self.onCmdServerUpdate(msg.serverproperties)
+        if event == ClientEvent.CLIENTEVENT_CMD_FILE_NEW:
+            self.onCmdFileNew(msg.remotefile)
+        if event == ClientEvent.CLIENTEVENT_CMD_FILE_REMOVE:
+            self.onCmdFileRemove(msg.remotefile)
+
     def getMessage(self, nWaitMS=-1):
         msg = TTMessage()
         nWaitMS = INT32(nWaitMS)
@@ -1381,3 +1417,53 @@ class TeamTalk(object):
         szErrorMsg = (TTCHAR*TT_STRLEN)()
         _GetErrorMessage(nError, szErrorMsg)
         return szErrorMsg.value
+
+    # event handling
+
+    def onConnectSuccess(self):
+        pass
+
+    def onConnectionLost(self):
+        pass
+
+    def onCmdMyselfLoggedIn(self, userID, userAccount):
+        pass
+
+    def onCmdMyselfKickedFromChannel(self, channelID, user):
+        pass
+
+    def onCmdUserLoggedIn(self, user):
+        pass
+
+    def onCmdUserLoggedOut(self, user):
+        pass
+
+    def onCmdUserUpdate(self, user):
+        pass
+
+    def onCmdUserJoinedChannel(self, user):
+        pass
+
+    def onCmdUserLeftChannel(self, channelID, user):
+        pass
+
+    def onCmdChannelNew(self, channel):
+        pass
+
+    def onCmdChannelUpdate(self, channel):
+        pass
+
+    def onCmdChannelRemove(self, channel):
+        pass
+
+    def onCmdUserTextMessage(self, message):
+        pass
+
+    def onCmdServerUpdate(self, serverProperties):
+        pass
+
+    def onCmdFileNew(self, remoteFile):
+        pass
+
+    def onCmdFileRemove(self, remoteFile):
+        pass

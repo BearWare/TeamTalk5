@@ -49,7 +49,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>Compiled on %1 %2 using Qt %3 (Qt %4 used by this instance).</source>
-        <translation type="unfinished"></translation>
+        <translation>Kompiliert am %1 %2 unter Verwendung von Qt %3 (Qt %4 von dieser Instanz verwendet).</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="35"/>
@@ -468,7 +468,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="197"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="234"/>
@@ -671,7 +671,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="194"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation>S&amp;chließen</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="430"/>
@@ -2078,84 +2078,84 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2404"/>
         <source>Trying to reconnect to %1 port %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Neuverbindungsversuch mit %1, Port %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2631"/>
         <source>Private messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Private Nachrichten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2636"/>
         <source>Channel messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Raumnachrichten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2641"/>
         <source>Broadcast messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Server-Nachrichten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
         <source>Voice</source>
-        <translation type="unfinished">Sprache</translation>
+        <translation>Sprache</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2651"/>
         <source>Video</source>
-        <translation type="unfinished">Video</translation>
+        <translation>Video</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2661"/>
         <source>Desktop input</source>
-        <translation type="unfinished"></translation>
+        <translation>Desktop-Eingabe</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2666"/>
         <source>Media files</source>
-        <translation type="unfinished">Mediendateien</translation>
+        <translation>Mediendateien</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2671"/>
         <source>Intercept private messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Private Nachrichten abfangen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2676"/>
         <source>Intercept channel messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Raumnachrichten abfangen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2681"/>
         <source>Intercept voice</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache abfangen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2686"/>
         <source>Intercept video capture</source>
-        <translation type="unfinished"></translation>
+        <translation>Video abfangen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2691"/>
         <source>Intercept desktop</source>
-        <translation type="unfinished"></translation>
+        <translation>Desktop abfangen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2696"/>
         <source>Intercept media files</source>
-        <translation type="unfinished"></translation>
+        <translation>Mediendateien abfangen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2720"/>
         <location filename="../mainwindow.cpp" line="2721"/>
         <source>Subscription &quot;%1&quot; enabled for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Empfang von &quot;%1&quot; für %2 eingeschaltet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>
         <location filename="../mainwindow.cpp" line="2731"/>
         <source>Subscription &quot;%1&quot; disabled for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Empfang von &quot;%1&quot; für %2 ausgeschaltet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3101"/>
@@ -2211,7 +2211,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="3963"/>
         <source>Current Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktuelles Profil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3976"/>
@@ -2252,7 +2252,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4474"/>
         <source>Failed to enable voice activation</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Einschalten der Sprachaktivierung</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4498"/>
@@ -2355,12 +2355,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="4978"/>
         <source>To relay voice stream from other channel you must enable subscription &quot;Intercept Voice&quot;.
 Do you wish to do this now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Um ein Relais für den Sprach-Stream eines anderen Raums einzurichten muss &quot;Sprache abfangen&quot; eingeschaltet sein.
+Möchtest du dies jetzt tun?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4998"/>
-        <source>To relay media file stream from other channel you must enable subscription &quot;Intercept Media File&quot;.
-Do you wish to do this now?</source>
+        <source>Um ein Relais für den medien-Stream eines anderen Raums einzurichten muss &quot;Mediendatei abfangen&quot; eingeschaltet sein.
+Möchtest du dies jetzt tun?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2414,28 +2415,28 @@ Do you wish to do this now?</source>
         <location filename="../mainwindow.cpp" line="5363"/>
         <location filename="../mainwindow.cpp" line="5385"/>
         <source>Share channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Raum teilen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5355"/>
         <source>Type username of user account:</source>
-        <translation type="unfinished"></translation>
+        <translation>Namen des Benutzerkontos eingeben:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5364"/>
         <source>Type password of user account:</source>
-        <translation type="unfinished"></translation>
+        <translation>Passwort des Benutzerkontos eingeben:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5386"/>
         <source>Type password of channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>Raumpasswort eingeben:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5399"/>
         <location filename="../mainwindow.cpp" line="5400"/>
         <source>Link copied to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Link in Zwischenablage kopiert</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5406"/>
@@ -2477,24 +2478,28 @@ Do you wish to do this now?</source>
         <source>New version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Version verfügbar: %1<byte value="xd"/>
+Sie kann auf folgender Seite heruntergeladen werden:<byte value="xd"/>
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7154"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Beta-Version verfügbar: %1<byte value="xd"/>
+Sie kann auf folgender Seite heruntergeladen werden:<byte value="xd"/>
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7234"/>
         <source>Language %1 not found for Text-To-Speech</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Sprache %1 wurde für Text-zu-Sprache nicht gefunden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7247"/>
         <source>Voice %1 not found for Text-To-Speech. Switching to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Stimme %1 wurde für Text-zu-Sprache nicht gefunden. Stattdessen wird auf %2 gewechselt.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2030"/>
@@ -2553,17 +2558,17 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="643"/>
         <source>Choose language</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache wählen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="644"/>
         <source>Select the language will be use by %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle die von %1 zu verwendende Sprache</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>%1 set question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat Fragemodus gesetzt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2043"/>
@@ -2618,7 +2623,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="2295"/>
         <source>Voice transmission failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprachübertragung fehlgeschlagen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2656"/>
@@ -2706,103 +2711,104 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="6267"/>
         <source>%1 can no longer transmit</source>
         <comment>%1 can no longer transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 kann nicht weiter übertragen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6268"/>
         <source>%1 can now transmit</source>
         <comment>%1 can now transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 kann jetzt übertragen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6271"/>
         <source>Everyone can no longer transmit</source>
         <comment>Everyone can no longer transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>Niemand kann mehr übertragen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6272"/>
         <source>Everyone can now transmit</source>
         <comment>Everyone can now transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>Jeder kann jetzt übertragen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6276"/>
         <source>You can no longer transmit</source>
         <comment>You can no longer transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>Du kannst nicht mehr übertragen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6277"/>
         <source>You can now transmit</source>
         <comment>You can now transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <translation>Du kannst jetzt übertragen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6287"/>
         <source>%1 channel messages</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 Raumnachrichten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6289"/>
         <source>%1 channel messages</source>
         <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 Raumnachrichten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6298"/>
         <source>%1 voice</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 Sprache</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6300"/>
         <source>%1 voice</source>
         <comment>can no longer transmit...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 Sprache</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6309"/>
         <source>%1 video</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 Video</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6311"/>
         <source>%1 video</source>
         <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 Video</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6320"/>
         <source>%1 desktop windows</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 Desktop-Fenster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6322"/>
         <source>%1 desktop windows</source>
         <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 Desktop-Fenster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6331"/>
         <source>%1 media files</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 Mediendateien</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6333"/>
         <source>%1 media files</source>
         <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 Mediendateien</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7036"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei %1 enthält %2 Einrichtungsinformationen.<byte value="xd"/>
+Sollen diese Einstellungen übernommen werden?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7117"/>
@@ -3205,7 +3211,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1441"/>
         <source>&amp;Speak Client Statistics</source>
-        <translation type="unfinished"></translation>
+        <translation>Client-Statistiken &amp;sprechen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1444"/>
@@ -3526,7 +3532,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="2092"/>
         <source>&amp;Generate tt:// URL to Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Tt://-URL für die Zwischenablage &amp;generieren</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2095"/>
@@ -3616,7 +3622,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="2302"/>
         <source>Toggle &amp;Question Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Fragemodus umschalten</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2308"/>
@@ -3626,12 +3632,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="2321"/>
         <source>&amp;Relay Voice Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprach-Stream-&amp;Relais</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2329"/>
         <source>Relay Media &amp;File Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Medien-Stream-Relais</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1966"/>
@@ -4168,21 +4174,21 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastoragedlg.cpp" line="116"/>
         <source>Folder for storing audio files does not exist. Do you want %1 to create it for you?</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Ordner zum Speichern der Audiodateien existiert nicht. Soll %1 ihn erstellen?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="117"/>
         <location filename="../mediastoragedlg.cpp" line="155"/>
         <location filename="../mediastoragedlg.cpp" line="172"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;Ja</translation>
+        <translation>&amp;Ja</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="118"/>
         <location filename="../mediastoragedlg.cpp" line="156"/>
         <location filename="../mediastoragedlg.cpp" line="173"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;Nein</translation>
+        <translation>&amp;Nein</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="137"/>
@@ -4197,22 +4203,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastoragedlg.cpp" line="154"/>
         <source>Folder for storing channel messages does not exist. Do you want %1 to create it for you?</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Ordner zum Speichern der Raumnachrichten existiert nicht. Soll %1 ihn erstellen?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="159"/>
         <source>Folder for channel messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordner für Raumnachrichten</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="171"/>
         <source>Folder for storing private text messages does not exist. Do you want %1 to create it for you?</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Ordner zum Speichern der privaten Nachrichten existiert nicht. Soll %1 ihn erstellen?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="176"/>
         <source>Folder for private text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordner für private Textnachrichten</translation>
     </message>
 </context>
 <context>
@@ -4231,7 +4237,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusers.ui" line="50"/>
         <source>Online users</source>
-        <translation type="unfinished"></translation>
+        <translation>Online-Benutzer</translation>
     </message>
     <message>
         <location filename="../onlineusers.ui" line="57"/>
@@ -4511,12 +4517,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="180"/>
         <source>Disable voice activation when inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprachaktivierung bei Inaktivität ausschalten</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="548"/>
         <source>Show server list on startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Serverliste beim Start</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="601"/>
@@ -4678,7 +4684,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="2129"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2155"/>
@@ -4900,12 +4906,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1295"/>
         <source>Sound pack</source>
-        <translation type="unfinished"></translation>
+        <translation>Soundpaket</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1308"/>
         <source>Sound event volume level</source>
-        <translation type="unfinished"></translation>
+        <translation>Klangereignis-Lautstärke</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1347"/>
@@ -5428,17 +5434,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="48"/>
         <source>Server list</source>
-        <translation type="unfinished"></translation>
+        <translation>Serverliste</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="79"/>
         <source>Include official servers (blue ones)</source>
-        <translation type="unfinished"></translation>
+        <translation>Offizielle Server einschließen (in blau)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="93"/>
         <source>Include unofficial servers (orange ones)</source>
-        <translation type="unfinished"></translation>
+        <translation>Inoffizielle Server einschließen (in orange)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="154"/>
@@ -5512,7 +5518,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="394"/>
         <source>&amp;Save to Server List</source>
-        <translation type="unfinished"></translation>
+        <translation>In Serverliste &amp;speichern</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="401"/>
@@ -5573,7 +5579,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="625"/>
         <source>Are you sure you want to publish the server named &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Möchtest du den Server &quot;%1&quot; veröffentlichen</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="651"/>
@@ -5583,7 +5589,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="655"/>
         <source>Publish Server Completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Server wurde veröffentlicht</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="656"/>
@@ -5595,7 +5601,13 @@ The #teamtalkpublish# notification can be removed once
 the server has been verified.
 
 Delete the published user account to unregister your server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualisiere deine Server-Eigenschaften sodass der Name den Text #teamtalkpublish# enthält.
+Hiermit bestätigst du, dass der Server dir gehört.
+Sobald dein Server verifiziert wurde, erscheint er innerhalb weniger minuten in der Liste.
+
+Die #teamtalkpublish#-Benachrichtigung kann nach erfolgreicher Freischaltung wieder entfernt werden.
+
+Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu machen.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="695"/>
@@ -5668,7 +5680,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="140"/>
         <source>Unofficial server</source>
-        <translation type="unfinished"></translation>
+        <translation>Inoffizieller Server</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="143"/>
@@ -5954,7 +5966,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="491"/>
         <source>Server events logged</source>
-        <translation type="unfinished"></translation>
+        <translation>Zu protokollierende Server-Ereignisse</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="501"/>
@@ -6459,7 +6471,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafiledlg.cpp" line="68"/>
         <source>TeamTalk Audio Preprocessor</source>
-        <translation>TemTalk-Audio-Vorverarbeitung</translation>
+        <translation>TeamTalk-Audio-Vorverarbeitung</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="69"/>
@@ -6629,7 +6641,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="135"/>
         <source>User enabled question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer hat Fragemodus eingeschaltet</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="137"/>
@@ -6783,7 +6795,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../textmessage.ui" line="77"/>
         <source>Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Nachricht</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="136"/>
@@ -6930,12 +6942,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="71"/>
         <source>User accounts</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzerkonten</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="234"/>
         <source>User Actions Allowed on Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Auf Server erlaubte Benutzeraktionen</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="368"/>
@@ -7373,122 +7385,122 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="211"/>
         <source>User can log in multiple times</source>
-        <translation type="unfinished">Kann sich mehrfach anmelden</translation>
+        <translation>Kann sich mehrfach anmelden</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="213"/>
         <source>User can see users in all channels</source>
-        <translation type="unfinished">Kann alle Benutzer in allen Räumen sehen</translation>
+        <translation>Kann alle Benutzer in allen Räumen sehen</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="215"/>
         <source>User can see hidden channels</source>
-        <translation type="unfinished">Benutzer kann versteckte Räume sehen</translation>
+        <translation>Benutzer kann versteckte Räume sehen</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="217"/>
         <source>User can create/modify all channels</source>
-        <translation type="unfinished">Kann alle Räume erstellen/bearbeiten</translation>
+        <translation>Kann alle Räume erstellen/bearbeiten</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="219"/>
         <source>User can create temporary channels</source>
-        <translation type="unfinished">Kann temporäre Räume erstellen</translation>
+        <translation>Kann temporäre Räume erstellen</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="221"/>
         <source>User can broadcast text messages</source>
-        <translation type="unfinished">Kann Textnachrichten übermitteln</translation>
+        <translation>Kann Textnachrichten übermitteln</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="223"/>
         <source>User can kick users off the server</source>
-        <translation type="unfinished">Kann andere Benutzer vom Server verweisen</translation>
+        <translation>Kann andere Benutzer vom Server werfen</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="225"/>
         <source>User can ban users from server</source>
-        <translation type="unfinished">Kann andere Benutzer sperren</translation>
+        <translation>Kann andere Benutzer sperren</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="227"/>
         <source>User can move users between channels</source>
-        <translation type="unfinished">Kann andere Benutzer zwischen Räumen verschieben</translation>
+        <translation>Kann andere Benutzer zwischen Räumen verschieben</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="229"/>
         <source>User can make other users channel operator</source>
-        <translation type="unfinished">Kann anderen Benutzern Operator-Rechte verleihen</translation>
+        <translation>Kann anderen Benutzern Operator-Rechte verleihen</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="231"/>
         <source>User can upload files</source>
-        <translation type="unfinished">Kann Dateien hochladen</translation>
+        <translation>Kann Dateien hochladen</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="233"/>
         <source>User can download files</source>
-        <translation type="unfinished">Kann Dateien herunterladen</translation>
+        <translation>Kann Dateien herunterladen</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="235"/>
         <source>User can record voice in all channels</source>
-        <translation type="unfinished">Benutzer kann Sprache in allen Räumen aufzeichnen</translation>
+        <translation>Benutzer kann Sprache in allen Räumen aufzeichnen</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="237"/>
         <source>User can update server properties</source>
-        <translation type="unfinished">Kann Server-Eigenschaften bearbeiten</translation>
+        <translation>Kann Server-Eigenschaften bearbeiten</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="239"/>
         <source>User can transmit voice data (microphone)</source>
-        <translation type="unfinished">Kann Sprachdaten senden (Mikrofon)</translation>
+        <translation>Kann Sprachdaten senden (Mikrofon)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="241"/>
         <source>User can transmit video data (webcam)</source>
-        <translation type="unfinished">Kann Videodaten senden (Webcam)</translation>
+        <translation>Kann Videodaten senden (Webcam)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="243"/>
         <source>User can transmit desktop sessions (shared desktop)</source>
-        <translation type="unfinished">Kann Desktopsitzungen übertragen</translation>
+        <translation>Kann Desktopsitzungen übertragen</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="245"/>
         <source>User can get remote access to desktop sessions</source>
-        <translation type="unfinished">Kann Fernzugriff auf Desktops erhalten</translation>
+        <translation>Kann Fernzugriff auf Desktops erhalten</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="247"/>
         <source>User can transmit audio files (wav, mp3 files)</source>
-        <translation type="unfinished">Kann Audiodateien senden (wav, mp3)</translation>
+        <translation>Kann Audiodateien senden (wav, mp3)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="249"/>
         <source>User can transmit video files (avi, mp4 files)</source>
-        <translation type="unfinished">Kann Videodateien senden (avi, mp4)</translation>
+        <translation>Kann Videodateien senden (avi, mp4)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="255"/>
         <source>User can change nickname</source>
-        <translation type="unfinished">Benutzer kann seinen Nicknamen ändern</translation>
+        <translation>Benutzer kann seinen Nicknamen ändern</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="257"/>
         <source>User can change status mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann Statusmodus ändern</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="263"/>
         <source>Enabled</source>
-        <translation type="unfinished">Eingeschaltet</translation>
+        <translation>Eingeschaltet</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="263"/>
         <source>Disabled</source>
-        <translation type="unfinished">Ausgeschaltet</translation>
+        <translation>Ausgeschaltet</translation>
     </message>
 </context>
 <context>

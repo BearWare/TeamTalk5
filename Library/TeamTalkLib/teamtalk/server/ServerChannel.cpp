@@ -171,3 +171,8 @@ bool ServerChannel::IsOwner(const ServerUser& user) const
 {
     return user.GetUserAccount().IsWebLogin() && m_usernameOwner == user.GetUserAccount().username;
 }
+
+bool ServerChannel::IsAutoOperator(const ServerUser& user) const
+{
+    return user.GetUserAccount().auto_op_channels.find(user.GetUserID()) != user.GetUserAccount().auto_op_channels.end();
+}

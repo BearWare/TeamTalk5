@@ -42,7 +42,7 @@ public class WebcamAdapter extends MediaAdapter implements UserListener {
 
     public static final String TAG = "bearware";
 
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
     
     public WebcamAdapter(Context context) {
         super(context);

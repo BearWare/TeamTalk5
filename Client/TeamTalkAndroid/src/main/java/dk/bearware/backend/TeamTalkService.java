@@ -123,7 +123,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
 
-    private TeamTalkEventHandler mEventHandler = new TeamTalkEventHandler();
+    private final TeamTalkEventHandler mEventHandler = new TeamTalkEventHandler();
     private BluetoothHeadsetHelper bluetoothHeadsetHelper;
     private TelephonyManager telephonyManager;
     private boolean listeningPhoneStateChanges;
@@ -305,9 +305,10 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
                     mChannel.setSound(null, null);
                     notificationManager.createNotificationChannel(mChannel);
                 }
+                int intentFlags = PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE;
                 widget.setSmallIcon(R.drawable.teamtalk_green)
                     .setContentTitle(getString(R.string.app_name))
-                    .setContentIntent(PendingIntent.getActivity(this, 0, ui, PendingIntent.FLAG_UPDATE_CURRENT))
+                    .setContentIntent(PendingIntent.getActivity(this, 0, ui, intentFlags))
                     .setOngoing(true)
                     .setAutoCancel(false)
                     .setContentText(getNotificationText());
@@ -333,7 +334,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         }
     }
 
-    private PhoneStateListener phoneStateListener = new PhoneStateListener() {
+    private final PhoneStateListener phoneStateListener = new PhoneStateListener() {
             int myStatus = 0;
 
             @Override

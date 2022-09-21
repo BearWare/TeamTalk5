@@ -623,22 +623,23 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         boolean granted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
         switch (requestCode) {
-            case Permissions.MY_PERMISSIONS_REQUEST_INTERNET :
+            case Permissions.MY_PERMISSIONS_REQUEST_INTERNET:
                 break;
-            case Permissions.MY_PERMISSIONS_REQUEST_RECORD_AUDIO :
+            case Permissions.MY_PERMISSIONS_REQUEST_RECORD_AUDIO:
                 break;
-            case Permissions.MY_PERMISSIONS_REQUEST_MODIFY_AUDIO_SETTINGS :
+            case Permissions.MY_PERMISSIONS_REQUEST_MODIFY_AUDIO_SETTINGS:
                 break;
-            case Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE :
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("*/*");
-                    Intent i = Intent.createChooser(intent, "File");
-                    startActivityForResult(i, REQUEST_IMPORT_SERVERLIST);
+            case Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("*/*");
+                Intent i = Intent.createChooser(intent, "File");
+                startActivityForResult(i, REQUEST_IMPORT_SERVERLIST);
                 break;
-            case Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE :
+            case Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE:
                 exportServers();
                 break;
         }
@@ -666,7 +667,7 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
                 
         TextView tv_version = findViewById(R.id.version_textview);
         TextView tv_dllversion = findViewById(R.id.dllversion_textview);
-        tv_version.setText(getString(R.string.ttversion) + version + AppInfo.APPVERSION_POSTFIX);
+        tv_version.setText(String.format("%s%s%s Build %d", getString(R.string.ttversion), version, AppInfo.APPVERSION_POSTFIX, BuildConfig.VERSION_CODE));
         tv_dllversion.setText(getString(R.string.ttdllversion) + TeamTalkBase.getVersion());
 
         new VersionCheckAsyncTask().execute();

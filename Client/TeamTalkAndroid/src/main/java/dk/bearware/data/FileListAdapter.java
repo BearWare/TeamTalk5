@@ -85,8 +85,8 @@ implements ClientListener, Comparator<RemoteFile> {
     private TeamTalkService ttService;
     private TeamTalkBase ttClient;
     private Vector<RemoteFile> remoteFiles;
-    private Map<String, FileTransfer> downloads;
-    private SparseArray<Notification.Builder> uploads;
+    private final Map<String, FileTransfer> downloads;
+    private final SparseArray<Notification.Builder> uploads;
     private volatile int chanId;
     private volatile boolean needRefresh;
 
@@ -442,7 +442,7 @@ implements ClientListener, Comparator<RemoteFile> {
                     cancellationIntent.putExtra(TeamTalkService.CANCEL_TRANSFER, id);
                     progressNotification.setSmallIcon(android.R.drawable.stat_sys_upload)
                         .setContentTitle(context.getString(R.string.upload_progress_title, transfer.szRemoteFileName))
-                        .setContentIntent(PendingIntent.getService(context, id, cancellationIntent, 0))
+                        .setContentIntent(PendingIntent.getService(context, id, cancellationIntent, PendingIntent.FLAG_IMMUTABLE))
                         .setAutoCancel(true)
                         .setShowWhen(false);
                     uploads.put(id, progressNotification);
@@ -454,7 +454,7 @@ implements ClientListener, Comparator<RemoteFile> {
                     progressNotification.setSmallIcon(android.R.drawable.stat_sys_upload_done)
                         .setContentText(context.getString(R.string.complete))
                         .setProgress(0, 0, false)
-                        .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(), 0));
+                        .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(), PendingIntent.FLAG_IMMUTABLE));
                     notificationManager.notify(PROGRESS_NOTIFICATION_TAG, transfer.nTransferID, progressNotification.build());
                     uploads.remove(transfer.nTransferID);
                     Toast.makeText(context,

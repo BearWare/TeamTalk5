@@ -30,6 +30,20 @@ public abstract class TeamTalkBase implements AutoCloseable
 {
     private long ttInst = 0;
 
+    @SuppressWarnings({"deprecation","removal"})
+    @Override
+    protected void finalize( ) throws Throwable {
+        closeTeamTalk(ttInst);
+        ttInst = 0;
+        super.finalize();
+    }
+
+    @Override
+    public void close() throws Exception {
+        closeTeamTalk(ttInst);
+        ttInst = 0;
+    }
+
     public static native String getVersion();
 
     private native long initTeamTalkPoll();
@@ -37,11 +51,6 @@ public abstract class TeamTalkBase implements AutoCloseable
     protected TeamTalkBase(boolean create_instance) {
         if(create_instance)
             ttInst = initTeamTalkPoll();
-    }
-
-    protected void finalize( ) throws Throwable {
-        closeTeamTalk(ttInst);
-        ttInst = 0;
     }
 
     private native boolean closeTeamTalk(long lpTTInstance);
@@ -905,10 +914,4 @@ public abstract class TeamTalkBase implements AutoCloseable
     }
     public static native boolean DBG_WriteAudioFileTone(MediaFileInfo lpMediaFileInfo,
                                                         int nFrequency);
-
-    @Override
-    public void close() throws Exception {
-        closeTeamTalk(ttInst);
-        ttInst = 0;
-    }
 }

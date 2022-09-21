@@ -28,8 +28,8 @@
     <string name="text_cmd_leftchan">Canal quitté :</string>
     <string name="text_cmd_joinroot">Canal principal rejoint</string>
     <string name="text_cmd_leftroot">Canal principal quitté</string>
-    <string name="text_cmd_userjoinchan">rejoint le canal</string>
-    <string name="text_cmd_userleftchan">quitte le canal</string>
+    <string name="text_cmd_userjoinchan">a rejoint le canal</string>
+    <string name="text_cmd_userleftchan">a quitté le canal</string>
     <string name="text_cmd_servername">Nom du serveur : </string>
     <string name="text_cmd_servermotd">Message du jour : </string>
     <string name="pref_cat_subscriptions">Abonnements</string>

@@ -704,7 +704,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="194"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Kapat</translation>
+        <translation>&amp;Kapat</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="430"/>
@@ -3322,79 +3322,79 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="2631"/>
         <source>Private messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Özel mesajlar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2636"/>
         <source>Channel messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal mesajları</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2641"/>
         <source>Broadcast messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Yayın mesajları</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
         <source>Voice</source>
-        <translation type="unfinished">Ses</translation>
+        <translation>Ses</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2651"/>
         <source>Video</source>
-        <translation type="unfinished">Video</translation>
+        <translation>Video</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2661"/>
         <source>Desktop input</source>
-        <translation type="unfinished"></translation>
+        <translation>Masaüstü girişi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2666"/>
         <source>Media files</source>
-        <translation type="unfinished">Medya dosyaları</translation>
+        <translation>Medya dosyaları</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2671"/>
         <source>Intercept private messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Özel mesajları engelle</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2676"/>
         <source>Intercept channel messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal mesajlarını engelle</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2681"/>
         <source>Intercept voice</source>
-        <translation type="unfinished"></translation>
+        <translation>sesi kes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2686"/>
         <source>Intercept video capture</source>
-        <translation type="unfinished"></translation>
+        <translation>Video yakalamayı durdur</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2691"/>
         <source>Intercept desktop</source>
-        <translation type="unfinished"></translation>
+        <translation>Masaüstünü engelle</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2696"/>
         <source>Intercept media files</source>
-        <translation type="unfinished"></translation>
+        <translation>Medya dosyalarını engelle</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2720"/>
         <location filename="../mainwindow.cpp" line="2721"/>
         <source>Subscription &quot;%1&quot; enabled for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%2 için &quot;%1&quot; aboneliği etkinleştirildi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>
         <location filename="../mainwindow.cpp" line="2731"/>
         <source>Subscription &quot;%1&quot; disabled for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; aboneliği %2 için devre dışı bırakıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2863"/>
@@ -3620,98 +3620,98 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="6267"/>
         <source>%1 can no longer transmit</source>
-        <comment>%1 can no longer transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <comment>%1 artık ses iletemez</comment>
+        <translation>%1 artık iletemez</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6268"/>
         <source>%1 can now transmit</source>
-        <comment>%1 can now transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <comment>%1 artık ses iletebilir</comment>
+        <translation>%1 şimdi iletebilir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6271"/>
         <source>Everyone can no longer transmit</source>
-        <comment>Everyone can no longer transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <comment>Artık kimse ses iletemez</comment>
+        <translation>Artık kimse iletemez</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6272"/>
         <source>Everyone can now transmit</source>
-        <comment>Everyone can now transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <comment>Artık herkes ses iletebilir</comment>
+        <translation>Artık herkes iletebilir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6276"/>
         <source>You can no longer transmit</source>
-        <comment>You can no longer transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <comment>Artık ses iletemezsiniz</comment>
+        <translation>Artık iletemezsiniz</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6277"/>
         <source>You can now transmit</source>
-        <comment>You can now transmit voice</comment>
-        <translation type="unfinished"></translation>
+        <comment>Artık ses iletebilirsiniz</comment>
+        <translation>şimdi iletebilirsiniz</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6287"/>
         <source>%1 channel messages</source>
-        <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <comment>şimdi ... iletebilir</comment>
+        <translation>%1 kanal mesajları</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6289"/>
         <source>%1 channel messages</source>
-        <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <comment>artık ... iletemez</comment>
+        <translation>%1 kanal mesajları</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6298"/>
         <source>%1 voice</source>
-        <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <comment>şimdi ... iletebilir</comment>
+        <translation>%1 ses</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6300"/>
         <source>%1 voice</source>
-        <comment>can no longer transmit...</comment>
-        <translation type="unfinished"></translation>
+        <comment>artık ... iletemez</comment>
+        <translation>%1 ses</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6309"/>
         <source>%1 video</source>
-        <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <comment>şimdi ... iletebilir</comment>
+        <translation>%1 video</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6311"/>
         <source>%1 video</source>
-        <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <comment>artık ... iletemez</comment>
+        <translation>%1 video</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6320"/>
         <source>%1 desktop windows</source>
-        <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <comment>şimdi ... iletebilir</comment>
+        <translation>%1 masaüstü penceresi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6322"/>
-        <source>%1 desktop windows</source>
-        <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <source>%1 masaüstü penceresi</source>
+        <comment>artık ... iletemez</comment>
+        <translation>%1 masaüstü penceresi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6331"/>
         <source>%1 media files</source>
-        <comment>can now transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <comment>şimdi ... iletebilir</comment>
+        <translation>%1 medya dosyaları</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6333"/>
         <source>%1 media files</source>
-        <comment>can no longer transmit ...</comment>
-        <translation type="unfinished"></translation>
+        <comment>artık ... iletemez</comment>
+        <translation>%1 medya dosyaları</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4509"/>
@@ -6000,7 +6000,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../serverproperties.ui" line="491"/>
         <source>Server events logged</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu olayları günlüğe kaydedildi</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="501"/>
@@ -6976,12 +6976,12 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../useraccounts.ui" line="71"/>
         <source>User accounts</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı hesapları</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="234"/>
         <source>User Actions Allowed on Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucuda İzin Verilen Kullanıcı Eylemleri</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="368"/>
@@ -7419,122 +7419,122 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../useraccountsmodel.cpp" line="211"/>
         <source>User can log in multiple times</source>
-        <translation type="unfinished">Kullanıcı birden çok oturum açabilir</translation>
+        <translation>Kullanıcı birden çok kez giriş yapabilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="213"/>
         <source>User can see users in all channels</source>
-        <translation type="unfinished">Kullanıcı tüm kanallardaki kullanıcıları görebilir</translation>
+        <translation>Kullanıcı tüm kanallardaki kullanıcıları görebilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="215"/>
         <source>User can see hidden channels</source>
-        <translation type="unfinished">Kullanıcı gizli kanalları görebilir</translation>
+        <translation>Kullanıcı gizli kanalları görebilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="217"/>
         <source>User can create/modify all channels</source>
-        <translation type="unfinished">Kullanıcı kanal oluşturabilir/tüm kanalları değiştirebilir</translation>
+        <translation>Kullanıcı tüm kanalları oluşturabilir/değiştirebilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="219"/>
         <source>User can create temporary channels</source>
-        <translation type="unfinished">Kullanıcı geçici kanallar oluşturabilir</translation>
+        <translation>Kullanıcı geçici kanallar oluşturabilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="221"/>
         <source>User can broadcast text messages</source>
-        <translation type="unfinished">Kullanıcı ileti yayınlayabilir</translation>
+        <translation>Kullanıcı metin iletileri yayınlayabilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="223"/>
         <source>User can kick users off the server</source>
-        <translation type="unfinished">Kullanıcı kullanıcıları sunucudan uzaklaştırabilir</translation>
+        <translation>Kullanıcı sunucudan kullanıcıları atabilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="225"/>
         <source>User can ban users from server</source>
-        <translation type="unfinished">Kullanıcı kullanıcıları sunucudan yasaklayabilir</translation>
+        <translation>Kullanıcı sunucudan kullanıcıları yasaklayabilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="227"/>
         <source>User can move users between channels</source>
-        <translation type="unfinished">Kullanıcı kullanıcıları kanallar arasında taşıyabilir</translation>
+        <translation>Kullanıcı kanallar arasında kullanıcıları taşıyabilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="229"/>
         <source>User can make other users channel operator</source>
-        <translation type="unfinished">Kullanıcı diğer kullanıcıları kanal yöneticisi yapabilir</translation>
+        <translation>Kullanıcı diğer kullanıcıları kanal yöneticisi yapabilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="231"/>
         <source>User can upload files</source>
-        <translation type="unfinished">Kullanıcı dosyalar yükleyebilir</translation>
+        <translation>Kullanıcı dosya yükleyebilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="233"/>
         <source>User can download files</source>
-        <translation type="unfinished">Kullanıcı dosyaları indirebilir</translation>
+        <translation>Kullanıcı dosya indirebilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="235"/>
         <source>User can record voice in all channels</source>
-        <translation type="unfinished">Kullanıcı tüm kanallarda ses kaydedebilir</translation>
+        <translation>Kullanıcı tüm kanallarda ses kaydedebilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="237"/>
         <source>User can update server properties</source>
-        <translation type="unfinished">Kullanıcı sunucu özelliklerini güncelleyebilir</translation>
+        <translation>Kullanıcı sunucu özelliklerini güncelleyebilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="239"/>
         <source>User can transmit voice data (microphone)</source>
-        <translation type="unfinished">Kullanıcı ses verileri iletebilir (mikrofon)</translation>
+        <translation>Kullanıcı ses verileri (mikrofon) iletebilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="241"/>
         <source>User can transmit video data (webcam)</source>
-        <translation type="unfinished">Kullanıcı video verileri iletebilir (web kamerası)</translation>
+        <translation>Kullanıcı video verileri (web kamerası) iletebilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="243"/>
         <source>User can transmit desktop sessions (shared desktop)</source>
-        <translation type="unfinished">Kullanıcı masaüstü oturumları iletebilir (paylaşılan masaüstü)</translation>
+        <translation>Kullanıcı masaüstü oturumları (paylaşılan masaüstü) iletebilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="245"/>
         <source>User can get remote access to desktop sessions</source>
-        <translation type="unfinished">Kullanıcı masaüstü oturumlarında uzaktan erişim alabilir</translation>
+        <translation>Kullanıcı masaüstü oturumlarına uzaktan erişim sağlayabilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="247"/>
         <source>User can transmit audio files (wav, mp3 files)</source>
-        <translation type="unfinished">Kullanıcı ses dosyaları iletebilir (wav, mp3 dosyaları)</translation>
+        <translation>Kullanıcı ses (wav, mp3) dosyaları iletebilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="249"/>
         <source>User can transmit video files (avi, mp4 files)</source>
-        <translation type="unfinished">Kullanıcı video dosyaları iletebilir (avi, mp4 dosyaları)</translation>
+        <translation>Kullanıcı video (avi, mp4) dosyaları iletebilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="255"/>
         <source>User can change nickname</source>
-        <translation type="unfinished">Kullanıcı rumuz değiştirebilir</translation>
+        <translation>Kullanıcı rumuz değiştirebilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="257"/>
         <source>User can change status mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı durum modunu değiştirebilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="263"/>
         <source>Enabled</source>
-        <translation type="unfinished">Etkin</translation>
+        <translation>Etkin</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="263"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>devre dışı</translation>
     </message>
 </context>
 <context>
