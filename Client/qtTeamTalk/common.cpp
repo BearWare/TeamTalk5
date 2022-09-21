@@ -301,7 +301,7 @@ bool isComputerIdle(int idle_secs)
 {
     int64_t os_idle_secs = 0;
     io_iterator_t iter = 0;
-    if (IOServiceGetMatchingServices(kIOMainPortDefault,
+    if (IOServiceGetMatchingServices(kIOMasterPortDefault,
                                      IOServiceMatching("IOHIDSystem"), 
                                      &iter) == KERN_SUCCESS)
     {
