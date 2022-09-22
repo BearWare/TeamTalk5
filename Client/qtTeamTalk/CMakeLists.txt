@@ -319,27 +319,38 @@ if (Qt5_FOUND OR Qt6_FOUND)
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
             DEPENDS tt5srv QtTeamTalk5ClientProduct)
 
-          # Build TeamTalk 5 installer for Apple AppStore, i.e. without server application
-          add_custom_target(QtTeamTalk5Product ALL
-            # Run code sign
-            COMMAND codesign --deep -f --sign "Apple Distribution: Bjoern Rasmussen" --entitlements ${CMAKE_CURRENT_SOURCE_DIR}/Entitlements.plist ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app
-            # Run productbuild
-            COMMAND productbuild --component ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app /Applications --sign "3rd Party Mac Developer Installer: Bjoern Rasmussen" ${TEAMTALK_TARGET}_AppStore_Setup.pkg
-            COMMAND productsign --sign "3rd Party Mac Developer Installer: Bjoern Rasmussen" ${TEAMTALK_TARGET}_AppStore_Setup.pkg ${TEAMTALK_TARGET}_AppStore_Setup_Signed.pkg
-            COMMENT "Building TeamTalk 5 Installer for AppStore"
-            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-            DEPENDS QtTeamTalk5ClientProduct)
+          option (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE_PRODUCT_CODESIGN "Sign Qt TeamTalk 5 Install Package" OFF)
 
-          # Build TeamTalk 5 install for macOS with server application
-          add_custom_target(QtTeamTalk5WithServerProduct ALL
-            # Run code sign
-            COMMAND codesign --deep -f --sign "Apple Distribution: Bjoern Rasmussen" ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app
-            # Run productbuild
-            COMMAND productbuild --component ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app /Applications --sign "3rd Party Mac Developer Installer: Bjoern Rasmussen" ${TEAMTALK_TARGET}_Setup.pkg
-            COMMAND productsign --sign "3rd Party Mac Developer Installer: Bjoern Rasmussen" ${TEAMTALK_TARGET}_Setup.pkg ${TEAMTALK_TARGET}_Setup_Signed.pkg
-            COMMENT "Building TeamTalk 5 Installer for macOS with server"
-            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-            DEPENDS QtTeamTalk5Product QtTeamTalk5ServerProduct)
+          if (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE_PRODUCT_CODESIGN)
+
+            # Build TeamTalk 5 installer for Apple AppStore, i.e. without server application
+            add_custom_target(QtTeamTalk5Product ALL
+              # Run code sign
+              COMMAND codesign --deep -f --sign "Apple Distribution: Bjoern Rasmussen" --entitlements ${CMAKE_CURRENT_SOURCE_DIR}/Entitlements.plist ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app
+              # Run productbuild
+              COMMAND productbuild --component ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app /Applications --sign "3rd Party Mac Developer Installer: Bjoern Rasmussen" ${TEAMTALK_TARGET}_AppStore_Setup.pkg
+              COMMAND productsign --sign "3rd Party Mac Developer Installer: Bjoern Rasmussen" ${TEAMTALK_TARGET}_AppStore_Setup.pkg ${TEAMTALK_TARGET}_AppStore_Setup_Signed.pkg
+              COMMENT "Building TeamTalk 5 Installer for AppStore"
+              WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+              BYPRODUCTS ${TEAMTALK_TARGET}_AppStore_Setup_Signed.pkg
+              DEPENDS QtTeamTalk5ClientProduct)
+
+            install (FILES ${TEAMTALK_TARGET}_AppStore_Setup_Signed.pkg DESTINATION Client/qtTeamTalk)
+
+            # Build TeamTalk 5 install for macOS with server application
+            add_custom_target(QtTeamTalk5WithServerProduct ALL
+              # Run code sign
+              COMMAND codesign --deep -f --sign "Apple Distribution: Bjoern Rasmussen" ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app
+              # Run productbuild
+              COMMAND productbuild --component ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app /Applications --sign "3rd Party Mac Developer Installer: Bjoern Rasmussen" ${TEAMTALK_TARGET}_Setup.pkg
+              COMMAND productsign --sign "3rd Party Mac Developer Installer: Bjoern Rasmussen" ${TEAMTALK_TARGET}_Setup.pkg ${TEAMTALK_TARGET}_Setup_Signed.pkg
+              COMMENT "Building TeamTalk 5 Installer for macOS with server"
+              WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+              BYPRODUCTS ${TEAMTALK_TARGET}_Setup_Signed.pkg
+              DEPENDS QtTeamTalk5Product QtTeamTalk5ServerProduct)
+
+            install (FILES ${TEAMTALK_TARGET}_Setup_Signed.pkg DESTINATION Client/qtTeamTalk)
+          endif()
 
         endif()
 
