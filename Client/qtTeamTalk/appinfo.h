@@ -40,13 +40,8 @@
 #define APPTRAYICON_ACTIVE  QString::fromUtf8(":/images/images/teamtalkg.png")
 #define APPWEBSITE          "http://www.bearware.dk"
 
-#ifdef ENABLE_TEAMTALKPRO
-#define APPTITLE            "TeamTalk Professional v. " APPVERSION
-#define APPNAME_SHORT       "TeamTalk5Pro"
-#else
 #define APPTITLE            "TeamTalk v. " APPVERSION
 #define APPNAME_SHORT       "TeamTalk5"
-#endif
 
 #define APPINIFILE          (QApplication::applicationName() + ".ini")
 
