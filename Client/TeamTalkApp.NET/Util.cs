@@ -67,13 +67,8 @@ namespace TeamTalkApp.NET
             codec.webm_vp8.nEncodeDeadline = WebMVP8CodecConstants.WEBM_VPX_DL_REALTIME;
 
             server.ipaddr = "localhost";
-#if ENABLE_TEAMTALKPRO
-            server.tcpport = TeamTalk5Pro.DEFAULT_TCPPORT;
-            server.udpport = TeamTalk5Pro.DEFAULT_UDPPORT;
-#else
             server.tcpport = TeamTalk5.DEFAULT_TCPPORT;
             server.udpport = TeamTalk5.DEFAULT_UDPPORT;
-#endif
             server.username = "guest";
             server.password = "guest";
 

@@ -3134,11 +3134,7 @@ namespace TeamTalkTest.NET
 
         TeamTalkBase NewClientInstance()
         {
-#if ENABLE_TEAMTALKPRO
-            TeamTalkBase ttclient = new TeamTalk5Pro(true);
-#else
             TeamTalkBase ttclient = new TeamTalk5(true);
-#endif
             ttclients.Add(ttclient);
             return ttclient;
         }

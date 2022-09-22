@@ -15,14 +15,4 @@ if (MSVC)
     set_property(TARGET TeamTalk5Test.NET PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../../Library/TeamTalk_DLL")
     target_link_libraries (TeamTalk5Test.NET TeamTalk5.NET)
   endif()
-
-  if (BUILD_TEAMTALK_PRODOTNET_UNITTEST)
-    add_library (TeamTalk5ProTest.NET SHARED TeamTalkTest.cs Properties/AssemblyInfo.cs)
-    target_compile_options (TeamTalk5ProTest.NET PUBLIC "/define:ENABLE_TEAMTALKPRO")
-    set_property (TARGET TeamTalk5ProTest.NET PROPERTY VS_DOTNET_REFERENCES
-      "Microsoft.VisualStudio.QualityTools.UnitTestFramework"
-      "System" "System.Core" "System.Drawing")
-      set_property(TARGET TeamTalk5ProTest.NET PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../../Library/TeamTalk_DLL")
-    target_link_libraries (TeamTalk5ProTest.NET TeamTalk5Pro.NET)
-  endif()
 endif()
