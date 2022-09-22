@@ -293,7 +293,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
             COMMENT "Running macdeployqt on ${TEAMTALK_TARGET}.app")
 
           # Prepare deployed TeamTalk5.app folder with client resources, i.e. language files, sounds, etc.
-          add_custom_target(QtTeamTalk5ClientProduct
+          add_custom_target(QtTeamTalk5ClientProduct ALL
             # Copy language files
             COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Resources/Languages
             COMMAND ${CMAKE_COMMAND} -E copy ${QM_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Resources/Languages
@@ -311,7 +311,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
             DEPENDS QtTeamTalk5-Translations ${TEAMTALK_TARGET} TeamTalk-dox)
 
           # Copies TeamTalk server to TeamTalk5.app folder, i.e. TeamTalk5.app/Contents/Server
-          add_custom_target(QtTeamTalk5ServerProduct
+          add_custom_target(QtTeamTalk5ServerProduct ALL
             # Copy server
             COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Server
             COMMAND ${CMAKE_COMMAND} -E copy ${TEAMTALK_ROOT}/Server/tt5srv ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Server
