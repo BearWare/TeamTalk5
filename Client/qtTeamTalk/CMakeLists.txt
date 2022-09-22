@@ -152,13 +152,10 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     set (TEAMTALK_TARGET TeamTalk5)
-    set (TEAMTALKPRO_TARGET TeamTalk5Pro)
   elseif (MSVC)
     set (TEAMTALK_TARGET TeamTalk5)
-    set (TEAMTALKPRO_TARGET TeamTalk5Pro)
   else()
     set (TEAMTALK_TARGET teamtalk5)
-    set (TEAMTALKPRO_TARGET teamtalk5pro)
   endif()
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -172,8 +169,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     set_source_files_properties (${TEAMTALK_ICON_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
   endif()
 
-  option (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE "Build Qt Client for TeamTalk 5 Standard Edition" ON)
-  option (BUILD_TEAMTALK_PROCLIENT_QT_EXAMPLE "Build Qt Client for TeamTalk 5 Professional Edition" ON)
+  option (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE "Build Qt TeamTalk client example" ON)
 
   if (BUILD_TEAMTALK_CLIENT_TOLK)
     list (APPEND TEAMTALK_LINK_FLAGS Tolk)
@@ -359,46 +355,6 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
     install (TARGETS ${TEAMTALK_TARGET} DESTINATION Client/qtTeamTalk)
 
-  endif()
-
-  if (BUILD_TEAMTALK_PROCLIENT_QT_EXAMPLE)
-
-    if (MSVC)
-      add_executable (${TEAMTALKPRO_TARGET} WIN32 ${QTTEAMTALK_SOURCES})
-    elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-      add_executable (${TEAMTALKPRO_TARGET} MACOSX_BUNDLE ${QTTEAMTALK_SOURCES})
-    else()
-      add_executable (${TEAMTALKPRO_TARGET} ${QTTEAMTALK_SOURCES})
-    endif()
-
-    if (BUILD_TEAMTALK_PRODLL)
-      target_include_directories (${TEAMTALKPRO_TARGET} PUBLIC ./)
-      target_link_libraries (${TEAMTALKPRO_TARGET} ${TEAMTALK_LINK_FLAGS} TeamTalk5ProDLL)
-    else()
-      target_include_directories (${TEAMTALKPRO_TARGET} PUBLIC ../../Library/TeamTalk_DLL ./)
-      find_library(TEAMTALK5PRO_LIBRARY TeamTalk5Pro PATHS ../../Library/TeamTalk_DLL)
-      if (NOT TEAMTALK5PRO_LIBRARY)
-        message(WARNING "Cannot find TeamTalk5Pro shared library in ../../Library/TeamTalk_DLL")
-      else()
-        target_link_libraries (${TEAMTALKPRO_TARGET} ${TEAMTALK_LINK_FLAGS} ${TEAMTALK5PRO_LIBRARY})
-      endif()
-    endif()
-
-    if (BUILD_TEAMTALK_CLIENT_TOLK)
-      target_compile_options(${TEAMTALKPRO_TARGET} PUBLIC -DUNICODE -D_UNICODE -DENABLE_TOLK -D_CRT_SECURE_NO_WARNINGS -DENABLE_TEAMTALKPRO)
-    elseif (MSVC)
-      target_compile_options(${TEAMTALKPRO_TARGET} PUBLIC -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS -DENABLE_TEAMTALKPRO)
-    else()
-      target_compile_options(${TEAMTALKPRO_TARGET} PUBLIC -DENABLE_TEAMTALKPRO)
-    endif()
-
-    add_dependencies(${TEAMTALKPRO_TARGET} QtTeamTalk5-Translations)
-
-    set_property(TARGET ${TEAMTALKPRO_TARGET} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../Library/TeamTalk_DLL)
-
-    set_output_dir(${TEAMTALKPRO_TARGET} "${CMAKE_CURRENT_SOURCE_DIR}/")
-
-    install (TARGETS ${TEAMTALKPRO_TARGET} DESTINATION Client/qtTeamTalk)
   endif()
 
 endif()

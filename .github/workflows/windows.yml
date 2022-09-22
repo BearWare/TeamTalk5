@@ -166,7 +166,7 @@ jobs:
       run: |
         cd output\Library\TeamTalk.NET\TeamTalkTest.NET\Release
         xcopy /S /Y /E ${{runner.workspace}}\TeamTalk5\Library\TeamTalkLib\test\testdata testdata\
-        VSTest.Console.exe /Platform:${{ matrix.dotnetarch }} TeamTalk5ProTest.NET.dll
+        VSTest.Console.exe /Platform:${{ matrix.dotnetarch }} TeamTalk5Test.NET.dll
 
     - name: Stop TeamTalk Professional Service
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
