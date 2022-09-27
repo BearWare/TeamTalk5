@@ -83,11 +83,8 @@ namespace TeamTalkApp.NET
 
             /* we pass 'false' to poll_events since we don't want to 
              * manually process events using ttclient.GetMessage */
-#if ENABLE_TEAMTALKPRO
-            ttclient = new TeamTalk5Pro(false);
-#else
             ttclient = new TeamTalk5(false);
-#endif
+
             channels = new ChannelsView(ttclient, treeView1);
             users = new UsersView(ttclient, listView1);
             files = new FilesView(ttclient, filesListView);

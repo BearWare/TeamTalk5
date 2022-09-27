@@ -89,8 +89,7 @@ set (APP_SOURCES
 
 
 if (MSVC)
-  option (BUILD_TEAMTALK_CLIENT_DOTNET_EXAMPLE "Build TeamTalkApp.NET for TeamTalk 5 Standard Edition" ON)
-  option (BUILD_TEAMTALK_PROCLIENT_DOTNET_EXAMPLE "Build TeamTalkProApp.NET for TeamTalk 5 Professional Edition" ON)
+  option (BUILD_TEAMTALK_CLIENT_DOTNET_EXAMPLE "Build TeamTalkApp.NET C# client example" ON)
 
   csharp_set_windows_forms_properties (${APP_FORMS_SOURCES} ${APP_DESIGNER_SOURCES})
   
@@ -101,15 +100,5 @@ if (MSVC)
     set_property(TARGET TeamTalk5App.NET PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Library/TeamTalk_DLL")
     target_link_libraries (TeamTalk5App.NET TeamTalk5.NET)
     install (TARGETS TeamTalk5App.NET DESTINATION Client/TeamTalkApp.NET)
-  endif()
-
-  if (BUILD_TEAMTALK_PROCLIENT_DOTNET_EXAMPLE)
-    add_executable (TeamTalk5ProApp.NET WIN32 ${APP_SOURCES})
-    set_property (TARGET TeamTalk5ProApp.NET PROPERTY VS_DOTNET_REFERENCES
-      "System" "System.Data" "System.Deployment" "System.Drawing" "System.Windows.Forms" "System.Xml")
-    set_property(TARGET TeamTalk5ProApp.NET PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Library/TeamTalk_DLL")
-    target_compile_options (TeamTalk5ProApp.NET PUBLIC "/define:ENABLE_TEAMTALKPRO")
-    target_link_libraries (TeamTalk5ProApp.NET TeamTalk5Pro.NET)
-    install (TARGETS TeamTalk5ProApp.NET DESTINATION Client/TeamTalkApp.NET)
   endif()
 endif()
