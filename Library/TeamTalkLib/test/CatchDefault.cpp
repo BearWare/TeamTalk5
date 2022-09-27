@@ -4348,3 +4348,32 @@ TEST_CASE( "TextMessageStrLength" )
     str = str.substr(0, orgsize);
     REQUIRE(ACE_TString(msg.user.szNickname) == str);
 }
+
+TEST_CASE( "TimeZoneConversion" )
+{
+    ACE_Time_Value now = ACE_OS::gettimeofday();
+    ACE_TString command = ACE_TEXT("foo ");
+    teamtalk::AppendProperty(ACE_TEXT("tm"), now, command);
+
+    teamtalk::mstrings_t properties;
+    REQUIRE(teamtalk::ExtractProperties(command, properties) == 1);
+
+    ACE_Time_Value tm;
+    REQUIRE(teamtalk::GetProperty(properties, ACE_TEXT("tm"), tm));
+    REQUIRE(now.sec() == tm.sec());
+
+    time_t t_old = tm.sec();
+    struct tm* tm_old = std::localtime(&t_old);
+
+    struct tm tm_now = {};
+    tm_now.tm_isdst = 1;
+    tm_now.tm_year = tm_old->tm_year;
+    tm_now.tm_mon = tm_old->tm_mon;
+    tm_now.tm_mday = tm_old->tm_mday;
+    tm_now.tm_hour = tm_old->tm_hour;
+    tm_now.tm_min = tm_old->tm_min;
+    tm_now.tm_sec = tm_old->tm_sec;
+
+    time_t t_now = std::mktime(&tm_now);
+    REQUIRE(t_now == t_old);
+}
