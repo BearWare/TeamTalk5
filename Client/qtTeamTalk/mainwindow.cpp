@@ -6258,7 +6258,7 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
 
 void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& newchan)
 {
-    if (new.nChannelID == TT_GetMyChannelID(ttInst))
+    if (newchan.nChannelID == TT_GetMyChannelID(ttInst))
     {
         auto userids = ui.channelsWidget->getUsersInChannel(newchan.nChannelID);
         userids.push_back(TT_CLASSROOM_FREEFORALL);
