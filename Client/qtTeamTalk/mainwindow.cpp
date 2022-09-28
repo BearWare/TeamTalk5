@@ -1986,11 +1986,14 @@ void MainWindow::Disconnect()
 
     m_srvprop = {};
     m_mychannel = {};
+    m_myuseraccount = {};
     relayAudioStream(0, STREAMTYPE_NONE, false);
 
     m_useraccounts.clear();
     m_bannedusers.clear();
     m_textmessages.clear();
+    m_commands.clear();
+    m_talking.clear();
 
     if(m_sysicon)
         m_sysicon->setIcon(QIcon(APPTRAYICON));
@@ -4046,9 +4049,12 @@ void MainWindow::slotClientConnect(bool /*checked =false */)
 
     //reset last channel, since we're starting a new connection
     m_last_channel = {};
+    m_channel_passwd.clear();
 
     if(TT_GetFlags(ttInst) & CLIENT_CONNECTION)
+    {
         Disconnect();
+    }
     else
     {
         ServerListDlg dlg(this);
