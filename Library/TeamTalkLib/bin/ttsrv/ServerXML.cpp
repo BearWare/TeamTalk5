@@ -232,7 +232,7 @@ namespace teamtalk{
                 parent->RemoveChild(child);
             }
             
-            for (auto ip : ips)
+            for (const auto& ip : ips)
             {
                 TiXmlElement bind("bind-ip");
                 PutElementText(bind, ip);

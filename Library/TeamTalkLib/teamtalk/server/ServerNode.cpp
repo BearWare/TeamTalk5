@@ -1784,7 +1784,7 @@ ServerChannel::users_t ServerNode::GetPacketDestinations(const ServerUser& user,
 
     if (dest_userid) //the packet is only for certain users
     {
-        for (auto u : channel.GetUsers())
+        for (const auto &u : channel.GetUsers())
         {
             if (u->GetUserID() == dest_userid &&
                 (u->GetSubscriptions(user) & subscrip_check) &&
@@ -1827,7 +1827,7 @@ ServerChannel::users_t ServerNode::GetPacketDestinations(const ServerUser& user,
         else
         {
             //forward to all users in same channel
-            for (auto u : channel.GetUsers())
+            for (const auto &u : channel.GetUsers())
             {
                 if ((u->GetSubscriptions(user) & subscrip_check) &&
                     u->GetPacketProtocol() >= pp_min)
@@ -1838,7 +1838,7 @@ ServerChannel::users_t ServerNode::GetPacketDestinations(const ServerUser& user,
         }
 
         //admins can also subscribe outside their channels
-        for (auto au : GetAdministrators())
+        for (const auto &au : GetAdministrators())
         {
             if ((au->GetSubscriptions(user) & intercept_check) &&
                 !channel.UserExists(au->GetUserID()) &&
@@ -2638,7 +2638,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
     //check for double login
     if((useraccount.userrights & USERRIGHT_MULTI_LOGIN) == 0)
     {
-        for (auto u : GetAuthorizedUsers())
+        for (const auto &u : GetAuthorizedUsers())
         {
             TTASSERT(u != user);
             if (u->GetUsername() == username)
@@ -2651,7 +2651,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
        (useraccount.usertype & USERTYPE_ADMIN) == 0)
     {
         int logins = 1; //include self
-        for (auto u : GetAuthorizedUsers())
+        for (const auto &u : GetAuthorizedUsers())
         {
             if (u->GetIpAddress() == user->GetIpAddress())
                 logins++;
@@ -2691,7 +2691,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
     //forward users if USERRIGHT_VIEW_ALL_USERS enabled
     if(user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS)
     {
-        for (auto u : GetAuthorizedUsers())
+        for (const auto &u : GetAuthorizedUsers())
             user->DoLoggedIn(*u);
 
         user->ForwardUsers(GetRootChannel(), true);
@@ -2957,7 +2957,7 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
     if ((user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE ||
         ((newchan->GetChannelType() & CHANNEL_HIDDEN) && (user->GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE))
     {
-        for (auto cu : newchan->GetUsers())
+        for (const auto &cu : newchan->GetUsers())
         {
             if (cu != user)
                 user->DoAddUser(*cu, *newchan);
@@ -2975,7 +2975,7 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
         user->ForwardFiles(newchan, false);
 
     //start active desktop transmissions
-    for (auto cu : newchan->GetUsers())
+    for (const auto &cu : newchan->GetUsers())
     {
         if (cu->GetDesktopSession() && 
            (user->GetSubscriptions(*cu) & SUBSCRIBE_DESKTOP))
@@ -3038,7 +3038,7 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
         u->DoRemoveUser(*user, *chan);
 
     //close active desktop transmissions
-    for (auto u : chan->GetUsers())
+    for (const auto &u : chan->GetUsers())
     {
         StopDesktopTransmitter(*u, *user, false);
         StopDesktopTransmitter(*user, *u, false);
@@ -3047,7 +3047,7 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
     // remove users in channel so they are not visible to user after exiting
     if ((user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
     {
-        for (auto u : chan->GetUsers())
+        for (const auto &u : chan->GetUsers())
         {
             if(user->GetUserID() != u->GetUserID())
                 user->DoRemoveUser(*u, *chan);
@@ -3722,7 +3722,7 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
                 if (!src_user || !src_user->GetDesktopSession())
                     continue;
                 //TODO: this doesn't handle users who're intercepting packets
-                for (auto u : chan->GetUsers())
+                for (const auto &u : chan->GetUsers())
                     StopDesktopTransmitter(*src_user, *u, true);
             }
         }
@@ -3824,7 +3824,7 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
         else
         {
             ServerChannel::users_t users = chan->GetUsers(); //copy because mutates during UserKick()
-            for (auto u : users)
+            for (const auto &u : users)
             {
                 ErrorMsg err = UserKick(0, u->GetUserID(), chan->GetChannelID(), true);
                 TTASSERT(err.success());
