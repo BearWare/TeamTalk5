@@ -4366,7 +4366,7 @@ TEST_CASE( "TimeZoneConversion" )
     struct tm* tm_old = std::localtime(&t_old);
 
     struct tm tm_now = {};
-    tm_now.tm_isdst = 1;
+    tm_now.tm_isdst = -1;
     tm_now.tm_year = tm_old->tm_year;
     tm_now.tm_mon = tm_old->tm_mon;
     tm_now.tm_mday = tm_old->tm_mday;
