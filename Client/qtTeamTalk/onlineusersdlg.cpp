@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -58,6 +58,15 @@ OnlineUsersDlg::OnlineUsersDlg(QWidget* parent/* = 0 */)
 
     m_model->resetUsers();
     updateTitle();
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,3,0)
+    addAction(tr("&View User Information"), QKeySequence(tr("Ctrl+I")), this, [&](){ menuAction(VIEW_USERINFORMATION); });
+    addAction(tr("M&essages"), QKeySequence(tr("Ctrl+E")), this, [&]() { menuAction(SEND_TEXTMESSAGE); });
+    addAction(tr("&Op"), QKeySequence(tr("Ctrl+O")), this, [&]() { menuAction(OP); });
+    addAction(tr("&Kick"), QKeySequence(tr("Ctrl+K")), this, [&]() { menuAction(KICK); });
+    addAction(tr("Kick and &Ban"), QKeySequence(tr("Ctrl+B")), this, [&]() { menuAction(BAN); });
+    addAction(tr("Select User(s) for Move"), QKeySequence(tr("Ctrl+Alt+X")), this, [&]() { menuAction(MOVE); });
+#endif
 }
 
 OnlineUsersDlg::~OnlineUsersDlg()
@@ -111,16 +120,23 @@ void OnlineUsersDlg::slotUserLeft(int /*channelid*/, const User& user)
 void OnlineUsersDlg::slotTreeContextMenu(const QPoint& /*point*/)
 {
     QMenu menu(this);
-    QAction* info = menu.addAction(tr("&View User Information"));
-    QAction* messages = menu.addAction(tr("M&essages"));
-    //QAction* mute = menu.addAction(tr("&Mute"));
-    //QAction* volume = menu.addAction(tr("&Volume"));
-    QAction* op = menu.addAction(tr("&Op"));
-    QAction* kick = menu.addAction(tr("&Kick"));
-    QAction* ban = menu.addAction(tr("Kick and &Ban"));    
-    QAction* move = menu.addAction(tr("Select User(s) for Move"));    
-    QAction* action = menu.exec(QCursor::pos());
+    menu.addAction(tr("&View User Information"), this, [&]() { menuAction(VIEW_USERINFORMATION); },
+                   QKeySequence(tr("Ctrl+I")));
+    menu.addAction(tr("M&essages"), this, [&]() { menuAction(SEND_TEXTMESSAGE); },
+                   QKeySequence(tr("Ctrl+E")));
+    menu.addAction(tr("&Op"), this, [&]() { menuAction(OP); },
+                   QKeySequence(tr("Ctrl+O")));
+    menu.addAction(tr("&Kick"), this, [&]() { menuAction(KICK); },
+                   QKeySequence(tr("Ctrl+K")));
+    menu.addAction(tr("Kick and &Ban"), this, [&]() { menuAction(BAN); },
+                   QKeySequence(tr("Ctrl+B")));
+    menu.addAction(tr("Select User(s) for Move"), this, [&]() { menuAction(MOVE); },
+                   QKeySequence(tr("Ctrl+Alt+X")));
+    menu.exec(QCursor::pos());
+}
 
+void OnlineUsersDlg::menuAction(MenuAction ma)
+{
     QItemSelectionModel* selModel = ui.treeView->selectionModel();
     QModelIndexList indexes = selModel->selectedRows();
     QVector<int> userids, chanids;
@@ -138,25 +154,30 @@ void OnlineUsersDlg::slotTreeContextMenu(const QPoint& /*point*/)
         userids.push_back(user.nUserID);
         chanids.push_back(user.nChannelID);
     }
-    
+
     for(int i=0;i<userids.size();i++)
     {
-        if(action == info)
+        switch (ma)
+        {
+        case VIEW_USERINFORMATION :
             emit(viewUserInformation(userids[i]));
-        else if(action == messages)
+            break;
+        case SEND_TEXTMESSAGE :
             emit(sendUserMessage(userids[i]));
-        //else if(action == mute)
-        //    emit(muteUser(userid, !(user.uUserState & USERSTATE_MUTE)));
-        //else if(action == volume)
-        //    emit(changeUserVolume(userid));
-        else if(action == op)
+            break;
+        case OP :
             emit(opUser(userids[i], chanids[i]));
-        else if(action == kick)
+            break;
+        case KICK :
             emit(kickUser(userids[i], chanids[i]));
-        else if(action == ban)
+            break;
+        case BAN :
             emit(kickbanUser(userids[i], chanids[i]));
-        else if(action == move)
+            break;
+        case MOVE :
             emit(moveUser(userids[i]));
+            break;
+        }
     }
 }
 
