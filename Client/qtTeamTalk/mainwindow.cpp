@@ -6252,8 +6252,8 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
     if(chan.transmitUsersQueue[0] != TT_GetMyUserID(ttInst) &&
         oldchan.transmitUsersQueue[0] == TT_GetMyUserID(ttInst))
         playSoundEvent(SOUNDEVENT_TRANSMITQUEUE_STOP);
-
-    updateClassroomChannel(oldchan, chan);
+    if (chan.nChannelID == TT_GetMyChannelID(ttInst))
+        updateClassroomChannel(oldchan, chan);
 }
 
 void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& newchan)
