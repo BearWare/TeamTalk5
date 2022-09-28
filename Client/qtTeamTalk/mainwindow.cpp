@@ -6258,83 +6258,81 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
 
 void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& newchan)
 {
-    if (new.nChannelID == TT_GetMyChannelID(ttInst))
+    auto userids = ui.channelsWidget->getUsersInChannel(newchan.nChannelID);
+    userids.push_back(TT_CLASSROOM_FREEFORALL);
+    for (auto id : userids)
     {
-        auto userids = ui.channelsWidget->getUsersInChannel(newchan.nChannelID);
-        userids.push_back(TT_CLASSROOM_FREEFORALL);
-        for (auto id : userids)
+        User user = {};
+        ui.channelsWidget->getUser(id, user);
+        QString strNo = tr("%1 can no longer transmit", "%1 can no longer transmit voice").arg(getDisplayName(user));
+        QString strYes = tr("%1 can now transmit", "%1 can now transmit voice").arg(getDisplayName(user));
+        if (id == TT_CLASSROOM_FREEFORALL)
         {
-            User user = {};
-            ui.channelsWidget->getUser(id, user);
-            QString strNo = tr("%1 can no longer transmit", "%1 can no longer transmit voice").arg(getDisplayName(user));
-            QString strYes = tr("%1 can now transmit", "%1 can now transmit voice").arg(getDisplayName(user));
-            if (id == TT_CLASSROOM_FREEFORALL)
-            {
-                strNo = tr("Everyone can no longer transmit", "Everyone can no longer transmit voice");
-                strYes = tr("Everyone can now transmit", "Everyone can now transmit voice");
-            }
-            if (user.nUserID == TT_GetMyUserID(ttInst))
-            {
-                strNo = tr("You can no longer transmit", "You can no longer transmit voice");
-                strYes = tr("You can now transmit", "You can now transmit voice");
-            }
-            QString msg;
-            bool before = false, after = false;
-            before = userCanChanMessage(id, oldchan);
-            after = userCanChanMessage(id, newchan);
-            if (before != after)
-            {
-                if (after)
-                    msg = tr("%1 channel messages", "can now transmit ...").arg(strYes);
-                else
-                    msg = tr("%1 channel messages", "can no longer transmit ...").arg(strNo);
-                addStatusMsg(STATUSBAR_CLASSROOM_CHANMSG_TX, msg);
-                addTextToSpeechMessage(TTS_CLASSROOM_CHANMSG_TX, msg);
-            }
-            before = userCanVoiceTx(id, oldchan);
-            after = userCanVoiceTx(id, newchan);
-            if (before != after)
-            {
-                if (after)
-                    msg = tr("%1 voice", "can now transmit ...").arg(strYes);
-                else
-                    msg = tr("%1 voice", "can no longer transmit...").arg(strNo);
-                addStatusMsg(STATUSBAR_CLASSROOM_VOICE_TX, msg);
-                addTextToSpeechMessage(TTS_CLASSROOM_VOICE_TX, msg);
-            }
-            before = userCanVideoTx(id, oldchan);
-            after = userCanVideoTx(id, newchan);
-            if (before != after)
-            {
-                if (after)
-                    msg = tr("%1 video", "can now transmit ...").arg(strYes);
-                else
-                    msg = tr("%1 video", "can no longer transmit ...").arg(strNo);
-                addStatusMsg(STATUSBAR_CLASSROOM_VIDEO_TX, msg);
-                addTextToSpeechMessage(TTS_CLASSROOM_VIDEO_TX, msg);
-            }
-            before = userCanDesktopTx(id, oldchan);
-            after = userCanDesktopTx(id, newchan);
-            if (before != after)
-            {
-                if (after)
-                    msg = tr("%1 desktop windows", "can now transmit ...").arg(strYes);
-                else
-                    msg = tr("%1 desktop windows", "can no longer transmit ...").arg(strNo);
-                addStatusMsg(STATUSBAR_CLASSROOM_DESKTOP_TX, msg);
-                addTextToSpeechMessage(TTS_CLASSROOM_DESKTOP_TX, msg);
-            }
-            before = userCanMediaFileTx(id, oldchan);
-            after = userCanMediaFileTx(id, newchan);
-            if (before != after)
-            {
-                if (after)
-                    msg = tr("%1 media files", "can now transmit ...").arg(strYes);
-                else
-                    msg = tr("%1 media files", "can no longer transmit ...").arg(strNo);
-                addStatusMsg(STATUSBAR_CLASSROOM_MEDIAFILE_TX, msg);
-                addTextToSpeechMessage(TTS_CLASSROOM_MEDIAFILE_TX, msg);
-            }
+            strNo = tr("Everyone can no longer transmit", "Everyone can no longer transmit voice");
+            strYes = tr("Everyone can now transmit", "Everyone can now transmit voice");
+        }
+        if (user.nUserID == TT_GetMyUserID(ttInst))
+        {
+            strNo = tr("You can no longer transmit", "You can no longer transmit voice");
+            strYes = tr("You can now transmit", "You can now transmit voice");
+        }
+
+        QString msg;
+        bool before = false, after = false;
+        before = userCanChanMessage(id, oldchan);
+        after = userCanChanMessage(id, newchan);
+        if (before != after)
+        {
+            if (after)
+                msg = tr("%1 channel messages", "can now transmit ...").arg(strYes);
+            else
+                msg = tr("%1 channel messages", "can no longer transmit ...").arg(strNo);
+            addStatusMsg(STATUSBAR_CLASSROOM_CHANMSG_TX, msg);
+            addTextToSpeechMessage(TTS_CLASSROOM_CHANMSG_TX, msg);
+        }
+        before = userCanVoiceTx(id, oldchan);
+        after = userCanVoiceTx(id, newchan);
+        if (before != after)
+        {
+            if (after)
+                msg = tr("%1 voice", "can now transmit ...").arg(strYes);
+            else
+                msg = tr("%1 voice", "can no longer transmit...").arg(strNo);
+            addStatusMsg(STATUSBAR_CLASSROOM_VOICE_TX, msg);
+            addTextToSpeechMessage(TTS_CLASSROOM_VOICE_TX, msg);
+        }
+        before = userCanVideoTx(id, oldchan);
+        after = userCanVideoTx(id, newchan);
+        if (before != after)
+        {
+            if (after)
+                msg = tr("%1 video", "can now transmit ...").arg(strYes);
+            else
+                msg = tr("%1 video", "can no longer transmit ...").arg(strNo);
+            addStatusMsg(STATUSBAR_CLASSROOM_VIDEO_TX, msg);
+            addTextToSpeechMessage(TTS_CLASSROOM_VIDEO_TX, msg);
+        }
+        before = userCanDesktopTx(id, oldchan);
+        after = userCanDesktopTx(id, newchan);
+        if (before != after)
+        {
+            if (after)
+                msg = tr("%1 desktop windows", "can now transmit ...").arg(strYes);
+            else
+                msg = tr("%1 desktop windows", "can no longer transmit ...").arg(strNo);
+            addStatusMsg(STATUSBAR_CLASSROOM_DESKTOP_TX, msg);
+            addTextToSpeechMessage(TTS_CLASSROOM_DESKTOP_TX, msg);
+        }
+        before = userCanMediaFileTx(id, oldchan);
+        after = userCanMediaFileTx(id, newchan);
+        if (before != after)
+        {
+            if (after)
+                msg = tr("%1 media files", "can now transmit ...").arg(strYes);
+            else
+                msg = tr("%1 media files", "can no longer transmit ...").arg(strNo);
+            addStatusMsg(STATUSBAR_CLASSROOM_MEDIAFILE_TX, msg);
+            addTextToSpeechMessage(TTS_CLASSROOM_MEDIAFILE_TX, msg);
         }
     }
 }
