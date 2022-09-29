@@ -110,10 +110,10 @@
 
 /* preferences
    user detail */
-"Broadcast Messages" = "Broadcast Messages";
+"Broadcast Messages" = "Pesan Broadcast";
 
 /* preferences */
-"Broadcast Text Message" = "Broadcast Text Message";
+"Broadcast Text Message" = "Pesan teks Broadcast ";
 
 /* Dialog message */
 "Cancel" = "Cancel";
