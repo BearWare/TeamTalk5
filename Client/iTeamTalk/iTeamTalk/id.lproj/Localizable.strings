@@ -1,13 +1,4 @@
 /* log entry */
-<<<<<<< HEAD
-"%@ joined channel" = "%@ bergabung saluran";
-
-/* log entry */
-"%@ left channel" = "%@ meninggalkan saluran";
-
-/* Web Login Controller */
-"%@, your username \"%@\" has been validated" = "%@, nama pengguna Anda \"%@\" telah divalidasi";
-=======
 "%@ joined channel" = "%@ joined channel";
 
 /* log entry */
@@ -15,17 +6,12 @@
 
 /* Web Login Controller */
 "%@, your username \"%@\" has been validated" = "%@, your username \"%@\" has been validated";
->>>>>>> 3105a218ecc15c4e72ebfbe25a2c7827a320c294
 
 /* preferences */
 "%d %% - Default" = "%d %% - Default";
 
 /* codec detail */
-<<<<<<< HEAD
-"(Active)" = "(Aktif)";
-=======
 "(Active)" = "(Active)";
->>>>>>> 3105a218ecc15c4e72ebfbe25a2c7827a320c294
 
 /* codec detail */
 "12 KHz" = "12 KHz";
@@ -49,46 +35,6 @@
 "8 KHz" = "8 KHz";
 
 /* serverlist */
-<<<<<<< HEAD
-"Access preferences" = "Preferensi akses";
-
-/* server entry
-   user detail */
-"Actions" = "Tindakan";
-
-/* channel list */
-"Active" = "Aktif";
-
-/* serverlist */
-"Add new server entry" = "Tambahkan entri server baru";
-
-/* preferences */
-"Announce content of text message" = "Mengumumkan isi pesan teks";
-
-/* preferences */
-"Announce lost server connection" = "Umumkan ketika kehilangan koneksi ke server";
-
-/* preferences */
-"Announce user joining channel" = "Umumkan pengguna bergabung dengan saluran";
-
-/* preferences */
-"Announce user leaving channel" = "Umumkan pengguna meninggalkan saluran";
-
-/* preferences */
-"Announce user logged onto server" = "Umumkan pengguna masuk ke server";
-
-/* preferences */
-"Announce user logged out of server" = "Umumkan pengguna keluar dari server";
-
-/* text to speech */
-"Announcements" = "Pemberitahuan";
-
-/* preferences */
-"App Version" = "Versi Aplikasi";
-
-/* codec detail */
-"Application" = "Aplikasi";
-=======
 "Access preferences" = "Access preferences";
 
 /* server entry
@@ -127,32 +73,17 @@
 
 /* codec detail */
 "Application" = "Application";
->>>>>>> 3105a218ecc15c4e72ebfbe25a2c7827a320c294
 
 /* preferences */
 "Ascending" = "Ascending";
 
 /* codec detail */
-<<<<<<< HEAD
-"Audio Channels" = "Saluran Audio";
-=======
 "Audio Channels" = "Audio Channels";
->>>>>>> 3105a218ecc15c4e72ebfbe25a2c7827a320c294
 
 /* create channel */
 "Audio Codec" = "Audio Codec";
 
 /* Web Login Controller */
-<<<<<<< HEAD
-"Authenticate" = "Otentikasi";
-
-/* server entry
-   Web Login controller */
-"Authentication" = "Otentikasi";
-
-/* channel list */
-"Ban user" = "Cekal pengguna";
-=======
 "Authenticate" = "Authenticate";
 
 /* server entry
@@ -161,17 +92,12 @@
 
 /* channel list */
 "Ban user" = "Ban user";
->>>>>>> 3105a218ecc15c4e72ebfbe25a2c7827a320c294
 
 /* server entry */
 "BearWare.dk Web Login" = "BearWare.dk Web Login";
 
 /* weblogin event */
-<<<<<<< HEAD
-"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web Login Gagal diautentikasi. Periksa BearWare.dk Web Login dalam preferensi";
-=======
 "BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences";
->>>>>>> 3105a218ecc15c4e72ebfbe25a2c7827a320c294
 
 /* codec detail */
 "Bitrate" = "Bitrate";
