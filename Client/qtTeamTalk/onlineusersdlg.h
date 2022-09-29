@@ -61,6 +61,17 @@ protected:
 
 private:
     void slotTreeContextMenu(const QPoint&);
+    enum MenuAction
+    {
+        VIEW_USERINFORMATION,
+        SEND_TEXTMESSAGE,
+        OP,
+        KICK,
+        BAN,
+        MOVE
+    };
+
+    void menuAction(MenuAction ma);
     void slotUpdateSettings();
 
 private:
