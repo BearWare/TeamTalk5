@@ -36,6 +36,7 @@
 #include <QNetworkReply>
 #include <QFileDialog>
 #include <QMenu>
+#include <QDebug>
 
 extern QSettings* ttSettings;
 
@@ -726,5 +727,24 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
         }
         else if (action == delServ)
             emit(deleteSelectedServer());
+    }
+}
+
+void ServerListDlg::keyPressEvent(QKeyEvent* e)
+{
+    QDialog::keyPressEvent(e);
+
+    if (ui.serverTreeView->hasFocus())
+    {
+        if (e->matches(QKeySequence::Delete) || e->key() == Qt::Key_Backspace)
+        {
+            auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
+            if (srcIndex.isValid() &&
+                QMessageBox::question(this, tr("Delete Server"),
+                                      tr("Delete server named \"%1\"").arg(m_model->getServers()[srcIndex.row()].name)) == QMessageBox::Yes)
+            {
+                emit(deleteSelectedServer());
+            }
+        }
     }
 }

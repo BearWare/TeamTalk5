@@ -525,6 +525,13 @@ void UserAccountsDlg::keyPressEvent(QKeyEvent* e)
         else if (e->key() == Qt::Key_End && ui.tabWidget->currentIndex() != ui.tabWidget->count())
             ui.tabWidget->setCurrentIndex(ui.tabWidget->count()-1);
     }
+    else if (ui.usersTreeView->hasFocus())
+    {
+        if (e->matches(QKeySequence::Delete) || e->key() == Qt::Key_Backspace)
+        {
+            emit(slotDelUser());
+        }
+    }
     QDialog::keyPressEvent(e);
 }
 
