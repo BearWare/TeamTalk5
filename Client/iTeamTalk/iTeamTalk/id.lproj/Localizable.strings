@@ -1,17 +1,17 @@
 /* log entry */
-"%@ joined channel" = "%@ joined channel";
+"%@ joined channel" = "%@ bergabung saluran";
 
 /* log entry */
-"%@ left channel" = "%@ left channel";
+"%@ left channel" = "%@ meninggalkan saluran";
 
 /* Web Login Controller */
-"%@, your username \"%@\" has been validated" = "%@, your username \"%@\" has been validated";
+"%@, your username \"%@\" has been validated" = "%@, nama pengguna Anda \"%@\" telah divalidasi";
 
 /* preferences */
 "%d %% - Default" = "%d %% - Default";
 
 /* codec detail */
-"(Active)" = "(Active)";
+"(Active)" = "(Aktif)";
 
 /* codec detail */
 "12 KHz" = "12 KHz";
@@ -35,69 +35,69 @@
 "8 KHz" = "8 KHz";
 
 /* serverlist */
-"Access preferences" = "Access preferences";
+"Access preferences" = "Preferensi akses";
 
 /* server entry
    user detail */
-"Actions" = "Actions";
+"Actions" = "Tindakan";
 
 /* channel list */
-"Active" = "Active";
+"Active" = "Aktif";
 
 /* serverlist */
-"Add new server entry" = "Add new server entry";
+"Add new server entry" = "Tambahkan entri server baru";
 
 /* preferences */
-"Announce content of text message" = "Announce content of text message";
+"Announce content of text message" = "Mengumumkan isi pesan teks";
 
 /* preferences */
-"Announce lost server connection" = "Announce lost server connection";
+"Announce lost server connection" = "Umumkan ketika kehilangan koneksi ke server";
 
 /* preferences */
-"Announce user joining channel" = "Announce user joining channel";
+"Announce user joining channel" = "Umumkan pengguna bergabung dengan saluran";
 
 /* preferences */
-"Announce user leaving channel" = "Announce user leaving channel";
+"Announce user leaving channel" = "Umumkan pengguna meninggalkan saluran";
 
 /* preferences */
-"Announce user logged onto server" = "Announce user logged onto server";
+"Announce user logged onto server" = "Umumkan pengguna masuk ke server";
 
 /* preferences */
-"Announce user logged out of server" = "Announce user logged out of server";
+"Announce user logged out of server" = "Umumkan pengguna keluar dari server";
 
 /* text to speech */
-"Announcements" = "Announcements";
+"Announcements" = "Pemberitahuan";
 
 /* preferences */
-"App Version" = "App Version";
+"App Version" = "Versi Aplikasi";
 
 /* codec detail */
-"Application" = "Application";
+"Application" = "Aplikasi";
 
 /* preferences */
 "Ascending" = "Ascending";
 
 /* codec detail */
-"Audio Channels" = "Audio Channels";
+"Audio Channels" = "Saluran Audio";
 
 /* create channel */
 "Audio Codec" = "Audio Codec";
 
 /* Web Login Controller */
-"Authenticate" = "Authenticate";
+"Authenticate" = "Otentikasi";
 
 /* server entry
    Web Login controller */
-"Authentication" = "Authentication";
+"Authentication" = "Otentikasi";
 
 /* channel list */
-"Ban user" = "Ban user";
+"Ban user" = "Cekal pengguna";
 
 /* server entry */
 "BearWare.dk Web Login" = "BearWare.dk Web Login";
 
 /* weblogin event */
-"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences";
+"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web Login Gagal diautentikasi. Periksa BearWare.dk Web Login dalam preferensi";
 
 /* codec detail */
 "Bitrate" = "Bitrate";
