@@ -1,8 +1,8 @@
 /* Class = "UITabBarController"; title = "Main Tab Controller"; ObjectID = "07s-AR-tvQ"; */
-"07s-AR-tvQ.title" = "Main Tab Controller";
+"07s-AR-tvQ.title" = "Pengontrol Tab Utama";
 
 /* Class = "UINavigationItem"; title = "Text Message"; ObjectID = "0EG-eF-WzS"; */
-"0EG-eF-WzS.title" = "Text Message";
+"0EG-eF-WzS.title" = "Pesan teks";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "0QA-gn-V1p"; */
 "0QA-gn-V1p.text" = "Blank";
@@ -17,22 +17,22 @@
 "4RU-K7-Yga.accessibilityHint" = "Kirim pesan teks pribadi";
 
 /* Class = "UIButton"; accessibilityLabel = "Text Messaging"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.accessibilityLabel" = "Text Messaging";
+"4RU-K7-Yga.accessibilityLabel" = "Pesan teks";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.normalTitle" = "Message user";
+"4RU-K7-Yga.normalTitle" = "Pesan pengguna";
 
 /* Class = "UITableViewController"; title = "Text To Speech Events"; ObjectID = "5K7-Hd-4h7"; */
 "5K7-Hd-4h7.title" = "Text To Speech Events";
 
 /* Class = "UIButton"; normalTitle = "Login"; ObjectID = "5YA-rx-tGz"; */
-"5YA-rx-tGz.normalTitle" = "Login";
+"5YA-rx-tGz.normalTitle" = "Masuk";
 
 /* Class = "UINavigationItem"; title = "Text-to-Speech Voice"; ObjectID = "79c-sV-yxb"; */
-"79c-sV-yxb.title" = "Text-to-Speech Voice";
+"79c-sV-yxb.title" = "Suara Text-to-Speech";
 
 /* Class = "UIButton"; normalTitle = "Create Web Login ID"; ObjectID = "8Ls-H9-lri"; */
-"8Ls-H9-lri.normalTitle" = "Create Web Login ID";
+"8Ls-H9-lri.normalTitle" = "Buat ID web nama pengguna masuk";
 
 /* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
 "9GN-82-2nL.text" = "Blank";
@@ -41,73 +41,73 @@
 "ALe-1e-Au1.text" = "Blank";
 
 /* Class = "UITabBarItem"; title = "Channels"; ObjectID = "aX2-rZ-yEl"; */
-"aX2-rZ-yEl.title" = "Channels";
+"aX2-rZ-yEl.title" = "Saluran";
 
 /* Class = "UIButton"; normalTitle = "Use Speex VBR Codec"; ObjectID = "b6N-H7-SIe"; */
-"b6N-H7-SIe.normalTitle" = "Use Speex VBR Codec";
+"b6N-H7-SIe.normalTitle" = "Gunakan Speex VBR Codec";
 
 /* Class = "UILabel"; text = "Speech"; ObjectID = "B8t-mo-k8g"; */
 "B8t-mo-k8g.text" = "Speech";
 
 /* Class = "UIButton"; normalTitle = "Reset Web Login ID"; ObjectID = "baE-IB-ajD"; */
-"baE-IB-ajD.normalTitle" = "Reset Web Login ID";
+"baE-IB-ajD.normalTitle" = "Setel Ulang Web ID Masuk";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "bDf-Jp-1l5"; */
-"bDf-Jp-1l5.normalTitle" = "Connect";
+"bDf-Jp-1l5.normalTitle" = "Hubungkan";
 
 /* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "BLM-fs-qcG"; */
-"BLM-fs-qcG.title" = "Back";
+"BLM-fs-qcG.title" = "Kembali";
 
 /* Class = "UILabel"; text = "Setup Sound Events"; ObjectID = "bua-Pf-Vpn"; */
-"bua-Pf-Vpn.text" = "Setup Sound Events";
+"bua-Pf-Vpn.text" = "Pengaturan event suara";
 
 /* Class = "UIButton"; normalTitle = "Use Speex Codec"; ObjectID = "cGm-Jp-0zI"; */
-"cGm-Jp-0zI.normalTitle" = "Use Speex Codec";
+"cGm-Jp-0zI.normalTitle" = "Gunakan Speex Codec";
 
 /* Class = "UIButton"; normalTitle = "Join this channel"; ObjectID = "ch0-Xf-hyX"; */
-"ch0-Xf-hyX.normalTitle" = "Join this channel";
+"ch0-Xf-hyX.normalTitle" = "Bergabung dengan saluran ini";
 
 /* Class = "UINavigationItem"; title = "Connecting to Server"; ObjectID = "dcU-Nq-ioW"; */
-"dcU-Nq-ioW.title" = "Connecting to Server";
+"dcU-Nq-ioW.title" = "Menghubungkan ke server";
 
 /* Class = "UIButton"; accessibilityLabel = "Private text messaging"; ObjectID = "DHN-DJ-cUp"; */
-"DHN-DJ-cUp.accessibilityLabel" = "Private text messaging";
+"DHN-DJ-cUp.accessibilityLabel" = "Pesan teks pribadi";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "DHN-DJ-cUp"; */
-"DHN-DJ-cUp.normalTitle" = "Message user";
+"DHN-DJ-cUp.normalTitle" = "Pesan pengguna";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "EHj-xt-HhD"; */
 "EHj-xt-HhD.text" = "Blank";
 
 /* Class = "UILabel"; text = "Choose events to playback"; ObjectID = "eJb-Cn-ciJ"; */
-"eJb-Cn-ciJ.text" = "Choose events to playback";
+"eJb-Cn-ciJ.text" = "Pilih event untuk diputar";
 
 /* Class = "UILabel"; text = "Show Unofficial Servers"; ObjectID = "feN-jH-qaq"; */
-"feN-jH-qaq.text" = "Show Unofficial Servers";
+"feN-jH-qaq.text" = "Tampilkan Server Tidak Resmi";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
 "Fu9-tA-eYj.text" = "Blank";
 
 /* Class = "UIViewController"; title = "Chat Channel"; ObjectID = "gA8-TJ-0RU"; */
-"gA8-TJ-0RU.title" = "Chat Channel";
+"gA8-TJ-0RU.title" = "Obrolan saluran";
 
 /* Class = "UILabel"; text = "Show public servers in server list"; ObjectID = "GeK-hh-gst"; */
-"GeK-hh-gst.text" = "Show public servers in server list";
+"GeK-hh-gst.text" = "Tampilkan server umum dalam daftar server";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "GFy-mN-epU"; */
-"GFy-mN-epU.text" = "Title";
+"GFy-mN-epU.text" = "Judul";
 
 /* Class = "UILabel"; text = "Show Public Servers"; ObjectID = "gPj-u1-dPn"; */
-"gPj-u1-dPn.text" = "Show Public Servers";
+"gPj-u1-dPn.text" = "Tampilkan server umum";
 
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
-"Hcv-zz-riB.text" = "BearWare.dk Web Login";
+"Hcv-zz-riB.text" = "Login Web BearWare.dk";
 
 /* Class = "UITableViewCell"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
-"hqu-CX-Vn4.accessibilityHint" = "Double tap to expand options for this channel.";
+"hqu-CX-Vn4.accessibilityHint" = "Ketuk dua kali untuk memperluas opsi saluran ini.";
 
 /* Class = "UITabBarItem"; title = "Messages"; ObjectID = "j1c-gJ-hO8"; */
-"j1c-gJ-hO8.title" = "Messages";
+"j1c-gJ-hO8.title" = "Pesan";
 
 /* Class = "UITextView"; text = "Blank"; ObjectID = "JW6-jf-mbs"; */
 "JW6-jf-mbs.text" = "Blank";
@@ -119,67 +119,67 @@
 "kRp-LE-RFh.text" = "Blank";
 
 /* Class = "UITableViewController"; title = "Setup Sound Events"; ObjectID = "Ksa-x9-2Mq"; */
-"Ksa-x9-2Mq.title" = "Setup Sound Events";
+"Ksa-x9-2Mq.title" = "Atur event Suara";
 
 /* Class = "UILabel"; text = "Choose sounds events to play"; ObjectID = "KsW-VX-Rtb"; */
-"KsW-VX-Rtb.text" = "Choose sounds events to play";
+"KsW-VX-Rtb.text" = "Pilih event suara untuk dimainkan";
 
 /* Class = "UIButton"; normalTitle = "Join Channel"; ObjectID = "l6D-Hs-MdG"; */
-"l6D-Hs-MdG.normalTitle" = "Join Channel";
+"l6D-Hs-MdG.normalTitle" = "Gabung ke saluran";
 
 /* Class = "UIButton"; normalTitle = "Send"; ObjectID = "LPL-JY-xBM"; */
-"LPL-JY-xBM.normalTitle" = "Send";
+"LPL-JY-xBM.normalTitle" = "Kirim";
 
 /* Class = "UIButton"; normalTitle = "Delete Server"; ObjectID = "m1N-Js-NXn"; */
-"m1N-Js-NXn.normalTitle" = "Delete Server";
+"m1N-Js-NXn.normalTitle" = "Hapus Server";
 
 /* Class = "UINavigationItem"; title = "Server Entry"; ObjectID = "Me4-OJ-iZH"; */
-"Me4-OJ-iZH.title" = "Server Entry";
+"Me4-OJ-iZH.title" = "Entri Server";
 
 /* Class = "UINavigationItem"; title = "User Properties"; ObjectID = "N1w-a6-R3D"; */
-"N1w-a6-R3D.title" = "User Properties";
+"N1w-a6-R3D.title" = "Properti Pengguna";
 
 /* Class = "UITableViewController"; title = "Preferences"; ObjectID = "NA0-UK-wve"; */
-"NA0-UK-wve.title" = "Preferences";
+"NA0-UK-wve.title" = "Preferensi/pengaturan";
 
 /* Class = "UILabel"; text = "Select Microphone"; ObjectID = "ntU-ZP-sKb"; */
-"ntU-ZP-sKb.text" = "Select Microphone";
+"ntU-ZP-sKb.text" = "Pilih Mikrofon";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "nVj-7w-Sta"; */
 "nVj-7w-Sta.text" = "Blank";
 
 /* Class = "UILabel"; text = "Show Official Servers"; ObjectID = "o2H-Vm-Vjd"; */
-"o2H-Vm-Vjd.text" = "Show Official Servers";
+"o2H-Vm-Vjd.text" = "Tampilkan Server Resmi";
 
 /* Class = "UITableViewController"; title = "BearWare.dk Web Login"; ObjectID = "o7z-cC-U4w"; */
-"o7z-cC-U4w.title" = "BearWare.dk Web Login";
+"o7z-cC-U4w.title" = "Login Web BearWare.dk";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
-"PaV-2Q-pt4.accessibilityLabel" = "Connect button";
+"PaV-2Q-pt4.accessibilityLabel" = "hubungkan tombol";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
-"PaV-2Q-pt4.normalTitle" = "Connect";
+"PaV-2Q-pt4.normalTitle" = "Hubungkan";
 
 /* Class = "UITableViewController"; title = "Channel Detail"; ObjectID = "PhY-ED-cqF"; */
-"PhY-ED-cqF.title" = "Channel Detail";
+"PhY-ED-cqF.title" = "Detil Saluran";
 
 /* Class = "UINavigationItem"; title = "Server List"; ObjectID = "pQJ-c1-GEL"; */
-"pQJ-c1-GEL.title" = "Server List";
+"pQJ-c1-GEL.title" = "Daftar Server";
 
 /* Class = "UILabel"; text = "Setup Announcements"; ObjectID = "Q0w-pu-giG"; */
-"Q0w-pu-giG.text" = "Setup Announcements";
+"Q0w-pu-giG.text" = "Atur pemberitahuan pembaca layar";
 
 /* Class = "UILabel"; text = "Choose microphone input"; ObjectID = "qgW-1i-aGQ"; */
-"qgW-1i-aGQ.text" = "Choose microphone input";
+"qgW-1i-aGQ.text" = "Pilih microphone input";
 
 /* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */
-"rNU-2J-hMO.normalTitle" = "Use No Audio";
+"rNU-2J-hMO.normalTitle" = "Gunakan Tanpa Audio";
 
 /* Class = "UIButton"; normalTitle = "Use OPUS Codec"; ObjectID = "Rrg-2O-NzF"; */
-"Rrg-2O-NzF.normalTitle" = "Use OPUS Codec";
+"Rrg-2O-NzF.normalTitle" = "Gunakan OPUS Codec";
 
 /* Class = "UILabel"; text = "Login ID from BearWare.dk"; ObjectID = "SmF-8J-cWK"; */
-"SmF-8J-cWK.text" = "Login ID from BearWare.dk";
+"SmF-8J-cWK.text" = "Login ID dari BearWare.dk";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
 "Uc0-gP-wr1.text" = "Blank";
@@ -188,19 +188,19 @@
 "V6G-Gm-l2U.normalTitle" = "TX";
 
 /* Class = "UIButton"; normalTitle = "Delete Channel"; ObjectID = "vC1-lW-BtX"; */
-"vC1-lW-BtX.normalTitle" = "Delete Channel";
+"vC1-lW-BtX.normalTitle" = "Hapus Saluran";
 
 /* Class = "UITabBarItem"; title = "Preferences"; ObjectID = "vIN-Uc-3Ms"; */
-"vIN-Uc-3Ms.title" = "Preferences";
+"vIN-Uc-3Ms.title" = "Preferensi/pengaturan";
 
 /* Class = "UITableViewController"; title = "Select Voice"; ObjectID = "VWP-v4-bY8"; */
-"VWP-v4-bY8.title" = "Select Voice";
+"VWP-v4-bY8.title" = "Pilih Suara";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "w6E-jf-09e"; */
 "w6E-jf-09e.text" = "Blank";
 
 /* Class = "UILabel"; text = "Select the text-to-speech voice to use"; ObjectID = "Wbh-f7-64c"; */
-"Wbh-f7-64c.text" = "Select the text-to-speech voice to use";
+"Wbh-f7-64c.text" = "Pilih suara text-to-speech untuk digunakan";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "WcB-pN-blB"; */
 "WcB-pN-blB.text" = "Blank";
@@ -209,16 +209,16 @@
 "WCf-u5-KkQ.text" = "Blank";
 
 /* Class = "UIButton"; normalTitle = "Kick User"; ObjectID = "WFB-kl-uoS"; */
-"WFB-kl-uoS.normalTitle" = "Kick User";
+"WFB-kl-uoS.normalTitle" = "Tendang Pengguna";
 
 /* Class = "UIButton"; normalTitle = "Kick and Ban User"; ObjectID = "WRa-tI-lpY"; */
-"WRa-tI-lpY.normalTitle" = "Kick and Ban User";
+"WRa-tI-lpY.normalTitle" = "Tendang dan Cekal Pengguna";
 
 /* Class = "UITableViewController"; title = "Setup Sound Inputs"; ObjectID = "XmQ-1z-cFv"; */
-"XmQ-1z-cFv.title" = "Setup Sound Inputs";
+"XmQ-1z-cFv.title" = "Atur Suara Inputs";
 
 /* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
-"Y9o-rs-HCe.title" = "Disconnect";
+"Y9o-rs-HCe.title" = "Putuskan Sambungan";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "ydT-LM-DrB"; */
 "ydT-LM-DrB.text" = "Blank";
