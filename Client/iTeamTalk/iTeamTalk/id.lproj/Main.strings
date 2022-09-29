@@ -11,10 +11,10 @@
 "3DD-Ra-lNz.text" = "Show Public Servers";
 
 /* Class = "UIButton"; normalTitle = "Send"; ObjectID = "3NI-HT-A3N"; */
-"3NI-HT-A3N.normalTitle" = "Send";
+"3NI-HT-A3N.normalTitle" = "Kirim";
 
 /* Class = "UIButton"; accessibilityHint = "Send private text message"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.accessibilityHint" = "Send private text message";
+"4RU-K7-Yga.accessibilityHint" = "Kirim pesan teks pribadi";
 
 /* Class = "UIButton"; accessibilityLabel = "Text Messaging"; ObjectID = "4RU-K7-Yga"; */
 "4RU-K7-Yga.accessibilityLabel" = "Text Messaging";
