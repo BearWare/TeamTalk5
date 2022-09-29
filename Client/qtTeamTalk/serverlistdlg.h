@@ -85,6 +85,9 @@ public:
     ServerListDlg(QWidget * parent = 0);
     ~ServerListDlg();
 
+protected:
+    void keyPressEvent(QKeyEvent* e) override;
+
 private:
     Ui::ServerListDlg ui;
     ServerListModel* m_model;
