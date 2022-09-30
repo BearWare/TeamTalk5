@@ -8,7 +8,7 @@
 "0QA-gn-V1p.text" = "Kosong";
 
 /* Class = "UILabel"; text = "Show Public Servers"; ObjectID = "3DD-Ra-lNz"; */
-"3DD-Ra-lNz.text" = "Tampilkan Server Umum";
+"3DD-Ra-lNz.text" = "Tampilkan Server Publik";
 
 /* Class = "UIButton"; normalTitle = "Send"; ObjectID = "3NI-HT-A3N"; */
 "3NI-HT-A3N.normalTitle" = "Kirim";
@@ -32,7 +32,7 @@
 "79c-sV-yxb.title" = "Suara Teks-ke-Ucapan";
 
 /* Class = "UIButton"; normalTitle = "Create Web Login ID"; ObjectID = "8Ls-H9-lri"; */
-"8Ls-H9-lri.normalTitle" = "Buat ID pengguna Masuk dengan Web";
+"8Ls-H9-lri.normalTitle" = "Buat ID masuk melalui Web";
 
 /* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
 "9GN-82-2nL.text" = "Kosong";
@@ -50,7 +50,7 @@
 "B8t-mo-k8g.text" = "Ucapan";
 
 /* Class = "UIButton"; normalTitle = "Reset Web Login ID"; ObjectID = "baE-IB-ajD"; */
-"baE-IB-ajD.normalTitle" = "Setel Ulang ID masuk dengan Web";
+"baE-IB-ajD.normalTitle" = "Setel Ulang ID masuk melalui Web";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "bDf-Jp-1l5"; */
 "bDf-Jp-1l5.normalTitle" = "Hubungkan";
@@ -89,16 +89,16 @@
 "Fu9-tA-eYj.text" = "Kosong";
 
 /* Class = "UIViewController"; title = "Chat Channel"; ObjectID = "gA8-TJ-0RU"; */
-"gA8-TJ-0RU.title" = "Obrolan saluran";
+"gA8-TJ-0RU.title" = "Obrolan di saluran";
 
 /* Class = "UILabel"; text = "Show public servers in server list"; ObjectID = "GeK-hh-gst"; */
-"GeK-hh-gst.text" = "Tampilkan server umum dalam daftar server";
+"GeK-hh-gst.text" = "Tampilkan server Publik dalam daftar server";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "GFy-mN-epU"; */
 "GFy-mN-epU.text" = "Judul";
 
 /* Class = "UILabel"; text = "Show Public Servers"; ObjectID = "gPj-u1-dPn"; */
-"gPj-u1-dPn.text" = "Tampilkan server umum";
+"gPj-u1-dPn.text" = "Tampilkan server Publik";
 
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
 "Hcv-zz-riB.text" = "Login Web BearWare.dk";
@@ -140,7 +140,7 @@
 "N1w-a6-R3D.title" = "Properti Pengguna";
 
 /* Class = "UITableViewController"; title = "Preferences"; ObjectID = "NA0-UK-wve"; */
-"NA0-UK-wve.title" = "Preferensi/pengaturan";
+"NA0-UK-wve.title" = "Pengaturan";
 
 /* Class = "UILabel"; text = "Select Microphone"; ObjectID = "ntU-ZP-sKb"; */
 "ntU-ZP-sKb.text" = "Pilih Mikrofon";
@@ -167,7 +167,7 @@
 "pQJ-c1-GEL.title" = "Daftar Server";
 
 /* Class = "UILabel"; text = "Setup Announcements"; ObjectID = "Q0w-pu-giG"; */
-"Q0w-pu-giG.text" = "Atur pemberitahuan pembaca layar";
+"Q0w-pu-giG.text" = "Atur Pemberitahuan Teks Ke Ucapan";
 
 /* Class = "UILabel"; text = "Choose microphone input"; ObjectID = "qgW-1i-aGQ"; */
 "qgW-1i-aGQ.text" = "Pilih microphone input";
@@ -191,7 +191,7 @@
 "vC1-lW-BtX.normalTitle" = "Hapus Saluran";
 
 /* Class = "UITabBarItem"; title = "Preferences"; ObjectID = "vIN-Uc-3Ms"; */
-"vIN-Uc-3Ms.title" = "Preferensi/pengaturan";
+"vIN-Uc-3Ms.title" = "Pengaturan";
 
 /* Class = "UITableViewController"; title = "Select Voice"; ObjectID = "VWP-v4-bY8"; */
 "VWP-v4-bY8.title" = "Pilih Suara";
@@ -209,10 +209,10 @@
 "WCf-u5-KkQ.text" = "Kosong";
 
 /* Class = "UIButton"; normalTitle = "Kick User"; ObjectID = "WFB-kl-uoS"; */
-"WFB-kl-uoS.normalTitle" = "Tendang Pengguna";
+"WFB-kl-uoS.normalTitle" = "Keluarkan pengguna";
 
 /* Class = "UIButton"; normalTitle = "Kick and Ban User"; ObjectID = "WRa-tI-lpY"; */
-"WRa-tI-lpY.normalTitle" = "Tendang dan Cekal Pengguna";
+"WRa-tI-lpY.normalTitle" = "Keluarkan dan Cekal Pengguna";
 
 /* Class = "UITableViewController"; title = "Setup Sound Inputs"; ObjectID = "XmQ-1z-cFv"; */
 "XmQ-1z-cFv.title" = "Atur Suara Input";
