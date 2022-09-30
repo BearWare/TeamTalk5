@@ -1129,7 +1129,7 @@ void PreferencesDlg::slotSaveChanges()
 #elif defined(Q_OS_WIN)
         ttSettings->setValue(SETTINGS_TTS_SAPI, ui.ttsForceSapiChkBox->isChecked());
 #elif defined(Q_OS_DARWIN)
-#if QT_VERSION >= QT_VERSION_CHECK(6,4,0)
+#if QT_VERSION < QT_VERSION_CHECK(6,4,0)
         ttSettings->setValue(SETTINGS_TTS_SPEAKLISTS, ui.ttsSpeakListsChkBox->isChecked());
 #endif
 #endif
@@ -1634,7 +1634,7 @@ void PreferencesDlg::slotUpdateTTSTab()
         setCurrentItemData(ui.ttsVoiceComboBox, ttSettings->value(SETTINGS_TTS_VOICE));
 
 #if defined(Q_OS_DARWIN)
-#if QT_VERSION >= QT_VERSION_CHECK(6,4,0)
+#if QT_VERSION < QT_VERSION_CHECK(6,4,0)
         ui.ttsSpeakListsChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SPEAKLISTS, SETTINGS_TTS_SPEAKLISTS_DEFAULT).toBool());
 #endif
 #endif

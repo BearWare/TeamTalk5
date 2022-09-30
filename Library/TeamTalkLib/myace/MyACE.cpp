@@ -306,15 +306,17 @@ void MYTRACE(const ACE_TCHAR* trace_str, ...)
 {
     va_list args;
     va_start(args, trace_str);
-    ACE_TCHAR str_buf[512] = ACE_TEXT("MYTRACE buffer overflow\n"), tmp_str[512] = ACE_TEXT("");
+    const int MAX_TRACESTRLEN = 512;
+    ACE_TCHAR str_buf[MAX_TRACESTRLEN] = ACE_TEXT("[MYTRACE buffer overflow]\n"), tmp_str[MAX_TRACESTRLEN] = ACE_TEXT("");
     static ACE_UINT32 begin = GETTIMESTAMP(), next;
     next = GETTIMESTAMP();
+    int out_len = 0;
 
 #if (MYTRACE_TIMESTAMP)
-    ACE_OS::snprintf(tmp_str, 512, ACE_TEXT("%08u: %s"), next - begin, trace_str);
-    ACE_OS::vsnprintf(str_buf, 512, tmp_str, args);
+    ACE_OS::snprintf(tmp_str, MAX_TRACESTRLEN, ACE_TEXT("%08u: %s"), next - begin, trace_str);
+    out_len = ACE_OS::vsnprintf(str_buf, MAX_TRACESTRLEN, tmp_str, args);
 #else
-    ACE_OS::vsnprintf(str_buf, 512, trace_str, args);
+    out_len = ACE_OS::vsnprintf(str_buf, MAX_TRACESTRLEN, trace_str, args);
 #endif
     
 #if defined(__ANDROID_API__)
@@ -325,6 +327,8 @@ void MYTRACE(const ACE_TCHAR* trace_str, ...)
     os_log_info(OS_LOG_DEFAULT, "%{public}s", str_buf);
 #else
     std::cout << str_buf;
+    if (out_len >= MAX_TRACESTRLEN)
+        std::cout << "[MYTRACE buffer overflow]" << std::endl << std::flush;
 #endif
 
     va_end(args);

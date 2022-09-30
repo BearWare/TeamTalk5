@@ -668,7 +668,7 @@ bool ReadServerProperties(teamtalk::ServerXML& xmlSettings,
     std::vector<std::string> bindips = xmlSettings.GetBindIPs();
     if (bindips.empty())
         bindips.push_back("");
-    for (auto ip : bindips)
+    for (const auto& ip : bindips)
     {
         if(ip.length())
         {

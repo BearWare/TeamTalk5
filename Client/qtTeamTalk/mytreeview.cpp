@@ -34,7 +34,7 @@ MyTreeView::MyTreeView(QWidget* parent/* = nullptr*/) : QTreeView(parent)
 void MyTreeView::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
 #if defined(Q_OS_DARWIN)
-#if QT_VERSION >= QT_VERSION_CHECK(6,4,0)
+#if QT_VERSION < QT_VERSION_CHECK(6,4,0)
     if (current.isValid() && ttSettings->value(SETTINGS_TTS_SPEAKLISTS, SETTINGS_TTS_SPEAKLISTS_DEFAULT).toBool() == true)
         addTextToSpeechMessage(current.data(Qt::AccessibleTextRole).toString());
 #endif

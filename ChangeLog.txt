@@ -24,6 +24,8 @@ Default Qt Client
 - Status bar and TTS event when changing subscription
 - Checkboxes in "User Accounts" dialog replaced by tree view
 - New profile now starts with blank settings
+- Use "Delete" key to delete server and user accounts in "Connect to a Server" and "User Accounts" dialog
+- Added keyboard shortcuts to "Online Users" dialog on macOS and Windows (Qt 6.4)
 - Fixed request to create folder for channel and private histories if none is specified in "Store conversation" dialog
 - Fixed username/password not being applied in "Generate .tt File" dialog
 Android Client

@@ -1986,11 +1986,14 @@ void MainWindow::Disconnect()
 
     m_srvprop = {};
     m_mychannel = {};
+    m_myuseraccount = {};
     relayAudioStream(0, STREAMTYPE_NONE, false);
 
     m_useraccounts.clear();
     m_bannedusers.clear();
     m_textmessages.clear();
+    m_commands.clear();
+    m_talking.clear();
 
     if(m_sysicon)
         m_sysicon->setIcon(QIcon(APPTRAYICON));
@@ -4046,9 +4049,12 @@ void MainWindow::slotClientConnect(bool /*checked =false */)
 
     //reset last channel, since we're starting a new connection
     m_last_channel = {};
+    m_channel_passwd.clear();
 
     if(TT_GetFlags(ttInst) & CLIENT_CONNECTION)
+    {
         Disconnect();
+    }
     else
     {
         ServerListDlg dlg(this);
@@ -5833,7 +5839,7 @@ void MainWindow::slotTreeSelectionChanged()
         updateChannelFiles(channelid);
     }
 #if defined(Q_OS_DARWIN)
-#if QT_VERSION >= QT_VERSION_CHECK(6,4,0)
+#if QT_VERSION < QT_VERSION_CHECK(6,4,0)
     if (ttSettings->value(SETTINGS_TTS_SPEAKLISTS, SETTINGS_TTS_SPEAKLISTS_DEFAULT).toBool() == true)
         addTextToSpeechMessage(ui.channelsWidget->getItemText());
 #endif
@@ -6252,8 +6258,8 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
     if(chan.transmitUsersQueue[0] != TT_GetMyUserID(ttInst) &&
         oldchan.transmitUsersQueue[0] == TT_GetMyUserID(ttInst))
         playSoundEvent(SOUNDEVENT_TRANSMITQUEUE_STOP);
-
-    updateClassroomChannel(oldchan, chan);
+    if (chan.nChannelID == m_mychannel.nChannelID)
+        updateClassroomChannel(oldchan, chan);
 }
 
 void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& newchan)

@@ -28,6 +28,7 @@
 #include <TeamTalkDefs.h>
 #include <stack>
 #include <vector>
+#include <ctime>
 
 using namespace std;
 namespace teamtalk{
@@ -232,7 +233,7 @@ namespace teamtalk{
                 parent->RemoveChild(child);
             }
             
-            for (auto ip : ips)
+            for (const auto& ip : ips)
             {
                 TiXmlElement bind("bind-ip");
                 PutElementText(bind, ip);
@@ -1513,7 +1514,7 @@ namespace teamtalk{
 
     std::string DateToString(time_t t)
     {
-        tm* tt = localtime(&t);
+        tm* tt = std::localtime(&t);
         char buff[100];
         sprintf(buff, "%.4d/%.2d/%.2d %.2d:%.2d", tt->tm_year+1900, tt->tm_mon+1, tt->tm_mday, tt->tm_hour, tt->tm_min);
         return buff;
@@ -1525,13 +1526,13 @@ namespace teamtalk{
         stdstrings_t tokens = stdtokenize(date, "/ :");
         if(tokens.size() == 5)
         {
-            t.tm_isdst = 1;
+            t.tm_isdst = -1;
             t.tm_year = int(str2i(tokens[0])-1900);
             t.tm_mon = int(str2i(tokens[1])-1);
             t.tm_mday = int(str2i(tokens[2]));
             t.tm_hour = int(str2i(tokens[3]));
             t.tm_min = int(str2i(tokens[4]));
-            return mktime(&t);
+            return std::mktime(&t);
         }
         return 0;
     }
