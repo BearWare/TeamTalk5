@@ -601,7 +601,7 @@
 "TCP Port" = "TCP Port";
 
 /* preferences */
-"Text To Speech Events" = "Text To Speech Events";
+"Text To Speech Events" = "Pemberitahuan Teks Ke Ucapan";
 
 /* preferences */
 "The rate of the speaking voice is %.1f" = "Tingkat suara pembaca layar adalah %.1f";
@@ -647,10 +647,10 @@
 "Unofficial server" = "Server tidak resmi";
 
 /* preferences */
-"Use echo cancellation and automatic gain control" = "Gunakan echo cancellation dan automatic gain control";
+"Use echo cancellation and automatic gain control" = "Gunakan echo cancellation dan  gain control otomatis";
 
 /* preferences */
-"Use iPhone's speaker instead of earpiece" = "Gunakan speaker iPhone instead of earpiece";
+"Use iPhone's speaker instead of earpiece" = "Merubah pengunaan earpiece ke speaker iPhone";
 
 /* channel list */
 "User" = "Pengguna";
@@ -704,7 +704,7 @@
 "Variable Bitrate" = "Variable Bitrate";
 
 /* preferences */
-"Version Information" = "Versi Informasi";
+"Version Information" = "Informasi Versi";
 
 /* channel list */
 "View" = "Lihat";
