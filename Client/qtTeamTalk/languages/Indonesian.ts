@@ -3063,64 +3063,64 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2649"/>
         <source>Voice</source>
-        <translation type="unfinished">Suara</translation>
+        <translation>Suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2654"/>
         <source>Video</source>
-        <translation type="unfinished">Video</translation>
+        <translation>Video</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2664"/>
         <source>Desktop input</source>
-        <translation type="unfinished"></translation>
+        <translation>input desktop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2669"/>
         <source>Media files</source>
-        <translation type="unfinished">File media</translation>
+        <translation>File media</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2674"/>
         <source>Intercept private messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Intercept pesan pribadi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2679"/>
         <source>Intercept channel messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Intercept pesan saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
         <source>Intercept voice</source>
-        <translation type="unfinished"></translation>
+        <translation>Intercept suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2689"/>
         <source>Intercept video capture</source>
-        <translation type="unfinished"></translation>
+        <translation>Intercept pengambilan video</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2694"/>
         <source>Intercept desktop</source>
-        <translation type="unfinished"></translation>
+        <translation>Intercept desktop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2699"/>
         <source>Intercept media files</source>
-        <translation type="unfinished"></translation>
+        <translation>Intercept file media</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2723"/>
         <location filename="../mainwindow.cpp" line="2724"/>
         <source>Subscription &quot;%1&quot; enabled for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Langganan &quot;%1&quot; diaktifkan untuk %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2733"/>
         <location filename="../mainwindow.cpp" line="2734"/>
         <source>Subscription &quot;%1&quot; disabled for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Langganan &quot;%1&quot; dinonaktifkan untuk %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3966"/>
@@ -3338,98 +3338,82 @@ Apakah Anda ingin melakukannya sekarang?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="6273"/>
         <source>%1 can no longer transmit</source>
-        <comment>%1 can no longer transmit voice</comment>
-        <translation type="unfinished">%1 tidak dapat lagi mentransmisikan</translation>
+        <translation>%1 tidak dapat lagi mentransmisikan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6274"/>
         <source>%1 can now transmit</source>
-        <comment>%1 can now transmit voice</comment>
-        <translation type="unfinished">%1 sekarang dapat mentransmisikan</translation>
+        <translation>%1 sekarang dapat mentransmisikan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6277"/>
         <source>Everyone can no longer transmit</source>
-        <comment>Everyone can no longer transmit voice</comment>
-        <translation type="unfinished">Semua orang tidak dapat lagi mentransmisikan</translation>
+        <translation>Semua orang tidak dapat lagi mentransmisikan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6278"/>
         <source>Everyone can now transmit</source>
-        <comment>Everyone can now transmit voice</comment>
-        <translation type="unfinished">Semua orang sekarang dapat mentransmisikan</translation>
+        <translation>Semua orang sekarang dapat mentransmisikan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6282"/>
         <source>You can no longer transmit</source>
-        <comment>You can no longer transmit voice</comment>
-        <translation type="unfinished">Anda tidak dapat lagi mentransmisikan</translation>
+        <translation>Anda tidak dapat lagi mentransmisikan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6283"/>
         <source>You can now transmit</source>
-        <comment>You can now transmit voice</comment>
-        <translation type="unfinished">Anda sekarang dapat mentransmisikan</translation>
+        <translation>Anda sekarang dapat mentransmisikan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6293"/>
         <source>%1 channel messages</source>
-        <comment>can now transmit ...</comment>
-        <translation type="unfinished">%1 pesan saluran</translation>
+        <translation>%1 pesan saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6295"/>
         <source>%1 channel messages</source>
-        <comment>can no longer transmit ...</comment>
-        <translation type="unfinished">%1 pesan saluran</translation>
+        <translation>%1 pesan saluran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6304"/>
         <source>%1 voice</source>
-        <comment>can now transmit ...</comment>
-        <translation type="unfinished">%1 suara</translation>
+        <translation>%1 suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6306"/>
         <source>%1 voice</source>
-        <comment>can no longer transmit...</comment>
-        <translation type="unfinished">%1 suara</translation>
+        <translation>%1 suara</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6315"/>
         <source>%1 video</source>
-        <comment>can now transmit ...</comment>
-        <translation type="unfinished">%1 video</translation>
+        <translation>%1 video</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6317"/>
         <source>%1 video</source>
-        <comment>can no longer transmit ...</comment>
-        <translation type="unfinished">%1 video</translation>
+        <translation>%1 video</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6326"/>
         <source>%1 desktop windows</source>
-        <comment>can now transmit ...</comment>
-        <translation type="unfinished">%1 jendela desktop</translation>
+        <translation>%1 jendela desktop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6328"/>
         <source>%1 desktop windows</source>
-        <comment>can no longer transmit ...</comment>
-        <translation type="unfinished">%1 jendela desktop</translation>
+        <translation>%1 jendela desktop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6337"/>
         <source>%1 media files</source>
-        <comment>can now transmit ...</comment>
-        <translation type="unfinished">%1 file media</translation>
+        <translation>%1 file media</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6339"/>
         <source>%1 media files</source>
-        <comment>can no longer transmit ...</comment>
-        <translation type="unfinished">%1 file media</translation>
+        <translation>%1 file media</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6931"/>
@@ -4289,7 +4273,7 @@ Should these settings be applied?</translation>
         <location filename="../onlineusersdlg.cpp" line="63"/>
         <location filename="../onlineusersdlg.cpp" line="124"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished">Ctrl+I</translation>
+        <translation>Ctrl+I</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="64"/>
@@ -4301,7 +4285,7 @@ Should these settings be applied?</translation>
         <location filename="../onlineusersdlg.cpp" line="64"/>
         <location filename="../onlineusersdlg.cpp" line="126"/>
         <source>Ctrl+E</source>
-        <translation type="unfinished">Ctrl+E</translation>
+        <translation>Ctrl+E</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="65"/>
@@ -4313,7 +4297,7 @@ Should these settings be applied?</translation>
         <location filename="../onlineusersdlg.cpp" line="65"/>
         <location filename="../onlineusersdlg.cpp" line="128"/>
         <source>Ctrl+O</source>
-        <translation type="unfinished">Ctrl+O</translation>
+        <translation>Ctrl+O</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="66"/>
@@ -4325,7 +4309,7 @@ Should these settings be applied?</translation>
         <location filename="../onlineusersdlg.cpp" line="66"/>
         <location filename="../onlineusersdlg.cpp" line="130"/>
         <source>Ctrl+K</source>
-        <translation type="unfinished">Ctrl+K</translation>
+        <translation>Ctrl+K</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="67"/>
@@ -4337,7 +4321,7 @@ Should these settings be applied?</translation>
         <location filename="../onlineusersdlg.cpp" line="67"/>
         <location filename="../onlineusersdlg.cpp" line="132"/>
         <source>Ctrl+B</source>
-        <translation type="unfinished">Ctrl+B</translation>
+        <translation>Ctrl+B</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="68"/>
@@ -4349,7 +4333,7 @@ Should these settings be applied?</translation>
         <location filename="../onlineusersdlg.cpp" line="68"/>
         <location filename="../onlineusersdlg.cpp" line="134"/>
         <source>Ctrl+Alt+X</source>
-        <translation type="unfinished">Ctrl+Alt+X</translation>
+        <translation>Ctrl+Alt+X</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="213"/>
@@ -5725,12 +5709,12 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
     <message>
         <location filename="../serverlistdlg.cpp" line="743"/>
         <source>Delete Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Hapus Server</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="744"/>
         <source>Delete server named &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Hapus server bernama &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -6054,7 +6038,7 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
     <message>
         <location filename="../serverproperties.ui" line="491"/>
         <source>Server events logged</source>
-        <translation type="unfinished"></translation>
+        <translation>Event server yang dicatat</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="501"/>
@@ -7030,12 +7014,12 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
     <message>
         <location filename="../useraccounts.ui" line="71"/>
         <source>User accounts</source>
-        <translation type="unfinished"></translation>
+        <translation>Akun pengguna</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="234"/>
         <source>User Actions Allowed on Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Tindakan Pengguna yang Diizinkan di Server</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="368"/>
@@ -7473,124 +7457,124 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
     <message>
         <location filename="../useraccountsmodel.cpp" line="211"/>
         <source>User can log in multiple times</source>
-        <translation type="unfinished">Pengguna boleh masuk ke server beberapa kali</translation>
+        <translation>Pengguna boleh masuk ke server beberapa kali</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="213"/>
         <source>User can see users in all channels</source>
-        <translation type="unfinished">Pengguna boleh melihat pengguna di semua saluran</translation>
+        <translation>Pengguna boleh melihat pengguna di semua saluran</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="215"/>
         <source>User can see hidden channels</source>
-        <translation type="unfinished">Pengguna boleh melihat saluran tersembunyi</translation>
+        <translation>Pengguna boleh melihat saluran tersembunyi</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="217"/>
         <source>User can create/modify all channels</source>
-        <translation type="unfinished">Pengguna boleh membuat/memodifikasi semua saluran</translation>
+        <translation>Pengguna boleh membuat/memodifikasi semua saluran</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="219"/>
         <source>User can create temporary channels</source>
-        <translation type="unfinished">Pengguna boleh membuat saluran sementara</translation>
+        <translation>Pengguna boleh membuat saluran sementara</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="221"/>
         <source>User can broadcast text messages</source>
-        <translation type="unfinished">Pengguna boleh broadcast pesan teks</translation>
+        <translation>Pengguna boleh broadcast pesan teks</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="223"/>
         <source>User can kick users off the server</source>
-        <translation type="unfinished">Pengguna boleh keluarkan pengguna dari server</translation>
+        <translation>Pengguna boleh keluarkan pengguna dari server</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="225"/>
         <source>User can ban users from server</source>
-        <translation type="unfinished">Pengguna boleh ban pengguna dari server</translation>
+        <translation>Pengguna boleh ban pengguna dari server</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="227"/>
         <source>User can move users between channels</source>
-        <translation type="unfinished">Pengguna boleh memindahkan pengguna antar saluran</translation>
+        <translation>Pengguna boleh memindahkan pengguna antar saluran</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="229"/>
         <source>User can make other users channel operator</source>
-        <translation type="unfinished">Pengguna boleh menjadikan pengguna lain operator saluran</translation>
+        <translation>Pengguna boleh menjadikan pengguna lain operator saluran</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="231"/>
         <source>User can upload files</source>
-        <translation type="unfinished">Pengguna boleh mengunggah file</translation>
+        <translation>Pengguna boleh mengunggah file</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="233"/>
         <source>User can download files</source>
-        <translation type="unfinished">Pengguna boleh mengunduh file</translation>
+        <translation>Pengguna boleh mengunduh file</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="235"/>
         <source>User can record voice in all channels</source>
-        <translation type="unfinished">Pengguna boleh merekam suara di semua saluran</translation>
+        <translation>Pengguna boleh merekam suara di semua saluran</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="237"/>
         <source>User can update server properties</source>
-        <translation type="unfinished">Pengguna boleh memperbarui properti server</translation>
+        <translation>Pengguna boleh memperbarui properti server</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="239"/>
         <source>User can transmit voice data (microphone)</source>
-        <translation type="unfinished">Pengguna boleh mentransmisikan data suara (mikrofon)</translation>
+        <translation>Pengguna boleh mentransmisikan data suara (mikrofon)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="241"/>
         <source>User can transmit video data (webcam)</source>
-        <translation type="unfinished">Pengguna boleh mentransmisikan data video (webcam)</translation>
+        <translation>Pengguna boleh mentransmisikan data video (webcam)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="243"/>
         <source>User can transmit desktop sessions (shared desktop)</source>
-        <translation type="unfinished">Pengguna boleh mentransmisikan sesi desktop (berbagi desktop)</translation>
+        <translation>Pengguna boleh mentransmisikan sesi desktop (berbagi desktop)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="245"/>
         <source>User can get remote access to desktop sessions</source>
-        <translation type="unfinished">Pengguna boleh mendapatkan akses jarak jauh ke sesi desktop</translation>
+        <translation>Pengguna boleh mendapatkan akses jarak jauh ke sesi desktop</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="247"/>
         <source>User can transmit audio files (wav, mp3 files)</source>
-        <translation type="unfinished">Pengguna boleh mentransmisikan file audio (wav, file mp3)</translation>
+        <translation>Pengguna boleh mentransmisikan file audio (wav, file mp3)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="249"/>
         <source>User can transmit video files (avi, mp4 files)</source>
-        <translation type="unfinished">Pengguna boleh mentransmisikan file video (avi, file mp4)</translation>
+        <translation>Pengguna boleh mentransmisikan file video (avi, file mp4)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="255"/>
         <source>User can change nickname</source>
-        <translation type="unfinished">Pengguna boleh mengubah nama panggilan</translation>
+        <translation>Pengguna boleh mengubah nama panggilan</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="257"/>
         <source>User can change status mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Pengguna dapat mengubah mode status</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="266"/>
         <location filename="../useraccountsmodel.cpp" line="268"/>
         <source>Enabled</source>
-        <translation type="unfinished">Diaktifkan</translation>
+        <translation>Diaktifkan</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="266"/>
         <location filename="../useraccountsmodel.cpp" line="268"/>
         <source>Disabled</source>
-        <translation type="unfinished">Dinonaktifkan</translation>
+        <translation>Dinonaktifkan</translation>
     </message>
 </context>
 <context>
