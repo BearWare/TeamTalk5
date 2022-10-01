@@ -3714,7 +3714,6 @@ Do you wish to do this now?</source>
         <translation>Yükleme &amp;tarihi</translation>
     </message>
     <message>
-    <message>
         <location filename="../mainwindow.cpp" line="4515"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
         <translation>Video kodlayıcı bileşeni yapılandırılamadı. Tercihler&apos;deki ayarları denetleyin</translation>
