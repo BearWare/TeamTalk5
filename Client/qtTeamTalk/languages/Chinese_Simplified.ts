@@ -4288,7 +4288,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../onlineusersdlg.cpp" line="63"/>
         <location filename="../onlineusersdlg.cpp" line="124"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished">Ctrl+I</translation>
+        <translation>Ctrl+I</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="64"/>
@@ -4300,7 +4300,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../onlineusersdlg.cpp" line="64"/>
         <location filename="../onlineusersdlg.cpp" line="126"/>
         <source>Ctrl+E</source>
-        <translation type="unfinished">Ctrl+E</translation>
+        <translation>Ctrl+E</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="65"/>
@@ -4312,7 +4312,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../onlineusersdlg.cpp" line="65"/>
         <location filename="../onlineusersdlg.cpp" line="128"/>
         <source>Ctrl+O</source>
-        <translation type="unfinished">Ctrl+O</translation>
+        <translation>Ctrl+O</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="66"/>
@@ -4324,7 +4324,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../onlineusersdlg.cpp" line="66"/>
         <location filename="../onlineusersdlg.cpp" line="130"/>
         <source>Ctrl+K</source>
-        <translation type="unfinished">Ctrl+K</translation>
+        <translation>Ctrl+K</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="67"/>
@@ -4336,7 +4336,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../onlineusersdlg.cpp" line="67"/>
         <location filename="../onlineusersdlg.cpp" line="132"/>
         <source>Ctrl+B</source>
-        <translation type="unfinished">Ctrl+B</translation>
+        <translation>Ctrl+B</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="68"/>
@@ -4348,7 +4348,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../onlineusersdlg.cpp" line="68"/>
         <location filename="../onlineusersdlg.cpp" line="134"/>
         <source>Ctrl+Alt+X</source>
-        <translation type="unfinished">Ctrl+Alt+X</translation>
+        <translation>Ctrl+Alt+X</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="213"/>
@@ -5723,12 +5723,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="743"/>
         <source>Delete Server</source>
-        <translation type="unfinished"></translation>
+        <translation>删除服务器</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="744"/>
         <source>Delete server named &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>删除名为&quot;%1&quot; 的服务器</translation>
     </message>
 </context>
 <context>
