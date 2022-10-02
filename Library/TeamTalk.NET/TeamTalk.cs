@@ -2466,7 +2466,7 @@ namespace BearWare
     /** 
      * @brief Text message types.
      * 
-     * The types of messages which can be passed to TeamTalkBase.DoTextMessage()().
+     * The types of messages which can be passed to TeamTalkBase.DoTextMessage().
      *
      * @see BearWare.TextMessage
      * @see BearWare.TeamTalkBase.DoTextMessage
