@@ -75,7 +75,7 @@
 "Application" = "Aplikasi";
 
 /* preferences */
-"Ascending" = "Ascending";
+"Ascending" = "Urutkan dari a ke z";
 
 /* codec detail */
 "Audio Channels" = "Saluran Audio";
@@ -251,7 +251,7 @@
 "Hidden Channel" = "Saluran Tersembunyi";
 
 /* server entry */
-"Host address" = "Alamat IP";
+"Host address" = "Alamat IP atau Alamat host";
 
 /* channel list */
 "Inactive" = "Tidak aktif";
@@ -364,7 +364,7 @@
 "No Audio" = "Tanpa Audio";
 
 /* create channel */
-"No Audio Recording" = "Tanpa Rekaman Audio";
+"No Audio Recording" = "Tanpa perekaman Audio";
 
 /* create channel */
 "No Interruptions" = "Tanpa Interupsi";
@@ -449,7 +449,7 @@
 "Popularity" = "Popularitas";
 
 /* serverlist */
-"Preferences" = "Preferensi/pengaturan";
+"Preferences" = "Pengaturan";
 
 /* Sound Input */
 "Preferred" = "Preferred";
@@ -564,7 +564,7 @@
 
 /* preferences
    text to speech */
-"Sound Events" = "Event suara";
+"Sound Events" = "Suara Pemberitahuan";
 
 /* preferences */
 "Sound System" = "Sistem Suara";
@@ -604,10 +604,10 @@
 "Text To Speech Events" = "Pemberitahuan Teks Ke Ucapan";
 
 /* preferences */
-"The rate of the speaking voice is %.1f" = "Tingkat suara pembaca layar adalah %.1f";
+"The rate of the speaking voice is %.1f" = "tingkat kecepatan suara Teks Ke Ucapan adalah %.1f";
 
 /* preferences */
-"The volume of the speaking voice is %.1f" = "Volume suara pembaca layar adalah %.1f";
+"The volume of the speaking voice is %.1f" = "Volume suara Teks Ke Ucapan adalah %.1f";
 
 /* channel list */
 "Toggle to enable/disable transmission" = "Beralih untuk mengaktifkan / menonaktifkan transmisi";
@@ -732,7 +732,7 @@
 "Voice Preprocessing" = "Suara Preprocessing";
 
 /* preferences */
-"Voice Transmission Toggled" = "Transmisi Suara Diaktifkan";
+"Voice Transmission Toggled" = "Transmisi Suara Toggled";
 
 /* user detail */
 "Voice Volume" = "Volume Suara";
