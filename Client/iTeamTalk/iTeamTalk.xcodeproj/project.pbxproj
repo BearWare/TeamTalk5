@@ -105,6 +105,9 @@
 		2537133D1BCEA77D00A7ADB3 /* AudioCodecViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioCodecViewController.swift; sourceTree = "<group>"; };
 		254057771C418D190090C769 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Main.strings; sourceTree = "<group>"; };
 		254057791C418D190090C769 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2541CCA828EB65D7007BC487 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		2541CCA928EB65D7007BC487 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Main.strings; sourceTree = "<group>"; };
+		2541CCAA28EB65D7007BC487 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Localizable.strings; sourceTree = "<group>"; };
 		254B7A471B98BAA300BE0DEF /* iTeamTalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTeamTalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		254B7A4B1B98BAA300BE0DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -397,6 +400,7 @@
 				it,
 				ko,
 				ar,
+				id,
 			);
 			mainGroup = 254B7A3E1B98BAA300BE0DEF;
 			productRefGroup = 254B7A481B98BAA300BE0DEF /* Products */;
@@ -519,6 +523,7 @@
 				25D7B2F126373334009D684D /* it */,
 				25ED9FDE265AD28700127B0E /* ko */,
 				25ED9FE5265AD5A500127B0E /* ar */,
+				2541CCA928EB65D7007BC487 /* id */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -531,6 +536,7 @@
 				25D7B2F026373333009D684D /* it */,
 				25ED9FDD265AD28500127B0E /* ko */,
 				25ED9FE4265AD5A400127B0E /* ar */,
+				2541CCA828EB65D7007BC487 /* id */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
@@ -554,6 +560,7 @@
 				25D7B2F226373336009D684D /* it */,
 				25ED9FDF265AD28900127B0E /* ko */,
 				25ED9FE6265AD5A700127B0E /* ar */,
+				2541CCAA28EB65D7007BC487 /* id */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
