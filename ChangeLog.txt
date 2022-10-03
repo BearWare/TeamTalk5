@@ -10,7 +10,7 @@ Accessible Windows Client
 Android Client
 -
 iOS Client
--
+- Support for Indonesian language
 Server
 -
 
