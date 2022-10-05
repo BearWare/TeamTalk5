@@ -359,7 +359,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       COMMAND           echo "INSTALL_PREFIX=<INSTALL_DIR>" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       # Create 'config.h'
       COMMAND           echo "#define ACE_AS_STATIC_LIBS 1" > <SOURCE_DIR>/ACE/ace/config.h
-      COMMAND           echo "#define ACE_HAS_IPV6 1" > <SOURCE_DIR>/ACE/ace/config.h
+      COMMAND           echo "#define ACE_HAS_IPV6 1" >> <SOURCE_DIR>/ACE/ace/config.h
       COMMAND           echo "#define ACE_HAS_CPP11" >> <SOURCE_DIR>/ACE/ace/config.h
       COMMAND           echo "#include \"ace/config-linux.h\"" >> <SOURCE_DIR>/ACE/ace/config.h
       # Setup MPC
@@ -467,7 +467,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       COMMAND           echo "include <SOURCE_DIR>/ACE/include/makeinclude/platform_android.GNU" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       # Create 'config.h'
       COMMAND           echo "#define ACE_AS_STATIC_LIBS 1" > <SOURCE_DIR>/ACE/ace/config.h
-      COMMAND           echo "#define ACE_HAS_IPV6 1" > <SOURCE_DIR>/ACE/ace/config.h
+      COMMAND           echo "#define ACE_HAS_IPV6 1" >> <SOURCE_DIR>/ACE/ace/config.h
       COMMAND           echo "#define ACE_HAS_CPP11" >> <SOURCE_DIR>/ACE/ace/config.h
       COMMAND           echo "#define ACE_LACKS_GETIPNODEBYADDR 1 /* missing in android netdb.h */" >> <SOURCE_DIR>/ACE/ace/config.h
       COMMAND           echo "#define ACE_LACKS_GETIPNODEBYNAME_IPV6 1" >> <SOURCE_DIR>/ACE/ace/config.h
