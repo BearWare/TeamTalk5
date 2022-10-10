@@ -3194,97 +3194,97 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="6273"/>
         <source>%1 can no longer transmit</source>
         <comment>%1 can no longer transmit voice</comment>
-        <translation type="unfinished">%1 artık iletemez</translation>
+        <translation>%1 artık iletemez</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6274"/>
         <source>%1 can now transmit</source>
         <comment>%1 can now transmit voice</comment>
-        <translation type="unfinished">%1 şimdi iletebilir</translation>
+        <translation>%1 şimdi iletebilir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6277"/>
         <source>Everyone can no longer transmit</source>
         <comment>Everyone can no longer transmit voice</comment>
-        <translation type="unfinished">Artık kimse iletemez</translation>
+        <translation>Artık kimse iletemez</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6278"/>
         <source>Everyone can now transmit</source>
         <comment>Everyone can now transmit voice</comment>
-        <translation type="unfinished">Artık herkes iletebilir</translation>
+        <translation>Artık herkes iletebilir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6282"/>
         <source>You can no longer transmit</source>
         <comment>You can no longer transmit voice</comment>
-        <translation type="unfinished">Artık iletemezsiniz</translation>
+        <translation>Artık iletemezsiniz</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6283"/>
         <source>You can now transmit</source>
         <comment>You can now transmit voice</comment>
-        <translation type="unfinished">şimdi iletebilirsiniz</translation>
+        <translation>şimdi iletebilirsiniz</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6293"/>
         <source>%1 channel messages</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished">%1 kanal mesajları</translation>
+        <translation>%1 kanal mesajları</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6295"/>
         <source>%1 channel messages</source>
         <comment>can no longer transmit ...</comment>
-        <translation type="unfinished">%1 kanal mesajları</translation>
+        <translation>%1 kanal mesajları</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6304"/>
         <source>%1 voice</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished">%1 ses</translation>
+        <translation>%1 ses</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6306"/>
         <source>%1 voice</source>
         <comment>can no longer transmit...</comment>
-        <translation type="unfinished">%1 ses</translation>
+        <translation>%1 ses</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6315"/>
         <source>%1 video</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished">%1 video</translation>
+        <translation>%1 video</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6317"/>
         <source>%1 video</source>
         <comment>can no longer transmit ...</comment>
-        <translation type="unfinished">%1 video</translation>
+        <translation>%1 video</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6326"/>
         <source>%1 desktop windows</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished">%1 masaüstü penceresi</translation>
+        <translation>%1 masaüstü penceresi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6328"/>
         <source>%1 desktop windows</source>
         <comment>can no longer transmit ...</comment>
-        <translation type="unfinished">%1 masaüstü penceresi</translation>
+        <translation>%1 masaüstü penceresi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6337"/>
         <source>%1 media files</source>
         <comment>can now transmit ...</comment>
-        <translation type="unfinished">%1 medya dosyaları</translation>
+        <translation>%1 medya dosyaları</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6339"/>
         <source>%1 media files</source>
         <comment>can no longer transmit ...</comment>
-        <translation type="unfinished">%1 medya dosyaları</translation>
+        <translation>%1 medya dosyaları</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6931"/>
@@ -4287,7 +4287,7 @@ Bu ayarlar uygulanmalı mı?</translation>
         <location filename="../onlineusersdlg.cpp" line="63"/>
         <location filename="../onlineusersdlg.cpp" line="124"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished">Ctrl+I</translation>
+        <translation>Ctrl+I</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="64"/>
@@ -4299,7 +4299,7 @@ Bu ayarlar uygulanmalı mı?</translation>
         <location filename="../onlineusersdlg.cpp" line="64"/>
         <location filename="../onlineusersdlg.cpp" line="126"/>
         <source>Ctrl+E</source>
-        <translation type="unfinished">Ctrl+E</translation>
+        <translation>Ctrl+E</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="65"/>
@@ -4311,7 +4311,7 @@ Bu ayarlar uygulanmalı mı?</translation>
         <location filename="../onlineusersdlg.cpp" line="65"/>
         <location filename="../onlineusersdlg.cpp" line="128"/>
         <source>Ctrl+O</source>
-        <translation type="unfinished">Ctrl+O</translation>
+        <translation>Ctrl+O</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="66"/>
@@ -4323,7 +4323,7 @@ Bu ayarlar uygulanmalı mı?</translation>
         <location filename="../onlineusersdlg.cpp" line="66"/>
         <location filename="../onlineusersdlg.cpp" line="130"/>
         <source>Ctrl+K</source>
-        <translation type="unfinished">Ctrl+K</translation>
+        <translation>Ctrl+K</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="67"/>
@@ -4335,7 +4335,7 @@ Bu ayarlar uygulanmalı mı?</translation>
         <location filename="../onlineusersdlg.cpp" line="67"/>
         <location filename="../onlineusersdlg.cpp" line="132"/>
         <source>Ctrl+B</source>
-        <translation type="unfinished">Ctrl+B</translation>
+        <translation>Ctrl+B</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="68"/>
@@ -4347,7 +4347,7 @@ Bu ayarlar uygulanmalı mı?</translation>
         <location filename="../onlineusersdlg.cpp" line="68"/>
         <location filename="../onlineusersdlg.cpp" line="134"/>
         <source>Ctrl+Alt+X</source>
-        <translation type="unfinished">Ctrl+Alt+X</translation>
+        <translation>Ctrl+Alt+X</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="213"/>
@@ -5723,12 +5723,12 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../serverlistdlg.cpp" line="743"/>
         <source>Delete Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucuyu Sil</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="744"/>
         <source>Delete server named &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; adlı sunucuyu sil</translation>
     </message>
 </context>
 <context>
