@@ -28,6 +28,11 @@ import AVFoundation
 class SoundInputsViewController : UITableViewController {
 
     override func viewDidLoad() {
+        // preferred device cannot be changed unless sound system is activated
+        if TT_GetFlags(ttInst) & CLIENT_SNDINPUT_READY.rawValue == 0 {
+            setupSoundDevices()
+        }
+        
         super.viewDidLoad()
         
         let center = NotificationCenter.default

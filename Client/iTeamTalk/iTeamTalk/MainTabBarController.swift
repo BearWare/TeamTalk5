@@ -45,9 +45,6 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
             addbtn.accessibilityLabel = NSLocalizedString("Create new channel", comment: "main-tab")
         }
 
-        // Our one and only TT client instance
-        ttInst = TT_InitTeamTalkPoll()
-        
         addToTTMessages(self)
         
         let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
@@ -93,14 +90,6 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         connectToServer()
     }
     
-    deinit {
-        // print("Destroyed main view controller")
-        if ttInst != nil {
-            TT_CloseTeamTalk(ttInst)
-            ttInst = nil
-        }
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -124,8 +113,6 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         if self.isMovingFromParent {
             polltimer?.invalidate()
             reconnecttimer?.invalidate()
-            TT_CloseTeamTalk(ttInst)
-            ttInst = nil
 
             ttMessageHandlers.removeAll()
             unreadmessages.removeAll()
