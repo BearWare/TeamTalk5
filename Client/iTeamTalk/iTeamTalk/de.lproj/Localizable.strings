@@ -104,6 +104,12 @@
 /* preferences */
 "Bjoern D. Rasmussen, contact@bearware.dk" = "Steffen Schultz, steffenschultz@mailbox.org";
 
+/* Sound Devices */
+"Bluetooth A2DP Playback" = "Bluetooth A2DP Playback";
+
+/* Sound Devices */
+"Bluetooth playback should use Advanced Audio Distribution Profile" = "Bluetooth playback should use Advanced Audio Distribution Profile";
+
 /* text message type */
 "Broadcast message" = "Servernachricht";
 
@@ -142,6 +148,9 @@
 
 /* server entry */
 "Check only if this server has enabled BearWare.dk Web Login" = "Nur aktivieren, wenn der Server BearWare.dk-Web-Login unterstützt";
+
+/* log entry */
+"Command failed: %@" = "Command failed: %@";
 
 /* create channel */
 "Commands" = "Befehle";

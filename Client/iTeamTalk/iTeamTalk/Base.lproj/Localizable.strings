@@ -767,3 +767,12 @@
 
 /* server entry */
 "Server Status" = "Server Status";
+
+/* Sound Devices */
+"Bluetooth A2DP Playback" = "Bluetooth A2DP Playback";
+
+/* Sound Devices */
+"Bluetooth playback should use Advanced Audio Distribution Profile" = "Bluetooth playback should use Advanced Audio Distribution Profile";
+
+/* log entry */
+"Command failed: %@" = "Command failed: %@";
