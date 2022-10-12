@@ -37,6 +37,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         TT_SetLicenseInformation(REGISTRATION_NAME, REGISTRATION_KEY)
         
+        // Our one and only TT client instance
+        ttInst = TT_InitTeamTalkPoll()
+        
         // Default values are not set in Settings bundle, so we need to load them manually
         let defaults = UserDefaults.standard
         defaults.synchronize()
@@ -126,6 +129,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        TT_CloseTeamTalk(ttInst)
+        ttInst = nil
     }
 
     func testBackgroundTask() {
