@@ -49,20 +49,22 @@ class SoundInputsViewController : UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let audioPortIndex = section
         let session = AVAudioSession.sharedInstance()
         if let inputs = session.availableInputs {
-            if section < inputs.count {
-                return inputs[section].portName
+            if audioPortIndex < inputs.count {
+                return inputs[audioPortIndex].portName
             }
         }
         return ""
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let audioPortIndex = section
         let session = AVAudioSession.sharedInstance()
         if let inputs = session.availableInputs {
-            if section < inputs.count {
-                if let datasources = inputs[section].dataSources {
+            if audioPortIndex < inputs.count {
+                if let datasources = inputs[audioPortIndex].dataSources {
                     return max(datasources.count, 1)
                 }
             }
@@ -71,11 +73,13 @@ class SoundInputsViewController : UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let audioPortIndex = indexPath.section
         let cell = tableView.dequeueReusableCell(withIdentifier: "SoundInput")
         let session = AVAudioSession.sharedInstance()
         if let inputs = session.availableInputs {
-            if indexPath.section < inputs.count {
-                let audioinput = inputs[indexPath.section]
+            if audioPortIndex < inputs.count {
+                let audioinput = inputs[audioPortIndex]
                 if let datasources = audioinput.dataSources {
                     if indexPath.row < datasources.count {
                         let audiodatasource = datasources[indexPath.row]
@@ -107,18 +111,17 @@ class SoundInputsViewController : UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        let session = AVAudioSession.sharedInstance()
-        
+        let audioPortIndex = indexPath.section
         do {
+            let session = AVAudioSession.sharedInstance()
             if let inputs = session.availableInputs {
-                if indexPath.section < inputs.count {
+                if audioPortIndex < inputs.count {
                     
-                    let audioinput = inputs[indexPath.section]
-                    
+                    let audioinput = inputs[audioPortIndex]
+                    print ("UID of \(audioinput.portName): \(audioinput.uid)");
                     if let datasources = audioinput.dataSources {
                         if indexPath.row < datasources.count {
                             let audiodatasource = datasources[indexPath.row]
-                            print ("UID of \(audioinput.portName): \(audioinput.uid)");
                             print ("Data source ID: \(audiodatasource.dataSourceID)")
                             try audioinput.setPreferredDataSource(audiodatasource)
                             try session.setPreferredInput(audioinput)
@@ -130,7 +133,9 @@ class SoundInputsViewController : UITableViewController {
                             removeAudioPortDataSource(descr: audioinput)
                         }
                     } // datasources
-                    
+                    else {
+                        print ("\(audioinput.portName) has no audio sources")
+                    }
                 }
             }
             print (session.currentRoute)
