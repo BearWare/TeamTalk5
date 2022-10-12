@@ -207,6 +207,7 @@ func setupSoundDevices() {
         let defaults = UserDefaults.standard
         let speaker = defaults.object(forKey: PREF_SPEAKER_OUTPUT) != nil && defaults.bool(forKey: PREF_SPEAKER_OUTPUT)
         let preprocess = defaults.object(forKey: PREF_VOICEPROCESSINGIO) != nil && defaults.bool(forKey: PREF_VOICEPROCESSINGIO)
+        let a2dp = defaults.object(forKey: PREF_BLUETOOTH_A2DP) != nil && defaults.bool(forKey: PREF_BLUETOOTH_A2DP)
         let headsettoggle = defaults.object(forKey: PREF_HEADSET_TXTOGGLE) != nil && defaults.bool(forKey: PREF_HEADSET_TXTOGGLE)
         
         TT_CloseSoundInputDevice(ttInst)
@@ -227,6 +228,9 @@ func setupSoundDevices() {
         else {
             if #available(iOS 10.0, *) {
                 catoptions = [ .allowBluetooth, .allowAirPlay, .allowBluetoothA2DP ]
+                if a2dp {
+                    catoptions.remove(.allowBluetooth)
+                }
             } else {
                 catoptions = [ .allowBluetooth ]
             }
