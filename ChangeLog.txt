@@ -11,6 +11,7 @@ Android Client
 -
 iOS Client
 - Support for Indonesian language
+- Fixed crash issue when loading server list
 Server
 -
 
