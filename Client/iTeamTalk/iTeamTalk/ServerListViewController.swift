@@ -157,46 +157,75 @@ class ServerListViewController : UITableViewController,
     }
     
     @objc func checkAppUpdate() {
-
-        // check for new version
-        let updateparser = AppUpdateParser()
         
+        // check for new version
         if let url = URL(string: AppInfo.getUpdateURL()) {
-            if let parser = XMLParser(contentsOf: url) {
-                parser.delegate = updateparser
-                parser.parse()
-                
-                if updateparser.registerUrl.isEmpty == false {
-                    AppInfo.BEARWARE_REGISTRATION_WEBSITE = updateparser.registerUrl
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                if error != nil {
+                    print ("Failed to check app update \(url.absoluteString)")
+                    return
+                }
+                guard let httpResponse = response as? HTTPURLResponse,
+                      (200...299).contains(httpResponse.statusCode) else {
+                    print ("Failed to check app update \(url.absoluteString)")
+                    return
+                }
+                if let data = data {
+                    let parser = XMLParser(data: data)
+                    let updateparser = AppUpdateParser()
+                    parser.delegate = updateparser
+                    parser.parse()
+                    if updateparser.registerUrl.isEmpty == false {
+                        AppInfo.BEARWARE_REGISTRATION_WEBSITE = updateparser.registerUrl
+                    }
                 }
             }
+            task.resume()
         }
-        
         nextappupdate = nextappupdate.addingTimeInterval(60 * 60 * 24)
     }
     
     @objc func downloadServerList() {
 
         // get xml-list of public server
-        let serverparser = ServerParser()
-        
+       
         let defaults = UserDefaults.standard
         let official = defaults.object(forKey: PREF_DISPLAY_OFFICIALSERVERS) == nil || defaults.bool(forKey: PREF_DISPLAY_OFFICIALSERVERS)
         let publicc = defaults.object(forKey: PREF_DISPLAY_PUBLICSERVERS) == nil || defaults.bool(forKey: PREF_DISPLAY_PUBLICSERVERS)
         let unofficial = defaults.object(forKey: PREF_DISPLAY_UNOFFICIALSERVERS) != nil && defaults.bool(forKey: PREF_DISPLAY_UNOFFICIALSERVERS)
 
         if let serversurl = URL(string: AppInfo.getServersURL(officialservers: official, publicservers: publicc, unofficialservers: unofficial)) {
-            
-            if let parser = XMLParser(contentsOf: serversurl) {
-                parser.delegate = serverparser
-                parser.parse()
-
-                for s in serverparser.servers {
-                    servers.append(s)
+        
+            let task = URLSession.shared.dataTask(with: serversurl) { data, response, error in
+                if error != nil {
+                    print ("Failed to download server list \(serversurl.absoluteString)")
+                    return
                 }
-                tableView.reloadData()
+                guard let httpResponse = response as? HTTPURLResponse,
+                      (200...299).contains(httpResponse.statusCode) else {
+                    print ("Failed to download server list \(serversurl.absoluteString)")
+                    return
+                }
+                if let data = data {
+                    DispatchQueue.main.async {
+                        self.insertServerList(data: data)
+                    }
+                }
             }
+            task.resume()
         }
+    }
+    
+    func insertServerList(data: Data) {
+        let parser = XMLParser(data: data)
+        let serverparser = ServerParser()
+        parser.delegate = serverparser
+        parser.parse()
+        
+        for s in serverparser.servers {
+            servers.append(s)
+        }
+        tableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -550,6 +579,8 @@ class ServerParser : NSObject, XMLParserDelegate {
             currentServer.stats_servername = string
         case "motd" :
             currentServer.stats_motd = string
+        case "active" :
+            break
         default :
             print("Unknown tag " + self.elementStack.last!)
         }
