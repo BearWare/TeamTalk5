@@ -105,6 +105,12 @@
 /* preferences */
 "Bjoern D. Rasmussen, contact@bearware.dk" = "Bjoern D. Rasmussen, contact@bearware.dk";
 
+/* Sound Devices */
+"Bluetooth A2DP Playback" = "Bluetooth A2DP Playback";
+
+/* Sound Devices */
+"Bluetooth playback should use Advanced Audio Distribution Profile" = "Bluetooth playback should use Advanced Audio Distribution Profile";
+
 /* text message type */
 "Broadcast message" = "방송";
 
@@ -146,6 +152,9 @@
 
 /* server entry */
 "Check only if this server has enabled Facebook login" = "페이스북 로그인 인증이 가능한 서버에서만 사용 가능한 옵션입니다.";
+
+/* log entry */
+"Command failed: %@" = "Command failed: %@";
 
 /* create channel */
 "Commands" = "명령";

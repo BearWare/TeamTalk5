@@ -246,7 +246,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         voiceactlevelChanged(voiceactslider)
         sound_items.append(voiceactcell!)
         
-        let sndinputscell = tableView.dequeueReusableCell(withIdentifier: "SelectMicrophone")
+        let sndinputscell = tableView.dequeueReusableCell(withIdentifier: "SelectSoundDevices")
         sound_items.append(sndinputscell!)
         
         let headsettxcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)

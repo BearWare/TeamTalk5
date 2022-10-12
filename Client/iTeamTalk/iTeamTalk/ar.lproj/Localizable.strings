@@ -104,6 +104,12 @@
 /* preferences */
 "Bjoern D. Rasmussen, contact@bearware.dk" = "مؤمل الجناحي (Muamal Aljanahi), muamal.aljanahi@gmail.com";
 
+/* Sound Devices */
+"Bluetooth A2DP Playback" = "Bluetooth A2DP Playback";
+
+/* Sound Devices */
+"Bluetooth playback should use Advanced Audio Distribution Profile" = "Bluetooth playback should use Advanced Audio Distribution Profile";
+
 /* text message type */
 "Broadcast message" = "رسالة عامة";
 
@@ -142,6 +148,9 @@
 
 /* server entry */
 "Check only if this server has enabled BearWare.dk Web Login" = "حدد فقط إذا قام هذا الخادم بتمكين تسجيل الدخول إلى BearWare.dk";
+
+/* log entry */
+"Command failed: %@" = "Command failed: %@";
 
 /* create channel */
 "Commands" = "الأوامر";

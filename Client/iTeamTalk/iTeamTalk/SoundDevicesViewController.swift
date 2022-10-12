@@ -25,7 +25,7 @@ import UIKit
 import Foundation
 import AVFoundation
 
-class SoundInputsViewController : UITableViewController {
+class SoundDevicesViewController : UITableViewController {
 
     let SECTION_GENERAL     = 0,
         SECTION_COUNT_MIN   = 1
@@ -46,29 +46,29 @@ class SoundInputsViewController : UITableViewController {
         let speakerswitch = newTableCellSwitch(speakercell, label: NSLocalizedString("Speaker Output", comment: "preferences"),
             initial: settings.object(forKey: PREF_SPEAKER_OUTPUT) != nil && settings.bool(forKey: PREF_SPEAKER_OUTPUT))
         speakercell.detailTextLabel!.text = NSLocalizedString("Use iPhone's speaker instead of earpiece", comment: "preferences")
-        speakerswitch.addTarget(self, action: #selector(SoundInputsViewController.speakeroutputChanged(_:)), for: .valueChanged)
+        speakerswitch.addTarget(self, action: #selector(SoundDevicesViewController.speakeroutputChanged(_:)), for: .valueChanged)
         sound_items.append(speakercell)
         
         let voice_prepcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         let voiceprepswitch = newTableCellSwitch(voice_prepcell, label: NSLocalizedString("Voice Preprocessing", comment: "preferences"),
             initial: settings.object(forKey: PREF_VOICEPROCESSINGIO) != nil && settings.bool(forKey: PREF_VOICEPROCESSINGIO))
         voice_prepcell.detailTextLabel!.text = NSLocalizedString("Use echo cancellation and automatic gain control",
-                                                                 comment: "Sound Input")
-        voiceprepswitch.addTarget(self, action: #selector(SoundInputsViewController.voicepreprocessingChanged(_:)), for: .valueChanged)
+                                                                 comment: "Sound Devices")
+        voiceprepswitch.addTarget(self, action: #selector(SoundDevicesViewController.voicepreprocessingChanged(_:)), for: .valueChanged)
         sound_items.append(voice_prepcell)
 
         if #available(iOS 10.0, *) {
             let a2dpcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-            let a2dpswitch = newTableCellSwitch(a2dpcell, label: NSLocalizedString("Bluetooth A2DP Playback", comment: "Sound Input"),
+            let a2dpswitch = newTableCellSwitch(a2dpcell, label: NSLocalizedString("Bluetooth A2DP Playback", comment: "Sound Devices"),
                                                 initial: settings.object(forKey: PREF_BLUETOOTH_A2DP) != nil && settings.bool(forKey: PREF_BLUETOOTH_A2DP))
             a2dpcell.detailTextLabel!.text = NSLocalizedString("Bluetooth playback should use Advanced Audio Distribution Profile",
-                                                               comment: "Sound Input")
-            a2dpswitch.addTarget(self, action: #selector(SoundInputsViewController.bluetoothA2DPChanged(_:)), for: .valueChanged)
+                                                               comment: "Sound Devices")
+            a2dpswitch.addTarget(self, action: #selector(SoundDevicesViewController.bluetoothA2DPChanged(_:)), for: .valueChanged)
             sound_items.append(a2dpcell)
         }
 
         let center = NotificationCenter.default
-        center.addObserver(self, selector: #selector(SoundInputsViewController.audioRouteChange(_:)), name: AVAudioSession.routeChangeNotification, object: nil)
+        center.addObserver(self, selector: #selector(SoundDevicesViewController.audioRouteChange(_:)), name: AVAudioSession.routeChangeNotification, object: nil)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -84,7 +84,7 @@ class SoundInputsViewController : UITableViewController {
         
         switch section {
         case SECTION_GENERAL :
-            return NSLocalizedString("General", comment: "Sound Input")
+            return NSLocalizedString("General", comment: "Sound Devices")
         default :
             let audioPortIndex = section - SECTION_COUNT_MIN
             let session = AVAudioSession.sharedInstance()
@@ -159,7 +159,7 @@ class SoundInputsViewController : UITableViewController {
     }
     
     func createAudioInputTableCell(audioPortIndex: Int, dataSourceIndex: Int) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SoundInput")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SoundDevices")
         let session = AVAudioSession.sharedInstance()
         if let inputs = session.availableInputs {
             if audioPortIndex < inputs.count {
@@ -170,22 +170,22 @@ class SoundInputsViewController : UITableViewController {
                         var srcName = audiodatasource.dataSourceName
                         if #available(iOS 14.0, *) {
                             if audiodatasource.supportedPolarPatterns != nil && audiodatasource.supportedPolarPatterns!.contains(.stereo) {
-                                srcName += " (" + NSLocalizedString("Stereo", comment: "Sound Input") + ")"
+                                srcName += " (" + NSLocalizedString("Stereo", comment: "Sound Devices") + ")"
                             }
                         }
                         
                         if getAudioPortDataSource(descr: audioinput) == audiodatasource.dataSourceID {
-                            srcName += ", " + NSLocalizedString("Preferred", comment: "Sound Input")
+                            srcName += ", " + NSLocalizedString("Preferred", comment: "Sound Devices")
                         }
                         
                         if session.inputDataSource?.dataSourceID == audiodatasource.dataSourceID {
-                            srcName += ", " + NSLocalizedString("Active", comment: "Sound Input")
+                            srcName += ", " + NSLocalizedString("Active", comment: "Sound Devices")
                         }
 
                         cell!.textLabel?.text = srcName
                     }
                     else {
-                        cell!.textLabel?.text = NSLocalizedString("Default", comment: "Sound Input")
+                        cell!.textLabel?.text = NSLocalizedString("Default", comment: "Sound Devices")
                     }
                 }
             }
@@ -206,7 +206,7 @@ class SoundInputsViewController : UITableViewController {
     }
 
     @objc func audioRouteChange(_ notification: Notification) {
-        print("Audio Route changed in Sound Inputs table")
+        print("Audio Route changed in Sound Devicess table")
         self.tableView.reloadData()
     }
     
