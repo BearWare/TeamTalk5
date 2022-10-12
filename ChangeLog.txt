@@ -10,6 +10,7 @@ Accessible Windows Client
 Android Client
 -
 iOS Client
+- Force playback using Bluetooth Advanced Audio Distribution Profile (A2DP)
 - Support for Indonesian language
 - Fixed crash issue when loading server list
 Server
