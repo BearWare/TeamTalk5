@@ -44,6 +44,7 @@ let PREF_DISPLAY_UNOFFICIALSERVERS = "display_unofficialservers_preference"
 let PREF_MASTER_VOLUME = "mastervolume_preference"
 let PREF_MICROPHONE_GAIN = "microphonegain_preference"
 let PREF_SPEAKER_OUTPUT = "speakeroutput_preference"
+let PREF_BLUETOOTH_A2DP = "bluetooth_a2dp_preference"
 let PREF_VOICEACTIVATION = "voiceactivationlevel_preference"
 let PREF_MEDIAFILE_VOLUME = "mediafile_volume_preference"
 let PREF_HEADSET_TXTOGGLE = "headset_tx_preference"
@@ -245,13 +246,6 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         voiceactlevelChanged(voiceactslider)
         sound_items.append(voiceactcell!)
         
-        let speakercell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let speakerswitch = newTableCellSwitch(speakercell, label: NSLocalizedString("Speaker Output", comment: "preferences"),
-            initial: settings.object(forKey: PREF_SPEAKER_OUTPUT) != nil && settings.bool(forKey: PREF_SPEAKER_OUTPUT))
-        speakercell.detailTextLabel!.text = NSLocalizedString("Use iPhone's speaker instead of earpiece", comment: "preferences")
-        speakerswitch.addTarget(self, action: #selector(PreferencesViewController.speakeroutputChanged(_:)), for: .valueChanged)
-        sound_items.append(speakercell)
-        
         let sndinputscell = tableView.dequeueReusableCell(withIdentifier: "SelectMicrophone")
         sound_items.append(sndinputscell!)
         
@@ -262,15 +256,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         headsettxswitch.addTarget(self, action: #selector(PreferencesViewController.headsetTxToggleChanged(_:)), for: .valueChanged)
         sound_items.append(headsettxcell)
         
-        let voice_prepcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let voiceprepswitch = newTableCellSwitch(voice_prepcell, label: NSLocalizedString("Voice Preprocessing", comment: "preferences"),
-            initial: settings.object(forKey: PREF_VOICEPROCESSINGIO) != nil && settings.bool(forKey: PREF_VOICEPROCESSINGIO))
-        voice_prepcell.detailTextLabel!.text = NSLocalizedString("Use echo cancellation and automatic gain control",
-                                                                 comment: "preferences")
-        voiceprepswitch.addTarget(self, action: #selector(PreferencesViewController.voicepreprocessingChanged(_:)), for: .valueChanged)
-        sound_items.append(voice_prepcell)
-        
-        
+
         // sound events
         
         let sndeventscell = tableView.dequeueReusableCell(withIdentifier: "SoundEvents")
@@ -473,14 +459,6 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         defaults.set(sender.isOn, forKey: PREF_DISPLAY_SHOWUSERNAME)
     }
     
-    @objc func speakeroutputChanged(_ sender: UISwitch) {
-        
-        let defaults = UserDefaults.standard
-        defaults.set(sender.isOn, forKey: PREF_SPEAKER_OUTPUT)
-        
-        setupSoundDevices()
-    }
-
     @objc func headsetTxToggleChanged(_ sender: UISwitch) {
         
         let defaults = UserDefaults.standard
@@ -494,14 +472,6 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         }
         
         // Headset TX toggle modifies .mixWithOthers flag
-        setupSoundDevices()
-    }
-
-    @objc func voicepreprocessingChanged(_ sender: UISwitch) {
-        
-        let defaults = UserDefaults.standard
-        defaults.set(sender.isOn, forKey: PREF_VOICEPROCESSINGIO)
-        
         setupSoundDevices()
     }
 
