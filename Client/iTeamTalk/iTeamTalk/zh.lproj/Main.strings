@@ -143,7 +143,7 @@
 "NA0-UK-wve.title" = "首选项";
 
 /* Class = "UILabel"; text = "Setup Sound Devices"; ObjectID = "ntU-ZP-sKb"; */
-"ntU-ZP-sKb.text" = "Setup Sound Devices";
+"ntU-ZP-sKb.text" = "设置声音设备";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "nVj-7w-Sta"; */
 "nVj-7w-Sta.text" = "空白";
