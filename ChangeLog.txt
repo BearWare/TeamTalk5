@@ -2,7 +2,21 @@
                  TeamTalk
 ----------------------------------------------
 
-Version 5.11, unreleased
+Version 5.12, unreleased
+Default Qt Client
+-
+Accessible Windows Client
+-
+Android Client
+-
+iOS Client
+- Force playback using Bluetooth Advanced Audio Distribution Profile (A2DP)
+- Support for Indonesian language
+- Fixed crash issue when loading server list
+Server
+-
+
+Version 5.11, 2022/10/02
 Accessible Windows Client
 - Only 64-bit Windows is now supported
 Default Qt Client

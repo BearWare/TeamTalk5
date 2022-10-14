@@ -4,6 +4,11 @@
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v511arelease
+ * - @ref v511afeatures
+ * - @ref v511abugfixes
+ * - @ref v511aapi
+ *
  * @ref v59arelease
  * - @ref v59afeatures
  *   - @ref v59aserverlog
@@ -228,6 +233,37 @@
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v511arelease TeamTalk 5 SDK v. 5.11a release, October 2nd 2022
+ * 
+ * @subsection v511afeatures New features in v5.11a
+ *
+ * Here's the list of new features in TeamTalk SDK v5.11a:
+ * - TeamTalk server restores classroom transmissions
+ * - Standard Edition TeamTalk server (tt5srv) no longer depend on OpenSSL
+ * - Professional Edition TeamTalk server (tt5prosrv) requires
+ *   BearWare.dk WebLogin authentication to run
+ * - Subscription changes are written to server's log file
+ * - Password of operators are forwarded to operators and administrators
+ * - Auto-operators can update channels they're not currently participating in
+ * - Channel operator status is resumed after connection lost when
+ *   using BearWare.dk WebLogin
+ * - TeamTalk SDK now targets Ubuntu 22 instead of Ubuntu 18
+ *
+ * @subsection v511abugfixes Bug Fixes in v5.11a
+ *
+ * Here's the list of bug fixes in TeamTalk SDK v5.11a:
+ *
+ * - Fixed issue where channel bans were no longer valid after channel
+ *   is renamed
+ * - Fixed time zone conversion in TeamTalk server when time zone is
+ *   before UTC.
+ *
+ * @subsection v511aapi API change in v5.11a
+ *
+ * - New enum value #MSGTYPE_NONE.
  *
  * <hr>
  *

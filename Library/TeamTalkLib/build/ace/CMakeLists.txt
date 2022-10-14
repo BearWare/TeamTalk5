@@ -21,7 +21,7 @@ if (MSVC)
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
       ExternalProject_Add(ACE-src
         GIT_REPOSITORY    https://github.com/bear101/ACE
-        GIT_TAG           ACE+TAO-6_5_12
+        GIT_TAG           ACE+TAO-7_0_9
         GIT_SUBMODULES_RECURSE TRUE
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
@@ -29,7 +29,7 @@ if (MSVC)
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
         COMMAND           git submodule add https://github.com/bear101/MPC ACE/MPC
         COMMAND           git submodule update --init ACE/MPC
-        COMMAND           git -C ACE/MPC checkout ACE+TAO-6_5_12
+        COMMAND           git -C ACE/MPC checkout ACE+TAO-7_0_9
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
         CONFIGURE_COMMAND ""
         BUILD_IN_SOURCE   TRUE
@@ -59,7 +59,7 @@ if (MSVC)
     else()
       ExternalProject_Add(ACE-src
         GIT_REPOSITORY    https://github.com/bear101/ACE
-        GIT_TAG           ACE+TAO-6_5_12
+        GIT_TAG           ACE+TAO-7_0_9
         GIT_SUBMODULES_RECURSE TRUE
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
@@ -67,7 +67,7 @@ if (MSVC)
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
         COMMAND           git submodule add https://github.com/bear101/MPC ACE/MPC
         COMMAND           git submodule update --init ACE/MPC
-        COMMAND           git -C ACE/MPC checkout ACE+TAO-6_5_12
+        COMMAND           git -C ACE/MPC checkout ACE+TAO-7_0_9
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
         CONFIGURE_COMMAND ""
         BUILD_IN_SOURCE   TRUE
@@ -135,7 +135,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(MPC
       GIT_REPOSITORY    https://github.com/bear101/MPC
-      GIT_TAG           ACE+TAO-6_5_12
+      GIT_TAG           ACE+TAO-7_0_9
       GIT_SUBMODULES_RECURSE TRUE
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
@@ -149,7 +149,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(ACE-src
       GIT_REPOSITORY    https://github.com/bear101/ACE
-      GIT_TAG           ACE+TAO-6_5_12
+      GIT_TAG           ACE+TAO-7_0_9
       GIT_SUBMODULES_RECURSE TRUE
       GIT_SHALLOW       TRUE
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
@@ -236,7 +236,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(MPC
       GIT_REPOSITORY    https://github.com/bear101/MPC
-      GIT_TAG           ACE+TAO-6_5_12
+      GIT_TAG           ACE+TAO-7_0_9
       GIT_SUBMODULES_RECURSE TRUE
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
@@ -250,7 +250,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
     ExternalProject_Add(ACE-src
       GIT_REPOSITORY    https://github.com/bear101/ACE
-      GIT_TAG           ACE+TAO-6_5_12
+      GIT_TAG           ACE+TAO-7_0_9
       GIT_SUBMODULES_RECURSE TRUE
       GIT_SHALLOW       TRUE
       PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
@@ -329,7 +329,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(MPC
       GIT_REPOSITORY    https://github.com/bear101/MPC
-      GIT_TAG           ACE+TAO-6_5_12
+      GIT_TAG           ACE+TAO-7_0_9
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/MPC
       CONFIGURE_COMMAND ""
@@ -341,7 +341,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
     ExternalProject_Add(ACE-src
       GIT_REPOSITORY    https://github.com/bear101/ACE
-      GIT_TAG           ACE+TAO-6_5_12
+      GIT_TAG           ACE+TAO-7_0_9
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
       PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
@@ -359,7 +359,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       COMMAND           echo "INSTALL_PREFIX=<INSTALL_DIR>" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       # Create 'config.h'
       COMMAND           echo "#define ACE_AS_STATIC_LIBS 1" > <SOURCE_DIR>/ACE/ace/config.h
-      COMMAND           echo "#define ACE_HAS_IPV6 1" > <SOURCE_DIR>/ACE/ace/config.h
+      COMMAND           echo "#define ACE_HAS_IPV6 1" >> <SOURCE_DIR>/ACE/ace/config.h
       COMMAND           echo "#define ACE_HAS_CPP11" >> <SOURCE_DIR>/ACE/ace/config.h
       COMMAND           echo "#include \"ace/config-linux.h\"" >> <SOURCE_DIR>/ACE/ace/config.h
       # Setup MPC
@@ -419,7 +419,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(MPC
       GIT_REPOSITORY    https://github.com/bear101/MPC
-      GIT_TAG           ACE+TAO-6_5_12
+      GIT_TAG           ACE+TAO-7_0_9
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/MPC
       CONFIGURE_COMMAND ""
@@ -445,7 +445,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
     ExternalProject_Add(ACE-src
       GIT_REPOSITORY    https://github.com/bear101/ACE
-      GIT_TAG           ACE+TAO-6_5_12
+      GIT_TAG           ACE+TAO-7_0_9
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
       PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Make-CROSS_COMPILE-configurable-for-Android.patch
@@ -467,7 +467,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       COMMAND           echo "include <SOURCE_DIR>/ACE/include/makeinclude/platform_android.GNU" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       # Create 'config.h'
       COMMAND           echo "#define ACE_AS_STATIC_LIBS 1" > <SOURCE_DIR>/ACE/ace/config.h
-      COMMAND           echo "#define ACE_HAS_IPV6 1" > <SOURCE_DIR>/ACE/ace/config.h
+      COMMAND           echo "#define ACE_HAS_IPV6 1" >> <SOURCE_DIR>/ACE/ace/config.h
       COMMAND           echo "#define ACE_HAS_CPP11" >> <SOURCE_DIR>/ACE/ace/config.h
       COMMAND           echo "#define ACE_LACKS_GETIPNODEBYADDR 1 /* missing in android netdb.h */" >> <SOURCE_DIR>/ACE/ace/config.h
       COMMAND           echo "#define ACE_LACKS_GETIPNODEBYNAME_IPV6 1" >> <SOURCE_DIR>/ACE/ace/config.h

@@ -1,4 +1,4 @@
-name: Ubuntu 18 SmokeTest
+name: SmokeTest
 
 on: [push]
 
@@ -16,7 +16,7 @@ jobs:
     # well on Windows or Mac.  You can convert this to a matrix build if you need
     # cross-platform coverage.
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v2
@@ -33,41 +33,45 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: source env.sh
 
+    - name: Update packages
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      # Ensure FFmpeg doesn't detect additional dependencies
+      run: |
+        sudo apt remove libmagickcore-dev libmagickwand-dev libbz2-dev liblzma-dev
+        sudo apt autoremove
+
     - name: Install Dependencies
       run: >-
-           sudo apt install libace-dev
-           libace-ssl-dev
+           sudo apt install
+           cmake
+           doxygen
+           junit4
+           libace-dev
            libace-inet-dev
            libace-inet-ssl-dev
-           libtinyxml-dev
-           zlib1g-dev
-           libssl-dev
+           libace-ssl-dev
+           libasound2-dev
+           libogg-dev
            libopus-dev
+           libpcap-dev
+           libqt5texttospeech5-dev
+           libqt5x11extras5-dev
            libspeex-dev
            libspeexdsp-dev
+           libssl-dev
+           libtinyxml-dev
            libvpx-dev
-           libogg-dev
+           ninja-build
            portaudio19-dev
-           libasound2-dev
-           libavcodec-dev
-           libavdevice-dev
-           libavfilter-dev
-           libavformat-dev
-           libavresample-dev
-           libavutil-dev
-           libswresample-dev
-           libswscale-dev
-           cmake
            python3-minimal
            python3-pytest
-           junit4
-           ninja-build
-           doxygen
-           valgrind
-           libpcap-dev
-           qt5-default
+           qtbase5-dev
            qtmultimedia5-dev
-           libqt5x11extras5-dev
+           qttools5-dev
+           qttools5-dev-tools
+           valgrind
+           yasm
+           zlib1g-dev
 
 
     - name: Clone submodules
@@ -97,7 +101,7 @@ jobs:
            -DFEATURE_WEBRTC=OFF
            -DTOOLCHAIN_ACE=OFF
            -DTOOLCHAIN_CATCH2=ON
-           -DTOOLCHAIN_FFMPEG=OFF
+           -DTOOLCHAIN_FFMPEG=ON
            -DTOOLCHAIN_LIBVPX=OFF
            -DTOOLCHAIN_OGG=OFF
            -DTOOLCHAIN_OPENSSL=OFF

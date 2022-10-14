@@ -1,7 +1,7 @@
-From 080f3f7f59d89c5164639bb32d94767b8796016f Mon Sep 17 00:00:00 2001
+From 99d6ebcadfc31033db4d3334c1e3b943e1199495 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bj=C3=B8rn=20Damstedt=20Rasmussen?= <contact@bearware.dk>
-Date: Fri, 4 Jan 2019 11:05:42 +0100
-Subject: [PATCH 2/4] Enable SNI for TLS.
+Date: Wed, 5 Oct 2022 13:41:10 +0200
+Subject: [PATCH] Enable SNI for TLS
 
 ---
  ACE/protocols/ace/INet/HTTPS_Session.cpp      | 14 ++++++++++++
@@ -11,10 +11,10 @@ Subject: [PATCH 2/4] Enable SNI for TLS.
  4 files changed, 39 insertions(+), 7 deletions(-)
 
 diff --git a/ACE/protocols/ace/INet/HTTPS_Session.cpp b/ACE/protocols/ace/INet/HTTPS_Session.cpp
-index 94ba1f6f735..81462333935 100644
+index a92d4a054cb..96878e5564a 100644
 --- a/ACE/protocols/ace/INet/HTTPS_Session.cpp
 +++ b/ACE/protocols/ace/INet/HTTPS_Session.cpp
-@@ -133,6 +133,13 @@ namespace ACE
+@@ -132,6 +132,13 @@ namespace ACE
                  ::SSL * ssl_ptr = new_connection->peer ().ssl ();
                  ::SSL_set_SSL_CTX (ssl_ptr, this->context_->ssl_context ().context ());
                }
@@ -28,7 +28,7 @@ index 94ba1f6f735..81462333935 100644
  #endif
              ACE_HANDLE proxy_conn_handle = proxy_connection.peer ().get_handle ();
              proxy_connection.peer ().set_handle (ACE_INVALID_HANDLE);
-@@ -162,6 +169,13 @@ namespace ACE
+@@ -161,6 +168,13 @@ namespace ACE
                  ::SSL * ssl_ptr = new_connection->peer ().ssl ();
                  ::SSL_set_SSL_CTX (ssl_ptr, this->context_->ssl_context ().context ());
                }
@@ -43,10 +43,10 @@ index 94ba1f6f735..81462333935 100644
              typedef ACE_Connector<connection_type, ACE_SSL_SOCK_Connector> connector_type;
  
 diff --git a/ACE/protocols/ace/INet/HTTPS_SessionFactory.cpp b/ACE/protocols/ace/INet/HTTPS_SessionFactory.cpp
-index 17818a92b5b..cf5dba7c18f 100644
+index ef54eb8262b..dbf0162763a 100644
 --- a/ACE/protocols/ace/INet/HTTPS_SessionFactory.cpp
 +++ b/ACE/protocols/ace/INet/HTTPS_SessionFactory.cpp
-@@ -69,7 +69,14 @@ namespace ACE
+@@ -68,7 +68,14 @@ namespace ACE
          return 0;
        }
  
@@ -62,7 +62,7 @@ index 17818a92b5b..cf5dba7c18f 100644
  
  ACE_END_VERSIONED_NAMESPACE_DECL
 diff --git a/ACE/protocols/ace/INet/HTTPS_SessionFactory.h b/ACE/protocols/ace/INet/HTTPS_SessionFactory.h
-index a38b99f6c68..9d83fed7940 100644
+index 7d64fef1747..4f400e6e110 100644
 --- a/ACE/protocols/ace/INet/HTTPS_SessionFactory.h
 +++ b/ACE/protocols/ace/INet/HTTPS_SessionFactory.h
 @@ -58,6 +58,9 @@ namespace ACE
@@ -73,10 +73,10 @@ index a38b99f6c68..9d83fed7940 100644
 +              // added by bdr
 +              static void registerHTTPS();
            };
- 
        }
+   }
 diff --git a/ACE/protocols/examples/INet/HTTP_Simple_exec.cpp b/ACE/protocols/examples/INet/HTTP_Simple_exec.cpp
-index 0c4f2e24754..bde7eea4a2f 100644
+index 35abddb6b89..71b0eeabfe6 100644
 --- a/ACE/protocols/examples/INet/HTTP_Simple_exec.cpp
 +++ b/ACE/protocols/examples/INet/HTTP_Simple_exec.cpp
 @@ -6,6 +6,10 @@
@@ -127,5 +127,5 @@ index 0c4f2e24754..bde7eea4a2f 100644
          {
            std::cout << "Received response "
 -- 
-2.32.0
+2.37.0 (Apple Git-136)
 

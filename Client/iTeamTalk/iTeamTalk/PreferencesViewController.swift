@@ -44,6 +44,7 @@ let PREF_DISPLAY_UNOFFICIALSERVERS = "display_unofficialservers_preference"
 let PREF_MASTER_VOLUME = "mastervolume_preference"
 let PREF_MICROPHONE_GAIN = "microphonegain_preference"
 let PREF_SPEAKER_OUTPUT = "speakeroutput_preference"
+let PREF_BLUETOOTH_A2DP = "bluetooth_a2dp_preference"
 let PREF_VOICEACTIVATION = "voiceactivationlevel_preference"
 let PREF_MEDIAFILE_VOLUME = "mediafile_volume_preference"
 let PREF_HEADSET_TXTOGGLE = "headset_tx_preference"
@@ -208,14 +209,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         // sound preferences
         
         mastervolcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        var outputvol = Int(SOUND_VOLUME_DEFAULT.rawValue)
-        if ttInst != nil {
-            outputvol = Int(TT_GetSoundOutputVolume(ttInst))
-        }
-        else if settings.object(forKey: PREF_MASTER_VOLUME) != nil {
-            let output_pct = settings.integer(forKey: PREF_MASTER_VOLUME)
-            outputvol = refVolume(Double(output_pct))
-        }
+        let outputvol = Int(TT_GetSoundOutputVolume(ttInst))
         let output_pct = refVolumeToPercent(outputvol)
         let mastervolslider = newTableCellSlider(mastervolcell!, label: NSLocalizedString("Master Volume", comment: "preferences"), min: 0, max: 1, initial: Float(output_pct) / 100)
         mastervolslider.addTarget(self, action: #selector(PreferencesViewController.masterVolumeChanged(_:)), for: .valueChanged)
@@ -233,14 +227,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         sound_items.append(mfvolumecell)
 
         microphonecell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        var inputvol = Int(SOUND_GAIN_DEFAULT.rawValue)
-        if ttInst != nil {
-            inputvol = Int(TT_GetSoundInputGainLevel(ttInst))
-        }
-        else if settings.object(forKey: PREF_MICROPHONE_GAIN) != nil {
-            let input_pct = settings.integer(forKey: PREF_MICROPHONE_GAIN)
-            inputvol = refVolume(Double(input_pct))
-        }
+        let inputvol = Int(TT_GetSoundInputGainLevel(ttInst))
         let input_pct = refVolumeToPercent(inputvol)
         let microphoneslider = newTableCellSlider(microphonecell!, label: NSLocalizedString("Microphone Gain", comment: "preferences"), min: 0, max: 1, initial: Float(input_pct) / 100)
         microphoneslider.addTarget(self, action: #selector(PreferencesViewController.microphoneGainChanged(_:)), for: .valueChanged)
@@ -259,14 +246,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         voiceactlevelChanged(voiceactslider)
         sound_items.append(voiceactcell!)
         
-        let speakercell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let speakerswitch = newTableCellSwitch(speakercell, label: NSLocalizedString("Speaker Output", comment: "preferences"),
-            initial: settings.object(forKey: PREF_SPEAKER_OUTPUT) != nil && settings.bool(forKey: PREF_SPEAKER_OUTPUT))
-        speakercell.detailTextLabel!.text = NSLocalizedString("Use iPhone's speaker instead of earpiece", comment: "preferences")
-        speakerswitch.addTarget(self, action: #selector(PreferencesViewController.speakeroutputChanged(_:)), for: .valueChanged)
-        sound_items.append(speakercell)
-        
-        let sndinputscell = tableView.dequeueReusableCell(withIdentifier: "SelectMicrophone")
+        let sndinputscell = tableView.dequeueReusableCell(withIdentifier: "SelectSoundDevices")
         sound_items.append(sndinputscell!)
         
         let headsettxcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
@@ -276,15 +256,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         headsettxswitch.addTarget(self, action: #selector(PreferencesViewController.headsetTxToggleChanged(_:)), for: .valueChanged)
         sound_items.append(headsettxcell)
         
-        let voice_prepcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let voiceprepswitch = newTableCellSwitch(voice_prepcell, label: NSLocalizedString("Voice Preprocessing", comment: "preferences"),
-            initial: settings.object(forKey: PREF_VOICEPROCESSINGIO) != nil && settings.bool(forKey: PREF_VOICEPROCESSINGIO))
-        voice_prepcell.detailTextLabel!.text = NSLocalizedString("Use echo cancellation and automatic gain control",
-                                                                 comment: "preferences")
-        voiceprepswitch.addTarget(self, action: #selector(PreferencesViewController.voicepreprocessingChanged(_:)), for: .valueChanged)
-        sound_items.append(voice_prepcell)
-        
-        
+
         // sound events
         
         let sndeventscell = tableView.dequeueReusableCell(withIdentifier: "SoundEvents")
@@ -429,9 +401,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
     }
     
     @objc func nicknameChanged(_ sender: UITextField) {
-        if ttInst != nil {
-            TT_DoChangeNickname(ttInst, sender.text!)
-        }
+        TT_DoChangeNickname(ttInst, sender.text!)
         
         let defaults = UserDefaults.standard
         defaults.setValue(sender.text!, forKey: PREF_GENERAL_NICKNAME)
@@ -450,9 +420,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
     @objc func masterVolumeChanged(_ sender: UISlider) {
         let percent : Int = Int(sender.value * 10.0) * 10
         let vol = refVolume(Double(percent))
-        if ttInst != nil {
-            TT_SetSoundOutputVolume(ttInst, INT32(vol))
-        }
+        TT_SetSoundOutputVolume(ttInst, INT32(vol))
         
         if UInt32(vol) == SOUND_VOLUME_DEFAULT.rawValue {
             let txt = String(format: NSLocalizedString("%d %% - Default", comment: "preferences"), percent)
@@ -491,14 +459,6 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         defaults.set(sender.isOn, forKey: PREF_DISPLAY_SHOWUSERNAME)
     }
     
-    @objc func speakeroutputChanged(_ sender: UISwitch) {
-        
-        let defaults = UserDefaults.standard
-        defaults.set(sender.isOn, forKey: PREF_SPEAKER_OUTPUT)
-        
-        setupSoundDevices()
-    }
-
     @objc func headsetTxToggleChanged(_ sender: UISwitch) {
         
         let defaults = UserDefaults.standard
@@ -515,28 +475,16 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         setupSoundDevices()
     }
 
-    @objc func voicepreprocessingChanged(_ sender: UISwitch) {
-        
-        let defaults = UserDefaults.standard
-        defaults.set(sender.isOn, forKey: PREF_VOICEPROCESSINGIO)
-        
-        setupSoundDevices()
-    }
-
     @objc func voiceactlevelChanged(_ sender: UISlider) {
         let level = Int(sender.value * Float(VOICEACT_DISABLED))
         
         if level == VOICEACT_DISABLED {
-            if ttInst != nil {
-                TT_EnableVoiceActivation(ttInst, FALSE)
-            }
+            TT_EnableVoiceActivation(ttInst, FALSE)
             voiceactcell?.detailTextLabel?.text = NSLocalizedString("Voice Activation Level: Disabled", comment: "preferences")
         }
         else {
-            if ttInst != nil {
-                TT_EnableVoiceActivation(ttInst, TRUE)
-                TT_SetVoiceActivationLevel(ttInst, INT32(level))
-            }
+            TT_EnableVoiceActivation(ttInst, TRUE)
+            TT_SetVoiceActivationLevel(ttInst, INT32(level))
             let txt = String(format: NSLocalizedString("Voice Activation Level: %d. Recommended: %d", comment: "preferences"), level, DEFAULT_VOICEACT)
             voiceactcell?.detailTextLabel?.text = txt
         }
@@ -547,9 +495,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
     @objc func microphoneGainChanged(_ sender: UISlider) {
         let vol_pct : Int = Int(sender.value * 10.0) * 10
         let vol = refVolume(Double(vol_pct))
-        if ttInst != nil {
-            TT_SetSoundInputGainLevel(ttInst, INT32(vol))
-        }
+        TT_SetSoundInputGainLevel(ttInst, INT32(vol))
         
         if UInt32(vol) == SOUND_VOLUME_DEFAULT.rawValue {
             let txt = String(format: NSLocalizedString("%d %% - Default", comment: "preferences"), vol_pct)
