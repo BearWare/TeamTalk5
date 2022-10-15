@@ -91,6 +91,7 @@ void TextMessageDlg::slotUpdateUser(const User& user)
 {
     if(user.nUserID == m_userid)
         this->setWindowTitle(tr("Messages") + " - " + getDisplayName(user));
+        this->setAccessibleDescription(tr("Private chat with %1").arg(getDisplayName(user)));
 }
 
 void TextMessageDlg::slotNewMessage(const MyTextMessage& textmsg)
