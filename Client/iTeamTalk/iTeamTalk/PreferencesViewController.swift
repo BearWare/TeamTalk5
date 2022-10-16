@@ -367,7 +367,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         let versioncell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         versioncell.textLabel?.text = NSLocalizedString("App Version", comment: "preferences")
         let v_str = String(cString: TT_GetVersion())
-        versioncell.detailTextLabel?.text = "\(AppInfo.getAppName()) v\(AppInfo.getAppVersion()), Library v\(v_str)"
+        versioncell.detailTextLabel?.text = "\(AppInfo.getAppName()) v\(AppInfo.getAppVersionLong()), Library v\(v_str)"
         version_items.append(versioncell)
     }
     
