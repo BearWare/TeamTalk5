@@ -197,9 +197,16 @@ func removeAudioPortDataSource(descr: AVAudioSessionPortDescription) {
     defaults.removeObject(forKey: prefname)
 }
 
+func closeSoundDevices() {
+    TT_CloseSoundInputDevice(ttInst)
+    TT_CloseSoundOutputDevice(ttInst)
+}
+
 func setupSoundDevices() {
     
     do {
+        closeSoundDevices()
+        
         let session = AVAudioSession.sharedInstance()
 
         print("preset: " + session.mode.rawValue)
@@ -209,10 +216,7 @@ func setupSoundDevices() {
         let preprocess = defaults.object(forKey: PREF_VOICEPROCESSINGIO) != nil && defaults.bool(forKey: PREF_VOICEPROCESSINGIO)
         let a2dp = defaults.object(forKey: PREF_BLUETOOTH_A2DP) != nil && defaults.bool(forKey: PREF_BLUETOOTH_A2DP)
         let headsettoggle = defaults.object(forKey: PREF_HEADSET_TXTOGGLE) != nil && defaults.bool(forKey: PREF_HEADSET_TXTOGGLE)
-        
-        TT_CloseSoundInputDevice(ttInst)
-        TT_CloseSoundOutputDevice(ttInst)
-        
+                
         // In 'voiceChat' mode stereo cannot be enabled on input devices.
         try session.setMode(preprocess ? .voiceChat : .default)
 

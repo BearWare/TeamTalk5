@@ -92,6 +92,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
     
     deinit {
         TT_Disconnect(ttInst)
+        closeSoundDevices()
         runTeamTalkEventHandler()
         print("Destroyed main view controller")
     }
