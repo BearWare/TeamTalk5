@@ -12,6 +12,8 @@ Android Client
 iOS Client
 - Force playback using Bluetooth Advanced Audio Distribution Profile (A2DP)
 - Support for Indonesian language
+- Headset TX toggle moved to General section in Preferences
+- Toggle TX on/off using AirPods when using A2DP
 - Fixed crash issue when loading server list
 Server
 -
