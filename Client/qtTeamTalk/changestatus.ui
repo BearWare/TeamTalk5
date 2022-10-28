@@ -73,6 +73,19 @@
      <item row="1" column="1">
       <widget class="QLineEdit" name="msgEdit"/>
      </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Display file name in status message when streaming</string>
+       </property>
+       <property name="buddy">
+        <cstring>streamChkBox</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QCheckBox" name="streamChkBox"/>
+     </item>
     </layout>
    </item>
    <item>

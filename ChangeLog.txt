@@ -4,7 +4,7 @@
 
 Version 5.12, unreleased
 Default Qt Client
--
+- Option in "Change status" dialog to display file name as status msg when streaming
 Accessible Windows Client
 -
 Android Client
