@@ -4,7 +4,7 @@
 
 Version 5.12, unreleased
 Default Qt Client
--
+- Option to change status message when idle
 Accessible Windows Client
 -
 Android Client

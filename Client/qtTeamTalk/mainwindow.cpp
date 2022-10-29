@@ -2458,6 +2458,7 @@ void MainWindow::updateIdleTimeout()
         if (isComputerIdle(idle_time) && (m_statusmode & STATUSMODE_MODE) == STATUSMODE_AVAILABLE)
         {
             m_statusmode |= STATUSMODE_AWAY;
+            statusmsg = (ttSettings->value(SETTINGS_GENERAL_AWAY_STATUSMSG).toString().isEmpty()?statusmsg:ttSettings->value(SETTINGS_GENERAL_AWAY_STATUSMSG).toString());
             if (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
             {
                 TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));

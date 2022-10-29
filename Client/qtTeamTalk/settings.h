@@ -50,6 +50,7 @@
 #define SETTINGS_GENERAL_RESTOREUSERSETTINGS_DEFAULT true
 #define SETTINGS_GENERAL_AUTOAWAY                   "general_/auto-away"
 #define SETTINGS_GENERAL_AUTOAWAY_DEFAULT                   180
+#define SETTINGS_GENERAL_AWAY_STATUSMSG                   "general_/idle-message"
 #define SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT        "general_/inactivity-disable-voiceact"
 #define SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT_DEFAULT false
 #define SETTINGS_GENERAL_PUSHTOTALK                 "general_/push-to-talk"

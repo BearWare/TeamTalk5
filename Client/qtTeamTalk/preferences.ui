@@ -175,6 +175,19 @@
              </widget>
             </item>
             <item>
+             <widget class="QLabel" name="label_away_statusmsg">
+              <property name="text">
+               <string>Status message when idle</string>
+              </property>
+              <property name="buddy">
+               <cstring>awayMsgEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="awayMsgEdit" />
+            </item>
+            <item>
              <widget class="QCheckBox" name="disableVoiceActCheckBox">
               <property name="text">
                <string>Disable voice activation when inactive</string>
