@@ -542,22 +542,26 @@ void UserAccountsDlg::slotTreeContextMenu(const QPoint& /*point*/)
     QAction* sortUsername = new QAction(sortMenu);
     sortUsername->setText(tr("&Username"));
     sortUsername->setCheckable(true);
-    sortUsername->setChecked((ttSettings->value(SETTINGS_DISPLAY_USERACCOUNT_SORT, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT).toString() == "username")?true:false);
+    const QString username = "username";
+    sortUsername->setChecked((ttSettings->value(SETTINGS_DISPLAY_USERACCOUNT_SORT, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT).toString() == username)?true:false);
     sortMenu->addAction(sortUsername);
     QAction* sortUserType = new QAction(sortMenu);
     sortUserType->setText(tr("User &Type"));
     sortUserType->setCheckable(true);
-    sortUserType->setChecked((ttSettings->value(SETTINGS_DISPLAY_USERACCOUNT_SORT, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT).toString() == "usertype")?true:false);
+    const QString usertype = "usertype";
+    sortUserType->setChecked((ttSettings->value(SETTINGS_DISPLAY_USERACCOUNT_SORT, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT).toString() == usertype)?true:false);
     sortMenu->addAction(sortUserType);
     QAction* sortChannel = new QAction(sortMenu);
     sortChannel->setText(tr("&Channel"));
     sortChannel->setCheckable(true);
-    sortChannel->setChecked((ttSettings->value(SETTINGS_DISPLAY_USERACCOUNT_SORT, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT).toString() == "channel")?true:false);
+    const QString channel = "channel";
+    sortChannel->setChecked((ttSettings->value(SETTINGS_DISPLAY_USERACCOUNT_SORT, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT).toString() == channel)?true:false);
     sortMenu->addAction(sortChannel);
     QAction* sortModified = new QAction(sortMenu);
     sortModified->setText(tr("&Modified"));
     sortModified->setCheckable(true);
-    sortModified->setChecked((ttSettings->value(SETTINGS_DISPLAY_USERACCOUNT_SORT, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT).toString() == "modified")?true:false);
+    const QString modified = "modified";
+    sortModified->setChecked((ttSettings->value(SETTINGS_DISPLAY_USERACCOUNT_SORT, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT).toString() == modified)?true:false);
     sortMenu->addAction(sortModified);
     QAction* delUser = menu.addAction(tr("&Delete Selected User"));
     if (QAction* action = menu.exec(QCursor::pos()))
@@ -566,22 +570,22 @@ void UserAccountsDlg::slotTreeContextMenu(const QPoint& /*point*/)
         if (action == sortUsername)
         {
             ui.usersTreeView->header()->setSortIndicator(COLUMN_INDEX_USERNAME, m_proxyModel->sortColumn() == COLUMN_INDEX_USERNAME ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNT_SORT, "username");
+            ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNT_SORT, username);
         }
         else if (action == sortUserType)
         {
             ui.usersTreeView->header()->setSortIndicator(COLUMN_INDEX_USERTYPE, m_proxyModel->sortColumn() == COLUMN_INDEX_USERTYPE ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNT_SORT, "usertype");
+            ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNT_SORT, usertype);
         }
         else if (action == sortChannel)
         {
             ui.usersTreeView->header()->setSortIndicator(COLUMN_INDEX_CHANNEL, m_proxyModel->sortColumn() == COLUMN_INDEX_CHANNEL? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNT_SORT, "channel");
+            ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNT_SORT, channel);
         }
         else if (action == sortModified)
         {
             ui.usersTreeView->header()->setSortIndicator(COLUMN_INDEX_MODIFIED, m_proxyModel->sortColumn() == COLUMN_INDEX_MODIFIED ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNT_SORT, "modified");
+            ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNT_SORT, modified);
         }
         else if (action == delUser)
             emit(slotDelUser());

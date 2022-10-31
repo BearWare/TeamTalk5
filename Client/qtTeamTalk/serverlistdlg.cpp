@@ -697,22 +697,26 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
     QAction* sortDefault = new QAction(sortMenu);
     sortDefault->setText(tr("De&fault"));
     sortDefault->setCheckable(true);
-    sortDefault->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == "default")?true:false);
+    const QString defaultstr = "default";
+    sortDefault->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == defaultstr)?true:false);
     sortMenu->addAction(sortDefault);
     QAction* sortName = new QAction(sortMenu);
     sortName->setText(tr("&Name"));
     sortName->setCheckable(true);
-    sortName->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == "name")?true:false);
+    const QString name = "name";
+    sortName->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == name)?true:false);
     sortMenu->addAction(sortName);
     QAction* sortUserCount = new QAction(sortMenu);
     sortUserCount->setText(tr("&User Count"));
     sortUserCount->setCheckable(true);
-    sortUserCount->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == "usercount")?true:false);
+    const QString usercount = "usercount";
+    sortUserCount->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == usercount)?true:false);
     sortMenu->addAction(sortUserCount);
     QAction* sortCountry = new QAction(sortMenu);
     sortCountry->setText(tr("Country"));
     sortCountry->setCheckable(true);
-    sortCountry->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == "country")?true:false);
+    const QString country = "country";
+    sortCountry->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == country)?true:false);
     sortMenu->addAction(sortCountry);
     QAction* delServ = menu.addAction(tr("&Delete Selected Server"));
     auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
@@ -725,25 +729,25 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
         {
             m_proxyModel->setSortRole(Qt::UserRole);
             ui.serverTreeView->header()->setSortIndicator(COLUMN_INDEX_SERVERNAME, m_proxyModel->sortColumn() == COLUMN_INDEX_SERVERNAME ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, "default");
+            ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, defaultstr);
         }
         else if (action == sortName)
         {
             m_proxyModel->setSortRole(Qt::DisplayRole);
             ui.serverTreeView->header()->setSortIndicator(COLUMN_INDEX_SERVERNAME, m_proxyModel->sortColumn() == COLUMN_INDEX_SERVERNAME ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, "name");
+            ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, name);
         }
         else if (action == sortUserCount)
         {
             m_proxyModel->setSortRole(Qt::DisplayRole);
             ui.serverTreeView->header()->setSortIndicator(COLUMN_INDEX_USERCOUNT, m_proxyModel->sortColumn() == COLUMN_INDEX_USERCOUNT ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, "usercount");
+            ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, usercount);
         }
         else if (action == sortCountry)
         {
             m_proxyModel->setSortRole(Qt::DisplayRole);
             ui.serverTreeView->header()->setSortIndicator(COLUMN_INDEX_COUNTRY, m_proxyModel->sortColumn() == COLUMN_INDEX_COUNTRY ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, "country");
+            ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, country);
         }
         else if (action == delServ)
             emit(deleteSelectedServer());
