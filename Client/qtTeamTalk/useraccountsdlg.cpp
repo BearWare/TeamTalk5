@@ -539,22 +539,22 @@ void UserAccountsDlg::slotTreeContextMenu(const QPoint& /*point*/)
 {
     QMenu menu(this);
     QMenu* sortMenu = menu.addMenu(tr("Sort By..."));
-    QAction* sortUsername = new QAction();
+    QAction* sortUsername = new QAction(sortMenu);
     sortUsername->setText(tr("&Username"));
     sortUsername->setCheckable(true);
     sortUsername->setChecked((ttSettings->value(SETTINGS_DISPLAY_USERACCOUNT_SORT, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT).toString() == "username")?true:false);
     sortMenu->addAction(sortUsername);
-    QAction* sortUserType = new QAction();
+    QAction* sortUserType = new QAction(sortMenu);
     sortUserType->setText(tr("User &Type"));
     sortUserType->setCheckable(true);
     sortUserType->setChecked((ttSettings->value(SETTINGS_DISPLAY_USERACCOUNT_SORT, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT).toString() == "usertype")?true:false);
     sortMenu->addAction(sortUserType);
-    QAction* sortChannel = new QAction();
+    QAction* sortChannel = new QAction(sortMenu);
     sortChannel->setText(tr("&Channel"));
     sortChannel->setCheckable(true);
     sortChannel->setChecked((ttSettings->value(SETTINGS_DISPLAY_USERACCOUNT_SORT, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT).toString() == "channel")?true:false);
     sortMenu->addAction(sortChannel);
-    QAction* sortModified = new QAction();
+    QAction* sortModified = new QAction(sortMenu);
     sortModified->setText(tr("&Modified"));
     sortModified->setCheckable(true);
     sortModified->setChecked((ttSettings->value(SETTINGS_DISPLAY_USERACCOUNT_SORT, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT).toString() == "modified")?true:false);

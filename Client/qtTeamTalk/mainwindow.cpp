@@ -5410,22 +5410,22 @@ void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)
 {
     QMenu menu(this);
     QMenu* sortMenu = menu.addMenu(tr("Sort By..."));
-    QAction* sortName = new QAction();
+    QAction* sortName = new QAction(sortMenu);
     sortName->setText(tr("&Name"));
     sortName->setCheckable(true);
     sortName->setChecked((ttSettings->value(SETTINGS_DISPLAY_FILESLIST_SORT, SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT).toString() == "name")?true:false);
     sortMenu->addAction(sortName);
-    QAction* sortSize = new QAction();
+    QAction* sortSize = new QAction(sortMenu);
     sortSize->setText(tr("&Size"));
     sortSize->setCheckable(true);
     sortSize->setChecked((ttSettings->value(SETTINGS_DISPLAY_FILESLIST_SORT, SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT).toString() == "size")?true:false);
     sortMenu->addAction(sortSize);
-    QAction* sortOwner = new QAction();
+    QAction* sortOwner = new QAction(sortMenu);
     sortOwner->setText(tr("&Owner"));
     sortOwner->setCheckable(true);
     sortOwner->setChecked((ttSettings->value(SETTINGS_DISPLAY_FILESLIST_SORT, SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT).toString() == "owner")?true:false);
     sortMenu->addAction(sortOwner);
-    QAction* sortUpload = new QAction();
+    QAction* sortUpload = new QAction(sortMenu);
     sortUpload->setText(tr("&Upload Date"));
     sortUpload->setCheckable(true);
     sortUpload->setChecked((ttSettings->value(SETTINGS_DISPLAY_FILESLIST_SORT, SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT).toString() == "upload")?true:false);

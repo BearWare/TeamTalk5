@@ -694,22 +694,22 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
 {
     QMenu menu(this);
     QMenu* sortMenu = menu.addMenu(tr("Sort By..."));
-    QAction* sortDefault = new QAction();
+    QAction* sortDefault = new QAction(sortMenu);
     sortDefault->setText(tr("De&fault"));
     sortDefault->setCheckable(true);
     sortDefault->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == "default")?true:false);
     sortMenu->addAction(sortDefault);
-    QAction* sortName = new QAction();
+    QAction* sortName = new QAction(sortMenu);
     sortName->setText(tr("&Name"));
     sortName->setCheckable(true);
     sortName->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == "name")?true:false);
     sortMenu->addAction(sortName);
-    QAction* sortUserCount = new QAction();
+    QAction* sortUserCount = new QAction(sortMenu);
     sortUserCount->setText(tr("&User Count"));
     sortUserCount->setCheckable(true);
     sortUserCount->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == "usercount")?true:false);
     sortMenu->addAction(sortUserCount);
-    QAction* sortCountry = new QAction();
+    QAction* sortCountry = new QAction(sortMenu);
     sortCountry->setText(tr("Country"));
     sortCountry->setCheckable(true);
     sortCountry->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == "country")?true:false);
