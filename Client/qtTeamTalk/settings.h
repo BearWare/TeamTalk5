@@ -28,9 +28,9 @@
 #include <QApplication>
 
 #if defined(Q_OS_WIN32)
-#define SOUNDSPATH                                     QApplication::applicationDirPath()+"/Sounds"
+#define SOUNDSPATH                                     "Sounds"
 #elif defined(Q_OS_LINUX)
-#define SOUNDSPATH                                     QApplication::applicationDirPath()+"/sounds"
+#define SOUNDSPATH                                     "sounds"
 #elif defined(Q_OS_DARWIN)
 #define SOUNDSPATH                                     "/Applications/TeamTalk5.app/Contents/Resources/Sounds"
 #endif

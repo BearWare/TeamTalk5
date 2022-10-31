@@ -4,7 +4,8 @@
 
 Version 5.12, unreleased
 Default Qt Client
--
+- Fix user text message sent and channel message sent sound not reset when changing sounds pack
+- Use absolute file path when changing sound pack
 Accessible Windows Client
 -
 Android Client
