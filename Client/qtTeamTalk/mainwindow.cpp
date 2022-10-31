@@ -5410,10 +5410,26 @@ void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)
 {
     QMenu menu(this);
     QMenu* sortMenu = menu.addMenu(tr("Sort By..."));
-    QAction* sortName = sortMenu->addAction(tr("&Name"));
-    QAction* sortSize = sortMenu->addAction(tr("&Size"));
-    QAction* sortOwner = sortMenu->addAction(tr("&Owner"));
-    QAction* sortUpload = sortMenu->addAction(tr("&Upload Date"));
+    QAction* sortName = new QAction();
+    sortName->setText(tr("&Name"));
+    sortName->setCheckable(true);
+    sortName->setChecked((ttSettings->value(SETTINGS_DISPLAY_FILESLIST_SORT, SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT).toString() == "name")?true:false);
+    sortMenu->addAction(sortName);
+    QAction* sortSize = new QAction();
+    sortSize->setText(tr("&Size"));
+    sortSize->setCheckable(true);
+    sortSize->setChecked((ttSettings->value(SETTINGS_DISPLAY_FILESLIST_SORT, SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT).toString() == "size")?true:false);
+    sortMenu->addAction(sortSize);
+    QAction* sortOwner = new QAction();
+    sortOwner->setText(tr("&Owner"));
+    sortOwner->setCheckable(true);
+    sortOwner->setChecked((ttSettings->value(SETTINGS_DISPLAY_FILESLIST_SORT, SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT).toString() == "owner")?true:false);
+    sortMenu->addAction(sortOwner);
+    QAction* sortUpload = new QAction();
+    sortUpload->setText(tr("&Upload Date"));
+    sortUpload->setCheckable(true);
+    sortUpload->setChecked((ttSettings->value(SETTINGS_DISPLAY_FILESLIST_SORT, SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT).toString() == "upload")?true:false);
+    sortMenu->addAction(sortUpload);
     QAction* upload = menu.addAction(ui.actionUploadFile->text());
     QAction* download = menu.addAction(ui.actionDownloadFile->text());
     QAction* del = menu.addAction(ui.actionDeleteFile->text());
@@ -5425,13 +5441,25 @@ void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)
     {
         auto sortToggle = m_proxyFilesModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
         if (action == sortName)
+        {
             ui.filesView->header()->setSortIndicator(COLUMN_INDEX_NAME, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_NAME ? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_FILESLIST_SORT, "name");
+        }
         else if (action == sortSize)
+        {
             ui.filesView->header()->setSortIndicator(COLUMN_INDEX_SIZE, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_SIZE ? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_FILESLIST_SORT, "size");
+        }
         else if (action == sortOwner)
+        {
             ui.filesView->header()->setSortIndicator(COLUMN_INDEX_OWNER, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_OWNER? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_FILESLIST_SORT, "owner");
+        }
         else if (action == sortUpload)
+        {
             ui.filesView->header()->setSortIndicator(COLUMN_INDEX_UPLOADED, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_UPLOADED? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_FILESLIST_SORT, "upload");
+        }
         else if (action == upload)
             slotChannelsUploadFile();
         else if (action == download)

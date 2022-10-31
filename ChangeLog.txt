@@ -4,7 +4,7 @@
 
 Version 5.12, unreleased
 Default Qt Client
--
+- See selected order on "Files list", "User account" dialog and "Server list" dialog context menu
 Accessible Windows Client
 -
 Android Client
