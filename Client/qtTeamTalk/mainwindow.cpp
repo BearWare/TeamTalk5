@@ -6775,6 +6775,8 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG?
                      tr("On"):tr("Off")));
             addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptUserMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG?tr("On"):tr("Off")));
+            if (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG)
+                playSoundEvent(SOUNDEVENT_INTERCEPT);
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG))
@@ -6785,6 +6787,8 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG?
                      tr("On"):tr("Off")));
             addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptChannelMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG?tr("On"):tr("Off")));
+            if (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG)
+                playSoundEvent(SOUNDEVENT_INTERCEPT);
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE))
@@ -6795,6 +6799,8 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE?
                      tr("On"):tr("Off")));
             addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_VOICE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptVoice->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE?tr("On"):tr("Off")));
+            if (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE)
+                playSoundEvent(SOUNDEVENT_INTERCEPT);
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE))
@@ -6805,6 +6811,8 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE?
                      tr("On"):tr("Off")));
             addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptVideo->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE?tr("On"):tr("Off")));
+            if (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE)
+                playSoundEvent(SOUNDEVENT_INTERCEPT);
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP))
@@ -6815,6 +6823,8 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP?
                      tr("On"):tr("Off")));
             addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptDesktop->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP?tr("On"):tr("Off")));
+            if (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP)
+                playSoundEvent(SOUNDEVENT_INTERCEPT);
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE))
@@ -6825,6 +6835,8 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE?
                      tr("On"):tr("Off")));
             addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptMediaFile->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE?tr("On"):tr("Off")));
+            if (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE)
+                playSoundEvent(SOUNDEVENT_INTERCEPT);
         }
         if(m_mychannel.nChannelID == user.nChannelID && user.nChannelID)
         {
