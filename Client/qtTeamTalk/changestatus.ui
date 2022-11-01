@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>277</width>
-    <height>145</height>
+    <width>456</width>
+    <height>189</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,73 +22,63 @@
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
-   <item>
-    <layout class="QFormLayout" name="formLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
+  <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Status mode</string>
+     </property>
+     <property name="buddy">
+      <cstring>availBtn</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QRadioButton" name="availBtn">
        <property name="text">
-        <string>Status mode</string>
-       </property>
-       <property name="buddy">
-        <cstring>availBtn</cstring>
+        <string>&amp;Available</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QRadioButton" name="availBtn">
-         <property name="text">
-          <string>&amp;Available</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="awayBtn">
-         <property name="text">
-          <string>A&amp;way</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="questionBtn">
-         <property name="text">
-          <string>&amp;Question</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_2">
+     <item>
+      <widget class="QRadioButton" name="awayBtn">
        <property name="text">
-        <string>Message</string>
-       </property>
-       <property name="buddy">
-        <cstring>msgEdit</cstring>
+        <string>A&amp;way</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="msgEdit"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_2">
+     <item>
+      <widget class="QRadioButton" name="questionBtn">
        <property name="text">
-        <string>Display file name in status message when streaming</string>
-       </property>
-       <property name="buddy">
-        <cstring>streamChkBox</cstring>
+        <string>&amp;Question</string>
        </property>
       </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QCheckBox" name="streamChkBox"/>
      </item>
     </layout>
    </item>
-   <item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Message</string>
+     </property>
+     <property name="buddy">
+      <cstring>msgEdit</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="msgEdit"/>
+   </item>
+   <item row="2" column="1">
+    <widget class="QCheckBox" name="streamChkBox">
+     <property name="text">
+      <string>Display file name in status message when streaming</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
