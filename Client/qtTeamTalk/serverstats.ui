@@ -31,6 +31,9 @@
        <property name="text">
         <string>Media File RX/TX</string>
        </property>
+       <property name="buddy">
+        <cstring>mediafileEdit</cstring>
+       </property>
       </widget>
      </item>
      <item row="9" column="1">
