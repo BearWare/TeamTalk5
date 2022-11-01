@@ -92,6 +92,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
     
     deinit {
         TT_Disconnect(ttInst)
+        closeSoundDevices()
         runTeamTalkEventHandler()
         print("Destroyed main view controller")
     }
@@ -133,6 +134,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
     override func remoteControlReceived(with event: UIEvent?) { // *
         let rc = event!.subtype
         switch rc {
+        case .remoteControlPause : fallthrough
         case .remoteControlTogglePlayPause:
             let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
             channelsTab.enableVoiceTx(false)
@@ -141,6 +143,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         case .remoteControlNextTrack:
             let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
             channelsTab.enableVoiceTx(true)
+        
         default:
             break
         }

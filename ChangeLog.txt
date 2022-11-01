@@ -5,6 +5,7 @@
 Version 5.12, unreleased
 Default Qt Client
 - Text message window is only focused if main window has focus when receiving a private message
+- Fix missing label for "Media files RX/TX" on "Server statistics" dialog
 Accessible Windows Client
 -
 Android Client
@@ -12,6 +13,8 @@ Android Client
 iOS Client
 - Force playback using Bluetooth Advanced Audio Distribution Profile (A2DP)
 - Support for Indonesian language
+- Headset TX toggle moved to General section in Preferences
+- Toggle TX on/off using AirPods when using A2DP
 - Fixed crash issue when loading server list
 Server
 -

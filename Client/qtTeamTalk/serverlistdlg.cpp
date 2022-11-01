@@ -622,8 +622,15 @@ void ServerListDlg::publishServer()
     if (!getHostEntry(entry) || entry.name.isEmpty())
         return;
 
-    if (QMessageBox::question(this, tr("Publish Server"),
-                             tr("Are you sure you want to publish the server named \"%1\"").arg(entry.name)) != QMessageBox::Yes)
+    QMessageBox answer;
+    answer.setText(tr("Are you sure you want to publish the server named \"%1\"").arg(entry.name));
+    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    Q_UNUSED(NoButton);
+    answer.setIcon(QMessageBox::Question);
+    answer.setWindowTitle(tr("Publish Server"));
+    answer.exec();
+    if(answer.clickedButton() != YesButton)
         return;
 
     if (!m_http_srvpublish_manager)
@@ -739,9 +746,15 @@ void ServerListDlg::keyPressEvent(QKeyEvent* e)
         if (e->matches(QKeySequence::Delete) || e->key() == Qt::Key_Backspace)
         {
             auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
-            if (srcIndex.isValid() &&
-                QMessageBox::question(this, tr("Delete Server"),
-                                      tr("Delete server named \"%1\"").arg(m_model->getServers()[srcIndex.row()].name)) == QMessageBox::Yes)
+            QMessageBox answer;
+            answer.setText(tr("Delete server named \"%1\"").arg(m_model->getServers()[srcIndex.row()].name));
+            QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+            QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+            Q_UNUSED(NoButton);
+            answer.setIcon(QMessageBox::Question);
+            answer.setWindowTitle(tr("Delete Server"));
+            answer.exec();
+            if (srcIndex.isValid() && answer.clickedButton() == YesButton)
             {
                 emit(deleteSelectedServer());
             }
