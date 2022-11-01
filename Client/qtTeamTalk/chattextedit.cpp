@@ -199,7 +199,7 @@ void ChatTextEdit::joinedChannel(int channelid)
     format.setForeground(QBrush(Qt::darkGreen));
     cursor.setCharFormat(format);
     setTextCursor(cursor);
-    QString line = tr("Joined channel %1").arg(_Q(buff));
+    QString line = dt + tr("Joined channel %1").arg(_Q(buff));
     appendPlainText(line);
     //revert bold
     font.setBold(false);
