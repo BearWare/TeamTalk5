@@ -4,6 +4,7 @@
 
 Version 5.12, unreleased
 Default Qt Client
+- Option to change status message when idle
 - Option in "Change status" dialog to display file name as status msg when streaming
 - See selected order on "Files list", "User account" dialog and "Server list" dialog context menu
 - Sound event when intercepted

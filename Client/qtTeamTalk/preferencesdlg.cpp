@@ -502,6 +502,7 @@ void PreferencesDlg::slotTabChange(int index)
 
         ui.awaySpinBox->setValue(ttSettings->value(SETTINGS_GENERAL_AUTOAWAY, SETTINGS_GENERAL_AUTOAWAY_DEFAULT).toInt());
         slotUpdateASBAccessibleName();
+        ui.awayMsgEdit->setText(ttSettings->value(SETTINGS_GENERAL_AWAY_STATUSMSG).toString());
         ui.disableVoiceActCheckBox->setChecked(ttSettings->value(SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT, SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT_DEFAULT).toBool());
         ui.pttChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool());
         ui.pttlockChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALKLOCK,
@@ -814,6 +815,7 @@ void PreferencesDlg::slotSaveChanges()
         else
             ttSettings->setValue(SETTINGS_GENERAL_GENDER, GENDER_NEUTRAL);
         ttSettings->setValue(SETTINGS_GENERAL_AUTOAWAY, ui.awaySpinBox->value());
+        ttSettings->setValue(SETTINGS_GENERAL_AWAY_STATUSMSG, ui.awayMsgEdit->text());
         ttSettings->setValue(SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT, ui.disableVoiceActCheckBox->isChecked());
         saveHotKeySettings(HOTKEY_PUSHTOTALK, m_hotkey);
         ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, ui.pttChkBox->isChecked());

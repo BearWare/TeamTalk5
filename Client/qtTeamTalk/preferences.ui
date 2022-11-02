@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>881</width>
-    <height>695</height>
+    <width>994</width>
+    <height>697</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -175,9 +175,22 @@
              </widget>
             </item>
             <item>
+             <spacer name="horizontalSpacer_27">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
              <widget class="QCheckBox" name="disableVoiceActCheckBox">
               <property name="text">
-               <string>Disable voice activation when inactive</string>
+               <string>Disable voice activation during inactivity</string>
               </property>
              </widget>
             </item>
@@ -193,6 +206,23 @@
                </size>
               </property>
              </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_28">
+            <item>
+             <widget class="QLabel" name="label_away_statusmsg">
+              <property name="text">
+               <string>Status message during inactivity</string>
+              </property>
+              <property name="buddy">
+               <cstring>awayMsgEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="awayMsgEdit"/>
             </item>
            </layout>
           </item>
@@ -1100,7 +1130,7 @@
                <bool>true</bool>
               </property>
               <property name="textInteractionFlags">
-                <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+               <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
               </property>
              </widget>
             </item>
@@ -1143,7 +1173,7 @@
                <bool>true</bool>
               </property>
               <property name="textInteractionFlags">
-                <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+               <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
               </property>
              </widget>
             </item>
@@ -1314,11 +1344,11 @@
             </item>
             <item>
              <widget class="QSpinBox" name="sndVolSpinBox">
-              <property name="maximum">
-               <number>100</number>
-              </property>
               <property name="minimum">
                <number>0</number>
+              </property>
+              <property name="maximum">
+               <number>100</number>
               </property>
              </widget>
             </item>
@@ -2923,7 +2953,6 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="resources.qrc"/>
   <include location="resources.qrc"/>
  </resources>
  <connections>
