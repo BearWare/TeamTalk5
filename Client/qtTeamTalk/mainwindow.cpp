@@ -53,6 +53,7 @@
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QTimer>
 #include <QSettings>
 #include <QFile>
@@ -3537,13 +3538,15 @@ void MainWindow::startStreamMediaFile()
     }
     else
     {
+        QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
         m_statusmode |= STATUSMODE_STREAM_MEDIAFILE;
+        if(ttSettings->value(SETTINGS_GENERAL_STREAMING_STATUS, SETTINGS_GENERAL_STREAMING_STATUS_DEFAULT).toBool() == true)
+            statusmsg = QFileInfo(fileName).fileName();
         ////since streaming video takes over webcam stream we show as 
         ////transmitting video
         //if(tx_mode & TRANSMIT_VIDEO)
         //    m_statusmode |= STATUSMODE_VIDEOTX;
 
-        QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
         TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
         transmitOn(STREAMTYPE_MEDIAFILE);
     }
