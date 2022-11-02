@@ -192,25 +192,18 @@ void ChatTextEdit::joinedChannel(int channelid)
     QTextCharFormat original = format;
     QTextCursor cursor = textCursor();
     
-    //show 'joined new channel' in bold
+    //show channel name in green
     QFont font = format.font();
     font.setBold(true);
     format.setFont(font);
+    format.setForeground(QBrush(Qt::darkGreen));
     cursor.setCharFormat(format);
-    QString line = dt + tr("Joined new channel");
     setTextCursor(cursor);
+    QString line = dt + tr("Joined channel %1").arg(_Q(buff));
     appendPlainText(line);
     //revert bold
     font.setBold(false);
     format.setFont(font);
-    
-    //show channel name in green
-    line = tr("Channel: %1").arg(_Q(buff));
-    format.setForeground(QBrush(Qt::darkGreen));
-    cursor.setCharFormat(format);
-    setTextCursor(cursor);
-    appendPlainText(line);
-
     //show topic in blue
     line = tr("Topic: %1").arg(_Q(chan.szTopic));
     format.setForeground(QBrush(Qt::darkYellow));

@@ -84,6 +84,7 @@ enum SoundEvent
     SOUNDEVENT_VOICEACTSTOP,
     SOUNDEVENT_VOICEACTMEON,
     SOUNDEVENT_VOICEACTMEOFF,
+    SOUNDEVENT_INTERCEPT,
 };
 
 void playSoundEvent(SoundEvent event);
