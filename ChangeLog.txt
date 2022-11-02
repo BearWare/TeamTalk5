@@ -8,6 +8,7 @@ Default Qt Client
 - Option in "Change status" dialog to display file name as status msg when streaming
 - See selected order on "Files list", "User account" dialog and "Server list" dialog context menu
 - Sound event when intercepted
+- TTS events when enabled/disabled voice activation and Push-To-Talk
 - Fix user text message sent and channel message sent sound not reset when changing sounds pack
 - Text message window is only focused if main window has focus when receiving a private message
 - Fix missing label for "Media files RX/TX" on "Server statistics" dialog

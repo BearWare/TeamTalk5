@@ -4443,10 +4443,14 @@ void MainWindow::slotMeEnablePushToTalk(bool checked)
 
         if(hotkey.size())
             enableHotKey(HOTKEY_PUSHTOTALK, hotkey);
+        if (QObject::sender() == ui.actionEnablePushToTalk)
+            addTextToSpeechMessage(TTS_TOGGLE_VOICETRANSMISSION, tr("Push-To-Talk enabled"));
     }
     else
     {
         disableHotKey(HOTKEY_PUSHTOTALK);
+        if (QObject::sender() == ui.actionEnablePushToTalk)
+            addTextToSpeechMessage(TTS_TOGGLE_VOICETRANSMISSION, tr("Push-To-Talk disabled"));
     }
 
     ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, checked);
@@ -4476,6 +4480,8 @@ void MainWindow::slotMeEnableVoiceActivation(bool checked)
 {
     ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, checked);
     enableVoiceActivation(checked, SOUNDEVENT_VOICEACTMEON, SOUNDEVENT_VOICEACTMEOFF);
+    if (QObject::sender() == ui.actionEnableVoiceActivation)
+        addTextToSpeechMessage(TTS_TOGGLE_VOICETRANSMISSION, (checked?tr("Voice activation enabled"):tr("Voice activation disabled")));
 }
 
 void MainWindow::enableVoiceActivation(bool checked, SoundEvent on, SoundEvent off)
