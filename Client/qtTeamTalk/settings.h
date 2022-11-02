@@ -147,6 +147,12 @@
 #define SETTINGS_DISPLAY_SERVERLISTDLG_SIZE         "display/serverlist-dialog-size"
 #define SETTINGS_DISPLAY_USERACCOUNTS_HEADERSIZES     "display/useraccounts-header"
 #define SETTINGS_DISPLAY_USERACCOUNTSDLG_SIZE         "display/useraccounts-dialog-size"
+#define SETTINGS_DISPLAY_SERVERLIST_SORT                            "display/server-list-sort"
+#define SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT                            "default"
+#define SETTINGS_DISPLAY_USERACCOUNT_SORT                            "display/user-account-sort"
+#define SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT                            "username"
+#define SETTINGS_DISPLAY_FILESLIST_SORT                            "display/files-list-sort"
+#define SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT                            "name"
 
 #define SETTINGS_CONNECTION_AUTOCONNECT             "connection/autoconnect"
 #define SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT     false
