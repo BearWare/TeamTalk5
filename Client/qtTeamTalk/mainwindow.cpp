@@ -1357,7 +1357,7 @@ void MainWindow::clienteventUserStateChange(const User& user)
         addStatusMsg(STATUSBAR_BYPASS, tr("Streaming from %1 started") .arg(getDisplayName(nameuser)));
     }
 
-    if(m_talking.empty())
+    if(m_talking.empty() && TT_GetMyChannelID(ttInst) > 0)
         playSoundEvent(SOUNDEVENT_SILENCE);
 }
 
