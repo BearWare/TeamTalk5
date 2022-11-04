@@ -9,6 +9,7 @@ Default Qt Client
 - See selected order on "Files list", "User account" dialog and "Server list" dialog context menu
 - Sound event when intercepted
 - TTS events when enabled/disabled voice activation and Push-To-Talk
+- See sort order in "Sort by" menu on files list, user accounts and server list
 - Fix user text message sent and channel message sent sound not reset when changing sounds pack
 - Text message window is only focused if main window has focus when receiving a private message
 - Fix missing label for "Media files RX/TX" on "Server statistics" dialog
