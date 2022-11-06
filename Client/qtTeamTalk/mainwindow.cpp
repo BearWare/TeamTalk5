@@ -5459,6 +5459,7 @@ void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)
     QAction* download = menu.addAction(ui.actionDownloadFile->text());
     QAction* del = menu.addAction(ui.actionDeleteFile->text());
     auto index = ui.filesView->currentIndex();
+    upload->setEnabled(m_mychannel.nChannelID > 0);
     download->setEnabled(index.isValid());
     del->setEnabled(index.isValid());
 
