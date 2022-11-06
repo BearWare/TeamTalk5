@@ -2841,8 +2841,6 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
             if(dlg)
             {
                 dlg->show();
-                if (this->isActiveWindow())
-                    dlg->activateWindow();
                 dlg->raise();
             }
         }
