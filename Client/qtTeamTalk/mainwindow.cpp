@@ -89,6 +89,7 @@ extern TTInstance* ttInst;
 
 QSettings* ttSettings = nullptr;
 QTranslator* ttTranslator = nullptr;
+PlaySoundEvent* playsoundevent = nullptr;
 
 #if defined(QT_TEXTTOSPEECH_LIB)
 QTextToSpeech* ttSpeech = nullptr;
@@ -179,6 +180,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     setWindowIcon(QIcon(APPICON));
     updateWindowTitle();
 
+    playsoundevent = new PlaySoundEvent(this);
     m_filesmodel = new FilesModel(this);
     m_proxyFilesModel = new QSortFilterProxyModel(this);
     m_proxyFilesModel->setSourceModel(m_filesmodel);
@@ -564,6 +566,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     connect(this, &MainWindow::newVideoCaptureFrame, ui.channelsWidget,
             &ChannelsTree::slotUserVideoFrame);
     connect(this, &MainWindow::cmdSuccess, this, &MainWindow::slotCmdSuccess);
+    connect(this, &MainWindow::mediaPlaybackUpdate, playsoundevent, &PlaySoundEvent::playbackUpdate);
     /* End - CLIENTEVENT_* messages */
 
     m_timers.insert(startTimer(1000), TIMER_ONE_SECOND);
@@ -662,6 +665,10 @@ void MainWindow::loadSettings()
                 QString("Failed to load language file %1").arg(lang));
         }
     }
+
+    PlaybackMode pbm = PlaybackMode(ttSettings->value(SETTINGS_SOUNDEVENT_PLAYBACKMODE, SETTINGS_SOUNDEVENT_PLAYBACKMODE_DEFAULT).toInt());
+    if (pbm & PLAYBACKMODE_TEAMTALK)
+        initSound();
 
     startTTS();
 
@@ -4128,6 +4135,10 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
         ttSpeech = nullptr;
     }
 #endif
+
+    PlaybackMode pbm = PlaybackMode(ttSettings->value(SETTINGS_SOUNDEVENT_PLAYBACKMODE, SETTINGS_SOUNDEVENT_PLAYBACKMODE_DEFAULT).toInt());
+    if ((TT_GetFlags(ttInst) & (CLIENT_SNDOUTPUT_READY | CLIENT_SNDINOUTPUT_DUPLEX)) == CLIENT_CLOSED && (pbm & PLAYBACKMODE_TEAMTALK))
+        initSound();
 
     User myself;
     if((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) &&

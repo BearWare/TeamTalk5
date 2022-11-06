@@ -7,6 +7,7 @@ Default Qt Client
 - Option to change status message when idle
 - Option in "Change status" dialog to display file name as status msg when streaming
 - See selected order on "Files list", "User account" dialog and "Server list" dialog context menu
+- Sound events can be configured to play one by one in "Preferences" dialog
 - Sound event when intercepted
 - TTS events when enabled/disabled voice activation and Push-To-Talk
 - See sort order in "Sort by" menu on files list, user accounts and server list

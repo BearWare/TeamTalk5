@@ -26,9 +26,11 @@
 
 #include "common.h"
 
-#include <QVector>
+#include <QQueue>
+#include <QSet>
 #include <QString>
 #include <QStringList>
+#include <QVector>
 
 QVector<SoundDevice> getSoundDevices();
 bool getSoundDevice(int deviceid, const QVector<SoundDevice>& devs, SoundDevice& dev);
@@ -85,6 +87,30 @@ enum SoundEvent
     SOUNDEVENT_VOICEACTMEON,
     SOUNDEVENT_VOICEACTMEOFF,
     SOUNDEVENT_INTERCEPT,
+};
+
+enum PlaybackMode
+{
+    PLAYBACKMODE_NONE           = 0x0,
+    PLAYBACKMODE_DEFAULT        = 0x1,
+
+    PLAYBACKMODE_TEAMTALK       = 0x80000,
+    PLAYBACKMODE_ONEBYONE       = PLAYBACKMODE_TEAMTALK | 0x1,
+    PLAYBACKMODE_OVERLAPPING    = PLAYBACKMODE_TEAMTALK | 0x2,
+};
+
+class PlaySoundEvent : public QObject
+{
+public:
+    PlaySoundEvent(QObject* parent);
+    void queueSoundEvent(SoundEvent event);
+    void playbackUpdate(int playbackid, const MediaFileInfo& mfi);
+private:
+    void playSoundEvent();
+    bool playTeamTalkSoundEvent(const QString& filename);
+    void playDefaultSoundEvent(const QString& filename);
+    QQueue<SoundEvent> m_playbackQueue;
+    QSet<int> m_activeSessions;
 };
 
 void playSoundEvent(SoundEvent event);
