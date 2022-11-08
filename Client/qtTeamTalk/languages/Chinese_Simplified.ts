@@ -428,7 +428,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatus.ui" line="77"/>
         <source>Display file name in status message when streaming</source>
-        <translation type="unfinished"></translation>
+        <translation>播放流媒体时在状态消息中显示文件名</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="37"/>
@@ -888,15 +888,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="202"/>
         <source>Joined channel %1</source>
-        <translation type="unfinished">加入频道 %1</translation>
-    </message>
-    <message>
-        <source>Joined new channel</source>
-        <translation type="vanished">加入新频道</translation>
-    </message>
-    <message>
-        <source>Channel: %1</source>
-        <translation type="vanished">频道： %1</translation>
+        <translation>加入频道 %1</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="208"/>
@@ -3186,32 +3178,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="5422"/>
         <source>Ascending</source>
-        <translation type="unfinished">升序</translation>
+        <translation>升序</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5422"/>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>降序</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5424"/>
         <source>&amp;Name (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>名称 (%1) (&amp;N)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5430"/>
         <source>&amp;Size (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>大小 (%1) (&amp;S)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5436"/>
         <source>&amp;Owner (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>所有者 (%1) (&amp;O)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5442"/>
         <source>&amp;Upload Date (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>上传日期 (%1) (&amp;U)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6025"/>
@@ -3646,22 +3638,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.cpp" line="4445"/>
         <source>Push-To-Talk enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>启用按键说话</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4451"/>
         <source>Push-To-Talk disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>禁用按键说话</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4482"/>
         <source>Voice activation enabled</source>
-        <translation type="unfinished">启用语音激活</translation>
+        <translation>启用语音激活</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4482"/>
         <source>Voice activation disabled</source>
-        <translation type="unfinished">禁用语音激活</translation>
+        <translation>禁用语音激活</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4489"/>
@@ -3730,22 +3722,6 @@ Do you wish to do this now?</source>
         <location filename="../mainwindow.cpp" line="5421"/>
         <source>Sort By...</source>
         <translation>排序方式...</translation>
-    </message>
-    <message>
-        <source>&amp;Name</source>
-        <translation type="vanished">名称(&amp;N)</translation>
-    </message>
-    <message>
-        <source>&amp;Size</source>
-        <translation type="vanished">大小(&amp;S)</translation>
-    </message>
-    <message>
-        <source>&amp;Owner</source>
-        <translation type="vanished">所有者(&amp;O)</translation>
-    </message>
-    <message>
-        <source>&amp;Upload Date</source>
-        <translation type="vanished">上传日期(&amp;U)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7189"/>
@@ -4657,12 +4633,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="193"/>
         <source>Disable voice activation during inactivity</source>
-        <translation type="unfinished"></translation>
+        <translation>在非活动状态时禁用语音激活</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="217"/>
         <source>Status message during inactivity</source>
-        <translation type="unfinished"></translation>
+        <translation>非活动时的状态消息</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="631"/>
@@ -4937,10 +4913,6 @@ You can download it on the page below:<byte value="xd"/>
         <translation>新用户</translation>
     </message>
     <message>
-        <source>Disable voice activation when inactive</source>
-        <translation type="vanished">不活动时禁用语音激活</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="578"/>
         <source>Show server list on startup</source>
         <translation>启动时显示服务器列表</translation>
@@ -5003,7 +4975,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1705"/>
         <source>Intercepted by another user</source>
-        <translation type="unfinished"></translation>
+        <translation>被其他用户截取</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1732"/>
@@ -5724,13 +5696,13 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../serverlistdlg.cpp" line="627"/>
         <location filename="../serverlistdlg.cpp" line="776"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">是(&amp;Y)</translation>
+        <translation>是(&amp;Y)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="628"/>
         <location filename="../serverlistdlg.cpp" line="777"/>
         <source>&amp;No</source>
-        <translation type="unfinished">否(&amp;N)</translation>
+        <translation>否(&amp;N)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="631"/>
@@ -5741,32 +5713,32 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverlistdlg.cpp" line="704"/>
         <source>Ascending</source>
-        <translation type="unfinished">升序</translation>
+        <translation>升序</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="704"/>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>降序</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="706"/>
         <source>De&amp;fault (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>默认 (%1) (&amp;f)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="712"/>
         <source>&amp;Name (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>名称 (%1) (&amp;N)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="718"/>
         <source>&amp;User Count (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>用户数 (%1) (&amp;U)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="724"/>
         <source>Country (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>国家 (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="626"/>
@@ -5805,22 +5777,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverlistdlg.cpp" line="703"/>
         <source>Sort By...</source>
         <translation>排序方式...</translation>
-    </message>
-    <message>
-        <source>De&amp;fault</source>
-        <translation type="vanished">默认(&amp;F)</translation>
-    </message>
-    <message>
-        <source>&amp;Name</source>
-        <translation type="vanished">名称(&amp;N)</translation>
-    </message>
-    <message>
-        <source>&amp;User Count</source>
-        <translation type="vanished">用户数(&amp;U)</translation>
-    </message>
-    <message>
-        <source>Country</source>
-        <translation type="vanished">国家</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="729"/>
@@ -6969,7 +6925,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="190"/>
         <source>Voice transmission mode toggled</source>
-        <translation type="unfinished"></translation>
+        <translation>切换语音传输模式</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="192"/>
@@ -6998,7 +6954,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../textmessage.ui" line="136"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">关闭(&amp;C)</translation>
+        <translation>关闭(&amp;C)</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="139"/>
@@ -7008,10 +6964,6 @@ Delete the published user account to unregister your server.</source>
         <translation>新消息</translation>
     </message>
     <message>
-        <source>&amp;Cancel</source>
-        <translation type="vanished">取消(&amp;C)</translation>
-    </message>
-    <message>
         <location filename="../textmessage.ui" line="117"/>
         <source>&amp;Send</source>
         <translation>发送(&amp;S)</translation>
@@ -7019,7 +6971,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../textmessagedlg.cpp" line="95"/>
         <source>Private chat with %1</source>
-        <translation type="unfinished"></translation>
+        <translation>与 %1 私聊</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="179"/>
@@ -7274,48 +7226,32 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="542"/>
         <source>Ascending</source>
-        <translation type="unfinished">升序</translation>
+        <translation>升序</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="542"/>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>降序</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="544"/>
         <source>&amp;Username (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>用户名 (%1) (&amp;U)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="550"/>
         <source>User &amp;Type (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>用户类型 (%1) (&amp;T)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="556"/>
         <source>&amp;Channel (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>频道 (%1) (&amp;C)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="562"/>
         <source>&amp;Modified (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Username</source>
-        <translation type="vanished">用户名(&amp;U)</translation>
-    </message>
-    <message>
-        <source>User &amp;Type</source>
-        <translation type="vanished">用户类型(&amp;T)</translation>
-    </message>
-    <message>
-        <source>&amp;Channel</source>
-        <translation type="vanished">频道(&amp;C)</translation>
-    </message>
-    <message>
-        <source>&amp;Modified</source>
-        <translation type="vanished">修改(&amp;M)</translation>
+        <translation>修改 (%1) (&amp;M)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="567"/>
