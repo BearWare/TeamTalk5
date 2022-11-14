@@ -4925,7 +4925,7 @@ Vous pouvez la télécharger sur la page suivante:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1384"/>
         <source>Playback mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode de lecture</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1432"/>
@@ -5337,12 +5337,12 @@ Vous pouvez la télécharger sur la page suivante:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="622"/>
         <source>One by One</source>
-        <translation type="unfinished"></translation>
+        <translation>Un par un</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="623"/>
         <source>Overlapping</source>
-        <translation type="unfinished"></translation>
+        <translation>En chevauchement</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="665"/>
