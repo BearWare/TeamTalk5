@@ -429,7 +429,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatus.ui" line="77"/>
         <source>Display file name in status message when streaming</source>
-        <translation type="unfinished"></translation>
+        <translation>Отображать имя файла в сообщении потоковой передаче</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="37"/>
@@ -889,7 +889,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="202"/>
         <source>Joined channel %1</source>
-        <translation type="unfinished">Подключился к каналу %1</translation>
+        <translation>Подключился к каналу %1</translation>
     </message>
     <message>
         <source>Joined new channel</source>
@@ -3105,22 +3105,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4445"/>
         <source>Push-To-Talk enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Включена функция Нажми, чтобы сказать</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4451"/>
         <source>Push-To-Talk disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Функция Нажми, чтобы сказать отключена</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4482"/>
         <source>Voice activation enabled</source>
-        <translation type="unfinished">Включена голосовая активация</translation>
+        <translation>Включена голосовая активация</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4482"/>
         <source>Voice activation disabled</source>
-        <translation type="unfinished">Голосовая активация отключена</translation>
+        <translation>Голосовая активация отключена</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4489"/>
@@ -3828,32 +3828,32 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="5422"/>
         <source>Ascending</source>
-        <translation type="unfinished">По возростанию</translation>
+        <translation>По возростанию</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5422"/>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>По убыванию</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5424"/>
         <source>&amp;Name (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Имя (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5430"/>
         <source>&amp;Size (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ра&amp;змер (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5436"/>
         <source>&amp;Owner (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Владеле&amp;ц (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5442"/>
         <source>&amp;Upload Date (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата за&amp;грузки (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6024"/>
@@ -4520,12 +4520,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="193"/>
         <source>Disable voice activation during inactivity</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключить голосовую активацию во время бездействия</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="217"/>
         <source>Status message during inactivity</source>
-        <translation type="unfinished"></translation>
+        <translation>Сообщение статуса во время бездействия</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="235"/>
@@ -4996,7 +4996,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1705"/>
         <source>Intercepted by another user</source>
-        <translation type="unfinished"></translation>
+        <translation>Перехвачено другим пользователем</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1732"/>
@@ -5730,13 +5730,13 @@ Should these settings be applied?</source>
         <location filename="../serverlistdlg.cpp" line="627"/>
         <location filename="../serverlistdlg.cpp" line="776"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;Да</translation>
+        <translation>&amp;Да</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="628"/>
         <location filename="../serverlistdlg.cpp" line="777"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;Нет</translation>
+        <translation>&amp;Нет</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="631"/>
@@ -5747,32 +5747,32 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="704"/>
         <source>Ascending</source>
-        <translation type="unfinished">По возростанию</translation>
+        <translation>По возростанию</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="704"/>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>По убыванию</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="706"/>
         <source>De&amp;fault (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;По умолчанию (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="712"/>
         <source>&amp;Name (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Имя (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="718"/>
         <source>&amp;User Count (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Количество пользователей (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="724"/>
         <source>Country (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Страна (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="626"/>
@@ -6976,7 +6976,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="190"/>
         <source>Voice transmission mode toggled</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключен режим передачи голоса</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="192"/>
@@ -7005,7 +7005,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../textmessage.ui" line="136"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Закрыть</translation>
+        <translation>&amp;Закрыть</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="139"/>
@@ -7026,7 +7026,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../textmessagedlg.cpp" line="95"/>
         <source>Private chat with %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Личный чат с %1</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="179"/>
@@ -7281,32 +7281,32 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="542"/>
         <source>Ascending</source>
-        <translation type="unfinished">По возростанию</translation>
+        <translation>По возростанию</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="542"/>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>По убыванию</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="544"/>
         <source>&amp;Username (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Имя пользователя (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="550"/>
         <source>User &amp;Type (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Тип пользователя (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="556"/>
         <source>&amp;Channel (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Канал (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="562"/>
         <source>&amp;Modified (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменё&amp;н (%1)</translation>
     </message>
     <message>
         <source>&amp;Username</source>
