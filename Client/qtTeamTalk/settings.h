@@ -50,6 +50,7 @@
 #define SETTINGS_GENERAL_RESTOREUSERSETTINGS_DEFAULT true
 #define SETTINGS_GENERAL_AUTOAWAY                   "general_/auto-away"
 #define SETTINGS_GENERAL_AUTOAWAY_DEFAULT                   180
+#define SETTINGS_GENERAL_AWAY_STATUSMSG                   "general_/idle-message"
 #define SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT        "general_/inactivity-disable-voiceact"
 #define SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT_DEFAULT false
 #define SETTINGS_GENERAL_PUSHTOTALK                 "general_/push-to-talk"
@@ -59,6 +60,8 @@
 #define SETTINGS_GENERAL_VOICEACTIVATED             "general_/voice-activated"
 #define SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT     false
 #define SETTINGS_GENERAL_STATUSMESSAGE              "general_/statusmsg"
+#define SETTINGS_GENERAL_STREAMING_STATUS              "general_/streaming-status"
+#define SETTINGS_GENERAL_STREAMING_STATUS_DEFAULT              false
 #define SETTINGS_GENERAL_PROFILENAME                "general_/profilename"
 
 #define SETTINGS_DISPLAY_MESSAGEPOPUP               "display/msgpopup"
@@ -147,6 +150,12 @@
 #define SETTINGS_DISPLAY_SERVERLISTDLG_SIZE         "display/serverlist-dialog-size"
 #define SETTINGS_DISPLAY_USERACCOUNTS_HEADERSIZES     "display/useraccounts-header"
 #define SETTINGS_DISPLAY_USERACCOUNTSDLG_SIZE         "display/useraccounts-dialog-size"
+#define SETTINGS_DISPLAY_SERVERLIST_SORT                            "display/server-list-sort"
+#define SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT                            "default"
+#define SETTINGS_DISPLAY_USERACCOUNT_SORT                            "display/user-account-sort"
+#define SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT                            "username"
+#define SETTINGS_DISPLAY_FILESLIST_SORT                            "display/files-list-sort"
+#define SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT                            "name"
 
 #define SETTINGS_CONNECTION_AUTOCONNECT             "connection/autoconnect"
 #define SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT     false
@@ -256,6 +265,8 @@
 #define SETTINGS_SOUNDEVENT_VOICEACTMEON_DEFAULT           (SOUNDSPATH"/vox_me_enable.wav")
 #define SETTINGS_SOUNDEVENT_VOICEACTMEOFF           "soundevents/voice-act-me-off"
 #define SETTINGS_SOUNDEVENT_VOICEACTMEOFF_DEFAULT           (SOUNDSPATH"/vox_me_disable.wav")
+#define SETTINGS_SOUNDEVENT_INTERCEPT           "soundevents/intercept"
+#define SETTINGS_SOUNDEVENT_INTERCEPT_DEFAULT           (SOUNDSPATH"/intercept.wav")
 #define SETTINGS_SOUNDS_PACK           "soundevents/sounds-pack"
 #define SETTINGS_SOUNDS_PACK_DEFAULT           QT_TRANSLATE_NOOP("MainWindow", "Default")
 #define SETTINGS_SOUNDEVENT_ENABLE                   "soundevents/sounds-enable"

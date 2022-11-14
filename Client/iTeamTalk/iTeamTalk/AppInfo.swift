@@ -42,7 +42,7 @@ class AppInfo {
     }
     
     enum BundleInfo {
-        case name, version_NO
+        case name, version_NO, build_NO
     }
     
     static func getBundleInfo(_ b: BundleInfo) -> String {
@@ -60,6 +60,11 @@ class AppInfo {
                 return info as! String
             }
             return "0.1"
+        case .build_NO :
+            if let info = dict?["CFBundleVersion"] {
+                return info as! String
+            }
+            return "0"
         }
     }
     
@@ -69,7 +74,10 @@ class AppInfo {
     static func getAppVersion() -> String {
         return getBundleInfo(.version_NO)
     }
-    
+    static func getAppVersionLong() -> String {
+        return getAppVersion() + " Build " + getBundleInfo(.build_NO)
+    }
+
     static func getDefaultUrlArgs() -> String {
         return "client=" + getAppName() + "&version=" + getAppVersion() + "&dllversion=" + TEAMTALK_VERSION + "&os=" + OSTYPE
     }

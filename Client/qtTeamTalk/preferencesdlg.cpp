@@ -170,6 +170,8 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             this, &PreferencesDlg::slotEventNewVideo);
     connect(ui.desktopsessionButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotEventNewDesktop);
+    connect(ui.interceptButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventIntercept);
     connect(ui.fileupdButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotEventFilesUpdated);
     connect(ui.transferdoneButton, &QAbstractButton::clicked,
@@ -500,6 +502,7 @@ void PreferencesDlg::slotTabChange(int index)
 
         ui.awaySpinBox->setValue(ttSettings->value(SETTINGS_GENERAL_AUTOAWAY, SETTINGS_GENERAL_AUTOAWAY_DEFAULT).toInt());
         slotUpdateASBAccessibleName();
+        ui.awayMsgEdit->setText(ttSettings->value(SETTINGS_GENERAL_AWAY_STATUSMSG).toString());
         ui.disableVoiceActCheckBox->setChecked(ttSettings->value(SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT, SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT_DEFAULT).toBool());
         ui.pttChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool());
         ui.pttlockChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALKLOCK,
@@ -627,6 +630,7 @@ void PreferencesDlg::slotTabChange(int index)
         ui.chansilentEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_SILENCE).toString());
         ui.videosessionEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWVIDEO, SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT).toString());
         ui.desktopsessionEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWDESKTOP, SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT).toString());
+        ui.interceptEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_INTERCEPT, SETTINGS_SOUNDEVENT_INTERCEPT_DEFAULT).toString());
         ui.fileupdEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_FILESUPD, SETTINGS_SOUNDEVENT_FILESUPD_DEFAULT).toString());
         ui.transferdoneEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_FILETXDONE, SETTINGS_SOUNDEVENT_FILETXDONE_DEFAULT).toString());
         ui.questionmodeEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_QUESTIONMODE, SETTINGS_SOUNDEVENT_QUESTIONMODE_DEFAULT).toString());
@@ -811,6 +815,7 @@ void PreferencesDlg::slotSaveChanges()
         else
             ttSettings->setValue(SETTINGS_GENERAL_GENDER, GENDER_NEUTRAL);
         ttSettings->setValue(SETTINGS_GENERAL_AUTOAWAY, ui.awaySpinBox->value());
+        ttSettings->setValue(SETTINGS_GENERAL_AWAY_STATUSMSG, ui.awayMsgEdit->text());
         ttSettings->setValue(SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT, ui.disableVoiceActCheckBox->isChecked());
         saveHotKeySettings(HOTKEY_PUSHTOTALK, m_hotkey);
         ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, ui.pttChkBox->isChecked());
@@ -1012,6 +1017,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_SOUNDEVENT_SILENCE, ui.chansilentEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_NEWVIDEO, ui.videosessionEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_NEWDESKTOP, ui.desktopsessionEdit->text());
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_INTERCEPT, ui.interceptEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_FILESUPD, ui.fileupdEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_FILETXDONE, ui.transferdoneEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_QUESTIONMODE, ui.questionmodeEdit->text());
@@ -1462,6 +1468,13 @@ void PreferencesDlg::slotEventNewDesktop()
     QString filename = ui.desktopsessionEdit->text();
     if(getSoundFile(filename))
         ui.desktopsessionEdit->setText(filename);
+}
+
+void PreferencesDlg::slotEventIntercept()
+{
+    QString filename = ui.interceptEdit->text();
+    if(getSoundFile(filename))
+        ui.interceptEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventFilesUpdated()
@@ -1937,11 +1950,14 @@ void PreferencesDlg::slotSPackChange()
     ui.rmuserEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_REMOVEUSER_DEFAULT, SETTINGS_SOUNDEVENT_REMOVEUSER_DEFAULT).toString());
     ui.srvlostEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_SERVERLOST_DEFAULT, SETTINGS_SOUNDEVENT_SERVERLOST_DEFAULT).toString());
     ui.usermsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERMSG_DEFAULT, SETTINGS_SOUNDEVENT_USERMSG_DEFAULT).toString());
+    ui.sentmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_USERMSGSENT_DEFAULT, SETTINGS_SOUNDEVENT_USERMSGSENT_DEFAULT).toString());
     ui.chanmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSG_DEFAULT, SETTINGS_SOUNDEVENT_CHANNELMSG_DEFAULT).toString());
+    ui.sentchannelmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSGSENT_DEFAULT, SETTINGS_SOUNDEVENT_CHANNELMSGSENT_DEFAULT).toString());
     ui.bcastmsgEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_BROADCASTMSG_DEFAULT, SETTINGS_SOUNDEVENT_BROADCASTMSG_DEFAULT).toString());
     ui.hotkeyEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_HOTKEY_DEFAULT, SETTINGS_SOUNDEVENT_HOTKEY_DEFAULT).toString());
     ui.videosessionEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT, SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT).toString());
     ui.desktopsessionEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT, SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT).toString());
+    ui.interceptEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_INTERCEPT_DEFAULT, SETTINGS_SOUNDEVENT_INTERCEPT_DEFAULT).toString());
     ui.fileupdEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_FILESUPD_DEFAULT, SETTINGS_SOUNDEVENT_FILESUPD_DEFAULT).toString());
     ui.transferdoneEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_FILETXDONE_DEFAULT, SETTINGS_SOUNDEVENT_FILETXDONE_DEFAULT).toString());
     ui.questionmodeEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_QUESTIONMODE_DEFAULT, SETTINGS_SOUNDEVENT_QUESTIONMODE_DEFAULT).toString());
@@ -1986,6 +2002,8 @@ void PreferencesDlg::slotSPackChange()
            ui.videosessionEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
         if(filename == "desktopsession")
            ui.desktopsessionEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "intercept")
+           ui.interceptEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
         if(filename == "fileupdate")
            ui.fileupdEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
         if(filename == "filetx_complete")

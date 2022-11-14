@@ -54,6 +54,7 @@ ChangeStatusDlg::ChangeStatusDlg(QWidget* parent/* = 0*/)
             ui.questionBtn->setChecked(true);break;
         }
         ui.msgEdit->setText(_Q(m_user.szStatusMsg));
+        ui.streamChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_STREAMING_STATUS, SETTINGS_GENERAL_STREAMING_STATUS_DEFAULT).toBool());
     }
 }
 
@@ -68,6 +69,7 @@ void ChangeStatusDlg::slotAccepted()
         m_user.nStatusMode |= STATUSMODE_QUESTION;
 
     ttSettings->setValue(SETTINGS_GENERAL_STATUSMESSAGE, ui.msgEdit->text());
+    ttSettings->setValue(SETTINGS_GENERAL_STREAMING_STATUS, ui.streamChkBox->isChecked());
 
     TT_DoChangeStatus(ttInst, m_user.nStatusMode, _W(ui.msgEdit->text()));
 }

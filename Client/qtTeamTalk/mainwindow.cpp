@@ -53,6 +53,7 @@
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QTimer>
 #include <QSettings>
 #include <QFile>
@@ -1356,7 +1357,7 @@ void MainWindow::clienteventUserStateChange(const User& user)
         addStatusMsg(STATUSBAR_BYPASS, tr("Streaming from %1 started") .arg(getDisplayName(nameuser)));
     }
 
-    if(m_talking.empty())
+    if(m_talking.empty() && TT_GetMyChannelID(ttInst) > 0)
         playSoundEvent(SOUNDEVENT_SILENCE);
 }
 
@@ -2458,6 +2459,7 @@ void MainWindow::updateIdleTimeout()
         if (isComputerIdle(idle_time) && (m_statusmode & STATUSMODE_MODE) == STATUSMODE_AVAILABLE)
         {
             m_statusmode |= STATUSMODE_AWAY;
+            statusmsg = (ttSettings->value(SETTINGS_GENERAL_AWAY_STATUSMSG).toString().isEmpty()?statusmsg:ttSettings->value(SETTINGS_GENERAL_AWAY_STATUSMSG).toString());
             if (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
             {
                 TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
@@ -2839,7 +2841,6 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
             if(dlg)
             {
                 dlg->show();
-                dlg->activateWindow();
                 dlg->raise();
             }
         }
@@ -3536,13 +3537,15 @@ void MainWindow::startStreamMediaFile()
     }
     else
     {
+        QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
         m_statusmode |= STATUSMODE_STREAM_MEDIAFILE;
+        if(ttSettings->value(SETTINGS_GENERAL_STREAMING_STATUS, SETTINGS_GENERAL_STREAMING_STATUS_DEFAULT).toBool() == true)
+            statusmsg = QFileInfo(fileName).fileName();
         ////since streaming video takes over webcam stream we show as 
         ////transmitting video
         //if(tx_mode & TRANSMIT_VIDEO)
         //    m_statusmode |= STATUSMODE_VIDEOTX;
 
-        QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
         TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
         transmitOn(STREAMTYPE_MEDIAFILE);
     }
@@ -4438,10 +4441,14 @@ void MainWindow::slotMeEnablePushToTalk(bool checked)
 
         if(hotkey.size())
             enableHotKey(HOTKEY_PUSHTOTALK, hotkey);
+        if (QObject::sender() == ui.actionEnablePushToTalk)
+            addTextToSpeechMessage(TTS_TOGGLE_VOICETRANSMISSION, tr("Push-To-Talk enabled"));
     }
     else
     {
         disableHotKey(HOTKEY_PUSHTOTALK);
+        if (QObject::sender() == ui.actionEnablePushToTalk)
+            addTextToSpeechMessage(TTS_TOGGLE_VOICETRANSMISSION, tr("Push-To-Talk disabled"));
     }
 
     ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, checked);
@@ -4471,6 +4478,8 @@ void MainWindow::slotMeEnableVoiceActivation(bool checked)
 {
     ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, checked);
     enableVoiceActivation(checked, SOUNDEVENT_VOICEACTMEON, SOUNDEVENT_VOICEACTMEOFF);
+    if (QObject::sender() == ui.actionEnableVoiceActivation)
+        addTextToSpeechMessage(TTS_TOGGLE_VOICETRANSMISSION, (checked?tr("Voice activation enabled"):tr("Voice activation disabled")));
 }
 
 void MainWindow::enableVoiceActivation(bool checked, SoundEvent on, SoundEvent off)
@@ -5410,10 +5419,31 @@ void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)
 {
     QMenu menu(this);
     QMenu* sortMenu = menu.addMenu(tr("Sort By..."));
-    QAction* sortName = sortMenu->addAction(tr("&Name"));
-    QAction* sortSize = sortMenu->addAction(tr("&Size"));
-    QAction* sortOwner = sortMenu->addAction(tr("&Owner"));
-    QAction* sortUpload = sortMenu->addAction(tr("&Upload Date"));
+    QString asc = tr("Ascending"), desc = tr("Descending");
+    QAction* sortName = new QAction(sortMenu);
+    sortName->setText(tr("&Name (%1)").arg(m_proxyFilesModel->sortOrder() == Qt::AscendingOrder?asc:desc));
+    sortName->setCheckable(true);
+    const QString name = "name";
+    sortName->setChecked((ttSettings->value(SETTINGS_DISPLAY_FILESLIST_SORT, SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT).toString() == name)?true:false);
+    sortMenu->addAction(sortName);
+    QAction* sortSize = new QAction(sortMenu);
+    sortSize->setText(tr("&Size (%1)").arg(m_proxyFilesModel->sortOrder() == Qt::AscendingOrder?asc:desc));
+    sortSize->setCheckable(true);
+    const QString size = "size";
+    sortSize->setChecked((ttSettings->value(SETTINGS_DISPLAY_FILESLIST_SORT, SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT).toString() == size)?true:false);
+    sortMenu->addAction(sortSize);
+    QAction* sortOwner = new QAction(sortMenu);
+    sortOwner->setText(tr("&Owner (%1)").arg(m_proxyFilesModel->sortOrder() == Qt::AscendingOrder?asc:desc));
+    sortOwner->setCheckable(true);
+    const QString owner = "owner";
+    sortOwner->setChecked((ttSettings->value(SETTINGS_DISPLAY_FILESLIST_SORT, SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT).toString() == owner)?true:false);
+    sortMenu->addAction(sortOwner);
+    QAction* sortUpload = new QAction(sortMenu);
+    sortUpload->setText(tr("&Upload Date (%1)").arg(m_proxyFilesModel->sortOrder() == Qt::AscendingOrder?asc:desc));
+    sortUpload->setCheckable(true);
+    const QString uploadstr = "upload";
+    sortUpload->setChecked((ttSettings->value(SETTINGS_DISPLAY_FILESLIST_SORT, SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT).toString() == uploadstr)?true:false);
+    sortMenu->addAction(sortUpload);
     QAction* upload = menu.addAction(ui.actionUploadFile->text());
     QAction* download = menu.addAction(ui.actionDownloadFile->text());
     QAction* del = menu.addAction(ui.actionDeleteFile->text());
@@ -5425,13 +5455,25 @@ void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)
     {
         auto sortToggle = m_proxyFilesModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
         if (action == sortName)
+        {
             ui.filesView->header()->setSortIndicator(COLUMN_INDEX_NAME, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_NAME ? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_FILESLIST_SORT, name);
+        }
         else if (action == sortSize)
+        {
             ui.filesView->header()->setSortIndicator(COLUMN_INDEX_SIZE, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_SIZE ? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_FILESLIST_SORT, size);
+        }
         else if (action == sortOwner)
+        {
             ui.filesView->header()->setSortIndicator(COLUMN_INDEX_OWNER, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_OWNER? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_FILESLIST_SORT, owner);
+        }
         else if (action == sortUpload)
+        {
             ui.filesView->header()->setSortIndicator(COLUMN_INDEX_UPLOADED, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_UPLOADED? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_FILESLIST_SORT, uploadstr);
+        }
         else if (action == upload)
             slotChannelsUploadFile();
         else if (action == download)
@@ -6774,6 +6816,8 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG?
                      tr("On"):tr("Off")));
             addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptUserMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG?tr("On"):tr("Off")));
+            if (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG)
+                playSoundEvent(SOUNDEVENT_INTERCEPT);
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG))
@@ -6784,6 +6828,8 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG?
                      tr("On"):tr("Off")));
             addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptChannelMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG?tr("On"):tr("Off")));
+            if (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG)
+                playSoundEvent(SOUNDEVENT_INTERCEPT);
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE))
@@ -6794,6 +6840,8 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE?
                      tr("On"):tr("Off")));
             addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_VOICE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptVoice->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE?tr("On"):tr("Off")));
+            if (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE)
+                playSoundEvent(SOUNDEVENT_INTERCEPT);
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE))
@@ -6804,6 +6852,8 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE?
                      tr("On"):tr("Off")));
             addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptVideo->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE?tr("On"):tr("Off")));
+            if (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE)
+                playSoundEvent(SOUNDEVENT_INTERCEPT);
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP))
@@ -6814,6 +6864,8 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP?
                      tr("On"):tr("Off")));
             addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptDesktop->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP?tr("On"):tr("Off")));
+            if (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP)
+                playSoundEvent(SOUNDEVENT_INTERCEPT);
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE) !=
             (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE))
@@ -6824,6 +6876,8 @@ void MainWindow::slotUserUpdate(const User& user)
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE?
                      tr("On"):tr("Off")));
             addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptMediaFile->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE?tr("On"):tr("Off")));
+            if (user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE)
+                playSoundEvent(SOUNDEVENT_INTERCEPT);
         }
         if(m_mychannel.nChannelID == user.nChannelID && user.nChannelID)
         {

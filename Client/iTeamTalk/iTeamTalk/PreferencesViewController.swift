@@ -157,6 +157,13 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         pttlockswitch.addTarget(self, action: #selector(PreferencesViewController.pttlockChanged(_:)), for: .valueChanged)
         general_items.append(pttlockcell)
         
+        let headsettxcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        let headsettxswitch = newTableCellSwitch(headsettxcell, label: NSLocalizedString("Headset TX Toggle", comment: "preferences"),
+            initial: settings.object(forKey: PREF_HEADSET_TXTOGGLE) != nil && settings.bool(forKey: PREF_HEADSET_TXTOGGLE))
+        headsettxcell.detailTextLabel!.text = NSLocalizedString("Toggle voice transmission using headset", comment: "preferences")
+        headsettxswitch.addTarget(self, action: #selector(PreferencesViewController.headsetTxToggleChanged(_:)), for: .valueChanged)
+        general_items.append(headsettxcell)
+        
         let sendonenter = settings.object(forKey: PREF_GENERAL_SENDONRETURN) == nil || settings.bool(forKey: PREF_GENERAL_SENDONRETURN)
         let sendonentercell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         let sendonenterswitch = newTableCellSwitch(sendonentercell, label: NSLocalizedString("Return Sends Message", comment: "preferences"), initial: sendonenter)
@@ -248,14 +255,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         
         let sndinputscell = tableView.dequeueReusableCell(withIdentifier: "SelectSoundDevices")
         sound_items.append(sndinputscell!)
-        
-        let headsettxcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let headsettxswitch = newTableCellSwitch(headsettxcell, label: NSLocalizedString("Headset TX Toggle", comment: "preferences"),
-            initial: settings.object(forKey: PREF_HEADSET_TXTOGGLE) != nil && settings.bool(forKey: PREF_HEADSET_TXTOGGLE))
-        headsettxcell.detailTextLabel!.text = NSLocalizedString("Toggle voice transmission using headset", comment: "preferences")
-        headsettxswitch.addTarget(self, action: #selector(PreferencesViewController.headsetTxToggleChanged(_:)), for: .valueChanged)
-        sound_items.append(headsettxcell)
-        
+                
 
         // sound events
         
@@ -367,7 +367,7 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         let versioncell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         versioncell.textLabel?.text = NSLocalizedString("App Version", comment: "preferences")
         let v_str = String(cString: TT_GetVersion())
-        versioncell.detailTextLabel?.text = "\(AppInfo.getAppName()) v\(AppInfo.getAppVersion()), Library v\(v_str)"
+        versioncell.detailTextLabel?.text = "\(AppInfo.getAppName()) v\(AppInfo.getAppVersionLong()), Library v\(v_str)"
         version_items.append(versioncell)
     }
     

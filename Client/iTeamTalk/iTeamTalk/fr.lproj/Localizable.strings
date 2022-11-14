@@ -106,10 +106,10 @@
 "Bjoern D. Rasmussen, contact@bearware.dk" = "Corentin Bacqué-Cazenave";
 
 /* Sound Devices */
-"Bluetooth A2DP Playback" = "Bluetooth A2DP Playback";
+"Bluetooth A2DP Playback" = "Lecture Bluetooth A2DP";
 
 /* Sound Devices */
-"Bluetooth playback should use Advanced Audio Distribution Profile" = "Bluetooth playback should use Advanced Audio Distribution Profile";
+"Bluetooth playback should use Advanced Audio Distribution Profile" = "La lecture audio Bluetooth doit utiliser le profil de distribution audio avancé";
 
 /* text message type */
 "Broadcast message" = "Message général";
@@ -154,7 +154,7 @@
 "Check only if this server has enabled Facebook login" = "À ne cocher que si ce serveur a activé la connexion Facebook";
 
 /* log entry */
-"Command failed: %@" = "Command failed: %@";
+"Command failed: %@" = "Échec de la commande: %@";
 
 /* create channel */
 "Commands" = "Commandes";

@@ -622,8 +622,15 @@ void ServerListDlg::publishServer()
     if (!getHostEntry(entry) || entry.name.isEmpty())
         return;
 
-    if (QMessageBox::question(this, tr("Publish Server"),
-                             tr("Are you sure you want to publish the server named \"%1\"").arg(entry.name)) != QMessageBox::Yes)
+    QMessageBox answer;
+    answer.setText(tr("Are you sure you want to publish the server named \"%1\"").arg(entry.name));
+    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    Q_UNUSED(NoButton);
+    answer.setIcon(QMessageBox::Question);
+    answer.setWindowTitle(tr("Publish Server"));
+    answer.exec();
+    if(answer.clickedButton() != YesButton)
         return;
 
     if (!m_http_srvpublish_manager)
@@ -694,10 +701,31 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
 {
     QMenu menu(this);
     QMenu* sortMenu = menu.addMenu(tr("Sort By..."));
-    QAction* sortDefault = sortMenu->addAction(tr("De&fault"));
-    QAction* sortName = sortMenu->addAction(tr("&Name"));
-    QAction* sortUserCount = sortMenu->addAction(tr("&User Count"));
-    QAction* sortCountry = sortMenu->addAction(tr("Country"));
+    QString asc = tr("Ascending"), desc = tr("Descending");
+    QAction* sortDefault = new QAction(sortMenu);
+    sortDefault->setText(tr("De&fault (%1)").arg(m_proxyModel->sortOrder() == Qt::AscendingOrder?asc:desc));
+    sortDefault->setCheckable(true);
+    const QString defaultstr = "default";
+    sortDefault->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == defaultstr)?true:false);
+    sortMenu->addAction(sortDefault);
+    QAction* sortName = new QAction(sortMenu);
+    sortName->setText(tr("&Name (%1)").arg(m_proxyModel->sortOrder() == Qt::AscendingOrder?asc:desc));
+    sortName->setCheckable(true);
+    const QString name = "name";
+    sortName->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == name)?true:false);
+    sortMenu->addAction(sortName);
+    QAction* sortUserCount = new QAction(sortMenu);
+    sortUserCount->setText(tr("&User Count (%1)").arg(m_proxyModel->sortOrder() == Qt::AscendingOrder?asc:desc));
+    sortUserCount->setCheckable(true);
+    const QString usercount = "usercount";
+    sortUserCount->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == usercount)?true:false);
+    sortMenu->addAction(sortUserCount);
+    QAction* sortCountry = new QAction(sortMenu);
+    sortCountry->setText(tr("Country (%1)").arg(m_proxyModel->sortOrder() == Qt::AscendingOrder?asc:desc));
+    sortCountry->setCheckable(true);
+    const QString country = "country";
+    sortCountry->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == country)?true:false);
+    sortMenu->addAction(sortCountry);
     QAction* delServ = menu.addAction(tr("&Delete Selected Server"));
     auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
     if (srcIndex.isValid())
@@ -709,21 +737,25 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
         {
             m_proxyModel->setSortRole(Qt::UserRole);
             ui.serverTreeView->header()->setSortIndicator(COLUMN_INDEX_SERVERNAME, m_proxyModel->sortColumn() == COLUMN_INDEX_SERVERNAME ? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, defaultstr);
         }
         else if (action == sortName)
         {
             m_proxyModel->setSortRole(Qt::DisplayRole);
             ui.serverTreeView->header()->setSortIndicator(COLUMN_INDEX_SERVERNAME, m_proxyModel->sortColumn() == COLUMN_INDEX_SERVERNAME ? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, name);
         }
         else if (action == sortUserCount)
         {
             m_proxyModel->setSortRole(Qt::DisplayRole);
             ui.serverTreeView->header()->setSortIndicator(COLUMN_INDEX_USERCOUNT, m_proxyModel->sortColumn() == COLUMN_INDEX_USERCOUNT ? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, usercount);
         }
         else if (action == sortCountry)
         {
             m_proxyModel->setSortRole(Qt::DisplayRole);
             ui.serverTreeView->header()->setSortIndicator(COLUMN_INDEX_COUNTRY, m_proxyModel->sortColumn() == COLUMN_INDEX_COUNTRY ? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, country);
         }
         else if (action == delServ)
             emit(deleteSelectedServer());
@@ -739,9 +771,15 @@ void ServerListDlg::keyPressEvent(QKeyEvent* e)
         if (e->matches(QKeySequence::Delete) || e->key() == Qt::Key_Backspace)
         {
             auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
-            if (srcIndex.isValid() &&
-                QMessageBox::question(this, tr("Delete Server"),
-                                      tr("Delete server named \"%1\"").arg(m_model->getServers()[srcIndex.row()].name)) == QMessageBox::Yes)
+            QMessageBox answer;
+            answer.setText(tr("Delete server named \"%1\"").arg(m_model->getServers()[srcIndex.row()].name));
+            QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+            QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+            Q_UNUSED(NoButton);
+            answer.setIcon(QMessageBox::Question);
+            answer.setWindowTitle(tr("Delete Server"));
+            answer.exec();
+            if (srcIndex.isValid() && answer.clickedButton() == YesButton)
             {
                 emit(deleteSelectedServer());
             }

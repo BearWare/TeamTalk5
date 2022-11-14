@@ -49,6 +49,23 @@ func removeFromTTMessages(_ p: TeamTalkEventHandler) {
     }
 }
 
+func runTeamTalkEventHandler() {
+    var m = TTMessage()
+    var n : INT32 = 0
+    while TT_GetMessage(ttInst, &m, &n) != FALSE {
+
+        for tt in ttMessageHandlers {
+            if tt.value == nil {
+                removeFromTTMessages(tt)
+            }
+            else {
+                tt.value!.handleTTMessage(m)
+            }
+        }
+    }
+}
+
+
 func isTransmitting(_ ttInst: UnsafeMutableRawPointer, stream: StreamType) -> Bool {
     let flags = TT_GetFlags(ttInst)
     

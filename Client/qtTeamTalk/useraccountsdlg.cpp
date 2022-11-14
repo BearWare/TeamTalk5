@@ -539,22 +539,55 @@ void UserAccountsDlg::slotTreeContextMenu(const QPoint& /*point*/)
 {
     QMenu menu(this);
     QMenu* sortMenu = menu.addMenu(tr("Sort By..."));
-    QAction* sortUsername = sortMenu->addAction(tr("&Username"));
-    QAction* sortUserType = sortMenu->addAction(tr("User &Type"));
-    QAction* sortChannel = sortMenu->addAction(tr("&Channel"));
-    QAction* sortModified = sortMenu->addAction(tr("&Modified"));
+    QString asc = tr("Ascending"), desc = tr("Descending");
+    QAction* sortUsername = new QAction(sortMenu);
+    sortUsername->setText(tr("&Username (%1)").arg(m_proxyModel->sortOrder() == Qt::AscendingOrder?asc:desc));
+    sortUsername->setCheckable(true);
+    const QString username = "username";
+    sortUsername->setChecked((ttSettings->value(SETTINGS_DISPLAY_USERACCOUNT_SORT, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT).toString() == username)?true:false);
+    sortMenu->addAction(sortUsername);
+    QAction* sortUserType = new QAction(sortMenu);
+    sortUserType->setText(tr("User &Type (%1)").arg(m_proxyModel->sortOrder() == Qt::AscendingOrder?asc:desc));
+    sortUserType->setCheckable(true);
+    const QString usertype = "usertype";
+    sortUserType->setChecked((ttSettings->value(SETTINGS_DISPLAY_USERACCOUNT_SORT, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT).toString() == usertype)?true:false);
+    sortMenu->addAction(sortUserType);
+    QAction* sortChannel = new QAction(sortMenu);
+    sortChannel->setText(tr("&Channel (%1)").arg(m_proxyModel->sortOrder() == Qt::AscendingOrder?asc:desc));
+    sortChannel->setCheckable(true);
+    const QString channel = "channel";
+    sortChannel->setChecked((ttSettings->value(SETTINGS_DISPLAY_USERACCOUNT_SORT, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT).toString() == channel)?true:false);
+    sortMenu->addAction(sortChannel);
+    QAction* sortModified = new QAction(sortMenu);
+    sortModified->setText(tr("&Modified (%1)").arg(m_proxyModel->sortOrder() == Qt::AscendingOrder?asc:desc));
+    sortModified->setCheckable(true);
+    const QString modified = "modified";
+    sortModified->setChecked((ttSettings->value(SETTINGS_DISPLAY_USERACCOUNT_SORT, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT).toString() == modified)?true:false);
+    sortMenu->addAction(sortModified);
     QAction* delUser = menu.addAction(tr("&Delete Selected User"));
     if (QAction* action = menu.exec(QCursor::pos()))
     {
         auto sortToggle = m_proxyModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
         if (action == sortUsername)
+        {
             ui.usersTreeView->header()->setSortIndicator(COLUMN_INDEX_USERNAME, m_proxyModel->sortColumn() == COLUMN_INDEX_USERNAME ? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNT_SORT, username);
+        }
         else if (action == sortUserType)
+        {
             ui.usersTreeView->header()->setSortIndicator(COLUMN_INDEX_USERTYPE, m_proxyModel->sortColumn() == COLUMN_INDEX_USERTYPE ? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNT_SORT, usertype);
+        }
         else if (action == sortChannel)
+        {
             ui.usersTreeView->header()->setSortIndicator(COLUMN_INDEX_CHANNEL, m_proxyModel->sortColumn() == COLUMN_INDEX_CHANNEL? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNT_SORT, channel);
+        }
         else if (action == sortModified)
+        {
             ui.usersTreeView->header()->setSortIndicator(COLUMN_INDEX_MODIFIED, m_proxyModel->sortColumn() == COLUMN_INDEX_MODIFIED ? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNT_SORT, modified);
+        }
         else if (action == delUser)
             emit(slotDelUser());
     }

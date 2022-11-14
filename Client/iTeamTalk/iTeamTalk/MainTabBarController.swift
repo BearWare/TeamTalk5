@@ -90,6 +90,13 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         connectToServer()
     }
     
+    deinit {
+        TT_Disconnect(ttInst)
+        closeSoundDevices()
+        runTeamTalkEventHandler()
+        print("Destroyed main view controller")
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -127,6 +134,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
     override func remoteControlReceived(with event: UIEvent?) { // *
         let rc = event!.subtype
         switch rc {
+        case .remoteControlPause : fallthrough
         case .remoteControlTogglePlayPause:
             let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
             channelsTab.enableVoiceTx(false)
@@ -135,6 +143,7 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
         case .remoteControlNextTrack:
             let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
             channelsTab.enableVoiceTx(true)
+        
         default:
             break
         }
@@ -155,22 +164,10 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
             startReconnectTimer()
         }
     }
-    
+        
     // run the TeamTalk event loop
     @objc func timerEvent() {
-        var m = TTMessage()
-        var n : INT32 = 0
-        while TT_GetMessage(ttInst, &m, &n) != FALSE {
-
-            for tt in ttMessageHandlers {
-                if tt.value == nil {
-                    removeFromTTMessages(tt)
-                }
-                else {
-                    tt.value!.handleTTMessage(m)
-                }
-            }
-        }
+        runTeamTalkEventHandler()
     }
     
     @objc func proximityChanged(_ notification: Notification) {
