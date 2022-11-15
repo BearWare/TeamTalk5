@@ -4925,7 +4925,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1384"/>
         <source>Playback mode</source>
-        <translation type="unfinished"></translation>
+        <translation>播放模式</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1432"/>
@@ -5337,12 +5337,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="622"/>
         <source>One by One</source>
-        <translation type="unfinished"></translation>
+        <translation>逐个</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="623"/>
         <source>Overlapping</source>
-        <translation type="unfinished"></translation>
+        <translation>重叠</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="665"/>
