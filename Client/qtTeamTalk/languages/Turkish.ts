@@ -428,7 +428,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatus.ui" line="77"/>
         <source>Display file name in status message when streaming</source>
-        <translation type="unfinished"></translation>
+        <translation>Akış sırasında durum mesajında dosya adını göster</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="37"/>
@@ -888,7 +888,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="202"/>
         <source>Joined channel %1</source>
-        <translation type="unfinished">%1 kanalına katıldı</translation>
+        <translation>%1 kanalına katıldı</translation>
     </message>
     <message>
         <source>Joined new channel</source>
@@ -3191,32 +3191,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="5433"/>
         <source>Ascending</source>
-        <translation type="unfinished">artan</translation>
+        <translation>artan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5433"/>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Azalan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5435"/>
         <source>&amp;Name (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>A&amp;d (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5441"/>
         <source>&amp;Size (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Boyut (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5447"/>
         <source>&amp;Owner (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Sahibi (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5453"/>
         <source>&amp;Upload Date (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Yükleme &amp;tarihi (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6036"/>
@@ -3667,22 +3667,22 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="4456"/>
         <source>Push-To-Talk enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Bas-Konuş etkin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4462"/>
         <source>Push-To-Talk disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Bas-Konuş devre dışı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4493"/>
         <source>Voice activation enabled</source>
-        <translation type="unfinished">Ses etkin</translation>
+        <translation>Ses etkin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4493"/>
         <source>Voice activation disabled</source>
-        <translation type="unfinished">Ses devre dışı</translation>
+        <translation>Ses devre dışı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4500"/>
@@ -4656,12 +4656,12 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../preferences.ui" line="193"/>
         <source>Disable voice activation during inactivity</source>
-        <translation type="unfinished"></translation>
+        <translation>Hareketsizlik sırasında sesle etkinleştirmeyi devre dışı bırak</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="217"/>
         <source>Status message during inactivity</source>
-        <translation type="unfinished"></translation>
+        <translation>Hareketsizlik sırasında durum mesajı</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="631"/>
@@ -4952,7 +4952,7 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1384"/>
         <source>Playback mode</source>
-        <translation type="unfinished"></translation>
+        <translation>oynatma modu</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1432"/>
@@ -5007,7 +5007,7 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../preferences.ui" line="1731"/>
         <source>Intercepted by another user</source>
-        <translation type="unfinished"></translation>
+        <translation>Başka bir kullanıcı tarafından söz kesintisi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1758"/>
@@ -5364,12 +5364,12 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="622"/>
         <source>One by One</source>
-        <translation type="unfinished"></translation>
+        <translation>Tek tek</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="623"/>
         <source>Overlapping</source>
-        <translation type="unfinished"></translation>
+        <translation>üst üste</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="665"/>
@@ -5739,13 +5739,13 @@ Bu ayarlar uygulanmalı mı?</translation>
         <location filename="../serverlistdlg.cpp" line="627"/>
         <location filename="../serverlistdlg.cpp" line="776"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;Evet</translation>
+        <translation>&amp;Evet</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="628"/>
         <location filename="../serverlistdlg.cpp" line="777"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;Hayır</translation>
+        <translation>&amp;Hayır</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="631"/>
@@ -5756,32 +5756,32 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../serverlistdlg.cpp" line="704"/>
         <source>Ascending</source>
-        <translation type="unfinished">artan</translation>
+        <translation>artan</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="704"/>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Azalan</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="706"/>
         <source>De&amp;fault (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Varsayılan (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="712"/>
         <source>&amp;Name (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>A&amp;d (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="718"/>
         <source>&amp;User Count (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kullanıcı Sayısı (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="724"/>
         <source>Country (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ülke (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="626"/>
@@ -6985,7 +6985,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../ttseventsmodel.cpp" line="190"/>
         <source>Voice transmission mode toggled</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses iletim modu (geçişli)</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="192"/>
@@ -7014,7 +7014,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../textmessage.ui" line="136"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Kapat</translation>
+        <translation>&amp;Kapat</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="139"/>
@@ -7035,7 +7035,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../textmessagedlg.cpp" line="95"/>
         <source>Private chat with %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 ile özel sohbet</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="179"/>
@@ -7290,32 +7290,32 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../useraccountsdlg.cpp" line="542"/>
         <source>Ascending</source>
-        <translation type="unfinished">artan</translation>
+        <translation>artan</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="542"/>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Azalan</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="544"/>
         <source>&amp;Username (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kullanıcı adı (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="550"/>
         <source>User &amp;Type (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı &amp;tipi (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="556"/>
         <source>&amp;Channel (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kanal (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="562"/>
         <source>&amp;Modified (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Değiştirilmiş (%1)</translation>
     </message>
     <message>
         <source>&amp;Username</source>
