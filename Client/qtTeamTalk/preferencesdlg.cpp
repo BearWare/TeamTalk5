@@ -1068,7 +1068,7 @@ void PreferencesDlg::slotSaveChanges()
         {
             saveHotKeySettings(ite.key(), *ite);
 #ifdef Q_OS_WIN32
-            TT_HotKey_Register(ttInst, ite.key(), &(*ite)[0], ite->size());
+            TT_HotKey_Register(ttInst, ite.key(), &(*ite)[0], INT32(ite->size()));
 #endif
             ite++;
         }

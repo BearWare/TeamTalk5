@@ -215,7 +215,7 @@ MainWindow::MainWindow(const QString& cfgfile)
 
 
 #if defined(Q_OS_WIN32)
-    ui.actionExit->setShortcut(QKeySequence(Qt::ALT + Qt::Key_F4));
+    ui.actionExit->setShortcut(QKeySequence(Qt::ALT | Qt::Key_F4));
 #else
     ui.actionExit->setShortcut(QKeySequence::Quit);
 #endif
@@ -3630,7 +3630,7 @@ void MainWindow::enableHotKey(HotKeyID id, const hotkey_t& hk)
     disableHotKey(id);
 
 #ifdef Q_OS_WIN32
-    TT_HotKey_Register(ttInst, id, &hk[0], hk.size());
+    TT_HotKey_Register(ttInst, id, &hk[0], INT32(hk.size()));
 
 #elif defined(Q_OS_LINUX)
 
