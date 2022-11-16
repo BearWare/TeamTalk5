@@ -619,8 +619,8 @@ void PreferencesDlg::slotTabChange(int index)
             ui.spackBox->setCurrentIndex(index);
         ui.sndVolSpinBox->setValue(ttSettings->value(SETTINGS_SOUNDEVENT_VOLUME, SETTINGS_SOUNDEVENT_VOLUME_DEFAULT).toInt());
         ui.sndeventPlaybackComboBox->addItem(tr("Default"), PLAYBACKMODE_DEFAULT);
-        ui.sndeventPlaybackComboBox->addItem(tr("One by One"), PLAYBACKMODE_ONEBYONE);
-        ui.sndeventPlaybackComboBox->addItem(tr("Overlapping"), PLAYBACKMODE_OVERLAPPING);
+        ui.sndeventPlaybackComboBox->addItem(tr("One by One (TeamTalk Sound Device)"), PLAYBACKMODE_ONEBYONE);
+        ui.sndeventPlaybackComboBox->addItem(tr("Overlapping (TeamTalk Sound Device)"), PLAYBACKMODE_OVERLAPPING);
         setCurrentItemData(ui.sndeventPlaybackComboBox, ttSettings->value(SETTINGS_SOUNDEVENT_PLAYBACKMODE, SETTINGS_SOUNDEVENT_PLAYBACKMODE_DEFAULT));
         ui.newuserEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWUSER, SETTINGS_SOUNDEVENT_NEWUSER_DEFAULT).toString());
         ui.rmuserEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_REMOVEUSER, SETTINGS_SOUNDEVENT_REMOVEUSER_DEFAULT).toString());
