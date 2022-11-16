@@ -858,14 +858,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">進入頻道 %1</translation>
     </message>
     <message>
-        <source>Joined new channel</source>
-        <translation type="vanished">加入新頻道</translation>
-    </message>
-    <message>
-        <source>Channel: %1</source>
-        <translation type="vanished">頻道: %1</translation>
-    </message>
-    <message>
         <location filename="../chattextedit.cpp" line="208"/>
         <source>Topic: %1</source>
         <translation>主題: %1</translation>
@@ -6940,10 +6932,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../textmessagedlg.cpp" line="237"/>
         <source>New message</source>
         <translation>新訊息</translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation type="vanished">取消(&amp;C)</translation>
     </message>
     <message>
         <location filename="../textmessage.ui" line="117"/>
