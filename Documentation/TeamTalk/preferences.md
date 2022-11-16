@@ -383,6 +383,27 @@ The items in the Sound Events-tab are explained here:
     sound packs can be added to TeamTalk by copying files to the
     **Sounds** folder in TeamTalk's installation directory.
 
+- **Sound event volume level**
+  - The volume level of enabled sound events. Note that if "Playback
+    mode" is played on "TeamTalk Sound Device" then volume level is
+    also controlled by [Master Volume slider](@ref volumecontrols) in
+    main window.
+
+- **Playback mode**
+  - Sound events can be played back in the following ways:
+    - Default
+      - Playback sound event using operating system default sound device.
+    - One by One (TeamTalk Sound Device)
+      - Playback sound event on the sound device specified in [Sound System-tab](@ref soundsystemtab)
+      - [Master Volume slider](@ref volumecontrols) and [Mute All button](@ref toolbar) in main window will apply to the
+        sound event, i.e. if Mute All is enabled then no sound event
+        will be played.
+    - Overlapped (TeamTalk Sound Device)
+      - Playback sound event on the sound device specified in [Sound System-tab](@ref soundsystemtab)
+      - [Master Volume slider](@ref volumecontrols) and [Mute All button](@ref toolbar) in main window will apply to the
+        sound event, i.e. if Mute All is enabled then no sound event
+        will be played.
+
 - **New user**
   - Play this sound when a new user joins your channel.
 
