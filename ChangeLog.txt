@@ -15,7 +15,8 @@ Default Qt Client
 - Text message window is not automatically focused anymore
 - Fix missing label for "Media files RX/TX" on "Server statistics" dialog
 - Fix "Channel silent" sound event played out of channel
-- Windows and macOS updated to Qt 6.4.1
+- macOS updated to Qt 6.4.1
+- Windows updated to Qt 6.5.0-dev
 Accessible Windows Client
 -
 Android Client
