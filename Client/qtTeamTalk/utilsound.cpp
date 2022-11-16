@@ -39,6 +39,7 @@
 
 extern QSettings* ttSettings;
 extern TTInstance* ttInst;
+extern PlaySoundEvent* playsoundevent;
 
 QVector<SoundDevice> getSoundDevices()
 {
@@ -364,11 +365,11 @@ int refGain(double percent)
     return  82.832 * exp(0.0508 * percent) - 50;
 }
 
-void playSoundEvent(SoundEvent event)
+QString getSoundEventFilename(SoundEvent event)
 {
-    if (ttSettings->value(SETTINGS_SOUNDEVENT_ENABLE, SETTINGS_SOUNDEVENT_ENABLE_DEFAULT).toBool() == true)
+    QString filename;
+    if (ttSettings->value(SETTINGS_SOUNDEVENT_ENABLE, SETTINGS_SOUNDEVENT_ENABLE_DEFAULT).toBool())
     {
-        QString filename;
         switch (event)
         {
         case SOUNDEVENT_NEWUSER:
@@ -459,21 +460,115 @@ void playSoundEvent(SoundEvent event)
             filename = ttSettings->value(SETTINGS_SOUNDEVENT_INTERCEPT, SETTINGS_SOUNDEVENT_INTERCEPT_DEFAULT).toString();
             break;
         }
-
-#if defined(QT_MULTIMEDIA_LIB)
-        if (filename.size())
-        {
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-            QSound::play(filename);
-#else
-            static QSoundEffect* effect = new QSoundEffect(ttSettings);
-            effect->setSource(QUrl::fromLocalFile(filename));
-            effect->setVolume(ttSettings->value(SETTINGS_SOUNDEVENT_VOLUME, SETTINGS_SOUNDEVENT_VOLUME_DEFAULT).toInt()/100.0);
-            effect->play();
-#endif
-        }
-#endif
     }
+    return filename;
+}
+
+PlaySoundEvent::PlaySoundEvent(QObject* parent) : QObject(parent)
+{
+}
+
+void PlaySoundEvent::queueSoundEvent(SoundEvent event)
+{
+    m_playbackQueue.enqueue(event);
+    playSoundEvent();
+}
+
+void PlaySoundEvent::playbackUpdate(int playbackid, const MediaFileInfo& mfi)
+{
+    switch (mfi.nStatus)
+    {
+    case MFS_FINISHED :
+    case MFS_ABORTED :
+    case MFS_ERROR :
+    {
+        if (m_activeSessions.contains(playbackid))
+        {
+            m_activeSessions.remove(playbackid);
+            playSoundEvent();
+        }
+        break;
+    }
+    default : break;
+    }
+}
+
+void PlaySoundEvent::playSoundEvent()
+{
+    QString filename;
+    while (m_playbackQueue.size() && filename.isEmpty())
+    {
+        filename = getSoundEventFilename(m_playbackQueue.front());
+        if (filename.isEmpty())
+            m_playbackQueue.dequeue();
+    }
+
+    if (m_playbackQueue.empty())
+        return;
+
+    if (filename.size())
+    {
+        PlaybackMode pbm = PlaybackMode(ttSettings->value(SETTINGS_SOUNDEVENT_PLAYBACKMODE, SETTINGS_SOUNDEVENT_PLAYBACKMODE_DEFAULT).toInt());
+        switch (pbm)
+        {
+        case PLAYBACKMODE_DEFAULT :
+            playDefaultSoundEvent(filename);
+            break;
+        case PLAYBACKMODE_ONEBYONE :
+            if (m_activeSessions.size())
+                return;
+        case PLAYBACKMODE_TEAMTALK :
+        case PLAYBACKMODE_OVERLAPPING :
+            if (!playTeamTalkSoundEvent(filename))
+            {
+                m_playbackQueue.dequeue();
+                playSoundEvent();
+                return;
+            }
+            break;
+        case PLAYBACKMODE_NONE :
+            break;
+        }
+    }
+    m_playbackQueue.dequeue();
+}
+
+bool PlaySoundEvent::playTeamTalkSoundEvent(const QString& filename)
+{
+    MediaFilePlayback mfp = {};
+    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+    mfp.bPaused = FALSE;
+    mfp.audioPreprocessor = initDefaultAudioPreprocessor(TEAMTALK_AUDIOPREPROCESSOR);
+    int volumePct = ttSettings->value(SETTINGS_SOUNDEVENT_VOLUME, SETTINGS_SOUNDEVENT_VOLUME_DEFAULT).toInt();
+    // sound event volume is historically 0-100% but refGain() has 50% as default volume,
+    // i.e. play at original volume level
+    volumePct /= 2;
+    mfp.audioPreprocessor.ttpreprocessor.nGainLevel = refGain(volumePct);
+
+    int id = TT_InitLocalPlayback(ttInst, _W(filename), &mfp);
+    if (id > 0)
+        m_activeSessions.insert(id);
+    return id > 0;
+}
+
+void PlaySoundEvent::playDefaultSoundEvent(const QString& filename)
+{
+#if defined(QT_MULTIMEDIA_LIB)
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+    QSound::play(filename);
+#else
+    static QSoundEffect* effect = new QSoundEffect(ttSettings);
+    effect->setSource(QUrl::fromLocalFile(filename));
+    effect->setVolume(ttSettings->value(SETTINGS_SOUNDEVENT_VOLUME, SETTINGS_SOUNDEVENT_VOLUME_DEFAULT).toInt()/100.0);
+    effect->play();
+#endif
+#endif
+}
+
+void playSoundEvent(SoundEvent event)
+{
+    Q_ASSERT(playsoundevent);
+    playsoundevent->queueSoundEvent(event);
 }
 
 void resetDefaultSoundsPack()
