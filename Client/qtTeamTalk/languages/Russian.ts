@@ -4903,7 +4903,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1384"/>
         <source>Playback mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим воспроизведения</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1422"/>
@@ -5322,12 +5322,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="622"/>
         <source>One by One</source>
-        <translation type="unfinished"></translation>
+        <translation>один за другим</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="623"/>
         <source>Overlapping</source>
-        <translation type="unfinished"></translation>
+        <translation>Одновременно</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="660"/>
