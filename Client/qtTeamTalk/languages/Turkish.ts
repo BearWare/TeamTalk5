@@ -891,14 +891,6 @@ p, li { white-space: pre-wrap; }
         <translation>%1 kanalına katıldı</translation>
     </message>
     <message>
-        <source>Joined new channel</source>
-        <translation type="vanished">Yeni kanala katıldı</translation>
-    </message>
-    <message>
-        <source>Channel: %1</source>
-        <translation type="vanished">Kanal: %1</translation>
-    </message>
-    <message>
         <location filename="../chattextedit.cpp" line="208"/>
         <source>Topic: %1</source>
         <translation>Konu: %1</translation>
@@ -3752,22 +3744,6 @@ Do you wish to do this now?</source>
         <translation>Şuna göre sırala...</translation>
     </message>
     <message>
-        <source>&amp;Name</source>
-        <translation type="vanished">&amp;ad</translation>
-    </message>
-    <message>
-        <source>&amp;Size</source>
-        <translation type="vanished">&amp;Boyut</translation>
-    </message>
-    <message>
-        <source>&amp;Owner</source>
-        <translation type="vanished">&amp;sahibi</translation>
-    </message>
-    <message>
-        <source>&amp;Upload Date</source>
-        <translation type="vanished">Yükleme &amp;tarihi</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="4535"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
         <translation>Video kodlayıcı bileşeni yapılandırılamadı. Tercihler&apos;deki ayarları denetleyin</translation>
@@ -4936,10 +4912,6 @@ Bu ayarlar uygulanmalı mı?</translation>
         <translation>Yeni kullanıcı</translation>
     </message>
     <message>
-        <source>Disable voice activation when inactive</source>
-        <translation type="vanished">Kullanılamıyorsa ses etkinleştirmeyi devre dışı bırak</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="578"/>
         <source>Show server list on startup</source>
         <translation>Başlangıçta sunucu listesini göster</translation>
@@ -5821,22 +5793,6 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../serverlistdlg.cpp" line="703"/>
         <source>Sort By...</source>
         <translation>Şuna göre sırala...</translation>
-    </message>
-    <message>
-        <source>De&amp;fault</source>
-        <translation type="vanished">&amp;Varsayılan</translation>
-    </message>
-    <message>
-        <source>&amp;Name</source>
-        <translation type="vanished">&amp;Ad</translation>
-    </message>
-    <message>
-        <source>&amp;User Count</source>
-        <translation type="vanished">&amp;Kullanıcı Sayısı</translation>
-    </message>
-    <message>
-        <source>Country</source>
-        <translation type="vanished">Ülke</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="729"/>
@@ -7024,10 +6980,6 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <translation>Yeni ileti</translation>
     </message>
     <message>
-        <source>&amp;Cancel</source>
-        <translation type="vanished">İ&amp;ptal</translation>
-    </message>
-    <message>
         <location filename="../textmessage.ui" line="117"/>
         <source>&amp;Send</source>
         <translation>&amp;Gönder</translation>
@@ -7316,22 +7268,6 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../useraccountsdlg.cpp" line="562"/>
         <source>&amp;Modified (%1)</source>
         <translation>&amp;Değiştirilmiş (%1)</translation>
-    </message>
-    <message>
-        <source>&amp;Username</source>
-        <translation type="vanished">&amp;Kullanıcı adı</translation>
-    </message>
-    <message>
-        <source>User &amp;Type</source>
-        <translation type="vanished">Kullanıcı &amp;tipi</translation>
-    </message>
-    <message>
-        <source>&amp;Channel</source>
-        <translation type="vanished">&amp;Kanal</translation>
-    </message>
-    <message>
-        <source>&amp;Modified</source>
-        <translation type="vanished">&amp;Değiştirme</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="567"/>

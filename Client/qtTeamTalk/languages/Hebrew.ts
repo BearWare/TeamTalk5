@@ -858,14 +858,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">%1 הצטרפות לערוץ</translation>
     </message>
     <message>
-        <source>Joined new channel</source>
-        <translation type="vanished">הצטרפת לערוץ חדש</translation>
-    </message>
-    <message>
-        <source>Channel: %1</source>
-        <translation type="vanished">%1 :ערוץ</translation>
-    </message>
-    <message>
         <location filename="../chattextedit.cpp" line="208"/>
         <source>Topic: %1</source>
         <translation>%1 :נושא</translation>
@@ -6940,10 +6932,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../textmessagedlg.cpp" line="237"/>
         <source>New message</source>
         <translation>הודעה חדשה</translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation type="vanished">&amp;בטל</translation>
     </message>
     <message>
         <location filename="../textmessage.ui" line="117"/>

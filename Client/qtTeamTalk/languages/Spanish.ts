@@ -891,14 +891,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Te has unido  al Canal %1</translation>
     </message>
     <message>
-        <source>Joined new channel</source>
-        <translation type="vanished">Te has unido a un nuevo Canal</translation>
-    </message>
-    <message>
-        <source>Channel: %1</source>
-        <translation type="vanished">Canal: %1</translation>
-    </message>
-    <message>
         <location filename="../chattextedit.cpp" line="208"/>
         <source>Topic: %1</source>
         <translation>Tema: %1</translation>
@@ -3816,22 +3808,6 @@ Do you wish to do this now?</source>
         <translation>Ordenar por...</translation>
     </message>
     <message>
-        <source>&amp;Name</source>
-        <translation type="vanished">&amp;Nombre</translation>
-    </message>
-    <message>
-        <source>&amp;Size</source>
-        <translation type="vanished">&amp;Tamaño</translation>
-    </message>
-    <message>
-        <source>&amp;Owner</source>
-        <translation type="vanished">&amp;Propietario</translation>
-    </message>
-    <message>
-        <source>&amp;Upload Date</source>
-        <translation type="vanished">&amp;Fecha de subida</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="6035"/>
         <source>&amp;Leave Channel</source>
         <translation>&amp;Abandonar canal</translation>
@@ -4874,10 +4850,6 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Configurar eventos</translation>
     </message>
     <message>
-        <source>Disable voice activation when inactive</source>
-        <translation type="vanished">Desactivar activación por voz al estar ausente</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="578"/>
         <source>Show server list on startup</source>
         <translation>Mostrar la lista de servidores al iniciar</translation>
@@ -5817,22 +5789,6 @@ Elimina la cuenta de usuario publicada para quitar el servidor de la lista.</tra
         <location filename="../serverlistdlg.cpp" line="703"/>
         <source>Sort By...</source>
         <translation>Ordenar por...</translation>
-    </message>
-    <message>
-        <source>De&amp;fault</source>
-        <translation type="vanished">&amp;Por defecto</translation>
-    </message>
-    <message>
-        <source>&amp;Name</source>
-        <translation type="vanished">&amp;Nombre</translation>
-    </message>
-    <message>
-        <source>&amp;User Count</source>
-        <translation type="vanished">&amp;Usuarios</translation>
-    </message>
-    <message>
-        <source>Country</source>
-        <translation type="vanished">País</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="729"/>
@@ -7020,10 +6976,6 @@ Elimina la cuenta de usuario publicada para quitar el servidor de la lista.</tra
         <translation>Nuevo mensaje</translation>
     </message>
     <message>
-        <source>&amp;Cancel</source>
-        <translation type="vanished">&amp;Cancelar</translation>
-    </message>
-    <message>
         <location filename="../textmessage.ui" line="117"/>
         <source>&amp;Send</source>
         <translation>&amp;Enviar</translation>
@@ -7312,22 +7264,6 @@ Elimina la cuenta de usuario publicada para quitar el servidor de la lista.</tra
         <location filename="../useraccountsdlg.cpp" line="562"/>
         <source>&amp;Modified (%1)</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Username</source>
-        <translation type="vanished">&amp;Nombre de usuario</translation>
-    </message>
-    <message>
-        <source>User &amp;Type</source>
-        <translation type="vanished">&amp;Tipo de usuario</translation>
-    </message>
-    <message>
-        <source>&amp;Channel</source>
-        <translation type="vanished">&amp;Canal</translation>
-    </message>
-    <message>
-        <source>&amp;Modified</source>
-        <translation type="vanished">&amp;Modificado</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="567"/>
