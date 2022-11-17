@@ -862,7 +862,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Indtrådte i kanal %1</translation>
     </message>
     <message>
-    <message>
         <location filename="../chattextedit.cpp" line="208"/>
         <source>Topic: %1</source>
         <translation>Emne: %1</translation>

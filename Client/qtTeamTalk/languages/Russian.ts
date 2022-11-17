@@ -3321,7 +3321,6 @@ Do you wish to do this now?</source>
         <translation>Сортировать по...</translation>
     </message>
     <message>
-    <message>
         <location filename="../mainwindow.cpp" line="5583"/>
         <source>Message to broadcast:</source>
         <translation>Введите сетевое сообщение</translation>
