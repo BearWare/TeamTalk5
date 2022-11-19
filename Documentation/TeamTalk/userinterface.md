@@ -590,7 +590,7 @@ active.
     - The menu item is for sending user to user text messages. A
       message dialog will pop up on the user's computer when you send
       him a message. This option can however be disabled in the
-      Display tab in Preferences.
+      Display tab in Preferences. In the message dialog, you can switch between the history and the message text box with the F6 key.
 - **Allow Desktop Access**
     - If you're sharing a desktop window using
       [desktop sharing](@ref desktopsharedlg) then you can allow the users
