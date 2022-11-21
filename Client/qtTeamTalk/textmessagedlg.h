@@ -51,6 +51,7 @@ signals:
 
 protected:
     void timerEvent(QTimerEvent *event);
+    void keyPressEvent(QKeyEvent* e) override;
 
 private:
     void init(const User& user);
