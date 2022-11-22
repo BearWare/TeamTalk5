@@ -250,7 +250,7 @@ void TextMessageDlg::keyPressEvent(QKeyEvent* e)
     {
         QString key = e->text();
         QChar keyText = key.at(0);    
-        if (!keyText.isNonCharacter())
+        if (keyText.isPrint())
         {
             ui.newmsgTextEdit->setFocus();
             ui.newmsgTextEdit->keyPressEvent(e);
