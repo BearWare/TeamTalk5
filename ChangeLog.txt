@@ -17,6 +17,7 @@ Default Qt Client
 - Fix "Channel silent" sound event played out of channel
 - macOS updated to Qt 6.4.1
 - Windows updated to Qt 6.5.0-dev
+- Use F6 to switch bitween history and message field on "Text Message" dialog
 Accessible Windows Client
 -
 Android Client
