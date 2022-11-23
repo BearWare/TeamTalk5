@@ -25,7 +25,7 @@ Default Qt Client
 Accessible Windows Client
 -
 Android Client
--
+Bluetooth headset working again on Android 11 and lower
 iOS Client
 - Force playback using Bluetooth Advanced Audio Distribution Profile (A2DP)
 - Support for Indonesian language
