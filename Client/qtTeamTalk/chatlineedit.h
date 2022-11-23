@@ -33,12 +33,10 @@ class ChatLineEdit : public QLineEdit
 
 public:
     ChatLineEdit(QWidget * parent = 0);
+    void keyPressEvent ( QKeyEvent * event );
 
 signals:
     void sendTextMessage();
-
-protected:
-    void keyPressEvent ( QKeyEvent * event );
 
 private:
     QList<QString> m_history;

@@ -7374,6 +7374,32 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
             slotChannelsDownloadFile();
         }
     }
+    if (ui.chatEdit->hasFocus() || ui.videochatEdit->hasFocus() || ui.desktopchatEdit->hasFocus())
+    {
+        QString key = e->text();
+        if (!key.isEmpty() && key.size() == 1)
+        {
+            QChar keyText = key.at(0);    
+            if (keyText.isPrint())
+            {
+                if (ui.chatEdit->hasFocus())
+                {
+                    ui.msgEdit->setFocus();
+                    ui.msgEdit->keyPressEvent(e);
+                }
+                else if (ui.videochatEdit->hasFocus())
+                {
+                    ui.videomsgEdit->setFocus();
+                    ui.videomsgEdit->keyPressEvent(e);
+                }
+                else if (ui.desktopchatEdit->hasFocus())
+                {
+                    ui.desktopmsgEdit->setFocus();
+                    ui.desktopmsgEdit->keyPressEvent(e);
+                }
+            }
+        }
+    }
     QWidget::keyPressEvent(e);
 }
 
