@@ -246,6 +246,13 @@ void TextMessageDlg::newMsg(const MyTextMessage& msg, bool store)
 
 void TextMessageDlg::keyPressEvent(QKeyEvent* e)
 {
+    if (e->key() == Qt::Key_F6)
+    {
+        if (ui.newmsgTextEdit->hasFocus())
+            ui.historyTextEdit->setFocus();
+        else if (ui.historyTextEdit->hasFocus())
+            ui.newmsgTextEdit->setFocus();
+    }
     if (ui.historyTextEdit->hasFocus())
     {
         QString key = e->text();

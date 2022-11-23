@@ -2,6 +2,10 @@
                  TeamTalk
 ----------------------------------------------
 
+Version 5.13, unreleased
+iOS Client
+- Added Malay language
+
 Version 5.12, unreleased
 Default Qt Client
 - Option to change status message when idle
@@ -17,6 +21,7 @@ Default Qt Client
 - Fix "Channel silent" sound event played out of channel
 - macOS updated to Qt 6.4.1
 - Windows updated to Qt 6.5.0-dev
+- Use F6 to switch bitween history and message field on "Text Message" dialog
 - Press a printable character on history field on "Text Message" dialog or main window now switch to new message field
 Accessible Windows Client
 -
