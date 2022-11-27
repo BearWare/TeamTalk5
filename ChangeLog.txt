@@ -10,7 +10,6 @@ Version 5.12, unreleased
 Default Qt Client
 - Option to change status message when idle
 - Option in "Change status" dialog to display file name as status msg when streaming
-- See selected order on "Files list", "User account" dialog and "Server list" dialog context menu
 - Sound events can be configured to play one by one in "Preferences" dialog
 - Sound event when intercepted
 - TTS events when enabled/disabled voice activation and Push-To-Talk
@@ -25,7 +24,7 @@ Default Qt Client
 Accessible Windows Client
 -
 Android Client
-Bluetooth headset working again on Android 11 and lower
+- Bluetooth headset working again on Android 11 and lower
 iOS Client
 - Force playback using Bluetooth Advanced Audio Distribution Profile (A2DP)
 - Support for Indonesian language
