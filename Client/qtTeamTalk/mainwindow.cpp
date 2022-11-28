@@ -666,9 +666,7 @@ void MainWindow::loadSettings()
         }
     }
 
-    PlaybackMode pbm = PlaybackMode(ttSettings->value(SETTINGS_SOUNDEVENT_PLAYBACKMODE, SETTINGS_SOUNDEVENT_PLAYBACKMODE_DEFAULT).toInt());
-    if (pbm & PLAYBACKMODE_TEAMTALK)
-        initSound();
+    initSound();
 
     startTTS();
 
@@ -1939,8 +1937,6 @@ void MainWindow::initSound()
 void MainWindow::Connect()
 {
     Q_ASSERT((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == 0);
-
-    initSound();
 
     int localtcpport = ttSettings->value(SETTINGS_CONNECTION_TCPPORT, 0).toInt();
     int localudpport = ttSettings->value(SETTINGS_CONNECTION_UDPPORT, 0).toInt();
@@ -4108,6 +4104,9 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     int mediavsvoice = ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME,
                                          SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT).toInt();
 
+    int sndinputid = getSelectedSndInputDevice();
+    int sndoutputid = getSelectedSndOutputDevice();
+
     //show dialog
     bool b = dlg.exec();
 
@@ -4136,8 +4135,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     }
 #endif
 
-    PlaybackMode pbm = PlaybackMode(ttSettings->value(SETTINGS_SOUNDEVENT_PLAYBACKMODE, SETTINGS_SOUNDEVENT_PLAYBACKMODE_DEFAULT).toInt());
-    if ((TT_GetFlags(ttInst) & (CLIENT_SNDOUTPUT_READY | CLIENT_SNDINOUTPUT_DUPLEX)) == CLIENT_CLOSED && (pbm & PLAYBACKMODE_TEAMTALK))
+    if (sndinputid != getSelectedSndInputDevice() || sndoutputid != getSelectedSndOutputDevice())
         initSound();
 
     User myself;
@@ -5263,10 +5261,6 @@ void MainWindow::slotChannelsStreamMediaFile(bool checked/*=false*/)
         stopStreamMediaFile();
         return;
     }
-
-    auto flags = TT_GetFlags(ttInst);
-    if ((flags & (CLIENT_SNDOUTPUT_READY | CLIENT_SNDINOUTPUT_DUPLEX)) == CLIENT_CLOSED)
-        initSound();
 
     StreamMediaFileDlg dlg(this);
     connect(this, &MainWindow::mediaStreamUpdate, &dlg, &StreamMediaFileDlg::slotMediaStreamProgress);
