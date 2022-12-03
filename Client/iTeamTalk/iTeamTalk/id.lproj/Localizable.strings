@@ -196,7 +196,7 @@
 "Display" = "Tampilan";
 
 /* channel list */
-"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Ketuk dua kali dan tahan untuk berbicara. Ketuk tiga kali dengan cepat untuk mengunci mic Anda.";
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Ketuk dua kali dan tahan untuk berbicara. Ketuk tiga kali dengan cepat untuk mengunci mikrofon Anda.";
 
 /* preferences */
 "Double tap to lock TX button" = "Ketuk dua kali untuk mengunci Tombol Transmisi";
@@ -248,10 +248,10 @@
 "has left the channel" = "telah meninggalkan saluran";
 
 /* TTS EVENT */
-"has logged on" = "telah masuk";
+"has logged on" = "telah masuk ke server";
 
 /* TTS EVENT */
-"has logged out" = "telah keluar";
+"has logged out" = "telah keluar dari server";
 
 /* preferences */
 "Headset TX Toggle" = "Headset TX Toggle";
@@ -647,7 +647,7 @@
 
 /* text field hint
    text message */
-"Type text here" = "Tulis pesan anda di sini";
+"Type text here" = "Tulis teks di sini";
 
 /* server entry */
 "UDP Port" = "UDP Port";
