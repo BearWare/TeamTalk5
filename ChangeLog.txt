@@ -2,11 +2,14 @@
                  TeamTalk
 ----------------------------------------------
 
+Version 5.13, unreleased
+iOS Client
+- Added Malay language
+
 Version 5.12, unreleased
 Default Qt Client
 - Option to change status message when idle
 - Option in "Change status" dialog to display file name as status msg when streaming
-- See selected order on "Files list", "User account" dialog and "Server list" dialog context menu
 - Sound events can be configured to play one by one in "Preferences" dialog
 - Sound event when intercepted
 - TTS events when enabled/disabled voice activation and Push-To-Talk
@@ -15,11 +18,13 @@ Default Qt Client
 - Text message window is not automatically focused anymore
 - Fix missing label for "Media files RX/TX" on "Server statistics" dialog
 - Fix "Channel silent" sound event played out of channel
-- Windows and macOS updated to Qt 6.4.1
+- macOS updated to Qt 6.4.1
+- Windows updated to Qt 6.5.0-dev
+- Use F6 to switch bitween history and message field on "Text Message" dialog
 Accessible Windows Client
 -
 Android Client
--
+- Bluetooth headset working again on Android 11 and lower
 iOS Client
 - Force playback using Bluetooth Advanced Audio Distribution Profile (A2DP)
 - Support for Indonesian language

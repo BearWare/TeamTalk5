@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
+import android.os.Build;
 
 import androidx.core.app.ActivityCompat;
 
@@ -169,7 +170,7 @@ public class BluetoothHeadsetHelper {
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
                 BluetoothDevice connectedHeadset = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                if (ActivityCompat.checkSelfPermission(BluetoothHeadsetHelper.this.context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ActivityCompat.checkSelfPermission(BluetoothHeadsetHelper.this.context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
                 BluetoothClass bluetoothClass = connectedHeadset.getBluetoothClass();
@@ -222,7 +223,7 @@ public class BluetoothHeadsetHelper {
         public void onServiceConnected(int profile, BluetoothProfile proxy) {
             if (profile == BluetoothProfile.HEADSET) {
                 bluetoothHeadset = (BluetoothHeadset) proxy;
-                if (ActivityCompat.checkSelfPermission(BluetoothHeadsetHelper.this.context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ActivityCompat.checkSelfPermission(BluetoothHeadsetHelper.this.context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
                 if (!bluetoothHeadset.getConnectedDevices().isEmpty())

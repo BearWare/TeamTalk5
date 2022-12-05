@@ -892,14 +892,6 @@ p, li { white-space: pre-wrap; }
         <translation>Подключился к каналу %1</translation>
     </message>
     <message>
-        <source>Joined new channel</source>
-        <translation type="vanished">Подключился к новому каналу</translation>
-    </message>
-    <message>
-        <source>Channel: %1</source>
-        <translation type="vanished">Канал: %1</translation>
-    </message>
-    <message>
         <location filename="../chattextedit.cpp" line="208"/>
         <source>Topic: %1</source>
         <translation>Тема: %1</translation>
@@ -3329,23 +3321,6 @@ Do you wish to do this now?</source>
         <translation>Сортировать по...</translation>
     </message>
     <message>
-        <source>&amp;Name</source>
-        <translatorcomment>	</translatorcomment>
-        <translation type="vanished">&amp;Имя</translation>
-    </message>
-    <message>
-        <source>&amp;Size</source>
-        <translation type="vanished">&amp;Размер</translation>
-    </message>
-    <message>
-        <source>&amp;Owner</source>
-        <translation type="vanished">&amp;Владелец</translation>
-    </message>
-    <message>
-        <source>&amp;Upload Date</source>
-        <translation type="vanished">&amp;Дата загрузки</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="5583"/>
         <source>Message to broadcast:</source>
         <translation>Введите сетевое сообщение</translation>
@@ -4882,10 +4857,6 @@ Should these settings be applied?</source>
         <translation>Настройка событий</translation>
     </message>
     <message>
-        <source>Disable voice activation when inactive</source>
-        <translation type="vanished">Отключить голосовую активацию при неактивности</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="578"/>
         <source>Show server list on startup</source>
         <translation>Показывать список серверов при запуске</translation>
@@ -5828,22 +5799,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverlistdlg.cpp" line="703"/>
         <source>Sort By...</source>
         <translation>Сортировать по...</translation>
-    </message>
-    <message>
-        <source>De&amp;fault</source>
-        <translation type="vanished">По&amp;умолчанию</translation>
-    </message>
-    <message>
-        <source>&amp;Name</source>
-        <translation type="vanished">&amp;Имя</translation>
-    </message>
-    <message>
-        <source>&amp;User Count</source>
-        <translation type="vanished">&amp;Количество пользователей</translation>
-    </message>
-    <message>
-        <source>Country</source>
-        <translation type="vanished">Страна</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="729"/>
@@ -7031,10 +6986,6 @@ Delete the published user account to unregister your server.</source>
         <translation>Новое сообщение</translation>
     </message>
     <message>
-        <source>&amp;Cancel</source>
-        <translation type="vanished">О&amp;тмена</translation>
-    </message>
-    <message>
         <location filename="../textmessage.ui" line="117"/>
         <source>&amp;Send</source>
         <translation>&amp;Отправить</translation>
@@ -7323,22 +7274,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../useraccountsdlg.cpp" line="562"/>
         <source>&amp;Modified (%1)</source>
         <translation>Изменё&amp;н (%1)</translation>
-    </message>
-    <message>
-        <source>&amp;Username</source>
-        <translation type="vanished">&amp;Имя пользователя</translation>
-    </message>
-    <message>
-        <source>User &amp;Type</source>
-        <translation type="vanished">&amp;Тип пользователя</translation>
-    </message>
-    <message>
-        <source>&amp;Channel</source>
-        <translation type="vanished">&amp;Канал</translation>
-    </message>
-    <message>
-        <source>&amp;Modified</source>
-        <translation type="vanished">&amp;Изменено</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="567"/>

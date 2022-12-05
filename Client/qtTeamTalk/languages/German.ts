@@ -858,14 +858,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Du bist jetzt im Raum %1</translation>
     </message>
     <message>
-        <source>Joined new channel</source>
-        <translation type="vanished">Raum gewechselt</translation>
-    </message>
-    <message>
-        <source>Channel: %1</source>
-        <translation type="vanished">Raum: %1</translation>
-    </message>
-    <message>
         <location filename="../chattextedit.cpp" line="208"/>
         <source>Topic: %1</source>
         <translation>Thema: %1</translation>
@@ -2464,22 +2456,6 @@ Möchtest du dies jetzt tun?</translation>
         <location filename="../mainwindow.cpp" line="5432"/>
         <source>Sort By...</source>
         <translation>Sortieren nach...</translation>
-    </message>
-    <message>
-        <source>&amp;Name</source>
-        <translation type="vanished">&amp;Name</translation>
-    </message>
-    <message>
-        <source>&amp;Size</source>
-        <translation type="vanished">&amp;Größe</translation>
-    </message>
-    <message>
-        <source>&amp;Owner</source>
-        <translation type="vanished">&amp;Besitzer</translation>
-    </message>
-    <message>
-        <source>&amp;Upload Date</source>
-        <translation type="vanished">&amp;Hochgeladen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5583"/>
@@ -4611,10 +4587,6 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation>Ereignisse konfigurieren</translation>
     </message>
     <message>
-        <source>Disable voice activation when inactive</source>
-        <translation type="vanished">Sprachaktivierung bei Inaktivität ausschalten</translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="578"/>
         <source>Show server list on startup</source>
         <translation>Zeige Serverliste beim Start</translation>
@@ -5782,22 +5754,6 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
         <location filename="../serverlistdlg.cpp" line="703"/>
         <source>Sort By...</source>
         <translation>Sortieren nach...</translation>
-    </message>
-    <message>
-        <source>De&amp;fault</source>
-        <translation type="vanished">S&amp;tandard</translation>
-    </message>
-    <message>
-        <source>&amp;Name</source>
-        <translation type="vanished">&amp;Name</translation>
-    </message>
-    <message>
-        <source>&amp;User Count</source>
-        <translation type="vanished">Ben&amp;utzer</translation>
-    </message>
-    <message>
-        <source>Country</source>
-        <translation type="vanished">Land</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="729"/>
@@ -6990,10 +6946,6 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
         <translation>Neue Nachricht</translation>
     </message>
     <message>
-        <source>&amp;Cancel</source>
-        <translation type="vanished">&amp;Abbrechen</translation>
-    </message>
-    <message>
         <location filename="../textmessage.ui" line="117"/>
         <source>&amp;Send</source>
         <translation>&amp;Senden</translation>
@@ -7282,22 +7234,6 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
         <location filename="../useraccountsdlg.cpp" line="562"/>
         <source>&amp;Modified (%1)</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Username</source>
-        <translation type="vanished">Ben&amp;utzername</translation>
-    </message>
-    <message>
-        <source>User &amp;Type</source>
-        <translation type="vanished">Benutzer&amp;typ</translation>
-    </message>
-    <message>
-        <source>&amp;Channel</source>
-        <translation type="vanished">&amp;Raum</translation>
-    </message>
-    <message>
-        <source>&amp;Modified</source>
-        <translation type="vanished">&amp;Geändert</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="567"/>

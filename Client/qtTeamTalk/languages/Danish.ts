@@ -862,15 +862,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Indtrådte i kanal %1</translation>
     </message>
     <message>
-        <source>Joined new channel</source>
-        <oldsource>Joined new channel.</oldsource>
-        <translation type="vanished">Indtrådte i ny kanal</translation>
-    </message>
-    <message>
-        <source>Channel: %1</source>
-        <translation type="vanished">Kanal: %1</translation>
-    </message>
-    <message>
         <location filename="../chattextedit.cpp" line="208"/>
         <source>Topic: %1</source>
         <translation>Emne: %1</translation>
@@ -6963,10 +6954,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../textmessagedlg.cpp" line="237"/>
         <source>New message</source>
         <translation>Ny besked</translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation type="vanished">&amp;Afbryd</translation>
     </message>
     <message>
         <location filename="../textmessage.ui" line="117"/>

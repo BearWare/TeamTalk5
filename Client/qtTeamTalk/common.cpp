@@ -990,7 +990,7 @@ QByteArray generateTTFile(const HostEntry& entry)
 #else
 #error Unknown OS
 #endif
-        foreach(int k, entry.hotkey)
+        for (int k : entry.hotkey)
         {
             QDomElement key = doc.createElement("key");
             key.appendChild(doc.createTextNode(QString::number(k)));
