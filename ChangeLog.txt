@@ -22,6 +22,7 @@ Default Qt Client
 - Windows updated to Qt 6.5.0-dev
 - Use F6 to switch bitween history and message field on "Text Message" dialog
 - Press a printable character on history field on "Text Message" dialog or main window now switch to new message field
+- Fixed systematic disconnect if server list configured to show at startup and starting from TT:// URL or TT file
 Accessible Windows Client
 -
 Android Client

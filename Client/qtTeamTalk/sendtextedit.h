@@ -38,7 +38,7 @@ signals:
     void sendTextMessage(const QString& msg);
 
 protected:
-    void keyReleaseEvent(QKeyEvent* e);
+    void keyReleaseEvent(QKeyEvent* e) override;
 };
 
 #endif

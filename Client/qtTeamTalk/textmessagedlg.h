@@ -50,7 +50,7 @@ signals:
     void closedTextMessage(int userid);
 
 protected:
-    void timerEvent(QTimerEvent *event);
+    void timerEvent(QTimerEvent *event) override;
     void keyPressEvent(QKeyEvent* e) override;
 
 private:

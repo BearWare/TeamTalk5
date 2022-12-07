@@ -35,11 +35,11 @@ public:
     UserDesktopWidget(QWidget* parent, int userid = 0, int border_width = 0);
     ~UserDesktopWidget();
 
-    QSize imageSize() const;
+    QSize imageSize() const override;
 
-    void paintEvent(QPaintEvent *p);
+    void paintEvent(QPaintEvent *p) override;
 
-    void setUserID(int userid);
+    void setUserID(int userid) override;
 
 public:
     void slotDesktopUpdate(int userid, int sessionid);
@@ -50,21 +50,21 @@ signals:
     void userDesktopWindowEnded(int userid);
 
 protected:
-    void slotContextMenu(const QPoint& p);
+    void slotContextMenu(const QPoint& p) override;
 
 protected:
     /* Qt inherit */
-    void mousePressEvent(QMouseEvent* event);
-    void mouseReleaseEvent(QMouseEvent* event);
-    void mouseMoveEvent(QMouseEvent* event);
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
+    void mouseMoveEvent(QMouseEvent* event) override;
     
     //TT send mouse event as desktop input
     void sendMouseEvent(const QPoint& p, quint32 keycode,
                         DesktopKeyState keystate);
 
     /* Qt inherit */
-    void keyPressEvent(QKeyEvent* event);
-    void keyReleaseEvent(QKeyEvent* event);
+    void keyPressEvent(QKeyEvent* event) override;
+    void keyReleaseEvent(QKeyEvent* event) override;
 
     //TT send key event as desktop input
     void sendKeyEvent(quint32 keycode, DesktopKeyState keystate);
@@ -74,7 +74,7 @@ protected:
 #ifdef USE_TT_PAINT
     void runTTPaint(QPainter& painter);
 #endif
-    void timerEvent(QTimerEvent *e);
+    void timerEvent(QTimerEvent *e) override;
     void refreshTimeout();
     void sendDesktopInputTimeout();
 

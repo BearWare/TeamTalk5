@@ -33,7 +33,7 @@ class ChatLineEdit : public QLineEdit
 
 public:
     ChatLineEdit(QWidget * parent = 0);
-    void keyPressEvent ( QKeyEvent * event );
+    void keyPressEvent ( QKeyEvent * event ) override;
 
 signals:
     void sendTextMessage();
