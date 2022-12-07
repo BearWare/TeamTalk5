@@ -38,7 +38,7 @@ signals:
     void sendTextMessage();
 
 protected:
-    void keyPressEvent ( QKeyEvent * event );
+    void keyPressEvent(QKeyEvent* event) override;
 
 private:
     QList<QString> m_history;

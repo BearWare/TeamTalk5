@@ -44,16 +44,16 @@ protected:
 #if defined(Q_OS_WIN32) && QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     bool nativeEvent(const QByteArray& eventType, void* message,
-                     long* result);
+                     long* result) override;
 #else
     bool nativeEvent(const QByteArray& eventType, void* message,
-                     qintptr* result);
+                     qintptr* result) override;
 #endif
 #elif defined(Q_OS_WIN32)
-    bool winEvent(MSG *message, long *result);
+    bool winEvent(MSG *message, long *result) override;
 #elif defined(Q_OS_LINUX) || defined(Q_OS_DARWIN)
-    void keyPressEvent(QKeyEvent* event);
-    void keyReleaseEvent(QKeyEvent* event);
+    void keyPressEvent(QKeyEvent* event) override;
+    void keyReleaseEvent(QKeyEvent* event) override;
 #endif
 
 private:
