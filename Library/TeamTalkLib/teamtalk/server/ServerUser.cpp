@@ -649,6 +649,7 @@ ErrorMsg ServerUser::HandleJoinChannel(const mstrings_t& properties)
 
     //set default settings
     chanprop.diskquota = srvprop.diskquota;
+    chanprop.maxusers = srvprop.maxusers;
 
     return m_servernode.UserJoinChannel(GetUserID(), chanprop);
 }
