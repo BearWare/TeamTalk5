@@ -37,7 +37,7 @@ jobs:
     - name: Build TeamTalk Library
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: |
-        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_OSX_ARCHITECTURES=${{ matrix.cmakearch }} -DCMAKE_OSX_SYSROOT=${{ matrix.cmakesysroot }} -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.cmakearch }}" CMAKE_GENERATOR="Unix Makefiles" BUILDDIR=build-${{ matrix.cmakearch }} ios-build
+        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_OSX_ARCHITECTURES=${{ matrix.cmakearch }} -DCMAKE_OSX_SYSROOT=${{ matrix.cmakesysroot }} -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.cmakearch }}" BUILDDIR=build-${{ matrix.cmakearch }} ios-build
 
     - name: Doxygen Documentation
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
