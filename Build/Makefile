@@ -210,7 +210,7 @@ depend-rasp:
                     libasound2-dev wget python
 
 depend-mac:
-	brew install autoconf automake libtool pkg-config yasm
+	brew install autoconf automake libtool pkg-config yasm ninja
 
 dox: teamtalk-env
 	cd $(TEAMTALK_ROOT)/Documentation/TeamTalk && doxygen TeamTalk5.dox
