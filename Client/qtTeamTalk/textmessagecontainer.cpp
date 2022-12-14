@@ -65,8 +65,10 @@ void TextMessageContainer::addCompleteTextMessage(const MyTextMessage& msg)
         if (msg.nFromUserID == TT_GetMyUserID(ttInst))
         {
             // text message from 'myself' to this user
-            Q_ASSERT(msg.nToUserID);
-            m_usermessages[msg.nToUserID].append(msg);
+            if (msg.nToUserID)
+                m_usermessages[msg.nToUserID].append(msg);
+            else //text message from 'myself' to 'myself'
+                m_usermessages[msg.nFromUserID].append(msg);
         }
         else
         {
