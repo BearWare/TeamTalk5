@@ -2765,6 +2765,7 @@ TextMessageDlg* MainWindow::getTextMessageDlg(int userid)
         connect(dlg, &TextMessageDlg::newMyselfTextMessage,
                 this, &MainWindow::slotNewMyselfTextMessage);
         connect(dlg, &TextMessageDlg::closedTextMessage, this, &MainWindow::slotTextMessageClosed);
+        connect(dlg, &TextMessageDlg::clearUserTextMessages, &m_textmessages, &TextMessageContainer::clearUserTextMessages);
         connect(this, &MainWindow::userUpdate, dlg, &TextMessageDlg::slotUpdateUser);
         connect(this, &MainWindow::newTextMessage, dlg,
                 &TextMessageDlg::slotNewMessage);

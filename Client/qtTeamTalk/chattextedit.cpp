@@ -26,12 +26,13 @@
 #include "appinfo.h"
 
 #include <QDateTime>
-#include <QTextCursor>
-#include <QSyntaxHighlighter>
 #include <QDesktopServices>
-#include <QUrl>
+#include <QMenu>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
+#include <QSyntaxHighlighter>
+#include <QTextCursor>
+#include <QUrl>
 
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
@@ -364,4 +365,17 @@ void ChatTextEdit::keyPressEvent(QKeyEvent* e)
         if (url.size())
            QDesktopServices::openUrl(QUrl(url));
     }
+}
+
+void ChatTextEdit::contextMenuEvent(QContextMenuEvent *event)
+{
+    QMenu *menu = createStandardContextMenu();
+    menu->addSeparator();
+    auto clearMenu = menu->addAction(tr("&Clear"), this, &QPlainTextEdit::clear);
+    QAction* chosen = menu->exec(event->globalPos());
+    if (clearMenu == chosen)
+    {
+        emit(clearHistory());
+    }
+    delete menu;
 }

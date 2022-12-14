@@ -73,6 +73,9 @@ void TextMessageDlg::init(const User& user)
     connect(ui.newmsgTextEdit, &QPlainTextEdit::textChanged, this, &TextMessageDlg::slotTextChanged);
     connect(ui.newmsgTextEdit, &SendTextEdit::sendTextMessage,
             this, &TextMessageDlg::slotSendMsg);
+    connect(ui.historyTextEdit, &ChatTextEdit::clearHistory, [&]() {
+        emit(clearUserTextMessages(m_userid));
+    });
     slotUpdateUser(user);
     slotTextChanged();
 
