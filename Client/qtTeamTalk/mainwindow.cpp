@@ -1957,14 +1957,6 @@ void MainWindow::Disconnect()
 {
     TT_Disconnect(ttInst);
 
-    if(TT_GetFlags(ttInst) & CLIENT_SNDINOUTPUT_DUPLEX)
-        TT_CloseSoundDuplexDevices(ttInst);
-    else
-    {
-        TT_CloseSoundInputDevice(ttInst);
-        TT_CloseSoundOutputDevice(ttInst);
-    }
-
     // sync user settings to cache
     auto users = ui.channelsWidget->getUsers();
     for (int uid : users)
