@@ -1957,14 +1957,6 @@ void MainWindow::Disconnect()
 {
     TT_Disconnect(ttInst);
 
-    if(TT_GetFlags(ttInst) & CLIENT_SNDINOUTPUT_DUPLEX)
-        TT_CloseSoundDuplexDevices(ttInst);
-    else
-    {
-        TT_CloseSoundInputDevice(ttInst);
-        TT_CloseSoundOutputDevice(ttInst);
-    }
-
     // sync user settings to cache
     auto users = ui.channelsWidget->getUsers();
     for (int uid : users)
@@ -2765,6 +2757,7 @@ TextMessageDlg* MainWindow::getTextMessageDlg(int userid)
         connect(dlg, &TextMessageDlg::newMyselfTextMessage,
                 this, &MainWindow::slotNewMyselfTextMessage);
         connect(dlg, &TextMessageDlg::closedTextMessage, this, &MainWindow::slotTextMessageClosed);
+        connect(dlg, &TextMessageDlg::clearUserTextMessages, &m_textmessages, &TextMessageContainer::clearUserTextMessages);
         connect(this, &MainWindow::userUpdate, dlg, &TextMessageDlg::slotUpdateUser);
         connect(this, &MainWindow::newTextMessage, dlg,
                 &TextMessageDlg::slotNewMessage);

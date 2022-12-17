@@ -13,9 +13,9 @@ jobs:
           - name: iOS arm64
             cmakearch: arm64
             cmakesysroot: iphoneos
-          - name: iOS i386
-            cmakearch: i386
-            cmakesysroot: iphonesimulator
+#         - name: iOS i386
+#           cmakearch: i386
+#           cmakesysroot: iphonesimulator
           - name: iOS x86_64
             cmakearch: x86_64
             cmakesysroot: iphonesimulator
@@ -37,7 +37,7 @@ jobs:
     - name: Build TeamTalk Library
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: |
-        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_OSX_ARCHITECTURES=${{ matrix.cmakearch }} -DCMAKE_OSX_SYSROOT=${{ matrix.cmakesysroot }} -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.cmakearch }}" CMAKE_GENERATOR="Unix Makefiles" BUILDDIR=build-${{ matrix.cmakearch }} ios-build
+        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_OSX_ARCHITECTURES=${{ matrix.cmakearch }} -DCMAKE_OSX_SYSROOT=${{ matrix.cmakesysroot }} -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.cmakearch }}" BUILDDIR=build-${{ matrix.cmakearch }} ios-build
 
     - name: Doxygen Documentation
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
