@@ -903,7 +903,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="374"/>
         <source>&amp;Clear</source>
-        <translation type="unfinished">清除(&amp;C)</translation>
+        <translation>清除(&amp;C)</translation>
     </message>
 </context>
 <context>
@@ -5258,12 +5258,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="622"/>
         <source>One by One (TeamTalk Sound Device)</source>
-        <translation type="unfinished"></translation>
+        <translation>逐个 (TeamTalk 声音设备)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="623"/>
         <source>Overlapping (TeamTalk Sound Device)</source>
-        <translation type="unfinished"></translation>
+        <translation>重叠 (TeamTalk 声音设备)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="885"/>
@@ -5348,14 +5348,6 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../preferencesdlg.cpp" line="568"/>
         <source>Popularity</source>
         <translation>受欢迎度</translation>
-    </message>
-    <message>
-        <source>One by One</source>
-        <translation type="vanished">逐个</translation>
-    </message>
-    <message>
-        <source>Overlapping</source>
-        <translation type="vanished">重叠</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="665"/>
