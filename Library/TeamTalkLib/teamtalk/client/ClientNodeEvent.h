@@ -45,6 +45,7 @@ namespace teamtalk {
         virtual void OnConnectSuccess() = 0;
         virtual void OnConnectFailed() = 0;
         virtual void OnConnectionLost() = 0;
+        virtual void OnEncryptionFailed(int sslerr, const ACE_TString& errmsg) = 0;
 
         virtual void OnAccepted(int myuserid, const teamtalk::UserAccount& account) = 0;
         virtual void OnLoggedOut() = 0;

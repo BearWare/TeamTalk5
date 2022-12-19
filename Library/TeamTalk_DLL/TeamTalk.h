@@ -3159,6 +3159,17 @@ extern "C" {
          * - #TTMessage.ttType #__NONE
          * @see TT_Connect */
         CLIENTEVENT_CON_SUCCESS = CLIENTEVENT_NONE + 10,
+        /**
+         * @brief Failed to connect to server due to encryption error.
+         *
+         * OpenSSL could not establish a secure connection.
+         *
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource OpenSSL error number. Refer to <openssl/err.h>
+         * - #TTMessage.ttType #__CLIENTERRORMSG
+         * - #TTMessage.clienterrormsg Placed in union of #TTMessage. Contains
+         * error description based on OpenSSL's ERR_error_string_n(). */
+        CLIENTEVENT_CON_CRYPT_ERROR = CLIENTEVENT_NONE + 15,
         /** 
          * @brief Failed to connect to server.
          *
