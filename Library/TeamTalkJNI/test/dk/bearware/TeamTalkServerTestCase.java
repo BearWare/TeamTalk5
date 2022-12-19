@@ -1266,11 +1266,6 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
             return;
         }
 
-        if (GITHUBSKIP) {
-            System.out.println("Skipped test. GitHub disabled");
-            return;
-        }
-
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
         UserAccount useraccount = new UserAccount();
