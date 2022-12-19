@@ -1907,6 +1907,52 @@ TEST_CASE("testConnector")
 
 #endif
 
+TEST_CASE("testSSLClientCA")
+{
+    auto ttclient = InitTeamTalk();
+
+    EncryptionContext context = {};
+    ACE_OS::strsncpy(context.szCAFile, ACE_TEXT("ca.cer"), TT_STRLEN);
+    context.bVerifyPeer = TRUE;
+    context.nVerifyDepth = 1;
+
+    REQUIRE(TT_SetEncryptionContext(ttclient, &context));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), DEFAULT_ENCRYPTED_TCPPORT, DEFAULT_ENCRYPTED_UDPPORT, TRUE));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient")));
+}
+
+TEST_CASE("testSSLClientCert")
+{
+    auto ttclient = InitTeamTalk();
+
+    EncryptionContext context = {};
+    ACE_OS::strsncpy(context.szCertificateFile, ACE_TEXT("ttclientcert.pem"), TT_STRLEN);
+    ACE_OS::strsncpy(context.szPrivateKeyFile, ACE_TEXT("ttclientkey.pem"), TT_STRLEN);
+    ACE_OS::strsncpy(context.szCAFile, ACE_TEXT("ca.cer"), TT_STRLEN);
+    context.bVerifyPeer = TRUE;
+    context.nVerifyDepth = 1;
+
+    REQUIRE(TT_SetEncryptionContext(ttclient, &context));
+    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), DEFAULT_ENCRYPTED_TCPPORT, DEFAULT_ENCRYPTED_UDPPORT, TRUE));
+    REQUIRE(Login(ttclient, ACE_TEXT("TxClient")));
+}
+
+TEST_CASE("testSSLClientCertExpired")
+{
+    auto ttclient = InitTeamTalk();
+
+    EncryptionContext context = {};
+    ACE_OS::strsncpy(context.szCertificateFile, ACE_TEXT("ttclientcert-expired.pem"), TT_STRLEN);
+    ACE_OS::strsncpy(context.szPrivateKeyFile, ACE_TEXT("ttclientkey.pem"), TT_STRLEN);
+    ACE_OS::strsncpy(context.szCAFile, ACE_TEXT("ca.cer"), TT_STRLEN);
+    context.bVerifyPeer = TRUE;
+    context.nVerifyDepth = 1;
+
+    REQUIRE(TT_SetEncryptionContext(ttclient, &context));
+    REQUIRE(TT_Connect(ttclient, ACE_TEXT("127.0.0.1"), DEFAULT_ENCRYPTED_TCPPORT, DEFAULT_ENCRYPTED_UDPPORT, 0, 0, TRUE));
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_CON_FAILED));
+}
+
 #if 0 // this unit-test is too unstable under Valgrind
 TEST_CASE("Last voice packet - wav files")
 {
