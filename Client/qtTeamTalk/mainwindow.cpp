@@ -7387,7 +7387,7 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
             }
         }
     }
-    QWidget::keyPressEvent(e);
+    QMainWindow::keyPressEvent(e);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
