@@ -97,6 +97,7 @@ jobs:
         copy Library\TeamTalkLib\test\tt5prosrv.xml_template Server\tt5prosrv.xml
         copy Library\TeamTalkLib\test\ttserverkey.pem Server\
         copy Library\TeamTalkLib\test\ttservercert.pem Server\
+        copy Library\TeamTalkLib\test\ca.cer Server\
 
     - name: Start TeamTalk Standard Service
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
