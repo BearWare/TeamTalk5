@@ -513,7 +513,7 @@ $ openssl genrsa -out ttclientkey.pem 4096
  *
  * Now generate the client's certificate request to the CA:
 @verbatim
-$ openssl req -new -key ttclientkey.pem 4096 -out client.req
+$ openssl req -new -key ttclientkey.pem -out client.req -sha256
 @endverbatim
  *
  * Now use the client's certificate request to generate the client's
