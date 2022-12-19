@@ -140,6 +140,15 @@ void ServerGuard::OnUserDisconnected(const ServerUser& user)
     TT_LOG(oss.str().c_str());
 }
 
+void ServerGuard::OnUserCryptError(const ServerUser& user, int sslerr, const ACE_TString& msg)
+{
+    tostringstream oss;
+    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
+    oss << ACE_TEXT("encryption error no: 0x") << std::hex << sslerr << ACE_TEXT(" ");
+    oss << ACE_TEXT("message: ") << LogPrepare(msg).c_str();
+    TT_LOG(oss.str().c_str());
+}
+
 void ServerGuard::OnUserDropped(const ServerUser& user)
 {
     tostringstream oss;

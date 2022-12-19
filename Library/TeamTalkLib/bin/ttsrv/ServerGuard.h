@@ -47,6 +47,7 @@ namespace teamtalk {
         void OnUserLoginBanned(const ServerUser& user) override;
         void OnUserLoggedOut(const ServerUser& user) override;
         void OnUserDisconnected(const ServerUser& user) override;
+        void OnUserCryptError(const ServerUser& user, int sslerr, const ACE_TString& msg) override;
         void OnUserDropped(const ServerUser& user) override;
         void OnUserKicked(const ServerUser& kickee, const ServerUser* kicker, const ServerChannel* channel) override;
         void OnUserBanned(const ServerUser& banee, const ServerUser& banner) override;

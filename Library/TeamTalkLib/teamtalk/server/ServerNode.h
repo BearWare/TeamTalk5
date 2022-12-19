@@ -423,6 +423,7 @@ namespace teamtalk {
         virtual void OnUserLoginBanned(const ServerUser& user) = 0;
         virtual void OnUserLoggedOut(const ServerUser& user) = 0;
         virtual void OnUserDisconnected(const ServerUser& user) = 0;
+        virtual void OnUserCryptError(const ServerUser& user, int sslerr, const ACE_TString& msg) = 0;
         virtual void OnUserDropped(const ServerUser& user) = 0;
         virtual void OnUserKicked(const ServerUser& kickee, const ServerUser* kicker, const ServerChannel* channel) = 0;
         virtual void OnUserBanned(const ServerUser& banee, const ServerUser& banner) = 0;

@@ -84,6 +84,12 @@ void ServerMonitor::OnUserDisconnected(const teamtalk::ServerUser& user)
         i->second(m_ttInst, i->first, &suser);
 }
 
+void ServerMonitor::OnUserCryptError(const teamtalk::ServerUser& user, int sslerr,
+                                     const ACE_TString& msg)
+{
+
+}
+
 void ServerMonitor::OnUserDropped(const teamtalk::ServerUser& user)
 {
     User suser;
