@@ -41,7 +41,10 @@ public:
     void OnUserLoginBanned(const teamtalk::ServerUser& user) override;
     void OnUserLoggedOut(const teamtalk::ServerUser& user) override;
     void OnUserDisconnected(const teamtalk::ServerUser& user) override;
+    void OnUserCryptError(const teamtalk::ServerUser& user, int sslerr,
+                          const ACE_TString& msg) override;
     void OnUserDropped(const teamtalk::ServerUser& user) override;
+
     void OnUserKicked(const teamtalk::ServerUser& kickee,
                       const teamtalk::ServerUser* kicker,
                       const teamtalk::ServerChannel* channel) override;

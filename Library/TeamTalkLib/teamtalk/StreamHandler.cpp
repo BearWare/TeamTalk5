@@ -217,8 +217,14 @@ int CryptStreamHandler::process_ssl(SSL* ssl)
         return -1;            // Doesn't want anything - bail out
     }
     default:
+    {
+        unsigned long const err = ::ERR_get_error ();
+        ACE_OS::last_error (err);
+        char error_string[256] = "";
+        ::ERR_error_string_n (::ERR_get_error(), error_string, sizeof(error_string));
+        MYTRACE(ACE_TEXT("OpenSSL error: %s\n"), LocalToUnicode(error_string));
         return -1;
-        break;
+    }
     }
 }
 

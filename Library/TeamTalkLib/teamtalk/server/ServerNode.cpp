@@ -1183,6 +1183,20 @@ void ServerNode::OnClosed(ACE_HANDLE h)
 #if defined(ENABLE_ENCRYPTION)
 void ServerNode::OnClosed(CryptStreamHandler::StreamHandler_t& handler)
 {
+    auto sslerr = ACE_OS::last_error();
+    if (sslerr && (m_properties.logevents & SERVERLOGEVENT_USER_CRYPTERROR))
+    {
+        char sslerr_str[MAX_STRING_LENGTH] = "";
+        ::ERR_error_string_n(sslerr, sslerr_str, sizeof(sslerr_str)-1);
+
+        TTASSERT(m_streamhandles.find(handler.get_handle()) != m_streamhandles.end());
+        serveruser_t user = m_streamhandles[handler.get_handle()];
+        TTASSERT(user.get());
+        if (user.get())
+        {
+            m_srvguard->OnUserCryptError(*user, sslerr, LocalToUnicode(sslerr_str));
+        }
+    }
     OnClosed(handler.get_handle());
 }
 #endif
