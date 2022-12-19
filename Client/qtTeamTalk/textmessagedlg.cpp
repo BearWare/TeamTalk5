@@ -265,7 +265,7 @@ void TextMessageDlg::keyPressEvent(QKeyEvent* e)
             if (keyText.isPrint())
             {
                 ui.newmsgTextEdit->setFocus();
-                ui.newmsgTextEdit->keyPressEvent(e);
+                ui.newmsgTextEdit->kPress(e);
             }
         }
     }

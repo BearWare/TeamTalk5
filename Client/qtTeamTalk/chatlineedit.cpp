@@ -31,6 +31,11 @@ ChatLineEdit::ChatLineEdit(QWidget * parent/* = 0*/ )
     m_history_pos = m_history.begin();
 }
 
+void ChatLineEdit::kPress ( QKeyEvent * event )
+{
+    keyPressEvent(event);
+}
+
 void ChatLineEdit::keyPressEvent ( QKeyEvent * event )
 {
     switch(event->key())

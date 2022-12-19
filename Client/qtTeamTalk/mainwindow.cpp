@@ -7372,17 +7372,17 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
                 if (ui.chatEdit->hasFocus())
                 {
                     ui.msgEdit->setFocus();
-                    ui.msgEdit->keyPressEvent(e);
+                    ui.msgEdit->kPress(e);
                 }
                 else if (ui.videochatEdit->hasFocus())
                 {
                     ui.videomsgEdit->setFocus();
-                    ui.videomsgEdit->keyPressEvent(e);
+                    ui.videomsgEdit->kPress(e);
                 }
                 else if (ui.desktopchatEdit->hasFocus())
                 {
                     ui.desktopmsgEdit->setFocus();
-                    ui.desktopmsgEdit->keyPressEvent(e);
+                    ui.desktopmsgEdit->kPress(e);
                 }
             }
         }
