@@ -68,6 +68,7 @@ public:
     void OnConnectSuccess() override;
     void OnConnectFailed() override;
     void OnConnectionLost() override;
+    void OnEncryptionFailed(int sslerr, const ACE_TString& errmsg) override;
 
     void OnAccepted(int myuserid, const teamtalk::UserAccount& account) override;
     void OnLoggedOut() override;

@@ -1774,27 +1774,6 @@ TEST_CASE("testThumbnail")
 }
 #endif
 
-#if 0
-// Encryption context should apparently not be set on client unless it
-// is meant for peer verification
-TEST_CASE("testSSLSetup")
-{
-    auto ttclient = InitTeamTalk();
-
-    EncryptionContext context = {};
-    ACE_OS::strsncpy(context.szCertificateFile, ACE_TEXT("ttclientcert.pem"), TT_STRLEN);
-    ACE_OS::strsncpy(context.szPrivateKeyFile, ACE_TEXT("ttclientkey.pem"), TT_STRLEN);
-    ACE_OS::strsncpy(context.szCAFile, ACE_TEXT("ca.cer"), TT_STRLEN);
-    context.bVerifyPeer = FALSE;
-    context.bVerifyClientOnce = TRUE;
-    context.nVerifyDepth = 0;
-
-    REQUIRE(TT_SetEncryptionContext(ttclient, &context));
-    REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), DEFAULT_ENCRYPTED_TCPPORT, DEFAULT_ENCRYPTED_UDPPORT, TRUE));
-    REQUIRE(Login(ttclient, ACE_TEXT("TxClient")));
-}
-#endif
-
 #if defined(ENABLE_ENCRYPTION)
 
 TEST_CASE("testSSLNonBlockConnector")
@@ -1905,8 +1884,6 @@ TEST_CASE("testConnector")
     csh->close();
 }
 
-#endif
-
 TEST_CASE("testSSLClientCA")
 {
     auto ttclient = InitTeamTalk();
@@ -1948,10 +1925,13 @@ TEST_CASE("testSSLClientCertExpired")
     context.bVerifyPeer = TRUE;
     context.nVerifyDepth = 1;
 
+    TTMessage msg;
     REQUIRE(TT_SetEncryptionContext(ttclient, &context));
     REQUIRE(TT_Connect(ttclient, ACE_TEXT("127.0.0.1"), DEFAULT_ENCRYPTED_TCPPORT, DEFAULT_ENCRYPTED_UDPPORT, 0, 0, TRUE));
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_CON_CRYPT_ERROR, msg));
     REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_CON_FAILED));
 }
+#endif
 
 #if 0 // this unit-test is too unstable under Valgrind
 TEST_CASE("Last voice packet - wav files")

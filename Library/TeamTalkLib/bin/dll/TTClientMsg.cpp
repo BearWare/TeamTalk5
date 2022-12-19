@@ -258,6 +258,20 @@ void TTMsgQueue::OnConnectionLost()
     EnqueueMsg(mb);
 }
 
+void TTMsgQueue::OnEncryptionFailed(int sslerr, const ACE_TString& errmsg)
+{
+    ACE_Message_Block* mb;
+    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CON_CRYPT_ERROR,
+                                     sslerr, __CLIENTERRORMSG);
+    ACE_UNUSED_ARG(msg);
+    msg->clienterrmsg->nErrorNo = sslerr;
+
+    ACE_OS::strsncpy(msg->clienterrmsg->szErrorMsg,
+                     errmsg.c_str(),
+                     TT_STRLEN);
+    EnqueueMsg(mb);
+}
+
 void TTMsgQueue::OnAccepted(int myuserid, const teamtalk::UserAccount& account)
 {
     ACE_Message_Block* mb;

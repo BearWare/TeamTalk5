@@ -4993,7 +4993,7 @@ void ClientNode::OnClosed()
     GUARD_REACTOR(this);
 
     bool encrypted = m_def_stream == NULL;
-    
+
 #if defined(ENABLE_ENCRYPTION)
     m_crypt_stream = NULL;
 #endif
@@ -5021,9 +5021,22 @@ void ClientNode::OnClosed()
         }
 
         m_flags &= ~CLIENT_CONNECTING;
-        //Disconnect and clean up clientnode
-        if(m_listener)
+        // Disconnect and clean up clientnode
+        if (m_listener)
+        {
+            /* ACE_SSL_Context::report_error() calls
+             *   unsigned long const err = ::ERR_get_error ();
+             *  ACE_OS::last_error (err); */
+            auto ace_lasterr = ACE_OS::last_error();
+            if (encrypted && ace_lasterr)
+            {
+                char sslerr_str[MAX_STRING_LENGTH] = "";
+                ::ERR_error_string_n(ace_lasterr, sslerr_str, sizeof(sslerr_str)-1);
+                MYTRACE(ACE_TEXT("SSL errno: 0x%x, %s\n"), ace_lasterr, sslerr_str);
+                m_listener->OnEncryptionFailed(ace_lasterr, LocalToUnicode(sslerr_str));
+            }
             m_listener->OnConnectFailed();
+        }
     }
 }
 
