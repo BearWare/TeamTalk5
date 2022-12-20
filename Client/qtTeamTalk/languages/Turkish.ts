@@ -903,7 +903,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="374"/>
         <source>&amp;Clear</source>
-        <translation type="unfinished">&amp;Temizle</translation>
+        <translation>&amp;Temizle</translation>
     </message>
 </context>
 <context>
@@ -5257,12 +5257,12 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="622"/>
         <source>One by One (TeamTalk Sound Device)</source>
-        <translation type="unfinished"></translation>
+        <translationTeker teker (TeamTalk Ses aygıtı)></translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="623"/>
         <source>Overlapping (TeamTalk Sound Device)</source>
-        <translation type="unfinished"></translation>
+        <translation>Çakışan (TeamTalk ses aygıtı)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="885"/>
