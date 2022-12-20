@@ -5257,7 +5257,7 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="622"/>
         <source>One by One (TeamTalk Sound Device)</source>
-        <translationTeker teker (TeamTalk Ses aygıtı)></translation>
+        <translation>Teker teker (TeamTalk Ses aygıtı)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="623"/>
