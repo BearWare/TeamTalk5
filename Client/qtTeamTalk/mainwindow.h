@@ -449,6 +449,7 @@ private:
 
     void clienteventConSuccess();
     void clienteventConFailed();
+    void clienteventConCryptError(const TTMessage& msg);
     void clienteventConLost();
     void clienteventMyselfKicked(const TTMessage& msg);
     void clienteventCmdProcessing(int cmdid, bool complete);

@@ -987,6 +987,11 @@ void MainWindow::clienteventConFailed()
                  .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 }
 
+void MainWindow::clienteventConCryptError(const TTMessage& msg)
+{
+    addStatusMsg(STATUSBAR_BYPASS, tr("Secure connection failed due to error 0x%1: %2.").arg(msg.nSource, 0, 16).arg(_Q(msg.clienterrormsg.szErrorMsg)));
+}
+
 void MainWindow::clienteventConLost()
 {
     Disconnect();
@@ -1599,6 +1604,9 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     break;
     case CLIENTEVENT_CON_FAILED :
         clienteventConFailed();
+    break;
+    case CLIENTEVENT_CON_CRYPT_ERROR :
+        clienteventConCryptError(msg);
     break;
     case CLIENTEVENT_CON_LOST :
         clienteventConLost();
