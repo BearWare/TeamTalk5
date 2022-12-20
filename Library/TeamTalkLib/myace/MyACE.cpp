@@ -323,7 +323,7 @@ void MYTRACE(const ACE_TCHAR* trace_str, ...)
     __android_log_write(ANDROID_LOG_INFO, "bearware", str_buf);
 #elif defined(WIN32)
     OutputDebugString(str_buf);
-#elif defined(TARGET_OS_IPHONE) || defined(TARGET_OS_SIMULATOR)
+#elif defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE || defined(TARGET_OS_SIMULATOR) && TARGET_OS_SIMULATOR
     os_log_info(OS_LOG_DEFAULT, "%{public}s", str_buf);
 #else
     std::cout << str_buf;
