@@ -112,9 +112,10 @@ Prompt for VS 2019*. Use Git to clone
 [TeamTalk5](https://github.com/BearWare/TeamTalk5) repository into
 `C:\TeamTalk5`.
 
-Now generate a valid build configuration using CMake:
+Use CMake to generate a valid build configuration in `C:\builddir`
+that will install binaries into `C:\installdir`:
 
-`cmake -DBUILD_TEAMTALK_CORE=ON -S C:/TeamTalk5 -B C:/builddir -A Win32`
+`cmake -DBUILD_TEAMTALK_CORE=ON -DCMAKE_INSTALL_PREFIX=C:/installdir -S C:/TeamTalk5 -B C:/builddir -A Win32`
 
 Given that CMake managed to create a valid build configuration now
 start the build process:
