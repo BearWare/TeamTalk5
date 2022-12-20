@@ -32,6 +32,7 @@ class SendTextEdit : public QPlainTextEdit
 
 public:
     SendTextEdit(QWidget * parent = 0);
+    void kPress(QKeyEvent* e);
 
 signals:
     void sendTextMessage(const QString& msg);

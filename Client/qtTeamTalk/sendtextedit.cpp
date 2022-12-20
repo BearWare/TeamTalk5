@@ -30,6 +30,11 @@ SendTextEdit::SendTextEdit(QWidget * parent/* = 0*/)
 {
 }
     
+void SendTextEdit::kPress ( QKeyEvent * event )
+{
+    keyPressEvent(event);
+}
+
 void SendTextEdit::keyPressEvent(QKeyEvent* e)
 {
     QString msg = toPlainText();

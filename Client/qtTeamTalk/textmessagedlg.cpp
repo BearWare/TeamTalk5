@@ -256,5 +256,18 @@ void TextMessageDlg::keyPressEvent(QKeyEvent* e)
         else if (ui.historyTextEdit->hasFocus())
             ui.newmsgTextEdit->setFocus();
     }
+    if (ui.historyTextEdit->hasFocus())
+    {
+        QString key = e->text();
+        if (!key.isEmpty() && key.size() == 1)
+        {
+            QChar keyText = key.at(0);    
+            if (keyText.isPrint())
+            {
+                ui.newmsgTextEdit->setFocus();
+                ui.newmsgTextEdit->kPress(e);
+            }
+        }
+    }
     QDialog::keyPressEvent(e);
 }
