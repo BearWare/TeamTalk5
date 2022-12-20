@@ -1931,6 +1931,26 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
+    public void testBanNoChannel() {
+        String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_MULTI_LOGIN |
+            UserRight.USERRIGHT_VIEW_ALL_USERS;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase ttclient1 = newClientInstance();
+        TeamTalkBase ttclient2 = newClientInstance();
+
+        connect(ttclient1);
+        login(ttclient1, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient1);
+
+        connect(ttclient2);
+        login(ttclient2, NICKNAME, USERNAME, PASSWORD);
+        
+        assertTrue("ban user by channel", waitCmdError(ttclient1, ttclient1.doBanUserEx(ttclient2.getMyUserID(), BanType.BANTYPE_CHANNEL), DEF_WAIT));
+    }
+
+    @Test
     public void testChannelSwitch() {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();

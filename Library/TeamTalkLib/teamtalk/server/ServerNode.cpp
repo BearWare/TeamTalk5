@@ -3225,6 +3225,8 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
             else
             {
                 banchan = ban_user->GetChannel();
+                if (!banchan)
+                    return TT_CMDERR_CHANNEL_NOT_FOUND;
                 ban.chanpath = banchan->GetChannelPath();
             }
             ban = ban_user->GetBan(ban.bantype, ban.chanpath);

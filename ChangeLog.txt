@@ -35,7 +35,7 @@ iOS Client
 - Toggle TX on/off using AirPods when using A2DP
 - Fixed crash issue when loading server list
 Server
--
+- Fixed crash issue when user banned from non-existing channel
 
 Version 5.11, 2022/10/02
 Accessible Windows Client
