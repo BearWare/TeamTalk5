@@ -3,29 +3,39 @@
 ----------------------------------------------
 
 Version 5.13, unreleased
+Default Qt Client
+-
+Accessible Windows Client
+-
+Android Client
+-
+iOS Client
+-
+Server
+-
+
+Version 5.12.1, unreleased
 iOS Client
 - Added Malay language
 
-Version 5.12, unreleased
+Version 5.12, 2022/12/21
 Default Qt Client
 - Option to change status message when idle
-- Option in "Change status" dialog to display file name as status msg when streaming
+- Option in "Change status" dialog to display file name as status message when streaming
 - Sound events can be configured to play one by one in "Preferences" dialog
 - Sound event when intercepted
-- TTS events when enabled/disabled voice activation and Push-To-Talk
-- See sort order in "Sort by" menu on files list, user accounts and server list
-- Fix user text message sent and channel message sent sound not reset when changing sounds pack
+- Text-To-Speech events when voice activation and Push-To-Talk enabled/disabled
+- See sort order in "Sort by" context menu on files list, user accounts and server list
 - Text message window is not automatically focused anymore
 - Ability to clear text message history
-- Fix missing label for "Media files RX/TX" on "Server statistics" dialog
-- Fix "Channel silent" sound event played out of channel
+- Use F6 to switch bitween history and new message field in "Text Message" dialog
+- Press a printable character on history field on "Text Message" dialog or main window now switches to new message field
+- Fixed user text message sent and channel message sent sound not reset when changing sounds pack
+- Fixed missing label for "Media files RX/TX" on "Server statistics" dialog
+- Fixed "Channel silent" sound event played out of channel
+- Fixed systematic disconnect if server list configured to show at startup and starting from TT:// URL or TT file
 - macOS updated to Qt 6.4.1
 - Windows updated to Qt 6.5.0-dev
-- Use F6 to switch bitween history and message field on "Text Message" dialog
-- Press a printable character on history field on "Text Message" dialog or main window now switch to new message field
-- Fixed systematic disconnect if server list configured to show at startup and starting from TT:// URL or TT file
-Accessible Windows Client
--
 Android Client
 - Bluetooth headset working again on Android 11 and lower
 iOS Client
