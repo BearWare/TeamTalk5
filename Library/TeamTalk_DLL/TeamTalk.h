@@ -3777,6 +3777,96 @@ extern "C" {
          * @see TT_RestartSoundSystem()
          * @see TT_GetSoundDevices() */
         CLIENTEVENT_SOUNDDEVICE_REMOVED = CLIENTEVENT_NONE + 1110,
+        /**
+         * @brief Sound device unplugged.
+         *
+         * This event is currently only support on Windows.
+         *
+         * The jack has been unplugged from the sound device.
+         *
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0.
+         * - #TTMessage.ttType #__SOUNDDEVICE.
+         * - #TTMessage.sounddevice Placed in union of #TTMessage.
+         *
+         * Only @c szDeviceName and @c szDeviceID of #SoundDevice will
+         * be set.
+         *
+         * @see TT_RestartSoundSystem()
+         * @see TT_GetSoundDevices() */
+        CLIENTEVENT_SOUNDDEVICE_UNPLUGGED = CLIENTEVENT_NONE + 1120,
+        /**
+         * @brief New sound device has been selected as default input device.
+         *
+         * Restart sound system to retrieve new list of available
+         * sound devices.
+         *
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0.
+         * - #TTMessage.ttType #__SOUNDDEVICE.
+         * - #TTMessage.sounddevice Placed in union of #TTMessage.
+         *
+         * Only @c szDeviceName and @c szDeviceID of #SoundDevice will
+         * be set.
+         *
+         * @see TT_RestartSoundSystem()
+         * @see TT_GetSoundDevices() */
+        CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT = CLIENTEVENT_NONE + 1130,
+        /**
+         * @brief New sound device has been selected as default output device.
+         *
+         * Restart sound system to retrieve new list of available
+         * sound devices.
+         *
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0.
+         * - #TTMessage.ttType #__SOUNDDEVICE.
+         * - #TTMessage.sounddevice Placed in union of #TTMessage.
+         *
+         * Only @c szDeviceName and @c szDeviceID of #SoundDevice will
+         * be set.
+         *
+         * @see TT_RestartSoundSystem()
+         * @see TT_GetSoundDevices() */
+        CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT = CLIENTEVENT_NONE + 1140,
+        /**
+         * @brief New sound input device has been selected as default
+         * communication device.
+         *
+         * @see #SOUNDDEVICEFEATURE_DEFAULTCOMDEVICE
+         *
+         * Restart sound system to see changes to sound devices.
+         *
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0.
+         * - #TTMessage.ttType #__SOUNDDEVICE.
+         * - #TTMessage.sounddevice Placed in union of #TTMessage.
+         *
+         * Only @c szDeviceName and @c szDeviceID of #SoundDevice will
+         * be set.
+         *
+         * @see TT_RestartSoundSystem()
+         * @see TT_GetSoundDevices() */
+        CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT_COMDEVICE = CLIENTEVENT_NONE + 1150,
+        /**
+         * @brief New sound output device has been selected as default
+         * communication device.
+         *
+         * @see #SOUNDDEVICEFEATURE_DEFAULTCOMDEVICE
+         *
+         * Restart sound system to see changes to sound devices.
+         *
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0.
+         * - #TTMessage.ttType #__SOUNDDEVICE.
+         * - #TTMessage.sounddevice Placed in union of #TTMessage.
+         *
+         * Only @c szDeviceName and @c szDeviceID of #SoundDevice will
+         * be set.
+         *
+         * @see TT_RestartSoundSystem()
+         * @see TT_GetSoundDevices() */
+        CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT_COMDEVICE = CLIENTEVENT_NONE + 1160,
         
     } ClientEvent;
 
