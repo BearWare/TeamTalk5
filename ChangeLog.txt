@@ -4,6 +4,7 @@
 
 Version 5.13, unreleased
 Default Qt Client
+- Fix keyboard navigation on "File transfer" dialog
 - Moved "Refresh Sound Devices" from "Input Devices" submenu to "Sound Configuration" menu
 Accessible Windows Client
 -
