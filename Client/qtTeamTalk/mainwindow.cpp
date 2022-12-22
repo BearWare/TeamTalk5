@@ -333,6 +333,9 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotClientPreferences);
     connect(ui.menuSoundConfiguration, &QMenu::aboutToShow,
             this, &MainWindow::slotClientSoundDevices);
+    connect(ui.actionRefreshSoundDevices, &QAction::triggered,
+        this, &MainWindow::initSound);
+
     connect(ui.actionEnableEchoCancel, &QAction::triggered,
             this, &MainWindow::slotClientAudioEffect);
     connect(ui.actionEnableAGC, &QAction::triggered,
@@ -4295,8 +4298,6 @@ void MainWindow::slotClientSoundDevices()
                 });
         }
     }
-    ui.menuInputDev->addSeparator();
-    connect(ui.menuInputDev->addAction(tr("&Refresh Sound Devices")), &QAction::triggered, this, &MainWindow::initSound);
 }
 
 void MainWindow::slotClientAudioEffect()
