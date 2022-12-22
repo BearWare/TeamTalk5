@@ -61,6 +61,7 @@ struct IntTTMessage
         MediaFileInfo* mediafileinfo;
         StreamType* streamtype;
         AudioInputProgress* audioinputprogress;
+        SoundDevice* sounddevice;
     };
 };
 
@@ -682,4 +683,29 @@ void TTMsgQueue::OnKeyUp(UINT nVK)
         BOOL b = ::PostMessage(m_hKeyWnd, m_EventHKeyWndMsg, nVK, FALSE);
     }
 }
-#endif
+
+void TTMsgQueue::AudioDeviceChange(AudioDevEvent event, const LPCWSTR& name, const LPCWSTR& id)
+{
+    SoundDevice snd = {};
+    snd.nSoundSystem = SOUNDSYSTEM_WASAPI;
+    snd.nDeviceID = -1;
+    ACE_OS::strsncpy(snd.szDeviceName, name, TT_STRLEN);
+    ACE_OS::strsncpy(snd.szDeviceID, id, TT_STRLEN);
+
+    ACE_Message_Block* mb = nullptr;
+    IntTTMessage* msg = nullptr;
+    switch (event)
+    {
+    case AUDIODEVICE_ADD :
+        msg = MakeMsgBlock(mb, CLIENTEVENT_SOUNDDEVICE_ADDED, 0, __SOUNDDEVICE);
+        break;
+    case AUDIODEVICE_REMOVE :
+        msg = MakeMsgBlock(mb, CLIENTEVENT_SOUNDDEVICE_REMOVED, 0, __SOUNDDEVICE);
+        break;
+    }
+
+    *msg->sounddevice = snd;
+    EnqueueMsg(mb);
+}
+
+#endif /* WIN32 */
