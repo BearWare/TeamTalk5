@@ -1574,6 +1574,16 @@ void MainWindow::clienteventUserAudioBlock(int source, StreamTypes streamtypes)
     }
 }
 
+void MainWindow::clienteventSoundDeviceAdded(const SoundDevice& snddev)
+{
+    addStatusMsg(STATUSBAR_BYPASS, tr("New sound device available: %1. Refresh sound devices to discover new device.").arg(_Q(snddev.szDeviceName)));
+}
+
+void MainWindow::clienteventSoundDeviceRemoved(const SoundDevice& snddev)
+{
+    addStatusMsg(STATUSBAR_BYPASS, tr("Sound device removed: %1.").arg(_Q(snddev.szDeviceName)));
+}
+
 void MainWindow::processTTMessage(const TTMessage& msg)
 {
     switch (msg.nClientEvent)
@@ -1750,6 +1760,14 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     case CLIENTEVENT_HOTKEY :
         Q_ASSERT(msg.ttType == __TTBOOL);
         hotkeyToggle((HotKeyID)msg.nSource, (bool)msg.bActive);
+        break;
+    case CLIENTEVENT_SOUNDDEVICE_ADDED :
+        Q_ASSERT(msg.ttType == __SOUNDDEVICE);
+        clienteventSoundDeviceAdded(msg.sounddevice);
+        break;
+    case CLIENTEVENT_SOUNDDEVICE_REMOVED :
+        Q_ASSERT(msg.ttType == __SOUNDDEVICE);
+        clienteventSoundDeviceRemoved(msg.sounddevice);
         break;
     default :
         qDebug() << "Unknown message type" << msg.nClientEvent;

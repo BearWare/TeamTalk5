@@ -3742,6 +3742,42 @@ extern "C" {
          *
          * @see TT_SetUserJitterControl */
         CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET = CLIENTEVENT_NONE + 1090,
+        /**
+         * @brief New sound device available.
+         *
+         * This event is currently only support on Windows. Restart
+         * sound system to discover the new sound device.
+         *
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0.
+         * - #TTMessage.ttType #__SOUNDDEVICE.
+         * - #TTMessage.sounddevice Placed in union of #TTMessage.
+         *
+         * Only @c szDeviceName and @c szDeviceID of #SoundDevice will
+         * be set.
+         *
+         * @see TT_RestartSoundSystem()
+         * @see TT_GetSoundDevices() */
+        CLIENTEVENT_SOUNDDEVICE_ADDED = CLIENTEVENT_NONE + 1100,
+        /**
+         * @brief Sound device removed.
+         *
+         * This event is currently only support on Windows. Restart
+         * sound system to retrieve new list of available sound
+         * devices.
+         *
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0.
+         * - #TTMessage.ttType #__SOUNDDEVICE.
+         * - #TTMessage.sounddevice Placed in union of #TTMessage.
+         *
+         * Only @c szDeviceName and @c szDeviceID of #SoundDevice will
+         * be set.
+         *
+         * @see TT_RestartSoundSystem()
+         * @see TT_GetSoundDevices() */
+        CLIENTEVENT_SOUNDDEVICE_REMOVED = CLIENTEVENT_NONE + 1110,
+        
     } ClientEvent;
 
     /* List of structures used internally by TeamTalk. */
@@ -3851,6 +3887,8 @@ extern "C" {
             StreamType nStreamType;
             /** @brief Valid if @c ttType is #__AUDIOINPUTPROGRESS. */
             AudioInputProgress audioinputprogress;
+            /** @brief Valid if @c ttType is #__SOUNDDEVICE. */
+            SoundDevice sounddevice;
             /* brief First byte in union. */
             char data[1];
         };

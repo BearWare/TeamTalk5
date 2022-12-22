@@ -25,9 +25,13 @@
 
 #if defined(WIN32)
 #include <ace/config.h>
+#include <win32/AudioDeviceNotify.h>
 #include <win32/HotKey.h>
 #include <win32/Mixer.h>
 #include <win32/WinFirewall.h>
+
+#include <mmdeviceapi.h>
+
 HINSTANCE hInstance = NULL;
 
 #elif defined(__APPLE__)
@@ -38,7 +42,6 @@ HINSTANCE hInstance = NULL;
 #if defined(ENABLE_MINIDUMP)
 #include <win32/mdump.h>
 #endif
-
 
 #if defined(ENABLE_MEDIAFOUNDATION)
 #include <mfapi.h>
@@ -77,6 +80,7 @@ using teamtalk::desktop_viewer_t;
 using teamtalk::SoundProperties;
 using namespace vidcap;
 using namespace std;
+using namespace std::placeholders;
 
 typedef std::shared_ptr<ClientNode> clientnode_t;
 
@@ -200,9 +204,13 @@ struct ClientInstance
             }
         } mfinit;
 #endif
-
+        
         eventhandler.reset(eh);
         clientnode.reset(new ClientNode(ACE_TEXT( TEAMTALK_VERSION ), eh));
+
+#if defined(WIN32)
+        RegisterAudioDeviceChange(eh, std::bind(&TTMsgQueue::AudioDeviceChange, eh, _1, _2, _3), true);
+#endif
         
 #if defined(ENABLE_MINIDUMP)
         static MiniDumper mdump(ACE_TEXT("TeamTalk5.dll"));
@@ -224,6 +232,11 @@ struct ClientInstance
                      ACE_TEXT("ERROR: Leaking %d DesktopWindow structs\n"), (int)desktop_windows.size());
         MYTRACE_COND(audio_blocks.size(),
                      ACE_TEXT("ERROR: Leaking %d AudioBlock structs\n"), (int)audio_blocks.size());
+
+#if defined(WIN32)
+        auto eh = eventhandler.get();
+        RegisterAudioDeviceChange(eh, std::bind(&TTMsgQueue::AudioDeviceChange, eh, _1, _2, _3), false);
+#endif
         MYTRACE(ACE_TEXT("~ClientInstance() - %p\n"), this);
     }
 };

@@ -109,11 +109,13 @@ endif()
 
 if (WIN32)
   list (APPEND TTCLIENT_HEADERS
+    ${TEAMTALKLIB_ROOT}/win32/AudioDeviceNotify.h
     ${TEAMTALKLIB_ROOT}/win32/HotKey.h
     ${TEAMTALKLIB_ROOT}/win32/Mixer.h
     ${TEAMTALKLIB_ROOT}/win32/WinFirewall.h )
 
   list (APPEND TTCLIENT_SOURCES
+    ${TEAMTALKLIB_ROOT}/win32/AudioDeviceNotify.cpp
     ${TEAMTALKLIB_ROOT}/win32/HotKey.cpp
     ${TEAMTALKLIB_ROOT}/win32/Mixer.cpp
     ${TEAMTALKLIB_ROOT}/win32/WinFirewall.cpp )

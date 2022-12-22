@@ -29,6 +29,7 @@
 
 #if defined(WIN32)
 #include <win32/HotKey.h>
+#include <win32/AudioDeviceNotify.h>
 #endif
 
 class TTMsgQueue
@@ -149,6 +150,8 @@ public:
 
     void OnKeyDown(UINT nVK) override;
     void OnKeyUp(UINT nVK) override;
+
+    void AudioDeviceChange(AudioDevEvent event, const LPCWSTR& name, const LPCWSTR& id);
 #endif
 };
 
