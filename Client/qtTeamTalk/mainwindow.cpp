@@ -1769,6 +1769,21 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         Q_ASSERT(msg.ttType == __SOUNDDEVICE);
         clienteventSoundDeviceRemoved(msg.sounddevice);
         break;
+    case CLIENTEVENT_SOUNDDEVICE_UNPLUGGED:
+        qDebug() << "Unplugged sound device: " << _Q(msg.sounddevice.szDeviceName);
+        break;
+    case CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT:
+        qDebug() << "New default sound input device: " << _Q(msg.sounddevice.szDeviceName);
+        break;
+    case CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT:
+        qDebug() << "New default sound output device: " << _Q(msg.sounddevice.szDeviceName);
+        break;
+    case CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT_COMDEVICE:
+        qDebug() << "New default communication input sound device: " << _Q(msg.sounddevice.szDeviceName);
+        break;
+    case CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT_COMDEVICE:
+        qDebug() << "New default communication output sound device: " << _Q(msg.sounddevice.szDeviceName);
+        break;
     default :
         qDebug() << "Unknown message type" << msg.nClientEvent;
     }

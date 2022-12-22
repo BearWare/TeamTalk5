@@ -702,6 +702,21 @@ void TTMsgQueue::AudioDeviceChange(AudioDevEvent event, const LPCWSTR& name, con
     case AUDIODEVICE_REMOVE :
         msg = MakeMsgBlock(mb, CLIENTEVENT_SOUNDDEVICE_REMOVED, 0, __SOUNDDEVICE);
         break;
+    case AUDIODEVICE_UNPLUGGED:
+        msg = MakeMsgBlock(mb, CLIENTEVENT_SOUNDDEVICE_UNPLUGGED, 0, __SOUNDDEVICE);
+        break;
+    case AUDIODEVICE_NEW_DEFAULT_INPUT :
+        msg = MakeMsgBlock(mb, CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT, 0, __SOUNDDEVICE);
+        break;
+    case AUDIODEVICE_NEW_DEFAULT_OUTPUT :
+        msg = MakeMsgBlock(mb, CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT, 0, __SOUNDDEVICE);
+        break;
+    case AUDIODEVICE_NEW_DEFAULT_INPUT_COMDEVICE:
+        msg = MakeMsgBlock(mb, CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT_COMDEVICE, 0, __SOUNDDEVICE);
+        break;
+    case AUDIODEVICE_NEW_DEFAULT_OUTPUT_COMDEVICE:
+        msg = MakeMsgBlock(mb, CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT_COMDEVICE, 0, __SOUNDDEVICE);
+        break;
     }
 
     *msg->sounddevice = snd;

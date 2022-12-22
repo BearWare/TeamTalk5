@@ -45,11 +45,11 @@ class CMMNotificationClient : public IMMNotificationClient
 {
     LONG m_nRefs;
 
-    audio_device_change_callback_t m_add_callback, m_remove_callback;
+    audio_device_change_callback_t m_callback;
 
 public:
-    CMMNotificationClient(audio_device_change_callback_t add_dev_callback, audio_device_change_callback_t rm_dev_callback)
-        : m_nRefs(0), m_add_callback(add_dev_callback), m_remove_callback(rm_dev_callback) { }
+    CMMNotificationClient(audio_device_change_callback_t cb)
+        : m_nRefs(0), m_callback(cb) { }
 
     ~CMMNotificationClient() { }
 
@@ -95,8 +95,12 @@ public:
         switch (flow)
         {
         case eRender:
+            if (m_callback)
+                AudioChangeCallback(m_callback, AUDIODEVICE_NEW_DEFAULT_OUTPUT, pwstrDeviceId);
             break;
         case eCapture:
+            if (m_callback)
+                AudioChangeCallback(m_callback, AUDIODEVICE_NEW_DEFAULT_INPUT, pwstrDeviceId);
             break;
         }
 
@@ -107,6 +111,10 @@ public:
         case eMultimedia:
             break;
         case eCommunications:
+            if (m_callback && flow == eCapture)
+                AudioChangeCallback(m_callback, AUDIODEVICE_NEW_DEFAULT_INPUT_COMDEVICE, pwstrDeviceId);
+            if (m_callback && flow == eRender)
+                AudioChangeCallback(m_callback, AUDIODEVICE_NEW_DEFAULT_OUTPUT_COMDEVICE, pwstrDeviceId);
             break;
         }
 
@@ -127,19 +135,57 @@ public:
 
     HRESULT STDMETHODCALLTYPE OnDeviceStateChanged(LPCWSTR pwstrDeviceId, DWORD dwNewState)
     {
+        /*
+        Constant/value	Description
+
+        DEVICE_STATE_ACTIVE
+        0x00000001
+        The audio endpoint device is active. That is, the audio
+        adapter that connects to the endpoint device is present and
+        enabled. In addition, if the endpoint device plugs into a jack
+        on the adapter, then the endpoint device is plugged in.
+
+        DEVICE_STATE_DISABLED
+        0x00000002
+        The audio endpoint device is disabled. The user has disabled
+        the device in the Windows multimedia control panel,
+        Mmsys.cpl. For more information, see Remarks.
+
+        DEVICE_STATE_NOTPRESENT
+        0x00000004
+        The audio endpoint device is not present because the audio
+        adapter that connects to the endpoint device has been removed
+        from the system, or the user has disabled the adapter device
+        in Device Manager.
+
+        DEVICE_STATE_UNPLUGGED
+        0x00000008
+        The audio endpoint device is unplugged. The audio adapter that
+        contains the jack for the endpoint device is present and
+        enabled, but the endpoint device is not plugged into the
+        jack. Only a device with jack-presence detection can be in
+        this state. For more information about jack-presence
+        detection, see Audio Endpoint Devices.
+
+        DEVICE_STATEMASK_ALL
+        0x0000000F
+        */
+
         switch (dwNewState)
         {
         case DEVICE_STATE_ACTIVE:
-            if (m_add_callback)
-                AudioChangeCallback(m_add_callback, AUDIODEVICE_ADD, pwstrDeviceId);
+            if (m_callback)
+                AudioChangeCallback(m_callback, AUDIODEVICE_ADD, pwstrDeviceId);
             break;
         case DEVICE_STATE_DISABLED:
             break;
         case DEVICE_STATE_NOTPRESENT:
-            if (m_remove_callback)
-                AudioChangeCallback(m_remove_callback, AUDIODEVICE_REMOVE, pwstrDeviceId);
+            if (m_callback)
+                AudioChangeCallback(m_callback, AUDIODEVICE_REMOVE, pwstrDeviceId);
             break;
         case DEVICE_STATE_UNPLUGGED:
+            if (m_callback)
+                AudioChangeCallback(m_callback, AUDIODEVICE_UNPLUGGED, pwstrDeviceId);
             break;
         }
         return S_OK;
@@ -163,8 +209,7 @@ void RegisterAudioDeviceChange(void* owner, audio_device_change_callback_t cb, b
 
     public:
         AudioDeviceNotifyInit() :
-            m_audnotify(std::bind(&AudioDeviceNotifyInit::AudioDeviceAdded, this, _2, _3),
-                std::bind(&AudioDeviceNotifyInit::AudioDeviceRemoved, this, _2, _3))
+            m_audnotify(std::bind(&AudioDeviceNotifyInit::AudioDeviceChange, this, _1, _2, _3))
         {
             HRESULT hr = S_OK;
             hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), NULL, CLSCTX_INPROC_SERVER,
@@ -194,18 +239,11 @@ void RegisterAudioDeviceChange(void* owner, audio_device_change_callback_t cb, b
                 m_callbacks.erase(owner);
         }
 
-        void AudioDeviceAdded(const LPCWSTR& name, const LPCWSTR& id)
+        void AudioDeviceChange(AudioDevEvent event, const LPCWSTR& name, const LPCWSTR& id)
         {
             std::lock_guard<std::mutex> g(m_mutex);
             for (auto& cb : m_callbacks)
-                cb.second(AUDIODEVICE_ADD, name, id);
-        }
-
-        void AudioDeviceRemoved(const LPCWSTR& name, const LPCWSTR& id)
-        {
-            std::lock_guard<std::mutex> g(m_mutex);
-            for (auto& cb : m_callbacks)
-                cb.second(AUDIODEVICE_REMOVE, name, id);
+                cb.second(event, name, id);
         }
 
     } adninit;
