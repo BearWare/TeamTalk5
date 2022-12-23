@@ -16,9 +16,6 @@
   <property name="windowTitle">
    <string notr="true"/>
   </property>
-  <property name="locale">
-   <locale language="C" country="AnyCountry"/>
-  </property>
   <property name="animated">
    <bool>false</bool>
   </property>

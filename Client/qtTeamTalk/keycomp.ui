@@ -19,9 +19,6 @@
   <property name="windowTitle">
    <string>Key Combination</string>
   </property>
-  <property name="locale">
-   <locale language="C" country="AnyCountry"/>
-  </property>
   <property name="modal">
    <bool>true</bool>
   </property>

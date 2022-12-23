@@ -13,9 +13,6 @@
   <property name="windowTitle">
    <string>Server Properties</string>
   </property>
-  <property name="locale">
-   <locale language="C" country="AnyCountry"/>
-  </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_3">

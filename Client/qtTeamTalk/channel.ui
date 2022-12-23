@@ -13,9 +13,6 @@
   <property name="windowTitle">
    <string>Channel</string>
   </property>
-  <property name="locale">
-   <locale language="C" country="AnyCountry"/>
-  </property>
   <property name="modal">
    <bool>true</bool>
   </property>
