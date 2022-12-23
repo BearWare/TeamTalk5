@@ -13,9 +13,6 @@
   <property name="windowTitle">
    <string>Video</string>
   </property>
-  <property name="locale">
-   <locale language="C" country="AnyCountry"/>
-  </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
