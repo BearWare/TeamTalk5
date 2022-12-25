@@ -996,6 +996,63 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
+    public void testFileAccessOutsideChannel() {
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+
+        UserAccount ua = new UserAccount();
+        ua.szUsername = USERNAME;
+        ua.szPassword = PASSWORD;
+        ua.uUserType = UserType.USERTYPE_DEFAULT;
+        ua.szNote = "An example user account with limited user-rights";
+        ua.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_UPLOAD_FILES | UserRight.USERRIGHT_DOWNLOAD_FILES | UserRight.USERRIGHT_MULTI_LOGIN | UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
+        useraccounts.add(ua);
+
+        TeamTalkSrv server = newServerInstance();
+        ServerInterleave interleave = new RunServer(server);
+
+        TeamTalkBase client1 = newClientInstance();
+        connect(server, client1);
+        login(server, client1, NICKNAME, ua.szUsername, ua.szPassword);
+        Channel chan = buildDefaultChannel(client1, getTestMethodName() + client1.getMyUserID());
+        assertTrue("client1 join channel", waitCmdSuccess(client1, client1.doJoinChannel(chan), DEF_WAIT, interleave));
+
+        TeamTalkBase client2 = newClientInstance();
+        connect(server, client2);
+        login(server, client2, NICKNAME, ua.szUsername, ua.szPassword);
+        chan = buildDefaultChannel(client2, getTestMethodName() + client2.getMyUserID());
+        assertTrue("client2 join channel", waitCmdSuccess(client2, client2.doJoinChannel(chan), DEF_WAIT, interleave));
+
+        String uploadfilename = getTestMethodName() + ".txt";
+        try {
+            DataOutputStream dataOut = new DataOutputStream(new FileOutputStream(uploadfilename));
+            byte[] buff = new byte[1024*777];
+            dataOut.write(buff);
+            dataOut.close();
+        }
+        catch(IOException e) {
+            assertTrue("Failed to create file.txt: " + e, false);
+        }
+
+        int cmdid = client1.doSendFile(client2.getMyChannelID(), uploadfilename);
+        assertTrue("upload issued to client2 channel", cmdid>0);
+
+        TTMessage msg = new TTMessage();
+        assertTrue("Send outside channel failed", waitCmdError(client1, cmdid, DEF_WAIT, interleave));
+
+        cmdid = client2.doSendFile(client2.getMyChannelID(), uploadfilename);
+        assertTrue("upload issued to client2 channel", cmdid>0);
+
+        assertTrue("file upload done", waitForEvent(client2, ClientEvent.CLIENTEVENT_CMD_FILE_NEW, DEF_WAIT, msg, interleave));
+
+        RemoteFile fileinfo = msg.remotefile;
+        
+        assertFalse("file upload not available to client1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_FILE_NEW, 0, msg, interleave));
+
+        cmdid = client1.doRecvFile(client2.getMyChannelID(), fileinfo.nFileID, uploadfilename);
+        assertEquals("file not found", -1, cmdid);
+    }
+
+    @Test
     public void testDnsResolve() throws Exception {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
@@ -1603,7 +1660,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     @Test
     public void testAutoOperatorChannelPassword() {
-        
+
         TeamTalkSrv server = newServerInstance();
         ServerInterleave interleave = new RunServer(server);
 
@@ -1621,7 +1678,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertTrue("perm chan", waitCmdSuccess(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave));
 
         int permid = admin.getChannelIDFromPath(getTestMethodName());
-        
+
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = "guest";
         useraccount.szPassword = "guest";
@@ -1660,7 +1717,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     @Test
     public void testAutoOperatorChannelUpdate() {
-        
+
         TeamTalkSrv server = newServerInstance();
         ServerInterleave interleave = new RunServer(server);
 
@@ -1679,7 +1736,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertTrue("perm chan", waitCmdSuccess(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave));
 
         int permid = admin.getChannelIDFromPath(getTestMethodName());
-        
+
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = "guest";
         useraccount.szPassword = "guest";
@@ -1694,13 +1751,13 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         noopuseraccount.uUserType = UserType.USERTYPE_DEFAULT;
         noopuseraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN;
         useraccounts.add(noopuseraccount);
-        
+
         connect(server, client);
         login(server, client, getTestMethodName(), useraccount.szUsername, useraccount.szPassword);
 
         connect(server, client2);
         login(server, client2, getTestMethodName(), noopuseraccount.szUsername, noopuseraccount.szPassword);
-        
+
         Channel tmp = new Channel();
         assertTrue("get chan", client.getChannel(permid, tmp));
 
@@ -1711,7 +1768,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         tmp = new Channel();
         assertTrue("get chan", client.getChannel(permid, tmp));
-        
+
         assertEquals("Client updated chan password", "foo", tmp.szPassword);
 
         // test auto-op can kick from channels not joined
@@ -1733,8 +1790,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertTrue("update client", waitCmdSuccess(client, client.doListBans(permid, 0, 100), DEF_WAIT, interleave));
         assertTrue("update client2", waitCmdError(client2, client2.doListBans(permid, 0, 100), DEF_WAIT, interleave));
     }
-    
-    
+
+
     // @Test
     public void _testRunServer() {
 

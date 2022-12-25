@@ -4086,6 +4086,9 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
     if (!chan)
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
+    if (!chan->UserExists(user->GetUserID()) && (user->GetUserType() & USERTYPE_ADMIN) == 0)
+        return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+
     if(transfer.inbound)
     {
         if((user->GetUserRights() & USERRIGHT_UPLOAD_FILES) == 0)
