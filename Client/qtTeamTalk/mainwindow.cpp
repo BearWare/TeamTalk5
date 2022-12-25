@@ -5447,7 +5447,7 @@ void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)
     QAction* download = menu.addAction(ui.actionDownloadFile->text());
     QAction* del = menu.addAction(ui.actionDeleteFile->text());
     auto index = ui.filesView->currentIndex();
-    upload->setEnabled(m_mychannel.nChannelID > 0);
+    upload->setEnabled((TT_GetMyUserType(ttInst) & USERTYPE_ADMIN) || ((m_myuseraccount.uUserRights & USERRIGHT_UPLOAD_FILES) && m_mychannel.nChannelID > 0));
     download->setEnabled(index.isValid());
     del->setEnabled(index.isValid());
 
@@ -6041,7 +6041,7 @@ void MainWindow::slotUpdateUI()
     ui.actionDeleteChannel->setEnabled(chanid>0);
     ui.actionStreamMediaFileToChannel->setChecked(statemask & 
                                                   (CLIENT_STREAM_AUDIO | CLIENT_STREAM_VIDEO));
-    ui.actionUploadFile->setEnabled(mychannel>0);
+    ui.actionUploadFile->setEnabled((TT_GetMyUserType(ttInst) & USERTYPE_ADMIN) || ((m_myuseraccount.uUserRights & USERRIGHT_UPLOAD_FILES) && m_mychannel.nChannelID > 0));
     ui.actionDownloadFile->setEnabled(mychannel>0);
     ui.actionDeleteFile->setEnabled(filescount>0);
 
@@ -6079,7 +6079,7 @@ void MainWindow::slotUpdateUI()
     ui.actionSaveConfiguration->setEnabled(auth && me_admin);
     ui.actionServerStatistics->setEnabled(auth && me_admin);
 
-    ui.uploadButton->setEnabled(mychannel>0);
+    ui.uploadButton->setEnabled((TT_GetMyUserType(ttInst) & USERTYPE_ADMIN) || ((m_myuseraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS) && m_mychannel.nChannelID > 0));
     ui.downloadButton->setEnabled(mychannel>0);
 }
 
