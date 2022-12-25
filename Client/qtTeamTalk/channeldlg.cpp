@@ -408,6 +408,7 @@ void ChannelDlg::slotUpdateChannelPath(const QString& str)
         ui.chanpathLabel->setText(_Q(path) + str);
     else
         ui.chanpathLabel->setText(QString());
+    ui.chanpathLabel->setAccessibleName(QString("%1 %2").arg(ui.label_7->text()).arg(ui.chanpathLabel->text()));
 
     QPushButton* btn = ui.buttonBox->button(QDialogButtonBox::Ok);
     if(btn)
