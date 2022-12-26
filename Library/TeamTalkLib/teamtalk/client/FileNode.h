@@ -61,19 +61,19 @@ namespace teamtalk {
         const teamtalk::FileTransfer& GetFileTransferInfo() const { return m_transfer; }
 
         //TimerListener functions
-        int TimerEvent(ACE_UINT32 timer_event_id, long userdata);
+        int TimerEvent(ACE_UINT32 timer_event_id, long userdata) override;
 
         //StreamListener
 #if defined(ENABLE_ENCRYPTION)
-        void OnOpened(CryptStreamHandler::StreamHandler_t& handler);
-        void OnClosed(CryptStreamHandler::StreamHandler_t& handler);
-        bool OnReceive(CryptStreamHandler::StreamHandler_t& handler, const char* buff, int len);
-        bool OnSend(CryptStreamHandler::StreamHandler_t& handler);
+        void OnOpened(CryptStreamHandler::StreamHandler_t& handler) override;
+        void OnClosed(CryptStreamHandler::StreamHandler_t& handler) override;
+        bool OnReceive(CryptStreamHandler::StreamHandler_t& handler, const char* buff, int len) override;
+        bool OnSend(CryptStreamHandler::StreamHandler_t& handler) override;
 #endif
-        void OnOpened(DefaultStreamHandler::StreamHandler_t& handler);
-        void OnClosed(DefaultStreamHandler::StreamHandler_t& handler);
-        bool OnReceive(DefaultStreamHandler::StreamHandler_t& handler, const char* buff, int len);
-        bool OnSend(DefaultStreamHandler::StreamHandler_t& handler);
+        void OnOpened(DefaultStreamHandler::StreamHandler_t& handler) override;
+        void OnClosed(DefaultStreamHandler::StreamHandler_t& handler) override;
+        bool OnReceive(DefaultStreamHandler::StreamHandler_t& handler, const char* buff, int len) override;
+        bool OnSend(DefaultStreamHandler::StreamHandler_t& handler) override;
 
         bool IsCompleted() const { return m_completed; }
 

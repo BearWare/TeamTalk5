@@ -41,59 +41,59 @@ namespace teamtalk {
         ServerGuard(ServerXML& settings);
 
         /* begin logging functions */
-        void OnUserConnected(const ServerUser& user);
-        void OnUserLogin(const ServerUser& user);
-        void OnUserAuthFailed(const ServerUser& user, const ACE_TString& username);
-        void OnUserLoginBanned(const ServerUser& user);
-        void OnUserLoggedOut(const ServerUser& user);
-        void OnUserDisconnected(const ServerUser& user);
-        void OnUserDropped(const ServerUser& user);
-        void OnUserKicked(const ServerUser& kickee, const ServerUser* kicker, const ServerChannel* channel);
-        void OnUserBanned(const ServerUser& banee, const ServerUser& banner);
-        void OnUserBanned(const ACE_TString& ipaddr, const ServerUser& banner);
-        void OnUserBanned(const ServerUser& banner, const BannedUser& ban);
-        void OnUserUnbanned(const ServerUser& user, const BannedUser& ban);
-        void OnUserUpdated(const ServerUser& user);
-        void OnUserSubscribe(const ServerUser& user, const ServerUser& subscriptuser);
-        void OnUserJoinChannel(const ServerUser& user, const ServerChannel& channel);
-        void OnUserLeaveChannel(const ServerUser& user, const ServerChannel& channel);
-        void OnUserMoved(const ServerUser& mover, const ServerUser& movee);
-        void OnUserMessage(const ServerUser& from, const ServerUser& to, const teamtalk::TextMessage& msg);
-        void OnChannelMessage(const ServerUser& from, const ServerChannel& channel, const teamtalk::TextMessage& msg);
-        void OnBroadcastMessage(const ServerUser& from, const teamtalk::TextMessage& msg);
-        void OnCustomMessage(const ServerUser& from, const ServerUser& to, const teamtalk::TextMessage& msg);
+        void OnUserConnected(const ServerUser& user) override;
+        void OnUserLogin(const ServerUser& user) override;
+        void OnUserAuthFailed(const ServerUser& user, const ACE_TString& username) override;
+        void OnUserLoginBanned(const ServerUser& user) override;
+        void OnUserLoggedOut(const ServerUser& user) override;
+        void OnUserDisconnected(const ServerUser& user) override;
+        void OnUserDropped(const ServerUser& user) override;
+        void OnUserKicked(const ServerUser& kickee, const ServerUser* kicker, const ServerChannel* channel) override;
+        void OnUserBanned(const ServerUser& banee, const ServerUser& banner) override;
+        void OnUserBanned(const ACE_TString& ipaddr, const ServerUser& banner) override;
+        void OnUserBanned(const ServerUser& banner, const BannedUser& ban) override;
+        void OnUserUnbanned(const ServerUser& user, const BannedUser& ban) override;
+        void OnUserUpdated(const ServerUser& user) override;
+        void OnUserSubscribe(const ServerUser& user, const ServerUser& subscriptuser) override;
+        void OnUserJoinChannel(const ServerUser& user, const ServerChannel& channel) override;
+        void OnUserLeaveChannel(const ServerUser& user, const ServerChannel& channel) override;
+        void OnUserMoved(const ServerUser& mover, const ServerUser& movee) override;
+        void OnUserMessage(const ServerUser& from, const ServerUser& to, const teamtalk::TextMessage& msg) override;
+        void OnChannelMessage(const ServerUser& from, const ServerChannel& channel, const teamtalk::TextMessage& msg) override;
+        void OnBroadcastMessage(const ServerUser& from, const teamtalk::TextMessage& msg) override;
+        void OnCustomMessage(const ServerUser& from, const ServerUser& to, const teamtalk::TextMessage& msg) override;
 
-        void OnChannelCreated(const ServerChannel& channel, const ServerUser* user = NULL);
-        void OnChannelUpdated(const ServerChannel& channel, const ServerUser* user = NULL);
-        void OnChannelRemoved(const ServerChannel& channel, const ServerUser* user = NULL);
+        void OnChannelCreated(const ServerChannel& channel, const ServerUser* user = NULL) override;
+        void OnChannelUpdated(const ServerChannel& channel, const ServerUser* user = NULL) override;
+        void OnChannelRemoved(const ServerChannel& channel, const ServerUser* user = NULL) override;
 
-        void OnFileUploaded(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file);
-        void OnFileDownloaded(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file);
-        void OnFileDeleted(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file);
+        void OnFileUploaded(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file) override;
+        void OnFileDownloaded(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file) override;
+        void OnFileDeleted(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file) override;
 
-        void OnServerUpdated(const ServerUser& user, const ServerSettings& srvprop);
-        void OnSaveConfiguration(const ServerUser* user);
+        void OnServerUpdated(const ServerUser& user, const ServerSettings& srvprop) override;
+        void OnSaveConfiguration(const ServerUser* user) override;
 
-        void OnShutdown(const ServerStats& stats);
+        void OnShutdown(const ServerStats& stats) override;
         /* end logging functions */
 
-        ErrorMsg AuthenticateUser(ServerNode* servernode, ServerUser& user, UserAccount& useraccount);
-        ErrorMsg JoinChannel(const ServerUser& user, const ServerChannel& chan);
+        ErrorMsg AuthenticateUser(ServerNode* servernode, ServerUser& user, UserAccount& useraccount) override;
+        ErrorMsg JoinChannel(const ServerUser& user, const ServerChannel& chan) override;
 
-        ErrorMsg GetUserAccount(const ServerUser& user, UserAccount& useraccount);
-        ErrorMsg GetRegUsers(const ServerUser& user, useraccounts_t& users);
-        ErrorMsg AddRegUser(const ServerUser& user, const UserAccount& useraccount);
-        ErrorMsg DeleteRegUser(const ServerUser& user, const ACE_TString& username);
+        ErrorMsg GetUserAccount(const ServerUser& user, UserAccount& useraccount) override;
+        ErrorMsg GetRegUsers(const ServerUser& user, useraccounts_t& users) override;
+        ErrorMsg AddRegUser(const ServerUser& user, const UserAccount& useraccount) override;
+        ErrorMsg DeleteRegUser(const ServerUser& user, const ACE_TString& username) override;
 
-        ErrorMsg AddUserBan(const ServerUser& user, const ServerUser& banee, BanTypes bantype);
-        ErrorMsg AddUserBan(const ServerUser& user, const BannedUser& ban);
-        ErrorMsg RemoveUserBan(const ServerUser& user, const BannedUser& ban);
-        ErrorMsg GetUserBans(const ServerUser& user, std::vector<BannedUser>& bans);
+        ErrorMsg AddUserBan(const ServerUser& user, const ServerUser& banee, BanTypes bantype) override;
+        ErrorMsg AddUserBan(const ServerUser& user, const BannedUser& ban) override;
+        ErrorMsg RemoveUserBan(const ServerUser& user, const BannedUser& ban) override;
+        ErrorMsg GetUserBans(const ServerUser& user, std::vector<BannedUser>& bans) override;
 
-        ErrorMsg ChangeNickname(const ServerUser& user, const ACE_TString& newnick);
-        ErrorMsg ChangeStatus(const ServerUser& user, int mode, const ACE_TString& status);
+        ErrorMsg ChangeNickname(const ServerUser& user, const ACE_TString& newnick) override;
+        ErrorMsg ChangeStatus(const ServerUser& user, int mode, const ACE_TString& status) override;
 
-        ErrorMsg SaveConfiguration(const ServerUser& user, ServerNode& servernode);
+        ErrorMsg SaveConfiguration(const ServerUser& user, ServerNode& servernode) override;
 
     private:
 #if defined(ENABLE_TEAMTALKPRO)
