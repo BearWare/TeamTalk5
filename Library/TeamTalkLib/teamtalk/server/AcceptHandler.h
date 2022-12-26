@@ -60,14 +60,8 @@ public:
         svc_handler->SetListener(m_listener);
 
         int ret = super::activate_svc_handler( svc_handler );
-        // if(svc_handler && m_pListener && ret != -1)
-        //     m_pListener->NewClient(*svc_handler);
-
-
         return ret;
     }
-
-    //virtual int accept_svc_handler (SSLStreamHandler* svc_handler);
 
 private:
     typename STREAMHANDLER::StreamListener_t * m_listener;
