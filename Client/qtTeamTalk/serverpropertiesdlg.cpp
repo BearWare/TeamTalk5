@@ -100,7 +100,6 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
     }
     else
     {
-        ui.label_4->setTextInteractionFlags(Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard);
         connect(ui.serverlogTreeView, &QAbstractItemView::doubleClicked, this, &ServerPropertiesDlg::slotServerLogToggled);
     }
 }
