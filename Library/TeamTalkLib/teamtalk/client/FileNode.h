@@ -37,6 +37,7 @@ namespace teamtalk {
     class FileTransferListener
     {
     public:
+        virtual ~FileTransferListener() {}
         virtual void OnFileTransferStatus(const teamtalk::FileTransfer& transfer) = 0;
     };
 

@@ -90,6 +90,7 @@ typedef std::shared_ptr< VideoThread > video_thread_t;
 class VideoEncListener
 {
 public:
+    virtual ~VideoEncListener() {}
     //@return true if callee took ownership of 'org_frame'
     virtual bool EncodedVideoFrame(const VideoThread* video_encoder,
                                    ACE_Message_Block* org_frame, /* can be NULL */
