@@ -4076,16 +4076,9 @@ bool ClientNode::Connect(bool encrypted, const ACE_INET_Addr& hosttcpaddr,
 #if defined(ENABLE_ENCRYPTION)
     if(encrypted)
     {
-        ACE_NEW_RETURN(m_crypt_stream, CryptStreamHandler(0, 0, GetEventLoop()), false);
+        ACE_NEW_RETURN(m_crypt_stream, CryptStreamHandler(GetEventLoop()), false);
         m_crypt_stream->SetListener(this);
-
-        //ACE_Synch_Options options = ACE_Synch_Options::defaults;
-        //ACE only supports OpenSSL on blocking sockets
-#if 0
         ACE_Synch_Options options(ACE_Synch_Options::USE_REACTOR, ACE_Time_Value(0, 0));
-#else
-        ACE_Synch_Options options(ACE_Synch_Options::USE_TIMEOUT, ACE_Time_Value(10));
-#endif
         if (localtcpaddr)
             ret = m_crypt_connector.connect(m_crypt_stream, hosttcpaddr, 
                                             options, *localtcpaddr);
@@ -4096,7 +4089,7 @@ bool ClientNode::Connect(bool encrypted, const ACE_INET_Addr& hosttcpaddr,
     else
 #endif
     {
-        ACE_NEW_RETURN(m_def_stream, DefaultStreamHandler(0, 0, GetEventLoop()), false);
+        ACE_NEW_RETURN(m_def_stream, DefaultStreamHandler(GetEventLoop()), false);
         m_def_stream->SetListener(this);
         ACE_Synch_Options options(ACE_Synch_Options::USE_REACTOR, ACE_Time_Value(0,0));
         if (localtcpaddr)
@@ -5041,8 +5034,7 @@ void ClientNode::OnClosed(CryptStreamHandler::StreamHandler_t& /*handler*/)
 }
 #endif
 
-void ClientNode::OnClosed(DefaultStreamHandler::StreamHandler_t& /*handler*/)
-{
+void ClientNode::OnClosed(DefaultStreamHandler::StreamHandler_t& /*handler*/){
     OnClosed();
 }
 

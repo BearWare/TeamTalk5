@@ -105,6 +105,13 @@ jobs:
         tt5svc.exe -i
         tt5svc.exe -s
 
+    - name: Start TeamTalk Professional Service
+      working-directory: ${{runner.workspace}}/TeamTalk5/Server
+      shell: cmd
+      run: |
+        tt5prosvc.exe -i
+        tt5prosvc.exe -s
+
     - name: Catch unit-test
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/test
       shell: cmd
@@ -117,6 +124,13 @@ jobs:
       run: |
         tt5svc.exe -e
         tt5svc.exe -s
+
+    - name: Stop and Remove TeamTalk Professional Service
+      working-directory: ${{runner.workspace}}/TeamTalk5/Server
+      shell: cmd
+      run: |
+        tt5prosvc.exe -e
+        tt5prosvc.exe -u
 
     - name: Run .NET unit tests non-encrypted
       working-directory: ${{runner.workspace}}
