@@ -48,6 +48,7 @@ template < typename STREAMHANDLER >
 class StreamListener
 {
 public:
+    virtual ~StreamListener() {}
     virtual void OnOpened(STREAMHANDLER& streamer) = 0;
     virtual void OnClosed(STREAMHANDLER& streamer) = 0;    //do NOT touch the StreamHandler object after this call (it has already called 'delete this')
     virtual bool OnReceive(STREAMHANDLER& streamer, const char* buff, int len) = 0; //return 'false' to unregister event handler
