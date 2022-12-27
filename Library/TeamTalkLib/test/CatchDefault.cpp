@@ -28,11 +28,13 @@
 #include <ace/Date_Time.h>
 #include <ace/FILE_IO.h>
 #include <ace/FILE_Connector.h>
+#include <ace/Select_Reactor.h>
 
 #include "TTUnitTest.h"
 
 #include <myace/MyACE.h>
 #include <teamtalk/server/ServerNode.h>
+#include <teamtalk/client/Client.h>
 #include <teamtalk/client/ClientNodeBase.h>
 #include <avstream/VideoCapture.h>
 #include <avstream/MediaPlayback.h>
@@ -1772,7 +1774,7 @@ TEST_CASE("testThumbnail")
 }
 #endif
 
-#if defined(ENABLE_ENCRYPTION) && 0
+#if 0
 // Encryption context should apparently not be set on client unless it
 // is meant for peer verification
 TEST_CASE("testSSLSetup")
@@ -1791,6 +1793,118 @@ TEST_CASE("testSSLSetup")
     REQUIRE(Connect(ttclient, ACE_TEXT("127.0.0.1"), DEFAULT_ENCRYPTED_TCPPORT, DEFAULT_ENCRYPTED_UDPPORT, TRUE));
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient")));
 }
+#endif
+
+#if defined(ENABLE_ENCRYPTION)
+
+TEST_CASE("testSSLNonBlockConnector")
+{
+    ACE_Timer_Heap timer_queue;
+    ACE_Reactor r(new ACE_Select_Reactor(nullptr, &timer_queue), true);
+    auto grp = ACE_Thread_Manager::instance()->spawn(event_loop, &r);
+    SyncReactor(r);
+
+    class MyClass : public StreamListener<CryptStreamHandler::StreamHandler_t>
+    {
+        ACE_Reactor* rr;
+    public:
+        MyClass(ACE_Reactor* r) : rr(r) {}
+        void OnOpened(CryptStreamHandler::StreamHandler_t& /*streamer*/) override { }
+        void OnClosed(CryptStreamHandler::StreamHandler_t& /*streamer*/) override { }
+        bool OnReceive(CryptStreamHandler::StreamHandler_t& /*streamer*/, const char* buff, int /*len*/) override
+        {
+            REQUIRE(std::string(buff).substr(0, 8) == "teamtalk");
+            rr->end_reactor_event_loop();
+            return true;
+        }
+        bool OnSend(CryptStreamHandler::StreamHandler_t& /*streamer*/) override { return true; }
+    } lsn(&r);
+
+    teamtalk::crypt_connector_t connector(&r, ACE_NONBLOCK);
+    ACE_SSL_Context* context = CryptStreamHandler::AddSSLContext(&r);
+    REQUIRE(context);
+    CryptStreamHandler::StreamHandler_t* csh = new CryptStreamHandler(&r);
+    csh->SetListener(&lsn);
+    ACE_Synch_Options options(ACE_Synch_Options::USE_REACTOR, ACE_Time_Value(0,0));
+    auto addrs = DetermineHostAddress(ACE_TEXT("127.0.0.1"), 10443);
+    REQUIRE(addrs.size());
+    int ret = connector.connect(csh, addrs[0], options);
+    REQUIRE((ret == -1 && ACE_OS::last_error() == EWOULDBLOCK || ret == 0));
+
+    ACE_Thread_Manager::instance ()->wait_grp(grp);
+    csh->close();
+    CryptStreamHandler::RemoveSSLContext(&r);
+}
+
+TEST_CASE("testSSLBlockingConnector")
+{
+    ACE_Timer_Heap timer_queue;
+    ACE_Reactor r(new ACE_Select_Reactor(nullptr, &timer_queue), true);
+    auto grp = ACE_Thread_Manager::instance()->spawn(event_loop, &r);
+    SyncReactor(r);
+
+    class MyClass: public StreamListener<CryptStreamHandler::StreamHandler_t>
+    {
+        ACE_Reactor* rr;
+    public:
+        MyClass(ACE_Reactor* r) : rr(r) {}
+        void OnOpened(CryptStreamHandler::StreamHandler_t& /*streamer*/) override { }
+        void OnClosed(CryptStreamHandler::StreamHandler_t& ) override { }
+        bool OnReceive(CryptStreamHandler::StreamHandler_t& , const char* buff, int /*len*/) override
+        {
+            REQUIRE(std::string(buff).substr(0, 8) == "teamtalk");
+            rr->end_reactor_event_loop();
+            return true;
+        }
+        bool OnSend(CryptStreamHandler::StreamHandler_t& ) override { return true; }
+    } lsn(&r);
+
+    teamtalk::crypt_connector_t connector(&r);
+    ACE_SSL_Context* context = CryptStreamHandler::AddSSLContext(&r);
+    REQUIRE(context);
+    CryptStreamHandler::StreamHandler_t* csh = new CryptStreamHandler(&r);
+    csh->SetListener(&lsn);
+    auto addrs = DetermineHostAddress(ACE_TEXT("127.0.0.1"), 10443);
+    REQUIRE(addrs.size());
+    REQUIRE(connector.connect(csh, addrs[0]) == 0);
+
+    ACE_Thread_Manager::instance ()->wait_grp(grp);
+    csh->close();
+    CryptStreamHandler::RemoveSSLContext(&r);
+}
+
+TEST_CASE("testConnector")
+{
+    ACE_Timer_Heap timer_queue;
+    ACE_Reactor r(new ACE_Select_Reactor(nullptr, &timer_queue), true);
+    auto grp = ACE_Thread_Manager::instance()->spawn(event_loop, &r);
+    SyncReactor(r);
+
+    class MyClass : public StreamListener<DefaultStreamHandler::StreamHandler_t>
+    {
+        ACE_Reactor* rr;
+    public:
+        MyClass(ACE_Reactor* r) : rr(r) {}
+        void OnOpened(DefaultStreamHandler::StreamHandler_t& ) override {rr->end_reactor_event_loop();}
+        void OnClosed(DefaultStreamHandler::StreamHandler_t& ) override {}
+        bool OnReceive(DefaultStreamHandler::StreamHandler_t& , const char* /*buff*/, int /*len*/) override { return true; }
+        bool OnSend(DefaultStreamHandler::StreamHandler_t& ) override { return true; }
+    } lsn(&r);
+
+    //teamtalk::connector_t connector(&r);
+    ACE_Connector< DefaultStreamHandler, ACE_SOCK_CONNECTOR > connector(&r);
+    DefaultStreamHandler* csh = new DefaultStreamHandler(&r);
+    csh->SetListener(&lsn);
+    ACE_Synch_Options options(ACE_Synch_Options::USE_REACTOR, ACE_Time_Value(0,0));
+    auto addrs = DetermineHostAddress(ACE_TEXT("127.0.0.1"), 10443);
+    REQUIRE(addrs.size());
+    int ret = connector.connect(csh, addrs[0], options);
+    REQUIRE(((ret == -1 && ACE_OS::last_error() == EWOULDBLOCK) || ret == 0));
+
+    ACE_Thread_Manager::instance ()->wait_grp(grp);
+    csh->close();
+}
+
 #endif
 
 #if 0 // this unit-test is too unstable under Valgrind
