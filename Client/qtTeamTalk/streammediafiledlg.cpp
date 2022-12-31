@@ -42,6 +42,7 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
     : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
 {
     ui.setupUi(this);
+    this->setAccessibleDescription(tr("Streaming to channel"));
     setWindowIcon(QIcon(APPICON));
 
     connect(this, &QDialog::accepted, this, &StreamMediaFileDlg::slotAccepted);
