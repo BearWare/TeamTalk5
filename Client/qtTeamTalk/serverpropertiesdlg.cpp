@@ -56,6 +56,7 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
     connect(this, &QDialog::accepted, this, &ServerPropertiesDlg::slotAccepted);
 
     TT_GetServerProperties(ttInst, &m_srvprop);
+    this->setAccessibleDescription(tr("Properties of %1").arg(_Q(m_srvprop.szServerName)));
 
     ui.servernameEdit->setText(_Q(m_srvprop.szServerName));
     ui.maxusersSpinBox->setValue(m_srvprop.nMaxUsers);

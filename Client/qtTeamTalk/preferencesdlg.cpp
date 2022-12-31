@@ -70,6 +70,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
 
     ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&OK"));
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
+    this->setAccessibleDescription(tr("Client settings"));
 
     initDefaultVideoFormat(m_vidfmt);
 
