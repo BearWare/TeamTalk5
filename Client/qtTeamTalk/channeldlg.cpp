@@ -161,7 +161,10 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     case CHANNEL_UPDATE :
     {
         setWindowTitle(tr("Update Channel"));
-        this->setAccessibleDescription(tr("Modify channel %1").arg(_Q(m_channel.szName)));
+        if (m_channel.nChannelId == TT_GetRootChannelID(ttInst))
+            this->setAccessibleDescription(tr("Modify root channel"));
+        else
+            this->setAccessibleDescription(tr("Modify channel %1").arg(_Q(m_channel.szName)));
         int count = 0;
         TT_GetChannelUsers(ttInst, chan.nChannelID, nullptr, &count);
         if (count > 0)
@@ -173,7 +176,10 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     break;
     case CHANNEL_READONLY :
         setWindowTitle(tr("View Channel Information"));
-        this->setAccessibleDescription(tr("View %1 information").arg(_Q(m_channel.szName)));
+        if (m_channel.nChannelId == TT_GetRootChannelID(ttInst))
+            this->setAccessibleDescription(tr("View root channel information"));
+        else
+            this->setAccessibleDescription(tr("View %1 information").arg(_Q(m_channel.szName)));
         ui.nameEdit->setReadOnly(true);
         ui.topicTextEdit->setReadOnly(true);
         ui.chanpasswdEdit->setReadOnly(true);
