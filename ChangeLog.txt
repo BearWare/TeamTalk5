@@ -7,6 +7,7 @@ Default Qt Client
 - Fix keyboard navigation on "File transfer" dialog
 - Moved "Refresh Sound Devices" from "Input Devices" submenu to "Sound Configuration" menu
 - Fixed Upload/download button and menu item not display for admin outside channel
+- Accessible description on more dialog to avoid potential screenreader freeze
 Accessible Windows Client
 -
 Android Client
