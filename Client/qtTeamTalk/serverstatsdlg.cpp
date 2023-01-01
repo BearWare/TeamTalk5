@@ -34,6 +34,7 @@ ServerStatisticsDlg::ServerStatisticsDlg(QWidget * parent/* = 0*/)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
+    this->setAccessibleDescription(tr("Server statistics"));
 
     connect(ui.closeBtn, &QAbstractButton::clicked, this, &QDialog::accept);
     connect(ui.updateChkBox, &QAbstractButton::clicked,
