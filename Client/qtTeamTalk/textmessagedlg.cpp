@@ -73,6 +73,9 @@ void TextMessageDlg::init(const User& user)
     connect(ui.newmsgTextEdit, &QPlainTextEdit::textChanged, this, &TextMessageDlg::slotTextChanged);
     connect(ui.newmsgTextEdit, &SendTextEdit::sendTextMessage,
             this, &TextMessageDlg::slotSendMsg);
+    connect(ui.historyTextEdit, &ChatTextEdit::clearHistory, [&]() {
+        emit(clearUserTextMessages(m_userid));
+    });
     slotUpdateUser(user);
     slotTextChanged();
 
@@ -252,6 +255,19 @@ void TextMessageDlg::keyPressEvent(QKeyEvent* e)
             ui.historyTextEdit->setFocus();
         else if (ui.historyTextEdit->hasFocus())
             ui.newmsgTextEdit->setFocus();
+    }
+    if (ui.historyTextEdit->hasFocus())
+    {
+        QString key = e->text();
+        if (!key.isEmpty() && key.size() == 1)
+        {
+            QChar keyText = key.at(0);    
+            if (keyText.isPrint())
+            {
+                ui.newmsgTextEdit->setFocus();
+                ui.newmsgTextEdit->kPress(e);
+            }
+        }
     }
     QDialog::keyPressEvent(e);
 }

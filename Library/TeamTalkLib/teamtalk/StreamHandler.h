@@ -48,6 +48,7 @@ template < typename STREAMHANDLER >
 class StreamListener
 {
 public:
+    virtual ~StreamListener() {}
     virtual void OnOpened(STREAMHANDLER& streamer) = 0;
     virtual void OnClosed(STREAMHANDLER& streamer) = 0;    //do NOT touch the StreamHandler object after this call (it has already called 'delete this')
     virtual bool OnReceive(STREAMHANDLER& streamer, const char* buff, int len) = 0; //return 'false' to unregister event handler
@@ -76,7 +77,7 @@ public:
         this->msg_queue()->low_water_mark(MSGBUFFERSIZE);
     }
 
-    virtual ~StreamHandler()
+    ~StreamHandler()
     {
         if(m_listener)
             m_listener->OnClosed(*this);
@@ -97,7 +98,7 @@ public:
         m_listener = listener;
     }
 
-    virtual int open(void* args = 0)
+    int open(void* args = 0) override
     {
         int ret = super::open(args);
         if(ret >= 0)
@@ -111,7 +112,7 @@ public:
     }
 
     //Callback to handle any input received
-    virtual int handle_input(ACE_HANDLE fd = ACE_INVALID_HANDLE)
+    int handle_input(ACE_HANDLE fd = ACE_INVALID_HANDLE) override
     {
         //receive the data
         ssize_t ret = this->peer().recv(&m_buffer[0], m_buffer.size());
@@ -140,7 +141,7 @@ public:
 
 
     //Callback to handle any output received
-    virtual int handle_output(ACE_HANDLE fd = ACE_INVALID_HANDLE)
+    int handle_output(ACE_HANDLE fd = ACE_INVALID_HANDLE) override
     {
         if(m_listener && this->msg_queue()->is_empty())
             m_listener->OnSend(*this);
@@ -193,13 +194,13 @@ public:
     }
 
     // Called when a timer expires.
-    virtual int handle_timeout (const ACE_Time_Value &current_time, const void *act)
+    int handle_timeout (const ACE_Time_Value &current_time, const void *act) override
     {
         TTASSERT(0);
         return -1;
     }
 
-    virtual int handle_exception (ACE_HANDLE fd = ACE_INVALID_HANDLE)
+    int handle_exception (ACE_HANDLE fd = ACE_INVALID_HANDLE) override
     {
         TTASSERT(0);
         return -1;
@@ -256,15 +257,15 @@ public:
                        ACE_Reactor *reactor = nullptr);
 
     //Callback to handle any input received
-    virtual int handle_input(ACE_HANDLE fd = ACE_INVALID_HANDLE);
+    int handle_input(ACE_HANDLE fd = ACE_INVALID_HANDLE) override;
 
     //Callback to handle any output received
-    virtual int handle_output(ACE_HANDLE fd = ACE_INVALID_HANDLE);
+    int handle_output(ACE_HANDLE fd = ACE_INVALID_HANDLE) override;
 
     static ACE_SSL_Context* AddSSLContext(ACE_Reactor* r);
     static void RemoveSSLContext(ACE_Reactor* r);
 
-    virtual void reactor(ACE_Reactor *reactor);
+    void reactor(ACE_Reactor *reactor) override;
 
 protected:
     void ssl_reset(ACE_Reactor *reactor);

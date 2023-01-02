@@ -87,11 +87,11 @@ namespace teamtalk {
         void RemoveListener(teamtalk::PacketListener* pListener);
 
         //Callback to handle any input received
-        int handle_input(ACE_HANDLE fd = ACE_INVALID_HANDLE);
-        int handle_output (ACE_HANDLE fd = ACE_INVALID_HANDLE);
+        int handle_input(ACE_HANDLE fd = ACE_INVALID_HANDLE) override;
+        int handle_output (ACE_HANDLE fd = ACE_INVALID_HANDLE) override;
 
         //Used by the reactor to determine the underlying handle
-        ACE_HANDLE get_handle() const;
+        ACE_HANDLE get_handle() const override;
 
         //Returns a reference to the underlying dgram socket.
         ACE_SOCK_Dgram& sock_i();

@@ -1,6 +1,7 @@
 if (TOOLCHAIN_ACE)
 
-  set (ACE_LINK_FLAGS ace_inet_ssl ace_ssl ace_inet ace)
+  set (ACE_LINK_FLAGS ace_inet ace)
+  set (ACE_SSL_LINK_FLAGS ace_inet_ssl ace_ssl)
 
   # Toggle flag for SNI-enabled OpenSSL in ACE INet SSL
   set (ACE_COMPILE_FLAGS -DENABLE_TEAMTALKACE)
@@ -9,7 +10,6 @@ if (TOOLCHAIN_ACE)
     list (APPEND ACE_COMPILE_FLAGS -DACE_HAS_CUSTOM_EXPORT_MACROS=0 -D__ACE_INLINE__)
   endif()
 
-
 else()
 
   find_library(ACE_LIBRARY ACE)
@@ -17,9 +17,9 @@ else()
   find_library(ACEINET_LIBRARY ACE_INet)
   list (APPEND ACE_LINK_FLAGS ${ACEINET_LIBRARY})
   find_library(ACESSL_LIBRARY ACE_SSL)
-  list (APPEND ACE_LINK_FLAGS ${ACESSL_LIBRARY})
+  list (APPEND ACE_SSL_LINK_FLAGS ${ACESSL_LIBRARY})
   find_library(ACEINETSSL_LIBRARY ACE_INet_SSL)
-  list (APPEND ACE_LINK_FLAGS ${ACEINETSSL_LIBRARY})
+  list (APPEND ACE_SSL_LINK_FLAGS ${ACEINETSSL_LIBRARY})
 
 endif()
 

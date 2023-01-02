@@ -42,6 +42,8 @@ public:
     QString addTextMessage(const MyTextMessage& msg);
     void addLogMessage(const QString& msg);
 
+signals:
+    void clearHistory();
 private:
     static QString getTimeStamp(const QDateTime& tm, bool force_ts = false);
     void limitText();
@@ -51,6 +53,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *e) override;
     void mouseReleaseEvent(QMouseEvent *e) override;
     void keyPressEvent(QKeyEvent* e) override;
+    void contextMenuEvent(QContextMenuEvent *event) override;
 };
 
 #endif

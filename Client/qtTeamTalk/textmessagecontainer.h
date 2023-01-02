@@ -27,9 +27,9 @@
 #include "common.h"
 
 #include <QList>
+#include <QObject>
 
-
-class TextMessageContainer
+class TextMessageContainer : public QObject
 {
 public:
     TextMessageContainer();

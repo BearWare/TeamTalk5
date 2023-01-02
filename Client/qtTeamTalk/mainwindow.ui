@@ -16,9 +16,6 @@
   <property name="windowTitle">
    <string notr="true"/>
   </property>
-  <property name="locale">
-   <locale language="C" country="AnyCountry"/>
-  </property>
   <property name="animated">
    <bool>false</bool>
   </property>
@@ -1135,8 +1132,10 @@
        <string>&amp;Output Devices</string>
       </property>
      </widget>
+     <addaction name="actionRefreshSoundDevices"/>
      <addaction name="menuInputDev"/>
      <addaction name="menuOutputDev"/>
+     <addaction name="separator"/>
      <addaction name="actionEnableEchoCancel"/>
      <addaction name="actionEnableAGC"/>
      <addaction name="actionEnableDenoising"/>
@@ -2329,6 +2328,11 @@
     <string>Relay Media &amp;File Stream</string>
    </property>
   </action>
+  <action name="actionRefreshSoundDevices">
+   <property name="text">
+    <string>&amp;Refresh Sound Devices</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -2365,7 +2369,6 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="resources.qrc"/>
   <include location="resources.qrc"/>
  </resources>
  <connections/>

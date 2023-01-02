@@ -4,6 +4,9 @@
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v512arelease
+ * - @ref v512abugfixes
+ *
  * @ref v511arelease
  * - @ref v511afeatures
  * - @ref v511abugfixes
@@ -233,6 +236,16 @@
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ *
+ * <hr>
+ *
+ * @section v512arelease TeamTalk 5 SDK v. 5.12a release, December 21st 2022
+ * 
+ * @subsection v512abugfixes Bug Fixes in v5.12a
+ *
+ * This release fixes a crash issue in the TeamTalk server when a user
+ * performs a channel ban on a user who is not in a channel.
  *
  * <hr>
  *

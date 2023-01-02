@@ -13,9 +13,6 @@
   <property name="windowTitle">
    <string>Server Properties</string>
   </property>
-  <property name="locale">
-   <locale language="C" country="AnyCountry"/>
-  </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -107,6 +104,9 @@
           </property>
           <property name="wordWrap">
            <bool>true</bool>
+          </property>
+          <property name="textInteractionFlags">
+           <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
           </property>
           <property name="buddy">
            <cstring>motdTextEdit</cstring>
@@ -469,6 +469,9 @@
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="MyTreeView" name="serverlogTreeView">
+          <property name="accessibleName">
+           <string>Server events logged</string>
+          </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -486,9 +489,6 @@
           </property>
           <property name="expandsOnDoubleClick">
            <bool>false</bool>
-          </property>
-          <property name="accessibleName">
-           <string>Server events logged</string>
           </property>
          </widget>
         </item>

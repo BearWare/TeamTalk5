@@ -50,12 +50,12 @@ public:
         //MYTRACE(ACE_TEXT("%p Acceptor()\n"), this);
     }
 
-    virtual ~Acceptor()
+    ~Acceptor()
     {
         MYTRACE(ACE_TEXT("~Acceptor()\n"));
     }
 
-    virtual int activate_svc_handler (STREAMHANDLER* svc_handler)
+    int activate_svc_handler (STREAMHANDLER* svc_handler) override
     {
         svc_handler->SetListener(m_listener);
 

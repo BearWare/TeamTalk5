@@ -3225,6 +3225,8 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
             else
             {
                 banchan = ban_user->GetChannel();
+                if (!banchan)
+                    return TT_CMDERR_CHANNEL_NOT_FOUND;
                 ban.chanpath = banchan->GetChannelPath();
             }
             ban = ban_user->GetBan(ban.bantype, ban.chanpath);
@@ -4083,6 +4085,9 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
     serverchannel_t chan = GetChannel(transfer.channelid);
     if (!chan)
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
+
+    if (!chan->UserExists(user->GetUserID()) && (user->GetUserType() & USERTYPE_ADMIN) == 0)
+        return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
     if(transfer.inbound)
     {

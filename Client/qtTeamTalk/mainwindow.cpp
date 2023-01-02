@@ -333,6 +333,9 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotClientPreferences);
     connect(ui.menuSoundConfiguration, &QMenu::aboutToShow,
             this, &MainWindow::slotClientSoundDevices);
+    connect(ui.actionRefreshSoundDevices, &QAction::triggered,
+        this, &MainWindow::initSound);
+
     connect(ui.actionEnableEchoCancel, &QAction::triggered,
             this, &MainWindow::slotClientAudioEffect);
     connect(ui.actionEnableAGC, &QAction::triggered,
@@ -816,7 +819,7 @@ void MainWindow::loadSettings()
         resetDefaultSoundsPack();
     }
     slotUpdateUI();
-    if (ttSettings->value(SETTINGS_DISPLAY_START_SERVERLIST, SETTINGS_DISPLAY_START_SERVERLIST_DEFAULT).toBool() == true && ttSettings->value(SETTINGS_CONNECTION_AUTOCONNECT, SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT).toBool() == false)
+    if ((ttSettings->value(SETTINGS_DISPLAY_START_SERVERLIST, SETTINGS_DISPLAY_START_SERVERLIST_DEFAULT).toBool() == true && ttSettings->value(SETTINGS_CONNECTION_AUTOCONNECT, SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT).toBool() == false) && ((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == CLIENT_CLOSED))
         slotClientConnect();
 }
 
@@ -1957,14 +1960,6 @@ void MainWindow::Disconnect()
 {
     TT_Disconnect(ttInst);
 
-    if(TT_GetFlags(ttInst) & CLIENT_SNDINOUTPUT_DUPLEX)
-        TT_CloseSoundDuplexDevices(ttInst);
-    else
-    {
-        TT_CloseSoundInputDevice(ttInst);
-        TT_CloseSoundOutputDevice(ttInst);
-    }
-
     // sync user settings to cache
     auto users = ui.channelsWidget->getUsers();
     for (int uid : users)
@@ -2765,6 +2760,7 @@ TextMessageDlg* MainWindow::getTextMessageDlg(int userid)
         connect(dlg, &TextMessageDlg::newMyselfTextMessage,
                 this, &MainWindow::slotNewMyselfTextMessage);
         connect(dlg, &TextMessageDlg::closedTextMessage, this, &MainWindow::slotTextMessageClosed);
+        connect(dlg, &TextMessageDlg::clearUserTextMessages, &m_textmessages, &TextMessageContainer::clearUserTextMessages);
         connect(this, &MainWindow::userUpdate, dlg, &TextMessageDlg::slotUpdateUser);
         connect(this, &MainWindow::newTextMessage, dlg,
                 &TextMessageDlg::slotNewMessage);
@@ -4302,8 +4298,6 @@ void MainWindow::slotClientSoundDevices()
                 });
         }
     }
-    ui.menuInputDev->addSeparator();
-    connect(ui.menuInputDev->addAction(tr("&Refresh Sound Devices")), &QAction::triggered, this, &MainWindow::initSound);
 }
 
 void MainWindow::slotClientAudioEffect()
@@ -5453,8 +5447,8 @@ void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)
     QAction* download = menu.addAction(ui.actionDownloadFile->text());
     QAction* del = menu.addAction(ui.actionDeleteFile->text());
     auto index = ui.filesView->currentIndex();
-    upload->setEnabled(m_mychannel.nChannelID > 0);
-    download->setEnabled(index.isValid());
+    upload->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_UPLOAD_FILES);
+    download->setEnabled(index.isValid() && m_myuseraccount.uUserRights & USERRIGHT_DOWNLOAD_FILES);
     del->setEnabled(index.isValid());
 
     if (QAction* action = menu.exec(QCursor::pos()))
@@ -6047,8 +6041,8 @@ void MainWindow::slotUpdateUI()
     ui.actionDeleteChannel->setEnabled(chanid>0);
     ui.actionStreamMediaFileToChannel->setChecked(statemask & 
                                                   (CLIENT_STREAM_AUDIO | CLIENT_STREAM_VIDEO));
-    ui.actionUploadFile->setEnabled(mychannel>0);
-    ui.actionDownloadFile->setEnabled(mychannel>0);
+    ui.actionUploadFile->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_UPLOAD_FILES);
+    ui.actionDownloadFile->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_DOWNLOAD_FILES);
     ui.actionDeleteFile->setEnabled(filescount>0);
 
     //Users-menu items dependent on Channel
@@ -6085,8 +6079,8 @@ void MainWindow::slotUpdateUI()
     ui.actionSaveConfiguration->setEnabled(auth && me_admin);
     ui.actionServerStatistics->setEnabled(auth && me_admin);
 
-    ui.uploadButton->setEnabled(mychannel>0);
-    ui.downloadButton->setEnabled(mychannel>0);
+    ui.uploadButton->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_UPLOAD_FILES);
+    ui.downloadButton->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_DOWNLOAD_FILES);
 }
 
 void MainWindow::slotUpdateVideoTabUI()
@@ -7368,7 +7362,33 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
             slotChannelsDownloadFile();
         }
     }
-    QWidget::keyPressEvent(e);
+    if (ui.chatEdit->hasFocus() || ui.videochatEdit->hasFocus() || ui.desktopchatEdit->hasFocus())
+    {
+        QString key = e->text();
+        if (!key.isEmpty() && key.size() == 1)
+        {
+            QChar keyText = key.at(0);    
+            if (keyText.isPrint())
+            {
+                if (ui.chatEdit->hasFocus())
+                {
+                    ui.msgEdit->setFocus();
+                    ui.msgEdit->kPress(e);
+                }
+                else if (ui.videochatEdit->hasFocus())
+                {
+                    ui.videomsgEdit->setFocus();
+                    ui.videomsgEdit->kPress(e);
+                }
+                else if (ui.desktopchatEdit->hasFocus())
+                {
+                    ui.desktopmsgEdit->setFocus();
+                    ui.desktopmsgEdit->kPress(e);
+                }
+            }
+        }
+    }
+    QMainWindow::keyPressEvent(e);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
