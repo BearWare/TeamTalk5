@@ -904,7 +904,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="374"/>
         <source>&amp;Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Очистить</translation>
     </message>
 </context>
 <context>
@@ -5355,12 +5355,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="622"/>
         <source>One by One (TeamTalk Sound Device)</source>
-        <translation type="unfinished"></translation>
+        <translation>Один за другим (звуковое устройство TeamTalk)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="623"/>
         <source>Overlapping (TeamTalk Sound Device)</source>
-        <translation type="unfinished"></translation>
+        <translation>Прерывание (звуковое устройство TeamTalk)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1127"/>
