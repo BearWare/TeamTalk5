@@ -1331,6 +1331,55 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
+    public void testServerCertExpired() {
+
+        if (!ENCRYPTED) {
+            System.out.println("Skipped test. Requires encryption");
+            return;
+        }
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
+            UserRight.USERRIGHT_TRANSMIT_VOICE;
+
+        useraccounts.add(useraccount);
+
+        EncryptionContext srvcontext = new EncryptionContext();
+        srvcontext.szCertificateFile = CRYPTO_SERVER_CERT_EXPIRED_FILE;
+        srvcontext.szPrivateKeyFile = CRYPTO_SERVER_KEY_FILE;
+        srvcontext.szCAFile = CRYPTO_CA_FILE;
+        srvcontext.bVerifyPeer = true;
+        srvcontext.bVerifyClientOnce = true;
+        srvcontext.nVerifyDepth = 0;
+
+        TeamTalkSrv server = newServerInstance("", "", srvcontext);
+        ServerInterleave interleave = new RunServer(server);
+
+        // setup client which will reject server due to invalid server
+        // certificate
+        final TeamTalkBase client = newClientInstance();
+
+        EncryptionContext context = new EncryptionContext();
+        context.szCAFile = CRYPTO_CA_FILE;
+        context.szCertificateFile = CRYPTO_CLIENT_CERT_FILE;
+        context.szPrivateKeyFile = CRYPTO_CLIENT_KEY_FILE;
+        context.bVerifyPeer = true;
+        context.nVerifyDepth = 0;
+        assertTrue("Set client encryption context", client.setEncryptionContext(context));
+
+        assertTrue("connect call", client.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, SYSTEMID));
+
+        assertTrue("connect failed", waitForEvent(client, ClientEvent.CLIENTEVENT_CON_FAILED, DEF_WAIT, interleave));
+    }
+
+
+    @Test
     public void testHiddenChannel() {
 
         final String ADMIN = "admin";
@@ -1787,7 +1836,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     }
 
     public TeamTalkSrv newServerInstance(String systemid) {
-        return newServerInstance(systemid, SERVERBINDIP);
+        return newServerInstance(systemid, "");
     }
 
     public TeamTalkSrv newServerInstance(String systemid, String bindip) {
@@ -1815,6 +1864,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         chan.nDiskQuota = DEFAULT_CHANNEL_QUOTA;
 
         assertEquals("Make root channel", ClientError.CMDERR_SUCCESS, server.makeChannel(chan));
+
+        if (bindip.isEmpty())
+            bindip = SERVERBINDIP;
 
         if(systemid.isEmpty())
             assertTrue("Start server", server.startServer(bindip, TCPPORT, UDPPORT, ENCRYPTED));
