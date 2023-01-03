@@ -44,6 +44,10 @@ import java.net.InetAddress;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
+    public static final String CRYPTO_SERVER_CERT_FILE = "ttservercert.pem", CRYPTO_SERVER_KEY_FILE = "ttserverkey.pem";
+    public static final String CRYPTO_SERVER_CERT_EXPIRED_FILE = "ttservercert-expired.pem";
+    public static final String CRYPTO_SERVER_CERT2_FILE = "ttservercert2.pem", CRYPTO_SERVER_KEY2_FILE = "ttserverkey2.pem";
+
     Vector<TeamTalkSrv> servers = new Vector<TeamTalkSrv>();
 
     String FILESTORAGE_FOLDER = "./filestorage";
@@ -1026,7 +1030,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertTrue("file upload done", waitForEvent(client2, ClientEvent.CLIENTEVENT_CMD_FILE_NEW, DEF_WAIT, msg, interleave));
 
         RemoteFile fileinfo = msg.remotefile;
-        
+
         assertFalse("file upload not available to client1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_FILE_NEW, 0, msg, interleave));
 
         cmdid = client1.doRecvFile(client2.getMyChannelID(), fileinfo.nFileID, uploadfilename);
@@ -1787,10 +1791,17 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     }
 
     public TeamTalkSrv newServerInstance(String systemid, String bindip) {
+        return newServerInstance(systemid, bindip, null);
+    }
+
+    public TeamTalkSrv newServerInstance(String systemid, String bindip, EncryptionContext srvcontext) {
 
         TeamTalkSrv server = new TeamTalk5Srv(cmdcallback, logger);
         if (ENCRYPTED) {
-            assertTrue("Set context", server.setEncryptionContext(CRYPTO_SERVER_CERT2_FILE, CRYPTO_SERVER_KEY2_FILE));
+            if (srvcontext == null)
+                assertTrue("Set context", server.setEncryptionContext(CRYPTO_SERVER_CERT2_FILE, CRYPTO_SERVER_KEY2_FILE));
+            else
+                assertTrue("set server encryption context", server.setEncryptionContext(srvcontext));
         }
         assertEquals("File storage", ClientError.CMDERR_SUCCESS,
                      server.setChannelFilesRoot(FILESTORAGE_FOLDER, MAX_DISKUSAGE, DEFAULT_CHANNEL_QUOTA));
