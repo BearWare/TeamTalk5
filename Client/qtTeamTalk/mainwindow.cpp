@@ -5725,7 +5725,7 @@ void MainWindow::slotUsersSpeakUserInformation(int id)
         switch(user.nStatusMode & STATUSMODE_MODE)
         {
         case STATUSMODE_AVAILABLE :
-            status = tr("Online");
+            status = tr("Available");
             break;
         case STATUSMODE_AWAY :
             status = tr("Away");
