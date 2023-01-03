@@ -62,10 +62,8 @@ public abstract class TeamTalkTestCaseBase {
     public static String HTTPS_MEDIAFILE = "";
     public static boolean OPUSTOOLS_AVAILABLE = true, SPEEXDSP_AVAILABLE = true, WEBRTC_AVAILABLE = true;
 
-    public static final String CRYPTO_SERVER_CERT_FILE = "ttservercert.pem", CRYPTO_SERVER_KEY_FILE = "ttserverkey.pem";
-    public static final String CRYPTO_CLIENT_CERT_FILE = "ttclientcert.pem", CRYPTO_CLIENT_KEY_FILE = "ttclientkey.pem";
-    public static final String CRYPTO_SERVER_CERT2_FILE = "ttservercert2.pem", CRYPTO_SERVER_KEY2_FILE = "ttserverkey2.pem";
     public static final String CRYPTO_CA_FILE = "ca.cer";
+    public static final String CRYPTO_CLIENT_CERT_FILE = "ttclientcert.pem", CRYPTO_CLIENT_KEY_FILE = "ttclientkey.pem";
 
     public Vector<TeamTalkBase> ttclients = new Vector<TeamTalkBase>();
 

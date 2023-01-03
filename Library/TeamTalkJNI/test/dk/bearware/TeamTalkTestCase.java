@@ -1946,7 +1946,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         connect(ttclient2);
         login(ttclient2, NICKNAME, USERNAME, PASSWORD);
-        
+
         assertTrue("ban user by channel", waitCmdError(ttclient1, ttclient1.doBanUserEx(ttclient2.getMyUserID(), BanType.BANTYPE_CHANNEL), DEF_WAIT));
     }
 
