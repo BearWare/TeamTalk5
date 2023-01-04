@@ -161,7 +161,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     case CHANNEL_UPDATE :
     {
         setWindowTitle(tr("Update Channel"));
-        if (m_channel.nChannelId == TT_GetRootChannelID(ttInst))
+        if (m_channel.nChannelID == TT_GetRootChannelID(ttInst))
             this->setAccessibleDescription(tr("Modify root channel"));
         else
             this->setAccessibleDescription(tr("Modify channel %1").arg(_Q(m_channel.szName)));
@@ -176,7 +176,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     break;
     case CHANNEL_READONLY :
         setWindowTitle(tr("View Channel Information"));
-        if (m_channel.nChannelId == TT_GetRootChannelID(ttInst))
+        if (m_channel.nChannelID == TT_GetRootChannelID(ttInst))
             this->setAccessibleDescription(tr("View root channel information"));
         else
             this->setAccessibleDescription(tr("View %1 information").arg(_Q(m_channel.szName)));
