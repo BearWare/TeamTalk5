@@ -11,7 +11,7 @@
         <certificate-file>ttservercert.pem</certificate-file>
         <privatekey-file>ttserverkey.pem</privatekey-file>
         <trusted-certificate>
-            <certificate-authority-file>ca.cer</certificate-authority-file>
+            <certificate-authority-file></certificate-authority-file>
             <certificate-authority-dir></certificate-authority-dir>
             <verify-peer>false</verify-peer>
             <verify-client-once>true</verify-client-once>
