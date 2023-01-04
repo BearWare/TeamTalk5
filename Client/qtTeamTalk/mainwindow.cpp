@@ -1582,6 +1582,12 @@ void MainWindow::clienteventSoundDeviceAdded(const SoundDevice& snddev)
 void MainWindow::clienteventSoundDeviceRemoved(const SoundDevice& snddev)
 {
     addStatusMsg(STATUSBAR_BYPASS, tr("Sound device removed: %1.").arg(_Q(snddev.szDeviceName)));
+
+    auto devid = _Q(snddev.szDeviceID);
+    if (devid.size() && (devid == _Q(m_devin.szDeviceID) || devid == _Q(m_devout.szDeviceID)))
+    {
+        initSound();
+    }
 }
 
 void MainWindow::processTTMessage(const TTMessage& msg)
