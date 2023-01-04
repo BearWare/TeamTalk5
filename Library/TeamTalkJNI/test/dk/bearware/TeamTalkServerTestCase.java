@@ -606,28 +606,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         final TeamTalkBase client = newClientInstance();
 
-        if (ENCRYPTED) {
-            // SSL client uses blocking connect, so we have to connect
-            // in separate thread otherwise we cannot run the client
-            // and server event-loop at the same time
-            Thread t = new Thread(new Runnable(){
-                    public void run() {
-                        assertTrue("Connect", client.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
+        assertTrue("Connect", client.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
 
-                        waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_ERROR, 1000);
-                    }
-                });
-            t.start();
-
-            while (t.isAlive()) {
-                server.runEventLoop(0);
-            }
-        }
-        else {
-            assertTrue("Connect", client.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
-
-            waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_ERROR, 1000, interleave);
-        }
+        waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_ERROR, 1000, interleave);
     }
 
     @Test
@@ -1291,19 +1272,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         context.nVerifyDepth = 0;
         assertTrue("Set client encryption context", client.setEncryptionContext(context));
 
-        // SSL client uses blocking connect, so we have to connect
-        // in separate thread otherwise we cannot run the client
-        // and server event-loop at the same time
-        Thread t = new Thread(new Runnable(){
-                public void run() {
-                    assertFalse("connect call", client.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, SYSTEMID));
-                }
-            });
-        t.start();
-
-        while (t.isAlive()) {
-            server.runEventLoop(0);
-        }
+        assertTrue("connect call", client.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, SYSTEMID));
+        assertTrue("connect failed", waitForEvent(client, ClientEvent.CLIENTEVENT_CON_FAILED, DEF_WAIT, interleave));
 
         assertTrue("Stop server", server.stopServer());
         assertTrue("Disconnect client", client.disconnect());
@@ -1869,25 +1839,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     protected static void connect(TeamTalkSrv server, final TeamTalkBase ttclient, final String systemID,
                                   final String hostaddr, final int tcpport, final int udpport) {
 
-        if (ENCRYPTED) {
-
-            // SSL client uses blocking connect, so we have to connect
-            // in separate thread otherwise we cannot run the client
-            // and server event-loop at the same time
-            Thread t = new Thread(new Runnable(){
-                    public void run() {
-                        connect(ttclient, systemID, hostaddr, tcpport, udpport, nop);
-                    }
-                });
-            t.start();
-
-            while (t.isAlive()) {
-                server.runEventLoop(0);
-            }
-        }
-        else {
-            connect(ttclient, systemID, hostaddr, tcpport, udpport, new RunServer(server));
-        }
+        connect(ttclient, systemID, hostaddr, tcpport, udpport, new RunServer(server));
     }
 
     protected static void login(TeamTalkSrv server, TeamTalkBase ttclient,
