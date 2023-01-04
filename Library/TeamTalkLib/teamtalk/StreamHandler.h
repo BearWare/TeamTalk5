@@ -228,6 +228,9 @@ public:
                          ACE_Message_Queue<ACE_MT_SYNCH> *mq = 0,
         ACE_Reactor *reactor = ACE_Reactor::instance())
         : StreamHandler<ACE_SOCK_STREAM>(thr_mgr, mq, reactor) { }
+
+    DefaultStreamHandler(ACE_Reactor *reactor)
+    : DefaultStreamHandler(nullptr, nullptr, reactor) { }
 };
 
 int QueueStreamData(ACE_Message_Queue_Base& msg_q, 
@@ -248,13 +251,24 @@ public:
 
 class CryptStreamHandler : public StreamHandler<MySSLSockStream>
 {
+    enum SocketState
+    {
+        CRYPTSTREAMHANDLER_ACCEPT,
+        CRYPTSTREAMHANDLER_CONNECT,
+    };
+
+    SocketState m_socketstate = CRYPTSTREAMHANDLER_ACCEPT;
+
 public:
     typedef StreamHandler<MySSLSockStream> super;
     typedef StreamListener< CryptStreamHandler::StreamHandler_t > StreamListener_t;
 
+    // defaults to CRYPTSTREAMHANDLER_ACCEPT
     CryptStreamHandler(ACE_Thread_Manager *thr_mgr = nullptr,
                        ACE_Message_Queue<ACE_MT_SYNCH> *mq = nullptr,
                        ACE_Reactor *reactor = nullptr);
+    // defaults to CRYPTSTREAMHANDLER_CONNECT
+    CryptStreamHandler(ACE_Reactor *reactor);
 
     //Callback to handle any input received
     int handle_input(ACE_HANDLE fd = ACE_INVALID_HANDLE) override;

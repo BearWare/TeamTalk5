@@ -471,6 +471,8 @@ private:
     void clienteventDesktopWindowTransfer(int source, int bytesremain);
     void clienteventUserRecordMediaFile(int source, const MediaFileInfo& mediafileinfo);
     void clienteventUserAudioBlock(int source, StreamTypes streamtypes);
+    void clienteventSoundDeviceAdded(const SoundDevice& snddev);
+    void clienteventSoundDeviceRemoved(const SoundDevice& snddev);
 
 signals:
     /* Begin - CLIENTEVENT_* based events */

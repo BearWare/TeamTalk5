@@ -101,6 +101,12 @@ CryptStreamHandler::CryptStreamHandler(ACE_Thread_Manager *thr_mgr,
         ssl_reset(reactor);
 }
 
+CryptStreamHandler::CryptStreamHandler(ACE_Reactor *reactor)
+    : CryptStreamHandler(nullptr, nullptr, reactor)
+{
+    m_socketstate = CRYPTSTREAMHANDLER_CONNECT;
+}
+
 void CryptStreamHandler::reactor(ACE_Reactor *reactor)
 {
     // ensure we don't double create SSL context
@@ -154,11 +160,23 @@ int CryptStreamHandler::handle_output(ACE_HANDLE fd/* = ACE_INVALID_HANDLE*/)
 
 int CryptStreamHandler::process_ssl(SSL* ssl)
 {
-    if (!SSL_in_accept_init (ssl))
-        SSL_set_accept_state (ssl);
-
     int status;
-    status = SSL_accept(ssl);
+    switch (m_socketstate)
+    {
+    case CRYPTSTREAMHANDLER_ACCEPT :
+        if (!SSL_in_accept_init (ssl))
+            SSL_set_accept_state (ssl);
+
+        status = SSL_accept(ssl);
+        break;
+    case CRYPTSTREAMHANDLER_CONNECT :
+        if (!SSL_in_connect_init (ssl))
+            SSL_set_connect_state (ssl);
+
+        status = SSL_connect(ssl);
+        break;
+    }
+
     status = SSL_get_error(ssl, status);
     switch (status)
     {
