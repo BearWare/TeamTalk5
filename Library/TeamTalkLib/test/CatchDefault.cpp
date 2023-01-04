@@ -1898,6 +1898,23 @@ TEST_CASE("testSSLClientCA")
     REQUIRE(Login(ttclient, ACE_TEXT("TxClient")));
 }
 
+TEST_CASE("testSSLClientCAInvalid")
+{
+    auto ttclient = InitTeamTalk();
+
+    EncryptionContext context = {};
+    ACE_OS::strsncpy(context.szCAFile, ACE_TEXT("ca2.cer"), TT_STRLEN);
+    context.bVerifyPeer = TRUE;
+    context.nVerifyDepth = 1;
+
+    REQUIRE(TT_SetEncryptionContext(ttclient, &context));
+    REQUIRE(TT_Connect(ttclient, ACE_TEXT("127.0.0.1"), DEFAULT_ENCRYPTED_TCPPORT, DEFAULT_ENCRYPTED_UDPPORT, 0, 0, TRUE));
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_CON_CRYPT_ERROR));
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_CON_FAILED));
+}
+
+#if 0
+// These two tests will only pass if tt5prosrv.xml also has ca.cer specified
 TEST_CASE("testSSLClientCert")
 {
     auto ttclient = InitTeamTalk();
@@ -1931,6 +1948,8 @@ TEST_CASE("testSSLClientCertExpired")
     REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_CON_CRYPT_ERROR, msg));
     REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_CON_FAILED));
 }
+#endif
+
 #endif
 
 #if 0 // this unit-test is too unstable under Valgrind
