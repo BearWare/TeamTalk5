@@ -18,6 +18,7 @@
     <string name="title_activity_stream_media">Stream media file to channel</string>
     <string name="action_createchannel">Create</string>
     <string name="action_updatechannel">Update</string>
+    <string name="text_con_encryption_error">Encryption error: %1$s</string>
     <string name="text_con_failed">Failed to connect to server. Retrying...</string>
     <string name="text_con_lost">Lost connection to server</string>
     <string name="text_con_success">Connected to server</string>

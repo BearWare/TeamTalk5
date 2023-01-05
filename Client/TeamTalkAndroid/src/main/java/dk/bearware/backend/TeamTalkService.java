@@ -741,6 +741,13 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
     }
 
     @Override
+    public void onEncryptionError(int opensslErrorNo, ClientErrorMsg errmsg) {
+        Log.i(TAG, "Encryption error: " + errmsg.szErrorMsg + " connecting to " + ttserver.ipaddr + ":" + ttserver.tcpport);
+        Toast.makeText(this, getResources().getString(R.string.text_con_encryption_error, errmsg.szErrorMsg),
+                       Toast.LENGTH_LONG).show();
+    }    
+
+    @Override
     public void onConnectFailed() {
         
         Log.i(TAG, "Failed to connect " + ttserver.ipaddr + ":" + ttserver.tcpport);

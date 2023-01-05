@@ -98,6 +98,11 @@ public class TeamTalkEventHandler {
                     l.onConnectSuccess();
                 break;
             }
+            case ClientEvent.CLIENTEVENT_CON_CRYPT_ERROR : {
+                for(ConnectionListener l : conListener)
+                    l.onEncryptionError(pMsg.nSource, pMsg.clienterrormsg);
+                break;
+            }
             case ClientEvent.CLIENTEVENT_CON_FAILED : {
                 for(ConnectionListener l : conListener)
                     l.onConnectFailed();

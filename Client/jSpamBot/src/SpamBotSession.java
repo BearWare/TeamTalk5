@@ -119,6 +119,11 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     }
 
     @Override
+    public void onEncryptionError(int opensslErrorNo, ClientErrorMsg errmsg) {
+        System.err.printf("Encryption error %s while connecting to server %s:%d\n", errmsg.szErrorMsg, server.ipaddr, server.tcpport);
+    }
+    
+    @Override
     public void onConnectFailed() {
         System.err.printf("Failed to connect to server %s:%d\n", server.ipaddr, server.tcpport);
         ttclient.disconnect();

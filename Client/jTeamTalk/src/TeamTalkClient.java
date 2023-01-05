@@ -286,56 +286,75 @@ implements ConnectionListener, CommandListener {
         System.out.println();
     }
 
+    @Override
+    public void onEncryptionError(int opensslErrorNo, ClientErrorMsg errmsg) {
+        System.err.println("Encryption error %s while connecting to server");
+    }
+    
+    @Override
     public void onConnectFailed() {
         System.err.println("Failed to connect to server...");
         System.exit(1);
     }
 
+    @Override
     public void onConnectSuccess() {
         System.out.println("Connected to server...");
     }
 
+    @Override
     public void onConnectionLost() {
         System.err.println("Lost connection to server...");
         System.exit(1);
     }
 
+    @Override
     public void onMaxPayloadUpdate(int arg0) {
     }
 
+    @Override
     public void onCmdBannedUser(BannedUser arg0) {
     }
 
+    @Override
     public void onCmdChannelNew(Channel chan) {
         channels.put(chan.nChannelID, chan);
     }
 
+    @Override
     public void onCmdChannelRemove(Channel chan) {
         channels.remove(chan.nChannelID);
     }
 
+    @Override
     public void onCmdChannelUpdate(Channel chan) {
         channels.put(chan.nChannelID, chan);
     }
 
+    @Override
     public void onCmdError(int cmdid, ClientErrorMsg err) {
         System.err.println("Command #" + cmdid + " failed.");
         System.err.println("Error code: " + err.nErrorNo);
         System.err.println("Error message: " + err.szErrorMsg);
     }
 
+    @Override
     public void onCmdFileNew(RemoteFile arg0) {
     }
 
+    @Override
     public void onCmdFileRemove(RemoteFile arg0) {
     }
 
+    @Override
     public void onCmdMyselfKickedFromChannel() {
     }
 
+    @Override
     public void onCmdMyselfKickedFromChannel(User user) {
     }
 
+    @Override
     public void onCmdMyselfLoggedIn(int userid, UserAccount useraccount) {
         System.out.println("Got userID #" + userid);
         System.out.println("User rights assigned:");
@@ -363,27 +382,33 @@ implements ConnectionListener, CommandListener {
                 System.out.println("\tUpload files");
     }
 
+    @Override
     public void onCmdMyselfLoggedOut() {
     }
 
+    @Override
     public void onCmdProcessing(int cmdid, boolean complete) {
         if(complete)
             cmdid_completed = cmdid;
     }
 
+    @Override
     public void onCmdServerUpdate(ServerProperties srvprop) {
         System.out.println("Server name: " + srvprop.szServerName);
         System.out.println("Server MOTD: " + srvprop.szMOTD);
     }
 
+    @Override
     public void onCmdSuccess(int cmdid) {
         System.out.println("Command #" + cmdid + " succeeded");
         cmdid_success = cmdid;
     }
 
+    @Override
     public void onCmdUserAccount(UserAccount arg0) {
     }
 
+    @Override
     public void onCmdUserJoinedChannel(User user) {
         users.put(user.nUserID, user);
         
@@ -393,6 +418,7 @@ implements ConnectionListener, CommandListener {
                            channels.get(user.nChannelID).szName + "\"");
     }
 
+    @Override
     public void onCmdUserLeftChannel(int chanid, User user) {
         users.put(user.nUserID, user);
         
@@ -402,6 +428,7 @@ implements ConnectionListener, CommandListener {
                            channels.get(chanid).szName + "\"");
     }
 
+    @Override
     public void onCmdUserLoggedIn(User user) {
         users.put(user.nUserID, user);
         
@@ -409,6 +436,7 @@ implements ConnectionListener, CommandListener {
                            user.szNickname + " logged in");
     }
 
+    @Override
     public void onCmdUserLoggedOut(User user) {
         users.remove(user.nUserID);
 
@@ -416,9 +444,11 @@ implements ConnectionListener, CommandListener {
                            user.szNickname + " logged out");
     }
 
+    @Override
     public void onCmdUserTextMessage(TextMessage textmsg) {
     }
 
+    @Override
     public void onCmdUserUpdate(User user) {
         users.put(user.nUserID, user);
     }
