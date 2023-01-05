@@ -46,7 +46,10 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     public static final String CRYPTO_SERVER_CERT_FILE = "ttservercert.pem", CRYPTO_SERVER_KEY_FILE = "ttserverkey.pem";
     public static final String CRYPTO_SERVER_CERT_EXPIRED_FILE = "ttservercert-expired.pem";
+    public static final String CRYPTO_CLIENT_CERT_EXPIRED_FILE = "ttclientcert-expired.pem";
+    public static final String CRYPTO_CA2_FILE = "ca2.cer";
     public static final String CRYPTO_SERVER_CERT2_FILE = "ttservercert2.pem", CRYPTO_SERVER_KEY2_FILE = "ttserverkey2.pem";
+
 
     Vector<TeamTalkSrv> servers = new Vector<TeamTalkSrv>();
 
@@ -1345,8 +1348,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         useraccount.szPassword = PASSWORD;
         useraccount.uUserType = UserType.USERTYPE_DEFAULT;
         useraccount.szNote = "An example user account with limited user-rights";
-        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
-            UserRight.USERRIGHT_TRANSMIT_VOICE;
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS;
 
         useraccounts.add(useraccount);
 
@@ -1374,10 +1376,179 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertTrue("Set client encryption context", client.setEncryptionContext(context));
 
         assertTrue("connect call", client.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, SYSTEMID));
-
+        assertTrue("wait crypt error", waitForEvent(client, ClientEvent.CLIENTEVENT_CON_CRYPT_ERROR, DEF_WAIT, interleave));
         assertTrue("connect failed", waitForEvent(client, ClientEvent.CLIENTEVENT_CON_FAILED, DEF_WAIT, interleave));
     }
 
+    @Test
+    public void testSSLClientCA() {
+
+        if (!ENCRYPTED) {
+            System.out.println("Skipped test. Requires encryption");
+            return;
+        }
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS;
+
+        useraccounts.add(useraccount);
+
+        EncryptionContext srvcontext = new EncryptionContext();
+        srvcontext.szCertificateFile = CRYPTO_SERVER_CERT_FILE;
+        srvcontext.szPrivateKeyFile = CRYPTO_SERVER_KEY_FILE;
+        srvcontext.bVerifyPeer = false;
+        srvcontext.bVerifyClientOnce = true;
+        srvcontext.nVerifyDepth = 0;
+
+        TeamTalkSrv server = newServerInstance("", "", srvcontext);
+        ServerInterleave interleave = new RunServer(server);
+        
+        final TeamTalkBase client = newClientInstance();
+
+        EncryptionContext context = new EncryptionContext();
+        context.szCAFile = CRYPTO_CA_FILE;
+        context.bVerifyPeer = true;
+        context.nVerifyDepth = 1;
+
+        assertTrue("Set client encryption context", client.setEncryptionContext(context));
+        connect(server, client);
+        login(server, client, NICKNAME, USERNAME, PASSWORD);
+    }
+
+    @Test
+    public void testSSLClientCAInvalid() {
+        if (!ENCRYPTED) {
+            System.out.println("Skipped test. Requires encryption");
+            return;
+        }
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS;
+
+        useraccounts.add(useraccount);
+
+        EncryptionContext srvcontext = new EncryptionContext();
+        srvcontext.szCertificateFile = CRYPTO_SERVER_CERT_FILE;
+        srvcontext.szPrivateKeyFile = CRYPTO_SERVER_KEY_FILE;
+        srvcontext.bVerifyPeer = false;
+        srvcontext.bVerifyClientOnce = true;
+        srvcontext.nVerifyDepth = 0;
+
+        TeamTalkSrv server = newServerInstance("", "", srvcontext);
+        ServerInterleave interleave = new RunServer(server);
+        
+        final TeamTalkBase client = newClientInstance();
+        
+        EncryptionContext context = new EncryptionContext();
+        context.szCAFile = CRYPTO_CA2_FILE;
+        context.bVerifyPeer = true;
+        context.nVerifyDepth = 1;
+
+        assertTrue("set context", client.setEncryptionContext(context));
+        assertTrue("connect call", client.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, SYSTEMID));
+        assertTrue("wait crypt error", waitForEvent(client, ClientEvent.CLIENTEVENT_CON_CRYPT_ERROR, DEF_WAIT, interleave));
+        assertTrue("connection failed", waitForEvent(client, ClientEvent.CLIENTEVENT_CON_FAILED, DEF_WAIT, interleave));
+    }
+
+    @Test
+    public void testSSLClientCert() {
+        if (!ENCRYPTED) {
+            System.out.println("Skipped test. Requires encryption");
+            return;
+        }
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS;
+
+        useraccounts.add(useraccount);
+
+        EncryptionContext srvcontext = new EncryptionContext();
+        srvcontext.szCertificateFile = CRYPTO_SERVER_CERT_FILE;
+        srvcontext.szPrivateKeyFile = CRYPTO_SERVER_KEY_FILE;
+        srvcontext.szCAFile = CRYPTO_CA_FILE;
+        srvcontext.bVerifyPeer = false;
+        srvcontext.bVerifyClientOnce = true;
+        srvcontext.nVerifyDepth = 0;
+
+        TeamTalkSrv server = newServerInstance("", "", srvcontext);
+        ServerInterleave interleave = new RunServer(server);
+        
+        final TeamTalkBase client = newClientInstance();
+
+        EncryptionContext context = new EncryptionContext();
+        context.szCertificateFile = CRYPTO_CLIENT_CERT_FILE;
+        context.szPrivateKeyFile = CRYPTO_CLIENT_KEY_FILE;
+        context.szCAFile = CRYPTO_CA_FILE;
+        context.bVerifyPeer = true;
+        context.nVerifyDepth = 1;
+
+        assertTrue("set context", client.setEncryptionContext(context));
+        connect(server, client);
+        login(server, client, NICKNAME, USERNAME, PASSWORD);
+    }
+
+    @Test
+    public void testSSLClientCertExpired() {
+
+        if (!ENCRYPTED) {
+            System.out.println("Skipped test. Requires encryption");
+            return;
+        }
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS;
+
+        useraccounts.add(useraccount);
+
+        EncryptionContext srvcontext = new EncryptionContext();
+        srvcontext.szCertificateFile = CRYPTO_SERVER_CERT_FILE;
+        srvcontext.szPrivateKeyFile = CRYPTO_SERVER_KEY_FILE;
+        srvcontext.szCAFile = CRYPTO_CA_FILE;
+        srvcontext.bVerifyPeer = false;
+        srvcontext.bVerifyClientOnce = true;
+        srvcontext.nVerifyDepth = 0;
+
+        TeamTalkSrv server = newServerInstance("", "", srvcontext);
+        ServerInterleave interleave = new RunServer(server);
+        
+        final TeamTalkBase client = newClientInstance();
+        
+        EncryptionContext context = new EncryptionContext();
+        context.szCertificateFile = CRYPTO_CLIENT_CERT_EXPIRED_FILE;
+        context.szPrivateKeyFile = CRYPTO_CLIENT_KEY_FILE;
+        context.szCAFile = CRYPTO_CA_FILE;
+        context.bVerifyPeer = true;
+        context.nVerifyDepth = 1;
+
+        assertTrue("set context", client.setEncryptionContext(context));
+        assertTrue("connect call", client.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, SYSTEMID));
+        assertTrue("wait crypt error", waitForEvent(client, ClientEvent.CLIENTEVENT_CON_CRYPT_ERROR, DEF_WAIT, interleave));
+        assertTrue("connection failed", waitForEvent(client, ClientEvent.CLIENTEVENT_CON_FAILED, DEF_WAIT, interleave));
+    }
 
     @Test
     public void testHiddenChannel() {
