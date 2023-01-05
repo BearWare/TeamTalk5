@@ -2159,6 +2159,10 @@ private EditText newmsg;
     }
 
     @Override
+    public void onEncryptionError(int opensslErrorNo, ClientErrorMsg errmsg) {
+    }
+    
+    @Override
     public void onConnectFailed() {
     }
 

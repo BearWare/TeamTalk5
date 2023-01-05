@@ -28,6 +28,8 @@ public interface ClientEvent
     public static final int CLIENTEVENT_NONE = 0;
 
     public static final int CLIENTEVENT_CON_SUCCESS  = CLIENTEVENT_NONE + 10;
+    public static final int CLIENTEVENT_CON_CRYPT_ERROR = CLIENTEVENT_NONE + 15;
+
     public static final int CLIENTEVENT_CON_FAILED = CLIENTEVENT_NONE + 20;
     public static final int CLIENTEVENT_CON_LOST = CLIENTEVENT_NONE + 30;
     public static final int CLIENTEVENT_CON_MAX_PAYLOAD_UPDATED = CLIENTEVENT_NONE + 40;

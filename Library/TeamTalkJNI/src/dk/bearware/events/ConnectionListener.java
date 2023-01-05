@@ -23,9 +23,12 @@
 
 package dk.bearware.events;
 
+import dk.bearware.ClientErrorMsg;
+
 public interface ConnectionListener {
 
     public void onConnectSuccess();
+    public void onEncryptionError(int opensslErrorNo, ClientErrorMsg errmsg);
     public void onConnectFailed();
     public void onConnectionLost();
     public void onMaxPayloadUpdate(int payload_size);
