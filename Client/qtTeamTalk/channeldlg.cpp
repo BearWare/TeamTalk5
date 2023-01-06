@@ -145,6 +145,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     {
     case CHANNEL_CREATE :
         setWindowTitle(tr("Create Channel"));
+        this->setAccessibleDescription(tr("Add channel on %1").arg(_Q(prop.szServerName)));
         initDefaultAudioCodec(m_channel.audiocodec);
 
         //set default channel options
@@ -160,6 +161,10 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     case CHANNEL_UPDATE :
     {
         setWindowTitle(tr("Update Channel"));
+        if (m_channel.nChannelID == TT_GetRootChannelID(ttInst))
+            this->setAccessibleDescription(tr("Modify root channel"));
+        else
+            this->setAccessibleDescription(tr("Modify channel %1").arg(_Q(m_channel.szName)));
         int count = 0;
         TT_GetChannelUsers(ttInst, chan.nChannelID, nullptr, &count);
         if (count > 0)
@@ -171,6 +176,10 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     break;
     case CHANNEL_READONLY :
         setWindowTitle(tr("View Channel Information"));
+        if (m_channel.nChannelID == TT_GetRootChannelID(ttInst))
+            this->setAccessibleDescription(tr("View root channel information"));
+        else
+            this->setAccessibleDescription(tr("View %1 information").arg(_Q(m_channel.szName)));
         ui.nameEdit->setReadOnly(true);
         ui.topicTextEdit->setReadOnly(true);
         ui.chanpasswdEdit->setReadOnly(true);

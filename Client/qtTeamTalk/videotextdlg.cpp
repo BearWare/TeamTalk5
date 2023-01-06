@@ -40,6 +40,7 @@ VideoTextDlg::VideoTextDlg(QWidget* parent/* = 0*/)
     setWindowIcon(QIcon(APPICON));
     ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&OK"));
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
+    this->setAccessibleDescription(tr("Video window settings"));
 
     quint32 videotext = ttSettings->value(SETTINGS_DISPLAY_VIDEOTEXT,
                                           SETTINGS_DISPLAY_VIDEOTEXT_DEFAULT).toUInt();

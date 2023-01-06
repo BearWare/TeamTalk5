@@ -52,6 +52,8 @@ void UserInfoDlg::updateUser()
     if(!TT_GetUser(ttInst, m_userid, &user))
         return;
 
+    this->setAccessibleDescription(tr("Information of %1").arg(_Q(user.szNickname)));
+
     if(ui.userid->text() != QString::number(user.nUserID))
         ui.userid->setText(QString::number(user.nUserID));
 
