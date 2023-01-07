@@ -4649,6 +4649,7 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
             if(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
                 TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
             transmitOn(STREAMTYPE_DESKTOP);
+            addTextToSpeechMessage(TTS_TOGGLE_DESKTOPTRANSMISSION, tr("Desktop sharing enabled"));
         }
         else
             ui.actionEnableDesktopSharing->setChecked(false);
@@ -4668,6 +4669,7 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
             QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
             if(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
                 TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
+            addTextToSpeechMessage(TTS_TOGGLE_DESKTOPTRANSMISSION, tr("Desktop sharing disabled"));
     }
 }
 

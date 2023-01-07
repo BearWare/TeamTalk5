@@ -9,7 +9,7 @@ Default Qt Client
 - Moved "Refresh Sound Devices" from "Input Devices" submenu to "Sound Configuration" menu
 - Fixed Upload/download button and menu item not display for admin outside channel
 - Accessible description on more dialog to avoid potential screenreader freeze
-- TTS event on video transmission toggled
+- TTS event on video transmission and desktop sharing toggled
 Accessible Windows Client
 -
 Android Client
