@@ -699,7 +699,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="148"/>
         <source>Add channel on %1</source>
-        <translation type="unfinished"></translation>
+        <translation>在 %1 上添加频道</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="163"/>
@@ -709,12 +709,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="165"/>
         <source>Modify root channel</source>
-        <translation type="unfinished"></translation>
+        <translation>修改跟频道</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="167"/>
         <source>Modify channel %1</source>
-        <translation type="unfinished"></translation>
+        <translation>修改频道 %1</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="178"/>
@@ -724,12 +724,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="180"/>
         <source>View root channel information</source>
-        <translation type="unfinished"></translation>
+        <translation>查看跟贫道信息</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="182"/>
         <source>View %1 information</source>
-        <translation type="unfinished"></translation>
+        <translation>查看 %1 信息</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="203"/>
@@ -3437,12 +3437,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.cpp" line="1579"/>
         <source>New sound device available: %1. Refresh sound devices to discover new device.</source>
-        <translation type="unfinished"></translation>
+        <translation>可用的新声音设备： %1。刷新声音设备以发现新设备。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1584"/>
         <source>Sound device removed: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>已移除声音设备： %1。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2336"/>
@@ -3766,7 +3766,7 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5767"/>
         <source>Available</source>
-        <translation type="unfinished">在线</translation>
+        <translation>在线</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7228"/>
@@ -3957,10 +3957,6 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="5749"/>
         <source>User</source>
         <translation>用户</translation>
-    </message>
-    <message>
-        <source>Online</source>
-        <translation type="vanished">在线</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5770"/>
@@ -5361,7 +5357,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="73"/>
         <source>Client settings</source>
-        <translation type="unfinished">客户端设置</translation>
+        <translation>客户端设置</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="561"/>
@@ -5813,7 +5809,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverlistdlg.cpp" line="256"/>
         <source>Host manager</source>
-        <translation type="unfinished"></translation>
+        <translation>主机管理器</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="660"/>
@@ -6215,7 +6211,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="59"/>
         <source>Properties of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 的属性</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="124"/>
@@ -6238,7 +6234,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstatsdlg.cpp" line="37"/>
         <source>Server statistics</source>
-        <translation type="unfinished"></translation>
+        <translation>服务器统计信息</translation>
     </message>
 </context>
 <context>
@@ -6693,7 +6689,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafiledlg.cpp" line="45"/>
         <source>Streaming to channel</source>
-        <translation type="unfinished"></translation>
+        <translation>流式传输到频道</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="68"/>
@@ -7608,7 +7604,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfodlg.cpp" line="55"/>
         <source>Information of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1的信息</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="67"/>
@@ -7846,7 +7842,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../uservolumedlg.cpp" line="60"/>
         <source>Volume for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 的音量</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="86"/>
@@ -7958,7 +7954,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../videotextdlg.cpp" line="43"/>
         <source>Video window settings</source>
-        <translation type="unfinished">视频窗口设置</translation>
+        <translation>视频窗口设置</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="189"/>
