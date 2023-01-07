@@ -18,7 +18,7 @@ iOS Client
 Server
 -
 
-Version 5.12.1, unreleased
+Version 5.12.1, 2023/01/07
 iOS Client
 - Added Malay language
 
