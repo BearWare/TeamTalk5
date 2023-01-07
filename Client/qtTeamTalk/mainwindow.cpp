@@ -4575,6 +4575,7 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
             }
             ttSettings->setValue(SETTINGS_VIDCAP_ENABLE, true);
             transmitOn(STREAMTYPE_VIDEOCAPTURE);
+            addTextToSpeechMessage(TTS_TOGGLE_VIDEOTRANSMISSION, tr("Video transmission enabled"));
         }
     }
     else
@@ -4593,6 +4594,7 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
             ui.videogridWidget->removeUser(0 /* local video*/);
 
         ttSettings->setValue(SETTINGS_VIDCAP_ENABLE, false);
+        addTextToSpeechMessage(TTS_TOGGLE_VIDEOTRANSMISSION, tr("Video transmission disabled"));
     }
 
     slotUpdateUI();

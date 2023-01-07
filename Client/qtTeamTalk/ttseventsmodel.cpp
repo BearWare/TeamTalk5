@@ -188,6 +188,8 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
             return tr("Menu actions");
         case TTS_TOGGLE_VOICETRANSMISSION :
             return tr("Voice transmission mode toggled");
+        case TTS_TOGGLE_VIDEOTRANSMISSION :
+            return tr("Video transmission toggled");
         case TTS_SERVER_CONNECTIVITY :
             return tr("Server connectivity");
         case TTS_NEXT_UNUSED :
