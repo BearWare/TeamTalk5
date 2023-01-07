@@ -1045,11 +1045,6 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
 
-        if (ENCRYPTED) {
-            System.out.println("Skipping testDnsResolve in encrypted mode");
-            return;
-        }
-
         UserAccount useraccount = new UserAccount();
         useraccount.szUsername = USERNAME;
         useraccount.szPassword = PASSWORD;
