@@ -80,9 +80,10 @@ enum TextToSpeechEvent : qulonglong
     TTS_SERVER_CONNECTIVITY = qulonglong(1) << 34,
 
     TTS_TOGGLE_VOICETRANSMISSION = qulonglong(1) << 38,
+    TTS_TOGGLE_VIDEOTRANSMISSION = qulonglong(1) << 39,
 
     // next free value
-    TTS_NEXT_UNUSED = qulonglong(1) << 39,
+    TTS_NEXT_UNUSED = qulonglong(1) << 40,
 };
 
 typedef qulonglong TTSEvents;
