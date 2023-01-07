@@ -76,6 +76,8 @@ TTSEventsModel::TTSEventsModel(QObject* parent)
 
     m_ttsevents.push_back(TTS_MENU_ACTIONS);
     m_ttsevents.push_back(TTS_TOGGLE_VOICETRANSMISSION);
+    m_ttsevents.push_back(TTS_TOGGLE_VIDEOTRANSMISSION);
+    m_ttsevents.push_back(TTS_TOGGLE_DESKTOPTRANSMISSION);
 
     m_ttsevents.push_back(TTS_SERVER_CONNECTIVITY);
 }
@@ -190,6 +192,8 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
             return tr("Voice transmission mode toggled");
         case TTS_TOGGLE_VIDEOTRANSMISSION :
             return tr("Video transmission toggled");
+        case TTS_TOGGLE_DESKTOPTRANSMISSION :
+            return tr("Desktop sharing toggled");
         case TTS_SERVER_CONNECTIVITY :
             return tr("Server connectivity");
         case TTS_NEXT_UNUSED :
