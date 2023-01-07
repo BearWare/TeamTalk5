@@ -7842,7 +7842,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../uservolumedlg.cpp" line="60"/>
         <source>Volume for %1</source>
-        <translation%1 的音量></translation>
+        <translation>%1 的音量</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="86"/>
