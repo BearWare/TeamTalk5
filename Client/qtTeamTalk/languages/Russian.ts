@@ -700,7 +700,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="148"/>
         <source>Add channel on %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить канал на %1</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="163"/>
@@ -710,12 +710,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="165"/>
         <source>Modify root channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить главный канал</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="167"/>
         <source>Modify channel %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить канал %1</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="178"/>
@@ -725,12 +725,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="180"/>
         <source>View root channel information</source>
-        <translation type="unfinished"></translation>
+        <translation>Просмотр информации о главном канале</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="182"/>
         <source>View %1 information</source>
-        <translation type="unfinished"></translation>
+        <translation>просмотр %1 информацию</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="203"/>
@@ -2900,7 +2900,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="5779"/>
         <source>Available</source>
-        <translation type="unfinished">Доступен</translation>
+        <translation>Доступен</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5782"/>
@@ -2946,17 +2946,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="992"/>
         <source>Secure connection failed due to error 0x%1: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Безопасное соединение не удалось установить из-за ошибки 0x%1: %2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1584"/>
         <source>New sound device available: %1. Refresh sound devices to discover new device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступно новое звуковое устройство: %1. Обновите звуковые устройства, чтобы открыть новое устройство.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1589"/>
         <source>Sound device removed: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Звуковое устройство удалено: %1.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2666"/>
@@ -3183,12 +3183,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4586"/>
         <source>Video transmission enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Включена передача видео</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4605"/>
         <source>Video transmission disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Передача видео отключена</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4622"/>
@@ -3203,12 +3203,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4652"/>
         <source>Desktop sharing enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Включен общий доступ к рабочему столу</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4672"/>
         <source>Desktop sharing disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Общий доступ к рабочему столу отключен</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4681"/>
@@ -5419,7 +5419,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="73"/>
         <source>Client settings</source>
-        <translation type="unfinished">Настройки клиента</translation>
+        <translation>Настройки клиента</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="623"/>
@@ -5851,7 +5851,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="256"/>
         <source>Host manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Хост-менеджер</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="660"/>
@@ -6254,7 +6254,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="59"/>
         <source>Properties of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Свойства %1</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="124"/>
@@ -6277,7 +6277,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstatsdlg.cpp" line="37"/>
         <source>Server statistics</source>
-        <translation type="unfinished"></translation>
+        <translation>Server statistics</translation>
     </message>
 </context>
 <context>
@@ -6732,7 +6732,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafiledlg.cpp" line="45"/>
         <source>Streaming to channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Трансляция в канал</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="68"/>
@@ -7057,12 +7057,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="194"/>
         <source>Video transmission toggled</source>
-        <translation type="unfinished"></translation>
+        <translation>Передача видео переключена</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="196"/>
         <source>Desktop sharing toggled</source>
-        <translation type="unfinished"></translation>
+        <translation>Общий доступ к рабочему столу переключен</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="198"/>
@@ -7657,7 +7657,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfodlg.cpp" line="55"/>
         <source>Information of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация о %1</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="67"/>
@@ -7896,7 +7896,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../uservolumedlg.cpp" line="60"/>
         <source>Volume for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Громкость для %1</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="86"/>
@@ -8008,7 +8008,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../videotextdlg.cpp" line="43"/>
         <source>Video window settings</source>
-        <translation type="unfinished">Настройки видеоокна</translation>
+        <translation>Настройки видеоокна</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="189"/>
