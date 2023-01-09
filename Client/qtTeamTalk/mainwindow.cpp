@@ -990,6 +990,7 @@ void MainWindow::clienteventConFailed()
 void MainWindow::clienteventConCryptError(const TTMessage& msg)
 {
     addStatusMsg(STATUSBAR_BYPASS, tr("Secure connection failed due to error 0x%1: %2.").arg(msg.nSource, 0, 16).arg(_Q(msg.clienterrormsg.szErrorMsg)));
+    addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Secure connection failed due to error 0x%1: %2.").arg(msg.nSource, 0, 16).arg(_Q(msg.clienterrormsg.szErrorMsg)));
 }
 
 void MainWindow::clienteventConLost()
