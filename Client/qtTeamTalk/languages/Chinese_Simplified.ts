@@ -3437,7 +3437,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.cpp" line="992"/>
         <source>Secure connection failed due to error 0x%1: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>由于错误 0x%1，安全连接失败：%2。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1584"/>
@@ -3714,22 +3714,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.cpp" line="4586"/>
         <source>Video transmission enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>启用视频传输</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4605"/>
         <source>Video transmission disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>禁用视频传输</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4652"/>
         <source>Desktop sharing enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>启用桌面共享</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4672"/>
         <source>Desktop sharing disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>禁用桌面共享</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4696"/>
@@ -7039,12 +7039,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="194"/>
         <source>Video transmission toggled</source>
-        <translation type="unfinished"></translation>
+        <translation>切换视频传输</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="196"/>
         <source>Desktop sharing toggled</source>
-        <translation type="unfinished"></translation>
+        <translation>切换桌面共享</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="198"/>
