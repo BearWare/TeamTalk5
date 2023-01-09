@@ -256,6 +256,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
 
     slotUpdateSliderLabels();
     slotUpdateChannelPath(_Q(m_channel.szName));
+    ui.nameEdit->setFocus();
 }
 
 ChannelDlg::~ChannelDlg()
