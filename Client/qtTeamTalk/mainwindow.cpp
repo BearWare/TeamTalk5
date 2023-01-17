@@ -2007,6 +2007,8 @@ void MainWindow::Connect()
 void MainWindow::Disconnect()
 {
     TT_Disconnect(ttInst);
+    if (!timerExists(TIMER_RECONNECT))
+        addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Disconnected from %1").arg(limitText(_Q(m_srvprop.szServerName))));
 
     // sync user settings to cache
     auto users = ui.channelsWidget->getUsers();
@@ -2047,8 +2049,6 @@ void MainWindow::Disconnect()
 
     addStatusMsg(STATUSBAR_BYPASS, tr("Logged out from %1, TCP port %2, UDP port %3").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
     updateWindowTitle();
-    if (!timerExists(TIMER_RECONNECT))
-        addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Disconnected from server"));
 }
 
 void MainWindow::login()
