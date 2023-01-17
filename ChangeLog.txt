@@ -10,6 +10,7 @@ Default Qt Client
 - Fixed Upload/download button and menu item not display for admin outside channel
 - Accessible description on more dialog to avoid potential screenreader freeze
 - TTS event on video transmission and desktop sharing toggled
+- Add missing labels on "Font color" and "Background color" buttons on "Video settings" dialog
 Accessible Windows Client
 -
 Android Client

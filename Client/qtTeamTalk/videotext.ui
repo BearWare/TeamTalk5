@@ -120,6 +120,9 @@
           <property name="text">
            <string>...</string>
           </property>
+          <property name="accessibleName">
+           <string>Font color</string>
+          </property>
          </widget>
         </item>
         <item row="1" column="0">
@@ -136,6 +139,9 @@
          <widget class="QToolButton" name="bgBtn">
           <property name="text">
            <string>...</string>
+          </property>
+          <property name="accessibleName">
+           <string>Background color</string>
           </property>
          </widget>
         </item>
