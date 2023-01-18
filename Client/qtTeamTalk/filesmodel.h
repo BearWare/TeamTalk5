@@ -29,7 +29,6 @@
 #include <QAbstractItemModel>
 #include <QVector>
 
-
 enum
 {
     COLUMN_INDEX_NAME,

@@ -23,6 +23,10 @@
 
 #include "filesmodel.h"
 
+#if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
+#include <QLocale>
+#endif
+
 extern TTInstance* ttInst;
 
 FilesModel::FilesModel(QObject* parent)
@@ -82,12 +86,18 @@ QVariant FilesModel::data ( const QModelIndex & index, int role /*= Qt::DisplayR
         case COLUMN_INDEX_SIZE :
             {
                 QString result;
-                if(m_files[index.row()].nFileSize>=1024*1024)
+#if QT_VERSION < QT_VERSION_CHECK(5,10,0)
+                if (m_files[index.row()].nFileSize >= 1024*1024*1024)
+                    result = QString("%1 G").arg(m_files[index.row()].nFileSize/(1024*1024*1024));
+                else if (m_files[index.row()].nFileSize >= 1024*1024)
                     result = QString("%1 M").arg(m_files[index.row()].nFileSize/(1024*1024));
-                else if(m_files[index.row()].nFileSize>=1024)
+                else if (m_files[index.row()].nFileSize >= 1024)
                     result = QString("%1 K").arg(m_files[index.row()].nFileSize/1024);
                 else
                     result = QString("%1").arg(m_files[index.row()].nFileSize);
+#else
+                result = QLocale().formattedDataSize(m_files[index.row()].nFileSize, 1, QLocale::DataSizeSIFormat);
+#endif
                 return result;
             }
         case COLUMN_INDEX_OWNER :
@@ -98,16 +108,8 @@ QVariant FilesModel::data ( const QModelIndex & index, int role /*= Qt::DisplayR
         break;
     case Qt::AccessibleTextRole :
     {
-        QString result;
-        if(m_files[index.row()].nFileSize>=1024*1024*1024)
-            result = QString("%1 G").arg(m_files[index.row()].nFileSize/(1024*1024*1024));
-         else if(m_files[index.row()].nFileSize>=1024*1024)
-            result = QString("%1 M").arg(m_files[index.row()].nFileSize/(1024*1024));
-        else if(m_files[index.row()].nFileSize>=1024)
-            result = QString("%1 K").arg(m_files[index.row()].nFileSize/1024);
-        else
-            result = QString("%1").arg(m_files[index.row()].nFileSize);
-        return QString(tr("Name: %1, Size: %2, Owner: %3, Date: %4").arg(_Q(m_files[index.row()].szFileName)).arg(result).arg(_Q(m_files[index.row()].szUsername)).arg(_Q(m_files[index.row()].szUploadTime)));
+        QString filesize = data(createIndex(index.row(), COLUMN_INDEX_SIZE), Qt::DisplayRole).toString();
+        return QString(tr("Name: %1, Size: %2, Owner: %3, Date: %4").arg(_Q(m_files[index.row()].szFileName)).arg(filesize).arg(_Q(m_files[index.row()].szUsername)).arg(_Q(m_files[index.row()].szUploadTime)));
     }
     break;
     }
