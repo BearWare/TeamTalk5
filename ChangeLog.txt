@@ -12,7 +12,7 @@ Default Qt Client
 - TTS event on video transmission and desktop sharing toggled
 - Add missing labels on "Font color" and "Background color" buttons on "Video settings" dialog
 - TTS event when disconnect from server now includes server name
-- Add G size in file list
+- File size now converted using Qt functions to support more size (Qt 5.10 and later)
 - Ability to show password in server list dialog
 - Sound event when interception stopped
 - CTRL+G on a channel now also returns user count
