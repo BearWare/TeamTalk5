@@ -990,6 +990,7 @@ void MainWindow::clienteventConFailed()
 void MainWindow::clienteventConCryptError(const TTMessage& msg)
 {
     addStatusMsg(STATUSBAR_BYPASS, tr("Secure connection failed due to error 0x%1: %2.").arg(msg.nSource, 0, 16).arg(_Q(msg.clienterrormsg.szErrorMsg)));
+    addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Secure connection failed due to error 0x%1: %2.").arg(msg.nSource, 0, 16).arg(_Q(msg.clienterrormsg.szErrorMsg)));
 }
 
 void MainWindow::clienteventConLost()
@@ -2006,6 +2007,8 @@ void MainWindow::Connect()
 void MainWindow::Disconnect()
 {
     TT_Disconnect(ttInst);
+    if (!timerExists(TIMER_RECONNECT))
+        addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Disconnected from %1").arg(limitText(_Q(m_srvprop.szServerName))));
 
     // sync user settings to cache
     auto users = ui.channelsWidget->getUsers();
@@ -2046,8 +2049,6 @@ void MainWindow::Disconnect()
 
     addStatusMsg(STATUSBAR_BYPASS, tr("Logged out from %1, TCP port %2, UDP port %3").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
     updateWindowTitle();
-    if (!timerExists(TIMER_RECONNECT))
-        addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Disconnected from server"));
 }
 
 void MainWindow::login()

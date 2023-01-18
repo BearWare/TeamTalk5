@@ -699,7 +699,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="148"/>
         <source>Add channel on %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 üzerine kanal ekle</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="163"/>
@@ -709,12 +709,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="165"/>
         <source>Modify root channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kök kanalı değiştir</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="167"/>
         <source>Modify channel %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 kanalını değiştir</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="178"/>
@@ -724,12 +724,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="180"/>
         <source>View root channel information</source>
-        <translation type="unfinished"></translation>
+        <translation>Kök kanal bilgilerini görüntüle</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="182"/>
         <source>View %1 information</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 bilgilerini görüntüle</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="203"/>
@@ -3243,7 +3243,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="5779"/>
         <source>Available</source>
-        <translation type="unfinished">Uygun</translation>
+        <translation>Uygun</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6076"/>
@@ -3468,17 +3468,17 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="992"/>
         <source>Secure connection failed due to error 0x%1: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>güvenli bağlantı başarısız oldu. Hata 0x%1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1584"/>
         <source>New sound device available: %1. Refresh sound devices to discover new device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni ses aygıtı mevcut: %1. Yeni cihazı keşfetmek için ses cihazlarını yenileyin.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1589"/>
         <source>Sound device removed: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses aygıtı kaldırıldı: %1.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2344"/>
@@ -3740,22 +3740,22 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="4586"/>
         <source>Video transmission enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Video aktarımı etkin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4605"/>
         <source>Video transmission disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Video aktarımı devre dışı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4652"/>
         <source>Desktop sharing enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Masaüstü paylaşımı etkin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4672"/>
         <source>Desktop sharing disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Masaüstü paylaşımı devre dışı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4696"/>
@@ -5311,7 +5311,7 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="73"/>
         <source>Client settings</source>
-        <translation type="unfinished">İstemci ayarları</translation>
+        <translation>İstemci ayarları</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="464"/>
@@ -5845,7 +5845,7 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../serverlistdlg.cpp" line="256"/>
         <source>Host manager</source>
-        <translation type="unfinished"></translation>
+        <translation>kanal yöneticisi</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="660"/>
@@ -6248,7 +6248,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="59"/>
         <source>Properties of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 özellikleri</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="124"/>
@@ -6271,7 +6271,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../serverstatsdlg.cpp" line="37"/>
         <source>Server statistics</source>
-        <translation type="unfinished"></translation>
+        <translation>sunucu istatistikleri</translation>
     </message>
 </context>
 <context>
@@ -6726,7 +6726,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../streammediafiledlg.cpp" line="45"/>
         <source>Streaming to channel</source>
-        <translation type="unfinished"></translation>
+        <translation>kanala akış</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="68"/>
@@ -7051,12 +7051,12 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../ttseventsmodel.cpp" line="194"/>
         <source>Video transmission toggled</source>
-        <translation type="unfinished"></translation>
+        <translation>Video iletimi değiştirildi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="196"/>
         <source>Desktop sharing toggled</source>
-        <translation type="unfinished"></translation>
+        <translation>Masaüstü paylaşımı değiştirildi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="198"/>
@@ -7651,7 +7651,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../userinfodlg.cpp" line="55"/>
         <source>Information of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 bilgisi</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="67"/>
@@ -7889,7 +7889,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../uservolumedlg.cpp" line="60"/>
         <source>Volume for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 için ses yüksekliği</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="86"/>
@@ -8001,7 +8001,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../videotextdlg.cpp" line="43"/>
         <source>Video window settings</source>
-        <translation type="unfinished">Video penceresi ayarları</translation>
+        <translation>Video penceresi ayarları</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="189"/>

@@ -99,7 +99,9 @@ QVariant FilesModel::data ( const QModelIndex & index, int role /*= Qt::DisplayR
     case Qt::AccessibleTextRole :
     {
         QString result;
-        if(m_files[index.row()].nFileSize>=1024*1024)
+        if(m_files[index.row()].nFileSize>=1024*1024*1024)
+            result = QString("%1 G").arg(m_files[index.row()].nFileSize/(1024*1024*1024));
+         else if(m_files[index.row()].nFileSize>=1024*1024)
             result = QString("%1 M").arg(m_files[index.row()].nFileSize/(1024*1024));
         else if(m_files[index.row()].nFileSize>=1024)
             result = QString("%1 K").arg(m_files[index.row()].nFileSize/1024);
