@@ -1,4 +1,5 @@
 /*
+/*
  * Copyright (c) 2005-2018, BearWare.dk
  * 
  * Contact Information:
@@ -302,6 +303,8 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
             this, &ServerListDlg::slotGenerateEntryName);
     connect(ui.publishButton, &QAbstractButton::clicked,
             this, &ServerListDlg::publishServer);
+    connect(ui.passwordChkBox, &QAbstractButton::clicked,
+            this, &ServerListDlg::showPassword);
     ui.serverTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui.serverTreeView, &QWidget::customContextMenuRequested,
             this, &ServerListDlg::slotTreeContextMenu);
@@ -354,6 +357,7 @@ void ServerListDlg::showHostEntry(const HostEntry& entry)
     else
         ui.passwordEdit->setText(entry.password);
     ui.passwordEdit->setDisabled(isWebLogin(entry.username, true));
+    ui.passwordChkBox->setDisabled(isWebLogin(entry.username, true));
     ui.nicknameEdit->setText(entry.nickname);
     ui.channelEdit->setText(entry.channel);
     ui.chanpasswdEdit->setText(entry.chanpasswd);
@@ -694,6 +698,7 @@ void ServerListDlg::slotGenerateEntryName(const QString&)
         ui.nameEdit->setText(QString());
 
     ui.passwordEdit->setDisabled(username == WEBLOGIN_BEARWARE_USERNAME);
+    ui.passwordChkBox->setDisabled(username == WEBLOGIN_BEARWARE_USERNAME);
     if (isWebLogin(username, true))
         ui.passwordEdit->setText("");
 }
@@ -786,4 +791,12 @@ void ServerListDlg::keyPressEvent(QKeyEvent* e)
             }
         }
     }
+}
+
+void ServerListDlg::showPassword(bool checked /*= false*/)
+{
+    if(checked)
+        ui.passwordEdit->setEchoMode(QLineEdit::Normal);
+    else
+        ui.passwordEdit->setEchoMode(QLineEdit::Password);
 }

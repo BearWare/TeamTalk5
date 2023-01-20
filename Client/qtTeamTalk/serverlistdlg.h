@@ -121,6 +121,7 @@ private:
     void hostEntryNameChanged(const QString& text);
     void slotGenerateEntryName(const QString&);
     void slotTreeContextMenu(const QPoint&);
+    void showPassword(bool checked);
 };
 
 #endif
