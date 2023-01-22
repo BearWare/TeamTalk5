@@ -99,8 +99,7 @@ QVariant FilesModel::data ( const QModelIndex & index, int role /*= Qt::DisplayR
             }
         case COLUMN_INDEX_OWNER :
             return _Q(m_files[index.row()].szUsername);
-        case COLUMN_INDEX_UPLOADED :
-                return _Q(m_files[index.row()].szUploadTime);
+        case COLUMN_INDEX_UPLOADED :             return _Q(m_files[index.row()].szUploadTime);
         }
         break;
     case Qt::AccessibleTextRole :
