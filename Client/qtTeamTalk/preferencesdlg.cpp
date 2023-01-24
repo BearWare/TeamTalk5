@@ -173,6 +173,8 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             this, &PreferencesDlg::slotEventNewDesktop);
     connect(ui.interceptButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotEventIntercept);
+    connect(ui.interceptEndButton, &QAbstractButton::clicked,
+            this, &PreferencesDlg::slotEventInterceptEnd);
     connect(ui.fileupdButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotEventFilesUpdated);
     connect(ui.transferdoneButton, &QAbstractButton::clicked,
@@ -636,6 +638,7 @@ void PreferencesDlg::slotTabChange(int index)
         ui.videosessionEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWVIDEO, SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT).toString());
         ui.desktopsessionEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWDESKTOP, SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT).toString());
         ui.interceptEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_INTERCEPT, SETTINGS_SOUNDEVENT_INTERCEPT_DEFAULT).toString());
+        ui.interceptEndEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_INTERCEPTEND, SETTINGS_SOUNDEVENT_INTERCEPTEND_DEFAULT).toString());
         ui.fileupdEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_FILESUPD, SETTINGS_SOUNDEVENT_FILESUPD_DEFAULT).toString());
         ui.transferdoneEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_FILETXDONE, SETTINGS_SOUNDEVENT_FILETXDONE_DEFAULT).toString());
         ui.questionmodeEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_QUESTIONMODE, SETTINGS_SOUNDEVENT_QUESTIONMODE_DEFAULT).toString());
@@ -1024,6 +1027,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_SOUNDEVENT_NEWVIDEO, ui.videosessionEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_NEWDESKTOP, ui.desktopsessionEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_INTERCEPT, ui.interceptEdit->text());
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_INTERCEPTEND, ui.interceptEndEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_FILESUPD, ui.fileupdEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_FILETXDONE, ui.transferdoneEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_QUESTIONMODE, ui.questionmodeEdit->text());
@@ -1481,6 +1485,13 @@ void PreferencesDlg::slotEventIntercept()
     QString filename = ui.interceptEdit->text();
     if(getSoundFile(filename))
         ui.interceptEdit->setText(filename);
+}
+
+void PreferencesDlg::slotEventInterceptEnd()
+{
+    QString filename = ui.interceptEndEdit->text();
+    if(getSoundFile(filename))
+        ui.interceptEndEdit->setText(filename);
 }
 
 void PreferencesDlg::slotEventFilesUpdated()
@@ -1964,6 +1975,7 @@ void PreferencesDlg::slotSPackChange()
     ui.videosessionEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT, SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT).toString());
     ui.desktopsessionEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT, SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT).toString());
     ui.interceptEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_INTERCEPT_DEFAULT, SETTINGS_SOUNDEVENT_INTERCEPT_DEFAULT).toString());
+    ui.interceptEndEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_INTERCEPTEND_DEFAULT, SETTINGS_SOUNDEVENT_INTERCEPTEND_DEFAULT).toString());
     ui.fileupdEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_FILESUPD_DEFAULT, SETTINGS_SOUNDEVENT_FILESUPD_DEFAULT).toString());
     ui.transferdoneEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_FILETXDONE_DEFAULT, SETTINGS_SOUNDEVENT_FILETXDONE_DEFAULT).toString());
     ui.questionmodeEdit->setText(ttSettings->value(SETTINGS_SOUNDEVENT_QUESTIONMODE_DEFAULT, SETTINGS_SOUNDEVENT_QUESTIONMODE_DEFAULT).toString());
@@ -2010,6 +2022,8 @@ void PreferencesDlg::slotSPackChange()
            ui.desktopsessionEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
         if(filename == "intercept")
            ui.interceptEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+        if(filename == "interceptEnd")
+           ui.interceptEndEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
         if(filename == "fileupdate")
            ui.fileupdEdit->setText(QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
         if(filename == "filetx_complete")
