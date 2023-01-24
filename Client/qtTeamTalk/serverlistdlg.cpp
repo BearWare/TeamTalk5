@@ -305,6 +305,8 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
             this, &ServerListDlg::publishServer);
     connect(ui.passwordChkBox, &QAbstractButton::clicked,
             this, &ServerListDlg::showPassword);
+    connect(ui.chanpasswordChkBox, &QAbstractButton::clicked,
+            this, &ServerListDlg::showPassword);
     ui.serverTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui.serverTreeView, &QWidget::customContextMenuRequested,
             this, &ServerListDlg::slotTreeContextMenu);
@@ -795,8 +797,18 @@ void ServerListDlg::keyPressEvent(QKeyEvent* e)
 
 void ServerListDlg::showPassword(bool checked /*= false*/)
 {
-    if(checked)
-        ui.passwordEdit->setEchoMode(QLineEdit::Normal);
-    else
-        ui.passwordEdit->setEchoMode(QLineEdit::Password);
+    if (QObject::sender() == ui.passwordChkBox)
+    {
+        if(checked)
+            ui.passwordEdit->setEchoMode(QLineEdit::Normal);
+        else
+            ui.passwordEdit->setEchoMode(QLineEdit::Password);
+    }
+    else if (QObject::sender() == ui.chanpasswordChkBox)
+    {
+        if(checked)
+            ui.chanpasswdEdit->setEchoMode(QLineEdit::Normal);
+        else
+            ui.chanpasswdEdit->setEchoMode(QLineEdit::Password);
+    }
 }
