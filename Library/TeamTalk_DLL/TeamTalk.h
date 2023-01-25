@@ -3452,6 +3452,26 @@ extern "C" {
          * - #TTMessage.ttType #__BANNEDUSER
          * - #TTMessage.useraccount Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_BANNEDUSER  = CLIENTEVENT_NONE + 400,
+        /** 
+         * @brief A user account has been created.
+         *
+         * This message is posted as a result of TT_DoNewUserAccount()
+         *
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__USERACCOUNT
+         * - #TTMessage.useraccount Placed in union of #TTMessage. */
+        CLIENTEVENT_CMD_ADDUSERACCOUNT = CLIENTEVENT_NONE + 410,
+        /** 
+         * @brief A user account has been removed.
+         *
+         * This message is posted as a result of TT_DoDeleteUserAccount()
+         *
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__USERACCOUNT
+         * - #TTMessage.useraccount Placed in union of #TTMessage. */
+        CLIENTEVENT_CMD_REMOVEUSERACCOUNT = CLIENTEVENT_NONE + 420,
         /**
          * @brief A user state has changed.
          *

@@ -72,6 +72,8 @@ namespace teamtalk {
                                   const teamtalk::RemoteFile& file) = 0;
 
         virtual void OnUserAccount(const teamtalk::UserAccount& account) = 0;
+        virtual void OnAddUserAccount(const teamtalk::UserAccount& account) = 0;
+        virtual void OnRemoveUserAccount(const ACE_TString& username) = 0;
         virtual void OnBannedUser(const teamtalk::BannedUser& banuser) = 0;
 
         virtual void OnTextMessage(const teamtalk::TextMessage& textmsg) = 0;
