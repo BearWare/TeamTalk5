@@ -13,6 +13,7 @@ Default Qt Client
 - Add missing labels on "Font color" and "Background color" buttons on "Video settings" dialog
 - TTS event when disconnect from server now includes server name
 - Add G size in file list
+- Ability to show password in server list dialog
 - Sound event when interception stopped
 - CTRL+G on a channel now also returns user count
 Accessible Windows Client
