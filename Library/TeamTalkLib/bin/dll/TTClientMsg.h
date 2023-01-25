@@ -95,6 +95,8 @@ public:
                       const teamtalk::RemoteFile& file) override;
 
     void OnUserAccount(const teamtalk::UserAccount& account) override;
+    void OnAddUserAccount(const teamtalk::UserAccount& account) override;
+    void OnRemoveUserAccount(const ACE_TString& username) override;
     void OnBannedUser(const teamtalk::BannedUser& banuser) override;
 
     void OnTextMessage(const teamtalk::TextMessage& textmsg) override;

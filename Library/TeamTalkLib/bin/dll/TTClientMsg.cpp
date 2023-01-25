@@ -403,6 +403,26 @@ void TTMsgQueue::OnUserAccount(const teamtalk::UserAccount& account)
     EnqueueMsg(mb);
 }
 
+void TTMsgQueue::OnAddUserAccount(const teamtalk::UserAccount& account)
+{
+    ACE_Message_Block* mb;
+    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_ADDUSERACCOUNT,
+                                     0,
+                                     __USERACCOUNT);
+    Convert(account, *msg->useraccount);
+    EnqueueMsg(mb);
+}
+
+void TTMsgQueue::OnRemoveUserAccount(const ACE_TString& username)
+{
+    ACE_Message_Block* mb;
+    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_REMOVEUSERACCOUNT,
+                                     0,
+                                     __USERACCOUNT);
+    ACE_OS::strsncpy(msg->useraccount->szUsername, username.c_str(), TT_STRLEN);
+    EnqueueMsg(mb);
+}
+
 void TTMsgQueue::OnBannedUser(const teamtalk::BannedUser& banuser)
 {
     ACE_Message_Block* mb;

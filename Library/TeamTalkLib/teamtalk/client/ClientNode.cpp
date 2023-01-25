@@ -5164,6 +5164,8 @@ bool ClientNode::ProcessCommand(const ACE_CString& cmdline)
     else if(cmd == SERVER_COMMAND_OK) HandleOk(properties);
     else if(cmd == SERVER_BANNED) HandleBannedUser(properties);
     else if(cmd == SERVER_USERACCOUNT) HandleUserAccount(properties);
+    else if(cmd == SERVER_ADDUSERACCOUNT) HandleAddUserAccount(properties);
+    else if(cmd == SERVER_REMOVEUSERACCOUNT) HandleRemoveUserAccount(properties);
     else if(cmd == SERVER_FILE_ACCEPTED) HandleFileAccepted(properties);
     else if(cmd == SERVER_STATS) HandleServerStats(properties);
     else
@@ -5869,6 +5871,39 @@ void ClientNode::HandleUserAccount(const mstrings_t& properties)
         user.abuse.fromParam(flood);
 
     m_listener->OnUserAccount(user);
+}
+
+void ClientNode::HandleAddUserAccount(const mstrings_t& properties)
+{
+    ASSERT_REACTOR_LOCKED(this);
+
+    UserAccount user;
+    GetProperty(properties, TT_USERNAME, user.username);
+    GetProperty(properties, TT_PASSWORD, user.passwd);
+    GetProperty(properties, TT_USERTYPE, user.usertype);
+    GetProperty(properties, TT_USERRIGHTS, user.userrights);
+    GetProperty(properties, TT_USERDATA, user.userdata);
+    GetProperty(properties, TT_NOTEFIELD, user.note);
+    GetProperty(properties, TT_INITCHANNEL, user.init_channel);
+    GetProperty(properties, TT_AUTOOPCHANNELS, user.auto_op_channels);
+    GetProperty(properties, TT_AUDIOBPSLIMIT, user.audiobpslimit);
+    GetProperty(properties, TT_MODIFIEDTIME, user.lastupdated);
+
+    vector<int> flood;
+    if(GetProperty(properties, TT_CMDFLOOD, flood))
+        user.abuse.fromParam(flood);
+
+    m_listener->OnAddUserAccount(user);
+}
+
+void ClientNode::HandleRemoveUserAccount(const mstrings_t& properties)
+{
+    ASSERT_REACTOR_LOCKED(this);
+
+    ACE_TString username;
+    GetProperty(properties, TT_USERNAME, username);
+
+    m_listener->OnRemoveUserAccount(username);
 }
 
 void ClientNode::HandleFileAccepted(const mstrings_t& properties)

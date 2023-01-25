@@ -161,6 +161,8 @@ namespace teamtalk {
         void DoPingReply();
         void DoShowBan(const BannedUser& ban);
         void DoShowUserAccount(const UserAccount& user);
+        void DoAddUserAccount(const UserAccount& user);
+        void DoRemoveUserAccount(const ACE_TString& username);
 
         void DoFileDeliver(const FileTransfer& transfer);
         void DoFileAccepted(const FileTransfer& transfer);

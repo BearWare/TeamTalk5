@@ -196,6 +196,8 @@
 #define SERVER_MESSAGE_DELIVER ACE_TEXT("messagedeliver")
 #define SERVER_BANNED ACE_TEXT("userbanned")
 #define SERVER_USERACCOUNT ACE_TEXT("useraccount")
+#define SERVER_ADDUSERACCOUNT ACE_TEXT("adduseraccount")
+#define SERVER_REMOVEUSERACCOUNT ACE_TEXT("removeuseraccount")
 #define SERVER_FILE_ACCEPTED ACE_TEXT("fileaccepted")
 #define SERVER_FILE_DELIVER ACE_TEXT("filedeliver")
 #define SERVER_FILE_COMPLETED ACE_TEXT("filecompleted")

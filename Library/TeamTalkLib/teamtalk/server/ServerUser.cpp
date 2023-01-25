@@ -1757,6 +1757,44 @@ void ServerUser::DoShowUserAccount(const UserAccount& user)
     TransmitCommand(command);
 }
 
+void ServerUser::DoAddUserAccount(const UserAccount& user)
+{
+    TTASSERT(IsAuthorized());
+
+    ACE_TString command;
+    command = ACE_TString(SERVER_ADDUSERACCOUNT);
+
+    AppendProperty(TT_USERNAME, user.username, command);
+    AppendProperty(TT_PASSWORD, user.passwd, command);
+    AppendProperty(TT_USERTYPE, user.usertype, command);
+    AppendProperty(TT_USERRIGHTS, user.userrights, command);
+    AppendProperty(TT_USERDATA, user.userdata, command);
+    AppendProperty(TT_NOTEFIELD, user.note, command);
+    AppendProperty(TT_INITCHANNEL, user.init_channel, command);
+    AppendProperty(TT_AUTOOPCHANNELS, user.auto_op_channels, command);
+    AppendProperty(TT_AUDIOBPSLIMIT, user.audiobpslimit, command);
+    AppendProperty(TT_CMDFLOOD, user.abuse.toParam(), command);
+    AppendProperty(TT_MODIFIEDTIME, user.lastupdated, command);
+
+    command += ACE_TString(EOL);
+
+    TransmitCommand(command);
+}
+
+void ServerUser::DoRemoveUserAccount(const ACE_TString& username)
+{
+    TTASSERT(IsAuthorized());
+
+    ACE_TString command;
+    command = ACE_TString(SERVER_REMOVEUSERACCOUNT);
+
+    AppendProperty(TT_USERNAME, username, command);
+
+    command += ACE_TString(EOL);
+
+    TransmitCommand(command);
+}
+
 void ServerUser::DoFileDeliver(const FileTransfer& transfer)
 {
     TTASSERT(m_filetransfer.get());
