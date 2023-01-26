@@ -373,6 +373,24 @@ namespace teamtalk {
         return false;
     }
 
+    void GetProperties(const mstrings_t& properties, UserAccount& useraccount)
+    {
+        GetProperty(properties, TT_USERNAME, useraccount.username);
+        GetProperty(properties, TT_PASSWORD, useraccount.passwd);
+        GetProperty(properties, TT_USERTYPE, useraccount.usertype);
+        GetProperty(properties, TT_USERRIGHTS, useraccount.userrights);
+        GetProperty(properties, TT_USERDATA, useraccount.userdata);
+        GetProperty(properties, TT_NOTEFIELD, useraccount.note);
+        GetProperty(properties, TT_INITCHANNEL, useraccount.init_channel);
+        GetProperty(properties, TT_AUTOOPCHANNELS, useraccount.auto_op_channels);
+        GetProperty(properties, TT_AUDIOBPSLIMIT, useraccount.audiobpslimit);
+        GetProperty(properties, TT_MODIFIEDTIME, useraccount.lastupdated);
+
+        vector<int> flood;
+        if(GetProperty(properties, TT_CMDFLOOD, flood))
+            useraccount.abuse.fromParam(flood);
+    }
+
     ACE_TString PrepareString(const ACE_TString& str)
     {
         ACE_TString newstr;

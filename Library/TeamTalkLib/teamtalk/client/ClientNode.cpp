@@ -5226,21 +5226,11 @@ void ClientNode::HandleAccepted(const mstrings_t& properties)
     ACE_TString ipaddr;
     ACE_INET_Addr udpaddr;
 
-    if(GetProperty(properties, TT_USERID, userid) &&
-       GetProperty(properties, TT_USERTYPE, m_myuseraccount.usertype))
+    if (GetProperty(properties, TT_USERID, userid) &&
+        GetProperty(properties, TT_USERTYPE, m_myuseraccount.usertype))
     {
         GetProperty(properties, TT_IPADDR, ipaddr);
-        GetProperty(properties, TT_USERNAME, m_myuseraccount.username);
-        GetProperty(properties, TT_USERDATA, m_myuseraccount.userdata);
-        GetProperty(properties, TT_USERRIGHTS, m_myuseraccount.userrights);
-        GetProperty(properties, TT_NOTEFIELD, m_myuseraccount.note);
-        GetProperty(properties, TT_INITCHANNEL, m_myuseraccount.init_channel);
-        GetProperty(properties, TT_AUTOOPCHANNELS, m_myuseraccount.auto_op_channels);
-        GetProperty(properties, TT_AUDIOBPSLIMIT, m_myuseraccount.audiobpslimit);
-        GetProperty(properties, TT_MODIFIEDTIME, m_myuseraccount.lastupdated);
-        vector<int> flood;
-        if(GetProperty(properties, TT_CMDFLOOD, flood))
-            m_myuseraccount.abuse.fromParam(flood);
+        GetProperties(properties, m_myuseraccount);
 
         TTASSERT(GetUserID() == userid);
         m_flags |= CLIENT_AUTHORIZED;
@@ -5854,46 +5844,20 @@ void ClientNode::HandleUserAccount(const mstrings_t& properties)
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    UserAccount user;
-    GetProperty(properties, TT_USERNAME, user.username);
-    GetProperty(properties, TT_PASSWORD, user.passwd);
-    GetProperty(properties, TT_USERTYPE, user.usertype);
-    GetProperty(properties, TT_USERRIGHTS, user.userrights);
-    GetProperty(properties, TT_USERDATA, user.userdata);
-    GetProperty(properties, TT_NOTEFIELD, user.note);
-    GetProperty(properties, TT_INITCHANNEL, user.init_channel);
-    GetProperty(properties, TT_AUTOOPCHANNELS, user.auto_op_channels);
-    GetProperty(properties, TT_AUDIOBPSLIMIT, user.audiobpslimit);
-    GetProperty(properties, TT_MODIFIEDTIME, user.lastupdated);
+    UserAccount useraccount;
+    GetProperties(properties, useraccount);
 
-    vector<int> flood;
-    if(GetProperty(properties, TT_CMDFLOOD, flood))
-        user.abuse.fromParam(flood);
-
-    m_listener->OnUserAccount(user);
+    m_listener->OnUserAccount(useraccount);
 }
 
 void ClientNode::HandleAddUserAccount(const mstrings_t& properties)
 {
     ASSERT_REACTOR_LOCKED(this);
 
-    UserAccount user;
-    GetProperty(properties, TT_USERNAME, user.username);
-    GetProperty(properties, TT_PASSWORD, user.passwd);
-    GetProperty(properties, TT_USERTYPE, user.usertype);
-    GetProperty(properties, TT_USERRIGHTS, user.userrights);
-    GetProperty(properties, TT_USERDATA, user.userdata);
-    GetProperty(properties, TT_NOTEFIELD, user.note);
-    GetProperty(properties, TT_INITCHANNEL, user.init_channel);
-    GetProperty(properties, TT_AUTOOPCHANNELS, user.auto_op_channels);
-    GetProperty(properties, TT_AUDIOBPSLIMIT, user.audiobpslimit);
-    GetProperty(properties, TT_MODIFIEDTIME, user.lastupdated);
+    UserAccount useraccount;
+    GetProperties(properties, useraccount);
 
-    vector<int> flood;
-    if(GetProperty(properties, TT_CMDFLOOD, flood))
-        user.abuse.fromParam(flood);
-
-    m_listener->OnAddUserAccount(user);
+    m_listener->OnAddUserAccount(useraccount);
 }
 
 void ClientNode::HandleRemoveUserAccount(const mstrings_t& properties)
