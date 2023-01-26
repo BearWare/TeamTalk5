@@ -3444,7 +3444,8 @@ ErrorMsg ServerNode::UserNewUserAccount(int userid, const UserAccount& regusr)
         }
         for (auto au : GetAdministrators())
         {
-            au->DoAddUserAccount(regusr);
+            if (VersionSameOrLater(au->GetStreamProtocol(), ACE_TEXT("5.11")))
+                au->DoAddUserAccount(regusr);
         }
     }
     return err;
@@ -3469,7 +3470,8 @@ ErrorMsg ServerNode::UserDeleteUserAccount(int userid, const ACE_TString& userna
         }
         for (auto au : GetAdministrators())
         {
-            au->DoRemoveUserAccount(username);
+            if (VersionSameOrLater(au->GetStreamProtocol(), ACE_TEXT("5.11")))
+                au->DoRemoveUserAccount(username);
         }
     }
     return err;
