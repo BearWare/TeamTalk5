@@ -24,8 +24,6 @@
 #include "ServerNode.h"
 #include "ServerUser.h"
 
-#include <myace/MyACE.h>
-
 #include <ace/FILE_Connector.h>
 #include <ace/Dirent_Selector.h>
 #include <ace/Dirent.h>
@@ -3446,8 +3444,7 @@ ErrorMsg ServerNode::UserNewUserAccount(int userid, const UserAccount& regusr)
         }
         for (auto au : GetAdministrators())
         {
-            if (VersionSameOrLater(au->GetClientVersion(), ACE_TEXT("5.13")))
-                au->DoAddUserAccount(regusr);
+            au->DoAddUserAccount(regusr);
         }
     }
     return err;
@@ -3472,8 +3469,7 @@ ErrorMsg ServerNode::UserDeleteUserAccount(int userid, const ACE_TString& userna
         }
         for (auto au : GetAdministrators())
         {
-            if (VersionSameOrLater(au->GetClientVersion(), ACE_TEXT("5.13")))
-                au->DoRemoveUserAccount(username);
+            au->DoRemoveUserAccount(username);
         }
     }
     return err;
