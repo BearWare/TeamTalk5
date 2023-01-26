@@ -880,15 +880,7 @@ ErrorMsg ServerUser::HandleNewUserAccount(const mstrings_t& properties)
     GET_PROP_OR_RETURN(properties, TT_USERNAME, account.username);
     GET_PROP_OR_RETURN(properties, TT_PASSWORD, account.passwd);
     GET_PROP_OR_RETURN(properties, TT_USERTYPE, account.usertype);
-    GetProperty(properties, TT_USERRIGHTS, account.userrights);
-    GetProperty(properties, TT_USERDATA, account.userdata);
-    GetProperty(properties, TT_NOTEFIELD, account.note);
-    GetProperty(properties, TT_INITCHANNEL, account.init_channel);
-    GetProperty(properties, TT_AUTOOPCHANNELS, account.auto_op_channels);
-    GetProperty(properties, TT_AUDIOBPSLIMIT, account.audiobpslimit);
-    vector<int> flood;
-    if(GetProperty(properties, TT_CMDFLOOD, flood))
-        account.abuse.fromParam(flood);
+    GetProperties(properties, account);
 
     return m_servernode.UserNewUserAccount(GetUserID(), account);
 }
