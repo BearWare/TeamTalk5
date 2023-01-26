@@ -3461,7 +3461,7 @@ extern "C" {
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__USERACCOUNT
          * - #TTMessage.useraccount Placed in union of #TTMessage. */
-        CLIENTEVENT_CMD_ADDUSERACCOUNT = CLIENTEVENT_NONE + 410,
+        CLIENTEVENT_CMD_USERACCOUNT_NEW = CLIENTEVENT_NONE + 410,
         /** 
          * @brief A user account has been removed.
          *
@@ -3471,7 +3471,7 @@ extern "C" {
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__USERACCOUNT
          * - #TTMessage.useraccount Placed in union of #TTMessage. */
-        CLIENTEVENT_CMD_REMOVEUSERACCOUNT = CLIENTEVENT_NONE + 420,
+        CLIENTEVENT_CMD_USERACCOUNT_REMOVE = CLIENTEVENT_NONE + 420,
         /**
          * @brief A user state has changed.
          *
