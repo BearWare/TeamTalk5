@@ -302,6 +302,10 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
             this, &ServerListDlg::slotGenerateEntryName);
     connect(ui.publishButton, &QAbstractButton::clicked,
             this, &ServerListDlg::publishServer);
+    connect(ui.passwordChkBox, &QAbstractButton::clicked,
+            this, [&](bool checked) { ui.passwordEdit->setEchoMode(checked ? QLineEdit::Normal : QLineEdit::Password); } );
+    connect(ui.chanpasswordChkBox, &QAbstractButton::clicked,
+            this, [&](bool checked) { ui.chanpasswdEdit->setEchoMode(checked ? QLineEdit::Normal : QLineEdit::Password); } );
     ui.serverTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui.serverTreeView, &QWidget::customContextMenuRequested,
             this, &ServerListDlg::slotTreeContextMenu);
@@ -354,6 +358,7 @@ void ServerListDlg::showHostEntry(const HostEntry& entry)
     else
         ui.passwordEdit->setText(entry.password);
     ui.passwordEdit->setDisabled(isWebLogin(entry.username, true));
+    ui.passwordChkBox->setDisabled(isWebLogin(entry.username, true));
     ui.nicknameEdit->setText(entry.nickname);
     ui.channelEdit->setText(entry.channel);
     ui.chanpasswdEdit->setText(entry.chanpasswd);
@@ -694,6 +699,7 @@ void ServerListDlg::slotGenerateEntryName(const QString&)
         ui.nameEdit->setText(QString());
 
     ui.passwordEdit->setDisabled(username == WEBLOGIN_BEARWARE_USERNAME);
+    ui.passwordChkBox->setDisabled(username == WEBLOGIN_BEARWARE_USERNAME);
     if (isWebLogin(username, true))
         ui.passwordEdit->setText("");
 }

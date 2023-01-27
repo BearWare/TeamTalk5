@@ -1750,20 +1750,20 @@
             <item>
              <layout class="QGridLayout" name="gridLayout_7">
               <item row="0" column="0">
-               <widget class="QLabel" name="label_38">
+               <widget class="QLabel" name="label_interceptEnd">
                 <property name="text">
-                 <string>User entered question-mode</string>
+                 <string>Finish intercepted by another user</string>
                 </property>
                 <property name="buddy">
-                 <cstring>questionmodeEdit</cstring>
+                 <cstring>interceptEndEdit</cstring>
                 </property>
                </widget>
               </item>
               <item row="0" column="1">
-               <widget class="QLineEdit" name="questionmodeEdit"/>
+               <widget class="QLineEdit" name="interceptEndEdit"/>
               </item>
               <item row="0" column="2">
-               <widget class="QToolButton" name="questionmodeBtn">
+               <widget class="QToolButton" name="interceptEndButton">
                 <property name="accessibleName">
                  <string>Browse</string>
                 </property>
@@ -1773,20 +1773,20 @@
                </widget>
               </item>
               <item row="1" column="0">
-               <widget class="QLabel" name="label_40">
+               <widget class="QLabel" name="label_38">
                 <property name="text">
-                 <string>Desktop access request</string>
+                 <string>User entered question-mode</string>
                 </property>
                 <property name="buddy">
-                 <cstring>desktopaccessEdit</cstring>
+                 <cstring>questionmodeEdit</cstring>
                 </property>
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QLineEdit" name="desktopaccessEdit"/>
+               <widget class="QLineEdit" name="questionmodeEdit"/>
               </item>
               <item row="1" column="2">
-               <widget class="QToolButton" name="desktopaccessBtn">
+               <widget class="QToolButton" name="questionmodeBtn">
                 <property name="accessibleName">
                  <string>Browse</string>
                 </property>
@@ -1796,20 +1796,20 @@
                </widget>
               </item>
               <item row="2" column="0">
-               <widget class="QLabel" name="label_60">
+               <widget class="QLabel" name="label_40">
                 <property name="text">
-                 <string>User logged in</string>
+                 <string>Desktop access request</string>
                 </property>
                 <property name="buddy">
-                 <cstring>userloggedinEdit</cstring>
+                 <cstring>desktopaccessEdit</cstring>
                 </property>
                </widget>
               </item>
               <item row="2" column="1">
-               <widget class="QLineEdit" name="userloggedinEdit"/>
+               <widget class="QLineEdit" name="desktopaccessEdit"/>
               </item>
               <item row="2" column="2">
-               <widget class="QToolButton" name="userloggedinButton">
+               <widget class="QToolButton" name="desktopaccessBtn">
                 <property name="accessibleName">
                  <string>Browse</string>
                 </property>
@@ -1819,20 +1819,20 @@
                </widget>
               </item>
               <item row="3" column="0">
-               <widget class="QLabel" name="label_61">
+               <widget class="QLabel" name="label_60">
                 <property name="text">
-                 <string>User logged out</string>
+                 <string>User logged in</string>
                 </property>
                 <property name="buddy">
-                 <cstring>userloggedoutEdit</cstring>
+                 <cstring>userloggedinEdit</cstring>
                 </property>
                </widget>
               </item>
               <item row="3" column="1">
-               <widget class="QLineEdit" name="userloggedoutEdit"/>
+               <widget class="QLineEdit" name="userloggedinEdit"/>
               </item>
               <item row="3" column="2">
-               <widget class="QToolButton" name="userloggedoutButton">
+               <widget class="QToolButton" name="userloggedinButton">
                 <property name="accessibleName">
                  <string>Browse</string>
                 </property>
@@ -1842,20 +1842,20 @@
                </widget>
               </item>
               <item row="4" column="0">
-               <widget class="QLabel" name="label_62">
+               <widget class="QLabel" name="label_61">
                 <property name="text">
-                 <string>Voice activation enabled</string>
+                 <string>User logged out</string>
                 </property>
                 <property name="buddy">
-                 <cstring>voiceactonEdit</cstring>
+                 <cstring>userloggedoutEdit</cstring>
                 </property>
                </widget>
               </item>
               <item row="4" column="1">
-               <widget class="QLineEdit" name="voiceactonEdit"/>
+               <widget class="QLineEdit" name="userloggedoutEdit"/>
               </item>
               <item row="4" column="2">
-               <widget class="QToolButton" name="voiceactonButton">
+               <widget class="QToolButton" name="userloggedoutButton">
                 <property name="accessibleName">
                  <string>Browse</string>
                 </property>
@@ -1865,20 +1865,20 @@
                </widget>
               </item>
               <item row="5" column="0">
-               <widget class="QLabel" name="label_63">
+               <widget class="QLabel" name="label_62">
                 <property name="text">
-                 <string>Voice activation disabled</string>
+                 <string>Voice activation enabled</string>
                 </property>
                 <property name="buddy">
-                 <cstring>voiceactoffEdit</cstring>
+                 <cstring>voiceactonEdit</cstring>
                 </property>
                </widget>
               </item>
               <item row="5" column="1">
-               <widget class="QLineEdit" name="voiceactoffEdit"/>
+               <widget class="QLineEdit" name="voiceactonEdit"/>
               </item>
               <item row="5" column="2">
-               <widget class="QToolButton" name="voiceactoffButton">
+               <widget class="QToolButton" name="voiceactonButton">
                 <property name="accessibleName">
                  <string>Browse</string>
                 </property>
@@ -1888,20 +1888,20 @@
                </widget>
               </item>
               <item row="6" column="0">
-               <widget class="QLabel" name="label_64">
+               <widget class="QLabel" name="label_63">
                 <property name="text">
-                 <string>Mute master volume</string>
+                 <string>Voice activation disabled</string>
                 </property>
                 <property name="buddy">
-                 <cstring>muteallonEdit</cstring>
+                 <cstring>voiceactoffEdit</cstring>
                 </property>
                </widget>
               </item>
               <item row="6" column="1">
-               <widget class="QLineEdit" name="muteallonEdit"/>
+               <widget class="QLineEdit" name="voiceactoffEdit"/>
               </item>
               <item row="6" column="2">
-               <widget class="QToolButton" name="muteallonButton">
+               <widget class="QToolButton" name="voiceactoffButton">
                 <property name="accessibleName">
                  <string>Browse</string>
                 </property>
@@ -1911,20 +1911,20 @@
                </widget>
               </item>
               <item row="7" column="0">
-               <widget class="QLabel" name="label_65">
+               <widget class="QLabel" name="label_64">
                 <property name="text">
-                 <string>Unmute master volume</string>
+                 <string>Mute master volume</string>
                 </property>
                 <property name="buddy">
-                 <cstring>mutealloffEdit</cstring>
+                 <cstring>muteallonEdit</cstring>
                 </property>
                </widget>
               </item>
               <item row="7" column="1">
-               <widget class="QLineEdit" name="mutealloffEdit"/>
+               <widget class="QLineEdit" name="muteallonEdit"/>
               </item>
               <item row="7" column="2">
-               <widget class="QToolButton" name="mutealloffButton">
+               <widget class="QToolButton" name="muteallonButton">
                 <property name="accessibleName">
                  <string>Browse</string>
                 </property>
@@ -1934,20 +1934,20 @@
                </widget>
               </item>
               <item row="8" column="0">
-               <widget class="QLabel" name="label_66">
+               <widget class="QLabel" name="label_65">
                 <property name="text">
-                 <string>Transmit ready in &quot;No interruption&quot; channel</string>
+                 <string>Unmute master volume</string>
                 </property>
                 <property name="buddy">
-                 <cstring>transmitqueueheadEdit</cstring>
+                 <cstring>mutealloffEdit</cstring>
                 </property>
                </widget>
               </item>
               <item row="8" column="1">
-               <widget class="QLineEdit" name="transmitqueueheadEdit"/>
+               <widget class="QLineEdit" name="mutealloffEdit"/>
               </item>
               <item row="8" column="2">
-               <widget class="QToolButton" name="transmitqueueheadButton">
+               <widget class="QToolButton" name="mutealloffButton">
                 <property name="accessibleName">
                  <string>Browse</string>
                 </property>
@@ -1957,20 +1957,20 @@
                </widget>
               </item>
               <item row="9" column="0">
-               <widget class="QLabel" name="label_67">
+               <widget class="QLabel" name="label_66">
                 <property name="text">
-                 <string>Transmit stopped in &quot;No interruption&quot; channel</string>
+                 <string>Transmit ready in &quot;No interruption&quot; channel</string>
                 </property>
                 <property name="buddy">
-                 <cstring>transmitqueuestopEdit</cstring>
+                 <cstring>transmitqueueheadEdit</cstring>
                 </property>
                </widget>
               </item>
               <item row="9" column="1">
-               <widget class="QLineEdit" name="transmitqueuestopEdit"/>
+               <widget class="QLineEdit" name="transmitqueueheadEdit"/>
               </item>
               <item row="9" column="2">
-               <widget class="QToolButton" name="transmitqueuestopButton">
+               <widget class="QToolButton" name="transmitqueueheadButton">
                 <property name="accessibleName">
                  <string>Browse</string>
                 </property>
@@ -1980,20 +1980,20 @@
                </widget>
               </item>
               <item row="10" column="0">
-               <widget class="QLabel" name="label_68">
+               <widget class="QLabel" name="label_67">
                 <property name="text">
-                 <string>Voice activation triggered</string>
+                 <string>Transmit stopped in &quot;No interruption&quot; channel</string>
                 </property>
                 <property name="buddy">
-                 <cstring>voiceacttrigEdit</cstring>
+                 <cstring>transmitqueuestopEdit</cstring>
                 </property>
                </widget>
               </item>
               <item row="10" column="1">
-               <widget class="QLineEdit" name="voiceacttrigEdit"/>
+               <widget class="QLineEdit" name="transmitqueuestopEdit"/>
               </item>
               <item row="10" column="2">
-               <widget class="QToolButton" name="voiceacttrigButton">
+               <widget class="QToolButton" name="transmitqueuestopButton">
                 <property name="accessibleName">
                  <string>Browse</string>
                 </property>
@@ -2003,20 +2003,20 @@
                </widget>
               </item>
               <item row="11" column="0">
-               <widget class="QLabel" name="label_69">
+               <widget class="QLabel" name="label_68">
                 <property name="text">
-                 <string>Voice activation stopped</string>
+                 <string>Voice activation triggered</string>
                 </property>
                 <property name="buddy">
-                 <cstring>voiceactstopEdit</cstring>
+                 <cstring>voiceacttrigEdit</cstring>
                 </property>
                </widget>
               </item>
               <item row="11" column="1">
-               <widget class="QLineEdit" name="voiceactstopEdit"/>
+               <widget class="QLineEdit" name="voiceacttrigEdit"/>
               </item>
               <item row="11" column="2">
-               <widget class="QToolButton" name="voiceactstopButton">
+               <widget class="QToolButton" name="voiceacttrigButton">
                 <property name="accessibleName">
                  <string>Browse</string>
                 </property>
@@ -2026,20 +2026,20 @@
                </widget>
               </item>
               <item row="12" column="0">
-               <widget class="QLabel" name="label_70">
+               <widget class="QLabel" name="label_69">
                 <property name="text">
-                 <string>Voice activation enabled via &quot;Me&quot; menu</string>
+                 <string>Voice activation stopped</string>
                 </property>
                 <property name="buddy">
-                 <cstring>voiceactmeonEdit</cstring>
+                 <cstring>voiceactstopEdit</cstring>
                 </property>
                </widget>
               </item>
               <item row="12" column="1">
-               <widget class="QLineEdit" name="voiceactmeonEdit"/>
+               <widget class="QLineEdit" name="voiceactstopEdit"/>
               </item>
               <item row="12" column="2">
-               <widget class="QToolButton" name="voiceactmeonButton">
+               <widget class="QToolButton" name="voiceactstopButton">
                 <property name="accessibleName">
                  <string>Browse</string>
                 </property>
@@ -2049,6 +2049,29 @@
                </widget>
               </item>
               <item row="13" column="0">
+               <widget class="QLabel" name="label_70">
+                <property name="text">
+                 <string>Voice activation enabled via &quot;Me&quot; menu</string>
+                </property>
+                <property name="buddy">
+                 <cstring>voiceactmeonEdit</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="13" column="1">
+               <widget class="QLineEdit" name="voiceactmeonEdit"/>
+              </item>
+              <item row="13" column="2">
+               <widget class="QToolButton" name="voiceactmeonButton">
+                <property name="accessibleName">
+                 <string>Browse</string>
+                </property>
+                <property name="text">
+                 <string notr="true">...</string>
+                </property>
+               </widget>
+              </item>
+              <item row="14" column="0">
                <widget class="QLabel" name="label_71">
                 <property name="text">
                  <string>Voice activation disabled via &quot;Me&quot; menu</string>
@@ -2058,10 +2081,10 @@
                 </property>
                </widget>
               </item>
-              <item row="13" column="1">
+              <item row="14" column="1">
                <widget class="QLineEdit" name="voiceactmeoffEdit"/>
               </item>
-              <item row="13" column="2">
+              <item row="14" column="2">
                <widget class="QToolButton" name="voiceactmeoffButton">
                 <property name="accessibleName">
                  <string>Browse</string>

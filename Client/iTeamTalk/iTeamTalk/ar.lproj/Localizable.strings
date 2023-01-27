@@ -51,19 +51,19 @@
 "Announce content of text message" = "الإعلان عن محتوى الرسالة النصية";
 
 /* preferences */
-"Announce lost server connection" = "الإعلان عن فقد الإتصال بالخادم";
+"Announce lost server connection" = "الإعلان عن فقدان الإتصال بالخادم";
 
 /* preferences */
 "Announce user joining channel" = "الإعلان عن انضمام المستخدم إلى القناة";
 
 /* preferences */
-"Announce user leaving channel" = "الإعلان بأن المستخدم غادر القناة";
+"Announce user leaving channel" = "اعلان خروج المستخدم من القناة";
 
 /* preferences */
-"Announce user logged onto server" = "الإعلان بأن المستخدم قد سجل دخوله بالخادم";
+"Announce user logged onto server" = "الإعلان بأن المستخدم قد سجل دخوله الى الخادم";
 
 /* preferences */
-"Announce user logged out of server" = "الإعلان بأن المستخدم قد سجل خروجه بالخادم";
+"Announce user logged out of server" = "الإعلان بأن المستخدم قد سجل خروجه من الخادم";
 
 /* text to speech */
 "Announcements" = "الإعلانات";
@@ -108,7 +108,7 @@
 "Bluetooth A2DP Playback" = "Bluetooth A2DP Playback";
 
 /* Sound Devices */
-"Bluetooth playback should use Advanced Audio Distribution Profile" = "Bluetooth playback should use Advanced Audio Distribution Profile";
+"Bluetooth playback should use Advanced Audio Distribution Profile" = "يجب أن يستخدم تشغيل Bluetooth ملف تعريف توزيع الصوت المتقدم";
 
 /* text message type */
 "Broadcast message" = "رسالة عامة";
@@ -150,7 +150,7 @@
 "Check only if this server has enabled BearWare.dk Web Login" = "حدد فقط إذا قام هذا الخادم بتمكين تسجيل الدخول إلى BearWare.dk";
 
 /* log entry */
-"Command failed: %@" = "Command failed: %@";
+"Command failed: %@" = "فشل الأمر: %@";
 
 /* create channel */
 "Commands" = "الأوامر";
@@ -195,7 +195,7 @@
 "Double tap and hold to transmit. Triple tap fast to lock transmission." = "إنقر نقراً مزدوجا ثم ثبت إصبعك لفتح الإرسال , إنقر ثلاث نقرات بشكل سريع   لإقفال الإرسال";
 
 /* preferences */
-"Double tap to lock TX button" = "إنقر نقرتان    لقفل الميكروفون";
+"Double tap to lock TX button" = "انقر نقرًا مزدوجًا لقفل الميكروفون";
 
 /* codec detail */
 "DTX" = "DTX";
@@ -298,7 +298,7 @@
 "Male" = "ذكر";
 
 /* preferences */
-"Master Volume" = "الصوت الرئيسي";
+"Master Volume" = "مستوى الصوت الرئيسي";
 
 /* preferences */
 "Maximum Text Length" = "الحد الأقصى لطول النص";
@@ -309,7 +309,7 @@
 
 /* preferences
    user detail */
-"Media File Volume" = "حجم ملف الوسائط";
+"Media File Volume" = "مستوى صوت ملف الوسائط";
 
 /* preferences */
 "Media file vs. voice volume" = "ملف الوسائط مقابل حجم الصوت";
@@ -321,7 +321,7 @@
 "Message of the Day" = "رسالة اليوم";
 
 /* preferences */
-"Microphone Gain" = "مستوى المايكرفون";
+"Microphone Gain" = "مستوى صوت الميكروفون";
 
 /* codec detail
    create channel */
@@ -413,37 +413,37 @@
 "Permanent Channel" = "قناة دائمة";
 
 /* preferences */
-"Play sound when a user joins the channel" = "إصدار صوت  عندما ينضم المستخدم إلى القناة";
+"Play sound when a user joins the channel" = "تشغيل صوت  عندما ينضم مستخدم إلى القناة";
 
 /* preferences */
-"Play sound when a user leaves the channel" = "إصدار صوت  عندما يغادر  المستخدم القناة";
+"Play sound when a user leaves the channel" = "تشغيل صوت  عندما يغادر  مستخدم القناة";
 
 /* preferences */
 "Play sound when broadcast text message is received" = "تشغيل الصوت عند استقبال رسالة نصية عامة";
 
 /* preferences */
-"Play sound when channel text message is received" = "إصدار صوتاً عندما تتلقى رسالة نصية من القناة";
+"Play sound when channel text message is received" = "تشغيل صوت عندما تتلقى رسالة من القناة";
 
 /* preferences */
-"Play sound when connection is dropped" = "إصدار صوتاً عندما ينقطع الاتصال ";
+"Play sound when connection is dropped" = "إصدار صوتاً عند قطع الاتصال ";
 
 /* preferences */
-"Play sound when private text message is received" = "إصدار صوتاً عندما تتلقى رسالةاً نصيةاً خاصة";
+"Play sound when private text message is received" = "تشغيل صوت عند تلقي رسالة خاصة";
 
 /* preferences */
-"Play sound when transmit ready in \"No Interruptions\" channel" = "تشغيل الصوت عند الإرسال في قناة \"لا توجد بها مقاطعات\" ";
+"Play sound when transmit ready in \"No Interruptions\" channel" = "تشغيل الصوت عند الإرسال في قناة \"بدون مقاطعات\" ";
 
 /* preferences */
-"Play sound when user logs off to the server" = "تشغيل الصوت عندما يقوم المستخدم بتسجيل الخروج من الخادم";
+"Play sound when user logs off to the server" = "تشغيل الصوت عندما يقوم مستخدم بتسجيل الخروج من الخادم";
 
 /* preferences */
-"Play sound when user logs on to the server" = "تشغيل الصوت عندما يقوم المستخدم بتسجيل الدخول إلى الخادم";
+"Play sound when user logs on to the server" = "تشغيل الصوت عندما يقوم مستخدم بتسجيل الدخول إلى الخادم";
 
 /* preferences */
-"Play sound when voice activation is triggered" = "تشغيل الصوت عند تشغيل التنشيط الصوتي";
+"Play sound when voice activation is triggered" = "أصدار صوت عند تشغيل التنشيط الصوتي";
 
 /* preferences */
-"Play sound when voice transmission is toggled" = "إصدار تنبيه عندما تقوم بتبديل الصوت (أخذ المايكرفون)";
+"Play sound when voice transmission is toggled" = "إصدار تنبيه عندما تقوم بتبديل الصوت (أخذ الميكروفون)";
 
 /* preferences */
 "Pop up text message when new messages are received" = "إنبثاق نافذةاً عندما تتلقى رسالة نصية";
@@ -458,7 +458,7 @@
 "Preferred" = "Preferred";
 
 /* preferences */
-"Pressing Return-key sends text message" = "يؤدي الضغط على مفتاح  الرجوع (Return) , لإرسال رسالةاً نصيةاً";
+"Pressing Return-key sends text message" = "يؤدي الضغط على رجوع (Return) في لوحة المفاتيح, لإرسال رسالةاً نصيةاً";
 
 /* text message type */
 "Private message" = "رسالة خاصة";
@@ -494,7 +494,7 @@
 "Receive desktop sessions by default" = "تلقي جلسات سطح المكتب بشكل افتراضي";
 
 /* preferences */
-"Receive media file streams by default" = "تلقي ملفات ال streams  بشكل إفتراضي";
+"Receive media file streams by default" = "تلقي الملفات الصوتية بشكل إفتراضي";
 
 /* preferences */
 "Receive text messages by default" = "تلقي الرسائل النصية بشكل افتراضي";
@@ -530,16 +530,16 @@
 "Send private message" = "إرسال رسالة خاصة";
 
 /* preferences */
-"Server Connection Lost" = "تم فقد الاتصال بالخادم";
+"Server Connection Lost" = "فقدان الاتصال بالخادم";
 
 /* server entry */
 "Server List Entry" = "قائمة الخوادم";
 
 /* server entry */
-"Server Status" = "Server Status";
+"Server Status" = "حالة الخادم";
 
 /* preferences */
-"Show in Server List" = "Show in Server List";
+"Show in Server List" = "إظهار في قائمة الخوادم";
 
 /* preferences */
 "Show male or female icon" = "إظهار رمز ذكر أو أنثى";
@@ -567,7 +567,7 @@
 
 /* preferences
    text to speech */
-"Sound Events" = "أحداث الصوت";
+"Sound Events" = "صوت الاحداث";
 
 /* preferences */
 "Sound System" = "نظام الصوت";
@@ -588,7 +588,7 @@
 "Speex Variable Bitrate Codec" = "Speex Variable Bitrate Codec";
 
 /* Text message view */
-"Status Event" = "Status Event";
+"Status Event" = "حدث الحالة";
 
 /* codec detail
    create channel */
@@ -616,7 +616,7 @@
 "Toggle to enable/disable transmission" = "تبديل لتمكين او  تعطيل الإرسال";
 
 /* preferences */
-"Toggle voice transmission using headset" = "Toggle voice transmission using headset";
+"Toggle voice transmission using headset" = "تبديل ارسال الصوت باستخدام سماعة الرأس";
 
 /* create channel */
 "Topic" = "الموضوع";
@@ -625,7 +625,7 @@
 "Translator" = "المترجم";
 
 /* channel list */
-"Transmit inactive" = "Transmit inactive";
+"Transmit inactive" = "الميكروفون معطل";
 
 /* codec detail */
 "Transmit Interval" = "الفاصل الزمني للإرسال";
@@ -647,7 +647,7 @@
 "UDP Port" = "منفذ UDP";
 
 /* serverlist */
-"Unofficial server" = "Unofficial server";
+"Unofficial server" = "خادم غير رسمي";
 
 /* preferences */
 "Use echo cancellation and automatic gain control" = "استخدام إلغاء الصدى والتحكم بالميكروفون بشكل تلقائي";
@@ -694,7 +694,7 @@
 "Username" = "اسم المستخدم";
 
 /* Web Login Controller */
-"Username or password incorrect" = "اسم المستخدم او كلمة المرور غير صحيح";
+"Username or password incorrect" = "خطأ في أسم المستخدم أو كلمة المرور";
 
 /* server entry */
 "Users Online" = "مستخدمين متصلين";

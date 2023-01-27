@@ -8,7 +8,7 @@
 "0QA-gn-V1p.text" = "فارغ";
 
 /* Class = "UILabel"; text = "Show Public Servers"; ObjectID = "3DD-Ra-lNz"; */
-"3DD-Ra-lNz.text" = "Show Public Servers";
+"3DD-Ra-lNz.text" = "عرض الخوادم العامة";
 
 /* Class = "UIButton"; normalTitle = "Send"; ObjectID = "3NI-HT-A3N"; */
 "3NI-HT-A3N.normalTitle" = "ارسال";
@@ -47,7 +47,7 @@
 "b6N-H7-SIe.normalTitle" = "استخدم ترميز  Speex VBR";
 
 /* Class = "UILabel"; text = "Speech"; ObjectID = "B8t-mo-k8g"; */
-"B8t-mo-k8g.text" = "فارغ";
+"B8t-mo-k8g.text" = "تحويل النص الى كلام";
 
 /* Class = "UIButton"; normalTitle = "Reset Web Login ID"; ObjectID = "baE-IB-ajD"; */
 "baE-IB-ajD.normalTitle" = "إعادة تعيين معرف تسجيل الدخول";
@@ -59,7 +59,7 @@
 "BLM-fs-qcG.title" = "رجوع";
 
 /* Class = "UILabel"; text = "Setup Sound Events"; ObjectID = "bua-Pf-Vpn"; */
-"bua-Pf-Vpn.text" = "إعداد صوت الحدث";
+"bua-Pf-Vpn.text" = "إعداد صوت الاحداث";
 
 /* Class = "UIButton"; normalTitle = "Use Speex Codec"; ObjectID = "cGm-Jp-0zI"; */
 "cGm-Jp-0zI.normalTitle" = "استخدم ترميز Speex";
@@ -83,7 +83,7 @@
 "eJb-Cn-ciJ.text" = "اختر ما يتم نطقه";
 
 /* Class = "UILabel"; text = "Show Unofficial Servers"; ObjectID = "feN-jH-qaq"; */
-"feN-jH-qaq.text" = "Show Unofficial Servers";
+"feN-jH-qaq.text" = "إظهار الخوادم غير الرسمية";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
 "Fu9-tA-eYj.text" = "فارغ";
@@ -92,13 +92,13 @@
 "gA8-TJ-0RU.title" = "قناة الدردشة";
 
 /* Class = "UILabel"; text = "Show public servers in server list"; ObjectID = "GeK-hh-gst"; */
-"GeK-hh-gst.text" = "Show public servers in server list";
+"GeK-hh-gst.text" = "إظهار الخوادم العامة في قائمة الخوادم";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "GFy-mN-epU"; */
 "GFy-mN-epU.text" = "العنوان";
 
 /* Class = "UILabel"; text = "Show Public Servers"; ObjectID = "gPj-u1-dPn"; */
-"gPj-u1-dPn.text" = "Show Public Servers";
+"gPj-u1-dPn.text" = "عرض الخوادم العامة";
 
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
 "Hcv-zz-riB.text" = "تسجيل الدخول عبر الويب الى BearWare.dk";
@@ -119,10 +119,10 @@
 "kRp-LE-RFh.text" = "فارغ";
 
 /* Class = "UITableViewController"; title = "Setup Sound Events"; ObjectID = "Ksa-x9-2Mq"; */
-"Ksa-x9-2Mq.title" = "إعداد صوت الحدث";
+"Ksa-x9-2Mq.title" = "إعداد صوت الاحداث";
 
 /* Class = "UILabel"; text = "Choose sounds events to play"; ObjectID = "KsW-VX-Rtb"; */
-"KsW-VX-Rtb.text" = "اختر صوت الحدث للتشغيل";
+"KsW-VX-Rtb.text" = "اختر أصوات الأحداث";
 
 /* Class = "UIButton"; normalTitle = "Join Channel"; ObjectID = "l6D-Hs-MdG"; */
 "l6D-Hs-MdG.normalTitle" = "الانضمام إلى القناة";
@@ -143,13 +143,13 @@
 "NA0-UK-wve.title" = "التفضيلات";
 
 /* Class = "UILabel"; text = "Setup Sound Devices"; ObjectID = "ntU-ZP-sKb"; */
-"ntU-ZP-sKb.text" = "Setup Sound Devices";
+"ntU-ZP-sKb.text" = "إعداد أجهزة الصوت";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "nVj-7w-Sta"; */
 "nVj-7w-Sta.text" = "فارغ";
 
 /* Class = "UILabel"; text = "Show Official Servers"; ObjectID = "o2H-Vm-Vjd"; */
-"o2H-Vm-Vjd.text" = "Show Official Servers";
+"o2H-Vm-Vjd.text" = "إظهار الخوادم الرسمية";
 
 /* Class = "UITableViewController"; title = "BearWare.dk Web Login"; ObjectID = "o7z-cC-U4w"; */
 "o7z-cC-U4w.title" = "تسجيل الدخول عبر الويب الى BearWare.dk";
@@ -170,10 +170,10 @@
 "Q0w-pu-giG.text" = "اعداد الاعلامات";
 
 /* Class = "UILabel"; text = "Choose input and output devices"; ObjectID = "qgW-1i-aGQ"; */
-"qgW-1i-aGQ.text" = "اختر ميكروفون الإدخال";
+"qgW-1i-aGQ.text" = "اختر أجهزة الإدخال والإخراج";
 
 /* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */
-"rNU-2J-hMO.normalTitle" = " استخدام من دون صوت ";
+"rNU-2J-hMO.normalTitle" = " استخدام بدون صوت ";
 
 /* Class = "UIButton"; normalTitle = "Use OPUS Codec"; ObjectID = "Rrg-2O-NzF"; */
 "Rrg-2O-NzF.normalTitle" = "استخدم  ترميز OPUS";
@@ -200,7 +200,7 @@
 "w6E-jf-09e.text" = "فارغ";
 
 /* Class = "UILabel"; text = "Select the text-to-speech voice to use"; ObjectID = "Wbh-f7-64c"; */
-"Wbh-f7-64c.text" = "فارغ";
+"Wbh-f7-64c.text" = "حدد صوت تحويل النص إلى كلام لاستخدامه";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "WcB-pN-blB"; */
 "WcB-pN-blB.text" = "فارغ";
@@ -215,7 +215,7 @@
 "WRa-tI-lpY.normalTitle" = "طرد وحظر المستخدم";
 
 /* Class = "UITableViewController"; title = "Setup Sound Devices"; ObjectID = "XmQ-1z-cFv"; */
-"XmQ-1z-cFv.title" = "Setup Sound Inputs";
+"XmQ-1z-cFv.title" = "إعداد مدخلات الصوت";
 
 /* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
 "Y9o-rs-HCe.title" = "قطع الاتصال";
