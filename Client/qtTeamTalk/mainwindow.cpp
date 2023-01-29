@@ -6045,12 +6045,12 @@ void MainWindow::slotUpdateUI()
     ui.actionDesktopInput->setEnabled(userid>0);
     ui.actionMediaFile->setEnabled(userid>0);
     //intercept only works for admins
-    ui.actionInterceptUserMessages->setEnabled(userid>0);
-    ui.actionInterceptChannelMessages->setEnabled(userid>0);
-    ui.actionInterceptVoice->setEnabled(userid>0);
-    ui.actionInterceptVideo->setEnabled(userid>0);
-    ui.actionInterceptDesktop->setEnabled(userid>0);
-    ui.actionInterceptMediaFile->setEnabled(userid>0);
+    ui.actionInterceptUserMessages->setEnabled(me_admin);
+    ui.actionInterceptChannelMessages->setEnabled(me_admin);
+    ui.actionInterceptVoice->setEnabled(me_admin);
+    ui.actionInterceptVideo->setEnabled(me_admin);
+    ui.actionInterceptDesktop->setEnabled(me_admin);
+    ui.actionInterceptMediaFile->setEnabled(me_admin);
 
     ui.actionIncreaseVoiceVolume->setEnabled(userid>0 && user.nVolumeVoice < SOUND_VOLUME_MAX);
     ui.actionLowerVoiceVolume->setEnabled(userid>0 && user.nVolumeVoice > SOUND_VOLUME_MIN);
