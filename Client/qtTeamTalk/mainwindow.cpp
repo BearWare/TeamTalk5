@@ -6033,6 +6033,7 @@ void MainWindow::slotUpdateUI()
     ui.actionOp->setEnabled(userid>0);
     ui.actionKickFromChannel->setEnabled(userid>0);
     ui.actionKickFromServer->setEnabled(userid>0 && (userrights & USERRIGHT_KICK_USERS));
+    ui.actionKickAndBanFromChannel->setEnabled(userid>0 && (userrights & USERRIGHT_BAN_USERS));
     ui.actionKickBan->setEnabled(userid>0 && (userrights & USERRIGHT_BAN_USERS));
     ui.actionDesktopAccessAllow->setEnabled(userid>0);
 

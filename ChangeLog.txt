@@ -17,6 +17,7 @@ Default Qt Client
 - Sound event when interception stopped
 - CTRL+G on a channel now also returns user count
 - Fixed interception menu action not only available for admin
+- Fixed "Kick and ban from channel" not disable when not connected to server
 Accessible Windows Client
 -
 Android Client
