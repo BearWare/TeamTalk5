@@ -32,7 +32,7 @@
 #include <ace/SString.h>
 #include "Common.h"
 
-#define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.10")
+#define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.11")
 
 /* parameter names */
 #define TT_USERID ACE_TEXT("userid")
@@ -196,6 +196,8 @@
 #define SERVER_MESSAGE_DELIVER ACE_TEXT("messagedeliver")
 #define SERVER_BANNED ACE_TEXT("userbanned")
 #define SERVER_USERACCOUNT ACE_TEXT("useraccount")
+#define SERVER_ADDUSERACCOUNT ACE_TEXT("adduseraccount") //v5.11
+#define SERVER_REMOVEUSERACCOUNT ACE_TEXT("removeuseraccount") //v5.11
 #define SERVER_FILE_ACCEPTED ACE_TEXT("fileaccepted")
 #define SERVER_FILE_DELIVER ACE_TEXT("filedeliver")
 #define SERVER_FILE_COMPLETED ACE_TEXT("filecompleted")
@@ -333,6 +335,8 @@ namespace teamtalk {
 
     bool GetProperty(const mstrings_t& properties, const ACE_TString& prop,
                      ACE_Time_Value& tv);
+
+    void GetProperties(const mstrings_t& properties, UserAccount& useraccount);
 
     ACE_TString PrepareIntegerArray(const std::vector<int>& array);
 

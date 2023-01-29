@@ -3442,6 +3442,11 @@ ErrorMsg ServerNode::UserNewUserAccount(int userid, const UserAccount& regusr)
                 m_srvguard->OnSaveConfiguration(user.get());
             }
         }
+        for (auto au : GetAdministrators())
+        {
+            if (VersionSameOrLater(au->GetStreamProtocol(), ACE_TEXT("5.11")))
+                au->DoAddUserAccount(regusr);
+        }
     }
     return err;
 }
@@ -3462,6 +3467,11 @@ ErrorMsg ServerNode::UserDeleteUserAccount(int userid, const ACE_TString& userna
             err = m_srvguard->SaveConfiguration(*user, *this);
             if (err.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
                 m_srvguard->OnSaveConfiguration(user.get());
+        }
+        for (auto au : GetAdministrators())
+        {
+            if (VersionSameOrLater(au->GetStreamProtocol(), ACE_TEXT("5.11")))
+                au->DoRemoveUserAccount(username);
         }
     }
     return err;

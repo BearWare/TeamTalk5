@@ -21,13 +21,13 @@
     <string name="text_con_failed">فشل الاتصال بالخادم. جاري إعادة المحاولة...</string>
     <string name="text_con_lost">انقطع الاتصال بالخادم</string>
     <string name="text_con_success">متصل بالخادم</string>
-    <string name="text_con_cmderr">Failed to issue command</string>
+    <string name="text_con_cmderr">فشل في تنفيذ الأمر</string>
     <string name="text_cmderr_login">فشل تسجيل الدخول</string>
     <string name="text_cmd_loggedin">سجل دخول</string>
     <string name="text_cmd_joinchan">انضم الى القناة:</string>
     <string name="text_cmd_leftchan">غادر القناة:</string>
-    <string name="text_cmd_joinroot">انضم إلى القناة الاساسية</string>
-    <string name="text_cmd_leftroot">غادر القناة الاساسية</string>
+    <string name="text_cmd_joinroot">انضم إلى القناة الرئيسية</string>
+    <string name="text_cmd_leftroot">غادر القناة الرئيسية</string>
     <string name="text_cmd_userjoinchan">انضم الى القناة</string>
     <string name="text_cmd_userleftchan">غادر القناة</string>
     <string name="text_cmd_servername">اسم الخادم: </string>
@@ -37,11 +37,11 @@
     <string name="pref_cat_soundtest">اختبار الصوت</string>
     <string name="pref_header_general">عام</string>
     <string name="pref_title_nickname">اسم المستخدم</string>
-    <string name="pref_default_nickname">بلا اسم</string>
+    <string name="pref_default_nickname">بدون اسم</string>
     <string name="pref_title_proximity_sensor">مستشعر القرب</string>
     <string name="pref_title_keep_screen_on">ابقاء الشاشة تعمل اثناء الاتصال</string>
     <string name="pref_title_vibrate">الاهتزاز عند تفعيل الضغط والتحدث</string>
-    <string name="pref_show_log_messages">إظهار رسائل السجل في سجل الدردشة</string>
+    <string name="pref_show_log_messages">إظهار سجل الرسائل في سجل الدردشة</string>
     <string name="pref_title_audio_icons">أحداث الصوت</string>
     <string name="pref_title_rx_tx_audio_icon">تبديل نقل الصوت</string>
     <string name="pref_summary_rx_tx_audio_icon">تشغيل الصوت عند الضغط على زر TX</string>
@@ -71,11 +71,11 @@
     <string name="pref_title_sub_bcastmsg">الرسائل العامة</string>
     <string name="pref_summary_sub_bcastmsg">تلقي الرسائل النصية العامة</string>
     <string name="pref_title_sub_voice">الصوت</string>
-    <string name="pref_summary_sub_voice">Subscribe to voice streams</string>
+    <string name="pref_summary_sub_voice">تلقي صوت المستخدمين</string>
     <string name="pref_title_sub_video">الفيديو</string>
     <string name="pref_summary_sub_video">تلقي بث الفيديو</string>
     <string name="pref_title_sub_desktop">سطح المكتب</string>
-    <string name="pref_summary_sub_desktop">Subscribe to desktop streams</string>
+    <string name="pref_summary_sub_desktop">تلقي جلسات سطح المكتب</string>
     <string name="pref_title_sub_mediafile">ملف وسائط</string>
     <string name="pref_summary_sub_mediafile">تلقي بث ملف الوسائط</string>
     <string name="pref_header_tts">تحويل النص الى كلام</string>
@@ -94,22 +94,22 @@
     <string name="pref_title_channel_message">رسائل القناة</string>
     <string name="pref_summary_channel_message">نطق رسائل القناة</string>
     <string name="pref_title_broadcast_message">الرسائل العامة</string>
-    <string name="pref_summary_broadcast_message">نطق الرسائل الخاصة</string>
-    <string name="pref_title_mute_speakers">كتم مكبرات الصوت عند الضغط على زر TX</string>
+    <string name="pref_summary_broadcast_message">نطق الرسائل العامة</string>
+    <string name="pref_title_mute_speakers">كتم مكبرات الصوت عند الضغط على زر الميكروفون</string>
     <string name="pref_summary_mute_speakers">قم بتمكين هذا لتجنب صدى الصوت من مكبرات الصوت</string>
     <string name="pref_title_show_usernames">اعرض أسماء المستخدمين</string>
     <string name="pref_summary_show_usernames">عرض أسماء المستخدمين بدلا من الاسماء المستعارة</string>
     <string name="pref_title_bearwareid">تسجيل الدخول عن طريق BearWare.dk</string>
     <string name="pref_summary_bearwareid">اعداد BearWare.dk WebLogin</string>
 
-    <string name="pref_title_mediafile_volume">حجم ملف الوسائط</string>
+    <string name="pref_title_mediafile_volume">مستوى صوت ملف الوسائط</string>
     <string name="pref_summary_mediafile_volume">ملف الوسائط مقابل حجم الصوت</string>
     <string name="pref_title_speakerphone_checkbox">تفعيل مكبر الصوت</string>
     <string name="pref_summary_speakerphone_checkbox">التبديل من سماعة الأذن إلى مكبرات الصوت</string>
     <string name="pref_title_bluetooth_headset_checkbox">استخدم ميكروفون سماعة البلوتوث</string>
     <string name="pref_summary_bluetooth_headset_checkbox">عندما تكون سماعة البلوتوث متصلة ، استخدم الميكروفون الخاص بها</string>
     <string name="pref_title_voice_processing_checkbox">تفعيل المعالجة المسبقة للصوت</string>
-    <string name="pref_summary_voice_processing_checkbox">استخدم إلغاء الصدى والتحكم التلقائي في بالمايكرفون</string>
+    <string name="pref_summary_voice_processing_checkbox">استخدم إلغاء الصدى والتحكم التلقائي في الميكروفون</string>
     <string name="pref_title_public_servers">إظهار الخوادم العامة</string>
     <string name="pref_summary_public_servers">تضمين الخوادم العامة في قائمة الخوادم</string>
 
@@ -129,7 +129,7 @@
     <string name="title_section_noaudio">بدون صوت</string>
     <string name="opus_application">Application</string>
 
-    <string name="button_tx">TX</string>
+    <string name="button_tx">ميكروفون</string>
     <string name="button_remove">حذف</string>
     <string name="button_edit">تحرير</string>
     <string name="action_banchan">حظر من القناة الحالية</string>
@@ -166,7 +166,7 @@
     <string name="user_prop_title_clientname">اسم العميل</string>
     <string name="user_prop_title_voice_volume">حجم الصوت</string>
     <string name="user_prop_title_mute_voice">كتم الصوت</string>
-    <string name="user_prop_title_media_volume">حجم ملف الوسائط</string>
+    <string name="user_prop_title_media_volume">مستوى صوت ملف الوسائط</string>
     <string name="user_prop_title_mute_media">كتم ملف الوسائط</string>
     <string name="user_prop_title_subscribe_txtmsg">الاشتراك في رسائل المستخدم</string>
     <string name="user_prop_title_subscribe_chanmsg">الاشتراك في رسائل القناة</string>
@@ -179,14 +179,14 @@
     <string name="label_connection">اتصال:</string>
     <string name="stat_online">متصل</string>
     <string name="stat_offline">غير متصل</string>
-    <string name="stat_connecting">توصيل</string>
+    <string name="stat_connecting">يتصل</string>
     <string name="label_voice">صوت:</string>
-    <string name="label_desktop">Desktop:</string>
+    <string name="label_desktop">سطح المكتب:</string>
     <string name="label_ping">Ping:</string>
-    <string name="label_rxtx">RX/TX:</string>
+    <string name="label_rxtx">إرسال/استلام:</string>
     <string name="label_total">المجموع:</string>
     <string name="label_mediafile">ملف الوسائط:</string>
-    <string name="default_">Default</string>
+    <string name="default_">إفتراضي</string>
 
     <string name="server_list_empty">قائمة خوادم TeamTalk5 فارغة</string>
     <string name="no_nickname">لا يوجد اسم</string>
@@ -196,7 +196,7 @@
 
     <string name="err_init_sound_input">فشل في تهيئة جهاز إدخال الصوت</string>
     <string name="err_init_sound_output">فشل في تهيئة جهاز إخراج الصوت</string>
-    <string name="err_retrieve_public_server_list">فشل استرداد قائمة الخادم العام</string>
+    <string name="err_retrieve_public_server_list">فشل استرداد قائمة الخوادم العامة</string>
     <string name="err_send_text_message">فشل في إرسال رسالة نصية</string>
     <string name="err_connection">فشل الاتصال</string>
     <string name="err_stream_media">فشل بث ملف الوسائط</string>
@@ -205,7 +205,7 @@
     <string name="action_save">حفظ</string>
     <string name="action_connect">اتصال</string>
     <string name="action_new_server">خادم جديد</string>
-    <string name="action_refresh">Refresh</string>
+    <string name="action_refresh">تحديث</string>
     <string name="action_import_serverlist">استيراد من ملف .tt</string>
     <string name="action_export_serverlist">تصدير قائمة الخوادم</string>
     <string name="serverlist_export_confirmation">تم تصدير قائمة الخادم الى %1$s</string>
@@ -213,21 +213,21 @@
     <string name="pref_title_server_props">خصائص خادم TeamTalk 5</string>
     <string name="pref_title_server_info">معلومات الخادم</string>
     <string name="pref_title_server_name">اسم الخادم</string>
-    <string name="pref_title_server_address">اسم المجال أو عنوان IP</string>
+    <string name="pref_title_server_address">عنوان المضيف أو عنوان IP</string>
     <string name="pref_title_tcp_port">TCP Port</string>
     <string name="pref_title_udp_port">UDP Port</string>
     <string name="pref_title_encription">مشفر</string>
     <string name="pref_title_authentication">المصادقة</string>
     <string name="pref_title_username">اسم المستخدم</string>
     <string name="pref_title_password">كلمة المرور</string>
-    <string name="pref_title_bearware">BearWare.dk Web Login</string>
+    <string name="pref_title_bearware">تسجيل الدخول بحساب bearware.dk</string>
     <string name="pref_title_join_channel">الانضمام إلى القناة</string>
     <string name="pref_title_channel">القناة</string>
     <string name="pref_title_channel_password">كلمة مرور القناة</string>
     <string name="pref_title_last_channel">آخر قناة تم الانضمام إليها</string>
 
     <string name="pref_summary_server_name">سيظهر الخادم بهذا الاسم في قائمة الخوادم لديك</string>
-    <string name="pref_summary_server_address">اسم المجال أو عنوان IP الخاص بالخادم</string>
+    <string name="pref_summary_server_address">عنوان المضيف أو عنوان IP الخاص بالخادم</string>
 
     <string name="channel_password_prompt">أدخل كلمة مرور القناة</string>
     <string name="button_download">تحميل</string>
@@ -244,7 +244,7 @@
     <string name="upload_progress_title">تحميل %1$s</string>
     <string name="upload_progress">%1$d%%, انقر للإلغاء</string>
     <string name="upload_started">بدأ التحميل</string>
-    <string name="transfer_stopped">Transfer stopped</string>
+    <string name="transfer_stopped">توقف النقل</string>
     <string name="complete">اكتمال</string>
     <string name="remote_file_exists">الملف %1$s موجود بالفعل على الخادم في هذه القناة</string>
     <string name="remote_file_remove_confirmation">هل ترغب حقًا في إزالة الملف %1$s من الخادم?</string>
@@ -263,7 +263,7 @@
     <string name="incgain">رفع صوت المايكرفون</string>
 
     <string name="speaker_volume_description">مستوى الصوت %1$s</string>
-    <string name="mic_gain_description">مستوى صوت المايكرفون %1$s</string>
+    <string name="mic_gain_description">مستوى صوت الميكروفون %1$s</string>
 
     <string name="voice_activation_on">قم بتشغيل التنشيط الصوتي</string>
     <string name="voice_activation_off">قم بإيقاف التنشيط الصوتي</string>
@@ -281,7 +281,7 @@
     <string name="text_maxbitrate">Max Bitrate</string>
     <string name="text_txinterval">الفاصل الزمني للإرسال</string>
     <string name="text_framesize">Frame size</string>
-    <string name="text_vbr">Variable Bitrate</string>
+    <string name="text_vbr">معدل بت متغير</string>
     <string name="text_quality">الجودة</string>
     <string name="text_publicserver">خادم عام</string>
     <string name="text_localserver">خادم محلي</string>
@@ -313,47 +313,47 @@
     <string name="private_message_notification_hint">انقر للقراءة والإجابة</string>
     <string name="user_state_now_speaking">%1$s يتحدث</string>
     <string name="text_waitstream">في انتظار بث الفيديو</string>
-    <string name="text_desktop_session">Desktop session</string>
-    <string name="text_webcam_session">Webcam session</string>
+    <string name="text_desktop_session">جلسة سطح المكتب</string>
+    <string name="text_webcam_session">جلسة الفيديو</string>
     <string name="text_mediafile_session">Media file session</string>
 
-    <string name="permission_audioinput">Audio recording and playback will be unavailable</string>
-    <string name="permission_audiomodify">Audio recording and playback will be unavailable</string>
-    <string name="permission_filerx">Download files will be unavailable</string>
-    <string name="permission_filetx">Upload and importing files will be unavailable</string>
-    <string name="permission_internet">Client will be unable to connect to servers</string>
-    <string name="permission_vibrate">Vibrate during push-to-talk will be unavailable</string>
+    <string name="permission_audioinput">تسجيل الصوت والتشغيل لن يكونا متاحين</string>
+    <string name="permission_audiomodify">تسجيل الصوت والتشغيل لن يكونا متاحين</string>
+    <string name="permission_filerx">سيكون تحميل الملفات غير متاح</string>
+    <string name="permission_filetx">تحميل واستيراد الملفات لن تكون متاحة</string>
+    <string name="permission_internet">لن يتمكن العميل من الاتصال بالخوادم</string>
+    <string name="permission_vibrate">لن يكون الاهتزاز أثناء الضغط والتحدث متاحًا</string>
     <string name="permission_wake_lock">يمكن أن يُفقد الاتصال بالخادم عندما يتم تعتيم الشاشة</string>
     <string name="permission_read_phone_state">سيكون اكتشاف المكالمات الهاتفية الواردة غير ممكنًا</string>
     <string name="permission_bluetooth">سيكون استخدام ميكروفون سماعة رأس Bluetooth غير ممكنًا</string>
 
-    <string name="title_activity_web_login">WebLoginActivity</string>
+    <string name="title_activity_web_login">نشاط تسجيل الدخول على الويب</string>
     <string name="weblogin_prop_title_bearwareid">اسم المستخدم</string>
     <string name="weblogin_prop_title_bearwarepasswd">كلمة المرور</string>
     <string name="weblogin_prop_title_login">تسجيل الدخول</string>
     <string name="weblogin_prop_title_web_login_id">معرف تسجيل دخول BearWare.dk</string>
-    <string name="weblogin_prop_title_create_web_login_id">Create BearWare.dk Login ID</string>
-    <string name="weblogin_prop_title_reset_web_login_id">Reset BearWare.dk Login ID</string>
+    <string name="weblogin_prop_title_create_web_login_id">قم بإنشاء حساب من اجل تسجيل الدخول إلى BearWare.dk</string>
+    <string name="weblogin_prop_title_reset_web_login_id">إعادة تعيين معرف تسجيل الدخول إلى BearWare.dk</string>
     <string name="text_bearwarelogin_success">%1$s اسم المستخدم الخاص بك %2$s تم التحقق منه</string>
     <string name="text_bearwarelogin_failed">فشل مصادقة اسم المستخدم %1$s (%2$s)</string>
     <string name="text_weblogin_authfailure">فشل BearWare.dk في المصادقة. تحقق من تسجيل الدخول إلى BearWare.dk في التفضيلات</string>
     <string name="editmsg">رسالة:</string>
     <string name="filepathlab">ملف:</string>
-    <string name="channamelab">Channel\'s name:</string>
-    <string name="chanpswlab">Channel\'s password:</string>
-    <string name="chantopiclab">Channel\'s topic:</string>
-    <string name="chanoppswlab">Operator\'s password:</string>
-    <string name="maxuserslab">Number of maximal users:</string>
-    <string name="diskquotalab">Disk quota:</string>
-    <string name="bwidlab">Username:</string>
-    <string name="bwpswlab">Password:</string>
-    <string name="ttversion">TeamTalk v</string>
+    <string name="channamelab">اسم القناة:</string>
+    <string name="chanpswlab">كلمة مرور القناة:</string>
+    <string name="chantopiclab">موضوع القناة:</string>
+    <string name="chanoppswlab">كلمة مرور المشرف:</string>
+    <string name="maxuserslab">الحد الأقصى للمستخدمين:</string>
+    <string name="diskquotalab">الحد الأقصى لحجم القرص:</string>
+    <string name="bwidlab">اسم المستخدم:</string>
+    <string name="bwpswlab">كلمة المرور:</string>
+    <string name="ttversion">اصدار TeamTalk</string>
     <string name="ttdllversion">TeamTalk DLL v</string>
-    <string name="pref_title_bearware_summary">Check only if this server has enabled BearWare.dk Web Login</string>
+    <string name="pref_title_bearware_summary">حدد فقط إذا كان الخادم قد قام بتمكين تسجيل الدخول ل BearWare.dk</string>
     <string name="pref_cat_about">حول</string>
     <string name="pref_title_contrib">المطورين</string>
     <string name="pref_title_translator">مترجم</string>
-    <string name="pref_title_libraries">Third Party Libraries</string>
+    <string name="pref_title_libraries">مكتبات الطرف الثالث</string>
     <string name="channel_prop_title_hiddenchannel">مخفي</string>
     <string name="pref_title_gender">الجنس</string>
     <string name="pref_summary_gender">حدد اذا كنت انثى</string>
@@ -368,17 +368,17 @@
     <string name="pref_summary_channel_message_sent">أعلن عن رسائل القناة المرسلة</string>
     <string name="text_tts_channel_message_sent">تم إرسال رسالة الى القناة: %1$s</string>
     <string name="err_text_length">تم تجاوز طول الرسالة بمقدار %1$d حرف</string>
-    <string name="pref_summary_official_servers">Include official servers in Server List</string>
-    <string name="pref_title_official_servers">Show official servers</string>
-    <string name="pref_summary_unofficial_servers">Include unofficial servers in Server List</string>
-    <string name="pref_title_unofficial_servers">Show unofficial servers</string>
-    <string name="pref_header_serverlist">Server List</string>
-    <string name="text_server_summary">%1$s:%2$d, Users: %3$d, Country: %4$s</string>
-    <string name="pref_title_server_connection">Connection</string>
-    <string name="pref_title_server_motd">Message of the Day</string>
-    <string name="pref_title_server_usercount">Users Online</string>
-    <string name="pref_title_server_country">Country</string>
-    <string name="pref_title_server_status">Server Status</string>
+    <string name="pref_summary_official_servers">قم بتضمين الخوادم الرسمية في قائمة الخوادم</string>
+    <string name="pref_title_official_servers">إظهار الخوادم الرسمية</string>
+    <string name="pref_summary_unofficial_servers">قم بتضمين الخوادم غير الرسمية في قائمة الخوادم</string>
+    <string name="pref_title_unofficial_servers">إظهار الخوادم غير الرسمية</string>
+    <string name="pref_header_serverlist">قائمة الخوادم</string>
+    <string name="text_server_summary">%1$s:%2$d, مستخدمين: %3$d, الدولة: %4$s</string>
+    <string name="pref_title_server_connection">اتصال</string>
+    <string name="pref_title_server_motd">رسالة اليوم</string>
+    <string name="pref_title_server_usercount">المستخدمين المتصلين</string>
+    <string name="pref_title_server_country">الدولة</string>
+    <string name="pref_title_server_status">حالة الخادم</string>
 
 
 </resources>

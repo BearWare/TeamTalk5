@@ -119,6 +119,7 @@ private:
     void slotEventNewVideo();
     void slotEventNewDesktop();
     void slotEventIntercept();
+    void slotEventInterceptEnd();
     void slotEventFilesUpdated();
     void slotEventFileTxDone();
     void slotEventQuestionMode();
