@@ -202,7 +202,7 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
     connect(ui.bannedTreeView, &QTreeView::doubleClicked, this, &BannedUsersDlg::slotUnbanUser);
     connect(ui.unbannedTreeView, &QTreeView::doubleClicked, this, &BannedUsersDlg::slotBanUser);
     connect(ui.banEdit, &QLineEdit::textEdited, banfunc);
-    connect(ui.bantypeBox, &QComboBox::currentIndexChanged, banfunc);
+    connect(ui.bantypeBox, &QComboBox::currentTextChanged, banfunc);
 
     ui.bantypeBox->addItem(tr("Ban IP-address"), BanTypes(BANTYPE_IPADDR));
     ui.bantypeBox->addItem(tr("Ban Username"), BanTypes(BANTYPE_USERNAME));
