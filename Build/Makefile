@@ -201,13 +201,21 @@ depend-debian9:
                     doxygen g++ openjdk-8-jdk \
                     qttools5-dev-tools ninja-build libpcap-dev junit4 cmake
 
-# TeamTalk 5 dependencies for Raspbian 10 when using CMake option -DBUILD_TEAMTALK_CORE=ON
-depend-rasp:
+# TeamTalk 5 dependencies for Raspbian 10 Buster when using CMake option -DBUILD_TEAMTALK_CORE=ON
+depend-rasp10:
 	apt install qt5-default libqt5x11extras5-dev qtmultimedia5-dev \
                     libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
                     openjdk-8-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev autoconf libtool pkg-config \
                     libasound2-dev wget python
+
+# TeamTalk 5 dependencies for Raspbian 11 Bullseye when using CMake option -DBUILD_TEAMTALK_CORE=ON
+depend-rasp11:
+	apt install qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev \
+                    libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
+                    openjdk-17-jdk ninja-build libpcap-dev junit4 cmake \
+                    libssl-dev autoconf libtool pkg-config \
+                    libasound2-dev wget g++ p7zip-full python3-pytest
 
 depend-mac:
 	brew install autoconf automake libtool pkg-config yasm ninja

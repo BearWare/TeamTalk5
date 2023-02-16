@@ -213,6 +213,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "armv7l")
     set (LIBVPX_TARGET --enable-pic)
+  elseif(${CMAKE_SYSTEM_PROCESSOR} MATCHES "aarch64")
+    set (LIBVPX_TARGET --enable-pic)
   else()
     set (LIBVPX_TARGET --target=x86_64-linux-gcc)
   endif()
