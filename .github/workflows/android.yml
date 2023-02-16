@@ -56,7 +56,7 @@ jobs:
     - name: Build TeamTalk 5 Java Tests
       working-directory: ${{runner.workspace}}
       run: |
-        cmake -S ${{runner.workspace}}/TeamTalk5 -B build-host
+        cmake -S ${{runner.workspace}}/TeamTalk5 -B build-host -DBUILD_TEAMTALK_CORE=OFF
         cmake --build build-host --target TeamTalk5Test
         cmake --build build-host --target TeamTalk5ProTest
         cmake --build build-host --target TeamTalk5SrvTest
