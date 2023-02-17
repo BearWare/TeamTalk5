@@ -300,11 +300,22 @@ class ServerListViewController : UITableViewController,
     func deleteServer(_ action: UIAccessibilityCustomAction) -> Bool {
         
         if let ac = action as? MyCustomAction {
+            let alertView = UIAlertView(title: NSLocalizedString("Are you sure you want to delete server?", comment: "Dialog message"),
+                                        message: NSLocalizedString("Delete Server", comment: "Dialog message"), delegate: self,
+                                        cancelButtonTitle: NSLocalizedString("No", comment: "Dialog message"),
+                                        otherButtonTitles: NSLocalizedString("Yes", comment: "Dialog message"))
+            alertView.alertViewStyle = .default
+            alertView.show()
+        }
+        return true
+    }
+
+    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
+        if buttonIndex == 1 {
             servers.remove(at: ac.tag)
             saveServerList()
             tableView.reloadData()
         }
-        return true
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

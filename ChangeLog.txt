@@ -21,7 +21,7 @@ Accessible Windows Client
 Android Client
 -
 iOS Client
--
+- Confirmation on server deletion
 Server
 -
 
