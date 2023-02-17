@@ -115,7 +115,7 @@ Prompt for VS 2019*. Use Git to clone
 Use CMake to generate a valid build configuration in `C:\builddir`
 that will install binaries into `C:\installdir`:
 
-`cmake -DBUILD_TEAMTALK_CORE=ON -DCMAKE_INSTALL_PREFIX=C:/installdir -S C:/TeamTalk5 -B C:/builddir -A Win32`
+`cmake -DCMAKE_INSTALL_PREFIX=C:/installdir -S C:/TeamTalk5 -B C:/builddir -A Win32`
 
 Given that CMake managed to create a valid build configuration now
 start the build process:
@@ -125,7 +125,7 @@ start the build process:
 To get a Visual Studio solution file for building TeamTalk from Visual
 Studio 2019 run CMake like this:
 
-`cmake -G "Visual Studio 16 2019" -DBUILD_TEAMTALK_CORE=ON -S C:/TeamTalk5 -B C:/builddir -A Win32`
+`cmake -G "Visual Studio 16 2019" -S C:/TeamTalk5 -B C:/builddir -A Win32`
 
 Note that WebRTC dependency will create a folder in `C:\webrtc` where
 it downloads its repository.
@@ -176,7 +176,7 @@ can be activated using the CMake options prefixed `TOOLCHAIN_`.
 To e.g. have TeamTalk avoid building OPUS and instead use OPUS
 already installed on the host machine, call CMake like this:
 
-`cmake -DTOOLCHAIN_OPUS=OFF -DBUILD_TEAMTALK_CORE=ON -S TeamTalk5 -B builddir`
+`cmake -DTOOLCHAIN_OPUS=OFF -S TeamTalk5 -B builddir`
 
 The following toolchain toggles are available:
 
@@ -252,7 +252,7 @@ What features to build into the TeamTalk binaries are controlled by
 CMake options prefixed by `FEATURE_`.
 
 To e.g. have TeamTalk built without OPUS support invoke CMake like this:
-`cmake -DFEATURE_OPUS=OFF -DBUILD_TEAMTALK_CORE=ON -S TeamTalk5 -B builddir`
+`cmake -DFEATURE_OPUS=OFF -S TeamTalk5 -B builddir`
 
 The following feature toggles are available:
 
