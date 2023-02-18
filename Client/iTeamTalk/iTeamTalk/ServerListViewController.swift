@@ -300,16 +300,29 @@ class ServerListViewController : UITableViewController,
     func deleteServer(_ action: UIAccessibilityCustomAction) -> Bool {
         
         if let ac = action as? MyCustomAction {
-            confirmationDialog(NSLocalizedString("Delete Server", comment: "Dialog message"),
-              isPresented: true) {
-              Button(NSLocalizedString("Confirm", comment: "Dialog message"), role: .destructive) {
-                servers.remove(at: ac.tag)
-                saveServerList()
-                tableView.reloadData()
-              }
-            } message: {
-              Text(NSLocalizedString("Are you sure you want to delete server?", comment: "Dialog message"))
-            }
+            UIAlertController * alert=   [UIAlertController
+                             alertControllerWithTitle:@NSLocalizedString("Delete Server", comment: "Dialog message")
+                             message:@NSLocalizedString("Are you sure you want to delete server?", comment: "Dialog message")
+                               preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction* ok = [UIAlertAction
+                    actionWithTitle:@NSLocalizedString("Yes", comment: "Dialog message")
+                    style:UIAlertActionStyleDefault
+                    handler:^(UIAlertAction * action)
+                    {
+                        servers.remove(at: ac.tag)
+                        saveServerList()
+                        tableView.reloadData()
+                    }];
+            UIAlertAction* cancel = [UIAlertAction
+                         actionWithTitle:@NSLocalizedString("No", comment: "Dialog message")
+                       style:UIAlertActionStyleDefault
+                       handler:^(UIAlertAction * action)
+                       {
+                           [alert dismissViewControllerAnimated:YES completion:nil];
+                        }];
+                        [alert addAction:ok];
+                        [alert addAction:cancel];
+                        [self presentViewController:alert animated:YES completion:nil];
         }
         return true
     }
