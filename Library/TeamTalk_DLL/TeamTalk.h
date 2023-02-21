@@ -1932,7 +1932,9 @@ extern "C" {
          * szChannel of #BannedUser. Otherwise the ban applies to the
          * entire server. */
         BANTYPE_CHANNEL             = 0x01,
-        /** @brief Ban @c szIPAddress specified in #BannedUser. */
+        /** @brief Ban @c szIPAddress specified in #BannedUser.
+         *  @c szIPAddress can be a regular expression, i.e.
+         * 129.16.22.* or 192.*.0.45 */
         BANTYPE_IPADDR              = 0x02,
         /** @brief Ban @c szUsername specified in #BannedUser. */
         BANTYPE_USERNAME            = 0x04
