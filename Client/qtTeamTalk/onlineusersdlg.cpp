@@ -210,7 +210,7 @@ void OnlineUsersDlg::keyPressEvent(QKeyEvent* e)
                     TTCHAR channel[TT_STRLEN] = {};
                     TT_GetChannelPath(ttInst, user.nChannelID, channel);
                     QClipboard* clipboard = QApplication::clipboard();
-                    clipboard->setText(QString(tr("ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7").arg(user.nUserID).arg(_Q(user.szNickname)).arg(_Q(user.szStatusMsg)).arg(_Q(user.szUsername)).arg(_Q(channel)).arg(_Q(user.szIPAddress)).arg(getVersion(user))));
+                    clipboard->setText(QString(tr("Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7, ID: %1").arg(user.nUserID).arg(_Q(user.szNickname)).arg(_Q(user.szStatusMsg)).arg(_Q(user.szUsername)).arg(_Q(channel)).arg(_Q(user.szIPAddress)).arg(getVersion(user))));
                 }
             }
         }
