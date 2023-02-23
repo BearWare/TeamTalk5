@@ -577,6 +577,13 @@
                </widget>
               </item>
               <item>
+               <widget class="QCheckBox" name="countSubChannelChkBox">
+                <property name="text">
+                 <string>Include subchannel on user count in channel tree</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <layout class="QHBoxLayout" name="horizontalLayout_18">
                 <item>
                  <widget class="QCheckBox" name="logstatusbarChkBox">

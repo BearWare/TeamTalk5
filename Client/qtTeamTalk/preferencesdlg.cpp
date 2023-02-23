@@ -575,6 +575,7 @@ void PreferencesDlg::slotTabChange(int index)
         ui.dlgExcludeChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_CHANEXCLUDE_DLG, SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT).toBool());
         ui.startServerListChkBox->setVisible(!ttSettings->value(SETTINGS_CONNECTION_AUTOCONNECT, SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT).toBool());
         ui.startServerListChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_START_SERVERLIST, SETTINGS_DISPLAY_START_SERVERLIST_DEFAULT).toBool());
+        ui.countSubChannelChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_COUNT_SUBCHANNEL, SETTINGS_DISPLAY_COUNT_SUBCHANNEL_DEFAULT).toBool());
     }
     break;
     case CONNECTION_TAB :  //connection
@@ -870,6 +871,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_DISPLAY_CLOSE_FILEDIALOG, ui.closeFileDlgChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_CHANEXCLUDE_DLG, ui.dlgExcludeChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_START_SERVERLIST, ui.startServerListChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_DISPLAY_COUNT_SUBCHANNEL, ui.countSubChannelChkBox->isChecked());
     }
     if(m_modtab.find(CONNECTION_TAB) != m_modtab.end())
     {
