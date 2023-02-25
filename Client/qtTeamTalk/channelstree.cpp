@@ -734,7 +734,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
 
         if (ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT, SETTINGS_DISPLAY_USERSCOUNT_DEFAULT).toBool())
         {
-            int count = getChannelUsers(channelid, m_users, m_channels, (!item->isExpanded() && ttSettings->value(SETTINGS_DISPLAY_COUNT_SUBCHANNEL, SETTINGS_DISPLAY_COUNT_SUBCHANNEL_DEFAULT).toBool())).size();
+            int count = getChannelUsers(channelid, m_users, m_channels, !item->isExpanded()).size();
             channame = QString("%1 (%2)").arg(channame).arg(count);
         }
         if (emoji && (chan.uChannelType & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)

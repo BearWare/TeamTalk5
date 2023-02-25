@@ -143,8 +143,6 @@
 #define SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT             false
 #define SETTINGS_DISPLAY_START_SERVERLIST             "display/serverlist-on-start"
 #define SETTINGS_DISPLAY_START_SERVERLIST_DEFAULT             false
-#define SETTINGS_DISPLAY_COUNT_SUBCHANNEL             "display/count-subchannel"
-#define SETTINGS_DISPLAY_COUNT_SUBCHANNEL_DEFAULT             true
 #define SETTINGS_DISPLAY_CHANNELSORT                 "display/sort-channels"
 #define SETTINGS_DISPLAY_CHANNELSORT_DEFAULT         CHANNELSORT_ASCENDING
 #define SETTINGS_DISPLAY_WINDOW_MAXIMIZE                          "display/window-maximized"
