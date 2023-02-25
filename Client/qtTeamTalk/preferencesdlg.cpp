@@ -1144,6 +1144,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_TTS_TIMESTAMP, ui.ttsNotifTimestampSpinBox->value());
 #elif defined(Q_OS_WIN)
         ttSettings->setValue(SETTINGS_TTS_SAPI, ui.ttsForceSapiChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_TTS_OUTPUT_MODE, getCurrentItemData(ui.ttsOutputModeComboBox, ""));
 #elif defined(Q_OS_DARWIN)
 #if QT_VERSION < QT_VERSION_CHECK(6,4,0)
         ttSettings->setValue(SETTINGS_TTS_SPEAKLISTS, ui.ttsSpeakListsChkBox->isChecked());
@@ -1624,6 +1625,8 @@ void PreferencesDlg::slotUpdateTTSTab()
 
     ui.ttsForceSapiChkBox->hide();
     ui.ttsSpeakListsChkBox->hide();
+    ui.label_ttsoutputmode->hide();
+    ui.ttsOutputModeComboBox->hide();
 
     switch (getCurrentItemData(ui.ttsengineComboBox).toUInt())
     {
@@ -1684,17 +1687,29 @@ void PreferencesDlg::slotUpdateTTSTab()
     case TTSENGINE_TOLK :
 #if defined(ENABLE_TOLK)
     {
+        ui.label_ttsoutputmode->show();
+        ui.ttsOutputModeComboBox->show();
         ui.ttsForceSapiChkBox->show();
 
         bool tolkLoaded = Tolk_IsLoaded();
         if (!tolkLoaded)
             Tolk_Load();
         QString currentSR = QString("%1").arg(Tolk_DetectScreenReader());
+        bool hasBraille = Tolk_HasBraille();
+        bool hasSpeech = Tolk_HasSpeech();
         if (!tolkLoaded)
             Tolk_Unload();
         if(currentSR.size())
             ui.ttsForceSapiChkBox->setText(tr("Use SAPI instead of %1 screenreader").arg(currentSR));
         ui.ttsForceSapiChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SAPI, SETTINGS_TTS_SAPI_DEFAULT).toBool());
+        ui.ttsOutputModeComboBox->clear();
+        if (hasSpeech == true && hasBraille == true)
+            ui.ttsOutputModeComboBox->addItem(tr("Speech and Braille"), "SpeechBraille");
+        if (hasBraille == true)
+            ui.ttsOutputModeComboBox->addItem(tr("Braille only"), "Braille");
+        if (hasSpeech == true)
+            ui.ttsOutputModeComboBox->addItem(tr("Speech only"), "Speech");
+        setCurrentItemData(ui.ttsOutputModeComboBox, ttSettings->value(SETTINGS_TTS_OUTPUT_MODE, SETTINGS_TTS_OUTPUT_MODE_DEFAULT).toString());
     }
 #endif
     break;
