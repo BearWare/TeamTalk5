@@ -164,7 +164,7 @@ QVariant OnlineUsersModel::data(const QModelIndex& index, int role) const
         switch(index.column())
         {
         case COLUMN_NICKNAME :
-            return _Q(user.szNickname);
+            return getDisplayName(user);
         case COLUMN_STATUSMSG :
             return _Q(user.szStatusMsg);
         case COLUMN_USERNAME :
@@ -183,7 +183,7 @@ QVariant OnlineUsersModel::data(const QModelIndex& index, int role) const
         case Qt::AccessibleTextRole :
         {
             TT_GetChannelPath(ttInst, user.nChannelID, channel);
-            return QString(tr("Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7, ID: %1").arg(user.nUserID).arg(_Q(user.szNickname)).arg(_Q(user.szStatusMsg)).arg(_Q(user.szUsername)).arg(_Q(channel)).arg(_Q(user.szIPAddress)).arg(getVersion(user)));
+            return QString(tr("Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7, ID: %1").arg(user.nUserID).arg(getDisplayName(user)).arg(_Q(user.szStatusMsg)).arg(_Q(user.szUsername)).arg(_Q(channel)).arg(_Q(user.szIPAddress)).arg(getVersion(user)));
         }
         break;
     }
