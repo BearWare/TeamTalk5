@@ -16,6 +16,7 @@ Default Qt Client
 - Ability to show password in server list dialog
 - Sound event when interception stopped
 - CTRL+G on a channel now also returns user count
+- Option to choose if TTS events should be send using Speech, Braille, or both Speech and Braille (only on Windows with Tolk)
 - Separate count users in channel and subchannel on channel tree
 Accessible Windows Client
 -
