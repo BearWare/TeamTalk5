@@ -16,6 +16,7 @@ Default Qt Client
 - Ability to show password in server list dialog
 - Sound event when interception stopped
 - CTRL+G on a channel now also returns user count
+- Separate count users in channel and subchannel on channel tree
 Accessible Windows Client
 -
 Android Client
