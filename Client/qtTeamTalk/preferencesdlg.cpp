@@ -1704,12 +1704,12 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.ttsForceSapiChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SAPI, SETTINGS_TTS_SAPI_DEFAULT).toBool());
         ui.ttsOutputModeComboBox->clear();
         if (hasSpeech == true && hasBraille == true)
-            ui.ttsOutputModeComboBox->addItem(tr("Speech and Braille"), "SpeechBraille");
+            ui.ttsOutputModeComboBox->addItem(tr("Speech and Braille"), TTS_OUTPUTMODE_SPEECHBRAILLE);
         if (hasBraille == true)
-            ui.ttsOutputModeComboBox->addItem(tr("Braille only"), "Braille");
+            ui.ttsOutputModeComboBox->addItem(tr("Braille only"), TTS_OUTPUTMODE_BRAILLE);
         if (hasSpeech == true)
-            ui.ttsOutputModeComboBox->addItem(tr("Speech only"), "Speech");
-        setCurrentItemData(ui.ttsOutputModeComboBox, ttSettings->value(SETTINGS_TTS_OUTPUT_MODE, SETTINGS_TTS_OUTPUT_MODE_DEFAULT).toString());
+            ui.ttsOutputModeComboBox->addItem(tr("Speech only"), TTS_OUTPUTMODE_SPEECH);
+        setCurrentItemData(ui.ttsOutputModeComboBox, ttSettings->value(SETTINGS_TTS_OUTPUT_MODE, SETTINGS_TTS_OUTPUT_MODE_DEFAULT).toInt());
     }
 #endif
     break;

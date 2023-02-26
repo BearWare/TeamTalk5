@@ -321,7 +321,7 @@
 #define SETTINGS_TTS_SAPI                         "texttospeech/force-sapi"
 #define SETTINGS_TTS_SAPI_DEFAULT                 false
 #define SETTINGS_TTS_OUTPUT_MODE                         "texttospeech/output-mode"
-#define SETTINGS_TTS_OUTPUT_MODE_DEFAULT                 "SpeechBraille"
+#define SETTINGS_TTS_OUTPUT_MODE_DEFAULT                 TTS_OUTPUTMODE_SPEECHBRAILLE
 #elif defined(Q_OS_DARWIN)
 #if QT_VERSION < QT_VERSION_CHECK(6,4,0)
 #define SETTINGS_TTS_SPEAKLISTS                         "texttospeech/speak-lists"

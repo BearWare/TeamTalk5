@@ -99,6 +99,14 @@ enum TextToSpeechEngine
 
 #define TTSENGINE_NOTIFY_PATH "/usr/bin/notify-send"
 
+enum TTSOutputMode
+{
+    TTS_OUTPUTMODE_NONE,
+    TTS_OUTPUTMODE_SPEECH = 0x1,
+    TTS_OUTPUTMODE_BRAILLE = 0x2,
+    TTS_OUTPUTMODE_SPEECHBRAILLE = TTS_OUTPUTMODE_SPEECH | TTS_OUTPUTMODE_BRAILLE,
+};
+
 void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg);
 void addTextToSpeechMessage(const QString& msg);
 
