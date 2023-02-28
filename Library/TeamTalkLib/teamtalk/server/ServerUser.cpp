@@ -880,15 +880,7 @@ ErrorMsg ServerUser::HandleNewUserAccount(const mstrings_t& properties)
     GET_PROP_OR_RETURN(properties, TT_USERNAME, account.username);
     GET_PROP_OR_RETURN(properties, TT_PASSWORD, account.passwd);
     GET_PROP_OR_RETURN(properties, TT_USERTYPE, account.usertype);
-    GetProperty(properties, TT_USERRIGHTS, account.userrights);
-    GetProperty(properties, TT_USERDATA, account.userdata);
-    GetProperty(properties, TT_NOTEFIELD, account.note);
-    GetProperty(properties, TT_INITCHANNEL, account.init_channel);
-    GetProperty(properties, TT_AUTOOPCHANNELS, account.auto_op_channels);
-    GetProperty(properties, TT_AUDIOBPSLIMIT, account.audiobpslimit);
-    vector<int> flood;
-    if(GetProperty(properties, TT_CMDFLOOD, flood))
-        account.abuse.fromParam(flood);
+    GetProperties(properties, account);
 
     return m_servernode.UserNewUserAccount(GetUserID(), account);
 }
@@ -1281,6 +1273,24 @@ void ServerUser::DoServerUpdate(const ServerSettings& properties)
     TransmitCommand(command);
 }
 
+void AppendUserAccount(const UserAccount& useraccount, ACE_TString& command)
+{
+    AppendProperty(TT_USERNAME, useraccount.username, command);
+    AppendProperty(TT_PASSWORD, useraccount.passwd, command);
+    AppendProperty(TT_USERTYPE, useraccount.usertype, command);
+    AppendProperty(TT_USERRIGHTS, useraccount.userrights, command);
+    AppendProperty(TT_USERDATA, useraccount.userdata, command);
+    if (useraccount.note.length())
+        AppendProperty(TT_NOTEFIELD, useraccount.note, command);
+    if (useraccount.init_channel.length())
+        AppendProperty(TT_INITCHANNEL, useraccount.init_channel, command);
+    if (useraccount.auto_op_channels.size())
+        AppendProperty(TT_AUTOOPCHANNELS, useraccount.auto_op_channels, command);
+    AppendProperty(TT_AUDIOBPSLIMIT, useraccount.audiobpslimit, command);
+    AppendProperty(TT_CMDFLOOD, useraccount.abuse.toParam(), command);
+    AppendProperty(TT_MODIFIEDTIME, useraccount.lastupdated, command);
+}
+
 void ServerUser::DoAccepted(const UserAccount& useraccount)
 {
     ACE_TString command;
@@ -1291,20 +1301,8 @@ void ServerUser::DoAccepted(const UserAccount& useraccount)
         AppendProperty(TT_NICKNAME, GetNickname(), command);
 
     AppendProperty(TT_IPADDR, GetIpAddress(), command);
-    //user account information
-    AppendProperty(TT_USERNAME, useraccount.username, command);
-    AppendProperty(TT_USERTYPE, useraccount.usertype, command);
-    AppendProperty(TT_USERDATA, useraccount.userdata, command);
-    AppendProperty(TT_USERRIGHTS, useraccount.userrights, command);
-    if (useraccount.note.length())
-        AppendProperty(TT_NOTEFIELD, useraccount.note, command);
-    if (useraccount.init_channel.length())
-        AppendProperty(TT_INITCHANNEL, useraccount.init_channel, command);
-    if (useraccount.auto_op_channels.size())
-        AppendProperty(TT_AUTOOPCHANNELS, useraccount.auto_op_channels, command);
-    AppendProperty(TT_AUDIOBPSLIMIT, useraccount.audiobpslimit, command);
-    AppendProperty(TT_CMDFLOOD, useraccount.abuse.toParam(), command);
-    AppendProperty(TT_MODIFIEDTIME, useraccount.lastupdated, command);
+
+    AppendUserAccount(useraccount, command);
 
     command += ACE_TString(EOL);
 
@@ -1740,17 +1738,35 @@ void ServerUser::DoShowUserAccount(const UserAccount& user)
     ACE_TString command;
     command = ACE_TString(SERVER_USERACCOUNT);
 
-    AppendProperty(TT_USERNAME, user.username, command);
-    AppendProperty(TT_PASSWORD, user.passwd, command);
-    AppendProperty(TT_USERTYPE, user.usertype, command);
-    AppendProperty(TT_USERRIGHTS, user.userrights, command);
-    AppendProperty(TT_USERDATA, user.userdata, command);
-    AppendProperty(TT_NOTEFIELD, user.note, command);
-    AppendProperty(TT_INITCHANNEL, user.init_channel, command);
-    AppendProperty(TT_AUTOOPCHANNELS, user.auto_op_channels, command);
-    AppendProperty(TT_AUDIOBPSLIMIT, user.audiobpslimit, command);
-    AppendProperty(TT_CMDFLOOD, user.abuse.toParam(), command);
-    AppendProperty(TT_MODIFIEDTIME, user.lastupdated, command);
+    AppendUserAccount(user, command);
+
+    command += ACE_TString(EOL);
+
+    TransmitCommand(command);
+}
+
+void ServerUser::DoAddUserAccount(const UserAccount& user)
+{
+    TTASSERT(IsAuthorized());
+
+    ACE_TString command;
+    command = ACE_TString(SERVER_ADDUSERACCOUNT);
+
+    AppendUserAccount(user, command);
+
+    command += ACE_TString(EOL);
+
+    TransmitCommand(command);
+}
+
+void ServerUser::DoRemoveUserAccount(const ACE_TString& username)
+{
+    TTASSERT(IsAuthorized());
+
+    ACE_TString command;
+    command = ACE_TString(SERVER_REMOVEUSERACCOUNT);
+
+    AppendProperty(TT_USERNAME, username, command);
 
     command += ACE_TString(EOL);
 

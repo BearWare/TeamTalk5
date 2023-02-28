@@ -11,12 +11,12 @@ project (TeamTalk5SDK)
 #
 # Now configure an output directory, i.e. build-win32 for TeamTalk5
 # repository:
-# $ cmake -S TeamTalk5 -B teamtalk-win32 -DBUILD_TEAMTALK_CORE=ON -A Win32
+# $ cmake -S TeamTalk5 -B teamtalk-win32 -A Win32
 #
 # Afterwards build configured projects:
 # $ cmake --build teamtalk-win32
 
-option (BUILD_TEAMTALK_CORE "Build TeamTalk core library" OFF)
+option (BUILD_TEAMTALK_CORE "Build TeamTalk core library" ON)
 option (BUILD_TEAMTALK_LIBRARIES "Build TeamTalk libraries" ON)
 option (BUILD_TEAMTALK_CLIENTS "Build TeamTalk client examples" ON)
 option (BUILD_TEAMTALK_SERVERS "Build TeamTalk server examples" ON)

@@ -24,7 +24,7 @@ android-build:
 	@echo "Testing if ANDROID_NDK_HOME environment variable is set: $(ANDROID_NDK_HOME)"
 	test -n "$(ANDROID_NDK_HOME)"
 	$(MAKE) CONFIGTYPE=$(CONFIGTYPE) \
-	CMAKE_EXTRA+="-DCMAKE_TOOLCHAIN_FILE=$(ANDROID_NDK_HOME)/build/cmake/android.toolchain.cmake -DANDROID_ABI=$(ANDROID_ABI) -DANDROID_PLATFORM=android-21 -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_LIB=ON -DBUILD_TEAMTALK_PROLIB=ON -DBUILD_TEAMTALK_LIBRARIES=ON -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALK_SERVERS=OFF -DBUILD_TEAMTALK_SRVEXE=OFF -DBUILD_TEAMTALK_PROSRVEXE=OFF -DTOOLCHAIN_ZLIB=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON" buildlib
+	CMAKE_EXTRA+="-DCMAKE_TOOLCHAIN_FILE=$(ANDROID_NDK_HOME)/build/cmake/android.toolchain.cmake -DANDROID_ABI=$(ANDROID_ABI) -DANDROID_PLATFORM=android-21 -DBUILD_TEAMTALK_LIB=ON -DBUILD_TEAMTALK_PROLIB=ON -DBUILD_TEAMTALK_LIBRARIES=ON -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALK_SERVERS=OFF -DBUILD_TEAMTALK_SRVEXE=OFF -DBUILD_TEAMTALK_PROSRVEXE=OFF -DTOOLCHAIN_ZLIB=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON" buildlib
 
 android-armeabi-v7a: teamtalk-env
 	$(MAKE) ANDROID_ABI=armeabi-v7a BUILDDIR=build-$@ android-build
@@ -41,7 +41,7 @@ android-x64: teamtalk-env
 android-all: android-armeabi-v7a android-arm64-v8a android-x86 android-x64
 
 generic:
-	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK_CORE=ON" buildlib
+	$(MAKE) buildlib
 
 deb32:
 	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DTOOLCHAIN_OPENSSL=OFF" generic
@@ -72,7 +72,6 @@ centos7:
                               -DBUILD_TEAMTALK_LIBRARIES=OFF \
                               -DBUILD_TEAMTALK_SERVERS=OFF \
                               -DBUILD_TEAMTALK_CLIENTS=OFF \
-                              -DBUILD_TEAMTALK_CORE=ON \
                               -DSTATICCPP=OFF \
                               -DTOOLCHAIN_OPENSSL=OFF \
                               -DTOOLCHAIN_ZLIB=OFF \
@@ -94,7 +93,7 @@ mac:
 	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 -DCMAKE_OSX_ARCHITECTURES=\"arm64;x86_64\"" generic
 
 ios-build:
-	$(MAKE) CMAKE_EXTRA+="-DCMAKE_SYSTEM_NAME=iOS -DBUILD_TEAMTALK_CORE=ON -DBUILD_TEAMTALK_LIB=ON -DBUILD_TEAMTALK_PROLIB=ON -DBUILD_TEAMTALK_DLL=OFF -DBUILD_TEAMTALK_PRODLL=OFF -DFEATURE_OGG=OFF -DFEATURE_FFMPEG=OFF -DFEATURE_OPUSTOOLS=OFF -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALK_SERVERS=OFF -DBUILD_TEAMTALK_SRVEXE=OFF -DBUILD_TEAMTALK_PROSRVEXE=OFF -DTOOLCHAIN_ZLIB=OFF" buildlib
+	$(MAKE) CMAKE_EXTRA+="-DCMAKE_SYSTEM_NAME=iOS -DBUILD_TEAMTALK_LIB=ON -DBUILD_TEAMTALK_PROLIB=ON -DBUILD_TEAMTALK_DLL=OFF -DBUILD_TEAMTALK_PRODLL=OFF -DFEATURE_OGG=OFF -DFEATURE_FFMPEG=OFF -DFEATURE_OPUSTOOLS=OFF -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALK_SERVERS=OFF -DBUILD_TEAMTALK_SRVEXE=OFF -DBUILD_TEAMTALK_PROSRVEXE=OFF -DTOOLCHAIN_ZLIB=OFF" buildlib
 
 IOS_INSTALL_DIR?=$(PWD)/ios-install
 
@@ -166,7 +165,7 @@ xcodeswap-apps:
 teamtalk-jar:
 	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALK_SERVERS=OFF -DBUILD_TEAMTALK_JNI=OFF -DBUILD_TEAMTALK_PROJNI=OFF -DBUILD_TEAMTALK_DOTNETDLL=OFF -DBUILD_TEAMTALK_PRODOTNETDLL=OFF -DBUILD_TEAMTALK_DOTNETDLL=OFF -DBUILD_TEAMTALK_PRODOTNETDLL=OFF" buildlib
 
-# TeamTalk 5 dependencies for Ubuntu 18 when using CMake option -DBUILD_TEAMTALK_CORE=ON
+# TeamTalk 5 dependencies for Ubuntu 18
 depend-ubuntu18:
 # Duplicate install in Docker/Dockerfile_ubuntu18
 	apt install qt5-default libqt5x11extras5-dev qtmultimedia5-dev \
@@ -195,19 +194,27 @@ depend-ubuntu22:
 depend-ubuntu18-android:
 	apt install doxygen ninja-build junit4 cmake openjdk-11-jdk junit4 autoconf libtool pkg-config python
 
-# TeamTalk 5 dependencies Debian 9 when using CMake option -DBUILD_TEAMTALK_CORE=ON
+# TeamTalk 5 dependencies for Debian 9
 depend-debian9:
 	apt install qt5-default qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev \
                     doxygen g++ openjdk-8-jdk \
                     qttools5-dev-tools ninja-build libpcap-dev junit4 cmake
 
-# TeamTalk 5 dependencies for Raspbian 10 when using CMake option -DBUILD_TEAMTALK_CORE=ON
-depend-rasp:
+# TeamTalk 5 dependencies for Raspbian 10 Buster
+depend-rasp10:
 	apt install qt5-default libqt5x11extras5-dev qtmultimedia5-dev \
                     libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
                     openjdk-8-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev autoconf libtool pkg-config \
                     libasound2-dev wget python
+
+# TeamTalk 5 dependencies for Raspbian 11 Bullseye
+depend-rasp11:
+	apt install qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev \
+                    libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
+                    openjdk-17-jdk ninja-build libpcap-dev junit4 cmake \
+                    libssl-dev autoconf libtool pkg-config \
+                    libasound2-dev wget g++ p7zip-full python3-pytest
 
 depend-mac:
 	brew install autoconf automake libtool pkg-config yasm ninja

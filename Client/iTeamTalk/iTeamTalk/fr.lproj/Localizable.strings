@@ -35,7 +35,7 @@
 "8 KHz" = "8 KHz";
 
 /* serverlist */
-"Access preferences" = "Préférences d'accès";
+"Access preferences" = "Accéder aux préférences";
 
 /* server entry
    user detail */
@@ -235,7 +235,7 @@
 "Frame Size" = "Taille du cadre";
 
 /* preferences */
-"Gender" = "Gender";
+"Gender" = "Genre";
 
 /* preferences
    user detail */

@@ -462,6 +462,8 @@ namespace teamtalk {
         void HandleKicked(const mstrings_t& properties);
         void HandleBannedUser(const mstrings_t& properties);
         void HandleUserAccount(const mstrings_t& properties);
+        void HandleAddUserAccount(const mstrings_t& properties);
+        void HandleRemoveUserAccount(const mstrings_t& properties);
         void HandleOk(const mstrings_t& properties);
         void HandleFileAccepted(const mstrings_t& properties);
         void HandleServerStats(const mstrings_t& properties);

@@ -1932,7 +1932,9 @@ extern "C" {
          * szChannel of #BannedUser. Otherwise the ban applies to the
          * entire server. */
         BANTYPE_CHANNEL             = 0x01,
-        /** @brief Ban @c szIPAddress specified in #BannedUser. */
+        /** @brief Ban @c szIPAddress specified in #BannedUser.
+         *  @c szIPAddress can be a regular expression, i.e.
+         * 129.16.22.* or 192.*.0.45 */
         BANTYPE_IPADDR              = 0x02,
         /** @brief Ban @c szUsername specified in #BannedUser. */
         BANTYPE_USERNAME            = 0x04
@@ -3452,6 +3454,26 @@ extern "C" {
          * - #TTMessage.ttType #__BANNEDUSER
          * - #TTMessage.useraccount Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_BANNEDUSER  = CLIENTEVENT_NONE + 400,
+        /** 
+         * @brief A user account has been created.
+         *
+         * This message is posted as a result of TT_DoNewUserAccount()
+         *
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__USERACCOUNT
+         * - #TTMessage.useraccount Placed in union of #TTMessage. */
+        CLIENTEVENT_CMD_USERACCOUNT_NEW = CLIENTEVENT_NONE + 410,
+        /** 
+         * @brief A user account has been removed.
+         *
+         * This message is posted as a result of TT_DoDeleteUserAccount()
+         *
+         * Attribute values in #TTMessage:
+         * - #TTMessage.nSource 0
+         * - #TTMessage.ttType #__USERACCOUNT
+         * - #TTMessage.useraccount Placed in union of #TTMessage. */
+        CLIENTEVENT_CMD_USERACCOUNT_REMOVE = CLIENTEVENT_NONE + 420,
         /**
          * @brief A user state has changed.
          *

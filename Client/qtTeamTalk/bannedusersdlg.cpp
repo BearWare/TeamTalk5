@@ -24,6 +24,7 @@
 #include "bannedusersdlg.h"
 #include "appinfo.h"
 #include "settings.h"
+#include "utilui.h"
 
 #include <QPushButton>
 
@@ -191,14 +192,20 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
     for(int i=0;i<COLUMN_COUNT_BANNEDUSERS;i++)
         ui.unbannedTreeView->resizeColumnToContents(i);
 
-    ui.bantypeBox->addItem(tr("Ban IP-address"), BanTypes(BANTYPE_IPADDR));
-    ui.bantypeBox->addItem(tr("Ban Username"), BanTypes(BANTYPE_USERNAME));
+    auto banfunc = [&]() {
+        ui.newbanBtn->setEnabled( (getCurrentItemData(ui.bantypeBox).toInt() & BANTYPE_IPADDR) == BANTYPE_NONE || ui.banEdit->text().size());
+    };
     connect(ui.newbanBtn, &QAbstractButton::clicked, this, &BannedUsersDlg::slotNewBan);
     connect(ui.buttonBox, &QDialogButtonBox::accepted, this, &BannedUsersDlg::slotClose);
     connect(ui.leftButton, &QAbstractButton::clicked, this, &BannedUsersDlg::slotBanUser);
     connect(ui.rightButton, &QAbstractButton::clicked, this, &BannedUsersDlg::slotUnbanUser);
     connect(ui.bannedTreeView, &QTreeView::doubleClicked, this, &BannedUsersDlg::slotUnbanUser);
     connect(ui.unbannedTreeView, &QTreeView::doubleClicked, this, &BannedUsersDlg::slotBanUser);
+    connect(ui.banEdit, &QLineEdit::textEdited, banfunc);
+    connect(ui.bantypeBox, &QComboBox::currentTextChanged, banfunc);
+
+    ui.bantypeBox->addItem(tr("Ban IP-address"), BanTypes(BANTYPE_IPADDR));
+    ui.bantypeBox->addItem(tr("Ban Username"), BanTypes(BANTYPE_USERNAME));
 }
 
 BannedUsersDlg::~BannedUsersDlg()
