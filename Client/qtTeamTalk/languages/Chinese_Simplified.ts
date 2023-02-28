@@ -2830,10 +2830,6 @@ p, li { white-space: pre-wrap; }
         <translation>已登出 %1, TCP 端口 %2, UDP 端口 %3</translation>
     </message>
     <message>
-        <source>Disconnected from server</source>
-        <translation type="vanished">与服务器断开连接</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2069"/>
         <source>Connected to %1</source>
         <translation>已连接至 %1</translation>
@@ -3452,7 +3448,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.cpp" line="2011"/>
         <source>Disconnected from %1</source>
-        <translation type="unfinished"></translation>
+        <translation>与 %1 断开连接</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2345"/>
@@ -3801,7 +3797,7 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5836"/>
         <source>%1 users</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 用户</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7239"/>
@@ -4458,11 +4454,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../onlineusersdlg.cpp" line="213"/>
         <source>Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7, ID: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
-        <translation type="vanished">ID： %1， 昵称： %2， 状态消息： %3， 用户名： %4， 频道： %5， IP地址： %6， 版本： %7</translation>
+        <translation>昵称： %2， 状态消息： %3， 用户名： %4， 频道： %5， IP 地址： %6， 版本： %7， ID： %1</translation>
     </message>
 </context>
 <context>
@@ -4505,11 +4497,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../onlineusersmodel.cpp" line="186"/>
         <source>Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7, ID: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
-        <translation type="vanished">ID： %1， 昵称： %2， 状态消息： %3， 用户名： %4， 频道： %5， IP地址： %6， 版本： %7</translation>
+        <translation>昵称： %2， 状态消息： %3， 用户名： %4， 频道： %5， IP 地址： %6， 版本： %7， ID： %1</translation>
     </message>
 </context>
 <context>
@@ -5069,7 +5057,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1755"/>
         <source>Finish intercepted by another user</source>
-        <translation type="unfinished"></translation>
+        <translation>被另一个用户拦截完毕</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1778"/>
@@ -5149,7 +5137,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="2127"/>
         <source>Enable/disable Text to Speech Events</source>
-        <translation>启用/禁用文本到语音事件</translation>
+        <translation>启用/禁用文字转语音事件</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2157"/>
@@ -5169,12 +5157,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="2209"/>
         <source>Text to Speech Preferences</source>
-        <translation>文本到语音首选项</translation>
+        <translation>文字转语音首选项</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2272"/>
         <source>Text to Speech Engine</source>
-        <translation>文本到语音引擎</translation>
+        <translation>文字转语音引擎</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2220"/>
@@ -5199,7 +5187,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="2331"/>
         <source>Text to Speech output mode</source>
-        <translation type="unfinished"></translation>
+        <translation>文字转语音输出模式</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2351"/>
@@ -5504,17 +5492,17 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="1707"/>
         <source>Speech and Braille</source>
-        <translation type="unfinished"></translation>
+        <translation>语音和盲文</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1709"/>
         <source>Braille only</source>
-        <translation type="unfinished"></translation>
+        <translation>盲文</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1711"/>
         <source>Speech only</source>
-        <translation type="unfinished"></translation>
+        <translation>语音</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1813"/>
@@ -5725,7 +5713,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../serverlist.ui" line="245"/>
         <location filename="../serverlist.ui" line="311"/>
         <source>Show password</source>
-        <translation type="unfinished"></translation>
+        <translation>显示密码</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="254"/>
