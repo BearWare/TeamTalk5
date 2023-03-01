@@ -90,7 +90,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     statusbardlg.h statusbareventsmodel.h mycombobox.h
     utilsound.h utilvideo.h utiltts.h utilui.h utilhotkey.h
     serverlogeventsmodel.h mytreeview.h textmessagecontainer.h
-    useraccountsmodel.h
+    useraccountsmodel.h encryptionsetupdlg.h
 
     main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp
     channelstree.cpp channeldlg.cpp userinfodlg.cpp
@@ -109,7 +109,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     statusbardlg.cpp statusbareventsmodel.cpp mycombobox.cpp
     utilsound.cpp utilvideo.cpp utiltts.cpp utilui.cpp utilhotkey.cpp
     serverlogeventsmodel.cpp mytreeview.cpp textmessagecontainer.cpp
-    useraccountsmodel.cpp
+    useraccountsmodel.cpp encryptionsetupdlg.cpp
 
     mainwindow.ui channel.ui preferences.ui
     serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui
@@ -118,7 +118,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     serverstats.ui onlineusers.ui mediastorage.ui userdesktop.ui
     desktopshare.ui streammediafile.ui videotext.ui desktopaccess.ui
     generatettfile.ui customvideofmt.ui bearwarelogindlg.ui
-    audiopreprocessor.ui statusbardlg.ui
+    audiopreprocessor.ui statusbardlg.ui encryptionsetupdlg.ui
     resources.qrc mainwindow.rc
     )
 
