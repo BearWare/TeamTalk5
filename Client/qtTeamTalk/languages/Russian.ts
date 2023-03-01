@@ -2962,7 +2962,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2011"/>
         <source>Disconnected from %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключено от %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2667"/>
@@ -3989,7 +3989,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="5836"/>
         <source>%1 users</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 пользователи</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6371"/>
@@ -4463,7 +4463,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusersdlg.cpp" line="213"/>
         <source>Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7, ID: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ник: %2, Сообщение статуса: %3, Имя-пользователя: %4, Канал: %5, IP адрес: %6, Версия: %7, ID: %1</translation>
     </message>
     <message>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
@@ -4510,7 +4510,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusersmodel.cpp" line="186"/>
         <source>Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7, ID: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ник: %2, Сообщение статуса: %3, Имя-пользователя: %4, Канал: %5, IP адрес: %6, Версия: %7, ID: %1</translation>
     </message>
     <message>
         <source>ID: %1, Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7</source>
@@ -5065,7 +5065,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1755"/>
         <source>Finish intercepted by another user</source>
-        <translation type="unfinished"></translation>
+        <translation>Завершение перехвата другим пользователем</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1778"/>
@@ -5196,7 +5196,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="2331"/>
         <source>Text to Speech output mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим преобразования текста в речь</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2351"/>
@@ -5511,17 +5511,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="1707"/>
         <source>Speech and Braille</source>
-        <translation type="unfinished"></translation>
+        <translation>Речь и шрифт Брайля</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1709"/>
         <source>Braille only</source>
-        <translation type="unfinished"></translation>
+        <translation>Только шрифт Брайля</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1711"/>
         <source>Speech only</source>
-        <translation type="unfinished"></translation>
+        <translation>Только речь</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1813"/>
@@ -5732,7 +5732,7 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="245"/>
         <location filename="../serverlist.ui" line="311"/>
         <source>Show password</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать пароль</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="254"/>
