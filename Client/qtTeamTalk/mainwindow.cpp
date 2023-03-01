@@ -5876,14 +5876,16 @@ void MainWindow::slotUsersOp(int userid, int chanid)
 {
     bool op = (bool)TT_IsChannelOperator(ttInst, userid, chanid);
 
-    bool openable = (bool)TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), chanid);
-    openable |= ((TT_GetMyUserRights(ttInst) & USERRIGHT_OPERATOR_ENABLE) != USERRIGHT_NONE);
-    if (openable) //don't need password in this case
+    if ((TT_GetMyUserRights(ttInst) & USERRIGHT_OPERATOR_ENABLE) != USERRIGHT_NONE) //don't need password in this case
         TT_DoChannelOp(ttInst, userid, chanid, !op);
     else
     {
+        Channel chan = {};
+        ui.channelsWidget->getChannel(chanid, chan);
+
         bool ok = false;
         QInputDialog inputDialog;
+        inputDialog.setTextValue(_Q(chan.szOpPassword));
         inputDialog.setOkButtonText(tr("&OK"));
         inputDialog.setCancelButtonText(tr("&Cancel"));
         inputDialog.setInputMode(QInputDialog::TextInput);
