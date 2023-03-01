@@ -18,6 +18,7 @@ Default Qt Client
 - CTRL+G on a channel now also returns user count
 - Option to choose if TTS events should be send using Speech, Braille, or both Speech and Braille (only on Windows with Tolk)
 - Separate count users in channel and subchannel on channel tree
+- Fixed bug when removing operator status in temporary channel
 Accessible Windows Client
 -
 Android Client
