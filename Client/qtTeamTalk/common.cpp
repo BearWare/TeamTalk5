@@ -25,9 +25,11 @@
 #include "settings.h"
 #include "appinfo.h"
 
-#include <QDialog>
-#include <QStack>
 #include <QDebug>
+#include <QDialog>
+#include <QDir>
+#include <QStack>
+#include <QTemporaryFile>
 
 #define DEFAULT_NICKNAME           QT_TRANSLATE_NOOP("MainWindow", "NoName")
 
@@ -373,6 +375,51 @@ bool HostEntry::sameHostEntry(const HostEntry& host) const
     return sameHost(host, false) && host.name == name;
 }
 
+bool setupEncryption(const HostEntry& host)
+{
+    if (!host.encrypted)
+        return true;
+
+    QTemporaryFile cafile("cafile.pem"), certfile("certfile.pem"), keyfile("keyfile.pem");
+    if (!cafile.open() || !cafile.setPermissions(QFileDevice::ReadOwner))
+        return false;
+    if (!certfile.open() || !certfile.setPermissions(QFileDevice::ReadOwner))
+        return false;
+    if (!keyfile.open() || !keyfile.setPermissions(QFileDevice::ReadOwner))
+        return false;
+
+    QString cafilename, certfilename, keyfilename;
+    if (host.encryption.cacertdata.size())
+    {
+        cafile.write(host.encryption.cacertdata.toUtf8());
+        cafilename = QDir::toNativeSeparators(cafile.fileName());
+    }
+    if (host.encryption.certdata.size())
+    {
+        certfile.write(host.encryption.certdata.toUtf8());
+        certfilename = QDir::toNativeSeparators(certfile.fileName());
+    }
+    if (host.encryption.privkeydata.size())
+    {
+        keyfile.write(host.encryption.privkeydata.toUtf8());
+        keyfilename = QDir::toNativeSeparators(keyfile.fileName());
+    }
+
+    EncryptionContext context = {};
+    context.bVerifyPeer = host.encryption.verifypeer;
+    if (!context.bVerifyPeer)
+        context.nVerifyDepth = -1;
+    COPY_TTSTR(context.szCAFile, cafilename);
+    COPY_TTSTR(context.szCertificateFile, certfilename);
+    COPY_TTSTR(context.szPrivateKeyFile, keyfilename);
+
+    cafile.close();
+    certfile.close();
+    keyfile.close();
+
+    return TT_SetEncryptionContext(ttInst, &context);
+}
+
 void addLatestHost(const HostEntry& host)
 {
     QList<HostEntry> hosts;
@@ -401,6 +448,10 @@ void addLatestHost(const HostEntry& host)
         ttSettings->setValue(QString(SETTINGS_LATESTHOST_TCPPORT).arg(i), hosts[i].tcpport);
         ttSettings->setValue(QString(SETTINGS_LATESTHOST_UDPPORT).arg(i), hosts[i].udpport);
         ttSettings->setValue(QString(SETTINGS_LATESTHOST_ENCRYPTED).arg(i), hosts[i].encrypted);
+        ttSettings->setValue(QString(SETTINGS_LATESTHOST_ENCRYPTED_CADATA).arg(i), hosts[i].encryption.cacertdata);
+        ttSettings->setValue(QString(SETTINGS_LATESTHOST_ENCRYPTED_CERTDATA).arg(i), hosts[i].encryption.certdata);
+        ttSettings->setValue(QString(SETTINGS_LATESTHOST_ENCRYPTED_KEYDATA).arg(i), hosts[i].encryption.privkeydata);
+        ttSettings->setValue(QString(SETTINGS_LATESTHOST_ENCRYPTED_VERIFYPEER).arg(i), hosts[i].encryption.verifypeer);
         ttSettings->setValue(QString(SETTINGS_LATESTHOST_USERNAME).arg(i), hosts[i].username); 
         ttSettings->setValue(QString(SETTINGS_LATESTHOST_PASSWORD).arg(i), hosts[i].password); 
         ttSettings->setValue(QString(SETTINGS_LATESTHOST_NICKNAME).arg(i), hosts[i].nickname); 
@@ -427,6 +478,10 @@ void deleteLatestHost(int index)
         ttSettings->remove(QString(SETTINGS_LATESTHOST_TCPPORT).arg(i));
         ttSettings->remove(QString(SETTINGS_LATESTHOST_UDPPORT).arg(i));
         ttSettings->remove(QString(SETTINGS_LATESTHOST_ENCRYPTED).arg(i));
+        ttSettings->remove(QString(SETTINGS_LATESTHOST_ENCRYPTED_CADATA).arg(i));
+        ttSettings->remove(QString(SETTINGS_LATESTHOST_ENCRYPTED_CERTDATA).arg(i));
+        ttSettings->remove(QString(SETTINGS_LATESTHOST_ENCRYPTED_KEYDATA).arg(i));
+        ttSettings->remove(QString(SETTINGS_LATESTHOST_ENCRYPTED_VERIFYPEER).arg(i));
         ttSettings->remove(QString(SETTINGS_LATESTHOST_USERNAME).arg(i));
         ttSettings->remove(QString(SETTINGS_LATESTHOST_PASSWORD).arg(i));
         ttSettings->remove(QString(SETTINGS_LATESTHOST_NICKNAME).arg(i));
@@ -451,6 +506,10 @@ bool getLatestHost(int index, HostEntry& host)
     host.tcpport = ttSettings->value(QString(SETTINGS_LATESTHOST_TCPPORT).arg(index)).toInt();
     host.udpport = ttSettings->value(QString(SETTINGS_LATESTHOST_UDPPORT).arg(index)).toInt();
     host.encrypted = ttSettings->value(QString(SETTINGS_LATESTHOST_ENCRYPTED).arg(index), false).toBool();
+    host.encryption.cacertdata = ttSettings->value(QString(SETTINGS_LATESTHOST_ENCRYPTED_CADATA).arg(index)).toString();
+    host.encryption.certdata = ttSettings->value(QString(SETTINGS_LATESTHOST_ENCRYPTED_CERTDATA).arg(index)).toString();
+    host.encryption.privkeydata = ttSettings->value(QString(SETTINGS_LATESTHOST_ENCRYPTED_KEYDATA).arg(index)).toString();
+    host.encryption.verifypeer = ttSettings->value(QString(SETTINGS_LATESTHOST_ENCRYPTED_VERIFYPEER).arg(index), HostEntry().encryption.verifypeer).toBool();
     host.username = ttSettings->value(QString(SETTINGS_LATESTHOST_USERNAME).arg(index)).toString();
     host.password = ttSettings->value(QString(SETTINGS_LATESTHOST_PASSWORD).arg(index)).toString();
     host.nickname = ttSettings->value(QString(SETTINGS_LATESTHOST_NICKNAME).arg(index)).toString();
@@ -483,6 +542,10 @@ void setServerEntry(int index, const HostEntry& host)
     ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_TCPPORT).arg(index), host.tcpport);  
     ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_UDPPORT).arg(index), host.udpport);  
     ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_ENCRYPTED).arg(index), host.encrypted);
+    ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_ENCRYPTED_CADATA).arg(index), host.encryption.cacertdata);
+    ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_ENCRYPTED_CERTDATA).arg(index), host.encryption.certdata);
+    ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_ENCRYPTED_KEYDATA).arg(index), host.encryption.privkeydata);
+    ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_ENCRYPTED_VERIFYPEER).arg(index), host.encryption.verifypeer);
     ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_USERNAME).arg(index), host.username); 
     ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_PASSWORD).arg(index), host.password); 
     ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_NICKNAME).arg(index), host.nickname); 
@@ -496,7 +559,11 @@ bool getServerEntry(int index, HostEntry& host)
     host.ipaddr = ttSettings->value(QString(SETTINGS_SERVERENTRIES_HOSTADDR).arg(index)).toString();
     host.tcpport = ttSettings->value(QString(SETTINGS_SERVERENTRIES_TCPPORT).arg(index)).toInt();
     host.udpport = ttSettings->value(QString(SETTINGS_SERVERENTRIES_UDPPORT).arg(index)).toInt();
-    host.encrypted = ttSettings->value(QString(SETTINGS_SERVERENTRIES_ENCRYPTED).arg(index), false).toBool();
+    host.encrypted = ttSettings->value(QString(SETTINGS_SERVERENTRIES_ENCRYPTED).arg(index), HostEntry().encrypted).toBool();
+    host.encryption.cacertdata = ttSettings->value(QString(SETTINGS_SERVERENTRIES_ENCRYPTED_CADATA).arg(index)).toString();
+    host.encryption.certdata = ttSettings->value(QString(SETTINGS_SERVERENTRIES_ENCRYPTED_CERTDATA).arg(index)).toString();
+    host.encryption.privkeydata = ttSettings->value(QString(SETTINGS_SERVERENTRIES_ENCRYPTED_KEYDATA).arg(index)).toString();
+    host.encryption.verifypeer = ttSettings->value(QString(SETTINGS_SERVERENTRIES_ENCRYPTED_VERIFYPEER).arg(index), HostEntry().encryption.verifypeer).toBool();
     host.username = ttSettings->value(QString(SETTINGS_SERVERENTRIES_USERNAME).arg(index)).toString();
     host.password = ttSettings->value(QString(SETTINGS_SERVERENTRIES_PASSWORD).arg(index)).toString();
     host.nickname = ttSettings->value(QString(SETTINGS_SERVERENTRIES_NICKNAME).arg(index)).toString();
@@ -519,6 +586,10 @@ void deleteServerEntry(const QString& name)
         ttSettings->remove(QString(SETTINGS_SERVERENTRIES_TCPPORT).arg(index));
         ttSettings->remove(QString(SETTINGS_SERVERENTRIES_UDPPORT).arg(index));
         ttSettings->remove(QString(SETTINGS_SERVERENTRIES_ENCRYPTED).arg(index));
+        ttSettings->remove(QString(SETTINGS_SERVERENTRIES_ENCRYPTED_CADATA).arg(index));
+        ttSettings->remove(QString(SETTINGS_SERVERENTRIES_ENCRYPTED_CERTDATA).arg(index));
+        ttSettings->remove(QString(SETTINGS_SERVERENTRIES_ENCRYPTED_KEYDATA).arg(index));
+        ttSettings->remove(QString(SETTINGS_SERVERENTRIES_ENCRYPTED_VERIFYPEER).arg(index));
         ttSettings->remove(QString(SETTINGS_SERVERENTRIES_USERNAME).arg(index));
         ttSettings->remove(QString(SETTINGS_SERVERENTRIES_PASSWORD).arg(index));
         ttSettings->remove(QString(SETTINGS_SERVERENTRIES_NICKNAME).arg(index));

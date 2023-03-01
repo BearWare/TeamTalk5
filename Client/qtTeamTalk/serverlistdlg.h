@@ -32,6 +32,7 @@
 #include <QRegularExpression>
 #include <QSortFilterProxyModel>
 #include <QVector>
+#include <memory>
 
 enum ServerType
 {
@@ -102,6 +103,7 @@ private:
     QSortFilterProxyModel* m_proxyModel;
 
     QNetworkAccessManager* m_httpsrvlist_manager = nullptr, *m_http_srvpublish_manager = nullptr;
+    std::unique_ptr<HostEncryption> m_setup_encryption;
 
     void showHostEntry(const HostEntry& entry);
     bool getHostEntry(HostEntry& entry);

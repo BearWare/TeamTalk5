@@ -250,6 +250,14 @@ enum DesktopShareMode
     DESKTOPSHARE_SPECIFIC_WINDOW,
 };
 
+struct HostEncryption
+{
+    QString cacertdata;
+    QString certdata;
+    QString privkeydata;
+    bool verifypeer = false;
+};
+
 struct HostEntry
 {
     QString name;
@@ -257,6 +265,8 @@ struct HostEntry
     int tcpport = DEFAULT_TCPPORT;
     int udpport = DEFAULT_UDPPORT;
     bool encrypted = false;
+    HostEncryption encryption;
+
     QString username;
     QString password;
     QString nickname;
@@ -345,6 +355,8 @@ AudioPreprocessor loadAudioPreprocessor(AudioPreprocessorType preprocessortype);
 bool isComputerIdle(int idle_secs);
 bool isMyselfTalking();
 bool isMyselfStreaming();
+
+bool setupEncryption(const HostEntry& host);
 
 void addLatestHost(const HostEntry& host);
 void deleteLatestHost(int index);
