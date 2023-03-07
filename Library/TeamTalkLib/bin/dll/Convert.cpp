@@ -1800,9 +1800,9 @@ bool SetupEncryptionContext(const EncryptionContext& enccontext, ACE_SSL_Context
             return FALSE;
     }
 
-    context->set_verify_peer(enccontext.bVerifyPeer,
-                             enccontext.bVerifyClientOnce,
-                             enccontext.nVerifyDepth);
+    if (enccontext.bVerifyPeer || enccontext.bVerifyClientOnce || enccontext.nVerifyDepth >= 0)
+        context->set_verify_peer(enccontext.bVerifyPeer, enccontext.bVerifyClientOnce,
+                                 enccontext.nVerifyDepth);
     
     return TRUE;
 }
