@@ -2685,6 +2685,9 @@ extern "C" {
          *
          * Default value is 0.
          *
+         * Set to -1 to not perform certificate check. -1 cannot be used
+         * if @c bVerifyPeer or @c bVerifyClientOnce are true.
+         *
          * For additional information checkout OpenSSL's
          * SSL_CTX_set_verify_depth() */
         INT32 nVerifyDepth;
