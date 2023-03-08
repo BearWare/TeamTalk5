@@ -102,8 +102,8 @@ public:
 
     void addStatusMsg(StatusBarEvent event, const QString& msg);
 
-    void Connect();
-    void Disconnect();
+    void connectToServer();
+    void disconnectFromServer();
 
     void login();
 
