@@ -883,8 +883,8 @@ bool MainWindow::parseArgs(const QStringList& args)
 
                 addLatestHost(entry);
                 m_host = entry;
-                Disconnect();
-                Connect();
+                disconnectFromServer();
+                connectToServer();
                 return false;
             }
         }
@@ -975,7 +975,7 @@ void MainWindow::clienteventConSuccess()
 
 void MainWindow::clienteventConFailed()
 {
-    Disconnect();
+    disconnectFromServer();
 
     killLocalTimer(TIMER_RECONNECT);
     if (ttSettings->value(SETTINGS_CONNECTION_RECONNECT, SETTINGS_CONNECTION_RECONNECT_DEFAULT).toBool())
@@ -995,7 +995,7 @@ void MainWindow::clienteventConCryptError(const TTMessage& msg)
 
 void MainWindow::clienteventConLost()
 {
-    Disconnect();
+    disconnectFromServer();
     if(ttSettings->value(SETTINGS_CONNECTION_RECONNECT, SETTINGS_CONNECTION_RECONNECT_DEFAULT).toBool())
         m_timers[startTimer(5000)] = TIMER_RECONNECT;
 
@@ -1642,7 +1642,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         m_myuseraccount = msg.useraccount;
         break;
     case CLIENTEVENT_CMD_MYSELF_LOGGEDOUT :
-        Disconnect();
+        disconnectFromServer();
         break;
     case CLIENTEVENT_CMD_MYSELF_KICKED :
         clienteventMyselfKicked(msg);
@@ -1985,7 +1985,7 @@ void MainWindow::initSound()
     addStatusMsg(STATUSBAR_BYPASS, soundev);
 }
 
-void MainWindow::Connect()
+void MainWindow::connectToServer()
 {
     Q_ASSERT((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == 0);
 
@@ -2004,7 +2004,7 @@ void MainWindow::Connect()
                      .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 }
 
-void MainWindow::Disconnect()
+void MainWindow::disconnectFromServer()
 {
     TT_Disconnect(ttInst);
     if (!timerExists(TIMER_RECONNECT))
@@ -2450,9 +2450,9 @@ void MainWindow::timerEvent(QTimerEvent *event)
     }
     case TIMER_RECONNECT :
         Q_ASSERT( (TT_GetFlags(ttInst) & CLIENT_CONNECTED) == 0);
-        Disconnect();
+        disconnectFromServer();
         addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Trying to reconnect to %1 port %2").arg(m_host.ipaddr).arg(m_host.tcpport));
-        Connect();
+        connectToServer();
         break;
     case TIMER_STATUSMSG :
         if(m_statusmsg.size())
@@ -4103,7 +4103,7 @@ void MainWindow::slotClientConnect(bool /*checked =false */)
 
     if(TT_GetFlags(ttInst) & CLIENT_CONNECTION)
     {
-        Disconnect();
+        disconnectFromServer();
     }
     else
     {
@@ -4113,7 +4113,7 @@ void MainWindow::slotClientConnect(bool /*checked =false */)
             m_host = HostEntry();
             getLatestHost(0, m_host);
             m_channel_passwd[CHANNELID_TEMPPASSWORD] = m_host.chanpasswd;
-            Connect();
+            connectToServer();
         }
     }
 
@@ -5734,7 +5734,7 @@ void MainWindow::slotConnectToLatest()
         getLatestHost(0, lasthost))
     {
         m_host = lasthost;
-        Connect();
+        connectToServer();
     }
 }
 
@@ -7229,8 +7229,8 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
         }
     }
 
-    Disconnect();
-    Connect();
+    disconnectFromServer();
+    connectToServer();
 }
 
 void MainWindow::slotSoftwareUpdateReply(QNetworkReply* reply)
