@@ -97,19 +97,6 @@ public:
     void loadSettings();
 
     bool parseArgs(const QStringList& args);
-
-    void processTTMessage(const TTMessage& msg);
-
-    void addStatusMsg(StatusBarEvent event, const QString& msg);
-
-    void connectToServer();
-    void disconnectFromServer();
-
-    void login();
-
-    void showTTErrorMessage(const ClientErrorMsg& msg,
-                            CommandComplete cmd_type);
-
 #ifdef Q_OS_LINUX
     //X11 hotkeys
     void keysActive(quint32 keycode, quint32 mods, bool active);
@@ -225,6 +212,14 @@ private:
     QVector<DesktopAccessEntry> m_desktopaccess_entries;
     // user being relayed
     int m_relayvoice_userid = 0, m_relaymediafile_userid = 0;
+
+    void processTTMessage(const TTMessage& msg);
+    void addStatusMsg(StatusBarEvent event, const QString& msg);
+    void connectToServer();
+    void disconnectFromServer();
+    void login();
+    void showTTErrorMessage(const ClientErrorMsg& msg,
+                            CommandComplete cmd_type);
 
     // init selected sound devices
     void initSound();
