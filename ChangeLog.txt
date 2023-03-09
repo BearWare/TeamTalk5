@@ -4,7 +4,7 @@
 
 Version 5.13, unreleased
 Default Qt Client
-- Fix keyboard navigation on "File transfer" dialog
+- Fixed keyboard navigation on "File transfer" dialog
 - Reinitialize sound devices if active sound device is removed using WASAPI sound system
 - Moved "Refresh Sound Devices" from "Input Devices" submenu to "Sound Configuration" menu
 - Fixed Upload/download button and menu item not display for admin outside channel
@@ -22,7 +22,7 @@ Default Qt Client
 Accessible Windows Client
 -
 Android Client
--
+- Added Vietnamese language
 iOS Client
 -
 Server
