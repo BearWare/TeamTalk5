@@ -19,6 +19,7 @@ Default Qt Client
 - Option to choose if TTS events should be send using Speech, Braille, or both Speech and Braille (only on Windows with Tolk)
 - Separate count users in channel and subchannel on channel tree
 - Fixed bug when removing operator status in temporary channel
+- "Show MOTD variables" checked by default in server properties dialog
 Accessible Windows Client
 -
 Android Client

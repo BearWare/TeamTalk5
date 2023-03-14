@@ -92,6 +92,9 @@
         </item>
         <item row="3" column="0">
          <widget class="QCheckBox" name="motdChkBox">
+          <property name="checked">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string>Show variables</string>
           </property>
