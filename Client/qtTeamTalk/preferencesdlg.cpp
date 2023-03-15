@@ -260,6 +260,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     m_video_ready = (TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY);
 
     slotTabChange(GENERAL_TAB);
+    ui.nicknameEdit->setFocus();
 }
 
 PreferencesDlg::~PreferencesDlg()
