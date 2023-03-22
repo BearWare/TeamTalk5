@@ -24,6 +24,7 @@
 #include "MyINet.h"
 #include "MyACE.h"
 
+#include <assert.h>
 #include <ace/OS.h>
 
 #include <ace/INet/HTTP_URL.h>
@@ -122,7 +123,7 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int por
     return result;
 }
 
-int HttpGetRequest(const ACE_CString& url, std::string& doc)
+void aceSingletons()
 {
 #if defined(ENABLE_ENCRYPTION)
 #if defined(ENABLE_TEAMTALKACE)
@@ -133,6 +134,11 @@ int HttpGetRequest(const ACE_CString& url, std::string& doc)
     ACE_Singleton<ACE::HTTPS::SessionFactory_Impl, ACE_SYNCH::NULL_MUTEX>::instance();
 #endif /* ENABLE_TEAMTALKACE */
 #endif /* ENABLE_ENCRYPTION */
+}
+
+int HttpGetRequest(const ACE_CString& url, std::string& result)
+{
+    aceSingletons();
 
     ACE_Auto_Ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url));
     if (url_safe.get() == 0)
@@ -143,18 +149,120 @@ int HttpGetRequest(const ACE_CString& url, std::string& doc)
 
     ostringstream oss;
     oss << urlin->rdbuf();
-    doc = oss.str();
+    result = oss.str();
 
     ACE::HTTP::Status status = http.response().get_status();
 #if defined(UNICODE)
     MYTRACE_COND(!status.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"),
-        Utf8ToUnicode(doc.c_str()).c_str());
+        Utf8ToUnicode(result.c_str()).c_str());
 #else
     MYTRACE_COND(!status.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"), doc.c_str());
 #endif
 
     return status.is_ok() ? 1 : 0;
 }
+
+int HttpPostRequest(const ACE_CString& url, const char* data, int len, const std::map<std::string, std::string>& headers, std::string& result)
+{
+    aceSingletons();
+
+    ACE_Auto_Ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url));
+    if (url_safe.get() == 0)
+        return -1;
+
+    class MyRequest : public ACE::HTTP::ClientRequestHandler
+    {
+        const std::map<std::string, std::string>& m_headers;
+        const char* m_content;
+        int m_contentlen;
+    public:
+        MyRequest(const char* content, int contentlen, const std::map<std::string, std::string>& headers) : m_content(content), m_contentlen(contentlen), m_headers(headers)
+        {
+            request().set_method(ACE::HTTP::Request::HTTP_POST);
+        }
+
+    protected:
+
+        // 10% copy-paste from ClientRequestHandler::handle_open_request()
+        std::istream& handle_open_request(const ACE::INet::URL_Base& url)
+        {
+            if (request().get_method() == ACE::HTTP::Request::HTTP_GET)
+            {
+                return ACE::HTTP::ClientRequestHandler::handle_open_request(url);
+            }
+            else if (request().get_method() == ACE::HTTP::Request::HTTP_POST)
+            {
+                const ACE::HTTP::URL& http_url = dynamic_cast<const ACE::HTTP::URL&> (url);
+                return handle_post_request(http_url);
+            }
+            else
+            {
+                return ACE::HTTP::ClientRequestHandler::handle_open_request(url);
+            }
+        }
+
+        // 90% copy-paste from ClientRequestHandler::handle_get_request()
+        std::istream& handle_post_request(const ACE::HTTP::URL& http_url)
+        {
+            bool connected = false;
+            if (http_url.has_proxy())
+                connected = this->initialize_connection(http_url.get_scheme(),
+                    http_url.get_host(),
+                    http_url.get_port(),
+                    true,
+                    http_url.get_proxy_host(),
+                    http_url.get_proxy_port());
+            else
+                connected = this->initialize_connection(http_url.get_scheme(),
+                    http_url.get_host(),
+                    http_url.get_port());
+
+            if (connected)
+            {
+                request().reset(request().get_method(), http_url.get_request_uri(), request().get_version());
+
+                this->initialize_request(http_url, this->request());
+
+                for (auto v : m_headers)
+                {
+                    request().set(v.first.c_str(), v.second.c_str());
+                }
+
+                auto& os = this->session()->send_request(this->request());
+                if (os)
+                {
+                    if (m_contentlen > 0)
+                    {
+                        request().set_content_length(m_contentlen);
+                        os << m_content;
+                    }
+
+                    if (this->session()->receive_response(this->response()))
+                        return this->response_stream();
+                }
+
+                this->close_connection();
+                this->handle_request_error(http_url);
+            }
+            else
+            {
+                this->handle_connection_error(http_url);
+            }
+
+            return this->response_stream();
+        }
+
+    } http(data, len, headers);
+
+    ACE::INet::URLStream urlin = url_safe.get()->open(http);
+    ostringstream oss;
+    oss << urlin->rdbuf();
+    result = oss.str();
+    ACE::HTTP::Status status = http.response().get_status();
+
+    return status.is_ok() ? 1 : 0;
+}
+
 
 std::string URLEncode(const std::string& utf8)
 {
