@@ -23,16 +23,10 @@
 
 #include "catch2/catch.hpp"
 
-#include <ace/ACE.h>
-#include <ace/OS.h>
-#include <ace/Date_Time.h>
-#include <ace/FILE_IO.h>
-#include <ace/FILE_Connector.h>
-#include <ace/Select_Reactor.h>
-
 #include "TTUnitTest.h"
 
 #include <myace/MyACE.h>
+#include <myace/MyINet.h>
 #include <teamtalk/server/ServerNode.h>
 #include <teamtalk/client/Client.h>
 #include <teamtalk/client/ClientNodeBase.h>
@@ -41,11 +35,22 @@
 #include <teamtalk/client/AudioMuxer.h>
 #include <bin/ttsrv/ServerUtil.h>
 
+#include <ace/ACE.h>
+#include <ace/Date_Time.h>
+#include <ace/FILE_IO.h>
+#include <ace/FILE_Connector.h>
+#include <ace/INet/HTTP_URL.h>
+#include <ace/INet/HTTP_ClientRequestHandler.h>
+#include <ace/INet/HTTPS_URL.h>
+#include <ace/INet/HTTPS_SessionFactory.h>
+#include <ace/Select_Reactor.h>
+
 #include <map>
 #include <iostream>
 #include <future>
 #include <thread>
 #include <ctime>
+#include <sstream>
 
 #if defined(ENABLE_OGG)
 #include <codec/OggFileIO.h>
@@ -1631,6 +1636,20 @@ TEST_CASE("TestWebLogin")
 
     ACE_TString token, loginid;
     REQUIRE(LoginBearWareAccount(ACE_TEXT("foo"), ACE_TEXT("bar"), token, loginid) == 0);
+}
+
+TEST_CASE("TestHTTPPost")
+{
+    if (GITHUBSKIP)
+    {
+        std::cout << "Skipping \"TestHTTPPost\"... No Internet" << std::endl;
+        return;
+    }
+    std::map<std::string, std::string> headers;
+    headers["Content-Type"] = "application/x-www-form-urlencoded";
+    std::string content = "client=TeamTalk5&version=5.0.0.0";
+    std::string result;
+    REQUIRE(HttpPostRequest("http://www.bearware.dk/teamtalk/tt5update.php", content.c_str(), content.length(), headers, result) == 1);
 }
 #endif
 

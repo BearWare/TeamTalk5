@@ -26,12 +26,14 @@
 
 #include <ace/INET_Addr.h>
 #include <ace/SString.h>
+#include <map>
 #include <string>
 #include <vector>
 
 std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int port);
 
-int HttpGetRequest(const ACE_CString& url, std::string& doc);
+int HttpGetRequest(const ACE_CString& url, std::string& result);
+int HttpPostRequest(const ACE_CString& url, const char* data, int len, const std::map<std::string,std::string>& headers, std::string& result);
 std::string URLEncode(const std::string& utf8);
 
 #endif
