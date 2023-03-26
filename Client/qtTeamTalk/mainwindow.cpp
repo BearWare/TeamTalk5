@@ -692,18 +692,6 @@ void MainWindow::loadSettings()
     ui.voiceactSlider->setValue(value);
     slotVoiceActivationLevelChanged(value); //force update on equal
 
-    // setup VU-meter updates
-    if(ttSettings->value(SETTINGS_DISPLAY_VU_METER_UPDATES,
-                         SETTINGS_DISPLAY_VU_METER_UPDATES_DEFAULT).toBool())
-    {
-        m_timers.insert(startTimer(50), TIMER_VUMETER_UPDATE);
-        ui.voiceactBar->setVisible(true);
-    }
-    else
-    {
-        ui.voiceactBar->setVisible(false);
-    }
-
     //default voice gain level depends on whether AGC or normal gain
     //is enabled
     value = ttSettings->value(SETTINGS_SOUND_MICROPHONEGAIN,
@@ -795,7 +783,20 @@ void MainWindow::loadSettings()
 #endif
         ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, false);
     }
-// Sounds pack checks
+
+    // setup VU-meter updates
+    if (ttSettings->value(SETTINGS_DISPLAY_VU_METER_UPDATES,
+        SETTINGS_DISPLAY_VU_METER_UPDATES_DEFAULT).toBool())
+    {
+        m_timers.insert(startTimer(50), TIMER_VUMETER_UPDATE);
+        ui.voiceactBar->setVisible(true);
+    }
+    else
+    {
+        ui.voiceactBar->setVisible(false);
+    }
+
+    // Sounds pack checks
     QString packset = ttSettings->value(SETTINGS_SOUNDS_PACK).toString();
     QString packname = QString("%1/%2").arg(SOUNDSPATH).arg(packset);
     QDir packdir(packname);
@@ -818,7 +819,9 @@ void MainWindow::loadSettings()
     {
         resetDefaultSoundsPack();
     }
+
     slotUpdateUI();
+
     if ((ttSettings->value(SETTINGS_DISPLAY_START_SERVERLIST, SETTINGS_DISPLAY_START_SERVERLIST_DEFAULT).toBool() == true && ttSettings->value(SETTINGS_CONNECTION_AUTOCONNECT, SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT).toBool() == false) && ((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == CLIENT_CLOSED))
         slotClientConnect();
 }

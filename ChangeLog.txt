@@ -22,6 +22,7 @@ Default Qt Client
 - CTRL+G on a channel now also returns user count
 - "Show MOTD variables" checked by default in server properties dialog
 - Import .tt File button moved to "Store Server Information" group box in "Server List Dialog"
+- Fixed microphone vu meter update not disabled correctly at first startup when enabled default accessibility options
 - Fixed keyboard navigation on "File transfer" dialog
 - Fixed Upload/download button and menu item not display for admin outside channel
 - Fixed bug when removing operator status in temporary channel
