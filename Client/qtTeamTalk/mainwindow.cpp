@@ -71,6 +71,7 @@
 #include <QCloseEvent>
 #include <QClipboard>
 #include <QSysInfo>
+#include <QClipboard>
 
 #if defined(QT_TEXTTOSPEECH_LIB)
 #include <QTextToSpeech>
@@ -778,6 +779,7 @@ void MainWindow::loadSettings()
         {
             ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_TOLK);
             ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, false);
+            slotUpdateUI();
         }
     }
 #endif
@@ -5843,7 +5845,19 @@ void MainWindow::slotUsersSpeakUserInformation(int id)
         if(m_filesmodel->rowCount() > 0)
             speakList += ", " + QString(tr("%1 files").arg(m_filesmodel->rowCount()));
     }
-    addTextToSpeechMessage(speakList);
+    static QTime lastPressedTime;
+    QTime currentTime = QTime::currentTime();
+    int elapsedTime = lastPressedTime.msecsTo(currentTime);
+    if (elapsedTime < 500)
+    {
+        QClipboard* clipboard = QApplication::clipboard();
+        clipboard->setText(speakList);
+    }
+    else
+    {
+        addTextToSpeechMessage(speakList);
+    }
+    lastPressedTime = currentTime;
 }
 
 void MainWindow::slotUsersMessages(int userid)
