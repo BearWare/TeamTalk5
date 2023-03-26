@@ -820,6 +820,7 @@ void MainWindow::loadSettings()
     }
 
     slotUpdateUI();
+
     startTTS();
 
     if ((ttSettings->value(SETTINGS_DISPLAY_START_SERVERLIST, SETTINGS_DISPLAY_START_SERVERLIST_DEFAULT).toBool() == true && ttSettings->value(SETTINGS_CONNECTION_AUTOCONNECT, SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT).toBool() == false) && ((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == CLIENT_CLOSED))
