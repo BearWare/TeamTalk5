@@ -1122,9 +1122,9 @@ _StopVideoCaptureTransmission = function_factory(dll.TT_StopVideoCaptureTransmis
 _GetVideoCaptureDevices = function_factory(dll.TT_GetVideoCaptureDevices, [BOOL, [POINTER(VideoCaptureDevice), POINTER(INT32)]])
 _InitVideoCaptureDevice = function_factory(dll.TT_InitVideoCaptureDevice, [BOOL, [_TTInstance, TTCHAR_P, POINTER(VideoFormat)]])
 _CloseVideoCaptureDevice = function_factory(dll.TT_CloseVideoCaptureDevice, [BOOL, [_TTInstance]])
-_StartStreamingMediaFileToChannel = function_factory(dll.TT_StartStreamingMediaFileToChannel, [BOOL, [_TTInstance, TTCHAR_P, POINTER(VideoFormat)]])
-_StartStreamingMediaFileToChannelEx = function_factory(dll.TT_StartStreamingMediaFileToChannelEx, [BOOL, [_TTInstance, TTCHAR_P, POINTER(MediaFilePlayback), POINTER(VideoFormat)]])
-_UpdateStreamingMediaFileToChannel = function_factory(dll.TT_UpdateStreamingMediaFileToChannel, [BOOL, [_TTInstance, POINTER(MediaFilePlayback), POINTER(VideoFormat)]])
+_StartStreamingMediaFileToChannel = function_factory(dll.TT_StartStreamingMediaFileToChannel, [BOOL, [_TTInstance, TTCHAR_P, POINTER(VideoCodec)]])
+_StartStreamingMediaFileToChannelEx = function_factory(dll.TT_StartStreamingMediaFileToChannelEx, [BOOL, [_TTInstance, TTCHAR_P, POINTER(MediaFilePlayback), POINTER(VideoCodec)]])
+_UpdateStreamingMediaFileToChannel = function_factory(dll.TT_UpdateStreamingMediaFileToChannel, [BOOL, [_TTInstance, POINTER(MediaFilePlayback), POINTER(VideoCodec)]])
 _StopStreamingMediaFileToChannel = function_factory(dll.TT_StopStreamingMediaFileToChannel, [BOOL, [_TTInstance]])
 _InitLocalPlayback = function_factory(dll.TT_InitLocalPlayback, [INT32, [_TTInstance, TTCHAR_P, POINTER(MediaFilePlayback)]])
 _UpdateLocalPlayback = function_factory(dll.TT_UpdateLocalPlayback, [BOOL, [_TTInstance, INT32, POINTER(MediaFilePlayback)]])
@@ -1441,6 +1441,12 @@ class TeamTalk(object):
 
     def setUserMediaStorageDir(self, nUserID: int, szFolderPath, szFileNameVars, uAFF: AudioFileFormat) -> bool:
         return _SetUserMediaStorageDir(self._tt, nUserID, szFolderPath, szFileNameVars, uAFF)
+
+    def startStreamingMediaFileToChannel(self, szMediaFilePath, lpVideoCodec: VideoCodec) -> bool:
+        return _StartStreamingMediaFileToChannel(self._tt, szMediaFilePath, lpVideoCodec)
+
+    def stopStreamingMediaFileToChannel(self) -> bool:
+        return _StopStreamingMediaFileToChannel(self._tt)
 
     # event handling
 
