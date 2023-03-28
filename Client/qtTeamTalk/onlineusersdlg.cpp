@@ -199,7 +199,7 @@ void OnlineUsersDlg::menuAction(MenuAction ma)
             emit(kickUser(userids[i], chanids[i]));
             break;
         case BAN :
-            emit(kickbanUser(userids[i], chanids[i]));
+            emit(kickbanUser(m_model->getUser(userids[i])));
             break;
         case MOVE :
             emit(moveUser(userids[i]));

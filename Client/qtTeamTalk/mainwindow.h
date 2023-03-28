@@ -390,7 +390,7 @@ private:
     void slotUsersVolume(int userid);
     void slotUsersOp(int userid, int chanid);
     void slotUsersKick(int userid, int chanid);
-    void slotUsersKickBan(int userid, int chanid);
+    void slotUsersKickBan(const User& user);
 
     void slotTreeSelectionChanged();
     void slotTreeContextMenu(const QPoint& pos);

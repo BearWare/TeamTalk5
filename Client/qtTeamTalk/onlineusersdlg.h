@@ -52,7 +52,7 @@ signals:
     void changeUserVolume(int userid);
     void opUser(int userid, int chanid);
     void kickUser(int userid, int chanid);
-    void kickbanUser(int userid, int chanid);
+    void kickbanUser(const User& user);
     void streamfileToUser(int userid);
     void moveUser(int userid);
 
