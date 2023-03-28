@@ -97,6 +97,18 @@ void OnlineUsersModel::removeDisconnected()
     this->endResetModel();
 }
 
+User OnlineUsersModel::getUser(int userid) const
+{
+    User user = {};
+    auto i = m_users.find(userid);
+    if (i != m_users.end())
+    {
+        user = i.value();
+        user.nUserID = userid; // user.nUserID == DISCONNECTED_USERID
+    }
+    return user;
+}
+
 QModelIndex OnlineUsersModel::userRow(int userid)
 {
     int i=0;

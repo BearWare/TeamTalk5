@@ -148,8 +148,8 @@ void OnlineUsersDlg::menuAction(MenuAction ma)
             return;
 
         int userid = index.internalId();
-        User user;
-        if(!TT_GetUser(ttInst, userid, &user))
+        User user = m_model->getUser(userid);
+        if (user.nUserID <= 0)
             continue;
         userids.push_back(user.nUserID);
         chanids.push_back(user.nChannelID);
@@ -196,16 +196,16 @@ void OnlineUsersDlg::keyPressEvent(QKeyEvent* e)
                 if(!index.isValid())
                     return;
                 int userid = index.internalId();
-                User user;
-                if(!TT_GetUser(ttInst, userid, &user))
+                User user = m_model->getUser(userid);
+                if (user.nUserID <= 0)
                     continue;
                 userids.push_back(user.nUserID);
                 chanids.push_back(user.nChannelID);
             }
             for(int i=0;i<userids.size();i++)
             {
-                User user;
-                if(TT_GetUser(ttInst, userids[i], &user))
+                User user = m_model->getUser(userids[i]);
+                if (user.nUserID > 0)
                 {
                     TTCHAR channel[TT_STRLEN] = {};
                     TT_GetChannelPath(ttInst, user.nChannelID, channel);
