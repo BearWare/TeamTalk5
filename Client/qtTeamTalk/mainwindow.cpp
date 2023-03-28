@@ -4798,7 +4798,7 @@ void MainWindow::slotUsersKickFromChannel(bool /*checked =false */)
 void MainWindow::slotUsersKickBanFromChannel(bool /*checked =false */)
 {
     foreach(User u, ui.channelsWidget->getSelectedUsers())
-        slotUsersKickBan(u.nUserID, u.nChannelID);
+        slotUsersKickBan(u);
 }
 
 void MainWindow::slotUsersKickFromServer(bool /*checked =false */)
@@ -4809,8 +4809,11 @@ void MainWindow::slotUsersKickFromServer(bool /*checked =false */)
 
 void MainWindow::slotUsersKickBanFromServer(bool /*checked =false */)
 {
-    foreach(User u, ui.channelsWidget->getSelectedUsers())    
-        slotUsersKickBan(u.nUserID, 0);
+    foreach(User u, ui.channelsWidget->getSelectedUsers())
+    {
+        u.nChannelID = 0; //ban from server
+        slotUsersKickBan(u);
+    }
 }
 
 void MainWindow::slotUsersSubscriptionsUserMsg(bool checked /*=false */)
@@ -5904,7 +5907,7 @@ void MainWindow::slotUsersKick(int userid, int chanid)
     TT_DoKickUser(ttInst, userid, chanid);
 }
 
-void MainWindow::slotUsersKickBan(int userid, int chanid)
+void MainWindow::slotUsersKickBan(const User& user)
 {
     QStringList items = { tr("IP-address"), tr("Username") };
     bool ok = false;
@@ -5913,18 +5916,38 @@ void MainWindow::slotUsersKickBan(int userid, int chanid)
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setComboBoxItems(items);
     inputDialog.setComboBoxEditable(false);
-    inputDialog.setWindowTitle(tr("Ban user's"));
-    inputDialog.setLabelText(tr("Ban User From Channel"));
+    inputDialog.setWindowTitle(tr("Ban user #%1").arg(user.nUserID));
+    if (user.nChannelID > 0)
+        inputDialog.setLabelText(tr("Ban User From Channel"));
+    else
+        inputDialog.setLabelText(tr("Ban User From Server"));
     ok = inputDialog.exec();
     QString choice = inputDialog.textValue();
     if (ok)
     {
-        //ban first since the user will otherwise have disappeared
-        if (choice == items[0])
-            TT_DoBanUserEx(ttInst, userid, chanid != 0 ? BANTYPE_CHANNEL | BANTYPE_IPADDR : BANTYPE_IPADDR);
-        else
-            TT_DoBanUserEx(ttInst, userid, chanid != 0 ? BANTYPE_CHANNEL | BANTYPE_USERNAME : BANTYPE_USERNAME);
-        TT_DoKickUser(ttInst, userid, chanid);
+        User tmp;
+        if (TT_GetUser(ttInst, user.nUserID, &tmp))
+        {
+            //ban first since the user will otherwise have disappeared
+            if (choice == items[0])
+                TT_DoBanUserEx(ttInst, user.nUserID, user.nChannelID > 0 ? BANTYPE_CHANNEL | BANTYPE_IPADDR : BANTYPE_IPADDR);
+            else
+                TT_DoBanUserEx(ttInst, user.nUserID, user.nChannelID > 0 ? BANTYPE_CHANNEL | BANTYPE_USERNAME : BANTYPE_USERNAME);
+            TT_DoKickUser(ttInst, user.nUserID, user.nChannelID);
+        }
+        else // ban offline user
+        {
+            BannedUser ban = {};
+            TT_GetChannelPath(ttInst, user.nChannelID, ban.szChannelPath);
+            COPY_TTSTR(ban.szUsername, _Q(user.szUsername));
+            COPY_TTSTR(ban.szIPAddress, _Q(user.szIPAddress));
+            COPY_TTSTR(ban.szNickname, _Q(user.szNickname));
+            if (choice == items[0])
+                ban.uBanTypes |= user.nChannelID > 0 ? BANTYPE_CHANNEL | BANTYPE_IPADDR : BANTYPE_IPADDR;
+            else
+                ban.uBanTypes |= user.nChannelID > 0 ? BANTYPE_CHANNEL | BANTYPE_USERNAME : BANTYPE_USERNAME;
+            TT_DoBan(ttInst, &ban);
+        }
     }
 }
 

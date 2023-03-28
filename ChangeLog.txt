@@ -20,6 +20,7 @@ Default Qt Client
 - Separate count users in channel and subchannel on channel tree
 - Fixed bug when removing operator status in temporary channel
 - "Show MOTD variables" checked by default in server properties dialog
+- Ban offline user from "Online Users" dialog
 Accessible Windows Client
 -
 Android Client
