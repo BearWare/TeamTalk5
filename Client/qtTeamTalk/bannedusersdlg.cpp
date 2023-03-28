@@ -69,9 +69,7 @@ QVariant BannedUsersModel::headerData ( int section, Qt::Orientation orientation
 
 int BannedUsersModel::columnCount ( const QModelIndex & parent /*= QModelIndex() */) const
 {
-    if(!parent.isValid())
-        return 5;
-    return 0;
+    return COLUMN_COUNT_BANNEDUSERS;
 }
 
 QVariant BannedUsersModel::data ( const QModelIndex & index, int role /*= Qt::DisplayRole */) const
