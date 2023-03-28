@@ -905,6 +905,7 @@ ErrorMsg ServerUser::HandleUserBan(const mstrings_t& properties)
     GetProperty(properties, TT_USERNAME, ban.username);
     GetProperty(properties, TT_CHANNEL, ban.chanpath);
     GetProperty(properties, TT_CHANNELID, chanid);
+    GetProperty(properties, TT_NICKNAME, ban.nickname);
 
     if (chanid)
         ban.bantype |= BANTYPE_CHANNEL;
