@@ -194,6 +194,9 @@ depend-ubuntu22:
 depend-ubuntu18-android:
 	apt install doxygen ninja-build junit4 cmake openjdk-11-jdk junit4 autoconf libtool pkg-config python
 
+depend-ubuntu22-android:
+	apt install doxygen ninja-build junit4 cmake openjdk-11-jdk junit4 autoconf libtool pkg-config python3
+
 # TeamTalk 5 dependencies for Debian 9
 depend-debian9:
 	apt install qt5-default qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev \
