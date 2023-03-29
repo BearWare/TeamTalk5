@@ -9,15 +9,15 @@ The following secions explain how to build TeamTalk binaries using CMake:
 * [Install TeamTalk Toolchain Dependencies](#install-teamTalk-toolchain-dependencies)
   * Install the tools required to build TeamTalk on the host build platform:
     * [Windows](#install-teamtalk-dependencies-on-windows)
-    * [Ubuntu 18](#install-teamtalk-dependencies-on-ubuntu-18)
-    * [Android on Ubuntu 18](#install-teamtalk-dependencies-for-android-on-ubuntu-18)
+    * [Ubuntu 22](#install-teamtalk-dependencies-on-ubuntu-22)
+    * [Android on Ubuntu 22](#install-teamtalk-dependencies-for-android-on-ubuntu-22)
     * [macOS](#install-teamtalk-dependencies-on-macos)
     * [iOS on macOS](#install-teamtalk-dependencies-for-ios-on-macos)
 * [Build TeamTalk Binaries](#build-teamTalk-binaries)
   * Invoke CMake to start building the TeamTalk binaries on the host build platform:
     * [Windows](#build-teamtalk-binaries-for-windows)
-    * [Ubuntu 18](#build-teamtalk-binaries-for-ubuntu-18)
-    * [Android on Ubuntu 18](#build-teamtalk-binaries-for-android-on-ubuntu-18)
+    * [Ubuntu 22](#build-teamtalk-binaries-for-ubuntu-22)
+    * [Android on Ubuntu 22](#build-teamtalk-binaries-for-android-on-ubuntu-22)
     * [macOS](#build-teamtalk-binaries-for-macos)
     * [iOS on macOS](#build-teamtalk-binaries-for-ios-on-macos)
 * [Toolchain Toggles for TeamTalk Build Targets](#toolchain-toggles-for-teamTalk-build-targets)
@@ -56,23 +56,23 @@ manually.
     * Place `yasm.exe` for Win32 in `C:/tt5dist/yasm/win32`
     * LibVPX requires *yasm*
 
-### Install TeamTalk Dependencies on Ubuntu 18
+### Install TeamTalk Dependencies on Ubuntu 22
 
-A Makefile is available for Ubuntu 18 to install all the dependencies
+A Makefile is available for Ubuntu 22 to install all the dependencies
 required to build TeamTalk binaries.
 
-* To install build dependencies for Ubuntu 18 run the following in
+* To install build dependencies for Ubuntu 22 run the following in
   TEAMTALK_ROOT:
-  * `sudo make -C Build depend-ubuntu18`
+  * `sudo make -C Build depend-ubuntu22`
     * `sudo` is required because `apt install` is called.
 
-### Install TeamTalk Dependencies for Android on Ubuntu 18
+### Install TeamTalk Dependencies for Android on Ubuntu 22
 
-Building for Android platform is supported on Ubuntu 18.
+Building for Android platform is supported on Ubuntu 22.
 
-* To install build dependencies for Android on Ubuntu 18 run the
+* To install build dependencies for Android on Ubuntu 22 run the
   following in TEAMTALK_ROOT:
-  * `sudo make -C Build depend-ubuntu18`
+  * `sudo make -C Build depend-ubuntu22`
     * `sudo` is required because `apt install` is called.
 * Download [Android NDK r21e](https://developer.android.com/ndk) and
   unzip it. Make environment variable `ANDROID_NDK_HOME` point to the
@@ -130,16 +130,16 @@ Studio 2019 run CMake like this:
 Note that WebRTC dependency will create a folder in `C:\webrtc` where
 it downloads its repository.
 
-### Build TeamTalk Binaries for Ubuntu 18
+### Build TeamTalk Binaries for Ubuntu 22
 
 Run the following command in TEAMTALK_ROOT:
 
-`make -C Build ubuntu18`
+`make -C Build ubuntu22`
 
 This will cause `make` to call CMake to generate a valid build
 configuration and afterwards build the binaries.
 
-### Build TeamTalk Binaries for Android on Ubuntu 18
+### Build TeamTalk Binaries for Android on Ubuntu 22
 
 Run the following command in TEAMTALK_ROOT:
 

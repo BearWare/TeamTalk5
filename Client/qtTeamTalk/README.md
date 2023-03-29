@@ -4,12 +4,12 @@ Here are the instructions on how to build the TeamTalk 5 Qt client.
 
 To try a compiled version of the this application go [here](http://bearware.dk/?page_id=327).
 
-## Build Qt-based TeamTalk 5 on Ubuntu 18
+## Build Qt-based TeamTalk 5 on Ubuntu 22
 
 In order to build the Qt-based TeamTalk client its build-dependencies
 must first be installed. Goto TEAMTALK_ROOT/Build and type:
 
-`# make depend-ubuntu18`
+`# make depend-ubuntu22`
 
 Afterwards run the following command:
 
