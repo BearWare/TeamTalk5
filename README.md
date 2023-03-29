@@ -4,7 +4,8 @@ Repository for TeamTalk 5 development.
 
 ## Overview
 * [Download TeamTalk 5 SDK](#download-teamtalk-5-sdk)
-  * Get the client and server binaries for building your own software
+  * Get the client and server binaries for building your own software without
+    having to build all the TeamTalk dependencies yourself.
 * [TeamTalk 5 Libraries](#teamtalk-5-libraries)
   * The libraries (APIs) that can be used for developing your client and server
 * [TeamTalk 5 Clients](#teamtalk-5-clients)
