@@ -195,7 +195,7 @@ depend-ubuntu18-android:
 	apt install doxygen ninja-build junit4 cmake openjdk-11-jdk junit4 autoconf libtool pkg-config python
 
 depend-ubuntu22-android:
-	apt install doxygen ninja-build junit4 cmake openjdk-11-jdk junit4 autoconf libtool pkg-config python3
+	apt install doxygen ninja-build junit4 cmake openjdk-18-jdk junit4 autoconf libtool pkg-config python2 python3-pytest
 
 # TeamTalk 5 dependencies for Debian 9
 depend-debian9:
