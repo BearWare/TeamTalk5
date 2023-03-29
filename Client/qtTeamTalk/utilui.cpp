@@ -196,6 +196,42 @@ RestoreIndex::~RestoreIndex()
     m_view->setCurrentIndex(m_view->model()->index(m_row, m_column, m_parent));
 }
 
+RestoreItemData::RestoreItemData(QAbstractItemView* view, QSortFilterProxyModel* model /*= nullptr*/)
+    : m_view(view)
+    , m_proxy(model)
+{
+    QItemSelectionModel* selModel = view->selectionModel();
+    QModelIndexList indexes = selModel->selectedRows();
+    for (auto& i : indexes)
+    {
+        if (model)
+            m_intdata.push_back(model->mapToSource(i).internalId());
+        else
+            m_intdata.push_back(i.internalId());
+    }
+    m_intdata = m_intdata;
+}
+
+RestoreItemData::~RestoreItemData()
+{
+    if (m_view->model()->rowCount() == 0 || m_view->model()->columnCount() == 0)
+        return;
+
+    for (int r=0;r<m_view->model()->rowCount();++r)
+    {
+        QModelIndex i = m_view->model()->index(r, 0);
+        quintptr id = i.internalId();
+        if (m_proxy)
+            id = m_proxy->mapToSource(i).internalId();
+
+        if (m_intdata.contains(id))
+        {
+            m_view->setCurrentIndex(i);
+            break;
+        }
+    }
+}
+
 void saveWindowPosition(const QString& setting, QWidget* widget)
 {
     if (widget->windowState() == Qt::WindowNoState)
