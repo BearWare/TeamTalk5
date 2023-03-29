@@ -24,6 +24,7 @@
 #include "onlineusersdlg.h"
 #include "appinfo.h"
 #include "settings.h"
+#include "utilui.h"
 
 #include <QHeaderView>
 #include <QMenu>
@@ -83,18 +84,21 @@ void OnlineUsersDlg::updateTitle()
 
 void OnlineUsersDlg::slotUserLoggedIn(const User& user)
 {
+    RestoreItemData r(ui.treeView, m_proxyModel);
     m_model->addUser(user.nUserID);
     updateTitle();
 }
 
 void OnlineUsersDlg::slotUserLoggedOut(const User& user)
 {
+    RestoreItemData r(ui.treeView, m_proxyModel);
     m_model->removeUser(user.nUserID, ttSettings->value(SETTINGS_KEEP_DISCONNECTED_USERS, SETTINGS_KEEP_DISCONNECTED_USERS_DEFAULT).toBool());
     updateTitle();
 }
 
 void OnlineUsersDlg::slotUserUpdate(const User& user)
 {
+    RestoreItemData r(ui.treeView, m_proxyModel);
     m_model->updateUser(user.nUserID);
     QModelIndex index = m_model->userRow(user.nUserID);
     if(index.isValid())
@@ -103,6 +107,7 @@ void OnlineUsersDlg::slotUserUpdate(const User& user)
 
 void OnlineUsersDlg::slotUserJoin(int /*channelid*/, const User& user)
 {
+    RestoreItemData r(ui.treeView, m_proxyModel);
     m_model->updateUser(user.nUserID);
     QModelIndex index = m_model->userRow(user.nUserID);
     if(index.isValid())
@@ -111,6 +116,7 @@ void OnlineUsersDlg::slotUserJoin(int /*channelid*/, const User& user)
 
 void OnlineUsersDlg::slotUserLeft(int /*channelid*/, const User& user)
 {
+    RestoreItemData r(ui.treeView, m_proxyModel);
     m_model->updateUser(user.nUserID);
     QModelIndex index = m_model->userRow(user.nUserID);
     if(index.isValid())
@@ -247,6 +253,7 @@ void OnlineUsersDlg::keyPressEvent(QKeyEvent* e)
 
 void OnlineUsersDlg::slotUpdateSettings()
 {
+    RestoreItemData r(ui.treeView, m_proxyModel);
     ttSettings->setValue(SETTINGS_KEEP_DISCONNECTED_USERS, ui.keepDisconnectedUsersCheckBox->isChecked());
     if (!ui.keepDisconnectedUsersCheckBox->isChecked())
         m_model->removeDisconnected();
