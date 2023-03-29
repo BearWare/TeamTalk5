@@ -132,7 +132,34 @@ void OnlineUsersDlg::slotTreeContextMenu(const QPoint& /*point*/)
                    QKeySequence(tr("Ctrl+B")));
     menu.addAction(tr("Select User(s) for Move"), this, [&]() { menuAction(MOVE); },
                    QKeySequence(tr("Ctrl+Alt+X")));
-    menu.exec(QCursor::pos());
+    QMenu* sortMenu = menu.addMenu(tr("Sort By..."));
+    QString asc = tr("Ascending"), desc = tr("Descending");
+    QAction* sortId = new QAction(sortMenu);
+    sortId->setText(tr("&Id (%1)").arg(m_proxyModel->sortOrder() == Qt::AscendingOrder?asc:desc));
+    sortId->setCheckable(true);
+    const QString id = "id";
+    sortId->setChecked((ttSettings->value(SETTINGS_DISPLAY_ONLINEUSERS_SORT, SETTINGS_DISPLAY_ONLINEUSERS_SORT_DEFAULT).toString() == id)?true:false);
+    sortMenu->addAction(sortId);
+    QAction* sortNickname = new QAction(sortMenu);
+    sortNickname->setText(tr("&Nickname (%1)").arg(m_proxyModel->sortOrder() == Qt::AscendingOrder?asc:desc));
+    sortNickname->setCheckable(true);
+    const QString nickname = "nickname";
+    sortNickname->setChecked((ttSettings->value(SETTINGS_DISPLAY_ONLINEUSERS_SORT, SETTINGS_DISPLAY_ONLINEUSERS_SORT_DEFAULT).toString() == nickname)?true:false);
+    sortMenu->addAction(sortNickname);
+    if (QAction* action = menu.exec(QCursor::pos()))
+    {
+        auto sortToggle = m_proxyModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
+        if (action == sortId)
+        {
+            ui.treeView->header()->setSortIndicator(COLUMN_USERID, m_proxyModel->sortColumn() == COLUMN_USERID ? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_ONLINEUSERS_SORT, id);
+        }
+        else if (action == sortNickname)
+        {
+            ui.treeView->header()->setSortIndicator(COLUMN_NICKNAME, m_proxyModel->sortColumn() == COLUMN_NICKNAME ? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_ONLINEUSERS_SORT, nickname);
+        }
+    }
 }
 
 void OnlineUsersDlg::menuAction(MenuAction ma)
