@@ -3604,7 +3604,8 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource The user ID. @see TT_LOCAL_USERID
          * @see TT_MUTEX_USERID
-         * - #TTMessage.ttType #__STREAMTYPE */
+         * - #TTMessage.ttType #__STREAMTYPE
+         * - #TTMessage.nStreamType Placed in union of #TTMessage */
         CLIENTEVENT_USER_AUDIOBLOCK = CLIENTEVENT_NONE + 570,
         /** 
          * @brief An internal error occurred in the client instance.
@@ -7391,7 +7392,14 @@ extern "C" {
      * state until no packets are received from this user, plus a
      * delay (due to network interruptions). This delay is by default
      * set to 500 msec but can be changed by calling
-     * TT_SetUserStoppedTalkingDelay(). */
+     * TT_SetUserStoppedTalkingDelay().
+     *
+     * @param lpTTInstance Pointer to client instance created by
+     * #TT_InitTeamTalk.
+     * @param nUserID The user ID of the user.
+     * @param nStreamType Either #STREAMTYPE_VOICE or
+     * #STREAMTYPE_MEDIAFILE_AUDIO.
+     * @param nDelayMSec Delay in milliseconds. */
     TEAMTALKDLL_API TTBOOL TT_SetUserStoppedPlaybackDelay(IN TTInstance* lpTTInstance,
                                                           IN INT32 nUserID, 
                                                           IN StreamType nStreamType,
