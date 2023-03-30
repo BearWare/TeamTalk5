@@ -1282,6 +1282,10 @@ class TeamTalk(object):
             self.onCmdFileRemove(msg.remotefile)
         if event == ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE:
             self.onUserRecordMediaFile(msg.nSource, msg.mediafileinfo)
+        if event == ClientEvent.CLIENTEVENT_USER_STATECHANGE:
+            self.onUserStateChange(msg.user)
+        if event == ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK:
+            self.onUserAudioBlock(msg.nSource, msg.nStreamType)
 
     def getMessage(self, nWaitMS: int = -1):
         msg = TTMessage()
@@ -1442,6 +1446,9 @@ class TeamTalk(object):
     def setUserMediaStorageDir(self, nUserID: int, szFolderPath, szFileNameVars, uAFF: AudioFileFormat) -> bool:
         return _SetUserMediaStorageDir(self._tt, nUserID, szFolderPath, szFileNameVars, uAFF)
 
+    def setUserStoppedPlaybackDelay(self, nUserID: int, nStreamType: StreamType, nDelayMSec: int) -> bool:
+        return _SetUserStoppedPlaybackDelay(self._tt, nUserID, nStreamType, nDelayMSec)
+
     def startStreamingMediaFileToChannel(self, szMediaFilePath, lpVideoCodec: VideoCodec) -> bool:
         return _StartStreamingMediaFileToChannel(self._tt, szMediaFilePath, lpVideoCodec)
 
@@ -1511,4 +1518,10 @@ class TeamTalk(object):
         pass
 
     def onUserRecordMediaFile(self, userid: int, mediafileinfo: MediaFileInfo):
+        pass
+
+    def onUserStateChange(user: User):
+        pass
+
+    def onUserAudioBlock(nUserID: int, nStreamType: StreamType):
         pass
