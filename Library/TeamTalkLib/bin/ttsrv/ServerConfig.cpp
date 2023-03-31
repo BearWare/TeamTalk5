@@ -28,6 +28,7 @@
 
 #include "AppInfo.h"
 
+#include <myace/MyINet.h>
 #include <teamtalk/Common.h>
 #include <teamtalk/Log.h>
 

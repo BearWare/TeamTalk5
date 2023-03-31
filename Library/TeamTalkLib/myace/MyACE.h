@@ -33,7 +33,6 @@
 #include <ace/Timer_Queue_Adapters.h>
 #include <ace/Timer_Heap.h>
 #include <ace/SString.h>
-#include <ace/INET_Addr.h>
 #include <vector>
 #include <set>
 #include <fstream>
@@ -189,10 +188,5 @@ struct w16_less_comp
     bool operator() (const ACE_UINT16& a, const ACE_UINT16& b) const
         { return W16_LT(a,b); }
 };
-
-std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int port);
-
-int HttpRequest(const ACE_CString& url, std::string& doc);
-std::string URLEncode(const std::string& utf8);
 
 #endif /* MYACE_H */

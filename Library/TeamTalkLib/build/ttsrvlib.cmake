@@ -10,6 +10,7 @@ set (TTSRVLIB_SSL_LINK_FLAGS ${ACE_SSL_LINK_FLAGS} ${TTSRVLIB_LINK_FLAGS} ${OPEN
 set (TTSRVLIB_HEADERS 
   ${TEAMTALKLIB_ROOT}/TeamTalkDefs.h
   ${TEAMTALKLIB_ROOT}/myace/MyACE.h
+  ${TEAMTALKLIB_ROOT}/myace/MyINet.h
   ${TEAMTALKLIB_ROOT}/myace/TimerHandler.h
   ${TEAMTALKLIB_ROOT}/mystd/MyStd.h
   ${TEAMTALKLIB_ROOT}/teamtalk/Channel.h
@@ -33,6 +34,7 @@ set (TTSRVLIB_HEADERS
 
 set (TTSRVLIB_SOURCES
   ${TEAMTALKLIB_ROOT}/myace/MyACE.cpp
+  ${TEAMTALKLIB_ROOT}/myace/MyINet.cpp
   ${TEAMTALKLIB_ROOT}/myace/TimerHandler.cpp
   ${TEAMTALKLIB_ROOT}/mystd/MyStd.cpp
   ${TEAMTALKLIB_ROOT}/teamtalk/Channel.cpp

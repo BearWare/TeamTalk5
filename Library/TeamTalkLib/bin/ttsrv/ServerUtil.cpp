@@ -28,8 +28,9 @@
 #include <teamtalk/ttassert.h>
 #include <settings/Settings.h>
 
-#include <mystd/MyStd.h>
 #include <myace/MyACE.h>
+#include <myace/MyINet.h>
+#include <mystd/MyStd.h>
 
 #include <ace/Dirent_Selector.h>
 
