@@ -122,7 +122,7 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int por
     return result;
 }
 
-int HttpRequest(const ACE_CString& url, std::string& doc)
+int HttpGetRequest(const ACE_CString& url, std::string& doc)
 {
 #if defined(ENABLE_ENCRYPTION)
 #if defined(ENABLE_TEAMTALKACE)

@@ -31,7 +31,7 @@
 
 std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int port);
 
-int HttpRequest(const ACE_CString& url, std::string& doc);
+int HttpGetRequest(const ACE_CString& url, std::string& doc);
 std::string URLEncode(const std::string& utf8);
 
 #endif
