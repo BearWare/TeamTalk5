@@ -24,6 +24,7 @@
 #if !defined(TTUNITTEST_H)
 #define TTUNITTEST_H
 
+#include <ace/OS.h> // BOOL, UINT32, etc needed on Windows
 #include <TeamTalk.h>
 
 #include <string>

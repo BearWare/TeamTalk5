@@ -23,15 +23,15 @@
 
 #include "ServerGuard.h"
 #include "ServerConfig.h"
+#include "AppInfo.h"
+
+#include <myace/MyINet.h>
+#include <teamtalk/Commands.h>
+#include <teamtalk/Log.h>
 
 #include <ace/OS_NS_sys_stat.h>
 
 #include <sstream>
-
-#include <teamtalk/Commands.h>
-#include <teamtalk/Log.h>
-
-#include "AppInfo.h"
 
 using namespace teamtalk;
 using namespace std;

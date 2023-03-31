@@ -23,13 +23,14 @@
 
 #include "ClientNode.h"
 
+#include <myace/MyACE.h>
+#include <myace/MyINet.h>
 #include <codec/BmpFile.h>
 #include <teamtalk/CodecCommon.h>
 #include <teamtalk/ttassert.h>
 #include <teamtalk/Commands.h>
 #include <teamtalk/PacketLayout.h>
 #include <teamtalk/PacketHelper.h>
-#include <myace/MyACE.h>
 
 #include <ace/OS.h>
 #include <ace/Synch_Options.h>
