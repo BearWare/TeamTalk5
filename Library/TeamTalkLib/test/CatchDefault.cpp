@@ -1615,10 +1615,10 @@ TEST_CASE("TestHTTPS")
     }
 
     std::string response1, response2, response3;
-    REQUIRE(1 == HttpRequest("http://www.bearware.dk/teamtalk/weblogin.php?ping=1", response1));
-    REQUIRE(1 == HttpRequest("https://www.bearware.dk/teamtalk/weblogin.php?ping=1", response2));
+    REQUIRE(1 == HttpGetRequest("http://www.bearware.dk/teamtalk/weblogin.php?ping=1", response1));
+    REQUIRE(1 == HttpGetRequest("https://www.bearware.dk/teamtalk/weblogin.php?ping=1", response2));
     REQUIRE(response1 == response2);
-    REQUIRE(1 == HttpRequest("https://www.google.com", response3));
+    REQUIRE(1 == HttpGetRequest("https://www.google.com", response3));
 }
 
 TEST_CASE("TestWebLogin")

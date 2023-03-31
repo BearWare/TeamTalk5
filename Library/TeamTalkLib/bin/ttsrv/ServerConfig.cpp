@@ -369,7 +369,7 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
             url += "client=" TEAMTALK_LIB_NAME;
             url += "&version=" TEAMTALK_VERSION;
             url += "&ping=true";
-            switch(HttpRequest(url, xml))
+            switch(HttpGetRequest(url, xml))
             {
             case -1 :
                 cout << "Failed to query " << WEBLOGIN_URL;
