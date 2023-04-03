@@ -164,6 +164,10 @@ class AudioBlock(Structure):
     def __init__(self):
         assert(DBG_SIZEOF(TTType.AUDIOBLOCK) == ctypes.sizeof(AudioBlock))
 
+TT_LOCAL_USERID     = 0
+TT_LOCAL_TX_USERID  = 0x1002
+TT_MUXED_USERID     = 0x1001
+
 class MediaFileStatus(INT32):
     MFS_CLOSED = 0
     MFS_ERROR = 1
@@ -477,6 +481,8 @@ class MediaFilePlayback(Structure):
     ]
     def __init__(self):
         assert(DBG_SIZEOF(TTType.MEDIAFILEPLAYBACK) == ctypes.sizeof(MediaFilePlayback))
+
+TT_MEDIAPLAYBACK_OFFSET_IGNORE = 0xFFFFFFFF
 
 class AudioInputProgress(Structure):
     _fields_ = [
@@ -1205,6 +1211,8 @@ _SetUserStereo = function_factory(dll.TT_SetUserStereo, [BOOL, [_TTInstance, INT
 _SetUserMediaStorageDir = function_factory(dll.TT_SetUserMediaStorageDir, [BOOL, [_TTInstance, INT32, TTCHAR_P, TTCHAR_P, UINT32]])
 _SetUserMediaStorageDirEx = function_factory(dll.TT_SetUserMediaStorageDirEx, [BOOL, [_TTInstance, INT32, TTCHAR_P, TTCHAR_P, UINT32, UINT32]])
 _SetUserAudioStreamBufferSize = function_factory(dll.TT_SetUserAudioStreamBufferSize, [BOOL, [_TTInstance, INT32, UINT32, INT32]])
+_AcquireUserAudioBlock = function_factory(dll.TT_AcquireUserAudioBlock, [POINTER(AudioBlock), [_TTInstance, StreamType, INT32]])
+_ReleaseUserAudioBlock = function_factory(dll.TT_ReleaseUserAudioBlock, [BOOL, [_TTInstance, POINTER(AudioBlock)]])
 _GetFileTransferInfo = function_factory(dll.TT_GetFileTransferInfo, [BOOL, [_TTInstance, INT32, POINTER(FileTransfer)]])
 _CancelFileTransfer = function_factory(dll.TT_CancelFileTransfer, [BOOL, [_TTInstance, INT32]])
 _GetErrorMessage = function_factory(dll.TT_GetErrorMessage, [c_void_p, [INT32, POINTER(TTCHAR*TT_STRLEN)]])
@@ -1254,6 +1262,8 @@ class TeamTalk(object):
             self.onCmdSuccess(msg.nSource)
         if event == ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN:
             self.onCmdMyselfLoggedIn(msg.nSource, msg.useraccount)
+        if event == ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDOUT:
+            self.onCmdMyselfLoggedOut()
         if event == ClientEvent.CLIENTEVENT_CMD_MYSELF_KICKED:
             self.onCmdMyselfKickedFromChannel(msg.nSource, msg.user)
         if event == ClientEvent.CLIENTEVENT_CMD_USER_LOGGEDIN:
@@ -1455,6 +1465,31 @@ class TeamTalk(object):
     def stopStreamingMediaFileToChannel(self) -> bool:
         return _StopStreamingMediaFileToChannel(self._tt)
 
+    def initLocalPlayback(self, szMediaFilePath, lpMediaFilePlayback: MediaFilePlayback) -> int:
+        return _InitLocalPlayback(self._tt, szMediaFilePath, lpMediaFilePlayback)
+
+    def updateLocalPlayback(self, nPlaybackSessionID: int, lpMediaFilePlayback: MediaFilePlayback) -> bool:
+        return _UpdateLocalPlayback(self._tt, nPlaybackSessionID, lpMediaFilePlayback)
+
+    def stopLocalPlayback(self, nPlaybackSessionID: int) -> bool:
+        return _StopLocalPlayback(self._tt, nPlaybackSessionID)
+
+    def enableAudioBlockEvent(self, nUserID: int, uStreamTypes: int, bEnable: bool) -> bool:
+        return _EnableAudioBlockEvent(self._tt, nUserID, uStreamTypes, bEnable)
+
+    def enableAudioBlockEventEx(self, nUserID: int, uStreamTypes: int, lpAudioFormat: AudioFormat, bEnable: bool) -> bool:
+        return _EnableAudioBlockEventEx(self._tt, nUserID, uStreamTypes, lpAudioFormat, bEnable)
+
+    def insertAudioBlock(self, lpAudioBlock: AudioBlock) -> bool:
+        return _InsertAudioBlock(self._tt, lpAudioBlock)
+
+    def acquireUserAudioBlock(self, uStreamTypes: StreamType, nUserID: int) -> POINTER(AudioBlock):
+        return _AcquireUserAudioBlock(self._tt, uStreamTypes, nUserID)
+
+    def releaseUserAudioBlock(self, lpAudioBlock: POINTER(AudioBlock)) -> bool:
+        return _ReleaseUserAudioBlock(self._tt, lpAudioBlock)
+
+
     # event handling
 
     def onConnectSuccess(self):
@@ -1476,6 +1511,9 @@ class TeamTalk(object):
         pass
 
     def onCmdMyselfLoggedIn(self, userid: int, useraccount: UserAccount):
+        pass
+
+    def onCmdMyselfLoggedOut(self):
         pass
 
     def onCmdMyselfKickedFromChannel(self, channelid: int, user: User):
@@ -1520,8 +1558,8 @@ class TeamTalk(object):
     def onUserRecordMediaFile(self, userid: int, mediafileinfo: MediaFileInfo):
         pass
 
-    def onUserStateChange(user: User):
+    def onUserStateChange(self, user: User):
         pass
 
-    def onUserAudioBlock(nUserID: int, nStreamType: StreamType):
+    def onUserAudioBlock(self, nUserID: int, nStreamType: StreamType):
         pass
