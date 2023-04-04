@@ -21,10 +21,9 @@
 import sys
 import os
 import ctypes
-from time import sleep
-from enum import IntEnum
-from ctypes import *
-from ctypes.util import find_library
+from ctypes import cdll, c_int, c_char, c_wchar, c_wchar_p, c_char_p, \
+                   c_longlong, c_uint, c_float, c_void_p, c_uint16, \
+                   Structure, Union, POINTER, byref
 
 if sys.platform == "win32":
     if (sys.version_info.major == 3 and sys.version_info.minor >= 8):
