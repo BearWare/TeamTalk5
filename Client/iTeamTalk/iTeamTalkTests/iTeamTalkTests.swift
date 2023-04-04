@@ -31,7 +31,7 @@ class iTeamTalkTests: XCTestCase {
     
     let TRUE : TTBOOL = 1, FALSE : TTBOOL = 0
     let DEF_WAIT : INT32 = 5000
-    let IPADDR = "tt5eu.bearware.dk"
+    let IPADDR = "tt5us.bearware.dk"
     let TCPPORT : INT32 = 10335, UDPPORT : INT32 = 10335
     let ENCRYPTED : TTBOOL = 0
     let ADMIN_USERNAME = "admin", ADMIN_PASSWORD = "admin"
