@@ -156,7 +156,7 @@ int HttpGetRequest(const ACE_CString& url, std::string& result)
     MYTRACE_COND(!status.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"),
         Utf8ToUnicode(result.c_str()).c_str());
 #else
-    MYTRACE_COND(!status.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"), doc.c_str());
+    MYTRACE_COND(!status.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"), result.c_str());
 #endif
 
     return status.is_ok() ? 1 : 0;
