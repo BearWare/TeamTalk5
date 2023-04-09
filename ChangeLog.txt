@@ -21,6 +21,8 @@ Default Qt Client
 - Fixed bug when removing operator status in temporary channel
 - "Show MOTD variables" checked by default in server properties dialog
 - Ban offline user from "Online Users" dialog
+- Qt updated to 6.5.0 on macOS and Windows 10/11
+- Minimum supported macOS is now 11.0 (Big Sur)
 Accessible Windows Client
 -
 Android Client
