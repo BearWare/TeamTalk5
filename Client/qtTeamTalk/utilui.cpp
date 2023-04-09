@@ -209,7 +209,6 @@ RestoreItemData::RestoreItemData(QAbstractItemView* view, QSortFilterProxyModel*
         else
             m_intdata.push_back(i.internalId());
     }
-    m_intdata = m_intdata;
 }
 
 RestoreItemData::~RestoreItemData()
