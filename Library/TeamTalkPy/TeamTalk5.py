@@ -1369,6 +1369,9 @@ class TeamTalk(object):
     def doTextMessage(self, msg: TextMessage) -> int:
         return _DoTextMessage(self._tt, msg)
 
+    def doKickUser(self, nUserID: int, nChannelID: int) -> int:
+        return _DoKickUser(self._tt, nUserID, nChannelID)
+
     def getServerProperties(self) -> ServerProperties:
         srvprops = ServerProperties()
         _GetServerProperties(self._tt, srvprops)
