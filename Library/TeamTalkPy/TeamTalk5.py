@@ -1351,6 +1351,9 @@ class TeamTalk(object):
     def doLeaveChannel(self) -> int:
         return _DoLeaveChannel(self._tt)
 
+    def doRemoveChannel(self, nChannelID: int) -> int:
+        return _DoRemoveChannel(self._tt, nChannelID)
+
     def doSendFile(self, nChannelID: int, szLocalFilePath) -> int:
         return _DoSendFile(self._tt, nChannelID, szLocalFilePath)
 
