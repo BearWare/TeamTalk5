@@ -2154,7 +2154,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1864"/>
         <source>&amp;Broadcast Message</source>
-        <translation>Messages &amp;généraux</translation>
+        <translation>Messages &amp;général</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1872"/>
