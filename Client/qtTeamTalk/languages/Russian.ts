@@ -3981,12 +3981,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="5919"/>
         <source>Ban user #%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Заблокировать пользователя #%1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5923"/>
         <source>Ban User From Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Заблокировать пользователя на сервере</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6396"/>
@@ -4460,27 +4460,27 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusersdlg.cpp" line="141"/>
         <source>Sort By...</source>
-        <translation type="unfinished"></translation>
+        <translation>Сортировать по...</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="142"/>
         <source>Ascending</source>
-        <translation type="unfinished">По возростанию</translation>
+        <translation>По возростанию</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="142"/>
         <source>Descending</source>
-        <translation type="unfinished">По убыванию</translation>
+        <translation>По убыванию</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="144"/>
         <source>&amp;Id (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Id (%1)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="150"/>
         <source>&amp;Nickname (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ник (%1)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="246"/>
