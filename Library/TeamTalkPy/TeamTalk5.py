@@ -21,10 +21,9 @@
 import sys
 import os
 import ctypes
-from time import sleep
-from enum import IntEnum
-from ctypes import *
-from ctypes.util import find_library
+from ctypes import cdll, c_int, c_char, c_wchar, c_wchar_p, c_char_p, \
+                   c_longlong, c_uint, c_float, c_void_p, c_uint16, \
+                   Structure, Union, POINTER, byref
 
 if sys.platform == "win32":
     if (sys.version_info.major == 3 and sys.version_info.minor >= 8):
@@ -124,6 +123,14 @@ class SoundDevice(Structure):
     def __init__(self):
         assert(DBG_SIZEOF(TTType.SOUNDDEVICE) == ctypes.sizeof(SoundDevice))
 
+TT_SOUNDDEVICE_ID_SHARED_FLAG           = 0x00000800
+TT_SOUNDDEVICE_ID_MASK                  = 0x000007FF
+TT_SOUNDDEVICE_ID_REMOTEIO              = 0
+TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO  = (1 | TT_SOUNDDEVICE_ID_SHARED_FLAG)
+TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT      = 0
+TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM     = 1
+TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL      = 1978
+
 class SoundDeviceEffects(Structure):
     _fields_ = [
     ("bEnableAGC", BOOL),
@@ -155,6 +162,10 @@ class AudioBlock(Structure):
     ]
     def __init__(self):
         assert(DBG_SIZEOF(TTType.AUDIOBLOCK) == ctypes.sizeof(AudioBlock))
+
+TT_LOCAL_USERID     = 0
+TT_LOCAL_TX_USERID  = 0x1002
+TT_MUXED_USERID     = 0x1001
 
 class MediaFileStatus(INT32):
     MFS_CLOSED = 0
@@ -469,6 +480,8 @@ class MediaFilePlayback(Structure):
     ]
     def __init__(self):
         assert(DBG_SIZEOF(TTType.MEDIAFILEPLAYBACK) == ctypes.sizeof(MediaFilePlayback))
+
+TT_MEDIAPLAYBACK_OFFSET_IGNORE = 0xFFFFFFFF
 
 class AudioInputProgress(Structure):
     _fields_ = [
@@ -1114,9 +1127,9 @@ _StopVideoCaptureTransmission = function_factory(dll.TT_StopVideoCaptureTransmis
 _GetVideoCaptureDevices = function_factory(dll.TT_GetVideoCaptureDevices, [BOOL, [POINTER(VideoCaptureDevice), POINTER(INT32)]])
 _InitVideoCaptureDevice = function_factory(dll.TT_InitVideoCaptureDevice, [BOOL, [_TTInstance, TTCHAR_P, POINTER(VideoFormat)]])
 _CloseVideoCaptureDevice = function_factory(dll.TT_CloseVideoCaptureDevice, [BOOL, [_TTInstance]])
-_StartStreamingMediaFileToChannel = function_factory(dll.TT_StartStreamingMediaFileToChannel, [BOOL, [_TTInstance, TTCHAR_P, POINTER(VideoFormat)]])
-_StartStreamingMediaFileToChannelEx = function_factory(dll.TT_StartStreamingMediaFileToChannelEx, [BOOL, [_TTInstance, TTCHAR_P, POINTER(MediaFilePlayback), POINTER(VideoFormat)]])
-_UpdateStreamingMediaFileToChannel = function_factory(dll.TT_UpdateStreamingMediaFileToChannel, [BOOL, [_TTInstance, POINTER(MediaFilePlayback), POINTER(VideoFormat)]])
+_StartStreamingMediaFileToChannel = function_factory(dll.TT_StartStreamingMediaFileToChannel, [BOOL, [_TTInstance, TTCHAR_P, POINTER(VideoCodec)]])
+_StartStreamingMediaFileToChannelEx = function_factory(dll.TT_StartStreamingMediaFileToChannelEx, [BOOL, [_TTInstance, TTCHAR_P, POINTER(MediaFilePlayback), POINTER(VideoCodec)]])
+_UpdateStreamingMediaFileToChannel = function_factory(dll.TT_UpdateStreamingMediaFileToChannel, [BOOL, [_TTInstance, POINTER(MediaFilePlayback), POINTER(VideoCodec)]])
 _StopStreamingMediaFileToChannel = function_factory(dll.TT_StopStreamingMediaFileToChannel, [BOOL, [_TTInstance]])
 _InitLocalPlayback = function_factory(dll.TT_InitLocalPlayback, [INT32, [_TTInstance, TTCHAR_P, POINTER(MediaFilePlayback)]])
 _UpdateLocalPlayback = function_factory(dll.TT_UpdateLocalPlayback, [BOOL, [_TTInstance, INT32, POINTER(MediaFilePlayback)]])
@@ -1197,6 +1210,8 @@ _SetUserStereo = function_factory(dll.TT_SetUserStereo, [BOOL, [_TTInstance, INT
 _SetUserMediaStorageDir = function_factory(dll.TT_SetUserMediaStorageDir, [BOOL, [_TTInstance, INT32, TTCHAR_P, TTCHAR_P, UINT32]])
 _SetUserMediaStorageDirEx = function_factory(dll.TT_SetUserMediaStorageDirEx, [BOOL, [_TTInstance, INT32, TTCHAR_P, TTCHAR_P, UINT32, UINT32]])
 _SetUserAudioStreamBufferSize = function_factory(dll.TT_SetUserAudioStreamBufferSize, [BOOL, [_TTInstance, INT32, UINT32, INT32]])
+_AcquireUserAudioBlock = function_factory(dll.TT_AcquireUserAudioBlock, [POINTER(AudioBlock), [_TTInstance, StreamType, INT32]])
+_ReleaseUserAudioBlock = function_factory(dll.TT_ReleaseUserAudioBlock, [BOOL, [_TTInstance, POINTER(AudioBlock)]])
 _GetFileTransferInfo = function_factory(dll.TT_GetFileTransferInfo, [BOOL, [_TTInstance, INT32, POINTER(FileTransfer)]])
 _CancelFileTransfer = function_factory(dll.TT_CancelFileTransfer, [BOOL, [_TTInstance, INT32]])
 _GetErrorMessage = function_factory(dll.TT_GetErrorMessage, [c_void_p, [INT32, POINTER(TTCHAR*TT_STRLEN)]])
@@ -1229,15 +1244,25 @@ class TeamTalk(object):
     def __del__(self):
         self.closeTeamTalk()
 
-    def runEventLoop(self):
-        msg = self.getMessage()
+    def runEventLoop(self, nWaitMSec = -1):
+        msg = self.getMessage(nWaitMS = nWaitMSec)
         event = msg.nClientEvent
         if event == ClientEvent.CLIENTEVENT_CON_SUCCESS:
             self.onConnectSuccess()
+        if event == ClientEvent.CLIENTEVENT_CON_FAILED:
+            self.onConnectFailed()
         if event == ClientEvent.CLIENTEVENT_CON_LOST:
             self.onConnectionLost()
+        if event == ClientEvent.CLIENTEVENT_CMD_PROCESSING:
+            self.onCmdProcessing(msg.nSource, not msg.bActive)
+        if event == ClientEvent.CLIENTEVENT_CMD_ERROR:
+            self.onCmdError(msg.nSource, msg.clienterrormsg)
+        if event == ClientEvent.CLIENTEVENT_CMD_SUCCESS:
+            self.onCmdSuccess(msg.nSource)
         if event == ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN:
             self.onCmdMyselfLoggedIn(msg.nSource, msg.useraccount)
+        if event == ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDOUT:
+            self.onCmdMyselfLoggedOut()
         if event == ClientEvent.CLIENTEVENT_CMD_MYSELF_KICKED:
             self.onCmdMyselfKickedFromChannel(msg.nSource, msg.user)
         if event == ClientEvent.CLIENTEVENT_CMD_USER_LOGGEDIN:
@@ -1249,7 +1274,7 @@ class TeamTalk(object):
         if event == ClientEvent.CLIENTEVENT_CMD_USER_JOINED:
             self.onCmdUserJoinedChannel(msg.user)
         if event == ClientEvent.CLIENTEVENT_CMD_USER_LEFT:
-            self.onCmdUserLeft(msg.nSource, msg.user)
+            self.onCmdUserLeftChannel(msg.nSource, msg.user)
         if event == ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG:
             self.onCmdUserTextMessage(msg.textmessage)
         if event == ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW:
@@ -1264,8 +1289,14 @@ class TeamTalk(object):
             self.onCmdFileNew(msg.remotefile)
         if event == ClientEvent.CLIENTEVENT_CMD_FILE_REMOVE:
             self.onCmdFileRemove(msg.remotefile)
+        if event == ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE:
+            self.onUserRecordMediaFile(msg.nSource, msg.mediafileinfo)
+        if event == ClientEvent.CLIENTEVENT_USER_STATECHANGE:
+            self.onUserStateChange(msg.user)
+        if event == ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK:
+            self.onUserAudioBlock(msg.nSource, msg.nStreamType)
 
-    def getMessage(self, nWaitMS=-1):
+    def getMessage(self, nWaitMS: int = -1):
         msg = TTMessage()
         nWaitMS = INT32(nWaitMS)
         _GetMessage(self._tt, byref(msg), byref(nWaitMS))
@@ -1287,55 +1318,58 @@ class TeamTalk(object):
         _GetSoundDevices(soundDevs, byref(count))
         return soundDevs
 
-    def initSoundInputDevice(self, indev):
+    def initSoundInputDevice(self, indev: int) -> bool:
         return _InitSoundInputDevice(self._tt, indev)
 
-    def initSoundOutputDevice(self, outdev):
+    def initSoundOutputDevice(self, outdev: int) -> bool:
         return _InitSoundOutputDevice(self._tt, outdev)
 
-    def enableVoiceTransmission(self, bEnable):
+    def enableVoiceTransmission(self, bEnable: bool) -> bool:
         return _EnableVoiceTransmission(self._tt, bEnable)
 
-    def connect(self, szHostAddress, nTcpPort, nUdpPort, nLocalTcpPort=0, nLocalUdpPort=0, bEncrypted=False):
+    def connect(self, szHostAddress, nTcpPort: int, nUdpPort: int, nLocalTcpPort: int = 0, nLocalUdpPort:int = 0, bEncrypted: bool = False) -> bool:
         return _Connect(self._tt, szHostAddress, nTcpPort, nUdpPort, nLocalTcpPort, nLocalUdpPort, bEncrypted)
 
     def disconnect(self):
         return _Disconnect(self._tt)
 
-    def doPing(self):
+    def doPing(self) -> int:
         return _DoPing(self._tt)
 
-    def doLogin(self, szNickname, szUsername, szPassword, szClientname):
+    def doLogin(self, szNickname, szUsername, szPassword, szClientname) -> int:
         return _DoLoginEx(self._tt, szNickname, szUsername, szPassword, szClientname)
 
-    def doLogout(self):
+    def doLogout(self) -> int:
         return _DoLogout(self._tt)
 
-    def doJoinChannelByID(self, nChannelID, szPassword):
+    def doJoinChannel(self, channel: Channel) -> int:
+        return _DoJoinChannel(self._tt, channel)
+
+    def doJoinChannelByID(self, nChannelID: int, szPassword) -> int:
         return _DoJoinChannelByID(self._tt, nChannelID, szPassword)
 
-    def doLeaveChannel(self):
+    def doLeaveChannel(self) -> int:
         return _DoLeaveChannel(self._tt)
 
-    def doSendFile(self, nChannelID, szLocalFilePath):
+    def doSendFile(self, nChannelID: int, szLocalFilePath) -> int:
         return _DoSendFile(self._tt, nChannelID, szLocalFilePath)
 
-    def doRecvFile(self, nChannelID, nFileID, szLocalFilePath):
+    def doRecvFile(self, nChannelID: int, nFileID: int, szLocalFilePath) -> int:
         return _DoRecvFile(self._tt, nChannelID, nFileID, szLocalFilePath)
 
-    def doDeleteFile(self, nChannelID, nFileID):
+    def doDeleteFile(self, nChannelID: int, nFileID: int) -> int:
         return _DoDeleteFile(self._tt, nChannelID, nFileID)
 
-    def doChangeNickname(self, szNewNick):
+    def doChangeNickname(self, szNewNick) -> int:
         return _DoChangeNickname(self._tt, szNewNick)
 
-    def doChangeStatus(self, nStatusMode, szStatusMessage):
+    def doChangeStatus(self, nStatusMode: int, szStatusMessage):
         return _DoChangeStatus(self._tt, nStatusMode, szStatusMessage)
 
-    def doTextMessage(self, msg):
+    def doTextMessage(self, msg: TextMessage) -> int:
         return _DoTextMessage(self._tt, msg)
 
-    def getServerProperties(self):
+    def getServerProperties(self) -> ServerProperties:
         srvprops = ServerProperties()
         _GetServerProperties(self._tt, srvprops)
         return srvprops
@@ -1347,18 +1381,18 @@ class TeamTalk(object):
         _GetServerUsers(self._tt, users, byref(count))
         return users
 
-    def getRootChannelID(self):
+    def getRootChannelID(self) -> int:
         return _GetRootChannelID(self._tt)
 
-    def getMyChannelID(self):
+    def getMyChannelID(self) -> int:
         return _GetMyChannelID(self._tt)
 
-    def getChannel(self, nChannelID):
+    def getChannel(self, nChannelID: int) -> Channel:
         channel= Channel()
         _GetChannel(self._tt, nChannelID, channel)
         return channel
 
-    def getChannelPath(self, nChannelID):
+    def getChannelPath(self, nChannelID: int):
         szChannelPath = (TTCHAR*TT_STRLEN)()
         _GetChannelPath(self._tt, nChannelID, szChannelPath)
         return szChannelPath.value
@@ -1366,14 +1400,14 @@ class TeamTalk(object):
     def getChannelIDFromPath(self, szChannelPath):
         return _GetChannelIDFromPath(self._tt, szChannelPath)
 
-    def getChannelUsers(self, nChannelID):
+    def getChannelUsers(self, nChannelID: int):
         count = c_int()
         _GetChannelUsers(self._tt, nChannelID, None, byref(count))
         users = (User*count.value)()
         _GetChannelUsers(self._tt, nChannelID, users, byref(count))
         return users
 
-    def getChannelFiles(self, nChannelID):
+    def getChannelFiles(self, nChannelID: int):
         count = c_int()
         _GetChannelFiles(self._tt, nChannelID, None, byref(count))
         files = (RemoteFile*count.value)()
@@ -1398,12 +1432,12 @@ class TeamTalk(object):
     def getMyUserData(self):
         return _GetMyUserData(self._tt)
 
-    def getUser(self, nUserID):
+    def getUser(self, nUserID: int):
         user = User()
         _GetUser(self._tt, nUserID, user)
         return user
 
-    def getUserStatistics(self, nUserID):
+    def getUserStatistics(self, nUserID: int):
         stats = UserStatistics()
         _GetUserStatistics(self._tt, nUserID, stats)
         return stats
@@ -1413,57 +1447,118 @@ class TeamTalk(object):
         _GetUserByUsername(self._tt, szUsername, user)
         return user
 
-    def getErrorMessage(self, nError):
+    def getErrorMessage(self, nError: int):
         szErrorMsg = (TTCHAR*TT_STRLEN)()
         _GetErrorMessage(nError, szErrorMsg)
         return szErrorMsg.value
+
+    def setUserMediaStorageDir(self, nUserID: int, szFolderPath, szFileNameVars, uAFF: AudioFileFormat) -> bool:
+        return _SetUserMediaStorageDir(self._tt, nUserID, szFolderPath, szFileNameVars, uAFF)
+
+    def setUserStoppedPlaybackDelay(self, nUserID: int, nStreamType: StreamType, nDelayMSec: int) -> bool:
+        return _SetUserStoppedPlaybackDelay(self._tt, nUserID, nStreamType, nDelayMSec)
+
+    def startStreamingMediaFileToChannel(self, szMediaFilePath, lpVideoCodec: VideoCodec) -> bool:
+        return _StartStreamingMediaFileToChannel(self._tt, szMediaFilePath, lpVideoCodec)
+
+    def stopStreamingMediaFileToChannel(self) -> bool:
+        return _StopStreamingMediaFileToChannel(self._tt)
+
+    def initLocalPlayback(self, szMediaFilePath, lpMediaFilePlayback: MediaFilePlayback) -> int:
+        return _InitLocalPlayback(self._tt, szMediaFilePath, lpMediaFilePlayback)
+
+    def updateLocalPlayback(self, nPlaybackSessionID: int, lpMediaFilePlayback: MediaFilePlayback) -> bool:
+        return _UpdateLocalPlayback(self._tt, nPlaybackSessionID, lpMediaFilePlayback)
+
+    def stopLocalPlayback(self, nPlaybackSessionID: int) -> bool:
+        return _StopLocalPlayback(self._tt, nPlaybackSessionID)
+
+    def enableAudioBlockEvent(self, nUserID: int, uStreamTypes: int, bEnable: bool) -> bool:
+        return _EnableAudioBlockEvent(self._tt, nUserID, uStreamTypes, bEnable)
+
+    def enableAudioBlockEventEx(self, nUserID: int, uStreamTypes: int, lpAudioFormat: AudioFormat, bEnable: bool) -> bool:
+        return _EnableAudioBlockEventEx(self._tt, nUserID, uStreamTypes, lpAudioFormat, bEnable)
+
+    def insertAudioBlock(self, lpAudioBlock: AudioBlock) -> bool:
+        return _InsertAudioBlock(self._tt, lpAudioBlock)
+
+    def acquireUserAudioBlock(self, uStreamTypes: StreamType, nUserID: int) -> POINTER(AudioBlock):
+        return _AcquireUserAudioBlock(self._tt, uStreamTypes, nUserID)
+
+    def releaseUserAudioBlock(self, lpAudioBlock: POINTER(AudioBlock)) -> bool:
+        return _ReleaseUserAudioBlock(self._tt, lpAudioBlock)
+
 
     # event handling
 
     def onConnectSuccess(self):
         pass
 
+    def onConnectFailed(self):
+        pass
+
     def onConnectionLost(self):
         pass
 
-    def onCmdMyselfLoggedIn(self, userID, userAccount):
+    def onCmdProcessing(self, cmdId: int, complete: bool):
         pass
 
-    def onCmdMyselfKickedFromChannel(self, channelID, user):
+    def onCmdError(self, cmdId: int, errmsg: ClientErrorMsg):
         pass
 
-    def onCmdUserLoggedIn(self, user):
+    def onCmdSuccess(self, cmdId: int):
         pass
 
-    def onCmdUserLoggedOut(self, user):
+    def onCmdMyselfLoggedIn(self, userid: int, useraccount: UserAccount):
         pass
 
-    def onCmdUserUpdate(self, user):
+    def onCmdMyselfLoggedOut(self):
         pass
 
-    def onCmdUserJoinedChannel(self, user):
+    def onCmdMyselfKickedFromChannel(self, channelid: int, user: User):
         pass
 
-    def onCmdUserLeftChannel(self, channelID, user):
+    def onCmdUserLoggedIn(self, user: User):
         pass
 
-    def onCmdChannelNew(self, channel):
+    def onCmdUserLoggedOut(self, user: User):
         pass
 
-    def onCmdChannelUpdate(self, channel):
+    def onCmdUserUpdate(self, user: User):
         pass
 
-    def onCmdChannelRemove(self, channel):
+    def onCmdUserJoinedChannel(self, user: User):
         pass
 
-    def onCmdUserTextMessage(self, message):
+    def onCmdUserLeftChannel(self, channelid: int, user: User):
         pass
 
-    def onCmdServerUpdate(self, serverProperties):
+    def onCmdChannelNew(self, channel: Channel):
         pass
 
-    def onCmdFileNew(self, remoteFile):
+    def onCmdChannelUpdate(self, channel: Channel):
         pass
 
-    def onCmdFileRemove(self, remoteFile):
+    def onCmdChannelRemove(self, channel: Channel):
+        pass
+
+    def onCmdUserTextMessage(self, textmessage: TextMessage):
+        pass
+
+    def onCmdServerUpdate(self, serverproperties: ServerProperties):
+        pass
+
+    def onCmdFileNew(self, remotefile: RemoteFile):
+        pass
+
+    def onCmdFileRemove(self, remotefile: RemoteFile):
+        pass
+
+    def onUserRecordMediaFile(self, userid: int, mediafileinfo: MediaFileInfo):
+        pass
+
+    def onUserStateChange(self, user: User):
+        pass
+
+    def onUserAudioBlock(self, nUserID: int, nStreamType: StreamType):
         pass

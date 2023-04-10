@@ -81,7 +81,7 @@ application is started simply add the following to the TeamTalk5.ini
 file:
 \verbatim
 [latesthosts]
-0_hostaddr=tt5eu.bearware.dk
+0_hostaddr=tt5us.bearware.dk
 0_tcpport=10333
 0_udpport=10333
 0_username=guest

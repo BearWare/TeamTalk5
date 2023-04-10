@@ -24,6 +24,7 @@
 #include "onlineusersdlg.h"
 #include "appinfo.h"
 #include "settings.h"
+#include "utilui.h"
 
 #include <QHeaderView>
 #include <QMenu>
@@ -83,18 +84,21 @@ void OnlineUsersDlg::updateTitle()
 
 void OnlineUsersDlg::slotUserLoggedIn(const User& user)
 {
+    RestoreItemData r(ui.treeView, m_proxyModel);
     m_model->addUser(user.nUserID);
     updateTitle();
 }
 
 void OnlineUsersDlg::slotUserLoggedOut(const User& user)
 {
+    RestoreItemData r(ui.treeView, m_proxyModel);
     m_model->removeUser(user.nUserID, ttSettings->value(SETTINGS_KEEP_DISCONNECTED_USERS, SETTINGS_KEEP_DISCONNECTED_USERS_DEFAULT).toBool());
     updateTitle();
 }
 
 void OnlineUsersDlg::slotUserUpdate(const User& user)
 {
+    RestoreItemData r(ui.treeView, m_proxyModel);
     m_model->updateUser(user.nUserID);
     QModelIndex index = m_model->userRow(user.nUserID);
     if(index.isValid())
@@ -103,6 +107,7 @@ void OnlineUsersDlg::slotUserUpdate(const User& user)
 
 void OnlineUsersDlg::slotUserJoin(int /*channelid*/, const User& user)
 {
+    RestoreItemData r(ui.treeView, m_proxyModel);
     m_model->updateUser(user.nUserID);
     QModelIndex index = m_model->userRow(user.nUserID);
     if(index.isValid())
@@ -111,6 +116,7 @@ void OnlineUsersDlg::slotUserJoin(int /*channelid*/, const User& user)
 
 void OnlineUsersDlg::slotUserLeft(int /*channelid*/, const User& user)
 {
+    RestoreItemData r(ui.treeView, m_proxyModel);
     m_model->updateUser(user.nUserID);
     QModelIndex index = m_model->userRow(user.nUserID);
     if(index.isValid())
@@ -132,7 +138,34 @@ void OnlineUsersDlg::slotTreeContextMenu(const QPoint& /*point*/)
                    QKeySequence(tr("Ctrl+B")));
     menu.addAction(tr("Select User(s) for Move"), this, [&]() { menuAction(MOVE); },
                    QKeySequence(tr("Ctrl+Alt+X")));
-    menu.exec(QCursor::pos());
+    QMenu* sortMenu = menu.addMenu(tr("Sort By..."));
+    QString asc = tr("Ascending"), desc = tr("Descending");
+    QAction* sortId = new QAction(sortMenu);
+    sortId->setText(tr("&Id (%1)").arg(m_proxyModel->sortOrder() == Qt::AscendingOrder?asc:desc));
+    sortId->setCheckable(true);
+    const QString id = "id";
+    sortId->setChecked((ttSettings->value(SETTINGS_DISPLAY_ONLINEUSERS_SORT, SETTINGS_DISPLAY_ONLINEUSERS_SORT_DEFAULT).toString() == id)?true:false);
+    sortMenu->addAction(sortId);
+    QAction* sortNickname = new QAction(sortMenu);
+    sortNickname->setText(tr("&Nickname (%1)").arg(m_proxyModel->sortOrder() == Qt::AscendingOrder?asc:desc));
+    sortNickname->setCheckable(true);
+    const QString nickname = "nickname";
+    sortNickname->setChecked((ttSettings->value(SETTINGS_DISPLAY_ONLINEUSERS_SORT, SETTINGS_DISPLAY_ONLINEUSERS_SORT_DEFAULT).toString() == nickname)?true:false);
+    sortMenu->addAction(sortNickname);
+    if (QAction* action = menu.exec(QCursor::pos()))
+    {
+        auto sortToggle = m_proxyModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
+        if (action == sortId)
+        {
+            ui.treeView->header()->setSortIndicator(COLUMN_USERID, m_proxyModel->sortColumn() == COLUMN_USERID ? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_ONLINEUSERS_SORT, id);
+        }
+        else if (action == sortNickname)
+        {
+            ui.treeView->header()->setSortIndicator(COLUMN_NICKNAME, m_proxyModel->sortColumn() == COLUMN_NICKNAME ? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_ONLINEUSERS_SORT, nickname);
+        }
+    }
 }
 
 void OnlineUsersDlg::menuAction(MenuAction ma)
@@ -148,8 +181,8 @@ void OnlineUsersDlg::menuAction(MenuAction ma)
             return;
 
         int userid = index.internalId();
-        User user;
-        if(!TT_GetUser(ttInst, userid, &user))
+        User user = m_model->getUser(userid);
+        if (user.nUserID <= 0)
             continue;
         userids.push_back(user.nUserID);
         chanids.push_back(user.nChannelID);
@@ -172,7 +205,7 @@ void OnlineUsersDlg::menuAction(MenuAction ma)
             emit(kickUser(userids[i], chanids[i]));
             break;
         case BAN :
-            emit(kickbanUser(userids[i], chanids[i]));
+            emit(kickbanUser(m_model->getUser(userids[i])));
             break;
         case MOVE :
             emit(moveUser(userids[i]));
@@ -196,16 +229,16 @@ void OnlineUsersDlg::keyPressEvent(QKeyEvent* e)
                 if(!index.isValid())
                     return;
                 int userid = index.internalId();
-                User user;
-                if(!TT_GetUser(ttInst, userid, &user))
+                User user = m_model->getUser(userid);
+                if (user.nUserID <= 0)
                     continue;
                 userids.push_back(user.nUserID);
                 chanids.push_back(user.nChannelID);
             }
             for(int i=0;i<userids.size();i++)
             {
-                User user;
-                if(TT_GetUser(ttInst, userids[i], &user))
+                User user = m_model->getUser(userids[i]);
+                if (user.nUserID > 0)
                 {
                     TTCHAR channel[TT_STRLEN] = {};
                     TT_GetChannelPath(ttInst, user.nChannelID, channel);
@@ -220,6 +253,7 @@ void OnlineUsersDlg::keyPressEvent(QKeyEvent* e)
 
 void OnlineUsersDlg::slotUpdateSettings()
 {
+    RestoreItemData r(ui.treeView, m_proxyModel);
     ttSettings->setValue(SETTINGS_KEEP_DISCONNECTED_USERS, ui.keepDisconnectedUsersCheckBox->isChecked());
     if (!ui.keepDisconnectedUsersCheckBox->isChecked())
         m_model->removeDisconnected();

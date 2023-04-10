@@ -4,7 +4,8 @@ Repository for TeamTalk 5 development.
 
 ## Overview
 * [Download TeamTalk 5 SDK](#download-teamtalk-5-sdk)
-  * Get the client and server binaries for building your own software
+  * Get the client and server binaries for building your own software without
+    having to build all the TeamTalk dependencies yourself.
 * [TeamTalk 5 Libraries](#teamtalk-5-libraries)
   * The libraries (APIs) that can be used for developing your client and server
 * [TeamTalk 5 Clients](#teamtalk-5-clients)
@@ -32,11 +33,10 @@ Projects wrapping the client and server binaries in the TeamTalk SDK.
     * Follow build instructions in [Library/TeamTalkLib](Library/TeamTalkLib)
   * A [Makefile](Build/Makefile) is available in [Build](Build) for
       quickly building for macOS, Ubuntu, CentOS 7, Android, iOS and Raspberry Pi e.g.:
-      * `sudo make -C Build depend-ubuntu18` followed by `make -C Build ubuntu18`
+      * `sudo make -C Build depend-ubuntu22` followed by `make -C Build ubuntu22`
       * `make -C Build depend-mac mac`
   * A [docker-compose](Build/Docker/docker-compose.yml) file is available in [Build/Docker](Build/Docker)
       for quickly building for Linux distributions e.g.:
-      * `docker-compose run --rm ubuntu18 make -C /TeamTalk5/Build ubuntu18`
       * `docker-compose run --rm ubuntu22 make -C /TeamTalk5/Build ubuntu22`
 * [**TeamTalk_DLL**](Library/TeamTalk_DLL) (dependency: **TeamTalkLib**)
   * TeamTalk 5 C-API DLL

@@ -28,8 +28,9 @@
 #include <teamtalk/ttassert.h>
 #include <settings/Settings.h>
 
-#include <mystd/MyStd.h>
 #include <myace/MyACE.h>
+#include <myace/MyINet.h>
+#include <mystd/MyStd.h>
 
 #include <ace/Dirent_Selector.h>
 
@@ -183,7 +184,7 @@ int LoginBearWareAccount(const ACE_TString& username, const ACE_TString& passwd,
     url += "&username=" + URLEncode(usernameUtf8);
     url += "&password=" + URLEncode(passwdUtf8);
     std::string utf8;
-    switch (HttpRequest(url.c_str(), utf8))
+    switch (HttpGetRequest(url.c_str(), utf8))
     {
     default :
     case -1 :
@@ -218,7 +219,7 @@ int AuthBearWareAccount(const ACE_TString& username, const ACE_TString& token)
     url += "&token=" + URLEncode(tokenUtf8.c_str());
     url += "&accesstoken=proserver";
     std::string utf8;
-    switch (HttpRequest(url.c_str(), utf8))
+    switch (HttpGetRequest(url.c_str(), utf8))
     {
     default :
     case -1 :

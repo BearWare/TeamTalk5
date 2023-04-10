@@ -69,7 +69,7 @@ implements ConnectionListener, CommandListener {
         ipaddr = System.getProperty("dk.bearware.ipaddr");
         if (ipaddr == null) {
             ipaddr = getInput("Type IP-address of server to connect to", 
-                              "tt5eu.bearware.dk");
+                              "tt5us.bearware.dk");
         }
         
         String tcpp = System.getProperty("dk.bearware.tcpport");

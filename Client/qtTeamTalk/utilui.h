@@ -32,6 +32,7 @@
 #include <QComboBox>
 #include <QDialog>
 #include <QAbstractItemView>
+#include <QSortFilterProxyModel>
 
 enum DoubleClickChannelAction
 {
@@ -135,6 +136,17 @@ class RestoreIndex
 public:
     RestoreIndex(QAbstractItemView* view);
     ~RestoreIndex();
+};
+
+class RestoreItemData
+{
+    Q_DISABLE_COPY(RestoreItemData)
+    QAbstractItemView* m_view;
+    QSortFilterProxyModel* m_proxy;
+    QVector<quintptr> m_intdata;
+public:
+    RestoreItemData(QAbstractItemView* view, QSortFilterProxyModel* model = nullptr);
+    ~RestoreItemData();
 };
 
 void saveWindowPosition(const QString& setting, QWidget* widget);

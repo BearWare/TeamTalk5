@@ -96,7 +96,7 @@ if(strlen($port) == 0)
 //TeamTalk SDK Standard Edition uses raw sockets whereas TeamTalk
 //SDK Professional Edition should prepend tls:// to the host-address,
 //since the Professional Edition uses TLS-encryption
-//(e.g. "tls://tt5eu.bearware.dk").
+//(e.g. "tls://tt5us.bearware.dk").
 echo "Connecting...\r\n";
 $socket = fsockopen($host, $port, $errno, $errstr, 5.0);
 

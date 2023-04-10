@@ -4,7 +4,7 @@
 
 Version 5.13, unreleased
 Default Qt Client
-- Fix keyboard navigation on "File transfer" dialog
+- Fixed keyboard navigation on "File transfer" dialog
 - Reinitialize sound devices if active sound device is removed using WASAPI sound system
 - Moved "Refresh Sound Devices" from "Input Devices" submenu to "Sound Configuration" menu
 - Fixed Upload/download button and menu item not display for admin outside channel
@@ -18,10 +18,15 @@ Default Qt Client
 - CTRL+G on a channel now also returns user count
 - Option to choose if TTS events should be send using Speech, Braille, or both Speech and Braille (only on Windows with Tolk)
 - Separate count users in channel and subchannel on channel tree
+- Fixed bug when removing operator status in temporary channel
+- "Show MOTD variables" checked by default in server properties dialog
+- Ban offline user from "Online Users" dialog
+- Qt updated to 6.5.0 on macOS and Windows 10/11
+- Minimum supported macOS is now 11.0 (Big Sur)
 Accessible Windows Client
 -
 Android Client
--
+- Added Vietnamese language
 iOS Client
 -
 Server

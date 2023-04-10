@@ -883,8 +883,8 @@ bool MainWindow::parseArgs(const QStringList& args)
 
                 addLatestHost(entry);
                 m_host = entry;
-                Disconnect();
-                Connect();
+                disconnectFromServer();
+                connectToServer();
                 return false;
             }
         }
@@ -975,7 +975,7 @@ void MainWindow::clienteventConSuccess()
 
 void MainWindow::clienteventConFailed()
 {
-    Disconnect();
+    disconnectFromServer();
 
     killLocalTimer(TIMER_RECONNECT);
     if (ttSettings->value(SETTINGS_CONNECTION_RECONNECT, SETTINGS_CONNECTION_RECONNECT_DEFAULT).toBool())
@@ -995,7 +995,7 @@ void MainWindow::clienteventConCryptError(const TTMessage& msg)
 
 void MainWindow::clienteventConLost()
 {
-    Disconnect();
+    disconnectFromServer();
     if(ttSettings->value(SETTINGS_CONNECTION_RECONNECT, SETTINGS_CONNECTION_RECONNECT_DEFAULT).toBool())
         m_timers[startTimer(5000)] = TIMER_RECONNECT;
 
@@ -1642,7 +1642,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         m_myuseraccount = msg.useraccount;
         break;
     case CLIENTEVENT_CMD_MYSELF_LOGGEDOUT :
-        Disconnect();
+        disconnectFromServer();
         break;
     case CLIENTEVENT_CMD_MYSELF_KICKED :
         clienteventMyselfKicked(msg);
@@ -1985,7 +1985,7 @@ void MainWindow::initSound()
     addStatusMsg(STATUSBAR_BYPASS, soundev);
 }
 
-void MainWindow::Connect()
+void MainWindow::connectToServer()
 {
     Q_ASSERT((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == 0);
 
@@ -2004,7 +2004,7 @@ void MainWindow::Connect()
                      .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 }
 
-void MainWindow::Disconnect()
+void MainWindow::disconnectFromServer()
 {
     TT_Disconnect(ttInst);
     if (!timerExists(TIMER_RECONNECT))
@@ -2450,9 +2450,9 @@ void MainWindow::timerEvent(QTimerEvent *event)
     }
     case TIMER_RECONNECT :
         Q_ASSERT( (TT_GetFlags(ttInst) & CLIENT_CONNECTED) == 0);
-        Disconnect();
+        disconnectFromServer();
         addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Trying to reconnect to %1 port %2").arg(m_host.ipaddr).arg(m_host.tcpport));
-        Connect();
+        connectToServer();
         break;
     case TIMER_STATUSMSG :
         if(m_statusmsg.size())
@@ -4103,7 +4103,7 @@ void MainWindow::slotClientConnect(bool /*checked =false */)
 
     if(TT_GetFlags(ttInst) & CLIENT_CONNECTION)
     {
-        Disconnect();
+        disconnectFromServer();
     }
     else
     {
@@ -4113,7 +4113,7 @@ void MainWindow::slotClientConnect(bool /*checked =false */)
             m_host = HostEntry();
             getLatestHost(0, m_host);
             m_channel_passwd[CHANNELID_TEMPPASSWORD] = m_host.chanpasswd;
-            Connect();
+            connectToServer();
         }
     }
 
@@ -4798,7 +4798,7 @@ void MainWindow::slotUsersKickFromChannel(bool /*checked =false */)
 void MainWindow::slotUsersKickBanFromChannel(bool /*checked =false */)
 {
     foreach(User u, ui.channelsWidget->getSelectedUsers())
-        slotUsersKickBan(u.nUserID, u.nChannelID);
+        slotUsersKickBan(u);
 }
 
 void MainWindow::slotUsersKickFromServer(bool /*checked =false */)
@@ -4809,8 +4809,11 @@ void MainWindow::slotUsersKickFromServer(bool /*checked =false */)
 
 void MainWindow::slotUsersKickBanFromServer(bool /*checked =false */)
 {
-    foreach(User u, ui.channelsWidget->getSelectedUsers())    
-        slotUsersKickBan(u.nUserID, 0);
+    foreach(User u, ui.channelsWidget->getSelectedUsers())
+    {
+        u.nChannelID = 0; //ban from server
+        slotUsersKickBan(u);
+    }
 }
 
 void MainWindow::slotUsersSubscriptionsUserMsg(bool checked /*=false */)
@@ -5731,7 +5734,7 @@ void MainWindow::slotConnectToLatest()
         getLatestHost(0, lasthost))
     {
         m_host = lasthost;
-        Connect();
+        connectToServer();
     }
 }
 
@@ -5876,14 +5879,16 @@ void MainWindow::slotUsersOp(int userid, int chanid)
 {
     bool op = (bool)TT_IsChannelOperator(ttInst, userid, chanid);
 
-    bool openable = (bool)TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), chanid);
-    openable |= ((TT_GetMyUserRights(ttInst) & USERRIGHT_OPERATOR_ENABLE) != USERRIGHT_NONE);
-    if (openable) //don't need password in this case
+    if ((TT_GetMyUserRights(ttInst) & USERRIGHT_OPERATOR_ENABLE) != USERRIGHT_NONE) //don't need password in this case
         TT_DoChannelOp(ttInst, userid, chanid, !op);
     else
     {
+        Channel chan = {};
+        ui.channelsWidget->getChannel(chanid, chan);
+
         bool ok = false;
         QInputDialog inputDialog;
+        inputDialog.setTextValue(_Q(chan.szOpPassword));
         inputDialog.setOkButtonText(tr("&OK"));
         inputDialog.setCancelButtonText(tr("&Cancel"));
         inputDialog.setInputMode(QInputDialog::TextInput);
@@ -5902,7 +5907,7 @@ void MainWindow::slotUsersKick(int userid, int chanid)
     TT_DoKickUser(ttInst, userid, chanid);
 }
 
-void MainWindow::slotUsersKickBan(int userid, int chanid)
+void MainWindow::slotUsersKickBan(const User& user)
 {
     QStringList items = { tr("IP-address"), tr("Username") };
     bool ok = false;
@@ -5911,18 +5916,38 @@ void MainWindow::slotUsersKickBan(int userid, int chanid)
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setComboBoxItems(items);
     inputDialog.setComboBoxEditable(false);
-    inputDialog.setWindowTitle(tr("Ban user's"));
-    inputDialog.setLabelText(tr("Ban User From Channel"));
+    inputDialog.setWindowTitle(tr("Ban user #%1").arg(user.nUserID));
+    if (user.nChannelID > 0)
+        inputDialog.setLabelText(tr("Ban User From Channel"));
+    else
+        inputDialog.setLabelText(tr("Ban User From Server"));
     ok = inputDialog.exec();
     QString choice = inputDialog.textValue();
     if (ok)
     {
-        //ban first since the user will otherwise have disappeared
-        if (choice == items[0])
-            TT_DoBanUserEx(ttInst, userid, chanid != 0 ? BANTYPE_CHANNEL | BANTYPE_IPADDR : BANTYPE_IPADDR);
-        else
-            TT_DoBanUserEx(ttInst, userid, chanid != 0 ? BANTYPE_CHANNEL | BANTYPE_USERNAME : BANTYPE_USERNAME);
-        TT_DoKickUser(ttInst, userid, chanid);
+        User tmp;
+        if (TT_GetUser(ttInst, user.nUserID, &tmp))
+        {
+            //ban first since the user will otherwise have disappeared
+            if (choice == items[0])
+                TT_DoBanUserEx(ttInst, user.nUserID, user.nChannelID > 0 ? BANTYPE_CHANNEL | BANTYPE_IPADDR : BANTYPE_IPADDR);
+            else
+                TT_DoBanUserEx(ttInst, user.nUserID, user.nChannelID > 0 ? BANTYPE_CHANNEL | BANTYPE_USERNAME : BANTYPE_USERNAME);
+            TT_DoKickUser(ttInst, user.nUserID, user.nChannelID);
+        }
+        else // ban offline user
+        {
+            BannedUser ban = {};
+            TT_GetChannelPath(ttInst, user.nChannelID, ban.szChannelPath);
+            COPY_TTSTR(ban.szUsername, _Q(user.szUsername));
+            COPY_TTSTR(ban.szIPAddress, _Q(user.szIPAddress));
+            COPY_TTSTR(ban.szNickname, _Q(user.szNickname));
+            if (choice == items[0])
+                ban.uBanTypes |= user.nChannelID > 0 ? BANTYPE_CHANNEL | BANTYPE_IPADDR : BANTYPE_IPADDR;
+            else
+                ban.uBanTypes |= user.nChannelID > 0 ? BANTYPE_CHANNEL | BANTYPE_USERNAME : BANTYPE_USERNAME;
+            TT_DoBan(ttInst, &ban);
+        }
     }
 }
 
@@ -7204,8 +7229,8 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
         }
     }
 
-    Disconnect();
-    Connect();
+    disconnectFromServer();
+    connectToServer();
 }
 
 void MainWindow::slotSoftwareUpdateReply(QNetworkReply* reply)

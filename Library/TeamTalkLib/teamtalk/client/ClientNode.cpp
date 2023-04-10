@@ -23,13 +23,14 @@
 
 #include "ClientNode.h"
 
+#include <myace/MyACE.h>
+#include <myace/MyINet.h>
 #include <codec/BmpFile.h>
 #include <teamtalk/CodecCommon.h>
 #include <teamtalk/ttassert.h>
 #include <teamtalk/Commands.h>
 #include <teamtalk/PacketLayout.h>
 #include <teamtalk/PacketHelper.h>
-#include <myace/MyACE.h>
 
 #include <ace/OS.h>
 #include <ace/Synch_Options.h>
@@ -4771,6 +4772,8 @@ int ClientNode::DoBanUser(int userid, const BannedUser& ban)
         AppendProperty(TT_USERNAME, ban.username, command);
     if(ban.chanpath.length())
         AppendProperty(TT_CHANNEL, ban.chanpath, command);
+    if (ban.nickname.length())
+        AppendProperty(TT_NICKNAME, ban.nickname, command);
 
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;

@@ -1951,6 +1951,29 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
+    public void testBanUserOffline() {
+
+        String NICKNAME = "jUnit - " + getTestMethodName();
+        TeamTalkBase client1 = newClientInstance();
+        connect(client1);
+        login(client1, NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        BannedUser ban = new BannedUser();
+        ban.uBanTypes = BanType.BANTYPE_IPADDR;
+        ban.szNickname = "Foo";
+        int cmdid = client1.doBan(ban);
+        assertTrue("ban", waitCmdSuccess(client1, cmdid, DEF_WAIT));
+
+        TTMessage msg = new TTMessage();
+        assertTrue("list bans", client1.doListBans(0, 0, 1) > 0);
+        assertTrue("wait ban list", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_BANNEDUSER, DEF_WAIT, msg));
+        assertEquals("nickname set", ban.szNickname, msg.banneduser.szNickname);
+
+        cmdid = client1.doUnBanUserEx(msg.banneduser);
+        assertTrue("unban", waitCmdSuccess(client1, cmdid, DEF_WAIT));        
+    }
+
+    @Test
     public void testChannelSwitch() {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();

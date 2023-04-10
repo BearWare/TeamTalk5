@@ -60,7 +60,7 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
 
     ui.servernameEdit->setText(_Q(m_srvprop.szServerName));
     ui.maxusersSpinBox->setValue(m_srvprop.nMaxUsers);
-    ui.motdTextEdit->setPlainText(_Q(m_srvprop.szMOTD));
+    ui.motdTextEdit->setPlainText((editable?_Q(m_srvprop.szMOTDRaw):_Q(m_srvprop.szMOTD)));
     ui.tcpportSpinBox->setValue(m_srvprop.nTcpPort);
     ui.udpportSpinBox->setValue(m_srvprop.nUdpPort);
     ui.usertimeoutSpinBox->setValue(m_srvprop.nUserTimeout);
