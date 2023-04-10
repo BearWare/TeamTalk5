@@ -1351,6 +1351,9 @@ class TeamTalk(object):
     def doLeaveChannel(self) -> int:
         return _DoLeaveChannel(self._tt)
 
+    def doRemoveChannel(self, nChannelID: int) -> int:
+        return _DoRemoveChannel(self._tt, nChannelID)
+
     def doSendFile(self, nChannelID: int, szLocalFilePath) -> int:
         return _DoSendFile(self._tt, nChannelID, szLocalFilePath)
 
@@ -1369,8 +1372,8 @@ class TeamTalk(object):
     def doTextMessage(self, msg: TextMessage) -> int:
         return _DoTextMessage(self._tt, msg)
 
-    def doRemoveChannel(self, nChannelID: int) -> int:
-        return _DoRemoveChannel(self._tt, nChannelID)
+    def doKickUser(self, nUserID: int, nChannelID: int) -> int:
+        return _DoKickUser(self._tt, nUserID, nChannelID)
 
     def getServerProperties(self) -> ServerProperties:
         srvprops = ServerProperties()
