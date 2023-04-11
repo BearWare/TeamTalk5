@@ -68,10 +68,14 @@ OnlineUsersDlg::OnlineUsersDlg(QWidget* parent/* = 0 */)
     addAction(tr("Kick and &Ban"), QKeySequence(tr("Ctrl+B")), this, [&]() { menuAction(BAN); });
     addAction(tr("Select User(s) for Move"), QKeySequence(tr("Ctrl+Alt+X")), this, [&]() { menuAction(MOVE); });
 #endif
+    m_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
+    m_proxyModel->sort(COLUMN_NICKNAME, Qt::AscendingOrder);
+    ui.treeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_ONLINEUSERS_HEADERSIZES).toByteArray());
 }
 
 OnlineUsersDlg::~OnlineUsersDlg()
 {
+    ttSettings->setValue(SETTINGS_DISPLAY_ONLINEUSERS_HEADERSIZES, ui.treeView->header()->saveState());
     ttSettings->setValue(SETTINGS_DISPLAY_ONLINEUSERSWINDOWPOS, saveGeometry());
 }
 
