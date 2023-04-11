@@ -99,6 +99,7 @@
 #define SETTINGS_DISPLAY_TEXTMSGWINDOWPOS           "display/textmsg-windowposition"
 #define SETTINGS_DISPLAY_TEXTMSGWINDOWPOS_SPLITTER  "display/textmsg-windowsplitter"
 #define SETTINGS_DISPLAY_ONLINEUSERSWINDOWPOS       "display/onlineusers-windowposition"
+#define SETTINGS_DISPLAY_ONLINEUSERS_HEADERSIZES          "display/onlineusers-headersize"
 #define SETTINGS_DISPLAY_USERACCOUNTSWINDOWPOS      "display/useraccount-windowposition"
 #define SETTINGS_DISPLAY_CHANNELWINDOWPOS           "display/channel-windowposition"
 #define SETTINGS_DISPLAY_BANNEDUSERSWINDOWPOS       "display/bannedusers-windowposition"
