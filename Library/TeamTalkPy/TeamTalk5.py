@@ -1372,8 +1372,35 @@ class TeamTalk(object):
     def doTextMessage(self, msg: TextMessage) -> int:
         return _DoTextMessage(self._tt, msg)
 
+    def doChannelOp(self, nUserID: int, nChannelID: int, bMakeOperator: bool) -> int:
+        return _DoChannelOp(self._tt, nUserID, nChannelID, bMakeOperator)
+
+    def doChannelOpEx(self, nUserID: int, nChannelID: int, szOpPassword, bMakeOperator: bool):
+        return _DoChannelOpEx(self._tt, nUserID, nChannelID, szOpPassword, bMakeOperator)
+
     def doKickUser(self, nUserID: int, nChannelID: int) -> int:
         return _DoKickUser(self._tt, nUserID, nChannelID)
+
+    def doMoveUser(self, nUserID: int, nChannelID: int) -> int:
+        return _DoMoveUser(self._tt, nUserID, nChannelID)
+
+    def doBanUser(self, nUserID: int, nChannelID: int) -> int:
+        return _DoBanUser(self._tt, nUserID, nChannelID)
+
+    def doBanUserEx(self, nUserID: int, uBanTypes: BanType) -> int:
+        return _DoBanUserEx(self._tt, nUserID, uBanTypes)
+
+    def doBan(self, lpBannedUser: BannedUser) -> int:
+        return _DoBan(self._tt, lpBannedUser)
+
+    def doBanIPAddress(self, szIPAddress, nChannelID: int) -> int:
+        return _DoBanIPAddress(self._tt, szIPAddress, nChannelID)
+
+    def doUnBanUser(self, szIPAddress, nChannelID: int) -> int:
+        return _DoUnBanUser(self._tt, szIPAddress, nChannelID)
+
+    def doUnbanUserEx(self, lpBannedUser: BannedUser) -> int:
+        return _DoUnBanUserEx(self._tt, lpBannedUser)
 
     def getServerProperties(self) -> ServerProperties:
         srvprops = ServerProperties()
