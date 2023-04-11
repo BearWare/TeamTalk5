@@ -1372,8 +1372,23 @@ class TeamTalk(object):
     def doTextMessage(self, msg: TextMessage) -> int:
         return _DoTextMessage(self._tt, msg)
 
+    def doChannelOp(self, nUserID: int, nChannelID: int, bMakeOperator: bool) -> int:
+        return _DoChannelOp(self._tt, nUserID, nChannelID, bMakeOperator)
+
     def doKickUser(self, nUserID: int, nChannelID: int) -> int:
         return _DoKickUser(self._tt, nUserID, nChannelID)
+
+    def doMoveUser(self, nUserID: int, nChannelID: int) -> int:
+        return _DoMoveUser(self._tt, nUserID, nChannelID)
+
+    def doBanUser(self, nUserID: int, nChannelID: int) -> int:
+        return _DoBanUser(self._tt, nUserID, nChannelID)
+
+    def doBanIPAddress(self, szIPAddress, nChannelID: int) -> int:
+        return _DoBanIPAddress(self._tt, szIPAddress, nChannelID)
+
+    def doUnBanUser(self, szIPAddress, nChannelID: int) -> int:
+        return _DoUnBanUser(self._tt, szIPAddress, nChannelID)
 
     def getServerProperties(self) -> ServerProperties:
         srvprops = ServerProperties()
