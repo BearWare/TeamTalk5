@@ -3802,12 +3802,12 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5919"/>
         <source>Ban user #%1</source>
-        <translation type="unfinished"></translation>
+        <translation>禁止用户 #%1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5923"/>
         <source>Ban User From Server</source>
-        <translation type="unfinished"></translation>
+        <translation>从服务器禁止用户</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7264"/>
@@ -4459,27 +4459,27 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../onlineusersdlg.cpp" line="141"/>
         <source>Sort By...</source>
-        <translation type="unfinished">排序方式...</translation>
+        <translation>排序方式...</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="142"/>
         <source>Ascending</source>
-        <translation type="unfinished">升序</translation>
+        <translation>升序</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="142"/>
         <source>Descending</source>
-        <translation type="unfinished">降序</translation>
+        <translation>降序</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="144"/>
         <source>&amp;Id (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Id (%1)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="150"/>
         <source>&amp;Nickname (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>昵称 (%1)(&amp;N)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="246"/>
