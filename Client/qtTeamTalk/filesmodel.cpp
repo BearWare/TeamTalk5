@@ -108,8 +108,7 @@ QVariant FilesModel::data ( const QModelIndex & index, int role /*= Qt::DisplayR
         break;
     case Qt::AccessibleTextRole :
     {
-        QString filesize = data(createIndex(index.row(), COLUMN_INDEX_SIZE), Qt::DisplayRole).toString();
-        return QString(tr("Name: %1, Size: %2, Owner: %3, Date: %4").arg(_Q(m_files[index.row()].szFileName)).arg(filesize).arg(_Q(m_files[index.row()].szUsername)).arg(_Q(m_files[index.row()].szUploadTime)));
+        return QString("%1: %2, %3: %4, %5: %6, %7: %8").arg(headerData(COLUMN_INDEX_NAME, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_NAME), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_SIZE, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_SIZE), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_OWNER, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_OWNER), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_UPLOADED, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_UPLOADED), Qt::DisplayRole).toString());
     }
     break;
     }
