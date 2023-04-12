@@ -41,7 +41,6 @@
 #include <iostream>
 #include <map>
 #include <sstream>
-#include <regex>
 
 #if !defined(WIN32)
 #include <unistd.h>
@@ -705,50 +704,7 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
         return -1;
     }
 
-    // remove all facebook logins
-    if (!VersionSameOrLater(Utf8ToUnicode(xmlSettings.GetFileVersion().c_str()), ACE_TEXT("5.2")))
-    {
-        bool removefb = false, fbfound = false;
-        int index = 0;
-        UserAccount ua;
-        while (xmlSettings.GetNextUser(index, ua))
-        {
-            bool fbpostfix;
-#if defined(UNICODE)
-            fbpostfix = std::regex_search(ua.username.c_str(), std::wregex(ACE_TEXT("@facebook.com")));
-#else
-            fbpostfix = std::regex_search(ua.username.c_str(), std::regex("@facebook.com"));
-#endif
-            if (ua.username == ACE_TEXT("facebook") || fbpostfix)
-            {
-                fbfound = true;
-                if (!removefb)
-                {
-                    cout << "Facebook login is no longer supported. Remove all Facebook logins.";
-                    removefb = printGetBool(true);
-                    if (!removefb)
-                        break;
-                }
-#if defined(UNICODE)
-                std::string fbname = UnicodeToUtf8(ua.username.c_str()).c_str();
-#else
-                std::string fbname = ua.username.c_str();
-#endif
-                cout << "Removed: " << Utf8ToLocal(fbname.c_str()) << endl;
-                xmlSettings.RemoveUser(fbname.c_str());
-            }
-            else index++;
-            
-            ua = UserAccount();
-        }
-
-        // facebook accounts removed, save new version
-        if (fbfound)
-        {
-            xmlSettings.SetFileVersion(TEAMTALK_XML_VERSION);
-            xmlSettings.SaveFile();
-        }
-    }
+    RemoveFacebookLogins(xmlSettings);
 
     if( (ite = args.find(ACE_TEXT("-wizard"))) != args.end())
     {

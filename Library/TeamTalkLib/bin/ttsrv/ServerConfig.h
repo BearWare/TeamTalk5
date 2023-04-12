@@ -26,6 +26,7 @@
 #include <teamtalk/server/ServerNode.h>
 
 bool LoadConfig(teamtalk::ServerXML& xmlSettings, const ACE_TString& cfgfile);
+void RemoveFacebookLogins(teamtalk::ServerXML& xmlSettings);
 void RunWizard(teamtalk::ServerXML& xmlSettings);
 
 bool ReadServerProperties(teamtalk::ServerXML& xmlSettings, teamtalk::ServerSettings& properties,
