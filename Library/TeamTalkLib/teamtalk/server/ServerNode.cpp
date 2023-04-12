@@ -410,7 +410,7 @@ ErrorMsg ServerNode::UserEndFileTransfer(int transferid)
     ACE_TString local_filename;
     do
     {
-        ACE_OS::snprintf(newfilename, MAX_STRING_LENGTH, ACE_TEXT("data_%x.dat"),
+        ACE_OS::snprintf(newfilename, MAX_STRING_LENGTH, ACE_TEXT("data_%x") CHANNELFILEEXTENSION,
                          (unsigned int)dat_id++);
         local_filename = internalpath + newfilename;
     }
@@ -4130,7 +4130,7 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
         if(m_filetransfers.find(id) != m_filetransfers.end()) //no IDs left
             return ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
 
-        ACE_TString tmpfilename = ACE_TEXT("tmp_") + i2string(id) + ACE_TEXT(".dat");
+        ACE_TString tmpfilename = ACE_TEXT("tmp_") + i2string(id) + CHANNELFILEEXTENSION;
         ACE_TString filepath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR + tmpfilename;
         if(chan->FileExists(transfer.filename))
             return ErrorMsg(TT_CMDERR_FILE_ALREADY_EXISTS);

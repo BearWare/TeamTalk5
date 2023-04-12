@@ -46,3 +46,5 @@ bool ConfigureServer(teamtalk::ServerNode& servernode, const teamtalk::ServerSet
 void ConvertChannels(const teamtalk::serverchannel_t& root, teamtalk::statchannels_t& channels, bool onlystatic = false);
 
 void MakeStaticChannels(teamtalk::ServerNode& servernode, const teamtalk::statchannels_t& channels);
+
+void RemoveUnusedFiles(teamtalk::ServerXML& xmlSettings);
