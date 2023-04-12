@@ -30,7 +30,7 @@ Android Client
 iOS Client
 -
 Server
--
+- Added argument -cleanfiles to remove unknown files from file storage
 
 Version 5.12.1, 2023/01/07
 iOS Client

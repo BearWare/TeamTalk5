@@ -149,6 +149,7 @@ bool daemon_pid = false;
 bool _daemon = false;
 bool nondaemon = false;
 int rxloss = 0, txloss = 0;
+bool cleanfiles = false;
 
 //setting files
 ServerXML xmlSettings(TEAMTALK_XML_ROOTNAME);
@@ -750,15 +751,25 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
         }
     }
 
+    bool skipstart_output = false;
+
     if( (ite = args.find(ACE_TEXT("-wizard"))) != args.end())
     {
         RunWizard(xmlSettings);
+        skipstart_output = true;
+    }
+
+    if (args.find(ACE_TEXT("-cleanfiles")) != args.end())
+    {
+        RemoveUnusedFiles(xmlSettings);
+        skipstart_output = true;
     }
 
 #if !defined(BUILD_NT_SERVICE)
     if(!nondaemon && !_daemon)
     {
-        TT_LOG(ACE_TEXT("Missing either -d or -nd parameter in order to start."));
+        if (!skipstart_output)
+            TT_LOG(ACE_TEXT("Missing either -d or -nd parameter in order to start."));
         return 0;
     }
 #endif
@@ -780,7 +791,7 @@ void PrintCommandArgs()
     cout << TEAMTALK_NAME << " version " << TEAMTALK_VERSION_FRIENDLY << endl;
     cout << "Compiled on " __DATE__ " " __TIME__ "." << endl;
     cout << endl;
-    cout << "Copyright (c) 2002-2021, BearWare.dk" << endl;
+    cout << "Copyright (c) 2002-2023, BearWare.dk" << endl;
     cout << endl;
     cout << "Usage: " << TEAMTALK_EXE << " [OPTIONS]" << endl << endl;
 #if defined(BUILD_NT_SERVICE)
@@ -815,6 +826,7 @@ void PrintCommandArgs()
     cout << "  -tcpport [PORT]  Override the <tcpport> setting in " << TEAMTALK_SETTINGSFILE << "." << endl;
     cout << "  -udpport [PORT]  Override the <udpport> setting in " << TEAMTALK_SETTINGSFILE << "." << endl;
     cout << "  -ip [IPADDR]     Override <bind-ip> setting in " << TEAMTALK_SETTINGSFILE << "." << endl;
+    cout << "  -cleanfiles      Remove files that are not referenced by any channel." << std::endl;
     cout << "  -verbose         Output log information to console." << endl;
     cout << "  --version        Displays version info." << endl;
     cout << "  --help           Displays this message." << endl;
