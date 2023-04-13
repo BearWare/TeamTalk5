@@ -108,7 +108,7 @@ QVariant FilesModel::data ( const QModelIndex & index, int role /*= Qt::DisplayR
         break;
     case Qt::AccessibleTextRole :
     {
-        return QString("%1: %2, %3: %4, %5: %6, %7: %8").arg(headerData(COLUMN_INDEX_NAME, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_NAME), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_SIZE, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_SIZE), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_OWNER, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_OWNER), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_UPLOADED, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_UPLOADED), Qt::DisplayRole).toString());
+        return QString("%1: %2, %3: %4, %5: %6, %7: %8").arg(headerData(COLUMN_INDEX_NAME, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_NAME, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_SIZE, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_SIZE, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_OWNER, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_OWNER, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_UPLOADED, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_UPLOADED, index.internalId()), Qt::DisplayRole).toString());
     }
     break;
     }
