@@ -194,8 +194,7 @@ QVariant OnlineUsersModel::data(const QModelIndex& index, int role) const
         break;
         case Qt::AccessibleTextRole :
         {
-            TT_GetChannelPath(ttInst, user.nChannelID, channel);
-            return QString(tr("Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7, ID: %1").arg(user.nUserID).arg(getDisplayName(user)).arg(_Q(user.szStatusMsg)).arg(_Q(user.szUsername)).arg(_Q(channel)).arg(_Q(user.szIPAddress)).arg(getVersion(user)));
+            return QString("%1: %2, %3: %4, %5: %6, %7: %8, %9: %10, %11: %12, %13: %14").arg(headerData(COLUMN_NICKNAME, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_NICKNAME, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_STATUSMSG, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_STATUSMSG, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_USERNAME, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_USERNAME, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_CHANNEL, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_CHANNEL, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_IPADDRESS, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_IPADDRESS, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_VERSION, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_VERSION, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_USERID, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_USERID, index.internalId()), Qt::DisplayRole).toString());
         }
         break;
     }

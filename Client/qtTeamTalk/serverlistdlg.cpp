@@ -141,7 +141,7 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
             srvtype = tr("Unofficial server");
             break;
         }
-        return QString(tr("%1, Name: %2, Users: %3, Country: %4, MOTD: %5").arg(srvtype).arg(srv.name).arg(srv.usercount).arg(srv.country).arg(srv.motd));
+        return QString(tr("%1, Name: %2, Users: %3, Country: %4, MOTD: %5").arg(srvtype).arg(srv.name).arg(data(createIndex(index.row(), COLUMN_INDEX_USERCOUNT, index.internalId()), Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_COUNTRY, index.internalId()), Qt::DisplayRole).toString()).arg(srv.motd));
     }
     case Qt::ToolTipRole :
         return getServers()[index.row()].motd;
