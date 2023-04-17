@@ -1,4 +1,5 @@
 import TeamTalk5
+from TeamTalk5 import TextMsgType, buildTextMessage, ttstr
 
 def test_ttypes():
     # Run DBG_SIZEOF() on all structs
@@ -38,3 +39,24 @@ def test_ttypes():
     TeamTalk5.JitterConfig()
     TeamTalk5.WebRTCAudioPreprocessor()
     TeamTalk5.EncryptionContext()
+
+def test_textmessagelength():
+    allchars = ''.join(['%c' % x for x in range(97, 97+26)])
+    content = ""
+    for _ in range(0, 500):
+        content += allchars
+
+    msgs = buildTextMessage(content, nMsgType = TextMsgType.MSGTYPE_USER,
+                            szFromUsername = "hest",
+                            nChannelID = 0, nToUserID = 55)
+    for m in msgs[0:len(msgs)-2]:
+        assert m.nMsgType == TextMsgType.MSGTYPE_USER
+        assert m.nChannelID == 0
+        assert m.szFromUsername == ttstr("hest")
+        assert m.nToUserID == 55
+        assert m.bMore == True
+    assert msgs[-1].bMore == False
+    result = ""
+    for m in msgs:
+        result += ttstr(m.szMessage)
+    assert content == result

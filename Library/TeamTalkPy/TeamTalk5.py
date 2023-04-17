@@ -722,6 +722,7 @@ class UserStatistics(Structure):
         assert(DBG_SIZEOF(TTType.USERSTATISTICS) == ctypes.sizeof(UserStatistics))
 
 class TextMsgType(INT32):
+    MSGTYPE_NONE = 0
     MSGTYPE_USER = 1
     MSGTYPE_CHANNEL = 2
     MSGTYPE_BROADCAST = 3
@@ -1230,6 +1231,27 @@ def DBG_SIZEOF(t):
 
 class TeamTalkError(Exception):
     pass
+
+# Construct multiple TextMessage objects for text messages longer than TT_STRLEN
+def buildTextMessage(content: str, nMsgType: TextMsgType,
+                     nToUserID: int = 0, nChannelID: int = 0, nFromUserID: int = 0,
+                     szFromUsername: str = "") -> [TextMessage]:
+    result = []
+    converted_content = ttstr(content)
+    while len(converted_content) > 0:
+        textmsg = TextMessage()
+        textmsg.nMsgType = nMsgType
+        textmsg.nFromUserID = nFromUserID
+        textmsg.szFromUsername = ttstr(szFromUsername)
+        textmsg.nToUserID = nToUserID
+        textmsg.nChannelID = nChannelID
+        textmsg.szMessage = converted_content[0:512]
+        converted_content = converted_content[512:]
+        textmsg.bMore = len(converted_content) > 0
+        result.append(textmsg)
+
+    return result
+
 
 class TeamTalk(object):
 
