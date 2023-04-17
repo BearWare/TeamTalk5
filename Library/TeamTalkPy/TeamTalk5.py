@@ -1295,6 +1295,14 @@ class TeamTalk(object):
             self.onUserStateChange(msg.user)
         if event == ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK:
             self.onUserAudioBlock(msg.nSource, msg.nStreamType)
+        if event == ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE:
+            self.onStreamMediaFile(msg.mediafileinfo)
+        if event == ClientEvent.CLIENTEVENT_CMD_USERACCOUNT:
+            self.onUserAccount(msg.useraccount)
+        if event == ClientEvent.CLIENTEVENT_CMD_BANNEDUSER:
+            self.onBannedUser(msg.banneduser)
+        if event == ClientEvent.CLIENTEVENT_CMD_SERVERSTATISTICS:
+            self.onServerStatistics(msg.serverstatistics)
 
     def getMessage(self, nWaitMS: int = -1):
         msg = TTMessage()
@@ -1401,6 +1409,42 @@ class TeamTalk(object):
 
     def doUnbanUserEx(self, lpBannedUser: BannedUser) -> int:
         return _DoUnBanUserEx(self._tt, lpBannedUser)
+
+    def doSubscribe(self, nUserID: int, uSubscriptions: Subscription) -> int:
+        return _DoSubscribe(self._tt, nUserID, uSubscriptions)
+
+    def doUnsubscribe(self, nUserID: int, uSubscriptions: Subscription) -> int:
+        return _DoUnsubscribe(self._tt, nUserID, uSubscriptions)
+
+    def doMakeChannel(self, lpChannel: Channel) -> int:
+        return _DoMakeChannel(self._tt, lpChannel)
+
+    def doUpdateChannel(self, lpChannel: Channel) -> int:
+        return _DoUpdateChannel(self._tt, lpChannel)
+
+    def doUpdateServer(self, lpServerProperties: ServerProperties) -> int:
+        return _DoUpdateServer(self._tt, lpServerProperties)
+
+    def doListUserAccounts(self, nIndex: int, nCount: int) -> int:
+        return _DoListUserAccounts(self._tt, nIndex, nCount)
+
+    def doNewUserAccount(self, lpUserAccount: UserAccount):
+        return _DoNewUserAccount(self._tt, lpUserAccount)
+
+    def doDeleteUserAccount(self, szUsername) -> int:
+        return _DoDeleteUserAccount(self._tt, szUsername)
+
+    def doListBans(self, nChannelID: int, nIndex: int, nCount: int) -> int:
+        return _DoListBans(self._tt, nChannelID, nIndex, nCount)
+
+    def doSaveConfig(self) -> int:
+        return _DoSaveConfig(self._tt)
+
+    def doQueryServerStats(self) -> int:
+        return _DoQueryServerStats(self._tt)
+
+    def doQuit(self) -> int:
+        return _DoQuit(self._tt)
 
     def getServerProperties(self) -> ServerProperties:
         srvprops = ServerProperties()
@@ -1594,4 +1638,16 @@ class TeamTalk(object):
         pass
 
     def onUserAudioBlock(self, nUserID: int, nStreamType: StreamType):
+        pass
+
+    def onStreamMediaFile(self, mediafileinfo: MediaFileInfo):
+        pass
+
+    def onUserAccount(self, useraccount: UserAccount):
+        pass
+
+    def onBannedUser(self, banneduser: BannedUser):
+        pass
+
+    def onServerStatistics(self, serverstatistics: ServerStatistics):
         pass
