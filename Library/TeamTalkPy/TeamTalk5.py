@@ -1245,8 +1245,8 @@ def buildTextMessage(content: str, nMsgType: TextMsgType,
         textmsg.szFromUsername = ttstr(szFromUsername)
         textmsg.nToUserID = nToUserID
         textmsg.nChannelID = nChannelID
-        textmsg.szMessage = converted_content[0:512]
-        converted_content = converted_content[512:]
+        textmsg.szMessage = converted_content[0:TT_STRLEN-1]
+        converted_content = converted_content[TT_STRLEN-1:]
         textmsg.bMore = len(converted_content) > 0
         result.append(textmsg)
 
