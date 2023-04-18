@@ -603,6 +603,26 @@ void deleteServerEntry(const QString& name)
         setServerEntry(i, hosts[i]);
 }
 
+void processTrustedXML(const QDomElement& hostElement, HostEntry& entry)
+{
+    QDomElement trusted = hostElement.firstChildElement("trusted-certificate");
+    if (!trusted.isNull())
+    {
+        QDomElement tmp = trusted.firstChildElement("certificate-authority-pem");
+        if (!tmp.isNull())
+            entry.encryption.cacertdata = tmp.text();
+        tmp = trusted.firstChildElement("client-certificate-pem");
+        if (!tmp.isNull())
+            entry.encryption.certdata = tmp.text();
+        tmp = trusted.firstChildElement("client-private-key-pem");
+        if (!tmp.isNull())
+            entry.encryption.privkeydata = tmp.text();
+        tmp = trusted.firstChildElement("verify-peer");
+        if (!tmp.isNull())
+            entry.encryption.verifypeer = tmp.text() == "true";
+    }
+}
+
 void processAuthXML(const QDomElement& hostElement, HostEntry& entry)
 {
     QDomElement auth = hostElement.firstChildElement("auth");
@@ -758,6 +778,7 @@ bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
     if(!tmp.isNull())
         entry.encrypted = (tmp.text().toLower() == "true" || tmp.text() == "1");
 
+    processTrustedXML(hostElement, entry);
     processAuthXML(hostElement, entry);
     processJoinXML(hostElement, entry);
     processClientSetupXML(hostElement, entry);
@@ -999,6 +1020,25 @@ QByteArray generateTTFile(const HostEntry& entry)
     host.appendChild(tcpport);
     host.appendChild(udpport);
     host.appendChild(encrypted);
+
+    if (entry.encrypted)
+    {
+        QDomElement trusted = doc.createElement("trusted-certificate");
+        QDomElement ca_pem = doc.createElement("certificate-authority-pem");
+        ca_pem.appendChild(doc.createTextNode(entry.encryption.cacertdata));
+        QDomElement cert_pem = doc.createElement("client-certificate-pem");
+        cert_pem.appendChild(doc.createTextNode(entry.encryption.certdata));
+        QDomElement key_pem = doc.createElement("client-private-key-pem");
+        key_pem.appendChild(doc.createTextNode(entry.encryption.privkeydata));
+        QDomElement verifypeer = doc.createElement("verify-peer");
+        verifypeer.appendChild(doc.createTextNode(entry.encryption.verifypeer ? "true" : "false"));
+
+        trusted.appendChild(ca_pem);
+        trusted.appendChild(cert_pem);
+        trusted.appendChild(key_pem);
+        trusted.appendChild(verifypeer);
+        host.appendChild(trusted);
+    }
 
     if(entry.username.size())
     {
