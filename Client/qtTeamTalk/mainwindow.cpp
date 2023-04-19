@@ -2269,6 +2269,7 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
     case HOTKEY_VOICEACTIVATION :
         if(active)
             slotMeEnableVoiceActivation(!(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
+            addTextToSpeechMessage(TTS_TOGGLE_VOICETRANSMISSION, ((TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED)?tr("Voice activation enabled"):tr("Voice activation disabled")));
         break;
     case HOTKEY_INCVOLUME :
         if(active)
