@@ -3452,7 +3452,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__BANNEDUSER
-         * - #TTMessage.useraccount Placed in union of #TTMessage. */
+         * - #TTMessage.banneduser Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_BANNEDUSER  = CLIENTEVENT_NONE + 400,
         /** 
          * @brief A user account has been created.
