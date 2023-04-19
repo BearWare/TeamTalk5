@@ -24,6 +24,8 @@ Default Qt Client
 - Qt updated to 6.5.0 on macOS and Windows 10/11
 - Minimum supported macOS is now 11.0 (Big Sur)
 - Confirmation before auto kick and kick and ban
+- Import .tt File button moved to "Store Server Information" group box in "Server List Dialog"
+- Filter servers by name or number of users in "Server List Dialog"
 Accessible Windows Client
 -
 Android Client

@@ -47,48 +47,67 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item>
-          <widget class="QPushButton" name="impttButton">
-           <property name="text">
-            <string>&amp;Import .tt File</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="officialserverChkBox">
-         <property name="text">
-          <string>Include official servers (blue ones)</string>
+        <widget class="QGroupBox" name="groupBox_6">
+         <property name="title">
+          <string>Filter Servers</string>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="publicserverChkBox">
-         <property name="text">
-          <string>Include public servers (green ones)</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="unofficialserverChkBox">
-         <property name="text">
-          <string>Include unofficial servers (orange ones)</string>
-         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>Name</string>
+              </property>
+              <property name="buddy">
+               <cstring>filternameEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="filternameEdit"/>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_9">
+              <property name="text">
+               <string>Users</string>
+              </property>
+              <property name="buddy">
+               <cstring>filterusersSpinBox</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="filterusersSpinBox">
+              <property name="maximum">
+               <number>4096</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="officialserverChkBox">
+            <property name="text">
+             <string>Include official servers (blue ones)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="publicserverChkBox">
+            <property name="text">
+             <string>Include public servers (green ones)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="unofficialserverChkBox">
+            <property name="text">
+             <string>Include unofficial servers (orange ones)</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -431,6 +450,13 @@
               </property>
               <property name="text">
                <string>&amp;Generate .tt File</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="impttButton">
+              <property name="text">
+               <string>&amp;Import .tt File</string>
               </property>
              </widget>
             </item>
