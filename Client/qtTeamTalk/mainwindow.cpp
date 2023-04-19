@@ -1113,9 +1113,12 @@ void MainWindow::clienteventCmdUserLoggedIn(const User& user)
     updateUserSubscription(user.nUserID);
     if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN)
     {
-        addStatusMsg(STATUSBAR_USER_LOGGEDIN, tr("%1 has logged in") .arg(getDisplayName(user)));
-        playSoundEvent(SOUNDEVENT_USERLOGGEDIN);
-        addTextToSpeechMessage(TTS_USER_LOGGEDIN, QString(tr("%1 has logged in") .arg(getDisplayName(user))));
+        if (!(_Q(user.szUsername) == "spambot@bearware.dk" || _Q(user.szUsername) == "stats@bearware.dk") && ttSettings->value(SETTINGS_DISPLAY_BOTSTATUSBAR, SETTINGS_DISPLAY_BOTSTATUSBAR_DEFAULT).toBool() == true)
+        {
+            addStatusMsg(STATUSBAR_USER_LOGGEDIN, tr("%1 has logged in") .arg(getDisplayName(user)));
+            playSoundEvent(SOUNDEVENT_USERLOGGEDIN);
+            addTextToSpeechMessage(TTS_USER_LOGGEDIN, QString(tr("%1 has logged in") .arg(getDisplayName(user))));
+        }
     }
 
     // sync user settings from cache
@@ -1131,9 +1134,12 @@ void MainWindow::clienteventCmdUserLoggedOut(const User& user)
     m_textmessages.clearUserTextMessages(user.nUserID);
     if (user.nUserID != TT_GetMyUserID(ttInst))
     {
-        addStatusMsg(STATUSBAR_USER_LOGGEDOUT, tr("%1 has logged out") .arg(getDisplayName(user)));
-        playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
-        addTextToSpeechMessage(TTS_USER_LOGGEDOUT, QString(tr("%1 has logged out") .arg(getDisplayName(user))));
+        if (!(_Q(user.szUsername) == "spambot@bearware.dk" || _Q(user.szUsername) == "stats@bearware.dk") && ttSettings->value(SETTINGS_DISPLAY_BOTSTATUSBAR, SETTINGS_DISPLAY_BOTSTATUSBAR_DEFAULT).toBool() == true)
+        {
+            addStatusMsg(STATUSBAR_USER_LOGGEDOUT, tr("%1 has logged out") .arg(getDisplayName(user)));
+            playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
+            addTextToSpeechMessage(TTS_USER_LOGGEDOUT, QString(tr("%1 has logged out") .arg(getDisplayName(user))));
+        }
     }
 
     // sync user settings to cache
