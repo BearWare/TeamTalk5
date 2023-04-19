@@ -7,19 +7,42 @@ project (TeamTalk5SDK)
 # Windows 32-bit
 # --------------
 # Open "x86 Native Tools Command Prompt for VS 2019" and change to
-# directory of TeamTalk5 checkout.
+# directory of TeamTalk5 checkout, e.g. C:\TeamTalk5
 #
-# Now configure an output directory, i.e. build-win32 for TeamTalk5
-# repository:
-# $ cmake -S TeamTalk5 -B teamtalk-win32 -A Win32
+# Now configure an output directory, here teamtalk-win32, for
+# TeamTalk5 repository in C:\TeamTalk5:
+#
+# $ cmake -S C:/TeamTalk5 -B teamtalk-win32 -A Win32
 #
 # Afterwards build configured projects:
+#
 # $ cmake --build teamtalk-win32
+#
+# A Visual Studio 2019 solution file will also be available in output
+# directory teamtalk-win32.
+#
+# Windows 64-bit
+# --------------
+# Open "x64 Native Tools Command Prompt for VS 2019" and change to
+# directory of TeamTalk5 checkout, e.g. C:\TeamTalk5
+#
+# Now configure an output directory, here teamtalk-win64, for
+# TeamTalk5 repository in C:\TeamTalk5:
+#
+# $ cmake -S C:/TeamTalk5 -B teamtalk-win64 -A x64
+#
+# Afterwards build configured projects:
+#
+# $ cmake --build teamtalk-win64
+#
+# A Visual Studio 2019 solution file will also be available in output
+# directory teamtalk-win64.
 
 option (BUILD_TEAMTALK_CORE "Build TeamTalk core library" ON)
 option (BUILD_TEAMTALK_LIBRARIES "Build TeamTalk libraries" ON)
 option (BUILD_TEAMTALK_CLIENTS "Build TeamTalk client examples" ON)
 option (BUILD_TEAMTALK_SERVERS "Build TeamTalk server examples" ON)
+option (BUILD_TEAMTALK_DOCUMENTATION "Build TeamTalk documentation" ON)
 
 set (TEAMTALK_ROOT ${CMAKE_CURRENT_LIST_DIR})
 
@@ -55,5 +78,7 @@ if (BUILD_TEAMTALK_SERVERS)
   endif()
 endif()
 
-add_subdirectory (Documentation/TeamTalk)
-add_subdirectory (Documentation/TeamTalkSDK)
+if (BUILD_TEAMTALK_DOCUMENTATION)
+  add_subdirectory (Documentation/TeamTalk)
+  add_subdirectory (Documentation/TeamTalkSDK)
+endif()
