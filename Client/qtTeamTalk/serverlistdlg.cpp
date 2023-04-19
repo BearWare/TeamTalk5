@@ -204,13 +204,13 @@ int ServerListModel::rowCount(const QModelIndex& /*parent = QModelIndex()*/) con
 void ServerListModel::addServer(const HostEntryEx& host, ServerType srvtype)
 {
     m_servers[srvtype].append(host);
-    setServerTypes(m_srvtypes);
+    filterServers();
 }
 
 void ServerListModel::clearServers()
 {
     m_servers.clear();
-    setServerTypes(m_srvtypes);
+    filterServers();
 }
 
 const QVector<HostEntryEx>& ServerListModel::getServers() const
@@ -218,17 +218,29 @@ const QVector<HostEntryEx>& ServerListModel::getServers() const
     return m_servercache;
 }
 
-void ServerListModel::setServerTypes(ServerTypes srvtypes)
+void ServerListModel::setServerFilter(ServerTypes srvtypes, const QRegularExpression& regex, int n_users)
+{
+    m_srvtypes = srvtypes;
+    m_name_regex = regex;
+    m_nusers = n_users;
+    filterServers();
+}
+
+void ServerListModel::filterServers()
 {
     this->beginResetModel();
-    m_srvtypes = srvtypes;
     m_servercache.clear();
 
     ServerTypes srvtype = SERVERTYPE_MIN;
     for (; srvtype <= SERVERTYPE_MAX; srvtype <<= 1)
     {
-        if (m_srvtypes & srvtype)
-            m_servercache.append(m_servers[ServerType(srvtype)]);
+        if ((m_srvtypes & srvtype))
+        {
+            auto hosts = m_servers[ServerType(srvtype)];
+            hosts.erase(std::remove_if(hosts.begin(), hosts.end(), [&](const HostEntryEx& entry) { return entry.usercount < m_nusers; }), hosts.end());
+            hosts.erase(std::remove_if(hosts.begin(), hosts.end(), [&](const HostEntryEx& entry) { return !m_name_regex.match(entry.name).hasMatch(); }), hosts.end());
+            m_servercache.append(hosts);
+        }
     }
     this->endResetModel();
 }
@@ -265,6 +277,12 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
 
     ui.usernameBox->addItem(WEBLOGIN_BEARWARE_USERNAME);
 
+    ui.filterusersSpinBox->setValue(ttSettings->value(SETTINGS_DISPLAY_SERVERLISTFILTER_USERSCOUNT, SETTINGS_DISPLAY_SERVERLISTFILTER_USERSCOUNT_DEFAULT).toInt());
+    ui.filternameEdit->setText(ttSettings->value(SETTINGS_DISPLAY_SERVERLISTFILTER_NAME, SETTINGS_DISPLAY_SERVERLISTFILTER_NAME_DEFAULT).toString());
+    ui.officialserverChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_OFFICIALSERVERS, SETTINGS_DISPLAY_OFFICIALSERVERS_DEFAULT).toBool());
+    ui.publicserverChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_PUBLICSERVERS, SETTINGS_DISPLAY_PUBLICSERVERS_DEFAULT).toBool());
+    ui.unofficialserverChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_UNOFFICIALSERVERS, SETTINGS_DISPLAY_UNOFFICIALSERVERS_DEFAULT).toBool());
+
     connect(ui.addupdButton, &QAbstractButton::clicked,
             this, &ServerListDlg::slotAddUpdServer);
     connect(ui.serverTreeView, &QAbstractItemView::activated,
@@ -283,6 +301,9 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
             this, &ServerListDlg::refreshServerList);
     connect(ui.unofficialserverChkBox, &QAbstractButton::clicked,
             this, &ServerListDlg::refreshServerList);
+    connect(ui.filternameEdit, &QLineEdit::textChanged, this, &ServerListDlg::applyServerListFilter);
+    connect(ui.filterusersSpinBox, &QSpinBox::valueChanged, this, &ServerListDlg::applyServerListFilter);
+
     connect(ui.genttButton, &QAbstractButton::clicked,
             this, &ServerListDlg::saveTTFile);
     connect(ui.impttButton, &QAbstractButton::clicked,
@@ -310,15 +331,11 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     connect(ui.serverTreeView, &QWidget::customContextMenuRequested,
             this, &ServerListDlg::slotTreeContextMenu);
 
-
     clearHostEntry();
 
     showLatestHosts();
 
-    ui.officialserverChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_OFFICIALSERVERS, SETTINGS_DISPLAY_OFFICIALSERVERS_DEFAULT).toBool());
-    ui.publicserverChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_PUBLICSERVERS, SETTINGS_DISPLAY_PUBLICSERVERS_DEFAULT).toBool());
-    ui.unofficialserverChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_UNOFFICIALSERVERS, SETTINGS_DISPLAY_UNOFFICIALSERVERS_DEFAULT).toBool());
-
+    applyServerListFilter();
     refreshServerList();
     HostEntry lasthost;
     if (getLatestHost(0, lasthost))
@@ -512,6 +529,21 @@ void ServerListDlg::refreshServerList()
     }
 
     requestServerList();
+}
+
+void ServerListDlg::applyServerListFilter()
+{
+    ServerTypes typefilter = SERVERTYPE_LOCAL;
+    if (ui.officialserverChkBox->isChecked())
+        typefilter |= SERVERTYPE_OFFICIAL;
+    if (ui.publicserverChkBox->isChecked())
+        typefilter |= SERVERTYPE_PUBLIC;
+    if (ui.unofficialserverChkBox->isChecked())
+        typefilter |= SERVERTYPE_UNOFFICIAL;
+
+    m_model->setServerFilter(typefilter, QRegularExpression(ui.filternameEdit->text(), QRegularExpression::CaseInsensitiveOption), ui.filterusersSpinBox->value());
+    ttSettings->setValue(SETTINGS_DISPLAY_SERVERLISTFILTER_NAME, ui.filternameEdit->text());
+    ttSettings->setValue(SETTINGS_DISPLAY_SERVERLISTFILTER_USERSCOUNT, ui.filterusersSpinBox->value());
 }
 
 void ServerListDlg::showSelectedServer(const QModelIndex &index)
