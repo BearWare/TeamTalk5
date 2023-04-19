@@ -293,7 +293,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="62"/>
         <source>Ban Time</source>
-        <translation>Temps de bannissement</translation>
+        <translation>Heure de bannissement</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="63"/>
