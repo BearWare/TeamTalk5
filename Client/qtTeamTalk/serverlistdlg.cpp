@@ -302,7 +302,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     connect(ui.unofficialserverChkBox, &QAbstractButton::clicked,
             this, &ServerListDlg::refreshServerList);
     connect(ui.filternameEdit, &QLineEdit::textChanged, this, &ServerListDlg::applyServerListFilter);
-    connect(ui.filterusersSpinBox, &QSpinBox::valueChanged, this, &ServerListDlg::applyServerListFilter);
+    connect(ui.filterusersSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &ServerListDlg::applyServerListFilter);
 
     connect(ui.genttButton, &QAbstractButton::clicked,
             this, &ServerListDlg::saveTTFile);
