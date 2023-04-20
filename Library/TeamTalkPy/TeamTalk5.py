@@ -722,6 +722,7 @@ class UserStatistics(Structure):
         assert(DBG_SIZEOF(TTType.USERSTATISTICS) == ctypes.sizeof(UserStatistics))
 
 class TextMsgType(INT32):
+    MSGTYPE_NONE = 0
     MSGTYPE_USER = 1
     MSGTYPE_CHANNEL = 2
     MSGTYPE_BROADCAST = 3
@@ -1231,6 +1232,27 @@ def DBG_SIZEOF(t):
 class TeamTalkError(Exception):
     pass
 
+# Construct multiple TextMessage objects for text messages longer than TT_STRLEN
+def buildTextMessage(content: str, nMsgType: TextMsgType,
+                     nToUserID: int = 0, nChannelID: int = 0, nFromUserID: int = 0,
+                     szFromUsername: str = "") -> [TextMessage]:
+    result = []
+    converted_content = ttstr(content)
+    while len(converted_content) > 0:
+        textmsg = TextMessage()
+        textmsg.nMsgType = nMsgType
+        textmsg.nFromUserID = nFromUserID
+        textmsg.szFromUsername = ttstr(szFromUsername)
+        textmsg.nToUserID = nToUserID
+        textmsg.nChannelID = nChannelID
+        textmsg.szMessage = converted_content[0:TT_STRLEN-1]
+        converted_content = converted_content[TT_STRLEN-1:]
+        textmsg.bMore = len(converted_content) > 0
+        result.append(textmsg)
+
+    return result
+
+
 class TeamTalk(object):
 
     def __init__(self):
@@ -1295,6 +1317,14 @@ class TeamTalk(object):
             self.onUserStateChange(msg.user)
         if event == ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK:
             self.onUserAudioBlock(msg.nSource, msg.nStreamType)
+        if event == ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE:
+            self.onStreamMediaFile(msg.mediafileinfo)
+        if event == ClientEvent.CLIENTEVENT_CMD_USERACCOUNT:
+            self.onUserAccount(msg.useraccount)
+        if event == ClientEvent.CLIENTEVENT_CMD_BANNEDUSER:
+            self.onBannedUser(msg.banneduser)
+        if event == ClientEvent.CLIENTEVENT_CMD_SERVERSTATISTICS:
+            self.onServerStatistics(msg.serverstatistics)
 
     def getMessage(self, nWaitMS: int = -1):
         msg = TTMessage()
@@ -1351,6 +1381,9 @@ class TeamTalk(object):
     def doLeaveChannel(self) -> int:
         return _DoLeaveChannel(self._tt)
 
+    def doRemoveChannel(self, nChannelID: int) -> int:
+        return _DoRemoveChannel(self._tt, nChannelID)
+
     def doSendFile(self, nChannelID: int, szLocalFilePath) -> int:
         return _DoSendFile(self._tt, nChannelID, szLocalFilePath)
 
@@ -1368,6 +1401,72 @@ class TeamTalk(object):
 
     def doTextMessage(self, msg: TextMessage) -> int:
         return _DoTextMessage(self._tt, msg)
+
+    def doChannelOp(self, nUserID: int, nChannelID: int, bMakeOperator: bool) -> int:
+        return _DoChannelOp(self._tt, nUserID, nChannelID, bMakeOperator)
+
+    def doChannelOpEx(self, nUserID: int, nChannelID: int, szOpPassword, bMakeOperator: bool):
+        return _DoChannelOpEx(self._tt, nUserID, nChannelID, szOpPassword, bMakeOperator)
+
+    def doKickUser(self, nUserID: int, nChannelID: int) -> int:
+        return _DoKickUser(self._tt, nUserID, nChannelID)
+
+    def doMoveUser(self, nUserID: int, nChannelID: int) -> int:
+        return _DoMoveUser(self._tt, nUserID, nChannelID)
+
+    def doBanUser(self, nUserID: int, nChannelID: int) -> int:
+        return _DoBanUser(self._tt, nUserID, nChannelID)
+
+    def doBanUserEx(self, nUserID: int, uBanTypes: BanType) -> int:
+        return _DoBanUserEx(self._tt, nUserID, uBanTypes)
+
+    def doBan(self, lpBannedUser: BannedUser) -> int:
+        return _DoBan(self._tt, lpBannedUser)
+
+    def doBanIPAddress(self, szIPAddress, nChannelID: int) -> int:
+        return _DoBanIPAddress(self._tt, szIPAddress, nChannelID)
+
+    def doUnBanUser(self, szIPAddress, nChannelID: int) -> int:
+        return _DoUnBanUser(self._tt, szIPAddress, nChannelID)
+
+    def doUnbanUserEx(self, lpBannedUser: BannedUser) -> int:
+        return _DoUnBanUserEx(self._tt, lpBannedUser)
+
+    def doSubscribe(self, nUserID: int, uSubscriptions: Subscription) -> int:
+        return _DoSubscribe(self._tt, nUserID, uSubscriptions)
+
+    def doUnsubscribe(self, nUserID: int, uSubscriptions: Subscription) -> int:
+        return _DoUnsubscribe(self._tt, nUserID, uSubscriptions)
+
+    def doMakeChannel(self, lpChannel: Channel) -> int:
+        return _DoMakeChannel(self._tt, lpChannel)
+
+    def doUpdateChannel(self, lpChannel: Channel) -> int:
+        return _DoUpdateChannel(self._tt, lpChannel)
+
+    def doUpdateServer(self, lpServerProperties: ServerProperties) -> int:
+        return _DoUpdateServer(self._tt, lpServerProperties)
+
+    def doListUserAccounts(self, nIndex: int, nCount: int) -> int:
+        return _DoListUserAccounts(self._tt, nIndex, nCount)
+
+    def doNewUserAccount(self, lpUserAccount: UserAccount):
+        return _DoNewUserAccount(self._tt, lpUserAccount)
+
+    def doDeleteUserAccount(self, szUsername) -> int:
+        return _DoDeleteUserAccount(self._tt, szUsername)
+
+    def doListBans(self, nChannelID: int, nIndex: int, nCount: int) -> int:
+        return _DoListBans(self._tt, nChannelID, nIndex, nCount)
+
+    def doSaveConfig(self) -> int:
+        return _DoSaveConfig(self._tt)
+
+    def doQueryServerStats(self) -> int:
+        return _DoQueryServerStats(self._tt)
+
+    def doQuit(self) -> int:
+        return _DoQuit(self._tt)
 
     def getServerProperties(self) -> ServerProperties:
         srvprops = ServerProperties()
@@ -1561,4 +1660,16 @@ class TeamTalk(object):
         pass
 
     def onUserAudioBlock(self, nUserID: int, nStreamType: StreamType):
+        pass
+
+    def onStreamMediaFile(self, mediafileinfo: MediaFileInfo):
+        pass
+
+    def onUserAccount(self, useraccount: UserAccount):
+        pass
+
+    def onBannedUser(self, banneduser: BannedUser):
+        pass
+
+    def onServerStatistics(self, serverstatistics: ServerStatistics):
         pass

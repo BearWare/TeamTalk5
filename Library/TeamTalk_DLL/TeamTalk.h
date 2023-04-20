@@ -1792,11 +1792,11 @@ extern "C" {
         TTCHAR szMOTD[TT_STRLEN];
         /** @brief The message of the day including variables. The result of the
          * szMOTDRaw string will be displayed in @c szMOTD.
-         * When updating the MOTD the variables %users% (number of users), 
-         * %admins% (number
-         * of admins), %uptime% (hours, minutes and seconds the server has
-         * been online), %voicetx% (KBytes transmitted), %voicerx% (KBytes
-         * received) and %lastuser% (nickname of last user to log on to the
+         * When updating the MOTD the variables \%users\% (number of users), 
+         * \%admins\% (number
+         * of admins), \%uptime\% (hours, minutes and seconds the server has
+         * been online), \%voicetx\% (KBytes transmitted), \%voicerx\% (KBytes
+         * received) and \%lastuser\% (nickname of last user to log on to the
          * server) as part of the MOTD. */
         TTCHAR szMOTDRaw[TT_STRLEN];
         /** @brief The maximum number of users allowed on the server. A user
@@ -3452,7 +3452,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__BANNEDUSER
-         * - #TTMessage.useraccount Placed in union of #TTMessage. */
+         * - #TTMessage.banneduser Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_BANNEDUSER  = CLIENTEVENT_NONE + 400,
         /** 
          * @brief A user account has been created.

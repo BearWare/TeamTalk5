@@ -41,7 +41,6 @@
 #include <iostream>
 #include <map>
 #include <sstream>
-#include <regex>
 
 #if !defined(WIN32)
 #include <unistd.h>
@@ -149,6 +148,7 @@ bool daemon_pid = false;
 bool _daemon = false;
 bool nondaemon = false;
 int rxloss = 0, txloss = 0;
+bool cleanfiles = false;
 
 //setting files
 ServerXML xmlSettings(TEAMTALK_XML_ROOTNAME);
@@ -705,60 +705,27 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
         return -1;
     }
 
-    // remove all facebook logins
-    if (!VersionSameOrLater(Utf8ToUnicode(xmlSettings.GetFileVersion().c_str()), ACE_TEXT("5.2")))
-    {
-        bool removefb = false, fbfound = false;
-        int index = 0;
-        UserAccount ua;
-        while (xmlSettings.GetNextUser(index, ua))
-        {
-            bool fbpostfix;
-#if defined(UNICODE)
-            fbpostfix = std::regex_search(ua.username.c_str(), std::wregex(ACE_TEXT("@facebook.com")));
-#else
-            fbpostfix = std::regex_search(ua.username.c_str(), std::regex("@facebook.com"));
-#endif
-            if (ua.username == ACE_TEXT("facebook") || fbpostfix)
-            {
-                fbfound = true;
-                if (!removefb)
-                {
-                    cout << "Facebook login is no longer supported. Remove all Facebook logins.";
-                    removefb = printGetBool(true);
-                    if (!removefb)
-                        break;
-                }
-#if defined(UNICODE)
-                std::string fbname = UnicodeToUtf8(ua.username.c_str()).c_str();
-#else
-                std::string fbname = ua.username.c_str();
-#endif
-                cout << "Removed: " << Utf8ToLocal(fbname.c_str()) << endl;
-                xmlSettings.RemoveUser(fbname.c_str());
-            }
-            else index++;
-            
-            ua = UserAccount();
-        }
+    RemoveFacebookLogins(xmlSettings);
 
-        // facebook accounts removed, save new version
-        if (fbfound)
-        {
-            xmlSettings.SetFileVersion(TEAMTALK_XML_VERSION);
-            xmlSettings.SaveFile();
-        }
-    }
+    bool skipstart_output = false;
 
     if( (ite = args.find(ACE_TEXT("-wizard"))) != args.end())
     {
         RunWizard(xmlSettings);
+        skipstart_output = true;
+    }
+
+    if (args.find(ACE_TEXT("-cleanfiles")) != args.end())
+    {
+        RemoveUnusedFiles(xmlSettings);
+        skipstart_output = true;
     }
 
 #if !defined(BUILD_NT_SERVICE)
     if(!nondaemon && !_daemon)
     {
-        TT_LOG(ACE_TEXT("Missing either -d or -nd parameter in order to start."));
+        if (!skipstart_output)
+            TT_LOG(ACE_TEXT("Missing either -d or -nd parameter in order to start."));
         return 0;
     }
 #endif
@@ -780,7 +747,7 @@ void PrintCommandArgs()
     cout << TEAMTALK_NAME << " version " << TEAMTALK_VERSION_FRIENDLY << endl;
     cout << "Compiled on " __DATE__ " " __TIME__ "." << endl;
     cout << endl;
-    cout << "Copyright (c) 2002-2021, BearWare.dk" << endl;
+    cout << "Copyright (c) 2002-2023, BearWare.dk" << endl;
     cout << endl;
     cout << "Usage: " << TEAMTALK_EXE << " [OPTIONS]" << endl << endl;
 #if defined(BUILD_NT_SERVICE)
@@ -815,6 +782,7 @@ void PrintCommandArgs()
     cout << "  -tcpport [PORT]  Override the <tcpport> setting in " << TEAMTALK_SETTINGSFILE << "." << endl;
     cout << "  -udpport [PORT]  Override the <udpport> setting in " << TEAMTALK_SETTINGSFILE << "." << endl;
     cout << "  -ip [IPADDR]     Override <bind-ip> setting in " << TEAMTALK_SETTINGSFILE << "." << endl;
+    cout << "  -cleanfiles      Remove files that are not referenced by any channel." << std::endl;
     cout << "  -verbose         Output log information to console." << endl;
     cout << "  --version        Displays version info." << endl;
     cout << "  --help           Displays this message." << endl;

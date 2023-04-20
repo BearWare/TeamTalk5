@@ -99,6 +99,7 @@
 #define SETTINGS_DISPLAY_TEXTMSGWINDOWPOS           "display/textmsg-windowposition"
 #define SETTINGS_DISPLAY_TEXTMSGWINDOWPOS_SPLITTER  "display/textmsg-windowsplitter"
 #define SETTINGS_DISPLAY_ONLINEUSERSWINDOWPOS       "display/onlineusers-windowposition"
+#define SETTINGS_DISPLAY_ONLINEUSERS_HEADERSIZES          "display/onlineusers-headersize"
 #define SETTINGS_DISPLAY_USERACCOUNTSWINDOWPOS      "display/useraccount-windowposition"
 #define SETTINGS_DISPLAY_CHANNELWINDOWPOS           "display/channel-windowposition"
 #define SETTINGS_DISPLAY_BANNEDUSERSWINDOWPOS       "display/bannedusers-windowposition"
@@ -118,6 +119,10 @@
 #define SETTINGS_DISPLAY_PUBLICSERVERS_DEFAULT      true
 #define SETTINGS_DISPLAY_UNOFFICIALSERVERS          "display/show-unofficial-servers"
 #define SETTINGS_DISPLAY_UNOFFICIALSERVERS_DEFAULT  false
+#define SETTINGS_DISPLAY_SERVERLISTFILTER_NAME      "display/filter-server-name"
+#define SETTINGS_DISPLAY_SERVERLISTFILTER_NAME_DEFAULT ""
+#define SETTINGS_DISPLAY_SERVERLISTFILTER_USERSCOUNT "display/filter-server-users-count"
+#define SETTINGS_DISPLAY_SERVERLISTFILTER_USERSCOUNT_DEFAULT      0
 #define SETTINGS_DISPLAY_LANGUAGE                   "display/language"
 #define SETTINGS_DISPLAY_LANGUAGE_DEFAULT           ""
 #define SETTINGS_DISPLAY_APPUPDATE                  "display/check-appupdate"

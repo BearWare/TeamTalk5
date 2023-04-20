@@ -26,10 +26,12 @@
 
 #include "ui_serverlist.h"
 #include "common.h"
-#include <QVector>
-#include <QNetworkAccessManager>
+
 #include <QAbstractItemModel>
+#include <QNetworkAccessManager>
+#include <QRegularExpression>
 #include <QSortFilterProxyModel>
+#include <QVector>
 
 enum ServerType
 {
@@ -69,13 +71,18 @@ public:
 
     void addServer(const HostEntryEx& host, ServerType srvtype);
     void clearServers();
-    void setServerTypes(ServerTypes srvtypes);
     const QVector<HostEntryEx>& getServers() const;
+    void setServerFilter(ServerTypes srvtypes, const QRegularExpression& regex, int n_users);
 private:
-    QMap<ServerType, QVector<HostEntryEx>> m_servers;
-    QVector<HostEntryEx> m_servercache;
-    ServerTypes m_srvtypes = ~0;
+    void filterServers();
     ServerType getServerType(const HostEntryEx& host) const;
+    QMap<ServerType, QVector<HostEntryEx>> m_servers;
+    // servers available after filter is applied
+    QVector<HostEntryEx> m_servercache;
+    // server filter variables
+    ServerTypes m_srvtypes = ~0;
+    QRegularExpression m_name_regex;
+    int m_nusers = 0;
 };
 
 class ServerListDlg : public QDialog
@@ -107,6 +114,7 @@ private:
     void slotConnect();
 
     void refreshServerList();
+    void applyServerListFilter();
     void showSelectedServer(const QModelIndex &index);
     void slotAddUpdServer();
     void deleteSelectedServer();

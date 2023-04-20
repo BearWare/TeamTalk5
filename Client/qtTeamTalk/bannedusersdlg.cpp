@@ -106,14 +106,7 @@ QVariant BannedUsersModel::data ( const QModelIndex & index, int role /*= Qt::Di
         break;
         case Qt::AccessibleTextRole :
         {
-            QString bantype;
-            if (m_users[index.row()].uBanTypes & BANTYPE_USERNAME)
-                bantype += tr("User");
-            if (m_users[index.row()].uBanTypes & BANTYPE_IPADDR)
-                bantype += (bantype.size()? ", " + tr("IP") : tr("IP"));
-            if (m_users[index.row()].uBanTypes & BANTYPE_CHANNEL)
-                bantype += (bantype.size()? ", " + tr("Channel") : tr("Channel"));
-            return QString(tr("Nickname: %1, Username: %2, Ban type: %3, Ban time: %4, Channel path: %5, IP address: %6").arg(_Q(m_users[index.row()].szNickname)).arg(_Q(m_users[index.row()].szUsername)).arg(bantype).arg(_Q(m_users[index.row()].szBanTime)).arg(_Q(m_users[index.row()].szChannelPath)).arg(_Q(m_users[index.row()].szIPAddress)));
+            return QString("%1: %2, %3: %4, %5: %6, %7: %8, %9: %10, %11: %12").arg(headerData(COLUMN_INDEX_NICKNAME, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_NICKNAME, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_USERNAME, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_USERNAME, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_BANTYPE, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_BANTYPE, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_BANTIME, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_BANTIME, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_CHANPATH, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_CHANPATH, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_IPADDRESS, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_IPADDRESS, index.internalId()), Qt::DisplayRole).toString());
         }
     }
     return QVariant();

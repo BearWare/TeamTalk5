@@ -26,6 +26,7 @@
 #include <teamtalk/server/ServerNode.h>
 
 bool LoadConfig(teamtalk::ServerXML& xmlSettings, const ACE_TString& cfgfile);
+void RemoveFacebookLogins(teamtalk::ServerXML& xmlSettings);
 void RunWizard(teamtalk::ServerXML& xmlSettings);
 
 bool ReadServerProperties(teamtalk::ServerXML& xmlSettings, teamtalk::ServerSettings& properties,
@@ -45,3 +46,5 @@ bool ConfigureServer(teamtalk::ServerNode& servernode, const teamtalk::ServerSet
 void ConvertChannels(const teamtalk::serverchannel_t& root, teamtalk::statchannels_t& channels, bool onlystatic = false);
 
 void MakeStaticChannels(teamtalk::ServerNode& servernode, const teamtalk::statchannels_t& channels);
+
+void RemoveUnusedFiles(teamtalk::ServerXML& xmlSettings);

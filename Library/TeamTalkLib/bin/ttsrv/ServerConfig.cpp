@@ -32,9 +32,10 @@
 #include <teamtalk/Common.h>
 #include <teamtalk/Log.h>
 
-#include <sstream>
-#include <queue>
 #include <iostream>
+#include <queue>
+#include <regex>
+#include <sstream>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -89,6 +90,54 @@ bool LoadConfig(teamtalk::ServerXML& xmlSettings, const ACE_TString& cfgfile)
             return false;
         }
         return true;
+    }
+}
+
+void RemoveFacebookLogins(teamtalk::ServerXML& xmlSettings)
+{
+    // remove all facebook logins
+    if (!VersionSameOrLater(Utf8ToUnicode(xmlSettings.GetFileVersion().c_str()), ACE_TEXT("5.2")))
+    {
+        bool removefb = false, fbfound = false;
+        int index = 0;
+        UserAccount ua;
+        while (xmlSettings.GetNextUser(index, ua))
+        {
+            bool fbpostfix;
+#if defined(UNICODE)
+            fbpostfix = std::regex_search(ua.username.c_str(), std::wregex(ACE_TEXT("@facebook.com")));
+#else
+            fbpostfix = std::regex_search(ua.username.c_str(), std::regex("@facebook.com"));
+#endif
+            if (ua.username == ACE_TEXT("facebook") || fbpostfix)
+            {
+                fbfound = true;
+                if (!removefb)
+                {
+                    cout << "Facebook login is no longer supported. Remove all Facebook logins.";
+                    removefb = printGetBool(true);
+                    if (!removefb)
+                        break;
+                }
+#if defined(UNICODE)
+                std::string fbname = UnicodeToUtf8(ua.username.c_str()).c_str();
+#else
+                std::string fbname = ua.username.c_str();
+#endif
+                cout << "Removed: " << Utf8ToLocal(fbname.c_str()) << endl;
+                xmlSettings.RemoveUser(fbname.c_str());
+            }
+            else index++;
+
+            ua = UserAccount();
+        }
+
+        // facebook accounts removed, save new version
+        if (fbfound)
+        {
+            xmlSettings.SetFileVersion(TEAMTALK_XML_VERSION);
+            xmlSettings.SaveFile();
+        }
     }
 }
 
@@ -1006,4 +1055,88 @@ void MakeStaticChannels(teamtalk::ServerNode& servernode, const teamtalk::statch
                 sweeper.push(ite->second);
         }
     }
+}
+
+std::vector<ACE_TString> GetFilesInFolder(const ACE_TString& rootdir)
+{
+    std::vector<ACE_TString> result;
+    ACE_DIR* dir = ACE_OS::opendir(rootdir.c_str());
+    if (!dir)
+        return result;
+
+    ACE_DIRENT* dirInfo;
+    while ((dirInfo = ACE_OS::readdir(dir)))
+    {
+#if !defined(WIN32)
+        if (dirInfo->d_type != DT_REG)
+            continue;
+#endif
+        result.push_back(dirInfo->d_name);
+    }
+
+    ACE_OS::closedir(dir);
+    return result;
+}
+
+std::vector<ACE_TString> GetChannelFiles(const teamtalk::statchannels_t& channels)
+{
+    std::vector<ACE_TString> channelfiles;
+    for (const auto& c : channels)
+    {
+        for (const auto& f : c.second.files)
+            channelfiles.push_back(f.internalname);
+    }
+    return channelfiles;
+}
+
+void RemoveNonmatchingFiles(const ACE_TString& filesroot,
+                            const std::vector<ACE_TString>& allfiles,
+                            const std::vector<ACE_TString>& keepfiles)
+{
+    const ACE_TString EXT = CHANNELFILEEXTENSION;
+    for (const auto& f : allfiles)
+    {
+        if (f.length() <= EXT.length() || f.substr(f.length() - EXT.length()) != EXT)
+        {
+            std::cout << "Skipping file " << UnicodeToUtf8(f).c_str() << std::endl;
+            continue;
+        }
+
+        if (std::find(keepfiles.begin(), keepfiles.end(), f) == keepfiles.end())
+        {
+            std::cout << "Unknown file: " << UnicodeToUtf8(f).c_str() << std::endl;
+            std::cout << "Should it be removed? ";
+            if (printGetBool(false))
+            {
+                const ACE_TString path = filesroot + ACE_DIRECTORY_SEPARATOR_STR + f;
+                if (ACE_OS::unlink(path.c_str()) != 0)
+                    std::cerr << "Failed to remove file: " << UnicodeToUtf8(path).c_str() << std::endl;
+            }
+        }
+        else
+            std::cout << "Keeping file: " << UnicodeToUtf8(f).c_str() << std::endl;
+    }
+}
+
+void RemoveUnusedFiles(teamtalk::ServerXML& xmlSettings)
+{
+    std::cout << "Using configuration file: " << xmlSettings.GetFileName() << std::endl;
+
+    ACE_TString filesroot = Utf8ToUnicode(xmlSettings.GetFilesRoot().c_str());
+    if (filesroot.is_empty())
+    {
+        std::cout << "File storage is currently not enabled. Skipping cleanup." << std::endl;
+        return;
+    }
+
+    std::cout << "Cleaning files in directory: " << UnicodeToUtf8(filesroot).c_str() << std::endl;
+
+    teamtalk::statchannels_t channels;
+    if (!xmlSettings.GetStaticChannels(channels))
+        return;
+
+    auto dirfiles = GetFilesInFolder(filesroot);
+    auto channelfiles = GetChannelFiles(channels);
+
+    RemoveNonmatchingFiles(filesroot, dirfiles, channelfiles);
 }

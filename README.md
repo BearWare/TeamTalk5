@@ -41,15 +41,15 @@ Projects wrapping the client and server binaries in the TeamTalk SDK.
 * [**TeamTalk_DLL**](Library/TeamTalk_DLL) (dependency: **TeamTalkLib**)
   * TeamTalk 5 C-API DLL
   * C-API header files for TeamTalk 5 DLL
-    * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/docs/C-API/)
+    * Preliminary API [Documentation](https://bearware.dk/teamtalksdk/v5.12a/docs/C-API)
   * Build using TeamTalkLib or [download TeamTalk 5 SDK](https://bearware.dk/?page_id=419)
 * [**TeamTalk.NET**](Library/TeamTalk.NET) (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 .NET DLL wrapper for C-API TeamTalk 5 DLL (**TeamTalk_DLL**)
-    * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/docs/NET/)
+    * Preliminary API [Documentation](https://bearware.dk/teamtalksdk/v5.12a/docs/NET/)
   * Requires DLL file from **TeamTalk_DLL** project, either 32-bit or 64-bit
 * [**TeamTalkJNI**](Library/TeamTalkJNI) (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 JNI project with Java wrapper classes
-    * Preliminary API [Documentation](http://bearware.dk/test/teamtalksdk/docs/Java/)
+    * Preliminary API [Documentation](https://bearware.dk/teamtalksdk/v5.12a/docs/Java/)
 * [**TeamTalkPy**](Library/TeamTalkPy) (dependency: **TeamTalk_DLL**)
   * Python wrappers for TeamTalk DLL
 
