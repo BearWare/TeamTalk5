@@ -326,10 +326,6 @@ p, li { white-space: pre-wrap; }
         <source>,Channel</source>
         <translation>频道</translation>
     </message>
-    <message>
-        <source>Nickname: %1, Username: %2, Ban type: %3, Ban time: %4, Channel path: %5, IP address: %6</source>
-        <translation type="vanished">昵称： %1， 用户名： %2， 禁止类型： %3， 禁止时间： %4， 频道： %5， IP地址： %6</translation>
-    </message>
 </context>
 <context>
     <name>BearWareLoginDlg</name>
@@ -1249,10 +1245,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../filesmodel.cpp" line="50"/>
         <source>Date</source>
         <translation>日期</translation>
-    </message>
-    <message>
-        <source>Name: %1, Size: %2, Owner: %3, Date: %4</source>
-        <translation type="vanished">名称： %1， 大小： %2， 所有者： %3， 日期： %4</translation>
     </message>
 </context>
 <context>
@@ -3801,12 +3793,12 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5911"/>
         <source>Are you sure you want to kick yourself?</source>
-        <translation type="unfinished"></translation>
+        <translation>你确定要踢自己吗？</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5931"/>
         <source>Are you sure you want to kick and ban yourself?</source>
-        <translation type="unfinished"></translation>
+        <translation>你确定要踢出并禁止自己吗？</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5950"/>
@@ -4532,10 +4524,6 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../onlineusersmodel.cpp" line="151"/>
         <source>Version</source>
         <translation>版本</translation>
-    </message>
-    <message>
-        <source>Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7, ID: %1</source>
-        <translation type="vanished">昵称： %2， 状态消息： %3， 用户名： %4， 频道： %5， IP 地址： %6， 版本： %7， ID： %1</translation>
     </message>
 </context>
 <context>
@@ -7551,10 +7539,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../useraccountsmodel.cpp" line="78"/>
         <source>Unknown</source>
         <translation>未知</translation>
-    </message>
-    <message>
-        <source>Username: %1, Password: %2, Type: %3, Note: %4, Initial channel: %5, Modified: %6</source>
-        <translation type="vanished">用户名： %1， 密码： %2， 类型： %3， 注释： %4， 初始频道： %5， 修改时间： %6</translation>
     </message>
 </context>
 <context>
