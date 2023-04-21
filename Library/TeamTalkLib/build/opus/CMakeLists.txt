@@ -13,8 +13,8 @@ set (TOOLCHAIN_INSTALL_PREFIX_OPUS ${TOOLCHAIN_INSTALL_PREFIX}/opus)
 if (MSVC)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(opus-src
-      GIT_REPOSITORY    https://github.com/bear101/opus
-      GIT_TAG           v1.3.1
+      GIT_REPOSITORY    https://github.com/xiph/opus
+      GIT_TAG           v1.4
       PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-d-suffix-to-debug-build-and-MT-option.patch
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
@@ -47,8 +47,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     string (REPLACE ";" "\$<SEMICOLON>" ARCHS "${CMAKE_OSX_ARCHITECTURES}")
     ExternalProject_Add(opus-src
-      GIT_REPOSITORY    https://github.com/bear101/opus
-      GIT_TAG           v1.3.1
+      GIT_REPOSITORY    https://github.com/xiph/opus
+      GIT_TAG           v1.4
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
@@ -87,8 +87,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(opus-src
-      GIT_REPOSITORY    https://github.com/bear101/opus
-      GIT_TAG           v1.3.1
+      GIT_REPOSITORY    https://github.com/xiph/opus
+      GIT_TAG           v1.4
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
@@ -114,22 +114,20 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
-
-    # Raspberry Pi thinks it has NEON in OPUS commit 12a356e
+    # Raspberry Pi
+    set (OPUS_CFG_FLAGS -DCMAKE_POSITION_INDEPENDENT_CODE=ON)
     if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "armv7l")
-      set (OPUS_TAG v1.3.1)
-    else()
-      set (OPUS_TAG 12a356e)
+      list (APPEND OPUS_CFG_FLAGS -DOPUS_DISABLE_INTRINSICS=ON -DOPUS_FIXED_POINT=ON)
     endif()
 
     ExternalProject_Add(opus-src
-      GIT_REPOSITORY    https://github.com/bear101/opus
-      GIT_TAG           ${OPUS_TAG}
+      GIT_REPOSITORY    https://github.com/xiph/opus
+      GIT_TAG           v1.4
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPUS}
-      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_BUILD_TYPE=release
+      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_BUILD_TYPE=release ${OPUS_CFG_FLAGS}
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
       )
@@ -159,16 +157,18 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
     -DANDROID_ABI=${ANDROID_ABI} -DANDROID_PLATFORM=${ANDROID_PLATFORM})
 
+  # if arm platforms are compiled with Neon then I get the following
+  # linker error: undefined reference to `celt_pitch_xcorr_neon'
   if ("armeabi-v7a" STREQUAL "${ANDROID_ABI}")
-    list (APPEND OPUS_CFG_FLAGS -DOPUS_FIXED_POINT=ON)
+    list (APPEND OPUS_CFG_FLAGS -DOPUS_FIXED_POINT=ON -DOPUS_MAY_HAVE_NEON=OFF)
   elseif ("arm64-v8a" STREQUAL "${ANDROID_ABI}")
-    list (APPEND OPUS_CFG_FLAGS -DOPUS_FIXED_POINT=ON)
+    list (APPEND OPUS_CFG_FLAGS -DOPUS_FIXED_POINT=ON -DOPUS_MAY_HAVE_NEON=OFF)
   endif()
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(opus-src
-      GIT_REPOSITORY    https://github.com/bear101/opus
-      GIT_TAG           v1.3.1
+      GIT_REPOSITORY    https://github.com/xiph/opus
+      GIT_TAG           v1.4
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus

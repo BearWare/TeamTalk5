@@ -1,6 +1,6 @@
-From f13b99afbf8a12a81d4f039647757d588e2cd132 Mon Sep 17 00:00:00 2001
+From b76c9900e5b0baedc05880dcf8d2c4e1ef609562 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bj=C3=B8rn=20Damstedt=20Rasmussen?= <contact@bearware.dk>
-Date: Wed, 25 Nov 2020 20:51:24 +0100
+Date: Fri, 21 Apr 2023 20:39:32 +0200
 Subject: [PATCH] Add 'd' suffix to debug build and /MT option
 
 ---
@@ -8,12 +8,12 @@ Subject: [PATCH] Add 'd' suffix to debug build and /MT option
  1 file changed, 13 insertions(+)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 17ee3fc2..5a32effd 100644
+index 9d824cdc..14d9e6a4 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -165,6 +165,19 @@ set(Opus_PUBLIC_HEADER
-     ${CMAKE_CURRENT_SOURCE_DIR}/include/opus_projection.h
-     ${CMAKE_CURRENT_SOURCE_DIR}/include/opus_types.h)
+@@ -259,6 +259,19 @@ add_library(Opus::opus ALIAS opus)
+ get_library_version(OPUS_LIBRARY_VERSION OPUS_LIBRARY_VERSION_MAJOR)
+ message(DEBUG "Opus library version: ${OPUS_LIBRARY_VERSION}")
  
 +if (MSVC)
 +    set_property(TARGET opus PROPERTY OUTPUT_NAME_DEBUG opusd)
