@@ -1,10 +1,12 @@
 option (MSVS_UNITTEST "Build Visual Studio Unit Tests" OFF)
+add_feature_info (MSVS_UNITTEST MSVS_UNITTEST "Visual Studio format unit tests for TeamTalk")
 if (MSVS_UNITTEST)
   set (MSVS_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/UnitTestWin.cpp
 	   ${TEAMTALKLIB_ROOT}/test/TTUnitTest.cpp ${TEAMTALKLIB_ROOT}/test/TTUnitTest.h)
 endif()
 
 option (CATCH_UNITTEST "Build Catch Unit Tests" OFF)
+add_feature_info (CATCH_UNITTEST CATCH_UNITTEST "Catch2 unit tests for TeamTalk")
 if (CATCH_UNITTEST)
   set (CATCH_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/CatchDefault.cpp
     ${TEAMTALKLIB_ROOT}/test/CatchMain.cpp ${TEAMTALKLIB_ROOT}/test/TTUnitTest.cpp
@@ -19,6 +21,7 @@ if (CATCH_UNITTEST)
   endif()
 
   option (CATCH_UNITTEST_PERF "Include performance dependent Catch Unit Tests" ON)
+  add_feature_info (CATCH_UNITTEST_PERF CATCH_UNITTEST_PERF "Catch2 unit tests for TeamTalk that are performance dependent")
   if (CATCH_UNITTEST_PERF)
     list (APPEND CATCH_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/CatchPerf.cpp)
   endif()
