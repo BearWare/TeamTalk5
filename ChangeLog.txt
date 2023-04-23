@@ -26,12 +26,14 @@ Default Qt Client
 - Confirmation before auto kick and kick and ban
 - Import .tt File button moved to "Store Server Information" group box in "Server List Dialog"
 - Filter servers by name or number of users in "Server List Dialog"
+- OPUS updated to v1.4
 Accessible Windows Client
--
+- OPUS updated to v1.4
 Android Client
 - Added Vietnamese language
+- OPUS updated to v1.4
 iOS Client
--
+- OPUS updated to v1.4
 Server
 - Added argument -cleanfiles to remove unknown files from file storage
 
