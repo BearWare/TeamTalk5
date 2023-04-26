@@ -1357,6 +1357,9 @@ class TeamTalk(object):
     def enableVoiceTransmission(self, bEnable: bool) -> bool:
         return _EnableVoiceTransmission(self._tt, bEnable)
 
+    def setEncryptionContext(self, lpEncryptionContext: EncryptionContext) -> bool:
+        return _SetEncryptionContext(self._tt, lpEncryptionContext)
+
     def connect(self, szHostAddress, nTcpPort: int, nUdpPort: int, nLocalTcpPort: int = 0, nLocalUdpPort:int = 0, bEncrypted: bool = False) -> bool:
         return _Connect(self._tt, szHostAddress, nTcpPort, nUdpPort, nLocalTcpPort, nLocalUdpPort, bEncrypted)
 
