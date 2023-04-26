@@ -43,6 +43,10 @@ class Server : NSObject {
     var chanpasswd = ""
     var servertype : ServerType = .LOCAL
     var encrypted = false
+    var cacertdata = ""
+    var certdata = ""
+    var certprivkeydata = ""
+    var certverifypeer = false
     
     // stats from public server list
     var stats_usercount = 0
@@ -65,6 +69,10 @@ class Server : NSObject {
         channel = dec.decodeObject(forKey: "channel") as! String
         chanpasswd = dec.decodeObject(forKey: "chanpasswd") as! String
         encrypted = dec.decodeBool(forKey: "encrypted")
+        cacertdata = dec.decodeObject(forKey: "cacertdata") as? String ?? ""
+        certdata = dec.decodeObject(forKey: "certdata") as? String ?? ""
+        certprivkeydata = dec.decodeObject(forKey: "certprivkeydata") as? String ?? ""
+        certverifypeer = dec.decodeBool(forKey: "certverifypeer")
     }
     
     @objc func encodeWithCoder(_ enc: NSCoder!) {
@@ -78,6 +86,10 @@ class Server : NSObject {
         enc.encode(channel, forKey: "channel")
         enc.encode(chanpasswd, forKey: "chanpasswd")
         enc.encode(encrypted, forKey: "encrypted")
+        enc.encode(cacertdata, forKey: "cacertdata")
+        enc.encode(certdata, forKey: "certdata")
+        enc.encode(certprivkeydata, forKey: "certprivkeydata")
+        enc.encode(certverifypeer, forKey: "certverifypeer")
     }
 }
 
@@ -553,7 +565,6 @@ class ServerParser : NSObject, XMLParserDelegate {
             }
         case "auth" : break
         case "join" : break
-        case "stats" : break
         // <auth>
         case "username" :
             currentServer.username = string
@@ -570,17 +581,30 @@ class ServerParser : NSObject, XMLParserDelegate {
             currentServer.nickname = string
         case "channel" :
             currentServer.channel = string
+
         // <stats>
+        case "stats" : break
         case "user-count" :
             currentServer.stats_usercount = Int(string) ?? 0
         case "country" :
             currentServer.stats_country = string
         case "servername" :
-            currentServer.stats_servername = string
+            currentServer.stats_servername += string
         case "motd" :
-            currentServer.stats_motd = string
+            currentServer.stats_motd += string
         case "active" :
             break
+            
+        // <trusted-certificate>
+        case "trusted-certificate" : break
+        case "certificate-authority-pem" :
+            currentServer.cacertdata += string
+        case "client-certificate-pem" :
+            currentServer.certdata += string
+        case "client-private-key-pem" :
+            currentServer.certprivkeydata += string
+        case "verify-peer" :
+            currentServer.certverifypeer = string == "true"
         default :
             print("Unknown tag " + self.elementStack.last!)
         }

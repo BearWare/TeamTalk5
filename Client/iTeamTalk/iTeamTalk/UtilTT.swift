@@ -65,6 +65,64 @@ func runTeamTalkEventHandler() {
     }
 }
 
+func setupEncryption(_ ttInst: UnsafeMutableRawPointer, server: Server) -> Bool {
+    if server.encrypted == false {
+        return true
+    }
+    
+    do {
+        var encryption = EncryptionContext()
+        let itemReplaceDir = try FileManager.default.url(for: .autosavedInformationDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+
+        let cacertPath = itemReplaceDir.appendingPathComponent("ca_cert.pem")
+        defer {
+            do {
+                try FileManager.default.removeItem(at: cacertPath)
+            } catch {}
+        }
+        if server.cacertdata.isEmpty == false {
+            try server.cacertdata.write(to: cacertPath, atomically: true, encoding: .utf8)
+            toTTString(cacertPath.path, dst: &encryption.szCAFile)
+        }
+
+        let certPath = itemReplaceDir.appendingPathComponent("cert.pem")
+        defer {
+            do {
+                try FileManager.default.removeItem(at: certPath)
+            } catch{}
+        }
+        if server.certdata.isEmpty == false {
+            try server.certdata.write(to: certPath, atomically: true, encoding: .utf8)
+            toTTString(certPath.path, dst: &encryption.szCertificateFile)
+        }
+
+        let keyPath = itemReplaceDir.appendingPathComponent("key.pem")
+        defer {
+            do {
+                try FileManager.default.removeItem(at: keyPath)
+            } catch {}
+        }
+        if server.certprivkeydata.isEmpty == false {
+            try server.certprivkeydata.write(to: keyPath, atomically: true, encoding: .utf8)
+            toTTString(keyPath.path, dst: &encryption.szPrivateKeyFile)
+        }
+        
+        encryption.bVerifyPeer = server.certverifypeer ? TRUE : FALSE
+        encryption.nVerifyDepth = encryption.bVerifyPeer == TRUE ? 0 : -1
+
+        let result = TT_SetEncryptionContext(ttInst, &encryption) == TRUE
+        if result {
+           print("Encryption activated")
+        }
+        else {
+            print("Failed to set encryption")
+        }
+        return result
+    } catch {
+        print("Exception thrown trying to create directory")
+        return false
+    }
+}
 
 func isTransmitting(_ ttInst: UnsafeMutableRawPointer, stream: StreamType) -> Bool {
     let flags = TT_GetFlags(ttInst)
