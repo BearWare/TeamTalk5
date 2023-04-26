@@ -159,9 +159,20 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
     
     @objc func connectToServer() {
         
-        if TT_Connect(ttInst, server.ipaddr, INT32(server.tcpport), INT32(server.udpport), 0, 0, server.encrypted ? TRUE : FALSE) == FALSE {
-            TT_Disconnect(ttInst)
-            startReconnectTimer()
+        if setupEncryption(ttInst!, server: server) == false {
+            let alert = UIAlertController(title: NSLocalizedString("Connect to Server", comment: "connect to a server"),
+                                          message: NSLocalizedString("Failed to setup encryption", comment: "connect to a server"),
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
+                self.navigationController!.popViewController(animated: true)
+            })
+            self.present(alert, animated: true, completion: nil)
+        }
+        else {
+            if TT_Connect(ttInst, server.ipaddr, INT32(server.tcpport), INT32(server.udpport), 0, 0, server.encrypted ? TRUE : FALSE) == FALSE {
+                TT_Disconnect(ttInst)
+                startReconnectTimer()
+            }
         }
     }
         
