@@ -257,8 +257,10 @@ public class Utils {
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            while((line = rd.readLine()) != null) {
-                result.append(line);
+            char[] buff = new char[1024];
+            int len;
+            while((len = rd.read(buff)) > 0) {
+                result.append(buff, 0, len);
             }
             rd.close();
         }
