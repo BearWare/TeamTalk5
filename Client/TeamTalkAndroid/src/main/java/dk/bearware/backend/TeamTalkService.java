@@ -23,6 +23,9 @@
 
 package dk.bearware.backend;
 
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
@@ -38,6 +41,7 @@ import dk.bearware.ClientErrorMsg;
 import dk.bearware.ClientEvent;
 import dk.bearware.ClientFlag;
 import dk.bearware.DesktopInput;
+import dk.bearware.EncryptionContext;
 import dk.bearware.FileTransfer;
 import dk.bearware.FileTransferStatus;
 import dk.bearware.MediaFileInfo;
@@ -533,6 +537,9 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         syncToUserCache();
 
         ttclient.disconnect();
+
+        if (!setupEncryption())
+            return false;
         
         if(!ttclient.connect(ttserver.ipaddr, ttserver.tcpport,
                              ttserver.udpport, 0, 0, ttserver.encrypted)) {
@@ -541,6 +548,36 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         }
         
         return true;
+    }
+
+    private boolean setupEncryption() {
+        if (!this.ttserver.encrypted)
+            return true;
+
+        File outputDir = getBaseContext().getCacheDir();
+        try {
+            File cacertfile = File.createTempFile("cacert", "pem", outputDir);
+            File clientcertfile = File.createTempFile("clientcert", "pem", outputDir);
+            File clientkeyfile = File.createTempFile("clientkey", "pem", outputDir);
+            try (FileWriter cawriter = new FileWriter(cacertfile);
+                 FileWriter certwriter = new FileWriter(clientcertfile);
+                 FileWriter keywriter = new FileWriter(clientkeyfile)) {
+                cawriter.write(this.ttserver.cacert);
+                certwriter.write(this.ttserver.clientcert);
+                keywriter.write(this.ttserver.clientcertkey);
+            }
+            EncryptionContext context = new EncryptionContext();
+            if (!this.ttserver.cacert.isEmpty())
+                context.szCAFile = cacertfile.getAbsolutePath();
+            if (!this.ttserver.clientcert.isEmpty())
+                context.szCertificateFile = clientcertfile.getAbsolutePath();
+            if (!this.ttserver.clientcertkey.isEmpty())
+                context.szPrivateKeyFile = clientkeyfile.getAbsolutePath();
+            context.bVerifyPeer = ttserver.verifypeer;
+            return ttclient.setEncryptionContext(context);
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     Map<Integer, Channel> channels = new HashMap<>();
