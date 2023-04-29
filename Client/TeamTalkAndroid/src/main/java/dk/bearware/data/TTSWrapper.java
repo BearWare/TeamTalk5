@@ -54,36 +54,24 @@ public class TTSWrapper {
     }
 
     public void shutdown() {
-        if (tts == null) {
-            tts.shutdown();
-        }
+        tts.shutdown();
     }
 
     public void speak(String text) {
-        if (tts != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                tts.speak(text, TextToSpeech.QUEUE_ADD, null, null);
-            } else {
-                tts.speak(text, TextToSpeech.QUEUE_ADD, null);
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            tts.speak(text, TextToSpeech.QUEUE_ADD, null, null);
+        } else {
+            tts.speak(text, TextToSpeech.QUEUE_ADD, null);
         }
     }
 
     public static List<EngineInfo> getEngines() {
-        if (tts != null) {
-            List<EngineInfo> spEngines = tts.getEngines();
-            return spEngines;
-        } else {
-            return Collections.emptyList();
-        }
+        List<EngineInfo> spEngines = tts.getEngines();
+        return spEngines;
     }
 
     public TTSWrapper switchEngine(String engineName) {
-        if (tts != null) {
-            return engineName.equals(this.mCurrentEngineName) ? this : new TTSWrapper(this.mContext, engineName);
-        } else {
-            return null;
-        }
+        return engineName.equals(this.mCurrentEngineName) ? this : new TTSWrapper(this.mContext, engineName);
     }
 
 }

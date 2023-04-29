@@ -95,9 +95,9 @@ implements ClientListener, Comparator<RemoteFile> {
         this.accessibilityAssistant = accessibilityAssistant;
         inflater = LayoutInflater.from(context);
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        remoteFiles = new Vector<RemoteFile>();
-        downloads = new HashMap<String, FileTransfer>();
-        uploads = new SparseArray<Notification.Builder>();
+        remoteFiles = new Vector<>();
+        downloads = new HashMap<>();
+        uploads = new SparseArray<>();
         chanId = 0;
         needRefresh = false;
     }
@@ -237,85 +237,77 @@ implements ClientListener, Comparator<RemoteFile> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final RemoteFile remoteFile = remoteFiles.get(position);
-        View.OnClickListener buttonClickListener = new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    switch (v.getId()) {
-                    case R.id.cancel_btn: {
-                        FileTransfer transfer = downloads.get(remoteFile.szFileName);
-                        if (ttClient.cancelFileTransfer(transfer.nTransferID)) {
-                            downloadCancellationCleanup(transfer);
-                            notifyDataSetChanged();
-                        }
-                        break;
-                    }
-                    case R.id.download_btn: {
-                        if (Permissions.setupPermission(context, activity, Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE)) {
-                            File dlPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-                            if (dlPath.mkdirs() || dlPath.isDirectory()) {
-                                final File localFile = new File(dlPath, remoteFile.szFileName);
-                                if (localFile.exists()) {
-                                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                                    alert.setMessage(context.getString(R.string.alert_file_override, localFile.getAbsolutePath()));
-                                    alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int whichButton) {
-                                                if (localFile.delete()) {
-                                                    startDownload(remoteFile, localFile);
-                                                }
-                                                else {
-                                                    Toast.makeText(context,
-                                                                   context.getString(R.string.err_file_delete,
-                                                                                     localFile.getAbsolutePath()),
-                                                                   Toast.LENGTH_LONG).show();
-                                                }
-                                            }
-                                        });
-
-                                    alert.setNegativeButton(android.R.string.no, null);
-                                    alert.show();
-                                }
-
-                                else {
+        View.OnClickListener buttonClickListener = v -> {
+            switch (v.getId()) {
+            case R.id.cancel_btn: {
+                FileTransfer transfer = downloads.get(remoteFile.szFileName);
+                if (ttClient.cancelFileTransfer(transfer.nTransferID)) {
+                    downloadCancellationCleanup(transfer);
+                    notifyDataSetChanged();
+                }
+                break;
+            }
+            case R.id.download_btn: {
+                if (Permissions.setupPermission(context, activity, Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE)) {
+                    File dlPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                    if (dlPath.mkdirs() || dlPath.isDirectory()) {
+                        final File localFile = new File(dlPath, remoteFile.szFileName);
+                        if (localFile.exists()) {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                            alert.setMessage(context.getString(R.string.alert_file_override, localFile.getAbsolutePath()));
+                            alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                                if (localFile.delete()) {
                                     startDownload(remoteFile, localFile);
                                 }
-                            }
-
-                            else {
-                                Toast.makeText(context,
-                                               context.getString(R.string.err_download_path,
-                                                                 dlPath.getAbsolutePath()),
-                                               Toast.LENGTH_LONG).show();
-                            }
-                        }
-                        break;
-                    }
-                    case R.id.remove_btn: {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                        alert.setMessage(context.getString(R.string.remote_file_remove_confirmation, remoteFile.szFileName));
-                        alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    if (ttClient.doDeleteFile(chanId, remoteFile.nFileID) <= 0)
-                                        Toast.makeText(context,
-                                                       context.getString(R.string.err_file_delete,
-                                                                         remoteFile.szFileName),
-                                                       Toast.LENGTH_LONG).show();
+                                else {
+                                    Toast.makeText(context,
+                                                   context.getString(R.string.err_file_delete,
+                                                                     localFile.getAbsolutePath()),
+                                                   Toast.LENGTH_LONG).show();
                                 }
                             });
 
-                        alert.setNegativeButton(android.R.string.no, null);
-                        alert.show();
-                        break;
+                            alert.setNegativeButton(android.R.string.no, null);
+                            alert.show();
+                        }
+
+                        else {
+                            startDownload(remoteFile, localFile);
+                        }
                     }
-                    default:
-                        break;
+
+                    else {
+                        Toast.makeText(context,
+                                       context.getString(R.string.err_download_path,
+                                                         dlPath.getAbsolutePath()),
+                                       Toast.LENGTH_LONG).show();
                     }
                 }
-            };
+                break;
+            }
+            case R.id.remove_btn: {
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                alert.setMessage(context.getString(R.string.remote_file_remove_confirmation, remoteFile.szFileName));
+                alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            if (ttClient.doDeleteFile(chanId, remoteFile.nFileID) <= 0)
+                                Toast.makeText(context,
+                                               context.getString(R.string.err_file_delete,
+                                                                 remoteFile.szFileName),
+                                               Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                alert.setNegativeButton(android.R.string.no, null);
+                alert.show();
+                break;
+            }
+            default:
+                break;
+            }
+        };
 
         switch (getItemViewType(position)) {
         case REMOTE_FILE_VIEW_TYPE: {

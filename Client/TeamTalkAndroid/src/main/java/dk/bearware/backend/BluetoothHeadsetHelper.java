@@ -55,8 +55,8 @@ public class BluetoothHeadsetHelper {
         this.context = context;
         audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        headsetConnectionListeners = new CopyOnWriteArraySet<HeadsetConnectionListener>();
-        scoAudioConnectionListeners = new CopyOnWriteArraySet<ScoAudioConnectionListener>();
+        headsetConnectionListeners = new CopyOnWriteArraySet<>();
+        scoAudioConnectionListeners = new CopyOnWriteArraySet<>();
         headsetConnected = false;
         onHeadsetSco = false;
     }

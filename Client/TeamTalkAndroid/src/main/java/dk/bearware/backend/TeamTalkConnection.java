@@ -48,8 +48,7 @@ public class TeamTalkConnection implements ServiceConnection {
         ttservice = binder.getService();
         TeamTalkBase ttclient = ttservice.getTTInstance();
         
-        String s = "";
-        s = "TeamTalk instance 0x" +
+        String s = "TeamTalk instance 0x" +
             Integer.toHexString(ttclient.hashCode() & 0xFFFFFFFF) + 
             " running v. " + TeamTalkBase.getVersion() + " connected";
         Log.i(TAG, s);
@@ -65,8 +64,7 @@ public class TeamTalkConnection implements ServiceConnection {
 
         TeamTalkBase ttclient = ttservice.getTTInstance();
         
-        String s = "";
-        s = "TeamTalk instance 0x" +
+        String s = "TeamTalk instance 0x" +
             Integer.toHexString(ttclient.hashCode() & 0xFFFFFFFF) + 
             " disconnected";
         Log.i(TAG, s);

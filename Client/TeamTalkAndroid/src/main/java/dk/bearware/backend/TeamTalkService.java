@@ -153,11 +153,11 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
                         case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
                         case KeyEvent.KEYCODE_MEDIA_PAUSE:
                         case KeyEvent.KEYCODE_MEDIA_PLAY:
-                case KeyEvent.KEYCODE_HEADSETHOOK:
-                        if (isVoiceActivationEnabled())
-                            enableVoiceActivation(false);
-                        else
-                            enableVoiceTransmission(!isVoiceTransmissionEnabled());
+                        case KeyEvent.KEYCODE_HEADSETHOOK:
+                            if (isVoiceActivationEnabled())
+                                enableVoiceActivation(false);
+                            else
+                                enableVoiceTransmission(!isVoiceTransmissionEnabled());
                             break;
                     }
                     return true;
@@ -216,11 +216,8 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         mediaSession.setCallback(mMediaSessionCallback);
 
         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        audioManager.requestAudioFocus(new AudioManager.OnAudioFocusChangeListener() {
-            @Override
-            public void onAudioFocusChange(int focusChange) {
-                // Ignore
-            }
+        audioManager.requestAudioFocus(focusChange -> {
+            // Ignore
         }, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         mediaSession.setActive(true);
         Log.d(TAG, "Created TeamTalk 5 service");
@@ -279,7 +276,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
     CountDownTimer eventTimer;
     Notification.Builder widget = null;
     NotificationManager notificationManager;
-    SparseArray<CmdComplete> activecmds = new SparseArray<CmdComplete>();
+    SparseArray<CmdComplete> activecmds = new SparseArray<>();
 
     private String getNotificationText() {
         return (mychannel != null) ?
@@ -367,11 +364,9 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
                         txSuspended = true;
                         enableVoiceTransmission(false);
                     }
-                    if (myself != null) {
-                        myStatus = myself.nStatusMode;
-                        if ((myStatus & TeamTalkConstants.STATUSMODE_AWAY) == 0)
-                            ttclient.doChangeStatus(myStatus | TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
-                    }
+                    myStatus = myself.nStatusMode;
+                    if ((myStatus & TeamTalkConstants.STATUSMODE_AWAY) == 0)
+                        ttclient.doChangeStatus(myStatus | TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
                     break;
                 default:
                     break;
@@ -548,13 +543,13 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         return true;
     }
 
-    Map<Integer, Channel> channels = new HashMap<Integer, Channel>();
-    Map<Integer, RemoteFile> remoteFiles = new HashMap<Integer, RemoteFile>();
-    Map<Integer, FileTransfer> fileTransfers = new HashMap<Integer, FileTransfer>();
-    Map<Integer, User> users = new HashMap<Integer, User>();
-    Map<Integer, Vector<MyTextMessage>> usertxtmsgs = new HashMap<Integer, Vector<MyTextMessage>>();
-    Vector<MyTextMessage> chatlogtxtmsgs = new Vector<MyTextMessage>();
-    Map<String, UserCached> usercache = new HashMap<String, UserCached>();
+    Map<Integer, Channel> channels = new HashMap<>();
+    Map<Integer, RemoteFile> remoteFiles = new HashMap<>();
+    Map<Integer, FileTransfer> fileTransfers = new HashMap<>();
+    Map<Integer, User> users = new HashMap<>();
+    Map<Integer, Vector<MyTextMessage>> usertxtmsgs = new HashMap<>();
+    Vector<MyTextMessage> chatlogtxtmsgs = new Vector<>();
+    Map<String, UserCached> usercache = new HashMap<>();
 
     public Map<Integer, Channel> getChannels() {
         return channels;
@@ -578,7 +573,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
     public Vector<MyTextMessage> getUserTextMsgs(int userid) {
         Vector<MyTextMessage> msgs;
         if(usertxtmsgs.get(userid) == null) {
-            msgs = new Vector<MyTextMessage>();
+            msgs = new Vector<>();
             usertxtmsgs.put(userid, msgs);
         }
         msgs = usertxtmsgs.get(userid);
@@ -643,12 +638,7 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
     }
 
     Handler reconnectHandler = new Handler();
-    Runnable reconnectTimer = new Runnable() {
-        @Override
-        public void run() {
-            reconnect();
-        }
-    };
+    Runnable reconnectTimer = this::reconnect;
     
     void createReconnectTimer(long delayMsec) {
         
@@ -827,9 +817,6 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         
         if(!complete)
             return;
-
-        if(activecmds.get(cmdId) == CmdComplete.CMD_COMPLETE_LOGIN) {
-        }
 
         activecmds.delete(cmdId);
     }

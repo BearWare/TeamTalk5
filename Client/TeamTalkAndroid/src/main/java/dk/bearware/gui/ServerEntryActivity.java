@@ -32,6 +32,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.CheckBoxPreference;
 import androidx.preference.EditTextPreference;
@@ -275,7 +276,7 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
     }
 
     @Override
-    public boolean onPreferenceChange(Preference preference, Object newValue) {
+    public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
         
         if(preference instanceof EditTextPreference) { 
             EditTextPreference editTextPreference =  (EditTextPreference)preference;

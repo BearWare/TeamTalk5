@@ -66,8 +66,8 @@ implements UserListener {
     				 
     				 USERID_MASK 		= 0xFFF;
     
-    SparseArray<User> display_users = new SparseArray<User>();
-    SparseArray<Bitmap> media_sessions = new SparseArray<Bitmap>();
+    SparseArray<User> display_users = new SparseArray<>();
+    SparseArray<Bitmap> media_sessions = new SparseArray<>();
 
     public MediaAdapter(Context context) {
         this.context = context;
@@ -210,7 +210,6 @@ implements UserListener {
             wndinfo.setText(String.format("%1$dx%2$d %3$d-bit", bmp.getWidth(),
                     bmp.getHeight(),
                     (bmp.getConfig() == Bitmap.Config.ARGB_8888) ? 32 : 0));
-        } else {
         }
 
         return convertView;
@@ -226,7 +225,7 @@ implements UserListener {
         return false;
     }
 
-    LinkedList<Integer> updatequeue = new LinkedList<Integer>();
+    final LinkedList<Integer> updatequeue = new LinkedList<Integer>();
     ImageUpdateAsyncTask updatetask;
 
     public void updateUserBitmap(int userid) {
@@ -235,9 +234,8 @@ implements UserListener {
 
             if (!updatequeue.contains(userid)) {
                 updatequeue.add(userid);
-            } else {
-                // Log.d(TAG, "Skipped update for #"+ userid);
-            }
+            }  // Log.d(TAG, "Skipped update for #"+ userid);
+
 
             if (updatetask == null) {
                 updatetask = new ImageUpdateAsyncTask();
@@ -320,9 +318,8 @@ implements UserListener {
                             ready_users.put(userid, bmp);
                         }
                         this.publishProgress(userid);
-                    } else {
-                        // Log.d(TAG, "Bitmap is null from #" + userid);
-                    }
+                    }  // Log.d(TAG, "Bitmap is null from #" + userid);
+
                 }
             } while (userid != 0);
 
