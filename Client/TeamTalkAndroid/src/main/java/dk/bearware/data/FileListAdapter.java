@@ -44,7 +44,6 @@ import dk.bearware.gui.AccessibilityAssistant;
 import dk.bearware.gui.R;
 import dk.bearware.gui.Utils;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
