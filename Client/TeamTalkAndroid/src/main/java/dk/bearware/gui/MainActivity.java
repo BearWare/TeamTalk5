@@ -146,12 +146,6 @@ implements TeamTalkConnectionListener,
         SensorEventListener, 
         OnVoiceTransmissionToggleListener {
 
-    /**
-     * The {@link androidx.viewpager.widget.PagerAdapter} that will provide fragments for each of the sections. We use a
-     * {@link androidx.fragment.app.FragmentPagerAdapter} derivative, which will keep every loaded fragment in memory.
-     * If this becomes too memory intensive, it may be best to switch to a
-     * {@link androidx.fragment.app.FragmentStatePagerAdapter}.
-     */
     SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
@@ -260,7 +254,7 @@ implements TeamTalkConnectionListener,
         // Set up the ViewPager with the sections adapter.
         mViewPager = findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setOnPageChangeListener(mSectionsPagerAdapter);
+        mViewPager.addOnPageChangeListener(mSectionsPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
         setupButtons();
@@ -539,6 +533,8 @@ implements TeamTalkConnectionListener,
             }
             notificationManager.cancelAll();
         }
+
+        mViewPager.removeOnPageChangeListener(mSectionsPagerAdapter);
     }
 
     @Override
@@ -603,9 +599,6 @@ implements TeamTalkConnectionListener,
     MediaSectionFragment mediaFragment;
     FilesSectionFragment filesFragment;
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the sections/tabs/pages.
-     */
     public class SectionsPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
         
         public static final int CHANNELS_PAGE   = 0,
@@ -616,7 +609,7 @@ implements TeamTalkConnectionListener,
                                 PAGE_COUNT      = 4;
 
         public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
         @Override @NonNull
