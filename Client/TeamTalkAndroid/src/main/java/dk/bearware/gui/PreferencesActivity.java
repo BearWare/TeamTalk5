@@ -400,8 +400,8 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
 
             ListPreference enginePrefs = (ListPreference) findPreference("pref_speech_engine");
             List<EngineInfo> engines = TTSWrapper.getEngines();
-            ArrayList<String> entries = new ArrayList();
-            ArrayList<String> values = new ArrayList();
+            ArrayList<String> entries = new ArrayList<>();
+            ArrayList<String> values = new ArrayList<>();
             for (EngineInfo info : engines) {
                 entries.add(info.label);
                 values.add(info.name);

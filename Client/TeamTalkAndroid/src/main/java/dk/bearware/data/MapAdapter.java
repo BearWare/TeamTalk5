@@ -34,8 +34,8 @@ import android.widget.TextView;
 
 public class MapAdapter extends BaseAdapter {
 
-    Vector<String> keys = new Vector<String>();
-    Vector<Integer> values = new Vector<Integer>();
+    Vector<String> keys = new Vector<>();
+    Vector<Integer> values = new Vector<>();
     
     LayoutInflater inflater;
     int layout_item, text_id;
@@ -53,7 +53,7 @@ public class MapAdapter extends BaseAdapter {
     
     public int getIndex(int value, int invalid_index) {
         for(int i=0;i<values.size();i++) {
-            if(values.get(i).intValue() == value)
+            if(values.get(i) == value)
                 return i;
         }
         return invalid_index;
