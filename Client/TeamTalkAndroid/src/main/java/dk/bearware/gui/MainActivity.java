@@ -89,7 +89,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -102,7 +101,6 @@ import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
 import dk.bearware.ClientFlag;
 import dk.bearware.ClientStatistics;
-import dk.bearware.Constants;
 import dk.bearware.DesktopInput;
 import dk.bearware.FileTransfer;
 import dk.bearware.MediaFileInfo;

@@ -36,12 +36,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.nio.charset.StandardCharsets;
-
 import dk.bearware.BannedUser;
 import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
-import dk.bearware.Constants;
 import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
 import dk.bearware.TeamTalkBase;

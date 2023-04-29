@@ -27,7 +27,7 @@ import android.content.Context;
 import android.os.Build;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.EngineInfo;
-import android.util.Log;
+
 import java.util.Collections;
 import java.util.List;
 
