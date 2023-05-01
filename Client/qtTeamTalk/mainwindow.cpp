@@ -2268,8 +2268,7 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
         break;
     case HOTKEY_VOICEACTIVATION :
         if(active)
-            slotMeEnableVoiceActivation(!(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
-            addTextToSpeechMessage(TTS_TOGGLE_VOICETRANSMISSION, ((TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED)?tr("Voice activation enabled"):tr("Voice activation disabled")));
+            enableVoiceActivation(!(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED), SOUNDEVENT_VOICEACTON, SOUNDEVENT_VOICEACTOFF, true);
         break;
     case HOTKEY_INCVOLUME :
         if(active)
@@ -4528,13 +4527,10 @@ void MainWindow::slotMeHearMyself(bool checked/*=false*/)
 
 void MainWindow::slotMeEnableVoiceActivation(bool checked)
 {
-    ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, checked);
-    enableVoiceActivation(checked, SOUNDEVENT_VOICEACTMEON, SOUNDEVENT_VOICEACTMEOFF);
-    if (QObject::sender() == ui.actionEnableVoiceActivation)
-        addTextToSpeechMessage(TTS_TOGGLE_VOICETRANSMISSION, (checked?tr("Voice activation enabled"):tr("Voice activation disabled")));
+    enableVoiceActivation(checked, SOUNDEVENT_VOICEACTMEON, SOUNDEVENT_VOICEACTMEOFF, QObject::sender() == ui.actionEnableVoiceActivation?true:false);
 }
 
-void MainWindow::enableVoiceActivation(bool checked, SoundEvent on, SoundEvent off)
+void MainWindow::enableVoiceActivation(bool checked, SoundEvent on, SoundEvent off, bool TTS)
 {
     if (!TT_EnableVoiceActivation(ttInst, checked) && checked)
     {
@@ -4546,6 +4542,8 @@ void MainWindow::enableVoiceActivation(bool checked, SoundEvent on, SoundEvent o
         if (TT_GetFlags(ttInst) & CLIENT_CONNECTED)
             emit(updateMyself());
         playSoundEvent(checked == true ? on : off);
+        addTextToSpeechMessage(TTS_TOGGLE_VOICETRANSMISSION, checked == true ? tr("Voice activation enabled") : tr("Voice activation disabled"));
+        ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, checked);
     }
     slotUpdateUI();
 }
