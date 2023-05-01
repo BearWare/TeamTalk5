@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.1)
 project (TeamTalk5Lib)
 
+include (FeatureSummary)
+
 set (TEAMTALKLIB_ROOT ${CMAKE_CURRENT_LIST_DIR})
 
 set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG -D_DEBUG")
@@ -93,20 +95,34 @@ option (FEATURE_SPEEX "Build TeamTalk DLL with Speex codec support" ON)
 option (FEATURE_SPEEXDSP "Build TeamTalk DLL with SpeexDSP audio processing support" ON)
 option (FEATURE_WEBRTC "Build TeamTalk DLL with WebRTC audio processing support" ON)
 
+add_feature_info (FEATURE_LIBVPX FEATURE_LIBVPX "libVPX video codec")
+add_feature_info (FEATURE_OGG FEATURE_OGG "Ogg file format")
+add_feature_info (FEATURE_OPUS FEATURE_OPUS "OPUS codec")
+add_feature_info (FEATURE_OPUSTOOLS FEATURE_OPUSTOOLS "OPUS-tools for storing OPUS in .ogg files")
+add_feature_info (FEATURE_SPEEX FEATURE_SPEEX "Speex codec")
+add_feature_info (FEATURE_SPEEXDSP FEATURE_SPEEXDSP "SpeexDSP for audio processing (AGC, echo cancellation, etc.)")
+add_feature_info (FEATURE_WEBRTC FEATURE_WEBRTC "WebRTC for audio processing (AGC, echo cancellation, voice detection, etc.)")
+
 if (MSVC)
   option (FEATURE_DSHOW "Build TeamTalk DLL with Microsoft DirectShow Streaming support (obsolete)" OFF)
   option (FEATURE_MEDIAFOUNDATION "Build TeamTalk DLL with Media Foundation Streaming support" ON)
   option (FEATURE_MSDMO "Build TeamTalk DLL with Microsoft DirectX Media Objects (DMO) Resampler support" ON)
   option (FEATURE_VIDCAP "Build TeamTalk DLL with DirectShow Video Capture support (obsolete)" OFF)
   option (FEATURE_LAMEMP3 "Build TeamTalk DLL with MP3 Lame support (obsolete)" OFF)
+
+  add_feature_info (FEATURE_MEDIAFOUNDATION FEATURE_MEDIAFOUNDATION "Microsoft Media Foundation for A/V processing")
+  add_feature_info (FEATURE_MSDMO FEATURE_MSDMO "Microsoft DirectX for audio resampling")
 else()
   option (FEATURE_FFMPEG "Build TeamTalk DLL with FFmpeg support" ON)
+  add_feature_info (FEATURE_FFMPEG FEATURE_FFMPEG "FFmpeg A/V library")
 endif()
 if (FEATURE_FFMPEG)
   if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     option(FEATURE_V4L2 "Build TeamTalk DLL with Video for Linux 2 (V4L2) support (video capture)" ON)
+    add_feature_info (FEATURE_V4L2 FEATURE_V4L2 "Video4Linux v2 (V4L2) for video capture")
   elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     option(FEATURE_AVF "Build TeamTalk DLL with AVFoundation support (video capture)" ON)
+    add_feature_info (FEATURE_AVF FEATURE_AVF "Audio/Video Foundation (AVF) for video capture")
   endif()
 endif()
 
@@ -115,10 +131,13 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" OR
     ${CMAKE_SYSTEM_NAME} MATCHES "Linux" OR
     ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
   option (FEATURE_PORTAUDIO "Build using PortAudio as sound system" ON)
+  add_feature_info (FEATURE_PORTAUDIO FEATURE_PORTAUDIO "PortAudio as sound system")
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   option (FEATURE_OPENSLES "Build using OpenSL ES as sound system" ON)
+  add_feature_info (FEATURE_OPENSLES FEATURE_OPENSLES "OpenSL ES as sound system")
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   option (FEATURE_AUDIOUNIT "Build using AudioUnit as sound system" ON)
+  add_feature_info (FEATURE_AUDIOUNIT FEATURE_AUDIOUNIT "AudioUnit as sound system")
 endif()
 
 add_subdirectory (build)
@@ -135,7 +154,7 @@ include (unittest)
 ######################
 
 option (BUILD_TEAMTALK_DLL "Build TeamTalk5 shared library" ON)
-
+add_feature_info (BUILD_TEAMTALK_DLL BUILD_TEAMTALK_DLL "Build shared library [TeamTalk5.dll | libTeamTalk5.so | libTeamTalk5.dylib] in Library/TeamTalk_DLL")
 if (BUILD_TEAMTALK_DLL)
 
   if (MSVS_UNITTEST)
@@ -172,6 +191,7 @@ endif()
 ######################
 
 option (BUILD_TEAMTALK_LIB "Build TeamTalk5 static library" OFF)
+add_feature_info (BUILD_TEAMTALK_LIB BUILD_TEAMTALK_LIB "Build static library [TeamTalk5.lib | libTeamTalk5.a ] in Library/TeamTalk_DLL")
 
 if (BUILD_TEAMTALK_LIB)
 
@@ -205,6 +225,7 @@ endif()
 ######################
 
 option (BUILD_TEAMTALK_PRODLL "Build TeamTalk5Pro shared library" ON)
+add_feature_info (BUILD_TEAMTALK_PRODLL BUILD_TEAMTALK_PRODLL "Build shared library [TeamTalk5Pro.dll | libTeamTalk5Pro.so | libTeamTalk5Pro.dylib] in Library/TeamTalk_DLL")
 
 if (BUILD_TEAMTALK_PRODLL)
 
@@ -248,6 +269,7 @@ endif()
 ######################
 
 option (BUILD_TEAMTALK_PROLIB "Build TeamTalk5Pro static library" OFF)
+add_feature_info (BUILD_TEAMTALK_PROLIB BUILD_TEAMTALK_PROLIB "Build static library [TeamTalk5Pro.lib | libTeamTalk5Pro.a ] in Library/TeamTalk_DLL")
 
 if (BUILD_TEAMTALK_PROLIB)
 
@@ -287,6 +309,7 @@ endif()
 ##########
 
 option (BUILD_TEAMTALK_SRVEXE "Build TeamTalk server" ON)
+add_feature_info (BUILD_TEAMTALK_SRVEXE BUILD_TEAMTALK_SRVEXE "Build TeamTalk server executable [tt5srv.exe | tt5srv ] in Server")
 
 if (BUILD_TEAMTALK_SRVEXE)
   add_executable (tt5srv
@@ -312,6 +335,7 @@ endif()
 #############
 
 option (BUILD_TEAMTALK_PROSRVEXE "Build TeamTalk server" ON)
+add_feature_info (BUILD_TEAMTALK_PROSRVEXE BUILD_TEAMTALK_PROSRVEXE "Build TeamTalk Pro server executable [tt5prosrv.exe | tt5prosrv ] in Server")
 
 if (BUILD_TEAMTALK_PROSRVEXE)
 
@@ -339,6 +363,7 @@ if (MSVC)
   # tt5svc.exe #
   ##############
   option (BUILD_TEAMTALK_SVCEXE "Build TeamTalk service" ON)
+  add_feature_info (BUILD_TEAMTALK_SVCEXE BUILD_TEAMTALK_SVCEXE "Build TeamTalk service executable [tt5svc.exe ] in Server")
 
   if (BUILD_TEAMTALK_SVCEXE)
     add_executable (tt5svc ${TTSRV_SOURCES} ${TTSRV_HEADERS})
@@ -371,6 +396,7 @@ if (MSVC)
   # tt5prosvc.exe #
   #################
   option (BUILD_TEAMTALK_PROSVCEXE "Build TeamTalk Professional service" ON)
+  add_feature_info (BUILD_TEAMTALK_PROSVCEXE BUILD_TEAMTALK_PROSVCEXE "Build TeamTalk Pro service executable [tt5prosvc.exe ] in Server")
 
   if (BUILD_TEAMTALK_PROSVCEXE)
     add_executable (tt5prosvc ${TTSRV_SOURCES} ${TTSRV_HEADERS})
@@ -440,3 +466,5 @@ if (CATCH_UNITTEST)
   endif()
 
 endif()
+
+feature_summary(WHAT ALL)

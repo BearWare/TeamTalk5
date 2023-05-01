@@ -21,6 +21,7 @@ set (TTCLIENTDLL_SOURCES
 
 if (MSVC)
   option (MINIDUMP "Build TeamTalk DLLs with MINIDUMP" OFF)
+  add_feature_info (MINIDUMP MINIDUMP "Enable MiniDump for debugging post mortem crashes in Visual Studio")
   if (MINIDUMP)
     list (APPEND TTCLIENTDLL_HEADERS ${TEAMTALKLIB_ROOT}/win32/mdump.h)
     list (APPEND TTCLIENTDLL_SOURCES ${TEAMTALKLIB_ROOT}/win32/mdump.cpp)

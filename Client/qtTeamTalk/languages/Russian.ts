@@ -3980,12 +3980,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="5911"/>
         <source>Are you sure you want to kick yourself?</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы уверены, что хотите выгнать себя?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5931"/>
         <source>Are you sure you want to kick and ban yourself?</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы уверены, что хотите выгнать и заблокировать себя?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5950"/>

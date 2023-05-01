@@ -13,12 +13,17 @@ set (TOOLCHAIN_INSTALL_PREFIX_LIBVPX ${TOOLCHAIN_INSTALL_PREFIX}/libvpx)
 if (MSVC)
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
-    find_program(CYGWIN_BASH_EXE_PATH bash.exe PATHS C:/cygwin64/bin)
-    if (CYGWIN_BASH_EXE_PATH-NOTFOUND)
-      message(WARNING "CYGWIN bash.exe is required to build libvpx")
+    # Favor Cygwin or MSYS2 since CMake may otherwise find a
+    # non-working bash.exe file. GitHub e.g. finds C:/Program
+    # Files/Git/bin/bash.exe which cannot be used.
+    find_program(BASH_EXE_PATH bash.exe PATHS C:/cygwin64/bin C:/msys64/usr/bin $ENV{PATH} NO_DEFAULT_PATH)
+    if (BASH_EXE_PATH-NOTFOUND)
+      message(WARNING "CYGWIN or MSYS2 bash.exe is required to build libvpx")
     else()
-      message("Found CYGWIN for libvpx here: ${CYGWIN_BASH_EXE_PATH}")
+      message("Found bash.exe CYGWIN/MSYS2 for libvpx here: ${BASH_EXE_PATH}")
     endif()
+
+    file(TO_NATIVE_PATH ${BASH_EXE_PATH} BASH_EXE_PATH_NATIVE)
 
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
 

@@ -203,9 +203,6 @@ public class AudioCodecActivity extends AppCompatActivity implements
         FragmentTransaction fragmentTransaction) {
     }
     
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the sections/tabs/pages.
-     */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
