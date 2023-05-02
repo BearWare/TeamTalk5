@@ -14,6 +14,7 @@ Default Qt Client
 - Filter servers by name or number of users in "Server List Dialog"
 - Text-to-Speech event on video transmission and desktop sharing toggled
 - Text-to-Speech event when disconnect from server now includes server name
+- Text-to-Speech event for voice transmission toggled also emited when using global hotkey
 - Option to choose if Text-to-Speech events should be sent using Speech, Braille, or both Speech and Braille (only on Windows with Tolk)
 - File size is now converted to KBytes/MBytes/GBytes (Qt 5.10 and later)
 - Ability to show password in server list dialog
