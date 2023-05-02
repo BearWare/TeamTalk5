@@ -4,34 +4,36 @@
 
 Version 5.13, unreleased
 Default Qt Client
-- Fixed keyboard navigation on "File transfer" dialog
 - Reinitialize sound devices if active sound device is removed using WASAPI sound system
 - Moved "Refresh Sound Devices" from "Input Devices" submenu to "Sound Configuration" menu
-- Fixed Upload/download button and menu item not display for admin outside channel
-- Accessible description on more dialog to avoid potential screenreader freeze
-- TTS event on video transmission and desktop sharing toggled
+- Accessible description on more dialogs to avoid potential screenreader freeze
 - Add missing labels on "Font color" and "Background color" buttons on "Video settings" dialog
-- TTS event when disconnect from server now includes server name
-- File size now converted using Qt functions to support more size (Qt 5.10 and later)
-- Ability to show password in server list dialog
 - Sound event when interception stopped
+- Ban offline users from "Online Users" dialog
+- Confirmation before auto kick and kick and ban
+- Filter servers by name or number of users in "Server List Dialog"
+- Text-to-Speech event on video transmission and desktop sharing toggled
+- Text-to-Speech event when disconnect from server now includes server name
+- Option to choose if Text-to-Speech events should be sent using Speech, Braille, or both Speech and Braille (only on Windows with Tolk)
+- File size is now converted to KBytes/MBytes/GBytes (Qt 5.10 and later)
+- Ability to show password in server list dialog
+- Separate count on users in channel and subchannel on channel tree
 - CTRL+G on a channel now also returns user count
-- Option to choose if TTS events should be send using Speech, Braille, or both Speech and Braille (only on Windows with Tolk)
-- Separate count users in channel and subchannel on channel tree
-- Fixed bug when removing operator status in temporary channel
 - "Show MOTD variables" checked by default in server properties dialog
-- Ban offline user from "Online Users" dialog
+- Import .tt File button moved to "Store Server Information" group box in "Server List Dialog"
+- Fixed keyboard navigation on "File transfer" dialog
+- Fixed Upload/download button and menu item not display for admin outside channel
+- Fixed bug when removing operator status in temporary channel
 - Qt updated to 6.5.0 on macOS and Windows 10/11
 - Minimum supported macOS is now 11.0 (Big Sur)
-- Confirmation before auto kick and kick and ban
-- Import .tt File button moved to "Store Server Information" group box in "Server List Dialog"
-- Filter servers by name or number of users in "Server List Dialog"
+- OPUS updated to v1.4
 Accessible Windows Client
--
+- OPUS updated to v1.4
 Android Client
 - Added Vietnamese language
+- OPUS updated to v1.4
 iOS Client
--
+- OPUS updated to v1.4
 Server
 - Added argument -cleanfiles to remove unknown files from file storage
 

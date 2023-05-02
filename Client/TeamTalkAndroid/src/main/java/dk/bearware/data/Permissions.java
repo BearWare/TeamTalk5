@@ -106,11 +106,7 @@ public class Permissions {
 
             Toast.makeText(context, errormessage, Toast.LENGTH_LONG).show();
 
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
-                    stringPermission)) {
-
-            }
-            else {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(activity, stringPermission)) {
                 ActivityCompat.requestPermissions(activity,
                         new String[]{stringPermission},
                         permission);

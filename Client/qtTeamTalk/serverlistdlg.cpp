@@ -237,7 +237,7 @@ void ServerListModel::filterServers()
         if ((m_srvtypes & srvtype))
         {
             auto hosts = m_servers[ServerType(srvtype)];
-            hosts.erase(std::remove_if(hosts.begin(), hosts.end(), [&](const HostEntryEx& entry) { return entry.usercount < m_nusers; }), hosts.end());
+            hosts.erase(std::remove_if(hosts.begin(), hosts.end(), [&](const HostEntryEx& entry) { return entry.usercount < m_nusers && (entry.srvtype & SERVERTYPE_LOCAL) != SERVERTYPE_LOCAL; }), hosts.end());
             hosts.erase(std::remove_if(hosts.begin(), hosts.end(), [&](const HostEntryEx& entry) { return !m_name_regex.match(entry.name).hasMatch(); }), hosts.end());
             m_servercache.append(hosts);
         }
@@ -334,9 +334,8 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     clearHostEntry();
 
     showLatestHosts();
-
-    applyServerListFilter();
     refreshServerList();
+
     HostEntry lasthost;
     if (getLatestHost(0, lasthost))
     {
@@ -517,6 +516,7 @@ void ServerListDlg::slotConnect()
 void ServerListDlg::refreshServerList()
 {
     m_model->clearServers();
+    applyServerListFilter();
 
     m_nextid = 0;
     int index = 0;

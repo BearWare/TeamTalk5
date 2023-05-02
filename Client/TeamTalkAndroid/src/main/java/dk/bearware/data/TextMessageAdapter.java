@@ -75,17 +75,17 @@ public class TextMessageAdapter extends BaseAdapter {
     public TextMessageAdapter(Context context, AccessibilityAssistant accessibilityAssistant) {
         inflater = LayoutInflater.from(context);
         this.accessibilityAssistant = accessibilityAssistant;
-        setTextMessages(new Vector<MyTextMessage>());
+        setTextMessages(new Vector<>());
         
-        TypedArray array = context.getTheme().obtainStyledAttributes(new int[] {  
+        TypedArray array = context.getTheme().obtainStyledAttributes(new int[] {
             android.R.attr.colorBackground, 
             android.R.attr.textColorPrimary, 
-        }); 
-        def_bg_color = array.getColor(0, 0xFF00FF); 
+        });
+        def_bg_color = array.getColor(0, 0xFF00FF);
         def_text_color = array.getColor(1, 0xFF00FF);
-        
+
         array.recycle();
-        
+
         loginfo_bg_color = def_bg_color;
         loginfo_text_color = def_text_color;
     }
@@ -99,7 +99,7 @@ public class TextMessageAdapter extends BaseAdapter {
         if(show_logs)
             return messages;
         
-        Vector<MyTextMessage> result = new Vector<MyTextMessage>();
+        Vector<MyTextMessage> result = new Vector<>();
         for(MyTextMessage m : messages) {
             switch(m.nMsgType) {
                 case MyTextMessage.MSGTYPE_LOG_ERROR :

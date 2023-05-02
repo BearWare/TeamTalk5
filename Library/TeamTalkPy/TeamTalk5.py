@@ -1325,6 +1325,8 @@ class TeamTalk(object):
             self.onBannedUser(msg.banneduser)
         if event == ClientEvent.CLIENTEVENT_CMD_SERVERSTATISTICS:
             self.onServerStatistics(msg.serverstatistics)
+        if event == ClientEvent.CLIENTEVENT_INTERNAL_ERROR:
+            self.onInternalError(msg.clienterrormsg)
 
     def getMessage(self, nWaitMS: int = -1):
         msg = TTMessage()
@@ -1356,6 +1358,9 @@ class TeamTalk(object):
 
     def enableVoiceTransmission(self, bEnable: bool) -> bool:
         return _EnableVoiceTransmission(self._tt, bEnable)
+
+    def setEncryptionContext(self, lpEncryptionContext: EncryptionContext) -> bool:
+        return _SetEncryptionContext(self._tt, lpEncryptionContext)
 
     def connect(self, szHostAddress, nTcpPort: int, nUdpPort: int, nLocalTcpPort: int = 0, nLocalUdpPort:int = 0, bEncrypted: bool = False) -> bool:
         return _Connect(self._tt, szHostAddress, nTcpPort, nUdpPort, nLocalTcpPort, nLocalUdpPort, bEncrypted)
@@ -1672,4 +1677,7 @@ class TeamTalk(object):
         pass
 
     def onServerStatistics(self, serverstatistics: ServerStatistics):
+        pass
+
+    def onInternalError(self, clienterrormsg: ClientErrorMsg):
         pass

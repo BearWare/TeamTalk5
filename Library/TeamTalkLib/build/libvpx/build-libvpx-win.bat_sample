@@ -1,4 +1,4 @@
 SET PATH=@YASM_EXE_DIRECTORY_NATIVE@;%PATH%;
 IF EXIST build-@LIBVPX_WIN_TARGET@ RMDIR /Q /S build-@LIBVPX_WIN_TARGET@
 MKDIR build-@LIBVPX_WIN_TARGET@
-@CYGWIN_BASH_EXE_PATH@ --login -c "cd $OLDPWD/build-@LIBVPX_WIN_TARGET@ && ../configure --target=@LIBVPX_WIN_TARGET@ --disable-examples --disable-docs --enable-static-msvcrt --disable-unit-tests && make"
+@BASH_EXE_PATH@ --login -c "cd $OLDPWD/build-@LIBVPX_WIN_TARGET@ && ../configure --target=@LIBVPX_WIN_TARGET@ --disable-examples --disable-docs --enable-static-msvcrt --disable-unit-tests && make"

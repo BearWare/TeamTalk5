@@ -29,7 +29,6 @@ import android.os.Environment;
 import androidx.test.rule.GrantPermissionRule;
 
 import org.junit.Rule;
-import org.junit.Test;
 
 import java.io.File;
 
