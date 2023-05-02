@@ -2268,7 +2268,7 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
         break;
     case HOTKEY_VOICEACTIVATION :
         if(active)
-            enableVoiceActivation(!(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED), SOUNDEVENT_VOICEACTON, SOUNDEVENT_VOICEACTOFF, true);
+            slotMeEnableVoiceActivation(!(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_VOICEACTIVATED));
         break;
     case HOTKEY_INCVOLUME :
         if(active)
@@ -4209,7 +4209,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
         if(m_statusmode != myself.nStatusMode || statusmsg != _Q(myself.szStatusMsg))
             TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
     }
-    slotMeEnableVoiceActivation(ttSettings->value(SETTINGS_GENERAL_VOICEACTIVATED,
+    enableVoiceActivation(ttSettings->value(SETTINGS_GENERAL_VOICEACTIVATED,
                                                   SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT).toBool());
     slotMeEnablePushToTalk(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool());
 
@@ -4527,10 +4527,11 @@ void MainWindow::slotMeHearMyself(bool checked/*=false*/)
 
 void MainWindow::slotMeEnableVoiceActivation(bool checked)
 {
-    enableVoiceActivation(checked, SOUNDEVENT_VOICEACTMEON, SOUNDEVENT_VOICEACTMEOFF, QObject::sender() == ui.actionEnableVoiceActivation?true:false);
+    enableVoiceActivation(checked, SOUNDEVENT_VOICEACTMEON, SOUNDEVENT_VOICEACTMEOFF);
+    addTextToSpeechMessage(TTS_TOGGLE_VOICETRANSMISSION, checked == true ? tr("Voice activation enabled") : tr("Voice activation disabled"));
 }
 
-void MainWindow::enableVoiceActivation(bool checked, SoundEvent on, SoundEvent off, bool TTS)
+void MainWindow::enableVoiceActivation(bool checked, SoundEvent on, SoundEvent off)
 {
     if (!TT_EnableVoiceActivation(ttInst, checked) && checked)
     {
@@ -4542,7 +4543,6 @@ void MainWindow::enableVoiceActivation(bool checked, SoundEvent on, SoundEvent o
         if (TT_GetFlags(ttInst) & CLIENT_CONNECTED)
             emit(updateMyself());
         playSoundEvent(checked == true ? on : off);
-        addTextToSpeechMessage(TTS_TOGGLE_VOICETRANSMISSION, checked == true ? tr("Voice activation enabled") : tr("Voice activation disabled"));
         ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, checked);
     }
     slotUpdateUI();
@@ -7226,7 +7226,7 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
 
             //voice activation
             if(m_host.voiceact >= 0)
-                slotMeEnableVoiceActivation(m_host.voiceact>0);
+                enableVoiceActivation(m_host.voiceact>0);
 
             //video capture
             if(isValid(m_host.capformat))
