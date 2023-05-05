@@ -5719,17 +5719,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="52"/>
         <source>Filter Servers</source>
-        <translation type="unfinished"></translation>
+        <translation>Фильт серверов</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="60"/>
         <source>Name</source>
-        <translation type="unfinished">Имя</translation>
+        <translation>Название</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="73"/>
         <source>Users</source>
-        <translation type="unfinished">Пользователи</translation>
+        <translation>Количество пользователей</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="210"/>
