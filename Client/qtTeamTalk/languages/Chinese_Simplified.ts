@@ -5712,17 +5712,17 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverlist.ui" line="52"/>
         <source>Filter Servers</source>
-        <translation type="unfinished"></translation>
+        <translation>过滤服务器</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="60"/>
         <source>Name</source>
-        <translation type="unfinished">名称</translation>
+        <translation>名称</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="73"/>
         <source>Users</source>
-        <translation type="unfinished">用户</translation>
+        <translation>用户</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="210"/>
