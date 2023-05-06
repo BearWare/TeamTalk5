@@ -776,7 +776,6 @@ void MainWindow::loadSettings()
         {
             ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_TOLK);
             ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, false);
-            slotUpdateUI();
         }
     }
 #endif
