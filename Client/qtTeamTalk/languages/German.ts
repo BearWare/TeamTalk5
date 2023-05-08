@@ -391,7 +391,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatus.ui" line="77"/>
         <source>Display file name in status message when streaming</source>
-        <translation type="unfinished"></translation>
+        <translation>Dateiname in Statusnachricht während Streaming anzeigen</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="37"/>
@@ -662,7 +662,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="148"/>
         <source>Add channel on %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Raum auf %1 hinzufügen</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="163"/>
@@ -672,12 +672,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="165"/>
         <source>Modify root channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Hauptraum bearbeiten</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="167"/>
         <source>Modify channel %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Raum %1 bearbeiten</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="178"/>
@@ -687,12 +687,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="180"/>
         <source>View root channel information</source>
-        <translation type="unfinished"></translation>
+        <translation>Hauptraum-Informationen ansehen</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="182"/>
         <source>View %1 information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informationen für %1 ansehen</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="203"/>
@@ -876,7 +876,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="203"/>
         <source>Joined channel %1</source>
-        <translation type="unfinished">Du bist jetzt im Raum %1</translation>
+        <translation>Du bist jetzt im Raum %1</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="209"/>
@@ -891,7 +891,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="374"/>
         <source>&amp;Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Löschen</translation>
     </message>
 </context>
 <context>
@@ -1448,7 +1448,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="992"/>
         <location filename="../mainwindow.cpp" line="993"/>
         <source>Secure connection failed due to error 0x%1: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sichere Verbindung fehlgeschlagen. Fehler 0x%1: %2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1200"/>
@@ -1521,12 +1521,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1585"/>
         <source>New sound device available: %1. Refresh sound devices to discover new device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neues Audiogerät verfügbar: %1. Aktualisiere die Geräteliste um das Audiogerät zu verwenden.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1590"/>
         <source>Sound device removed: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Audiogerät entfernt: %1.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1995"/>
@@ -1536,7 +1536,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2011"/>
         <source>Disconnected from %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Von %1 getrennt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2087"/>
@@ -2297,22 +2297,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4496"/>
         <source>Push-To-Talk enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Push-To-Talk eingeschaltet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4502"/>
         <source>Push-To-Talk disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Push-To-Talk ausgeschaltet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4531"/>
         <source>Voice activation enabled</source>
-        <translation type="unfinished">Sprachaktivierung eingeschaltet</translation>
+        <translation>Sprachaktivierung eingeschaltet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4531"/>
         <source>Voice activation disabled</source>
-        <translation type="unfinished">Sprachaktivierung ausgeschaltet</translation>
+        <translation>Sprachaktivierung ausgeschaltet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4538"/>
@@ -2333,12 +2333,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4586"/>
         <source>Video transmission enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Videoübertragung eingeschaltet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4605"/>
         <source>Video transmission disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Videoübertragung ausgeschaltet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4622"/>
@@ -2348,12 +2348,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4652"/>
         <source>Desktop sharing enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Desktopübertragung eingeschaltet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4672"/>
         <source>Desktop sharing disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Desktopübertragung ausgeschaltet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4681"/>
@@ -2535,22 +2535,22 @@ Möchtest du dies jetzt tun?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="5782"/>
         <source>Available</source>
-        <translation type="unfinished">Verfügbar</translation>
+        <translation>Verfügbar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5838"/>
         <source>%1 users</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Benutzer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5949"/>
         <source>Ban user #%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer #%1 sperren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5953"/>
         <source>Ban User From Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer auf Server sperren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7295"/>
@@ -2715,37 +2715,38 @@ Sie kann auf folgender Seite heruntergeladen werden:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="5070"/>
         <source>To relay media file stream from other channel you must enable subscription &quot;Intercept Media File&quot;.
 Do you wish to do this now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Um einen medien-Stream aus einem anderen Raum als Relay wiederzugeben, aktiviere im Menü Empfang die Option &quot;Mediendatei abfangen&quot;.
+Soll dies jetzt ausgeführt werden?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5475"/>
         <source>Ascending</source>
-        <translation type="unfinished">Aufsteigend</translation>
+        <translation>Aufsteigend</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5475"/>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Absteigend</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5477"/>
         <source>&amp;Name (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Name (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5483"/>
         <source>&amp;Size (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Größe (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5489"/>
         <source>&amp;Owner (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Eigentümer (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5495"/>
         <source>&amp;Upload Date (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Hochgeladen am (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5756"/>
@@ -2805,12 +2806,12 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5910"/>
         <source>Are you sure you want to kick yourself?</source>
-        <translation type="unfinished"></translation>
+        <translation>Möchtest du dich wirklich selbst rauswerfen?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5930"/>
         <source>Are you sure you want to kick and ban yourself?</source>
-        <translation type="unfinished"></translation>
+        <translation>Möchtest du dich wirklich selbst rauswerfen und sperren?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5942"/>
@@ -4434,32 +4435,32 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../onlineusersdlg.cpp" line="145"/>
         <source>Sort By...</source>
-        <translation type="unfinished">Sortieren nach...</translation>
+        <translation>Sortieren nach...</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="146"/>
         <source>Ascending</source>
-        <translation type="unfinished">Aufsteigend</translation>
+        <translation>Aufsteigend</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="146"/>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Absteigend</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="148"/>
         <source>&amp;Id (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Id (%1)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="154"/>
         <source>&amp;Nickname (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nickname (%1)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="250"/>
         <source>Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7, ID: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nickname: %2, Statusnachricht: %3, Benutzername: %4, Raum: %5, IP-Adresse: %6, Version: %7, ID: %1</translation>
     </message>
 </context>
 <context>
@@ -4714,7 +4715,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferences.ui" line="1381"/>
         <source>Playback mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiedergabemodus</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1419"/>
@@ -4768,12 +4769,12 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferences.ui" line="1728"/>
         <source>Intercepted by another user</source>
-        <translation type="unfinished"></translation>
+        <translation>Von einem anderen Benutzer überwacht</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1755"/>
         <source>Finish intercepted by another user</source>
-        <translation type="unfinished"></translation>
+        <translation>Überwachung durch anderen Benutzer beendet</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1824"/>
@@ -4918,12 +4919,12 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferences.ui" line="190"/>
         <source>Disable voice activation during inactivity</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprachaktivierung während Inaktivität ausschalten</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="214"/>
         <source>Status message during inactivity</source>
-        <translation type="unfinished"></translation>
+        <translation>Statusnachricht während Inaktivität</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="506"/>
@@ -5201,7 +5202,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferences.ui" line="2331"/>
         <source>Text to Speech output mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprachausgabenmodus</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2377"/>
@@ -5362,7 +5363,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="73"/>
         <source>Client settings</source>
-        <translation type="unfinished">Client-Einstellungen</translation>
+        <translation>Client-Einstellungen</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="564"/>
@@ -5439,12 +5440,12 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="626"/>
         <source>One by One (TeamTalk Sound Device)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nacheinander (TeamTalk-Audiogerät)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="627"/>
         <source>Overlapping (TeamTalk Sound Device)</source>
-        <translation type="unfinished"></translation>
+        <translation>Überlagernd (TeamTalk-Audiogerät)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1133"/>
@@ -5492,17 +5493,17 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="1708"/>
         <source>Speech and Braille</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache und Braille</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1710"/>
         <source>Braille only</source>
-        <translation type="unfinished"></translation>
+        <translation>Nur Braille</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1712"/>
         <source>Speech only</source>
-        <translation type="unfinished"></translation>
+        <translation>Nur Sprache</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1814"/>
@@ -5706,17 +5707,17 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../serverlist.ui" line="52"/>
         <source>Filter Servers</source>
-        <translation type="unfinished"></translation>
+        <translation>Server filtern</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="60"/>
         <source>Name</source>
-        <translation type="unfinished">Name</translation>
+        <translation>Name</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="73"/>
         <source>Users</source>
-        <translation type="unfinished">Benutzer</translation>
+        <translation>Benutzer</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="210"/>
@@ -5743,7 +5744,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <location filename="../serverlist.ui" line="264"/>
         <location filename="../serverlist.ui" line="330"/>
         <source>Show password</source>
-        <translation type="unfinished"></translation>
+        <translation>Passwort anzeigen</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="273"/>
@@ -5830,13 +5831,13 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <location filename="../serverlistdlg.cpp" line="665"/>
         <location filename="../serverlistdlg.cpp" line="815"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;Ja</translation>
+        <translation>&amp;Ja</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="666"/>
         <location filename="../serverlistdlg.cpp" line="816"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;Nein</translation>
+        <translation>&amp;Nein</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="669"/>
@@ -5847,32 +5848,32 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../serverlistdlg.cpp" line="743"/>
         <source>Ascending</source>
-        <translation type="unfinished">Aufsteigend</translation>
+        <translation>Aufsteigend</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="743"/>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Absteigend</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="745"/>
         <source>De&amp;fault (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>St&amp;andard (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="751"/>
         <source>&amp;Name (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Name (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="757"/>
         <source>&amp;User Count (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzahl Ben&amp;utzer (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="763"/>
         <source>Country (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Land (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="664"/>
@@ -5882,7 +5883,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../serverlistdlg.cpp" line="268"/>
         <source>Host manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Host-Verwaltung</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="697"/>
@@ -5925,12 +5926,12 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
     <message>
         <location filename="../serverlistdlg.cpp" line="819"/>
         <source>Delete Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Server löschen</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="814"/>
         <source>Delete server named &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Den Server &quot;%1&quot; löschen</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="394"/>
@@ -6289,7 +6290,7 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="59"/>
         <source>Properties of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Eigenschaften von %1</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="124"/>
@@ -6312,7 +6313,7 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
     <message>
         <location filename="../serverstatsdlg.cpp" line="37"/>
         <source>Server statistics</source>
-        <translation type="unfinished"></translation>
+        <translation>Server-Statistiken</translation>
     </message>
 </context>
 <context>
@@ -6777,7 +6778,7 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
     <message>
         <location filename="../streammediafiledlg.cpp" line="45"/>
         <source>Streaming to channel</source>
-        <translation type="unfinished"></translation>
+        <translation>In Raum streamen</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="69"/>
@@ -7087,17 +7088,17 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
     <message>
         <location filename="../ttseventsmodel.cpp" line="192"/>
         <source>Voice transmission mode toggled</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprachübertragungsmodus umgeschaltet</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="194"/>
         <source>Video transmission toggled</source>
-        <translation type="unfinished"></translation>
+        <translation>Videoübertragung umgeschaltet</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="196"/>
         <source>Desktop sharing toggled</source>
-        <translation type="unfinished"></translation>
+        <translation>Desktop-Übertragung umgeschaltet</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="198"/>
@@ -7126,7 +7127,7 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
     <message>
         <location filename="../textmessage.ui" line="133"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation>S&amp;chließen</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="142"/>
@@ -7143,7 +7144,7 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
     <message>
         <location filename="../textmessagedlg.cpp" line="98"/>
         <source>Private chat with %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Privater Chat mit %1</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="182"/>
@@ -7398,32 +7399,32 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
     <message>
         <location filename="../useraccountsdlg.cpp" line="542"/>
         <source>Ascending</source>
-        <translation type="unfinished">Aufsteigend</translation>
+        <translation>Aufsteigend</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="542"/>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Absteigend</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="544"/>
         <source>&amp;Username (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ben&amp;utzername (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="550"/>
         <source>User &amp;Type (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer&amp;typ (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="556"/>
         <source>&amp;Channel (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Raum (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="562"/>
         <source>&amp;Modified (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Geändert (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="567"/>
@@ -7687,7 +7688,7 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
     <message>
         <location filename="../userinfodlg.cpp" line="55"/>
         <source>Information of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Informationen über %1</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="67"/>
@@ -7925,7 +7926,7 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
     <message>
         <location filename="../uservolumedlg.cpp" line="60"/>
         <source>Volume for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Lautstärke für %1</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="86"/>
@@ -8039,7 +8040,7 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
     <message>
         <location filename="../videotextdlg.cpp" line="43"/>
         <source>Video window settings</source>
-        <translation type="unfinished">Videofenster-Einstellungen</translation>
+        <translation>Videofenster-Einstellungen</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="189"/>
