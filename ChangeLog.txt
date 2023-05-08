@@ -2,7 +2,19 @@
                  TeamTalk
 ----------------------------------------------
 
-Version 5.13, unreleased
+Version 5.14, unreleased
+Default Qt Client
+-
+Accessible Windows Client
+-
+Android Client
+-
+iOS Client
+-
+Server
+-
+
+Version 5.13, 2023/05/08
 Default Qt Client
 - Reinitialize sound devices if active sound device is removed using WASAPI sound system
 - Moved "Refresh Sound Devices" from "Input Devices" submenu to "Sound Configuration" menu
