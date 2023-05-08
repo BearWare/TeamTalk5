@@ -6,6 +6,10 @@ namespace BearWare
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v513arelease
+ * - @ref v513afeatures
+ *   - @ref v513ablockcrypt
+ *
  * @ref v512arelease
  * - @ref v512abugfixes
  *
@@ -238,6 +242,17 @@ namespace BearWare
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v513arelease TeamTalk 5 SDK v. 5.13a release, May 8th 2023
+ *
+ * @subsection v513afeatures New features in v5.13a
+ *
+ * @subsubsection v513ablockcrypt Encrypted client connect is no longer blocking
+ *
+ * The call to BearWare.TeamTalkBase.Connect() is no longer a blocking call when using
+ * encryption.
  *
  * <hr>
  *

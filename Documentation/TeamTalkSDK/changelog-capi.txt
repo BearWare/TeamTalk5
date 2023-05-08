@@ -4,6 +4,14 @@
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v513arelease
+ * - @ref v513afeatures
+ *   - @ref v513acrypt
+ *   - @ref v513auseraccount
+ *   - @ref v513ablockcrypt
+ *   - @ref v513asndnotify
+ * - @ref v513aapi
+ *
  * @ref v512arelease
  * - @ref v512abugfixes
  *
@@ -237,6 +245,55 @@
  *   - @ref chcelt
  * - @ref v40aapi
  *
+ * <hr>
+ *
+ * @section v513arelease TeamTalk 5 SDK v. 5.13a release, May 8th 2023
+ *
+ * @subsection v513afeatures New features in v5.13a
+ *
+ * @subsubsection v513acrypt Event for encrypted connection errors
+ *
+ * If the TeamTalk client fails to connect using an encrypted
+ * connection the event #CLIENTEVENT_CON_CRYPT_ERROR is posted. The
+ * error will include an OpenSSL error code and text message regarding
+ * what failed.
+ *
+ * @subsubsection v513auseraccount Events for user account added/removed
+ *
+ * If a user of type #USERTYPE_ADMIN adds a new #UserAccount then the
+ * event #CLIENTEVENT_CMD_USERACCOUNT_NEW is posted. If a #UserAccount
+ * is deleted the event #CLIENTEVENT_CMD_USERACCOUNT_REMOVE is posted.
+ *
+ * @subsubsection v513ablockcrypt Encrypted client connect is no longer blocking
+ *
+ * The call to TT_Connect() is no longer a blocking call when using
+ * encryption.
+ *
+ * @subsubsection v513asndnotify Events for changes to sound device
+ *
+ * On Windows the following new #SoundDevice related events are posted:
+ *
+ * - #CLIENTEVENT_SOUNDDEVICE_ADDED
+ * - #CLIENTEVENT_SOUNDDEVICE_REMOVED
+ * - #CLIENTEVENT_SOUNDDEVICE_UNPLUGGED
+ * - #CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT
+ * - #CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT
+ * - #CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT_COMDEVICE
+ * - #CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT_COMDEVICE
+ *
+ * @subsection v513aapi API change in v5.13a
+ *
+ * - New enum value #CLIENTEVENT_CON_CRYPT_ERROR
+ * - New enum value #CLIENTEVENT_CMD_USERACCOUNT_NEW
+ * - New enum value #CLIENTEVENT_CMD_USERACCOUNT_REMOVE
+ * - New enum value #CLIENTEVENT_SOUNDDEVICE_ADDED
+ * - New enum value #CLIENTEVENT_SOUNDDEVICE_REMOVED
+ * - New enum value #CLIENTEVENT_SOUNDDEVICE_UNPLUGGED
+ * - New enum value #CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT
+ * - New enum value #CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT
+ * - New enum value #CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT_COMDEVICE
+ * - New enum value #CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT_COMDEVICE
+ * - New field @c sounddevice in #TTMessage
  *
  * <hr>
  *
