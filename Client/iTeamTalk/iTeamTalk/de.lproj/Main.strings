@@ -26,7 +26,7 @@
 "5K7-Hd-4h7.title" = "Sprachausgaben-Ereignisse";
 
 /* Class = "UIButton"; normalTitle = "Login"; ObjectID = "5YA-rx-tGz"; */
-"5YA-rx-tGz.normalTitle" = "Login";
+"5YA-rx-tGz.normalTitle" = "Anmelden";
 
 /* Class = "UINavigationItem"; title = "Text-to-Speech Voice"; ObjectID = "79c-sV-yxb"; */
 "79c-sV-yxb.title" = "Text-to-Speech-Stimme";
@@ -143,7 +143,7 @@
 "NA0-UK-wve.title" = "Voreinstellungen";
 
 /* Class = "UILabel"; text = "Setup Sound Devices"; ObjectID = "ntU-ZP-sKb"; */
-"ntU-ZP-sKb.text" = "Setup Sound Devices";
+"ntU-ZP-sKb.text" = "Audiogeräte einrichten";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "nVj-7w-Sta"; */
 "nVj-7w-Sta.text" = "Leer";

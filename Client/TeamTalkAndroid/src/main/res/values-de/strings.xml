@@ -370,17 +370,17 @@
     <string name="pref_summary_channel_message_sent">Gesendete Raumnachrichten ansagen</string>
     <string name="text_tts_channel_message_sent">Raumnachricht gesendet: %1$s</string>
     <string name="err_text_length">Nachricht hat die zulässige Länge um %1$d Zeichen überschritten</string>
-    <string name="pref_summary_official_servers">Include official servers in Server List</string>
-    <string name="pref_title_official_servers">Show official servers</string>
-    <string name="pref_summary_unofficial_servers">Include unofficial servers in Server List</string>
-    <string name="pref_title_unofficial_servers">Show unofficial servers</string>
-    <string name="pref_header_serverlist">Server List</string>
-    <string name="text_server_summary">%1$s:%2$d, Users: %3$d, Country: %4$s</string>
-    <string name="pref_title_server_connection">Connection</string>
-    <string name="pref_title_server_motd">Message of the Day</string>
-    <string name="pref_title_server_usercount">Users Online</string>
-    <string name="pref_title_server_country">Country</string>
-    <string name="pref_title_server_status">Server Status</string>
+    <string name="pref_summary_official_servers">Offizielle Server in Serverliste einschließen</string>
+    <string name="pref_title_official_servers">Offizielle Server anzeigen</string>
+    <string name="pref_summary_unofficial_servers">Inoffizielle server in Serverliste einschließen</string>
+    <string name="pref_title_unofficial_servers">Inoffizielle Server anzeigen</string>
+    <string name="pref_header_serverlist">Serverliste</string>
+    <string name="text_server_summary">%1$s:%2$d, Benutzer: %3$d, Land: %4$s</string>
+    <string name="pref_title_server_connection">Verbindung</string>
+    <string name="pref_title_server_motd">Nachricht des Tages</string>
+    <string name="pref_title_server_usercount">Benutzer Online</string>
+    <string name="pref_title_server_country">Land</string>
+    <string name="pref_title_server_status">Server-Status</string>
 
 
 </resources>

@@ -202,8 +202,8 @@ if (Java_FOUND)
     src/dk/bearware/WebRTCConstants.java
     src/dk/bearware/WindowsHelper.java)
 
-  # Android 5.0 (API level 21) has Java 1.7 so it's minimum.
-  set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.7" "-target" "1.7")
+  # Minimum source/target is Java 1.8 in Java 20
+  set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.8" "-target" "1.8")
 
   if (BUILD_TEAMTALK_JAR)
     add_jar (TeamTalk5JAR

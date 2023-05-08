@@ -105,10 +105,10 @@
 "Bjoern D. Rasmussen, contact@bearware.dk" = "Steffen Schultz, steffenschultz@mailbox.org";
 
 /* Sound Devices */
-"Bluetooth A2DP Playback" = "Bluetooth A2DP Playback";
+"Bluetooth A2DP Playback" = "Bluetooth A2DP-Wiedergabe";
 
 /* Sound Devices */
-"Bluetooth playback should use Advanced Audio Distribution Profile" = "Bluetooth playback should use Advanced Audio Distribution Profile";
+"Bluetooth playback should use Advanced Audio Distribution Profile" = "Bluetooth-Wiedergabe soll das Advanced-Audio-Distribution-Profile verwenden";
 
 /* text message type */
 "Broadcast message" = "Servernachricht";
@@ -150,7 +150,7 @@
 "Check only if this server has enabled BearWare.dk Web Login" = "Nur aktivieren, wenn der Server BearWare.dk-Web-Login unterstützt";
 
 /* log entry */
-"Command failed: %@" = "Command failed: %@";
+"Command failed: %@" = "Kommando fehlgeschlagen: %@";
 
 /* create channel */
 "Commands" = "Befehle";
@@ -219,10 +219,10 @@
 "Exclusive Mode Toggled" = "Exklusiver Modus umgeschaltet";
 
 /* server entry */
-"Facebook Login" = "Facebook-Login";
+"Facebook Login" = "Facebook-Anmeldung";
 
 /* Dialog message */
-"Facebook login was cancelled" = "Facebook-Login abgebrochen";
+"Facebook login was cancelled" = "Facebook-Anmeldung abgebrochen";
 
 /* preferences */
 "Female" = "Weiblich";
@@ -315,7 +315,7 @@
 "Media file vs. voice volume" = "Lautstärke Medien zu Sprache";
 
 /* Dialog */
-"Message limit exceeded by %d characters" = "Nachrichtenlänge durch %d Zeichen überschritten";
+"Message limit exceeded by %d characters" = "Nachricht hat die zulässige Länge um %d Zeichen überschritten";
 
 /* server entry */
 "Message of the Day" = "Nachricht des Tages";
@@ -536,7 +536,7 @@
 "Server List Entry" = "Serverlisteneintrag";
 
 /* server entry */
-"Server Status" = "Server Status";
+"Server Status" = "Server-Status";
 
 /* preferences */
 "Show in Server List" = "In Serverliste zeigen";
@@ -659,7 +659,7 @@
 "User" = "Benutzer";
 
 /* channel list */
-"User female" = "Benutzer weiblich";
+"User female" = "Benutzerin";
 
 /* preferences */
 "User Joins Channel" = "Benutzer betritt Raum";
