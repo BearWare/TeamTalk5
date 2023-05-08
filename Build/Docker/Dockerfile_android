@@ -3,7 +3,7 @@ FROM ubuntu:22.04
 LABEL Description="TeamTalk for Android in Ubuntu 22.04"
 
 RUN apt update
-RUN apt install -y make git unzip curl
+RUN apt install -y make git unzip curl p7zip-full
 # Duplicate of /TeamTalk5/Build/Makefile:depend-ubuntu22-android
 RUN apt install -y doxygen ninja-build junit4 cmake openjdk-18-jdk junit4 autoconf libtool pkg-config python2 python3-pytest
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10
