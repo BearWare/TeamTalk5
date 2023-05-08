@@ -3863,7 +3863,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="5475"/>
         <source>Ascending</source>
-        <translation>По возростанию</translation>
+        <translation>По возрастанию</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5475"/>
