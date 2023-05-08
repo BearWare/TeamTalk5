@@ -315,7 +315,7 @@
 "Media file vs. voice volume" = "Lautstärke Medien zu Sprache";
 
 /* Dialog */
-"Message limit exceeded by %d characters" = "Nachricht ist %d Zeichen zu lang";
+"Message limit exceeded by %d characters" = "Nachricht hat die zulässige Länge um %d Zeichen überschritten";
 
 /* server entry */
 "Message of the Day" = "Nachricht des Tages";
