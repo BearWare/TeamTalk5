@@ -24,14 +24,19 @@
 #ifndef PREFERENCESDLG_H
 #define PREFERENCESDLG_H
 
-#include "ui_preferences.h"
-
 #include "common.h"
 #include "utilhotkey.h"
 #include "uservideodlg.h"
 
-#include <QSet>
+#include <QKeyEvent>
 #include <QLineEdit>
+#include <QSet>
+
+#include <memory>
+
+QT_BEGIN_NAMESPACE
+namespace Ui { class PreferencesDlg; }
+QT_END_NAMESPACE
 
 class PreferencesDlg : public QDialog
 {
@@ -57,7 +62,7 @@ protected:
     void keyPressEvent(QKeyEvent* e) override;
 
 private:
-    Ui::PreferencesDlg ui;
+    std::unique_ptr<Ui::PreferencesDlg> ui;
     SoundDevice& m_devin, &m_devout;
     /* hotkey tab */
     hotkey_t m_hotkey;

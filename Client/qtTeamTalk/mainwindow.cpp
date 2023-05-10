@@ -22,6 +22,7 @@
  */
 
 #include "mainwindow.h"
+#include "ui_mainwindow.h"
 #include "serverlistdlg.h"
 #include "serverpropertiesdlg.h"
 #include "preferencesdlg.h"
@@ -103,7 +104,8 @@ QTextToSpeech* ttSpeech = nullptr;
 #define CHANNELID_TEMPPASSWORD -1
 
 MainWindow::MainWindow(const QString& cfgfile)
-: m_sysicon(nullptr)
+: ui(new Ui::MainWindow())
+, m_sysicon(nullptr)
 , m_sysmenu(nullptr)
 , m_current_cmdid(0)
 , m_audiostorage_mode(AUDIOSTORAGE_NONE)
@@ -177,7 +179,7 @@ MainWindow::MainWindow(const QString& cfgfile)
         }
     }
 
-    ui.setupUi(this);
+    ui->setupUi(this);
 
     setWindowIcon(QIcon(APPICON));
     updateWindowTitle();
@@ -186,389 +188,389 @@ MainWindow::MainWindow(const QString& cfgfile)
     m_filesmodel = new FilesModel(this);
     m_proxyFilesModel = new QSortFilterProxyModel(this);
     m_proxyFilesModel->setSourceModel(m_filesmodel);
-    ui.filesView->setModel(m_proxyFilesModel);
+    ui->filesView->setModel(m_proxyFilesModel);
     m_proxyFilesModel->setSortCaseSensitivity(Qt::CaseInsensitive);
     m_proxyFilesModel->sort(COLUMN_INDEX_NAME, Qt::AscendingOrder);
-    QItemSelectionModel* selmodel = ui.filesView->selectionModel();
+    QItemSelectionModel* selmodel = ui->filesView->selectionModel();
 
-    ui.volumeSlider->setRange(0, 100);
-    ui.micSlider->setRange(0, 100);
+    ui->volumeSlider->setRange(0, 100);
+    ui->micSlider->setRange(0, 100);
 
-    ui.voiceactBar->setRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX /*SOUND_VU_MAX*/);
-    ui.voiceactSlider->setRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX /*SOUND_VU_MAX*/);
+    ui->voiceactBar->setRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX /*SOUND_VU_MAX*/);
+    ui->voiceactSlider->setRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX /*SOUND_VU_MAX*/);
 
-    m_pinglabel = new QLabel(ui.statusbar);
+    m_pinglabel = new QLabel(ui->statusbar);
     m_pinglabel->setAlignment(Qt::AlignHCenter);
-    m_pttlabel = new QLabel(ui.statusbar);
+    m_pttlabel = new QLabel(ui->statusbar);
     m_pttlabel->setAlignment(Qt::AlignHCenter);
-    m_dtxlabel = new QLabel(ui.statusbar);
+    m_dtxlabel = new QLabel(ui->statusbar);
     QPixmap dtxImg(QString::fromUtf8(":/images/images/desktoptx.png"));
     m_dtxlabel->setPixmap(dtxImg.scaled(16, 16));
-    m_dtxprogress = new QProgressBar(ui.statusbar);
+    m_dtxprogress = new QProgressBar(ui->statusbar);
     m_dtxprogress->setMaximumWidth(50);
     m_dtxprogress->setMaximumHeight(16);
     m_dtxprogress->setTextVisible(false);
     m_dtxlabel->hide();
     m_dtxprogress->hide();
-    ui.statusbar->addPermanentWidget(m_dtxlabel);
-    ui.statusbar->addPermanentWidget(m_dtxprogress);
-    ui.statusbar->addPermanentWidget(m_pinglabel);
-    ui.statusbar->addPermanentWidget(m_pttlabel);
+    ui->statusbar->addPermanentWidget(m_dtxlabel);
+    ui->statusbar->addPermanentWidget(m_dtxprogress);
+    ui->statusbar->addPermanentWidget(m_pinglabel);
+    ui->statusbar->addPermanentWidget(m_pttlabel);
 
 
 #if defined(Q_OS_WIN32)
-    ui.actionExit->setShortcut(QKeySequence(Qt::ALT | Qt::Key_F4));
+    ui->actionExit->setShortcut(QKeySequence(Qt::ALT | Qt::Key_F4));
 #else
-    ui.actionExit->setShortcut(QKeySequence::Quit);
+    ui->actionExit->setShortcut(QKeySequence::Quit);
 #endif
 
-    connect(ui.msgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
-    connect(ui.sendButton, &QAbstractButton::clicked,
+    connect(ui->msgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
+    connect(ui->sendButton, &QAbstractButton::clicked,
             this, &MainWindow::slotSendChannelMessage);
-    connect(ui.msgEdit, &ChatLineEdit::sendTextMessage,
+    connect(ui->msgEdit, &ChatLineEdit::sendTextMessage,
             this, &MainWindow::slotSendChannelMessage);
-    connect(ui.videosendButton, &QAbstractButton::clicked,
+    connect(ui->videosendButton, &QAbstractButton::clicked,
             this, &MainWindow::slotSendChannelMessage);
-    connect(ui.desktopsendButton, &QAbstractButton::clicked,
+    connect(ui->desktopsendButton, &QAbstractButton::clicked,
             this, &MainWindow::slotSendChannelMessage);
-    connect(ui.videomsgEdit, &ChatLineEdit::sendTextMessage,
+    connect(ui->videomsgEdit, &ChatLineEdit::sendTextMessage,
             this, &MainWindow::slotSendChannelMessage);
-    connect(ui.videomsgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
-    connect(ui.desktopmsgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
-    connect(ui.desktopmsgEdit, &ChatLineEdit::sendTextMessage,
+    connect(ui->videomsgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
+    connect(ui->desktopmsgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
+    connect(ui->desktopmsgEdit, &ChatLineEdit::sendTextMessage,
             this, &MainWindow::slotSendChannelMessage);
-    connect(ui.micSlider, &QAbstractSlider::valueChanged,
+    connect(ui->micSlider, &QAbstractSlider::valueChanged,
             this, &MainWindow::slotMicrophoneGainChanged);
-    connect(ui.volumeSlider, &QAbstractSlider::valueChanged,
+    connect(ui->volumeSlider, &QAbstractSlider::valueChanged,
             this, &MainWindow::slotMasterVolumeChanged);
-    connect(ui.voiceactSlider, &QAbstractSlider::valueChanged,
+    connect(ui->voiceactSlider, &QAbstractSlider::valueChanged,
             this, &MainWindow::slotVoiceActivationLevelChanged);
 
-    /* ui.channelsWidget */
-    connect(ui.channelsWidget, &QTreeWidget::itemSelectionChanged,
+    /* ui->channelsWidget */
+    connect(ui->channelsWidget, &QTreeWidget::itemSelectionChanged,
             this, &MainWindow::slotTreeSelectionChanged);
-    connect(ui.channelsWidget, &QWidget::customContextMenuRequested,
+    connect(ui->channelsWidget, &QWidget::customContextMenuRequested,
             this, &MainWindow::slotTreeContextMenu);
-    connect(ui.channelsWidget, &ChannelsTree::userDoubleClicked,
+    connect(ui->channelsWidget, &ChannelsTree::userDoubleClicked,
             this, &MainWindow::slotUserDoubleClicked);
-    connect(ui.channelsWidget, &ChannelsTree::channelDoubleClicked,
+    connect(ui->channelsWidget, &ChannelsTree::channelDoubleClicked,
             this, &MainWindow::slotChannelDoubleClicked);
-    connect(ui.channelsWidget, &ChannelsTree::fileDropped,
+    connect(ui->channelsWidget, &ChannelsTree::fileDropped,
             this, &MainWindow::slotLoadTTFile);
-    connect(ui.channelsWidget,
+    connect(ui->channelsWidget,
             &ChannelsTree::transmitusersChanged,
             this, &MainWindow::slotTransmitUsersChanged);
     /* Video-tab (video-grid) */
-    connect(this, &MainWindow::newVideoCaptureFrame, ui.videogridWidget,
+    connect(this, &MainWindow::newVideoCaptureFrame, ui->videogridWidget,
             &VideoGridWidget::slotNewVideoFrame);
-    connect(this, &MainWindow::newMediaVideoFrame, ui.videogridWidget,
+    connect(this, &MainWindow::newMediaVideoFrame, ui->videogridWidget,
             &VideoGridWidget::slotNewVideoFrame);
-    connect(ui.videogridWidget, &VideoGridWidget::userVideoEnded,
+    connect(ui->videogridWidget, &VideoGridWidget::userVideoEnded,
             this, &MainWindow::slotRemoveUserVideo);
-    connect(ui.videogridWidget, &VideoGridWidget::videoCountChanged,
+    connect(ui->videogridWidget, &VideoGridWidget::videoCountChanged,
             this, &MainWindow::slotUpdateVideoCount);
-    connect(ui.videogridWidget, &VideoGridWidget::videoCountChanged,
+    connect(ui->videogridWidget, &VideoGridWidget::videoCountChanged,
             this, &MainWindow::slotUpdateVideoTabUI);
-    connect(ui.videogridWidget, &VideoGridWidget::userVideoSelected,
+    connect(ui->videogridWidget, &VideoGridWidget::userVideoSelected,
             this, &MainWindow::slotUpdateVideoTabUI);
     /* Desktop-tab (desktop-grid) */
-    connect(this, &MainWindow::newDesktopWindow, ui.desktopgridWidget,
+    connect(this, &MainWindow::newDesktopWindow, ui->desktopgridWidget,
             &DesktopGridWidget::userDesktopWindowUpdate);
     connect(this, &MainWindow::userDesktopCursor,
-            ui.desktopgridWidget, &DesktopGridWidget::userDesktopCursorUpdate);
-    connect(this, &MainWindow::userUpdate, ui.desktopgridWidget,
+            ui->desktopgridWidget, &DesktopGridWidget::userDesktopCursorUpdate);
+    connect(this, &MainWindow::userUpdate, ui->desktopgridWidget,
             &DesktopGridWidget::userUpdated);
-    connect(this, &MainWindow::userLeft, ui.desktopgridWidget,
+    connect(this, &MainWindow::userLeft, ui->desktopgridWidget,
             &DesktopGridWidget::slotRemoveUser);
-    connect(ui.desktopgridWidget, &DesktopGridWidget::userDesktopWindowEnded,
+    connect(ui->desktopgridWidget, &DesktopGridWidget::userDesktopWindowEnded,
             this, &MainWindow::slotRemoveUserDesktop);
-    connect(ui.desktopgridWidget, &DesktopGridWidget::desktopCountChanged,
+    connect(ui->desktopgridWidget, &DesktopGridWidget::desktopCountChanged,
             this, &MainWindow::slotUpdateDesktopCount);
-    connect(ui.desktopgridWidget, &DesktopGridWidget::desktopCountChanged,
+    connect(ui->desktopgridWidget, &DesktopGridWidget::desktopCountChanged,
             this, &MainWindow::slotUpdateDesktopTabUI);
-    connect(ui.desktopgridWidget, &DesktopGridWidget::userDesktopSelected,
+    connect(ui->desktopgridWidget, &DesktopGridWidget::userDesktopSelected,
             this, &MainWindow::slotUpdateDesktopTabUI);
     /* Files-tab */
-    connect(ui.uploadButton, &QAbstractButton::clicked, this, &MainWindow::slotChannelsUploadFile);
-    connect(ui.downloadButton, &QAbstractButton::clicked, this, &MainWindow::slotChannelsDownloadFile);
-    connect(ui.deleteButton, &QAbstractButton::clicked, this, &MainWindow::slotChannelsDeleteFile);
+    connect(ui->uploadButton, &QAbstractButton::clicked, this, &MainWindow::slotChannelsUploadFile);
+    connect(ui->downloadButton, &QAbstractButton::clicked, this, &MainWindow::slotChannelsDownloadFile);
+    connect(ui->deleteButton, &QAbstractButton::clicked, this, &MainWindow::slotChannelsDeleteFile);
     connect(selmodel, &QItemSelectionModel::selectionChanged,
-            ui.filesView, &FilesView::slotNewSelection);
-    connect(ui.filesView, &FilesView::filesSelected, ui.actionDeleteFile,
+            ui->filesView, &FilesView::slotNewSelection);
+    connect(ui->filesView, &FilesView::filesSelected, ui->actionDeleteFile,
             &QAction::setEnabled);
-    connect(ui.filesView, &FilesView::filesSelected, ui.deleteButton,
+    connect(ui->filesView, &FilesView::filesSelected, ui->deleteButton,
             &QWidget::setEnabled);
-    connect(ui.filesView, &FilesView::uploadFiles,
+    connect(ui->filesView, &FilesView::uploadFiles,
             this, &MainWindow::slotUploadFiles);
-    connect(ui.filesView, &QWidget::customContextMenuRequested,
+    connect(ui->filesView, &QWidget::customContextMenuRequested,
             this, &MainWindow::slotFilesContextMenu);
     /* Video-tab buttons */
-    connect(ui.initVideoButton, &QAbstractButton::clicked,
-            ui.actionEnableVideoTransmission, &QAction::triggered);
-    connect(ui.addVideoButton, &QAbstractButton::clicked, this, &MainWindow::slotAddUserVideo);
-    connect(ui.removeVideoButton, &QAbstractButton::clicked, this, &MainWindow::slotRemoveUserVideoGrid);
-    connect(ui.detachVideoButton, &QAbstractButton::clicked, this, &MainWindow::slotDetachUserVideo);
-    connect(ui.videogridWidget, &VideoGridWidget::userVideoSelected,
-            ui.detachVideoButton, &QWidget::setEnabled);
+    connect(ui->initVideoButton, &QAbstractButton::clicked,
+            ui->actionEnableVideoTransmission, &QAction::triggered);
+    connect(ui->addVideoButton, &QAbstractButton::clicked, this, &MainWindow::slotAddUserVideo);
+    connect(ui->removeVideoButton, &QAbstractButton::clicked, this, &MainWindow::slotRemoveUserVideoGrid);
+    connect(ui->detachVideoButton, &QAbstractButton::clicked, this, &MainWindow::slotDetachUserVideo);
+    connect(ui->videogridWidget, &VideoGridWidget::userVideoSelected,
+            ui->detachVideoButton, &QWidget::setEnabled);
     connect(this, &MainWindow::preferencesModified,
-            ui.videogridWidget, &VideoGridWidget::preferencesModified);
+            ui->videogridWidget, &VideoGridWidget::preferencesModified);
     /* Desktop-tab buttons */
-    connect(ui.detachDesktopButton, &QAbstractButton::clicked,
+    connect(ui->detachDesktopButton, &QAbstractButton::clicked,
             this, &MainWindow::slotDetachUserDesktopGrid);
-    connect(ui.addDesktopButton, &QAbstractButton::clicked,
+    connect(ui->addDesktopButton, &QAbstractButton::clicked,
             this, &MainWindow::slotAddUserDesktopGrid);
-    connect(ui.removeDesktopButton, &QAbstractButton::clicked,
+    connect(ui->removeDesktopButton, &QAbstractButton::clicked,
             this, &MainWindow::slotRemoveUserDesktopGrid);
-    connect(ui.desktopaccessButton, &QAbstractButton::clicked,
+    connect(ui->desktopaccessButton, &QAbstractButton::clicked,
             this, &MainWindow::slotAccessUserDesktop);
-    connect(ui.desktopgridWidget, &DesktopGridWidget::userDesktopSelected,
-            ui.detachDesktopButton, &QWidget::setEnabled);
-    connect(ui.desktopgridWidget, &DesktopGridWidget::userDesktopSelected,
-            ui.desktopaccessButton, &QWidget::setEnabled);
+    connect(ui->desktopgridWidget, &DesktopGridWidget::userDesktopSelected,
+            ui->detachDesktopButton, &QWidget::setEnabled);
+    connect(ui->desktopgridWidget, &DesktopGridWidget::userDesktopSelected,
+            ui->desktopaccessButton, &QWidget::setEnabled);
 
     /* Begin - Client menu */
-    connect(ui.actionNewClient, &QAction::triggered,
+    connect(ui->actionNewClient, &QAction::triggered,
             this, &MainWindow::slotClientNewInstance);
-    connect(ui.actionConnect, &QAction::triggered,
+    connect(ui->actionConnect, &QAction::triggered,
             this, &MainWindow::slotClientConnect);
-    connect(ui.actionPreferences, &QAction::triggered,
+    connect(ui->actionPreferences, &QAction::triggered,
             this, &MainWindow::slotClientPreferences);
-    connect(ui.menuSoundConfiguration, &QMenu::aboutToShow,
+    connect(ui->menuSoundConfiguration, &QMenu::aboutToShow,
             this, &MainWindow::slotClientSoundDevices);
-    connect(ui.actionRefreshSoundDevices, &QAction::triggered,
+    connect(ui->actionRefreshSoundDevices, &QAction::triggered,
         this, &MainWindow::initSound);
 
-    connect(ui.actionEnableEchoCancel, &QAction::triggered,
+    connect(ui->actionEnableEchoCancel, &QAction::triggered,
             this, &MainWindow::slotClientAudioEffect);
-    connect(ui.actionEnableAGC, &QAction::triggered,
+    connect(ui->actionEnableAGC, &QAction::triggered,
             this, &MainWindow::slotClientAudioEffect);
-    connect(ui.actionEnableDenoising, &QAction::triggered,
+    connect(ui->actionEnableDenoising, &QAction::triggered,
             this, &MainWindow::slotClientAudioEffect);
-    connect(ui.actionExit, &QAction::triggered,
+    connect(ui->actionExit, &QAction::triggered,
             this, &MainWindow::slotClientExit);
-    connect(ui.actionSpeakClientStats, &QAction::triggered,
+    connect(ui->actionSpeakClientStats, &QAction::triggered,
             this, &MainWindow::slotSpeakClientStats);
     /* End - Client menu */
 
     /* Begin - Me menu */
-    connect(ui.actionChangeNickname, &QAction::triggered,
+    connect(ui->actionChangeNickname, &QAction::triggered,
             this, &MainWindow::slotMeChangeNickname);
-    connect(ui.actionChangeStatus, &QAction::triggered,
+    connect(ui->actionChangeStatus, &QAction::triggered,
             this, &MainWindow::slotMeChangeStatus);
-    connect(ui.actionHearMyself, &QAction::triggered,
+    connect(ui->actionHearMyself, &QAction::triggered,
             this, &MainWindow::slotMeHearMyself);
-    connect(ui.actionEnablePushToTalk, &QAction::triggered,
+    connect(ui->actionEnablePushToTalk, &QAction::triggered,
             this, &MainWindow::slotMeEnablePushToTalk);
-    connect(ui.actionEnableVoiceActivation, &QAction::triggered,
+    connect(ui->actionEnableVoiceActivation, &QAction::triggered,
             this, &MainWindow::slotMeEnableVoiceActivation);
-    connect(ui.actionEnableVideoTransmission, &QAction::triggered,
+    connect(ui->actionEnableVideoTransmission, &QAction::triggered,
             this, &MainWindow::slotMeEnableVideoTransmission);
-    connect(ui.actionEnableDesktopSharing, &QAction::triggered,
+    connect(ui->actionEnableDesktopSharing, &QAction::triggered,
             this, &MainWindow::slotMeEnableDesktopSharing);
-    connect(ui.actionEnableTTS, &QAction::triggered,
+    connect(ui->actionEnableTTS, &QAction::triggered,
             this, &MainWindow::slotMeEnableTTS);
-    connect(ui.actionEnableSounds, &QAction::triggered,
+    connect(ui->actionEnableSounds, &QAction::triggered,
             this, &MainWindow::slotMeEnableSounds);
     /* End - Me menu */
 
     /* Begin - Users menu */
-    connect(ui.actionViewUserInformation, &QAction::triggered,
+    connect(ui->actionViewUserInformation, &QAction::triggered,
             this, &MainWindow::slotUsersViewUserInformationGrid);
-    connect(ui.actionSpeakUserInformation, &QAction::triggered,
+    connect(ui->actionSpeakUserInformation, &QAction::triggered,
             this, &MainWindow::slotUsersSpeakUserInformationGrid);
-    connect(ui.actionMessages, &QAction::triggered,
+    connect(ui->actionMessages, &QAction::triggered,
             this, &MainWindow::slotUsersMessagesGrid);
-    connect(ui.actionMuteVoice, &QAction::triggered,
+    connect(ui->actionMuteVoice, &QAction::triggered,
             this, &MainWindow::slotUsersMuteVoiceGrid);
-    connect(ui.actionMuteMediaFile, &QAction::triggered,
+    connect(ui->actionMuteMediaFile, &QAction::triggered,
             this, &MainWindow::slotUsersMuteMediaFileGrid);
-    connect(ui.actionVolume, &QAction::triggered,
+    connect(ui->actionVolume, &QAction::triggered,
             this, &MainWindow::slotUsersVolumeGrid);
-    connect(ui.actionOp, &QAction::triggered,
+    connect(ui->actionOp, &QAction::triggered,
             this, &MainWindow::slotUsersOpGrid);
-    connect(ui.actionKickFromChannel, &QAction::triggered,
+    connect(ui->actionKickFromChannel, &QAction::triggered,
             this, &MainWindow::slotUsersKickFromChannel);
-    connect(ui.actionKickAndBanFromChannel, &QAction::triggered,
+    connect(ui->actionKickAndBanFromChannel, &QAction::triggered,
         this, &MainWindow::slotUsersKickBanFromChannel);
-    connect(ui.actionKickFromServer, &QAction::triggered,
+    connect(ui->actionKickFromServer, &QAction::triggered,
             this, &MainWindow::slotUsersKickFromServer);
-    connect(ui.actionKickBan, &QAction::triggered,
+    connect(ui->actionKickBan, &QAction::triggered,
             this, &MainWindow::slotUsersKickBanFromServer);
-    connect(ui.actionMuteAll, &QAction::triggered,
+    connect(ui->actionMuteAll, &QAction::triggered,
             this, &MainWindow::slotUsersMuteVoiceAll);
-    connect(ui.actionMediaStorage, &QAction::triggered,
+    connect(ui->actionMediaStorage, &QAction::triggered,
             this, &MainWindow::slotClientRecordConversations);
     //Desktop access
-    connect(ui.actionDesktopAccessAllow, &QAction::triggered,
+    connect(ui->actionDesktopAccessAllow, &QAction::triggered,
             this, &MainWindow::slotUsersSubscriptionsDesktopInput);
     //subscriptions
-    connect(ui.actionUserMessages, &QAction::triggered,
+    connect(ui->actionUserMessages, &QAction::triggered,
             this, &MainWindow::slotUsersSubscriptionsUserMsg);
-    connect(ui.actionChannelMessages, &QAction::triggered,
+    connect(ui->actionChannelMessages, &QAction::triggered,
             this, &MainWindow::slotUsersSubscriptionsChannelMsg);
-    connect(ui.actionBroadcastMessages, &QAction::triggered,
+    connect(ui->actionBroadcastMessages, &QAction::triggered,
             this, &MainWindow::slotUsersSubscriptionsBCastMsg);
-    connect(ui.actionVoice, &QAction::triggered,
+    connect(ui->actionVoice, &QAction::triggered,
             this, &MainWindow::slotUsersSubscriptionsVoice);
-    connect(ui.actionVideo, &QAction::triggered,
+    connect(ui->actionVideo, &QAction::triggered,
             this, &MainWindow::slotUsersSubscriptionsVideo);
-    connect(ui.actionDesktop, &QAction::triggered,
+    connect(ui->actionDesktop, &QAction::triggered,
             this, &MainWindow::slotUsersSubscriptionsDesktop);
-    connect(ui.actionDesktopInput, &QAction::triggered,
+    connect(ui->actionDesktopInput, &QAction::triggered,
             this, &MainWindow::slotUsersSubscriptionsDesktopInput);
-    connect(ui.actionMediaFile, &QAction::triggered,
+    connect(ui->actionMediaFile, &QAction::triggered,
             this, &MainWindow::slotUsersSubscriptionsMediaFile);
-    connect(ui.actionInterceptUserMessages, &QAction::triggered,
+    connect(ui->actionInterceptUserMessages, &QAction::triggered,
             this, &MainWindow::slotUsersSubscriptionsInterceptUserMsg);
-    connect(ui.actionInterceptChannelMessages, &QAction::triggered,
+    connect(ui->actionInterceptChannelMessages, &QAction::triggered,
             this, &MainWindow::slotUsersSubscriptionsInterceptChannelMsg);
-    connect(ui.actionInterceptVoice, &QAction::triggered,
+    connect(ui->actionInterceptVoice, &QAction::triggered,
             this, &MainWindow::slotUsersSubscriptionsInterceptVoice);
-    connect(ui.actionInterceptVideo, &QAction::triggered,
+    connect(ui->actionInterceptVideo, &QAction::triggered,
             this, &MainWindow::slotUsersSubscriptionsInterceptVideo);
-    connect(ui.actionInterceptDesktop, &QAction::triggered,
+    connect(ui->actionInterceptDesktop, &QAction::triggered,
             this, &MainWindow::slotUsersSubscriptionsInterceptDesktop);
-    connect(ui.actionInterceptMediaFile, &QAction::triggered,
+    connect(ui->actionInterceptMediaFile, &QAction::triggered,
             this, &MainWindow::slotUsersSubscriptionsInterceptMediaFile);
 
     //advanced
-    connect(ui.actionIncreaseVoiceVolume, &QAction::triggered,
+    connect(ui->actionIncreaseVoiceVolume, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedIncVolumeVoice);
-    connect(ui.actionLowerVoiceVolume, &QAction::triggered,
+    connect(ui->actionLowerVoiceVolume, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedDecVolumeVoice);
-    connect(ui.actionIncreaseMediaFileVolume, &QAction::triggered,
+    connect(ui->actionIncreaseMediaFileVolume, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedIncVolumeMediaFile);
-    connect(ui.actionLowerMediaFileVolume, &QAction::triggered,
+    connect(ui->actionLowerMediaFileVolume, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedDecVolumeMediaFile);
-    connect(ui.actionStoreForMove, &QAction::triggered,
+    connect(ui->actionStoreForMove, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedStoreForMove);
-    connect(ui.actionMoveUser, &QAction::triggered,
+    connect(ui->actionMoveUser, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedMoveUsers);
-    connect(ui.actionAllowChannelTextMessages, &QAction::triggered,
+    connect(ui->actionAllowChannelTextMessages, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedChanMsgAllowed);
-    connect(ui.actionAllowVoiceTransmission, &QAction::triggered,
+    connect(ui->actionAllowVoiceTransmission, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedVoiceAllowed);
-    connect(ui.actionAllowVideoTransmission, &QAction::triggered,
+    connect(ui->actionAllowVideoTransmission, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedVideoAllowed);
-    connect(ui.actionAllowDesktopTransmission, &QAction::triggered,
+    connect(ui->actionAllowDesktopTransmission, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedDesktopAllowed);
-    connect(ui.actionRelayVoiceStream, &QAction::triggered,
+    connect(ui->actionRelayVoiceStream, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedRelayUserVoice);
-    connect(ui.actionRelayMediaFileStream, &QAction::triggered,
+    connect(ui->actionRelayMediaFileStream, &QAction::triggered,
         this, &MainWindow::slotUsersAdvancedRelayUserMediaFile);
-    connect(ui.actionAllowMediaFileTransmission, &QAction::triggered,
+    connect(ui->actionAllowMediaFileTransmission, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedMediaFileAllowed);
-    connect(ui.actionAllowAllChannelTextMessages, &QAction::triggered,
+    connect(ui->actionAllowAllChannelTextMessages, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedChanMsgAllowed);
-    connect(ui.actionAllowAllVoiceTransmission, &QAction::triggered,
+    connect(ui->actionAllowAllVoiceTransmission, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedVoiceAllowed);
-    connect(ui.actionAllowAllVideoTransmission, &QAction::triggered,
+    connect(ui->actionAllowAllVideoTransmission, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedVideoAllowed);
-    connect(ui.actionAllowAllDesktopTransmission, &QAction::triggered,
+    connect(ui->actionAllowAllDesktopTransmission, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedDesktopAllowed);
-    connect(ui.actionAllowAllMediaFileTransmission, &QAction::triggered,
+    connect(ui->actionAllowAllMediaFileTransmission, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedMediaFileAllowed);
     /* End - Users menu */
 
     /* Begin - Channels menu */
-    connect(ui.actionCreateChannel, &QAction::triggered,
+    connect(ui->actionCreateChannel, &QAction::triggered,
             this, &MainWindow::slotChannelsCreateChannel);
-    connect(ui.actionUpdateChannel, &QAction::triggered,
+    connect(ui->actionUpdateChannel, &QAction::triggered,
             this, &MainWindow::slotChannelsUpdateChannel);
-    connect(ui.actionDeleteChannel, &QAction::triggered,
+    connect(ui->actionDeleteChannel, &QAction::triggered,
             this, &MainWindow::slotChannelsDeleteChannel);
-    connect(ui.actionJoinChannel, &QAction::triggered,
+    connect(ui->actionJoinChannel, &QAction::triggered,
             this, &MainWindow::slotChannelsJoinChannel);
-    connect(ui.actionViewChannelInfo, &QAction::triggered,
+    connect(ui->actionViewChannelInfo, &QAction::triggered,
             this, &MainWindow::slotChannelsViewChannelInfo);
-    connect(ui.actionSpeakChannelInfo, &QAction::triggered,
+    connect(ui->actionSpeakChannelInfo, &QAction::triggered,
             this, &MainWindow::slotChannelsSpeakChannelInformationGrid);
-    connect(ui.actionSpeakChannelStat, &QAction::triggered,
+    connect(ui->actionSpeakChannelStat, &QAction::triggered,
             this, &MainWindow::slotChannelsSpeakChannelStatusGrid);
-    connect(ui.actionBannedUsersInChannel, &QAction::triggered,
+    connect(ui->actionBannedUsersInChannel, &QAction::triggered,
             this, &MainWindow::slotChannelsListBans);
 
-    connect(ui.actionStreamMediaFileToChannel, &QAction::triggered,
+    connect(ui->actionStreamMediaFileToChannel, &QAction::triggered,
             this, &MainWindow::slotChannelsStreamMediaFile);
-    connect(ui.actionUploadFile, &QAction::triggered,
+    connect(ui->actionUploadFile, &QAction::triggered,
             this, &MainWindow::slotChannelsUploadFile);
-    connect(ui.actionDownloadFile, &QAction::triggered,
+    connect(ui->actionDownloadFile, &QAction::triggered,
             this, &MainWindow::slotChannelsDownloadFile);
-    connect(ui.actionDeleteFile, &QAction::triggered,
+    connect(ui->actionDeleteFile, &QAction::triggered,
             this, &MainWindow::slotChannelsDeleteFile);
-    connect(ui.actionGenerateTTURL, &QAction::triggered,
+    connect(ui->actionGenerateTTURL, &QAction::triggered,
             this, &MainWindow::slotChannelsGenerateTTUrl);
     /* End - Channels menu */
 
     /* Begin - Server menu */
-    connect(ui.actionUserAccounts, &QAction::triggered,
+    connect(ui->actionUserAccounts, &QAction::triggered,
             this, &MainWindow::slotServerUserAccounts);
-    connect(ui.actionBannedUsers, &QAction::triggered,
+    connect(ui->actionBannedUsers, &QAction::triggered,
             this, &MainWindow::slotServerBannedUsers);
-    connect(ui.actionOnlineUsers, &QAction::triggered,
+    connect(ui->actionOnlineUsers, &QAction::triggered,
             this, &MainWindow::slotServerOnlineUsers);
-    connect(ui.actionBroadcastMessage, &QAction::triggered,
+    connect(ui->actionBroadcastMessage, &QAction::triggered,
             this, &MainWindow::slotServerBroadcastMessage);
-    connect(ui.actionServerProperties, &QAction::triggered,
+    connect(ui->actionServerProperties, &QAction::triggered,
             this, &MainWindow::slotServerServerProperties);
-    connect(ui.actionSaveConfiguration, &QAction::triggered,
+    connect(ui->actionSaveConfiguration, &QAction::triggered,
             this, &MainWindow::slotServerSaveConfiguration);
-    connect(ui.actionServerStatistics, &QAction::triggered,
+    connect(ui->actionServerStatistics, &QAction::triggered,
             this, &MainWindow::slotServerServerStatistics);
     /* End - Server menu */
 
     /* Begin - Help menu */
-    connect(ui.actionManual, &QAction::triggered,
+    connect(ui->actionManual, &QAction::triggered,
             this, &MainWindow::slotHelpManual);
-    connect(ui.actionResetPreferencesToDefault, &QAction::triggered,
+    connect(ui->actionResetPreferencesToDefault, &QAction::triggered,
             this, &MainWindow::slotHelpResetPreferences);
-    connect(ui.actionVisitBearWare, &QAction::triggered,
+    connect(ui->actionVisitBearWare, &QAction::triggered,
             this, &MainWindow::slotHelpVisitBearWare);
-    connect(ui.actionAbout, &QAction::triggered,
+    connect(ui->actionAbout, &QAction::triggered,
             this, &MainWindow::slotHelpAbout);
     /* End - Help menu */
 
     /* Begin - Extra toolbar buttons */
-    connect(ui.actionToggleQuestionMode, &QAction::triggered,
+    connect(ui->actionToggleQuestionMode, &QAction::triggered,
             this, &MainWindow::slotToggleQuestionMode);
     /* End - Extra toolbar buttons */
 
     /* Begin - CLIENTEVENT_* messages */
-    connect(this, &MainWindow::serverUpdate, ui.channelsWidget,
+    connect(this, &MainWindow::serverUpdate, ui->channelsWidget,
             &ChannelsTree::slotServerUpdate);
     connect(this, &MainWindow::newChannel,
-            ui.channelsWidget, &ChannelsTree::slotAddChannel);
+            ui->channelsWidget, &ChannelsTree::slotAddChannel);
     connect(this, &MainWindow::updateChannel,
             this, &MainWindow::slotChannelUpdate);
     connect(this, &MainWindow::updateChannel,
-            ui.channelsWidget, &ChannelsTree::slotUpdateChannel);
+            ui->channelsWidget, &ChannelsTree::slotUpdateChannel);
     connect(this, &MainWindow::removeChannel,
-            ui.channelsWidget, &ChannelsTree::slotRemoveChannel);
-    connect(this, &MainWindow::userLogin, ui.channelsWidget,
+            ui->channelsWidget, &ChannelsTree::slotRemoveChannel);
+    connect(this, &MainWindow::userLogin, ui->channelsWidget,
             &ChannelsTree::slotUserLoggedIn);
-    connect(this, &MainWindow::userLogout, ui.channelsWidget,
+    connect(this, &MainWindow::userLogout, ui->channelsWidget,
             &ChannelsTree::slotUserLoggedOut);
     /* 'this' must be connected first since it needs to extract the old
      * user from channelswidget */
     connect(this, &MainWindow::userUpdate, this,
             &MainWindow::slotUserUpdate);
-    connect(this, &MainWindow::userUpdate, ui.channelsWidget,
+    connect(this, &MainWindow::userUpdate, ui->channelsWidget,
             &ChannelsTree::slotUserUpdate);
     connect(this, &MainWindow::userJoined, this,
             &MainWindow::slotUserJoin);
-    connect(this, &MainWindow::userJoined, ui.channelsWidget,
+    connect(this, &MainWindow::userJoined, ui->channelsWidget,
             &ChannelsTree::slotUserJoin);
     connect(this, &MainWindow::userLeft, this,
             &MainWindow::slotUserLeft);
-    connect(this, &MainWindow::userLeft, ui.channelsWidget,
+    connect(this, &MainWindow::userLeft, ui->channelsWidget,
             &ChannelsTree::slotUserLeft);
-    connect(this, &MainWindow::userLeft, ui.videogridWidget,
+    connect(this, &MainWindow::userLeft, ui->videogridWidget,
             &VideoGridWidget::slotRemoveUser);
-    connect(this, &MainWindow::userStateChange, ui.channelsWidget,
+    connect(this, &MainWindow::userStateChange, ui->channelsWidget,
             &ChannelsTree::slotUserStateChange);
-    connect(this, &MainWindow::updateMyself, ui.channelsWidget,
+    connect(this, &MainWindow::updateMyself, ui->channelsWidget,
             &ChannelsTree::slotUpdateMyself);
-    connect(this, &MainWindow::newVideoCaptureFrame, ui.channelsWidget,
+    connect(this, &MainWindow::newVideoCaptureFrame, ui->channelsWidget,
             &ChannelsTree::slotUserVideoFrame);
     connect(this, &MainWindow::cmdSuccess, this, &MainWindow::slotCmdSuccess);
     connect(this, &MainWindow::mediaPlaybackUpdate, playsoundevent, &PlaySoundEvent::playbackUpdate);
@@ -589,22 +591,22 @@ MainWindow::~MainWindow()
     if(m_display)
         XCloseDisplay(m_display);
 #endif
-    ttSettings->setValue(SETTINGS_SOUND_MASTERVOLUME, ui.volumeSlider->value());
-    ttSettings->setValue(SETTINGS_SOUND_MICROPHONEGAIN, ui.micSlider->value());
-    ttSettings->setValue(SETTINGS_SOUND_VOICEACTIVATIONLEVEL, ui.voiceactSlider->value());
+    ttSettings->setValue(SETTINGS_SOUND_MASTERVOLUME, ui->volumeSlider->value());
+    ttSettings->setValue(SETTINGS_SOUND_MICROPHONEGAIN, ui->micSlider->value());
+    ttSettings->setValue(SETTINGS_SOUND_VOICEACTIVATIONLEVEL, ui->voiceactSlider->value());
 
-    ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, ui.actionEnablePushToTalk->isChecked());
-    ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, ui.actionEnableVoiceActivation->isChecked());
+    ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, ui->actionEnablePushToTalk->isChecked());
+    ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, ui->actionEnableVoiceActivation->isChecked());
 
     if(windowState() == Qt::WindowNoState)
     {
         saveWindowPosition(SETTINGS_DISPLAY_MAINWINDOWPOS, this);
-        ttSettings->setValue(SETTINGS_DISPLAY_SPLITTER, ui.splitter->saveState());
-        ttSettings->setValue(SETTINGS_DISPLAY_VIDEOSPLITTER, ui.videosplitter->saveState());
-        ttSettings->setValue(SETTINGS_DISPLAY_DESKTOPSPLITTER, ui.desktopsplitter->saveState());
+        ttSettings->setValue(SETTINGS_DISPLAY_SPLITTER, ui->splitter->saveState());
+        ttSettings->setValue(SETTINGS_DISPLAY_VIDEOSPLITTER, ui->videosplitter->saveState());
+        ttSettings->setValue(SETTINGS_DISPLAY_DESKTOPSPLITTER, ui->desktopsplitter->saveState());
     }
 
-    ttSettings->setValue(SETTINGS_DISPLAY_FILESHEADER, ui.filesView->header()->saveState());
+    ttSettings->setValue(SETTINGS_DISPLAY_FILESHEADER, ui->filesView->header()->saveState());
 
     ttSettings->setValue(SETTINGS_DISPLAY_WINDOW_MAXIMIZE, this->isMaximized());
 
@@ -663,7 +665,7 @@ void MainWindow::loadSettings()
     if (!lang.isEmpty())
     {
         if (switchLanguage(lang))
-            this->ui.retranslateUi(this);
+            this->ui->retranslateUi(this);
         else
         {
             QMessageBox::information(this, tr("Translate"),
@@ -685,18 +687,18 @@ void MainWindow::loadSettings()
 
     int value = ttSettings->value(SETTINGS_SOUND_MASTERVOLUME, 
                                   SETTINGS_SOUND_MASTERVOLUME_DEFAULT).toInt();
-    ui.volumeSlider->setValue(value);
+    ui->volumeSlider->setValue(value);
     slotMasterVolumeChanged(value);  //force update on equal
     value = ttSettings->value(SETTINGS_SOUND_VOICEACTIVATIONLEVEL,
                               SETTINGS_SOUND_VOICEACTIVATIONLEVEL_DEFAULT).toInt();
-    ui.voiceactSlider->setValue(value);
+    ui->voiceactSlider->setValue(value);
     slotVoiceActivationLevelChanged(value); //force update on equal
 
     //default voice gain level depends on whether AGC or normal gain
     //is enabled
     value = ttSettings->value(SETTINGS_SOUND_MICROPHONEGAIN,
                               SETTINGS_SOUND_MICROPHONEGAIN_GAIN_DEFAULT).toInt();
-    ui.micSlider->setValue(value);
+    ui->micSlider->setValue(value);
     slotMicrophoneGainChanged(value); //force update on equal
 
     m_audiostorage_mode = ttSettings->value(SETTINGS_MEDIASTORAGE_MODE,
@@ -729,12 +731,12 @@ void MainWindow::loadSettings()
     //move window to last position
     if (restoreWindowPosition(SETTINGS_DISPLAY_MAINWINDOWPOS, this))
     {
-        ui.splitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_SPLITTER).toByteArray());
-        ui.videosplitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_VIDEOSPLITTER).toByteArray());
-        ui.desktopsplitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_DESKTOPSPLITTER).toByteArray());
+        ui->splitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_SPLITTER).toByteArray());
+        ui->videosplitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_VIDEOSPLITTER).toByteArray());
+        ui->desktopsplitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_DESKTOPSPLITTER).toByteArray());
     }
     //set files header to last position
-    ui.filesView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_FILESHEADER).toByteArray());
+    ui->filesView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_FILESHEADER).toByteArray());
     // Maximize window if necessary
     if (ttSettings->value(SETTINGS_DISPLAY_WINDOW_MAXIMIZE).toBool() == true)
         this->showMaximized();
@@ -789,11 +791,11 @@ void MainWindow::loadSettings()
         SETTINGS_DISPLAY_VU_METER_UPDATES_DEFAULT).toBool())
     {
         m_timers.insert(startTimer(50), TIMER_VUMETER_UPDATE);
-        ui.voiceactBar->setVisible(true);
+        ui->voiceactBar->setVisible(true);
     }
     else
     {
-        ui.voiceactBar->setVisible(false);
+        ui->voiceactBar->setVisible(false);
     }
 
     // Sounds pack checks
@@ -1157,7 +1159,7 @@ void MainWindow::clienteventCmdUserJoined(const User& user)
         user.nUserID != TT_GetMyUserID(ttInst))
     {
         Channel chan = {};
-        ui.channelsWidget->getChannel(user.nChannelID, chan);
+        ui->channelsWidget->getChannel(user.nChannelID, chan);
         QString userjoinchan = tr("%1 joined channel").arg(getDisplayName(user));
         TextToSpeechEvent ttsType = TTS_USER_JOINED_SAME;
         StatusBarEvent statusType = STATUSBAR_USER_JOINED_SAME;
@@ -1200,7 +1202,7 @@ void MainWindow::clienteventCmdUserLeft(int prevchannelid, const User& user)
         user.nUserID != TT_GetMyUserID(ttInst))
     {
         Channel chan = {};
-        ui.channelsWidget->getChannel(prevchannelid, chan);
+        ui->channelsWidget->getChannel(prevchannelid, chan);
         QString userleftchan = tr("%1 left channel").arg(getDisplayName(user));
         TextToSpeechEvent ttsType = TTS_USER_LEFT_SAME;
         StatusBarEvent statusType = STATUSBAR_USER_LEFT_SAME;
@@ -1231,7 +1233,7 @@ void MainWindow::clienteventCmdUserLeft(int prevchannelid, const User& user)
 void MainWindow::clienteventCmdUserUpdate(const User& user)
 {
     User prev_user = {};
-    ui.channelsWidget->getUser(user.nUserID, prev_user);
+    ui->channelsWidget->getUser(user.nUserID, prev_user);
     Q_ASSERT(prev_user.nUserID);
 
     emit(userUpdate(user));
@@ -1310,11 +1312,11 @@ void MainWindow::clienteventFileTransfer(const FileTransfer& filetransfer)
     else if (filetransfer.nStatus == FILETRANSFER_ERROR && filetransfer.nTransferred == 0)
     {
         if (filetransfer.bInbound)
-            QMessageBox::critical(this, MENUTEXT(ui.actionDownloadFile->text()),
+            QMessageBox::critical(this, MENUTEXT(ui->actionDownloadFile->text()),
                                   tr("Failed to download file %1")
                                   .arg(_Q(filetransfer.szRemoteFileName)));
         else
-            QMessageBox::critical(this, MENUTEXT(ui.actionUploadFile->text()),
+            QMessageBox::critical(this, MENUTEXT(ui->actionUploadFile->text()),
                                   tr("Failed to upload file %1")
                                   .arg(_Q(filetransfer.szLocalFilePath)));
     }
@@ -1440,14 +1442,14 @@ void MainWindow::clienteventUserVideoCapture(int source, int streamid)
         return;
 
     if(m_user_video.find(userid) == m_user_video.end() &&
-       !ui.videogridWidget->userExists(userid))
+       !ui->videogridWidget->userExists(userid))
     {
         //it's a new video session
 
         if(ttSettings->value(SETTINGS_DISPLAY_VIDEOPOPUP, false).toBool())
             slotNewUserVideoDlg(userid, QSize());
         else
-            ui.videogridWidget->slotAddUser(userid);
+            ui->videogridWidget->slotAddUser(userid);
 
         playSoundEvent(SOUNDEVENT_NEWVIDEO);
 
@@ -1468,14 +1470,14 @@ void MainWindow::clienteventUserMediaFileVideo(int source, int streamid)
         return;
 
     if(m_user_video.find(userid) == m_user_video.end() &&
-       !ui.videogridWidget->userExists(userid))
+       !ui->videogridWidget->userExists(userid))
     {
         //it's a new video session
 
         if(ttSettings->value(SETTINGS_DISPLAY_VIDEOPOPUP, false).toBool())
             slotNewUserVideoDlg(userid, QSize());
         else
-            ui.videogridWidget->slotAddUser(userid);
+            ui->videogridWidget->slotAddUser(userid);
 
         playSoundEvent(SOUNDEVENT_NEWVIDEO);
 
@@ -1490,7 +1492,7 @@ void MainWindow::clienteventUserMediaFileVideo(int source, int streamid)
 void MainWindow::clienteventUserDesktopWindow(int source, int streamid)
 {
     if (m_userdesktop.find(source) == m_userdesktop.end() &&
-       !ui.desktopgridWidget->userExists(source))
+       !ui->desktopgridWidget->userExists(source))
     {
         //it's a new desktop session
 
@@ -1500,12 +1502,12 @@ void MainWindow::clienteventUserDesktopWindow(int source, int streamid)
             if(ttSettings->value(SETTINGS_DISPLAY_DESKTOPPOPUP, false).toBool())
                 slotDetachUserDesktop(source, QSize());
             else
-                ui.desktopgridWidget->slotAddUser(source);
+                ui->desktopgridWidget->slotAddUser(source);
 
             playSoundEvent(SOUNDEVENT_NEWDESKTOP);
 
             User user;
-            if(ui.channelsWidget->getUser(source, user))
+            if(ui->channelsWidget->getUser(source, user))
                 addStatusMsg(STATUSBAR_BYPASS, tr("New desktop session from %1")
                 .arg(getDisplayName(user)));
         }
@@ -1539,7 +1541,7 @@ void MainWindow::clienteventDesktopWindowTransfer(int source, int bytesremain)
 void MainWindow::clienteventUserRecordMediaFile(int source, const MediaFileInfo& mediafileinfo)
 {
     User user = {};
-    ui.channelsWidget->getUser(source, user);
+    ui->channelsWidget->getUser(source, user);
 
     switch (mediafileinfo.nStatus)
     {
@@ -1641,7 +1643,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         emit(cmdSuccess(msg.nSource));
     break;
     case CLIENTEVENT_CMD_MYSELF_LOGGEDIN :
-        //ui.chatEdit->updateServer();
+        //ui->chatEdit->updateServer();
         //store user account settings
         m_myuseraccount = msg.useraccount;
         break;
@@ -1653,7 +1655,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     break;
     case CLIENTEVENT_CMD_SERVER_UPDATE :
         Q_ASSERT(msg.ttType == __SERVERPROPERTIES);
-        ui.chatEdit->updateServer(msg.serverproperties);
+        ui->chatEdit->updateServer(msg.serverproperties);
         emit(serverUpdate(msg.serverproperties));
         m_srvprop = msg.serverproperties;
         updateWindowTitle();
@@ -1863,8 +1865,8 @@ void MainWindow::cmdCompleteLoggedIn(int myuserid)
     }
 
     if (m_last_channel.nChannelID && //join using last channel
-        (ui.channelsWidget->getChannel(m_last_channel.nChannelID, tmpchan) ||
-         ui.channelsWidget->getChannel(m_last_channel.nParentID, tmpchan)))
+        (ui->channelsWidget->getChannel(m_last_channel.nChannelID, tmpchan) ||
+         ui->channelsWidget->getChannel(m_last_channel.nParentID, tmpchan)))
     {
         COPY_TTSTR(m_last_channel.szPassword, m_channel_passwd[m_last_channel.nChannelID]);
         int cmdid = TT_DoJoinChannel(ttInst, &m_last_channel);
@@ -1916,7 +1918,7 @@ void MainWindow::cmdCompleteListServers(CommandComplete complete)
         QString chanpath;
         if (complete == CMD_COMPLETE_LIST_CHANNELBANS)
         {
-            int chanid = ui.channelsWidget->selectedChannel(true);
+            int chanid = ui->channelsWidget->selectedChannel(true);
             TTCHAR path[TT_STRLEN] = {};
             TT_GetChannelPath(ttInst, chanid, path);
             chanpath = _Q(path);
@@ -1958,9 +1960,9 @@ void MainWindow::addStatusMsg(StatusBarEvent event, const QString& msg)
     if (ttSettings->value(SETTINGS_DISPLAY_LOGSTATUSBAR, SETTINGS_DISPLAY_LOGSTATUSBAR_DEFAULT).toBool() &&
         ((ttSettings->value(SETTINGS_STATUSBAR_ACTIVEEVENTS, SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT).toULongLong() & event) || event == STATUSBAR_BYPASS))
     {
-        ui.chatEdit->addLogMessage(msg);
-        ui.videochatEdit->addLogMessage(msg);
-        ui.desktopchatEdit->addLogMessage(msg);
+        ui->chatEdit->addLogMessage(msg);
+        ui->videochatEdit->addLogMessage(msg);
+        ui->desktopchatEdit->addLogMessage(msg);
     }
     m_statusmsg.enqueue(msg);
 
@@ -2021,23 +2023,23 @@ void MainWindow::disconnectFromServer()
         addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Disconnected from %1").arg(limitText(_Q(m_srvprop.szServerName))));
 
     // sync user settings to cache
-    auto users = ui.channelsWidget->getUsers();
+    auto users = ui->channelsWidget->getUsers();
     for (int uid : users)
     {
         User u;
-        if (ui.channelsWidget->getUser(uid, u) && !userCacheID(u).isEmpty())
+        if (ui->channelsWidget->getUser(uid, u) && !userCacheID(u).isEmpty())
             m_usercache[userCacheID(u)] = UserCached(u);
     }
 
-    ui.channelsWidget->resetChannels();
-    ui.videogridWidget->resetGrid();
-    ui.desktopgridWidget->resetGrid();
-    ui.msgEdit->setVisible(false);
-    ui.sendButton->setVisible(false);
-    ui.videomsgEdit->setVisible(false);
-    ui.videosendButton->setVisible(false);
-    ui.desktopmsgEdit->setVisible(false);
-    ui.desktopsendButton->setVisible(false);
+    ui->channelsWidget->resetChannels();
+    ui->videogridWidget->resetGrid();
+    ui->desktopgridWidget->resetGrid();
+    ui->msgEdit->setVisible(false);
+    ui->sendButton->setVisible(false);
+    ui->videomsgEdit->setVisible(false);
+    ui->videosendButton->setVisible(false);
+    ui->desktopmsgEdit->setVisible(false);
+    ui->desktopsendButton->setVisible(false);
 
     m_vid_exclude.clear();
 
@@ -2194,7 +2196,7 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
     case CMDERR_NOT_LOGGEDIN :
         textmsg = tr("Cannot perform action because client is currently not logged in");break;
     case CMDERR_ALREADY_IN_CHANNEL :
-        title = MENUTEXT(ui.actionJoinChannel->text());        
+        title = MENUTEXT(ui->actionJoinChannel->text());
         textmsg = tr("Cannot join the same channel twice");break;
     case CMDERR_CHANNEL_ALREADY_EXISTS :
         textmsg = tr("Channel already exists");break;
@@ -2282,11 +2284,11 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
         break;
     case HOTKEY_INCVOLUME :
         if(active)
-            ui.volumeSlider->setValue(ui.volumeSlider->value()+1);
+            ui->volumeSlider->setValue(ui->volumeSlider->value()+1);
         break;
     case HOTKEY_DECVOLUME :
         if(active)
-            ui.volumeSlider->setValue(ui.volumeSlider->value()-1);
+            ui->volumeSlider->setValue(ui->volumeSlider->value()-1);
         break;
     case HOTKEY_MUTEALL :
         if(active)
@@ -2294,11 +2296,11 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
         break;
     case HOTKEY_MICROPHONEGAIN_INC :
         if(active)
-            ui.micSlider->setValue(ui.micSlider->value() + 1);
+            ui->micSlider->setValue(ui->micSlider->value() + 1);
         break;
     case HOTKEY_MICROPHONEGAIN_DEC :
         if(active)
-            ui.micSlider->setValue(ui.micSlider->value() - 1);
+            ui->micSlider->setValue(ui->micSlider->value() - 1);
         break;
     case HOTKEY_VIDEOTX :
         if(active)
@@ -2392,7 +2394,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
 
             //don't show in status if there's status messages
             if(!timerExists(TIMER_STATUSMSG))
-                ui.statusbar->showMessage(status);
+                ui->statusbar->showMessage(status);
         }
 
         //check if desktop transfer has been closed
@@ -2442,9 +2444,9 @@ void MainWindow::timerEvent(QTimerEvent *event)
         if(TT_GetFlags(ttInst) & CLIENT_SNDINPUT_READY)
         {
             int voicelevel = TT_GetSoundInputLevel(ttInst);
-            if(ui.voiceactBar->value() != voicelevel)
+            if(ui->voiceactBar->value() != voicelevel)
             {
-                ui.voiceactBar->setValue(voicelevel);
+                ui->voiceactBar->setValue(voicelevel);
             }
         }
         break;
@@ -2468,7 +2470,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
         if(m_statusmsg.size())
         {
             QString status = m_statusmsg.dequeue();
-            ui.statusbar->showMessage(status);
+            ui->statusbar->showMessage(status);
             if(m_statusmsg.empty())
             {
                 killTimer(event->timerId());
@@ -2488,7 +2490,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
             //only update desktop if there's users in the channel
             //(save bandwidth)
 
-            users_t users = ui.channelsWidget->getUsers(m_mychannel.nChannelID);
+            users_t users = ui->channelsWidget->getUsers(m_mychannel.nChannelID);
             auto sub = std::find_if(users.begin(), users.end(), [] (const User& user) { return user.uPeerSubscriptions & SUBSCRIBE_DESKTOP;});
             if(sub != users.end())
                 sendDesktopWindow();
@@ -2764,14 +2766,14 @@ void MainWindow::subscribeCommon(bool checked, Subscriptions subs, int userid/* 
     QVector<int> userids;
 
     if(userid == 0)
-        userids = ui.channelsWidget->selectedUsers();
+        userids = ui->channelsWidget->selectedUsers();
     else
         userids.push_back(userid);
 
     foreach(userid, userids)
     {
         User user = {};
-        ui.channelsWidget->getUser(userid, user);
+        ui->channelsWidget->getUser(userid, user);
         if(checked)
         {
             int cmdid = TT_DoSubscribe(ttInst, userid, subs);
@@ -2803,7 +2805,7 @@ TextMessageDlg* MainWindow::getTextMessageDlg(int userid)
     else
     {
         User user;
-        if(!ui.channelsWidget->getUser(userid, user))
+        if(!ui->channelsWidget->getUser(userid, user))
             return nullptr;
 
         TextMessageDlg* dlg;
@@ -2833,9 +2835,9 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
     {
     case MSGTYPE_CHANNEL :
     {
-        QString line = ui.chatEdit->addTextMessage(textmsg);
-        ui.videochatEdit->addTextMessage(textmsg);
-        ui.desktopchatEdit->addTextMessage(textmsg);
+        QString line = ui->chatEdit->addTextMessage(textmsg);
+        ui->videochatEdit->addTextMessage(textmsg);
+        ui->desktopchatEdit->addTextMessage(textmsg);
 
         //setup channel text logging
         QString chanlog = ttSettings->value(SETTINGS_MEDIASTORAGE_CHANLOGFOLDER).toString();
@@ -2860,7 +2862,7 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         if (textmsg.nFromUserID != TT_GetMyUserID(ttInst))
         {
             User user;
-            if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
+            if (ui->channelsWidget->getUser(textmsg.nFromUserID, user))
                 addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL, QString(tr("Channel message from %1: %2").arg(getDisplayName(user)).arg(textmsg.moreMessage)));
             playSoundEvent(SOUNDEVENT_CHANNELMSG);
         }
@@ -2874,22 +2876,22 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
     }
     case MSGTYPE_BROADCAST :
     {
-        ui.chatEdit->addTextMessage(textmsg);
-        ui.videochatEdit->addTextMessage(textmsg);
-        ui.desktopchatEdit->addTextMessage(textmsg);
+        ui->chatEdit->addTextMessage(textmsg);
+        ui->videochatEdit->addTextMessage(textmsg);
+        ui->desktopchatEdit->addTextMessage(textmsg);
 
         User user;
-        if (ui.channelsWidget->getUser(textmsg.nFromUserID, user) && user.nUserID != TT_GetMyUserID(ttInst))
+        if (ui->channelsWidget->getUser(textmsg.nFromUserID, user) && user.nUserID != TT_GetMyUserID(ttInst))
             addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST, QString(tr("Broadcast message from %1: %2").arg(getDisplayName(user)).arg(textmsg.moreMessage)));
         playSoundEvent(SOUNDEVENT_BROADCASTMSG);
         break;
     }
     case MSGTYPE_USER :
     {
-        ui.channelsWidget->setUserMessaged(textmsg.nFromUserID, true);
+        ui->channelsWidget->setUserMessaged(textmsg.nFromUserID, true);
         emit(newTextMessage(textmsg));
         User user;
-        if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
+        if (ui->channelsWidget->getUser(textmsg.nFromUserID, user))
             addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE, QString(tr("Private message from %1: %2").arg(getDisplayName(user)).arg(textmsg.moreMessage)));
 
         if(ttSettings->value(SETTINGS_DISPLAY_MESSAGEPOPUP, SETTINGS_DISPLAY_MESSAGEPOPUP_DEFAULT).toBool())
@@ -2915,10 +2917,10 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         if(cmd[0] == TT_INTCMD_DESKTOP_ACCESS)
         {
             User user;
-            if(!ui.channelsWidget->getUser(textmsg.nFromUserID, user))
+            if(!ui->channelsWidget->getUser(textmsg.nFromUserID, user))
                 break;
 
-            ui.channelsWidget->setUserDesktopAccess(textmsg.nFromUserID, cmd[1] == "1");
+            ui->channelsWidget->setUserDesktopAccess(textmsg.nFromUserID, cmd[1] == "1");
             if(cmd[1] == "1")
             {
                 addStatusMsg(STATUSBAR_BYPASS, QString(tr("%1 is requesting desktop access")
@@ -2947,7 +2949,7 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
 
 void MainWindow::processMyselfJoined(int channelid)
 {
-    ui.channelsWidget->getChannel(channelid, m_mychannel);
+    ui->channelsWidget->getChannel(channelid, m_mychannel);
 
     // store channel for rejoin
     m_last_channel = m_mychannel;
@@ -2993,15 +2995,15 @@ void MainWindow::processMyselfJoined(int channelid)
     addTextToSpeechMessage(TTS_USER_JOINED, statusjoin);
 
     //show channel information in chat window
-    ui.chatEdit->joinedChannel(channelid);
+    ui->chatEdit->joinedChannel(channelid);
 
-    ui.msgEdit->setVisible(true);
-    ui.videomsgEdit->setVisible(true);
-    ui.desktopmsgEdit->setVisible(true);
+    ui->msgEdit->setVisible(true);
+    ui->videomsgEdit->setVisible(true);
+    ui->desktopmsgEdit->setVisible(true);
     updateWindowTitle();
 
     //store new muxed audio file if we're changing channel
-    if (ui.actionMediaStorage->isChecked() && (m_audiostorage_mode & AUDIOSTORAGE_SINGLEFILE))
+    if (ui->actionMediaStorage->isChecked() && (m_audiostorage_mode & AUDIOSTORAGE_SINGLEFILE))
     {
         updateAudioStorage(false, AUDIOSTORAGE_SINGLEFILE);
         updateAudioStorage(true, AUDIOSTORAGE_SINGLEFILE);
@@ -3043,8 +3045,8 @@ void MainWindow::processMyselfLeft(int /*channelid*/)
     m_last_channel = {};
 
     m_talking.clear();
-    ui.videogridWidget->resetGrid();
-    ui.desktopgridWidget->resetGrid();
+    ui->videogridWidget->resetGrid();
+    ui->desktopgridWidget->resetGrid();
 
     if(m_logChan.isOpen())
     {
@@ -3054,12 +3056,12 @@ void MainWindow::processMyselfLeft(int /*channelid*/)
         if(size == 0)
             QFile::remove(filename);
     }
-    ui.msgEdit->setVisible(false);
-    ui.sendButton->setVisible(false);
-    ui.videomsgEdit->setVisible(false);
-    ui.videosendButton->setVisible(false);
-    ui.desktopmsgEdit->setVisible(false);
-    ui.desktopsendButton->setVisible(false);
+    ui->msgEdit->setVisible(false);
+    ui->sendButton->setVisible(false);
+    ui->videomsgEdit->setVisible(false);
+    ui->videosendButton->setVisible(false);
+    ui->desktopmsgEdit->setVisible(false);
+    ui->desktopsendButton->setVisible(false);
     updateWindowTitle();
 }
 
@@ -3095,19 +3097,19 @@ void MainWindow::updateChannelFiles(int channelid)
     m_filesmodel->slotChannelUpdated(channelid);
     TTCHAR chanpath[TT_STRLEN] = {};
     TT_GetChannelPath(ttInst, channelid, chanpath);
-    ui.channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
+    ui->channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
 
     if (m_proxyFilesModel->rowCount() == 0)
     {
-        ui.tabWidget->setTabText(TAB_FILES, tr("&Files"));
-        ui.deleteButton->setVisible(false);
-        ui.downloadButton->setVisible(false);
+        ui->tabWidget->setTabText(TAB_FILES, tr("&Files"));
+        ui->deleteButton->setVisible(false);
+        ui->downloadButton->setVisible(false);
     }
     else
     {
-        ui.tabWidget->setTabText(TAB_FILES, tr("&Files (%1)").arg(m_proxyFilesModel->rowCount()));
-        ui.deleteButton->setVisible(true);
-        ui.downloadButton->setVisible(true);
+        ui->tabWidget->setTabText(TAB_FILES, tr("&Files (%1)").arg(m_proxyFilesModel->rowCount()));
+        ui->deleteButton->setVisible(true);
+        ui->downloadButton->setVisible(true);
     }
 }
 
@@ -3213,7 +3215,7 @@ void MainWindow::updateAudioConfig()
         //override preset sound gain
         TT_SetSoundInputGainLevel(ttInst, SOUND_GAIN_DEFAULT);
         TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
-        ui.micSlider->setToolTip(tr("Microphone gain is controlled by channel"));
+        ui->micSlider->setToolTip(tr("Microphone gain is controlled by channel"));
     }
     else
     {
@@ -3231,10 +3233,10 @@ void MainWindow::updateAudioConfig()
         }
         TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
 
-        slotMicrophoneGainChanged(ui.micSlider->value());
-        ui.micSlider->setToolTip(tr("Microphone gain"));
+        slotMicrophoneGainChanged(ui->micSlider->value());
+        ui->micSlider->setToolTip(tr("Microphone gain"));
     }
-    ui.micSlider->setEnabled(!m_mychannel.audiocfg.bEnableAGC);
+    ui->micSlider->setEnabled(!m_mychannel.audiocfg.bEnableAGC);
 }
 
 bool MainWindow::sendDesktopWindow()
@@ -3588,7 +3590,7 @@ void MainWindow::startStreamMediaFile()
     if (!TT_StartStreamingMediaFileToChannelEx(ttInst, _W(fileName), &mfp, &vidcodec))
     {
         QMessageBox::information(this,
-                                 MENUTEXT(ui.actionStreamMediaFileToChannel->text()),
+                                 MENUTEXT(ui->actionStreamMediaFileToChannel->text()),
                                  QString(tr("Failed to stream media file %1").arg(fileName)));
         stopStreamMediaFile();
     }
@@ -3908,7 +3910,7 @@ void MainWindow::checkAppUpdate()
 void MainWindow::toggleAllowStreamType(bool checked, int userid, int channelid, StreamType st)
 {
     QMap<int,StreamTypes> transmitUsers;
-    ui.channelsWidget->getTransmitUsers(channelid, transmitUsers);
+    ui->channelsWidget->getTransmitUsers(channelid, transmitUsers);
     if (checked)
         transmitUsers[userid] |= st;
     else
@@ -3918,8 +3920,8 @@ void MainWindow::toggleAllowStreamType(bool checked, int userid, int channelid, 
 
 void MainWindow::toggleAllowStreamType(bool checked, StreamType st)
 {
-    int userid = ui.channelsWidget->selectedUser();
-    int channelid = ui.channelsWidget->selectedChannel(true);
+    int userid = ui->channelsWidget->selectedUser();
+    int channelid = ui->channelsWidget->selectedChannel(true);
     if (userid > 0 && channelid > 0)
         toggleAllowStreamType(checked, userid, channelid, st);
 }
@@ -3988,7 +3990,7 @@ void MainWindow::relayAudioStream(int userid, StreamType st, bool enable)
 
 void MainWindow::toggleAllowStreamTypeForAll(bool checked, StreamType st)
 {
-    int channelid = ui.channelsWidget->selectedChannel(true);
+    int channelid = ui->channelsWidget->selectedChannel(true);
     if (channelid > 0)
         toggleAllowStreamType(checked, TT_TRANSMITUSERS_FREEFORALL, channelid, st);
 }
@@ -4140,7 +4142,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     int localvideo_userid = (0 | VIDEOTYPE_CAPTURE);
     bool ignore_set = m_vid_exclude.find(localvideo_userid) != m_vid_exclude.end();
     disconnect(this, &MainWindow::newVideoCaptureFrame,
-               ui.videogridWidget, &VideoGridWidget::slotNewVideoFrame);
+               ui->videogridWidget, &VideoGridWidget::slotNewVideoFrame);
     m_vid_exclude.remove(localvideo_userid);
 
     uservideo_t::iterator local_ite = m_user_video.find(localvideo_userid);
@@ -4175,7 +4177,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
                 &UserVideoWidget::slotNewVideoFrame);
 
     connect(this, &MainWindow::newVideoCaptureFrame,
-            ui.videogridWidget, &VideoGridWidget::slotNewVideoFrame);
+            ui->videogridWidget, &VideoGridWidget::slotNewVideoFrame);
 
     if(!b)return;
 
@@ -4251,26 +4253,26 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
         if(!timerExists(TIMER_VUMETER_UPDATE))
         {
             m_timers.insert(startTimer(50), TIMER_VUMETER_UPDATE);
-            ui.voiceactBar->setVisible(true);
+            ui->voiceactBar->setVisible(true);
         }
     }
     else if(timerExists(TIMER_VUMETER_UPDATE))
     {
         killLocalTimer(TIMER_VUMETER_UPDATE);
-        ui.voiceactBar->setVisible(false);
+        ui->voiceactBar->setVisible(false);
     }
 
-    ui.channelsWidget->updateAllItems();
+    ui->channelsWidget->updateAllItems();
 
     if (lang != ttSettings->value(SETTINGS_DISPLAY_LANGUAGE).toString())
-        ui.retranslateUi(this);
+        ui->retranslateUi(this);
 
     double d = ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME,
                                  SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT).toDouble();
     if(d != mediavsvoice)
     {
         d /= 100.;
-        QVector<int> userids = ui.channelsWidget->getUsers();
+        QVector<int> userids = ui->channelsWidget->getUsers();
         for(int i=0;i<userids.size();i++)
         {
             TT_SetUserVolume(ttInst, userids[i], STREAMTYPE_MEDIAFILE_AUDIO,
@@ -4298,8 +4300,8 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
 
 void MainWindow::slotClientSoundDevices()
 {
-    ui.menuInputDev->clear();
-    ui.menuOutputDev->clear();
+    ui->menuInputDev->clear();
+    ui->menuOutputDev->clear();
     
     QMap<SoundSystem, QString> sndsys;
     sndsys[SOUNDSYSTEM_DSOUND] = "DirectSound";
@@ -4335,7 +4337,7 @@ void MainWindow::slotClientSoundDevices()
 
         if (dev.nMaxInputChannels > 0)
         {
-            auto newaction = ui.menuInputDev->addAction(_Q(dev.szDeviceName) + " [" + sndsys[dev.nSoundSystem] + "]");
+            auto newaction = ui->menuInputDev->addAction(_Q(dev.szDeviceName) + " [" + sndsys[dev.nSoundSystem] + "]");
             newaction->setCheckable(true);
             newaction->setChecked(dev.nDeviceID == ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, SOUNDDEVICEID_DEFAULT).toInt());
             connect(newaction, &QAction::triggered, [dev, reinitfunc] {
@@ -4346,7 +4348,7 @@ void MainWindow::slotClientSoundDevices()
         }
         if (dev.nMaxOutputChannels > 0)
         {
-            auto newaction = ui.menuOutputDev->addAction(_Q(dev.szDeviceName) + " [" + sndsys[dev.nSoundSystem] + "]");
+            auto newaction = ui->menuOutputDev->addAction(_Q(dev.szDeviceName) + " [" + sndsys[dev.nSoundSystem] + "]");
             newaction->setCheckable(true);
             newaction->setChecked(dev.nDeviceID == ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, SOUNDDEVICEID_DEFAULT).toInt());
             connect(newaction, &QAction::triggered, [dev, reinitfunc] {
@@ -4360,12 +4362,12 @@ void MainWindow::slotClientSoundDevices()
 
 void MainWindow::slotClientAudioEffect()
 {
-    if (QObject::sender() == ui.actionEnableEchoCancel)
-        ttSettings->setValue(SETTINGS_SOUND_ECHOCANCEL, ui.actionEnableEchoCancel->isChecked());
-    else if (QObject::sender() == ui.actionEnableAGC)
-        ttSettings->setValue(SETTINGS_SOUND_AGC, ui.actionEnableAGC->isChecked());
-    else if (QObject::sender() == ui.actionEnableDenoising)
-        ttSettings->setValue(SETTINGS_SOUND_DENOISING, ui.actionEnableDenoising->isChecked());
+    if (QObject::sender() == ui->actionEnableEchoCancel)
+        ttSettings->setValue(SETTINGS_SOUND_ECHOCANCEL, ui->actionEnableEchoCancel->isChecked());
+    else if (QObject::sender() == ui->actionEnableAGC)
+        ttSettings->setValue(SETTINGS_SOUND_AGC, ui->actionEnableAGC->isChecked());
+    else if (QObject::sender() == ui->actionEnableDenoising)
+        ttSettings->setValue(SETTINGS_SOUND_DENOISING, ui->actionEnableDenoising->isChecked());
     slotUpdateUI();
     updateAudioConfig();
 }
@@ -4433,7 +4435,7 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setInputMode(QInputDialog::TextInput);
     inputDialog.setTextValue(nick);
-    inputDialog.setWindowTitle(MENUTEXT(ui.actionChangeNickname->text()));
+    inputDialog.setWindowTitle(MENUTEXT(ui->actionChangeNickname->text()));
     if (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
         inputDialog.setLabelText(tr("Specify new nickname for current server"));
     else
@@ -4502,13 +4504,13 @@ void MainWindow::slotMeEnablePushToTalk(bool checked)
 
         if(hotkey.size())
             enableHotKey(HOTKEY_PUSHTOTALK, hotkey);
-        if (QObject::sender() == ui.actionEnablePushToTalk)
+        if (QObject::sender() == ui->actionEnablePushToTalk)
             addTextToSpeechMessage(TTS_TOGGLE_VOICETRANSMISSION, tr("Push-To-Talk enabled"));
     }
     else
     {
         disableHotKey(HOTKEY_PUSHTOTALK);
-        if (QObject::sender() == ui.actionEnablePushToTalk)
+        if (QObject::sender() == ui->actionEnablePushToTalk)
             addTextToSpeechMessage(TTS_TOGGLE_VOICETRANSMISSION, tr("Push-To-Talk disabled"));
     }
 
@@ -4520,7 +4522,7 @@ void MainWindow::slotMeEnablePushToTalk(bool checked)
 void MainWindow::slotMeHearMyself(bool checked/*=false*/)
 {
     User user;
-    if (ui.channelsWidget->getUser(TT_GetMyUserID(ttInst), user))
+    if (ui->channelsWidget->getUser(TT_GetMyUserID(ttInst), user))
     {
         if (checked)
         {
@@ -4549,7 +4551,7 @@ void MainWindow::enableVoiceActivation(bool checked, SoundEvent on, SoundEvent o
     }
     else
     {
-        ui.voiceactSlider->setVisible(checked);
+        ui->voiceactSlider->setVisible(checked);
         if (TT_GetFlags(ttInst) & CLIENT_CONNECTED)
             emit(updateMyself());
         playSoundEvent(checked == true ? on : off);
@@ -4566,21 +4568,21 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
         VideoCodec vidcodec;
         if(!getVideoCaptureCodec(vidcodec) || !initVideoCaptureFromSettings())
         {
-            ui.actionEnableVideoTransmission->setChecked(false);
+            ui->actionEnableVideoTransmission->setChecked(false);
             ttSettings->setValue(SETTINGS_VIDCAP_ENABLE, false);
             QMessageBox::warning(this,
-            MENUTEXT(ui.actionEnableVideoTransmission->text()), 
+            MENUTEXT(ui->actionEnableVideoTransmission->text()),
             tr("Video device hasn't been configured properly. Check settings in 'Preferences'"));
         }
         else 
         {
             if(!TT_StartVideoCaptureTransmission(ttInst, &vidcodec))
             {
-                ui.actionEnableVideoTransmission->setChecked(false);
+                ui->actionEnableVideoTransmission->setChecked(false);
                 TT_CloseVideoCaptureDevice(ttInst);
                 ttSettings->setValue(SETTINGS_VIDCAP_ENABLE, false);
                 QMessageBox::warning(this,
-                                 MENUTEXT(ui.actionEnableVideoTransmission->text()), 
+                                 MENUTEXT(ui->actionEnableVideoTransmission->text()),
                              tr("Failed to configure video codec. Check settings in 'Preferences'"));
                 return;
             }
@@ -4608,8 +4610,8 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
         }
 
         //remove local from video grid
-        if(ui.videogridWidget->userExists(0))
-            ui.videogridWidget->removeUser(0 /* local video*/);
+        if(ui->videogridWidget->userExists(0))
+            ui->videogridWidget->removeUser(0 /* local video*/);
 
         ttSettings->setValue(SETTINGS_VIDCAP_ENABLE, false);
         addTextToSpeechMessage(TTS_TOGGLE_VIDEOTRANSMISSION, tr("Video transmission disabled"));
@@ -4628,7 +4630,7 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
             m_display = XOpenDisplay(0);
 
         if(!m_display)
-            QMessageBox::critical(this, MENUTEXT(ui.actionEnableDesktopSharing->text()),
+            QMessageBox::critical(this, MENUTEXT(ui->actionEnableDesktopSharing->text()),
                                   tr("Failed to open X11 display."));
 
         DesktopShareDlg dlg(m_display, this);
@@ -4646,8 +4648,8 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
 #endif
             if(!sendDesktopWindow())
             {
-                ui.actionEnableDesktopSharing->setChecked(false);
-                QMessageBox::information(this, MENUTEXT(ui.actionEnableDesktopSharing->text()),
+                ui->actionEnableDesktopSharing->setChecked(false);
+                QMessageBox::information(this, MENUTEXT(ui->actionEnableDesktopSharing->text()),
                     tr("Failed to start desktop sharing"));
                 return;
             }
@@ -4662,7 +4664,7 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
             addTextToSpeechMessage(TTS_TOGGLE_DESKTOPTRANSMISSION, tr("Desktop sharing enabled"));
         }
         else
-            ui.actionEnableDesktopSharing->setChecked(false);
+            ui->actionEnableDesktopSharing->setChecked(false);
     }
     else
     {
@@ -4715,28 +4717,28 @@ void MainWindow::slotMeEnableSounds(bool checked/*=false*/)
 
 void MainWindow::slotUsersViewUserInformationGrid(bool /*checked =false */)
 {
-    slotUsersViewUserInformation(ui.channelsWidget->selectedUser());
+    slotUsersViewUserInformation(ui->channelsWidget->selectedUser());
 }
 
 void MainWindow::slotUsersSpeakUserInformationGrid(bool /*checked =false */)
 {
     User user;
-    if(ui.channelsWidget->getUser(ui.channelsWidget->selectedUser(), user))
-        slotUsersSpeakUserInformation(ui.channelsWidget->selectedUser());
+    if(ui->channelsWidget->getUser(ui->channelsWidget->selectedUser(), user))
+        slotUsersSpeakUserInformation(ui->channelsWidget->selectedUser());
     else
-        slotUsersSpeakUserInformation(ui.channelsWidget->selectedChannel(true));
+        slotUsersSpeakUserInformation(ui->channelsWidget->selectedChannel(true));
 }
 
 void MainWindow::slotUsersMessagesGrid(bool /*checked =false */)
 {
-    int userid = ui.channelsWidget->selectedUser();
+    int userid = ui->channelsWidget->selectedUser();
     slotUsersMessages(userid);
 }
 
 void MainWindow::slotUsersMuteVoiceGrid(bool checked /*=false */)
 {
     QString listuser;
-    foreach(int userid, ui.channelsWidget->selectedUsers())
+    foreach(int userid, ui->channelsWidget->selectedUsers())
     {
         User user;
         TT_GetUser(ttInst, userid, &user);
@@ -4755,7 +4757,7 @@ void MainWindow::slotUsersMuteVoiceGrid(bool checked /*=false */)
 void MainWindow::slotUsersMuteMediaFileGrid(bool checked /*=false */)
 {
     QString listuser;
-    foreach(int userid, ui.channelsWidget->selectedUsers())
+    foreach(int userid, ui->channelsWidget->selectedUsers())
     {
         User user;
         TT_GetUser(ttInst, userid, &user);
@@ -4773,7 +4775,7 @@ void MainWindow::slotUsersMuteMediaFileGrid(bool checked /*=false */)
 
 void MainWindow::slotUsersVolumeGrid(bool /*checked =false */)
 {
-    int userid = ui.channelsWidget->selectedUser();
+    int userid = ui->channelsWidget->selectedUser();
     slotUsersVolume(userid);
 }
 
@@ -4794,31 +4796,31 @@ void MainWindow::slotUsersMuteVoiceAll(bool checked /*=false */)
 
 void MainWindow::slotUsersOpGrid(bool /*checked =false */)
 {
-    foreach(User u, ui.channelsWidget->getSelectedUsers())
+    foreach(User u, ui->channelsWidget->getSelectedUsers())
         slotUsersOp(u.nUserID, u.nChannelID);
 }
 
 void MainWindow::slotUsersKickFromChannel(bool /*checked =false */)
 {
-    foreach(User u, ui.channelsWidget->getSelectedUsers())
+    foreach(User u, ui->channelsWidget->getSelectedUsers())
         slotUsersKick(u.nUserID, u.nChannelID);
 }
 
 void MainWindow::slotUsersKickBanFromChannel(bool /*checked =false */)
 {
-    foreach(User u, ui.channelsWidget->getSelectedUsers())
+    foreach(User u, ui->channelsWidget->getSelectedUsers())
         slotUsersKickBan(u);
 }
 
 void MainWindow::slotUsersKickFromServer(bool /*checked =false */)
 {
-    foreach(User u, ui.channelsWidget->getSelectedUsers())
+    foreach(User u, ui->channelsWidget->getSelectedUsers())
         slotUsersKick(u.nUserID, 0);
 }
 
 void MainWindow::slotUsersKickBanFromServer(bool /*checked =false */)
 {
-    foreach(User u, ui.channelsWidget->getSelectedUsers())
+    foreach(User u, ui->channelsWidget->getSelectedUsers())
     {
         u.nChannelID = 0; //ban from server
         slotUsersKickBan(u);
@@ -4851,7 +4853,7 @@ void MainWindow::slotUsersSubscriptionsVideo(bool checked /*=false */)
     if(checked)
     {
         //remove from ignore if user wants video again
-        int userid = ui.channelsWidget->selectedUser();
+        int userid = ui->channelsWidget->selectedUser();
         if(userid>0)
             m_vid_exclude.remove(userid);
     }
@@ -4865,7 +4867,7 @@ void MainWindow::slotUsersSubscriptionsDesktop(bool checked /*=false */)
 void MainWindow::slotUsersSubscriptionsDesktopInput(bool checked /*=false */)
 {
     subscribeCommon(checked, SUBSCRIBE_DESKTOPINPUT);
-    foreach(User user, ui.channelsWidget->getSelectedUsers())
+    foreach(User user, ui->channelsWidget->getSelectedUsers())
         addStatusMsg(STATUSBAR_BYPASS, QString(tr("%1 granted desktop access")
                         .arg(getDisplayName(user))));
 }
@@ -4896,7 +4898,7 @@ void MainWindow::slotUsersSubscriptionsInterceptVideo(bool checked/*=false*/)
     if(checked)
     {
         //remove from ignore if user wants video again
-        int userid = ui.channelsWidget->selectedUser();
+        int userid = ui->channelsWidget->selectedUser();
         if(userid>0)
             m_vid_exclude.remove(userid);
     }
@@ -4914,7 +4916,7 @@ void MainWindow::slotUsersSubscriptionsInterceptMediaFile(bool checked /*=false*
 
 void MainWindow::slotUsersAdvancedIncVolumeVoice()
 {
-    userids_t users = ui.channelsWidget->selectedUsers();
+    userids_t users = ui->channelsWidget->selectedUsers();
     std::for_each(users.begin(), users.end(), std::bind(incVolume, _1, STREAMTYPE_VOICE));
     for(int i=0; i<users.size(); i++)
     {
@@ -4927,7 +4929,7 @@ void MainWindow::slotUsersAdvancedIncVolumeVoice()
 
 void MainWindow::slotUsersAdvancedDecVolumeVoice()
 {
-    userids_t users = ui.channelsWidget->selectedUsers();
+    userids_t users = ui->channelsWidget->selectedUsers();
     std::for_each(users.begin(), users.end(), std::bind(decVolume, _1, STREAMTYPE_VOICE));
     for(int i=0; i<users.size(); i++)
     {
@@ -4940,7 +4942,7 @@ void MainWindow::slotUsersAdvancedDecVolumeVoice()
 
 void MainWindow::slotUsersAdvancedIncVolumeMediaFile()
 {
-    userids_t users = ui.channelsWidget->selectedUsers();
+    userids_t users = ui->channelsWidget->selectedUsers();
     std::for_each(users.begin(), users.end(), std::bind(incVolume, _1, STREAMTYPE_MEDIAFILE_AUDIO));
     for(int i=0; i<users.size(); i++)
     {
@@ -4953,7 +4955,7 @@ void MainWindow::slotUsersAdvancedIncVolumeMediaFile()
 
 void MainWindow::slotUsersAdvancedDecVolumeMediaFile()
 {
-    userids_t users = ui.channelsWidget->selectedUsers();
+    userids_t users = ui->channelsWidget->selectedUsers();
     std::for_each(users.begin(), users.end(), std::bind(decVolume, _1, STREAMTYPE_MEDIAFILE_AUDIO));
     for(int i=0; i<users.size(); i++)
     {
@@ -4967,7 +4969,7 @@ void MainWindow::slotUsersAdvancedDecVolumeMediaFile()
 void MainWindow::slotUsersAdvancedStoreForMove(int userid /*= 0*/)
 {
     if(userid == 0)
-        m_moveusers = ui.channelsWidget->selectedUsers();
+        m_moveusers = ui->channelsWidget->selectedUsers();
     else
         m_moveusers.append(userid);
     QString listuser;
@@ -4984,7 +4986,7 @@ void MainWindow::slotUsersAdvancedStoreForMove(int userid /*= 0*/)
 
 void MainWindow::slotUsersAdvancedMoveUsers()
 {
-    int chanid = ui.channelsWidget->selectedChannel(true);
+    int chanid = ui->channelsWidget->selectedChannel(true);
     if(chanid>0)
     {
         for(int i=0;i<m_moveusers.size();i++)
@@ -5009,7 +5011,7 @@ void MainWindow::slotUsersAdvancedMoveUsers()
 
 void MainWindow::slotUsersAdvancedChanMsgAllowed(bool checked/*=false*/)
 {
-    if (QObject::sender() == ui.actionAllowChannelTextMessages)
+    if (QObject::sender() == ui->actionAllowChannelTextMessages)
         toggleAllowStreamType(checked, STREAMTYPE_CHANNELMSG);
     else
         toggleAllowStreamTypeForAll(checked, STREAMTYPE_CHANNELMSG);
@@ -5017,7 +5019,7 @@ void MainWindow::slotUsersAdvancedChanMsgAllowed(bool checked/*=false*/)
 
 void MainWindow::slotUsersAdvancedVoiceAllowed(bool checked/*=false*/)
 {
-    if (QObject::sender() == ui.actionAllowVoiceTransmission)
+    if (QObject::sender() == ui->actionAllowVoiceTransmission)
         toggleAllowStreamType(checked, STREAMTYPE_VOICE);
     else
         toggleAllowStreamTypeForAll(checked, STREAMTYPE_VOICE);
@@ -5025,7 +5027,7 @@ void MainWindow::slotUsersAdvancedVoiceAllowed(bool checked/*=false*/)
 
 void MainWindow::slotUsersAdvancedVideoAllowed(bool checked/*=false*/)
 {
-    if (QObject::sender() == ui.actionAllowVideoTransmission)
+    if (QObject::sender() == ui->actionAllowVideoTransmission)
         toggleAllowStreamType(checked, STREAMTYPE_VIDEOCAPTURE);
     else
         toggleAllowStreamTypeForAll(checked, STREAMTYPE_VIDEOCAPTURE);
@@ -5033,7 +5035,7 @@ void MainWindow::slotUsersAdvancedVideoAllowed(bool checked/*=false*/)
 
 void MainWindow::slotUsersAdvancedDesktopAllowed(bool checked/*=false*/)
 {
-    if (QObject::sender() == ui.actionAllowDesktopTransmission)
+    if (QObject::sender() == ui->actionAllowDesktopTransmission)
         toggleAllowStreamType(checked, STREAMTYPE_DESKTOP);
     else
         toggleAllowStreamTypeForAll(checked, STREAMTYPE_DESKTOP);
@@ -5041,7 +5043,7 @@ void MainWindow::slotUsersAdvancedDesktopAllowed(bool checked/*=false*/)
 
 void MainWindow::slotUsersAdvancedMediaFileAllowed(bool checked/*=false*/)
 {
-    if (QObject::sender() == ui.actionAllowMediaFileTransmission)
+    if (QObject::sender() == ui->actionAllowMediaFileTransmission)
         toggleAllowStreamType(checked, STREAMTYPE_MEDIAFILE);
     else
         toggleAllowStreamTypeForAll(checked, STREAMTYPE_MEDIAFILE);
@@ -5050,13 +5052,13 @@ void MainWindow::slotUsersAdvancedMediaFileAllowed(bool checked/*=false*/)
 void MainWindow::slotUsersAdvancedRelayUserVoice(bool checked/*=false*/)
 {
     User user;
-    if (!ui.channelsWidget->getSelectedUser(user))
+    if (!ui->channelsWidget->getSelectedUser(user))
         return;
 
     if (checked && user.nChannelID != m_mychannel.nChannelID &&
         (user.uLocalSubscriptions & SUBSCRIBE_INTERCEPT_VOICE) == SUBSCRIBE_NONE)
     {
-        if (QMessageBox::information(this, MENUTEXT(ui.actionRelayVoiceStream->text()),
+        if (QMessageBox::information(this, MENUTEXT(ui->actionRelayVoiceStream->text()),
             tr("To relay voice stream from other channel you must enable subscription \"Intercept Voice\".\n"
                 "Do you wish to do this now?"), QMessageBox::No | QMessageBox::Yes) == QMessageBox::Yes)
         {
@@ -5070,13 +5072,13 @@ void MainWindow::slotUsersAdvancedRelayUserVoice(bool checked/*=false*/)
 void MainWindow::slotUsersAdvancedRelayUserMediaFile(bool checked/* = false*/)
 {
     User user;
-    if (!ui.channelsWidget->getSelectedUser(user))
+    if (!ui->channelsWidget->getSelectedUser(user))
         return;
 
     if (checked && user.nChannelID != m_mychannel.nChannelID &&
         (user.uLocalSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE) == SUBSCRIBE_NONE)
     {
-        if (QMessageBox::information(this, MENUTEXT(ui.actionRelayMediaFileStream->text()),
+        if (QMessageBox::information(this, MENUTEXT(ui->actionRelayMediaFileStream->text()),
             tr("To relay media file stream from other channel you must enable subscription \"Intercept Media File\".\n"
                 "Do you wish to do this now?"), QMessageBox::No | QMessageBox::Yes) == QMessageBox::Yes)
         {
@@ -5091,8 +5093,8 @@ void MainWindow::slotChannelsCreateChannel(bool /*checked =false */)
 {
     Channel chan = {};
 
-    if(ui.channelsWidget->selectedChannel() && (TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS))
-        chan.nParentID = ui.channelsWidget->selectedChannel();
+    if(ui->channelsWidget->selectedChannel() && (TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS))
+        chan.nParentID = ui->channelsWidget->selectedChannel();
     else
     {
         chan.nParentID = m_mychannel.nChannelID;
@@ -5109,7 +5111,7 @@ void MainWindow::slotChannelsCreateChannel(bool /*checked =false */)
     if (!dlg.joinChannel())
     {
         if(TT_DoMakeChannel(ttInst, &chan)<0)
-            QMessageBox::critical(this, MENUTEXT(ui.actionCreateChannel->text()), 
+            QMessageBox::critical(this, MENUTEXT(ui->actionCreateChannel->text()),
             tr("Failed to issue command to create channel"));
     }
     else
@@ -5122,7 +5124,7 @@ void MainWindow::slotChannelsCreateChannel(bool /*checked =false */)
             m_channel_passwd[CHANNELID_TEMPPASSWORD] = _Q(chan.szPassword);
         }
         else
-            QMessageBox::critical(this, MENUTEXT(ui.actionCreateChannel->text()), 
+            QMessageBox::critical(this, MENUTEXT(ui->actionCreateChannel->text()),
                                   tr("Failed to issue command to create channel"));
     }
 }
@@ -5130,20 +5132,20 @@ void MainWindow::slotChannelsCreateChannel(bool /*checked =false */)
 void MainWindow::slotChannelsUpdateChannel(bool /*checked =false */)
 {
     Channel chan;
-    if(ui.channelsWidget->getSelectedChannel(chan))
+    if(ui->channelsWidget->getSelectedChannel(chan))
     {
         ChannelDlg dlg(ChannelDlg::CHANNEL_UPDATE, chan, this);
         if(!dlg.exec())return;
         chan = dlg.GetChannel();
         if(TT_DoUpdateChannel(ttInst, &chan)<0)
-            QMessageBox::critical(this, MENUTEXT(ui.actionUpdateChannel->text()),
+            QMessageBox::critical(this, MENUTEXT(ui->actionUpdateChannel->text()),
             tr("Failed to issue command to update channel"));
     }
 }
 
 void MainWindow::slotChannelsDeleteChannel(bool /*checked =false */)
 {
-    int chanid = ui.channelsWidget->selectedChannel();
+    int chanid = ui->channelsWidget->selectedChannel();
     if(chanid<=0)
         return;
 
@@ -5155,13 +5157,13 @@ void MainWindow::slotChannelsDeleteChannel(bool /*checked =false */)
     QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
     Q_UNUSED(YesButton);
     answer.setIcon(QMessageBox::Information);
-    answer.setWindowTitle(MENUTEXT(ui.actionDeleteChannel->text()));
+    answer.setWindowTitle(MENUTEXT(ui->actionDeleteChannel->text()));
     answer.exec();
     if(answer.clickedButton() == NoButton)
         return;
 
     if(TT_DoRemoveChannel(ttInst, chanid)<0)
-        QMessageBox::critical(this, MENUTEXT(ui.actionDeleteChannel->text()), 
+        QMessageBox::critical(this, MENUTEXT(ui->actionDeleteChannel->text()),
         tr("Failed to issue command to delete channel"));
 }
 
@@ -5169,17 +5171,17 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
 {
     Channel chan;
     DoubleClickChannelAction dbClickAct = DoubleClickChannelAction(ttSettings->value(SETTINGS_DISPLAY_CHANDBCLICK, SETTINGS_DISPLAY_CHANDBCLICK_DEFAULT).toUInt());
-    if (!ui.channelsWidget->getSelectedChannel(chan))
+    if (!ui->channelsWidget->getSelectedChannel(chan))
         return;
 
-    if (chan.nChannelID == m_mychannel.nChannelID && ((dbClickAct & ACTION_LEAVE) == ACTION_LEAVE || QObject::sender() == ui.actionJoinChannel))
+    if (chan.nChannelID == m_mychannel.nChannelID && ((dbClickAct & ACTION_LEAVE) == ACTION_LEAVE || QObject::sender() == ui->actionJoinChannel))
     {
         int cmdid = TT_DoLeaveChannel(ttInst);
         m_commands.insert(cmdid, CMD_COMPLETE_LEAVECHANNEL);
         return;
     }
 
-    if (chan.nChannelID != TT_GetMyChannelID(ttInst) && ((dbClickAct & ACTION_JOIN) == ACTION_JOIN || QObject::sender() == ui.actionJoinChannel))
+    if (chan.nChannelID != TT_GetMyChannelID(ttInst) && ((dbClickAct & ACTION_JOIN) == ACTION_JOIN || QObject::sender() == ui->actionJoinChannel))
     {
         QString password = m_channel_passwd[chan.nChannelID];
         if(chan.bPassword)
@@ -5191,7 +5193,7 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
             inputDialog.setInputMode(QInputDialog::TextInput);
             inputDialog.setTextEchoMode(QLineEdit::Password);
             inputDialog.setTextValue(password);
-            inputDialog.setWindowTitle(MENUTEXT(ui.actionJoinChannel->text()));
+            inputDialog.setWindowTitle(MENUTEXT(ui->actionJoinChannel->text()));
             inputDialog.setLabelText(tr("Specify password"));
             ok = inputDialog.exec();
             password = inputDialog.textValue();
@@ -5206,7 +5208,7 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
             m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
         }
         else
-            QMessageBox::critical(this, MENUTEXT(ui.actionJoinChannel->text()),
+            QMessageBox::critical(this, MENUTEXT(ui->actionJoinChannel->text()),
                                   tr("Failed to issue command to join channel"));
     }
 }
@@ -5214,7 +5216,7 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
 void MainWindow::slotChannelsViewChannelInfo(bool /*checked=false*/)
 {
     Channel chan;
-    if(ui.channelsWidget->getSelectedChannel(chan))
+    if(ui->channelsWidget->getSelectedChannel(chan))
     {
         ChannelDlg dlg(ChannelDlg::CHANNEL_READONLY, chan, this);
         dlg.exec();
@@ -5235,12 +5237,12 @@ void MainWindow::slotChannelsSpeakChannelStatus()
 {
     QString speakList, voice, mediafile, video, desktop;
 
-    QVector<int> users = ui.channelsWidget->getUsersInChannel(m_mychannel.nChannelID);
+    QVector<int> users = ui->channelsWidget->getUsersInChannel(m_mychannel.nChannelID);
     QVector<QString> voice1, mediafile1, video1, desktop1;
     for (int i=0;i<users.size();i++)
     {
         User user = {};
-        ui.channelsWidget->getUser(users[i], user);
+        ui->channelsWidget->getUser(users[i], user);
         if (((user.uUserState & USERSTATE_VOICE) != USERSTATE_NONE) ||
             ((user.nUserID == TT_GetMyUserID(ttInst) && isMyselfTalking()) &&
              userCanVoiceTx(TT_GetMyUserID(ttInst), m_mychannel)))
@@ -5306,7 +5308,7 @@ void MainWindow::slotChannelsSpeakChannelStatus()
 void MainWindow::slotChannelsListBans(bool /*checked=false*/)
 {
     //don't display dialog box until we get the result
-    int chanid = ui.channelsWidget->selectedChannel(true);
+    int chanid = ui->channelsWidget->selectedChannel(true);
     int cmdid = TT_DoListBans(ttInst, chanid, 0, 1000000);
     if(cmdid>0)
         m_commands.insert(cmdid, CMD_COMPLETE_LIST_CHANNELBANS);
@@ -5326,7 +5328,7 @@ void MainWindow::slotChannelsStreamMediaFile(bool checked/*=false*/)
 
     if(!dlg.exec())
     {
-        ui.actionStreamMediaFileToChannel->setChecked(false);
+        ui->actionStreamMediaFileToChannel->setChecked(false);
         return;
     }
 
@@ -5352,7 +5354,7 @@ void MainWindow::slotChannelsUploadFile(bool /*checked =false */)
 
 void MainWindow::slotChannelsDownloadFile(bool /*checked =false */)
 {
-    auto index = ui.filesView->currentIndex();
+    auto index = ui->filesView->currentIndex();
     int fileid = (int)m_proxyFilesModel->mapToSource(index).internalId();
     int channelid = m_filesmodel->getChannelID();
     RemoteFile remotefile;
@@ -5368,7 +5370,7 @@ void MainWindow::slotChannelsDownloadFile(bool /*checked =false */)
         filename = QDir::toNativeSeparators(filename);
         ttSettings->setValue(SETTINGS_LAST_DIRECTORY, QFileInfo(filename).absolutePath());
         if(!TT_DoRecvFile(ttInst, channelid, fileid, _W(filename)))
-            QMessageBox::critical(this, MENUTEXT(ui.actionDownloadFile->text()),
+            QMessageBox::critical(this, MENUTEXT(ui->actionDownloadFile->text()),
                                   tr("Failed to download file %1").arg(filename));
     }
 }
@@ -5378,8 +5380,8 @@ void MainWindow::slotChannelsDeleteFile(bool /*checked =false */)
     int channelid = m_filesmodel->getChannelID();
     if(!channelid)
         return;
-    QStringList filenames = ui.filesView->selectedFiles();
-    QItemSelectionModel* sel = ui.filesView->selectionModel();
+    QStringList filenames = ui->filesView->selectedFiles();
+    QItemSelectionModel* sel = ui->filesView->selectionModel();
     QModelIndexList files = sel->selectedRows();
     bool delete_ok = false;
     QMessageBox answer;
@@ -5448,10 +5450,10 @@ void MainWindow::slotChannelsGenerateTTUrl(bool checked/*=false*/)
         }
     }
 
-    int chanid = ui.channelsWidget->selectedChannel(true);
+    int chanid = ui->channelsWidget->selectedChannel(true);
     Channel chan;
     TTCHAR chanpath[TT_STRLEN];
-    if (ui.channelsWidget->getChannel(chanid, chan) && TT_GetChannelPath(ttInst, chanid, chanpath))
+    if (ui->channelsWidget->getChannel(chanid, chan) && TT_GetChannelPath(ttInst, chanid, chanpath))
     {
         QString channel = QUrl::toPercentEncoding(_Q(chanpath));
         link += QString("&channel=%1").arg(channel);
@@ -5507,10 +5509,10 @@ void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)
     const QString uploadstr = "upload";
     sortUpload->setChecked((ttSettings->value(SETTINGS_DISPLAY_FILESLIST_SORT, SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT).toString() == uploadstr)?true:false);
     sortMenu->addAction(sortUpload);
-    QAction* upload = menu.addAction(ui.actionUploadFile->text());
-    QAction* download = menu.addAction(ui.actionDownloadFile->text());
-    QAction* del = menu.addAction(ui.actionDeleteFile->text());
-    auto index = ui.filesView->currentIndex();
+    QAction* upload = menu.addAction(ui->actionUploadFile->text());
+    QAction* download = menu.addAction(ui->actionDownloadFile->text());
+    QAction* del = menu.addAction(ui->actionDeleteFile->text());
+    auto index = ui->filesView->currentIndex();
     upload->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_UPLOAD_FILES);
     download->setEnabled(index.isValid() && m_myuseraccount.uUserRights & USERRIGHT_DOWNLOAD_FILES);
     del->setEnabled(index.isValid());
@@ -5520,22 +5522,22 @@ void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)
         auto sortToggle = m_proxyFilesModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
         if (action == sortName)
         {
-            ui.filesView->header()->setSortIndicator(COLUMN_INDEX_NAME, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_NAME ? sortToggle : Qt::AscendingOrder);
+            ui->filesView->header()->setSortIndicator(COLUMN_INDEX_NAME, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_NAME ? sortToggle : Qt::AscendingOrder);
             ttSettings->setValue(SETTINGS_DISPLAY_FILESLIST_SORT, name);
         }
         else if (action == sortSize)
         {
-            ui.filesView->header()->setSortIndicator(COLUMN_INDEX_SIZE, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_SIZE ? sortToggle : Qt::AscendingOrder);
+            ui->filesView->header()->setSortIndicator(COLUMN_INDEX_SIZE, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_SIZE ? sortToggle : Qt::AscendingOrder);
             ttSettings->setValue(SETTINGS_DISPLAY_FILESLIST_SORT, size);
         }
         else if (action == sortOwner)
         {
-            ui.filesView->header()->setSortIndicator(COLUMN_INDEX_OWNER, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_OWNER? sortToggle : Qt::AscendingOrder);
+            ui->filesView->header()->setSortIndicator(COLUMN_INDEX_OWNER, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_OWNER? sortToggle : Qt::AscendingOrder);
             ttSettings->setValue(SETTINGS_DISPLAY_FILESLIST_SORT, owner);
         }
         else if (action == sortUpload)
         {
-            ui.filesView->header()->setSortIndicator(COLUMN_INDEX_UPLOADED, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_UPLOADED? sortToggle : Qt::AscendingOrder);
+            ui->filesView->header()->setSortIndicator(COLUMN_INDEX_UPLOADED, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_UPLOADED? sortToggle : Qt::AscendingOrder);
             ttSettings->setValue(SETTINGS_DISPLAY_FILESLIST_SORT, uploadstr);
         }
         else if (action == upload)
@@ -5632,7 +5634,7 @@ void MainWindow::slotServerBroadcastMessage(bool /*checked=false*/)
     inputDialog.setOkButtonText(tr("&OK"));
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setInputMode(QInputDialog::TextInput);
-    inputDialog.setWindowTitle(MENUTEXT(ui.actionBroadcastMessage->text()));
+    inputDialog.setWindowTitle(MENUTEXT(ui->actionBroadcastMessage->text()));
     inputDialog.setLabelText(tr("Message to broadcast:"));
     ok = inputDialog.exec();
     QString bcast = inputDialog.textValue();
@@ -5684,7 +5686,7 @@ void MainWindow::slotHelpResetPreferences(bool /*checked=false*/)
     QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
     Q_UNUSED(NoButton);
     answer.setIcon(QMessageBox::Question);
-    answer.setWindowTitle(MENUTEXT(ui.actionResetPreferencesToDefault->text()));
+    answer.setWindowTitle(MENUTEXT(ui->actionResetPreferencesToDefault->text()));
     answer.exec();
     if (answer.clickedButton() == YesButton)
     {
@@ -5693,21 +5695,21 @@ void MainWindow::slotHelpResetPreferences(bool /*checked=false*/)
 
         if(!QFile::exists(defpath))
         {
-            QMessageBox::critical(this, MENUTEXT(ui.actionResetPreferencesToDefault->text()),
+            QMessageBox::critical(this, MENUTEXT(ui->actionResetPreferencesToDefault->text()),
             tr("Cannot find %1").arg(QDir::toNativeSeparators(defpath)));
             return;
         }
 
         if(!QFile::remove(cfgpath))
         {
-            QMessageBox::critical(this, MENUTEXT(ui.actionResetPreferencesToDefault->text()),
+            QMessageBox::critical(this, MENUTEXT(ui->actionResetPreferencesToDefault->text()),
             tr("Cannot remove %1").arg(QDir::toNativeSeparators(cfgpath)));
             return;
         }
 
         if(!QFile::copy(defpath, cfgpath))
         {
-            QMessageBox::critical(this, MENUTEXT(ui.actionResetPreferencesToDefault->text()),
+            QMessageBox::critical(this, MENUTEXT(ui->actionResetPreferencesToDefault->text()),
             tr("Failed to copy %1 to %2").arg(QDir::toNativeSeparators(defpath)).arg(QDir::toNativeSeparators(cfgpath)));
         }
         else
@@ -5757,10 +5759,10 @@ void MainWindow::slotUsersSpeakUserInformation(int id)
 {
     QString speakList;
 
-    if (id > 0 && id == ui.channelsWidget->selectedUser())
+    if (id > 0 && id == ui->channelsWidget->selectedUser())
     {
         User user;
-        if(!ui.channelsWidget->getUser(id, user))
+        if(!ui->channelsWidget->getUser(id, user))
             return;
 
         QString userString, voice = tr("Talking"), mute = tr("Mute"), mediaFile = tr("Streaming"), muteMediaFile = tr("Mute media file"), videoCapture = tr("Webcam"), desktop = tr("Desktop"), chanOp = tr("Channel Operator"), moveSelected = tr("Selected for move");
@@ -5814,10 +5816,10 @@ void MainWindow::slotUsersSpeakUserInformation(int id)
            (user.nStatusMode & STATUSMODE_DESKTOP))
             speakList += ", " + desktop;
     }
-    else if (id > 0 && (id == ui.channelsWidget->selectedChannel(true) || id == m_mychannel.nChannelID))
+    else if (id > 0 && (id == ui->channelsWidget->selectedChannel(true) || id == m_mychannel.nChannelID))
     {
         Channel chan;
-        if(!ui.channelsWidget->getChannel(id, chan))
+        if(!ui->channelsWidget->getChannel(id, chan))
             return;
 
         QString channel = tr("Channel"), passwd = tr("Password protected"), classroom = tr("Classroom"), topic, rootChan = tr("root"), hidden = tr("Hidden");
@@ -5843,7 +5845,7 @@ void MainWindow::slotUsersSpeakUserInformation(int id)
         if (topic.size())
             speakList += ", " + QString(tr("Topic: %1").arg(topic));
 
-        int usersCount = ui.channelsWidget->getUsersInChannel(chan.nChannelID).size();
+        int usersCount = ui->channelsWidget->getUsersInChannel(chan.nChannelID).size();
         if (usersCount > 0)
             speakList += ", " + QString(tr("%1 users").arg(usersCount));
 
@@ -5893,7 +5895,7 @@ void MainWindow::slotUsersOp(int userid, int chanid)
     else
     {
         Channel chan = {};
-        ui.channelsWidget->getChannel(chanid, chan);
+        ui->channelsWidget->getChannel(chanid, chan);
 
         bool ok = false;
         QInputDialog inputDialog;
@@ -5902,7 +5904,7 @@ void MainWindow::slotUsersOp(int userid, int chanid)
         inputDialog.setCancelButtonText(tr("&Cancel"));
         inputDialog.setInputMode(QInputDialog::TextInput);
         inputDialog.setTextEchoMode(QLineEdit::Password);
-        inputDialog.setWindowTitle(MENUTEXT(ui.actionOp->text()));
+        inputDialog.setWindowTitle(MENUTEXT(ui->actionOp->text()));
         inputDialog.setLabelText(tr("Specify password"));
         ok = inputDialog.exec();
         QString oppasswd = inputDialog.textValue();
@@ -5922,7 +5924,7 @@ void MainWindow::slotUsersKick(int userid, int chanid)
         QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
         Q_UNUSED(NoButton);
         answer.setIcon(QMessageBox::Question);
-        answer.setWindowTitle((QObject::sender() == ui.actionKickFromChannel?ui.actionKickFromChannel->text():ui.actionKickFromServer->text()));
+        answer.setWindowTitle((QObject::sender() == ui->actionKickFromChannel?ui->actionKickFromChannel->text():ui->actionKickFromServer->text()));
         answer.exec();
         if(answer.clickedButton() != YesButton)
             confirm = false;
@@ -5942,7 +5944,7 @@ void MainWindow::slotUsersKickBan(const User& user)
         QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
         Q_UNUSED(NoButton);
         answer.setIcon(QMessageBox::Question);
-        answer.setWindowTitle((QObject::sender() == ui.actionKickAndBanFromChannel?ui.actionKickAndBanFromChannel->text().remove('&'):ui.actionKickBan->text().remove('&')));
+        answer.setWindowTitle((QObject::sender() == ui->actionKickAndBanFromChannel?ui->actionKickAndBanFromChannel->text().remove('&'):ui->actionKickBan->text().remove('&')));
         answer.exec();
         if(answer.clickedButton() != YesButton)
             confirm = false;
@@ -5995,7 +5997,7 @@ void MainWindow::slotUsersKickBan(const User& user)
 void MainWindow::slotTreeSelectionChanged()
 {
     slotUpdateUI();
-    int channelid = ui.channelsWidget->selectedChannel(true);
+    int channelid = ui->channelsWidget->selectedChannel(true);
     if (m_filesmodel->getChannelID() != channelid && ((TT_GetMyUserType(ttInst) & USERTYPE_ADMIN) != USERTYPE_NONE))
     {
         //if admin changed selection change files view to new channel.
@@ -6005,31 +6007,31 @@ void MainWindow::slotTreeSelectionChanged()
 #if defined(Q_OS_DARWIN)
 #if QT_VERSION < QT_VERSION_CHECK(6,4,0)
     if (ttSettings->value(SETTINGS_TTS_SPEAKLISTS, SETTINGS_TTS_SPEAKLISTS_DEFAULT).toBool() == true)
-        addTextToSpeechMessage(ui.channelsWidget->getItemText());
+        addTextToSpeechMessage(ui->channelsWidget->getItemText());
 #endif
 #endif
 }
 
 void MainWindow::slotTreeContextMenu(const QPoint &/* pos*/)
 {
-    int userid = ui.channelsWidget->selectedUser();
+    int userid = ui->channelsWidget->selectedUser();
     if(userid>0)
-        ui.menuUsers->exec(QCursor::pos());
+        ui->menuUsers->exec(QCursor::pos());
 
-    int chanid = ui.channelsWidget->selectedChannel();
+    int chanid = ui->channelsWidget->selectedChannel();
     if(chanid>0)
-        ui.menuChannels->exec(QCursor::pos());
+        ui->menuChannels->exec(QCursor::pos());
 }
 
 void MainWindow::slotUpdateUI()
 {
-    int userid = ui.channelsWidget->selectedUser();
-    int chanid = ui.channelsWidget->selectedChannel();
+    int userid = ui->channelsWidget->selectedUser();
+    int chanid = ui->channelsWidget->selectedChannel();
     int user_chanid = chanid;
     if(!chanid)
-        user_chanid = ui.channelsWidget->selectedChannel(true);
+        user_chanid = ui->channelsWidget->selectedChannel(true);
     int mychannel = m_mychannel.nChannelID;
-    int filescount = ui.filesView->selectedFiles().size();
+    int filescount = ui->filesView->selectedFiles().size();
     ClientFlags statemask = TT_GetFlags(ttInst);
     UserRights userrights = TT_GetMyUserRights(ttInst);
     bool auth = (statemask & CLIENT_AUTHORIZED);
@@ -6039,101 +6041,101 @@ void MainWindow::slotUpdateUI()
     bool voiceactivated = (statemask & CLIENT_SNDINPUT_VOICEACTIVATED);
     bool voicetx = (statemask & CLIENT_TX_VOICE);
 
-    ui.actionConnect->setChecked( (statemask & CLIENT_CONNECTING) || (statemask & CLIENT_CONNECTED));
-    ui.actionEnableEchoCancel->setChecked(ttSettings->value(SETTINGS_SOUND_ECHOCANCEL, SETTINGS_SOUND_ECHOCANCEL_DEFAULT).toBool());
-    ui.actionEnableAGC->setChecked(ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool());
-    ui.actionEnableDenoising->setChecked(ttSettings->value(SETTINGS_SOUND_DENOISING, SETTINGS_SOUND_DENOISING_DEFAULT).toBool());
-    ui.actionSpeakClientStats->setEnabled(tts);
-    ui.actionChangeStatus->setEnabled(auth);
+    ui->actionConnect->setChecked( (statemask & CLIENT_CONNECTING) || (statemask & CLIENT_CONNECTED));
+    ui->actionEnableEchoCancel->setChecked(ttSettings->value(SETTINGS_SOUND_ECHOCANCEL, SETTINGS_SOUND_ECHOCANCEL_DEFAULT).toBool());
+    ui->actionEnableAGC->setChecked(ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool());
+    ui->actionEnableDenoising->setChecked(ttSettings->value(SETTINGS_SOUND_DENOISING, SETTINGS_SOUND_DENOISING_DEFAULT).toBool());
+    ui->actionSpeakClientStats->setEnabled(tts);
+    ui->actionChangeStatus->setEnabled(auth);
 #ifdef Q_OS_WIN32
-    ui.actionEnablePushToTalk->setChecked(TT_HotKey_IsActive(ttInst, HOTKEY_PUSHTOTALK) >= 0);
+    ui->actionEnablePushToTalk->setChecked(TT_HotKey_IsActive(ttInst, HOTKEY_PUSHTOTALK) >= 0);
 #elif defined(Q_OS_LINUX) || defined(Q_OS_DARWIN)
-    ui.actionEnablePushToTalk->setChecked(m_hotkeys.find(HOTKEY_PUSHTOTALK) != m_hotkeys.end());
+    ui->actionEnablePushToTalk->setChecked(m_hotkeys.find(HOTKEY_PUSHTOTALK) != m_hotkeys.end());
 #endif
-    ui.actionEnableVoiceActivation->setChecked(voiceactivated);
-    ui.actionHearMyself->setEnabled(m_mychannel.nChannelID > 0);
+    ui->actionEnableVoiceActivation->setChecked(voiceactivated);
+    ui->actionHearMyself->setEnabled(m_mychannel.nChannelID > 0);
     User myself;
-    if (ui.channelsWidget->getUser(TT_GetMyUserID(ttInst), myself))
+    if (ui->channelsWidget->getUser(TT_GetMyUserID(ttInst), myself))
     {
-        ui.actionHearMyself->setChecked(myself.uLocalSubscriptions & SUBSCRIBE_VOICE);
+        ui->actionHearMyself->setChecked(myself.uLocalSubscriptions & SUBSCRIBE_VOICE);
     }
     //don't allow web cam to stream when video streaming is active
-    ui.actionEnableVideoTransmission->setChecked((CLIENT_VIDEOCAPTURE_READY & statemask) && 
+    ui->actionEnableVideoTransmission->setChecked((CLIENT_VIDEOCAPTURE_READY & statemask) &&
                                                  (CLIENT_TX_VIDEOCAPTURE & statemask));
-    ui.actionEnableDesktopSharing->setEnabled(mychannel>0);
-    ui.actionEnableDesktopSharing->setChecked(statemask & CLIENT_DESKTOP_ACTIVE);
-    ui.actionEnableTTS->setChecked(ttSettings->value(SETTINGS_TTS_ENABLE, SETTINGS_TTS_ENABLE_DEFAULT).toBool());
-    ui.actionEnableTTS->setEnabled(tts);
-    ui.actionEnableSounds->setChecked(ttSettings->value(SETTINGS_SOUNDEVENT_ENABLE, SETTINGS_SOUNDEVENT_ENABLE_DEFAULT).toBool());
+    ui->actionEnableDesktopSharing->setEnabled(mychannel>0);
+    ui->actionEnableDesktopSharing->setChecked(statemask & CLIENT_DESKTOP_ACTIVE);
+    ui->actionEnableTTS->setChecked(ttSettings->value(SETTINGS_TTS_ENABLE, SETTINGS_TTS_ENABLE_DEFAULT).toBool());
+    ui->actionEnableTTS->setEnabled(tts);
+    ui->actionEnableSounds->setChecked(ttSettings->value(SETTINGS_SOUNDEVENT_ENABLE, SETTINGS_SOUNDEVENT_ENABLE_DEFAULT).toBool());
 
     User user  = {};
     if (TT_GetUser(ttInst, userid, &user))
     {
-        ui.actionMuteVoice->setChecked(user.uUserState & USERSTATE_MUTE_VOICE);
-        ui.actionMuteMediaFile->setChecked(user.uUserState & USERSTATE_MUTE_MEDIAFILE);
-        ui.actionDesktopAccessAllow->setChecked(user.uLocalSubscriptions & SUBSCRIBE_DESKTOPINPUT);
+        ui->actionMuteVoice->setChecked(user.uUserState & USERSTATE_MUTE_VOICE);
+        ui->actionMuteMediaFile->setChecked(user.uUserState & USERSTATE_MUTE_MEDIAFILE);
+        ui->actionDesktopAccessAllow->setChecked(user.uLocalSubscriptions & SUBSCRIBE_DESKTOPINPUT);
 
-        ui.actionUserMessages->setChecked(user.uLocalSubscriptions & SUBSCRIBE_USER_MSG);
-        ui.actionChannelMessages->setChecked(user.uLocalSubscriptions & SUBSCRIBE_CHANNEL_MSG);
-        ui.actionBroadcastMessages->setChecked(user.uLocalSubscriptions & SUBSCRIBE_BROADCAST_MSG);
-        ui.actionVoice->setChecked(user.uLocalSubscriptions & SUBSCRIBE_VOICE);
-        ui.actionVideo->setChecked(user.uLocalSubscriptions & SUBSCRIBE_VIDEOCAPTURE);
-        ui.actionDesktop->setChecked(user.uLocalSubscriptions & SUBSCRIBE_DESKTOP);
-        ui.actionDesktopInput->setChecked(user.uLocalSubscriptions & SUBSCRIBE_DESKTOPINPUT);
-        ui.actionMediaFile->setChecked(user.uLocalSubscriptions & SUBSCRIBE_MEDIAFILE);
+        ui->actionUserMessages->setChecked(user.uLocalSubscriptions & SUBSCRIBE_USER_MSG);
+        ui->actionChannelMessages->setChecked(user.uLocalSubscriptions & SUBSCRIBE_CHANNEL_MSG);
+        ui->actionBroadcastMessages->setChecked(user.uLocalSubscriptions & SUBSCRIBE_BROADCAST_MSG);
+        ui->actionVoice->setChecked(user.uLocalSubscriptions & SUBSCRIBE_VOICE);
+        ui->actionVideo->setChecked(user.uLocalSubscriptions & SUBSCRIBE_VIDEOCAPTURE);
+        ui->actionDesktop->setChecked(user.uLocalSubscriptions & SUBSCRIBE_DESKTOP);
+        ui->actionDesktopInput->setChecked(user.uLocalSubscriptions & SUBSCRIBE_DESKTOPINPUT);
+        ui->actionMediaFile->setChecked(user.uLocalSubscriptions & SUBSCRIBE_MEDIAFILE);
 
-        ui.actionInterceptUserMessages->setChecked(user.uLocalSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG);
-        ui.actionInterceptChannelMessages->setChecked(user.uLocalSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG);
-        ui.actionInterceptVoice->setChecked(user.uLocalSubscriptions & SUBSCRIBE_INTERCEPT_VOICE);
-        ui.actionInterceptVideo->setChecked(user.uLocalSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE);
-        ui.actionInterceptDesktop->setChecked(user.uLocalSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP);
-        ui.actionInterceptMediaFile->setChecked(user.uLocalSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE);
+        ui->actionInterceptUserMessages->setChecked(user.uLocalSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG);
+        ui->actionInterceptChannelMessages->setChecked(user.uLocalSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG);
+        ui->actionInterceptVoice->setChecked(user.uLocalSubscriptions & SUBSCRIBE_INTERCEPT_VOICE);
+        ui->actionInterceptVideo->setChecked(user.uLocalSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE);
+        ui->actionInterceptDesktop->setChecked(user.uLocalSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP);
+        ui->actionInterceptMediaFile->setChecked(user.uLocalSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE);
     }
 
-    ui.actionViewUserInformation->setEnabled(userid>0);
-    ui.actionSpeakUserInformation->setEnabled(tts);
-    ui.actionMessages->setEnabled(userid>0);
-    ui.actionMuteVoice->setEnabled(userid>0);
-    ui.actionMuteMediaFile->setEnabled(userid>0);
-    ui.actionVolume->setEnabled(userid>0);
-    ui.actionOp->setEnabled(userid>0);
-    ui.actionKickFromChannel->setEnabled(userid>0);
-    ui.actionKickFromServer->setEnabled(userid>0 && (userrights & USERRIGHT_KICK_USERS));
-    ui.actionKickBan->setEnabled(userid>0 && (userrights & USERRIGHT_BAN_USERS));
-    ui.actionDesktopAccessAllow->setEnabled(userid>0);
+    ui->actionViewUserInformation->setEnabled(userid>0);
+    ui->actionSpeakUserInformation->setEnabled(tts);
+    ui->actionMessages->setEnabled(userid>0);
+    ui->actionMuteVoice->setEnabled(userid>0);
+    ui->actionMuteMediaFile->setEnabled(userid>0);
+    ui->actionVolume->setEnabled(userid>0);
+    ui->actionOp->setEnabled(userid>0);
+    ui->actionKickFromChannel->setEnabled(userid>0);
+    ui->actionKickFromServer->setEnabled(userid>0 && (userrights & USERRIGHT_KICK_USERS));
+    ui->actionKickBan->setEnabled(userid>0 && (userrights & USERRIGHT_BAN_USERS));
+    ui->actionDesktopAccessAllow->setEnabled(userid>0);
 
-    ui.actionUserMessages->setEnabled(userid>0);
-    ui.actionChannelMessages->setEnabled(userid>0);
-    ui.actionBroadcastMessages->setEnabled(userid>0);
-    ui.actionVoice->setEnabled(userid>0);
-    ui.actionVideo->setEnabled(userid>0);
-    ui.actionDesktop->setEnabled(userid>0);
-    ui.actionDesktopInput->setEnabled(userid>0);
-    ui.actionMediaFile->setEnabled(userid>0);
+    ui->actionUserMessages->setEnabled(userid>0);
+    ui->actionChannelMessages->setEnabled(userid>0);
+    ui->actionBroadcastMessages->setEnabled(userid>0);
+    ui->actionVoice->setEnabled(userid>0);
+    ui->actionVideo->setEnabled(userid>0);
+    ui->actionDesktop->setEnabled(userid>0);
+    ui->actionDesktopInput->setEnabled(userid>0);
+    ui->actionMediaFile->setEnabled(userid>0);
     //intercept only works for admins
-    ui.actionInterceptUserMessages->setEnabled(userid>0);
-    ui.actionInterceptChannelMessages->setEnabled(userid>0);
-    ui.actionInterceptVoice->setEnabled(userid>0);
-    ui.actionInterceptVideo->setEnabled(userid>0);
-    ui.actionInterceptDesktop->setEnabled(userid>0);
-    ui.actionInterceptMediaFile->setEnabled(userid>0);
+    ui->actionInterceptUserMessages->setEnabled(userid>0);
+    ui->actionInterceptChannelMessages->setEnabled(userid>0);
+    ui->actionInterceptVoice->setEnabled(userid>0);
+    ui->actionInterceptVideo->setEnabled(userid>0);
+    ui->actionInterceptDesktop->setEnabled(userid>0);
+    ui->actionInterceptMediaFile->setEnabled(userid>0);
 
-    ui.actionIncreaseVoiceVolume->setEnabled(userid>0 && user.nVolumeVoice < SOUND_VOLUME_MAX);
-    ui.actionLowerVoiceVolume->setEnabled(userid>0 && user.nVolumeVoice > SOUND_VOLUME_MIN);
-    ui.actionIncreaseMediaFileVolume->setEnabled(userid>0 && user.nVolumeMediaFile < SOUND_VOLUME_MAX);
-    ui.actionLowerMediaFileVolume->setEnabled(userid>0 && user.nVolumeMediaFile > SOUND_VOLUME_MIN);
-    ui.actionStoreForMove->setEnabled(userid>0 && (userrights & USERRIGHT_MOVE_USERS));
-    ui.actionMoveUser->setEnabled(m_moveusers.size() && (userrights & USERRIGHT_MOVE_USERS));
-    ui.actionRelayVoiceStream->setEnabled(userid > 0 && !voiceactivated && !voicetx);
-    ui.actionRelayVoiceStream->setChecked(userid > 0 && userid == m_relayvoice_userid);
-    ui.actionRelayMediaFileStream->setEnabled(userid > 0 && !voiceactivated && !voicetx);
-    ui.actionRelayMediaFileStream->setChecked(userid > 0 && userid == m_relaymediafile_userid);
+    ui->actionIncreaseVoiceVolume->setEnabled(userid>0 && user.nVolumeVoice < SOUND_VOLUME_MAX);
+    ui->actionLowerVoiceVolume->setEnabled(userid>0 && user.nVolumeVoice > SOUND_VOLUME_MIN);
+    ui->actionIncreaseMediaFileVolume->setEnabled(userid>0 && user.nVolumeMediaFile < SOUND_VOLUME_MAX);
+    ui->actionLowerMediaFileVolume->setEnabled(userid>0 && user.nVolumeMediaFile > SOUND_VOLUME_MIN);
+    ui->actionStoreForMove->setEnabled(userid>0 && (userrights & USERRIGHT_MOVE_USERS));
+    ui->actionMoveUser->setEnabled(m_moveusers.size() && (userrights & USERRIGHT_MOVE_USERS));
+    ui->actionRelayVoiceStream->setEnabled(userid > 0 && !voiceactivated && !voicetx);
+    ui->actionRelayVoiceStream->setChecked(userid > 0 && userid == m_relayvoice_userid);
+    ui->actionRelayMediaFileStream->setEnabled(userid > 0 && !voiceactivated && !voicetx);
+    ui->actionRelayMediaFileStream->setChecked(userid > 0 && userid == m_relaymediafile_userid);
 
-    //ui.actionMuteAll->setEnabled(statemask & CLIENT_SOUND_READY);
-    ui.actionMuteAll->setChecked(statemask & CLIENT_SNDOUTPUT_MUTE);
+    //ui->actionMuteAll->setEnabled(statemask & CLIENT_SOUND_READY);
+    ui->actionMuteAll->setChecked(statemask & CLIENT_SNDOUTPUT_MUTE);
     bool storetextmsgs = ttSettings->value(SETTINGS_MEDIASTORAGE_CHANLOGFOLDER).toString().size() ||
             ttSettings->value(SETTINGS_MEDIASTORAGE_USERLOGFOLDER).toString().size();
-    ui.actionMediaStorage->setChecked(m_audiostorage_mode != AUDIOSTORAGE_NONE || storetextmsgs);
+    ui->actionMediaStorage->setChecked(m_audiostorage_mode != AUDIOSTORAGE_NONE || storetextmsgs);
 
     //Channel-menu items
     Channel chan = {};
@@ -6143,88 +6145,88 @@ void MainWindow::slotUpdateUI()
 
     if(user_chanid == mychannel)
     {
-        ui.actionJoinChannel->setText(tr("&Leave Channel"));
-        ui.actionJoinChannel->setShortcut(tr("CTRL+L"));
+        ui->actionJoinChannel->setText(tr("&Leave Channel"));
+        ui->actionJoinChannel->setShortcut(tr("CTRL+L"));
     }
     else
     {
-        ui.actionJoinChannel->setText(tr("&Join Channel"));
-        ui.actionJoinChannel->setShortcut(tr("CTRL+J"));
+        ui->actionJoinChannel->setText(tr("&Join Channel"));
+        ui->actionJoinChannel->setShortcut(tr("CTRL+J"));
     }
 
-    ui.actionJoinChannel->setEnabled(chanid>0);
-    ui.actionViewChannelInfo->setEnabled(chanid>0);
-    ui.actionGenerateTTURL->setEnabled(chanid > 0);
-    ui.actionSpeakChannelInfo->setEnabled(tts);
-    ui.actionSpeakChannelStat->setEnabled(tts);
-    ui.actionBannedUsersInChannel->setEnabled(chanid>0);
-    ui.actionCreateChannel->setEnabled(chanid>0 || mychannel>0);
-    ui.actionUpdateChannel->setEnabled(chanid>0);
-    ui.actionDeleteChannel->setEnabled(chanid>0);
-    ui.actionStreamMediaFileToChannel->setChecked(statemask & 
+    ui->actionJoinChannel->setEnabled(chanid>0);
+    ui->actionViewChannelInfo->setEnabled(chanid>0);
+    ui->actionGenerateTTURL->setEnabled(chanid > 0);
+    ui->actionSpeakChannelInfo->setEnabled(tts);
+    ui->actionSpeakChannelStat->setEnabled(tts);
+    ui->actionBannedUsersInChannel->setEnabled(chanid>0);
+    ui->actionCreateChannel->setEnabled(chanid>0 || mychannel>0);
+    ui->actionUpdateChannel->setEnabled(chanid>0);
+    ui->actionDeleteChannel->setEnabled(chanid>0);
+    ui->actionStreamMediaFileToChannel->setChecked(statemask &
                                                   (CLIENT_STREAM_AUDIO | CLIENT_STREAM_VIDEO));
-    ui.actionUploadFile->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_UPLOAD_FILES);
-    ui.actionDownloadFile->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_DOWNLOAD_FILES);
-    ui.actionDeleteFile->setEnabled(filescount>0);
+    ui->actionUploadFile->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_UPLOAD_FILES);
+    ui->actionDownloadFile->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_DOWNLOAD_FILES);
+    ui->actionDeleteFile->setEnabled(filescount>0);
 
     //Users-menu items dependent on Channel
     bool modchan = (userrights & USERRIGHT_MODIFY_CHANNELS) == USERRIGHT_MODIFY_CHANNELS;
-    ui.actionAllowChannelTextMessages->setChecked(userCanChanMessage(userid, chan));
-    ui.actionAllowChannelTextMessages->setEnabled(userid > 0 && (me_op || modchan));
-    ui.actionAllowVoiceTransmission->setChecked(userCanVoiceTx(userid, chan));
-    ui.actionAllowVoiceTransmission->setEnabled(userid>0 && (me_op || modchan));
-    ui.actionAllowVideoTransmission->setChecked(userCanVideoTx(userid, chan));
-    ui.actionAllowVideoTransmission->setEnabled(userid>0 && (me_op || modchan));
-    ui.actionAllowDesktopTransmission->setChecked(userCanDesktopTx(userid, chan));
-    ui.actionAllowDesktopTransmission->setEnabled(userid>0 && (me_op || modchan));
-    ui.actionAllowMediaFileTransmission->setChecked(userCanMediaFileTx(userid, chan));
-    ui.actionAllowMediaFileTransmission->setEnabled(userid>0 && (me_op || modchan));
+    ui->actionAllowChannelTextMessages->setChecked(userCanChanMessage(userid, chan));
+    ui->actionAllowChannelTextMessages->setEnabled(userid > 0 && (me_op || modchan));
+    ui->actionAllowVoiceTransmission->setChecked(userCanVoiceTx(userid, chan));
+    ui->actionAllowVoiceTransmission->setEnabled(userid>0 && (me_op || modchan));
+    ui->actionAllowVideoTransmission->setChecked(userCanVideoTx(userid, chan));
+    ui->actionAllowVideoTransmission->setEnabled(userid>0 && (me_op || modchan));
+    ui->actionAllowDesktopTransmission->setChecked(userCanDesktopTx(userid, chan));
+    ui->actionAllowDesktopTransmission->setEnabled(userid>0 && (me_op || modchan));
+    ui->actionAllowMediaFileTransmission->setChecked(userCanMediaFileTx(userid, chan));
+    ui->actionAllowMediaFileTransmission->setEnabled(userid>0 && (me_op || modchan));
 
     bool classroom = (chan.uChannelType & CHANNEL_CLASSROOM) == CHANNEL_CLASSROOM;
-    ui.actionAllowAllChannelTextMessages->setChecked(userCanChanMessage(TT_TRANSMITUSERS_FREEFORALL, chan));
-    ui.actionAllowAllChannelTextMessages->setEnabled(classroom && (me_op || modchan));
-    ui.actionAllowAllVoiceTransmission->setChecked(userCanVoiceTx(TT_TRANSMITUSERS_FREEFORALL, chan));
-    ui.actionAllowAllVoiceTransmission->setEnabled(classroom && (me_op || modchan));
-    ui.actionAllowAllVideoTransmission->setChecked(userCanVideoTx(TT_TRANSMITUSERS_FREEFORALL, chan));
-    ui.actionAllowAllVideoTransmission->setEnabled(classroom && (me_op || modchan));
-    ui.actionAllowAllDesktopTransmission->setChecked(userCanDesktopTx(TT_TRANSMITUSERS_FREEFORALL, chan));
-    ui.actionAllowAllDesktopTransmission->setEnabled(classroom && (me_op || modchan));
-    ui.actionAllowAllMediaFileTransmission->setChecked(userCanMediaFileTx(TT_TRANSMITUSERS_FREEFORALL, chan));
-    ui.actionAllowAllMediaFileTransmission->setEnabled(classroom && (me_op || modchan));
+    ui->actionAllowAllChannelTextMessages->setChecked(userCanChanMessage(TT_TRANSMITUSERS_FREEFORALL, chan));
+    ui->actionAllowAllChannelTextMessages->setEnabled(classroom && (me_op || modchan));
+    ui->actionAllowAllVoiceTransmission->setChecked(userCanVoiceTx(TT_TRANSMITUSERS_FREEFORALL, chan));
+    ui->actionAllowAllVoiceTransmission->setEnabled(classroom && (me_op || modchan));
+    ui->actionAllowAllVideoTransmission->setChecked(userCanVideoTx(TT_TRANSMITUSERS_FREEFORALL, chan));
+    ui->actionAllowAllVideoTransmission->setEnabled(classroom && (me_op || modchan));
+    ui->actionAllowAllDesktopTransmission->setChecked(userCanDesktopTx(TT_TRANSMITUSERS_FREEFORALL, chan));
+    ui->actionAllowAllDesktopTransmission->setEnabled(classroom && (me_op || modchan));
+    ui->actionAllowAllMediaFileTransmission->setChecked(userCanMediaFileTx(TT_TRANSMITUSERS_FREEFORALL, chan));
+    ui->actionAllowAllMediaFileTransmission->setEnabled(classroom && (me_op || modchan));
 
     //Server-menu items
-    ui.actionUserAccounts->setEnabled(auth);
-    ui.actionBannedUsers->setEnabled(me_op || (userrights & USERRIGHT_BAN_USERS));
-    ui.actionOnlineUsers->setEnabled(auth);
-    ui.actionBroadcastMessage->setEnabled(auth && (userrights & USERRIGHT_TEXTMESSAGE_BROADCAST));
-    ui.actionServerProperties->setEnabled(auth);
-    ui.actionSaveConfiguration->setEnabled(auth && me_admin);
-    ui.actionServerStatistics->setEnabled(auth && me_admin);
+    ui->actionUserAccounts->setEnabled(auth);
+    ui->actionBannedUsers->setEnabled(me_op || (userrights & USERRIGHT_BAN_USERS));
+    ui->actionOnlineUsers->setEnabled(auth);
+    ui->actionBroadcastMessage->setEnabled(auth && (userrights & USERRIGHT_TEXTMESSAGE_BROADCAST));
+    ui->actionServerProperties->setEnabled(auth);
+    ui->actionSaveConfiguration->setEnabled(auth && me_admin);
+    ui->actionServerStatistics->setEnabled(auth && me_admin);
 
-    ui.uploadButton->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_UPLOAD_FILES);
-    ui.downloadButton->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_DOWNLOAD_FILES);
+    ui->uploadButton->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_UPLOAD_FILES);
+    ui->downloadButton->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_DOWNLOAD_FILES);
 }
 
 void MainWindow::slotUpdateVideoTabUI()
 {
     ClientFlags statemask = TT_GetFlags(ttInst);
-    int userid = ui.videogridWidget->selectedUser();
+    int userid = ui->videogridWidget->selectedUser();
 
-    ui.detachVideoButton->setEnabled(userid>0);
-    ui.removeVideoButton->setEnabled(ui.videogridWidget->getActiveUsersCount());
-    ui.initVideoButton->setChecked(statemask & CLIENT_VIDEOCAPTURE_READY);
+    ui->detachVideoButton->setEnabled(userid>0);
+    ui->removeVideoButton->setEnabled(ui->videogridWidget->getActiveUsersCount());
+    ui->initVideoButton->setChecked(statemask & CLIENT_VIDEOCAPTURE_READY);
 }
 
 void MainWindow::slotUpdateDesktopTabUI()
 {
-    int userid = ui.desktopgridWidget->selectedUser();
+    int userid = ui->desktopgridWidget->selectedUser();
     User user = {};
-    ui.channelsWidget->getUser(userid, user);
+    ui->channelsWidget->getUser(userid, user);
     
-    ui.detachDesktopButton->setEnabled(userid>0);
-    ui.removeDesktopButton->setEnabled(ui.desktopgridWidget->getActiveUsersCount());
-    ui.desktopaccessButton->setEnabled(userid>0);
-    ui.desktopaccessButton->setChecked(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT);
+    ui->detachDesktopButton->setEnabled(userid>0);
+    ui->removeDesktopButton->setEnabled(ui->desktopgridWidget->getActiveUsersCount());
+    ui->desktopaccessButton->setEnabled(userid>0);
+    ui->desktopaccessButton->setChecked(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT);
 }
 
 void MainWindow::slotUploadFiles(const QStringList& files)
@@ -6235,7 +6237,7 @@ void MainWindow::slotUploadFiles(const QStringList& files)
     {
         QString filename = QDir::toNativeSeparators(files[i]);
         if(!TT_DoSendFile(ttInst, channelid, _W(filename)))
-            QMessageBox::critical(this, MENUTEXT(ui.actionUploadFile->text()),
+            QMessageBox::critical(this, MENUTEXT(ui->actionUploadFile->text()),
             tr("Failed to upload file %1").arg(filename));
     }
 }
@@ -6246,19 +6248,19 @@ void MainWindow::slotSendChannelMessage()
         return;
 
     QString txtmsg;
-    switch(ui.tabWidget->currentIndex())
+    switch(ui->tabWidget->currentIndex())
     {
     case TAB_CHAT :
-        txtmsg = ui.msgEdit->text();
-        ui.msgEdit->clear();
+        txtmsg = ui->msgEdit->text();
+        ui->msgEdit->clear();
         break;
     case TAB_VIDEO :
-        txtmsg = ui.videomsgEdit->text();
-        ui.videomsgEdit->clear();
+        txtmsg = ui->videomsgEdit->text();
+        ui->videomsgEdit->clear();
         break;
     case TAB_DESKTOP :
-        txtmsg = ui.desktopmsgEdit->text();
-        ui.desktopmsgEdit->clear();
+        txtmsg = ui->desktopmsgEdit->text();
+        ui->desktopmsgEdit->clear();
         break;
     default :
         break;
@@ -6274,16 +6276,16 @@ void MainWindow::slotSendChannelMessage()
 
     if (sendTextMessage(msg, txtmsg).size() == 0)
     {
-        switch(ui.tabWidget->currentIndex())
+        switch(ui->tabWidget->currentIndex())
         {
         case TAB_CHAT :
-            ui.msgEdit->setText(txtmsg);
+            ui->msgEdit->setText(txtmsg);
             break;
         case TAB_VIDEO :
-            ui.videomsgEdit->setText(txtmsg);
+            ui->videomsgEdit->setText(txtmsg);
             break;
         case TAB_DESKTOP :
-            ui.desktopmsgEdit->setText(txtmsg);
+            ui->desktopmsgEdit->setText(txtmsg);
             break;
         default :
             break;
@@ -6298,7 +6300,7 @@ void MainWindow::slotUserDoubleClicked(int id)
     if(QApplication::keyboardModifiers() & Qt::ControlModifier)
     {
         User user;
-        if (!ui.channelsWidget->getUser(id, user))
+        if (!ui->channelsWidget->getUser(id, user))
             return;
 
         //first look through video capture
@@ -6369,7 +6371,7 @@ void MainWindow::slotTextMessageClosed(int userid)
     {
         //(*ite)->deleteLater();
         m_usermsg.erase(ite);
-        ui.channelsWidget->setUserMessaged(userid, false);
+        ui->channelsWidget->setUserMessaged(userid, false);
     }
 }
 
@@ -6383,7 +6385,7 @@ void MainWindow::slotTransmitUsersChanged(int channelid,
     if(transmitUsers.size()>TT_TRANSMITUSERS_MAX)
     {
         QMessageBox::information(this, 
-            MENUTEXT(ui.actionAllowVoiceTransmission->text()),
+            MENUTEXT(ui->actionAllowVoiceTransmission->text()),
             tr("The maximum number of users who can transmit is %1")
             .arg(TT_TRANSMITUSERS_MAX));
         return;
@@ -6411,7 +6413,7 @@ void MainWindow::slotTransmitUsersChanged(int channelid,
 void MainWindow::slotChannelUpdate(const Channel& chan)
 {
     Channel oldchan;
-    if(!ui.channelsWidget->getChannel(chan.nChannelID, oldchan))
+    if(!ui->channelsWidget->getChannel(chan.nChannelID, oldchan))
         return;
 
     // Solo transmission
@@ -6428,12 +6430,12 @@ void MainWindow::slotChannelUpdate(const Channel& chan)
 
 void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& newchan)
 {
-    auto userids = ui.channelsWidget->getUsersInChannel(newchan.nChannelID);
+    auto userids = ui->channelsWidget->getUsersInChannel(newchan.nChannelID);
     userids.push_back(TT_CLASSROOM_FREEFORALL);
     for (auto id : userids)
     {
         User user = {};
-        ui.channelsWidget->getUser(id, user);
+        ui->channelsWidget->getUser(id, user);
         QString strNo = tr("%1 can no longer transmit", "%1 can no longer transmit voice").arg(getDisplayName(user));
         QString strYes = tr("%1 can now transmit", "%1 can now transmit voice").arg(getDisplayName(user));
         if (id == TT_CLASSROOM_FREEFORALL)
@@ -6526,13 +6528,13 @@ void MainWindow::slotInitVideo()
 //TODO: remove this
 void MainWindow::slotAddUserVideo()
 {
-    QVector<int> users = ui.channelsWidget->getUsersInChannel(m_mychannel.nChannelID);
+    QVector<int> users = ui->channelsWidget->getUsersInChannel(m_mychannel.nChannelID);
     QMenu menu(this);
 
     //local video frames have userid 0
     if((TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY) &&
        m_user_video.find(0 | VIDEOTYPE_CAPTURE) == m_user_video.end() &&
-       !ui.videogridWidget->userExists(0 | VIDEOTYPE_CAPTURE))
+       !ui->videogridWidget->userExists(0 | VIDEOTYPE_CAPTURE))
     {
         QAction* myself = menu.addAction(tr("Myself"));
         myself->setData(0);
@@ -6549,7 +6551,7 @@ void MainWindow::slotAddUserVideo()
     for(int i=0;i<users.size();i++)
     {
         if(m_user_video.find(users[i]) != m_user_video.end() ||
-           ui.videogridWidget->userExists(users[i]))
+           ui->videogridWidget->userExists(users[i]))
            continue;
 
         User user;
@@ -6571,7 +6573,7 @@ void MainWindow::slotAddUserVideo()
         subscribeCommon(true, SUBSCRIBE_VIDEOCAPTURE, userid);
     }
 
-    ui.videogridWidget->slotAddUser(userid);
+    ui->videogridWidget->slotAddUser(userid);
 
     m_vid_exclude.remove(userid);
 }
@@ -6579,12 +6581,12 @@ void MainWindow::slotAddUserVideo()
 //TODO: remove this
 void MainWindow::slotRemoveUserVideoGrid()
 {
-    int userid = ui.videogridWidget->selectedUser();
+    int userid = ui->videogridWidget->selectedUser();
     if(userid<0)
     {
-        QVector<int> users = ui.videogridWidget->activeUsers();
+        QVector<int> users = ui->videogridWidget->activeUsers();
         QMenu menu(this);
-        if(ui.videogridWidget->userExists(0))
+        if(ui->videogridWidget->userExists(0))
         {
             QAction* myself = menu.addAction(tr("Myself"));
             myself->setData(0);
@@ -6616,23 +6618,23 @@ void MainWindow::slotRemoveUserVideoGrid()
 
 void MainWindow::slotRemoveUserVideo(int userid)
 {
-    ui.videogridWidget->removeUser(userid);
+    ui->videogridWidget->removeUser(userid);
 }
 
 void MainWindow::slotDetachUserVideo(int userid)
 {
     if(userid == 0)
-        userid = ui.videogridWidget->selectedUser();
+        userid = ui->videogridWidget->selectedUser();
 
     if(userid<0)
         return;
 
-    QSize size = ui.videogridWidget->getUserImageSize(userid);
+    QSize size = ui->videogridWidget->getUserImageSize(userid);
     //if size if (0,0) then set size to invalid
     if(QSize(0,0) == size)
         size = QSize();
 
-    ui.videogridWidget->removeUser(userid);
+    ui->videogridWidget->removeUser(userid);
     Q_ASSERT(m_user_video.find(userid) == m_user_video.end());
 
     slotNewUserVideoDlg(userid, size);
@@ -6643,7 +6645,7 @@ void MainWindow::slotNewUserVideoDlg(int userid, const QSize& size)
     User user = {};
 
     //user might not exist in channels tree since it can be local video (userid=0)
-    ui.channelsWidget->getUser(userid & VIDEOTYPE_USERMASK, user);
+    ui->channelsWidget->getUser(userid & VIDEOTYPE_USERMASK, user);
 
     UserVideoDlg* dlg;
     if(size.isValid())
@@ -6698,7 +6700,7 @@ void MainWindow::slotUserVideoDlgClosing(int userid)
         //check to see if video session is still active
         if((user.uUserState & USERSTATE_VIDEOCAPTURE) == USERSTATE_NONE)
             return;
-        ui.videogridWidget->slotAddUser(userid);
+        ui->videogridWidget->slotAddUser(userid);
     }
     break;
     case VIDEOTYPE_MEDIAFILE :
@@ -6717,7 +6719,7 @@ void MainWindow::slotUserVideoDlgClosing(int userid)
         if((user.uUserState & USERSTATE_MEDIAFILE_VIDEO) == USERSTATE_NONE)
             return;
 
-        ui.videogridWidget->slotAddUser(userid);
+        ui->videogridWidget->slotAddUser(userid);
     }
     break;
     }
@@ -6725,7 +6727,7 @@ void MainWindow::slotUserVideoDlgClosing(int userid)
 
 void MainWindow::slotAddUserDesktopGrid()
 {
-    QVector<int> users = ui.channelsWidget->getUsersInChannel(m_mychannel.nChannelID);
+    QVector<int> users = ui->channelsWidget->getUsersInChannel(m_mychannel.nChannelID);
     QMenu menu(this);
 
     //we don't want "myself" in the list
@@ -6736,7 +6738,7 @@ void MainWindow::slotAddUserDesktopGrid()
     for(int i=0;i<users.size();i++)
     {
         if(m_userdesktop.find(users[i]) != m_userdesktop.end() ||
-           ui.desktopgridWidget->userExists(users[i]))
+           ui->desktopgridWidget->userExists(users[i]))
            continue;
 
         User user;
@@ -6762,10 +6764,10 @@ void MainWindow::slotAddUserDesktopGrid()
 
 void MainWindow::slotRemoveUserDesktopGrid()
 {
-    int userid = ui.desktopgridWidget->selectedUser();
+    int userid = ui->desktopgridWidget->selectedUser();
     if(userid<0)
     {
-        QVector<int> users = ui.desktopgridWidget->activeUsers();
+        QVector<int> users = ui->desktopgridWidget->activeUsers();
         QMenu menu(this);
         User user;
         for(int i=0;i<users.size();i++)
@@ -6782,7 +6784,7 @@ void MainWindow::slotRemoveUserDesktopGrid()
             return;
         userid = action->data().toInt();
     }
-    ui.desktopgridWidget->removeUser(userid);
+    ui->desktopgridWidget->removeUser(userid);
     if(userid>0)
         subscribeCommon(false, SUBSCRIBE_DESKTOP, userid);
 }
@@ -6790,7 +6792,7 @@ void MainWindow::slotRemoveUserDesktopGrid()
 void MainWindow::slotRemoveUserDesktop(int userid)
 {
     //remove from grid
-    ui.desktopgridWidget->removeUser(userid);
+    ui->desktopgridWidget->removeUser(userid);
 
     //close dialog
     userdesktop_t::iterator ite = m_userdesktop.find(userid);
@@ -6801,7 +6803,7 @@ void MainWindow::slotRemoveUserDesktop(int userid)
 
 void MainWindow::slotAccessUserDesktop(bool enable)
 {
-    int userid = ui.desktopgridWidget->selectedUser();
+    int userid = ui->desktopgridWidget->selectedUser();
     if(!userid)
         return;
 
@@ -6818,15 +6820,15 @@ void MainWindow::slotAccessUserDesktop(bool enable)
 
 void MainWindow::slotDetachUserDesktopGrid()
 {
-    int userid = ui.desktopgridWidget->selectedUser();
+    int userid = ui->desktopgridWidget->selectedUser();
     if(userid<0)
         return;
 
-    QSize imgsize = ui.desktopgridWidget->getUserImageSize(userid);
+    QSize imgsize = ui->desktopgridWidget->getUserImageSize(userid);
     if(!imgsize.isValid())
         return;
 
-    ui.desktopgridWidget->removeUser(userid);
+    ui->desktopgridWidget->removeUser(userid);
     Q_ASSERT(m_userdesktop.find(userid) == m_userdesktop.end());
     slotDetachUserDesktop(userid, imgsize);
 }
@@ -6834,7 +6836,7 @@ void MainWindow::slotDetachUserDesktopGrid()
 void MainWindow::slotDetachUserDesktop(int userid, const QSize& size)
 {
     User user;
-    if(!ui.channelsWidget->getUser(userid, user))
+    if(!ui->channelsWidget->getUser(userid, user))
         return;
 
     UserDesktopDlg* dlg;
@@ -6878,7 +6880,7 @@ void MainWindow::slotUserDesktopDlgClosing(int userid)
     if((user.uUserState & USERSTATE_DESKTOP) == USERSTATE_NONE)
         return;
     //add back to grid   
-    ui.desktopgridWidget->slotAddUser(userid);
+    ui->desktopgridWidget->slotAddUser(userid);
 }
 
 void MainWindow::slotUserJoin(int channelid, const User& user)
@@ -6926,7 +6928,7 @@ void MainWindow::slotUserLeft(int channelid, const User& user)
 void MainWindow::slotUserUpdate(const User& user)
 {
     User oldUser;
-    if(ui.channelsWidget->getUser(user.nUserID, oldUser))
+    if(ui->channelsWidget->getUser(user.nUserID, oldUser))
     {
         QString nickname = getDisplayName(user);
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG) !=
@@ -6934,10 +6936,10 @@ void MainWindow::slotUserUpdate(const User& user)
         {
             addStatusMsg(STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE, tr("%1 changed subscription \"%2\" to: %3")
                 .arg(nickname)
-                .arg(MENUTEXT(ui.actionInterceptUserMessages->text()))
+                .arg(MENUTEXT(ui->actionInterceptUserMessages->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG?
                      tr("On"):tr("Off")));
-            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptUserMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG?tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui->actionInterceptUserMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG?tr("On"):tr("Off")));
             playSoundEvent(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_USER_MSG?SOUNDEVENT_INTERCEPT:SOUNDEVENT_INTERCEPTEND);
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG) !=
@@ -6945,10 +6947,10 @@ void MainWindow::slotUserUpdate(const User& user)
         {
             addStatusMsg(STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL, tr("%1 changed subscription \"%2\" to: %3")
                 .arg(nickname)
-                .arg(MENUTEXT(ui.actionInterceptChannelMessages->text()))
+                .arg(MENUTEXT(ui->actionInterceptChannelMessages->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG?
                      tr("On"):tr("Off")));
-            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptChannelMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG?tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui->actionInterceptChannelMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG?tr("On"):tr("Off")));
             playSoundEvent(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG?SOUNDEVENT_INTERCEPT:SOUNDEVENT_INTERCEPTEND);
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE) !=
@@ -6956,10 +6958,10 @@ void MainWindow::slotUserUpdate(const User& user)
         {
             addStatusMsg(STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VOICE, tr("%1 changed subscription \"%2\" to: %3")
                 .arg(nickname)
-                .arg(MENUTEXT(ui.actionInterceptVoice->text()))
+                .arg(MENUTEXT(ui->actionInterceptVoice->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE?
                      tr("On"):tr("Off")));
-            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_VOICE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptVoice->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE?tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_VOICE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui->actionInterceptVoice->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE?tr("On"):tr("Off")));
             playSoundEvent(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VOICE?SOUNDEVENT_INTERCEPT:SOUNDEVENT_INTERCEPTEND);
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) !=
@@ -6967,10 +6969,10 @@ void MainWindow::slotUserUpdate(const User& user)
         {
             addStatusMsg(STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VIDEO, tr("%1 changed subscription \"%2\" to: %3")
                 .arg(nickname)
-                .arg(MENUTEXT(ui.actionInterceptVideo->text()))
+                .arg(MENUTEXT(ui->actionInterceptVideo->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE?
                      tr("On"):tr("Off")));
-            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptVideo->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE?tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui->actionInterceptVideo->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE?tr("On"):tr("Off")));
             playSoundEvent(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE?SOUNDEVENT_INTERCEPT:SOUNDEVENT_INTERCEPTEND);
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP) !=
@@ -6978,10 +6980,10 @@ void MainWindow::slotUserUpdate(const User& user)
         {
             addStatusMsg(STATUSBAR_SUBSCRIPTIONS_INTERCEPT_DESKTOP, tr("%1 changed subscription \"%2\" to: %3")
                 .arg(nickname)
-                .arg(MENUTEXT(ui.actionInterceptDesktop->text()))
+                .arg(MENUTEXT(ui->actionInterceptDesktop->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP?
                      tr("On"):tr("Off")));
-            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptDesktop->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP?tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui->actionInterceptDesktop->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP?tr("On"):tr("Off")));
             playSoundEvent(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_DESKTOP?SOUNDEVENT_INTERCEPT:SOUNDEVENT_INTERCEPTEND);
         }
         if((oldUser.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE) !=
@@ -6989,10 +6991,10 @@ void MainWindow::slotUserUpdate(const User& user)
         {
             addStatusMsg(STATUSBAR_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE, tr("%1 changed subscription \"%2\" to: %3")
                 .arg(nickname)
-                .arg(MENUTEXT(ui.actionInterceptMediaFile->text()))
+                .arg(MENUTEXT(ui->actionInterceptMediaFile->text()))
                 .arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE?
                      tr("On"):tr("Off")));
-            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionInterceptMediaFile->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE?tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui->actionInterceptMediaFile->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE?tr("On"):tr("Off")));
             playSoundEvent(user.uPeerSubscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE?SOUNDEVENT_INTERCEPT:SOUNDEVENT_INTERCEPTEND);
         }
         if(m_mychannel.nChannelID == user.nChannelID && user.nChannelID)
@@ -7002,80 +7004,80 @@ void MainWindow::slotUserUpdate(const User& user)
             {
                 addStatusMsg(STATUSBAR_SUBSCRIPTIONS_TEXTMSG_PRIVATE, tr("%1 changed subscription \"%2\" to: %3")
                     .arg(nickname)
-                    .arg(MENUTEXT(ui.actionUserMessages->text()))
+                    .arg(MENUTEXT(ui->actionUserMessages->text()))
                     .arg(user.uPeerSubscriptions & SUBSCRIBE_USER_MSG?
                          tr("On"):tr("Off")));
-            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionUserMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_USER_MSG?tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui->actionUserMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_USER_MSG?tr("On"):tr("Off")));
             }
             if((oldUser.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG) !=
                 (user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG))
             {
                 addStatusMsg(STATUSBAR_SUBSCRIPTIONS_TEXTMSG_CHANNEL, tr("%1 changed subscription \"%2\" to: %3")
                     .arg(nickname)
-                    .arg(MENUTEXT(ui.actionChannelMessages->text()))
+                    .arg(MENUTEXT(ui->actionChannelMessages->text()))
                     .arg(user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG?
                          tr("On"):tr("Off")));
-            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionChannelMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG?tr("On"):tr("Off")));
+            addTextToSpeechMessage(TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui->actionChannelMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_CHANNEL_MSG?tr("On"):tr("Off")));
             }
             if((oldUser.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG) !=
                 (user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG))
             {
                 addStatusMsg(STATUSBAR_SUBSCRIPTIONS_TEXTMSG_BROADCAST, tr("%1 changed subscription \"%2\" to: %3")
                     .arg(nickname)
-                    .arg(MENUTEXT(ui.actionBroadcastMessages->text()))
+                    .arg(MENUTEXT(ui->actionBroadcastMessages->text()))
                     .arg(user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG?
                          tr("On"):tr("Off")));
-                addTextToSpeechMessage(TTS_SUBSCRIPTIONS_TEXTMSG_BROADCAST, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionBroadcastMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG?tr("On"):tr("Off")));
+                addTextToSpeechMessage(TTS_SUBSCRIPTIONS_TEXTMSG_BROADCAST, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui->actionBroadcastMessages->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_BROADCAST_MSG?tr("On"):tr("Off")));
             }
             if((oldUser.uPeerSubscriptions & SUBSCRIBE_VOICE) !=
                 (user.uPeerSubscriptions & SUBSCRIBE_VOICE))
             {
                 addStatusMsg(STATUSBAR_SUBSCRIPTIONS_VOICE, tr("%1 changed subscription \"%2\" to: %3")
                     .arg(nickname)
-                    .arg(MENUTEXT(ui.actionVoice->text()))
+                    .arg(MENUTEXT(ui->actionVoice->text()))
                     .arg(user.uPeerSubscriptions & SUBSCRIBE_VOICE?
                          tr("On"):tr("Off")));
-                addTextToSpeechMessage(TTS_SUBSCRIPTIONS_VOICE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionVoice->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_VOICE?tr("On"):tr("Off")));
+                addTextToSpeechMessage(TTS_SUBSCRIPTIONS_VOICE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui->actionVoice->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_VOICE?tr("On"):tr("Off")));
             }
             if((oldUser.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE) !=
                 (user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE))
             {
                 addStatusMsg(STATUSBAR_SUBSCRIPTIONS_VIDEO, tr("%1 changed subscription \"%2\" to: %3")
                     .arg(nickname)
-                    .arg(MENUTEXT(ui.actionVideo->text()))
+                    .arg(MENUTEXT(ui->actionVideo->text()))
                     .arg(user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE?
                          tr("On"):tr("Off")));
-                addTextToSpeechMessage(TTS_SUBSCRIPTIONS_VIDEO, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionVideo->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE?tr("On"):tr("Off")));
+                addTextToSpeechMessage(TTS_SUBSCRIPTIONS_VIDEO, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui->actionVideo->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_VIDEOCAPTURE?tr("On"):tr("Off")));
             }
             if((oldUser.uPeerSubscriptions & SUBSCRIBE_DESKTOP) !=
                 (user.uPeerSubscriptions & SUBSCRIBE_DESKTOP))
             {
                 addStatusMsg(STATUSBAR_SUBSCRIPTIONS_DESKTOP, tr("%1 changed subscription \"%2\" to: %3")
                     .arg(nickname)
-                    .arg(MENUTEXT(ui.actionDesktop->text()))
+                    .arg(MENUTEXT(ui->actionDesktop->text()))
                     .arg(user.uPeerSubscriptions & SUBSCRIBE_DESKTOP?
                          tr("On"):tr("Off")));
-                addTextToSpeechMessage(TTS_SUBSCRIPTIONS_DESKTOP, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionDesktop->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_DESKTOP?tr("On"):tr("Off")));
+                addTextToSpeechMessage(TTS_SUBSCRIPTIONS_DESKTOP, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui->actionDesktop->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_DESKTOP?tr("On"):tr("Off")));
             }
             if((oldUser.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT) !=
                 (user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT))
             {
                 addStatusMsg(STATUSBAR_SUBSCRIPTIONS_DESKTOPINPUT, tr("%1 changed subscription \"%2\" to: %3")
                     .arg(nickname)
-                    .arg(MENUTEXT(ui.actionDesktopInput->text()))
+                    .arg(MENUTEXT(ui->actionDesktopInput->text()))
                     .arg(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT?
                          tr("On"):tr("Off")));
-                addTextToSpeechMessage(TTS_SUBSCRIPTIONS_DESKTOPINPUT, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionDesktopInput->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT?tr("On"):tr("Off")));
+                addTextToSpeechMessage(TTS_SUBSCRIPTIONS_DESKTOPINPUT, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui->actionDesktopInput->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT?tr("On"):tr("Off")));
             }
             if((oldUser.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE) !=
                 (user.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE))
             {
                 addStatusMsg(STATUSBAR_SUBSCRIPTIONS_MEDIAFILE, tr("%1 changed subscription \"%2\" to: %3")
                     .arg(nickname)
-                    .arg(MENUTEXT(ui.actionMediaFile->text()))
+                    .arg(MENUTEXT(ui->actionMediaFile->text()))
                     .arg(user.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE?
                      tr("On"):tr("Off")));
-                addTextToSpeechMessage(TTS_SUBSCRIPTIONS_MEDIAFILE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui.actionMediaFile->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE?tr("On"):tr("Off")));
+                addTextToSpeechMessage(TTS_SUBSCRIPTIONS_MEDIAFILE, tr("%1 changed subscription \"%2\" to: %3").arg(nickname).arg(MENUTEXT(ui->actionMediaFile->text())).arg(user.uPeerSubscriptions & SUBSCRIBE_MEDIAFILE?tr("On"):tr("Off")));
             }
         }
     }
@@ -7096,17 +7098,17 @@ void MainWindow::slotToggleQuestionMode(bool checked)
 void MainWindow::slotUpdateVideoCount(int count)
 {
     if(count == 0)
-        ui.tabWidget->setTabText(TAB_VIDEO, tr("&Video"));
+        ui->tabWidget->setTabText(TAB_VIDEO, tr("&Video"));
     else
-        ui.tabWidget->setTabText(TAB_VIDEO, tr("&Video (%1)").arg(count));
+        ui->tabWidget->setTabText(TAB_VIDEO, tr("&Video (%1)").arg(count));
 }
 
 void MainWindow::slotUpdateDesktopCount(int count)
 {
     if(count == 0)
-        ui.tabWidget->setTabText(TAB_DESKTOP, tr("&Desktops"));
+        ui->tabWidget->setTabText(TAB_DESKTOP, tr("&Desktops"));
     else
-        ui.tabWidget->setTabText(TAB_DESKTOP, tr("&Desktops (%1)").arg(count));
+        ui->tabWidget->setTabText(TAB_DESKTOP, tr("&Desktops (%1)").arg(count));
 }
 
 void MainWindow::slotMasterVolumeChanged(int value)
@@ -7447,38 +7449,38 @@ void MainWindow::startTTS()
 
 void MainWindow::slotTextChanged()
 {
-    ui.sendButton->setVisible(ui.msgEdit->text().size()>0);
-    ui.videosendButton->setVisible(ui.videomsgEdit->text().size()>0);
-    ui.desktopsendButton->setVisible(ui.desktopmsgEdit->text().size()>0);
+    ui->sendButton->setVisible(ui->msgEdit->text().size()>0);
+    ui->videosendButton->setVisible(ui->videomsgEdit->text().size()>0);
+    ui->desktopsendButton->setVisible(ui->desktopmsgEdit->text().size()>0);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* e)
 {
-    if (ui.tabWidget->hasFocus())
+    if (ui->tabWidget->hasFocus())
     {
-        if (e->key() == Qt::Key_Home && ui.tabWidget->currentIndex() != 0)
-            ui.tabWidget->setCurrentIndex(0);
-        else if (e->key() == Qt::Key_End && ui.tabWidget->currentIndex() != ui.tabWidget->count())
-            ui.tabWidget->setCurrentIndex(ui.tabWidget->count()-1);
+        if (e->key() == Qt::Key_Home && ui->tabWidget->currentIndex() != 0)
+            ui->tabWidget->setCurrentIndex(0);
+        else if (e->key() == Qt::Key_End && ui->tabWidget->currentIndex() != ui->tabWidget->count())
+            ui->tabWidget->setCurrentIndex(ui->tabWidget->count()-1);
     }
     if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
     {
 #if defined(Q_OS_DARWIN)
-        if (ui.channelsWidget->hasFocus())
+        if (ui->channelsWidget->hasFocus())
         {
             User user;
-            if(ui.channelsWidget->getUser(ui.channelsWidget->selectedUser(), user))
-                slotUserDoubleClicked(ui.channelsWidget->selectedUser());
+            if(ui->channelsWidget->getUser(ui->channelsWidget->selectedUser(), user))
+                slotUserDoubleClicked(ui->channelsWidget->selectedUser());
             else
-                slotChannelDoubleClicked(ui.channelsWidget->selectedChannel(true));
+                slotChannelDoubleClicked(ui->channelsWidget->selectedChannel(true));
         }
 #endif
-        if (ui.filesView->hasFocus())
+        if (ui->filesView->hasFocus())
         {
             slotChannelsDownloadFile();
         }
     }
-    if (ui.chatEdit->hasFocus() || ui.videochatEdit->hasFocus() || ui.desktopchatEdit->hasFocus())
+    if (ui->chatEdit->hasFocus() || ui->videochatEdit->hasFocus() || ui->desktopchatEdit->hasFocus())
     {
         QString key = e->text();
         if (!key.isEmpty() && key.size() == 1)
@@ -7486,20 +7488,20 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
             QChar keyText = key.at(0);    
             if (keyText.isPrint())
             {
-                if (ui.chatEdit->hasFocus())
+                if (ui->chatEdit->hasFocus())
                 {
-                    ui.msgEdit->setFocus();
-                    ui.msgEdit->kPress(e);
+                    ui->msgEdit->setFocus();
+                    ui->msgEdit->kPress(e);
                 }
-                else if (ui.videochatEdit->hasFocus())
+                else if (ui->videochatEdit->hasFocus())
                 {
-                    ui.videomsgEdit->setFocus();
-                    ui.videomsgEdit->kPress(e);
+                    ui->videomsgEdit->setFocus();
+                    ui->videomsgEdit->kPress(e);
                 }
-                else if (ui.desktopchatEdit->hasFocus())
+                else if (ui->desktopchatEdit->hasFocus())
                 {
-                    ui.desktopmsgEdit->setFocus();
-                    ui.desktopmsgEdit->kPress(e);
+                    ui->desktopmsgEdit->setFocus();
+                    ui->desktopmsgEdit->kPress(e);
                 }
             }
         }

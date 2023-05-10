@@ -24,14 +24,16 @@
 #ifndef SERVERLISTDLG_H
 #define SERVERLISTDLG_H
 
-#include "ui_serverlist.h"
 #include "common.h"
 
 #include <QAbstractItemModel>
+#include <QDialog>
+#include <QKeyEvent>
 #include <QNetworkAccessManager>
 #include <QRegularExpression>
 #include <QSortFilterProxyModel>
 #include <QVector>
+
 #include <memory>
 
 enum ServerType
@@ -86,6 +88,10 @@ private:
     int m_nusers = 0;
 };
 
+QT_BEGIN_NAMESPACE
+namespace Ui { class ServerListDlg; }
+QT_END_NAMESPACE
+
 class ServerListDlg : public QDialog
 {
     Q_OBJECT
@@ -97,7 +103,7 @@ protected:
     void keyPressEvent(QKeyEvent* e) override;
 
 private:
-    Ui::ServerListDlg ui;
+    std::unique_ptr<Ui::ServerListDlg> ui;
     ServerListModel* m_model;
     int m_nextid = 0;
     QSortFilterProxyModel* m_proxyModel;
