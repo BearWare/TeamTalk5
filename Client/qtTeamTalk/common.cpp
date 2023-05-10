@@ -31,6 +31,10 @@
 #include <QStack>
 #include <QTemporaryFile>
 
+#if defined(Q_OS_DARWIN) //For hotkeys on Mac
+#include <Carbon/Carbon.h>
+#endif
+
 #define DEFAULT_NICKNAME           QT_TRANSLATE_NOOP("MainWindow", "NoName")
 
 extern QSettings* ttSettings;

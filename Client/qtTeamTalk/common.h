@@ -47,10 +47,6 @@
 
 #include <TeamTalk.h>
 
-#if defined(Q_OS_DARWIN) //For hotkeys on Mac
-#include <Carbon/Carbon.h>
-#endif
-
 #if defined(Q_OS_WIN32)
 //Conversion from/to TTCHAR
 #define _W(qstr) qstr.toStdWString().c_str()

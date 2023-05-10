@@ -33,6 +33,10 @@
 #include <QNetworkAccessManager>
 #include <QSortFilterProxyModel>
 
+#if defined(Q_OS_DARWIN) //For hotkeys on Mac
+#include <Carbon/Carbon.h>
+#endif
+
 #include "common.h"
 #include "textmessagecontainer.h"
 #include "utilsound.h"

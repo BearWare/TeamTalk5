@@ -26,6 +26,10 @@
 
 #include <QKeySequence>
 
+#if defined(Q_OS_DARWIN) //For hotkeys on Mac
+#include <Carbon/Carbon.h>
+#endif
+
 extern QSettings* ttSettings;
 extern TTInstance* ttInst;
 

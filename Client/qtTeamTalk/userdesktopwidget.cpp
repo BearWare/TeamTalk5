@@ -32,6 +32,9 @@
 #include <QMenu>
 #include <QDebug>
 
+#if defined(Q_OS_DARWIN) //For hotkeys on Mac
+#include <Carbon/Carbon.h>
+#endif
 
 extern TTInstance* ttInst;
 

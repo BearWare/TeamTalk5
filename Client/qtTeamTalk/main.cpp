@@ -35,6 +35,10 @@
 #include <QAbstractNativeEventFilter>
 #endif
 
+#if defined(Q_OS_DARWIN) //For hotkeys on Mac
+#include <Carbon/Carbon.h>
+#endif
+
 #include "mainwindow.h"
 #include "license.h"
 
