@@ -11,6 +11,7 @@ Default Qt Client
 - Initial support for inclusive writing in some status and events
 - Selected communication sound device is now default in Windows
 - Removed public servers from server list
+- Linux client asks to enable text-to-speech at first startup if screen reader is running
 Accessible Windows Client
 - Removed public servers from server list
 Android Client
