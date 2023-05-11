@@ -23,7 +23,6 @@
 
 #include "bearwarelogindlg.h"
 #include "ui_bearwarelogindlg.h"
-#include "common.h"
 #include "appinfo.h"
 #include "settings.h"
 

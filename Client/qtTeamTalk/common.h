@@ -32,10 +32,6 @@
 #include <QMap>
 #include <QVector>
 
-#if defined(Q_OS_DARWIN) //For hotkeys on Mac
-#include <Carbon/Carbon.h>
-#endif
-
 //For TT_DoChangeStatus
 enum StatusMode
 {
@@ -178,8 +174,6 @@ typedef QList<MyTextMessage> textmessages_t;
 
 QString makeCustomCommand(const QString& cmd, const QString& value);
 QStringList getCustomCommand(const MyTextMessage& msg);
-
-bool isComputerIdle(int idle_secs);
 
 bool setupEncryption(const HostEntry& host);
 
