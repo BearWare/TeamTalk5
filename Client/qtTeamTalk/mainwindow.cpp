@@ -47,6 +47,7 @@
 #include "userdesktopdlg.h"
 #include "appinfo.h"
 #include "bearwarelogindlg.h"
+#include "utilos.h"
 #include "utilvideo.h"
 #include "utiltts.h"
 #include "utilxml.h"

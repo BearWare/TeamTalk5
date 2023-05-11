@@ -24,6 +24,8 @@
 #ifndef APPINFO_H
 #define APPINFO_H
 
+#include "utiltt.h"
+
 #include <QString>
 #include <QIcon>
 #include <QApplication>

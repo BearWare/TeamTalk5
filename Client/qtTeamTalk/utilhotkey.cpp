@@ -22,9 +22,14 @@
  */
 
 #include "utilhotkey.h"
+#include "utilos.h"
 #include "settings.h"
 
 #include <QKeySequence>
+
+#if defined(Q_OS_DARWIN)
+#include <Carbon/Carbon.h>
+#endif
 
 extern QSettings* ttSettings;
 extern TTInstance* ttInst;
