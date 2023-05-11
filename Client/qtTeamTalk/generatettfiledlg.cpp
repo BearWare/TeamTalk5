@@ -27,6 +27,7 @@
 #include "appinfo.h"
 #include "settings.h"
 #include "utilhotkey.h"
+#include "utilxml.h"
 
 #include <QFileDialog>
 #include <QMessageBox>

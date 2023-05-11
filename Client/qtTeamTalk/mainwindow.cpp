@@ -49,6 +49,7 @@
 #include "bearwarelogindlg.h"
 #include "utilvideo.h"
 #include "utiltts.h"
+#include "utilxml.h"
 
 #include <QMessageBox>
 #include <QInputDialog>
