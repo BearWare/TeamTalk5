@@ -27,6 +27,7 @@
 #include "settings.h"
 #include "generatettfiledlg.h"
 #include "utilui.h"
+#include "utilxml.h"
 #include "encryptionsetupdlg.h"
 
 #include <QUrl>
