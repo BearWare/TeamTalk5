@@ -91,7 +91,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     utilsound.h utilvideo.h utiltts.h utilui.h utilhotkey.h
     serverlogeventsmodel.h mytreeview.h textmessagecontainer.h
     useraccountsmodel.h encryptionsetupdlg.h utiltt.h utilxml.h
-    utilxml.h
+    utilos.h
 
     main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp
     channelstree.cpp channeldlg.cpp userinfodlg.cpp
