@@ -103,12 +103,7 @@ void RemoveFacebookLogins(teamtalk::ServerXML& xmlSettings)
         UserAccount ua;
         while (xmlSettings.GetNextUser(index, ua))
         {
-            bool fbpostfix;
-#if defined(UNICODE)
-            fbpostfix = std::regex_search(ua.username.c_str(), std::wregex(ACE_TEXT("@facebook.com")));
-#else
-            fbpostfix = std::regex_search(ua.username.c_str(), std::regex("@facebook.com"));
-#endif
+            bool fbpostfix = std::regex_search(ua.username.c_str(), buildregex(ACE_TEXT("@facebook.com")));
             if (ua.username == ACE_TEXT("facebook") || fbpostfix)
             {
                 fbfound = true;
@@ -838,13 +833,8 @@ bool HasBearWareWebLogin(teamtalk::ServerXML& xmlSettings)
             return true;
 
         const ACE_TString BWREGEX = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + ACE_TString(ACE_TEXT("$"));
-#if defined(UNICODE)
-        if (std::regex_search(ua.username.c_str(), std::wregex(BWREGEX.c_str())))
+        if (std::regex_search(ua.username.c_str(), buildregex(BWREGEX.c_str())))
             return true;
-#else
-        if (std::regex_search(ua.username.c_str(), std::regex(BWREGEX.c_str())))
-            return true;
-#endif
     }
     return false;
 }

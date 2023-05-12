@@ -25,6 +25,7 @@
 #define MYSTD_H
 
 #include <string>
+#include <regex>
 #include <vector>
 
 #if !defined(_MSC_VER)
@@ -45,6 +46,12 @@ std::string str2lower(const std::string& str);
 
 bool strcmpnocase(const std::string& str1, const std::string& str2);
 stdstrings_t stdtokenize(const std::string& source, const std::string& delimeters);
+
+#if defined(UNICODE)
+std::wregex buildregex(const std::wstring& regexstr);
+#else
+std::regex buildregex(const std::string& regexstr);
+#endif
 
 uint32_t GETTIMESTAMP();
 
