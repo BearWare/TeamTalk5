@@ -49,11 +49,7 @@ namespace teamtalk
     {
 #if defined(ENABLE_TEAMTALKPRO)
         ACE_TString bwregex = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + ACE_TString(ACE_TEXT("$"));
-#if defined(UNICODE)
-        return std::regex_search(username.c_str(), std::wregex(bwregex.c_str()));
-#else
-        return std::regex_search(username.c_str(), std::regex(bwregex.c_str()));
-#endif
+        return std::regex_search(username.c_str(), buildregex(bwregex.c_str()));
 #else
         return false;
 #endif
