@@ -46,7 +46,8 @@ public class Permissions {
     MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 6,
     MY_PERMISSIONS_REQUEST_WAKE_LOCK = 7,
     MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 8,
-    MY_PERMISSIONS_BLUETOOTH = 9;
+    MY_PERMISSIONS_BLUETOOTH = 9,
+    MY_PERMISSIONS_POST_NOTIFICATIONS = 10;
 
     public static boolean setupPermission(Context context, Activity activity, int permission) {
         String stringPermission;
@@ -93,6 +94,10 @@ public class Permissions {
                     stringPermission = Manifest.permission.BLUETOOTH;
                 }
                 errormessage = context.getString(R.string.permission_bluetooth);
+                break;
+            case MY_PERMISSIONS_POST_NOTIFICATIONS:
+                stringPermission = Manifest.permission.POST_NOTIFICATIONS;
+                errormessage = context.getString(R.string.permission_post_notifications);
                 break;
             default :
                 Log.e(AppInfo.TAG, String.format("Unknown permission %d", permission));
