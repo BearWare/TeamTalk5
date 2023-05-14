@@ -12,6 +12,8 @@ Accessible Windows Client
 -
 Android Client
 - Support for verifying authenticity of encrypted TeamTalk servers using certificates
+- Fixed crashes when clicking a link in channel and private messages
+- Fixed a bug of not sending notifications about private chats and ongoing notification
 iOS Client
 - Support for verifying authenticity of encrypted TeamTalk servers using certificates
 Server
