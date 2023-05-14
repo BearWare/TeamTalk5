@@ -917,6 +917,7 @@ class ClientErrorMsg(Structure):
 class ClientEvent(UINT32):
     CLIENTEVENT_NONE = 0
     CLIENTEVENT_CON_SUCCESS = CLIENTEVENT_NONE + 10
+    CLIENTEVENT_CON_CRYPT_ERROR = CLIENTEVENT_NONE + 15
     CLIENTEVENT_CON_FAILED = CLIENTEVENT_NONE + 20
     CLIENTEVENT_CON_LOST = CLIENTEVENT_NONE + 30
     CLIENTEVENT_CON_MAX_PAYLOAD_UPDATED = CLIENTEVENT_NONE + 40
@@ -941,6 +942,8 @@ class ClientEvent(UINT32):
     CLIENTEVENT_CMD_FILE_REMOVE = CLIENTEVENT_NONE + 380
     CLIENTEVENT_CMD_USERACCOUNT = CLIENTEVENT_NONE + 390
     CLIENTEVENT_CMD_BANNEDUSER  = CLIENTEVENT_NONE + 400
+    CLIENTEVENT_CMD_USERACCOUNT_NEW = CLIENTEVENT_NONE + 410
+    CLIENTEVENT_CMD_USERACCOUNT_REMOVE = CLIENTEVENT_NONE + 420
     CLIENTEVENT_USER_STATECHANGE = CLIENTEVENT_NONE + 500
     CLIENTEVENT_USER_VIDEOCAPTURE = CLIENTEVENT_NONE + 510
     CLIENTEVENT_USER_MEDIAFILE_VIDEO = CLIENTEVENT_NONE + 520
@@ -959,6 +962,13 @@ class ClientEvent(UINT32):
     CLIENTEVENT_LOCAL_MEDIAFILE = CLIENTEVENT_NONE + 1070
     CLIENTEVENT_AUDIOINPUT = CLIENTEVENT_NONE + 1080
     CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET = CLIENTEVENT_NONE + 1090
+    CLIENTEVENT_SOUNDDEVICE_ADDED = CLIENTEVENT_NONE + 1100
+    CLIENTEVENT_SOUNDDEVICE_REMOVED = CLIENTEVENT_NONE + 1110
+    CLIENTEVENT_SOUNDDEVICE_UNPLUGGED = CLIENTEVENT_NONE + 1120
+    CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT = CLIENTEVENT_NONE + 1130
+    CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT = CLIENTEVENT_NONE + 1140
+    CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT_COMDEVICE = CLIENTEVENT_NONE + 1150
+    CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT_COMDEVICE = CLIENTEVENT_NONE + 1160
 
 # Underscore has special meaning in Python, so we remove it
 class TTType(INT32):
@@ -1027,6 +1037,7 @@ class TTMessageUnion(Union):
     ("nPayloadSize", INT32),
     ("nStreamType", INT32),
     ("audioinputprogress", AudioInputProgress),
+    ("sounddevice", SoundDevice),
     ("data", c_char*1)
     ]
 
@@ -1271,6 +1282,8 @@ class TeamTalk(object):
         event = msg.nClientEvent
         if event == ClientEvent.CLIENTEVENT_CON_SUCCESS:
             self.onConnectSuccess()
+        if event == ClientEvent.CLIENTEVENT_CON_CRYPT_ERROR:
+            self.onConnectCryptError(msg.clienterrormsg)
         if event == ClientEvent.CLIENTEVENT_CON_FAILED:
             self.onConnectFailed()
         if event == ClientEvent.CLIENTEVENT_CON_LOST:
@@ -1313,6 +1326,10 @@ class TeamTalk(object):
             self.onCmdFileRemove(msg.remotefile)
         if event == ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE:
             self.onUserRecordMediaFile(msg.nSource, msg.mediafileinfo)
+        if event == ClientEvent.CLIENTEVENT_CMD_USERACCOUNT_NEW:
+            self.onUserAccountNew(msg.useraccount)
+        if event == ClientEvent.CLIENTEVENT_CMD_USERACCOUNT_REMOVE:
+            self.onUserAccountRemove(msg.useraccount)
         if event == ClientEvent.CLIENTEVENT_USER_STATECHANGE:
             self.onUserStateChange(msg.user)
         if event == ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK:
@@ -1327,6 +1344,20 @@ class TeamTalk(object):
             self.onServerStatistics(msg.serverstatistics)
         if event == ClientEvent.CLIENTEVENT_INTERNAL_ERROR:
             self.onInternalError(msg.clienterrormsg)
+        if event == ClientEvent.CLIENTEVENT_SOUNDDEVICE_ADDED:
+            self.onSoundDeviceAdded(msg.sounddevice)
+        if event == ClientEvent.CLIENTEVENT_SOUNDDEVICE_REMOVED:
+            self.onSoundDeviceRemoved(msg.sounddevice)
+        if event == ClientEvent.CLIENTEVENT_SOUNDDEVICE_UNPLUGGED:
+            self.onSoundDeviceUnplugged(msg.soundDevice)
+        if event == ClientEvent.CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT:
+            self.onSoundDeviceNewDefaultInput(msg.sounddevice)
+        if event == ClientEvent.CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT:
+            self.onSoundDeviceNewDefaultOutput(msg.sounddevice)
+        if event == ClientEvent.CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT_COMDEVICE:
+            self.onSoundDeviceNewDefaultInputComDevice(msg.sounddevice)
+        if event == ClientEvent.CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT_COMDEVICE:
+            self.onSoundDeviceNewDefaultOutputComDevice(msg.sounddevice)
 
     def getMessage(self, nWaitMS: int = -1):
         msg = TTMessage()
@@ -1598,6 +1629,9 @@ class TeamTalk(object):
     def onConnectSuccess(self):
         pass
 
+    def onConnectCryptError(self, clienterrormsg: ClientErrorMsg):
+        pass
+
     def onConnectFailed(self):
         pass
 
@@ -1661,6 +1695,12 @@ class TeamTalk(object):
     def onUserRecordMediaFile(self, userid: int, mediafileinfo: MediaFileInfo):
         pass
 
+    def onUserAccountNew(self, useraccount: UserAccount):
+        pass
+
+    def onUserAccountRemove(self, useraccount: UserAccount):
+        pass
+
     def onUserStateChange(self, user: User):
         pass
 
@@ -1680,4 +1720,25 @@ class TeamTalk(object):
         pass
 
     def onInternalError(self, clienterrormsg: ClientErrorMsg):
+        pass
+
+    def onSoundDeviceAdded(self, sounddevice: SoundDevice):
+        pass
+
+    def onSoundDeviceRemoved(self, sounddevice: SoundDevice):
+        pass
+
+    def onSoundDeviceUnplugged(self, sounddevice: SoundDevice):
+        pass
+
+    def onSoundDeviceNewDefaultInput(self, sounddevice: SoundDevice):
+        pass
+
+    def onSoundDeviceNewDefaultOutput(self, sounddevice: SoundDevice):
+        pass
+
+    def onSoundDeviceNewDefaultInputComDevice(self, sounddevice: SoundDevice):
+        pass
+
+    def onSoundDeviceNewDefaultOutputComDevice(self, sounddevice: SoundDevice):
         pass
