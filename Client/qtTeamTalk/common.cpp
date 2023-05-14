@@ -69,7 +69,7 @@ bool setupEncryption(const HostEntry& host)
     if (!host.encrypted)
         return true;
 
-    QTemporaryFile cafile("cafile.pem"), certfile("certfile.pem"), keyfile("keyfile.pem");
+    QTemporaryFile cafile, certfile, keyfile;
     if (!cafile.open() || !cafile.setPermissions(QFileDevice::ReadOwner))
         return false;
     if (!certfile.open() || !certfile.setPermissions(QFileDevice::ReadOwner))
@@ -94,6 +94,10 @@ bool setupEncryption(const HostEntry& host)
         keyfilename = QDir::toNativeSeparators(keyfile.fileName());
     }
 
+    cafile.close();
+    certfile.close();
+    keyfile.close();
+
     EncryptionContext context = {};
     context.bVerifyPeer = host.encryption.verifypeer;
     if (!context.bVerifyPeer)
@@ -101,10 +105,6 @@ bool setupEncryption(const HostEntry& host)
     COPY_TTSTR(context.szCAFile, cafilename);
     COPY_TTSTR(context.szCertificateFile, certfilename);
     COPY_TTSTR(context.szPrivateKeyFile, keyfilename);
-
-    cafile.close();
-    certfile.close();
-    keyfile.close();
 
     return TT_SetEncryptionContext(ttInst, &context);
 }
