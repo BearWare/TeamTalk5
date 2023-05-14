@@ -1165,17 +1165,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../encryptionsetupdlg.ui" line="14"/>
         <source>Setup Encryption</source>
-        <translation type="unfinished"></translation>
+        <translation>设置加密</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="20"/>
         <source>Client Encryption Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>客户端加密设置</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="26"/>
         <source>Certificate Authority (CA)</source>
-        <translation type="unfinished"></translation>
+        <translation>证书颁发机构 (CA)</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="45"/>
@@ -1185,106 +1185,106 @@ p, li { white-space: pre-wrap; }
         <location filename="../encryptionsetupdlg.ui" line="135"/>
         <location filename="../encryptionsetupdlg.ui" line="147"/>
         <source>...</source>
-        <translation type="unfinished">浏览...</translation>
+        <translation>浏览...</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="71"/>
         <source>Client certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>客户端证书</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="116"/>
         <source>Client private key</source>
-        <translation type="unfinished"></translation>
+        <translation>客户端私钥</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="161"/>
         <source>Verify server certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>验证服务器证书</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="83"/>
         <location filename="../encryptionsetupdlg.cpp" line="126"/>
         <source>Issuer: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>颁发者： %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="84"/>
         <location filename="../encryptionsetupdlg.cpp" line="127"/>
         <source>Subject: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>所有者： %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="85"/>
         <location filename="../encryptionsetupdlg.cpp" line="128"/>
         <source>Effective date: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>生效日期： %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="86"/>
         <location filename="../encryptionsetupdlg.cpp" line="129"/>
         <source>Expiration date: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>到期日期： %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="98"/>
         <source>Certificate Authority (*.cer)</source>
-        <translation type="unfinished"></translation>
+        <translation>证书颁发机构 (*.cer)</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="112"/>
         <source>Setup Certificate Autority</source>
-        <translation type="unfinished"></translation>
+        <translation>设置证书颁发机构</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="113"/>
         <source>The file %1 does not contain a valid certificate authority</source>
-        <translation type="unfinished"></translation>
+        <translation>文件 %1 不包含有效的证书颁发机构</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="141"/>
         <source>Client Certificate (*.pem)</source>
-        <translation type="unfinished"></translation>
+        <translation>客户端证书 (*.pem)</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="155"/>
         <source>Setup Client Certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>设置客户端证书</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="156"/>
         <source>The file %1 does not contain a valid client certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>文件 %1 不包含有效的客户端证书</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="169"/>
         <source>RSA encryption</source>
-        <translation type="unfinished"></translation>
+        <translation>RSA加密</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="171"/>
         <source>Private key: %1 bits</source>
-        <translation type="unfinished"></translation>
+        <translation>私钥： %1 位</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="183"/>
         <source>Client Private Key (*.pem)</source>
-        <translation type="unfinished"></translation>
+        <translation>客户端私钥 (*.pem)</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="197"/>
         <source>Setup Client Private Key</source>
-        <translation type="unfinished"></translation>
+        <translation>设置客户端私钥</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="198"/>
         <source>The file %1 does not contain a valid client private key</source>
-        <translation type="unfinished"></translation>
+        <translation>文件 %1 不包含有效的客户端私钥</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="207"/>
         <source>Open File</source>
-        <translation type="unfinished">打开文件</translation>
+        <translation>打开文件</translation>
     </message>
 </context>
 <context>
@@ -3566,7 +3566,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.cpp" line="1998"/>
         <source>Failed to setup encryption settings</source>
-        <translation type="unfinished"></translation>
+        <translation>无法设置加密设置</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2021"/>
@@ -5864,7 +5864,7 @@ You can download it on the page below:
     <message>
         <location filename="../serverlist.ui" line="220"/>
         <source>Setup</source>
-        <translation type="unfinished">设置</translation>
+        <translation>设置</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="242"/>
