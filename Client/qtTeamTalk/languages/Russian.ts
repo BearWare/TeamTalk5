@@ -1170,17 +1170,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../encryptionsetupdlg.ui" line="14"/>
         <source>Setup Encryption</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройка шифрования</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="20"/>
         <source>Client Encryption Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки шифрования клиента</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="26"/>
         <source>Certificate Authority (CA)</source>
-        <translation type="unfinished"></translation>
+        <translation>Выпускающий сертификат</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="45"/>
@@ -1190,106 +1190,107 @@ p, li { white-space: pre-wrap; }
         <location filename="../encryptionsetupdlg.ui" line="135"/>
         <location filename="../encryptionsetupdlg.ui" line="147"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="71"/>
         <source>Client certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Сертификат клиента</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="116"/>
         <source>Client private key</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрытый ключ клиента</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="161"/>
         <source>Verify server certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Проверить сертификат сервера</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="83"/>
         <location filename="../encryptionsetupdlg.cpp" line="126"/>
         <source>Issuer: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Издатель: %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="84"/>
         <location filename="../encryptionsetupdlg.cpp" line="127"/>
         <source>Subject: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Субъект: %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="85"/>
         <location filename="../encryptionsetupdlg.cpp" line="128"/>
         <source>Effective date: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата выдачи: %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="86"/>
         <location filename="../encryptionsetupdlg.cpp" line="129"/>
         <source>Expiration date: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Выдан до: %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="98"/>
         <source>Certificate Authority (*.cer)</source>
-        <translation type="unfinished"></translation>
+        <translation>Выпускающий сертификат (*.cer)</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="112"/>
         <source>Setup Certificate Autority</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройка выпускающего сертификата</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="113"/>
         <source>The file %1 does not contain a valid certificate authority</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл %1 не содержит действительный выпускающий сертификат</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="141"/>
         <source>Client Certificate (*.pem)</source>
-        <translation type="unfinished"></translation>
+        <translation>Сертификат клиента (*.pem)</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="155"/>
         <source>Setup Client Certificate</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>	</translatorcomment>
+        <translation>Настройка клиентского сертификата</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="156"/>
         <source>The file %1 does not contain a valid client certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл %1 не содержит действительный сертификат клиента</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="169"/>
         <source>RSA encryption</source>
-        <translation type="unfinished"></translation>
+        <translation>Шифрование RSA</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="171"/>
         <source>Private key: %1 bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрытый ключ: %1 бит</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="183"/>
         <source>Client Private Key (*.pem)</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрытый ключ клиента (*.pem)</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="197"/>
         <source>Setup Client Private Key</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройка закрытого ключа клиента</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="198"/>
         <source>The file %1 does not contain a valid client private key</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл %1 не содержит действительный закрытый ключ клиента</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="207"/>
         <source>Open File</source>
-        <translation type="unfinished">Открыть Файл</translation>
+        <translation>Открыть Файл</translation>
     </message>
 </context>
 <context>
@@ -3088,7 +3089,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1998"/>
         <source>Failed to setup encryption settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось настроить параметры шифрования</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2021"/>
@@ -5871,7 +5872,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="220"/>
         <source>Setup</source>
-        <translation type="unfinished">Настроить</translation>
+        <translation>Настроить</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="242"/>
