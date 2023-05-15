@@ -309,13 +309,7 @@ namespace teamtalk {
             if((bantype & BANTYPE_IPADDR) && ipaddr.length())
             {
                 ACE_TString rgx = ACE_TEXT("^") + ipaddr + ACE_TEXT("$");
-#if defined(UNICODE)
-                match &= std::regex_search(user.ipaddr.c_str(), std::wregex(rgx.c_str()));
-#else
-                // equality not nescessary when debian7 is no longer supported
-                match &= std::regex_search(user.ipaddr.c_str(), std::regex(rgx.c_str())) ||
-                    user.ipaddr == ipaddr;
-#endif
+                match &= std::regex_search(user.ipaddr.c_str(), buildregex(rgx.c_str()));
             }
             if((bantype & BANTYPE_USERNAME))
                 match &= username == user.username;

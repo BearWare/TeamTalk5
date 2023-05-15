@@ -243,7 +243,7 @@ implements TeamTalkConnectionListener,
 
         channelsAdapter = new ChannelListAdapter(this.getBaseContext());
         filesAdapter = new FileListAdapter(this, this, accessibilityAssistant);
-        textmsgAdapter = new TextMessageAdapter(this.getBaseContext(), accessibilityAssistant);
+        textmsgAdapter = new TextMessageAdapter(this, accessibilityAssistant);
         mediaAdapter = new MediaAdapter(this.getBaseContext());
         
         // Create the adapter that will return a fragment for each of the five

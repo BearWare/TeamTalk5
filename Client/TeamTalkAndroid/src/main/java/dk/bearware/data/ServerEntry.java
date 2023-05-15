@@ -59,6 +59,8 @@ public class ServerEntry {
     public String channel = "", chanpasswd = "";
     public boolean rememberLastChannel = true;
     public boolean encrypted = false;
+    public String cacert = "", clientcert = "", clientcertkey = "";
+    public boolean verifypeer = false;
     public ServerType servertype = ServerType.LOCAL;
 
     public int stats_usercount = 0;

@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.13.0.5113"
+#define TEAMTALK_VERSION "5.14.0.5116"
 
 
 #if defined(WIN32)
@@ -2684,6 +2684,9 @@ extern "C" {
          * the verification procedure.
          *
          * Default value is 0.
+         *
+         * Set to -1 to not perform certificate check. -1 cannot be used
+         * if @c bVerifyPeer or @c bVerifyClientOnce are true.
          *
          * For additional information checkout OpenSSL's
          * SSL_CTX_set_verify_depth() */

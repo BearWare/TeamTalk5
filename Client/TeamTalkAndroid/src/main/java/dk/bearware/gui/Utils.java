@@ -257,8 +257,10 @@ public class Utils {
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            while((line = rd.readLine()) != null) {
-                result.append(line);
+            char[] buff = new char[1024];
+            int len;
+            while((len = rd.read(buff)) > 0) {
+                result.append(buff, 0, len);
             }
             rd.close();
         }
@@ -288,34 +290,31 @@ public class Utils {
         
         NodeList nList = doc.getElementsByTagName("host");
         for (int i = 0; i < nList.getLength(); i++) {
-            Node nNode = nList.item(i);
-            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                Element eElement = (Element) nNode;
+            Node hostnode = nList.item(i);
+            if (hostnode.getNodeType() == Node.ELEMENT_NODE) {
+                Element hostelement = (Element) hostnode;
                 ServerEntry entry = new ServerEntry();
                 entry.rememberLastChannel = false;
-                NodeList nHost = eElement.getElementsByTagName("name");
-                if(nHost.getLength()>0)
-                    entry.servername = nHost.item(0).getTextContent();
-                nHost = eElement.getElementsByTagName("address");
-                if(nHost.getLength()>0)
-                    entry.ipaddr = nHost.item(0).getTextContent();
-                nHost = eElement.getElementsByTagName("tcpport");
+                NodeList namenode = hostelement.getElementsByTagName("name");
+                if (namenode.getLength() > 0)
+                    entry.servername = namenode.item(0).getTextContent();
+                NodeList ipaddrnode = hostelement.getElementsByTagName("address");
+                if (ipaddrnode.getLength() > 0)
+                    entry.ipaddr = ipaddrnode.item(0).getTextContent();
+                NodeList tcpportnode = hostelement.getElementsByTagName("tcpport");
                 try {
-                    if(nHost.getLength() > 0)
-                        entry.tcpport = Integer.parseInt(nHost.item(0).getTextContent());
-                    nHost = eElement.getElementsByTagName("udpport");
-                    if(nHost.getLength() > 0)
-                        entry.udpport = Integer.parseInt(nHost.item(0).getTextContent());
+                    if (tcpportnode.getLength() > 0)
+                        entry.tcpport = Integer.parseInt(tcpportnode.item(0).getTextContent());
+                    NodeList udpportnode = hostelement.getElementsByTagName("udpport");
+                    if (udpportnode.getLength() > 0)
+                        entry.udpport = Integer.parseInt(udpportnode.item(0).getTextContent());
                 }
                 catch(NumberFormatException e) {
                     continue;
                 }
-                nHost = eElement.getElementsByTagName("encrypted");
-                if(nHost.getLength()>0)
-                    entry.encrypted = nHost.item(0).getTextContent().equalsIgnoreCase("true");
-                nHost = eElement.getElementsByTagName("listing");
-                if (nHost.getLength() > 0) {
-                    switch (nHost.item(0).getTextContent()) {
+                NodeList listingnode = hostelement.getElementsByTagName("listing");
+                if (listingnode.getLength() > 0) {
+                    switch (listingnode.item(0).getTextContent()) {
                         case "official" :
                             entry.servertype = ServerEntry.ServerType.OFFICIAL;
                             break;
@@ -327,57 +326,77 @@ public class Utils {
                             break;
                     }
                 }
-
+                NodeList encryptednode = hostelement.getElementsByTagName("encrypted");
+                if (encryptednode.getLength() > 0)
+                    entry.encrypted = encryptednode.item(0).getTextContent().equalsIgnoreCase("true");
+                // process <trusted-certificate>
+                NodeList certificatenode = hostelement.getElementsByTagName("trusted-certificate");
+                if (certificatenode.getLength() > 0) {
+                    Node trustednode = certificatenode.item(0);
+                    if (trustednode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element trustedelement = (Element)trustednode;
+                        NodeList cacertnode = trustedelement.getElementsByTagName("certificate-authority-pem");
+                        if (cacertnode.getLength() > 0)
+                            entry.cacert = cacertnode.item(0).getTextContent();
+                        NodeList clientcertnode = trustedelement.getElementsByTagName("client-certificate-pem");
+                        if (clientcertnode.getLength() > 0)
+                            entry.clientcert = clientcertnode.item(0).getTextContent();
+                        NodeList clientkeynode = trustedelement.getElementsByTagName("client-private-key-pem");
+                        if (clientkeynode.getLength() > 0)
+                            entry.clientcertkey = clientkeynode.item(0).getTextContent();
+                        NodeList verifynode = trustedelement.getElementsByTagName("verify-peer");
+                        if (verifynode.getLength() > 0)
+                            entry.verifypeer = verifynode.item(0).getTextContent().equalsIgnoreCase("true");
+                    }
+                }
                 //process <auth>
-                NodeList nListAuth = eElement.getElementsByTagName("auth");
-                for(int j = 0;j<nListAuth.getLength();j++) {
-                    nNode = nListAuth.item(j);
-                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                        Element eElement1 = (Element) nNode;
-                        NodeList nAuth = eElement1.getElementsByTagName("username");
-                        if(nAuth.getLength()>0)
-                            entry.username = nAuth.item(0).getTextContent();
-                        nAuth = eElement1.getElementsByTagName("password");
-                        if(nAuth.getLength()>0)
-                            entry.password = nAuth.item(0).getTextContent();
+                NodeList authlist = hostelement.getElementsByTagName("auth");
+                if (authlist.getLength() > 0) {
+                    Node authnode = authlist.item(0);
+                    if (authnode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element authelement = (Element) authnode;
+                        NodeList usernamenode = authelement.getElementsByTagName("username");
+                        if (usernamenode.getLength() > 0)
+                            entry.username = usernamenode.item(0).getTextContent();
+                        NodeList passwordnode = authelement.getElementsByTagName("password");
+                        if (passwordnode.getLength() > 0)
+                            entry.password = passwordnode.item(0).getTextContent();
                     }
                 }
                 //process <join>
-                NodeList nListJoin = eElement.getElementsByTagName("join");
-                for(int k=0;k<nListJoin.getLength();k++) {
-                    nNode = nListJoin.item(k);
-                    if(nNode.getNodeType() == Node.ELEMENT_NODE) {
-                        Element eElement1 = (Element) nNode;
-                        NodeList nJoin = eElement1.getElementsByTagName("channel");
-                        if(nJoin.getLength()>0)
-                            entry.channel = nJoin.item(0).getTextContent();
-                        nJoin = eElement1.getElementsByTagName("password");
-                        if(nJoin.getLength()>0)
-                            entry.chanpasswd = nJoin.item(0).getTextContent();
+                NodeList joinlist = hostelement.getElementsByTagName("join");
+                if (joinlist.getLength() > 0) {
+                    Node joinnode = joinlist.item(0);
+                    if (joinnode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element joinelement = (Element) joinnode;
+                        NodeList channelnode = joinelement.getElementsByTagName("channel");
+                        if (channelnode.getLength() > 0)
+                            entry.channel = channelnode.item(0).getTextContent();
+                        NodeList passwordnode = joinelement.getElementsByTagName("password");
+                        if (passwordnode.getLength() > 0)
+                            entry.chanpasswd = passwordnode.item(0).getTextContent();
                     }
                 }
-
                 //process <stats>
-                NodeList nListStats = eElement.getElementsByTagName("stats");
-                for(int k=0;k<nListStats.getLength();k++) {
-                    nNode = nListStats.item(k);
-                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                        Element eElement1 = (Element) nNode;
-                        NodeList nStats = eElement1.getElementsByTagName("motd");
-                        if (nStats.getLength() > 0) {
-                            entry.stats_motd = nStats.item(0).getTextContent();
+                NodeList statslist = hostelement.getElementsByTagName("stats");
+                if (statslist.getLength() > 0) {
+                    Node statsnode = statslist.item(0);
+                    if (statsnode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element statselement = (Element) statsnode;
+                        NodeList mothnode = statselement.getElementsByTagName("motd");
+                        if (mothnode.getLength() > 0) {
+                            entry.stats_motd = mothnode.item(0).getTextContent();
                         }
-                        nStats = eElement1.getElementsByTagName("country");
-                        if (nStats.getLength() > 0) {
-                            entry.stats_country = nStats.item(0).getTextContent();
+                        NodeList countrynode = statselement.getElementsByTagName("country");
+                        if (countrynode.getLength() > 0) {
+                            entry.stats_country = countrynode.item(0).getTextContent();
                         }
-                        nStats = eElement1.getElementsByTagName("user-count");
-                        if (nStats.getLength() > 0) {
+                        NodeList usercountnode = statselement.getElementsByTagName("user-count");
+                        if (usercountnode.getLength() > 0) {
                             try {
-                                entry.stats_usercount = Integer.parseInt(nStats.item(0).getTextContent());
+                                entry.stats_usercount = Integer.parseInt(usercountnode.item(0).getTextContent());
                             }
                             catch (NumberFormatException e) {
-
                             }
                          }
                     }

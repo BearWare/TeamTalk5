@@ -23,7 +23,7 @@
 
 #include "aboutdlg.h"
 #include "appinfo.h"
-#include "common.h"
+#include "utiltt.h"
 
 #include <QLibraryInfo>
 

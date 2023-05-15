@@ -23,7 +23,6 @@
 
 #include "userdesktopwidget.h"
 #include "utilui.h"
-#include "common.h" //need to include Carbon.h
 
 #include <QPaintEngine>
 #include <QMouseEvent>
@@ -32,6 +31,9 @@
 #include <QMenu>
 #include <QDebug>
 
+#if defined(Q_OS_DARWIN)
+#include <Carbon/Carbon.h>
+#endif
 
 extern TTInstance* ttInst;
 

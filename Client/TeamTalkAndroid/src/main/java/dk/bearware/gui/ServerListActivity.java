@@ -166,6 +166,7 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
             saveServers();
         }
 
+        Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_POST_NOTIFICATIONS);
         Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_INTERNET);
         Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_RECORD_AUDIO);
         Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_MODIFY_AUDIO_SETTINGS);

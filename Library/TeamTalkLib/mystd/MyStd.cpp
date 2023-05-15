@@ -111,6 +111,33 @@ stdstrings_t stdtokenize(const string& source, const string& delimeters)
     return tokens; 
 }
 
+#if defined(UNICODE)
+std::wregex buildregex(const std::wstring& regexstr)
+{
+    try
+    {
+        return std::wregex(regexstr);
+    }
+    catch (const std::regex_error& )
+    {
+        return std::wregex();
+    }
+}
+#else
+std::regex buildregex(const std::string& regexstr)
+{
+    try
+    {
+        return std::regex(regexstr);
+    }
+    catch (const std::regex_error& )
+    {
+        return std::regex();
+    }
+}
+#endif
+
+
 uint32_t GETTIMESTAMP()
 {
     using namespace std::chrono;

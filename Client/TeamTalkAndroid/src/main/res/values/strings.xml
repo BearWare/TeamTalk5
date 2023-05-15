@@ -329,6 +329,7 @@
     <string name="permission_wake_lock">Server connection can be lost when screen dims out</string>
     <string name="permission_read_phone_state">Incoming phone call detection will be impossible</string>
     <string name="permission_bluetooth">Bluetooth headset microphone usage will be impossible</string>
+    <string name="permission_post_notifications">TeamTalk will not be able to send notifications</string>
 
     <string name="title_activity_web_login">WebLoginActivity</string>
     <string name="weblogin_prop_title_bearwareid">Username</string>

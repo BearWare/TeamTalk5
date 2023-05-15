@@ -2,7 +2,24 @@
                  TeamTalk
 ----------------------------------------------
 
-Version 5.13, unreleased
+Version 5.14, unreleased
+Default Qt Client
+- Support for verifying authenticity of encrypted TeamTalk servers using certificates
+- Setup server verification in "Connect to a Server" dialog
+- Official and unofficial servers can automatically provide certificates
+- Generate .tt files with Certificate Authority (CA) certificate, client certificate and private key
+Accessible Windows Client
+-
+Android Client
+- Support for verifying authenticity of encrypted TeamTalk servers using certificates
+- Fixed crashes when clicking a link in channel and private messages
+- Fixed a bug of not sending notifications about private chats and ongoing notification
+iOS Client
+- Support for verifying authenticity of encrypted TeamTalk servers using certificates
+Server
+- TeamTalk Pro server supports verifying client certificate
+
+Version 5.13, 2023/05/08
 Default Qt Client
 - Reinitialize sound devices if active sound device is removed using WASAPI sound system
 - Moved "Refresh Sound Devices" from "Input Devices" submenu to "Sound Configuration" menu

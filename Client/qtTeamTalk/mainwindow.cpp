@@ -47,8 +47,10 @@
 #include "userdesktopdlg.h"
 #include "appinfo.h"
 #include "bearwarelogindlg.h"
+#include "utilos.h"
 #include "utilvideo.h"
 #include "utiltts.h"
+#include "utilxml.h"
 
 #include <QMessageBox>
 #include <QInputDialog>
@@ -1990,6 +1992,12 @@ void MainWindow::initSound()
 void MainWindow::connectToServer()
 {
     Q_ASSERT((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == 0);
+
+    if (!setupEncryption(m_host))
+    {
+        addStatusMsg(STATUSBAR_BYPASS, tr("Failed to setup encryption settings"));
+        return;
+    }
 
     int localtcpport = ttSettings->value(SETTINGS_CONNECTION_TCPPORT, 0).toInt();
     int localudpport = ttSettings->value(SETTINGS_CONNECTION_UDPPORT, 0).toInt();

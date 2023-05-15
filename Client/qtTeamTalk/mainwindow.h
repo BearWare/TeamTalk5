@@ -47,6 +47,10 @@
 #include <QX11Info>
 #endif
 
+#if defined(Q_OS_DARWIN)
+#include <Carbon/Carbon.h>
+#endif
+
 //Commands which we're interested in knowning when have completed
 enum CommandComplete
 {

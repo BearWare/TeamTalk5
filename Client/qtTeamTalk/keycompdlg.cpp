@@ -31,6 +31,10 @@
 #include <QMessageBox>
 #include <QKeyEvent>
 
+#if defined(Q_OS_DARWIN)
+#include <Carbon/Carbon.h>
+#endif
+
 extern TTInstance* ttInst;
 
 KeyCompDlg::KeyCompDlg(QWidget * parent/* = 0*/)

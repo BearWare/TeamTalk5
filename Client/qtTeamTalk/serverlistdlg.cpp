@@ -27,6 +27,8 @@
 #include "settings.h"
 #include "generatettfiledlg.h"
 #include "utilui.h"
+#include "utilxml.h"
+#include "encryptionsetupdlg.h"
 
 #include <QUrl>
 #include <QMessageBox>
@@ -319,6 +321,13 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
             this, &ServerListDlg::deleteHostEntry);
     connect(ui.tcpportEdit, &QLineEdit::textChanged,
             this, &ServerListDlg::slotGenerateEntryName);
+    connect(ui.cryptChkBox, &QCheckBox::toggled, ui.encsetupBtn, &QAbstractButton::setEnabled);
+    connect(ui.encsetupBtn, &QAbstractButton::clicked, [&]()
+    {
+        HostEntry entry;
+        if (getHostEntry(entry) && EncryptionSetupDlg(entry.encryption, this).exec())
+            m_setup_encryption.reset(new HostEncryption(entry.encryption));
+    });
     connect(ui.usernameBox, &QComboBox::editTextChanged,
             this, &ServerListDlg::slotGenerateEntryName);
     connect(ui.publishButton, &QAbstractButton::clicked,
@@ -382,6 +391,7 @@ void ServerListDlg::showHostEntry(const HostEntry& entry)
         ui.nameEdit->setText(entry.name);
 
     ui.clearButton->setEnabled(true);
+    m_setup_encryption.reset(entry.encrypted ? new HostEncryption(entry.encryption) : nullptr);
 }
 
 bool ServerListDlg::getHostEntry(HostEntry& entry)
@@ -405,6 +415,9 @@ bool ServerListDlg::getHostEntry(HostEntry& entry)
     entry.nickname = ui.nicknameEdit->text();
     entry.channel = ui.channelEdit->text().trimmed();
     entry.chanpasswd = ui.chanpasswdEdit->text();
+
+    if (m_setup_encryption)
+        entry.encryption = *m_setup_encryption;
 
     return true;
 }
