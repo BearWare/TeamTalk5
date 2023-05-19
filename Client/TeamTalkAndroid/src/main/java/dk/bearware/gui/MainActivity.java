@@ -532,9 +532,8 @@ implements TeamTalkConnectionListener,
                 mConnection.setBound(false);
             }
             notificationManager.cancelAll();
+            mViewPager.removeOnPageChangeListener(mSectionsPagerAdapter);
         }
-
-        mViewPager.removeOnPageChangeListener(mSectionsPagerAdapter);
     }
 
     @Override
