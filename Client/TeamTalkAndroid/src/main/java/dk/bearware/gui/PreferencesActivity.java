@@ -30,11 +30,13 @@ import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
@@ -408,6 +410,12 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
             }
             enginePrefs.setEntries(entries.toArray(new CharSequence[engines.size()]));
             enginePrefs.setEntryValues(values.toArray(new CharSequence[engines.size()]));
+
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
+                CheckBoxPreference mTtsPref = (CheckBoxPreference) findPreference("a11y_volume");
+                PreferenceCategory mTtsCat = (PreferenceCategory) findPreference("tts_def");
+                mTtsCat.removePreference(mTtsPref);
+            }
         }
     }
 

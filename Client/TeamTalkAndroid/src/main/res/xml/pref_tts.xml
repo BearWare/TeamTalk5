@@ -12,6 +12,18 @@
 
     <CheckBoxPreference
         android:defaultValue="false"
+        android:key="pref_a11y_volume"
+        android:summary="@string/pref_summary_a11y_volume"
+        android:title="@string/pref_title_a11y_volume" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="tts_events_def"
+        android:title="@string/pref_cat_tts_events">
+        
+    <CheckBoxPreference
+        android:defaultValue="false"
         android:key="server_login_checkbox"
         android:summary="@string/pref_summary_server_login"
         android:title="@string/pref_title_server_login" />

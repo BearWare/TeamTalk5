@@ -15,6 +15,7 @@ Android Client
 - Fixed crashes when clicking a link in channel and private messages
 - Fixed a bug of not sending notifications about private chats and ongoing notification
 - Fixed a bug of not showing contents of other tabs rathr than current when going to another activity or locking/unlocking screen
+- It is now possible to use accessibility stream to play text-to-speech messages
 iOS Client
 - Support for verifying authenticity of encrypted TeamTalk servers using certificates
 Server

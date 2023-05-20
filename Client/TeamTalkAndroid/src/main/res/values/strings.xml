@@ -34,7 +34,8 @@
     <string name="text_cmd_servername">Server name: </string>
     <string name="text_cmd_servermotd">Message of the day: </string>
     <string name="pref_cat_subscriptions">Subscriptions</string>
-    <string name="pref_cat_tts">Configure Text-To-Speech messages</string>
+    <string name="pref_cat_tts">Text-To-Speech settings</string>
+    <string name="pref_cat_tts_events">Configure Text-To-Speech messages</string>
     <string name="pref_cat_soundtest">Sound Test</string>
     <string name="pref_header_general">General</string>
     <string name="pref_title_nickname">Nickname</string>
@@ -82,6 +83,8 @@
     <string name="pref_header_tts">Text-To-Speech</string>
     <string name="pref_title_speech_engine">Text-To-Speech engine selection</string>
     <string name="pref_summary_speech_engine">Select one of the installed speech engines, different from system settings</string>
+    <string name="pref_title_a11y_volume">Use accessibility volume stream</string>
+    <string name="pref_summary_a11y_volume">Text to speech messages will be played through accessibility volume stream</string>
     <string name="pref_title_server_login">User logs on the server</string>
     <string name="pref_summary_server_login">Announce name of user logging in</string>
     <string name="pref_title_server_logout">User logs out of the server</string>

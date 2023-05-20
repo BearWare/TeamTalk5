@@ -24,6 +24,7 @@
 package dk.bearware.data;
 
 import android.content.Context;
+import android.media.AudioAttributes;
 import android.os.Build;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.EngineInfo;
@@ -39,30 +40,29 @@ public class TTSWrapper {
     private String mCurrentEngineName = defaultEngineName;
 
     public TTSWrapper(Context context) {
-        init(context);
+        this.mContext = context;
         tts = new TextToSpeech(context, null);
     }
 
     public TTSWrapper(Context context, String engineName) {
-        init(context);
+        this(context);
         tts = new TextToSpeech(context, null, engineName);
         this.mCurrentEngineName = engineName;
-    }
-
-    private void init(Context context) {
-        this.mContext = context;
     }
 
     public void shutdown() {
         tts.shutdown();
     }
 
+    public void setAccessibilityStream(boolean bEnable) {
+        tts.setAudioAttributes( new AudioAttributes.Builder()
+        .setContentType(bEnable ? AudioAttributes.CONTENT_TYPE_SPEECH : AudioAttributes.CONTENT_TYPE_UNKNOWN)
+        .setUsage(bEnable ? AudioAttributes.USAGE_ASSISTANCE_ACCESSIBILITY : AudioAttributes.USAGE_UNKNOWN)
+        .build());
+    }
+
     public void speak(String text) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             tts.speak(text, TextToSpeech.QUEUE_ADD, null, null);
-        } else {
-            tts.speak(text, TextToSpeech.QUEUE_ADD, null);
-        }
     }
 
     public static List<EngineInfo> getEngines() {

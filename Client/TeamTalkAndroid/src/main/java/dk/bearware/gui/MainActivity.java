@@ -483,6 +483,7 @@ implements TeamTalkConnectionListener,
         getWindow().getDecorView().setKeepScreenOn(prefs.getBoolean("keep_screen_on_checkbox", false));
 
         createStatusTimer();
+        ttsWrapper.setAccessibilityStream(prefs.getBoolean("pref_a11y_volume", false));
         ttsWrapper.switchEngine(prefs.getString("pref_speech_engine", TTSWrapper.defaultEngineName));
     }
 
