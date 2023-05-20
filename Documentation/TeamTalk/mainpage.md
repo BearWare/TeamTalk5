@@ -7,22 +7,22 @@ application and setting up a TeamTalk server.
 
 Follow the links below to each of the help sections.
 
-- [User Interface Guide](@ref userinterface)
+- [User Interface Guide](userinterface.md)
     - Learn what all the menus and buttons are used for in the TeamTalk
       application.
-- [Preferences](@ref preferences)
+- [Preferences](preferences.md)
     - This section outlines all the possible ways the TeamTalk can be
       configured.
-- [How to...](@ref howto)
+- [How to...](howto.md)
     - Questions new users might have on how to use TeamTalk are
       explained in this section.
-- [.tt Files and tt:// URLs for TeamTalk Servers](@ref ttfiles)
+- [.tt Files and tt:// URLs for TeamTalk Servers](ttfiles.md)
     - Learn how to make .tt files which you can email to your friends so
       they can connect to your TeamTalk server or join your channel.
-- [TeamTalk Server Setup](@ref teamtalkserver)
+- [TeamTalk Server Setup](server.md)
     - Learn how to set up your own TeamTalk server.
-- [Accessibility](@ref classic)
+- [Accessibility](accessibility.md)
     - Information regarding TeamTalk 5 Classic for Accessibility.
-- [Advanced Topics](@ref advanced)
+- [Advanced Topics](advanced.md)
     - Command line options, INI-file settings, etc. for TeamTalk client.
 

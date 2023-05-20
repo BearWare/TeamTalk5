@@ -274,7 +274,7 @@ Each of the menu items in the Client menu are described here:
 - **Preferences**
     - Preferences is used for configuring the TeamTalk
       application. For more information read section
-      [Preferences Dialog](@ref preferences).
+      [Preferences Dialog](@ref preferencesdlg).
 - **Sound Configuration**
     - Shortcut items to [Sound System](@ref soundsystemtab). See more in
       section [Sound Configuration-Menu](@ref soundconfigmenu).
@@ -354,7 +354,7 @@ Each of the items in the dialog are explained here:
       must register a username on BearWare.dk and use this to log on
       to the server.
     - Learn more about setting up user accounts by reading the section
-      on [configuring TeamTalk servers](@ref teamtalkserver) or the
+      on [configuring TeamTalk servers](server.md) or the
       section about [User Accounts](@ref useraccountsdlg).
   - **Password**
     - The password that is required to log on to the server. This may be blank.
@@ -411,7 +411,7 @@ ensure everything is configured properly.
 
 ![Preferences Dialog](pref_general.png "Preferences dialog")
 
-Please read section [TeamTalk Preferences](@ref preferences) for a guide
+Please read section [TeamTalk Preferences](preferences.md) for a guide
 on how to configure TeamTalk.
 
 ## Sound Configuration-Menu {#soundconfigmenu}
@@ -723,7 +723,7 @@ Each of the menu items in the Subscriptions-menu are described here.
 
 If there's certain subscriptions you always want to have disabled by
 default you can set these in the [Connection-tab](@ref connectiontab) of
-the [Preferences](@ref preferences) dialog.
+the [Preferences](preferences.md) dialog.
 
 ## Transmit Control-Menu {#transmitcontrolmenu}
 
@@ -915,7 +915,7 @@ Each of the fields in the create channel dialog are described here:
       be modified if user has *User Right*
       [User can create/modify all channels](@ref useraccountsdlg). The
       default *Disk Quota* is set up when
-      [configuring the TeamTalk server](@ref teamtalkserver).
+      [configuring the TeamTalk server](server.md).
 
 - **Permanent channel (stored on server)**
     - Only users with *User Right*
@@ -1141,7 +1141,7 @@ Each of the menu items in the Server-menu are described here.
 
 For users to log on to a TeamTalk server they must have a user
 account. Only users of user-type *Administrator* can create/modify
-user accounts. When the TeamTalk server is [configured](@ref teamtalkserver)
+user accounts. When the TeamTalk server is [configured](server.md)
 initially an administrator account can be set up so
 further user accounts can be created using this user accounts
 dialog.
