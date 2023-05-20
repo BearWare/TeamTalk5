@@ -28,7 +28,8 @@ import android.media.AudioAttributes;
 import android.os.Build;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.EngineInfo;
-
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityManager;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class TTSWrapper {
     private static TextToSpeech tts;
     public static final String defaultEngineName = "com.google.android.tts"; // should be got from getDefaultEngine method.
     private Context mContext;
+    public Boolean useAnnouncements;
     private String mCurrentEngineName = defaultEngineName;
 
     public TTSWrapper(Context context) {
@@ -62,7 +64,17 @@ public class TTSWrapper {
     }
 
     public void speak(String text) {
+        if (this.useAnnouncements) {
+            AccessibilityManager manager = (AccessibilityManager) mContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
+            if (manager.isEnabled()) {
+                AccessibilityEvent e = AccessibilityEvent.obtain();
+                e.setEventType(AccessibilityEvent.TYPE_ANNOUNCEMENT);
+                e.getText().add(text);
+                manager.sendAccessibilityEvent(e);
+            }
+        } else {
             tts.speak(text, TextToSpeech.QUEUE_ADD, null, null);
+        }
     }
 
     public static List<EngineInfo> getEngines() {

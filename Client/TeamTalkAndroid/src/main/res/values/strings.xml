@@ -85,6 +85,8 @@
     <string name="pref_summary_speech_engine">Select one of the installed speech engines, different from system settings</string>
     <string name="pref_title_a11y_volume">Use accessibility volume stream</string>
     <string name="pref_summary_a11y_volume">Text to speech messages will be played through accessibility volume stream</string>
+    <string name="pref_title_use_announcements">Use announcement event</string>
+    <string name="pref_summary_use_announcements">Text-to-speech messages will be announced through currently running accessibility service</string>
     <string name="pref_title_server_login">User logs on the server</string>
     <string name="pref_summary_server_login">Announce name of user logging in</string>
     <string name="pref_title_server_logout">User logs out of the server</string>
