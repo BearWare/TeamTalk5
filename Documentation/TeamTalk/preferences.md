@@ -1,4 +1,4 @@
-# TeamTalk Preferences {#preferences} #
+# TeamTalk Preferences {#preferences}
 
 TeamTalk has many options which can be configured in the application's
 Preferences. To bring up Preferences simply hit F4.
