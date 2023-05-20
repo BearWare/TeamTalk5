@@ -16,6 +16,12 @@
         android:summary="@string/pref_summary_a11y_volume"
         android:title="@string/pref_title_a11y_volume" />
 
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_use_announcements"
+        android:summary="@string/pref_summary_use_announcements"
+        android:title="@string/pref_title_use_announcements" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
