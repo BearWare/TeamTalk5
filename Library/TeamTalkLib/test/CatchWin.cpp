@@ -197,8 +197,8 @@ void AudioTransformEncoder(const media::AudioFormat& input, int bitrate, int fmt
         break;
     }
     
-    wos << L" channels " << input.channels << L" samplerate " << input.samplerate << L" bitrate " << bitrate << L"bps";
-    std::wcout << (wos.str().c_str()) << std::endl;
+    wos << L" channels " << input.channels << L" samplerate " << input.samplerate << L" bitrate " << bitrate << L"bps" << std::endl;
+    MYTRACE(wos.str().c_str());
     wos.str(L"");
 
     std::vector<short> buff(input.samplerate * input.channels);
@@ -374,9 +374,6 @@ TEST_CASE("PortAudio_ExclusiveMode")
     outputParameters.hostApiSpecificStreamInfo = &outputWasapi;
     outputParameters.sampleFormat = paInt16;
     outputParameters.suggestedLatency = outinfo->defaultLowOutputLatency;
-
-    std::cout << "Input sample rate: " << ininfo->defaultSampleRate << std::endl;
-    std::cout << "Output sample rate: " << outinfo->defaultSampleRate << std::endl;
 
     PaStream* stream;
     err = Pa_OpenStream(&stream, &inputParameters, &outputParameters,
