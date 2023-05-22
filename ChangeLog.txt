@@ -14,6 +14,10 @@ iOS Client
 Server
 -
 
+Version 5.13.1, 2023/05/22
+Server
+- Fixed regular expression in IP-address ban to prevent crash
+
 Version 5.13, 2023/05/08
 Default Qt Client
 - Reinitialize sound devices if active sound device is removed using WASAPI sound system
