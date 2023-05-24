@@ -220,12 +220,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="198"/>
         <source>Ban IP-address</source>
-        <translation>Bannir l&apos;adresse IP</translation>
+        <translation>Bannir l&#8217;adresse IP</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="199"/>
         <source>Ban Username</source>
-        <translation>Bannir le nom d&apos;utilisateur</translation>
+        <translation>Bannir le nom d&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="60"/>
@@ -240,12 +240,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusers.ui" line="76"/>
         <source>Enter an IP or an username to ban</source>
-        <translation>Entrez une IP ou un nom d&apos;utilisateur à bannir</translation>
+        <translation>Entrez une IP ou un nom d&#8217;utilisateur à bannir</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="83"/>
         <source>Add to list of banned users</source>
-        <translation>Ajouter à la liste d&apos;utilisateurs bannis</translation>
+        <translation>Ajouter à la liste d&#8217;utilisateurs bannis</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="86"/>
@@ -255,7 +255,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusers.ui" line="113"/>
         <source>Remove banned user</source>
-        <translation>Supprimer l&apos;utilisateur banni</translation>
+        <translation>Supprimer l&#8217;utilisateur banni</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="123"/>
@@ -283,7 +283,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="60"/>
         <source>Username</source>
-        <translation>Nom d&apos;utilisateur</translation>
+        <translation>Nom d&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="61"/>
@@ -357,7 +357,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.ui" line="84"/>
         <source>Username</source>
-        <translation>Nom d&apos;utilisateur</translation>
+        <translation>Nom d&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="97"/>
@@ -377,12 +377,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.cpp" line="113"/>
         <source>Failed to authenticate</source>
-        <translation>Échec à l&apos;authentification</translation>
+        <translation>Échec à l&#8217;authentification</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="123"/>
         <source>%1, your username &quot;%2&quot; has been validated.</source>
-        <translation>%1, votre nom d&apos;utilisateur &quot;%2&quot; a été validé.</translation>
+        <translation>%1, votre nom d&#8217;utilisateur &#171;%2&#187; a été validé.</translation>
     </message>
 </context>
 <context>
@@ -420,7 +420,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatus.ui" line="77"/>
         <source>Display file name in status message when streaming</source>
-        <translation>Afficher le nom du fichier comme message de statut lors d&apos;une diffusion</translation>
+        <translation>Afficher le nom du fichier comme message de statut lors d&#8217;une diffusion</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="37"/>
@@ -468,12 +468,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="100"/>
         <source>Operator password</source>
-        <translation>Mot de passe de l&apos;opérateur</translation>
+        <translation>Mot de passe de l&#8217;opérateur</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="120"/>
         <source>Max users</source>
-        <translation>Maximum d&apos;utilisateurs</translation>
+        <translation>Maximum d&#8217;utilisateurs</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="146"/>
@@ -503,27 +503,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="197"/>
         <source>...</source>
-        <translation>…</translation>
+        <translation>&#8230;</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="206"/>
         <source>Classroom (operator-controlled transmissions)</source>
-        <translation>Salle de classe (l&apos;opérateur contrôle les transmissions vocales)</translation>
+        <translation>Salle de classe (l&#8217;opérateur contrôle les transmissions vocales)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="213"/>
         <source>Operator receive only (only operator see and hear users)</source>
-        <translation>Seul l&apos;opérateur reçoit (seul l&apos;opérateur voit et entend les utilisateurs)</translation>
+        <translation>Seul l&#8217;opérateur reçoit (seul l&#8217;opérateur voit et entend les utilisateurs)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="220"/>
         <source>No voice activation (only Push-to-Talk allowed)</source>
-        <translation>Pas d&apos;activation vocale (seul Maintenir-pour-parler autorisé)</translation>
+        <translation>Pas d&#8217;activation vocale (seul Maintenir-pour-parler autorisé)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="227"/>
         <source>No audio recording allowed (save to disk not allowed)</source>
-        <translation>Pas d&apos;enregistrement autorisé (sauvegarde sur disque interdite)</translation>
+        <translation>Pas d&#8217;enregistrement autorisé (sauvegarde sur disque interdite)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="234"/>
@@ -545,7 +545,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="427"/>
         <location filename="../channel.ui" line="619"/>
         <source>Sample rate</source>
-        <translation>Taux d&apos;échantillonnage</translation>
+        <translation>Taux d&#8217;échantillonnage</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="301"/>
@@ -629,7 +629,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="810"/>
         <source>Ensure all users in the channel have the same audio volume</source>
-        <translation>S&apos;assurer que tous les utilisateurs du canal aient le même volume</translation>
+        <translation>S&#8217;assurer que tous les utilisateurs du canal aient le même volume</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="813"/>
@@ -661,7 +661,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="74"/>
         <source>No Audio</source>
-        <translation>Pas d&apos;audio</translation>
+        <translation>Pas d&#8217;audio</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="94"/>
@@ -731,12 +731,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="441"/>
         <source>Transmission Queue Delay</source>
-        <translation>Délai de la file d&apos;attente de transmission</translation>
+        <translation>Délai de la file d&#8217;attente de transmission</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="442"/>
         <source>Delay before switching to next user in queue (in msec)</source>
-        <translation>Délai avant de passer à l&apos;utilisateur suivant dans la file d&apos;attente (en ms)</translation>
+        <translation>Délai avant de passer à l&#8217;utilisateur suivant dans la file d&#8217;attente (en ms)</translation>
     </message>
 </context>
 <context>
@@ -976,12 +976,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="14"/>
         <source>Safe List For Automatic Desktop Access</source>
-        <translation>Liste de confience pour l&apos;accès aux bureaux distants automatique</translation>
+        <translation>Liste de confience pour l&#8217;accès aux bureaux distants automatique</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="22"/>
         <source>Safe List For Desktop Access</source>
-        <translation>Liste de confience pour l&apos;accès aux bureaux distants</translation>
+        <translation>Liste de confience pour l&#8217;accès aux bureaux distants</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="33"/>
@@ -996,12 +996,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="66"/>
         <source>Here it is possible to automatically give desktop access to a selected group of users on a server. This way it is not required to click &quot;Allow Desktop Access&quot; every time a user logs on.</source>
-        <translation>Ici vous pouvez autoriser un accès aux bureaux distants automatique à un groupe d&apos;utilisateurs sur un serveur. Cela a pour but de ne pas devoir cliquer sur &quot;Autoriser l&apos;accès au bureau&quot; à chaque fois qu&apos;un utilisateur se connecte.</translation>
+        <translation>Ici vous pouvez autoriser un accès aux bureaux distants automatique à un groupe d&#8217;utilisateurs sur un serveur. Cela a pour but de ne pas devoir cliquer sur &#171;Autoriser l&#8217;accès au bureau&#187; à chaque fois qu&#8217;un utilisateur se connecte.</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="78"/>
         <source>Host IP-address</source>
-        <translation>Adresse IP de l&apos;hôte</translation>
+        <translation>Adresse IP de l&#8217;hôte</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="91"/>
@@ -1011,7 +1011,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="115"/>
         <source>Enable desktop access to all users in channel</source>
-        <translation>Activer l&apos;accès au bureau pour tous les utilisateurs dans le canal</translation>
+        <translation>Activer l&#8217;accès au bureau pour tous les utilisateurs dans le canal</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="135"/>
@@ -1026,7 +1026,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="153"/>
         <source>Enable desktop access to users with username</source>
-        <translation>Activer l&apos;accès au bureau pour les utilisateurs avec nom d&apos;utilisateur</translation>
+        <translation>Activer l&#8217;accès au bureau pour les utilisateurs avec nom d&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="179"/>
@@ -1066,7 +1066,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccessdlg.cpp" line="120"/>
         <source>Please fill the field &apos;Host IP-address&apos;</source>
-        <translation>Veuillez remplir le champ &quot;Adresse IP de l&apos;hôte&quot;</translation>
+        <translation>Veuillez remplir le champ &#171;Adresse IP de l&#8217;hôte&#187;</translation>
     </message>
 </context>
 <context>
@@ -1092,7 +1092,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopshare.ui" line="26"/>
         <source>Share entire desktop</source>
-        <translation>Partager l&apos;intégralité du bureau</translation>
+        <translation>Partager l&#8217;intégralité du bureau</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="36"/>
@@ -1117,7 +1117,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopshare.ui" line="108"/>
         <source>Update interval</source>
-        <translation>Mettre à jour l&apos;intervalle</translation>
+        <translation>Mettre à jour l&#8217;intervalle</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="140"/>
@@ -1185,7 +1185,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../encryptionsetupdlg.ui" line="135"/>
         <location filename="../encryptionsetupdlg.ui" line="147"/>
         <source>...</source>
-        <translation>…</translation>
+        <translation>&#8230;</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="71"/>
@@ -1218,13 +1218,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../encryptionsetupdlg.cpp" line="85"/>
         <location filename="../encryptionsetupdlg.cpp" line="128"/>
         <source>Effective date: %1</source>
-        <translation>Date d&apos;émission: %1</translation>
+        <translation>Date d&#8217;émission: %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="86"/>
         <location filename="../encryptionsetupdlg.cpp" line="129"/>
         <source>Expiration date: %1</source>
-        <translation>Date d&apos;expiration: %1</translation>
+        <translation>Date d&#8217;expiration: %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="98"/>
@@ -1234,12 +1234,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="112"/>
         <source>Setup Certificate Autority</source>
-        <translation>Configurer l&apos;autorité de certification</translation>
+        <translation>Configurer l&#8217;autorité de certification</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="113"/>
         <source>The file %1 does not contain a valid certificate authority</source>
-        <translation>Le fichier %1 ne contient pas d&apos;autorité de certification valide</translation>
+        <translation>Le fichier %1 ne contient pas d&#8217;autorité de certification valide</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="141"/>
@@ -1348,7 +1348,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransferdlg.cpp" line="168"/>
         <source>Unable to open &quot;%1&quot;. File does not have a default file association</source>
-        <translation>Impossible d&apos;ouvrir &quot;%1&quot;. Aucune association par défaut pour ce type de fichier.</translation>
+        <translation>Impossible d&#8217;ouvrir &#171;%1&#187;. Aucune association par défaut pour ce type de fichier.</translation>
     </message>
 </context>
 <context>
@@ -1390,7 +1390,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="31"/>
         <source>Username</source>
-        <translation>Nom d&apos;utilisateur</translation>
+        <translation>Nom d&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="44"/>
@@ -1520,7 +1520,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfiledlg.cpp" line="196"/>
         <source>Unable to save file</source>
-        <translation>Impossible d&apos;enregistrer le fichier</translation>
+        <translation>Impossible d&#8217;enregistrer le fichier</translation>
     </message>
 </context>
 <context>
@@ -1539,7 +1539,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../keycomp.ui" line="35"/>
         <source>Hold down the keys which should be used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
-        <translation>Maintenez enfoncées les touches qui doivent être utilisées pour ce raccourci. Les touches de modification comme CTRL, Alt et Maj peuvent être utilisées en combinaison avec d&apos;autres touches.</translation>
+        <translation>Maintenez enfoncées les touches qui doivent être utilisées pour ce raccourci. Les touches de modification comme CTRL, Alt et Maj peuvent être utilisées en combinaison avec d&#8217;autres touches.</translation>
     </message>
     <message>
         <location filename="../keycomp.ui" line="47"/>
@@ -1554,7 +1554,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../keycompdlg.cpp" line="59"/>
         <source>Modifiers (Option, Control, Command and Shift) must be used in combination with other keys.</source>
-        <translation>Les modificateurs (CTRL, Option, COmmande et Maj) doivent être utilisées en combinaison avec d&apos;autres touches.</translation>
+        <translation>Les modificateurs (CTRL, Option, COmmande et Maj) doivent être utilisées en combinaison avec d&#8217;autres touches.</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="231"/>
@@ -1564,7 +1564,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../keycompdlg.cpp" line="232"/>
         <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
-        <translation>macOS ne supporte pas les touches de modification seules, par exemple Commande, Option et Maj doivent être utilisées avec d&apos;autres touches qui ne sont pas des modificateurs.</translation>
+        <translation>macOS ne supporte pas les touches de modification seules, par exemple Commande, Option et Maj doivent être utilisées avec d&#8217;autres touches qui ne sont pas des modificateurs.</translation>
     </message>
 </context>
 <context>
@@ -1600,7 +1600,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="281"/>
         <location filename="../mainwindow.ui" line="284"/>
         <source>Voice activation level</source>
-        <translation>Niveau d&apos;activation vocale</translation>
+        <translation>Niveau d&#8217;activation vocale</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="340"/>
@@ -1639,7 +1639,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="454"/>
         <location filename="../mainwindow.ui" line="457"/>
         <source>Detach User Video</source>
-        <translation>Détacher la vidéo de l&apos;utilisateur</translation>
+        <translation>Détacher la vidéo de l&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="487"/>
@@ -1651,7 +1651,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="523"/>
         <location filename="../mainwindow.ui" line="526"/>
         <source>Remove User From Video Grid</source>
-        <translation>Supprimer l&apos;utilisateur de la grille vidéo</translation>
+        <translation>Supprimer l&#8217;utilisateur de la grille vidéo</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="556"/>
@@ -1893,7 +1893,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1526"/>
         <source>Enable Voice &amp;Activation</source>
-        <translation>&amp;Activer l&apos;activation vocale</translation>
+        <translation>&amp;Activer l&#8217;activation vocale</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1529"/>
@@ -1923,7 +1923,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1550"/>
         <source>&amp;View User Information</source>
-        <translation>&amp;Voir les informations de l&apos;utilisateur</translation>
+        <translation>&amp;Voir les informations de l&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1553"/>
@@ -2043,7 +2043,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1127"/>
         <source>&amp;Input Devices</source>
-        <translation>Périphériques d&apos;&amp;entrée</translation>
+        <translation>Périphériques d&#8217;&amp;entrée</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1132"/>
@@ -2058,7 +2058,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1238"/>
         <source>&amp;User Information</source>
-        <translation>Information de l&apos;&amp;utilisateur</translation>
+        <translation>Information de l&#8217;&amp;utilisateur</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1245"/>
@@ -2068,7 +2068,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1406"/>
         <source>&amp;Enable Echo Cancellation</source>
-        <translation>&amp;Activer l&apos;annulation d&apos;écho</translation>
+        <translation>&amp;Activer l&#8217;annulation d&#8217;écho</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1414"/>
@@ -2093,7 +2093,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1558"/>
         <source>&amp;Speak User Information</source>
-        <translation>Énoncer le&amp;s informations de l&apos;utilisateur</translation>
+        <translation>Énoncer le&amp;s informations de l&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1561"/>
@@ -2113,7 +2113,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1645"/>
         <source>S&amp;peak Channel State</source>
-        <translation>&amp;Annoncer l&apos;état du canal</translation>
+        <translation>&amp;Annoncer l&#8217;état du canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1648"/>
@@ -2408,7 +2408,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2304"/>
         <source>Show blinking icon</source>
-        <translation>Afficher l&apos;icône clignotante</translation>
+        <translation>Afficher l&#8217;icône clignotante</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1991"/>
@@ -2498,7 +2498,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2118"/>
         <source>Allow Desktop Access</source>
-        <translation>Autoriser l&apos;accès au bureau</translation>
+        <translation>Autoriser l&#8217;accès au bureau</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2121"/>
@@ -2643,7 +2643,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2286"/>
         <source>&amp;Hear Myself</source>
-        <translation>&amp;M&apos;écouter</translation>
+        <translation>&amp;M&#8217;écouter</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2289"/>
@@ -2669,7 +2669,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="929"/>
         <source>Program argument &quot;%1&quot; is unrecognized.</source>
-        <translation>Le programme ne reconnaît pas l&apos;argument &quot;%1&quot;</translation>
+        <translation>Le programme ne reconnaît pas l&#8217;argument &#171;%1&#187;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2075"/>
@@ -2690,7 +2690,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="769"/>
         <source>%1 has detected usage of a screenreader on your computer. Do you wish to enable accessibility options offered by %1 with recommended settings?</source>
-        <translation>%1 a détecté l&apos;utilisation d&apos;un lecteur d&apos;écran sur votre ordinateur. Voulez-vous activer les fonctionnalités d&apos;accessibilité offertes par %1 avec les paramètres recommandés?</translation>
+        <translation>%1 a détecté l&#8217;utilisation d&#8217;un lecteur d&#8217;écran sur votre ordinateur. Voulez-vous activer les fonctionnalités d&#8217;accessibilité offertes par %1 avec les paramètres recommandés?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="803"/>
@@ -2701,7 +2701,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="806"/>
         <source>The sound pack %1 does not exist. Would you like to use the default sound pack?</source>
-        <translation>Votre pack de sons %1 n&apos;existe pas, voulez-vous utiliser le pack de sons par défaut?</translation>
+        <translation>Votre pack de sons %1 n&#8217;existe pas, voulez-vous utiliser le pack de sons par défaut?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1006"/>
@@ -2717,13 +2717,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="1120"/>
         <location filename="../mainwindow.cpp" line="1122"/>
         <source>%1 has logged in</source>
-        <translation>%1 s&apos;est connecté</translation>
+        <translation>%1 s&#8217;est connecté</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1138"/>
         <location filename="../mainwindow.cpp" line="1140"/>
         <source>%1 has logged out</source>
-        <translation>%1 s&apos;est déconnecté</translation>
+        <translation>%1 s&#8217;est déconnecté</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2979"/>
@@ -2820,27 +2820,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1331"/>
         <source>Failed to initialize sound input device</source>
-        <translation>Échec à l&apos;initialisation du périphériques d&apos;entrée audio</translation>
+        <translation>Échec à l&#8217;initialisation du périphérique d&#8217;entrée audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1333"/>
         <source>Failed to initialize sound output device</source>
-        <translation>Échec à l&apos;initialisation du périphérique de sortie audio</translation>
+        <translation>Échec à l&#8217;initialisation du périphérique de sortie audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1335"/>
         <source>Failed to initialize audio codec</source>
-        <translation>Échec à l&apos;initialisation du codec audio</translation>
+        <translation>Échec à l&#8217;initialisation du codec audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1338"/>
         <source>Failed to initialize audio configuration</source>
-        <translation>Échec à l&apos;initialisation de la configuration audio</translation>
+        <translation>Échec à l&#8217;initialisation de la configuration audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1341"/>
         <source>Internal message queue overloaded</source>
-        <translation>File d&apos;attente des messages interne pleine</translation>
+        <translation>File d&#8217;attente des messages interne pleine</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1347"/>
@@ -2896,7 +2896,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1552"/>
         <source>Failed to write audio file %1 for %2</source>
-        <translation>Échec à l&apos;écriture du fichier audio %1 pour %2</translation>
+        <translation>Échec à l&#8217;écriture du fichier audio %1 pour %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1557"/>
@@ -2926,7 +2926,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1988"/>
         <source>Using sound input: %1</source>
-        <translation>Utilisation du périphérique d&apos;entrée audio: %1</translation>
+        <translation>Utilisation du périphérique d&#8217;entrée audio: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1988"/>
@@ -2977,12 +2977,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2111"/>
         <source>This client is not compatible with the server, so the action cannot be performed.</source>
-        <translation>Ce client est incompatible avec le serveur, l&apos;action ne peut donc être réalisée</translation>
+        <translation>Ce client est incompatible avec le serveur, l&#8217;action ne peut donc être réalisée</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2114"/>
         <source>The username is invalid</source>
-        <translation>Le nom d&apos;utilisateur est invalide</translation>
+        <translation>Le nom d&#8217;utilisateur est invalide</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="648"/>
@@ -3006,12 +3006,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2173"/>
         <location filename="../mainwindow.cpp" line="2178"/>
         <source>Login error</source>
-        <translation>Erreur d&apos;identification</translation>
+        <translation>Erreur d&#8217;identification</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2126"/>
         <source>Invalid user account. Type username:</source>
-        <translation>Compte utilisateur invalide. Tapez le nom d&apos;utilisateur:</translation>
+        <translation>Compte utilisateur invalide. Tapez le nom d&#8217;utilisateur:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2134"/>
@@ -3041,7 +3041,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2179"/>
         <source>Maximum number of users on server exceeded</source>
-        <translation>Nombre d&apos;utilisateurs maximal sur le serveur dépassé</translation>
+        <translation>Nombre d&#8217;utilisateurs maximal sur le serveur dépassé</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2181"/>
@@ -3051,12 +3051,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2183"/>
         <source>Maximum number of users in channel exceeded</source>
-        <translation>Nombre d&apos;utilisateurs maximal sur le canal dépassé</translation>
+        <translation>Nombre d&#8217;utilisateurs maximal sur le canal dépassé</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2185"/>
         <source>Incorrect channel operator password</source>
-        <translation>Mot de passe de l&apos;opérateur du canal incorrect</translation>
+        <translation>Mot de passe de l&#8217;opérateur du canal incorrect</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2187"/>
@@ -3076,7 +3076,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2195"/>
         <source>Cannot perform action because client is currently not logged in</source>
-        <translation>Impossible de réaliser l&apos;action car le client n&apos;est pas connecté actuellement</translation>
+        <translation>Impossible de réaliser l&#8217;action car le client n&#8217;est pas connecté actuellement</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2198"/>
@@ -3101,7 +3101,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2211"/>
         <source>The login service is currently unavailable</source>
-        <translation>Le service d&apos;identification est actuellement indisponible</translation>
+        <translation>Le service d&#8217;identification est actuellement indisponible</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2213"/>
@@ -3346,7 +3346,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="5505"/>
         <source>&amp;Upload Date (%1)</source>
-        <translation>&amp;Date d&apos;ajout (%1)</translation>
+        <translation>&amp;Date d&#8217;ajout (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6147"/>
@@ -3551,12 +3551,12 @@ Faut-il appliquer ces paramètres?</translation>
         <location filename="../mainwindow.cpp" line="996"/>
         <location filename="../mainwindow.cpp" line="997"/>
         <source>Secure connection failed due to error 0x%1: %2.</source>
-        <translation>Échec de la connexion sécurisée en raison de l&apos;erreur 0x%1: %2</translation>
+        <translation>Échec de la connexion sécurisée en raison de l&#8217;erreur 0x%1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1589"/>
         <source>New sound device available: %1. Refresh sound devices to discover new device.</source>
-        <translation>Nouveau périphérique audio disponible: %1. Raffraîchir les périphériques pour l&apos;utiliser.</translation>
+        <translation>Nouveau périphérique audio disponible: %1. Raffraîchir les périphériques pour l&#8217;utiliser.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1594"/>
@@ -3591,7 +3591,7 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2677"/>
         <source>Failed to add %1 to Windows Firewall exceptions.</source>
-        <translation>Échec à l&apos;ajout de %1 à la liste des exceptions du pare-feu Windows</translation>
+        <translation>Échec à l&#8217;ajout de %1 à la liste des exceptions du pare-feu Windows</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2692"/>
@@ -3662,13 +3662,13 @@ Faut-il appliquer ces paramètres?</translation>
         <location filename="../mainwindow.cpp" line="2781"/>
         <location filename="../mainwindow.cpp" line="2782"/>
         <source>Subscription &quot;%1&quot; enabled for %2</source>
-        <translation>Abonnement &quot;%1&quot; activé pour %2</translation>
+        <translation>Abonnement &#171;%1&#187; activé pour %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2791"/>
         <location filename="../mainwindow.cpp" line="2792"/>
         <source>Subscription &quot;%1&quot; disabled for %2</source>
-        <translation>Abonnement &quot;%1&quot; désactivé pour %2</translation>
+        <translation>Abonnement &#171;%1&#187; désactivé pour %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2924"/>
@@ -3679,12 +3679,12 @@ Faut-il appliquer ces paramètres?</translation>
         <location filename="../mainwindow.cpp" line="2930"/>
         <location filename="../mainwindow.cpp" line="4869"/>
         <source>%1 granted desktop access</source>
-        <translation>%1 a accordé l&apos;accès au bureau</translation>
+        <translation>%1 a accordé l&#8217;accès au bureau</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2936"/>
         <source>%1 retracted desktop access</source>
-        <translation>%1 a retiré l&apos;accès au bureau</translation>
+        <translation>%1 a retiré l&#8217;accès au bureau</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2974"/>
@@ -3700,7 +3700,7 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3158"/>
         <source>Failed to start recording</source>
-        <translation>Échec au démarrage de l&apos;enregistrement audio</translation>
+        <translation>Échec au démarrage de l&#8217;enregistrement audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3162"/>
@@ -3725,7 +3725,7 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3755"/>
         <source>Failed to register hotkey. Please try another key combination.</source>
-        <translation>Impossible d&apos;enregistrer le raccourcis clavier. Veuillez essayer une autre combinaison</translation>
+        <translation>Impossible d&#8217;enregistrer le raccourcis clavier. Veuillez essayer une autre combinaison</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3760"/>
@@ -3735,27 +3735,27 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3933"/>
         <source>Text messages blocked by channel operator</source>
-        <translation>Messages texte bloqués par l&apos;opérateur du canal</translation>
+        <translation>Messages texte bloqués par l&#8217;opérateur du canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3937"/>
         <source>Voice transmission blocked by channel operator</source>
-        <translation>Transmission vocale bloquée par l&apos;opérateur du canal</translation>
+        <translation>Transmission vocale bloquée par l&#8217;opérateur du canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3941"/>
         <source>Media file transmission blocked by channel operator</source>
-        <translation>Transmission de fichiers média bloquée par l&apos;opérateur du canal</translation>
+        <translation>Transmission de fichiers média bloquée par l&#8217;opérateur du canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3945"/>
         <source>Video transmission blocked by channel operator</source>
-        <translation>Transmission vidéo bloquée par l&apos;opérateur du canal</translation>
+        <translation>Transmission vidéo bloquée par l&#8217;opérateur du canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3949"/>
         <source>Desktop transmission blocked by channel operator</source>
-        <translation>Transmission de bureau bloquée par l&apos;opérateur du canal</translation>
+        <translation>Transmission de bureau bloquée par l&#8217;opérateur du canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4026"/>
@@ -3827,13 +3827,13 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="4548"/>
         <source>Failed to enable voice activation</source>
-        <translation>Impossible d&apos;activer l&apos;activation vocale</translation>
+        <translation>Impossible d&#8217;activer l&#8217;activation vocale</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4573"/>
         <location filename="../mainwindow.cpp" line="6516"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translation>Le périphérique vidéo n&apos;a pas été configuré correctement. Vérifiez les paramètres dans &quot;Préférences&quot;</translation>
+        <translation>Le périphérique vidéo n&#8217;a pas été configuré correctement. Vérifiez les paramètres dans &#171;Préférences&#187;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4596"/>
@@ -3869,14 +3869,14 @@ Faut-il appliquer ces paramètres?</translation>
         <location filename="../mainwindow.cpp" line="5060"/>
         <source>To relay voice stream from other channel you must enable subscription &quot;Intercept Voice&quot;.
 Do you wish to do this now?</source>
-        <translation>Pour relayer le flux vocal depuis un autre canal vous devez activer l&apos;abonnement &quot;Intercepter la voix&quot;
+        <translation>Pour relayer le flux vocal depuis un autre canal vous devez activer l&#8217;abonnement &#171;Intercepter la voix&#187;
 Souhaitez-vous le faire maintenant?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5080"/>
         <source>To relay media file stream from other channel you must enable subscription &quot;Intercept Media File&quot;.
 Do you wish to do this now?</source>
-        <translation>Pour relayer le flux des fichiers média depuis un autre canal vous devez activer l&apos;abonnement &quot;Intercepter les fichiers média&quot;
+        <translation>Pour relayer le flux des fichiers média depuis un autre canal vous devez activer l&#8217;abonnement &#171;Intercepter les fichiers média&#187;
 Souhaitez-vous le faire maintenant?</translation>
     </message>
     <message>
@@ -3889,7 +3889,7 @@ Souhaitez-vous le faire maintenant?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="5433"/>
         <source>Type username of user account:</source>
-        <translation>Taper le nom d&apos;utilisateur d&apos;un compte utilisateur:</translation>
+        <translation>Taper le nom d&#8217;utilisateur d&#8217;un compte utilisateur:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5442"/>
@@ -3910,7 +3910,7 @@ Souhaitez-vous le faire maintenant?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="5484"/>
         <source>Sort By...</source>
-        <translation>Trier Par…</translation>
+        <translation>Trier Par&#8230;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5792"/>
@@ -3935,12 +3935,12 @@ Souhaitez-vous le faire maintenant?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="5959"/>
         <source>Ban user #%1</source>
-        <translation>Bannir l&apos;utilisateur #%1</translation>
+        <translation>Bannir l&#8217;utilisateur #%1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5963"/>
         <source>Ban User From Server</source>
-        <translation>Bannir l&apos;utilisateur du serveur</translation>
+        <translation>Bannir l&#8217;utilisateur du serveur</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7305"/>
@@ -3973,12 +3973,12 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../mainwindow.cpp" line="4584"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
-        <translation>Échec à la configuration du codec vidéo. Veuillez vérifier les paramètres dans &quot;Préférences&quot;</translation>
+        <translation>Échec à la configuration du codec vidéo. Veuillez vérifier les paramètres dans &#171;Préférences&#187;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4632"/>
         <source>Failed to open X11 display.</source>
-        <translation>Échec à l&apos;ouverture de l&apos;affichage X11</translation>
+        <translation>Échec à l&#8217;ouverture de l&#8217;affichage X11</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4651"/>
@@ -4009,7 +4009,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../mainwindow.cpp" line="5153"/>
         <source>Are you sure you want to delete channel &quot;%1&quot;?</source>
-        <translation>Êtes-vous sûr·e de vouloir supprimer le canal &quot;%1&quot;?</translation>
+        <translation>Êtes-vous sûr·e de vouloir supprimer le canal &#171;%1&#187;?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5165"/>
@@ -4030,7 +4030,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../mainwindow.cpp" line="5300"/>
         <source>Nobody is active in this channel</source>
-        <translation>Personne n&apos;est actif dans ce canal</translation>
+        <translation>Personne n&#8217;est actif dans ce canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5342"/>
@@ -4045,7 +4045,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../mainwindow.cpp" line="5393"/>
         <source>Are you sure you want to delete &quot;%1&quot;?</source>
-        <translation>Êtes-vous sûr·e de vouloir supprimer &quot;%1&quot;?</translation>
+        <translation>Êtes-vous sûr·e de vouloir supprimer &#171;%1&#187;?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5402"/>
@@ -4180,12 +4180,12 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../mainwindow.cpp" line="5952"/>
         <source>Username</source>
-        <translation>Nom d&apos;utilisateur</translation>
+        <translation>Nom d&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5961"/>
         <source>Ban User From Channel</source>
-        <translation>Bannir l&apos;utilisateur du canal</translation>
+        <translation>Bannir l&#8217;utilisateur du canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6146"/>
@@ -4195,7 +4195,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../mainwindow.cpp" line="6387"/>
         <source>The maximum number of users who can transmit is %1</source>
-        <translation>Le maximum d&apos;utilisateurs pouvant transmettre est %1</translation>
+        <translation>Le maximum d&#8217;utilisateurs pouvant transmettre est %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6515"/>
@@ -4253,7 +4253,7 @@ Vous pouvez la télécharger sur la page suivante:
         <location filename="../mainwindow.cpp" line="7073"/>
         <location filename="../mainwindow.cpp" line="7078"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
-        <translation>%1 a %3 l&apos;abonnement &quot;%2&quot;</translation>
+        <translation>%1 a %3 l&#8217;abonnement &#171;%2&#187;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6939"/>
@@ -4336,12 +4336,12 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../mainwindow.cpp" line="7192"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
-        <translation>Le fichier &quot;%1&quot; est incompatible avec %2</translation>
+        <translation>Le fichier &#171;%1&#187; est incompatible avec %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7203"/>
         <source>Failed to extract host-information from %1</source>
-        <translation>Échec à l&apos;extraction des informations de l&apos;hôte depuis %1</translation>
+        <translation>Échec à l&#8217;extraction des informations de l&#8217;hôte depuis %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7217"/>
@@ -4447,7 +4447,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../mediastoragedlg.cpp" line="116"/>
         <source>Folder for storing audio files does not exist. Do you want %1 to create it for you?</source>
-        <translation>Le dossier pour stocker les fichiers audio n&apos;existe pas. Voulez-vous que %1 le créé pour vous?</translation>
+        <translation>Le dossier pour stocker les fichiers audio n&#8217;existe pas. Voulez-vous que %1 le créé pour vous?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="117"/>
@@ -4471,12 +4471,12 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../mediastoragedlg.cpp" line="138"/>
         <source>No stream type has been selected as audio input for recording</source>
-        <translation>Aucun type de flux n&apos;a été sélectionné comme source audio d&apos;entrée pour l&apos;enregistrement</translation>
+        <translation>Aucun type de flux n&#8217;a été sélectionné comme source audio d&#8217;entrée pour l&#8217;enregistrement</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="154"/>
         <source>Folder for storing channel messages does not exist. Do you want %1 to create it for you?</source>
-        <translation>Le dossier pour stocker les messages de canal n&apos;existe pas. Voulez-vous que %1 le créé pour vous?</translation>
+        <translation>Le dossier pour stocker les messages de canal n&#8217;existe pas. Voulez-vous que %1 le créé pour vous?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="159"/>
@@ -4486,7 +4486,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../mediastoragedlg.cpp" line="171"/>
         <source>Folder for storing private text messages does not exist. Do you want %1 to create it for you?</source>
-        <translation>Le dossier pour stocker les messages privés n&apos;existe pas. Voulez-vous que %1 le créé pour vous?</translation>
+        <translation>Le dossier pour stocker les messages privés n&#8217;existe pas. Voulez-vous que %1 le créé pour vous?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="176"/>
@@ -4521,7 +4521,7 @@ Vous pouvez la télécharger sur la page suivante:
         <location filename="../onlineusersdlg.cpp" line="64"/>
         <location filename="../onlineusersdlg.cpp" line="133"/>
         <source>&amp;View User Information</source>
-        <translation>&amp;Voir les informations de l&apos;utilisateur</translation>
+        <translation>&amp;Voir les informations de l&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="64"/>
@@ -4592,7 +4592,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../onlineusersdlg.cpp" line="145"/>
         <source>Sort By...</source>
-        <translation>Trier Par…</translation>
+        <translation>Trier Par&#8230;</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="146"/>
@@ -4617,7 +4617,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../onlineusersdlg.cpp" line="250"/>
         <source>Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7, ID: %1</source>
-        <translation>Pseudo: %2, Message de statut: %3, Nom d&apos;utilisateur: %4, Canal: %5, Adresse IP: %6, Version: %7, ID: %1</translation>
+        <translation>Pseudo: %2, Message de statut: %3, Nom d&#8217;utilisateur: %4, Canal: %5, Adresse IP: %6, Version: %7, ID: %1</translation>
     </message>
 </context>
 <context>
@@ -4640,7 +4640,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../onlineusersmodel.cpp" line="145"/>
         <source>Username</source>
-        <translation>Nom d&apos;utilisateur</translation>
+        <translation>Nom d&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../onlineusersmodel.cpp" line="147"/>
@@ -4718,7 +4718,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="170"/>
         <source>seconds of inactivity (0 means disabled)</source>
-        <translation>secondes d&apos;inactivité (0 pour désactivé)</translation>
+        <translation>secondes d&#8217;inactivité (0 pour désactivé)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="232"/>
@@ -4772,12 +4772,12 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="372"/>
         <source>User Interface Settings</source>
-        <translation>Paramètres de l&apos;interface utilisateur</translation>
+        <translation>Paramètres de l&#8217;interface utilisateur</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="384"/>
         <source>User interface language</source>
-        <translation>Langue de l&apos;interface utilisateur</translation>
+        <translation>Langue de l&#8217;interface utilisateur</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="399"/>
@@ -4802,12 +4802,12 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="427"/>
         <source>Show number of users in channel</source>
-        <translation>Afficher le nombre d&apos;utilisateurs dans les canaux</translation>
+        <translation>Afficher le nombre d&#8217;utilisateurs dans les canaux</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="434"/>
         <source>Show username instead of nickname</source>
-        <translation>Afficher les noms d&apos;utilisateurs au lieu des pseudos</translation>
+        <translation>Afficher les noms d&#8217;utilisateurs au lieu des pseudos</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="441"/>
@@ -4827,7 +4827,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="462"/>
         <source>Popup dialog when receiving text message</source>
-        <translation>Boîte de dialogue lors de la réception d&apos;un message privé</translation>
+        <translation>Boîte de dialogue lors de la réception d&#8217;un message privé</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="469"/>
@@ -4842,7 +4842,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="513"/>
         <source>Timestamp text messages</source>
-        <translation>Afficher l&apos;heure des messages</translation>
+        <translation>Afficher l&#8217;heure des messages</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="584"/>
@@ -4862,12 +4862,12 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="190"/>
         <source>Disable voice activation during inactivity</source>
-        <translation>Désactiver l&apos;activation vocale lorsqu&apos;inactif</translation>
+        <translation>Désactiver l&#8217;activation vocale lorsqu&#8217;inactif</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="214"/>
         <source>Status message during inactivity</source>
-        <translation>Message de statut lorsqu&apos;inactif</translation>
+        <translation>Message de statut lorsqu&#8217;inactif</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="628"/>
@@ -4897,7 +4897,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="770"/>
         <source>Reconnect on connection dropped</source>
-        <translation>Se reconnecter lors d&apos;une perte de connexion</translation>
+        <translation>Se reconnecter lors d&#8217;une perte de connexion</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="777"/>
@@ -4912,7 +4912,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="791"/>
         <source>Add application to Windows Firewall exceptions list</source>
-        <translation>Ajouter l&apos;application à la liste d&apos;exceptions du pare-feu Windows</translation>
+        <translation>Ajouter l&#8217;application à la liste d&#8217;exceptions du pare-feu Windows</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="798"/>
@@ -5028,7 +5028,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="1091"/>
         <source>Input device</source>
-        <translation>Périphérique d&apos;entrée</translation>
+        <translation>Périphérique d&#8217;entrée</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1137"/>
@@ -5049,7 +5049,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="1222"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
-        <translation>Activer l&apos;annulation d&apos;écho (supprime l&apos;écho des haut-parleurs)</translation>
+        <translation>Activer l&#8217;annulation d&#8217;écho (supprime l&#8217;écho des haut-parleurs)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1229"/>
@@ -5140,7 +5140,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="1400"/>
         <source>New user</source>
-        <translation>L&apos;utilisateur a rejoint le canal</translation>
+        <translation>L&#8217;utilisateur a rejoint le canal</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="575"/>
@@ -5160,7 +5160,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="1429"/>
         <source>User removed</source>
-        <translation>L&apos;utilisateur a quitté le canal</translation>
+        <translation>L&#8217;utilisateur a quitté le canal</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1452"/>
@@ -5215,7 +5215,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="1755"/>
         <source>Finish intercepted by another user</source>
-        <translation>Fin d&apos;interception par un autre utilisateur</translation>
+        <translation>Fin d&#8217;interception par un autre utilisateur</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1778"/>
@@ -5260,12 +5260,12 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="1962"/>
         <source>Transmit ready in &quot;No interruption&quot; channel</source>
-        <translation>Transmission prête dans un canal &quot;Sans interruption&quot;</translation>
+        <translation>Transmission prête dans un canal &#171;Sans interruption&#187;</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1985"/>
         <source>Transmit stopped in &quot;No interruption&quot; channel</source>
-        <translation>Transmission arrêtée dans un canal &quot;Sans interruption&quot;</translation>
+        <translation>Transmission arrêtée dans un canal &#171;Sans interruption&#187;</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2008"/>
@@ -5280,12 +5280,12 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="2054"/>
         <source>Voice activation enabled via &quot;Me&quot; menu</source>
-        <translation>Activation vocale activée par le menu &quot;Moi&quot;</translation>
+        <translation>Activation vocale activée par le menu &#171;Moi&#187;</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2077"/>
         <source>Voice activation disabled via &quot;Me&quot; menu</source>
-        <translation>Activation vocale désactivée par le menu &quot;Moi&quot;</translation>
+        <translation>Activation vocale désactivée par le menu &#171;Moi&#187;</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2121"/>
@@ -5340,7 +5340,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="2308"/>
         <source>Display duration of notifications</source>
-        <translation>Durée d&apos;affichage des notifications</translation>
+        <translation>Durée d&#8217;affichage des notifications</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2331"/>
@@ -5350,7 +5350,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="2351"/>
         <source>Use SAPI instead of current screenreader</source>
-        <translation>Utiliser SAPI au lieu du lecteur d&apos;écran actuel</translation>
+        <translation>Utiliser SAPI au lieu du lecteur d&#8217;écran actuel</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2377"/>
@@ -5365,7 +5365,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="2391"/>
         <source>Enable/disable voice activation</source>
-        <translation>Activer/désactiver l&apos;activation vocale</translation>
+        <translation>Activer/désactiver l&#8217;activation vocale</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2418"/>
@@ -5425,7 +5425,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="2714"/>
         <source>Image Format</source>
-        <translation>Format de l&apos;image</translation>
+        <translation>Format de l&#8217;image</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2724"/>
@@ -5467,7 +5467,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferencesdlg.cpp" line="380"/>
         <source>Default Input Device</source>
-        <translation>Périphérique d&apos;entrée par défaut</translation>
+        <translation>Périphérique d&#8217;entrée par défaut</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="413"/>
@@ -5509,12 +5509,12 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferencesdlg.cpp" line="891"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
-        <translation>Échec à l&apos;ajout de %1 dans la liste d&apos;exceptions du pare-feu Windows</translation>
+        <translation>Échec à l&#8217;ajout de %1 dans la liste d&#8217;exceptions du pare-feu Windows</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="898"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
-        <translation>Échec au retrait de %1 de la liste d&apos;exceptions du pare-feu Windows</translation>
+        <translation>Échec au retrait de %1 de la liste d&#8217;exceptions du pare-feu Windows</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1370"/>
@@ -5604,18 +5604,18 @@ Vous pouvez la télécharger sur la page suivante:
         <location filename="../preferencesdlg.cpp" line="1165"/>
         <location filename="../preferencesdlg.cpp" line="1855"/>
         <source>Failed to initialize video device</source>
-        <translation>Échec à l&apos;initialisation du périphérique vidéo</translation>
+        <translation>Échec à l&#8217;initialisation du périphérique vidéo</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1256"/>
         <source>Max Input Channels %1</source>
-        <translation>Maximum de canaux d&apos;entrée: %1</translation>
+        <translation>Maximum de canaux d&#8217;entrée: %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1258"/>
         <location filename="../preferencesdlg.cpp" line="1282"/>
         <source>Sample Rates:</source>
-        <translation>Taux d&apos;échantillonnage</translation>
+        <translation>Taux d&#8217;échantillonnage</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1280"/>
@@ -5630,22 +5630,22 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferencesdlg.cpp" line="1312"/>
         <source>Failed to restart sound systems. Please restart application.</source>
-        <translation>Échec à la réinitialisation du système audio. Veuillez redémarrer l&apos;application.</translation>
+        <translation>Échec à la réinitialisation du système audio. Veuillez redémarrer l&#8217;application.</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1353"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
-        <translation>Cette sélection de périphériques audio entraîne une annulation d&apos;écho non optimale. Consultez le manuel pour les détails.</translation>
+        <translation>Cette sélection de périphériques audio entraîne une annulation d&#8217;écho non optimale. Consultez le manuel pour les détails.</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1371"/>
         <source>Failed to initialize new sound devices</source>
-        <translation>Échec à l&apos;initialisation des nouveaux périphériques audio</translation>
+        <translation>Échec à l&#8217;initialisation des nouveaux périphériques audio</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1704"/>
         <source>Use SAPI instead of %1 screenreader</source>
-        <translation>Utiliser SAPI au lieu du lecteur d&apos;écran %1</translation>
+        <translation>Utiliser SAPI au lieu du lecteur d&#8217;écran %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1708"/>
@@ -5705,12 +5705,12 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="561"/>
         <source>Close dialog box when a file transfer is finished</source>
-        <translation>Fermer la boîte de dialogue lorsqu&apos;un transfert de fichier se termine</translation>
+        <translation>Fermer la boîte de dialogue lorsqu&#8217;un transfert de fichier se termine</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="568"/>
         <source>Show a dialog box when excluded from channel or server</source>
-        <translation>Afficher une boîte de dialogue lorsqu&apos;exclu du canal ou du serveur</translation>
+        <translation>Afficher une boîte de dialogue lorsqu&#8217;exclu du canal ou du serveur</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="696"/>
@@ -5725,7 +5725,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../preferences.ui" line="2344"/>
         <source>Speak selected item in lists</source>
-        <translation>Annoncer l&apos;élément sélectionné dans les listes</translation>
+        <translation>Annoncer l&#8217;élément sélectionné dans les listes</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2580"/>
@@ -5739,17 +5739,17 @@ Vous pouvez la télécharger sur la page suivante:
         <location filename="../utilsound.cpp" line="230"/>
         <location filename="../utilsound.cpp" line="284"/>
         <source>Failed to initialize sound duplex mode</source>
-        <translation>Échec à l&apos;initialisation du mode audio duplex</translation>
+        <translation>Échec à l&#8217;initialisation du mode audio duplex</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="238"/>
         <source>Failed to initialize sound input device</source>
-        <translation>Échec à l&apos;initialisation du nouveau périphérique d&apos;entrée audio</translation>
+        <translation>Échec à l&#8217;initialisation du nouveau périphérique d&#8217;entrée audio</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="243"/>
         <source>Failed to initialize sound output device</source>
-        <translation>Échec à l&apos;initialisation du nouveau périphérique de sortie audio</translation>
+        <translation>Échec à l&#8217;initialisation du nouveau périphérique de sortie audio</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="258"/>
@@ -5759,17 +5759,17 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../utilsound.cpp" line="266"/>
         <source>Unable to get default sound devices</source>
-        <translation>Impossible d&apos;obtenir les périphériques audio par défaut</translation>
+        <translation>Impossible d&#8217;obtenir les périphériques audio par défaut</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="292"/>
         <source>Failed to initialize default sound input device</source>
-        <translation>Échec à l&apos;initialisation du périphérique d&apos;entrée audio par défaut</translation>
+        <translation>Échec à l&#8217;initialisation du périphérique d&#8217;entrée audio par défaut</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="297"/>
         <source>Failed to initialize default sound output device</source>
-        <translation>Échec à l&apos;initialisation du périphérique de sortie audio par défaut</translation>
+        <translation>Échec à l&#8217;initialisation du périphérique de sortie audio par défaut</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="550"/>
@@ -5834,7 +5834,7 @@ Vous pouvez la télécharger sur la page suivante:
         <location filename="../serverlist.ui" line="148"/>
         <location filename="../serverlist.ui" line="151"/>
         <source>Remove entry</source>
-        <translation>Supprimer l&apos;entrée</translation>
+        <translation>Supprimer l&#8217;entrée</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="33"/>
@@ -5879,7 +5879,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../serverlist.ui" line="251"/>
         <source>Username</source>
-        <translation>Nom d&apos;utilisateur</translation>
+        <translation>Nom d&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="268"/>
@@ -5927,7 +5927,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../serverlist.ui" line="416"/>
         <source>Entry name</source>
-        <translation>Nom de l&apos;entrée</translation>
+        <translation>Nom de l&#8217;entrée</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="455"/>
@@ -5963,7 +5963,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../serverlistdlg.cpp" line="404"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
-        <translation>Veuillez remplir les champs &quot;Hôte ou adresse IP&quot;, &quot;Port TCP&quot; et &quot;Port UDP&quot;</translation>
+        <translation>Veuillez remplir les champs &#171;Hôte ou adresse IP&#187;, &#171;Port TCP&#187; et &#171;Port UDP&#187;</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="467"/>
@@ -5987,12 +5987,12 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../serverlistdlg.cpp" line="494"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
-        <translation>Le fichier &quot;%1&quot; est incompatible avec %2</translation>
+        <translation>Le fichier &#171;%1&#187; est incompatible avec %2</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="505"/>
         <source>Failed to extract host-information from %1</source>
-        <translation>Échec à l&apos;extraction des informations de l&apos;hôte depuis %1</translation>
+        <translation>Échec à l&#8217;extraction des informations de l&#8217;hôte depuis %1</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="678"/>
@@ -6035,7 +6035,7 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../serverlistdlg.cpp" line="770"/>
         <source>&amp;User Count (%1)</source>
-        <translation>N&amp;ombre d&apos;utilisateurs (%1)</translation>
+        <translation>N&amp;ombre d&#8217;utilisateurs (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="776"/>
@@ -6045,12 +6045,12 @@ Vous pouvez la télécharger sur la page suivante:
     <message>
         <location filename="../serverlistdlg.cpp" line="677"/>
         <source>Are you sure you want to publish the server named &quot;%1&quot;</source>
-        <translation>Êtes-vous sûr·e·e de vouloir publier le serveur nommé &quot;%1&quot;?</translation>
+        <translation>Êtes-vous sûr·e·e de vouloir publier le serveur nommé &#171;%1&#187;?</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="270"/>
         <source>Host manager</source>
-        <translation>Gestionnaire d&apos;hôtes</translation>
+        <translation>Gestionnaire d&#8217;hôtes</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="710"/>
@@ -6084,7 +6084,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../serverlistdlg.cpp" line="755"/>
         <source>Sort By...</source>
-        <translation>Trier Par…</translation>
+        <translation>Trier Par&#8230;</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="781"/>
@@ -6099,7 +6099,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../serverlistdlg.cpp" line="827"/>
         <source>Delete server named &quot;%1&quot;</source>
-        <translation>Supprimer le serveur de nom &quot;%1&quot;</translation>
+        <translation>Supprimer le serveur de nom &#171;%1&#187;</translation>
     </message>
 </context>
 <context>
@@ -6188,12 +6188,12 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="105"/>
         <source>User login failed</source>
-        <translation>Authentification d&apos;un utilisateur échouée</translation>
+        <translation>Authentification d&#8217;un utilisateur échouée</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="107"/>
         <source>User connection timed out</source>
-        <translation>Perte de la connexion d&apos;un utilisateur</translation>
+        <translation>Perte de la connexion d&#8217;un utilisateur</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="109"/>
@@ -6213,7 +6213,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="115"/>
         <source>User status updated</source>
-        <translation>Statut d&apos;un utilisateur mis à jour</translation>
+        <translation>Statut d&#8217;un utilisateur mis à jour</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="117"/>
@@ -6307,7 +6307,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../serverproperties.ui" line="44"/>
         <source>Max users</source>
-        <translation>Maximum d&apos;utilisateurs</translation>
+        <translation>Maximum d&#8217;utilisateurs</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="70"/>
@@ -6323,7 +6323,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>Variables message du jour: nombre d&apos;utilisateurs sur le serveur %users%, nombre d&apos;admins sur le serveur %admins%, temps de connexion du serveur %uptime%, KO reçus %voicetx%, KO envoyés %voicerx% et dernier utilisateur s&apos;étant connecté %lastuser%</translation>
+        <translation>Variables message du jour: nombre d&#8217;utilisateurs sur le serveur %users%, nombre d&#8217;admins sur le serveur %admins%, temps de connexion du serveur %uptime%, KO reçus %voicetx%, KO envoyés %voicerx% et dernier utilisateur s&#8217;étant connecté %lastuser%</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="122"/>
@@ -6338,7 +6338,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../serverproperties.ui" line="180"/>
         <source>User timeout</source>
-        <translation>Temps avant déconnexion d&apos;un utilisateur ayant perdue la connexion</translation>
+        <translation>Temps avant déconnexion d&#8217;un utilisateur ayant perdue la connexion</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="212"/>
@@ -6524,7 +6524,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../serverstats.ui" line="115"/>
         <source>Update interval</source>
-        <translation>Mettre à jour l&apos;intervalle</translation>
+        <translation>Mettre à jour l&#8217;intervalle</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="146"/>
@@ -6559,7 +6559,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../serverstats.ui" line="308"/>
         <source>Users peak</source>
-        <translation>Pic d&apos;utilisateurs</translation>
+        <translation>Pic d&#8217;utilisateurs</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="345"/>
@@ -6655,97 +6655,97 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../statusbareventsmodel.cpp" line="119"/>
         <source>Subscription private text message changed</source>
-        <translation>Changement d&apos;abonnement aux messages privés</translation>
+        <translation>Changement d&#8217;abonnement aux messages privés</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="121"/>
         <source>Subscription channel text message changed</source>
-        <translation>Changement d&apos;abonnement aux messages de canal</translation>
+        <translation>Changement d&#8217;abonnement aux messages de canal</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="123"/>
         <source>Subscription broadcast text message changed</source>
-        <translation>Changement d&apos;abonnement aux messages généraux</translation>
+        <translation>Changement d&#8217;abonnement aux messages généraux</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="125"/>
         <source>Subscription voice stream changed</source>
-        <translation>Changement d&apos;abonnement à la voix</translation>
+        <translation>Changement d&#8217;abonnement à la voix</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="127"/>
         <source>Subscription webcam stream changed</source>
-        <translation>Changement d&apos;abonnement à la vidéo</translation>
+        <translation>Changement d&#8217;abonnement à la vidéo</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="129"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation>Changement d&apos;abonnement aux bureaux partagés</translation>
+        <translation>Changement d&#8217;abonnement aux bureaux partagés</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="131"/>
         <source>Subscription desktop access changed</source>
-        <translation>Changement d&apos;abonnement aux demandes de partage de bureau</translation>
+        <translation>Changement d&#8217;abonnement aux demandes de partage de bureau</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="133"/>
         <source>Subscription media file stream changed</source>
-        <translation>Changement d&apos;abonnement aux fichiers média</translation>
+        <translation>Changement d&#8217;abonnement aux fichiers média</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="135"/>
         <source>Subscription intercept private text message changed</source>
-        <translation>Changement d&apos;interception des messages privés</translation>
+        <translation>Changement d&#8217;interception des messages privés</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="137"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation>Changement d&apos;interception des messages de canal</translation>
+        <translation>Changement d&#8217;interception des messages de canal</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="139"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation>Changement d&apos;interception de la voix</translation>
+        <translation>Changement d&#8217;interception de la voix</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="141"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation>Changement d&apos;interception de la vidéo</translation>
+        <translation>Changement d&#8217;interception de la vidéo</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="143"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation>Changement d&apos;interception des bureaux partagés</translation>
+        <translation>Changement d&#8217;interception des bureaux partagés</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="145"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation>Changement d&apos;interception des fichiers média</translation>
+        <translation>Changement d&#8217;interception des fichiers média</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="147"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation>Changement d&apos;autorisation de transmettre des messages de canal</translation>
+        <translation>Changement d&#8217;autorisation de transmettre des messages de canal</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="149"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation>Changement d&apos;autorisation de transmettre la voix</translation>
+        <translation>Changement d&#8217;autorisation de transmettre la voix</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="151"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation>Changement d&apos;autorisation de transmettre la vidéo</translation>
+        <translation>Changement d&#8217;autorisation de transmettre la vidéo</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="153"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation>Changement d&apos;autorisation de transmettre le bureau</translation>
+        <translation>Changement d&#8217;autorisation de transmettre le bureau</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="155"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation>Changement d&apos;autorisation de transmettre des fichiers média</translation>
+        <translation>Changement d&#8217;autorisation de transmettre des fichiers média</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="157"/>
@@ -6765,12 +6765,12 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../statusbareventsmodel.cpp" line="163"/>
         <source>Start a recording</source>
-        <translation>Démarrage d&apos;un enregistrement</translation>
+        <translation>Démarrage d&#8217;un enregistrement</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="165"/>
         <source>Transmission blocked by channel operator</source>
-        <translation>Transmission bloquée par l&apos;opérateur du canal</translation>
+        <translation>Transmission bloquée par l&#8217;opérateur du canal</translation>
     </message>
 </context>
 <context>
@@ -6816,7 +6816,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
         <location filename="../streammediafile.ui" line="79"/>
         <location filename="../streammediafile.ui" line="82"/>
         <source>Delete from history</source>
-        <translation>Supprimer de l&apos;historique</translation>
+        <translation>Supprimer de l&#8217;historique</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="85"/>
@@ -6828,7 +6828,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
         <location filename="../streammediafile.ui" line="99"/>
         <location filename="../streammediafiledlg.cpp" line="187"/>
         <source>Clear history</source>
-        <translation>Vider l&apos;historique</translation>
+        <translation>Vider l&#8217;historique</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="102"/>
@@ -6966,7 +6966,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../streammediafiledlg.cpp" line="182"/>
         <source>Are you sure you want to clear stream history?</source>
-        <translation>Êtes-vous sûr·e de vouloir vider l&apos;historique de diffusion?</translation>
+        <translation>Êtes-vous sûr·e de vouloir vider l&#8217;historique de diffusion?</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="183"/>
@@ -7043,7 +7043,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
         <location filename="../streammediafiledlg.cpp" line="412"/>
         <location filename="../streammediafiledlg.cpp" line="417"/>
         <source>Failed to activate audio preprocessor</source>
-        <translation>Échec à l&apos;activation du traitement audio</translation>
+        <translation>Échec à l&#8217;activation du traitement audio</translation>
     </message>
 </context>
 <context>
@@ -7106,12 +7106,12 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../ttseventsmodel.cpp" line="134"/>
         <source>User is typing a private text message in focused window</source>
-        <translation>L&apos;utilisateur est en train de taper un message privé dans la fenêtre ayant le focus</translation>
+        <translation>L&#8217;utilisateur est en train de taper un message privé dans la fenêtre ayant le focus</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="136"/>
         <source>User is typing a private text message</source>
-        <translation>L&apos;utilisateur est en train de taper un message privé</translation>
+        <translation>L&#8217;utilisateur est en train de taper un message privé</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="138"/>
@@ -7141,97 +7141,97 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../ttseventsmodel.cpp" line="148"/>
         <source>Subscription private text message changed</source>
-        <translation>Changement d&apos;abonnement aux messages privés</translation>
+        <translation>Changement d&#8217;abonnement aux messages privés</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="150"/>
         <source>Subscription channel text message changed</source>
-        <translation>Changement d&apos;abonnement aux messages de canal</translation>
+        <translation>Changement d&#8217;abonnement aux messages de canal</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="152"/>
         <source>Subscription broadcast text message changed</source>
-        <translation>Changement d&apos;abonnement aux messages généraux</translation>
+        <translation>Changement d&#8217;abonnement aux messages généraux</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="154"/>
         <source>Subscription voice stream changed</source>
-        <translation>Changement d&apos;abonnement à la voix</translation>
+        <translation>Changement d&#8217;abonnement à la voix</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="156"/>
         <source>Subscription webcam stream changed</source>
-        <translation>Changement d&apos;abonnement à la vidéo</translation>
+        <translation>Changement d&#8217;abonnement à la vidéo</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="158"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation>Changement d&apos;abonnement aux bureaux partagés</translation>
+        <translation>Changement d&#8217;abonnement aux bureaux partagés</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="160"/>
         <source>Subscription desktop access changed</source>
-        <translation>Changement d&apos;abonnement aux demandes de partage de bureau</translation>
+        <translation>Changement d&#8217;abonnement aux demandes de partage de bureau</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="162"/>
         <source>Subscription media file stream changed</source>
-        <translation>Changement d&apos;abonnement aux fichiers média</translation>
+        <translation>Changement d&#8217;abonnement aux fichiers média</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="164"/>
         <source>Subscription intercept private text message changed</source>
-        <translation>Changement d&apos;interception des messages privés</translation>
+        <translation>Changement d&#8217;interception des messages privés</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="166"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation>Changement d&apos;interception des messages de canal</translation>
+        <translation>Changement d&#8217;interception des messages de canal</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="168"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation>Changement d&apos;interception de la voix</translation>
+        <translation>Changement d&#8217;interception de la voix</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="170"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation>Changement d&apos;interception de la vidéo</translation>
+        <translation>Changement d&#8217;interception de la vidéo</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="172"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation>Changement d&apos;interception des bureaux partagés</translation>
+        <translation>Changement d&#8217;interception des bureaux partagés</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="174"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation>Changement d&apos;interception des fichiers média</translation>
+        <translation>Changement d&#8217;interception des fichiers média</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="176"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation>Changement d&apos;autorisation de transmettre des messages de canal</translation>
+        <translation>Changement d&#8217;autorisation de transmettre des messages de canal</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="178"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation>Changement d&apos;autorisation de transmettre la voix</translation>
+        <translation>Changement d&#8217;autorisation de transmettre la voix</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="180"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation>Changement d&apos;autorisation de transmettre la vidéo</translation>
+        <translation>Changement d&#8217;autorisation de transmettre la vidéo</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="182"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation>Changement d&apos;autorisation de transmettre le bureau</translation>
+        <translation>Changement d&#8217;autorisation de transmettre le bureau</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="184"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation>Changement d&apos;autorisation de transmettre des fichiers média</translation>
+        <translation>Changement d&#8217;autorisation de transmettre des fichiers média</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="186"/>
@@ -7317,13 +7317,13 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../textmessagedlg.cpp" line="222"/>
         <source>New message - remote user typing.</source>
-        <translation>Nouveau message - l&apos;utilisateur distant est en train d&apos;écrire</translation>
+        <translation>Nouveau message - l&#8217;utilisateur distant est en train d&#8217;écrire</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="227"/>
         <location filename="../textmessagedlg.cpp" line="229"/>
         <source>%1 is typing</source>
-        <translation>%1 est en train d&apos;écrire</translation>
+        <translation>%1 est en train d&#8217;écrire&#8230;</translation>
     </message>
 </context>
 <context>
@@ -7346,7 +7346,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../useraccounts.ui" line="131"/>
         <source>Username</source>
-        <translation>Nom d&apos;utilisateur</translation>
+        <translation>Nom d&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="151"/>
@@ -7366,12 +7366,12 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../useraccounts.ui" line="198"/>
         <source>User should automatically join this channel after login</source>
-        <translation>L&apos;utilisateur rejoindra automatiquement ce canal lors de sa connexion</translation>
+        <translation>L&#8217;utilisateur rejoindra automatiquement ce canal lors de sa connexion</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="93"/>
         <source>User type</source>
-        <translation>Type d&apos;utilisateur</translation>
+        <translation>Type d&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="115"/>
@@ -7407,7 +7407,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../useraccounts.ui" line="297"/>
         <source>User will automatically become operator when joining these channels</source>
-        <translation>L&apos;utilisateur sera automatiquement opérateur lorsqu&apos;il rejoindra ces canaux</translation>
+        <translation>L&#8217;utilisateur sera automatiquement opérateur lorsqu&#8217;il rejoindra ces canaux</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="310"/>
@@ -7422,7 +7422,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../useraccounts.ui" line="329"/>
         <source>Set selected user auto operator for selected channels</source>
-        <translation>Définir l&apos;utilisateur sélectionné comme opérateur automatique des canaux sélectionnés</translation>
+        <translation>Définir l&#8217;utilisateur sélectionné comme opérateur automatique des canaux sélectionnés</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="342"/>
@@ -7432,7 +7432,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../useraccounts.ui" line="339"/>
         <source>No longer set selected user auto operator for selected channels</source>
-        <translation>Ne plus définir l&apos;utilisateur sélectionné comme opérateur automatique des canaux sélectionnés</translation>
+        <translation>Ne plus définir l&#8217;utilisateur sélectionné comme opérateur automatique des canaux sélectionnés</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="71"/>
@@ -7467,7 +7467,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../useraccounts.ui" line="427"/>
         <source>Abuse Prevention</source>
-        <translation>Préventions d&apos;abus</translation>
+        <translation>Préventions d&#8217;abus</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="433"/>
@@ -7477,7 +7477,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../useraccounts.ui" line="439"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
-        <translation>Prévenir l&apos;utilisateur par exemple contre le spam de messages textes en limitant le nombre de commandes qu&apos;il peut émettre dans un intervalle de temps donné</translation>
+        <translation>Prévenir l&#8217;utilisateur par exemple contre le spam de messages textes en limitant le nombre de commandes qu&#8217;il peut émettre dans un intervalle de temps donné</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="451"/>
@@ -7490,7 +7490,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
         <location filename="../useraccounts.ui" line="228"/>
         <location filename="../useraccounts.ui" line="258"/>
         <source>User Rights</source>
-        <translation>Droits de l&apos;utilisateur</translation>
+        <translation>Droits de l&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="510"/>
@@ -7505,7 +7505,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../useraccounts.ui" line="530"/>
         <source>Add or update user with specified informations</source>
-        <translation>Ajouter ou mettre à jour l&apos;utilisateur avec les informations spécifiées</translation>
+        <translation>Ajouter ou mettre à jour l&#8217;utilisateur avec les informations spécifiées</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="490"/>
@@ -7557,7 +7557,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../useraccountsdlg.cpp" line="541"/>
         <source>Sort By...</source>
-        <translation>Trier Par…</translation>
+        <translation>Trier Par&#8230;</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="542"/>
@@ -7572,12 +7572,12 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../useraccountsdlg.cpp" line="544"/>
         <source>&amp;Username (%1)</source>
-        <translation>&amp;Nom d&apos;utilisateur (%1)</translation>
+        <translation>&amp;Nom d&#8217;utilisateur (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="550"/>
         <source>User &amp;Type (%1)</source>
-        <translation>&amp;Type d&apos;utilisateur (%1)</translation>
+        <translation>&amp;Type d&#8217;utilisateur (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="556"/>
@@ -7592,7 +7592,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../useraccountsdlg.cpp" line="567"/>
         <source>&amp;Delete Selected User</source>
-        <translation>&amp;Supprimer l&apos;utilisateur sélectionné</translation>
+        <translation>&amp;Supprimer l&#8217;utilisateur sélectionné</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="327"/>
@@ -7602,12 +7602,12 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../useraccountsdlg.cpp" line="379"/>
         <source>Are you sure you want to delete user &quot;%1&quot;?</source>
-        <translation>Êtes-vous sûr·e de vouloir supprimer l&apos;utilisateur &quot;%1&quot;?</translation>
+        <translation>Êtes-vous sûr·e de vouloir supprimer l&#8217;utilisateur &#171;%1&#187;?</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="384"/>
         <source>Delete user</source>
-        <translation>Supprimer l&apos;utilisateur</translation>
+        <translation>Supprimer l&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="490"/>
@@ -7646,7 +7646,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../useraccountsmodel.cpp" line="39"/>
         <source>Username</source>
-        <translation>Nom d&apos;utilisateur</translation>
+        <translation>Nom d&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="40"/>
@@ -7656,7 +7656,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../useraccountsmodel.cpp" line="41"/>
         <source>User Type</source>
-        <translation>Type d&apos;utilisateur</translation>
+        <translation>Type d&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="42"/>
@@ -7720,12 +7720,12 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../userdesktopwidget.cpp" line="257"/>
         <source>Retract &amp;Desktop Access</source>
-        <translation>&amp;Retirer l&apos;accès au bureau</translation>
+        <translation>&amp;Retirer l&#8217;accès au bureau</translation>
     </message>
     <message>
         <location filename="../userdesktopwidget.cpp" line="259"/>
         <source>Request &amp;Desktop Access</source>
-        <translation>&amp;Demander l&apos;accès au bureau</translation>
+        <translation>&amp;Demander l&#8217;accès au bureau</translation>
     </message>
     <message>
         <location filename="../userdesktopwidget.cpp" line="265"/>
@@ -7740,7 +7740,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../userdesktopwidget.cpp" line="268"/>
         <source>Failed to save file.</source>
-        <translation>Échec à l&apos;enregistrement du fichier</translation>
+        <translation>Échec à l&#8217;enregistrement du fichier</translation>
     </message>
 </context>
 <context>
@@ -7754,7 +7754,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../userimagewidget.cpp" line="201"/>
         <source>&amp;Flip image</source>
-        <translation>&amp;Inverser l&apos;image</translation>
+        <translation>&amp;Inverser l&#8217;image</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="207"/>
@@ -7769,7 +7769,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../userimagewidget.cpp" line="210"/>
         <source>Failed to save file.</source>
-        <translation>Échec à l&apos;enregistrement du fichier</translation>
+        <translation>Échec à l&#8217;enregistrement du fichier</translation>
     </message>
 </context>
 <context>
@@ -7792,7 +7792,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../userinfo.ui" line="60"/>
         <source>Username</source>
-        <translation>Nom d&apos;utilisateur</translation>
+        <translation>Nom d&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="97"/>
@@ -7807,7 +7807,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../userinfo.ui" line="140"/>
         <source>User type</source>
-        <translation>Type d&apos;utilisateur</translation>
+        <translation>Type d&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="160"/>
@@ -7886,112 +7886,112 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../useraccountsmodel.cpp" line="202"/>
         <source>User can log in multiple times</source>
-        <translation>L&apos;utilisateur peut se connecter plusieurs fois simultanément</translation>
+        <translation>L&#8217;utilisateur peut se connecter plusieurs fois simultanément</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="204"/>
         <source>User can see users in all channels</source>
-        <translation>L&apos;utilisateur peut voir les utilisateurs dans tous les canaux</translation>
+        <translation>L&#8217;utilisateur peut voir les utilisateurs dans tous les canaux</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="206"/>
         <source>User can see hidden channels</source>
-        <translation>L&apos;utilisateur peut voir les canaux masqués</translation>
+        <translation>L&#8217;utilisateur peut voir les canaux masqués</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="208"/>
         <source>User can create/modify all channels</source>
-        <translation>L&apos;utilisateur peut créer des canaux et modifier tous les existants</translation>
+        <translation>L&#8217;utilisateur peut créer des canaux et modifier tous les existants</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="210"/>
         <source>User can create temporary channels</source>
-        <translation>L&apos;utilisateur peut créer des canaux temporaires</translation>
+        <translation>L&#8217;utilisateur peut créer des canaux temporaires</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="212"/>
         <source>User can broadcast text messages</source>
-        <translation>L&apos;utilisateur peut envoyer des messages généraux</translation>
+        <translation>L&#8217;utilisateur peut envoyer des messages généraux</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="214"/>
         <source>User can kick users off the server</source>
-        <translation>L&apos;utilisateur peut exclure des utilisateurs du serveur</translation>
+        <translation>L&#8217;utilisateur peut exclure des utilisateurs du serveur</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="216"/>
         <source>User can ban users from server</source>
-        <translation>L&apos;utilisateur peut bannir du serveur des utilisateurs</translation>
+        <translation>L&#8217;utilisateur peut bannir du serveur des utilisateurs</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="218"/>
         <source>User can move users between channels</source>
-        <translation>L&apos;utilisateur peut déplacer des utilisateurs entre les canaux</translation>
+        <translation>L&#8217;utilisateur peut déplacer des utilisateurs entre les canaux</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="220"/>
         <source>User can make other users channel operator</source>
-        <translation>L&apos;utilisateur peut faire d&apos;autres utilisateurs des opérateurs de canal</translation>
+        <translation>L&#8217;utilisateur peut faire d&#8217;autres utilisateurs des opérateurs de canal</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="222"/>
         <source>User can upload files</source>
-        <translation>L&apos;utilisateur peut téléverser des fichiers</translation>
+        <translation>L&#8217;utilisateur peut téléverser des fichiers</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="224"/>
         <source>User can download files</source>
-        <translation>L&apos;utilisateur peut télécharger des fichiers</translation>
+        <translation>L&#8217;utilisateur peut télécharger des fichiers</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="226"/>
         <source>User can record voice in all channels</source>
-        <translation>L&apos;utilisateur peut enregistrer la voix dans tous les canaux</translation>
+        <translation>L&#8217;utilisateur peut enregistrer la voix dans tous les canaux</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="228"/>
         <source>User can update server properties</source>
-        <translation>L&apos;utilisateur peut mettre à jour les propriétés du serveur</translation>
+        <translation>L&#8217;utilisateur peut mettre à jour les propriétés du serveur</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="230"/>
         <source>User can transmit voice data (microphone)</source>
-        <translation>L&apos;utilisateur peut transmettre des données vocales (microphone)</translation>
+        <translation>L&#8217;utilisateur peut transmettre des données vocales (microphone)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="232"/>
         <source>User can transmit video data (webcam)</source>
-        <translation>L&apos;utilisateur peut transmettre des données vidéo (caméra)</translation>
+        <translation>L&#8217;utilisateur peut transmettre des données vidéo (caméra)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="234"/>
         <source>User can transmit desktop sessions (shared desktop)</source>
-        <translation>L&apos;utilisateur peut transmettre des sessions de bureau (bureaux partagés)</translation>
+        <translation>L&#8217;utilisateur peut transmettre des sessions de bureau (bureaux partagés)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="236"/>
         <source>User can get remote access to desktop sessions</source>
-        <translation>L&apos;utilisateur peut obtenir un accès à des bureaux distants</translation>
+        <translation>L&#8217;utilisateur peut obtenir un accès à des bureaux distants</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="238"/>
         <source>User can transmit audio files (wav, mp3 files)</source>
-        <translation>L&apos;utilisateur peut transmettre des fichiers audio (fichiers wav, MP3)</translation>
+        <translation>L&#8217;utilisateur peut transmettre des fichiers audio (fichiers wav, MP3)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="240"/>
         <source>User can transmit video files (avi, mp4 files)</source>
-        <translation>L&apos;utilisateur peut transmettre des fichiers vidéo (fichiers AVI, MP4)</translation>
+        <translation>L&#8217;utilisateur peut transmettre des fichiers vidéo (fichiers AVI, MP4)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="246"/>
         <source>User can change nickname</source>
-        <translation>L&apos;utilisateur peut changer de pseudo</translation>
+        <translation>L&#8217;utilisateur peut changer de pseudo</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="248"/>
         <source>User can change status mode</source>
-        <translation>L&apos;utilisateur peut changer de statut</translation>
+        <translation>L&#8217;utilisateur peut changer de statut</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="257"/>
@@ -8090,7 +8090,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../uservolumedlg.cpp" line="86"/>
         <source>Failed to change user&apos;s volume</source>
-        <translation>Échec du changement des volumes de l&apos;utilisateur</translation>
+        <translation>Échec du changement des volumes de l&#8217;utilisateur</translation>
     </message>
 </context>
 <context>
@@ -8121,7 +8121,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../videotext.ui" line="40"/>
         <source>Show username</source>
-        <translation>Afficher le nom d&apos;utilisateur</translation>
+        <translation>Afficher le nom d&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="47"/>
@@ -8168,13 +8168,13 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
         <location filename="../videotext.ui" line="121"/>
         <location filename="../videotext.ui" line="141"/>
         <source>...</source>
-        <translation>…</translation>
+        <translation>&#8230;</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="131"/>
         <location filename="../videotext.ui" line="144"/>
         <source>Background color</source>
-        <translation>Couleur d&apos;arrière-plan</translation>
+        <translation>Couleur d&#8217;arrière-plan</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="151"/>
@@ -8209,7 +8209,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../videotextdlg.cpp" line="192"/>
         <source>Username</source>
-        <translation>Nom d&apos;utilisateur</translation>
+        <translation>Nom d&#8217;utilisateur</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="195"/>
