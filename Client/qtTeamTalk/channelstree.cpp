@@ -981,10 +981,10 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
             else if ((user.nStatusMode & STATUSMODE_GENDER_MASK) == STATUSMODE_MALE)
                 itemtext += (_Q(user.szStatusMsg).size() ? " 👨" : ", 👨");
             if(user.uUserType & USERTYPE_ADMIN)
-                itemtext += " (" + tr("Administrator") + ")";
+                itemtext += " (" + ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Administrator", "For female"):tr("Administrator", "For male and neutral")) + ")";
 
             if(TT_IsChannelOperator(ttInst, userid, ite->nChannelID))
-                itemtext += " (" + tr("Channel operator") + ")";
+                itemtext += " (" + ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Channel operator", "For female"):tr("Channel operator", "For male and neutral")) + ")";
         }
 
         if (itemtext.size() > maxstrlen)
