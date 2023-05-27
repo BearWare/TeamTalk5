@@ -1117,9 +1117,9 @@ void MainWindow::clienteventCmdUserLoggedIn(const User& user)
     updateUserSubscription(user.nUserID);
     if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN)
     {
-        addStatusMsg(STATUSBAR_USER_LOGGEDIN, tr("%1 has logged in") .arg(getDisplayName(user)));
+        addStatusMsg(STATUSBAR_USER_LOGGEDIN, ((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged in", "For female").arg(getDisplayName(user)):tr("%1 has logged in", "For male and neutral").arg(getDisplayName(user))));
         playSoundEvent(SOUNDEVENT_USERLOGGEDIN);
-        addTextToSpeechMessage(TTS_USER_LOGGEDIN, QString(tr("%1 has logged in") .arg(getDisplayName(user))));
+        addTextToSpeechMessage(TTS_USER_LOGGEDIN, QString(((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged in", "For female").arg(getDisplayName(user)):tr("%1 has logged in", "For male and neutral").arg(getDisplayName(user)))));
     }
 
     // sync user settings from cache
@@ -1135,9 +1135,9 @@ void MainWindow::clienteventCmdUserLoggedOut(const User& user)
     m_textmessages.clearUserTextMessages(user.nUserID);
     if (user.nUserID != TT_GetMyUserID(ttInst))
     {
-        addStatusMsg(STATUSBAR_USER_LOGGEDOUT, tr("%1 has logged out") .arg(getDisplayName(user)));
+        addStatusMsg(STATUSBAR_USER_LOGGEDOUT, ((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out", "For female").arg(getDisplayName(user)):tr("%1 has logged out", "For male and neutral").arg(getDisplayName(user))));
         playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
-        addTextToSpeechMessage(TTS_USER_LOGGEDOUT, QString(tr("%1 has logged out") .arg(getDisplayName(user))));
+        addTextToSpeechMessage(TTS_USER_LOGGEDOUT, QString(((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged in", "For female").arg(getDisplayName(user)):tr("%1 has logged in", "For male and neutral").arg(getDisplayName(user)))));
     }
 
     // sync user settings to cache
