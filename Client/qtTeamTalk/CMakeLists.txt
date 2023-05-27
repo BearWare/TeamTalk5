@@ -230,10 +230,10 @@ if (Qt5_FOUND OR Qt6_FOUND)
           else()
             message ("OpenSSL libcrypto.dll for Qt deployment found here: ${QT_OPENSSL_LIBCRYPTODLL_PATH}")
             message ("OpenSSL libssl.dll for Qt deployment found here: ${QT_OPENSSL_LIBSSLDLL_PATH}")
-            add_custom_target (QtTeamTalk-openssl-deploy-release ALL
+            add_custom_target (QtTeamTalk5-openssl-deploy-release ALL
               COMMAND ${CMAKE_COMMAND} -E copy ${QT_OPENSSL_LIBCRYPTODLL_PATH} ${QT_OPENSSL_LIBSSLDLL_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt"
               DEPENDS QtTeamTalk5-windeploy-release)
-            add_custom_target (QtTeamTalk-openssl-deploy-debug ALL
+            add_custom_target (QtTeamTalk5-openssl-deploy-debug ALL
               COMMAND ${CMAKE_COMMAND} -E copy ${QT_OPENSSL_LIBCRYPTODLL_PATH} ${QT_OPENSSL_LIBSSLDLL_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt-debug"
               DEPENDS QtTeamTalk5-windeploy-debug)
           endif()
