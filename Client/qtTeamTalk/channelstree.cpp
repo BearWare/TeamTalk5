@@ -957,7 +957,7 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
             switch (user.nStatusMode & STATUSMODE_MODE)
             {
             case STATUSMODE_AWAY :
-                itemtext += ", " + tr("Away");
+                itemtext += ", " + ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Away", "For female"):tr("Away", "For male and neutral"));
                 break;
             case STATUSMODE_QUESTION :
                 itemtext += ", " + tr("Question");

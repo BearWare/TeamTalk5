@@ -41,6 +41,11 @@ ChangeStatusDlg::ChangeStatusDlg(QWidget* parent/* = 0*/)
 
     if(TT_GetUser(ttInst, TT_GetMyUserID(ttInst), &m_user))
     {
+        if (m_user.nStatusMode & STATUSMODE_FEMALE)
+        {
+            ui.availBtn->setText(tr("&Available", "For female"));
+            ui.awayBtn->setText(tr("A&way", "For female"));
+        }
         switch(m_user.nStatusMode & STATUSMODE_MODE)
         {
         case STATUSMODE_AVAILABLE:

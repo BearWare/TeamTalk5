@@ -5763,25 +5763,25 @@ void MainWindow::slotUsersSpeakUserInformation(int id)
         if(!ui.channelsWidget->getUser(id, user))
             return;
 
-        QString userString, voice = tr("Talking"), mute = tr("Mute"), mediaFile = tr("Streaming"), muteMediaFile = tr("Mute media file"), videoCapture = tr("Webcam"), desktop = tr("Desktop"), chanOp = tr("Channel Operator"), moveSelected = tr("Selected for move");
+        QString userString, voice = tr("Talking"), mute = tr("Mute"), mediaFile = tr("Streaming"), muteMediaFile = tr("Mute media file"), videoCapture = tr("Webcam"), desktop = tr("Desktop");
         speakList += QString("%1: ").arg(getDisplayName(user));
         if (user.uUserType & USERTYPE_ADMIN)
         {
-            userString = tr("Administrator");
+            userString = ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Administrator", "For female"):tr("Administrator", "For male and neutral"));
         }
         else
         {
-            userString = tr("User");
+            userString = ((user.nStatusMode & STATUSMODE_FEMALE)?tr("User", "For female"):tr("User", "For male and neutral"));
         }
         speakList += userString;
 
         QString status;
 
         if(m_moveusers.indexOf(user.nUserID) >= 0)
-           speakList += ", " + moveSelected;
+           speakList += ", " + ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Selected for move", "For female"):tr("Selected for move", "For male and neutral"));
 
         if(TT_IsChannelOperator(ttInst, user.nUserID, user.nChannelID))
-            speakList += ", " + chanOp;
+            speakList += ", " + ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Channel operator", "For female"):tr("Channel operator", "For male and neutral"));
 
         if((user.uUserState & USERSTATE_VOICE) || (user.nUserID == TT_GetMyUserID(ttInst) && isMyselfTalking() == TRUE))
             speakList += ", " + voice;
@@ -5789,10 +5789,10 @@ void MainWindow::slotUsersSpeakUserInformation(int id)
         switch(user.nStatusMode & STATUSMODE_MODE)
         {
         case STATUSMODE_AVAILABLE :
-            status = tr("Available");
+            status = ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Available", "For female"):tr("Available", "For male and neutral"));
             break;
         case STATUSMODE_AWAY :
-            status = tr("Away");
+            status = ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Away", "For female"):tr("Away", "For male and neutral"));
             break;
         case STATUSMODE_QUESTION :
             status = tr("Question");
