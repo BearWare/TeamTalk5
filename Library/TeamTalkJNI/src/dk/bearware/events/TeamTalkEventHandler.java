@@ -440,6 +440,55 @@ public class TeamTalkEventHandler {
                 l.onAudioInput(aip, pMsg.nSource);
             break;
         }
+        case ClientEvent.CLIENTEVENT_SOUNDDEVICE_ADDED : {
+            assert(pMsg.ttType == TTType.__SOUNDDEVICE);
+
+            for (ClientListener l : clientListener)
+                l.onSoundDeviceAdded(pMsg.sounddevice);
+            break;
+        }
+        case ClientEvent.CLIENTEVENT_SOUNDDEVICE_REMOVED : {
+            assert(pMsg.ttType == TTType.__SOUNDDEVICE);
+
+            for (ClientListener l : clientListener)
+                l.onSoundDeviceRemoved(pMsg.sounddevice);
+            break;
+        }
+        case ClientEvent.CLIENTEVENT_SOUNDDEVICE_UNPLUGGED : {
+            assert(pMsg.ttType == TTType.__SOUNDDEVICE);
+
+            for (ClientListener l : clientListener)
+                l.onSoundDeviceUnplugged(pMsg.sounddevice);
+            break;
+        }
+        case ClientEvent.CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT : {
+            assert(pMsg.ttType == TTType.__SOUNDDEVICE);
+
+            for (ClientListener l : clientListener)
+                l.onSoundDeviceNewDefaultInput(pMsg.sounddevice);
+            break;
+        }
+        case ClientEvent.CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT : {
+            assert(pMsg.ttType == TTType.__SOUNDDEVICE);
+
+            for (ClientListener l : clientListener)
+                l.onSoundDeviceNewDefaultOutput(pMsg.sounddevice);
+            break;
+        }
+        case ClientEvent.CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT_COMDEVICE : {
+            assert(pMsg.ttType == TTType.__SOUNDDEVICE);
+
+            for (ClientListener l : clientListener)
+                l.onSoundDeviceNewDefaultInputComDevice(pMsg.sounddevice);
+            break;
+        }
+        case ClientEvent.CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT_COMDEVICE : {
+            assert(pMsg.ttType == TTType.__SOUNDDEVICE);
+
+            for (ClientListener l : clientListener)
+                l.onSoundDeviceNewDefaultOutputComDevice(pMsg.sounddevice);
+            break;
+        }
         case ClientEvent.CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET : {
             assert(pMsg.ttType == TTType.__USER);
 

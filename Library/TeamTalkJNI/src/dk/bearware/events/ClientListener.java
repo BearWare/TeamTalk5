@@ -27,6 +27,7 @@ import dk.bearware.AudioInputProgress;
 import dk.bearware.ClientErrorMsg;
 import dk.bearware.FileTransfer;
 import dk.bearware.MediaFileInfo;
+import dk.bearware.SoundDevice;
 
 public interface ClientListener {
 
@@ -39,4 +40,11 @@ public interface ClientListener {
     public void onStreamMediaFile(MediaFileInfo mediafileinfo);
     public void onLocalMediaFile(MediaFileInfo mediafileinfo);
     public void onAudioInput(AudioInputProgress aip, int nStreamID);
+    public void onSoundDeviceAdded(SoundDevice sounddevice);
+    public void onSoundDeviceRemoved(SoundDevice sounddevice);
+    public void onSoundDeviceUnplugged(SoundDevice sounddevice);
+    public void onSoundDeviceNewDefaultInput(SoundDevice sounddevice);
+    public void onSoundDeviceNewDefaultOutput(SoundDevice sounddevice);
+    public void onSoundDeviceNewDefaultInputComDevice(SoundDevice sounddevice);
+    public void onSoundDeviceNewDefaultOutputComDevice(SoundDevice sounddevice);
 }
