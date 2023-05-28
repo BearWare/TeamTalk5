@@ -47,6 +47,7 @@ public class TTMessage
     public int nPayloadSize;
     public int nStreamType;
     public AudioInputProgress audioinputprogress;
+    public SoundDevice sounddevice;
 
     public TTMessage() { }
 }
