@@ -63,5 +63,7 @@ public interface CommandListener {
 
     public void onCmdUserAccount(UserAccount useraccount);
     public void onCmdBannedUser(BannedUser banneduser);
+    public void onCmdUserAccountNew(UserAccount useraccount);
+    public void onCmdUserAccountRemove(UserAccount useraccount);
 }
     
