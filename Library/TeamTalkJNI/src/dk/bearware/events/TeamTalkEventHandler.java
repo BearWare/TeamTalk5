@@ -261,6 +261,24 @@ public class TeamTalkEventHandler {
                     l.onCmdUserAccount(useraccount);
             }
             break;
+            case ClientEvent.CLIENTEVENT_CMD_USERACCOUNT_NEW : {
+                assert (pMsg.ttType == TTType.__USERACCOUNT);
+
+                UserAccount useraccount = pMsg.useraccount;
+
+                for(CommandListener l : cmdListener)
+                    l.onCmdUserAccountNew(useraccount);
+            }
+            break;
+            case ClientEvent.CLIENTEVENT_CMD_USERACCOUNT_REMOVE : {
+                assert (pMsg.ttType == TTType.__USERACCOUNT);
+
+                UserAccount useraccount = pMsg.useraccount;
+
+                for(CommandListener l : cmdListener)
+                    l.onCmdUserAccountRemove(useraccount);
+            }
+            break;
             case ClientEvent.CLIENTEVENT_CMD_BANNEDUSER : {
                 assert (pMsg.ttType == TTType.__BANNEDUSER);
 
