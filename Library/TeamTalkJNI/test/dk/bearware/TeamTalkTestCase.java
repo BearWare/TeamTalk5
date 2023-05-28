@@ -1970,7 +1970,30 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("nickname set", ban.szNickname, msg.banneduser.szNickname);
 
         cmdid = client1.doUnBanUserEx(msg.banneduser);
-        assertTrue("unban", waitCmdSuccess(client1, cmdid, DEF_WAIT));        
+        assertTrue("unban", waitCmdSuccess(client1, cmdid, DEF_WAIT));
+    }
+
+    @Test
+    public void testBanInvalidRegEx() {
+
+        String NICKNAME = "jUnit - " + getTestMethodName();
+        TeamTalkBase client1 = newClientInstance();
+        connect(client1);
+        login(client1, NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        BannedUser ban = new BannedUser();
+        ban.uBanTypes = BanType.BANTYPE_IPADDR;
+        ban.szNickname = "Foo";
+        ban.szIPAddress = "*.";
+        int cmdid = client1.doBan(ban);
+        assertTrue("ban", waitCmdSuccess(client1, cmdid, DEF_WAIT));
+
+        TeamTalkBase client2 = newClientInstance();
+        connect(client2);
+        login(client2, NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        cmdid = client1.doUnBanUserEx(ban);
+        assertTrue("unban", waitCmdSuccess(client1, cmdid, DEF_WAIT));
     }
 
     @Test
