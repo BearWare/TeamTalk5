@@ -770,6 +770,16 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
     }
 
     @Override
+    public void onCmdUserAccountNew(UserAccount userAccount) {
+
+    }
+
+    @Override
+    public void onCmdUserAccountRemove(UserAccount userAccount) {
+
+    }
+
+    @Override
     public int compare(ServerEntry s1, ServerEntry s2) {
         switch (s1.servertype) {
             case LOCAL :

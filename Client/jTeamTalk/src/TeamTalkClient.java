@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -52,10 +52,10 @@ implements ConnectionListener, CommandListener {
 
     TeamTalkBase ttclient = new TeamTalk5();
     TeamTalkEventHandler handler = new TeamTalkEventHandler();
-    
+
     Map<Integer, Channel> channels = new HashMap<Integer, Channel>();
     Map<Integer, User> users = new HashMap<Integer, User>();
-    
+
     int cmdid_completed = 0, cmdid_success = 0;
 
     public static void main(String[] args) throws IOException {
@@ -68,10 +68,10 @@ implements ConnectionListener, CommandListener {
 
         ipaddr = System.getProperty("dk.bearware.ipaddr");
         if (ipaddr == null) {
-            ipaddr = getInput("Type IP-address of server to connect to", 
+            ipaddr = getInput("Type IP-address of server to connect to",
                               "tt5us.bearware.dk");
         }
-        
+
         String tcpp = System.getProperty("dk.bearware.tcpport");
         if (tcpp == null)
             tcpport = Integer.parseInt(getInput("Type TCP port of server to connect to",
@@ -98,14 +98,14 @@ implements ConnectionListener, CommandListener {
         passwd = System.getProperty("dk.bearware.password");
         if (passwd == null)
             passwd = getInput("Type password", "guest");
-        
+
         while (true) {
             TeamTalkClient inst = new TeamTalkClient();
             inst.configureSoundDevices();
             inst.run(ipaddr, tcpport, udpport, encrypted, username, passwd, true);
         }
     }
-    
+
     static String getInput(String def) {
         if(def.length()>0)
             System.out.print(" (" + def + "): ");
@@ -128,35 +128,35 @@ implements ConnectionListener, CommandListener {
     }
 
     void run(String ipaddr, int tcpport, int udpport, boolean encrypted, String username, String passwd, boolean joinroot) {
-        
+
         if (!ttclient.connect(ipaddr, tcpport, udpport, 0, 0, encrypted)) {
             System.err.print("Failed to connect to server");
             return;
         }
-        
+
         // wait at most 20 seconds for connection to complete
         handler.processEvent(ttclient, 20000);
-        
+
         if((ttclient.getFlags() & ClientFlag.CLIENT_CONNECTED) == 0) {
             System.err.println("Failed to connect to server");
             return;
         }
-        
+
         System.out.println("Logging in...");
-        
+
         // perform login
         int cmdid = ttclient.doLogin("jTeamTalk", username, passwd);
         System.out.println("Issued login cmd #" + cmdid);
-        
+
         // wait for login to complete
         while(cmdid_completed != cmdid)
             handler.processEvent(ttclient, 5000);
-        
+
         // check that login succeeded
         if(cmdid_success != cmdid) {
             System.err.println("Failed to login");
         }
-        
+
         // list channels and users
         System.out.println("Channels and users on server:");
         Iterator ic = channels.entrySet().iterator();
@@ -187,16 +187,16 @@ implements ConnectionListener, CommandListener {
         else {
             cmdid = ttclient.doJoinChannelByID(ttclient.getRootChannelID(), "");
         }
-        
+
         // wait for login to complete
         while(cmdid_completed != cmdid)
             handler.processEvent(ttclient, 5000);
-        
+
         // check that login succeeded
         if(cmdid_success != cmdid) {
             System.err.println("Failed to join channel");
         }
-        
+
         // run forever
         while((ttclient.getFlags() & ClientFlag.CLIENT_AUTHORIZED) != 0) {
             handler.processEvent(ttclient, -1);
@@ -232,20 +232,20 @@ implements ConnectionListener, CommandListener {
             dev = map.get(getInput("Type ID of sound device to use for playback", Integer.toString(outdevPtr.value)));
         else
             dev = map.get(prop);
-        
+
         if(dev != null)
-            outdev = dev.nDeviceID; 
-        
+            outdev = dev.nDeviceID;
+
         if(indev >= 0) {
             if(!ttclient.initSoundInputDevice(indev))
                 System.err.println("Failed to configure sound recording device");
         }
         if(outdev >= 0) {
             if(!ttclient.initSoundOutputDevice(outdev))
-                System.err.println("Failed to configure sound playback device");            
+                System.err.println("Failed to configure sound playback device");
         }
     }
-    
+
     void printSoundDevice(SoundDevice dev) {
         System.out.println();
         System.out.println("Device ID #" + dev.nDeviceID + ":");
@@ -290,7 +290,7 @@ implements ConnectionListener, CommandListener {
     public void onEncryptionError(int opensslErrorNo, ClientErrorMsg errmsg) {
         System.err.println("Encryption error %s while connecting to server");
     }
-    
+
     @Override
     public void onConnectFailed() {
         System.err.println("Failed to connect to server...");
@@ -409,29 +409,37 @@ implements ConnectionListener, CommandListener {
     }
 
     @Override
+    public void onCmdUserAccountNew(UserAccount userAccount) {
+    }
+
+    @Override
+    public void onCmdUserAccountRemove(UserAccount userAccount) {
+    }
+
+    @Override
     public void onCmdUserJoinedChannel(User user) {
         users.put(user.nUserID, user);
-        
+
         System.out.println("User #" + user.nUserID + " " +
                            user.szNickname +
-                           " joined channel \"" + 
+                           " joined channel \"" +
                            channels.get(user.nChannelID).szName + "\"");
     }
 
     @Override
     public void onCmdUserLeftChannel(int chanid, User user) {
         users.put(user.nUserID, user);
-        
+
         System.out.println("User #" + user.nUserID + " " +
                            user.szNickname +
-                           " left channel \"" + 
+                           " left channel \"" +
                            channels.get(chanid).szName + "\"");
     }
 
     @Override
     public void onCmdUserLoggedIn(User user) {
         users.put(user.nUserID, user);
-        
+
         System.out.println("User #" + user.nUserID + " " +
                            user.szNickname + " logged in");
     }
