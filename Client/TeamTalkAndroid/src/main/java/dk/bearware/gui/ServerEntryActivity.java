@@ -403,6 +403,16 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
     public void onCmdBannedUser(BannedUser banneduser) {
     }
 
+    @Override
+    public void onCmdUserAccountNew(UserAccount userAccount) {
+
+    }
+
+    @Override
+    public void onCmdUserAccountRemove(UserAccount userAccount) {
+
+    }
+
 
     private Preference findPreference(CharSequence key) {
         return ((PreferenceFragmentCompat) getSupportFragmentManager().findFragmentById(android.R.id.content)).findPreference(key);

@@ -378,4 +378,14 @@ implements TeamTalkConnectionListener, CommandListener {
     @Override
     public void onCmdBannedUser(BannedUser banneduser) {
     }
+
+    @Override
+    public void onCmdUserAccountNew(UserAccount userAccount) {
+
+    }
+
+    @Override
+    public void onCmdUserAccountRemove(UserAccount userAccount) {
+
+    }
 }

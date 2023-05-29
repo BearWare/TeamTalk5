@@ -47,6 +47,7 @@ import dk.bearware.FileTransferStatus;
 import dk.bearware.MediaFileInfo;
 import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
+import dk.bearware.SoundDevice;
 import dk.bearware.SoundDeviceConstants;
 import dk.bearware.SoundLevel;
 import dk.bearware.StreamType;
@@ -1151,6 +1152,16 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
     }
 
     @Override
+    public void onCmdUserAccountNew(UserAccount userAccount) {
+
+    }
+
+    @Override
+    public void onCmdUserAccountRemove(UserAccount userAccount) {
+
+    }
+
+    @Override
     public void onInternalError(ClientErrorMsg clienterrormsg) {
     }
 
@@ -1211,6 +1222,41 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
 
     @Override
     public void onAudioInput(AudioInputProgress audioInputProgress, int i) {
+
+    }
+
+    @Override
+    public void onSoundDeviceAdded(SoundDevice soundDevice) {
+
+    }
+
+    @Override
+    public void onSoundDeviceRemoved(SoundDevice soundDevice) {
+
+    }
+
+    @Override
+    public void onSoundDeviceUnplugged(SoundDevice soundDevice) {
+
+    }
+
+    @Override
+    public void onSoundDeviceNewDefaultInput(SoundDevice soundDevice) {
+
+    }
+
+    @Override
+    public void onSoundDeviceNewDefaultOutput(SoundDevice soundDevice) {
+
+    }
+
+    @Override
+    public void onSoundDeviceNewDefaultInputComDevice(SoundDevice soundDevice) {
+
+    }
+
+    @Override
+    public void onSoundDeviceNewDefaultOutputComDevice(SoundDevice soundDevice) {
 
     }
 

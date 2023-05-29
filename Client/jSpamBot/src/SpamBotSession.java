@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -36,7 +36,7 @@ implements ConnectionListener, CommandListener, AutoCloseable {
 
     TeamTalkBase ttclient = new TeamTalk5();
     TeamTalkEventHandler handler = new TeamTalkEventHandler();
-    
+
     Map<Integer, Channel> channels = new HashMap<>();
     Map<Integer, User> users = new HashMap<>();
 
@@ -86,7 +86,7 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         value = value.toLowerCase();
 
         String[] words = value.split("\\W");
-        
+
         for (String word : words) {
             if (word.isEmpty())
                 continue;
@@ -122,7 +122,7 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     public void onEncryptionError(int opensslErrorNo, ClientErrorMsg errmsg) {
         System.err.printf("Encryption error %s while connecting to server %s:%d\n", errmsg.szErrorMsg, server.ipaddr, server.tcpport);
     }
-    
+
     @Override
     public void onConnectFailed() {
         System.err.printf("Failed to connect to server %s:%d\n", server.ipaddr, server.tcpport);
@@ -282,9 +282,17 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     }
 
     @Override
+    public void onCmdUserAccountNew(UserAccount userAccount) {
+    }
+
+    @Override
+    public void onCmdUserAccountRemove(UserAccount userAccount) {
+    }
+
+    @Override
     public void onCmdUserJoinedChannel(User user) {
         users.put(user.nUserID, user);
-        
+
         if (!cleanUser(user)) {
             ttclient.doKickUser(user.nUserID, 0);
             System.out.printf("Kicking %s from %s:%d\n", user.szNickname, server.ipaddr, server.tcpport);
@@ -303,7 +311,7 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     @Override
     public void onCmdUserLoggedIn(User user) {
         users.put(user.nUserID, user);
-        
+
         if (!cleanUser(user)) {
             ttclient.doKickUser(user.nUserID, 0);
             System.out.printf("Kicking %s from %s:%d\n", user.szNickname, server.ipaddr, server.tcpport);

@@ -37,6 +37,7 @@ import dk.bearware.FileTransfer;
 import dk.bearware.FileTransferStatus;
 import dk.bearware.MediaFileInfo;
 import dk.bearware.RemoteFile;
+import dk.bearware.SoundDevice;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.events.ClientListener;
@@ -349,6 +350,41 @@ implements ClientListener, Comparator<RemoteFile> {
 
     @Override
     public void onAudioInput(AudioInputProgress audioInputProgress, int i) {
+
+    }
+
+    @Override
+    public void onSoundDeviceAdded(SoundDevice soundDevice) {
+
+    }
+
+    @Override
+    public void onSoundDeviceRemoved(SoundDevice soundDevice) {
+
+    }
+
+    @Override
+    public void onSoundDeviceUnplugged(SoundDevice soundDevice) {
+
+    }
+
+    @Override
+    public void onSoundDeviceNewDefaultInput(SoundDevice soundDevice) {
+
+    }
+
+    @Override
+    public void onSoundDeviceNewDefaultOutput(SoundDevice soundDevice) {
+
+    }
+
+    @Override
+    public void onSoundDeviceNewDefaultInputComDevice(SoundDevice soundDevice) {
+
+    }
+
+    @Override
+    public void onSoundDeviceNewDefaultOutputComDevice(SoundDevice soundDevice) {
 
     }
 
