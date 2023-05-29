@@ -1349,7 +1349,7 @@ class TeamTalk(object):
         if event == ClientEvent.CLIENTEVENT_SOUNDDEVICE_REMOVED:
             self.onSoundDeviceRemoved(msg.sounddevice)
         if event == ClientEvent.CLIENTEVENT_SOUNDDEVICE_UNPLUGGED:
-            self.onSoundDeviceUnplugged(msg.soundDevice)
+            self.onSoundDeviceUnplugged(msg.sounddevice)
         if event == ClientEvent.CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT:
             self.onSoundDeviceNewDefaultInput(msg.sounddevice)
         if event == ClientEvent.CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT:
