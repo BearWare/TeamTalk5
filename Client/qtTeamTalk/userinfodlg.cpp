@@ -64,9 +64,9 @@ void UserInfoDlg::updateUser()
     switch(user.nStatusMode & STATUSMODE_MODE)
     {
     case STATUSMODE_AVAILABLE :
-        status = tr("Available"); break;
+        status = ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Available", "For female"):tr("Available", "For male and neutral")); break;
     case STATUSMODE_AWAY :
-        status = tr("Away"); break;
+        status = ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Away", "For female"):tr("Away", "For male and neutral")); break;
     case STATUSMODE_QUESTION :
         status = tr("Question"); break;
     default :
@@ -87,7 +87,7 @@ void UserInfoDlg::updateUser()
     switch(user.uUserType)
     {
     case USERTYPE_ADMIN :
-        status = tr("Administrator");break;
+        status = ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Administrator", "For female"):tr("Administrator", "For male and neutral"));break;
     case USERTYPE_DEFAULT :
         status = tr("Default"); break;
     default:

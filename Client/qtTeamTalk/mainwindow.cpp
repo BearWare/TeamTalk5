@@ -1117,9 +1117,9 @@ void MainWindow::clienteventCmdUserLoggedIn(const User& user)
     updateUserSubscription(user.nUserID);
     if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN)
     {
-        addStatusMsg(STATUSBAR_USER_LOGGEDIN, tr("%1 has logged in") .arg(getDisplayName(user)));
+        addStatusMsg(STATUSBAR_USER_LOGGEDIN, tr("%1 has logged in").arg(getDisplayName(user)));
         playSoundEvent(SOUNDEVENT_USERLOGGEDIN);
-        addTextToSpeechMessage(TTS_USER_LOGGEDIN, QString(tr("%1 has logged in") .arg(getDisplayName(user))));
+        addTextToSpeechMessage(TTS_USER_LOGGEDIN, QString(tr("%1 has logged in").arg(getDisplayName(user))));
     }
 
     // sync user settings from cache
@@ -1135,9 +1135,9 @@ void MainWindow::clienteventCmdUserLoggedOut(const User& user)
     m_textmessages.clearUserTextMessages(user.nUserID);
     if (user.nUserID != TT_GetMyUserID(ttInst))
     {
-        addStatusMsg(STATUSBAR_USER_LOGGEDOUT, tr("%1 has logged out") .arg(getDisplayName(user)));
+        addStatusMsg(STATUSBAR_USER_LOGGEDOUT, ((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out", "For female").arg(getDisplayName(user)):tr("%1 has logged out", "For male and neutral").arg(getDisplayName(user))));
         playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
-        addTextToSpeechMessage(TTS_USER_LOGGEDOUT, QString(tr("%1 has logged out") .arg(getDisplayName(user))));
+        addTextToSpeechMessage(TTS_USER_LOGGEDOUT, QString(((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out", "For female").arg(getDisplayName(user)):tr("%1 has logged out", "For male and neutral").arg(getDisplayName(user)))));
     }
 
     // sync user settings to cache
@@ -5763,25 +5763,25 @@ void MainWindow::slotUsersSpeakUserInformation(int id)
         if(!ui.channelsWidget->getUser(id, user))
             return;
 
-        QString userString, voice = tr("Talking"), mute = tr("Mute"), mediaFile = tr("Streaming"), muteMediaFile = tr("Mute media file"), videoCapture = tr("Webcam"), desktop = tr("Desktop"), chanOp = tr("Channel Operator"), moveSelected = tr("Selected for move");
+        QString userString, voice = tr("Talking"), mute = tr("Mute"), mediaFile = tr("Streaming"), muteMediaFile = tr("Mute media file"), videoCapture = tr("Webcam"), desktop = tr("Desktop");
         speakList += QString("%1: ").arg(getDisplayName(user));
         if (user.uUserType & USERTYPE_ADMIN)
         {
-            userString = tr("Administrator");
+            userString = ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Administrator", "For female"):tr("Administrator", "For male and neutral"));
         }
         else
         {
-            userString = tr("User");
+            userString = ((user.nStatusMode & STATUSMODE_FEMALE)?tr("User", "For female"):tr("User", "For male and neutral"));
         }
         speakList += userString;
 
         QString status;
 
         if(m_moveusers.indexOf(user.nUserID) >= 0)
-           speakList += ", " + moveSelected;
+           speakList += ", " + ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Selected for move", "For female"):tr("Selected for move", "For male and neutral"));
 
         if(TT_IsChannelOperator(ttInst, user.nUserID, user.nChannelID))
-            speakList += ", " + chanOp;
+            speakList += ", " + ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Channel operator", "For female"):tr("Channel operator", "For male and neutral"));
 
         if((user.uUserState & USERSTATE_VOICE) || (user.nUserID == TT_GetMyUserID(ttInst) && isMyselfTalking() == TRUE))
             speakList += ", " + voice;
@@ -5789,10 +5789,10 @@ void MainWindow::slotUsersSpeakUserInformation(int id)
         switch(user.nStatusMode & STATUSMODE_MODE)
         {
         case STATUSMODE_AVAILABLE :
-            status = tr("Available");
+            status = ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Available", "For female"):tr("Available", "For male and neutral"));
             break;
         case STATUSMODE_AWAY :
-            status = tr("Away");
+            status = ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Away", "For female"):tr("Away", "For male and neutral"));
             break;
         case STATUSMODE_QUESTION :
             status = tr("Question");
