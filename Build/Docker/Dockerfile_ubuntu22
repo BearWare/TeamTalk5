@@ -2,13 +2,33 @@ FROM ubuntu:22.04
 
 LABEL Description="TeamTalk for Ubuntu 22.04"
 
-RUN apt update
+RUN apt update --fix-missing
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata keyboard-configuration
-RUN apt install -y make git
 # Duplicate of /TeamTalk5/Build/Makefile:depend-ubuntu22
-RUN apt install -y qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev \
-                    libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
-                    openjdk-18-jdk ninja-build libpcap-dev junit4 cmake \
-                    libssl-dev yasm autoconf libtool pkg-config \
-                    libasound2-dev wget python2 g++ p7zip-full python3-pytest
+RUN apt install -y \
+                   autoconf \
+                   cmake \
+                   doxygen \
+                   g++ \
+                   git \
+                   junit4 \
+                   libasound2-dev \
+                   libpcap-dev \
+                   libqt5texttospeech5-dev \
+                   libqt5x11extras5-dev \
+                   libssl-dev \
+                   libtool \
+                   make \
+                   ninja-build \
+                   openjdk-18-jdk \
+                   p7zip-full \
+                   pkg-config \
+                   python2 \
+                   python3-pytest \
+                   qtbase5-dev \
+                   qtmultimedia5-dev \
+                   qttools5-dev \
+                   qttools5-dev-tools \
+                   wget \
+                   yasm
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10

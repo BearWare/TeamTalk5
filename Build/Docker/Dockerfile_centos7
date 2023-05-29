@@ -4,5 +4,13 @@ LABEL Description="TeamTalk for CentOS 7"
 
 RUN yum -y --enablerepo=extras install epel-release
 RUN yum -y update
-RUN yum install -y make libtool gcc-c++ cmake3 git ninja-build openssl-devel doxygen
+RUN yum install -y \
+                   cmake3 \
+                   doxygen \
+                   gcc-c++ \
+                   git \
+                   libtool \
+                   make \
+                   ninja-build \
+                   openssl-devel
 RUN ln -s /bin/cmake3 /bin/cmake
