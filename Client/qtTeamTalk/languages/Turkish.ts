@@ -436,6 +436,18 @@ p, li { white-space: pre-wrap; }
         <source>&amp;Cancel</source>
         <translation>İ&amp;ptal</translation>
     </message>
+    <message>
+        <location filename="../changestatusdlg.cpp" line="46"/>
+        <source>&amp;Available</source>
+        <comment>For female</comment>
+        <translation type="unfinished">&amp;Uygun</translation>
+    </message>
+    <message>
+        <location filename="../changestatusdlg.cpp" line="47"/>
+        <source>A&amp;way</source>
+        <comment>For female</comment>
+        <translation type="unfinished">U&amp;zakta</translation>
+    </message>
 </context>
 <context>
     <name>ChannelDlg</name>
@@ -836,7 +848,42 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="960"/>
         <source>Away</source>
-        <translation>Uzakta</translation>
+        <comment>For female</comment>
+        <translation type="unfinished">Uzakta</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="960"/>
+        <source>Away</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Uzakta</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="984"/>
+        <source>Administrator</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Yönetici</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="984"/>
+        <source>Administrator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Yönetici</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="987"/>
+        <source>Channel operator</source>
+        <comment>For female</comment>
+        <translation type="unfinished">kanal yöneticisi</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="987"/>
+        <source>Channel operator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">kanal yöneticisi</translation>
+    </message>
+    <message>
+        <source>Away</source>
+        <translation type="vanished">Uzakta</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="963"/>
@@ -854,14 +901,12 @@ p, li { white-space: pre-wrap; }
         <translation>Web kamerası</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="984"/>
         <source>Administrator</source>
-        <translation>Yönetici</translation>
+        <translation type="vanished">Yönetici</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="987"/>
         <source>Channel operator</source>
-        <translation>kanal yöneticisi</translation>
+        <translation type="vanished">kanal yöneticisi</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1163"/>
@@ -1182,27 +1227,41 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../encryptionsetupdlg.ui" line="45"/>
-        <location filename="../encryptionsetupdlg.ui" line="57"/>
-        <location filename="../encryptionsetupdlg.ui" line="90"/>
+        <location filename="../encryptionsetupdlg.ui" line="48"/>
+        <location filename="../encryptionsetupdlg.ui" line="63"/>
         <location filename="../encryptionsetupdlg.ui" line="102"/>
-        <location filename="../encryptionsetupdlg.ui" line="135"/>
-        <location filename="../encryptionsetupdlg.ui" line="147"/>
+        <location filename="../encryptionsetupdlg.ui" line="117"/>
+        <location filename="../encryptionsetupdlg.ui" line="156"/>
+        <location filename="../encryptionsetupdlg.ui" line="171"/>
         <source>...</source>
         <translation type="unfinished">...</translation>
     </message>
     <message>
+        <location filename="../encryptionsetupdlg.ui" line="56"/>
+        <location filename="../encryptionsetupdlg.ui" line="110"/>
+        <location filename="../encryptionsetupdlg.ui" line="164"/>
+        <source>Browse</source>
+        <translation type="unfinished">Gözat</translation>
+    </message>
+    <message>
         <location filename="../encryptionsetupdlg.ui" line="71"/>
+        <location filename="../encryptionsetupdlg.ui" line="125"/>
+        <location filename="../encryptionsetupdlg.ui" line="179"/>
+        <source>Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../encryptionsetupdlg.ui" line="80"/>
         <source>Client certificate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../encryptionsetupdlg.ui" line="116"/>
+        <location filename="../encryptionsetupdlg.ui" line="134"/>
         <source>Client private key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../encryptionsetupdlg.ui" line="161"/>
+        <location filename="../encryptionsetupdlg.ui" line="188"/>
         <source>Verify server certificate</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2728,10 +2787,8 @@ p, li { white-space: pre-wrap; }
         <translation>%1 giriş yaptı</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1138"/>
-        <location filename="../mainwindow.cpp" line="1140"/>
         <source>%1 has logged out</source>
-        <translation>%1 sunucudan ayrıldı</translation>
+        <translation type="vanished">%1 sunucudan ayrıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2979"/>
@@ -3362,9 +3419,8 @@ p, li { white-space: pre-wrap; }
         <translation>Yükleme &amp;tarihi (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5792"/>
         <source>Available</source>
-        <translation>Uygun</translation>
+        <translation type="vanished">Uygun</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5848"/>
@@ -3508,6 +3564,12 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;Masaüstleri (%1)</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="7212"/>
+        <source>The file %1 contains %2 setup information.<byte value="xd"/>
+Should these settings be applied?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="7293"/>
         <source>A new version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>%1 uygulamasının yeni bir sürümü kullanılabilir: %2. İndirme sayfasını şimdi açmak ister misiniz?</translation>
@@ -3518,11 +3580,10 @@ p, li { white-space: pre-wrap; }
         <translation>Yeni sürüm kullanılabilir</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7305"/>
         <source>New version available: %1
 You can download it on the page below:
 %2</source>
-        <translation>Yeni sürüm mevcut: %1
+        <translation type="vanished">Yeni sürüm mevcut: %1
 Aşağıdaki sayfadan indirebilirsiniz:
 %2</translation>
     </message>
@@ -3537,11 +3598,10 @@ Aşağıdaki sayfadan indirebilirsiniz:
         <translation>Yeni beta sürümü mevcut</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7330"/>
         <source>New beta version available: %1
 You can download it on the page below:
 %2</source>
-        <translation>Yeni beta sürümü mevcut: %1
+        <translation type="vanished">Yeni beta sürümü mevcut: %1
 Aşağıdaki sayfadan indirebilirsiniz:
 %2</translation>
     </message>
@@ -3616,6 +3676,30 @@ Aşağıdaki sayfadan indirebilirsiniz:
         <location filename="../mainwindow.cpp" line="997"/>
         <source>Secure connection failed due to error 0x%1: %2.</source>
         <translation>güvenli bağlantı başarısız oldu. Hata 0x%1: %2</translation>
+    </message>
+    <message>
+        <source>%1 has logged in</source>
+        <comment>For female</comment>
+        <translation type="obsolete">%1 giriş yaptı</translation>
+    </message>
+    <message>
+        <source>%1 has logged in</source>
+        <comment>For male and neutral</comment>
+        <translation type="obsolete">%1 giriş yaptı</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1138"/>
+        <location filename="../mainwindow.cpp" line="1140"/>
+        <source>%1 has logged out</source>
+        <comment>For female</comment>
+        <translation type="unfinished">%1 sunucudan ayrıldı</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1138"/>
+        <location filename="../mainwindow.cpp" line="1140"/>
+        <source>%1 has logged out</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">%1 sunucudan ayrıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1589"/>
@@ -3971,6 +4055,20 @@ Do you wish to do this now?</source>
         <translation>Şuna göre sırala...</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="7305"/>
+        <source>New version available: %1<byte value="xd"/>
+You can download it on the page below:<byte value="xd"/>
+%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="7330"/>
+        <source>New beta version available: %1<byte value="xd"/>
+You can download it on the page below:<byte value="xd"/>
+%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="4584"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
         <translation>Video kodlayıcı bileşeni yapılandırılamadı. Tercihler&apos;deki ayarları denetleyin</translation>
@@ -4113,29 +4211,24 @@ Do you wish to do this now?</source>
         <translation>Masaüstü</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5766"/>
         <source>Channel Operator</source>
-        <translation>Kanal yöneticisi</translation>
+        <translation type="vanished">Kanal yöneticisi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5766"/>
         <source>Selected for move</source>
-        <translation>taşıma için seçildi</translation>
+        <translation type="vanished">taşıma için seçildi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5770"/>
         <source>Administrator</source>
-        <translation>Yönetici</translation>
+        <translation type="vanished">Yönetici</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5774"/>
         <source>User</source>
-        <translation>Kullanıcı</translation>
+        <translation type="vanished">Kullanıcı</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5795"/>
         <source>Away</source>
-        <translation>Uzakta</translation>
+        <translation type="vanished">Uzakta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5798"/>
@@ -4222,6 +4315,78 @@ Do you wish to do this now?</source>
         <location filename="../mainwindow.cpp" line="3108"/>
         <source>&amp;Files (%1)</source>
         <translation>&amp;Dosyalar (%1)</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5770"/>
+        <source>Administrator</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Yönetici</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5770"/>
+        <source>Administrator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Yönetici</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5774"/>
+        <source>User</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Kullanıcı</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5774"/>
+        <source>User</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Kullanıcı</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5781"/>
+        <source>Selected for move</source>
+        <comment>For female</comment>
+        <translation type="unfinished">taşıma için seçildi</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5781"/>
+        <source>Selected for move</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">taşıma için seçildi</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5784"/>
+        <source>Channel operator</source>
+        <comment>For female</comment>
+        <translation type="unfinished">kanal yöneticisi</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5784"/>
+        <source>Channel operator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">kanal yöneticisi</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5792"/>
+        <source>Available</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Uygun</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5792"/>
+        <source>Available</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Uygun</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5795"/>
+        <source>Away</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Uzakta</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5795"/>
+        <source>Away</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Uzakta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6935"/>
@@ -4349,10 +4514,9 @@ Do you wish to do this now?</source>
         <translation>%1 Dosyayı Yükle</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7212"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation>%1 dosyası %2 kurulum bilgisi içeriyor.
+        <translation type="vanished">%1 dosyası %2 kurulum bilgisi içeriyor.
 Bu ayarlar uygulanmalı mı?</translation>
     </message>
     <message>
@@ -7861,14 +8025,36 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <translation>%1 bilgisi</translation>
     </message>
     <message>
+        <source>Available</source>
+        <translation type="vanished">Uygun</translation>
+    </message>
+    <message>
+        <source>Away</source>
+        <translation type="vanished">Uzakta</translation>
+    </message>
+    <message>
         <location filename="../userinfodlg.cpp" line="67"/>
         <source>Available</source>
-        <translation>Uygun</translation>
+        <comment>For female</comment>
+        <translation type="unfinished">Uygun</translation>
+    </message>
+    <message>
+        <location filename="../userinfodlg.cpp" line="67"/>
+        <source>Available</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Uygun</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="69"/>
         <source>Away</source>
-        <translation>Uzakta</translation>
+        <comment>For female</comment>
+        <translation type="unfinished">Uzakta</translation>
+    </message>
+    <message>
+        <location filename="../userinfodlg.cpp" line="69"/>
+        <source>Away</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Uzakta</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="71"/>
@@ -7884,7 +8070,18 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../userinfodlg.cpp" line="90"/>
         <source>Administrator</source>
-        <translation>Yönetici</translation>
+        <comment>For female</comment>
+        <translation type="unfinished">Yönetici</translation>
+    </message>
+    <message>
+        <location filename="../userinfodlg.cpp" line="90"/>
+        <source>Administrator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Yönetici</translation>
+    </message>
+    <message>
+        <source>Administrator</source>
+        <translation type="vanished">Yönetici</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="92"/>

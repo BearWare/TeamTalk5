@@ -403,6 +403,18 @@ p, li { white-space: pre-wrap; }
         <source>&amp;Cancel</source>
         <translation>&amp;Abbrechen</translation>
     </message>
+    <message>
+        <location filename="../changestatusdlg.cpp" line="46"/>
+        <source>&amp;Available</source>
+        <comment>For female</comment>
+        <translation type="unfinished">&amp;Verfügbar</translation>
+    </message>
+    <message>
+        <location filename="../changestatusdlg.cpp" line="47"/>
+        <source>A&amp;way</source>
+        <comment>For female</comment>
+        <translation type="unfinished">&amp;Abwesend</translation>
+    </message>
 </context>
 <context>
     <name>ChannelDlg</name>
@@ -803,7 +815,42 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="960"/>
         <source>Away</source>
-        <translation>Abwesend</translation>
+        <comment>For female</comment>
+        <translation type="unfinished">Abwesend</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="960"/>
+        <source>Away</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Abwesend</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="984"/>
+        <source>Administrator</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Administrator</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="984"/>
+        <source>Administrator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Administrator</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="987"/>
+        <source>Channel operator</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Raumoperator</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="987"/>
+        <source>Channel operator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Raumoperator</translation>
+    </message>
+    <message>
+        <source>Away</source>
+        <translation type="vanished">Abwesend</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="963"/>
@@ -821,14 +868,12 @@ p, li { white-space: pre-wrap; }
         <translation>Webcam</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="984"/>
         <source>Administrator</source>
-        <translation>Administrator</translation>
+        <translation type="vanished">Administrator</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="987"/>
         <source>Channel operator</source>
-        <translation>Raumoperator</translation>
+        <translation type="vanished">Raumoperator</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1163"/>
@@ -1149,27 +1194,41 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../encryptionsetupdlg.ui" line="45"/>
-        <location filename="../encryptionsetupdlg.ui" line="57"/>
-        <location filename="../encryptionsetupdlg.ui" line="90"/>
+        <location filename="../encryptionsetupdlg.ui" line="48"/>
+        <location filename="../encryptionsetupdlg.ui" line="63"/>
         <location filename="../encryptionsetupdlg.ui" line="102"/>
-        <location filename="../encryptionsetupdlg.ui" line="135"/>
-        <location filename="../encryptionsetupdlg.ui" line="147"/>
+        <location filename="../encryptionsetupdlg.ui" line="117"/>
+        <location filename="../encryptionsetupdlg.ui" line="156"/>
+        <location filename="../encryptionsetupdlg.ui" line="171"/>
         <source>...</source>
         <translation type="unfinished">...</translation>
     </message>
     <message>
+        <location filename="../encryptionsetupdlg.ui" line="56"/>
+        <location filename="../encryptionsetupdlg.ui" line="110"/>
+        <location filename="../encryptionsetupdlg.ui" line="164"/>
+        <source>Browse</source>
+        <translation type="unfinished">Durchsuchen</translation>
+    </message>
+    <message>
         <location filename="../encryptionsetupdlg.ui" line="71"/>
+        <location filename="../encryptionsetupdlg.ui" line="125"/>
+        <location filename="../encryptionsetupdlg.ui" line="179"/>
+        <source>Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../encryptionsetupdlg.ui" line="80"/>
         <source>Client certificate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../encryptionsetupdlg.ui" line="116"/>
+        <location filename="../encryptionsetupdlg.ui" line="134"/>
         <source>Client private key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../encryptionsetupdlg.ui" line="161"/>
+        <location filename="../encryptionsetupdlg.ui" line="188"/>
         <source>Verify server certificate</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1576,6 +1635,30 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="997"/>
         <source>Secure connection failed due to error 0x%1: %2.</source>
         <translation>Sichere Verbindung fehlgeschlagen. Fehler 0x%1: %2.</translation>
+    </message>
+    <message>
+        <source>%1 has logged in</source>
+        <comment>For female</comment>
+        <translation type="obsolete">%1 hat sich angemeldet</translation>
+    </message>
+    <message>
+        <source>%1 has logged in</source>
+        <comment>For male and neutral</comment>
+        <translation type="obsolete">%1 hat sich angemeldet</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1138"/>
+        <location filename="../mainwindow.cpp" line="1140"/>
+        <source>%1 has logged out</source>
+        <comment>For female</comment>
+        <translation type="unfinished">%1 hat sich abgemeldet</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1138"/>
+        <location filename="../mainwindow.cpp" line="1140"/>
+        <source>%1 has logged out</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">%1 hat sich abgemeldet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1204"/>
@@ -2129,10 +2212,8 @@ p, li { white-space: pre-wrap; }
         <translation>%1 hat sich angemeldet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1138"/>
-        <location filename="../mainwindow.cpp" line="1140"/>
         <source>%1 has logged out</source>
-        <translation>%1 hat sich abgemeldet</translation>
+        <translation type="vanished">%1 hat sich abgemeldet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2979"/>
@@ -2238,9 +2319,8 @@ p, li { white-space: pre-wrap; }
         <translation>Der Benutzername ist ungültig</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5795"/>
         <source>Away</source>
-        <translation>Abwesend</translation>
+        <translation type="vanished">Abwesend</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3158"/>
@@ -2660,9 +2740,8 @@ Möchtest du dies jetzt tun?</translation>
         <translation>Server-Nachricht gesendet: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5792"/>
         <source>Available</source>
-        <translation>Verfügbar</translation>
+        <translation type="vanished">Verfügbar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5848"/>
@@ -2680,20 +2759,18 @@ Möchtest du dies jetzt tun?</translation>
         <translation>Benutzer auf Server sperren</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7305"/>
         <source>New version available: %1
 You can download it on the page below:
 %2</source>
-        <translation>Neue Version verfügbar: %1
+        <translation type="vanished">Neue Version verfügbar: %1
 Sie kann auf folgender Seite heruntergeladen werden:
 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7330"/>
         <source>New beta version available: %1
 You can download it on the page below:
 %2</source>
-        <translation>Neue Beta-Version verfügbar: %1
+        <translation type="vanished">Neue Beta-Version verfügbar: %1
 Sie kann auf folgender Seite heruntergeladen werden:
 %2</translation>
     </message>
@@ -2881,24 +2958,20 @@ Soll dies jetzt ausgeführt werden?</translation>
         <translation>&amp;Hochgeladen am (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5766"/>
         <source>Channel Operator</source>
-        <translation>Raumoperator</translation>
+        <translation type="vanished">Raumoperator</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5766"/>
         <source>Selected for move</source>
-        <translation>Zum Verschieben gewählt</translation>
+        <translation type="vanished">Zum Verschieben gewählt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5770"/>
         <source>Administrator</source>
-        <translation>Administrator</translation>
+        <translation type="vanished">Administrator</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5774"/>
         <source>User</source>
-        <translation>Benutzer</translation>
+        <translation type="vanished">Benutzer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5798"/>
@@ -3057,10 +3130,9 @@ Soll dies jetzt ausgeführt werden?</translation>
         <translation>%1 Mediendateien</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7212"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation>Die Datei %1 enthält %2 Einrichtungsinformationen.
+        <translation type="vanished">Die Datei %1 enthält %2 Einrichtungsinformationen.
 Sollen diese Einstellungen übernommen werden?</translation>
     </message>
     <message>
@@ -3074,6 +3146,13 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation>Neue Version verfügbar</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="7305"/>
+        <source>New version available: %1<byte value="xd"/>
+You can download it on the page below:<byte value="xd"/>
+%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="7318"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>Eine neue Beta-Version von %1 ist verfügbar: %2. Möchtest du die Download-Seite öffnen?</translation>
@@ -3082,6 +3161,13 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <location filename="../mainwindow.cpp" line="7323"/>
         <source>New beta version available</source>
         <translation>Neue Beta-Version verfügbar</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="7330"/>
+        <source>New beta version available: %1<byte value="xd"/>
+You can download it on the page below:<byte value="xd"/>
+%2</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7428"/>
@@ -3179,6 +3265,78 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation>Raum %1 verlassen</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="5770"/>
+        <source>Administrator</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Administrator</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5770"/>
+        <source>Administrator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Administrator</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5774"/>
+        <source>User</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Benutzer</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5774"/>
+        <source>User</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Benutzer</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5781"/>
+        <source>Selected for move</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Zum Verschieben gewählt</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5781"/>
+        <source>Selected for move</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Zum Verschieben gewählt</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5784"/>
+        <source>Channel operator</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Raumoperator</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5784"/>
+        <source>Channel operator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Raumoperator</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5792"/>
+        <source>Available</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Verfügbar</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5792"/>
+        <source>Available</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Verfügbar</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5795"/>
+        <source>Away</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Abwesend</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5795"/>
+        <source>Away</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Abwesend</translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="6146"/>
         <source>&amp;Leave Channel</source>
         <translation>Raum ver&amp;lassen</translation>
@@ -3242,6 +3400,12 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <location filename="../mainwindow.cpp" line="7203"/>
         <source>Failed to extract host-information from %1</source>
         <translation>Konnte Host-Informationen von %1 nicht extrahieren</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="7212"/>
+        <source>The file %1 contains %2 setup information.<byte value="xd"/>
+Should these settings be applied?</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7217"/>
@@ -7830,12 +7994,46 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
     <message>
         <location filename="../userinfodlg.cpp" line="67"/>
         <source>Available</source>
-        <translation>Verfügbar</translation>
+        <comment>For female</comment>
+        <translation type="unfinished">Verfügbar</translation>
+    </message>
+    <message>
+        <location filename="../userinfodlg.cpp" line="67"/>
+        <source>Available</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Verfügbar</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="69"/>
         <source>Away</source>
-        <translation>Abwesend</translation>
+        <comment>For female</comment>
+        <translation type="unfinished">Abwesend</translation>
+    </message>
+    <message>
+        <location filename="../userinfodlg.cpp" line="69"/>
+        <source>Away</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Abwesend</translation>
+    </message>
+    <message>
+        <location filename="../userinfodlg.cpp" line="90"/>
+        <source>Administrator</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Administrator</translation>
+    </message>
+    <message>
+        <location filename="../userinfodlg.cpp" line="90"/>
+        <source>Administrator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Administrator</translation>
+    </message>
+    <message>
+        <source>Available</source>
+        <translation type="vanished">Verfügbar</translation>
+    </message>
+    <message>
+        <source>Away</source>
+        <translation type="vanished">Abwesend</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="71"/>
@@ -7843,9 +8041,8 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
         <translation>Frage</translation>
     </message>
     <message>
-        <location filename="../userinfodlg.cpp" line="90"/>
         <source>Administrator</source>
-        <translation>Administrator</translation>
+        <translation type="vanished">Administrator</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="92"/>

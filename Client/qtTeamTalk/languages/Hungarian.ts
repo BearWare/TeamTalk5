@@ -399,6 +399,18 @@ p, li { white-space: pre-wrap; }
         <source>&amp;Cancel</source>
         <translation type="unfinished">&amp;Mégse</translation>
     </message>
+    <message>
+        <location filename="../changestatusdlg.cpp" line="46"/>
+        <source>&amp;Available</source>
+        <comment>For female</comment>
+        <translation type="unfinished">&amp;Elérhető</translation>
+    </message>
+    <message>
+        <location filename="../changestatusdlg.cpp" line="47"/>
+        <source>A&amp;way</source>
+        <comment>For female</comment>
+        <translation type="unfinished">&amp;Nincs jelen</translation>
+    </message>
 </context>
 <context>
     <name>ChannelDlg</name>
@@ -799,7 +811,42 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="960"/>
         <source>Away</source>
+        <comment>For female</comment>
         <translation type="unfinished">Nincs jelen</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="960"/>
+        <source>Away</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Nincs jelen</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="984"/>
+        <source>Administrator</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Adminisztrátor</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="984"/>
+        <source>Administrator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Adminisztrátor</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="987"/>
+        <source>Channel operator</source>
+        <comment>For female</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="987"/>
+        <source>Channel operator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Away</source>
+        <translation type="obsolete">Nincs jelen</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="963"/>
@@ -817,14 +864,8 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="984"/>
         <source>Administrator</source>
-        <translation type="unfinished">Adminisztrátor</translation>
-    </message>
-    <message>
-        <location filename="../channelstree.cpp" line="987"/>
-        <source>Channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Adminisztrátor</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1163"/>
@@ -1146,27 +1187,41 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../encryptionsetupdlg.ui" line="45"/>
-        <location filename="../encryptionsetupdlg.ui" line="57"/>
-        <location filename="../encryptionsetupdlg.ui" line="90"/>
+        <location filename="../encryptionsetupdlg.ui" line="48"/>
+        <location filename="../encryptionsetupdlg.ui" line="63"/>
         <location filename="../encryptionsetupdlg.ui" line="102"/>
-        <location filename="../encryptionsetupdlg.ui" line="135"/>
-        <location filename="../encryptionsetupdlg.ui" line="147"/>
+        <location filename="../encryptionsetupdlg.ui" line="117"/>
+        <location filename="../encryptionsetupdlg.ui" line="156"/>
+        <location filename="../encryptionsetupdlg.ui" line="171"/>
         <source>...</source>
         <translation type="unfinished">...</translation>
     </message>
     <message>
+        <location filename="../encryptionsetupdlg.ui" line="56"/>
+        <location filename="../encryptionsetupdlg.ui" line="110"/>
+        <location filename="../encryptionsetupdlg.ui" line="164"/>
+        <source>Browse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../encryptionsetupdlg.ui" line="71"/>
+        <location filename="../encryptionsetupdlg.ui" line="125"/>
+        <location filename="../encryptionsetupdlg.ui" line="179"/>
+        <source>Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../encryptionsetupdlg.ui" line="80"/>
         <source>Client certificate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../encryptionsetupdlg.ui" line="116"/>
+        <location filename="../encryptionsetupdlg.ui" line="134"/>
         <source>Client private key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../encryptionsetupdlg.ui" line="161"/>
+        <location filename="../encryptionsetupdlg.ui" line="188"/>
         <source>Verify server certificate</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2656,18 +2711,6 @@ p, li { white-space: pre-wrap; }
         <translation>Megszünt a %1 csatlakoztatása a %2 TCP porthoz, a %3 UDP porthoz</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1120"/>
-        <location filename="../mainwindow.cpp" line="1122"/>
-        <source>%1 has logged in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1138"/>
-        <location filename="../mainwindow.cpp" line="1140"/>
-        <source>%1 has logged out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2979"/>
         <location filename="../mainwindow.cpp" line="3029"/>
         <location filename="../mainwindow.cpp" line="4998"/>
@@ -2979,14 +3022,12 @@ p, li { white-space: pre-wrap; }
         <translation>A szerver hibát jelentett:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5792"/>
         <source>Available</source>
-        <translation type="unfinished">Elérhető</translation>
+        <translation type="obsolete">Elérhető</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5795"/>
         <source>Away</source>
-        <translation type="unfinished">Nincs jelen</translation>
+        <translation type="obsolete">Nincs jelen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2561"/>
@@ -3026,6 +3067,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="7295"/>
         <location filename="../mainwindow.cpp" line="7320"/>
         <source>&amp;No</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1120"/>
+        <location filename="../mainwindow.cpp" line="1122"/>
+        <source>%1 has logged in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3418,24 +3465,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Asztal</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5766"/>
         <source>Channel Operator</source>
-        <translation type="unfinished">Csatorna operátor</translation>
+        <translation type="obsolete">Csatorna operátor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5766"/>
-        <source>Selected for move</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5770"/>
         <source>Administrator</source>
-        <translation type="unfinished">Adminisztrátor</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5774"/>
-        <source>User</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Adminisztrátor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5798"/>
@@ -3488,12 +3523,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7212"/>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="7293"/>
         <source>A new version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation type="unfinished"></translation>
@@ -3504,6 +3533,13 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="7305"/>
+        <source>New version available: %1<byte value="xd"/>
+You can download it on the page below:<byte value="xd"/>
+%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="7318"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation type="unfinished"></translation>
@@ -3511,6 +3547,13 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.cpp" line="7323"/>
         <source>New beta version available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="7330"/>
+        <source>New beta version available: %1<byte value="xd"/>
+You can download it on the page below:<byte value="xd"/>
+%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3610,6 +3653,20 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.cpp" line="1054"/>
         <source>You have been kicked from channel by unknown user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1138"/>
+        <location filename="../mainwindow.cpp" line="1140"/>
+        <source>%1 has logged out</source>
+        <comment>For female</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1138"/>
+        <location filename="../mainwindow.cpp" line="1140"/>
+        <source>%1 has logged out</source>
+        <comment>For male and neutral</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3958,6 +4015,78 @@ Do you wish to do this now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="5770"/>
+        <source>Administrator</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Adminisztrátor</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5770"/>
+        <source>Administrator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Adminisztrátor</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5774"/>
+        <source>User</source>
+        <comment>For female</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5774"/>
+        <source>User</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5781"/>
+        <source>Selected for move</source>
+        <comment>For female</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5781"/>
+        <source>Selected for move</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5784"/>
+        <source>Channel operator</source>
+        <comment>For female</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5784"/>
+        <source>Channel operator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5792"/>
+        <source>Available</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Elérhető</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5792"/>
+        <source>Available</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Elérhető</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5795"/>
+        <source>Away</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Nincs jelen</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5795"/>
+        <source>Away</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Nincs jelen</translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="5848"/>
         <source>%1 users</source>
         <translation type="unfinished"></translation>
@@ -4021,20 +4150,6 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="7109"/>
         <source>&amp;Desktops (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="7305"/>
-        <source>New version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="7330"/>
-        <source>New beta version available: %1
-You can download it on the page below:
-%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4303,6 +4418,12 @@ You can download it on the page below:
         <location filename="../mainwindow.cpp" line="7203"/>
         <source>Failed to extract host-information from %1</source>
         <translation>A host információ kinyerése a %1-ből sikertelen</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="7212"/>
+        <source>The file %1 contains %2 setup information.<byte value="xd"/>
+Should these settings be applied?</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7217"/>
@@ -7804,14 +7925,36 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Available</source>
+        <translation type="vanished">Elérhető</translation>
+    </message>
+    <message>
+        <source>Away</source>
+        <translation type="vanished">Nincs jelen</translation>
+    </message>
+    <message>
         <location filename="../userinfodlg.cpp" line="67"/>
         <source>Available</source>
-        <translation>Elérhető</translation>
+        <comment>For female</comment>
+        <translation type="unfinished">Elérhető</translation>
+    </message>
+    <message>
+        <location filename="../userinfodlg.cpp" line="67"/>
+        <source>Available</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Elérhető</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="69"/>
         <source>Away</source>
-        <translation>Nincs jelen</translation>
+        <comment>For female</comment>
+        <translation type="unfinished">Nincs jelen</translation>
+    </message>
+    <message>
+        <location filename="../userinfodlg.cpp" line="69"/>
+        <source>Away</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Nincs jelen</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="71"/>
@@ -7827,7 +7970,18 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfodlg.cpp" line="90"/>
         <source>Administrator</source>
-        <translation>Adminisztrátor</translation>
+        <comment>For female</comment>
+        <translation type="unfinished">Adminisztrátor</translation>
+    </message>
+    <message>
+        <location filename="../userinfodlg.cpp" line="90"/>
+        <source>Administrator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Adminisztrátor</translation>
+    </message>
+    <message>
+        <source>Administrator</source>
+        <translation type="vanished">Adminisztrátor</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="92"/>

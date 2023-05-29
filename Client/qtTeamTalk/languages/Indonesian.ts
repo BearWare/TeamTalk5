@@ -437,6 +437,18 @@ p, li { white-space: pre-wrap; }
         <source>&amp;Cancel</source>
         <translation>&amp;Batal</translation>
     </message>
+    <message>
+        <location filename="../changestatusdlg.cpp" line="46"/>
+        <source>&amp;Available</source>
+        <comment>For female</comment>
+        <translation type="unfinished">&amp;Ada</translation>
+    </message>
+    <message>
+        <location filename="../changestatusdlg.cpp" line="47"/>
+        <source>A&amp;way</source>
+        <comment>For female</comment>
+        <translation type="unfinished">A&amp;way</translation>
+    </message>
 </context>
 <context>
     <name>ChannelDlg</name>
@@ -837,7 +849,42 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="960"/>
         <source>Away</source>
-        <translation>Away</translation>
+        <comment>For female</comment>
+        <translation type="unfinished">Away</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="960"/>
+        <source>Away</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Away</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="984"/>
+        <source>Administrator</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Administrator</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="984"/>
+        <source>Administrator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Administrator</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="987"/>
+        <source>Channel operator</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Operator saluran</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="987"/>
+        <source>Channel operator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Operator saluran</translation>
+    </message>
+    <message>
+        <source>Away</source>
+        <translation type="vanished">Away</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="963"/>
@@ -855,14 +902,12 @@ p, li { white-space: pre-wrap; }
         <translation>Webcam</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="984"/>
         <source>Administrator</source>
-        <translation>Administrator</translation>
+        <translation type="vanished">Administrator</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="987"/>
         <source>Channel operator</source>
-        <translation>Operator saluran</translation>
+        <translation type="vanished">Operator saluran</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1163"/>
@@ -1183,27 +1228,41 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../encryptionsetupdlg.ui" line="45"/>
-        <location filename="../encryptionsetupdlg.ui" line="57"/>
-        <location filename="../encryptionsetupdlg.ui" line="90"/>
+        <location filename="../encryptionsetupdlg.ui" line="48"/>
+        <location filename="../encryptionsetupdlg.ui" line="63"/>
         <location filename="../encryptionsetupdlg.ui" line="102"/>
-        <location filename="../encryptionsetupdlg.ui" line="135"/>
-        <location filename="../encryptionsetupdlg.ui" line="147"/>
+        <location filename="../encryptionsetupdlg.ui" line="117"/>
+        <location filename="../encryptionsetupdlg.ui" line="156"/>
+        <location filename="../encryptionsetupdlg.ui" line="171"/>
         <source>...</source>
         <translation type="unfinished">...</translation>
     </message>
     <message>
+        <location filename="../encryptionsetupdlg.ui" line="56"/>
+        <location filename="../encryptionsetupdlg.ui" line="110"/>
+        <location filename="../encryptionsetupdlg.ui" line="164"/>
+        <source>Browse</source>
+        <translation type="unfinished">Jelajahi</translation>
+    </message>
+    <message>
         <location filename="../encryptionsetupdlg.ui" line="71"/>
+        <location filename="../encryptionsetupdlg.ui" line="125"/>
+        <location filename="../encryptionsetupdlg.ui" line="179"/>
+        <source>Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../encryptionsetupdlg.ui" line="80"/>
         <source>Client certificate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../encryptionsetupdlg.ui" line="116"/>
+        <location filename="../encryptionsetupdlg.ui" line="134"/>
         <source>Client private key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../encryptionsetupdlg.ui" line="161"/>
+        <location filename="../encryptionsetupdlg.ui" line="188"/>
         <source>Verify server certificate</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2729,10 +2788,8 @@ p, li { white-space: pre-wrap; }
         <translation>%1 telah masuk ke server</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1138"/>
-        <location filename="../mainwindow.cpp" line="1140"/>
         <source>%1 has logged out</source>
-        <translation>%1 telah keluar dari server</translation>
+        <translation type="vanished">%1 telah keluar dari server</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2979"/>
@@ -3026,6 +3083,30 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>%1 has logged in</source>
+        <comment>For female</comment>
+        <translation type="obsolete">%1 telah masuk ke server</translation>
+    </message>
+    <message>
+        <source>%1 has logged in</source>
+        <comment>For male and neutral</comment>
+        <translation type="obsolete">%1 telah masuk ke server</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1138"/>
+        <location filename="../mainwindow.cpp" line="1140"/>
+        <source>%1 has logged out</source>
+        <comment>For female</comment>
+        <translation type="unfinished">%1 telah keluar dari server</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1138"/>
+        <location filename="../mainwindow.cpp" line="1140"/>
+        <source>%1 has logged out</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">%1 telah keluar dari server</translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="1589"/>
         <source>New sound device available: %1. Refresh sound devices to discover new device.</source>
         <translation type="unfinished"></translation>
@@ -3306,6 +3387,20 @@ p, li { white-space: pre-wrap; }
         <translation>Tidak Ada Perangkat Suara</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="7305"/>
+        <source>New version available: %1<byte value="xd"/>
+You can download it on the page below:<byte value="xd"/>
+%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="7330"/>
+        <source>New beta version available: %1<byte value="xd"/>
+You can download it on the page below:<byte value="xd"/>
+%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../mainwindow.ui" line="2333"/>
         <source>&amp;Refresh Sound Devices</source>
         <translation>&amp;Segarkan Perangkat Suara</translation>
@@ -3553,6 +3648,78 @@ Apakah Anda ingin melakukannya sekarang?</translation>
         <translation>Konfigurasi server disimpan</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="5770"/>
+        <source>Administrator</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Administrator</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5770"/>
+        <source>Administrator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Administrator</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5774"/>
+        <source>User</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Pengguna</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5774"/>
+        <source>User</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Pengguna</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5781"/>
+        <source>Selected for move</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Dipilih untuk dipindahkan</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5781"/>
+        <source>Selected for move</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Dipilih untuk dipindahkan</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5784"/>
+        <source>Channel operator</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Operator saluran</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5784"/>
+        <source>Channel operator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Operator saluran</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5792"/>
+        <source>Available</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Tersedia</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5792"/>
+        <source>Available</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Tersedia</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5795"/>
+        <source>Away</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Away</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5795"/>
+        <source>Away</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Away</translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="6147"/>
         <source>CTRL+L</source>
         <translation>CTRL+L</translation>
@@ -3573,6 +3740,12 @@ Apakah Anda ingin melakukannya sekarang?</translation>
         <translation>&amp;Desktop (%1)</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="7212"/>
+        <source>The file %1 contains %2 setup information.<byte value="xd"/>
+Should these settings be applied?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="7293"/>
         <source>A new version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>Versi baru %1 tersedia: %2. Apakah Anda ingin membuka halaman unduhan sekarang?</translation>
@@ -3583,11 +3756,10 @@ Apakah Anda ingin melakukannya sekarang?</translation>
         <translation>Versi baru tersedia</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7305"/>
         <source>New version available: %1
 You can download it on the page below:
 %2</source>
-        <translation>Versi baru tersedia: %1
+        <translation type="vanished">Versi baru tersedia: %1
 Anda dapat mengunduhnya pada halaman di bawah ini:
 %2</translation>
     </message>
@@ -3602,11 +3774,10 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
         <translation>Versi beta baru tersedia</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7330"/>
         <source>New beta version available: %1
 You can download it on the page below:
 %2</source>
-        <translation>Versi beta baru tersedia: %1
+        <translation type="vanished">Versi beta baru tersedia: %1
 Anda dapat mengunduhnya pada halaman di bawah ini:
 %2</translation>
     </message>
@@ -3989,29 +4160,24 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
         <translation>Desktop</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5766"/>
         <source>Channel Operator</source>
-        <translation>Operator Saluran</translation>
+        <translation type="vanished">Operator Saluran</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5766"/>
         <source>Selected for move</source>
-        <translation>Dipilih untuk dipindahkan</translation>
+        <translation type="vanished">Dipilih untuk dipindahkan</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5770"/>
         <source>Administrator</source>
-        <translation>Administrator</translation>
+        <translation type="vanished">Administrator</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5774"/>
         <source>User</source>
-        <translation>Pengguna</translation>
+        <translation type="vanished">Pengguna</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5795"/>
         <source>Away</source>
-        <translation>Away</translation>
+        <translation type="vanished">Away</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5798"/>
@@ -4100,9 +4266,8 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
         <translation>&amp;File (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5792"/>
         <source>Available</source>
-        <translation type="unfinished">Tersedia</translation>
+        <translation type="obsolete">Tersedia</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5848"/>
@@ -4346,10 +4511,9 @@ Anda dapat mengunduhnya pada halaman di bawah ini:
         <translation>Gagal untuk mengekstrak informasi host dari %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7212"/>
         <source>The file %1 contains %2 setup information.
 Should these settings be applied?</source>
-        <translation>The file %1 contains %2 setup information.
+        <translation type="vanished">The file %1 contains %2 setup information.
 Should these settings be applied?</translation>
     </message>
     <message>
@@ -7863,14 +8027,36 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Available</source>
+        <translation type="vanished">Tersedia</translation>
+    </message>
+    <message>
+        <source>Away</source>
+        <translation type="vanished">Away</translation>
+    </message>
+    <message>
         <location filename="../userinfodlg.cpp" line="67"/>
         <source>Available</source>
-        <translation>Tersedia</translation>
+        <comment>For female</comment>
+        <translation type="unfinished">Tersedia</translation>
+    </message>
+    <message>
+        <location filename="../userinfodlg.cpp" line="67"/>
+        <source>Available</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Tersedia</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="69"/>
         <source>Away</source>
-        <translation>Away</translation>
+        <comment>For female</comment>
+        <translation type="unfinished">Away</translation>
+    </message>
+    <message>
+        <location filename="../userinfodlg.cpp" line="69"/>
+        <source>Away</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Away</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="71"/>
@@ -7886,7 +8072,18 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
     <message>
         <location filename="../userinfodlg.cpp" line="90"/>
         <source>Administrator</source>
-        <translation>Administrator</translation>
+        <comment>For female</comment>
+        <translation type="unfinished">Administrator</translation>
+    </message>
+    <message>
+        <location filename="../userinfodlg.cpp" line="90"/>
+        <source>Administrator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Administrator</translation>
+    </message>
+    <message>
+        <source>Administrator</source>
+        <translation type="vanished">Administrator</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="92"/>
