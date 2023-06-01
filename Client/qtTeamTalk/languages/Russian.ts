@@ -441,13 +441,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../changestatusdlg.cpp" line="46"/>
         <source>&amp;Available</source>
         <comment>For female</comment>
-        <translation type="unfinished">&amp;Доступен</translation>
+        <translation>&amp;Доступен</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="47"/>
         <source>A&amp;way</source>
         <comment>For female</comment>
-        <translation type="unfinished">Нет&amp; на месте</translation>
+        <translation>&amp;Нет на месте</translation>
     </message>
 </context>
 <context>
@@ -850,37 +850,37 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="960"/>
         <source>Away</source>
         <comment>For female</comment>
-        <translation type="unfinished">Нет на месте</translation>
+        <translation>Нет на месте</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="960"/>
         <source>Away</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Нет на месте</translation>
+        <translation>Нет на месте</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="984"/>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation type="unfinished">Администратор</translation>
+        <translation>Administrator</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="984"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Администратор</translation>
+        <translation>Администратор</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="987"/>
         <source>Channel operator</source>
         <comment>For female</comment>
-        <translation type="unfinished">Оператор канала</translation>
+        <translation>Оператор канала</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="987"/>
         <source>Channel operator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Оператор канала</translation>
+        <translation>Оператор канала</translation>
     </message>
     <message>
         <source>Away</source>
@@ -1242,14 +1242,14 @@ p, li { white-space: pre-wrap; }
         <location filename="../encryptionsetupdlg.ui" line="110"/>
         <location filename="../encryptionsetupdlg.ui" line="164"/>
         <source>Browse</source>
-        <translation type="unfinished">Обзор</translation>
+        <translation>Обзор</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="71"/>
         <location filename="../encryptionsetupdlg.ui" line="125"/>
         <location filename="../encryptionsetupdlg.ui" line="179"/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>Сброс</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="80"/>
@@ -3146,14 +3146,14 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="1140"/>
         <source>%1 has logged out</source>
         <comment>For female</comment>
-        <translation type="unfinished">%1 Ушёл</translation>
+        <translation>%1 Ушёл</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1138"/>
         <location filename="../mainwindow.cpp" line="1140"/>
         <source>%1 has logged out</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">%1 Ушёл</translation>
+        <translation>%1 Ушёл</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1589"/>
@@ -3622,14 +3622,18 @@ Do you wish to do this now?</source>
         <source>New version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая версия: %1
+Вы можете скачать её на странице ниже:
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7330"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна новая бета-версия: %1
+Вы можете скачать её на странице ниже:
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2090"/>
@@ -3762,7 +3766,8 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="7212"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл %1 содержит %2 информацию о настройках.
+Следует ли применять эти настройки?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7293"/>
@@ -4202,73 +4207,73 @@ You can download it on the page below:
         <location filename="../mainwindow.cpp" line="5770"/>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation type="unfinished">Администратор</translation>
+        <translation>Administrator</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5770"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Администратор</translation>
+        <translation>Администратор</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5774"/>
         <source>User</source>
         <comment>For female</comment>
-        <translation type="unfinished">Пользователь</translation>
+        <translation>Пользователь</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5774"/>
         <source>User</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Пользователь</translation>
+        <translation>Пользователь</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5781"/>
         <source>Selected for move</source>
         <comment>For female</comment>
-        <translation type="unfinished">Выбран для перемещения</translation>
+        <translation>Выбран для перемещения</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5781"/>
         <source>Selected for move</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Выбран для перемещения</translation>
+        <translation>Выбран для перемещения</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5784"/>
         <source>Channel operator</source>
         <comment>For female</comment>
-        <translation type="unfinished">Оператор канала</translation>
+        <translation>Оператор канала</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5784"/>
         <source>Channel operator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Оператор канала</translation>
+        <translation>Оператор канала</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5792"/>
         <source>Available</source>
         <comment>For female</comment>
-        <translation type="unfinished">Доступен</translation>
+        <translation>Доступен</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5792"/>
         <source>Available</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Доступен</translation>
+        <translation>Доступен</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5795"/>
         <source>Away</source>
         <comment>For female</comment>
-        <translation type="unfinished">Нет на месте</translation>
+        <translation>Нет на месте</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5795"/>
         <source>Away</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Нет на месте</translation>
+        <translation>Нет на месте</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5848"/>
@@ -8042,25 +8047,25 @@ Delete the published user account to unregister your server.</source>
         <location filename="../userinfodlg.cpp" line="67"/>
         <source>Available</source>
         <comment>For female</comment>
-        <translation type="unfinished">Доступен</translation>
+        <translation>Доступен</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="67"/>
         <source>Available</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Доступен</translation>
+        <translation>Доступен</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="69"/>
         <source>Away</source>
         <comment>For female</comment>
-        <translation type="unfinished">Нет на месте</translation>
+        <translation>Нет на месте</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="69"/>
         <source>Away</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Нет на месте</translation>
+        <translation>Нет на месте</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="71"/>
@@ -8077,13 +8082,13 @@ Delete the published user account to unregister your server.</source>
         <location filename="../userinfodlg.cpp" line="90"/>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation type="unfinished">Администратор</translation>
+        <translation>Администратор</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="90"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Администратор</translation>
+        <translation>Администратор</translation>
     </message>
     <message>
         <source>Administrator</source>
