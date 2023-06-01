@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -23,28 +23,20 @@
 
 package dk.bearware.events;
 
-import dk.bearware.AudioInputProgress;
-import dk.bearware.ClientErrorMsg;
-import dk.bearware.FileTransfer;
-import dk.bearware.MediaFileInfo;
-import dk.bearware.SoundDevice;
-
-public interface ClientListener {
-
-    public void onInternalError(ClientErrorMsg clienterrormsg);
-    public void onVoiceActivation(boolean bVoiceActive);
-    public void onHotKeyToggle(int nHotKeyID, boolean bActive);
-    public void onHotKeyTest(int nVkCode, boolean bActive);
-    public void onFileTransfer(FileTransfer filetransfer);
-    public void onDesktopWindowTransfer(int nSessionID, int nTransferRemaining);
-    public void onStreamMediaFile(MediaFileInfo mediafileinfo);
-    public void onLocalMediaFile(MediaFileInfo mediafileinfo);
-    public void onAudioInput(AudioInputProgress aip, int nStreamID);
-    public void onSoundDeviceAdded(SoundDevice sounddevice);
-    public void onSoundDeviceRemoved(SoundDevice sounddevice);
-    public void onSoundDeviceUnplugged(SoundDevice sounddevice);
-    public void onSoundDeviceNewDefaultInput(SoundDevice sounddevice);
-    public void onSoundDeviceNewDefaultOutput(SoundDevice sounddevice);
-    public void onSoundDeviceNewDefaultInputComDevice(SoundDevice sounddevice);
-    public void onSoundDeviceNewDefaultOutputComDevice(SoundDevice sounddevice);
-}
+public interface ClientListener
+    extends ClientEventListener.OnInternalErrorListener
+    , ClientEventListener.OnVoiceActivationListener
+    , ClientEventListener.OnHotKeyToggleListener
+    , ClientEventListener.OnHotKeyTestListener
+    , ClientEventListener.OnFileTransferListener
+    , ClientEventListener.OnDesktopWindowTransferListener
+    , ClientEventListener.OnStreamMediaFileListener
+    , ClientEventListener.OnLocalMediaFileListener
+    , ClientEventListener.OnAudioInputListener
+    , ClientEventListener.OnSoundDeviceAddedListener
+    , ClientEventListener.OnSoundDeviceRemovedListener
+    , ClientEventListener.OnSoundDeviceUnpluggedListener
+    , ClientEventListener.OnSoundDeviceNewDefaultInputListener
+    , ClientEventListener.OnSoundDeviceNewDefaultOutputListener
+    , ClientEventListener.OnSoundDeviceNewDefaultInputComDeviceListener
+    , ClientEventListener.OnSoundDeviceNewDefaultOutputComDeviceListener {}
