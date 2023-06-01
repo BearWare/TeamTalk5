@@ -148,6 +148,7 @@ if (Java_FOUND)
     src/dk/bearware/events/ClientListener.java
     src/dk/bearware/events/CommandListener.java
     src/dk/bearware/events/ConnectionListener.java
+    src/dk/bearware/events/ClientEventListener.java
     src/dk/bearware/events/TeamTalkEventHandler.java
     src/dk/bearware/events/UserListener.java
     src/dk/bearware/FileTransfer.java

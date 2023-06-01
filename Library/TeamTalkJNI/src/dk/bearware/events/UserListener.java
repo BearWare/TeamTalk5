@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -23,19 +23,13 @@
 
 package dk.bearware.events;
 
-import dk.bearware.DesktopInput;
-import dk.bearware.MediaFileInfo;
-import dk.bearware.User;
-
-public interface UserListener {
-
-    public void onUserStateChange(User user);
-    public void onUserVideoCapture(int nUserID, int nStreamID);
-    public void onUserMediaFileVideo(int nUserID, int nStreamID);
-    public void onUserDesktopWindow(int nUserID, int nStreamID);
-    public void onUserDesktopCursor(int nUserID, DesktopInput desktopinput);
-    public void onUserDesktopInput(int nUserID, DesktopInput desktopinput);
-    public void onUserRecordMediaFile(int nUserID, MediaFileInfo mediafileinfo);
-    public void onUserAudioBlock(int nUserID, int nStreamType);
-    public void onUserFirstVoiceStreamPacket(User user, int nStreamID);
-}
+public interface UserListener
+    extends ClientEventListener.OnUserStateChangeListener
+    , ClientEventListener.OnUserVideoCaptureListener
+    , ClientEventListener.OnUserMediaFileVideoListener
+    , ClientEventListener.OnUserDesktopWindowListener
+    , ClientEventListener.OnUserDesktopCursorListener
+    , ClientEventListener.OnUserDesktopInputListener
+    , ClientEventListener.OnUserRecordMediaFileListener
+    , ClientEventListener.OnUserAudioBlockListener
+    , ClientEventListener.OnUserFirstVoiceStreamPacketListener {}
