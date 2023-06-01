@@ -436,13 +436,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../changestatusdlg.cpp" line="46"/>
         <source>&amp;Available</source>
         <comment>For female</comment>
-        <translation type="unfinished">在线(&amp;A)</translation>
+        <translation>在线(&amp;A)</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="47"/>
         <source>A&amp;way</source>
         <comment>For female</comment>
-        <translation type="unfinished">离开(&amp;W)</translation>
+        <translation>离开(&amp;W)</translation>
     </message>
 </context>
 <context>
@@ -845,41 +845,37 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="960"/>
         <source>Away</source>
         <comment>For female</comment>
-        <translation type="unfinished">离开</translation>
+        <translation>离开</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="960"/>
         <source>Away</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">离开</translation>
+        <translation>离开</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="984"/>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation type="unfinished">管理员</translation>
+        <translation>管理员</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="984"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">管理员</translation>
+        <translation>管理员</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="987"/>
         <source>Channel operator</source>
         <comment>For female</comment>
-        <translation type="unfinished">频道管理员</translation>
+        <translation>频道管理员</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="987"/>
         <source>Channel operator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">频道管理员</translation>
-    </message>
-    <message>
-        <source>Away</source>
-        <translation type="vanished">离开</translation>
+        <translation>频道管理员</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="963"/>
@@ -895,14 +891,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="972"/>
         <source>Webcam</source>
         <translation>视频</translation>
-    </message>
-    <message>
-        <source>Administrator</source>
-        <translation type="vanished">管理员</translation>
-    </message>
-    <message>
-        <source>Channel operator</source>
-        <translation type="vanished">频道管理员</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1163"/>
@@ -1237,14 +1225,14 @@ p, li { white-space: pre-wrap; }
         <location filename="../encryptionsetupdlg.ui" line="110"/>
         <location filename="../encryptionsetupdlg.ui" line="164"/>
         <source>Browse</source>
-        <translation type="unfinished">浏览</translation>
+        <translation>浏览</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="71"/>
         <location filename="../encryptionsetupdlg.ui" line="125"/>
         <location filename="../encryptionsetupdlg.ui" line="179"/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>重置</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="80"/>
@@ -2779,10 +2767,6 @@ p, li { white-space: pre-wrap; }
         <translation>%1 已登录</translation>
     </message>
     <message>
-        <source>%1 has logged out</source>
-        <translation type="vanished">%1 已登出</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2979"/>
         <location filename="../mainwindow.cpp" line="3029"/>
         <location filename="../mainwindow.cpp" line="4998"/>
@@ -3409,73 +3393,73 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5770"/>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation type="unfinished">管理员</translation>
+        <translation>管理员</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5770"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">管理员</translation>
+        <translation>管理员</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5774"/>
         <source>User</source>
         <comment>For female</comment>
-        <translation type="unfinished">用户</translation>
+        <translation>用户</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5774"/>
         <source>User</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">用户</translation>
+        <translation>用户</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5781"/>
         <source>Selected for move</source>
         <comment>For female</comment>
-        <translation type="unfinished">已选择移动</translation>
+        <translation>已选择移动</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5781"/>
         <source>Selected for move</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">已选择移动</translation>
+        <translation>已选择移动</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5784"/>
         <source>Channel operator</source>
         <comment>For female</comment>
-        <translation type="unfinished">频道管理员</translation>
+        <translation>频道管理员</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5784"/>
         <source>Channel operator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">频道管理员</translation>
+        <translation>频道管理员</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5792"/>
         <source>Available</source>
         <comment>For female</comment>
-        <translation type="unfinished">在线</translation>
+        <translation>在线</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5792"/>
         <source>Available</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">在线</translation>
+        <translation>在线</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5795"/>
         <source>Away</source>
         <comment>For female</comment>
-        <translation type="unfinished">离开</translation>
+        <translation>离开</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5795"/>
         <source>Away</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">离开</translation>
+        <translation>离开</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6147"/>
@@ -3594,12 +3578,6 @@ p, li { white-space: pre-wrap; }
         <translation>桌面 (%1) (&amp;D)</translation>
     </message>
     <message>
-        <source>The file %1 contains %2 setup information.
-Should these settings be applied?</source>
-        <translation type="vanished">文件 %1 包含 %2 的设置信息。
-您想要应用这些设置吗？</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="7293"/>
         <source>A new version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>%1 的新版本已发布： %2。您是否希望现在打开下载页面？</translation>
@@ -3614,7 +3592,9 @@ Should these settings be applied?</source>
         <source>New version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>新版本可用： %1<byte value="xd"/>
+您可在以下页面下载：<byte value="xd"/>
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7318"/>
@@ -3631,7 +3611,9 @@ You can download it on the page below:<byte value="xd"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>新测试版可用： %1<byte value="xd"/>
+您可在以下页面下载：<byte value="xd"/>
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7428"/>
@@ -3710,14 +3692,14 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="1140"/>
         <source>%1 has logged out</source>
         <comment>For female</comment>
-        <translation type="unfinished">%1 已登出</translation>
+        <translation>%1 已登出</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1138"/>
         <location filename="../mainwindow.cpp" line="1140"/>
         <source>%1 has logged out</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">%1 已登出</translation>
+        <translation>%1 已登出</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1589"/>
@@ -4079,10 +4061,6 @@ Do you wish to do this now?</source>
         <translation>排序方式...</translation>
     </message>
     <message>
-        <source>Available</source>
-        <translation type="vanished">在线</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="5848"/>
         <source>%1 users</source>
         <translation>%1 用户</translation>
@@ -4106,22 +4084,6 @@ Do you wish to do this now?</source>
         <location filename="../mainwindow.cpp" line="5963"/>
         <source>Ban User From Server</source>
         <translation>从服务器禁止用户</translation>
-    </message>
-    <message>
-        <source>New version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="vanished">新版本可用： %1
-您可在以下页面下载：
-%2</translation>
-    </message>
-    <message>
-        <source>New beta version available: %1
-You can download it on the page below:
-%2</source>
-        <translation type="vanished">新测试版可用： %1
-您可在以下页面下载：
-%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7410"/>
@@ -4274,26 +4236,6 @@ You can download it on the page below:
         <location filename="../mainwindow.cpp" line="5766"/>
         <source>Desktop</source>
         <translation>桌面</translation>
-    </message>
-    <message>
-        <source>Channel Operator</source>
-        <translation type="vanished">频道管理员</translation>
-    </message>
-    <message>
-        <source>Selected for move</source>
-        <translation type="vanished">已选择移动</translation>
-    </message>
-    <message>
-        <source>Administrator</source>
-        <translation type="vanished">管理员</translation>
-    </message>
-    <message>
-        <source>User</source>
-        <translation type="vanished">用户</translation>
-    </message>
-    <message>
-        <source>Away</source>
-        <translation type="vanished">离开</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5798"/>
@@ -4505,7 +4447,8 @@ You can download it on the page below:
         <location filename="../mainwindow.cpp" line="7212"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>文件 %1 包含 %2 设置信息。<byte value="xd"/>
+应该应用这些设置吗？</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7217"/>
@@ -8013,36 +7956,28 @@ Delete the published user account to unregister your server.</source>
         <translation>%1的信息</translation>
     </message>
     <message>
-        <source>Available</source>
-        <translation type="vanished">在线</translation>
-    </message>
-    <message>
-        <source>Away</source>
-        <translation type="vanished">离开</translation>
-    </message>
-    <message>
         <location filename="../userinfodlg.cpp" line="67"/>
         <source>Available</source>
         <comment>For female</comment>
-        <translation type="unfinished">在线</translation>
+        <translation>在线</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="67"/>
         <source>Available</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">在线</translation>
+        <translation>在线</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="69"/>
         <source>Away</source>
         <comment>For female</comment>
-        <translation type="unfinished">离开</translation>
+        <translation>离开</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="69"/>
         <source>Away</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">离开</translation>
+        <translation>离开</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="71"/>
@@ -8059,17 +7994,13 @@ Delete the published user account to unregister your server.</source>
         <location filename="../userinfodlg.cpp" line="90"/>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation type="unfinished">管理员</translation>
+        <translation>管理员</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="90"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">管理员</translation>
-    </message>
-    <message>
-        <source>Administrator</source>
-        <translation type="vanished">管理员</translation>
+        <translation>管理员</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="92"/>
