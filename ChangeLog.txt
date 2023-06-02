@@ -21,6 +21,7 @@ iOS Client
 - Support for verifying authenticity of encrypted TeamTalk servers using certificates
 Server
 - TeamTalk Pro server supports verifying client certificate
+- Fixed bug where it was possible to move a user, who was not logged in, into a channel
 
 Version 5.13.1, 2023/05/22
 Server
