@@ -128,7 +128,7 @@ namespace teamtalk {
         ACE_thread_t m_reactorlock_thr_id;
 
         int GetNewUserID();
-        serveruser_t GetUser(int userid, const ServerUser* caller);
+        serveruser_t GetUser(int userid, const ServerUser* caller, bool authenticated = true);
 
         ACE_Time_Value GetUptime() const;
         serverchannel_t& GetRootChannel();

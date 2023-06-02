@@ -676,6 +676,38 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
+    public void testMoveUserNoLogin() {
+        UserAccount useraccount = new UserAccount();
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.szNote = "An example user account with limited user-rights";
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
+            UserRight.USERRIGHT_MULTI_LOGIN |
+            UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
+            UserRight.USERRIGHT_MOVE_USERS;
+
+        useraccounts.add(useraccount);
+
+        TeamTalkSrv server = newServerInstance();
+        TeamTalkBase client1 = newClientInstance();
+        TeamTalkBase client2 = newClientInstance();
+
+        ServerInterleave interleave = new RunServer(server);
+
+        connect(server, client1);
+        login(server, client1, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(server, client1);
+
+        connect(server, client2);
+        int cmdid = client1.doMoveUser(client2.getMyUserID(), client1.getMyChannelID());
+        assertTrue("move user", waitCmdError(client1, cmdid, DEF_WAIT, interleave));
+    }
+
+    @Test
     public void testChannelUpdates() {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
@@ -1403,7 +1435,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         TeamTalkSrv server = newServerInstance("", "", srvcontext);
         ServerInterleave interleave = new RunServer(server);
-        
+
         final TeamTalkBase client = newClientInstance();
 
         EncryptionContext context = new EncryptionContext();
@@ -1443,9 +1475,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         TeamTalkSrv server = newServerInstance("", "", srvcontext);
         ServerInterleave interleave = new RunServer(server);
-        
+
         final TeamTalkBase client = newClientInstance();
-        
+
         EncryptionContext context = new EncryptionContext();
         context.szCAFile = CRYPTO_CA2_FILE;
         context.bVerifyPeer = true;
@@ -1485,7 +1517,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         TeamTalkSrv server = newServerInstance("", "", srvcontext);
         ServerInterleave interleave = new RunServer(server);
-        
+
         final TeamTalkBase client = newClientInstance();
 
         EncryptionContext context = new EncryptionContext();
@@ -1529,9 +1561,9 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         TeamTalkSrv server = newServerInstance("", "", srvcontext);
         ServerInterleave interleave = new RunServer(server);
-        
+
         final TeamTalkBase client = newClientInstance();
-        
+
         EncryptionContext context = new EncryptionContext();
         context.szCertificateFile = CRYPTO_CLIENT_CERT_EXPIRED_FILE;
         context.szPrivateKeyFile = CRYPTO_CLIENT_KEY_FILE;
