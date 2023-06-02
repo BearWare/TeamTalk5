@@ -441,7 +441,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../changestatusdlg.cpp" line="46"/>
         <source>&amp;Available</source>
         <comment>For female</comment>
-        <translation>&amp;Доступен</translation>
+        <translation>&amp;Доступна</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="47"/>
@@ -626,7 +626,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="701"/>
         <source>Kbps</source>
-        <translation>КБайт/сек</translation>
+        <translation>КБ/сек</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="721"/>
@@ -703,7 +703,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="147"/>
         <source>Create Channel</source>
-        <translation>Создать Канал</translation>
+        <translation>Создать канал</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="148"/>
@@ -862,7 +862,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="984"/>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation>Administrator</translation>
+        <translation>Администратор</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="984"/>
@@ -965,7 +965,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="216"/>
         <source>Disk quota: %1 KBytes</source>
-        <translation>Дисковая квота: %1 Кбайт</translation>
+        <translation>Дисковая квота: %1 КБ</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="374"/>
@@ -1403,7 +1403,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransferdlg.cpp" line="116"/>
         <source>%1 KBytes/second, last second %2 bytes</source>
-        <translation>%1 КБайт/сек, на данную секунду %2 байтов</translation>
+        <translation>%1 КБ/сек, на данную секунду %2 байт</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="143"/>
@@ -1524,7 +1524,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="241"/>
         <source>Key Combination</source>
-        <translation>Комбинация Клавиш</translation>
+        <translation>Комбинация клавиш</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="264"/>
@@ -1598,7 +1598,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../keycomp.ui" line="20"/>
         <location filename="../keycompdlg.cpp" line="58"/>
         <source>Key Combination</source>
-        <translation>Комбинация Клавиш</translation>
+        <translation>Комбинация клавиш</translation>
     </message>
     <message>
         <location filename="../keycomp.ui" line="29"/>
@@ -3134,7 +3134,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>%1 has logged in</source>
         <comment>For female</comment>
-        <translation type="obsolete">%1 Вошёл</translation>
+        <translation type="obsolete">%1 Вошла</translation>
     </message>
     <message>
         <source>%1 has logged in</source>
@@ -3146,7 +3146,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="1140"/>
         <source>%1 has logged out</source>
         <comment>For female</comment>
-        <translation>%1 Ушёл</translation>
+        <translation>%1 Ушла</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1138"/>
@@ -4207,7 +4207,7 @@ You can download it on the page below:
         <location filename="../mainwindow.cpp" line="5770"/>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation>Administrator</translation>
+        <translation>Администратор</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5770"/>
@@ -4231,7 +4231,7 @@ You can download it on the page below:
         <location filename="../mainwindow.cpp" line="5781"/>
         <source>Selected for move</source>
         <comment>For female</comment>
-        <translation>Выбран для перемещения</translation>
+        <translation>Выбрана для перемещения</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5781"/>
@@ -4255,7 +4255,7 @@ You can download it on the page below:
         <location filename="../mainwindow.cpp" line="5792"/>
         <source>Available</source>
         <comment>For female</comment>
-        <translation>Доступен</translation>
+        <translation>Доступна</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5792"/>
@@ -4946,7 +4946,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="315"/>
         <source>Key Combination</source>
-        <translation>Комбинация Клавиш</translation>
+        <translation>Комбинация клавиш</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="342"/>
@@ -4971,7 +4971,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="399"/>
         <source>Start minimized</source>
-        <translation>Запускать Свёрнутым</translation>
+        <translation>Запускать свёрнутым</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="406"/>
@@ -4991,12 +4991,12 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="427"/>
         <source>Show number of users in channel</source>
-        <translation>Показывать количество пользователей в канале</translation>
+        <translation>Показать количество пользователей в канале</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="434"/>
         <source>Show username instead of nickname</source>
-        <translation>Показывать имя пользователя вместо ника</translation>
+        <translation>Показать имя пользователя вместо ника</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="441"/>
@@ -5006,12 +5006,12 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="448"/>
         <source>Show emojis and text for channel/user state</source>
-        <translation>Показывать смайлики и текст для канала/состояния пользователя</translation>
+        <translation>Показать смайлики и текст для канала/состояния пользователя</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="455"/>
         <source>Show both server and channel name in window title</source>
-        <translation>Показывать как имя сервера, так и имя канала в заголовке окна</translation>
+        <translation>Показать как имя сервера, так и имя канала в заголовке окна</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="462"/>
@@ -5021,12 +5021,12 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="469"/>
         <source>Start video in popup dialog</source>
-        <translation>Запускать видео во всплывающем диалоге</translation>
+        <translation>показать видео во всплывающем диалоге</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="506"/>
         <source>Start desktops in popup dialog</source>
-        <translation>Запуск рабочих столов во всплывающем диалоге</translation>
+        <translation>Показать рабочие столы во всплывающем диалоге</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="513"/>
@@ -5036,7 +5036,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="584"/>
         <source>Show statusbar events in chat-window</source>
-        <translation>Показывать строку состояния событий в окне чата</translation>
+        <translation>Показать строку состояния событий в окне чата</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="621"/>
@@ -5255,7 +5255,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="710"/>
         <source>Show new version available in dialog box</source>
-        <translation>Показывать диалог о доступной новой версии</translation>
+        <translation>Показать диалог о доступности новой версии</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="591"/>
@@ -5265,7 +5265,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="575"/>
         <source>Show server list on startup</source>
-        <translation>Показывать список серверов при запуске</translation>
+        <translation>Показать список серверов при запуске</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="628"/>
@@ -5705,7 +5705,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferencesdlg.cpp" line="572"/>
         <source>Popularity</source>
-        <translation>наполняемости</translation>
+        <translation>по наполняемости</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="665"/>
@@ -5862,7 +5862,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="520"/>
         <source>Auto expand channels</source>
-        <translation>Автоматически развернуть каналы</translation>
+        <translation>разворачивать каналы</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="529"/>
@@ -5872,7 +5872,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="546"/>
         <source>Sort channels by</source>
-        <translation>Сортировка каналов по</translation>
+        <translation>Сортировать каналы</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="561"/>
@@ -5882,7 +5882,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="568"/>
         <source>Show a dialog box when excluded from channel or server</source>
-        <translation>Показывать диалоговое окно при исключении из канала или сервера</translation>
+        <translation>Показать диалоговое окно при исключении из канала или сервера</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="696"/>
@@ -5979,7 +5979,7 @@ You can download it on the page below:
     <message>
         <location filename="../serverlist.ui" line="99"/>
         <source>Include public servers (green ones)</source>
-        <translation>Показывать публичные серверы</translation>
+        <translation>Показать публичные серверы</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="120"/>
@@ -6505,7 +6505,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>переменные для установки статистики в сообщении дня: %users% количество  пользователей на сервере, %admins% количество администраторов на сервере, %uptime% время работы сервера, %voicetx% Кбайт получено, %voicerx% Кбайт отправлено и %lastuser% Последний активный пользователь.</translation>
+        <translation>переменные для установки статистики в сообщении дня: %users% количество  пользователей на сервере, %admins% количество администраторов на сервере, %uptime% время работы сервера, %voicetx% КБ получено, %voicerx% Кбайт отправлено и %lastuser% Последний активный пользователь.</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="122"/>
@@ -6544,7 +6544,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverproperties.ui" line="346"/>
         <location filename="../serverproperties.ui" line="373"/>
         <source>KBytes/sec (0 = disabled)</source>
-        <translation>Кбайт/сек (0 =Отключено)</translation>
+        <translation>КБ/сек (0 =Отключено)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="289"/>
@@ -6681,7 +6681,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstats.ui" line="52"/>
         <source>KBytes/sec</source>
-        <translation>Кбайт/сек</translation>
+        <translation>КБ/сек</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="69"/>
@@ -6696,7 +6696,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverstats.ui" line="248"/>
         <location filename="../serverstats.ui" line="281"/>
         <source>KBytes</source>
-        <translation>Кбайт</translation>
+        <translation>КБ</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="86"/>
@@ -7644,7 +7644,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="403"/>
         <source>kbps (0 = disabled)</source>
-        <translation>КБайт/сек 0 = отключено)</translation>
+        <translation>КБ/сек 0 = отключено)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="427"/>
@@ -7815,7 +7815,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../useraccounts.ui" line="272"/>
         <location filename="../useraccountsdlg.cpp" line="443"/>
         <source>Channel Operator</source>
-        <translation>Оператор Канала</translation>
+        <translation>Оператор канала</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="444"/>
@@ -8047,7 +8047,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../userinfodlg.cpp" line="67"/>
         <source>Available</source>
         <comment>For female</comment>
-        <translation>Доступен</translation>
+        <translation>Доступна</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="67"/>
@@ -8110,7 +8110,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="204"/>
         <source>User can see users in all channels</source>
-        <translation>Пользователь может видеть пользователей во всех каналах</translation>
+        <translation>Пользователь может видеть других во всех каналах</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="206"/>
