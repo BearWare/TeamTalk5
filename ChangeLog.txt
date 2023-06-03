@@ -9,6 +9,7 @@ Default Qt Client
 - Official and unofficial servers can automatically provide certificates
 - Generate .tt files with Certificate Authority (CA) certificate, client certificate and private key
 - Initial support for inclusive writing in some status and events
+- Selected communication sound device is now default in Windows
 Accessible Windows Client
 -
 Android Client
