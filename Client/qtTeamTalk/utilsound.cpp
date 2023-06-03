@@ -104,10 +104,34 @@ bool isSoundDeviceEchoCapable(const SoundDevice& indev, const SoundDevice& outde
     return getSoundDuplexSampleRate(indev, outdev) > 0 || (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_AEC);
 }
 
+int getDefaultSndCommunicationInputDevice()
+{
+    for (const auto& d : getSoundDevices())
+    {
+        if (d.nMaxInputChannels > 0 && (d.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DEFAULTCOMDEVICE))
+            return d.nDeviceID;
+    }
+    return SOUNDDEVICEID_DEFAULT;
+}
+
+int getDefaultSndCommunicationOutputDevice()
+{
+    for (const auto& d : getSoundDevices())
+    {
+        if (d.nMaxOutputChannels > 0 && (d.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DEFAULTCOMDEVICE))
+            return d.nDeviceID;
+    }
+    return SOUNDDEVICEID_DEFAULT;
+}
+
 int getDefaultSndInputDevice()
 {
+    int inputid = getDefaultSndCommunicationInputDevice();
+    if (inputid != SOUNDDEVICEID_DEFAULT)
+        return inputid;
+
     SoundSystem sndsys = SoundSystem(ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_NONE).toInt());
-    int inputid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL).toInt();
+    inputid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL).toInt();
     if (sndsys != SOUNDSYSTEM_NONE)
         TT_GetDefaultSoundDevicesEx(sndsys, &inputid, nullptr);
     else
@@ -117,8 +141,12 @@ int getDefaultSndInputDevice()
 
 int getDefaultSndOutputDevice()
 {
+    int outputid = getDefaultSndCommunicationOutputDevice();
+    if (outputid != SOUNDDEVICEID_DEFAULT)
+        return outputid;
+
     SoundSystem sndsys = (SoundSystem)ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_NONE).toInt();
-    int outputid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL).toInt();
+    outputid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL).toInt();
     if (sndsys != SOUNDSYSTEM_NONE)
         TT_GetDefaultSoundDevicesEx(sndsys, nullptr, &outputid);
     else
