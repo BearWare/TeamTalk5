@@ -24,14 +24,17 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "ui_mainwindow.h"
-
+#include <QLabel>
+#include <QMainWindow>
 #include <QMap>
-#include <QSet>
-#include <QQueue>
-#include <QSystemTrayIcon>
 #include <QNetworkAccessManager>
+#include <QProgressBar>
+#include <QQueue>
+#include <QSet>
 #include <QSortFilterProxyModel>
+#include <QSystemTrayIcon>
+
+#include <memory>
 
 #include "common.h"
 #include "textmessagecontainer.h"
@@ -90,6 +93,10 @@ enum
     TAB_COUNT
 };
 
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -124,7 +131,7 @@ protected:
 #endif
 #endif
 private:
-    Ui::MainWindow ui;
+    std::unique_ptr<Ui::MainWindow> ui;
     class FilesModel* m_filesmodel;
     QSortFilterProxyModel* m_proxyFilesModel;
     QSystemTrayIcon* m_sysicon;
