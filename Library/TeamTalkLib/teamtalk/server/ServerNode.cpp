@@ -1018,16 +1018,20 @@ void ServerNode::StopServer(bool docallback)
         m_srvguard->OnShutdown(m_stats);
 }
 
-serveruser_t ServerNode::GetUser(int userid, const ServerUser* caller)
+serveruser_t ServerNode::GetUser(int userid, const ServerUser* caller, bool authenticated/* = true*/)
 {
     ASSERT_REACTOR_LOCKED(this);
 
     //find user with userid
     mapusers_t::iterator ite = m_mUsers.find(userid);
     serveruser_t user;
-    if(ite != m_mUsers.end())
+    if (ite != m_mUsers.end())
+    {
         user = (*ite).second;
-    
+        if (authenticated && !user->IsAuthorized())
+            return serveruser_t();
+    }
+
     if (caller && user && caller != user.get())
     {
         if ((caller->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE &&
@@ -1495,8 +1499,10 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
         return;
     }
 
-    serveruser_t user = GetUser(packet.GetSrcUserID(), nullptr);
-    if(!user)
+    auto packetkind = packet.GetKind();
+
+    serveruser_t user = GetUser(packet.GetSrcUserID(), nullptr, packetkind != PACKET_KIND_HELLO && packetkind != PACKET_KIND_KEEPALIVE);
+    if (!user)
         return;
 
     //only allow packet to pass through if it's from the initial IP-address
@@ -1510,7 +1516,7 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
     }
 
     ACE_INET_Addr localaddr = ph->GetLocalAddr();
-    switch(packet.GetKind())
+    switch (packetkind)
     {
     case PACKET_KIND_HELLO :
         ReceivedHelloPacket(*user, HelloPacket(packet_data, packet_size),
@@ -2598,7 +2604,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
 {
     GUARD_OBJ(this, lock());
 
-    serveruser_t user = GetUser(userid, nullptr);
+    serveruser_t user = GetUser(userid, nullptr, false);
     TTASSERT(user);
     if(!user)
         return TT_CMDERR_USER_NOT_FOUND;
@@ -3099,7 +3105,7 @@ void ServerNode::UserDisconnected(int userid)
 {
     GUARD_OBJ(this, lock());
 
-    serveruser_t user = GetUser(userid, nullptr);
+    serveruser_t user = GetUser(userid, nullptr, false);
     TTASSERT(user);
     if(user)
     {
