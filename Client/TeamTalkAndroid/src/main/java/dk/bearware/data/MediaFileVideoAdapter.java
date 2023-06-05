@@ -32,6 +32,7 @@ import dk.bearware.User;
 import dk.bearware.UserState;
 import dk.bearware.VideoFrame;
 import dk.bearware.backend.TeamTalkService;
+import dk.bearware.events.ClientEventListener;
 import dk.bearware.events.UserListener;
 import dk.bearware.gui.Utils;
 import android.content.Context;
@@ -39,7 +40,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 public class MediaFileVideoAdapter extends MediaAdapter 
-implements UserListener {
+implements ClientEventListener.OnUserStateChangeListener, ClientEventListener.OnUserMediaFileVideoListener{
 
     public static final String TAG = "bearware";
 
@@ -50,7 +51,8 @@ implements UserListener {
     public void setTeamTalkService(TeamTalkService service) {
         super.setTeamTalkService(service);
         
-        service.registerUserListener(this);
+        service.getEventHandler().registerOnUserStateChange(this, true);
+        service.getEventHandler().registerOnUserMediaFileVideo(this, true);
 
         Vector<User> vecusers = Utils.getUsers(ttservice.getUsers());
         for(User user : vecusers) {
@@ -61,7 +63,7 @@ implements UserListener {
     
     public void clearTeamTalkService(TeamTalkService service) {
         super.clearTeamTalkService(service);
-        service.unregisterUserListener(this);
+        service.getEventHandler().unregisterListener(this);
     }
 
     @Override
@@ -96,10 +98,6 @@ implements UserListener {
     }
 
     @Override
-    public void onUserVideoCapture(int nUserID, int nStreamID) {
-    }
-
-    @Override
     public void onUserMediaFileVideo(int nUserID, int nStreamID) {
         //only update if user is expanded (bitmap is being displayed)
         if(media_sessions.indexOfKey(nUserID) >= 0)
@@ -107,21 +105,4 @@ implements UserListener {
         
         Log.d(TAG, "#" + nUserID + " video stream " + nStreamID);
     }
-
-    @Override
-    public void onUserDesktopWindow(int nUserID, int nStreamID) {
-    }
-
-    @Override
-    public void onUserDesktopCursor(int nUserID, DesktopInput desktopinput) {
-    }
-
-    @Override
-    public void onUserRecordMediaFile(int nUserID, MediaFileInfo mediafileinfo) {
-    }
-
-    @Override
-    public void onUserAudioBlock(int nUserID, int nStreamType) {
-    }
-
 }

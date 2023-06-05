@@ -23,21 +23,6 @@
 
 package dk.bearware.data;
 
-import java.nio.ByteBuffer;
-import java.util.LinkedList;
-import java.util.Vector;
-
-import dk.bearware.BitmapFormat;
-import dk.bearware.DesktopInput;
-import dk.bearware.DesktopWindow;
-import dk.bearware.MediaFileInfo;
-import dk.bearware.User;
-import dk.bearware.UserState;
-import dk.bearware.VideoFrame;
-import dk.bearware.backend.TeamTalkService;
-import dk.bearware.events.UserListener;
-import dk.bearware.gui.R;
-import dk.bearware.gui.Utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -50,9 +35,26 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.nio.ByteBuffer;
+import java.util.LinkedList;
+import java.util.Vector;
+
+import dk.bearware.BitmapFormat;
+import dk.bearware.DesktopWindow;
+import dk.bearware.User;
+import dk.bearware.UserState;
+import dk.bearware.VideoFrame;
+import dk.bearware.backend.TeamTalkService;
+import dk.bearware.events.ClientEventListener;
+import dk.bearware.gui.R;
+import dk.bearware.gui.Utils;
+
 public class MediaAdapter
 extends BaseExpandableListAdapter
-implements UserListener {
+implements ClientEventListener.OnUserStateChangeListener,
+ClientEventListener.OnUserVideoCaptureListener,
+ClientEventListener.OnUserMediaFileVideoListener,
+ClientEventListener.OnUserDesktopWindowListener {
 	
     public static final String TAG = "bearware";
 
@@ -78,9 +80,12 @@ implements UserListener {
         display_users.clear();
         media_sessions.clear();
         ttservice = service;
-        
-        service.registerUserListener(this);
-        
+
+        service.getEventHandler().registerOnUserStateChange(this, true);
+        service.getEventHandler().registerOnUserVideoCapture(this, true);
+        service.getEventHandler().registerOnUserMediaFileVideo(this, true);
+        service.getEventHandler().registerOnUserDesktopWindow(this, true);
+
         Vector<User> vecusers = Utils.getUsers(ttservice.getUsers());
         for(User user : vecusers) {
             if((user.uUserState & UserState.USERSTATE_DESKTOP) == UserState.USERSTATE_DESKTOP)
@@ -95,6 +100,8 @@ implements UserListener {
     public void clearTeamTalkService(TeamTalkService service) {
         display_users.clear();
         media_sessions.clear();
+
+        service.getEventHandler().unregisterListener(this);
         
         synchronized (updatequeue) {
             updatequeue.clear();
@@ -467,27 +474,5 @@ implements UserListener {
         if(media_sessions.indexOfKey(session_id) >= 0)
             updateUserBitmap(session_id);
 	}
-
-	@Override
-	public void onUserDesktopCursor(int nUserID, DesktopInput desktopinput) {
-	}
-
-    @Override
-    public void onUserDesktopInput(int i, DesktopInput desktopInput) {
-
-    }
-
-    @Override
-	public void onUserRecordMediaFile(int nUserID, MediaFileInfo mediafileinfo) {
-	}
-
-	@Override
-	public void onUserAudioBlock(int nUserID, int nStreamType) {
-	}
-
-    @Override
-    public void onUserFirstVoiceStreamPacket(User user, int i) {
-
-    }
 
 }

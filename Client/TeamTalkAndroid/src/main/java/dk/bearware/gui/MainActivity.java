@@ -95,18 +95,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
 
-import dk.bearware.AudioInputProgress;
-import dk.bearware.BannedUser;
 import dk.bearware.Channel;
-import dk.bearware.ClientErrorMsg;
 import dk.bearware.ClientFlag;
 import dk.bearware.ClientStatistics;
-import dk.bearware.DesktopInput;
-import dk.bearware.FileTransfer;
-import dk.bearware.MediaFileInfo;
 import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
-import dk.bearware.SoundDevice;
 import dk.bearware.SoundDeviceConstants;
 import dk.bearware.SoundLevel;
 import dk.bearware.TeamTalkBase;
@@ -129,23 +122,16 @@ import dk.bearware.data.Preferences;
 import dk.bearware.data.ServerEntry;
 import dk.bearware.data.TTSWrapper;
 import dk.bearware.data.TextMessageAdapter;
-import dk.bearware.events.ClientListener;
-import dk.bearware.events.CommandListener;
-import dk.bearware.events.ConnectionListener;
-import dk.bearware.events.UserListener;
+import dk.bearware.events.ClientEventListener;
 
 public class MainActivity
 extends AppCompatActivity
-implements TeamTalkConnectionListener, 
-        ConnectionListener, 
-        CommandListener, 
-        UserListener, 
-        ClientListener,
-        OnItemClickListener, 
-        OnItemLongClickListener, 
-        OnMenuItemClickListener, 
-        SensorEventListener, 
-        OnVoiceTransmissionToggleListener {
+        implements TeamTalkConnectionListener,
+        OnItemClickListener,
+        OnItemLongClickListener,
+        OnMenuItemClickListener,
+        SensorEventListener,
+        OnVoiceTransmissionToggleListener, ClientEventListener.OnConnectionLostListener, ClientEventListener.OnCmdProcessingListener, ClientEventListener.OnCmdMyselfLoggedInListener, ClientEventListener.OnCmdMyselfLoggedOutListener, ClientEventListener.OnCmdMyselfKickedFromChannelListener, ClientEventListener.OnCmdUserUpdateListener, ClientEventListener.OnCmdUserLeftChannelListener, ClientEventListener.OnCmdChannelNewListener, ClientEventListener.OnCmdUserTextMessageListener, ClientEventListener.OnCmdUserJoinedChannelListener, ClientEventListener.OnCmdChannelRemoveListener, ClientEventListener.OnCmdChannelUpdateListener, ClientEventListener.OnCmdUserLoggedOutListener, ClientEventListener.OnCmdUserLoggedInListener, ClientEventListener.OnCmdFileRemoveListener, ClientEventListener.OnUserStateChangeListener, ClientEventListener.OnVoiceActivationListener, ClientEventListener.OnCmdFileNewListener {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -1752,10 +1738,25 @@ private EditText newmsg;
                 ttservice.enablePhoneCallReaction();
         }
 
-        ttservice.registerConnectionListener(this);
-        ttservice.registerCommandListener(this);
-        ttservice.registerUserListener(this);
-        ttservice.registerClientListener(this);
+        ttservice.getEventHandler().registerOnConnectionLostListener(this, true);
+        ttservice.getEventHandler().registerOnCmdProcessing(this, true);
+        ttservice.getEventHandler().registerOnCmdMyselfLoggedIn(this, true);
+        ttservice.getEventHandler().registerOnCmdMyselfLoggedOut(this, true);
+        ttservice.getEventHandler().registerOnCmdMyselfKickedFromChannel(this, true);
+        ttservice.getEventHandler().registerOnCmdUserLoggedIn(this, true);
+        ttservice.getEventHandler().registerOnCmdUserLoggedOut(this, true);
+        ttservice.getEventHandler().registerOnCmdUserUpdate(this, true);
+        ttservice.getEventHandler().registerOnCmdUserJoinedChannel(this, true);
+        ttservice.getEventHandler().registerOnCmdUserLeftChannel(this, true);
+        ttservice.getEventHandler().registerOnCmdUserTextMessage(this, true);
+        ttservice.getEventHandler().registerOnCmdChannelNew(this, true);
+        ttservice.getEventHandler().registerOnCmdChannelUpdate(this, true);
+        ttservice.getEventHandler().registerOnCmdChannelRemove(this, true);
+        ttservice.getEventHandler().registerOnCmdFileNew(this, true);
+        ttservice.getEventHandler().registerOnCmdFileRemove(this, true);
+        ttservice.getEventHandler().registerOnUserStateChange(this, true);
+        ttservice.getEventHandler().registerOnVoiceActivation(this, true);
+
         ttservice.setOnVoiceTransmissionToggleListener(this);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -1793,10 +1794,9 @@ private EditText newmsg;
         if (wakeLock.isHeld())
             wakeLock.release();
         service.setOnVoiceTransmissionToggleListener(null);
-        service.unregisterConnectionListener(this);
-        service.unregisterCommandListener(this);
-        service.unregisterUserListener(this);
-        service.unregisterClientListener(this);
+
+        ttservice.getEventHandler().unregisterListener(this);
+
         filesAdapter.setTeamTalkService(null);
         mediaAdapter.clearTeamTalkService(service);
     }
@@ -1829,15 +1829,6 @@ private EditText newmsg;
             default:
                 break;
         }
-    }
-
-    @Override
-    public void onCmdError(int cmdId, ClientErrorMsg errmsg) {
-        // error is notified in service
-    }
-
-    @Override
-    public void onCmdSuccess(int cmdId) {
     }
 
     @Override
@@ -2114,10 +2105,6 @@ private EditText newmsg;
     }
 
     @Override
-    public void onCmdServerUpdate(ServerProperties serverproperties) {
-    }
-
-    @Override
     public void onCmdFileNew(RemoteFile remotefile) {
         filesAdapter.update();
         
@@ -2140,44 +2127,10 @@ private EditText newmsg;
     }
 
     @Override
-    public void onCmdUserAccount(UserAccount useraccount) {
-    }
-
-    @Override
-    public void onCmdBannedUser(BannedUser banneduser) {
-    }
-
-    @Override
-    public void onCmdUserAccountNew(UserAccount userAccount) {
-
-    }
-
-    @Override
-    public void onCmdUserAccountRemove(UserAccount userAccount) {
-
-    }
-
-    @Override
-    public void onConnectSuccess() {
-    }
-
-    @Override
-    public void onEncryptionError(int opensslErrorNo, ClientErrorMsg errmsg) {
-    }
-    
-    @Override
-    public void onConnectFailed() {
-    }
-
-    @Override
     public void onConnectionLost() {
         if(sounds.get(SOUND_SERVERLOST) != 0) {
             audioIcons.play(sounds.get(SOUND_SERVERLOST), 1.0f, 1.0f, 0, 0, 1.0f);
         }
-    }
-
-    @Override
-    public void onMaxPayloadUpdate(int payload_size) {
     }
 
     @Override
@@ -2189,41 +2142,6 @@ private EditText newmsg;
             accessibilityAssistant.unlockEvents();
         }
         
-    }
-
-    @Override
-    public void onUserVideoCapture(int nUserID, int nStreamID) {
-    }
-
-    @Override
-    public void onUserMediaFileVideo(int nUserID, int nStreamID) {
-    }
-
-    @Override
-    public void onUserDesktopWindow(int nUserID, int nStreamID) {
-
-    }
-
-    @Override
-    public void onUserDesktopCursor(int nUserID, DesktopInput desktopinput) {
-    }
-
-    @Override
-    public void onUserDesktopInput(int i, DesktopInput desktopInput) {
-
-    }
-
-    @Override
-    public void onUserRecordMediaFile(int nUserID, MediaFileInfo mediafileinfo) {
-    }
-
-    @Override
-    public void onUserAudioBlock(int nUserID, int nStreamType) {
-    }
-
-    @Override
-    public void onUserFirstVoiceStreamPacket(User user, int i) {
-
     }
 
     @Override
@@ -2262,10 +2180,6 @@ private EditText newmsg;
     }
 
     @Override
-    public void onInternalError(ClientErrorMsg clienterrormsg) {
-    }
-
-    @Override
     public void onVoiceActivation(boolean bVoiceActive) {
         adjustTxState(bVoiceActive);
 
@@ -2273,70 +2187,4 @@ private EditText newmsg;
         if (sound != 0)
             audioIcons.play(sound, 1.0f, 1.0f, 0, 0, 1.0f);
     }
-
-    @Override
-    public void onHotKeyToggle(int nHotKeyID, boolean bActive) {
-    }
-
-    @Override
-    public void onHotKeyTest(int nVkCode, boolean bActive) {
-    }
-
-    @Override
-    public void onFileTransfer(FileTransfer filetransfer) {
-    }
-
-    @Override
-    public void onDesktopWindowTransfer(int nSessionID, int nTransferRemaining) {
-    }
-
-    @Override
-    public void onLocalMediaFile(MediaFileInfo mediaFileInfo) {
-
-    }
-
-    @Override
-    public void onAudioInput(AudioInputProgress audioInputProgress, int i) {
-
-    }
-
-    @Override
-    public void onSoundDeviceAdded(SoundDevice soundDevice) {
-
-    }
-
-    @Override
-    public void onSoundDeviceRemoved(SoundDevice soundDevice) {
-
-    }
-
-    @Override
-    public void onSoundDeviceUnplugged(SoundDevice soundDevice) {
-
-    }
-
-    @Override
-    public void onSoundDeviceNewDefaultInput(SoundDevice soundDevice) {
-
-    }
-
-    @Override
-    public void onSoundDeviceNewDefaultOutput(SoundDevice soundDevice) {
-
-    }
-
-    @Override
-    public void onSoundDeviceNewDefaultInputComDevice(SoundDevice soundDevice) {
-
-    }
-
-    @Override
-    public void onSoundDeviceNewDefaultOutputComDevice(SoundDevice soundDevice) {
-
-    }
-
-    @Override
-    public void onStreamMediaFile(MediaFileInfo mediafileinfo) {
-    }
-
 }
