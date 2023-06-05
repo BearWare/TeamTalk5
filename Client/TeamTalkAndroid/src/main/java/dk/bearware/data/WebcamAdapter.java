@@ -32,13 +32,14 @@ import dk.bearware.User;
 import dk.bearware.UserState;
 import dk.bearware.VideoFrame;
 import dk.bearware.backend.TeamTalkService;
+import dk.bearware.events.ClientEventListener;
 import dk.bearware.events.UserListener;
 import dk.bearware.gui.Utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 
-public class WebcamAdapter extends MediaAdapter implements UserListener {
+public class WebcamAdapter extends MediaAdapter implements ClientEventListener.OnUserVideoCaptureListener {
 
     public static final String TAG = "bearware";
 
@@ -52,7 +53,7 @@ public class WebcamAdapter extends MediaAdapter implements UserListener {
     public void setTeamTalkService(TeamTalkService service) {
         super.setTeamTalkService(service);
 
-        service.registerUserListener(this);
+        service.getEventHandler().registerOnUserVideoCapture(this, true);
 
         Vector<User> vecusers = Utils.getUsers(service.getUsers());
         for(User user : vecusers) {
@@ -63,7 +64,7 @@ public class WebcamAdapter extends MediaAdapter implements UserListener {
 
     public void clearTeamTalkService(TeamTalkService service) {
         super.clearTeamTalkService(service);
-        service.unregisterUserListener(this);
+        service.getEventHandler().unregisterListener(this);
     }
 
     @Override
@@ -89,35 +90,10 @@ public class WebcamAdapter extends MediaAdapter implements UserListener {
     }
 
     @Override
-    public void onUserStateChange(User user) {
-//        this.updateUserStreamState(user, UserState.USERSTATE_VIDEOCAPTURE);
-    }
-
-    @Override
     public void onUserVideoCapture(int nUserID, int nStreamID) {
 //        Log.d(TAG, "New webcam frame from #" + nUserID + " stream " + nStreamID + " " + Integer.toHexString(this.hashCode()));
         // only update if user is expanded (bitmap is being displayed)
         if (media_sessions.indexOfKey(nUserID) >= 0)
             updateUserBitmap(nUserID);
-    }
-
-    @Override
-    public void onUserMediaFileVideo(int nUserID, int nStreamID) {
-    }
-
-    @Override
-    public void onUserDesktopWindow(int nUserID, int nStreamID) {
-    }
-
-    @Override
-    public void onUserDesktopCursor(int nUserID, DesktopInput desktopinput) {
-    }
-
-    @Override
-    public void onUserRecordMediaFile(int nUserID, MediaFileInfo mediafileinfo) {
-    }
-
-    @Override
-    public void onUserAudioBlock(int nUserID, int nStreamType) {
     }
 }

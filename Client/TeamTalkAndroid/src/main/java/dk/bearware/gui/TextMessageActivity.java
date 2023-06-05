@@ -36,25 +36,19 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import dk.bearware.BannedUser;
-import dk.bearware.Channel;
-import dk.bearware.ClientErrorMsg;
-import dk.bearware.RemoteFile;
-import dk.bearware.ServerProperties;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
 import dk.bearware.TextMsgType;
 import dk.bearware.User;
-import dk.bearware.UserAccount;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.MyTextMessage;
 import dk.bearware.data.TextMessageAdapter;
-import dk.bearware.events.CommandListener;
+import dk.bearware.events.ClientEventListener;
 
 public class TextMessageActivity
-extends AppCompatActivity implements TeamTalkConnectionListener, CommandListener {
+extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventListener.OnCmdUserTextMessageListener {
 
     public static final String TAG = "bearware";
     
@@ -171,11 +165,16 @@ extends AppCompatActivity implements TeamTalkConnectionListener, CommandListener
             }
         });
         
-        service.registerCommandListener(this);
+        service.getEventHandler().registerOnCmdUserTextMessage(this, true);
         
         updateTitle();
     }
-    
+
+    @Override
+    public void onServiceDisconnected(TeamTalkService service) {
+        service.getEventHandler().registerOnCmdUserTextMessage(this, false);
+    }
+
     void updateTitle() {
         String title = getResources().getString(R.string.title_activity_text_message);
         int userid = this.getIntent().getExtras().getInt(EXTRA_USERID);
@@ -188,109 +187,13 @@ extends AppCompatActivity implements TeamTalkConnectionListener, CommandListener
     }
 
     @Override
-    public void onServiceDisconnected(TeamTalkService service) {
-        service.unregisterCommandListener(this);
-    }
-
-    @Override
-    public void onCmdError(int cmdId, ClientErrorMsg errmsg) {
-    }
-
-    @Override
-    public void onCmdSuccess(int cmdId) {
-    }
-
-    @Override
-    public void onCmdProcessing(int cmdId, boolean complete) {
-    }
-
-    @Override
-    public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
-    }
-
-    @Override
-    public void onCmdMyselfLoggedOut() {
-    }
-
-    @Override
-    public void onCmdMyselfKickedFromChannel() {
-    }
-
-    @Override
-    public void onCmdMyselfKickedFromChannel(User kicker) {
-    }
-
-    @Override
-    public void onCmdUserLoggedIn(User user) {
-    }
-
-    @Override
-    public void onCmdUserLoggedOut(User user) {
-    }
-
-    @Override
-    public void onCmdUserUpdate(User user) {
-        updateTitle();
-    }
-
-    @Override
-    public void onCmdUserJoinedChannel(User user) {
-    }
-
-    @Override
-    public void onCmdUserLeftChannel(int channelid, User user) {
-    }
-
-    @Override
     public void onCmdUserTextMessage(TextMessage textmessage) {
-        int userid = this.getIntent().getExtras().getInt(EXTRA_USERID);
+        int userid = TextMessageActivity.this.getIntent().getExtras().getInt(EXTRA_USERID);
         if(adapter != null && textmessage.nFromUserID == userid &&
-           textmessage.nMsgType == TextMsgType.MSGTYPE_USER) {
+                textmessage.nMsgType == TextMsgType.MSGTYPE_USER) {
             accessibilityAssistant.lockEvents();
             adapter.notifyDataSetChanged();
             accessibilityAssistant.unlockEvents();
         }
-    }
-
-    @Override
-    public void onCmdChannelNew(Channel channel) {
-    }
-
-    @Override
-    public void onCmdChannelUpdate(Channel channel) {
-    }
-
-    @Override
-    public void onCmdChannelRemove(Channel channel) {
-    }
-
-    @Override
-    public void onCmdServerUpdate(ServerProperties serverproperties) {
-    }
-
-    @Override
-    public void onCmdFileNew(RemoteFile remotefile) {
-    }
-
-    @Override
-    public void onCmdFileRemove(RemoteFile remotefile) {
-    }
-
-    @Override
-    public void onCmdUserAccount(UserAccount useraccount) {
-    }
-
-    @Override
-    public void onCmdBannedUser(BannedUser banneduser) {
-    }
-
-    @Override
-    public void onCmdUserAccountNew(UserAccount userAccount) {
-
-    }
-
-    @Override
-    public void onCmdUserAccountRemove(UserAccount userAccount) {
-
     }
 }

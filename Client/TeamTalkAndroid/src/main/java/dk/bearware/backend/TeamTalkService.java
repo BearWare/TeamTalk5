@@ -23,60 +23,6 @@
 
 package dk.bearware.backend;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
-
-import dk.bearware.AudioInputProgress;
-import dk.bearware.AudioPreprocessor;
-import dk.bearware.AudioPreprocessorType;
-import dk.bearware.BannedUser;
-import dk.bearware.Channel;
-import dk.bearware.ClientErrorMsg;
-import dk.bearware.ClientEvent;
-import dk.bearware.ClientFlag;
-import dk.bearware.DesktopInput;
-import dk.bearware.EncryptionContext;
-import dk.bearware.FileTransfer;
-import dk.bearware.FileTransferStatus;
-import dk.bearware.MediaFileInfo;
-import dk.bearware.RemoteFile;
-import dk.bearware.ServerProperties;
-import dk.bearware.SoundDevice;
-import dk.bearware.SoundDeviceConstants;
-import dk.bearware.SoundLevel;
-import dk.bearware.StreamType;
-import dk.bearware.Subscription;
-import dk.bearware.TeamTalk5;
-import dk.bearware.TeamTalkBase;
-import dk.bearware.TextMessage;
-import dk.bearware.TextMsgType;
-import dk.bearware.User;
-import dk.bearware.UserAccount;
-import dk.bearware.MediaFileStatus;
-import dk.bearware.UserRight;
-import dk.bearware.WebRTCConstants;
-import dk.bearware.data.AppInfo;
-import dk.bearware.data.License;
-import dk.bearware.data.MyTextMessage;
-import dk.bearware.data.Preferences;
-import dk.bearware.data.ServerEntry;
-import dk.bearware.data.UserCached;
-import dk.bearware.events.ClientListener;
-import dk.bearware.events.CommandListener;
-import dk.bearware.events.ConnectionListener;
-import dk.bearware.events.TeamTalkEventHandler;
-import dk.bearware.events.UserListener;
-import dk.bearware.gui.CmdComplete;
-import dk.bearware.gui.MainActivity;
-import dk.bearware.gui.MediaButtonEventReceiver;
-import dk.bearware.gui.R;
-import dk.bearware.gui.Utils;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -109,6 +55,14 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -117,8 +71,72 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import dk.bearware.AudioPreprocessor;
+import dk.bearware.AudioPreprocessorType;
+import dk.bearware.Channel;
+import dk.bearware.ClientErrorMsg;
+import dk.bearware.ClientEvent;
+import dk.bearware.ClientFlag;
+import dk.bearware.EncryptionContext;
+import dk.bearware.FileTransfer;
+import dk.bearware.FileTransferStatus;
+import dk.bearware.MediaFileInfo;
+import dk.bearware.MediaFileStatus;
+import dk.bearware.RemoteFile;
+import dk.bearware.ServerProperties;
+import dk.bearware.SoundDeviceConstants;
+import dk.bearware.SoundLevel;
+import dk.bearware.StreamType;
+import dk.bearware.Subscription;
+import dk.bearware.TeamTalk5;
+import dk.bearware.TeamTalkBase;
+import dk.bearware.TextMessage;
+import dk.bearware.TextMsgType;
+import dk.bearware.User;
+import dk.bearware.UserAccount;
+import dk.bearware.UserRight;
+import dk.bearware.WebRTCConstants;
+import dk.bearware.data.AppInfo;
+import dk.bearware.data.License;
+import dk.bearware.data.MyTextMessage;
+import dk.bearware.data.Preferences;
+import dk.bearware.data.ServerEntry;
+import dk.bearware.data.UserCached;
+import dk.bearware.events.ClientEventListener;
+import dk.bearware.events.TeamTalkEventHandler;
+import dk.bearware.gui.CmdComplete;
+import dk.bearware.gui.MainActivity;
+import dk.bearware.gui.MediaButtonEventReceiver;
+import dk.bearware.gui.R;
+import dk.bearware.gui.Utils;
+
 public class TeamTalkService extends Service
-implements CommandListener, UserListener, ConnectionListener, ClientListener, BluetoothHeadsetHelper.HeadsetConnectionListener {
+        implements BluetoothHeadsetHelper.HeadsetConnectionListener,
+        ClientEventListener.OnConnectSuccessListener,
+        ClientEventListener.OnConnectFailedListener,
+        ClientEventListener.OnConnectionLostListener,
+        ClientEventListener.OnEncryptionErrorListener,
+        ClientEventListener.OnCmdSuccessListener,
+        ClientEventListener.OnCmdProcessingListener,
+        ClientEventListener.OnCmdMyselfLoggedInListener,
+        ClientEventListener.OnCmdMyselfKickedFromChannelListener,
+        ClientEventListener.OnCmdErrorListener,
+        ClientEventListener.OnCmdUserLoggedInListener,
+        ClientEventListener.OnCmdUserLoggedOutListener,
+        ClientEventListener.OnCmdUserUpdateListener,
+        ClientEventListener.OnCmdUserJoinedChannelListener,
+        ClientEventListener.OnCmdUserLeftChannelListener,
+        ClientEventListener.OnCmdUserTextMessageListener,
+        ClientEventListener.OnCmdChannelNewListener,
+        ClientEventListener.OnCmdChannelRemoveListener,
+        ClientEventListener.OnCmdServerUpdateListener,
+        ClientEventListener.OnCmdChannelUpdateListener,
+        ClientEventListener.OnCmdFileNewListener,
+        ClientEventListener.OnCmdFileRemoveListener,
+        ClientEventListener.OnUserStateChangeListener,
+        ClientEventListener.OnVoiceActivationListener,
+        ClientEventListener.OnFileTransferListener,
+        ClientEventListener.OnStreamMediaFileListener {
 
     public static final String CANCEL_TRANSFER = "cancel_transfer";
 
@@ -199,10 +217,34 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         inPhoneCall = false;
 
         //register self as event handler so 'users' and 'channels' can be updated
-        mEventHandler.addConnectionListener(this);
-        mEventHandler.addClientListener(this);
-        mEventHandler.addCommandListener(this);
-        mEventHandler.addUserListener(this);
+        mEventHandler.registerOnConnectSuccessListener(this, true);
+        mEventHandler.registerOnConnectFailedListener(this, true);
+        mEventHandler.registerOnConnectionLostListener(this, true);
+        mEventHandler.registerOnEncryptionErrorListener(this, true);
+
+        mEventHandler.registerOnCmdError(this, true);
+        mEventHandler.registerOnCmdSuccess(this, true);
+        mEventHandler.registerOnCmdProcessing(this, true);
+        mEventHandler.registerOnCmdMyselfLoggedIn(this, true);
+        mEventHandler.registerOnCmdMyselfKickedFromChannel(this, true);
+        mEventHandler.registerOnCmdUserLoggedIn(this,true);
+        mEventHandler.registerOnCmdUserLoggedOut(this, true);
+        mEventHandler.registerOnCmdUserUpdate(this, true);
+        mEventHandler.registerOnCmdUserJoinedChannel(this, true);
+        mEventHandler.registerOnCmdUserLeftChannel(this, true);
+        mEventHandler.registerOnCmdUserTextMessage(this, true);
+        mEventHandler.registerOnCmdChannelNew(this, true);
+        mEventHandler.registerOnCmdChannelUpdate(this, true);
+        mEventHandler.registerOnCmdChannelRemove(this, true);
+        mEventHandler.registerOnCmdServerUpdate(this, true);
+        mEventHandler.registerOnCmdFileNew(this, true);
+        mEventHandler.registerOnCmdFileRemove(this, true);
+
+        mEventHandler.registerOnUserStateChange(this, true);
+
+        mEventHandler.registerOnVoiceActivation(this, true);
+        mEventHandler.registerOnFileTransfer(this, true);
+        mEventHandler.registerOnStreamMediaFile(this, true);
 
         //create timer to process 'mEventHandler'
         createEventTimer();
@@ -257,10 +299,8 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
     @Override
     public void onDestroy() {
         eventTimer.cancel();
-        mEventHandler.removeConnectionListener(this);
-        mEventHandler.removeClientListener(this);
-        mEventHandler.removeCommandListener(this);
-        mEventHandler.removeUserListener(this);
+
+        mEventHandler.unregisterListener(this);
         disablePhoneCallReaction();
         unwatchBluetoothHeadset();
 
@@ -424,6 +464,8 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         return ttclient;
     }
 
+    public TeamTalkEventHandler getEventHandler() { return mEventHandler; }
+
     public ServerEntry getServerEntry() {
         return ttserver;
     }
@@ -437,8 +479,6 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
     public void setJoinChannel(Channel channel) {
         joinchannel = channel;
     }
-
-
 
     public void setOnVoiceTransmissionToggleListener(OnVoiceTransmissionToggleListener listener) {
         onVoiceTransmissionToggleListener = listener;
@@ -683,38 +723,6 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         reconnectHandler.removeCallbacks(reconnectTimer);
         reconnectHandler.postDelayed(reconnectTimer, delayMsec);
     }
-    
-    public void registerConnectionListener(ConnectionListener l) {
-        mEventHandler.addConnectionListener(l);
-    }
-
-    public void registerCommandListener(CommandListener l) {
-        mEventHandler.addCommandListener(l);
-    }
-
-    public void registerUserListener(UserListener l) {
-        mEventHandler.addUserListener(l);
-    }
-
-    public void registerClientListener(ClientListener l) {
-        mEventHandler.addClientListener(l);
-    }
-    
-    public void unregisterConnectionListener(ConnectionListener l) {
-        mEventHandler.removeConnectionListener(l);
-    }
-
-    public void unregisterCommandListener(CommandListener l) {
-        mEventHandler.removeCommandListener(l);
-    }
-
-    public void unregisterUserListener(UserListener l) {
-        mEventHandler.removeUserListener(l);
-    }
-
-    public void unregisterClientListener(ClientListener l) {
-        mEventHandler.removeClientListener(l);
-    }
 
     private void login() {
 
@@ -803,10 +811,6 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
     }
 
     @Override
-    public void onMaxPayloadUpdate(int payload_size) {
-    }
-
-    @Override
     public void onCmdError(int cmdId, ClientErrorMsg errmsg) {
         
         Utils.notifyError(this, errmsg);
@@ -889,10 +893,6 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
             getResources().getString(R.string.text_cmd_loggedin));
         getChatLogTextMsgs().add(msg);
-    }
-
-    @Override
-    public void onCmdMyselfLoggedOut() {
     }
 
     @Override
@@ -1109,73 +1109,10 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         users.put(user.nUserID, user);
     }
 
-    @Override
-    public void onUserVideoCapture(int nUserID, int nStreamID) {
-    }
-
-    @Override
-    public void onUserMediaFileVideo(int nUserID, int nStreamID) {
-    }
-
-    @Override
-    public void onUserDesktopWindow(int nUserID, int nStreamID) {
-    }
-
-    @Override
-    public void onUserDesktopCursor(int nUserID, DesktopInput desktopinput) {
-    }
-
-    @Override
-    public void onUserDesktopInput(int i, DesktopInput desktopInput) {
-
-    }
-
-    @Override
-    public void onUserRecordMediaFile(int nUserID, MediaFileInfo mediafileinfo) {
-    }
-
-    @Override
-    public void onUserAudioBlock(int nUserID, int nStreamType) {
-    }
-
-    @Override
-    public void onUserFirstVoiceStreamPacket(User user, int i) {
-
-    }
-
-    @Override
-    public void onCmdUserAccount(UserAccount useraccount) {
-    }
-
-    @Override
-    public void onCmdBannedUser(BannedUser banneduser) {
-    }
-
-    @Override
-    public void onCmdUserAccountNew(UserAccount userAccount) {
-
-    }
-
-    @Override
-    public void onCmdUserAccountRemove(UserAccount userAccount) {
-
-    }
-
-    @Override
-    public void onInternalError(ClientErrorMsg clienterrormsg) {
-    }
 
     @Override
     public void onVoiceActivation(boolean bVoiceActive) {
         adjustMuteOnTx(bVoiceActive);
-    }
-
-    @Override
-    public void onHotKeyToggle(int nHotKeyID, boolean bActive) {
-    }
-
-    @Override
-    public void onHotKeyTest(int nVkCode, boolean bActive) {
     }
 
     @Override
@@ -1186,10 +1123,6 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
         else {
             fileTransfers.remove(transfer.nTransferID);
         }
-    }
-
-    @Override
-    public void onDesktopWindowTransfer(int nSessionID, int nTransferRemaining) {
     }
 
     @Override
@@ -1214,52 +1147,6 @@ implements CommandListener, UserListener, ConnectionListener, ClientListener, Bl
                 break;
         }
     }
-
-    @Override
-    public void onLocalMediaFile(MediaFileInfo mediaFileInfo) {
-
-    }
-
-    @Override
-    public void onAudioInput(AudioInputProgress audioInputProgress, int i) {
-
-    }
-
-    @Override
-    public void onSoundDeviceAdded(SoundDevice soundDevice) {
-
-    }
-
-    @Override
-    public void onSoundDeviceRemoved(SoundDevice soundDevice) {
-
-    }
-
-    @Override
-    public void onSoundDeviceUnplugged(SoundDevice soundDevice) {
-
-    }
-
-    @Override
-    public void onSoundDeviceNewDefaultInput(SoundDevice soundDevice) {
-
-    }
-
-    @Override
-    public void onSoundDeviceNewDefaultOutput(SoundDevice soundDevice) {
-
-    }
-
-    @Override
-    public void onSoundDeviceNewDefaultInputComDevice(SoundDevice soundDevice) {
-
-    }
-
-    @Override
-    public void onSoundDeviceNewDefaultOutputComDevice(SoundDevice soundDevice) {
-
-    }
-
 
     @Override
     public void onHeadsetConnected() {

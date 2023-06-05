@@ -23,28 +23,6 @@
 
 package dk.bearware.data;
 
-import java.io.File;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
-
-import dk.bearware.AudioInputProgress;
-import dk.bearware.Channel;
-import dk.bearware.ClientErrorMsg;
-import dk.bearware.FileTransfer;
-import dk.bearware.FileTransferStatus;
-import dk.bearware.MediaFileInfo;
-import dk.bearware.RemoteFile;
-import dk.bearware.SoundDevice;
-import dk.bearware.TeamTalkBase;
-import dk.bearware.backend.TeamTalkService;
-import dk.bearware.events.ClientListener;
-import dk.bearware.gui.AccessibilityAssistant;
-import dk.bearware.gui.R;
-import dk.bearware.gui.Utils;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -65,9 +43,27 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
+
+import dk.bearware.Channel;
+import dk.bearware.FileTransfer;
+import dk.bearware.FileTransferStatus;
+import dk.bearware.RemoteFile;
+import dk.bearware.TeamTalkBase;
+import dk.bearware.backend.TeamTalkService;
+import dk.bearware.events.ClientEventListener;
+import dk.bearware.gui.AccessibilityAssistant;
+import dk.bearware.gui.R;
+import dk.bearware.gui.Utils;
+
 public class FileListAdapter
 extends BaseAdapter
-implements ClientListener, Comparator<RemoteFile> {
+implements Comparator<RemoteFile>, ClientEventListener.OnFileTransferListener {
 
     private static final int REMOTE_FILE_VIEW_TYPE = 0,
         FILE_TRANSFER_VIEW_TYPE = 1,
@@ -135,10 +131,10 @@ implements ClientListener, Comparator<RemoteFile> {
         downloads.clear();
         uploads.clear();
         if (ttService != null)
-            ttService.unregisterClientListener(this);
+            ttService.getEventHandler().unregisterListener(this);
         if (service != null) {
             ttClient = service.getTTInstance();
-            service.registerClientListener(this);
+            service.getEventHandler().registerOnFileTransfer(this, true);
         }
         ttService = service;
     }
@@ -342,68 +338,6 @@ implements ClientListener, Comparator<RemoteFile> {
         convertView.setAccessibilityDelegate(accessibilityAssistant);
         return convertView;
     }
-
-    @Override
-    public void onLocalMediaFile(MediaFileInfo mediaFileInfo) {
-
-    }
-
-    @Override
-    public void onAudioInput(AudioInputProgress audioInputProgress, int i) {
-
-    }
-
-    @Override
-    public void onSoundDeviceAdded(SoundDevice soundDevice) {
-
-    }
-
-    @Override
-    public void onSoundDeviceRemoved(SoundDevice soundDevice) {
-
-    }
-
-    @Override
-    public void onSoundDeviceUnplugged(SoundDevice soundDevice) {
-
-    }
-
-    @Override
-    public void onSoundDeviceNewDefaultInput(SoundDevice soundDevice) {
-
-    }
-
-    @Override
-    public void onSoundDeviceNewDefaultOutput(SoundDevice soundDevice) {
-
-    }
-
-    @Override
-    public void onSoundDeviceNewDefaultInputComDevice(SoundDevice soundDevice) {
-
-    }
-
-    @Override
-    public void onSoundDeviceNewDefaultOutputComDevice(SoundDevice soundDevice) {
-
-    }
-
-    @Override
-    public void onInternalError(ClientErrorMsg clienterrormsg) {
-    }
-
-    @Override
-    public void onVoiceActivation(boolean bVoiceActive) {
-    }
-
-    @Override
-    public void onHotKeyToggle(int nHotKeyID, boolean bActive) {
-    }
-
-    @Override
-    public void onHotKeyTest(int nVkCode, boolean bActive) {
-    }
-
     @SuppressLint("NewApi") @SuppressWarnings("fallthrough")
     @Override
     public void onFileTransfer(FileTransfer transfer) {
@@ -494,15 +428,6 @@ implements ClientListener, Comparator<RemoteFile> {
             }
         }
     }
-
-    @Override
-    public void onDesktopWindowTransfer(int nSessionID, int nTransferRemaining) {
-    }
-
-    @Override
-    public void onStreamMediaFile(MediaFileInfo mediafileinfo) {
-    }
-
 
     @Override
     public int compare(RemoteFile f1, RemoteFile f2) {

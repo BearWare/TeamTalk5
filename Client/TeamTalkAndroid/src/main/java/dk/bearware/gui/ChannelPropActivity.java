@@ -36,6 +36,7 @@ import dk.bearware.UserAccount;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
+import dk.bearware.events.ClientEventListener;
 import dk.bearware.events.CommandListener;
 import android.content.Context;
 import android.content.Intent;
@@ -52,7 +53,7 @@ import android.widget.Toast;
 
 public class ChannelPropActivity
 extends AppCompatActivity
-implements TeamTalkConnectionListener, CommandListener {
+implements TeamTalkConnectionListener, ClientEventListener.OnCmdErrorListener, ClientEventListener.OnCmdSuccessListener {
 
     public static final String TAG = "bearware";
 
@@ -244,7 +245,8 @@ implements TeamTalkConnectionListener, CommandListener {
         ttservice = service;
         ttclient = ttservice.getTTInstance();
 
-        service.registerCommandListener(ChannelPropActivity.this);
+        service.getEventHandler().registerOnCmdError(this, true);
+        service.getEventHandler().registerOnCmdSuccess(this, true);
 
         if (channel == null) {
             int channelid = getIntent().getExtras().getInt(EXTRA_CHANNELID);
@@ -285,7 +287,7 @@ implements TeamTalkConnectionListener, CommandListener {
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
-        service.unregisterCommandListener(ChannelPropActivity.this);            
+        service.getEventHandler().unregisterListener(this);
     }
 
     int updateCmdId = 0;
@@ -301,91 +303,5 @@ implements TeamTalkConnectionListener, CommandListener {
     public void onCmdSuccess(int cmdId) {
         setResult(RESULT_OK);
         finish();
-    }
-
-    @Override
-    public void onCmdProcessing(int cmdId, boolean complete) {
-    }
-
-    @Override
-    public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
-    }
-
-    @Override
-    public void onCmdMyselfLoggedOut() {
-    }
-
-    @Override
-    public void onCmdMyselfKickedFromChannel() {
-    }
-
-    @Override
-    public void onCmdMyselfKickedFromChannel(User kicker) {
-    }
-
-    @Override
-    public void onCmdUserLoggedIn(User user) {
-    }
-
-    @Override
-    public void onCmdUserLoggedOut(User user) {
-    }
-
-    @Override
-    public void onCmdUserUpdate(User user) {
-    }
-
-    @Override
-    public void onCmdUserJoinedChannel(User user) {
-    }
-
-    @Override
-    public void onCmdUserLeftChannel(int channelid, User user) {
-    }
-
-    @Override
-    public void onCmdUserTextMessage(TextMessage textmessage) {
-    }
-
-    @Override
-    public void onCmdChannelNew(Channel channel) {
-    }
-
-    @Override
-    public void onCmdChannelUpdate(Channel channel) {
-    }
-
-    @Override
-    public void onCmdChannelRemove(Channel channel) {
-    }
-
-    @Override
-    public void onCmdServerUpdate(ServerProperties serverproperties) {
-    }
-
-    @Override
-    public void onCmdFileNew(RemoteFile remotefile) {
-    }
-
-    @Override
-    public void onCmdFileRemove(RemoteFile remotefile) {
-    }
-
-    @Override
-    public void onCmdUserAccount(UserAccount useraccount) {
-    }
-
-    @Override
-    public void onCmdBannedUser(BannedUser banneduser) {
-    }
-
-    @Override
-    public void onCmdUserAccountNew(UserAccount userAccount) {
-
-    }
-
-    @Override
-    public void onCmdUserAccountRemove(UserAccount userAccount) {
-
     }
 }

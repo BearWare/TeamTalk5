@@ -42,25 +42,20 @@ import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 
-import dk.bearware.BannedUser;
-import dk.bearware.Channel;
-import dk.bearware.ClientErrorMsg;
-import dk.bearware.RemoteFile;
-import dk.bearware.ServerProperties;
 import dk.bearware.TeamTalkBase;
-import dk.bearware.TextMessage;
-import dk.bearware.User;
 import dk.bearware.UserAccount;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
 import dk.bearware.data.AppInfo;
 import dk.bearware.data.ServerEntry;
-import dk.bearware.events.CommandListener;
+import dk.bearware.events.ClientEventListener;
 
 public class ServerEntryActivity
 extends AppCompatActivity
-implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListener {
+implements OnPreferenceChangeListener,
+        TeamTalkConnectionListener,
+        ClientEventListener.OnCmdMyselfLoggedInListener {
 
     public static final String TAG = "bearware";
 
@@ -113,7 +108,7 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
             ttservice.resetState();
             ttclient.closeSoundInputDevice();
             ttclient.closeSoundOutputDevice();
-            ttservice.registerCommandListener(this);
+            ttservice.getEventHandler().registerOnCmdMyselfLoggedIn(this, true);
         }
     }
 
@@ -121,7 +116,7 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
     protected void onPause() {
         super.onPause();
         if (mConnection.isBound())
-            ttservice.unregisterCommandListener(this);
+            ttservice.getEventHandler().registerOnCmdMyselfLoggedIn(this, false);
     }
 
     @Override
@@ -309,24 +304,12 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
     public void onServiceConnected(TeamTalkService service) {
         ttservice = service;
         ttclient = service.getTTInstance();
-        service.registerCommandListener(this);
+        service.getEventHandler().registerOnCmdMyselfLoggedIn(this, true);
     }
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
-        service.unregisterCommandListener(this);
-    }
-
-    @Override
-    public void onCmdError(int cmdId, ClientErrorMsg errmsg) {
-    }
-
-    @Override
-    public void onCmdSuccess(int cmdId) {
-    }
-
-    @Override
-    public void onCmdProcessing(int cmdId, boolean complete) {
+        service.getEventHandler().unregisterListener(this);
     }
 
     @Override
@@ -334,85 +317,6 @@ implements OnPreferenceChangeListener, TeamTalkConnectionListener, CommandListen
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
         startActivity(intent.putExtra(ServerEntry.KEY_SERVERNAME, serverentry.servername));
     }
-
-    @Override
-    public void onCmdMyselfLoggedOut() {
-    }
-
-    @Override
-    public void onCmdMyselfKickedFromChannel() {
-    }
-
-    @Override
-    public void onCmdMyselfKickedFromChannel(User kicker) {
-    }
-
-    @Override
-    public void onCmdUserLoggedIn(User user) {
-    }
-
-    @Override
-    public void onCmdUserLoggedOut(User user) {
-    }
-
-    @Override
-    public void onCmdUserUpdate(User user) {
-    }
-
-    @Override
-    public void onCmdUserJoinedChannel(User user) {
-    }
-
-    @Override
-    public void onCmdUserLeftChannel(int channelid, User user) {
-    }
-
-    @Override
-    public void onCmdUserTextMessage(TextMessage textmessage) {
-    }
-
-    @Override
-    public void onCmdChannelNew(Channel channel) {
-    }
-
-    @Override
-    public void onCmdChannelUpdate(Channel channel) {
-    }
-
-    @Override
-    public void onCmdChannelRemove(Channel channel) {
-    }
-
-    @Override
-    public void onCmdServerUpdate(ServerProperties serverproperties) {
-    }
-
-    @Override
-    public void onCmdFileNew(RemoteFile remotefile) {
-    }
-
-    @Override
-    public void onCmdFileRemove(RemoteFile remotefile) {
-    }
-
-    @Override
-    public void onCmdUserAccount(UserAccount useraccount) {
-    }
-
-    @Override
-    public void onCmdBannedUser(BannedUser banneduser) {
-    }
-
-    @Override
-    public void onCmdUserAccountNew(UserAccount userAccount) {
-
-    }
-
-    @Override
-    public void onCmdUserAccountRemove(UserAccount userAccount) {
-
-    }
-
 
     private Preference findPreference(CharSequence key) {
         return ((PreferenceFragmentCompat) getSupportFragmentManager().findFragmentById(android.R.id.content)).findPreference(key);
