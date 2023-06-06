@@ -776,3 +776,9 @@
 
 /* log entry */
 "Command failed: %@" = "Command failed: %@";
+
+/* connect to a server */
+"Connect to Server" = "Connect to Server";
+
+/* connect to a server */
+"Failed to setup encryption" = "Failed to setup encryption";

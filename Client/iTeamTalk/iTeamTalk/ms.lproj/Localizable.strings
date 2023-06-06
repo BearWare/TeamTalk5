@@ -162,6 +162,9 @@
 /* serverlist */
 "Connect to server" = "Sambung ke server";
 
+/* connect to a server */
+"Connect to Server" = "Connect to Server";
+
 /* preferences
    server entry */
 "Connection" = "Sambungan";
@@ -227,6 +230,9 @@
 
 /* Dialog message */
 "Facebook login was cancelled" = "Log masuk Facebook telah dibatalkan";
+
+/* connect to a server */
+"Failed to setup encryption" = "Failed to setup encryption";
 
 /* preferences */
 "Female" = "Wanita";

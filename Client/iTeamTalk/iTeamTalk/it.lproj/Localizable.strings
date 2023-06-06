@@ -162,6 +162,9 @@
 /* serverlist */
 "Connect to server" = "Connettiti al server";
 
+/* connect to a server */
+"Connect to Server" = "Connect to Server";
+
 /* preferences
    server entry */
 "Connection" = "Connessione";
@@ -227,6 +230,9 @@
 
 /* Dialog message */
 "Facebook login was cancelled" = "L'accesso a Facebook è stato annullato";
+
+/* connect to a server */
+"Failed to setup encryption" = "Failed to setup encryption";
 
 /* preferences */
 "Female" = "Femmina";

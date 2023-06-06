@@ -158,6 +158,9 @@
 /* serverlist */
 "Connect to server" = "الاتصال بالخادم";
 
+/* connect to a server */
+"Connect to Server" = "Connect to Server";
+
 /* preferences
    server entry */
 "Connection" = "الاتصال";
@@ -223,6 +226,9 @@
 
 /* Dialog message */
 "Facebook login was cancelled" = "تم إلغاء تسجيل الدخول عبر ال Facebook";
+
+/* connect to a server */
+"Failed to setup encryption" = "Failed to setup encryption";
 
 /* preferences */
 "Female" = "أنثى";

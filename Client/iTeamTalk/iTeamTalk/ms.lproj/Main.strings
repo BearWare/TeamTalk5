@@ -89,7 +89,7 @@
 "Fu9-tA-eYj.text" = "Kosong";
 
 /* Class = "UIViewController"; title = "Chat Channel"; ObjectID = "gA8-TJ-0RU"; */
-"gA8-TJ-0RU.title" ="Teks Mesej di saluran";
+"gA8-TJ-0RU.title" = "Teks Mesej di saluran";
 
 /* Class = "UILabel"; text = "Show public servers in server list"; ObjectID = "GeK-hh-gst"; */
 "GeK-hh-gst.text" = "Tunjukkan Server Publik dalam senarai server";
