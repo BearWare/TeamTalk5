@@ -221,12 +221,6 @@
 /* preferences */
 "Exclusive Mode Toggled" = "تبديل الوضع الحصري";
 
-/* server entry */
-"Facebook Login" = "تسجيل الدخول عبر ال Facebook";
-
-/* Dialog message */
-"Facebook login was cancelled" = "تم إلغاء تسجيل الدخول عبر ال Facebook";
-
 /* connect to a server */
 "Failed to setup encryption" = "Failed to setup encryption";
 
@@ -319,9 +313,6 @@
 
 /* preferences */
 "Media file vs. voice volume" = "ملف الوسائط مقابل حجم الصوت";
-
-/* Dialog */
-"Message limit exceeded by %d characters" = "تم تجاوز حد الرسالة بمقدار %d حرف";
 
 /* server entry */
 "Message of the Day" = "رسالة اليوم";
@@ -469,9 +460,6 @@
 /* text message type */
 "Private message" = "رسالة خاصة";
 
-/* serverlist */
-"Private server" = "خادم خاص";
-
 /* preferences */
 "Private Text Message" = "رسالة نصية خاصة";
 
@@ -549,12 +537,6 @@
 
 /* preferences */
 "Show male or female icon" = "إظهار رمز ذكر أو أنثى";
-
-/* preferences */
-"Show Public Servers" = "إظهار الخوادم العامة";
-
-/* preferences */
-"Show public servers in server list" = "إظهار الخوادم العامة في قائمة الخوادم";
 
 /* preferences */
 "Show Text Messages Instantly" = "عرض الرسائل النصية على الفور";
@@ -638,9 +620,6 @@
 
 /* channel list */
 "Transmitting" = "يتم النقل";
-
-/* Dialog message */
-"Try again?" = "أعد المحاولة?";
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "إيقاف الشاشة عندَ  تقريب الهاتف بالقرب من الأذن ";
@@ -775,6 +754,3 @@
 
 /* speech */
 "You have selected %@" = " لقد اخترت %@";
-
-/* server entry */
-"Check only if this server has enabled Facebook login" = "";

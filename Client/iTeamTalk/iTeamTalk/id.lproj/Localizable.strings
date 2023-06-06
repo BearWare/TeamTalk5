@@ -150,9 +150,6 @@
 /* server entry */
 "Check only if this server has enabled BearWare.dk Web Login" = "beri tanda centang hanya jika server ini telah mengaktifkan BearWare.dk Web Login";
 
-/* server entry */
-"Check only if this server has enabled Facebook login" = "Beri tanda centang hanya jika server ini telah mengaktifkan login Facebook";
-
 /* log entry */
 "Command failed: %@" = "Command failed: %@";
 
@@ -224,12 +221,6 @@
 
 /* preferences */
 "Exclusive Mode Toggled" = "Ubah Modus Eksklusif";
-
-/* server entry */
-"Facebook Login" = "Facebook Login";
-
-/* Dialog message */
-"Facebook login was cancelled" = "Facebook login dibatalkan";
 
 /* connect to a server */
 "Failed to setup encryption" = "Failed to setup encryption";
@@ -323,9 +314,6 @@
 
 /* preferences */
 "Media file vs. voice volume" = "File Media  vs. volume suara";
-
-/* Dialog */
-"Message limit exceeded by %d characters" = "Batas pesan terlampaui dari %d karakter";
 
 /* server entry */
 "Message of the Day" = "Pesan saat Ini";
@@ -475,9 +463,6 @@
 /* text message type */
 "Private message" = "Pesan pribadi";
 
-/* serverlist */
-"Private server" = "Server pribadi";
-
 /* preferences */
 "Private Text Message" = "Pesan Teks Pribadi";
 
@@ -555,12 +540,6 @@
 
 /* preferences */
 "Show male or female icon" = "Tampilkan Ikon pria atau wanita";
-
-/* preferences */
-"Show Public Servers" = "Tampilkan Server Publik";
-
-/* preferences */
-"Show public servers in server list" = "Tampilkan server publik dalam daftar server";
 
 /* preferences */
 "Show Text Messages Instantly" = "Tampilkan Pesan Teks Seketika";
@@ -644,9 +623,6 @@
 
 /* channel list */
 "Transmitting" = "Transmitting mikrofon, aktif";
-
-/* Dialog message */
-"Try again?" = "Coba lagi?";
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "Matikan layar saat ponsel di dekat telinga";

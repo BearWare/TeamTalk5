@@ -150,9 +150,6 @@
 /* server entry */
 "Check only if this server has enabled BearWare.dk Web Login" = "À ne cocher que si ce serveur a activé la connexion Web BearWare.dk";
 
-/* server entry */
-"Check only if this server has enabled Facebook login" = "À ne cocher que si ce serveur a activé la connexion Facebook";
-
 /* log entry */
 "Command failed: %@" = "Échec de la commande: %@";
 
@@ -224,12 +221,6 @@
 
 /* preferences */
 "Exclusive Mode Toggled" = "Bascule du mode exclusif";
-
-/* server entry */
-"Facebook Login" = "Connexion Facebook";
-
-/* Dialog message */
-"Facebook login was cancelled" = "La connexion Facebook a été annulée";
 
 /* connect to a server */
 "Failed to setup encryption" = "Failed to setup encryption";
@@ -323,9 +314,6 @@
 
 /* preferences */
 "Media file vs. voice volume" = "Volume des fichiers média versus volume de la voix";
-
-/* Dialog */
-"Message limit exceeded by %d characters" = "Le message a dépassé la limite de caractères de %d caractères";
 
 /* server entry */
 "Message of the Day" = "Message du Jour";
@@ -475,9 +463,6 @@
 /* text message type */
 "Private message" = "Message privé";
 
-/* serverlist */
-"Private server" = "Serveur privé";
-
 /* preferences */
 "Private Text Message" = "Message privé";
 
@@ -555,12 +540,6 @@
 
 /* preferences */
 "Show male or female icon" = "Afficher les icônes homme/femme";
-
-/* preferences */
-"Show Public Servers" = "Afficher les serveurs publics";
-
-/* preferences */
-"Show public servers in server list" = "Afficher les serveurs publics dans la liste de serveurs";
 
 /* preferences */
 "Show Text Messages Instantly" = "Afficher les messages textes instantanément";
@@ -644,9 +623,6 @@
 
 /* channel list */
 "Transmitting" = "Transmission en cours";
-
-/* Dialog message */
-"Try again?" = "Réessayer ?";
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "Éteindre l'écran lorsque vous tenez le téléphone à l'oreille";

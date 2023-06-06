@@ -221,12 +221,6 @@
 /* preferences */
 "Exclusive Mode Toggled" = "Exclusive Mode Toggled";
 
-/* server entry */
-"Facebook Login" = "Facebook Login";
-
-/* Dialog message */
-"Facebook login was cancelled" = "Facebook login was cancelled";
-
 /* connect to a server */
 "Failed to setup encryption" = "Failed to setup encryption";
 
@@ -319,9 +313,6 @@
 
 /* preferences */
 "Media file vs. voice volume" = "Mediabestand- vs. stemvolume";
-
-/* Dialog */
-"Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
 
 /* server entry */
 "Message of the Day" = "Message of the Day";
@@ -469,9 +460,6 @@
 /* text message type */
 "Private message" = "Private message";
 
-/* serverlist */
-"Private server" = "Privéserver";
-
 /* preferences */
 "Private Text Message" = "Privétekstbericht";
 
@@ -549,12 +537,6 @@
 
 /* preferences */
 "Show male or female icon" = "Show male or female icon";
-
-/* preferences */
-"Show Public Servers" = "Publieke servers weergeven";
-
-/* preferences */
-"Show public servers in server list" = "Publieke servers weergeven in serverlijst";
 
 /* preferences */
 "Show Text Messages Instantly" = "Tekstberichten direct weergeven";
@@ -638,9 +620,6 @@
 
 /* channel list */
 "Transmitting" = "Transmitting";
-
-/* Dialog message */
-"Try again?" = "Try again?";
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "Scherm uitschakelen wanneer telefoon dichtbij oor gehouden wordt";
@@ -775,6 +754,3 @@
 
 /* speech */
 "You have selected %@" = "U hebt %@ geselecteerd";
-
-/* server entry */
-"Check only if this server has enabled Facebook login" = "";

@@ -41,7 +41,8 @@
    user detail */
 "Actions" = "Actions";
 
-/* channel list */
+/* channel list
+   Sound Devices */
 "Active" = "Active";
 
 /* serverlist */
@@ -150,20 +151,17 @@
 /* server entry */
 "Check only if this server has enabled BearWare.dk Web Login" = "Check only if this server has enabled BearWare.dk Web Login";
 
-/* server entry */
-"Check only if this server has enabled Facebook login" = "Check only if this server has enabled Facebook login";
-
 /* log entry */
 "Command failed: %@" = "Command failed: %@";
 
 /* create channel */
 "Commands" = "Commands";
 
-/* serverlist */
-"Connect to server" = "Connect to server";
-
 /* connect to a server */
 "Connect to Server" = "Connect to Server";
+
+/* serverlist */
+"Connect to server" = "Connect to server";
 
 /* preferences
    server entry */
@@ -182,7 +180,7 @@
 /* main-tab */
 "Create new channel" = "Create new channel";
 
-/* Sound Input */
+/* Sound Devices */
 "Default" = "Default";
 
 /* preferences */
@@ -225,12 +223,6 @@
 /* preferences */
 "Exclusive Mode Toggled" = "Exclusive Mode Toggled";
 
-/* server entry */
-"Facebook Login" = "Facebook Login";
-
-/* Dialog message */
-"Facebook login was cancelled" = "Facebook login was cancelled";
-
 /* connect to a server */
 "Failed to setup encryption" = "Failed to setup encryption";
 
@@ -244,6 +236,7 @@
 "Gender" = "Gender";
 
 /* preferences
+   Sound Devices
    user detail */
 "General" = "General";
 
@@ -274,11 +267,11 @@
 /* Dialog message */
 "Join" = "Join";
 
-/* server entry */
-"Join Channel" = "Join Channel";
-
 /* channel list */
 "Join channel" = "Join channel";
+
+/* server entry */
+"Join Channel" = "Join Channel";
 
 /* preferences */
 "Join Root Channel" = "Join Root Channel";
@@ -323,9 +316,6 @@
 
 /* preferences */
 "Media file vs. voice volume" = "Media file vs. voice volume";
-
-/* Dialog */
-"Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
 
 /* server entry */
 "Message of the Day" = "Message of the Day";
@@ -466,7 +456,7 @@
 /* serverlist */
 "Preferences" = "Preferences";
 
-/* Sound Input */
+/* Sound Devices */
 "Preferred" = "Preferred";
 
 /* preferences */
@@ -474,9 +464,6 @@
 
 /* text message type */
 "Private message" = "Private message";
-
-/* serverlist */
-"Private server" = "Private server";
 
 /* preferences */
 "Private Text Message" = "Private Text Message";
@@ -557,12 +544,6 @@
 "Show male or female icon" = "Show male or female icon";
 
 /* preferences */
-"Show Public Servers" = "Show Public Servers";
-
-/* preferences */
-"Show public servers in server list" = "Show public servers in server list";
-
-/* preferences */
 "Show Text Messages Instantly" = "Show Text Messages Instantly";
 
 /* preferences */
@@ -603,7 +584,8 @@
 "Status Event" = "Status Event";
 
 /* codec detail
-   create channel */
+   create channel
+   Sound Devices */
 "Stereo" = "Stereo";
 
 /* user detail */
@@ -645,9 +627,6 @@
 /* channel list */
 "Transmitting" = "Transmitting";
 
-/* Dialog message */
-"Try again?" = "Try again?";
-
 /* preferences */
 "Turn off screen when holding phone near ear" = "Turn off screen when holding phone near ear";
 
@@ -661,7 +640,7 @@
 /* serverlist */
 "Unofficial server" = "Unofficial server";
 
-/* preferences */
+/* Sound Devices */
 "Use echo cancellation and automatic gain control" = "Use echo cancellation and automatic gain control";
 
 /* preferences */
@@ -692,10 +671,10 @@
 "User Logged In" = "User Logged In";
 
 /* preferences */
-"User logged out" = "User logged out";
+"User Logged Out" = "User Logged Out";
 
 /* preferences */
-"User Logged Out" = "User Logged Out";
+"User logged out" = "User logged out";
 
 /* preferences
    user detail */
@@ -713,7 +692,7 @@
 "Users Online" = "Users Online";
 
 /* serverlist */
-"Users: %d, Country: %@" = "Users: %1$d, Country: %2$@";
+"Users: %d, Country: %@" = "Users: %d, Country: %@";
 
 /* codec detail */
 "Variable Bitrate" = "Variable Bitrate";

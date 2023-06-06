@@ -149,9 +149,6 @@
 /* server entry */
 "Check only if this server has enabled BearWare.dk Web Login" = "Vælg kun hvis server har BearWare.dk Web Login slået til";
 
-/* server entry */
-"Check only if this server has enabled Facebook login" = "Check only if this server has enabled Facebook login";
-
 /* log entry */
 "Command failed: %@" = "Command failed: %@";
 
@@ -223,12 +220,6 @@
 
 /* preferences */
 "Exclusive Mode Toggled" = "Eksklusivtilstand valgt";
-
-/* server entry */
-"Facebook Login" = "Facebook Login";
-
-/* Dialog message */
-"Facebook login was cancelled" = "Facebook login blev afbrudt";
 
 /* connect to a server */
 "Failed to setup encryption" = "Failed to setup encryption";
@@ -322,9 +313,6 @@
 
 /* preferences */
 "Media file vs. voice volume" = "Mediefil versus talelydstyrke";
-
-/* Dialog */
-"Message limit exceeded by %d characters" = "Tekstlængde overskredet med %d characters";
 
 /* server entry */
 "Message of the Day" = "Dagens Besked";
@@ -472,9 +460,6 @@
 /* text message type */
 "Private message" = "Privat besked";
 
-/* serverlist */
-"Private server" = "Privat server";
-
 /* preferences */
 "Private Text Message" = "Privat Tekstbesked";
 
@@ -552,12 +537,6 @@
 
 /* preferences */
 "Show male or female icon" = "Vis mand eller kvinde ikon";
-
-/* preferences */
-"Show Public Servers" = "Vis Offentlige Servere";
-
-/* preferences */
-"Show public servers in server list" = "Vis offentlige servere i serverlisten";
 
 /* preferences */
 "Show Text Messages Instantly" = "Vis tekstbeskeder med det samme";
@@ -641,9 +620,6 @@
 
 /* channel list */
 "Transmitting" = "Transmitterer";
-
-/* Dialog message */
-"Try again?" = "Prøv igen";
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "Sluk for skærm når telefonen holdes tæt ved øret";

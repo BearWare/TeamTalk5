@@ -41,6 +41,10 @@
    user detail */
 "Actions" = "Actions";
 
+/* channel list
+   Sound Devices */
+"Active" = "Active";
+
 /* serverlist */
 "Add new server entry" = "Add new server entry";
 
@@ -90,11 +94,23 @@
 /* channel list */
 "Ban user" = "Ban user";
 
+/* server entry */
+"BearWare.dk Web Login" = "BearWare.dk Web Login";
+
+/* weblogin event */
+"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences";
+
 /* codec detail */
 "Bitrate" = "Bitrate";
 
 /* preferences */
 "Bjoern D. Rasmussen, contact@bearware.dk" = "Bjoern D. Rasmussen, contact@bearware.dk";
+
+/* Sound Devices */
+"Bluetooth A2DP Playback" = "Bluetooth A2DP Playback";
+
+/* Sound Devices */
+"Bluetooth playback should use Advanced Audio Distribution Profile" = "Bluetooth playback should use Advanced Audio Distribution Profile";
 
 /* text message type */
 "Broadcast message" = "Broadcast message";
@@ -105,6 +121,9 @@
 
 /* preferences */
 "Broadcast Text Message" = "Broadcast Text Message";
+
+/* Dialog message */
+"Cancel" = "Cancel";
 
 /* channel list
    server entry */
@@ -129,8 +148,17 @@
 /* channel list */
 "Channel. %d users" = "Channel. %d users";
 
+/* server entry */
+"Check only if this server has enabled BearWare.dk Web Login" = "Check only if this server has enabled BearWare.dk Web Login";
+
+/* log entry */
+"Command failed: %@" = "Command failed: %@";
+
 /* create channel */
 "Commands" = "Commands";
+
+/* connect to a server */
+"Connect to Server" = "Connect to Server";
 
 /* serverlist */
 "Connect to server" = "Connect to server";
@@ -143,11 +171,17 @@
    tts event */
 "Connection lost" = "Connection lost";
 
+/* server entry */
+"Country" = "Country";
+
 /* View Title */
 "Create Channel" = "Create Channel";
 
 /* main-tab */
 "Create new channel" = "Create new channel";
+
+/* Sound Devices */
+"Default" = "Default";
 
 /* preferences */
 "Default Subscriptions" = "Default Subscriptions";
@@ -189,16 +223,20 @@
 /* preferences */
 "Exclusive Mode Toggled" = "Exclusive Mode Toggled";
 
-/* server entry */
-"Facebook Login" = "Facebook Login";
+/* connect to a server */
+"Failed to setup encryption" = "Failed to setup encryption";
 
-/* Dialog message */
-"Facebook login was cancelled" = "Facebook login was cancelled";
+/* preferences */
+"Female" = "Female";
 
 /* codec detail */
 "Frame Size" = "Frame Size";
 
+/* preferences */
+"Gender" = "Gender";
+
 /* preferences
+   Sound Devices
    user detail */
 "General" = "General";
 
@@ -217,17 +255,23 @@
 /* preferences */
 "Headset TX Toggle" = "Headset TX Toggle";
 
+/* hidden channel */
+"Hidden Channel" = "Hidden Channel";
+
 /* server entry */
 "Host address" = "Host address";
+
+/* channel list */
+"Inactive" = "Inactive";
 
 /* Dialog message */
 "Join" = "Join";
 
-/* server entry */
-"Join Channel" = "Join Channel";
-
 /* channel list */
 "Join channel" = "Join channel";
+
+/* server entry */
+"Join Channel" = "Join Channel";
 
 /* preferences */
 "Join Root Channel" = "Join Root Channel";
@@ -244,11 +288,17 @@
 /* preferences */
 "Limit length of names in channel list to %d characters" = "Limit length of names in channel list to %d characters";
 
+/* serverlist */
+"Local server" = "Local server";
+
 /* text message type */
 "Log message" = "Log message";
 
 /* log entry */
 "Logged on to server" = "Logged on to server";
+
+/* preferences */
+"Male" = "Male";
 
 /* preferences */
 "Master Volume" = "Master Volume";
@@ -266,6 +316,9 @@
 
 /* preferences */
 "Media file vs. voice volume" = "Media file vs. voice volume";
+
+/* server entry */
+"Message of the Day" = "Message of the Day";
 
 /* preferences */
 "Microphone Gain" = "Microphone Gain";
@@ -305,6 +358,9 @@
 /* preferences */
 "Nickname" = "Nickname";
 
+/* server entry */
+"Nickname (optional)" = "Nickname (optional)";
+
 /* Dialog message */
 "No" = "No";
 
@@ -326,6 +382,9 @@
 
 /* default nickname */
 "Noname" = "Noname";
+
+/* serverlist */
+"Official server" = "Official server";
 
 /* Dialog
    Dialog message
@@ -377,6 +436,12 @@
 "Play sound when transmit ready in \"No Interruptions\" channel" = "Play sound when transmit ready in \"No Interruptions\" channel";
 
 /* preferences */
+"Play sound when user logs off to the server" = "Play sound when user logs off to the server";
+
+/* preferences */
+"Play sound when user logs on to the server" = "Play sound when user logs on to the server";
+
+/* preferences */
 "Play sound when voice activation is triggered" = "Play sound when voice activation is triggered";
 
 /* preferences */
@@ -391,14 +456,14 @@
 /* serverlist */
 "Preferences" = "Preferences";
 
+/* Sound Devices */
+"Preferred" = "Preferred";
+
 /* preferences */
 "Pressing Return-key sends text message" = "Pressing Return-key sends text message";
 
 /* text message type */
 "Private message" = "Private message";
-
-/* serverlist */
-"Private server" = "Private server";
 
 /* preferences */
 "Private Text Message" = "Private Text Message";
@@ -469,11 +534,14 @@
 /* server entry */
 "Server List Entry" = "Server List Entry";
 
-/* preferences */
-"Show Public Servers" = "Show Public Servers";
+/* server entry */
+"Server Status" = "Server Status";
 
 /* preferences */
-"Show public servers in server list" = "Show public servers in server list";
+"Show in Server List" = "Show in Server List";
+
+/* preferences */
+"Show male or female icon" = "Show male or female icon";
 
 /* preferences */
 "Show Text Messages Instantly" = "Show Text Messages Instantly";
@@ -512,8 +580,12 @@
 /* codec detail */
 "Speex Variable Bitrate Codec" = "Speex Variable Bitrate Codec";
 
+/* Text message view */
+"Status Event" = "Status Event";
+
 /* codec detail
-   create channel */
+   create channel
+   Sound Devices */
 "Stereo" = "Stereo";
 
 /* user detail */
@@ -555,9 +627,6 @@
 /* channel list */
 "Transmitting" = "Transmitting";
 
-/* Dialog message */
-"Try again?" = "Try again?";
-
 /* preferences */
 "Turn off screen when holding phone near ear" = "Turn off screen when holding phone near ear";
 
@@ -568,7 +637,10 @@
 /* server entry */
 "UDP Port" = "UDP Port";
 
-/* preferences */
+/* serverlist */
+"Unofficial server" = "Unofficial server";
+
+/* Sound Devices */
 "Use echo cancellation and automatic gain control" = "Use echo cancellation and automatic gain control";
 
 /* preferences */
@@ -576,6 +648,9 @@
 
 /* channel list */
 "User" = "User";
+
+/* channel list */
+"User female" = "User female";
 
 /* preferences */
 "User Joins Channel" = "User Joins Channel";
@@ -593,6 +668,12 @@
 "User logged in" = "User logged in";
 
 /* preferences */
+"User Logged In" = "User Logged In";
+
+/* preferences */
+"User Logged Out" = "User Logged Out";
+
+/* preferences */
 "User logged out" = "User logged out";
 
 /* preferences
@@ -606,6 +687,12 @@
 
 /* Web Login Controller */
 "Username or password incorrect" = "Username or password incorrect";
+
+/* server entry */
+"Users Online" = "Users Online";
+
+/* serverlist */
+"Users: %d, Country: %@" = "Users: %d, Country: %@";
 
 /* codec detail */
 "Variable Bitrate" = "Variable Bitrate";
@@ -660,125 +747,17 @@
 /* Dialog message */
 "Yes" = "Yes";
 
-/* speech */
-"You have selected %@" = "You have selected %@";
-
-/* Dialog message */
-"Cancel" = "Cancel";
-
-/* server entry */
-"Check only if this server has enabled Facebook login" = "Check only if this server has enabled Facebook login";
-
-/* server entry */
-"BearWare.dk Web Login" = "BearWare.dk Web Login";
-
-/* weblogin event */
-"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences";
-
-/* server entry */
-"Check only if this server has enabled BearWare.dk Web Login" = "Check only if this server has enabled BearWare.dk Web Login";
-
-/* hidden channel */
-"Hidden Channel" = "Hidden Channel";
-
-/* preferences */
-"Female" = "Female";
-
-/* preferences */
-"Gender" = "Gender";
-
-/* preferences */
-"Male" = "Male";
-
-/* preferences */
-"Show male or female icon" = "Show male or female icon";
-
-/* channel list */
-"User female" = "User female";
-
 /* Dialog */
 "You have been kicked from channel" = "You have been kicked from channel";
-
-/* Dialog */
-"You have been kicked from server" = "You have been kicked from server";
-
-/* channel list */
-"Active" = "Active";
-
-/* channel list */
-"Inactive" = "Inactive";
 
 /* Dialog */
 "You have been kicked from channel by %@" = "You have been kicked from channel by %@";
 
 /* Dialog */
-"You have been kicked from server by %@" = "You have been kicked from server by %@";
-
-/* preferences */
-"Play sound when user logs off to the server" = "Play sound when user logs off to the server";
-
-/* preferences */
-"Play sound when user logs on to the server" = "Play sound when user logs on to the server";
-
-/* preferences */
-"User Logged In" = "User Logged In";
-
-/* preferences */
-"User Logged Out" = "User Logged Out";
-
-/* Text message view */
-"Status Event" = "Status Event";
-
-/* Sound Input */
-"Default" = "Default";
+"You have been kicked from server" = "You have been kicked from server";
 
 /* Dialog */
-"Message limit exceeded by %d characters" = "Message limit exceeded by %d characters";
+"You have been kicked from server by %@" = "You have been kicked from server by %@";
 
-/* server entry */
-"Nickname (optional)" = "Nickname (optional)";
-
-/* Sound Input */
-"Preferred" = "Preferred";
-
-/* server entry */
-"Country" = "Country";
-
-/* serverlist */
-"Local server" = "Local server";
-
-/* server entry */
-"Message of the Day" = "Message of the Day";
-
-/* serverlist */
-"Official server" = "Official server";
-
-/* server entry */
-"Users Online" = "Users Online";
-
-/* serverlist */
-"Users: %d, Country: %@" = "Users: %1$d, Country: %2$@";
-
-/* preferences */
-"Show in Server List" = "Show in Server List";
-
-/* serverlist */
-"Unofficial server" = "Unofficial server";
-
-/* server entry */
-"Server Status" = "Server Status";
-
-/* Sound Devices */
-"Bluetooth A2DP Playback" = "Bluetooth A2DP Playback";
-
-/* Sound Devices */
-"Bluetooth playback should use Advanced Audio Distribution Profile" = "Bluetooth playback should use Advanced Audio Distribution Profile";
-
-/* log entry */
-"Command failed: %@" = "Command failed: %@";
-
-/* connect to a server */
-"Connect to Server" = "Connect to Server";
-
-/* connect to a server */
-"Failed to setup encryption" = "Failed to setup encryption";
+/* speech */
+"You have selected %@" = "You have selected %@";
