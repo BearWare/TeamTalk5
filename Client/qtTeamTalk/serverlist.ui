@@ -94,13 +94,6 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="publicserverChkBox">
-            <property name="text">
-             <string>Include public servers (green ones)</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QCheckBox" name="unofficialserverChkBox">
             <property name="text">
              <string>Include unofficial servers (orange ones)</string>

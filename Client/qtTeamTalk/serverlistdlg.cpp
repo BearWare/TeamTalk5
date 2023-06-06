@@ -282,7 +282,6 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     ui.filterusersSpinBox->setValue(ttSettings->value(SETTINGS_DISPLAY_SERVERLISTFILTER_USERSCOUNT, SETTINGS_DISPLAY_SERVERLISTFILTER_USERSCOUNT_DEFAULT).toInt());
     ui.filternameEdit->setText(ttSettings->value(SETTINGS_DISPLAY_SERVERLISTFILTER_NAME, SETTINGS_DISPLAY_SERVERLISTFILTER_NAME_DEFAULT).toString());
     ui.officialserverChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_OFFICIALSERVERS, SETTINGS_DISPLAY_OFFICIALSERVERS_DEFAULT).toBool());
-    ui.publicserverChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_PUBLICSERVERS, SETTINGS_DISPLAY_PUBLICSERVERS_DEFAULT).toBool());
     ui.unofficialserverChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_UNOFFICIALSERVERS, SETTINGS_DISPLAY_UNOFFICIALSERVERS_DEFAULT).toBool());
 
     connect(ui.addupdButton, &QAbstractButton::clicked,
@@ -298,8 +297,6 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     connect(ui.serverTreeView, &QAbstractItemView::doubleClicked,
             this, &ServerListDlg::slotDoubleClicked);
     connect(ui.officialserverChkBox, &QAbstractButton::clicked,
-            this, &ServerListDlg::refreshServerList);
-    connect(ui.publicserverChkBox, &QAbstractButton::clicked,
             this, &ServerListDlg::refreshServerList);
     connect(ui.unofficialserverChkBox, &QAbstractButton::clicked,
             this, &ServerListDlg::refreshServerList);
@@ -549,8 +546,6 @@ void ServerListDlg::applyServerListFilter()
     ServerTypes typefilter = SERVERTYPE_LOCAL;
     if (ui.officialserverChkBox->isChecked())
         typefilter |= SERVERTYPE_OFFICIAL;
-    if (ui.publicserverChkBox->isChecked())
-        typefilter |= SERVERTYPE_PUBLIC;
     if (ui.unofficialserverChkBox->isChecked())
         typefilter |= SERVERTYPE_UNOFFICIAL;
 
@@ -610,13 +605,11 @@ void ServerListDlg::slotDoubleClicked(const QModelIndex& /*index*/)
 void ServerListDlg::requestServerList()
 {
     bool officialservers = ui.officialserverChkBox->isChecked();
-    bool publicservers = ui.publicserverChkBox->isChecked();
     bool unofficialservers = ui.unofficialserverChkBox->isChecked();
     ttSettings->setValue(SETTINGS_DISPLAY_OFFICIALSERVERS, officialservers);
-    ttSettings->setValue(SETTINGS_DISPLAY_PUBLICSERVERS, publicservers);
     ttSettings->setValue(SETTINGS_DISPLAY_UNOFFICIALSERVERS, unofficialservers);
 
-    if (!officialservers && !unofficialservers && !publicservers)
+    if (!officialservers && !unofficialservers)
         return;
 
     if (!m_httpsrvlist_manager)
