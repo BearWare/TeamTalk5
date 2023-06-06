@@ -203,10 +203,9 @@ class ServerListViewController : UITableViewController,
        
         let defaults = UserDefaults.standard
         let official = defaults.object(forKey: PREF_DISPLAY_OFFICIALSERVERS) == nil || defaults.bool(forKey: PREF_DISPLAY_OFFICIALSERVERS)
-        let publicc = defaults.object(forKey: PREF_DISPLAY_PUBLICSERVERS) == nil || defaults.bool(forKey: PREF_DISPLAY_PUBLICSERVERS)
         let unofficial = defaults.object(forKey: PREF_DISPLAY_UNOFFICIALSERVERS) != nil && defaults.bool(forKey: PREF_DISPLAY_UNOFFICIALSERVERS)
 
-        if let serversurl = URL(string: AppInfo.getServersURL(officialservers: official, publicservers: publicc, unofficialservers: unofficial)) {
+        if let serversurl = URL(string: AppInfo.getServersURL(officialservers: official, unofficialservers: unofficial)) {
         
             let task = URLSession.shared.dataTask(with: serversurl) { data, response, error in
                 if error != nil {

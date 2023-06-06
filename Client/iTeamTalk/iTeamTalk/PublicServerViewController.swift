@@ -26,12 +26,6 @@ class PublicServerViewController : UITableViewController {
         officialservercell?.accessoryView = officialserverswitch
         publicserver_items.append(officialservercell!)
 
-        let publicservercell = tableView.dequeueReusableCell(withIdentifier: "ShowPublicServers")
-        let publicserverswitch = UISwitch()
-        publicserverswitch.addTarget(self, action: #selector(handleSwitchActionPublic), for: .valueChanged)
-        publicservercell?.accessoryView = publicserverswitch
-        publicserver_items.append(publicservercell!)
-
         let unofficialservercell = tableView.dequeueReusableCell(withIdentifier: "ShowUnofficialServers")
         let unofficialserverswitch = UISwitch()
         unofficialserverswitch.addTarget(self, action: #selector(handleSwitchActionUnofficial), for: .valueChanged)
@@ -40,18 +34,12 @@ class PublicServerViewController : UITableViewController {
 
         let settings = UserDefaults.standard
         officialserverswitch.isOn = settings.object(forKey: PREF_DISPLAY_OFFICIALSERVERS) == nil || settings.bool(forKey: PREF_DISPLAY_OFFICIALSERVERS)
-        publicserverswitch.isOn = settings.object(forKey: PREF_DISPLAY_PUBLICSERVERS) == nil || settings.bool(forKey: PREF_DISPLAY_PUBLICSERVERS)
         unofficialserverswitch.isOn = settings.object(forKey: PREF_DISPLAY_UNOFFICIALSERVERS) != nil && settings.bool(forKey: PREF_DISPLAY_UNOFFICIALSERVERS)
     }
     
     @objc func handleSwitchActionOfficial(sender: UISwitch) {
         let settings = UserDefaults.standard
         settings.set(sender.isOn, forKey: PREF_DISPLAY_OFFICIALSERVERS)
-    }
-
-    @objc func handleSwitchActionPublic(sender: UISwitch) {
-        let settings = UserDefaults.standard
-        settings.set(sender.isOn, forKey: PREF_DISPLAY_PUBLICSERVERS)
     }
 
     @objc func handleSwitchActionUnofficial(sender: UISwitch) {
