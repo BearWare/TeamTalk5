@@ -7,9 +7,6 @@
 /* Class = "UILabel"; text = "Blank"; ObjectID = "0QA-gn-V1p"; */
 "0QA-gn-V1p.text" = "Vazio";
 
-/* Class = "UILabel"; text = "Show Public Servers"; ObjectID = "3DD-Ra-lNz"; */
-"3DD-Ra-lNz.text" = "Show Public Servers";
-
 /* Class = "UIButton"; normalTitle = "Send"; ObjectID = "3NI-HT-A3N"; */
 "3NI-HT-A3N.normalTitle" = "Enviar";
 
@@ -91,13 +88,13 @@
 /* Class = "UIViewController"; title = "Chat Channel"; ObjectID = "gA8-TJ-0RU"; */
 "gA8-TJ-0RU.title" = "Chat do canal";
 
-/* Class = "UILabel"; text = "Show public servers in server list"; ObjectID = "GeK-hh-gst"; */
+/* Class = "UILabel"; text = "Limit types of servers to show"; ObjectID = "GeK-hh-gst"; */
 "GeK-hh-gst.text" = "Show public servers in server list";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "GFy-mN-epU"; */
 "GFy-mN-epU.text" = "Title";
 
-/* Class = "UILabel"; text = "Show Public Servers"; ObjectID = "gPj-u1-dPn"; */
+/* Class = "UILabel"; text = "Filter Server List"; ObjectID = "gPj-u1-dPn"; */
 "gPj-u1-dPn.text" = "Show Public Servers";
 
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
