@@ -72,7 +72,7 @@
 #define OSTYPE "Linux"
 #endif
 
-#define URL_FREESERVER(official, pub, unofficial) QString("http://www.bearware.dk/teamtalk/tt5servers.php?client=" APPNAME_SHORT "&version=" APPVERSION_SHORT "&dllversion=" TEAMTALK_VERSION "&os=" OSTYPE "&official=%1&unofficial=%2&public=%3").arg(official ? "1" : "0").arg(unofficial ? "1" : "0").arg(pub ? "1" : "0")
+#define URL_FREESERVER(official, pub, unofficial) QString("http://www.bearware.dk/teamtalk/tt5servers.php?client=" APPNAME_SHORT "&version=" APPVERSION_SHORT "&dllversion=" TEAMTALK_VERSION "&os=" OSTYPE "&official=%1&unofficial=%2").arg(official ? "1" : "0").arg(unofficial ? "1" : "0")
 #define URL_PUBLISHSERVER(uid, token) QString("https://www.bearware.dk/teamtalk/tt5servers.php?client=" APPNAME_SHORT "&version=" APPVERSION_SHORT "&dllversion=" TEAMTALK_VERSION "&os=" OSTYPE "&action=publish&username=%1&token=%2").arg(uid).arg(token)
 #define URL_APPUPDATE(beta)       QString("http://www.bearware.dk/teamtalk/tt5update.php?client=" APPNAME_SHORT "&version=" APPVERSION_SHORT "&dllversion=" TEAMTALK_VERSION "&os=" OSTYPE "&beta=%1").arg(beta ? "1" : "0")
 

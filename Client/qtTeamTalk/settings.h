@@ -115,8 +115,6 @@
 #define SETTINGS_DISPLAY_LOGSTATUSBAR_DEFAULT       true
 #define SETTINGS_DISPLAY_OFFICIALSERVERS            "display/show-official-servers"
 #define SETTINGS_DISPLAY_OFFICIALSERVERS_DEFAULT    true
-#define SETTINGS_DISPLAY_PUBLICSERVERS              "display/showfreeservers"
-#define SETTINGS_DISPLAY_PUBLICSERVERS_DEFAULT      true
 #define SETTINGS_DISPLAY_UNOFFICIALSERVERS          "display/show-unofficial-servers"
 #define SETTINGS_DISPLAY_UNOFFICIALSERVERS_DEFAULT  false
 #define SETTINGS_DISPLAY_SERVERLISTFILTER_NAME      "display/filter-server-name"
