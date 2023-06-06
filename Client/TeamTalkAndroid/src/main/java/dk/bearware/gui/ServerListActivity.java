@@ -539,7 +539,6 @@ implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
 
             String urlToRead = AppInfo.getServerListURL(ServerListActivity.this,
                     pref.getBoolean(Preferences.PREF_GENERAL_OFFICIALSERVERS, true),
-                    pref.getBoolean(Preferences.PREF_GENERAL_PUBLICSERVERS, true),
                     pref.getBoolean(Preferences.PREF_GENERAL_UNOFFICIALSERVERS, false));
 
             String xml = Utils.getURL(urlToRead);
