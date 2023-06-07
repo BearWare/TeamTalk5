@@ -20,7 +20,7 @@ in this section:
   - [Files Tab](@ref filestab)
 
 - [Client-Menu](@ref clientmenu)
-  - [Connect Dialog](@ref connectdlg)
+  - [Connect to a Server Dialog](@ref connectdlg)
   - [Preferences Dialog](@ref preferencesdlg)
   - [Record Conversations to Disk Dialog](@ref recorddlg)
 
@@ -82,7 +82,7 @@ available though the menu items.
 - **Connect button**
     - The first button in the toolbar, which looks like a plug, is for
     connecting to a server. Once pressed it opens the
-    [Connect Dialog](@ref connectdlg).
+    [Connect to a Server Dialog](@ref connectdlg).
 
 - **Enable Push to Talk button**
     - The second button in the toolbar, which looks like a button, is
@@ -270,7 +270,7 @@ Each of the menu items in the Client menu are described here:
 - **Connect**
     - To connect to a new server or one you have connected to
       recently. For more information read section
-      [Connect Dialog](@ref connectdlg).
+      [Connect to a Server Dialog](@ref connectdlg).
 - **Preferences**
     - Preferences is used for configuring the TeamTalk
       application. For more information read section
@@ -285,14 +285,14 @@ Each of the menu items in the Client menu are described here:
 - **Exit**
   - Quit the TeamTalk application.
 
-## Connect Dialog {#connectdlg}
+## Connect to a Server Dialog {#connectdlg}
 
-In the Connect dialog you can specify the TeamTalk server you want to
-connect to. It also maintains a list of publicly available TeamTalk
-servers you can connect to. An example of public TeamTalk servers are
-shown in the screenshot below.
+In the Connect to a Server dialog you can specify the TeamTalk server
+you want to connect to. It also maintains a list of publicly available
+TeamTalk servers you can connect to. An example of public TeamTalk
+servers are shown in the screenshot below.
 
-![Connect to server dialog](dlg_connect.png "Connect dialog")
+![Connect to a Server dialog](dlg_connect.png "Connect to a Server Dialog")
 
 If you manually want to connect to a TeamTalk server then the person
 who is running the server must provide the information for the fields
@@ -308,9 +308,6 @@ Each of the items in the dialog are explained here:
       - Servers that have been stored manually.
     - *Official servers* shown in blue
       - Public servers hosted by BearWare.dk.
-    - *Public servers* shown in green
-      - Public servers made available by BearWare.dk based on location
-        and language.
     - *Unofficial servers* show in orange
       - Public servers made available by TeamTalk users who host their
         own server.
@@ -322,8 +319,6 @@ Each of the items in the dialog are explained here:
     their server.
 - **Include official servers (blue ones)**
   - Select to filter in/out official servers.
-- **Include public servers (green ones)**
-  - Select to filter in/out public servers.
 - **Include unofficial servers (orange ones)**
   - Select to filter in/out unofficial servers.
 
@@ -343,7 +338,7 @@ Each of the items in the dialog are explained here:
     - The UDP port used by the server. Audio, video, desktop sessions,
       etc. are transmitted on this port.
   - **Encrypted server**
-    - If the TeamTalk server is a TeamTalk Server Pro then it can use
+    - If the TeamTalk server is a TeamTalk Pro Server then it can use
       encryption.
 - **Authentication**
   - **Username**
