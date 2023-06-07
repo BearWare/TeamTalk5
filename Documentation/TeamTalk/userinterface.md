@@ -312,16 +312,15 @@ Each of the items in the dialog are explained here:
     - *Unofficial servers* show in orange
       - Public servers made available by TeamTalk users who host their
         own server.
-- **Import .tt File**
-  - If you've received a .tt file from another TeamTalk user you can
-    import the server to the *Server List* by pressing this button.
-  - Other users can send you [.tt files](@ref ttfiles) that have been
-    [generated](@ref ttfile) to contain the information you need to join
-    their server.
-- **Include official servers (blue ones)**
-  - Select to filter in/out official servers.
-- **Include unofficial servers (orange ones)**
-  - Select to filter in/out unofficial servers.
+  - **Filter Servers**
+    - **Name**
+      - Use search pattern to find server with specific name.
+    - **Users**
+      - Exclude servers that do not have a minimum set of users.
+    - **Include official servers (blue ones)**
+      - Select to filter in/out official servers.
+    - **Include unofficial servers (orange ones)**
+      - Select to filter in/out unofficial servers.
 
 - **Server Information**
   - All the information needed to connect to a server must be
@@ -401,6 +400,12 @@ field and afterwards click **Save to Server List**.
       file you can email to the users who should also connect to the
       server. More information about the [Generate .tt File Dialog](@ref ttfile)
       is available [here](@ref ttfile).
+  - **Import .tt File**
+    - If you've received a .tt file from another TeamTalk user you can
+      import the server to the *Server List* by pressing this button.
+    - Other users can send you [.tt files](@ref ttfiles) that have been
+      [generated](@ref ttfile) to contain the information you need to join
+      their server.
 
 ### Setup Encryption Dialog {#setupencryptiondlg}
 
