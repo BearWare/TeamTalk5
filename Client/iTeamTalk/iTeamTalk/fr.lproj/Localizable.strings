@@ -160,7 +160,7 @@
 "Connect to server" = "Se connecter au serveur";
 
 /* connect to a server */
-"Connect to Server" = "Connect to Server";
+"Connect to Server" = "Se connecter au Serveur";
 
 /* preferences
    server entry */
@@ -223,7 +223,7 @@
 "Exclusive Mode Toggled" = "Bascule du mode exclusif";
 
 /* connect to a server */
-"Failed to setup encryption" = "Failed to setup encryption";
+"Failed to setup encryption" = "Échec à la configuration du chiffrement";
 
 /* preferences */
 "Female" = "Femme";
