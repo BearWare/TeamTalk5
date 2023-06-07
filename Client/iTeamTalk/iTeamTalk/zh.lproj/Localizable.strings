@@ -160,7 +160,7 @@
 "Connect to server" = "连接";
 
 /* connect to a server */
-"Connect to Server" = "Connect to Server";
+"Connect to Server" = "连接到服务器";
 
 /* preferences
    server entry */
@@ -223,7 +223,7 @@
 "Exclusive Mode Toggled" = "独占模式切换";
 
 /* connect to a server */
-"Failed to setup encryption" = "Failed to setup encryption";
+"Failed to setup encryption" = "设置加密失败";
 
 /* preferences */
 "Female" = "女";
