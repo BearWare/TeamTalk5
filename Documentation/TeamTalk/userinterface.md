@@ -21,6 +21,7 @@ in this section:
 
 - [Client-Menu](@ref clientmenu)
   - [Connect to a Server Dialog](@ref connectdlg)
+    - [Setup Encryption Dialog](@ref setupencryptiondlg)
   - [Preferences Dialog](@ref preferencesdlg)
   - [Record Conversations to Disk Dialog](@ref recorddlg)
 
@@ -314,8 +315,8 @@ Each of the items in the dialog are explained here:
 - **Import .tt File**
   - If you've received a .tt file from another TeamTalk user you can
     import the server to the *Server List* by pressing this button.
-  - Other users can send you [.tt files](ref ttfiles) that have been
-    [generated](ref ttfile) to contain the information you need to join
+  - Other users can send you [.tt files](@ref ttfiles) that have been
+    [generated](@ref ttfile) to contain the information you need to join
     their server.
 - **Include official servers (blue ones)**
   - Select to filter in/out official servers.
@@ -340,6 +341,10 @@ Each of the items in the dialog are explained here:
   - **Encrypted server**
     - If the TeamTalk server is a TeamTalk Pro Server then it can use
       encryption.
+    - **Setup**
+      - Encrypted TeamTalk Pro Servers can have additional protection
+        for client and server verification. These additional
+        properties can be configured in the [Setup Encryption Dialog](@ref setupencryptiondlg).
 - **Authentication**
   - **Username**
     - The username that is required to log on to the server. This may be
@@ -396,6 +401,56 @@ field and afterwards click **Save to Server List**.
       file you can email to the users who should also connect to the
       server. More information about the [Generate .tt File Dialog](@ref ttfile)
       is available [here](@ref ttfile).
+
+### Setup Encryption Dialog {#setupencryptiondlg}
+
+TeamTalk Pro servers can enable encryption so all data sent and
+received cannot be decoded by anyone other than the client and
+server.
+
+Using an encrypted connection is, however, not enough to ensure the
+server you're connecting to is authentic, i.e. someone else could
+intercept your initial connection and pretent to be running the server
+you're connecting to. This is known as a man-in-the-middle-attack. The
+way to avoid such abuse is to use certificates that verifies that the
+server you're connecting to is authentic.
+
+To use certificates the owner of the TeamTalk Pro server must provide
+the client with a cerficate from a common/shared Certificate Authority
+(CA). This CA certificate can either be provided in a [.tt file](@ref ttfiles)
+or in a *.cer file* (in PEM format).
+
+To enable a CA certificate for a TeamTalk Pro server press the *Open
+file button* in the **Certificate Authority (CA)** row as shown below.
+
+![Setup Encryption Dialog](dlg_setupencryption.png "Setup Encryption")
+
+The CA certificate is valid if Issuer, Subject, Effective date and
+Expiration date are printed in the edit field.
+
+Once a CA certificate has been set up the **Verify server
+certificate** checkbox is enabled and the client can now verify the
+connection will be establish only if the server is authentic.
+
+Some TeamTalk Pro server owners may also want to verify that the
+clients who connect are also authentic. This is done by using **Client
+certificate** that has been issued by the TeamTalk Pro server owner
+along with a **Client private key**. The client certificate and
+private key can be provided in either a [.tt file](@ref ttfiles) or in
+two .pem files (in PEM format).
+
+Press the *Open file button* in **Client certificate** row and add the
+.pem file to enable a client certificate. If the client certificate is
+valid then Issuer, Subject, Effective date and Expiration date are
+printed in the edit field.
+
+A **Client private key** file is required for a client certificate and
+this is added by pressing the *Open file button* in the **Client
+private key** row. If the private key is valid then the encryption
+algorithm is printed along with the key size.
+
+Press **OK** to activate the encryption settings in remember to press
+**Save to Server List** in the [Connect to a Server Dialog](@ref connectdlg).
 
 ## Preferences Dialog {#preferencesdlg}
 
