@@ -66,7 +66,7 @@ public class TTSWrapper {
     public void speak(String text) {
         if (this.useAnnouncements) {
             AccessibilityManager manager = (AccessibilityManager) mContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
-            if (manager.isEnabled()) {
+            if ((manager != null) && manager.isEnabled()) {
                 AccessibilityEvent e = AccessibilityEvent.obtain();
                 e.setEventType(AccessibilityEvent.TYPE_ANNOUNCEMENT);
                 e.getText().add(text);
