@@ -398,12 +398,12 @@ field and afterwards click **Save to Server List**.
     - If you want others to connect to the same TeamTalk server as
       you, you can press *Generate .tt File* so you'll generate a
       file you can email to the users who should also connect to the
-      server. More information about the [Generate .tt File Dialog](@ref ttfile)
-      is available [here](@ref ttfile).
+      server. More information about the [Generate .tt File Dialog](ttfiles.md)
+      is available [here](ttfiles.md).
   - **Import .tt File**
     - If you've received a .tt file from another TeamTalk user you can
       import the server to the *Server List* by pressing this button.
-    - Other users can send you [.tt files](@ref ttfiles) that have been
+    - Other users can send you [.tt files](ttfiles.md) that have been
       [generated](@ref ttfile) to contain the information you need to join
       their server.
 
@@ -422,7 +422,7 @@ server you're connecting to is authentic.
 
 To use certificates the owner of the TeamTalk Pro server must provide
 the client with a cerficate from a common/shared Certificate Authority
-(CA). This CA certificate can either be provided in a [.tt file](@ref ttfiles)
+(CA). This CA certificate can either be provided in a [.tt file](ttfiles.md)
 or in a *.cer file* (in PEM format).
 
 To enable a CA certificate for a TeamTalk Pro server press the *Open
@@ -441,7 +441,7 @@ Some TeamTalk Pro server owners may also want to verify that the
 clients who connect are also authentic. This is done by using **Client
 certificate** that has been issued by the TeamTalk Pro server owner
 along with a **Client private key**. The client certificate and
-private key can be provided in either a [.tt file](@ref ttfiles) or in
+private key can be provided in either a [.tt file](ttfiles.md) or in
 two .pem files (in PEM format).
 
 Press the *Open file button* in **Client certificate** row and add the
