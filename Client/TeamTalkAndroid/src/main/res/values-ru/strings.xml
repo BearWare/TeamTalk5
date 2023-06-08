@@ -34,7 +34,8 @@
     <string name="text_cmd_servername">Имя сервера: </string>
     <string name="text_cmd_servermotd">Сообщение дня: </string>
     <string name="pref_cat_subscriptions">Подписки</string>
-    <string name="pref_cat_tts">Настройка речевых сообщений</string>
+    <string name="pref_cat_tts">Настройка синтеза речи</string>
+    <string name="pref_cat_tts_events">Настройка речевых сообщений</string>
     <string name="pref_cat_soundtest">Тест Звука</string>
     <string name="pref_header_general">Общие Настройки</string>
     <string name="pref_title_nickname">Псевдоним</string>
@@ -82,6 +83,10 @@
     <string name="pref_header_tts">Синтез Речи</string>
     <string name="pref_title_speech_engine">Выбор синтезатора речи</string>
     <string name="pref_summary_speech_engine">Выберите один из установленных в системе синтезаторов речи</string>
+    <string name="pref_title_a11y_volume">Использовать громкость речевых подсказок</string>
+    <string name="pref_summary_a11y_volume">Для речевых сообщений будет использоваться громкость речевых подсказок службы специального доступа</string>
+    <string name="pref_title_use_announcements">Использовать речевые уведомления</string>
+    <string name="pref_summary_use_announcements">Речевые сообщения будут воспроизводиться службой специального доступа</string>
     <string name="pref_title_server_login">Вход пользователя на сервер</string>
     <string name="pref_summary_server_login">Объявлять имя входящего пользователя</string>
     <string name="pref_title_server_logout">Уход пользователя с сервера</string>
@@ -323,6 +328,7 @@
     <string name="permission_wake_lock">Соединение с сервером может быть потеряно при выключении экрана</string>
     <string name="permission_read_phone_state">Правильная реакция на входящие телефонные звонки будет невозможна</string>
     <string name="permission_bluetooth">Использование микрофона беспроводной гарнитуры будет невозможно</string>
+    <string name="permission_post_notifications">TeamTalk не сможет посылать уведомления</string>
 
     <string name="title_activity_web_login">Настройка web-регистрации</string>
     <string name="weblogin_prop_title_bearwareid">Имя пользователя</string>
