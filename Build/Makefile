@@ -53,7 +53,12 @@ ubuntu:
 	@echo May need to specify JAVA_HOME to help CMake find Java SDK
 	$(MAKE) BUILDDIR=build-$(UBUNTUDIR) CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON -DTOOLCHAIN_OPENSSL=OFF" generic
 ubuntu18:
-	$(MAKE) UBUNTUDIR=$@ ubuntu
+	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK_DLL=OFF \
+                              -DBUILD_TEAMTALK_PRODLL=OFF \
+                              -DBUILD_TEAMTALK_LIBRARIES=OFF \
+                              -DBUILD_TEAMTALK_SERVERS=OFF \
+                              -DBUILD_TEAMTALK_CLIENTS=OFF \
+                              -DBUILD_TEAMTALK_DOCUMENTATION=OFF" UBUNTUDIR=$@ ubuntu
 ubuntu19:
 	$(MAKE) UBUNTUDIR=$@ ubuntu
 ubuntu20:
