@@ -210,7 +210,3 @@ jobs:
 
     - name: Stop TeamTalk Pro Server (encrypted)
       run: killall tt5prosrv
-
-    - name: Doxygen Documentation
-      working-directory: ${{runner.workspace}}/TeamTalk5/Build
-      run: make dox

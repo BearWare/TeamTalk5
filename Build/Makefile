@@ -226,9 +226,3 @@ depend-rasp11:
 
 depend-mac:
 	brew install autoconf automake libtool pkg-config yasm ninja
-
-dox: teamtalk-env
-	cd $(TEAMTALK_ROOT)/Documentation/TeamTalk && doxygen TeamTalk5.dox
-	cd $(TEAMTALK_ROOT)/Documentation/TeamTalkSDK && doxygen TeamTalk.dox
-	cd $(TEAMTALK_ROOT)/Documentation/TeamTalkSDK && doxygen TeamTalk.NET.dox
-	cd $(TEAMTALK_ROOT)/Documentation/TeamTalkSDK && doxygen TeamTalk.Java.dox

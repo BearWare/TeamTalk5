@@ -207,8 +207,15 @@ jobs:
       shell: msys2 {0}
 
     - name: Generate Doxygen documention from MSYS2
-      working-directory: ${{runner.workspace}}/TeamTalk5/Build
-      run: make dox
+      working-directory: ${{runner.workspace}}/TeamTalk5/Documentation
+      run: |
+        cd TeamTalk && doxygen TeamTalk5.dox
+        cd ..
+        cd TeamTalkSDK && doxygen TeamTalk.dox
+        cd ..
+        cd TeamTalkSDK && doxygen TeamTalk.NET.dox
+        cd ..
+        cd TeamTalkSDK && doxygen TeamTalk.Java.dox
       shell: msys2 {0}
 
     - name: Compile TeamTalk5.chm
