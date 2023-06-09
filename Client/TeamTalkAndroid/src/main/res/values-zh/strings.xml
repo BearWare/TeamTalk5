@@ -18,6 +18,7 @@
     <string name="title_activity_stream_media">传输流媒体文件至频道</string>
     <string name="action_createchannel">创建</string>
     <string name="action_updatechannel">更新</string>
+    <string name="text_con_encryption_error">加密错误： %1$s</string>
     <string name="text_con_failed">无法连接服务器。重试中...</string>
     <string name="text_con_lost">与服务器连接丢失</string>
     <string name="text_con_success">已连接服务器</string>
@@ -33,14 +34,15 @@
     <string name="text_cmd_servername">服务器名称: </string>
     <string name="text_cmd_servermotd">每日消息: </string>
     <string name="pref_cat_subscriptions">订阅</string>
-    <string name="pref_cat_tts">配置文字转语音消息</string>
+    <string name="pref_cat_tts">文字转语音设置</string>
+    <string name="pref_cat_tts_events">配置文字转语音消息</string>
     <string name="pref_cat_soundtest">声音测试</string>
     <string name="pref_header_general">常规</string>
     <string name="pref_title_nickname">昵称</string>
     <string name="pref_default_nickname">无名</string>
     <string name="pref_title_proximity_sensor">近距离传感器</string>
     <string name="pref_title_keep_screen_on">连接时保持屏幕开启</string>
-    <string name="pref_title_vibrate">PTT 震动</string>
+    <string name="pref_title_vibrate">按键说话时震动</string>
     <string name="pref_show_log_messages">在聊天记录中显示日志消息</string>
     <string name="pref_title_audio_icons">声音事件</string>
     <string name="pref_title_rx_tx_audio_icon">语音传输切换</string>
@@ -79,8 +81,12 @@
     <string name="pref_title_sub_mediafile">媒体文件</string>
     <string name="pref_summary_sub_mediafile">订阅媒体文件流</string>
     <string name="pref_header_tts">文字转语音</string>
-    <string name="pref_title_speech_engine">语音</string>
+    <string name="pref_title_speech_engine">文字转语音引擎选择</string>
     <string name="pref_summary_speech_engine">选择一个已安装的语音引擎，与系统设置不同</string>
+    <string name="pref_title_a11y_volume">使用无障碍音量</string>
+    <string name="pref_summary_a11y_volume">文字转语音消息将使用无障碍音量播放</string>
+    <string name="pref_title_use_announcements">使用通知事件</string>
+    <string name="pref_summary_use_announcements">文字转语音消息将通过当前运行的无障碍服务播报</string>
     <string name="pref_title_server_login">用户登录服务器</string>
     <string name="pref_summary_server_login">播报登录用户的名字</string>
     <string name="pref_title_server_logout">用户登出服务器</string>
@@ -276,7 +282,7 @@
 
     <string name="text_samplerate">采样率</string>
     <string name="text_ignore_silence">忽略静音 (DTX)</string>
-    <string name="text_audchan">音频频道</string>
+    <string name="text_audchan">音频声道</string>
     <string name="text_bitrate">比特率</string>
     <string name="text_maxbitrate">最大比特率</string>
     <string name="text_txinterval">传输间隔</string>
@@ -319,15 +325,16 @@
     <string name="text_webcam_session">视频会话</string>
     <string name="text_mediafile_session">媒体文件会话</string>
 
-    <string name="permission_audioinput">音频录制与回放将不可用</string>
-    <string name="permission_audiomodify">音频录制与回放将不可用</string>
+    <string name="permission_audioinput">录音与播放将不可用</string>
+    <string name="permission_audiomodify">录音与播放将不可用</string>
     <string name="permission_filerx">下载文件将不可用</string>
-    <string name="permission_filetx">上传与传输文件将不可用</string>
+    <string name="permission_filetx">上传与导入文件将不可用</string>
     <string name="permission_internet">客户端将无法连接到服务器</string>
     <string name="permission_vibrate">按键说话期间的振动将不可用</string>
     <string name="permission_wake_lock">屏幕锁定时，服务器连接可能会丢失</string>
     <string name="permission_read_phone_state">来电监测将不可用</string>
     <string name="permission_bluetooth">蓝牙耳机麦克风将不可用</string>
+    <string name="permission_post_notifications">TeamTalk 将无法发送通知</string>
 
     <string name="title_activity_web_login">Web 登录激活</string>
     <string name="weblogin_prop_title_bearwareid">用户名</string>
