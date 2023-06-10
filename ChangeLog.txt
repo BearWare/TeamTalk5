@@ -20,6 +20,7 @@ Android Client
 - Fixed a bug of not showing contents of other tabs rather than current when going to another activity or locking/unlocking screen
 - It is now possible to use accessibility stream to play text-to-speech messages
 - Removed public servers from server list
+- Fixed import/export of TT files
 iOS Client
 - Support for verifying authenticity of encrypted TeamTalk servers using certificates
 - Removed public servers from server list
