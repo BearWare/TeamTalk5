@@ -505,12 +505,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="178"/>
         <source>Permanent channel (stored on server)</source>
-        <translation>Постоянный канал (хранится на сервере)</translation>
+        <translation>Постоянный кана&amp;л (хранится на сервере)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="187"/>
         <source>No interruptions (no simultaneous voice transmission)</source>
-        <translation>Без прерываний (нет одновременных передач голоса)</translation>
+        <translation>&amp;Без прерываний (нет одновременных передач голоса)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="194"/>
@@ -525,32 +525,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="206"/>
         <source>Classroom (operator-controlled transmissions)</source>
-        <translation>Учебный класс (Оператор контролирует передачи)</translation>
+        <translation>&amp;Учебный класс (Оператор контролирует передачи)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="213"/>
         <source>Operator receive only (only operator see and hear users)</source>
-        <translation>Принимает только оператор (только оператор видит и слышит пользователей)</translation>
+        <translation>Принимает только оператор (только оператор видит и слы&amp;шит пользователей)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="220"/>
         <source>No voice activation (only Push-to-Talk allowed)</source>
-        <translation>Без голосовой активации (разрешается только нажми чтобы сказать)</translation>
+        <translation>Без голосовой актива&amp;ции (разрешается только нажми чтобы сказать)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="227"/>
         <source>No audio recording allowed (save to disk not allowed)</source>
-        <translation>Не допускается запись аудио (сохранение на диск не разрешено)</translation>
+        <translation>Не допуска&amp;ется запись аудио (сохранение на диск не разрешено)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="234"/>
         <source>Hidden channel (invisible and only known by name)</source>
-        <translation>Скрытый канал (невидимый и известный только по имени)</translation>
+        <translation>&amp;Скрытый канал (невидимый и известный только по имени)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="248"/>
         <source>Audio Codec</source>
-        <translation>Звуковой Кодек</translation>
+        <translation>&amp;Звуковой Кодек</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="256"/>
@@ -667,7 +667,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../channeldlg.cpp" line="44"/>
         <location filename="../channeldlg.cpp" line="437"/>
         <source>&amp;OK</source>
-        <translation>ok</translation>
+        <translation>&amp;ok</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="45"/>
@@ -7629,7 +7629,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="368"/>
         <source>Codec Limitations</source>
-        <translation>Ограничения кодека</translation>
+        <translation>Ограничения ко&amp;дека</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="374"/>
@@ -7649,7 +7649,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="427"/>
         <source>Abuse Prevention</source>
-        <translation>Предотвращение флуда</translation>
+        <translation>Предотвращение &amp;флуда</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="433"/>
@@ -7672,7 +7672,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../useraccounts.ui" line="228"/>
         <location filename="../useraccounts.ui" line="258"/>
         <source>User Rights</source>
-        <translation>Права Пользователя</translation>
+        <translation>Права пользователя</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="510"/>
@@ -7815,7 +7815,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../useraccounts.ui" line="272"/>
         <location filename="../useraccountsdlg.cpp" line="443"/>
         <source>Channel Operator</source>
-        <translation>Оператор канала</translation>
+        <translation>&amp;Оператор канала</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="444"/>
