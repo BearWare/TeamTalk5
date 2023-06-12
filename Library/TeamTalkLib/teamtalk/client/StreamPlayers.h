@@ -43,7 +43,6 @@
 #if defined(ENABLE_VPX)
 #include <codec/VpxDecoder.h>
 #endif
-#include "VideoThread.h"
 
 #include <memory>
 

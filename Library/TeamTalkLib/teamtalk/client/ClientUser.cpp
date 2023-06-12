@@ -23,6 +23,7 @@
 
 #include "ClientUser.h"
 #include "ClientNodeEvent.h"
+#include "ClientNodeBase.h"
 
 #include <teamtalk/ttassert.h>
 #include <teamtalk/Commands.h>

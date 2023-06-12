@@ -27,16 +27,11 @@
 #include <teamtalk/Channel.h>
 
 namespace teamtalk {
+
     class ClientUser;
     typedef std::shared_ptr< ClientUser > clientuser_t;
     class ClientChannel;
     typedef std::shared_ptr< ClientChannel > clientchannel_t;
-}
-
-
-#include "ClientUser.h"
-
-namespace teamtalk {
 
     class ClientChannel : public teamtalk::Channel< ClientChannel, ClientUser >
     {

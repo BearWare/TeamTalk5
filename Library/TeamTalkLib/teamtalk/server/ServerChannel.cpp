@@ -22,6 +22,7 @@
  */
 
 #include "ServerChannel.h"
+#include "ServerUser.h"
 
 #include <iostream>
 

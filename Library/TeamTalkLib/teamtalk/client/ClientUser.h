@@ -24,10 +24,9 @@
 #if !defined(CLIENTUSER_H)
 #define CLIENTUSER_H
 
+#include "ClientChannel.h"
 #include "DesktopShare.h"
 #include "StreamPlayers.h"
-#include "ClientChannel.h"
-#include "ClientNodeBase.h"
 
 #include <teamtalk/User.h>
 
