@@ -39,6 +39,7 @@
 
 #include "AcceptHandler.h"
 #include "ServerChannel.h"
+#include "ServerUser.h"
 
 // STL
 #include <map>
