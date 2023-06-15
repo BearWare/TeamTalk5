@@ -25,7 +25,6 @@
 #define SERVERCHANNEL_H
 
 #include <teamtalk/Channel.h>
-#include "ServerUser.h"
 
 namespace teamtalk { 
 

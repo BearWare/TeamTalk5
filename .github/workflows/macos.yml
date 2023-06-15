@@ -71,10 +71,6 @@ jobs:
     - name: Stop TeamTalk Standard Server
       run: killall tt5srv
 
-    - name: Doxygen Documentation
-      working-directory: ${{runner.workspace}}/TeamTalk5/Build
-      run: make dox
-
     - name: Run CMake Install Target
       working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-mac
       run: cmake --build . --target install
