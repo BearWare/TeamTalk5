@@ -13,7 +13,7 @@ Default Qt Client
 - Removed public servers from server list
 - Changed to Qt 6.6 beta1 on macOS
 Accessible Windows Client
-- Removed public servers from server list
+- Classic client is no longer available in Windows installer
 Android Client
 - Support for verifying authenticity of encrypted TeamTalk servers using certificates
 - Fixed crashes when clicking a link in channel and private messages
