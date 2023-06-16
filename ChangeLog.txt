@@ -12,7 +12,7 @@ Default Qt Client
 - Selected communication sound device is now default in Windows
 - Removed public servers from server list
 Accessible Windows Client
-- Removed public servers from server list
+- Classic client is no longer available in Windows installer
 Android Client
 - Support for verifying authenticity of encrypted TeamTalk servers using certificates
 - Fixed crashes when clicking a link in channel and private messages
