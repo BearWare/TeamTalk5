@@ -111,9 +111,9 @@ namespace teamtalk {
         void SetAudioCodec(const AudioCodec& codec) { m_audiocodec = codec; }
         const AudioCodec& GetAudioCodec() const { return m_audiocodec; }
         void SetChannelType(ChannelTypes chantype){ m_chantype = chantype; }
+        ChannelTypes GetChannelType() const { return m_chantype; }
         void SetAudioConfig(const AudioConfig& audiocfg) { m_audiocfg = audiocfg; }
         const AudioConfig& GetAudioConfig() const { return m_audiocfg; }
-        ChannelTypes GetChannelType() const { return m_chantype; }
         void SetUserData(int userdata) { m_userdata = userdata; }
         int GetUserData() const { return m_userdata; }
         ACE_TString GetChannelPath() const
@@ -529,7 +529,7 @@ namespace teamtalk {
         uint8_t m_cryptkey[CRYPTKEY_SIZE];
 #endif
 
-    protected:
+    private:
         //pair element for m_mUsers
         typedef std::map<int, user_t > mapuser_t;
         //users in channel
@@ -556,9 +556,10 @@ namespace teamtalk {
         //classroom transmission
         transmitusers_t m_transmitusers;
         //solo transmission
-        std::vector<int> m_transmitqueue;
         ACE_Time_Value m_transmitswitch_delay;
+    protected:
         bannedusers_t m_bans;
+        std::vector<int> m_transmitqueue;
     };
 
     /**** Global helper functions ****/
