@@ -576,7 +576,7 @@ MainWindow::MainWindow(const QString& cfgfile)
 
     m_timers.insert(startTimer(1000), TIMER_ONE_SECOND);
 
-#if !defined(Q_OS_WIN32) || USE_POLL
+#if !defined(Q_OS_WIN32)
     //Windows uses its HWND for message handling, other platforms must
     //pull using a timer
     m_timers.insert(startTimer(20), TIMER_PROCESS_TTEVENT);

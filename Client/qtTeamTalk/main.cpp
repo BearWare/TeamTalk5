@@ -373,7 +373,7 @@ int main(int argc, char *argv[])
     /* Set license information before creating the first client instance */
     TT_SetLicenseInformation(_W(QString(REGISTRATION_NAME)), _W(QString(REGISTRATION_KEY)));
 
-#if defined(Q_OS_WIN32) && USE_POLL == 0
+#if defined(Q_OS_WIN32)
     HWND hWnd = reinterpret_cast<HWND>(window.winId());
     app.m_mainwindow = &window;
     ttInst = TT_InitTeamTalk(hWnd, WM_TEAMALK_CLIENTEVENT);
