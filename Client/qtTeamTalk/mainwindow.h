@@ -39,10 +39,6 @@
 #include "utilui.h"
 #include "utilhotkey.h"
 
-#if defined(Q_OS_WIN32)
-#define USE_POLL 0
-#endif
-
 #ifdef Q_OS_LINUX
 #include <QX11Info>
 #endif
