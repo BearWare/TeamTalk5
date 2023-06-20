@@ -30,7 +30,7 @@ public class EncryptionContext {
     public String szCAFile = "";
     public String szCADir = "";
     public boolean bVerifyPeer = false;
-    public boolean bVerifyClientOnce = true;
+    public boolean bVerifyClientOnce = false;
     public int nVerifyDepth = 0;
 
     public EncryptionContext() {
