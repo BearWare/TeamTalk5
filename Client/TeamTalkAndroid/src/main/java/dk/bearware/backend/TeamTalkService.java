@@ -615,6 +615,9 @@ public class TeamTalkService extends Service
             if (!this.ttserver.clientcertkey.isEmpty())
                 context.szPrivateKeyFile = clientkeyfile.getAbsolutePath();
             context.bVerifyPeer = ttserver.verifypeer;
+            if (!context.bVerifyPeer) {
+                context.nVerifyDepth = -1;
+            }
             return ttclient.setEncryptionContext(context);
         } catch (IOException e) {
             return false;
