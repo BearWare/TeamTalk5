@@ -145,18 +145,69 @@ public class TeamTalkService extends Service
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
 
-    private final TeamTalkEventHandler mEventHandler = new TeamTalkEventHandler();
     private BluetoothHeadsetHelper bluetoothHeadsetHelper;
     private TelephonyManager telephonyManager;
+    OnVoiceTransmissionToggleListener onVoiceTransmissionToggleListener;
     private boolean listeningPhoneStateChanges;
     private boolean txSuspended;
     private boolean voxSuspended;
     private boolean permanentMuteState;
     private boolean currentMuteState;
-
+    Notification.Builder widget = null;
+    NotificationManager notificationManager;
     private volatile boolean inPhoneCall;
-
     private MediaSessionCompat mediaSession;
+    Handler reconnectHandler = new Handler();
+    Runnable reconnectTimer = this::reconnect;
+
+    TeamTalkBase ttclient;
+    ServerEntry ttserver;
+    Channel joinchannel, /* the channel to join after login */
+            mychannel; /* the channel 'ttclient' is currently in */
+    private final TeamTalkEventHandler mEventHandler = new TeamTalkEventHandler();
+    CountDownTimer eventTimer;
+    SparseArray<CmdComplete> activecmds = new SparseArray<>();
+
+    Map<Integer, Channel> channels = new HashMap<>();
+    Map<Integer, RemoteFile> remoteFiles = new HashMap<>();
+    Map<Integer, FileTransfer> fileTransfers = new HashMap<>();
+    Map<Integer, User> users = new HashMap<>();
+    Map<Integer, Vector<MyTextMessage>> usertxtmsgs = new HashMap<>();
+    Vector<MyTextMessage> chatlogtxtmsgs = new Vector<>();
+    Map<String, UserCached> usercache = new HashMap<>();
+
+    public void resetState() {
+        reconnectHandler.removeCallbacks(reconnectTimer);
+        disablePhoneCallReaction();
+
+        syncToUserCache();
+
+        if(ttclient != null)
+            ttclient.disconnect();
+
+        displayNotification(false);
+        joinchannel = null;
+        setMyChannel(null);
+        channels.clear();
+        remoteFiles.clear();
+        fileTransfers.clear();
+        users.clear();
+        usertxtmsgs.clear();
+        chatlogtxtmsgs.clear();
+    }
+
+    public Map<Integer, Channel> getChannels() {
+        return channels;
+    }
+    public Map<Integer, RemoteFile> getRemoteFiles() {
+        return remoteFiles;
+    }
+    public Map<Integer, FileTransfer> getFileTransfers() {
+        return fileTransfers;
+    }
+    public Map<Integer, User> getUsers() {
+        return users;
+    }
 
     private final MediaSessionCompat.Callback mMediaSessionCallback = new MediaSessionCompat.Callback() {
 
@@ -312,16 +363,6 @@ public class TeamTalkService extends Service
 
         Log.d(TAG, "Destroyed TeamTalk 5 service");
     }
-
-    TeamTalkBase ttclient;
-    ServerEntry ttserver;
-    Channel joinchannel, /* the channel to join after login */
-            mychannel; /* the channel 'ttclient' is currently in */
-    OnVoiceTransmissionToggleListener onVoiceTransmissionToggleListener;
-    CountDownTimer eventTimer;
-    Notification.Builder widget = null;
-    NotificationManager notificationManager;
-    SparseArray<CmdComplete> activecmds = new SparseArray<>();
 
     private String getNotificationText() {
         return (mychannel != null) ?
@@ -624,30 +665,6 @@ public class TeamTalkService extends Service
         }
     }
 
-    Map<Integer, Channel> channels = new HashMap<>();
-    Map<Integer, RemoteFile> remoteFiles = new HashMap<>();
-    Map<Integer, FileTransfer> fileTransfers = new HashMap<>();
-    Map<Integer, User> users = new HashMap<>();
-    Map<Integer, Vector<MyTextMessage>> usertxtmsgs = new HashMap<>();
-    Vector<MyTextMessage> chatlogtxtmsgs = new Vector<>();
-    Map<String, UserCached> usercache = new HashMap<>();
-
-    public Map<Integer, Channel> getChannels() {
-        return channels;
-    }
-
-    public Map<Integer, RemoteFile> getRemoteFiles() {
-        return remoteFiles;
-    }
-
-    public Map<Integer, FileTransfer> getFileTransfers() {
-        return fileTransfers;
-    }
-
-    public Map<Integer, User> getUsers() {
-        return users;
-    }
-
     public int HISTORY_CHATLOG_MSG_MAX = 100;
     public int HISTORY_USER_MSG_MAX = 100;
 
@@ -668,26 +685,6 @@ public class TeamTalkService extends Service
             chatlogtxtmsgs.remove(0);
 
         return chatlogtxtmsgs;
-    }
-
-    public void resetState() {
-        reconnectHandler.removeCallbacks(reconnectTimer);
-        disablePhoneCallReaction();
-
-        syncToUserCache();
-
-        if(ttclient != null)
-            ttclient.disconnect();
-
-        displayNotification(false);
-        joinchannel = null;
-        setMyChannel(null);
-        channels.clear();
-        remoteFiles.clear();
-        fileTransfers.clear();
-        users.clear();
-        usertxtmsgs.clear();
-        chatlogtxtmsgs.clear();
     }
 
     void createEventTimer() {
@@ -718,9 +715,6 @@ public class TeamTalkService extends Service
         eventTimer.start();
     }
 
-    Handler reconnectHandler = new Handler();
-    Runnable reconnectTimer = this::reconnect;
-    
     void createReconnectTimer(long delayMsec) {
         
         reconnectHandler.removeCallbacks(reconnectTimer);
