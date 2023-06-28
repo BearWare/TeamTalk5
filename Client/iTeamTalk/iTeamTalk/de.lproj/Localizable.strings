@@ -156,10 +156,10 @@
 "Commands" = "Befehle";
 
 /* serverlist */
-"Connect to server" = "Zum Server verbinden";
+"Connect to server" = "Zu Server verbinden";
 
 /* connect to a server */
-"Connect to Server" = "Connect to Server";
+"Connect to Server" = "Zu Server verbinden";
 
 /* preferences
    server entry */
@@ -222,7 +222,7 @@
 "Exclusive Mode Toggled" = "Exklusiver Modus umgeschaltet";
 
 /* connect to a server */
-"Failed to setup encryption" = "Failed to setup encryption";
+"Failed to setup encryption" = "Fehler beim Einrichten der Verschlüsselung";
 
 /* preferences */
 "Female" = "Weiblich";

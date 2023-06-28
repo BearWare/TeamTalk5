@@ -407,13 +407,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../changestatusdlg.cpp" line="46"/>
         <source>&amp;Available</source>
         <comment>For female</comment>
-        <translation type="unfinished">&amp;Verfügbar</translation>
+        <translation>&amp;Verfügbar</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="47"/>
         <source>A&amp;way</source>
         <comment>For female</comment>
-        <translation type="unfinished">&amp;Abwesend</translation>
+        <translation>&amp;Abwesend</translation>
     </message>
 </context>
 <context>
@@ -816,37 +816,37 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="960"/>
         <source>Away</source>
         <comment>For female</comment>
-        <translation type="unfinished">Abwesend</translation>
+        <translation>Abwesend</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="960"/>
         <source>Away</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Abwesend</translation>
+        <translation>Abwesend</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="984"/>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation type="unfinished">Administrator</translation>
+        <translation>Administratorin</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="984"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Administrator</translation>
+        <translation>Administrator</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="987"/>
         <source>Channel operator</source>
         <comment>For female</comment>
-        <translation type="unfinished">Raumoperator</translation>
+        <translation>Raumoperatorin</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="987"/>
         <source>Channel operator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Raumoperator</translation>
+        <translation>Raumoperator</translation>
     </message>
     <message>
         <source>Away</source>
@@ -1181,17 +1181,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../encryptionsetupdlg.ui" line="14"/>
         <source>Setup Encryption</source>
-        <translation type="unfinished"></translation>
+        <translation>Verschlüsselung einrichten</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="20"/>
         <source>Client Encryption Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Client-Verschlüsselungseinstellungen</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="26"/>
         <source>Certificate Authority (CA)</source>
-        <translation type="unfinished"></translation>
+        <translation>Zertifikats-Autorität (CA)</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="48"/>
@@ -1201,120 +1201,120 @@ p, li { white-space: pre-wrap; }
         <location filename="../encryptionsetupdlg.ui" line="156"/>
         <location filename="../encryptionsetupdlg.ui" line="171"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="56"/>
         <location filename="../encryptionsetupdlg.ui" line="110"/>
         <location filename="../encryptionsetupdlg.ui" line="164"/>
         <source>Browse</source>
-        <translation type="unfinished">Durchsuchen</translation>
+        <translation>Durchsuchen</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="71"/>
         <location filename="../encryptionsetupdlg.ui" line="125"/>
         <location filename="../encryptionsetupdlg.ui" line="179"/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>Zurücksetzen</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="80"/>
         <source>Client certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Client-Zertifikat</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="134"/>
         <source>Client private key</source>
-        <translation type="unfinished"></translation>
+        <translation>Privater Client-Schlüssel</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="188"/>
         <source>Verify server certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Server-Zertifikat prüfen</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="83"/>
         <location filename="../encryptionsetupdlg.cpp" line="126"/>
         <source>Issuer: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Aussteller: %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="84"/>
         <location filename="../encryptionsetupdlg.cpp" line="127"/>
         <source>Subject: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Betreff: %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="85"/>
         <location filename="../encryptionsetupdlg.cpp" line="128"/>
         <source>Effective date: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Gültig ab: %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="86"/>
         <location filename="../encryptionsetupdlg.cpp" line="129"/>
         <source>Expiration date: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Verfallsdatum: %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="98"/>
         <source>Certificate Authority (*.cer)</source>
-        <translation type="unfinished"></translation>
+        <translation>Zertifikats-Autorität (*.cer)</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="112"/>
         <source>Setup Certificate Autority</source>
-        <translation type="unfinished"></translation>
+        <translation>Zertifikats-Autorität einrichten</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="113"/>
         <source>The file %1 does not contain a valid certificate authority</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei %1 enthält keine gültige Zertifikats-Autorität</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="141"/>
         <source>Client Certificate (*.pem)</source>
-        <translation type="unfinished"></translation>
+        <translation>Client-Zertifikat (*.pem)</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="155"/>
         <source>Setup Client Certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Client-Zertifikat einrichten</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="156"/>
         <source>The file %1 does not contain a valid client certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei %1 enthält kein gültiges Client-Zertifikat</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="169"/>
         <source>RSA encryption</source>
-        <translation type="unfinished"></translation>
+        <translation>RSA-Verschlüsselung</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="171"/>
         <source>Private key: %1 bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Privater Schlüssel: %1 Bits</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="183"/>
         <source>Client Private Key (*.pem)</source>
-        <translation type="unfinished"></translation>
+        <translation>Privater Client-Schlüssel (*.pem)</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="197"/>
         <source>Setup Client Private Key</source>
-        <translation type="unfinished"></translation>
+        <translation>Privaten Client-Schlüssel einrichten</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="198"/>
         <source>The file %1 does not contain a valid client private key</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei %1 enthält keinen gültigen privaten Client-Schlüssel</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="207"/>
         <source>Open File</source>
-        <translation type="unfinished">Datei öffnen</translation>
+        <translation>Datei öffnen</translation>
     </message>
 </context>
 <context>
@@ -1651,14 +1651,14 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="1140"/>
         <source>%1 has logged out</source>
         <comment>For female</comment>
-        <translation type="unfinished">%1 hat sich abgemeldet</translation>
+        <translation>%1 hat sich abgemeldet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1138"/>
         <location filename="../mainwindow.cpp" line="1140"/>
         <source>%1 has logged out</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">%1 hat sich abgemeldet</translation>
+        <translation>%1 hat sich abgemeldet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1204"/>
@@ -2856,7 +2856,7 @@ Sie kann auf folgender Seite heruntergeladen werden:
     <message>
         <location filename="../mainwindow.cpp" line="1998"/>
         <source>Failed to setup encryption settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Einrichten der Verschlüsselungseinstellungen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2103"/>
@@ -3150,7 +3150,9 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <source>New version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Version verfügbar: %1<byte value="xd"/>
+Sie kann auf folgender Seite heruntergeladen werden:<byte value="xd"/>
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7318"/>
@@ -3167,7 +3169,9 @@ You can download it on the page below:<byte value="xd"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Beta-Version verfügbar: %1<byte value="xd"/>
+Sie kann auf folgender Seite heruntergeladen werden:<byte value="xd"/>
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7428"/>
@@ -3268,73 +3272,73 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="5770"/>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation type="unfinished">Administrator</translation>
+        <translation>Administratorin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5770"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Administrator</translation>
+        <translation>Administrator</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5774"/>
         <source>User</source>
         <comment>For female</comment>
-        <translation type="unfinished">Benutzer</translation>
+        <translation>Benutzerin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5774"/>
         <source>User</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Benutzer</translation>
+        <translation>Benutzer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5781"/>
         <source>Selected for move</source>
         <comment>For female</comment>
-        <translation type="unfinished">Zum Verschieben gewählt</translation>
+        <translation>Zum Verschieben gewählt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5781"/>
         <source>Selected for move</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Zum Verschieben gewählt</translation>
+        <translation>Zum Verschieben gewählt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5784"/>
         <source>Channel operator</source>
         <comment>For female</comment>
-        <translation type="unfinished">Raumoperator</translation>
+        <translation>Raumoperatorin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5784"/>
         <source>Channel operator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Raumoperator</translation>
+        <translation>Raumoperator</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5792"/>
         <source>Available</source>
         <comment>For female</comment>
-        <translation type="unfinished">Verfügbar</translation>
+        <translation>Verfügbar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5792"/>
         <source>Available</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Verfügbar</translation>
+        <translation>Verfügbar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5795"/>
         <source>Away</source>
         <comment>For female</comment>
-        <translation type="unfinished">Abwesend</translation>
+        <translation>Abwesend</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5795"/>
         <source>Away</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Abwesend</translation>
+        <translation>Abwesend</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6146"/>
@@ -6023,7 +6027,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="220"/>
         <source>Setup</source>
-        <translation type="unfinished">Einrichtung</translation>
+        <translation>Einrichtung</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="242"/>
@@ -7995,37 +7999,37 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
         <location filename="../userinfodlg.cpp" line="67"/>
         <source>Available</source>
         <comment>For female</comment>
-        <translation type="unfinished">Verfügbar</translation>
+        <translation>Verfügbar</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="67"/>
         <source>Available</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Verfügbar</translation>
+        <translation>Verfügbar</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="69"/>
         <source>Away</source>
         <comment>For female</comment>
-        <translation type="unfinished">Abwesend</translation>
+        <translation>Abwesend</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="69"/>
         <source>Away</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Abwesend</translation>
+        <translation>Abwesend</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="90"/>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation type="unfinished">Administrator</translation>
+        <translation>Administratorin</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="90"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Administrator</translation>
+        <translation>Administrator</translation>
     </message>
     <message>
         <source>Available</source>
