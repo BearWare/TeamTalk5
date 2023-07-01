@@ -188,6 +188,7 @@ public class TeamTalkService extends Service
         displayNotification(false);
         joinchannel = null;
         setMyChannel(null);
+        activecmds.clear();
         channels.clear();
         remoteFiles.clear();
         fileTransfers.clear();
