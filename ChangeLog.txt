@@ -11,6 +11,7 @@ Default Qt Client
 - Initial support for inclusive writing in some status and events
 - Selected communication sound device is now default in Windows
 - Removed public servers from server list
+- Changed to Qt 6.6 beta1 on macOS
 Accessible Windows Client
 - Removed public servers from server list
 Android Client
@@ -26,6 +27,7 @@ iOS Client
 Server
 - TeamTalk Pro server supports verifying client certificate
 - Fixed bug where it was possible to move a user, who was not logged in, into a channel
+- Fixed crash issue when banned user has invalid time
 
 Version 5.13.1, 2023/05/22
 Server

@@ -641,7 +641,7 @@ int ServerNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
     {
         timer_userdata tm_data;
         tm_data.userdata = userdata;
-        serveruser_t src_user = GetUser(tm_data.src_userid, nullptr);
+        serveruser_t src_user = GetUser(tm_data.src_userid, nullptr, false);
         if(src_user)
             src_user->ProcessCommandQueue(true);
 

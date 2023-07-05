@@ -131,7 +131,25 @@ extends AppCompatActivity
         OnItemLongClickListener,
         OnMenuItemClickListener,
         SensorEventListener,
-        OnVoiceTransmissionToggleListener, ClientEventListener.OnConnectionLostListener, ClientEventListener.OnCmdProcessingListener, ClientEventListener.OnCmdMyselfLoggedInListener, ClientEventListener.OnCmdMyselfLoggedOutListener, ClientEventListener.OnCmdMyselfKickedFromChannelListener, ClientEventListener.OnCmdUserUpdateListener, ClientEventListener.OnCmdUserLeftChannelListener, ClientEventListener.OnCmdChannelNewListener, ClientEventListener.OnCmdUserTextMessageListener, ClientEventListener.OnCmdUserJoinedChannelListener, ClientEventListener.OnCmdChannelRemoveListener, ClientEventListener.OnCmdChannelUpdateListener, ClientEventListener.OnCmdUserLoggedOutListener, ClientEventListener.OnCmdUserLoggedInListener, ClientEventListener.OnCmdFileRemoveListener, ClientEventListener.OnUserStateChangeListener, ClientEventListener.OnVoiceActivationListener, ClientEventListener.OnCmdFileNewListener {
+        OnVoiceTransmissionToggleListener,
+        ClientEventListener.OnConnectionLostListener,
+        ClientEventListener.OnCmdProcessingListener,
+        ClientEventListener.OnCmdMyselfLoggedInListener,
+        ClientEventListener.OnCmdMyselfLoggedOutListener,
+        ClientEventListener.OnCmdMyselfKickedFromChannelListener,
+        ClientEventListener.OnCmdUserUpdateListener,
+        ClientEventListener.OnCmdUserLeftChannelListener,
+        ClientEventListener.OnCmdChannelNewListener,
+        ClientEventListener.OnCmdUserTextMessageListener,
+        ClientEventListener.OnCmdUserJoinedChannelListener,
+        ClientEventListener.OnCmdChannelRemoveListener,
+        ClientEventListener.OnCmdChannelUpdateListener,
+        ClientEventListener.OnCmdUserLoggedOutListener,
+        ClientEventListener.OnCmdUserLoggedInListener,
+        ClientEventListener.OnCmdFileRemoveListener,
+        ClientEventListener.OnUserStateChangeListener,
+        ClientEventListener.OnVoiceActivationListener,
+        ClientEventListener.OnCmdFileNewListener {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
 

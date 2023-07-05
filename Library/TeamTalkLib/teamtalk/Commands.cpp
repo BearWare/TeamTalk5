@@ -725,7 +725,7 @@ namespace teamtalk {
     {
         time_t local_tm = tv.sec();
         struct tm* gmt = std::gmtime(&local_tm);
-        ACE_INT64 utc_tm = std::mktime(gmt);
+        ACE_INT64 utc_tm = gmt ? std::mktime(gmt) : tv.sec();
         AppendProperty(prop, utc_tm, dest_str);
     }
 

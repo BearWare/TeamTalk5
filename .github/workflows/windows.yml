@@ -42,7 +42,7 @@ jobs:
         java-version: '11'
         architecture: ${{ matrix.dotnetarch }}
 
-    - uses: jurplel/install-qt-action@v2
+    - uses: jurplel/install-qt-action@v3
       with:
         arch: '${{ matrix.qtarch }}'
         setup-python: 'false'

@@ -18,6 +18,7 @@
     <string name="title_activity_stream_media">Mediendatei in Raum streamen</string>
     <string name="action_createchannel">Erstellen</string>
     <string name="action_updatechannel">Bearbeiten</string>
+    <string name="text_con_encryption_error">Verschlüsselungsfehler: %1$s</string>
     <string name="text_con_failed">Fehler beim Verbinden zum Server. Nächster Versuch...</string>
     <string name="text_con_lost">Verbindung zum Server unterbrochen</string>
     <string name="text_con_success">Mit Server verbunden</string>
@@ -33,7 +34,7 @@
     <string name="text_cmd_servername">Servername: </string>
     <string name="text_cmd_servermotd">Nachricht des Tages: </string>
     <string name="pref_cat_subscriptions">Empfang</string>
-    <string name="pref_cat_tts">Sprachausgabennachrichten konfigurieren</string>
+    <string name="pref_cat_tts">Text-To-Speech-Einstellungen</string>
     <string name="pref_cat_soundtest">Klangtest</string>
     <string name="pref_header_general">Allgemein</string>
     <string name="pref_title_nickname">Nickname</string>
@@ -81,6 +82,10 @@
     <string name="pref_header_tts">Sprachausgabe</string>
     <string name="pref_title_speech_engine">Sprachausgabe wählen</string>
     <string name="pref_summary_speech_engine">Wähle aus einer der installierten Sprachausgaben, unabhängig von Systemeinstellungen</string>
+    <string name="pref_title_a11y_volume">Verwende Bedienungshilfen-Lautstärke</string>
+    <string name="pref_summary_a11y_volume">Sprachausgabenereignisse werden über die Lautstärke der Bedienungshilfen ausgegeben</string>
+    <string name="pref_title_use_announcements">Verwende Ankündigungsereignisse</string>
+    <string name="pref_summary_use_announcements">Sprachausgabenereignisse werden mittels der gerade laufenden Bedienungshilfe ausgegeben</string>
     <string name="pref_title_server_login">Benutzer meldet sich an</string>
     <string name="pref_summary_server_login">Ansage des Benutzers, der sich am Server anmeldet</string>
     <string name="pref_title_server_logout">Benutzer meldet sich ab</string>
@@ -328,6 +333,7 @@
     <string name="permission_wake_lock">Server-Verbindung kann bei abgedunkeltem Bildschirm abreißen</string>
     <string name="permission_read_phone_state">Erkennung eingehender Telefonate wird nicht möglich sein</string>
     <string name="permission_bluetooth">Benutzung von Bluetooth-Headsetmikrofonen wird nicht möglich sein</string>
+    <string name="permission_post_notifications">TeamTalk kann keine Benachrichtigungen senden</string>
 
     <string name="title_activity_web_login">WebLogin-Aktivität</string>
     <string name="weblogin_prop_title_bearwareid">Benutzername</string>

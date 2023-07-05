@@ -583,7 +583,7 @@ void ServerGuard::WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, Us
     {
         GUARD_OBJ_NAME(g, servernode, servernode->lock());
 
-        auto user = servernode->GetUser(userid, nullptr);
+        auto user = servernode->GetUser(userid, nullptr, false);
         if (user.get())
         {
             authtoken = UnicodeToUtf8(user->GetAccessToken()).c_str();
@@ -693,7 +693,7 @@ ErrorMsg ServerGuard::WebLoginPostAuthenticate(UserAccount& useraccount)
 void ServerGuard::WebLoginComplete(ServerNode* servernode, ACE_UINT32 userid,
                                    const UserAccount& useraccount, const ErrorMsg& err)
 {
-    serveruser_t user = servernode->GetUser(userid, nullptr);
+    serveruser_t user = servernode->GetUser(userid, nullptr, false);
     if(!user)
         return;
 
