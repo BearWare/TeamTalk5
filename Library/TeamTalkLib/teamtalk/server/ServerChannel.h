@@ -45,6 +45,12 @@ namespace teamtalk {
         void SetOwner(const ServerUser& user);
         bool IsOwner(const ServerUser& user) const;
         bool IsAutoOperator(const ServerUser& user) const;
+
+        void AddUserBan(const BannedUser& ban);
+        bool IsBanned(const BannedUser& testban) const;
+        void RemoveUserBan(const BannedUser& ban);
+        const std::vector<BannedUser>& GetBans() const { return m_bans; }
+
     private:
         void Init();
         // userid -> last transmit time

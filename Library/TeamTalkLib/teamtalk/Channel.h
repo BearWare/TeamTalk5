@@ -465,31 +465,6 @@ namespace teamtalk {
             return m_transmitqueue;
         }
 
-        void AddUserBan(const BannedUser& ban) { RemoveUserBan(ban); m_bans.push_back(ban); }
-
-        bool IsBanned(const BannedUser& testban) const
-        {
-            auto i = std::find_if(m_bans.begin(), m_bans.end(),
-                                  [testban](BannedUser ban)
-                                  {
-                                      return ban.Match(testban);
-                                  });
-            return i != m_bans.end();
-        }
-
-        void RemoveUserBan(const BannedUser& ban)
-        {
-            auto i = std::find_if(m_bans.begin(), m_bans.end(),
-                                  [ban](BannedUser testban)
-                                  {
-                                      return ban.Same(testban);
-                                  });
-            if(i != m_bans.end())
-                m_bans.erase(i);
-        }
-
-        const std::vector<BannedUser>& GetBans() const { return m_bans; }
-
         ChannelProp GetChannelProp() const
         {
             ChannelProp prop;
@@ -512,8 +487,9 @@ namespace teamtalk {
             prop.audiocfg = m_audiocfg;
             GetFiles(prop.files, false);
             prop.transmitusers = m_transmitusers;
-            prop.transmitqueue = m_transmitqueue;
             prop.transmitswitchdelay = int(GetTransmitSwitchDelay().msec());
+
+            prop.transmitqueue = m_transmitqueue;
             prop.bans = m_bans;
             return prop;
         }
