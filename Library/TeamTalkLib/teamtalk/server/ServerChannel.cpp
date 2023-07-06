@@ -175,3 +175,29 @@ bool ServerChannel::IsAutoOperator(const ServerUser& user) const
 {
     return user.GetUserAccount().auto_op_channels.find(user.GetUserID()) != user.GetUserAccount().auto_op_channels.end();
 }
+
+void ServerChannel::AddUserBan(const BannedUser& ban)
+{
+    RemoveUserBan(ban); m_bans.push_back(ban);
+}
+
+bool ServerChannel::IsBanned(const BannedUser& testban) const
+{
+    auto i = std::find_if(m_bans.begin(), m_bans.end(),
+                          [testban](BannedUser ban)
+                          {
+                              return ban.Match(testban);
+                          });
+    return i != m_bans.end();
+}
+
+void ServerChannel::RemoveUserBan(const BannedUser& ban)
+{
+    auto i = std::find_if(m_bans.begin(), m_bans.end(),
+                          [ban](BannedUser testban)
+                          {
+                              return ban.Same(testban);
+                          });
+    if(i != m_bans.end())
+        m_bans.erase(i);
+}
