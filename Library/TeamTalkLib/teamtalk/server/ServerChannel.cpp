@@ -55,6 +55,14 @@ void ServerChannel::Init()
 
 #define STREAMKEY(uid, tx) (((uid) << 16) | tx)
 
+void ServerChannel::BlockAudioStream(int userid)
+{
+    int streamkey = STREAMKEY(userid, STREAMTYPE_VOICE);
+    m_blockStreams[streamkey] = m_activeStreams[streamkey];
+    streamkey = STREAMKEY(userid, STREAMTYPE_MEDIAFILE);
+    m_blockStreams[streamkey] = m_activeStreams[streamkey];
+}
+
 bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, bool* modified)
 {
     m_activeStreams[ STREAMKEY(userid, txtype) ] = streamid;
@@ -69,10 +77,7 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
 
             // If transmitter has been disallowed by channel update
             // then block the previous stream
-            int streamkey = STREAMKEY(userid, STREAMTYPE_VOICE);
-            m_blockStreams[streamkey] = m_activeStreams[streamkey];
-            streamkey = STREAMKEY(userid, STREAMTYPE_MEDIAFILE);
-            m_blockStreams[streamkey] = m_activeStreams[streamkey];
+            BlockAudioStream(userid);
         }
         return false;
     }
@@ -95,24 +100,18 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
 
         m_lastUserPacket[userid] = ACE_OS::gettimeofday();
 
-        /* Can transmit if head of queue, transmitted within the last 500 ms and started new stream */
+        /* Can transmit if head of queue, transmitted within GetTransmitSwitchDelay() and started new stream */
         TTASSERT(m_transmitqueue.size());
-        int first = *m_transmitqueue.begin();
-        std::map<int, ACE_Time_Value>::const_iterator itePkt = m_lastUserPacket.find(first);
-        if( itePkt->second + GetTransmitSwitchDelay() >= ACE_OS::gettimeofday())
+        int head_userid = *m_transmitqueue.begin();
+        std::map<int, ACE_Time_Value>::const_iterator itePkt = m_lastUserPacket.find(head_userid);
+        if (itePkt->second + GetTransmitSwitchDelay() >= ACE_OS::gettimeofday())
         {
-            return userid == first;
+            return userid == head_userid;
         }
         else
         {
-            m_lastUserPacket.erase(first);
-
-            int streamkey = STREAMKEY(first, STREAMTYPE_VOICE);
-            m_blockStreams[streamkey] = m_activeStreams[streamkey];
-            streamkey = STREAMKEY(first, STREAMTYPE_MEDIAFILE);
-            m_blockStreams[streamkey] = m_activeStreams[streamkey];
-
-            m_transmitqueue.erase(m_transmitqueue.begin());
+            ClearFromTransmitQueue(head_userid);
+            BlockAudioStream(head_userid);
             if (modified)
                 *modified = true;
             return CanTransmit(userid, txtype, streamid, modified);
