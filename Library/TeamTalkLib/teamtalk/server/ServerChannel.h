@@ -52,6 +52,7 @@ namespace teamtalk {
         // userid -> stream id
         std::map<int, int> m_blockStreams, m_activeStreams;
         ACE_TString m_usernameOwner;
+        void BlockAudioStream(int userid);
     };
 }
 
