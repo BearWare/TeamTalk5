@@ -641,6 +641,8 @@ ErrorMsg ServerUser::HandleJoinChannel(const mstrings_t& properties)
     GetProperty(properties, TT_CHANMSGUSERS, chanprop.transmitusers[STREAMTYPE_CHANNELMSG]);
     GetProperty(properties, TT_PASSWORD, chanprop.passwd);
     GetProperty(properties, TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay);
+    GetProperty(properties, TT_TOTVOICE, chanprop.totvoice);
+    GetProperty(properties, TT_TOTMEDIAFILE, chanprop.totmediafile);
 
     if(chanprop.name.find(CHANNEL_SEPARATOR) != ACE_TString::npos)
     {
@@ -718,6 +720,8 @@ ErrorMsg ServerUser::HandleMakeChannel(const mstrings_t& properties)
     GetProperty(properties, TT_MEDIAFILEUSERS, chanprop.transmitusers[STREAMTYPE_MEDIAFILE]);
     GetProperty(properties, TT_CHANMSGUSERS, chanprop.transmitusers[STREAMTYPE_CHANNELMSG]);
     GetProperty(properties, TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay);
+    GetProperty(properties, TT_TOTVOICE, chanprop.totvoice);
+    GetProperty(properties, TT_TOTMEDIAFILE, chanprop.totmediafile);
 
     if(chanprop.name.find(CHANNEL_SEPARATOR) != ACE_TString::npos)
     {
@@ -761,6 +765,8 @@ ErrorMsg ServerUser::HandleUpdateChannel(const mstrings_t& properties)
         chanprop.transmitusers[STREAMTYPE_CHANNELMSG].clear();
     GetProperty(properties, TT_CHANMSGUSERS, chanprop.transmitusers[STREAMTYPE_CHANNELMSG]);
     GetProperty(properties, TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay);
+    GetProperty(properties, TT_TOTVOICE, chanprop.totvoice);
+    GetProperty(properties, TT_TOTMEDIAFILE, chanprop.totmediafile);
 
     if(GetUserRights() & USERRIGHT_MODIFY_CHANNELS)
     {
@@ -1504,6 +1510,9 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool encrypted)
         AppendProperty(TT_CHANMSGUSERS, channel.GetChannelTextMsgUsers(), command);
     if (channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT)
         AppendProperty(TT_TRANSMITSWITCHDELAY, channel.GetTransmitSwitchDelay().msec(), command);
+
+    AppendProperty(TT_TOTVOICE, channel.GetTimeOutTimerVoice().msec(), command);
+    AppendProperty(TT_TOTMEDIAFILE, channel.GetTimeOutTimerMediaFile().msec(), command);
     command += ACE_TString(EOL);
 
     TransmitCommand(command);
@@ -1567,6 +1576,9 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
         AppendProperty(TT_TRANSMITQUEUE, channel.GetTransmitQueue(), command);
         AppendProperty(TT_TRANSMITSWITCHDELAY, channel.GetTransmitSwitchDelay().msec(), command);
     }
+    AppendProperty(TT_TOTVOICE, channel.GetTimeOutTimerVoice().msec(), command);
+    AppendProperty(TT_TOTMEDIAFILE, channel.GetTimeOutTimerMediaFile().msec(), command);
+
     command += ACE_TString(EOL);
 
     TransmitCommand(command);

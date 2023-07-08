@@ -1176,6 +1176,8 @@ bool Convert(const teamtalk::ChannelProp& chanprop, Channel& result)
     }
 
     result.nTransmitUsersQueueDelayMSec = chanprop.transmitswitchdelay;
+    result.nTimeOutTimerVoiceMSec = chanprop.totvoice;
+    result.nTimeOutTimerMediaFileMSec = chanprop.totmediafile;
 
     return true;
 }
@@ -1219,6 +1221,8 @@ bool Convert(const Channel& channel, teamtalk::ChannelProp& chanprop)
     }
 
     chanprop.transmitswitchdelay = channel.nTransmitUsersQueueDelayMSec;
+    chanprop.totvoice = channel.nTimeOutTimerVoiceMSec;
+    chanprop.totmediafile = channel.nTimeOutTimerMediaFileMSec;
 
     return true;
 }

@@ -40,6 +40,8 @@ public class Channel {
     public int[][] transmitUsers = new int[Constants.TT_TRANSMITUSERS_MAX][2];
     public int[] transmitUsersQueue = new int[Constants.TT_TRANSMITQUEUE_MAX];
     public int nTransmitUsersQueueDelayMSec = 0;
+    public int nTimeOutTimerVoiceMSec = 0;
+    public int nTimeOutTimerMediaFileMSec = 0;
 
     public Channel() {
     }

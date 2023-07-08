@@ -2807,6 +2807,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         Channel chan = buildDefaultChannel(ttclient1, "Opus");
         assertEquals("opus default", chan.audiocodec.nCodec, Codec.OPUS_CODEC);
         chan.uChannelType |= ChannelType.CHANNEL_SOLO_TRANSMIT;
+        chan.nTransmitUsersQueueDelayMSec = 500;
 
         assertTrue("join", waitCmdSuccess(ttclient1, ttclient1.doJoinChannel(chan), DEF_WAIT));
 
@@ -2837,7 +2838,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                 switch (msg.nClientEvent) {
                 case ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE :
                     assertTrue("Channel tx queue set", ttclient.getChannel(ttclient.getMyChannelID(), chan));
-                    assertEquals("myself in queue", ttclient.getMyUserID(), chan.transmitUsersQueue[0]);
+                    assertEquals("myself in queue #"+ ttclient.getMyUserID(), ttclient.getMyUserID(), chan.transmitUsersQueue[0]);
                     chanUpEvent = true;
                     break;
                 case ClientEvent.CLIENTEVENT_USER_STATECHANGE :
@@ -2955,6 +2956,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         Channel chan = buildDefaultChannel(ttclient1, "Opus");
         assertEquals("opus default", chan.audiocodec.nCodec, Codec.OPUS_CODEC);
         chan.uChannelType |= ChannelType.CHANNEL_SOLO_TRANSMIT;
+        chan.nTransmitUsersQueueDelayMSec = 500;
         assertTrue("join", waitCmdSuccess(ttclient1, ttclient1.doJoinChannel(chan), DEF_WAIT));
 
         TeamTalkBase ttclient2 = newClientInstance();

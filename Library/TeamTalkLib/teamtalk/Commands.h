@@ -32,7 +32,7 @@
 #include <ace/SString.h>
 #include "Common.h"
 
-#define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.11")
+#define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.12")
 
 /* parameter names */
 #define TT_USERID ACE_TEXT("userid")
@@ -137,6 +137,8 @@
 #define TT_TRANSMITSWITCHDELAY ACE_TEXT("switchdelay") // v5.10
 #define TT_LOGEVENTS ACE_TEXT("logevents") // v5.10
 #define TT_TEXTMSG_MORE ACE_TEXT("more") // v5.10
+#define TT_TOTVOICE ACE_TEXT("voicetot") // v5.12
+#define TT_TOTMEDIAFILE ACE_TEXT("mediafiletot") // v5.12
 
 //    Client ---> Server
 //    -------------------------
