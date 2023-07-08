@@ -116,6 +116,10 @@ namespace teamtalk {
         const AudioConfig& GetAudioConfig() const { return m_audiocfg; }
         void SetUserData(int userdata) { m_userdata = userdata; }
         int GetUserData() const { return m_userdata; }
+        void SetTimeOutTimerVoice(const ACE_Time_Value& tm) { m_tot_voice = tm; }
+        ACE_Time_Value GetTimeOutTimerVoice() const { return m_tot_voice; }
+        void SetTimeOutTimerMediaFile(const ACE_Time_Value& tm) { m_tot_mediafile = tm; }
+        ACE_Time_Value GetTimeOutTimerMediaFile() const { return m_tot_mediafile; }
         ACE_TString GetChannelPath() const
         {
             ACE_TString pwc = GetName() + ACE_TString(CHANNEL_SEPARATOR);
@@ -450,6 +454,11 @@ namespace teamtalk {
             m_transmitqueue = users;
         }
 
+        const std::vector<int>& GetTransmitQueue() const
+        {
+            return m_transmitqueue;
+        }
+
         void SetTransmitSwitchDelay(const ACE_Time_Value& tm)
         {
             m_transmitswitch_delay = tm;
@@ -458,11 +467,6 @@ namespace teamtalk {
         const ACE_Time_Value& GetTransmitSwitchDelay() const
         {
             return m_transmitswitch_delay;
-        }
-
-        const std::vector<int>& GetTransmitQueue() const
-        {
-            return m_transmitqueue;
         }
 
         ChannelProp GetChannelProp() const
@@ -488,7 +492,8 @@ namespace teamtalk {
             GetFiles(prop.files, false);
             prop.transmitusers = m_transmitusers;
             prop.transmitswitchdelay = int(GetTransmitSwitchDelay().msec());
-
+            prop.totvoice = int(GetTimeOutTimerVoice().msec());
+            prop.totmediafile = int(GetTimeOutTimerMediaFile().msec());
             prop.transmitqueue = m_transmitqueue;
             prop.bans = m_bans;
             return prop;
@@ -529,6 +534,7 @@ namespace teamtalk {
         AudioCodec m_audiocodec;
         AudioConfig m_audiocfg;
         ChannelTypes m_chantype;
+        ACE_Time_Value m_tot_voice, m_tot_mediafile;
         //classroom transmission
         transmitusers_t m_transmitusers;
         //solo transmission

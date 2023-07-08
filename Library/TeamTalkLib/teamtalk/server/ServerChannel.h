@@ -36,6 +36,7 @@ namespace teamtalk {
         typedef Channel<ServerChannel, ServerUser> PARENT;
         ServerChannel(int channelid);
         ServerChannel(channel_t& parent, int channelid, const ACE_TString& name);
+        ~ServerChannel();
         // Used for channels with CHANNEL_SOLO_TRANSMIT. 'modified' is only set if 'true'
         bool CanTransmit(int userid, StreamType txtype, int streamid, bool* modified);
         void RemoveUser(int userid);
@@ -55,6 +56,8 @@ namespace teamtalk {
         void Init();
         // userid -> last transmit time
         std::map<int, ACE_Time_Value> m_lastUserPacket;
+        // userid (streamkey) -> stream-id started
+        std::map<int, ACE_Time_Value> m_streamstart;
         // userid -> stream id
         std::map<int, int> m_blockStreams, m_activeStreams;
         ACE_TString m_usernameOwner;

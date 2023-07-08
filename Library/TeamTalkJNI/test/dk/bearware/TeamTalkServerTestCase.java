@@ -2007,6 +2007,74 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertTrue("update client2", waitCmdError(client2, client2.doListBans(permid, 0, 100), DEF_WAIT, interleave));
     }
 
+    @Test
+    public void testTimeOutTimer() {
+        TeamTalkSrv server = newServerInstance();
+        ServerInterleave interleave = new RunServer(server);
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = "guest";
+        useraccount.szPassword = "guest";
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.uUserRights = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_TRANSMIT_MEDIAFILE | UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
+        useraccounts.add(useraccount);
+
+        TeamTalkBase client = newClientInstance();
+        initSound(client);
+        connect(server, client);
+        login(server, client, getTestMethodName(), useraccount.szUsername, useraccount.szPassword);
+
+        Channel chan = buildDefaultChannel(client, "New channel", Codec.OPUS_CODEC);
+        chan.audiocodec.opus.nFrameSizeMSec = 5;
+        chan.audiocodec.opus.nTxIntervalMSec = 10;
+        chan.nTimeOutTimerVoiceMSec = 50;
+        chan.nTimeOutTimerMediaFileMSec = 50;
+        assertTrue("join channel", waitCmdSuccess(client, client.doJoinChannel(chan), DEF_WAIT, interleave));
+
+        assertTrue("get new chan", client.getChannel(client.getMyChannelID(), chan));
+
+        assertTrue("subscribe voice", waitCmdSuccess(client, client.doSubscribe(client.getMyUserID(),
+                                                                                Subscription.SUBSCRIBE_VOICE), DEF_WAIT, interleave));
+        assertTrue("subscribe mf", waitCmdSuccess(client, client.doSubscribe(client.getMyUserID(),
+                                                                             Subscription.SUBSCRIBE_MEDIAFILE), DEF_WAIT, interleave));
+
+        TTMessage msg = new TTMessage();
+
+        assertTrue("vox", client.enableVoiceTransmission(true));
+
+        assertTrue("User state changed to voice", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertEquals("User is talking", UserState.USERSTATE_VOICE, msg.user.uUserState);
+        
+        assertTrue("User state changed to not voice", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertEquals("User is not talking", UserState.USERSTATE_NONE, msg.user.uUserState);
+
+        assertTrue("vox disable", client.enableVoiceTransmission(false));
+
+        assertTrue("vox new stream", client.enableVoiceTransmission(true));
+
+        assertTrue("User state changed to voice on new stream", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertEquals("User is talking on new stream", UserState.USERSTATE_VOICE, msg.user.uUserState);
+        
+        assertTrue("User state changed to not voice on new stream", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertEquals("User is not talking on new stream", UserState.USERSTATE_NONE, msg.user.uUserState);
+
+        MediaFileInfo mfi = new MediaFileInfo();
+        mfi.szFileName = STORAGEFOLDER + File.separator + "tot.wav";
+        mfi.audioFmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 48000, 2);
+        mfi.uDurationMSec = 3 * 1000;
+
+        assertTrue("Write media file", TeamTalkBase.DBG_WriteAudioFileTone(mfi, 600));
+
+        assertTrue("Start stream file", client.startStreamingMediaFileToChannel(mfi.szFileName, new VideoCodec()));
+
+        assertTrue("User state changed to media file", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertEquals("User is streaming", UserState.USERSTATE_MEDIAFILE_AUDIO, msg.user.uUserState);
+        
+        assertTrue("User state changed to not streaming", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertEquals("User is not streaming", UserState.USERSTATE_NONE, msg.user.uUserState);
+
+        client.stopStreamingMediaFileToChannel();
+    }
 
     // @Test
     public void _testRunServer() {

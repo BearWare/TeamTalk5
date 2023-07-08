@@ -45,6 +45,11 @@ ServerChannel::ServerChannel(channel_t& parent, int channelid, const ACE_TString
     Init();
 }
 
+ServerChannel::~ServerChannel()
+{
+    TTASSERT(m_lastUserPacket.empty());
+}
+
 void ServerChannel::Init()
 {
 #if defined(ENABLE_ENCRYPTION)
@@ -65,7 +70,9 @@ void ServerChannel::BlockAudioStream(int userid)
 
 bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, bool* modified)
 {
-    m_activeStreams[ STREAMKEY(userid, txtype) ] = streamid;
+    auto streamkey = STREAMKEY(userid, txtype);
+    bool newstreamid = m_activeStreams[streamkey] != streamid;
+    m_activeStreams[streamkey] = streamid;
 
     if (!PARENT::CanTransmit(userid, txtype))
     {
@@ -79,6 +86,23 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
             // then block the previous stream
             BlockAudioStream(userid);
         }
+        return false;
+    }
+
+    if (newstreamid || !streamid) // !streamid handles SERVER_USERID
+        m_streamstart[streamkey] = ACE_OS::gettimeofday();
+    else if (GetTimeOutTimerVoice() != ACE_Time_Value::zero && (txtype & STREAMTYPE_VOICE) == STREAMTYPE_VOICE &&
+             ACE_OS::gettimeofday() >= m_streamstart[streamkey] + GetTimeOutTimerVoice())
+    {
+        MYTRACE(ACE_TEXT("Channel %s blocked voice streamid %d from #%d after %d msec\n"), GetChannelPath().c_str(),
+                streamid, userid, GetTimeOutTimerVoice().msec());
+        return false;
+    }
+    else if (GetTimeOutTimerMediaFile() != ACE_Time_Value::zero && (txtype & STREAMTYPE_MEDIAFILE) == STREAMTYPE_MEDIAFILE &&
+             ACE_OS::gettimeofday() >= m_streamstart[streamkey] + GetTimeOutTimerMediaFile())
+    {
+        MYTRACE(ACE_TEXT("Channel %s blocked media file streamid %d from #%d after %d msec\n"), GetChannelPath().c_str(),
+                streamid, userid, GetTimeOutTimerMediaFile().msec());
         return false;
     }
 
@@ -144,6 +168,9 @@ void ServerChannel::RemoveUser(int userid, bool* modified)
     m_blockStreams.erase(STREAMKEY(userid, STREAMTYPE_MEDIAFILE));
     m_activeStreams.erase(STREAMKEY(userid, STREAMTYPE_VOICE));
     m_activeStreams.erase(STREAMKEY(userid, STREAMTYPE_MEDIAFILE));
+
+    m_streamstart.erase(STREAMKEY(userid, STREAMTYPE_VOICE));
+    m_streamstart.erase(STREAMKEY(userid, STREAMTYPE_MEDIAFILE));
 }
 
 void ServerChannel::RemoveUser(int userid)

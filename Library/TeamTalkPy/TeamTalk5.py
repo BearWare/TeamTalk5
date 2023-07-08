@@ -769,6 +769,8 @@ class Channel(Structure):
     ("transmitUsers", (INT32*2)*TT_TRANSMITUSERS_MAX),
     ("transmitUsersQueue", INT32*TT_TRANSMITQUEUE_MAX),
     ("nTransmitUsersQueueDelayMSec", INT32),
+    ("nTimeOutTimerVoiceMSec", INT32),
+    ("nTimeOutTimerMediaFileMSec", INT32),
     ]
     def __init__(self):
         assert(DBG_SIZEOF(TTType.CHANNEL) == ctypes.sizeof(Channel))
