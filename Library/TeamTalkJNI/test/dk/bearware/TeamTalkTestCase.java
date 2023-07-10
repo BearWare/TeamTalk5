@@ -4351,6 +4351,93 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                msg.mediafileinfo.nStatus != MediaFileStatus.MFS_FINISHED);
     }
 
+    @Test
+    public void testUserStateVoice() {
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase client = newClientInstance();
+        initSound(client);
+        connect(client);
+        login(client, NICKNAME, USERNAME, PASSWORD);
+
+        Channel chan = buildDefaultChannel(client, "New channel", Codec.OPUS_CODEC);
+        chan.audiocodec.opus.nFrameSizeMSec = 5;
+        chan.audiocodec.opus.nTxIntervalMSec = 10;
+        assertTrue("join channel", waitCmdSuccess(client, client.doJoinChannel(chan), DEF_WAIT));
+
+        assertTrue("get new chan", client.getChannel(client.getMyChannelID(), chan));
+
+        assertTrue("stopped talking delay voice", client.setUserStoppedPlaybackDelay(client.getMyUserID(),
+                                                                                     StreamType.STREAMTYPE_VOICE,
+                                                                                     chan.audiocodec.opus.nTxIntervalMSec));
+        assertTrue("subscribe voice", waitCmdSuccess(client, client.doSubscribe(client.getMyUserID(),
+                                                                                Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
+        TTMessage msg = new TTMessage();
+
+        assertTrue("vox", client.enableVoiceTransmission(true));
+
+        assertTrue("User state changed to voice", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertEquals("User is talking", UserState.USERSTATE_VOICE, msg.user.uUserState);
+
+        assertTrue("vox disable", client.enableVoiceTransmission(false));
+
+        assertTrue("User state changed to not voice", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertEquals("User is not talking", UserState.USERSTATE_NONE, msg.user.uUserState);
+
+        assertTrue("vox new stream", client.enableVoiceTransmission(true));
+
+        assertTrue("User state changed to voice on new stream", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertEquals("User is talking on new stream", UserState.USERSTATE_VOICE, msg.user.uUserState);
+
+        assertTrue("vox disable new stream", client.enableVoiceTransmission(false));
+
+        assertTrue("User state changed to not voice on new stream", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertEquals("User is not talking on new stream", UserState.USERSTATE_NONE, msg.user.uUserState);
+    }
+
+    @Test
+    public void testUserStateMediaFile() {
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_MEDIAFILE | UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase client = newClientInstance();
+        initSound(client);
+        connect(client);
+        login(client, NICKNAME, USERNAME, PASSWORD);
+
+        Channel chan = buildDefaultChannel(client, "New channel", Codec.OPUS_CODEC);
+        chan.audiocodec.opus.nFrameSizeMSec = 5;
+        chan.audiocodec.opus.nTxIntervalMSec = 10;
+        assertTrue("join channel", waitCmdSuccess(client, client.doJoinChannel(chan), DEF_WAIT));
+
+        assertTrue("get new chan", client.getChannel(client.getMyChannelID(), chan));
+
+        assertTrue("stopped talking delay mf", client.setUserStoppedPlaybackDelay(client.getMyUserID(),
+                                                                                  StreamType.STREAMTYPE_MEDIAFILE_AUDIO,
+                                                                                  chan.audiocodec.opus.nTxIntervalMSec));
+        TTMessage msg = new TTMessage();
+
+        MediaFileInfo mfi = new MediaFileInfo();
+        mfi.szFileName = STORAGEFOLDER + File.separator + "tot.wav";
+        mfi.audioFmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 48000, 1);
+        mfi.uDurationMSec = 5 * 1000;
+
+        assertTrue("Write media file", TeamTalkBase.DBG_WriteAudioFileTone(mfi, 600));
+
+        assertTrue("Start stream file", client.startStreamingMediaFileToChannel(mfi.szFileName, new VideoCodec()));
+
+        assertTrue("User state changed to media file", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertEquals("User is streaming", UserState.USERSTATE_MEDIAFILE_AUDIO, (msg.user.uUserState & UserState.USERSTATE_MEDIAFILE_AUDIO));
+
+        assertTrue("Stop streaming", client.stopStreamingMediaFileToChannel());
+
+        assertTrue("User state changed to not streaming", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
+        assertEquals("User is not streaming", UserState.USERSTATE_NONE, (msg.user.uUserState & UserState.USERSTATE_MEDIAFILE_AUDIO));
+    }
+
     /* cannot test output levels since a user is muted by sound system after decoding and callback.
 
     @Test

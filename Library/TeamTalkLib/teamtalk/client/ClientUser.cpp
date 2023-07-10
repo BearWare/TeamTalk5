@@ -365,7 +365,7 @@ int ClientUser::TimerMonitorAudioFilePlayback()
         return -1;
 
     bool active = m_audiofile_player->IsTalking();
-    bool changed = m_audiofile_active != active;
+    bool changed = active != IsAudioActive(STREAMTYPE_MEDIAFILE_AUDIO);
     m_audiofile_active = active;
     if(changed)
         m_listener->OnUserStateChange(*this);
@@ -1072,6 +1072,7 @@ bool ClientUser::IsAudioActive(StreamType stream_type) const
     case STREAMTYPE_MEDIAFILE_AUDIO :
         return m_audiofile_active;
     default :
+        MYTRACE(ACE_TEXT("Querying incorrect stream type 0x%x\n"), stream_type);
         return false;
     }
 }
@@ -1540,9 +1541,6 @@ bool ClientUser::LaunchAudioFilePlayer(const teamtalk::AudioCodec& codec,
             TTASSERT(timerid >= 0);
         }
     }
-
-    m_listener->OnUserStateChange(*this);
-
     return true;
 }
 
