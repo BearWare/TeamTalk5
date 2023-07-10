@@ -23,8 +23,7 @@
 
 package dk.bearware;
 
-public interface ChannelType
-{
+public interface ChannelType {
     public static final int CHANNEL_DEFAULT             = 0x0000;
     public static final int CHANNEL_PERMANENT           = 0x0001;
     public static final int CHANNEL_SOLO_TRANSMIT       = 0x0002;
