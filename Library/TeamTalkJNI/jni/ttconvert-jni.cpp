@@ -296,9 +296,9 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv) {
         newObj = newObject(env, cls_audcfg);
         env->SetObjectField(lpChannel, fid_audcfg, newObj);
 
-        jintArray intArr = env->NewIntArray(TT_TRANSMITQUEUE_MAX);
-        jobjectArray outer = env->NewObjectArray(TT_TRANSMITQUEUE_MAX, env->FindClass("[I"), intArr);
-        for (int i=0;i<TT_TRANSMITQUEUE_MAX;++i) {
+        jintArray intArr = env->NewIntArray(TT_TRANSMITUSERS_MAX);
+        jobjectArray outer = env->NewObjectArray(TT_TRANSMITUSERS_MAX, env->FindClass("[I"), intArr);
+        for (int i=0;i<TT_TRANSMITUSERS_MAX;++i) {
             intArr = env->NewIntArray(TRANSMITUSER_ARRAY_SIZE);
             jint tmp[TRANSMITUSER_ARRAY_SIZE];
             env->SetIntArrayRegion(intArr, 0, TRANSMITUSER_ARRAY_SIZE, TO_JINT_ARRAY(chan.transmitUsers[i], tmp, TRANSMITUSER_ARRAY_SIZE));

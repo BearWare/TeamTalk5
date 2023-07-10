@@ -750,7 +750,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         interleave.interleave();
     }
 
-    void compareChannels(Channel chan1, Channel chan2) {
+    void compareChannels(Channel chan1, Channel chan2, boolean joincheck) {
         assertEquals("parent", chan1.nParentID, chan2.nParentID);
         assertEquals("name", chan1.szName, chan2.szName);
         assertEquals("chan type", chan1.uChannelType, chan2.uChannelType);
@@ -758,10 +758,14 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertEquals("opassword", chan1.szOpPassword, chan2.szOpPassword);
         assertEquals("topic", chan1.szTopic, chan2.szTopic);
         assertEquals("userdata", chan1.nUserData, chan2.nUserData);
-        assertEquals("diskquota", chan1.nDiskQuota, chan2.nDiskQuota);
-        assertEquals("maxusers", chan1.nMaxUsers, chan2.nMaxUsers);
+        if (joincheck) {
+            assertEquals("diskquota", chan1.nDiskQuota, chan2.nDiskQuota);
+            assertEquals("maxusers", chan1.nMaxUsers, chan2.nMaxUsers);
+        }
         assertEquals("transmit queue delay", chan1.nTransmitUsersQueueDelayMSec, chan2.nTransmitUsersQueueDelayMSec);
         assertEquals("transmitUsers", chan1.transmitUsers, chan2.transmitUsers);
+        assertEquals("tot voice", chan1.nTimeOutTimerVoiceMSec, chan2.nTimeOutTimerVoiceMSec);
+        assertEquals("tot mf", chan1.nTimeOutTimerMediaFileMSec, chan2.nTimeOutTimerMediaFileMSec);
         assertEquals("agc", chan1.audiocfg.bEnableAGC, chan2.audiocfg.bEnableAGC);
         assertEquals("gain", chan1.audiocfg.nGainLevel, chan2.audiocfg.nGainLevel);
         assertEquals("codec", chan1.audiocodec.nCodec, chan2.audiocodec.nCodec);
@@ -810,28 +814,33 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
             StreamType.STREAMTYPE_CHANNELMSG |
             StreamType.STREAMTYPE_VIDEOCAPTURE |
             StreamType.STREAMTYPE_DESKTOP;
+        chan.nTimeOutTimerVoiceMSec = 51;
+        chan.nTimeOutTimerMediaFileMSec = 52;
 
         TTMessage msg = new TTMessage();
         int cmdid = admin.doMakeChannel(chan);
         assertTrue("new channel", waitForEvent(admin, ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW, DEF_WAIT, msg, interleave));
-        compareChannels(chan, msg.channel);
+        compareChannels(chan, msg.channel, true);
         assertTrue("done", waitCmdComplete(admin, cmdid, DEF_WAIT, interleave));
 
         assertTrue("Remove channel", waitCmdSuccess(admin, admin.doRemoveChannel(msg.channel.nChannelID), DEF_WAIT, interleave));
 
         cmdid = admin.doJoinChannel(chan);
         assertTrue("new join channel", waitForEvent(admin, ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW, DEF_WAIT, msg, interleave));
-        compareChannels(chan, msg.channel);
+        compareChannels(chan, msg.channel, false);
         assertTrue("done join", waitCmdComplete(admin, cmdid, DEF_WAIT, interleave));
 
         assertTrue("Remove channel", waitCmdSuccess(admin, admin.doRemoveChannel(msg.channel.nChannelID), DEF_WAIT, interleave));
 
         Channel chan2 = buildDefaultChannel(admin, getTestMethodName()+"123", Codec.SPEEX_CODEC);
-        assertTrue("Make channel", waitCmdSuccess(admin, admin.doMakeChannel(chan2), DEF_WAIT, interleave));
+        cmdid = admin.doMakeChannel(chan2);
         assertTrue("new channel", waitForEvent(admin, ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW, DEF_WAIT, msg, interleave));
+        assertTrue("done", waitCmdComplete(admin, cmdid, DEF_WAIT, interleave));
         chan.nChannelID = msg.channel.nChannelID;
+        chan.uChannelType &= ~ChannelType.CHANNEL_HIDDEN;
         cmdid = admin.doUpdateChannel(chan);
         assertTrue("update channel", waitForEvent(admin, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg, interleave));
+        compareChannels(chan, msg.channel, true);
 
         assertTrue("Remove chan2", waitCmdSuccess(admin, admin.doRemoveChannel(chan.nChannelID), DEF_WAIT, interleave));
     }
