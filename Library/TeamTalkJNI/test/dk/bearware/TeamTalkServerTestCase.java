@@ -750,6 +750,92 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         interleave.interleave();
     }
 
+    void compareChannels(Channel chan1, Channel chan2) {
+        assertEquals("parent", chan1.nParentID, chan2.nParentID);
+        assertEquals("name", chan1.szName, chan2.szName);
+        assertEquals("chan type", chan1.uChannelType, chan2.uChannelType);
+        assertEquals("password", chan1.szPassword, chan2.szPassword);
+        assertEquals("opassword", chan1.szOpPassword, chan2.szOpPassword);
+        assertEquals("topic", chan1.szTopic, chan2.szTopic);
+        assertEquals("userdata", chan1.nUserData, chan2.nUserData);
+        assertEquals("diskquota", chan1.nDiskQuota, chan2.nDiskQuota);
+        assertEquals("maxusers", chan1.nMaxUsers, chan2.nMaxUsers);
+        assertEquals("transmit queue delay", chan1.nTransmitUsersQueueDelayMSec, chan2.nTransmitUsersQueueDelayMSec);
+        assertEquals("transmitUsers", chan1.transmitUsers, chan2.transmitUsers);
+        assertEquals("agc", chan1.audiocfg.bEnableAGC, chan2.audiocfg.bEnableAGC);
+        assertEquals("gain", chan1.audiocfg.nGainLevel, chan2.audiocfg.nGainLevel);
+        assertEquals("codec", chan1.audiocodec.nCodec, chan2.audiocodec.nCodec);
+        assertEquals("samplerate", chan1.audiocodec.opus.nSampleRate, chan2.audiocodec.opus.nSampleRate);
+        assertEquals("channels", chan1.audiocodec.opus.nChannels, chan2.audiocodec.opus.nChannels);
+        assertEquals("app", chan1.audiocodec.opus.nApplication, chan2.audiocodec.opus.nApplication);
+        assertEquals("complex", chan1.audiocodec.opus.nComplexity, chan2.audiocodec.opus.nComplexity);
+        assertEquals("fec", chan1.audiocodec.opus.bFEC, chan2.audiocodec.opus.bFEC);
+        assertEquals("dtx", chan1.audiocodec.opus.bDTX, chan2.audiocodec.opus.bDTX);
+        assertEquals("br", chan1.audiocodec.opus.nBitRate, chan2.audiocodec.opus.nBitRate);
+        assertEquals("vbr", chan1.audiocodec.opus.bVBR, chan2.audiocodec.opus.bVBR);
+        assertEquals("constrai", chan1.audiocodec.opus.bVBRConstraint, chan2.audiocodec.opus.bVBRConstraint);
+        assertEquals("txinterval", chan1.audiocodec.opus.nTxIntervalMSec, chan2.audiocodec.opus.nTxIntervalMSec);
+        assertEquals("framesize", chan1.audiocodec.opus.nFrameSizeMSec, chan2.audiocodec.opus.nFrameSizeMSec);
+    }
+
+    @Test
+    public void testChannelProperties() {
+
+        TeamTalkSrv server = newServerInstance();
+        ServerInterleave interleave = new RunServer(server);
+
+        TeamTalkBase admin = newClientInstance();
+
+        connect(server, admin);
+        login(server, admin, getTestMethodName(), ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        Channel chan = buildDefaultChannel(admin, getTestMethodName());
+        chan.uChannelType |= ChannelType.CHANNEL_PERMANENT;
+        chan.uChannelType |= ChannelType.CHANNEL_SOLO_TRANSMIT;
+        chan.uChannelType |= ChannelType.CHANNEL_CLASSROOM;
+        chan.uChannelType |= ChannelType.CHANNEL_OPERATOR_RECVONLY;
+        chan.uChannelType |= ChannelType.CHANNEL_NO_VOICEACTIVATION;
+        chan.uChannelType |= ChannelType.CHANNEL_NO_RECORDING;
+        chan.uChannelType |= ChannelType.CHANNEL_HIDDEN;
+        chan.szPassword = "password";
+        chan.szOpPassword = "oppassword";
+        chan.szTopic = "topic";
+        chan.nUserData = 123;
+        chan.nDiskQuota = 334455;
+        chan.nMaxUsers = 234;
+        chan.nTransmitUsersQueueDelayMSec = 676;
+        chan.transmitUsers[0][0] = admin.getMyUserID();
+        chan.transmitUsers[0][1] = StreamType.STREAMTYPE_VOICE |
+            StreamType.STREAMTYPE_MEDIAFILE |
+            StreamType.STREAMTYPE_CHANNELMSG |
+            StreamType.STREAMTYPE_VIDEOCAPTURE |
+            StreamType.STREAMTYPE_DESKTOP;
+
+        TTMessage msg = new TTMessage();
+        int cmdid = admin.doMakeChannel(chan);
+        assertTrue("new channel", waitForEvent(admin, ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW, DEF_WAIT, msg, interleave));
+        compareChannels(chan, msg.channel);
+        assertTrue("done", waitCmdComplete(admin, cmdid, DEF_WAIT, interleave));
+
+        assertTrue("Remove channel", waitCmdSuccess(admin, admin.doRemoveChannel(msg.channel.nChannelID), DEF_WAIT, interleave));
+
+        cmdid = admin.doJoinChannel(chan);
+        assertTrue("new join channel", waitForEvent(admin, ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW, DEF_WAIT, msg, interleave));
+        compareChannels(chan, msg.channel);
+        assertTrue("done join", waitCmdComplete(admin, cmdid, DEF_WAIT, interleave));
+
+        assertTrue("Remove channel", waitCmdSuccess(admin, admin.doRemoveChannel(msg.channel.nChannelID), DEF_WAIT, interleave));
+
+        Channel chan2 = buildDefaultChannel(admin, getTestMethodName()+"123", Codec.SPEEX_CODEC);
+        assertTrue("Make channel", waitCmdSuccess(admin, admin.doMakeChannel(chan2), DEF_WAIT, interleave));
+        assertTrue("new channel", waitForEvent(admin, ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW, DEF_WAIT, msg, interleave));
+        chan.nChannelID = msg.channel.nChannelID;
+        cmdid = admin.doUpdateChannel(chan);
+        assertTrue("update channel", waitForEvent(admin, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg, interleave));
+
+        assertTrue("Remove chan2", waitCmdSuccess(admin, admin.doRemoveChannel(chan.nChannelID), DEF_WAIT, interleave));
+    }
+
     @Test
     public void testKickUser() {
 
