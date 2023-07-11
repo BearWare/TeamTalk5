@@ -28,7 +28,7 @@
          </property>
          <layout class="QFormLayout" name="formLayout">
           <item row="0" column="0">
-           <widget class="QLabel" name="label_7">
+           <widget class="QLabel" name="chanpathLabelFixed">
             <property name="text">
              <string>Channel path</string>
             </property>
@@ -45,7 +45,7 @@
            </widget>
           </item>
           <item row="1" column="0">
-           <widget class="QLabel" name="label">
+           <widget class="QLabel" name="nameLabel">
             <property name="text">
              <string>Channel name</string>
             </property>
@@ -58,7 +58,7 @@
            <widget class="QLineEdit" name="nameEdit"/>
           </item>
           <item row="2" column="0">
-           <widget class="QLabel" name="label_2">
+           <widget class="QLabel" name="topicLabel">
             <property name="text">
              <string>Topic</string>
             </property>
@@ -75,7 +75,7 @@
            </widget>
           </item>
           <item row="3" column="0">
-           <widget class="QLabel" name="label_3">
+           <widget class="QLabel" name="passwordLabel">
             <property name="text">
              <string>Password</string>
             </property>
@@ -95,7 +95,7 @@
            </widget>
           </item>
           <item row="4" column="0">
-           <widget class="QLabel" name="label_4">
+           <widget class="QLabel" name="oppasswordLabel">
             <property name="text">
              <string>Operator password</string>
             </property>
@@ -115,7 +115,7 @@
            </widget>
           </item>
           <item row="5" column="0">
-           <widget class="QLabel" name="label_12">
+           <widget class="QLabel" name="maxusersLabel">
             <property name="text">
              <string>Max users</string>
             </property>
@@ -141,7 +141,7 @@
            </widget>
           </item>
           <item row="6" column="0">
-           <widget class="QLabel" name="label_13">
+           <widget class="QLabel" name="diskquotaLabel">
             <property name="text">
              <string>Disk quota (KBytes)</string>
             </property>
