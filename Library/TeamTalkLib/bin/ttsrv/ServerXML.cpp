@@ -841,6 +841,10 @@ namespace teamtalk{
                 PutInteger(audcfgElement, "gain-level", chan.audiocfg.gain_level);
                 ReplaceElement(xmlChan, audcfgElement);
 
+                PutInteger(xmlChan, "transmit-delay-msec", chan.transmitswitchdelay);
+                PutInteger(xmlChan, "tot-voice-msec", chan.totvoice);
+                PutInteger(xmlChan, "tot-mediafile-msec", chan.totmediafile);
+
                 TiXmlElement txusersElement("transmit-users");
                 PutBoolean(txusersElement, "channelmsg-tx-all",
                            chan.transmitusers[STREAMTYPE_CHANNELMSG].find(TRANSMITUSERS_FREEFORALL) != chan.transmitusers[STREAMTYPE_CHANNELMSG].end());
@@ -954,6 +958,9 @@ namespace teamtalk{
                 GetInteger(*child, "max-users", newchan.maxusers);
                 GetInteger(*child, "channel-type", (int&)newchan.chantype);
                 GetInteger(*child, "userdata", newchan.userdata);
+                GetInteger(*child, "transmit-delay-msec", newchan.transmitswitchdelay);
+                GetInteger(*child, "tot-voice-msec", newchan.totvoice);
+                GetInteger(*child, "tot-mediafile-msec", newchan.totmediafile);
 
                 //get codec
 
