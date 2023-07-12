@@ -70,6 +70,8 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
         ui.hiddenchannelBox->hide();
     if (!versionSameOrLater(_Q(prop.szServerProtocolVersion), "5.10"))
         ui.singletxButton->hide();
+    if (!versionSameOrLater(_Q(prop.szServerProtocolVersion), "5.12"))
+        ui.streamGroupBox->hide();
 
     ui.audiocodecBox->addItem(tr("No Audio"), NO_CODEC);
 
@@ -199,6 +201,10 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
 
         ui.agcBox->setEnabled(false);
         ui.gainlevelSlider->setEnabled(false);
+
+        ui.voiceTotDoubleSpinBox->setEnabled(false);
+        ui.mfTotDoubleSpinBox->setEnabled(false);
+
         ui.buttonBox->setStandardButtons(QDialogButtonBox::Close);
         ui.buttonBox->button(QDialogButtonBox::Close)->setText(tr("&Close"));
         ui.joinchanBox->setEnabled(false);
@@ -253,6 +259,9 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     ui.agcBox->setChecked(m_channel.audiocfg.bEnableAGC);
     ui.gainlevelSlider->setEnabled(m_channel.audiocfg.bEnableAGC);
     ui.gainlevelSlider->setValue(m_channel.audiocfg.nGainLevel / 1000);
+    // Stream Timeout
+    ui.voiceTotDoubleSpinBox->setValue(m_channel.nTimeOutTimerVoiceMSec / 1000.);
+    ui.mfTotDoubleSpinBox->setValue(m_channel.nTimeOutTimerMediaFileMSec / 1000.);
 
     slotUpdateSliderLabels();
     slotUpdateChannelPath(_Q(m_channel.szName));
@@ -351,6 +360,9 @@ Channel ChannelDlg::GetChannel() const
     {
         newchannel.audiocfg.nGainLevel = ui.gainlevelSlider->value()*1000;
     }
+
+    newchannel.nTimeOutTimerVoiceMSec = ui.voiceTotDoubleSpinBox->value() * 1000;
+    newchannel.nTimeOutTimerMediaFileMSec = ui.mfTotDoubleSpinBox->value() * 1000;
 
     return newchannel;
 }
