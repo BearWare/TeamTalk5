@@ -186,6 +186,8 @@
 #define SETTINGS_CONNECTION_SUBSCRIBE_MEDIAFILE_DEFAULT true
 #define SETTINGS_CONNECTION_TCPPORT                 "connection/localtcpport"
 #define SETTINGS_CONNECTION_UDPPORT                 "connection/localudpport"
+#define SETTINGS_CONNECTION_HEAR_MYSELF                            "connection/hear-myself"
+#define SETTINGS_CONNECTION_HEAR_MYSELF_DEFAULT                            false
 
 #define SOUNDDEVICEID_DEFAULT  -2
 

@@ -3006,6 +3006,8 @@ void MainWindow::processMyselfJoined(int channelid)
         updateAudioStorage(false, AUDIOSTORAGE_SINGLEFILE);
         updateAudioStorage(true, AUDIOSTORAGE_SINGLEFILE);
     }
+
+    slotMeHearMyself(ttSettings->value(SETTINGS_CONNECTION_HEAR_MYSELF, SETTINGS_CONNECTION_HEAR_MYSELF_DEFAULT).toBool());
 }
 
 void MainWindow::processMyselfLeft(int /*channelid*/)
@@ -4533,6 +4535,8 @@ void MainWindow::slotMeHearMyself(bool checked/*=false*/)
             m_commands[cmdid] = CMD_COMPLETE_UNSUBSCRIBE;
         }
     }
+    if (QObject::sender() == ui.actionHearMyself)
+        ttSettings->setValue(SETTINGS_CONNECTION_HEAR_MYSELF, ui.actionHearMyself->isChecked());
 }
 
 void MainWindow::slotMeEnableVoiceActivation(bool checked)
