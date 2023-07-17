@@ -3007,7 +3007,8 @@ void MainWindow::processMyselfJoined(int channelid)
         updateAudioStorage(true, AUDIOSTORAGE_SINGLEFILE);
     }
 
-    slotMeHearMyself(ttSettings->value(SETTINGS_CONNECTION_HEAR_MYSELF, SETTINGS_CONNECTION_HEAR_MYSELF_DEFAULT).toBool());
+    if (ttSettings->value(SETTINGS_CONNECTION_HEAR_MYSELF, SETTINGS_CONNECTION_HEAR_MYSELF_DEFAULT).toBool())
+        subscribeCommon(true, SUBSCRIBE_VOICE, TT_GetMyUserID(ttInst));
 }
 
 void MainWindow::processMyselfLeft(int /*channelid*/)
@@ -4521,22 +4522,8 @@ void MainWindow::slotMeEnablePushToTalk(bool checked)
 
 void MainWindow::slotMeHearMyself(bool checked/*=false*/)
 {
-    User user;
-    if (ui.channelsWidget->getUser(TT_GetMyUserID(ttInst), user))
-    {
-        if (checked)
-        {
-            int cmdid = TT_DoSubscribe(ttInst, TT_GetMyUserID(ttInst), SUBSCRIBE_VOICE);
-            m_commands[cmdid] = CMD_COMPLETE_SUBSCRIBE;
-        }
-        else
-        {
-            int cmdid = TT_DoUnsubscribe(ttInst, TT_GetMyUserID(ttInst), SUBSCRIBE_VOICE);
-            m_commands[cmdid] = CMD_COMPLETE_UNSUBSCRIBE;
-        }
-    }
-    if (QObject::sender() == ui.actionHearMyself)
-        ttSettings->setValue(SETTINGS_CONNECTION_HEAR_MYSELF, ui.actionHearMyself->isChecked());
+    subscribeCommon(checked, SUBSCRIBE_VOICE, TT_GetMyUserID(ttInst));
+    ttSettings->setValue(SETTINGS_CONNECTION_HEAR_MYSELF, checked);
 }
 
 void MainWindow::slotMeEnableVoiceActivation(bool checked)
