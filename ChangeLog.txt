@@ -13,6 +13,7 @@ Default Qt Client
 - Removed public servers from server list
 - Ability to specify max duration of voice and media file streams (time out timer) in "Channel" dialog
 - Changed to Qt 6.6 beta1 on macOS
+- State of "Hear myself" restore at startup
 Accessible Windows Client
 - Classic client is no longer available in Windows installer
 Android Client
