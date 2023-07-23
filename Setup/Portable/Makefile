@@ -1,4 +1,4 @@
-VERSION="v5.14.0.5123"
+VERSION="v5.14.0.5124"
 
 OUTPUT_DEST=./
 INSTALLDIR?=$(TEAMTALK_INSTALLDIR)
@@ -173,11 +173,6 @@ winclient:
 	rm -rf $(OUTDIR)/Client/windeployqt
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5.ini $(OUTDIR)/Client/
 	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5.ini $(OUTDIR)/Client/TeamTalk5.ini.default
-# Classic client
-	cp $(INSTALLDIR)/Client/TeamTalkClassic/TeamTalk5Classic.exe $(OUTDIR)/Client/
-	cp -fr $(INSTALLDIR)/Client/TeamTalkClassic/* $(OUTDIR)/Client/
-	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5Classic.xml $(OUTDIR)/Client/
-	cp $(TEAMTALK_ROOT)/Setup/Client/Windows/TeamTalk5Classic.xml $(OUTDIR)/Client/TeamTalk5Classic.xml.default
 # Shared files
 	cp $(INSTALLDIR)/Library/TeamTalk_DLL/TeamTalk5.dll $(OUTDIR)/Client/
 	cp -r $(TEAMTALK_ROOT)/Setup/Client/Sounds $(OUTDIR)/Client/Sounds

@@ -581,7 +581,6 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(ttclient.StartStreamingMediaFileToChannel(MEDIAFILE_AUDIO, vidcodec), "start stream media file");
 
             TTMessage msg = new TTMessage();
-            Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, ref msg), "wait for state change, player launch");
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, ref msg), "wait for state change, playback");
             User user = (User)msg.DataToObject();

@@ -252,6 +252,8 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv) {
     jfieldID fid_txusers = env->GetFieldID(cls_chan, "transmitUsers", "[[I");
     jfieldID fid_queueusers = env->GetFieldID(cls_chan, "transmitUsersQueue", "[I");
     jfieldID fid_switchdelay = env->GetFieldID(cls_chan, "nTransmitUsersQueueDelayMSec", "I");
+    jfieldID fid_totvoice = env->GetFieldID(cls_chan, "nTimeOutTimerVoiceMSec", "I");
+    jfieldID fid_totmf = env->GetFieldID(cls_chan, "nTimeOutTimerMediaFileMSec", "I");
 
     assert(fid_parentid);
     assert(fid_chanid);
@@ -269,6 +271,8 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv) {
     assert(fid_txusers);
     assert(fid_queueusers);
     assert(fid_switchdelay);
+    assert(fid_totvoice);
+    assert(fid_totmf);
 
     if(conv == N2J)
     {
@@ -292,9 +296,9 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv) {
         newObj = newObject(env, cls_audcfg);
         env->SetObjectField(lpChannel, fid_audcfg, newObj);
 
-        jintArray intArr = env->NewIntArray(TT_TRANSMITQUEUE_MAX);
-        jobjectArray outer = env->NewObjectArray(TT_TRANSMITQUEUE_MAX, env->FindClass("[I"), intArr);
-        for (int i=0;i<TT_TRANSMITQUEUE_MAX;++i) {
+        jintArray intArr = env->NewIntArray(TT_TRANSMITUSERS_MAX);
+        jobjectArray outer = env->NewObjectArray(TT_TRANSMITUSERS_MAX, env->FindClass("[I"), intArr);
+        for (int i=0;i<TT_TRANSMITUSERS_MAX;++i) {
             intArr = env->NewIntArray(TRANSMITUSER_ARRAY_SIZE);
             jint tmp[TRANSMITUSER_ARRAY_SIZE];
             env->SetIntArrayRegion(intArr, 0, TRANSMITUSER_ARRAY_SIZE, TO_JINT_ARRAY(chan.transmitUsers[i], tmp, TRANSMITUSER_ARRAY_SIZE));
@@ -308,6 +312,8 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv) {
         env->SetIntArrayRegion(intArr, 0, TT_TRANSMITQUEUE_MAX, TO_JINT_ARRAY(chan.transmitUsersQueue, tmp, TT_TRANSMITQUEUE_MAX));
         env->SetObjectField(lpChannel, fid_queueusers, intArr);
         env->SetIntField(lpChannel, fid_switchdelay, chan.nTransmitUsersQueueDelayMSec);
+        env->SetIntField(lpChannel, fid_totvoice, chan.nTimeOutTimerVoiceMSec);
+        env->SetIntField(lpChannel, fid_totmf, chan.nTimeOutTimerMediaFileMSec);
     }
     else
     {
@@ -335,6 +341,8 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv) {
         env->GetIntArrayRegion(intArr, 0, TT_TRANSMITQUEUE_MAX, tmp);
         TO_INT32_ARRAY(tmp, chan.transmitUsersQueue, TT_TRANSMITQUEUE_MAX);
         chan.nTransmitUsersQueueDelayMSec = env->GetIntField(lpChannel, fid_switchdelay);
+        chan.nTimeOutTimerVoiceMSec = env->GetIntField(lpChannel, fid_totvoice);
+        chan.nTimeOutTimerMediaFileMSec = env->GetIntField(lpChannel, fid_totmf);
     }
 
     setAudioCodec(env, chan.audiocodec, env->GetObjectField(lpChannel, fid_codec), conv);

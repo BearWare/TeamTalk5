@@ -51,6 +51,9 @@
          <property name="title">
           <string>Filter Servers</string>
          </property>
+         <property name="accessibleName">
+          <string>Filter Servers</string>
+         </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">

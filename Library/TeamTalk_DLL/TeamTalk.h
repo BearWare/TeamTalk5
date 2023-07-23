@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.14.0.5123"
+#define TEAMTALK_VERSION "5.14.0.5124"
 
 
 #if defined(WIN32)
@@ -2575,6 +2575,14 @@ extern "C" {
          * specifies the delay before switching to next user in 
          * @c transmitUsersQueue. Default value is 500 msec. */
         INT32 nTransmitUsersQueueDelayMSec;
+        /** @brief Time out timer for voice stream.
+         * The maximum time in miliseconds a user can transmit voice
+         * without changing stream ID. @see STREAMTYPE_VOICE */
+        INT32 nTimeOutTimerVoiceMSec;
+        /** @brief Time out timer for media file stream.
+         * The maximum time in miliseconds a user can transmit a
+         * media file. @see STREAMTYPE_MEDIAFILE_AUDIO */
+        INT32 nTimeOutTimerMediaFileMSec;
     } Channel;
 
 

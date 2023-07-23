@@ -3665,6 +3665,11 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
     chan->SetDesktopUsers(chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP));
     chan->SetMediaFileUsers(chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE));
     chan->SetChannelTextMsgUsers(chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG));
+    chan->SetTransmitQueue(chanprop.transmitqueue);
+    if (chanprop.transmitswitchdelay > 0) // inherit default from ServerChannel
+        chan->SetTransmitSwitchDelay(ToTimeValue(chanprop.transmitswitchdelay));
+    chan->SetTimeOutTimerVoice(ToTimeValue(chanprop.totvoice));
+    chan->SetTimeOutTimerMediaFile(ToTimeValue(chanprop.totmediafile));
     if (user)
         chan->SetOwner(*user);
 
@@ -3764,6 +3769,8 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
     chan->SetChannelTextMsgUsers(chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG));
     chan->SetTransmitQueue(chanprop.transmitqueue);
     chan->SetTransmitSwitchDelay(ToTimeValue(chanprop.transmitswitchdelay));
+    chan->SetTimeOutTimerVoice(ToTimeValue(chanprop.totvoice));
+    chan->SetTimeOutTimerMediaFile(ToTimeValue(chanprop.totmediafile));
 
     UpdateChannel(chan, user);
 

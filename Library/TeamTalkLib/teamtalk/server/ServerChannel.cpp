@@ -45,6 +45,11 @@ ServerChannel::ServerChannel(channel_t& parent, int channelid, const ACE_TString
     Init();
 }
 
+ServerChannel::~ServerChannel()
+{
+    TTASSERT(m_lastUserPacket.empty());
+}
+
 void ServerChannel::Init()
 {
 #if defined(ENABLE_ENCRYPTION)
@@ -55,13 +60,23 @@ void ServerChannel::Init()
 
 #define STREAMKEY(uid, tx) (((uid) << 16) | tx)
 
+void ServerChannel::BlockAudioStream(int userid)
+{
+    int streamkey = STREAMKEY(userid, STREAMTYPE_VOICE);
+    m_blockStreams[streamkey] = m_activeStreams[streamkey];
+    streamkey = STREAMKEY(userid, STREAMTYPE_MEDIAFILE);
+    m_blockStreams[streamkey] = m_activeStreams[streamkey];
+}
+
 bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, bool* modified)
 {
-    m_activeStreams[ STREAMKEY(userid, txtype) ] = streamid;
+    auto streamkey = STREAMKEY(userid, txtype);
+    bool newstreamid = m_activeStreams[streamkey] != streamid;
+    m_activeStreams[streamkey] = streamid;
 
     if (!PARENT::CanTransmit(userid, txtype))
     {
-        if (m_chantype & CHANNEL_SOLO_TRANSMIT)
+        if (GetChannelType() & CHANNEL_SOLO_TRANSMIT)
         {
             // If transmitter is head we have to trigger channel update
             if (ClearFromTransmitQueue(userid) && modified)
@@ -69,16 +84,29 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
 
             // If transmitter has been disallowed by channel update
             // then block the previous stream
-            int streamkey = STREAMKEY(userid, STREAMTYPE_VOICE);
-            m_blockStreams[streamkey] = m_activeStreams[streamkey];
-            streamkey = STREAMKEY(userid, STREAMTYPE_MEDIAFILE);
-            m_blockStreams[streamkey] = m_activeStreams[streamkey];
+            BlockAudioStream(userid);
         }
         return false;
     }
 
-    if ((m_chantype & CHANNEL_SOLO_TRANSMIT) &&
-        (txtype & (STREAMTYPE_VOICE | STREAMTYPE_MEDIAFILE)))
+    if (newstreamid || !streamid) // !streamid handles SERVER_USERID
+        m_streamstart[streamkey] = ACE_OS::gettimeofday();
+    else if (GetTimeOutTimerVoice() != ACE_Time_Value::zero && (txtype & STREAMTYPE_VOICE) == STREAMTYPE_VOICE &&
+             ACE_OS::gettimeofday() >= m_streamstart[streamkey] + GetTimeOutTimerVoice())
+    {
+        MYTRACE(ACE_TEXT("Channel %s blocked voice streamid %d from #%d after %d msec\n"), GetChannelPath().c_str(),
+                streamid, userid, GetTimeOutTimerVoice().msec());
+        return false;
+    }
+    else if (GetTimeOutTimerMediaFile() != ACE_Time_Value::zero && (txtype & STREAMTYPE_MEDIAFILE) == STREAMTYPE_MEDIAFILE &&
+             ACE_OS::gettimeofday() >= m_streamstart[streamkey] + GetTimeOutTimerMediaFile())
+    {
+        MYTRACE(ACE_TEXT("Channel %s blocked media file streamid %d from #%d after %d msec\n"), GetChannelPath().c_str(),
+                streamid, userid, GetTimeOutTimerMediaFile().msec());
+        return false;
+    }
+
+    if ((GetChannelType() & CHANNEL_SOLO_TRANSMIT) && (txtype & (STREAMTYPE_VOICE | STREAMTYPE_MEDIAFILE)))
     {
         //MYTRACE(ACE_TEXT(" %d -> %d. StreamID: %d\n"), userid, m_blockStreams[STREAMKEY(userid, txtype)], streamid);
 
@@ -96,24 +124,18 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
 
         m_lastUserPacket[userid] = ACE_OS::gettimeofday();
 
-        /* Can transmit if head of queue, transmitted within the last 500 ms and started new stream */
+        /* Can transmit if head of queue, transmitted within GetTransmitSwitchDelay() and started new stream */
         TTASSERT(m_transmitqueue.size());
-        int first = *m_transmitqueue.begin();
-        std::map<int, ACE_Time_Value>::const_iterator itePkt = m_lastUserPacket.find(first);
-        if( itePkt->second + GetTransmitSwitchDelay() >= ACE_OS::gettimeofday())
+        int head_userid = *m_transmitqueue.begin();
+        std::map<int, ACE_Time_Value>::const_iterator itePkt = m_lastUserPacket.find(head_userid);
+        if (itePkt->second + GetTransmitSwitchDelay() >= ACE_OS::gettimeofday())
         {
-            return userid == first;
+            return userid == head_userid;
         }
         else
         {
-            m_lastUserPacket.erase(first);
-
-            int streamkey = STREAMKEY(first, STREAMTYPE_VOICE);
-            m_blockStreams[streamkey] = m_activeStreams[streamkey];
-            streamkey = STREAMKEY(first, STREAMTYPE_MEDIAFILE);
-            m_blockStreams[streamkey] = m_activeStreams[streamkey];
-
-            m_transmitqueue.erase(m_transmitqueue.begin());
+            ClearFromTransmitQueue(head_userid);
+            BlockAudioStream(head_userid);
             if (modified)
                 *modified = true;
             return CanTransmit(userid, txtype, streamid, modified);
@@ -146,6 +168,9 @@ void ServerChannel::RemoveUser(int userid, bool* modified)
     m_blockStreams.erase(STREAMKEY(userid, STREAMTYPE_MEDIAFILE));
     m_activeStreams.erase(STREAMKEY(userid, STREAMTYPE_VOICE));
     m_activeStreams.erase(STREAMKEY(userid, STREAMTYPE_MEDIAFILE));
+
+    m_streamstart.erase(STREAMKEY(userid, STREAMTYPE_VOICE));
+    m_streamstart.erase(STREAMKEY(userid, STREAMTYPE_MEDIAFILE));
 }
 
 void ServerChannel::RemoveUser(int userid)
@@ -176,4 +201,30 @@ bool ServerChannel::IsOwner(const ServerUser& user) const
 bool ServerChannel::IsAutoOperator(const ServerUser& user) const
 {
     return user.GetUserAccount().auto_op_channels.find(user.GetUserID()) != user.GetUserAccount().auto_op_channels.end();
+}
+
+void ServerChannel::AddUserBan(const BannedUser& ban)
+{
+    RemoveUserBan(ban); m_bans.push_back(ban);
+}
+
+bool ServerChannel::IsBanned(const BannedUser& testban) const
+{
+    auto i = std::find_if(m_bans.begin(), m_bans.end(),
+                          [testban](BannedUser ban)
+                          {
+                              return ban.Match(testban);
+                          });
+    return i != m_bans.end();
+}
+
+void ServerChannel::RemoveUserBan(const BannedUser& ban)
+{
+    auto i = std::find_if(m_bans.begin(), m_bans.end(),
+                          [ban](BannedUser testban)
+                          {
+                              return ban.Same(testban);
+                          });
+    if(i != m_bans.end())
+        m_bans.erase(i);
 }

@@ -641,6 +641,7 @@ namespace teamtalk {
         transmitusers_t transmitusers;
         std::vector<int> transmitqueue;
         int transmitswitchdelay = 0;
+        int totvoice = 0, totmediafile = 0;
         bannedusers_t bans;
         std::set<int> GetTransmitUsers(StreamType st) const
         {

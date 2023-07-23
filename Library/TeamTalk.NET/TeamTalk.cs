@@ -2689,6 +2689,16 @@ namespace BearWare
          * @c transmitUsersQueue. Default value is 500 msec. */
         public int nTransmitUsersQueueDelayMSec;        
 
+        /** @brief Time out timer for voice stream.
+         * The maximum time in miliseconds a user can transmit voice
+         * without changing stream ID. @see StreamType.STREAMTYPE_VOICE */
+        public int nTimeOutTimerVoiceMSec;
+
+        /** @brief Time out timer for media file stream.
+         * The maximum time in miliseconds a user can transmit a
+         * media file. @see StreamType.STREAMTYPE_MEDIAFILE_AUDIO */
+        public int nTimeOutTimerMediaFileMSec;
+        
         /** @brief Helper function for adding a user and
          * #BearWare.StreamType to @c transmitUsers */
         public void AddTransmitUser(int nUserID, StreamType uStreamType)

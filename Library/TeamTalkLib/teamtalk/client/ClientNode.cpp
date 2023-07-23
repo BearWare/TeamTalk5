@@ -4453,6 +4453,8 @@ int ClientNode::DoJoinChannel(const ChannelProp& chanprop, bool forceexisting)
         AppendProperty(TT_CHANMSGUSERS, chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG), command);
         if ((chanprop.chantype & CHANNEL_SOLO_TRANSMIT) && chanprop.transmitswitchdelay > 0)
             AppendProperty(TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay, command);
+        AppendProperty(TT_TOTVOICE, chanprop.totvoice, command);
+        AppendProperty(TT_TOTMEDIAFILE, chanprop.totmediafile, command);
     }
     else //already exists
     {
@@ -4660,6 +4662,8 @@ int ClientNode::DoMakeChannel(const ChannelProp& chanprop)
     AppendProperty(TT_CHANMSGUSERS, chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG), command);
     if ((chanprop.chantype & CHANNEL_SOLO_TRANSMIT) && chanprop.transmitswitchdelay > 0)
         AppendProperty(TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay, command);
+    AppendProperty(TT_TOTVOICE, chanprop.totvoice, command);
+    AppendProperty(TT_TOTMEDIAFILE, chanprop.totmediafile, command);
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;
 
@@ -4692,6 +4696,8 @@ int ClientNode::DoUpdateChannel(const ChannelProp& chanprop)
     AppendProperty(TT_CHANMSGUSERS, chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG), command);
     if (chanprop.chantype & CHANNEL_SOLO_TRANSMIT)
         AppendProperty(TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay, command);
+    AppendProperty(TT_TOTVOICE, chanprop.totvoice, command);
+    AppendProperty(TT_TOTMEDIAFILE, chanprop.totmediafile, command);
 
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;
@@ -5585,6 +5591,10 @@ void ClientNode::HandleAddChannel(const mstrings_t& properties)
     newchan->SetChannelTextMsgUsers(chanprop.transmitusers[STREAMTYPE_CHANNELMSG]);
     GetProperty(properties, TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay);
     newchan->SetTransmitSwitchDelay(ToTimeValue(chanprop.transmitswitchdelay));
+    GetProperty(properties, TT_TOTVOICE, chanprop.totvoice);
+    newchan->SetTimeOutTimerVoice(ToTimeValue(chanprop.totvoice));
+    GetProperty(properties, TT_TOTMEDIAFILE, chanprop.totmediafile);
+    newchan->SetTimeOutTimerMediaFile(ToTimeValue(chanprop.totmediafile));
 
 #if defined(ENABLE_ENCRYPTION)
     ACE_TString crypt_key;
@@ -5656,7 +5666,10 @@ void ClientNode::HandleUpdateChannel(const mstrings_t& properties)
     chan->SetChannelTextMsgUsers(chanprop.transmitusers[STREAMTYPE_CHANNELMSG]);
     GetProperty(properties, TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay);
     chan->SetTransmitSwitchDelay(ToTimeValue(chanprop.transmitswitchdelay));
-    chan->SetTransmitSwitchDelay(ToTimeValue(chanprop.transmitswitchdelay));
+    GetProperty(properties, TT_TOTVOICE, chanprop.totvoice);
+    chan->SetTimeOutTimerVoice(ToTimeValue(chanprop.totvoice));
+    GetProperty(properties, TT_TOTMEDIAFILE, chanprop.totmediafile);
+    chan->SetTimeOutTimerMediaFile(ToTimeValue(chanprop.totmediafile));
 
 #if defined(ENABLE_ENCRYPTION)
     ACE_TString crypt_key;

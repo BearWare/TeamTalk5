@@ -576,7 +576,7 @@ MainWindow::MainWindow(const QString& cfgfile)
 
     m_timers.insert(startTimer(1000), TIMER_ONE_SECOND);
 
-#if !defined(Q_OS_WIN32) || USE_POLL
+#if !defined(Q_OS_WIN32)
     //Windows uses its HWND for message handling, other platforms must
     //pull using a timer
     m_timers.insert(startTimer(20), TIMER_PROCESS_TTEVENT);
@@ -3006,6 +3006,9 @@ void MainWindow::processMyselfJoined(int channelid)
         updateAudioStorage(false, AUDIOSTORAGE_SINGLEFILE);
         updateAudioStorage(true, AUDIOSTORAGE_SINGLEFILE);
     }
+
+    if (ttSettings->value(SETTINGS_CONNECTION_HEAR_MYSELF, SETTINGS_CONNECTION_HEAR_MYSELF_DEFAULT).toBool())
+        subscribeCommon(true, SUBSCRIBE_VOICE, TT_GetMyUserID(ttInst));
 }
 
 void MainWindow::processMyselfLeft(int /*channelid*/)
@@ -4519,20 +4522,8 @@ void MainWindow::slotMeEnablePushToTalk(bool checked)
 
 void MainWindow::slotMeHearMyself(bool checked/*=false*/)
 {
-    User user;
-    if (ui.channelsWidget->getUser(TT_GetMyUserID(ttInst), user))
-    {
-        if (checked)
-        {
-            int cmdid = TT_DoSubscribe(ttInst, TT_GetMyUserID(ttInst), SUBSCRIBE_VOICE);
-            m_commands[cmdid] = CMD_COMPLETE_SUBSCRIBE;
-        }
-        else
-        {
-            int cmdid = TT_DoUnsubscribe(ttInst, TT_GetMyUserID(ttInst), SUBSCRIBE_VOICE);
-            m_commands[cmdid] = CMD_COMPLETE_UNSUBSCRIBE;
-        }
-    }
+    subscribeCommon(checked, SUBSCRIBE_VOICE, TT_GetMyUserID(ttInst));
+    ttSettings->setValue(SETTINGS_CONNECTION_HEAR_MYSELF, checked);
 }
 
 void MainWindow::slotMeEnableVoiceActivation(bool checked)

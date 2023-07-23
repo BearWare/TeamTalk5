@@ -83,20 +83,21 @@ namespace teamtalk {
         void SetClientName(const ACE_TString& name) { m_clientname = name; }
         ACE_TString GetClientName() const { return m_clientname; }
 
-    protected:
+    private:
         int m_userid;
         int m_packet_protocol;
-        ACE_TString m_nickname;
         ACE_TString m_ipaddr;
         int m_statusmode;
         ACE_TString m_statusmsg;
-        ACE_TString m_version;
-        ACE_TString m_clientname;
         bool m_tm_ok;
         ACE_UINT32 m_timestamp;
         int m_mtu_data_size, m_mtu_max_payload_size;
         typedef std::map<PacketKind, ACE_UINT32> packet_timestamps_t;
         packet_timestamps_t m_pkt_timestamps;
+    protected:
+        ACE_TString m_nickname;
+        ACE_TString m_version;
+        ACE_TString m_clientname;
     };
 }
 #endif

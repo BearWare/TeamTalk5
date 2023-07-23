@@ -111,11 +111,15 @@ namespace teamtalk {
         void SetAudioCodec(const AudioCodec& codec) { m_audiocodec = codec; }
         const AudioCodec& GetAudioCodec() const { return m_audiocodec; }
         void SetChannelType(ChannelTypes chantype){ m_chantype = chantype; }
+        ChannelTypes GetChannelType() const { return m_chantype; }
         void SetAudioConfig(const AudioConfig& audiocfg) { m_audiocfg = audiocfg; }
         const AudioConfig& GetAudioConfig() const { return m_audiocfg; }
-        ChannelTypes GetChannelType() const { return m_chantype; }
         void SetUserData(int userdata) { m_userdata = userdata; }
         int GetUserData() const { return m_userdata; }
+        void SetTimeOutTimerVoice(const ACE_Time_Value& tm) { m_tot_voice = tm; }
+        ACE_Time_Value GetTimeOutTimerVoice() const { return m_tot_voice; }
+        void SetTimeOutTimerMediaFile(const ACE_Time_Value& tm) { m_tot_mediafile = tm; }
+        ACE_Time_Value GetTimeOutTimerMediaFile() const { return m_tot_mediafile; }
         ACE_TString GetChannelPath() const
         {
             ACE_TString pwc = GetName() + ACE_TString(CHANNEL_SEPARATOR);
@@ -450,6 +454,11 @@ namespace teamtalk {
             m_transmitqueue = users;
         }
 
+        const std::vector<int>& GetTransmitQueue() const
+        {
+            return m_transmitqueue;
+        }
+
         void SetTransmitSwitchDelay(const ACE_Time_Value& tm)
         {
             m_transmitswitch_delay = tm;
@@ -459,36 +468,6 @@ namespace teamtalk {
         {
             return m_transmitswitch_delay;
         }
-
-        const std::vector<int>& GetTransmitQueue() const
-        {
-            return m_transmitqueue;
-        }
-
-        void AddUserBan(const BannedUser& ban) { RemoveUserBan(ban); m_bans.push_back(ban); }
-
-        bool IsBanned(const BannedUser& testban) const
-        {
-            auto i = std::find_if(m_bans.begin(), m_bans.end(),
-                                  [testban](BannedUser ban)
-                                  {
-                                      return ban.Match(testban);
-                                  });
-            return i != m_bans.end();
-        }
-
-        void RemoveUserBan(const BannedUser& ban)
-        {
-            auto i = std::find_if(m_bans.begin(), m_bans.end(),
-                                  [ban](BannedUser testban)
-                                  {
-                                      return ban.Same(testban);
-                                  });
-            if(i != m_bans.end())
-                m_bans.erase(i);
-        }
-
-        const std::vector<BannedUser>& GetBans() const { return m_bans; }
 
         ChannelProp GetChannelProp() const
         {
@@ -512,8 +491,10 @@ namespace teamtalk {
             prop.audiocfg = m_audiocfg;
             GetFiles(prop.files, false);
             prop.transmitusers = m_transmitusers;
-            prop.transmitqueue = m_transmitqueue;
             prop.transmitswitchdelay = int(GetTransmitSwitchDelay().msec());
+            prop.totvoice = int(GetTimeOutTimerVoice().msec());
+            prop.totmediafile = int(GetTimeOutTimerMediaFile().msec());
+            prop.transmitqueue = m_transmitqueue;
             prop.bans = m_bans;
             return prop;
         }
@@ -529,7 +510,7 @@ namespace teamtalk {
         uint8_t m_cryptkey[CRYPTKEY_SIZE];
 #endif
 
-    protected:
+    private:
         //pair element for m_mUsers
         typedef std::map<int, user_t > mapuser_t;
         //users in channel
@@ -553,12 +534,14 @@ namespace teamtalk {
         AudioCodec m_audiocodec;
         AudioConfig m_audiocfg;
         ChannelTypes m_chantype;
+        ACE_Time_Value m_tot_voice, m_tot_mediafile;
         //classroom transmission
         transmitusers_t m_transmitusers;
         //solo transmission
-        std::vector<int> m_transmitqueue;
         ACE_Time_Value m_transmitswitch_delay;
+    protected:
         bannedusers_t m_bans;
+        std::vector<int> m_transmitqueue;
     };
 
     /**** Global helper functions ****/
