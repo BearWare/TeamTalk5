@@ -1,30 +1,15 @@
-From ebbce3d03145c4e594ca25a8d7762249b3f69dec Mon Sep 17 00:00:00 2001
+From 94c34f9a6cdd0abdd460cf4c7375504cdad5c2bd Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bj=C3=B8rn=20Damstedt=20Rasmussen?= <contact@bearware.dk>
-Date: Tue, 24 Nov 2020 22:08:00 +0100
-Subject: [PATCH 3/4] Static build config for Windows
+Date: Sun, 23 Jul 2023 21:13:56 +0200
+Subject: [PATCH] Static build config for Windows
 
 ---
- .gitignore                                  |  2 --
  ACE/ace/config.h                            | 16 ++++++++++++++++
  ACE/include/makeinclude/platform_macros.GNU |  6 ++++++
- 3 files changed, 22 insertions(+), 2 deletions(-)
+ 2 files changed, 22 insertions(+)
  create mode 100755 ACE/ace/config.h
  create mode 100755 ACE/include/makeinclude/platform_macros.GNU
 
-diff --git a/.gitignore b/.gitignore
-index e2d2569b480..3b5d3804a75 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -28,9 +28,7 @@ lib*.dylib
- *~
- ipch/
- 
--/ACE/ace/config.h
- /ACE/bin/MakeProjectCreator/config/default.features
--/ACE/include/makeinclude/platform_macros.GNU
- /setenv.cmd
- /setenv.sh
- /build
 diff --git a/ACE/ace/config.h b/ACE/ace/config.h
 new file mode 100755
 index 00000000000..d2e751ddaaa
@@ -60,5 +45,5 @@ index 00000000000..7c337f909f1
 +
 +include $(ACE_ROOT)/include/makeinclude/platform_win32_msvc.GNU
 -- 
-2.32.0
+2.39.2 (Apple Git-143)
 
