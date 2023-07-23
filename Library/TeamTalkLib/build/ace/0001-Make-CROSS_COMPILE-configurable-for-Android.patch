@@ -1,4 +1,4 @@
-From b23e7e835eee9e6470c3f552496cd0c52cf2cc0e Mon Sep 17 00:00:00 2001
+From d78632266e3acabe9eb9ba88ee5a4248c93395e5 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bj=C3=B8rn=20Damstedt=20Rasmussen?= <contact@bearware.dk>
 Date: Thu, 6 Oct 2022 19:54:31 +0200
 Subject: [PATCH] Make CROSS_COMPILE configurable for Android
@@ -56,5 +56,5 @@ index 0ca79c47a28..c6cddf1dd2a 100644
    endif
  
 -- 
-2.37.0 (Apple Git-136)
+2.39.2 (Apple Git-143)
 
