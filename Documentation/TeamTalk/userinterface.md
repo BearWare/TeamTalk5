@@ -1078,14 +1078,28 @@ Each of the fields in the create channel dialog are described here:
              - The number of milliseconds of recorded audio before the
                TeamTalk client should transmit.
 
-- **Enable fixed audio volume for all users**
-    - In most cases users have microphones with different audio volume
-      levels which makes some users louder than others. Enabling this
-      option ensures that all users in the channel speaks at the same
-      audio volume level. Note that this option may reduce audio
-      quality.
-- **Volume level**
-    - The reference volume all users in the channel should use.
+- **Audio Configuration**
+    - **Enable fixed audio volume for all users**
+        - In most cases users have microphones with different audio volume
+          levels which makes some users louder than others. Enabling this
+          option ensures that all users in the channel speaks at the same
+          audio volume level. Note that this option may reduce audio
+          quality.
+    - **Volume level**
+        - The reference volume all users in the channel should use.
+
+- **Stream Timeout Timer**
+    - **Voice stream max duration**
+        - The maximum time a user can transmit voice to a channel
+          without toggling the Push-to-Talk button or retrigger
+          voice activation.
+        - This feature is especially useful when using channel type
+          *No interruptions* because no one is then able to block the
+          transmission queue for an indefinite amount of time.
+    - **Media file stream max duration**
+        - The maximum time a user can stream a media file to a channel
+          without starting a new media file.
+
 
 ## Classroom Channel Type {#classroom}
 
