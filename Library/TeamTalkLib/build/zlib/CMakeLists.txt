@@ -78,7 +78,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(zlib-src
-      GIT_REPOSITORY    https://github.com/bear101/zlib
+      GIT_REPOSITORY    https://github.com/madler/zlib
       GIT_TAG           v1.2.9
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
@@ -108,7 +108,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(zlib-src
-      GIT_REPOSITORY    https://github.com/bear101/zlib
+      GIT_REPOSITORY    https://github.com/madler/zlib
       GIT_TAG           v1.2.9
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""

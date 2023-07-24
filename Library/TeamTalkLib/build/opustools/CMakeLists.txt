@@ -9,8 +9,8 @@ include(ExternalProject)
 ##################################################
 if (TOOLCHAIN_OGG)
   ExternalProject_Add(opustools-src
-    GIT_REPOSITORY    https://github.com/bear101/opus-tools
-    GIT_TAG           5aecfed
+    GIT_REPOSITORY    https://github.com/xiph/opus-tools
+    GIT_TAG           v0.1.10
     UPDATE_COMMAND    ""
     CONFIGURE_COMMAND ""
     BUILD_COMMAND     ""
@@ -20,8 +20,8 @@ if (TOOLCHAIN_OGG)
     )
 else()
   ExternalProject_Add(opustools-src
-    GIT_REPOSITORY    https://github.com/bear101/opus-tools
-    GIT_TAG           5aecfed
+    GIT_REPOSITORY    https://github.com/xiph/opus-tools
+    GIT_TAG           v0.1.10
     UPDATE_COMMAND    ""
     CONFIGURE_COMMAND ""
     BUILD_COMMAND     ""
