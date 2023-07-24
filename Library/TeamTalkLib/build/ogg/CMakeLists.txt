@@ -13,7 +13,7 @@ set (TOOLCHAIN_INSTALL_PREFIX_OGG ${TOOLCHAIN_INSTALL_PREFIX}/ogg)
 if (MSVC)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(ogg-src
-      GIT_REPOSITORY    https://github.com/bear101/ogg
+      GIT_REPOSITORY    https://github.com/xiph/ogg
       GIT_TAG           v1.3.3
       PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-d-suffix-to-debug-build-and-switch-to-MT.patch
       UPDATE_COMMAND    ""
@@ -47,7 +47,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     string (REPLACE ";" "\$<SEMICOLON>" ARCHS "${CMAKE_OSX_ARCHITECTURES}")
 
     ExternalProject_Add(ogg-src
-      GIT_REPOSITORY    https://github.com/bear101/ogg
+      GIT_REPOSITORY    https://github.com/xiph/ogg
       GIT_TAG           v1.3.3
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
@@ -83,7 +83,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(ogg-src
-      GIT_REPOSITORY    https://github.com/bear101/ogg
+      GIT_REPOSITORY    https://github.com/xiph/ogg
       GIT_TAG           v1.3.3
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
@@ -111,7 +111,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(ogg-src
-      GIT_REPOSITORY    https://github.com/bear101/ogg
+      GIT_REPOSITORY    https://github.com/xiph/ogg
       GIT_TAG           v1.3.3
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
@@ -149,7 +149,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(ogg-src
-      GIT_REPOSITORY    https://github.com/bear101/ogg
+      GIT_REPOSITORY    https://github.com/xiph/ogg
       GIT_TAG           v1.3.3
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
