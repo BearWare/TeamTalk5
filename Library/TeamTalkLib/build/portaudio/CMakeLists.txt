@@ -14,10 +14,10 @@ if (MSVC)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(portaudio-src
       GIT_REPOSITORY    https://github.com/bear101/portaudio
-      GIT_TAG           51d76d6
+      GIT_TAG           8aa22d7
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
-      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DBUILD_SHARED_LIBS=OFF -DPA_USE_WDMKS=OFF -DPA_USE_WDMKS_DEVICE_INFO=OFF
+      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DPA_BUILD_SHARED_LIBS=OFF -DPA_USE_WDMKS=OFF -DPA_USE_WDMKS_DEVICE_INFO=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --config Debug
       COMMAND           ${CMAKE_COMMAND} --build . --config Release
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_PORTAUDIO}
@@ -47,11 +47,11 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     string (REPLACE ";" "\$<SEMICOLON>" ARCHS "${CMAKE_OSX_ARCHITECTURES}")
     ExternalProject_Add(portaudio-src
       GIT_REPOSITORY    https://github.com/PortAudio/portaudio
-      GIT_TAG           d983463
+      GIT_TAG           929e2e8
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/portaudio
-      CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET} -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_OSX_ARCHITECTURES=${ARCHS} -DCMAKE_BUILD_TYPE=release -DBUILD_SHARED_LIBS=OFF
+      CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET} -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_OSX_ARCHITECTURES=${ARCHS} -DCMAKE_BUILD_TYPE=release -DPA_BUILD_SHARED_LIBS=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build .
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libportaudio.a
       )
@@ -74,7 +74,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(portaudio-src
       GIT_REPOSITORY    https://github.com/PortAudio/portaudio
-      GIT_TAG           d983463
+      GIT_TAG           929e2e8
       UPDATE_COMMAND    ""
       # There seems to be a bug in FindOSS.cmake on Ubuntu 18, so
       # although PA_USE_OSS=OFF then PortAudio's CMake configuration
@@ -85,7 +85,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/portaudio_oss.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/portaudio
-      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DPA_USE_ALSA=ON -DPA_USE_JACK=OFF -DPA_USE_OSS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_BUILD_TYPE=release -DBUILD_SHARED_LIBS=OFF
+      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DPA_USE_ALSA=ON -DPA_USE_JACK=OFF -DPA_USE_OSS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_BUILD_TYPE=release -DPA_BUILD_SHARED_LIBS=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build .
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libportaudio.a
       )
