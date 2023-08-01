@@ -89,7 +89,7 @@
 "gA8-TJ-0RU.title" = "Obrolan di saluran";
 
 /* Class = "UILabel"; text = "Limit types of servers to show"; ObjectID = "GeK-hh-gst"; */
-"GeK-hh-gst.text" = "Tampilkan server Publik dalam daftar server";
+"GeK-hh-gst.text" = "Batasi jenis server untuk ditampilkan";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "GFy-mN-epU"; */
 "GFy-mN-epU.text" = "Judul";
