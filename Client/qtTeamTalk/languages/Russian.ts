@@ -3134,7 +3134,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>%1 has logged in</source>
         <comment>For female</comment>
-        <translation type="obsolete">%1 Вошла</translation>
+<translation>%1 Вошла</translation>
     </message>
     <message>
         <source>%1 has logged in</source>
@@ -6016,7 +6016,7 @@ You can download it on the page below:
     <message>
         <location filename="../serverlist.ui" line="52"/>
         <source>Filter Servers</source>
-        <translation>Фильт серверов</translation>
+        <translation>фильтр серверов</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="60"/>
@@ -6505,7 +6505,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>переменные для установки статистики в сообщении дня: %users% количество  пользователей на сервере, %admins% количество администраторов на сервере, %uptime% время работы сервера, %voicetx% КБ получено, %voicerx% Кбайт отправлено и %lastuser% Последний активный пользователь.</translation>
+        <translation>переменные для установки статистики в сообщении дня: %users% количество  пользователей на сервере, %admins% количество администраторов на сервере, %uptime% время работы сервера, %voicetx% КБ получено, %voicerx% КБ отправлено и %lastuser% Последний активный пользователь.</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="122"/>
