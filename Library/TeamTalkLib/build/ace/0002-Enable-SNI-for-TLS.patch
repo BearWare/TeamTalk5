@@ -1,4 +1,4 @@
-From 99d6ebcadfc31033db4d3334c1e3b943e1199495 Mon Sep 17 00:00:00 2001
+From 86a4d4cb6eb44c1e58ab05df82f65c8faaa61e5b Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bj=C3=B8rn=20Damstedt=20Rasmussen?= <contact@bearware.dk>
 Date: Wed, 5 Oct 2022 13:41:10 +0200
 Subject: [PATCH] Enable SNI for TLS
@@ -127,5 +127,5 @@ index 35abddb6b89..71b0eeabfe6 100644
          {
            std::cout << "Received response "
 -- 
-2.37.0 (Apple Git-136)
+2.39.2 (Apple Git-143)
 

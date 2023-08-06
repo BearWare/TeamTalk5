@@ -192,59 +192,61 @@ The following toolchain toggles are available:
     building the dependencies again after a new checkout or switching
     branch.
 * `TOOLCHAIN_OPENSSL`
-  * When `ON` builds OpenSSL.
-  * When `OFF` uses OpenSSL installed on host.
-  * `OFF` is only supported on Linux distributions and is recommended,
-     since linking different versions of OpenSSL can cause problems.
+  * When `ON` builds [OpenSSL](https://github.com/openssl/openssl)
+  * When `OFF` uses OpenSSL installed on host
+    * `OFF` is only supported on Linux distributions and is recommended,
+      since linking different versions of OpenSSL can cause problems.
 * `TOOLCHAIN_ACE`
-  * When `ON` builds ACE Framework
-  * When `OFF` uses ACE Framework installed on host.
-  * `OFF` is only supported on Linux distributions
+  * When `ON` builds [ACE Framework](https://github.com/DOCGroup/ACE_TAO)
+  * When `OFF` uses ACE Framework installed on host
+    * `OFF` is only supported on Linux distributions
   * Build ACE on Windows requires *ActivePerl* or *Strawberry Perl*
     * Place `perl.exe` in %PATH%.
 * `TOOLCHAIN_TINYXML`
-  * When `ON` builds TinyXML
-  * When `OFF` uses TinyXML installed on host.
-  * `OFF` is only supported on Linux distributions
+  * When `ON` builds [TinyXML](https://github.com/aughey/tinyxml)
+  * When `OFF` uses TinyXML installed on host
+    * `OFF` is only supported on Linux distributions
 * `TOOLCHAIN_ZLIB`
-  * When `ON` builds ZLib
-  * When `OFF` uses ZLib installed on host.
-  * `OFF` is recommended on Linux, Android, iOS
+  * When `ON` builds [ZLib](https://github.com/madler/zlib)
+  * When `OFF` uses ZLib installed on host
+    * `OFF` is recommended on Linux, Android, iOS
+    * `OFF` is only supported on Linux distributions
 * `TOOLCHAIN_CATCH2`
-  * When `ON` enables Catch2 for unit tests
+  * When `ON` enables [Catch2](https://github.com/catchorg/Catch2) for unit tests
   * When `OFF` ignore Catch2 unit tests
 * `TOOLCHAIN_LIBVPX`
-  * When `ON` enables LibVPX
-  * When `OFF` uses LibVPX installed on host.
+  * When `ON` enables [LibVPX](https://github.com/webmproject/libvpx)
+  * When `OFF` uses LibVPX installed on host
+    * `OFF` is only supported on Linux distributions
   * Building LibVPX on Windows requires Cygwin, https://www.cygwin.com/
     * Install Cygwin in `C:/cygwin64`
   * Building LibVPX on Windows requires yasm, http://yasm.tortall.net/
     * Place `yasm.exe` for x64 in `C:/tt5dist/yasm/x64`
     * Place `yasm.exe` for Win32 in `C:/tt5dist/yasm/win32`
 * `TOOLCHAIN_FFMPEG`
-  * When `ON` builds FFmpeg
+  * When `ON` builds [FFmpeg](https://github.com/FFmpeg/FFmpeg)
   * When `OFF` uses FFmpeg installed on host.
-  * `OFF` is only supported on Linux distributions
+    * `OFF` is only supported on Linux distributions
 * `TOOLCHAIN_OGG`
-  * When `ON` builds OGG
+  * When `ON` builds [OGG](https://github.com/xiph/ogg)
   * When `OFF` uses OGG installed on host.
-  * `OFF` is only supported on Linux distributions
+    * `OFF` is only supported on Linux distributions
 * `TOOLCHAIN_OPUS`
-  * When `ON` builds OPUS
+  * When `ON` builds [OPUS](https://github.com/xiph/opus)
   * When `OFF` uses OPUS installed on host.
-  * `OFF` is only supported on Linux distributions
+    * `OFF` is only supported on Linux distributions
 * `TOOLCHAIN_PORTAUDIO`
-  * When `ON` builds PortAudio
+  * When `ON` builds [PortAudio](https://github.com/PortAudio/portaudio)
   * When `OFF` uses PortAudio installed on host.
-  * `OFF` is only supported on Linux distributions
+    * `OFF` is only supported on Linux distributions
 * `TOOLCHAIN_SPEEX`
-  * `OFF` is only supported on Linux distributions
-  * When `ON` builds Speex
+  * When `ON` builds [Speex](https://github.com/xiph/speex)
   * When `OFF` uses Speex installed on host.
+    * `OFF` is only supported on Linux distributions
 * `TOOLCHAIN_SPEEXDSP`
-  * When `ON` builds SpeexDSP
+  * When `ON` builds [SpeexDSP](https://github.com/xiph/speexdsp)
   * When `OFF` uses SpeexDSP installed on host.
-  * `OFF` is only supported on Linux distributions
+    * `OFF` is only supported on Linux distributions
 
 ## Feature Toggles for TeamTalk Build Targets
 
