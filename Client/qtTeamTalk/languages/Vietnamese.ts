@@ -2043,7 +2043,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1673"/>
         <source>&amp;Op</source>
-        <translation>Op</translation>
+        <translation>Người quản lý kênh</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="768"/>
@@ -4610,7 +4610,7 @@ Bạn có muốn áp dụng các thiết lập này không?</translation>
         <location filename="../onlineusersdlg.cpp" line="66"/>
         <location filename="../onlineusersdlg.cpp" line="137"/>
         <source>&amp;Op</source>
-        <translation>Op</translation>
+        <translation>Người quản lý kênh</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="66"/>
