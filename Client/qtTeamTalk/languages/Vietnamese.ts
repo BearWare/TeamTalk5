@@ -2488,7 +2488,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2065"/>
         <source>Intercept Desktop</source>
-        <translation>Chặn chuy cập máy tính</translation>
+        <translation>Chặn truy cập máy tính</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2068"/>
@@ -3443,7 +3443,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="6437"/>
         <source>%1 can no longer transmit</source>
         <comment>%1 can no longer transmit voice</comment>
-        <translation>%1 không thể truyền được nữa</translation>
+        <translation>%1 không thể truyền</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6438"/>
@@ -3727,7 +3727,7 @@ Bạn có thể tải xuống từ trang bên dưới:
     <message>
         <location filename="../mainwindow.cpp" line="2722"/>
         <source>Desktop input</source>
-        <translation>Đầu vào chia sẻ màn hình</translation>
+        <translation>Truy cập máy tính</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2727"/>
@@ -6750,7 +6750,7 @@ Xóa tài khoản người dùng đã xuất bản để hủy đăng ký máy c
     <message>
         <location filename="../statusbareventsmodel.cpp" line="131"/>
         <source>Subscription desktop access changed</source>
-        <translation>Đã thay đổi quyền chuy cập máy tính</translation>
+        <translation>Đã thay đổi quyền truy cập máy tính</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="133"/>
@@ -7236,7 +7236,7 @@ Xóa tài khoản người dùng đã xuất bản để hủy đăng ký máy c
     <message>
         <location filename="../ttseventsmodel.cpp" line="160"/>
         <source>Subscription desktop access changed</source>
-        <translation>Đã thay đổi đăng ký quyền chuy cập máy tính</translation>
+        <translation>Đã thay đổi đăng ký quyền truy cập máy tính</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="162"/>
