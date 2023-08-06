@@ -488,18 +488,14 @@ p, li { white-space: pre-wrap; }
         <translation>Maximum d’utilisateurs</translation>
     </message>
     <message>
-        <source>Disk quota (KBytes)</source>
-        <translation type="vanished">Quota du disque (KO)</translation>
-    </message>
-    <message>
         <location filename="../channel.ui" line="146"/>
         <source>Disk quota</source>
-        <translation type="unfinished"></translation>
+        <translation>Quota disque</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="162"/>
         <source> KBytes</source>
-        <translation type="unfinished"></translation>
+        <translation> KO</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="175"/>
@@ -593,17 +589,17 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="568"/>
         <location filename="../channel.ui" line="766"/>
         <source> msec</source>
-        <translation type="unfinished"></translation>
+        <translation> ms</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="512"/>
         <source> bps</source>
-        <translation type="unfinished"></translation>
+        <translation> bps</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="715"/>
         <source> Kbps</source>
-        <translation type="unfinished"></translation>
+        <translation> kbps</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="799"/>
@@ -614,10 +610,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="500"/>
         <source>Max bitrate</source>
         <translation>Débit maximal</translation>
-    </message>
-    <message>
-        <source>bps</source>
-        <translation type="vanished">bps</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="546"/>
@@ -639,10 +631,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="703"/>
         <source>Bitrate</source>
         <translation>Débit</translation>
-    </message>
-    <message>
-        <source>Kbps</source>
-        <translation type="vanished">Kbps</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="735"/>
@@ -677,23 +665,23 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="871"/>
         <source>Stream Timeout Timer</source>
-        <translation type="unfinished"></translation>
+        <translation>Délai d’expiration de diffusion</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="877"/>
         <source>Voice stream max duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Durée maximale d’une diffusion vocale</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="887"/>
         <source>Media file stream max duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Durée maximale d’une diffusion de fichier média</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="897"/>
         <location filename="../channel.ui" line="907"/>
         <source> seconds</source>
-        <translation type="unfinished"></translation>
+        <translation> secondes</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="952"/>
@@ -5932,10 +5920,6 @@ Faut-il appliquer ces paramètres?</translation>
         <location filename="../serverlist.ui" line="95"/>
         <source>Include official servers (blue ones)</source>
         <translation>Inclure les serveurs officiels (en bleu)</translation>
-    </message>
-    <message>
-        <source>Include public servers (green ones)</source>
-        <translation type="vanished">Inclure les serveurs publics (en vert)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="102"/>
