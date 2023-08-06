@@ -124,4 +124,5 @@ TRANSLATIONS = languages/Bulgarian.ts \
                languages/Slovenian.ts \
                languages/Spanish.ts \
                languages/Thai.ts \
-               languages/Turkish.ts
+               languages/Turkish.ts \
+               languages/Vietnamese.ts
