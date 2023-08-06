@@ -35,7 +35,7 @@
     <string name="pref_cat_subscriptions">Đăng ký</string>
     <string name="pref_cat_tts">Định cấu hình các tin nhắn văn bản thành giọng nói</string>
     <string name="pref_cat_soundtest">Kiểm tra âm thanh</string>
-    <string name="pref_header_general">Trung</string>
+    <string name="pref_header_general">Chung</string>
     <string name="pref_title_nickname">Biệt danh</string>
     <string name="pref_default_nickname">Không tên</string>
     <string name="pref_title_proximity_sensor">Cảm biến tiệm cận</string>
@@ -119,7 +119,7 @@
     <string name="text_tts_private_message">Tin nhắn riêng từ %1$s - %2$s</string>
     <string name="text_tts_channel_message">Tin nhắn kênh từ %1$s - %2$s</string>
     <string name="text_tts_broadcast_message">Tin nhắn thông báo từ %1$s - %2$s</string>
-    <string name="pref_header_soundsystem">Âm thanh hệ thống</string>
+    <string name="pref_header_soundsystem">Hệ thống âm thanh</string>
     <string name="title_activity_audio_codec">Audio codec</string>
     <string name="title_activity_filepicker">Chọn tệp</string>
     <string name="title_section_opus">Opus</string>
@@ -248,14 +248,14 @@
     <string name="version_update">Phiên bản TeamTalk mới có sẵn: %1$s?</string>
     <string name="decvolume">Giảm âm lượng</string>
     <string name="incvolume">Tăng âm lượng</string>
-    <string name="speaker_mute">Tắt loa</string>
-    <string name="speaker_unmute">Bật loa</string>
+    <string name="speaker_mute">Tắt âm thanh</string>
+    <string name="speaker_unmute">Bật âm thanh</string>
     <string name="mic_mute">Tắt micrô</string>
     <string name="mic_unmute">Bật micrô</string>
-    <string name="decgain">Giảm độ nhạyg micrô</string>
-    <string name="incgain">Tăng độ nhạy micro</string>
-    <string name="speaker_volume_description">âm lượng loa là %1$s</string>
-    <string name="mic_gain_description">Độ nhạy của micrô là %1$s</string>
+    <string name="decgain">Giảm âm lượng micrô</string>
+    <string name="incgain">Tăng âm lượng micro</string>
+    <string name="speaker_volume_description">âm lượng là %1$s</string>
+    <string name="mic_gain_description">Âm lượng của micrô là %1$s</string>
     <string name="voice_activation_on">Bật kích hoạt giọng nói</string>
     <string name="voice_activation_off">Tắt kích hoạt bằng giọng nói</string>
     <string name="decvoxlevel">Giảm mức kích hoạt bằng giọng nói</string>
@@ -277,7 +277,7 @@
     <string name="text_localserver">Máy chủ nội bộ</string>
     <string name="text_officialserver">Máy chủ chính thức</string>
     <string name="text_unofficialserver">Máy chủ không chính thức</string>
-    <string name="text_passwdprot">Mật khẩu được bảo vệ</string>
+    <string name="text_passwdprot">Được bảo vệ bằng mật khẩu</string>
     <string name="text_translator">Dịch bởi Nguyễn xuân quảng</string>
     <string name="desktop_image">Hình ảnh chia sẻ màn hình</string>
     <string name="channel_change_alert">Tất cả các chuyển đang hoạt động sẽ bị dừng khi chuyển kênh</string>
