@@ -488,18 +488,14 @@ p, li { white-space: pre-wrap; }
         <translation>最大用户</translation>
     </message>
     <message>
-        <source>Disk quota (KBytes)</source>
-        <translation type="vanished">磁盘配额（KB）</translation>
-    </message>
-    <message>
         <location filename="../channel.ui" line="146"/>
         <source>Disk quota</source>
-        <translation type="unfinished"></translation>
+        <translation>磁盘配额</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="162"/>
         <source> KBytes</source>
-        <translation type="unfinished"></translation>
+        <translation> KB</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="175"/>
@@ -593,17 +589,17 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="568"/>
         <location filename="../channel.ui" line="766"/>
         <source> msec</source>
-        <translation type="unfinished"></translation>
+        <translation> 毫秒</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="512"/>
         <source> bps</source>
-        <translation type="unfinished"></translation>
+        <translation> bps</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="715"/>
         <source> Kbps</source>
-        <translation type="unfinished"></translation>
+        <translation> Kbps</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="799"/>
@@ -614,10 +610,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="500"/>
         <source>Max bitrate</source>
         <translation>最大比特率</translation>
-    </message>
-    <message>
-        <source>bps</source>
-        <translation type="vanished">bps</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="546"/>
@@ -639,10 +631,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="703"/>
         <source>Bitrate</source>
         <translation>比特率</translation>
-    </message>
-    <message>
-        <source>Kbps</source>
-        <translation type="vanished">Kbps</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="735"/>
@@ -677,23 +665,23 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="871"/>
         <source>Stream Timeout Timer</source>
-        <translation type="unfinished"></translation>
+        <translation>流超时计时器</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="877"/>
         <source>Voice stream max duration</source>
-        <translation type="unfinished"></translation>
+        <translation>语音流最大持续时间</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="887"/>
         <source>Media file stream max duration</source>
-        <translation type="unfinished"></translation>
+        <translation>媒体文件流最大持续时间</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="897"/>
         <location filename="../channel.ui" line="907"/>
         <source> seconds</source>
-        <translation type="unfinished"></translation>
+        <translation> 秒</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="952"/>
@@ -5942,10 +5930,6 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="95"/>
         <source>Include official servers (blue ones)</source>
         <translation>包含官方服务器（蓝色）</translation>
-    </message>
-    <message>
-        <source>Include public servers (green ones)</source>
-        <translation type="vanished">包含公共服务器（绿色）</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="102"/>
