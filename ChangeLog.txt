@@ -27,6 +27,7 @@ Android Client
 iOS Client
 - Support for verifying authenticity of encrypted TeamTalk servers using certificates
 - Removed public servers from server list
+- Vietnamese translation
 Server
 - TeamTalk Pro server supports verifying client certificate
 - Fixed bug where it was possible to move a user, who was not logged in, into a channel
