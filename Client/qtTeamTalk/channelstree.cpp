@@ -685,462 +685,113 @@ void ChannelsTree::updateChannelItem(int channelid)
     }
 }
 
-void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
+void ChannelsTree::updateChannelItem(QTreeWidgetItem* item)
 {
-    m_ignore_item_changes = true;
-
-    int mychanid = TT_GetMyChannelID(ttInst);
     bool emoji = ttSettings->value(SETTINGS_DISPLAY_EMOJI, SETTINGS_DISPLAY_EMOJI_DEFAULT).toBool();
     int maxstrlen = ttSettings->value(SETTINGS_DISPLAY_MAX_STRING,
                                       SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt();
+    int mychanid = TT_GetMyChannelID(ttInst);
 
-    if(item->type() & CHANNEL_TYPE)
+    int channelid = (item->data(COLUMN_ITEM, Qt::UserRole).toInt() & ID_MASK);
+    channels_t::const_iterator ite = m_channels.find(channelid);
+    Q_ASSERT(ite != m_channels.end());
+    if (ite == m_channels.end())
+        return;
+    const Channel& chan = *ite;
+
+    const char* img_name = "";
+    QString channame;
+    if(channelid == TT_GetRootChannelID(ttInst))
     {
-        int channelid = (item->data(COLUMN_ITEM, Qt::UserRole).toInt() & ID_MASK);
-        channels_t::const_iterator ite = m_channels.find(channelid);
-        Q_ASSERT(ite != m_channels.end());
-        if (ite == m_channels.end())
-            return;
-        const Channel& chan = *ite;
-
-        const char* img_name = "";
-        QString channame;
-        if(channelid == TT_GetRootChannelID(ttInst))
-        {
-            //make server servername appear as the root channel name
-            ServerProperties prop = {};
-            TT_GetServerProperties(ttInst, &prop);
-            channame = _Q(prop.szServerName);
-            if(item->isExpanded())
-                img_name = ":/images/images/root_open.png";
-            else
-                img_name = ":/images/images/root.png";
-        }
+        //make server servername appear as the root channel name
+        ServerProperties prop = {};
+        TT_GetServerProperties(ttInst, &prop);
+        channame = _Q(prop.szServerName);
+        if(item->isExpanded())
+            img_name = ":/images/images/root_open.png";
         else
-        {
-            channame = _Q(chan.szName);
-            item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
-            if(item->isExpanded())
-                img_name = ":/images/images/channel_open.png";
-            else
-                img_name = ":/images/images/channel.png";
-        }
-
-        if (channame.size() > maxstrlen)
-        {
-            channame.resize(maxstrlen);
-            channame += "...";
-        }
-
-        if (ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT, SETTINGS_DISPLAY_USERSCOUNT_DEFAULT).toBool())
-        {
-            int count = getChannelUsers(channelid, m_users, m_channels, false).size();
-            int countSub = getChannelUsers(channelid, m_users, m_channels, true).size();
-            if (getSubChannels(channelid, m_channels).size())
-                channame = QString("%1 (%2/%3)").arg(channame).arg(count).arg(countSub);
-            else
-                channame = QString("%1 (%2)").arg(channame).arg(count);
-        }
-        if (emoji && (chan.uChannelType & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)
-            channame += " - 👻";
-        if (emoji && chan.bPassword)
-            channame += " - 🔒";
-        item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
-        QPixmap img(QString::fromUtf8(img_name));
-        //img.setMask(img.createHeuristicMask());
-        if (chan.bPassword)
-        {
-            QPixmap lock(QString::fromUtf8(":/images/images/lock.png"));
-            //lock.setMask(lock.createMaskFromColor(QColor(255,255,255)));
-            //lock.setMask(lock.createHeuristicMask());
-            QRect r_lock = lock.rect();
-            QRect r_img = img.rect();
-            r_img.setLeft(r_img.width() - r_lock.width());
-            r_img.setTop(r_img.height() - r_lock.height());
-            QPainter p(&img);
-            p.drawPixmap(r_img, lock, r_lock);
-        }
-        item->setData(COLUMN_ITEM, Qt::DecorationRole, img);
-
-        //set speaker or webcam icon
-        if (chan.nChannelID == mychanid)
-        {
-            item->setIcon(COLUMN_CHANMSG, QIcon(QString::fromUtf8(":/images/images/message_blue.png")));
-            item->setIcon(COLUMN_VOICE, QIcon(QString::fromUtf8(":/images/images/speaker.png")));
-            item->setIcon(COLUMN_VIDEO, QIcon(QString::fromUtf8(":/images/images/webcam.png")));
-            item->setIcon(COLUMN_DESKTOP, QIcon(QString::fromUtf8(":/images/images/desktoptx.png")));
-            item->setIcon(COLUMN_MEDIAFILE, QIcon(QString::fromUtf8(":/images/images/streammedia.png")));
-
-            bool opadmin = TT_IsChannelOperator(ttInst, 
-                                                TT_GetMyUserID(ttInst), 
-                                                channelid);
-            opadmin |= (bool)(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN);
-
-            if (opadmin && (chan.uChannelType & CHANNEL_CLASSROOM)) // free for all in non-classroom
-            {
-                item->setCheckState(COLUMN_CHANMSG,
-                                    isFreeForAll(STREAMTYPE_CHANNELMSG, chan.transmitUsers)?
-                                    Qt::Checked : Qt::Unchecked);
-                item->setCheckState(COLUMN_VOICE, 
-                                    isFreeForAll(STREAMTYPE_VOICE, chan.transmitUsers)?
-                                    Qt::Checked : Qt::Unchecked);
-                item->setCheckState(COLUMN_VIDEO, 
-                                    isFreeForAll(STREAMTYPE_VIDEOCAPTURE, chan.transmitUsers)?
-                                    Qt::Checked : Qt::Unchecked);
-                item->setCheckState(COLUMN_DESKTOP, 
-                                    isFreeForAll(STREAMTYPE_DESKTOP, chan.transmitUsers)?
-                                    Qt::Checked : Qt::Unchecked);
-                item->setCheckState(COLUMN_MEDIAFILE, 
-                                    isFreeForAll(STREAMTYPE_MEDIAFILE, chan.transmitUsers)?
-                                    Qt::Checked : Qt::Unchecked);
-            }
-            else
-            {
-                if (!item->data(COLUMN_CHANMSG, Qt::CheckStateRole).isNull())
-                    item->setData(COLUMN_CHANMSG, Qt::CheckStateRole, QVariant());
-                if (!item->data(COLUMN_VOICE, Qt::CheckStateRole).isNull())
-                    item->setData(COLUMN_VOICE, Qt::CheckStateRole, QVariant());
-                if (!item->data(COLUMN_VIDEO, Qt::CheckStateRole).isNull())
-                    item->setData(COLUMN_VIDEO, Qt::CheckStateRole, QVariant());
-                if (!item->data(COLUMN_DESKTOP, Qt::CheckStateRole).isNull())
-                    item->setData(COLUMN_DESKTOP, Qt::CheckStateRole, QVariant());
-                if (!item->data(COLUMN_MEDIAFILE, Qt::CheckStateRole).isNull())
-                    item->setData(COLUMN_MEDIAFILE, Qt::CheckStateRole, QVariant());
-            }            
-        }
-        else
-        {
-            if (!item->icon(COLUMN_CHANMSG).isNull())
-                item->setIcon(COLUMN_CHANMSG, QIcon());
-            if (!item->icon(COLUMN_VOICE).isNull())
-                item->setIcon(COLUMN_VOICE, QIcon());
-            if (!item->icon(COLUMN_VIDEO).isNull())
-                item->setIcon(COLUMN_VIDEO, QIcon());
-            if (!item->icon(COLUMN_DESKTOP).isNull())
-                item->setIcon(COLUMN_DESKTOP, QIcon());
-            if (!item->icon(COLUMN_MEDIAFILE).isNull())
-                item->setIcon(COLUMN_MEDIAFILE, QIcon());
-            if (!item->data(COLUMN_CHANMSG, Qt::CheckStateRole).isNull())
-                item->setData(COLUMN_CHANMSG, Qt::CheckStateRole, QVariant());
-            if (!item->data(COLUMN_VOICE, Qt::CheckStateRole).isNull())
-                item->setData(COLUMN_VOICE, Qt::CheckStateRole, QVariant());
-            if (!item->data(COLUMN_VIDEO, Qt::CheckStateRole).isNull())
-                item->setData(COLUMN_VIDEO, Qt::CheckStateRole, QVariant());
-            if (!item->data(COLUMN_MEDIAFILE, Qt::CheckStateRole).isNull())
-                item->setData(COLUMN_MEDIAFILE, Qt::CheckStateRole, QVariant());
-        }
-#if QT_VERSION < QT_VERSION_CHECK(6,4,0)
-        item->setData(COLUMN_ITEM, Qt::AccessibleTextRole, QString("%1: %2").arg(channame).arg((item->isExpanded()? tr("Expanded"):tr("Collapsed"))));
-#endif
-        if (chan.uChannelType & CHANNEL_CLASSROOM)
-        {
-            item->setData(COLUMN_CHANMSG, Qt::AccessibleTextRole, QString(tr("Text message transmission allowed for everyone: %1").arg(userCanChanMessage(TT_CLASSROOM_FREEFORALL, chan)?tr("Yes"):tr("No"))));
-            item->setData(COLUMN_VOICE, Qt::AccessibleTextRole, QString(tr("Voice transmission allowed for everyone: %1").arg(userCanVoiceTx(TT_CLASSROOM_FREEFORALL, chan)?tr("Yes"):tr("No"))));
-            item->setData(COLUMN_VIDEO, Qt::AccessibleTextRole, QString(tr("Video transmission allowed for everyone: %1").arg(userCanVideoTx(TT_CLASSROOM_FREEFORALL, chan)?tr("Yes"):tr("No"))));
-            item->setData(COLUMN_DESKTOP, Qt::AccessibleTextRole, QString(tr("Desktop transmission allowed for everyone: %1").arg(userCanDesktopTx(TT_CLASSROOM_FREEFORALL, chan)?tr("Yes"):tr("No"))));
-            item->setData(COLUMN_MEDIAFILE, Qt::AccessibleTextRole, QString(tr("Media files transmission allowed for everyone: %1").arg(userCanMediaFileTx(TT_CLASSROOM_FREEFORALL, chan)?tr("Yes"):tr("No"))));
-        }
-        else
-        {
-            item->setData(COLUMN_CHANMSG, Qt::AccessibleTextRole, QString(tr("Text message transmission")));
-            item->setData(COLUMN_VOICE, Qt::AccessibleTextRole, QString(tr("Voice transmission")));
-            item->setData(COLUMN_VIDEO, Qt::AccessibleTextRole, QString(tr("Video transmission")));
-            item->setData(COLUMN_DESKTOP, Qt::AccessibleTextRole, QString(tr("Desktop transmission")));
-            item->setData(COLUMN_MEDIAFILE, Qt::AccessibleTextRole, QString(tr("Media files transmission")));
-        }
+            img_name = ":/images/images/root.png";
     }
-    else if(item->type() & USER_TYPE)
+    else
     {
-        int userid = (item->data(COLUMN_ITEM, Qt::UserRole).toInt() & ID_MASK);
-        users_t::const_iterator ite = m_users.find(userid);
-        Q_ASSERT(ite != m_users.end());
-        if(ite == m_users.end())
-            return;
-        const User& user = *ite;
-
-        QTreeWidgetItem* parentItem = item->parent();
-        Q_ASSERT(parentItem);
-        Q_ASSERT(parentItem->type() & CHANNEL_TYPE);
-        int chanid = (parentItem->data(COLUMN_ITEM, Qt::UserRole).toInt() & ID_MASK);
-        channels_t::const_iterator chanIte = m_channels.find(chanid);
-        Q_ASSERT(chanIte != m_channels.end());
-        const Channel& chan = *chanIte;
-
-        bool talking = false;
-        if(userid != TT_GetMyUserID(ttInst))
-            talking = user.uUserState & USERSTATE_VOICE;
+        channame = _Q(chan.szName);
+        item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
+        if(item->isExpanded())
+            img_name = ":/images/images/channel_open.png";
         else
-            talking = isMyselfTalking();
+            img_name = ":/images/images/channel.png";
+    }
 
-        bool video_active = m_videousers.find(userid) != m_videousers.end();
-        video_active |= (bool)(user.nStatusMode & STATUSMODE_VIDEOTX);
+    if (channame.size() > maxstrlen)
+    {
+        channame.resize(maxstrlen);
+        channame += "...";
+    }
 
-        const char* user_rc;
-        if(m_blinkchalk_users.find(userid) != m_blinkchalk_users.end())
-            user_rc = ":/images/images/chalkstick.png";
-        else if(m_blinkhand_users.find(userid) != m_blinkhand_users.end())
-            user_rc = ":/images/images/hand.png";
-        else if(user.nStatusMode & STATUSMODE_FEMALE)
-            user_rc = ":/images/images/user_female.png";
+    if (ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT, SETTINGS_DISPLAY_USERSCOUNT_DEFAULT).toBool())
+    {
+        int count = getChannelUsers(channelid, m_users, m_channels, false).size();
+        int countSub = getChannelUsers(channelid, m_users, m_channels, true).size();
+        if (getSubChannels(channelid, m_channels).size())
+            channame = QString("%1 (%2/%3)").arg(channame).arg(count).arg(countSub);
         else
-            user_rc = ":/images/images/user.png";
-
-        QPixmap user_img(QString::fromUtf8(user_rc));
-        QRect r_user = user_img.rect();
-
-        QPixmap img(user_img.width(), user_img.height());
-        img.fill(QColor(0,0,0,0)); //make transparent bg
-
+            channame = QString("%1 (%2)").arg(channame).arg(count);
+    }
+    if (emoji && (chan.uChannelType & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)
+        channame += " - 👻";
+    if (emoji && chan.bPassword)
+        channame += " - 🔒";
+    item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
+    QPixmap img(QString::fromUtf8(img_name));
+    //img.setMask(img.createHeuristicMask());
+    if (chan.bPassword)
+    {
+        QPixmap lock(QString::fromUtf8(":/images/images/lock.png"));
+        //lock.setMask(lock.createMaskFromColor(QColor(255,255,255)));
+        //lock.setMask(lock.createHeuristicMask());
+        QRect r_lock = lock.rect();
+        QRect r_img = img.rect();
+        r_img.setLeft(r_img.width() - r_lock.width());
+        r_img.setTop(r_img.height() - r_lock.height());
         QPainter p(&img);
+        p.drawPixmap(r_img, lock, r_lock);
+    }
+    item->setData(COLUMN_ITEM, Qt::DecorationRole, img);
 
-        if(video_active)
+    //set speaker or webcam icon
+    if (chan.nChannelID == mychanid)
+    {
+        item->setIcon(COLUMN_CHANMSG, QIcon(QString::fromUtf8(":/images/images/message_blue.png")));
+        item->setIcon(COLUMN_VOICE, QIcon(QString::fromUtf8(":/images/images/speaker.png")));
+        item->setIcon(COLUMN_VIDEO, QIcon(QString::fromUtf8(":/images/images/webcam.png")));
+        item->setIcon(COLUMN_DESKTOP, QIcon(QString::fromUtf8(":/images/images/desktoptx.png")));
+        item->setIcon(COLUMN_MEDIAFILE, QIcon(QString::fromUtf8(":/images/images/streammedia.png")));
+
+        bool opadmin = TT_IsChannelOperator(ttInst,
+                                            TT_GetMyUserID(ttInst),
+                                            channelid);
+        opadmin |= (bool)(TT_GetMyUserType(ttInst) & USERTYPE_ADMIN);
+
+        if (opadmin && (chan.uChannelType & CHANNEL_CLASSROOM)) // free for all in non-classroom
         {
-            //make video frame background
-            QPixmap video_img(QString::fromUtf8(":/images/images/tvframe.png"));
-            p.drawPixmap(0, 0, video_img);
-        }
-
-        if(user.nStatusMode & STATUSMODE_DESKTOP)
-        {
-            //draw desktop in top right corner
-            QPixmap dtx(QString::fromUtf8(":/images/images/desktopbg.png"));
-            QRect r_dtx = dtx.rect();
-            QRect r_img = img.rect();
-            r_img.setLeft(r_img.width() - r_dtx.width()/* - 1*/);
-            r_img.setWidth(r_dtx.width());
-            //r_img.setTop(1);
-            r_img.setBottom(r_dtx.height());
-            p.drawPixmap(r_img, dtx, r_dtx);
-        }
-
-        if(user.uLocalSubscriptions & SUBSCRIBE_DESKTOPINPUT)
-        {
-            QPixmap di(QString::fromUtf8(":/images/images/chalkstickbg.png"));
-
-            QRect r_di = di.rect();
-            QRect r_img = img.rect();
-            r_img.setLeft(r_img.width() - r_di.width());
-            r_img.setTop(r_img.height() - r_di.height());
-            p.drawPixmap(r_img, di, r_di);
-        }
-
-        if(video_active)
-        {
-            //move user image inside video frame
-            QRect r_img = img.rect();
-            r_img.setLeft(r_img.left()+1);
-            r_img.setTop(r_img.top()+1);
-            r_img.setBottom(r_img.bottom()-1);
-
-            r_user.setLeft(r_user.left()+1);
-            r_user.setTop(r_user.top()+1);
-            r_user.setBottom(r_user.bottom()-1);
-            p.drawPixmap(r_img, user_img, r_user);
+            item->setCheckState(COLUMN_CHANMSG,
+                                isFreeForAll(STREAMTYPE_CHANNELMSG, chan.transmitUsers)?
+                                    Qt::Checked : Qt::Unchecked);
+            item->setCheckState(COLUMN_VOICE,
+                                isFreeForAll(STREAMTYPE_VOICE, chan.transmitUsers)?
+                                    Qt::Checked : Qt::Unchecked);
+            item->setCheckState(COLUMN_VIDEO,
+                                isFreeForAll(STREAMTYPE_VIDEOCAPTURE, chan.transmitUsers)?
+                                    Qt::Checked : Qt::Unchecked);
+            item->setCheckState(COLUMN_DESKTOP,
+                                isFreeForAll(STREAMTYPE_DESKTOP, chan.transmitUsers)?
+                                    Qt::Checked : Qt::Unchecked);
+            item->setCheckState(COLUMN_MEDIAFILE,
+                                isFreeForAll(STREAMTYPE_MEDIAFILE, chan.transmitUsers)?
+                                    Qt::Checked : Qt::Unchecked);
         }
         else
-            p.drawPixmap(img.rect(), user_img);
-
-        if((user.nStatusMode & STATUSMODE_MODE) == STATUSMODE_AWAY)
         {
-            p.setPen(QPen(QBrush(Qt::red), 2));
-            p.drawLine(0, 0, img.width(), img.height());
-            p.drawLine(img.width(), 0, 0, img.height());
-        }
-
-        QString itemtext;
-        QString name = getDisplayName(user);
-        itemtext += name;
-        if (emoji)
-        {
-            if(item->data(COLUMN_ITEM, Qt::UserRole).toInt() & MESSAGED_TYPE)
-                itemtext += " ✉";
-            switch (user.nStatusMode & STATUSMODE_MODE)
-            {
-            case STATUSMODE_AWAY :
-                itemtext += ", " + ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Away", "For female"):tr("Away", "For male and neutral"));
-                break;
-            case STATUSMODE_QUESTION :
-                itemtext += ", " + tr("Question");
-                break;
-            }
-            if((user.uUserState & USERSTATE_VOICE) || (user.nUserID == TT_GetMyUserID(ttInst) && isMyselfTalking() == TRUE && userCanVoiceTx(TT_GetMyUserID(ttInst), chan) == TRUE))
-                itemtext += " 🎤";
-            if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
-                itemtext += ", " + tr("Streaming media file");
-
-            if (user.nStatusMode & STATUSMODE_VIDEOTX)
-                itemtext += ", " + tr("Webcam");
-        }
-
-        if(_Q(user.szStatusMsg).size())
-            itemtext += QString(" - ") + _Q(user.szStatusMsg);
-        if (emoji)
-        {
-            if (user.nStatusMode & STATUSMODE_FEMALE)
-                itemtext += (_Q(user.szStatusMsg).size() ? " 👩" : ", 👩");
-            else if ((user.nStatusMode & STATUSMODE_GENDER_MASK) == STATUSMODE_MALE)
-                itemtext += (_Q(user.szStatusMsg).size() ? " 👨" : ", 👨");
-            if(user.uUserType & USERTYPE_ADMIN)
-                itemtext += " (" + ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Administrator", "For female"):tr("Administrator", "For male and neutral")) + ")";
-
-            if(TT_IsChannelOperator(ttInst, userid, ite->nChannelID))
-                itemtext += " (" + ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Channel operator", "For female"):tr("Channel operator", "For male and neutral")) + ")";
-        }
-
-        if (itemtext.size() > maxstrlen)
-        {
-            itemtext.resize(maxstrlen);
-            itemtext += "...";
-        }
-        item->setData(COLUMN_ITEM, Qt::DisplayRole, itemtext);
-
-        if(user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
-        {
-            QPixmap strm(QString::fromUtf8(":/images/images/stream.png"));
-            QRect r_strm = strm.rect();
-            QRect r_img = img.rect();
-            //r_img.setRight(r_img.width() - );
-            r_img.setTop(r_img.height() / 2 - r_strm.height() / 2);
-            r_img.setLeft(r_img.right() - r_strm.width());
-            r_img.setBottom(r_img.top() + r_strm.height());
-            p.drawPixmap(r_img, strm, r_strm);
-        }
-
-        if(TT_IsChannelOperator(ttInst, userid, ite->nChannelID))
-        {
-            QPixmap op(QString::fromUtf8(":/images/images/op.png"));
-            //op.setMask(op.createMaskFromColor(QColor(255,255,255)));
-            //lock.setMask(lock.createHeuristicMask());
-            QRect r_op = op.rect();
-            QRect r_img = img.rect();
-            r_img.setLeft(r_img.width() - r_op.width());
-            r_img.setTop(r_img.height() - r_op.height());
-            p.drawPixmap(r_img, op, r_op);
-        }
-
-        if(user.uUserType & USERTYPE_ADMIN)
-        {
-            QPixmap admin(QString::fromUtf8(":/images/images/admin.png"));
-            //admin.setMask(admin.createMaskFromColor(QColor(255,255,255)));
-            //lock.setMask(lock.createHeuristicMask());
-            QRect r_admin = admin.rect();
-            QRect r_img = img.rect();
-            r_img.setLeft(r_img.width() - r_admin.width());
-            r_img.setTop(r_img.height() - r_admin.height());
-            p.drawPixmap(r_img, admin, r_admin);
-        }
-
-        if(item->data(COLUMN_ITEM, Qt::UserRole).toInt() & MESSAGED_TYPE)
-        {
-            QPixmap msg(QString::fromUtf8(":/images/images/msg.png"));
-            //msg.setMask(msg.createMaskFromColor(QColor(255,255,255)));
-            //lock.setMask(lock.createHeuristicMask());
-            QRect r_msg = msg.rect();
-            QRect r_img = img.rect();
-            r_img.setLeft(r_img.width() - r_msg.width());
-            r_img.setTop(2);
-            r_img.setBottom(r_img.top()+msg.height());
-            p.drawPixmap(r_img, msg, r_msg);
-        }
-        item->setData(COLUMN_ITEM, Qt::DecorationRole, img);
-
-        //set checkboxes if it's a CHANNEL_CLASSROOM
-        if(chan.nChannelID == mychanid)
-        {
-            bool modifychan = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), user.nChannelID);
-            modifychan |= ((TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS) != USERRIGHT_NONE);
-
-            bool txchanmsg = userCanChanMessage(userid, chan);
-            bool txvoice = userCanVoiceTx(userid, chan);
-            bool txvideo = userCanVideoTx(userid, chan);
-            bool txdesktop = userCanDesktopTx(userid, chan);
-            bool txmediafile = userCanMediaFileTx(userid, chan);
-            if (modifychan)
-            {
-                if (!item->icon(COLUMN_CHANMSG).isNull())
-                    item->setIcon(COLUMN_CHANMSG, QIcon());
-                if (!item->icon(COLUMN_VOICE).isNull())
-                    item->setIcon(COLUMN_VOICE, QIcon());
-                if (!item->icon(COLUMN_VIDEO).isNull())
-                    item->setIcon(COLUMN_VIDEO, QIcon());
-                if (!item->icon(COLUMN_DESKTOP).isNull())
-                    item->setIcon(COLUMN_DESKTOP, QIcon());
-                if (!item->icon(COLUMN_MEDIAFILE).isNull())
-                    item->setIcon(COLUMN_MEDIAFILE, QIcon());
-
-                item->setCheckState(COLUMN_CHANMSG,
-                                    txchanmsg ? Qt::Checked : Qt::Unchecked);
-                item->setCheckState(COLUMN_VOICE, 
-                                    txvoice ? Qt::Checked : Qt::Unchecked);
-                item->setCheckState(COLUMN_VIDEO, 
-                                    txvideo ? Qt::Checked : Qt::Unchecked);
-                item->setCheckState(COLUMN_DESKTOP, 
-                                    txdesktop ? Qt::Checked : Qt::Unchecked);
-                item->setCheckState(COLUMN_MEDIAFILE, 
-                                    txmediafile ? Qt::Checked : Qt::Unchecked);
-            }
-            else
-            {
-                if (!item->data(COLUMN_CHANMSG, Qt::CheckStateRole).isNull())
-                    item->setData(COLUMN_CHANMSG, Qt::CheckStateRole, QVariant());
-                if (!item->data(COLUMN_VOICE, Qt::CheckStateRole).isNull())
-                    item->setData(COLUMN_VOICE, Qt::CheckStateRole, QVariant());
-                if (!item->data(COLUMN_VIDEO, Qt::CheckStateRole).isNull())
-                    item->setData(COLUMN_VIDEO, Qt::CheckStateRole, QVariant());
-                if (!item->data(COLUMN_DESKTOP, Qt::CheckStateRole).isNull())
-                    item->setData(COLUMN_DESKTOP, Qt::CheckStateRole, QVariant());
-                if (!item->data(COLUMN_MEDIAFILE, Qt::CheckStateRole).isNull())
-                    item->setData(COLUMN_MEDIAFILE, Qt::CheckStateRole, QVariant());
-
-                if (txchanmsg || isFreeForAll(STREAMTYPE_CHANNELMSG, chan.transmitUsers))
-                    item->setIcon(COLUMN_CHANMSG,
-                    QIcon(QString::fromUtf8(":/images/images/oksign.png")));
-                else
-                    item->setIcon(COLUMN_CHANMSG,
-                    QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
-
-                if (txvoice || isFreeForAll(STREAMTYPE_VOICE, chan.transmitUsers))
-                    item->setIcon(COLUMN_VOICE,
-                    QIcon(QString::fromUtf8(":/images/images/oksign.png")));
-                else
-                    item->setIcon(COLUMN_VOICE,
-                    QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
-
-                if (txvideo || isFreeForAll(STREAMTYPE_VIDEOCAPTURE, chan.transmitUsers))
-                    item->setIcon(COLUMN_VIDEO, 
-                    QIcon(QString::fromUtf8(":/images/images/oksign.png")));
-                else
-                    item->setIcon(COLUMN_VIDEO, 
-                    QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
-
-                if (txdesktop || isFreeForAll(STREAMTYPE_DESKTOP, chan.transmitUsers))
-                    item->setIcon(COLUMN_DESKTOP,
-                    QIcon(QString::fromUtf8(":/images/images/oksign.png")));
-                else
-                    item->setIcon(COLUMN_DESKTOP,
-                    QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
-
-                if (txmediafile || isFreeForAll(STREAMTYPE_MEDIAFILE, chan.transmitUsers))
-                    item->setIcon(COLUMN_MEDIAFILE,
-                    QIcon(QString::fromUtf8(":/images/images/oksign.png")));
-                else
-                    item->setIcon(COLUMN_MEDIAFILE,
-                    QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
-            }
-        }
-        else //make sure columns COLUMN_VOICE and COLUMN_VIDEO are empty
-        {
-            if (!item->icon(COLUMN_CHANMSG).isNull())
-                item->setIcon(COLUMN_CHANMSG, QIcon());
-            if (!item->icon(COLUMN_VOICE).isNull())
-                item->setIcon(COLUMN_VOICE, QIcon());
-            if (!item->icon(COLUMN_VIDEO).isNull())
-                item->setIcon(COLUMN_VIDEO, QIcon());
-            if (!item->icon(COLUMN_DESKTOP).isNull())
-                item->setIcon(COLUMN_DESKTOP, QIcon());
-            if (!item->icon(COLUMN_MEDIAFILE).isNull())
-                item->setIcon(COLUMN_MEDIAFILE, QIcon());
-
             if (!item->data(COLUMN_CHANMSG, Qt::CheckStateRole).isNull())
                 item->setData(COLUMN_CHANMSG, Qt::CheckStateRole, QVariant());
             if (!item->data(COLUMN_VOICE, Qt::CheckStateRole).isNull())
@@ -1152,20 +803,380 @@ void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
             if (!item->data(COLUMN_MEDIAFILE, Qt::CheckStateRole).isNull())
                 item->setData(COLUMN_MEDIAFILE, Qt::CheckStateRole, QVariant());
         }
-
-        QBrush bgColor = talking ? QBrush(COLOR_TALK) : QPalette().brush(QPalette::Base);
-        if (!talking && userid == m_last_talker_id &&
-            ttSettings->value(SETTINGS_DISPLAY_LASTTALK, SETTINGS_DISPLAY_LASTTALK_DEFAULT).toBool())
-        {
-            bgColor = QBrush(COLOR_LASTTALK);
-        }
-        item->setBackground(COLUMN_ITEM, bgColor);
-        item->setData(COLUMN_CHANMSG, Qt::AccessibleTextRole, QString(tr("Text message transmission allowed: %1").arg(userCanChanMessage(userid, chan)?tr("Yes"):tr("No"))));
-        item->setData(COLUMN_VOICE, Qt::AccessibleTextRole, QString(tr("Voice transmission allowed: %1").arg(userCanVoiceTx(userid, chan)?tr("Yes"):tr("No"))));
-        item->setData(COLUMN_VIDEO, Qt::AccessibleTextRole, QString(tr("Video transmission allowed: %1").arg(userCanVideoTx(userid, chan)?tr("Yes"):tr("No"))));
-        item->setData(COLUMN_DESKTOP, Qt::AccessibleTextRole, QString(tr("Desktop transmission allowed: %1").arg(userCanDesktopTx(userid, chan)?tr("Yes"):tr("No"))));
-        item->setData(COLUMN_MEDIAFILE, Qt::AccessibleTextRole, QString(tr("Media files transmission allowed: %1").arg(userCanMediaFileTx(userid, chan)?tr("Yes"):tr("No"))));
     }
+    else
+    {
+        if (!item->icon(COLUMN_CHANMSG).isNull())
+            item->setIcon(COLUMN_CHANMSG, QIcon());
+        if (!item->icon(COLUMN_VOICE).isNull())
+            item->setIcon(COLUMN_VOICE, QIcon());
+        if (!item->icon(COLUMN_VIDEO).isNull())
+            item->setIcon(COLUMN_VIDEO, QIcon());
+        if (!item->icon(COLUMN_DESKTOP).isNull())
+            item->setIcon(COLUMN_DESKTOP, QIcon());
+        if (!item->icon(COLUMN_MEDIAFILE).isNull())
+            item->setIcon(COLUMN_MEDIAFILE, QIcon());
+        if (!item->data(COLUMN_CHANMSG, Qt::CheckStateRole).isNull())
+            item->setData(COLUMN_CHANMSG, Qt::CheckStateRole, QVariant());
+        if (!item->data(COLUMN_VOICE, Qt::CheckStateRole).isNull())
+            item->setData(COLUMN_VOICE, Qt::CheckStateRole, QVariant());
+        if (!item->data(COLUMN_VIDEO, Qt::CheckStateRole).isNull())
+            item->setData(COLUMN_VIDEO, Qt::CheckStateRole, QVariant());
+        if (!item->data(COLUMN_MEDIAFILE, Qt::CheckStateRole).isNull())
+            item->setData(COLUMN_MEDIAFILE, Qt::CheckStateRole, QVariant());
+    }
+#if QT_VERSION < QT_VERSION_CHECK(6,4,0)
+    item->setData(COLUMN_ITEM, Qt::AccessibleTextRole, QString("%1: %2").arg(channame).arg((item->isExpanded()? tr("Expanded"):tr("Collapsed"))));
+#endif
+    if (chan.uChannelType & CHANNEL_CLASSROOM)
+    {
+        item->setData(COLUMN_CHANMSG, Qt::AccessibleTextRole, QString(tr("Text message transmission allowed for everyone: %1").arg(userCanChanMessage(TT_CLASSROOM_FREEFORALL, chan)?tr("Yes"):tr("No"))));
+        item->setData(COLUMN_VOICE, Qt::AccessibleTextRole, QString(tr("Voice transmission allowed for everyone: %1").arg(userCanVoiceTx(TT_CLASSROOM_FREEFORALL, chan)?tr("Yes"):tr("No"))));
+        item->setData(COLUMN_VIDEO, Qt::AccessibleTextRole, QString(tr("Video transmission allowed for everyone: %1").arg(userCanVideoTx(TT_CLASSROOM_FREEFORALL, chan)?tr("Yes"):tr("No"))));
+        item->setData(COLUMN_DESKTOP, Qt::AccessibleTextRole, QString(tr("Desktop transmission allowed for everyone: %1").arg(userCanDesktopTx(TT_CLASSROOM_FREEFORALL, chan)?tr("Yes"):tr("No"))));
+        item->setData(COLUMN_MEDIAFILE, Qt::AccessibleTextRole, QString(tr("Media files transmission allowed for everyone: %1").arg(userCanMediaFileTx(TT_CLASSROOM_FREEFORALL, chan)?tr("Yes"):tr("No"))));
+    }
+    else
+    {
+        item->setData(COLUMN_CHANMSG, Qt::AccessibleTextRole, QString(tr("Text message transmission")));
+        item->setData(COLUMN_VOICE, Qt::AccessibleTextRole, QString(tr("Voice transmission")));
+        item->setData(COLUMN_VIDEO, Qt::AccessibleTextRole, QString(tr("Video transmission")));
+        item->setData(COLUMN_DESKTOP, Qt::AccessibleTextRole, QString(tr("Desktop transmission")));
+        item->setData(COLUMN_MEDIAFILE, Qt::AccessibleTextRole, QString(tr("Media files transmission")));
+    }
+}
+
+void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
+{
+    bool emoji = ttSettings->value(SETTINGS_DISPLAY_EMOJI, SETTINGS_DISPLAY_EMOJI_DEFAULT).toBool();
+    int maxstrlen = ttSettings->value(SETTINGS_DISPLAY_MAX_STRING,
+                                      SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt();
+    int mychanid = TT_GetMyChannelID(ttInst);
+
+    int userid = (item->data(COLUMN_ITEM, Qt::UserRole).toInt() & ID_MASK);
+    users_t::const_iterator ite = m_users.find(userid);
+    Q_ASSERT(ite != m_users.end());
+    if(ite == m_users.end())
+        return;
+    const User& user = *ite;
+
+    QTreeWidgetItem* parentItem = item->parent();
+    Q_ASSERT(parentItem);
+    Q_ASSERT(parentItem->type() & CHANNEL_TYPE);
+    int chanid = (parentItem->data(COLUMN_ITEM, Qt::UserRole).toInt() & ID_MASK);
+    channels_t::const_iterator chanIte = m_channels.find(chanid);
+    Q_ASSERT(chanIte != m_channels.end());
+    const Channel& chan = *chanIte;
+
+    bool talking = false;
+    if(userid != TT_GetMyUserID(ttInst))
+        talking = user.uUserState & USERSTATE_VOICE;
+    else
+        talking = isMyselfTalking();
+
+    bool video_active = m_videousers.find(userid) != m_videousers.end();
+    video_active |= (bool)(user.nStatusMode & STATUSMODE_VIDEOTX);
+
+    const char* user_rc;
+    if(m_blinkchalk_users.find(userid) != m_blinkchalk_users.end())
+        user_rc = ":/images/images/chalkstick.png";
+    else if(m_blinkhand_users.find(userid) != m_blinkhand_users.end())
+        user_rc = ":/images/images/hand.png";
+    else if(user.nStatusMode & STATUSMODE_FEMALE)
+        user_rc = ":/images/images/user_female.png";
+    else
+        user_rc = ":/images/images/user.png";
+
+    QPixmap user_img(QString::fromUtf8(user_rc));
+    QRect r_user = user_img.rect();
+
+    QPixmap img(user_img.width(), user_img.height());
+    img.fill(QColor(0,0,0,0)); //make transparent bg
+
+    QPainter p(&img);
+
+    if(video_active)
+    {
+        //make video frame background
+        QPixmap video_img(QString::fromUtf8(":/images/images/tvframe.png"));
+        p.drawPixmap(0, 0, video_img);
+    }
+
+    if(user.nStatusMode & STATUSMODE_DESKTOP)
+    {
+        //draw desktop in top right corner
+        QPixmap dtx(QString::fromUtf8(":/images/images/desktopbg.png"));
+        QRect r_dtx = dtx.rect();
+        QRect r_img = img.rect();
+        r_img.setLeft(r_img.width() - r_dtx.width()/* - 1*/);
+        r_img.setWidth(r_dtx.width());
+        //r_img.setTop(1);
+        r_img.setBottom(r_dtx.height());
+        p.drawPixmap(r_img, dtx, r_dtx);
+    }
+
+    if(user.uLocalSubscriptions & SUBSCRIBE_DESKTOPINPUT)
+    {
+        QPixmap di(QString::fromUtf8(":/images/images/chalkstickbg.png"));
+
+        QRect r_di = di.rect();
+        QRect r_img = img.rect();
+        r_img.setLeft(r_img.width() - r_di.width());
+        r_img.setTop(r_img.height() - r_di.height());
+        p.drawPixmap(r_img, di, r_di);
+    }
+
+    if(video_active)
+    {
+        //move user image inside video frame
+        QRect r_img = img.rect();
+        r_img.setLeft(r_img.left()+1);
+        r_img.setTop(r_img.top()+1);
+        r_img.setBottom(r_img.bottom()-1);
+
+        r_user.setLeft(r_user.left()+1);
+        r_user.setTop(r_user.top()+1);
+        r_user.setBottom(r_user.bottom()-1);
+        p.drawPixmap(r_img, user_img, r_user);
+    }
+    else
+        p.drawPixmap(img.rect(), user_img);
+
+    if((user.nStatusMode & STATUSMODE_MODE) == STATUSMODE_AWAY)
+    {
+        p.setPen(QPen(QBrush(Qt::red), 2));
+        p.drawLine(0, 0, img.width(), img.height());
+        p.drawLine(img.width(), 0, 0, img.height());
+    }
+
+    QString itemtext;
+    QString name = getDisplayName(user);
+    itemtext += name;
+    if (emoji)
+    {
+        if(item->data(COLUMN_ITEM, Qt::UserRole).toInt() & MESSAGED_TYPE)
+            itemtext += " ✉";
+        switch (user.nStatusMode & STATUSMODE_MODE)
+        {
+        case STATUSMODE_AWAY :
+            itemtext += ", " + ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Away", "For female"):tr("Away", "For male and neutral"));
+            break;
+        case STATUSMODE_QUESTION :
+            itemtext += ", " + tr("Question");
+            break;
+        }
+        if((user.uUserState & USERSTATE_VOICE) || (user.nUserID == TT_GetMyUserID(ttInst) && isMyselfTalking() == TRUE && userCanVoiceTx(TT_GetMyUserID(ttInst), chan) == TRUE))
+            itemtext += " 🎤";
+        if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
+            itemtext += ", " + tr("Streaming media file");
+
+        if (user.nStatusMode & STATUSMODE_VIDEOTX)
+            itemtext += ", " + tr("Webcam");
+    }
+
+    if(_Q(user.szStatusMsg).size())
+        itemtext += QString(" - ") + _Q(user.szStatusMsg);
+    if (emoji)
+    {
+        if (user.nStatusMode & STATUSMODE_FEMALE)
+            itemtext += (_Q(user.szStatusMsg).size() ? " 👩" : ", 👩");
+        else if ((user.nStatusMode & STATUSMODE_GENDER_MASK) == STATUSMODE_MALE)
+            itemtext += (_Q(user.szStatusMsg).size() ? " 👨" : ", 👨");
+        if(user.uUserType & USERTYPE_ADMIN)
+            itemtext += " (" + ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Administrator", "For female"):tr("Administrator", "For male and neutral")) + ")";
+
+        if(TT_IsChannelOperator(ttInst, userid, ite->nChannelID))
+            itemtext += " (" + ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Channel operator", "For female"):tr("Channel operator", "For male and neutral")) + ")";
+    }
+
+    if (itemtext.size() > maxstrlen)
+    {
+        itemtext.resize(maxstrlen);
+        itemtext += "...";
+    }
+    item->setData(COLUMN_ITEM, Qt::DisplayRole, itemtext);
+
+    if(user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
+    {
+        QPixmap strm(QString::fromUtf8(":/images/images/stream.png"));
+        QRect r_strm = strm.rect();
+        QRect r_img = img.rect();
+        //r_img.setRight(r_img.width() - );
+        r_img.setTop(r_img.height() / 2 - r_strm.height() / 2);
+        r_img.setLeft(r_img.right() - r_strm.width());
+        r_img.setBottom(r_img.top() + r_strm.height());
+        p.drawPixmap(r_img, strm, r_strm);
+    }
+
+    if(TT_IsChannelOperator(ttInst, userid, ite->nChannelID))
+    {
+        QPixmap op(QString::fromUtf8(":/images/images/op.png"));
+        //op.setMask(op.createMaskFromColor(QColor(255,255,255)));
+        //lock.setMask(lock.createHeuristicMask());
+        QRect r_op = op.rect();
+        QRect r_img = img.rect();
+        r_img.setLeft(r_img.width() - r_op.width());
+        r_img.setTop(r_img.height() - r_op.height());
+        p.drawPixmap(r_img, op, r_op);
+    }
+
+    if(user.uUserType & USERTYPE_ADMIN)
+    {
+        QPixmap admin(QString::fromUtf8(":/images/images/admin.png"));
+        //admin.setMask(admin.createMaskFromColor(QColor(255,255,255)));
+        //lock.setMask(lock.createHeuristicMask());
+        QRect r_admin = admin.rect();
+        QRect r_img = img.rect();
+        r_img.setLeft(r_img.width() - r_admin.width());
+        r_img.setTop(r_img.height() - r_admin.height());
+        p.drawPixmap(r_img, admin, r_admin);
+    }
+
+    if(item->data(COLUMN_ITEM, Qt::UserRole).toInt() & MESSAGED_TYPE)
+    {
+        QPixmap msg(QString::fromUtf8(":/images/images/msg.png"));
+        //msg.setMask(msg.createMaskFromColor(QColor(255,255,255)));
+        //lock.setMask(lock.createHeuristicMask());
+        QRect r_msg = msg.rect();
+        QRect r_img = img.rect();
+        r_img.setLeft(r_img.width() - r_msg.width());
+        r_img.setTop(2);
+        r_img.setBottom(r_img.top()+msg.height());
+        p.drawPixmap(r_img, msg, r_msg);
+    }
+    item->setData(COLUMN_ITEM, Qt::DecorationRole, img);
+
+    //set checkboxes if it's a CHANNEL_CLASSROOM
+    if(chan.nChannelID == mychanid)
+    {
+        bool modifychan = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), user.nChannelID);
+        modifychan |= ((TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS) != USERRIGHT_NONE);
+
+        bool txchanmsg = userCanChanMessage(userid, chan);
+        bool txvoice = userCanVoiceTx(userid, chan);
+        bool txvideo = userCanVideoTx(userid, chan);
+        bool txdesktop = userCanDesktopTx(userid, chan);
+        bool txmediafile = userCanMediaFileTx(userid, chan);
+        if (modifychan)
+        {
+            if (!item->icon(COLUMN_CHANMSG).isNull())
+                item->setIcon(COLUMN_CHANMSG, QIcon());
+            if (!item->icon(COLUMN_VOICE).isNull())
+                item->setIcon(COLUMN_VOICE, QIcon());
+            if (!item->icon(COLUMN_VIDEO).isNull())
+                item->setIcon(COLUMN_VIDEO, QIcon());
+            if (!item->icon(COLUMN_DESKTOP).isNull())
+                item->setIcon(COLUMN_DESKTOP, QIcon());
+            if (!item->icon(COLUMN_MEDIAFILE).isNull())
+                item->setIcon(COLUMN_MEDIAFILE, QIcon());
+
+            item->setCheckState(COLUMN_CHANMSG,
+                                txchanmsg ? Qt::Checked : Qt::Unchecked);
+            item->setCheckState(COLUMN_VOICE,
+                                txvoice ? Qt::Checked : Qt::Unchecked);
+            item->setCheckState(COLUMN_VIDEO,
+                                txvideo ? Qt::Checked : Qt::Unchecked);
+            item->setCheckState(COLUMN_DESKTOP,
+                                txdesktop ? Qt::Checked : Qt::Unchecked);
+            item->setCheckState(COLUMN_MEDIAFILE,
+                                txmediafile ? Qt::Checked : Qt::Unchecked);
+        }
+        else
+        {
+            if (!item->data(COLUMN_CHANMSG, Qt::CheckStateRole).isNull())
+                item->setData(COLUMN_CHANMSG, Qt::CheckStateRole, QVariant());
+            if (!item->data(COLUMN_VOICE, Qt::CheckStateRole).isNull())
+                item->setData(COLUMN_VOICE, Qt::CheckStateRole, QVariant());
+            if (!item->data(COLUMN_VIDEO, Qt::CheckStateRole).isNull())
+                item->setData(COLUMN_VIDEO, Qt::CheckStateRole, QVariant());
+            if (!item->data(COLUMN_DESKTOP, Qt::CheckStateRole).isNull())
+                item->setData(COLUMN_DESKTOP, Qt::CheckStateRole, QVariant());
+            if (!item->data(COLUMN_MEDIAFILE, Qt::CheckStateRole).isNull())
+                item->setData(COLUMN_MEDIAFILE, Qt::CheckStateRole, QVariant());
+
+            if (txchanmsg || isFreeForAll(STREAMTYPE_CHANNELMSG, chan.transmitUsers))
+                item->setIcon(COLUMN_CHANMSG,
+                              QIcon(QString::fromUtf8(":/images/images/oksign.png")));
+            else
+                item->setIcon(COLUMN_CHANMSG,
+                              QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
+
+            if (txvoice || isFreeForAll(STREAMTYPE_VOICE, chan.transmitUsers))
+                item->setIcon(COLUMN_VOICE,
+                              QIcon(QString::fromUtf8(":/images/images/oksign.png")));
+            else
+                item->setIcon(COLUMN_VOICE,
+                              QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
+
+            if (txvideo || isFreeForAll(STREAMTYPE_VIDEOCAPTURE, chan.transmitUsers))
+                item->setIcon(COLUMN_VIDEO,
+                              QIcon(QString::fromUtf8(":/images/images/oksign.png")));
+            else
+                item->setIcon(COLUMN_VIDEO,
+                              QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
+
+            if (txdesktop || isFreeForAll(STREAMTYPE_DESKTOP, chan.transmitUsers))
+                item->setIcon(COLUMN_DESKTOP,
+                              QIcon(QString::fromUtf8(":/images/images/oksign.png")));
+            else
+                item->setIcon(COLUMN_DESKTOP,
+                              QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
+
+            if (txmediafile || isFreeForAll(STREAMTYPE_MEDIAFILE, chan.transmitUsers))
+                item->setIcon(COLUMN_MEDIAFILE,
+                              QIcon(QString::fromUtf8(":/images/images/oksign.png")));
+            else
+                item->setIcon(COLUMN_MEDIAFILE,
+                              QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
+        }
+    }
+    else //make sure columns COLUMN_VOICE and COLUMN_VIDEO are empty
+    {
+        if (!item->icon(COLUMN_CHANMSG).isNull())
+            item->setIcon(COLUMN_CHANMSG, QIcon());
+        if (!item->icon(COLUMN_VOICE).isNull())
+            item->setIcon(COLUMN_VOICE, QIcon());
+        if (!item->icon(COLUMN_VIDEO).isNull())
+            item->setIcon(COLUMN_VIDEO, QIcon());
+        if (!item->icon(COLUMN_DESKTOP).isNull())
+            item->setIcon(COLUMN_DESKTOP, QIcon());
+        if (!item->icon(COLUMN_MEDIAFILE).isNull())
+            item->setIcon(COLUMN_MEDIAFILE, QIcon());
+
+        if (!item->data(COLUMN_CHANMSG, Qt::CheckStateRole).isNull())
+            item->setData(COLUMN_CHANMSG, Qt::CheckStateRole, QVariant());
+        if (!item->data(COLUMN_VOICE, Qt::CheckStateRole).isNull())
+            item->setData(COLUMN_VOICE, Qt::CheckStateRole, QVariant());
+        if (!item->data(COLUMN_VIDEO, Qt::CheckStateRole).isNull())
+            item->setData(COLUMN_VIDEO, Qt::CheckStateRole, QVariant());
+        if (!item->data(COLUMN_DESKTOP, Qt::CheckStateRole).isNull())
+            item->setData(COLUMN_DESKTOP, Qt::CheckStateRole, QVariant());
+        if (!item->data(COLUMN_MEDIAFILE, Qt::CheckStateRole).isNull())
+            item->setData(COLUMN_MEDIAFILE, Qt::CheckStateRole, QVariant());
+    }
+
+    QBrush bgColor = talking ? QBrush(COLOR_TALK) : QPalette().brush(QPalette::Base);
+    if (!talking && userid == m_last_talker_id &&
+        ttSettings->value(SETTINGS_DISPLAY_LASTTALK, SETTINGS_DISPLAY_LASTTALK_DEFAULT).toBool())
+    {
+        bgColor = QBrush(COLOR_LASTTALK);
+    }
+    item->setBackground(COLUMN_ITEM, bgColor);
+    item->setData(COLUMN_CHANMSG, Qt::AccessibleTextRole, QString(tr("Text message transmission allowed: %1").arg(userCanChanMessage(userid, chan)?tr("Yes"):tr("No"))));
+    item->setData(COLUMN_VOICE, Qt::AccessibleTextRole, QString(tr("Voice transmission allowed: %1").arg(userCanVoiceTx(userid, chan)?tr("Yes"):tr("No"))));
+    item->setData(COLUMN_VIDEO, Qt::AccessibleTextRole, QString(tr("Video transmission allowed: %1").arg(userCanVideoTx(userid, chan)?tr("Yes"):tr("No"))));
+    item->setData(COLUMN_DESKTOP, Qt::AccessibleTextRole, QString(tr("Desktop transmission allowed: %1").arg(userCanDesktopTx(userid, chan)?tr("Yes"):tr("No"))));
+    item->setData(COLUMN_MEDIAFILE, Qt::AccessibleTextRole, QString(tr("Media files transmission allowed: %1").arg(userCanMediaFileTx(userid, chan)?tr("Yes"):tr("No"))));
+}
+
+void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
+{
+    m_ignore_item_changes = true;
+
+    if(item->type() & CHANNEL_TYPE)
+        updateChannelItem(item);
+    else if(item->type() & USER_TYPE)
+        updateUserItem(item);
 
     m_ignore_item_changes = false;
 }

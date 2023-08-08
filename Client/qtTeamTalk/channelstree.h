@@ -101,6 +101,8 @@ private:
     /* return the "should be" index. Not the current index */
     int getChannelIndex(const QTreeWidgetItem* item);
     void updateChannelItem(int channelid);
+    void updateChannelItem(QTreeWidgetItem* item);
+    void updateUserItem(QTreeWidgetItem* item);
 
     bool m_ignore_item_changes;
 
