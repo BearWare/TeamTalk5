@@ -1,0 +1,763 @@
+/* log entry */
+"%@ joined channel" = "%@ đã tham gia kênh";
+
+/* log entry */
+"%@ left channel" = "%@ đã rời khỏi kênh";
+
+/* Web Login Controller */
+"%@, your username \"%@\" has been validated" = "%@, tên người dùng của bạn \"%@\" đã được xác nhận";
+
+/* preferences */
+"%d %% - Default" = "%d %% - Mặc định";
+
+/* codec detail */
+"(Active)" = "(Kích hoạt)";
+
+/* codec detail */
+"12 KHz" = "12 KHz";
+
+/* codec detail
+   create channel */
+"16 KHz" = "16 KHz";
+
+/* codec detail */
+"24 KHz" = "24 KHz";
+
+/* codec detail
+   create channel */
+"32 KHz" = "32 KHz";
+
+/* codec detail */
+"48 KHz" = "48 KHz";
+
+/* codec detail
+   create channel */
+"8 KHz" = "8 KHz";
+
+/* serverlist */
+"Access preferences" = "Tùy chọn truy cập";
+
+/* server entry
+   user detail */
+"Actions" = "Hành động";
+
+/* channel list
+   Sound Devices */
+"Active" = "Kích hoạt";
+
+/* serverlist */
+"Add new server entry" = "Thêm máy chủ";
+
+/* preferences */
+"Announce content of text message" = "Thông báo nội dung tin nhắn";
+
+/* preferences */
+"Announce lost server connection" = "Thông báo mất kết nối máy chủ";
+
+/* preferences */
+"Announce user joining channel" = "Thông báo người dùng tham gia kênh";
+
+/* preferences */
+"Announce user leaving channel" = "Thông báo người dùng rời khỏi kênh";
+
+/* preferences */
+"Announce user logged onto server" = "Thông báo người dùng đăng nhập vào máy chủ";
+
+/* preferences */
+"Announce user logged out of server" = "Thông báo người dùng đăng xuất khỏi máy chủ";
+
+/* text to speech */
+"Announcements" = "thông báo";
+
+/* preferences */
+"App Version" = "Phiên bản ứng dụng";
+
+/* codec detail */
+"Application" = "Application";
+
+/* preferences */
+"Ascending" = "Tăng dần";
+
+/* codec detail */
+"Audio Channels" = "Kênh âm thanh";
+
+/* create channel */
+"Audio Codec" = "Audio Codec";
+
+/* Web Login Controller */
+"Authenticate" = "Xác thực";
+
+/* server entry
+   Web Login controller */
+"Authentication" = "Xác thực";
+
+/* channel list */
+"Ban user" = "Chặn người dùng";
+
+/* server entry */
+"BearWare.dk Web Login" = "Đăng nhập web BearWare.dk";
+
+/* weblogin event */
+"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "Đăng nhập web BearWare.dk không thành công. Hãy kiểm tra lại Đăng nhập web BearWare.dk trong Tùy chọn";
+
+/* codec detail */
+"Bitrate" = "Bitrate";
+
+/* preferences */
+"Bjoern D. Rasmussen, contact@bearware.dk" = "Bjoern D. Rasmussen, contact@bearware.dk";
+
+/* Sound Devices */
+"Bluetooth A2DP Playback" = "Bluetooth A2DP Playback";
+
+/* Sound Devices */
+"Bluetooth playback should use Advanced Audio Distribution Profile" = "Chế độ Bluetooth nên sử dụng Cấu hình Phân phối Âm thanh Nâng cao";
+
+/* text message type */
+"Broadcast message" = "Tin nhắn thông báo";
+
+/* preferences
+   user detail */
+"Broadcast Messages" = "Tin nhắn thông báo";
+
+/* preferences */
+"Broadcast Text Message" = "Tin nhắn thông báo";
+
+/* Dialog message */
+"Cancel" = "Hủy";
+
+/* channel list
+   server entry */
+"Channel" = "Kênh";
+
+/* text message type */
+"Channel message" = "Tin nhắn kênh";
+
+/* TTS EVENT */
+"Channel message from %@. %@" = "Tin nhắn kênh từ %@. %@";
+
+/* preferences
+   user detail */
+"Channel Messages" = "Tin nhắn kênh";
+
+/* create channel */
+"Channel Properties" = "Thông tin kênh";
+
+/* preferences */
+"Channel Text Message" = "Tin nhắn kênh";
+
+/* channel list */
+"Channel. %d users" = "Kênh. %d người dùng";
+
+/* server entry */
+"Check only if this server has enabled BearWare.dk Web Login" = "Chỉ kiểm tra nếu máy chủ này đã bật Đăng nhập web BearWare.dk";
+
+/* log entry */
+"Command failed: %@" = "Lệnh không hợp lệ: %@";
+
+/* create channel */
+"Commands" = "Lệnh";
+
+/* connect to a server */
+"Connect to Server" = "Kết nối với máy chủ";
+
+/* serverlist */
+"Connect to server" = "Kết nối với máy chủ";
+
+/* preferences
+   server entry */
+"Connection" = "Kết nối";
+
+/* preferences
+   tts event */
+"Connection lost" = "Mất kết nối";
+
+/* server entry */
+"Country" = "Quốc gia";
+
+/* View Title */
+"Create Channel" = "Tạo kênh";
+
+/* main-tab */
+"Create new channel" = "Tạo kênh mới";
+
+/* Sound Devices */
+"Default" = "Mặc định";
+
+/* preferences */
+"Default Subscriptions" = "Đăng ký mặc định";
+
+/* serverlist */
+"Delete server from list" = "Xóa máy chủ khỏi danh sách";
+
+/* preferences
+   user detail */
+"Desktop" = "Màn hình";
+
+/* preferences */
+"Display" = "Hiển thị";
+
+/* channel list */
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Nhấn đúp và giữ để truyền. Nhấn nhanh ba lần để khóa truyền.";
+
+/* preferences */
+"Double tap to lock TX button" = "Nhấn đúp để khóa nút TX";
+
+/* codec detail */
+"DTX" = "DTX";
+
+/* channel list */
+"Edit properties" = "Chỉnh sửa thông tin";
+
+/* server entry */
+"Encrypted" = "Mã hóa";
+
+/* Dialog message */
+"Enter Password" = "Nhập mật khẩu";
+
+/* Dialog
+   Dialog message
+   message dialog
+   user detail */
+"Error" = "Lỗi";
+
+/* preferences */
+"Exclusive Mode Toggled" = "Chế độ độc quyền được chuyển đổi";
+
+/* connect to a server */
+"Failed to setup encryption" = "Không thể thiết lập mã hóa";
+
+/* preferences */
+"Female" = "Nữ";
+
+/* codec detail */
+"Frame Size" = "Kích thước khung hình";
+
+/* preferences */
+"Gender" = "Giới tính";
+
+/* preferences
+   Sound Devices
+   user detail */
+"General" = "Chung";
+
+/* TTS EVENT */
+"has joined the channel" = "đã tham gia kênh";
+
+/* TTS EVENT */
+"has left the channel" = "đã rời khỏi kênh";
+
+/* TTS EVENT */
+"has logged on" = "đã đăng nhập";
+
+/* TTS EVENT */
+"has logged out" = "đã đăng xuất";
+
+/* preferences */
+"Headset TX Toggle" = "Chuyển đổi TX bằng tai nghe";
+
+/* hidden channel */
+"Hidden Channel" = "Kênh ẩn";
+
+/* server entry */
+"Host address" = "Địa chỉ máy chủ";
+
+/* channel list */
+"Inactive" = "Không hoạt động";
+
+/* Dialog message */
+"Join" = "Tham gia";
+
+/* channel list */
+"Join channel" = "Tham gia kênh";
+
+/* server entry */
+"Join Channel" = "Tham gia kênh";
+
+/* preferences */
+"Join Root Channel" = "Tham gia kênh gốc";
+
+/* preferences */
+"Join root channel after login" = "Tham gia kênh gốc sau khi đăng nhập";
+
+/* log entry */
+"Joined %@" = "Đã tham gia %@";
+
+/* channel list */
+"Kick user" = "Kick người dùng";
+
+/* preferences */
+"Limit length of names in channel list to %d characters" = "Giới hạn độ dài tên trong danh sách kênh ở mức %d ký tự";
+
+/* serverlist */
+"Local server" = "Máy chủ cục bộ";
+
+/* text message type */
+"Log message" = "Log message";
+
+/* log entry */
+"Logged on to server" = "Đã đăng nhập vào máy chủ";
+
+/* preferences */
+"Male" = "Nam";
+
+/* preferences */
+"Master Volume" = "Âm lượng chính";
+
+/* preferences */
+"Maximum Text Length" = "Độ dài văn bản tối đa";
+
+/* preferences
+   user detail */
+"Media File" = "Tệp phương tiện";
+
+/* preferences
+   user detail */
+"Media File Volume" = "Âm lượng tệp phương tiện";
+
+/* preferences */
+"Media file vs. voice volume" = "Âm lượng tệp phương tiện vs âm lượng giọng nói";
+
+/* server entry */
+"Message of the Day" = "Tin nhắn trong ngày";
+
+/* preferences */
+"Microphone Gain" = "Âm lượng Microphone";
+
+/* codec detail
+   create channel */
+"Mono" = "Mono";
+
+/* channel list */
+"Move user" = "Di chuyển người dùng";
+
+/* channel list */
+"Move users here" = "Di chuyển người dùng đến đây";
+
+/* codec detail */
+"Music" = "Music";
+
+/* channel list */
+"Mute" = "Tắt tiếng";
+
+/* user detail */
+"Mute Media File" = "Tắt tiếng tệp phương tiện";
+
+/* user detail */
+"Mute Voice" = "Tắt tiếng giọng nói";
+
+/* create channel
+   server entry */
+"Name" = "Tên";
+
+/* preferences */
+"Name displayed in channel list" = "Tên hiển thị trong danh sách kênh";
+
+/* Dialog message */
+"New Server" = "Máy chủ mới";
+
+/* preferences */
+"Nickname" = "Tên hiển thị";
+
+/* server entry */
+"Nickname (optional)" = "Tên hiển thị (tùy chọn)";
+
+/* Dialog message */
+"No" = "Không";
+
+/* codec detail
+   create channel */
+"No Audio" = "Không âm thanh";
+
+/* create channel */
+"No Audio Recording" = "Không ghi âm";
+
+/* create channel */
+"No Interruptions" = "không bị gián đoạn";
+
+/* channel list */
+"No password" = "Không mật khẩu";
+
+/* create channel */
+"No Voice Activation" = "Không kích hoạt bằng giọng nói";
+
+/* default nickname */
+"Noname" = "Không tên";
+
+/* serverlist */
+"Official server" = "Máy chủ chính thức";
+
+/* Dialog
+   Dialog message
+   message dialog
+   user detail
+   Web Login Controller */
+"OK" = "OK";
+
+/* codec detail */
+"OPUS Codec" = "OPUS Codec";
+
+/* preferences */
+"Order of channels in Channel List" = "Thứ tự các kênh trong Danh sách kênh";
+
+/* channel list */
+"Parent channel" = "Kênh gốc";
+
+/* create channel
+   Dialog message
+   server entry
+   Web Login Controller */
+"Password" = "Mật khẩu";
+
+/* channel list */
+"Password protected" = "Được bảo vệ bằng mật khẩu";
+
+/* create channel */
+"Permanent Channel" = "Kênh vĩnh viễn";
+
+/* preferences */
+"Play sound when a user joins the channel" = "Phát âm thanh khi người dùng tham gia kênh";
+
+/* preferences */
+"Play sound when a user leaves the channel" = "Phát âm thanh khi người dùng rời khỏi kênh";
+
+/* preferences */
+"Play sound when broadcast text message is received" = "Phát âm thanh khi nhận được tin nhắn thông báo";
+
+/* preferences */
+"Play sound when channel text message is received" = "Phát âm thanh khi nhận được tin nhắn kênh";
+
+/* preferences */
+"Play sound when connection is dropped" = "Phát âm thanh khi mất kết nối";
+
+/* preferences */
+"Play sound when private text message is received" = "Phát âm thanh khi nhận được tin nhắn riêng";
+
+/* preferences */
+"Play sound when transmit ready in \"No Interruptions\" channel" = "Phát âm thanh khi sẵn sàng truyền trong kênh \"không bị gián đoạn\"";
+
+/* preferences */
+"Play sound when user logs off to the server" = "Phát âm thanh khi người dùng đăng xuất khỏi máy chủ";
+
+/* preferences */
+"Play sound when user logs on to the server" = "Phát âm thanh khi người dùng đăng nhập vào máy chủ";
+
+/* preferences */
+"Play sound when voice activation is triggered" = "Phát âm thanh khi kích hoạt bằng giọng nói được kích hoạt";
+
+/* preferences */
+"Play sound when voice transmission is toggled" = "Phát âm thanh khi bật chức năng truyền giọng nói";
+
+/* preferences */
+"Pop up text message when new messages are received" = "Thông báo bật lên khi nhận được tin nhắn mới";
+
+/* preferences */
+"Popularity" = "Popularity";
+
+/* serverlist */
+"Preferences" = "Tùy chọn";
+
+/* Sound Devices */
+"Preferred" = "Preferred";
+
+/* preferences */
+"Pressing Return-key sends text message" = "Nhấn phím xuống dòng sẽ gửi tin nhắn";
+
+/* text message type */
+"Private message" = "Tin nhắn riêng";
+
+/* preferences */
+"Private Text Message" = "Tin nhắn riêng";
+
+/* TTS EVENT */
+"Private text message from %@. %@" = "Tin nhắn riêng từ %@. %@";
+
+/* preferences */
+"Proximity Sensor" = "Cảm biến tiệm cận";
+
+/* serverlist */
+"Public server" = "Máy chủ công cộng";
+
+/* preferences */
+"Push To Talk Lock" = "Khóa Nhấn Để Nói";
+
+/* codec detail */
+"Quality" = "Chất lượng";
+
+/* preferences */
+"Receive broadcast messages by default" = "Nhận tin nhắn thông báo theo mặc định";
+
+/* preferences */
+"Receive channel messages by default" = "Nhận tin nhắn kênh theo mặc định";
+
+/* preferences */
+"Receive desktop sessions by default" = "Nhận chia sẻ màn hình theo mặc định";
+
+/* preferences */
+"Receive media file streams by default" = "Nhận luồng tệp phương tiện theo mặc định";
+
+/* preferences */
+"Receive text messages by default" = "Nhận tin nhắn theo mặc định";
+
+/* preferences */
+"Receive voice streams by default" = "Nhận luồng giọng nói theo mặc định";
+
+/* preferences */
+"Receive webcam streams by default" = "Nhận luồng webcam theo mặc định";
+
+/* preferences */
+"Return Sends Message" = "Xuống dòng Gửi tin nhắn";
+
+/* channel list */
+"Return to previous channel" = "Quay lại kênh trước đó";
+
+/* log entry */
+"root channel" = "kênh gốc";
+
+/* codec detail */
+"Sample Rate" = "Sample Rate";
+
+/* Dialog message */
+"Save Server" = "Lưu máy chủ";
+
+/* Dialog message */
+"Save server to server list?" = "Lưu máy chủ vào danh sách máy chủ?";
+
+/* text message */
+"Send empty message to close keyboard" = "Gửi tin nhắn trống để đóng bàn phím";
+
+/* channel list */
+"Send private message" = "Gửi tin nhắn riêng";
+
+/* preferences */
+"Server Connection Lost" = "Mất kết nối với máy chủ";
+
+/* server entry */
+"Server List Entry" = "Danh sách máy chủ";
+
+/* server entry */
+"Server Status" = "Trạng thái máy chủ";
+
+/* preferences */
+"Show in Server List" = "Hiển thị trong Danh sách máy chủ";
+
+/* preferences */
+"Show male or female icon" = "Hiển thị biểu tượng nam hoặc nữ";
+
+/* preferences */
+"Show Text Messages Instantly" = "Hiển thị tin nhắn ngay lập tức";
+
+/* preferences */
+"Show Usernames" = "Hiển thị tên người dùng";
+
+/* preferences */
+"Show usernames instead of nicknames" = "Hiển thị tên người dùng thay vì tên hiển thị";
+
+/* channel list */
+"Silent" = "Im lặng";
+
+/* preferences */
+"Sort Channels" = "Sắp xếp kênh";
+
+/* preferences
+   text to speech */
+"Sound Events" = "Sự kiện thông báo bằng âm thanh";
+
+/* preferences */
+"Sound System" = "Hệ thống âm thanh";
+
+/* preferences */
+"Speaker Output" = "Đầu ra loa";
+
+/* preferences */
+"Speech Rate" = "Tốc độ nói";
+
+/* preferences */
+"Speech Volume" = "Âm lượng giọng nói";
+
+/* codec detail */
+"Speex Codec" = "Speex Codec";
+
+/* codec detail */
+"Speex Variable Bitrate Codec" = "Speex Variable Bitrate Codec";
+
+/* Text message view */
+"Status Event" = "Trạng thái Sự kiện";
+
+/* codec detail
+   create channel
+   Sound Devices */
+"Stereo" = "Stereo";
+
+/* user detail */
+"Subscriptions" = "đăng ký";
+
+/* channel list */
+"Talking" = "Đang nói";
+
+/* server entry */
+"TCP Port" = "Cổng TCP";
+
+/* preferences */
+"Text To Speech Events" = "Sự kiện thông báo bằng giọng nói";
+
+/* preferences */
+"The rate of the speaking voice is %.1f" = "Tốc độ của giọng nói là %.1f";
+
+/* preferences */
+"The volume of the speaking voice is %.1f" = "Âm lượng của giọng nói là %.1f";
+
+/* channel list */
+"Toggle to enable/disable transmission" = "Chuyển đổi bật/tắt truyền";
+
+/* preferences */
+"Toggle voice transmission using headset" = "Chuyển đổi truyền giọng nói bằng nút tai nghe";
+
+/* create channel */
+"Topic" = "Chủ đề";
+
+/* preferences */
+"Translator" = "Người dịch";
+
+/* channel list */
+"Transmit inactive" = "Truyền không hoạt động";
+
+/* codec detail */
+"Transmit Interval" = "Khoảng thời gian truyền";
+
+/* channel list */
+"Transmitting" = "truyền";
+
+/* preferences */
+"Turn off screen when holding phone near ear" = "Tắt màn hình khi để điện thoại gần tai";
+
+/* text field hint
+   text message */
+"Type text here" = "Nhập văn bản ở đây";
+
+/* server entry */
+"UDP Port" = "Cổng UDP";
+
+/* serverlist */
+"Unofficial server" = "máy chủ không chính thức";
+
+/* Sound Devices */
+"Use echo cancellation and automatic gain control" = "Sử dụng loại bỏ tiếng vang và điều khiển khuếch đại tự động";
+
+/* preferences */
+"Use iPhone's speaker instead of earpiece" = "Sử dụng loa của iPhone thay vì tai nghe";
+
+/* channel list */
+"User" = "Người dùng";
+
+/* channel list */
+"User female" = "người dùng nữ";
+
+/* preferences */
+"User Joins Channel" = "Người dùng tham gia kênh";
+
+/* preferences */
+"User joins channel" = "Người dùng tham gia kênh";
+
+/* preferences */
+"User leaves channel" = "Người dùng rời khỏi kênh";
+
+/* preferences */
+"User Leaves Channel" = "Người dùng rời khỏi kênh";
+
+/* preferences */
+"User logged in" = "Người dùng đã đăng nhập";
+
+/* preferences */
+"User Logged In" = "Người dùng đã đăng nhập";
+
+/* preferences */
+"User Logged Out" = "Người dùng đã đăng xuất";
+
+/* preferences */
+"User logged out" = "Người dùng đã đăng xuất";
+
+/* preferences
+   user detail */
+"User Messages" = "Tin nhắn của người dùng";
+
+/* server entry
+   user detail
+   Web Login Controller */
+"Username" = "Tên người dùng";
+
+/* Web Login Controller */
+"Username or password incorrect" = "Tên người dùng hoặc mật khẩu không chính xác";
+
+/* server entry */
+"Users Online" = "Người dùng trực tuyến";
+
+/* serverlist */
+"Users: %d, Country: %@" = "Người dùng: %d, Quốc gia: %@";
+
+/* codec detail */
+"Variable Bitrate" = "Variable Bitrate";
+
+/* preferences */
+"Version Information" = "Thông tin phiên bản";
+
+/* channel list */
+"View" = "Xem";
+
+/* channel list */
+"View properties" = "Xem các thuộc tính";
+
+/* preferences
+   user detail */
+"Voice" = "Giọng nói";
+
+/* preferences */
+"Voice Activation Level" = "Mức kích hoạt bằng giọng nói";
+
+/* preferences */
+"Voice Activation Level: %d. Recommended: %d" = "Mức kích hoạt bằng giọng nói: %d. Khuyến khích: %d";
+
+/* preferences */
+"Voice Activation Level: Disabled" = "Mức kích hoạt bằng giọng nói: Đã tắt";
+
+/* preferences */
+"Voice Activation Triggered" = "Kích hoạt bằng giọng nói được kích hoạt";
+
+/* preferences */
+"Voice Preprocessing" = "Xử lý giọng nói";
+
+/* preferences */
+"Voice Transmission Toggled" = "Chuyển đổi truyền giọng nói";
+
+/* user detail */
+"Voice Volume" = "Âm lượng giọng nói";
+
+/* codec detail */
+"VoIP" = "VoIP";
+
+/* user detail */
+"Volume Controls" = "Điều khiển âm lượng";
+
+/* Web Login controller */
+"Web Login ID" = "ID đăng nhập web";
+
+/* preferences
+   user detail */
+"WebCam" = "WebCam";
+
+/* Dialog message */
+"Yes" = "Có";
+
+/* Dialog */
+"You have been kicked from channel" = "Bạn đã bị kick khỏi kênh";
+
+/* Dialog */
+"You have been kicked from channel by %@" = "Bạn đã bị kick khỏi kênh bởi %@";
+
+/* Dialog */
+"You have been kicked from server" = "Bạn đã bị kick khỏi máy chủ";
+
+/* Dialog */
+"You have been kicked from server by %@" = "Bạn đã bị kick khỏi máy chủ bởi %@";
+
+/* speech */
+"You have selected %@" = "Bạn đã chọn %@";
