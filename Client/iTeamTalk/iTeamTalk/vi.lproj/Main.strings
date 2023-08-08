@@ -1,0 +1,227 @@
+/* Class = "UITabBarController"; title = "Main Tab Controller"; ObjectID = "07s-AR-tvQ"; */
+"07s-AR-tvQ.title" = "Trình Điều Khiển Thẻ Chính";
+
+/* Class = "UINavigationItem"; title = "Text Message"; ObjectID = "0EG-eF-WzS"; */
+"0EG-eF-WzS.title" = "Tin nhắn";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "0QA-gn-V1p"; */
+"0QA-gn-V1p.text" = "Blank";
+
+/* Class = "UIButton"; normalTitle = "Send"; ObjectID = "3NI-HT-A3N"; */
+"3NI-HT-A3N.normalTitle" = "Gửi";
+
+/* Class = "UIButton"; accessibilityHint = "Send private text message"; ObjectID = "4RU-K7-Yga"; */
+"4RU-K7-Yga.accessibilityHint" = "Gửi tin nhắn riêng";
+
+/* Class = "UIButton"; accessibilityLabel = "Text Messaging"; ObjectID = "4RU-K7-Yga"; */
+"4RU-K7-Yga.accessibilityLabel" = "Nhắn Tin";
+
+/* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "4RU-K7-Yga"; */
+"4RU-K7-Yga.normalTitle" = "Tin nhắn người dùng";
+
+/* Class = "UITableViewController"; title = "Text To Speech Events"; ObjectID = "5K7-Hd-4h7"; */
+"5K7-Hd-4h7.title" = "Sự Kiện Chuyển Văn Bản Thành Giọng Nói";
+
+/* Class = "UIButton"; normalTitle = "Login"; ObjectID = "5YA-rx-tGz"; */
+"5YA-rx-tGz.normalTitle" = "Đăng nhập";
+
+/* Class = "UINavigationItem"; title = "Text-to-Speech Voice"; ObjectID = "79c-sV-yxb"; */
+"79c-sV-yxb.title" = "Chọn giọng nói";
+
+/* Class = "UIButton"; normalTitle = "Create Web Login ID"; ObjectID = "8Ls-H9-lri"; */
+"8Ls-H9-lri.normalTitle" = "Tạo ID Đăng Nhập Web";
+
+/* Class = "UITextView"; text = "Blank"; ObjectID = "9GN-82-2nL"; */
+"9GN-82-2nL.text" = "Blank";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "ALe-1e-Au1"; */
+"ALe-1e-Au1.text" = "Blank";
+
+/* Class = "UITabBarItem"; title = "Channels"; ObjectID = "aX2-rZ-yEl"; */
+"aX2-rZ-yEl.title" = "Kênh";
+
+/* Class = "UIButton"; normalTitle = "Use Speex VBR Codec"; ObjectID = "b6N-H7-SIe"; */
+"b6N-H7-SIe.normalTitle" = "Sử dụng Speex VBR Codec";
+
+/* Class = "UILabel"; text = "Speech"; ObjectID = "B8t-mo-k8g"; */
+"B8t-mo-k8g.text" = "Giọng nói";
+
+/* Class = "UIButton"; normalTitle = "Reset Web Login ID"; ObjectID = "baE-IB-ajD"; */
+"baE-IB-ajD.normalTitle" = "Đặt lại ID đăng nhập web";
+
+/* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "bDf-Jp-1l5"; */
+"bDf-Jp-1l5.normalTitle" = "Kết nối";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "BLM-fs-qcG"; */
+"BLM-fs-qcG.title" = "Quay lại";
+
+/* Class = "UILabel"; text = "Setup Sound Events"; ObjectID = "bua-Pf-Vpn"; */
+"bua-Pf-Vpn.text" = "Thiết Lập Sự Kiện Thông Báo Bằng Âm Thanh";
+
+/* Class = "UIButton"; normalTitle = "Use Speex Codec"; ObjectID = "cGm-Jp-0zI"; */
+"cGm-Jp-0zI.normalTitle" = "Sử dụng Speex Codec";
+
+/* Class = "UIButton"; normalTitle = "Join this channel"; ObjectID = "ch0-Xf-hyX"; */
+"ch0-Xf-hyX.normalTitle" = "Tham gia kênh này";
+
+/* Class = "UINavigationItem"; title = "Connecting to Server"; ObjectID = "dcU-Nq-ioW"; */
+"dcU-Nq-ioW.title" = "Đang kết nối với Máy chủ";
+
+/* Class = "UIButton"; accessibilityLabel = "Private text messaging"; ObjectID = "DHN-DJ-cUp"; */
+"DHN-DJ-cUp.accessibilityLabel" = "Tin nhắn riêng";
+
+/* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "DHN-DJ-cUp"; */
+"DHN-DJ-cUp.normalTitle" = "Tin nhắn người dùng";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "EHj-xt-HhD"; */
+"EHj-xt-HhD.text" = "Blank";
+
+/* Class = "UILabel"; text = "Choose events to playback"; ObjectID = "eJb-Cn-ciJ"; */
+"eJb-Cn-ciJ.text" = "Chọn sự kiện thông báo để phát";
+
+/* Class = "UILabel"; text = "Show Unofficial Servers"; ObjectID = "feN-jH-qaq"; */
+"feN-jH-qaq.text" = "Hiển Thị Máy Chủ Không Chính Thức";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "Fu9-tA-eYj"; */
+"Fu9-tA-eYj.text" = "Blank";
+
+/* Class = "UIViewController"; title = "Chat Channel"; ObjectID = "gA8-TJ-0RU"; */
+"gA8-TJ-0RU.title" = "Kênh tin nhắn";
+
+/* Class = "UILabel"; text = "Limit types of servers to show"; ObjectID = "GeK-hh-gst"; */
+"GeK-hh-gst.text" = "Giới hạn các loại máy chủ để hiển thị";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "GFy-mN-epU"; */
+"GFy-mN-epU.text" = "Tiêu đề";
+
+/* Class = "UILabel"; text = "Filter Server List"; ObjectID = "gPj-u1-dPn"; */
+"gPj-u1-dPn.text" = "Bộ Lọc Danh Sách Máy Chủ";
+
+/* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
+"Hcv-zz-riB.text" = " Đăng Nhập Web BearWare.dk";
+
+/* Class = "UITableViewCell"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
+"hqu-CX-Vn4.accessibilityHint" = "Nhấn đúp để mở rộng tùy chọn cho kênh này.";
+
+/* Class = "UITabBarItem"; title = "Messages"; ObjectID = "j1c-gJ-hO8"; */
+"j1c-gJ-hO8.title" = "Tin nhắn";
+
+/* Class = "UITextView"; text = "Blank"; ObjectID = "JW6-jf-mbs"; */
+"JW6-jf-mbs.text" = "Blank";
+
+/* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "JzB-tm-tld"; */
+"JzB-tm-tld.normalTitle" = "Chỉnh sửa";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "kRp-LE-RFh"; */
+"kRp-LE-RFh.text" = "Blank";
+
+/* Class = "UITableViewController"; title = "Setup Sound Events"; ObjectID = "Ksa-x9-2Mq"; */
+"Ksa-x9-2Mq.title" = "Thiết Lập Sự Kiện Thông Báo Bằng Âm Thanh";
+
+/* Class = "UILabel"; text = "Choose sounds events to play"; ObjectID = "KsW-VX-Rtb"; */
+"KsW-VX-Rtb.text" = "Chọn sự kiện thông báo âm thanh để phát";
+
+/* Class = "UIButton"; normalTitle = "Join Channel"; ObjectID = "l6D-Hs-MdG"; */
+"l6D-Hs-MdG.normalTitle" = "Tham Gia Kênh";
+
+/* Class = "UIButton"; normalTitle = "Send"; ObjectID = "LPL-JY-xBM"; */
+"LPL-JY-xBM.normalTitle" = "Gửi";
+
+/* Class = "UIButton"; normalTitle = "Delete Server"; ObjectID = "m1N-Js-NXn"; */
+"m1N-Js-NXn.normalTitle" = "Xóa Máy Chủ";
+
+/* Class = "UINavigationItem"; title = "Server Entry"; ObjectID = "Me4-OJ-iZH"; */
+"Me4-OJ-iZH.title" = "Máy Chủ";
+
+/* Class = "UINavigationItem"; title = "User Properties"; ObjectID = "N1w-a6-R3D"; */
+"N1w-a6-R3D.title" = "Thông Tin Người Dùng";
+
+/* Class = "UITableViewController"; title = "Preferences"; ObjectID = "NA0-UK-wve"; */
+"NA0-UK-wve.title" = "Tùy chọn";
+
+/* Class = "UILabel"; text = "Setup Sound Devices"; ObjectID = "ntU-ZP-sKb"; */
+"ntU-ZP-sKb.text" = "Thiết Lập Thiết Bị Âm Thanh";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "nVj-7w-Sta"; */
+"nVj-7w-Sta.text" = "Blank";
+
+/* Class = "UILabel"; text = "Show Official Servers"; ObjectID = "o2H-Vm-Vjd"; */
+"o2H-Vm-Vjd.text" = "Hiển Thị Máy Chủ Chính Thức";
+
+/* Class = "UITableViewController"; title = "BearWare.dk Web Login"; ObjectID = "o7z-cC-U4w"; */
+"o7z-cC-U4w.title" = " Đăng Nhập Web BearWare.dk";
+
+/* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
+"PaV-2Q-pt4.accessibilityLabel" = "Kết nối ";
+
+/* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
+"PaV-2Q-pt4.normalTitle" = "Kết nối";
+
+/* Class = "UITableViewController"; title = "Channel Detail"; ObjectID = "PhY-ED-cqF"; */
+"PhY-ED-cqF.title" = "Chi Tiết Kênh ";
+
+/* Class = "UINavigationItem"; title = "Server List"; ObjectID = "pQJ-c1-GEL"; */
+"pQJ-c1-GEL.title" = "Danh Sách Máy Chủ";
+
+/* Class = "UILabel"; text = "Setup Announcements"; ObjectID = "Q0w-pu-giG"; */
+"Q0w-pu-giG.text" = "Thiết Lập Thông Báo";
+
+/* Class = "UILabel"; text = "Choose input and output devices"; ObjectID = "qgW-1i-aGQ"; */
+"qgW-1i-aGQ.text" = "Chọn thiết bị đầu vào và đầu ra";
+
+/* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */
+"rNU-2J-hMO.normalTitle" = "Sử Dụng Không Có Âm Thanh";
+
+/* Class = "UIButton"; normalTitle = "Use OPUS Codec"; ObjectID = "Rrg-2O-NzF"; */
+"Rrg-2O-NzF.normalTitle" = "Sử dụng OPUS Codec";
+
+/* Class = "UILabel"; text = "Login ID from BearWare.dk"; ObjectID = "SmF-8J-cWK"; */
+"SmF-8J-cWK.text" = "Đăng Nhập ID BearWare.dk";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
+"Uc0-gP-wr1.text" = "Blank";
+
+/* Class = "UIButton"; normalTitle = "TX"; ObjectID = "V6G-Gm-l2U"; */
+"V6G-Gm-l2U.normalTitle" = "TX";
+
+/* Class = "UIButton"; normalTitle = "Delete Channel"; ObjectID = "vC1-lW-BtX"; */
+"vC1-lW-BtX.normalTitle" = "Xóa Kênh";
+
+/* Class = "UITabBarItem"; title = "Preferences"; ObjectID = "vIN-Uc-3Ms"; */
+"vIN-Uc-3Ms.title" = "Tùy chọn";
+
+/* Class = "UITableViewController"; title = "Select Voice"; ObjectID = "VWP-v4-bY8"; */
+"VWP-v4-bY8.title" = "Chọn Giọng Nói";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "w6E-jf-09e"; */
+"w6E-jf-09e.text" = "Blank";
+
+/* Class = "UILabel"; text = "Select the text-to-speech voice to use"; ObjectID = "Wbh-f7-64c"; */
+"Wbh-f7-64c.text" = "Chọn giọng nói để sử dụng";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "WcB-pN-blB"; */
+"WcB-pN-blB.text" = "Blank";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "WCf-u5-KkQ"; */
+"WCf-u5-KkQ.text" = "Blank";
+
+/* Class = "UIButton"; normalTitle = "Kick User"; ObjectID = "WFB-kl-uoS"; */
+"WFB-kl-uoS.normalTitle" = "Kick Người Dùng";
+
+/* Class = "UIButton"; normalTitle = "Kick and Ban User"; ObjectID = "WRa-tI-lpY"; */
+"WRa-tI-lpY.normalTitle" = "Kick và chặn Người Dùng";
+
+/* Class = "UITableViewController"; title = "Setup Sound Devices"; ObjectID = "XmQ-1z-cFv"; */
+"XmQ-1z-cFv.title" = "Thiết Lập Đầu Vào Âm Thanh";
+
+/* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
+"Y9o-rs-HCe.title" = "Ngắt kết nối";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "ydT-LM-DrB"; */
+"ydT-LM-DrB.text" = "Blank";
+
+/* Class = "UITabBarItem"; title = "Desktops"; ObjectID = "ZFj-Rn-XZn"; */
+"ZFj-Rn-XZn.title" = "Chia sẻ màn hình";
+
+/* Class = "UILabel"; text = "Blank"; ObjectID = "ZSZ-bY-VqA"; */
+"ZSZ-bY-VqA.text" = "Blank";
