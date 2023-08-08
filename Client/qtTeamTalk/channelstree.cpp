@@ -1275,8 +1275,8 @@ void ChannelsTree::slotUpdateChannel(const Channel& chan)
     updateChannelItem(chan.nChannelID);
 
     //update users since there might be a new operator
-    users_t::const_iterator ite;
-    for(ite=m_users.begin();ite!=m_users.end();ite++)
+    users_t chanusers = getChannelUsers(chan.nChannelID, m_users, m_channels, false);
+    for (auto ite=chanusers.begin();ite!=chanusers.end();++ite)
     {
         QTreeWidgetItem* item = getUserItem(ite.key());
         if(item)
