@@ -139,8 +139,8 @@ namespace teamtalk {
 
     struct ClientKeepAlive
     {
-        // no reply for three minutes, consider server dead
-        ACE_Time_Value connection_lost = ACE_Time_Value(180, 0);
+        // no reply from server after this then report connection lost
+        ACE_Time_Value connection_lost_timeout = ACE_Time_Value(180, 0);
         // Defaults to 1/2 of server's user-timeout
         ACE_Time_Value tcp_keepalive_interval;
         // Delay between UDP keepalive packets
