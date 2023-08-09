@@ -100,6 +100,7 @@ private:
     QPixmap getChannelIcon(const Channel& chan, const QTreeWidgetItem* item) const;
     QPixmap getUserIcon(const User& user, const Channel& chan, const QTreeWidgetItem* item) const;
     void setChannelTransmitUsers(const Channel& chan, QTreeWidgetItem* item);
+    void setUserTransmitUser(const User& user, const Channel& chan, QTreeWidgetItem* item);
     /* return the "should be" index. Not the current index */
     int getUserIndex(const QTreeWidgetItem* parent, const QString& name) const;
     /* return the "should be" index. Not the current index */
