@@ -96,6 +96,7 @@ private:
 
     QTreeWidgetItem* getChannelItem(int channelid) const;
     QTreeWidgetItem* getUserItem(int userid) const;
+    QPixmap getChannelIcon(const Channel& chan, const QTreeWidgetItem* item) const;
     /* return the "should be" index. Not the current index */
     int getUserIndex(const QTreeWidgetItem* parent, const QString& name) const;
     /* return the "should be" index. Not the current index */
