@@ -1308,7 +1308,7 @@ void ChannelsTree::slotUpdateChannel(const Channel& chan)
 
     updateChannelItem(chan.nChannelID);
 
-    //update users since there might be a new operator
+    //update users since there might be a new operator or transmit user has changed
     users_t chanusers = getChannelUsers(chan.nChannelID, m_users, m_channels, false);
     for (auto ite=chanusers.begin();ite!=chanusers.end();++ite)
     {
@@ -1344,10 +1344,17 @@ void ChannelsTree::slotUserLoggedOut(const User& user)
 void ChannelsTree::slotUserUpdate(const User& user)
 {
     Q_ASSERT(m_users.find(user.nUserID) != m_users.end());
+    User oldUser = m_users[user.nUserID];
     m_users.insert(user.nUserID, user);
 
     //ignore user if not in channel
     if(user.nChannelID == 0)
+        return;
+
+    // ignore if there's no visible changes
+    if (_Q(oldUser.szNickname) == _Q(user.szNickname) &&
+        _Q(oldUser.szStatusMsg) == _Q(user.szStatusMsg) &&
+        oldUser.nStatusMode == user.nStatusMode)
         return;
 
     QTreeWidgetItem* item = getUserItem(user.nUserID);
