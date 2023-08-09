@@ -93,6 +93,7 @@ private:
     int m_statTimerId, m_questionTimerId, m_desktopaccesTimerId;
 
     QPoint m_dragStartPos;
+    bool m_ignore_item_changes;
 
     QTreeWidgetItem* getChannelItem(int channelid) const;
     QTreeWidgetItem* getUserItem(int userid) const;
@@ -105,10 +106,10 @@ private:
     void updateChannelItem(int channelid);
     void updateChannelItem(QTreeWidgetItem* item);
     void updateUserItem(QTreeWidgetItem* item);
+    void updateUserStatistics();
+    void updateUserDesktopAccess();
+    void updateUserQuestionMode();
 
-    bool m_ignore_item_changes;
-
-private:
     void slotItemDoubleClicked(QTreeWidgetItem* item, int column);
     void slotItemChanged(QTreeWidgetItem* item, int column);
     void slotUpdateTreeWidgetItem(QTreeWidgetItem* item);
