@@ -335,113 +335,128 @@ void ChannelsTree::updateAllItems()
     }
 }
 
+void ChannelsTree::updateUserStatistics()
+{
+    UserStatistics stats;
+    QTreeWidgetItem* userItem;
+    statistics_t::iterator ii = m_stats.begin();
+    for(;ii != m_stats.end();ii++)
+    {
+        int userid = ii.key();
+        if(!TT_GetUserStatistics(ttInst, userid, &stats))
+            continue;
+        const UserStatistics& tmp = ii.value();
+        int audlost = stats.nVoicePacketsLost - tmp.nVoicePacketsLost;
+        int audrecv = stats.nVoicePacketsRecv - tmp.nVoicePacketsRecv;
+        int vidlost = stats.nVideoCaptureFramesLost - tmp.nVideoCaptureFramesLost;
+        int vidrecv = stats.nVideoCaptureFramesRecv - tmp.nVideoCaptureFramesRecv;
+        *ii = stats;
+
+        float audloss_pct = 0.0f;
+        if(audrecv)
+            audloss_pct = (float)audlost / (float)audrecv;
+        float vidloss_pct = 0.0f;
+        if(vidrecv)
+            vidloss_pct = (float)vidlost / (float)vidrecv;
+
+        userItem = getUserItem(userid);
+        if(userItem)
+        {
+            bool update_item = false;
+            if(audloss_pct >= .1f || vidloss_pct >= .1f)
+            {
+                if(userItem->background(COLUMN_ITEM) != COLOR_LOSSY)
+                    userItem->setBackground(COLUMN_ITEM, COLOR_LOSSY);
+                else
+                    update_item = true;
+            }
+            else if(userItem->background(COLUMN_ITEM) == COLOR_LOSSY)
+                update_item = true;
+
+            if(vidrecv)
+            {
+                if(m_videousers.find(userid) == m_videousers.end())
+                {
+                    m_videousers.insert(userid);
+                    update_item = true;
+                }
+            }
+            else if(m_videousers.find(userid) != m_videousers.end())
+            {
+                m_videousers.remove(userid);
+                update_item = true;
+            }
+            if(update_item)
+                slotUpdateTreeWidgetItem(userItem);
+        }
+    }
+}
+
+void ChannelsTree::updateUserDesktopAccess()
+{
+    QTreeWidgetItem* userItem;
+    auto ite = m_desktopaccess_users.begin();
+    while(ite != m_desktopaccess_users.end())
+    {
+        if(m_blinkchalk_users.find(*ite) == m_blinkchalk_users.end())
+            m_blinkchalk_users.insert(*ite);
+        else
+            m_blinkchalk_users.remove(*ite);
+
+        userItem = getUserItem(*ite);
+        if(userItem)
+            slotUpdateTreeWidgetItem(userItem);
+
+        ite++;
+    }
+}
+
+void ChannelsTree::updateUserQuestionMode()
+{
+    QTreeWidgetItem* userItem;
+    auto ite = m_users.begin();
+    while(ite != m_users.end())
+    {
+        const User& user = ite.value();
+        if((user.nStatusMode & STATUSMODE_MODE) == STATUSMODE_QUESTION)
+        {
+            if(m_blinkhand_users.find(user.nUserID) == m_blinkhand_users.end())
+                m_blinkhand_users.insert(user.nUserID);
+            else
+                m_blinkhand_users.remove(user.nUserID);
+
+            userItem = getUserItem(user.nUserID);
+            if(userItem) //may not be in a channel
+                slotUpdateTreeWidgetItem(userItem);
+        }
+        else if(m_blinkhand_users.find(user.nUserID) != m_blinkhand_users.end())
+        {
+            m_blinkhand_users.remove(user.nUserID);
+            userItem = getUserItem(user.nUserID);
+            if(userItem) //may not be in a channel
+                slotUpdateTreeWidgetItem(userItem);
+        }
+        ite++;
+    }
+}
+
 void ChannelsTree::timerEvent(QTimerEvent* event)
 {
     QTreeWidget::timerEvent(event);
 
-    if(event->timerId() == m_statTimerId)
+    if (event->timerId() == m_statTimerId)
     {
-        UserStatistics stats;
-        QTreeWidgetItem* userItem;
-        statistics_t::iterator ii = m_stats.begin();
-        for(;ii != m_stats.end();ii++)
-        {
-            int userid = ii.key();
-            if(!TT_GetUserStatistics(ttInst, userid, &stats))
-                continue;
-            const UserStatistics& tmp = ii.value();
-            int audlost = stats.nVoicePacketsLost - tmp.nVoicePacketsLost;
-            int audrecv = stats.nVoicePacketsRecv - tmp.nVoicePacketsRecv;
-            int vidlost = stats.nVideoCaptureFramesLost - tmp.nVideoCaptureFramesLost;
-            int vidrecv = stats.nVideoCaptureFramesRecv - tmp.nVideoCaptureFramesRecv;
-            *ii = stats;
-
-            float audloss_pct = 0.0f;
-            if(audrecv)
-                audloss_pct = (float)audlost / (float)audrecv;
-            float vidloss_pct = 0.0f;
-            if(vidrecv)
-                vidloss_pct = (float)vidlost / (float)vidrecv;
-
-            userItem = getUserItem(userid);
-            if(userItem)
-            {
-                bool update_item = false;
-                if(audloss_pct >= .1f || vidloss_pct >= .1f)
-                {
-                    if(userItem->background(COLUMN_ITEM) != COLOR_LOSSY)
-                        userItem->setBackground(COLUMN_ITEM, COLOR_LOSSY);
-                    else
-                        update_item = true;
-                }
-                else if(userItem->background(COLUMN_ITEM) == COLOR_LOSSY)
-                    update_item = true;
-
-                if(vidrecv)
-                {
-                    if(m_videousers.find(userid) == m_videousers.end())
-                    {
-                        m_videousers.insert(userid);
-                        update_item = true;
-                    }
-                }
-                else if(m_videousers.find(userid) != m_videousers.end())
-                {
-                    m_videousers.remove(userid);
-                    update_item = true;
-                }
-                if(update_item)
-                    slotUpdateTreeWidgetItem(userItem);
-            }
-        }
+        updateUserStatistics();
     }
-    else if(event->timerId() == m_desktopaccesTimerId)
+    else if (event->timerId() == m_desktopaccesTimerId)
     {
         //find users in desktop access mode so they can blink
-        QTreeWidgetItem* userItem;
-        auto ite = m_desktopaccess_users.begin();
-        while(ite != m_desktopaccess_users.end())
-        {
-            if(m_blinkchalk_users.find(*ite) == m_blinkchalk_users.end())
-                m_blinkchalk_users.insert(*ite);
-            else
-                m_blinkchalk_users.remove(*ite);
-
-            userItem = getUserItem(*ite);
-            if(userItem)
-                slotUpdateTreeWidgetItem(userItem);
-
-            ite++;
-        }
+        updateUserDesktopAccess();
     }
-    else if(event->timerId() == m_questionTimerId)
+    else if (event->timerId() == m_questionTimerId)
     {
         //find users in question mode so they can blink
-        QTreeWidgetItem* userItem;
-        auto ite = m_users.begin();
-        while(ite != m_users.end())
-        {
-            const User& user = ite.value();
-            if((user.nStatusMode & STATUSMODE_MODE) == STATUSMODE_QUESTION)
-            {
-                if(m_blinkhand_users.find(user.nUserID) == m_blinkhand_users.end())
-                    m_blinkhand_users.insert(user.nUserID);
-                else
-                    m_blinkhand_users.remove(user.nUserID);
-
-                userItem = getUserItem(user.nUserID);
-                if(userItem) //may not be in a channel
-                    slotUpdateTreeWidgetItem(userItem);
-            }
-            else if(m_blinkhand_users.find(user.nUserID) != m_blinkhand_users.end())
-            {
-                m_blinkhand_users.remove(user.nUserID);
-                userItem = getUserItem(user.nUserID);
-                if(userItem) //may not be in a channel
-                    slotUpdateTreeWidgetItem(userItem);
-            }
-            ite++;
-        }
+        updateUserQuestionMode();
     }
 }
 
