@@ -616,6 +616,134 @@ QPixmap ChannelsTree::getChannelIcon(const Channel& chan, const QTreeWidgetItem*
     return img;
 }
 
+QPixmap ChannelsTree::getUserIcon(const User& user, const Channel& chan, const QTreeWidgetItem* item) const
+{
+    bool video_active = m_videousers.find(user.nUserID) != m_videousers.end();
+    video_active |= (bool)(user.nStatusMode & STATUSMODE_VIDEOTX);
+
+    const char* user_rc;
+    if(m_blinkchalk_users.find(user.nUserID) != m_blinkchalk_users.end())
+        user_rc = ":/images/images/chalkstick.png";
+    else if(m_blinkhand_users.find(user.nUserID) != m_blinkhand_users.end())
+        user_rc = ":/images/images/hand.png";
+    else if(user.nStatusMode & STATUSMODE_FEMALE)
+        user_rc = ":/images/images/user_female.png";
+    else
+        user_rc = ":/images/images/user.png";
+
+    QPixmap user_img(QString::fromUtf8(user_rc));
+    QRect r_user = user_img.rect();
+
+    QPixmap img(user_img.width(), user_img.height());
+    img.fill(QColor(0,0,0,0)); //make transparent bg
+
+    QPainter p(&img);
+
+    if(video_active)
+    {
+        //make video frame background
+        QPixmap video_img(QString::fromUtf8(":/images/images/tvframe.png"));
+        p.drawPixmap(0, 0, video_img);
+    }
+
+    if(user.nStatusMode & STATUSMODE_DESKTOP)
+    {
+        //draw desktop in top right corner
+        QPixmap dtx(QString::fromUtf8(":/images/images/desktopbg.png"));
+        QRect r_dtx = dtx.rect();
+        QRect r_img = img.rect();
+        r_img.setLeft(r_img.width() - r_dtx.width()/* - 1*/);
+        r_img.setWidth(r_dtx.width());
+        //r_img.setTop(1);
+        r_img.setBottom(r_dtx.height());
+        p.drawPixmap(r_img, dtx, r_dtx);
+    }
+    if (user.uLocalSubscriptions & SUBSCRIBE_DESKTOPINPUT)
+    {
+        QPixmap di(QString::fromUtf8(":/images/images/chalkstickbg.png"));
+
+        QRect r_di = di.rect();
+        QRect r_img = img.rect();
+        r_img.setLeft(r_img.width() - r_di.width());
+        r_img.setTop(r_img.height() - r_di.height());
+        p.drawPixmap(r_img, di, r_di);
+    }
+
+    if (video_active)
+    {
+        //move user image inside video frame
+        QRect r_img = img.rect();
+        r_img.setLeft(r_img.left()+1);
+        r_img.setTop(r_img.top()+1);
+        r_img.setBottom(r_img.bottom()-1);
+
+        r_user.setLeft(r_user.left()+1);
+        r_user.setTop(r_user.top()+1);
+        r_user.setBottom(r_user.bottom()-1);
+        p.drawPixmap(r_img, user_img, r_user);
+    }
+    else
+        p.drawPixmap(img.rect(), user_img);
+
+    if ((user.nStatusMode & STATUSMODE_MODE) == STATUSMODE_AWAY)
+    {
+        p.setPen(QPen(QBrush(Qt::red), 2));
+        p.drawLine(0, 0, img.width(), img.height());
+        p.drawLine(img.width(), 0, 0, img.height());
+    }
+
+    if(user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
+    {
+        QPixmap strm(QString::fromUtf8(":/images/images/stream.png"));
+        QRect r_strm = strm.rect();
+        QRect r_img = img.rect();
+        //r_img.setRight(r_img.width() - );
+        r_img.setTop(r_img.height() / 2 - r_strm.height() / 2);
+        r_img.setLeft(r_img.right() - r_strm.width());
+        r_img.setBottom(r_img.top() + r_strm.height());
+        p.drawPixmap(r_img, strm, r_strm);
+    }
+
+    if (TT_IsChannelOperator(ttInst, user.nUserID, chan.nChannelID))
+    {
+        QPixmap op(QString::fromUtf8(":/images/images/op.png"));
+        //op.setMask(op.createMaskFromColor(QColor(255,255,255)));
+        //lock.setMask(lock.createHeuristicMask());
+        QRect r_op = op.rect();
+        QRect r_img = img.rect();
+        r_img.setLeft(r_img.width() - r_op.width());
+        r_img.setTop(r_img.height() - r_op.height());
+        p.drawPixmap(r_img, op, r_op);
+    }
+
+    if(user.uUserType & USERTYPE_ADMIN)
+    {
+        QPixmap admin(QString::fromUtf8(":/images/images/admin.png"));
+        //admin.setMask(admin.createMaskFromColor(QColor(255,255,255)));
+        //lock.setMask(lock.createHeuristicMask());
+        QRect r_admin = admin.rect();
+        QRect r_img = img.rect();
+        r_img.setLeft(r_img.width() - r_admin.width());
+        r_img.setTop(r_img.height() - r_admin.height());
+        p.drawPixmap(r_img, admin, r_admin);
+    }
+
+    if(item->data(COLUMN_ITEM, Qt::UserRole).toInt() & MESSAGED_TYPE)
+    {
+        QPixmap msg(QString::fromUtf8(":/images/images/msg.png"));
+        //msg.setMask(msg.createMaskFromColor(QColor(255,255,255)));
+        //lock.setMask(lock.createHeuristicMask());
+        QRect r_msg = msg.rect();
+        QRect r_img = img.rect();
+        r_img.setLeft(r_img.width() - r_msg.width());
+        r_img.setTop(2);
+        r_img.setBottom(r_img.top()+msg.height());
+        p.drawPixmap(r_img, msg, r_msg);
+    }
+
+    return img;
+}
+
 void ChannelsTree::setChannelTransmitUsers(const Channel& chan, QTreeWidgetItem* item)
 {
     //set speaker or webcam icon
@@ -902,81 +1030,6 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
     else
         talking = isMyselfTalking();
 
-    bool video_active = m_videousers.find(userid) != m_videousers.end();
-    video_active |= (bool)(user.nStatusMode & STATUSMODE_VIDEOTX);
-
-    const char* user_rc;
-    if(m_blinkchalk_users.find(userid) != m_blinkchalk_users.end())
-        user_rc = ":/images/images/chalkstick.png";
-    else if(m_blinkhand_users.find(userid) != m_blinkhand_users.end())
-        user_rc = ":/images/images/hand.png";
-    else if(user.nStatusMode & STATUSMODE_FEMALE)
-        user_rc = ":/images/images/user_female.png";
-    else
-        user_rc = ":/images/images/user.png";
-
-    QPixmap user_img(QString::fromUtf8(user_rc));
-    QRect r_user = user_img.rect();
-
-    QPixmap img(user_img.width(), user_img.height());
-    img.fill(QColor(0,0,0,0)); //make transparent bg
-
-    QPainter p(&img);
-
-    if(video_active)
-    {
-        //make video frame background
-        QPixmap video_img(QString::fromUtf8(":/images/images/tvframe.png"));
-        p.drawPixmap(0, 0, video_img);
-    }
-
-    if(user.nStatusMode & STATUSMODE_DESKTOP)
-    {
-        //draw desktop in top right corner
-        QPixmap dtx(QString::fromUtf8(":/images/images/desktopbg.png"));
-        QRect r_dtx = dtx.rect();
-        QRect r_img = img.rect();
-        r_img.setLeft(r_img.width() - r_dtx.width()/* - 1*/);
-        r_img.setWidth(r_dtx.width());
-        //r_img.setTop(1);
-        r_img.setBottom(r_dtx.height());
-        p.drawPixmap(r_img, dtx, r_dtx);
-    }
-
-    if(user.uLocalSubscriptions & SUBSCRIBE_DESKTOPINPUT)
-    {
-        QPixmap di(QString::fromUtf8(":/images/images/chalkstickbg.png"));
-
-        QRect r_di = di.rect();
-        QRect r_img = img.rect();
-        r_img.setLeft(r_img.width() - r_di.width());
-        r_img.setTop(r_img.height() - r_di.height());
-        p.drawPixmap(r_img, di, r_di);
-    }
-
-    if(video_active)
-    {
-        //move user image inside video frame
-        QRect r_img = img.rect();
-        r_img.setLeft(r_img.left()+1);
-        r_img.setTop(r_img.top()+1);
-        r_img.setBottom(r_img.bottom()-1);
-
-        r_user.setLeft(r_user.left()+1);
-        r_user.setTop(r_user.top()+1);
-        r_user.setBottom(r_user.bottom()-1);
-        p.drawPixmap(r_img, user_img, r_user);
-    }
-    else
-        p.drawPixmap(img.rect(), user_img);
-
-    if((user.nStatusMode & STATUSMODE_MODE) == STATUSMODE_AWAY)
-    {
-        p.setPen(QPen(QBrush(Qt::red), 2));
-        p.drawLine(0, 0, img.width(), img.height());
-        p.drawLine(img.width(), 0, 0, img.height());
-    }
-
     QString itemtext;
     QString name = getDisplayName(user);
     itemtext += name;
@@ -1004,6 +1057,7 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
 
     if(_Q(user.szStatusMsg).size())
         itemtext += QString(" - ") + _Q(user.szStatusMsg);
+
     if (emoji)
     {
         if (user.nStatusMode & STATUSMODE_FEMALE)
@@ -1023,56 +1077,7 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
         itemtext += "...";
     }
     item->setData(COLUMN_ITEM, Qt::DisplayRole, itemtext);
-
-    if(user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
-    {
-        QPixmap strm(QString::fromUtf8(":/images/images/stream.png"));
-        QRect r_strm = strm.rect();
-        QRect r_img = img.rect();
-        //r_img.setRight(r_img.width() - );
-        r_img.setTop(r_img.height() / 2 - r_strm.height() / 2);
-        r_img.setLeft(r_img.right() - r_strm.width());
-        r_img.setBottom(r_img.top() + r_strm.height());
-        p.drawPixmap(r_img, strm, r_strm);
-    }
-
-    if(TT_IsChannelOperator(ttInst, userid, ite->nChannelID))
-    {
-        QPixmap op(QString::fromUtf8(":/images/images/op.png"));
-        //op.setMask(op.createMaskFromColor(QColor(255,255,255)));
-        //lock.setMask(lock.createHeuristicMask());
-        QRect r_op = op.rect();
-        QRect r_img = img.rect();
-        r_img.setLeft(r_img.width() - r_op.width());
-        r_img.setTop(r_img.height() - r_op.height());
-        p.drawPixmap(r_img, op, r_op);
-    }
-
-    if(user.uUserType & USERTYPE_ADMIN)
-    {
-        QPixmap admin(QString::fromUtf8(":/images/images/admin.png"));
-        //admin.setMask(admin.createMaskFromColor(QColor(255,255,255)));
-        //lock.setMask(lock.createHeuristicMask());
-        QRect r_admin = admin.rect();
-        QRect r_img = img.rect();
-        r_img.setLeft(r_img.width() - r_admin.width());
-        r_img.setTop(r_img.height() - r_admin.height());
-        p.drawPixmap(r_img, admin, r_admin);
-    }
-
-    if(item->data(COLUMN_ITEM, Qt::UserRole).toInt() & MESSAGED_TYPE)
-    {
-        QPixmap msg(QString::fromUtf8(":/images/images/msg.png"));
-        //msg.setMask(msg.createMaskFromColor(QColor(255,255,255)));
-        //lock.setMask(lock.createHeuristicMask());
-        QRect r_msg = msg.rect();
-        QRect r_img = img.rect();
-        r_img.setLeft(r_img.width() - r_msg.width());
-        r_img.setTop(2);
-        r_img.setBottom(r_img.top()+msg.height());
-        p.drawPixmap(r_img, msg, r_msg);
-    }
-    item->setData(COLUMN_ITEM, Qt::DecorationRole, img);
+    item->setData(COLUMN_ITEM, Qt::DecorationRole, getUserIcon(user, chan, item));
 
     //set checkboxes if it's a CHANNEL_CLASSROOM
     if(chan.nChannelID == mychanid)
