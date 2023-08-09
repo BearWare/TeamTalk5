@@ -566,6 +566,41 @@ QTreeWidgetItem* ChannelsTree::getChannelItem(int channelid) const
     return nullptr;
 }
 
+QPixmap ChannelsTree::getChannelIcon(const Channel& chan, const QTreeWidgetItem* item) const
+{
+    const char* img_name;
+    if (chan.nParentID == 0)
+    {
+        if(item->isExpanded())
+            img_name = ":/images/images/root_open.png";
+        else
+            img_name = ":/images/images/root.png";
+    }
+    else
+    {
+        if(item->isExpanded())
+            img_name = ":/images/images/channel_open.png";
+        else
+            img_name = ":/images/images/channel.png";
+    }
+
+    QPixmap img(QString::fromUtf8(img_name));
+    //img.setMask(img.createHeuristicMask());
+    if (chan.bPassword)
+    {
+        QPixmap lock(QString::fromUtf8(":/images/images/lock.png"));
+        //lock.setMask(lock.createMaskFromColor(QColor(255,255,255)));
+        //lock.setMask(lock.createHeuristicMask());
+        QRect r_lock = lock.rect();
+        QRect r_img = img.rect();
+        r_img.setLeft(r_img.width() - r_lock.width());
+        r_img.setTop(r_img.height() - r_lock.height());
+        QPainter p(&img);
+        p.drawPixmap(r_img, lock, r_lock);
+    }
+    return img;
+}
+
 QTreeWidgetItem* ChannelsTree::getUserItem(int userid) const
 {
     QTreeWidgetItem* item = topLevelItem(0);
@@ -698,7 +733,6 @@ void ChannelsTree::updateChannelItem(QTreeWidgetItem* item)
         return;
     const Channel& chan = *ite;
 
-    const char* img_name;
     QString channame;
     if(channelid == TT_GetRootChannelID(ttInst))
     {
@@ -706,19 +740,11 @@ void ChannelsTree::updateChannelItem(QTreeWidgetItem* item)
         ServerProperties prop = {};
         TT_GetServerProperties(ttInst, &prop);
         channame = _Q(prop.szServerName);
-        if(item->isExpanded())
-            img_name = ":/images/images/root_open.png";
-        else
-            img_name = ":/images/images/root.png";
     }
     else
     {
         channame = _Q(chan.szName);
         item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
-        if(item->isExpanded())
-            img_name = ":/images/images/channel_open.png";
-        else
-            img_name = ":/images/images/channel.png";
     }
 
     if (channame.size() > maxstrlen)
@@ -741,21 +767,7 @@ void ChannelsTree::updateChannelItem(QTreeWidgetItem* item)
     if (emoji && chan.bPassword)
         channame += " - 🔒";
     item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
-    QPixmap img(QString::fromUtf8(img_name));
-    //img.setMask(img.createHeuristicMask());
-    if (chan.bPassword)
-    {
-        QPixmap lock(QString::fromUtf8(":/images/images/lock.png"));
-        //lock.setMask(lock.createMaskFromColor(QColor(255,255,255)));
-        //lock.setMask(lock.createHeuristicMask());
-        QRect r_lock = lock.rect();
-        QRect r_img = img.rect();
-        r_img.setLeft(r_img.width() - r_lock.width());
-        r_img.setTop(r_img.height() - r_lock.height());
-        QPainter p(&img);
-        p.drawPixmap(r_img, lock, r_lock);
-    }
-    item->setData(COLUMN_ITEM, Qt::DecorationRole, img);
+    item->setData(COLUMN_ITEM, Qt::DecorationRole, getChannelIcon(chan, item));
 
     //set speaker or webcam icon
     if (chan.nChannelID == mychanid)
