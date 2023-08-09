@@ -327,6 +327,9 @@ void ClientNode::UpdateKeepAlive(const ClientKeepAlive& keepalive)
     // set TCP keepalive (DoPing) to half of usertimeout
     m_keepalive.tcp_keepalive_interval = std::max(ACE_Time_Value(m_serverinfo.usertimeout / 2, 0),
                                                   ACE_Time_Value(1, 0));
+    // if server has not "seen us" for twice the user timeout then
+    // we've been disconnected anyway
+    m_keepalive.connection_lost_timeout = ACE_Time_Value(m_serverinfo.usertimeout * 2, 0);
 
     bool restarttcp = false, restartudp = false;
     if (m_keepalive.tcp_keepalive_interval != keepalive.tcp_keepalive_interval)
@@ -642,8 +645,8 @@ int ClientNode::Timer_OneSecond()
 
     //check whether server has replied within the timeout limit on TCP and within
     //TIMER_UDPKEEPALIVE_INTERVAL_MS * 3 on UDP
-    if (ACE_Time_Value(m_clientstats.tcp_silence_sec, 0) >= m_keepalive.connection_lost ||
-        (ACE_Time_Value(m_clientstats.udp_silence_sec, 0) >= m_keepalive.connection_lost &&
+    if (ACE_Time_Value(m_clientstats.tcp_silence_sec, 0) >= m_keepalive.connection_lost_timeout ||
+        (ACE_Time_Value(m_clientstats.udp_silence_sec, 0) >= m_keepalive.connection_lost_timeout &&
          m_serverinfo.udpaddr != ACE_INET_Addr()))
     {
 
