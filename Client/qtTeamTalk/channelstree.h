@@ -52,7 +52,7 @@ public:
     QVector<int> getUsers() const;
     users_t getUsers(int channelid) const;
 
-    void getTransmitUsers(int channelid, QMap<int, StreamTypes>& transmitUsers);
+    void getTransmitUsers(int channelid, QMap<int, StreamTypes>& transmitUsers) const;
 
     void resetChannels();
 
@@ -94,12 +94,12 @@ private:
 
     QPoint m_dragStartPos;
 
-    QTreeWidgetItem* getChannelItem(int channelid);
-    QTreeWidgetItem* getUserItem(int userid);
+    QTreeWidgetItem* getChannelItem(int channelid) const;
+    QTreeWidgetItem* getUserItem(int userid) const;
     /* return the "should be" index. Not the current index */
-    int getUserIndex(const QTreeWidgetItem* parent, const QString& name);
+    int getUserIndex(const QTreeWidgetItem* parent, const QString& name) const;
     /* return the "should be" index. Not the current index */
-    int getChannelIndex(const QTreeWidgetItem* item);
+    int getChannelIndex(const QTreeWidgetItem* item) const;
     void updateChannelItem(int channelid);
     void updateChannelItem(QTreeWidgetItem* item);
     void updateUserItem(QTreeWidgetItem* item);
@@ -124,7 +124,7 @@ public:
     void slotUserStateChange(const User& user);
     void slotUpdateMyself();
     void slotUserVideoFrame(int userid, int stream_id);
-    QString getItemText();
+    QString getItemText() const;
 };
 
 #endif

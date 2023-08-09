@@ -223,7 +223,7 @@ users_t ChannelsTree::getUsers(int channelid) const
 }
 
 void ChannelsTree::getTransmitUsers(int channelid,
-                                     QMap<int, StreamTypes>& transmitUsers)
+                                    QMap<int, StreamTypes>& transmitUsers) const
 {
     QTreeWidgetItem* parent = getChannelItem(channelid);
     if(!parent)
@@ -291,7 +291,6 @@ void ChannelsTree::setUserMessaged(int userid, bool messaged)
     {
         int data = item->data(COLUMN_ITEM, Qt::UserRole).toInt();
         item->setData(COLUMN_ITEM, Qt::UserRole, messaged?data|MESSAGED_TYPE:data&~MESSAGED_TYPE);
-        data = item->data(COLUMN_ITEM, Qt::UserRole).toInt();
         slotUpdateTreeWidgetItem(item);
     }
 }
@@ -320,13 +319,13 @@ void ChannelsTree::setUserDesktopAccess(int userid, bool enable)
 
 void ChannelsTree::updateAllItems()
 {
-    channels_t::const_iterator ite = m_channels.begin();
+    auto ite = m_channels.begin();
     while(ite != m_channels.end())
     {
         updateChannelItem(ite.key());
         ite++;
     }
-    users_t::const_iterator i = m_users.begin();
+    auto i = m_users.begin();
     while(i != m_users.end())
     {
         QTreeWidgetItem* item = getUserItem(i.key());
@@ -400,7 +399,7 @@ void ChannelsTree::timerEvent(QTimerEvent* event)
     {
         //find users in desktop access mode so they can blink
         QTreeWidgetItem* userItem;
-        QSet<int>::const_iterator ite = m_desktopaccess_users.begin();
+        auto ite = m_desktopaccess_users.begin();
         while(ite != m_desktopaccess_users.end())
         {
             if(m_blinkchalk_users.find(*ite) == m_blinkchalk_users.end())
@@ -419,7 +418,7 @@ void ChannelsTree::timerEvent(QTimerEvent* event)
     {
         //find users in question mode so they can blink
         QTreeWidgetItem* userItem;
-        users_t::const_iterator ite = m_users.begin();
+        auto ite = m_users.begin();
         while(ite != m_users.end())
         {
             const User& user = ite.value();
@@ -483,7 +482,7 @@ void ChannelsTree::dropEvent(QDropEvent *event)
        event->mimeData()->urls()[0].toLocalFile().right(QString(TTFILE_EXT).size()) == TTFILE_EXT)
     {
         QString filepath = QDir::toNativeSeparators(event->mimeData()->urls()[0].toLocalFile());
-        emit(fileDropped(filepath));
+        emit fileDropped(filepath);
         return;
     }
 
@@ -545,7 +544,7 @@ void ChannelsTree::dragMoveEvent(QDragMoveEvent * event)
     event->acceptProposedAction();
 }
 
-QTreeWidgetItem* ChannelsTree::getChannelItem(int channelid)
+QTreeWidgetItem* ChannelsTree::getChannelItem(int channelid) const
 {
     QTreeWidgetItem* item = topLevelItem(0);
     if(!item)
@@ -567,7 +566,7 @@ QTreeWidgetItem* ChannelsTree::getChannelItem(int channelid)
     return nullptr;
 }
 
-QTreeWidgetItem* ChannelsTree::getUserItem(int userid)
+QTreeWidgetItem* ChannelsTree::getUserItem(int userid) const
 {
     QTreeWidgetItem* item = topLevelItem(0);
     if(!item)
@@ -591,7 +590,7 @@ QTreeWidgetItem* ChannelsTree::getUserItem(int userid)
     return nullptr;
 }
 
-int ChannelsTree::getUserIndex(const QTreeWidgetItem* parent, const QString& name)
+int ChannelsTree::getUserIndex(const QTreeWidgetItem* parent, const QString& name) const
 {
     Q_ASSERT(parent);
     int count = parent->childCount();
@@ -607,7 +606,7 @@ int ChannelsTree::getUserIndex(const QTreeWidgetItem* parent, const QString& nam
     return i;
 }
 
-int ChannelsTree::getChannelIndex(const QTreeWidgetItem* item)
+int ChannelsTree::getChannelIndex(const QTreeWidgetItem* item) const
 {
     Q_ASSERT(item->type() & CHANNEL_TYPE);
 
@@ -693,13 +692,13 @@ void ChannelsTree::updateChannelItem(QTreeWidgetItem* item)
     int mychanid = TT_GetMyChannelID(ttInst);
 
     int channelid = (item->data(COLUMN_ITEM, Qt::UserRole).toInt() & ID_MASK);
-    channels_t::const_iterator ite = m_channels.find(channelid);
+    auto ite = m_channels.find(channelid);
     Q_ASSERT(ite != m_channels.end());
     if (ite == m_channels.end())
         return;
     const Channel& chan = *ite;
 
-    const char* img_name = "";
+    const char* img_name;
     QString channame;
     if(channelid == TT_GetRootChannelID(ttInst))
     {
@@ -854,7 +853,7 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
     int mychanid = TT_GetMyChannelID(ttInst);
 
     int userid = (item->data(COLUMN_ITEM, Qt::UserRole).toInt() & ID_MASK);
-    users_t::const_iterator ite = m_users.find(userid);
+    auto ite = m_users.find(userid);
     Q_ASSERT(ite != m_users.end());
     if(ite == m_users.end())
         return;
@@ -864,7 +863,7 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
     Q_ASSERT(parentItem);
     Q_ASSERT(parentItem->type() & CHANNEL_TYPE);
     int chanid = (parentItem->data(COLUMN_ITEM, Qt::UserRole).toInt() & ID_MASK);
-    channels_t::const_iterator chanIte = m_channels.find(chanid);
+    auto chanIte = m_channels.find(chanid);
     Q_ASSERT(chanIte != m_channels.end());
     const Channel& chan = *chanIte;
 
@@ -1189,11 +1188,11 @@ void ChannelsTree::slotItemDoubleClicked(QTreeWidgetItem* item, int column)
     {
     case USER_TYPE :
         if(column == COLUMN_ITEM)
-            emit(userDoubleClicked(id));
+            emit userDoubleClicked(id);
         break;
     case CHANNEL_TYPE :
         if(column == COLUMN_ITEM)
-            emit(channelDoubleClicked(id));
+            emit channelDoubleClicked(id);
         break;
     }
 }
@@ -1212,12 +1211,12 @@ void ChannelsTree::slotItemChanged(QTreeWidgetItem* item, int column)
         //Seems the only way to check whether it's a user who checked
         //an item or it was an updated which invoked it is by checking
         //the current state of a channel
-        users_t::const_iterator uIte = m_users.find(id);
+        auto uIte = m_users.find(id);
         Q_ASSERT(uIte != m_users.end());
         if(uIte == m_users.end())
             return;
 
-        channels_t::const_iterator cIte = m_channels.find(uIte.value().nChannelID);
+        auto cIte = m_channels.find(uIte.value().nChannelID);
         Q_ASSERT(cIte != m_channels.end());
         if(cIte == m_channels.end())
             return;
@@ -1234,7 +1233,7 @@ void ChannelsTree::slotItemChanged(QTreeWidgetItem* item, int column)
 
     QMap<int, StreamTypes> transmitUsers;
     getTransmitUsers(channelid, transmitUsers);
-    emit(transmitusersChanged(channelid, transmitUsers));
+    emit transmitusersChanged(channelid, transmitUsers);
 }
 
 void ChannelsTree::slotServerUpdate(const ServerProperties& /*srvprop*/)
@@ -1480,7 +1479,7 @@ void ChannelsTree::keyPressEvent(QKeyEvent* e)
         QTreeWidget::keyPressEvent(e);
 }
 
-QString ChannelsTree::getItemText()
+QString ChannelsTree::getItemText() const
 {
     QTreeWidgetItem* item = currentItem();
     if (item)
