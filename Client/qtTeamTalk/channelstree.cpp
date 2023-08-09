@@ -1125,10 +1125,7 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
     bool emoji = ttSettings->value(SETTINGS_DISPLAY_EMOJI, SETTINGS_DISPLAY_EMOJI_DEFAULT).toBool();
     int maxstrlen = ttSettings->value(SETTINGS_DISPLAY_MAX_STRING,
                                       SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt();
-    int mychanid = TT_GetMyChannelID(ttInst);
-
-    int userid = (item->data(COLUMN_ITEM, Qt::UserRole).toInt() & ID_MASK);
-    auto ite = m_users.find(userid);
+    auto ite = m_users.find((item->data(COLUMN_ITEM, Qt::UserRole).toInt() & ID_MASK));
     Q_ASSERT(ite != m_users.end());
     if(ite == m_users.end())
         return;
@@ -1143,7 +1140,7 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
     const Channel& chan = *chanIte;
 
     bool talking = false;
-    if(userid != TT_GetMyUserID(ttInst))
+    if (user.nUserID != TT_GetMyUserID(ttInst))
         talking = user.uUserState & USERSTATE_VOICE;
     else
         talking = isMyselfTalking();
@@ -1185,7 +1182,7 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
         if(user.uUserType & USERTYPE_ADMIN)
             itemtext += " (" + ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Administrator", "For female"):tr("Administrator", "For male and neutral")) + ")";
 
-        if(TT_IsChannelOperator(ttInst, userid, ite->nChannelID))
+        if (TT_IsChannelOperator(ttInst, user.nUserID, user.nChannelID))
             itemtext += " (" + ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Channel operator", "For female"):tr("Channel operator", "For male and neutral")) + ")";
     }
 
@@ -1199,7 +1196,7 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
     setUserTransmitUser(user, chan, item);
 
     QBrush bgColor = talking ? QBrush(COLOR_TALK) : QPalette().brush(QPalette::Base);
-    if (!talking && userid == m_last_talker_id &&
+    if (!talking && user.nUserID == m_last_talker_id &&
         ttSettings->value(SETTINGS_DISPLAY_LASTTALK, SETTINGS_DISPLAY_LASTTALK_DEFAULT).toBool())
     {
         bgColor = QBrush(COLOR_LASTTALK);
