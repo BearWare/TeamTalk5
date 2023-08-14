@@ -35,6 +35,7 @@
     <string name="text_cmd_servermotd">Nachricht des Tages: </string>
     <string name="pref_cat_subscriptions">Empfang</string>
     <string name="pref_cat_tts">Text-To-Speech-Einstellungen</string>
+    <string name="pref_cat_tts_events">Sprachausgabenmeldungen konfigurieren</string>
     <string name="pref_cat_soundtest">Klangtest</string>
     <string name="pref_header_general">Allgemein</string>
     <string name="pref_title_nickname">Nickname</string>
