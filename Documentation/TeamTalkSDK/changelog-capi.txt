@@ -4,6 +4,11 @@
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v514arelease
+ * - @ref v514afeatures
+ *   - @ref v514atot
+ * - @ref v514aapi
+ *
  * @ref v513arelease
  * - @ref v513afeatures
  *   - @ref v513acrypt
@@ -244,6 +249,25 @@
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v514arelease TeamTalk 5 SDK v. 5.14a release, August 16th 2023
+ *
+ * @subsection v514afeatures New features in v5.14a
+ *
+ * @subsubsection v514atot Time Out Timer for Voice and Media Streams
+ *
+ * The maximum duration (in milliseconds) for a voice or media stream
+ * to be active can now be specified in #Channel fields @c
+ * nTimeOutTimerVoiceMSec and @c nTimeOutTimerMediaFileMSec. This can
+ * be used to ensure that a single user does not block voice
+ * transmission to a channel when e.g. using #CHANNEL_SOLO_TRANSMIT.
+ *
+ * @subsection v514aapi API changes in v5.14a
+ *
+ * - New field @c nTimeOutTimerVoiceMSec in #Channel
+ * - New field @c nTimeOutTimerMediaFileMSec in #Channel
  *
  * <hr>
  *

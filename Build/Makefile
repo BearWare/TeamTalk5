@@ -92,7 +92,10 @@ centos7:
                               -DFEATURE_WEBRTC=OFF" BUILDDIR=build-$@ buildlib
 
 rasp:
-	$(MAKE) CMAKE_EXTRA+="-DFEATURE_WEBRTC=OFF -DTOOLCHAIN_OPENSSL=OFF" BUILDDIR=build-$@ generic
+	$(MAKE) CMAKE_EXTRA+="-DFEATURE_WEBRTC=OFF \
+                              -DTOOLCHAIN_OPENSSL=OFF \
+                              -DBUILD_TEAMTALK_CLIENTS=OFF \
+                              -DBUILD_TEAMTALK_DOCUMENTATION=OFF" BUILDDIR=build-$@ generic
 
 mac:
 	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 -DCMAKE_OSX_ARCHITECTURES=\"arm64;x86_64\"" generic

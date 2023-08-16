@@ -2,19 +2,29 @@
                  TeamTalk
 ----------------------------------------------
 
-Version 5.14, unreleased
+Version 5.15, unreleased
+Default Qt Client
+-
+Android Client
+-
+iOS Client
+-
+Server
+-
+
+Version 5.14, 2023/08/16
 Default Qt Client
 - Support for verifying authenticity of encrypted TeamTalk servers using certificates
 - Setup server verification in "Connect to a Server" dialog
-- Official and unofficial servers can automatically provide certificates
 - Generate .tt files with Certificate Authority (CA) certificate, client certificate and private key
+- Official and unofficial servers can automatically provide certificates in .tt files and published servers
 - Initial support for inclusive writing in some status and events
 - Selected communication sound device is now default in Windows
 - Removed public servers from server list
 - Ability to specify max duration of voice and media file streams (time out timer) in "Channel" dialog
-- Changed to Qt 6.6 beta1 on macOS
-- State of "Hear myself" restore at startup
+- State of "Hear myself" restored at startup
 - Vietnamese translation
+- Changed to Qt 6.6 beta2 on macOS and Windows
 Accessible Windows Client
 - Classic client is no longer available in Windows installer
 Android Client
@@ -30,9 +40,9 @@ iOS Client
 - Vietnamese translation
 Server
 - TeamTalk Pro server supports verifying client certificate
+- Support for time out timer on voice/media file streams
 - Fixed bug where it was possible to move a user, who was not logged in, into a channel
 - Fixed crash issue when banned user has invalid time
-- Support for time out timer on voice/media file streams
 
 Version 5.13.1, 2023/05/22
 Server

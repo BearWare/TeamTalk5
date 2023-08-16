@@ -7,10 +7,14 @@ RUN yum -y update
 RUN yum install -y \
                    cmake3 \
                    doxygen \
-                   gcc-c++ \
                    git \
                    libtool \
                    make \
                    ninja-build \
-                   openssl-devel
+                   openssl-devel \
+                   scl-utils
 RUN ln -s /bin/cmake3 /bin/cmake
+RUN yum install -y centos-release-scl
+RUN yum install -y devtoolset-9-gcc devtoolset-9-gcc-c++
+RUN scl enable devtoolset-9 -- bash
+RUN echo "source /opt/rh/devtoolset-9/enable" > /etc/profile.d/gcc9.sh
