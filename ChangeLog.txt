@@ -12,7 +12,7 @@ iOS Client
 Server
 -
 
-Version 5.14, 2024/08/16
+Version 5.14, 2023/08/16
 Default Qt Client
 - Support for verifying authenticity of encrypted TeamTalk servers using certificates
 - Setup server verification in "Connect to a Server" dialog
