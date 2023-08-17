@@ -162,7 +162,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="219"/>
         <source>&amp;Default</source>
-        <translation>&amp;Поумолчанию</translation>
+        <translation>&amp;По умолчанию</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="230"/>
@@ -1456,7 +1456,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransferdlg.cpp" line="168"/>
         <source>Unable to open &quot;%1&quot;. File does not have a default file association</source>
-        <translation>Не удалось открыть &quot;%1&quot;. Файл не имеет ассоциации поумолчанию</translation>
+        <translation>Не удалось открыть &quot;%1&quot;. Файл не имеет ассоциации по умолчанию</translation>
     </message>
 </context>
 <context>
@@ -3887,7 +3887,7 @@ You can download it on the page below:
         <location filename="../mainwindow.cpp" line="803"/>
         <location filename="../settings.h" line="280"/>
         <source>Default</source>
-        <translation>Поумолчанию</translation>
+        <translation>По умолчанию</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="806"/>
@@ -4814,7 +4814,7 @@ You can download it on the page below:
     <message>
         <location filename="../onlineusersdlg.cpp" line="146"/>
         <source>Ascending</source>
-        <translation>По возростанию</translation>
+        <translation>По возрастанию</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="146"/>
@@ -5760,7 +5760,7 @@ You can download it on the page below:
         <location filename="../preferencesdlg.cpp" line="625"/>
         <location filename="../preferencesdlg.cpp" line="667"/>
         <source>Default</source>
-        <translation>Поумолчанию</translation>
+        <translation>По умолчанию</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="670"/>
@@ -5979,12 +5979,12 @@ You can download it on the page below:
     <message>
         <location filename="../utilsound.cpp" line="286"/>
         <source>Switching to default sound devices</source>
-        <translation>Переключение на звуковые устройства поумолчанию</translation>
+        <translation>Переключение на звуковые устройства по умолчанию</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="294"/>
         <source>Unable to get default sound devices</source>
-        <translation>Не удалось определить звуковые устройства поумолчанию</translation>
+        <translation>Не удалось определить звуковые устройства по умолчанию</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="320"/>
@@ -7606,7 +7606,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="105"/>
         <source>Default user</source>
-        <translation>Пользователь поумолчанию</translation>
+        <translation>Пользователь по умолчанию</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="87"/>
@@ -7906,7 +7906,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="74"/>
         <source>Default User</source>
-        <translation>Пользователь Поумолчанию</translation>
+        <translation>Пользователь По умолчанию</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="76"/>
@@ -8140,7 +8140,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfodlg.cpp" line="92"/>
         <source>Default</source>
-        <translation>Поумолчанию</translation>
+        <translation>По умолчанию</translation>
     </message>
 </context>
 <context>
@@ -8343,7 +8343,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../uservolume.ui" line="147"/>
         <source>&amp;Default</source>
-        <translation>&amp;Поумолчанию</translation>
+        <translation>&amp;По умолчанию</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="60"/>
