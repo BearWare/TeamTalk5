@@ -247,7 +247,7 @@
 "has left the channel" = "has left the channel";
 
 /* TTS EVENT */
-"has logged on" = "has logged on";
+"has logged on" = "has logged in";
 
 /* TTS EVENT */
 "has logged out" = "has logged out";
