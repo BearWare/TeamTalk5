@@ -208,7 +208,7 @@
 "Edit properties" = "Sunting properti";
 
 /* server entry */
-"Encrypted" = "Disulitkan";
+"Encrypted" = "Encrypted";
 
 /* Dialog message */
 "Enter Password" = "Masukkan Kata Laluan";
@@ -217,13 +217,13 @@
    Dialog message
    message dialog
    user detail */
-"Error" = "ralat";
+"Error" = "Error";
 
 /* preferences */
 "Exclusive Mode Toggled" = "Ubah Modus Eksklusif";
 
 /* connect to a server */
-"Failed to setup encryption" = "Failed to setup encryption";
+"Failed to setup encryption" = "Gagal untuk menetapkan encryption";
 
 /* preferences */
 "Female" = "Wanita";
@@ -257,10 +257,10 @@
 "Hidden Channel" = "Saluran Tersembunyi";
 
 /* server entry */
-"Host address" = "Alamat IP atau Alamat host";
+"Host address" = "Alamat host";
 
 /* channel list */
-"Inactive" = "Tidak aktif";
+"Inactive" = "Tidak Aktif";
 
 /* Dialog message */
 "Join" = "Masuk";
@@ -269,19 +269,19 @@
 "Join Channel" = "Masuk Saluran";
 
 /* channel list */
-"Join channel" = "Masuk Saluran";
+"Join channel" = "Masuk saluran";
 
 /* preferences */
 "Join Root Channel" = "Masuk ke Saluran Utama";
 
 /* preferences */
-"Join root channel after login" = "Masuk ke saluran umum selepas log masuk";
+"Join root channel after login" = "Masuk ke saluran utama selepas log masuk";
 
 /* log entry */
 "Joined %@" = "Masuk %@";
 
 /* channel list */
-"Kick user" = "Keluarkan Pengguna";
+"Kick user" = "Keluarkan pengguna";
 
 /* preferences */
 "Limit length of names in channel list to %d characters" = "Hadkan panjang nama dalam senarai saluran kepada %d characters";
@@ -290,16 +290,16 @@
 "Local server" = "Server lokal";
 
 /* text message type */
-"Log message" = "Log mesej";
+"Log message" = "Mesej log";
 
 /* log entry */
-"Logged on to server" = "masuk ke server";
+"Logged on to server" = "Masuk ke server";
 
 /* preferences */
 "Male" = "Lelaki";
 
 /* preferences */
-"Master Volume" = "Volume utama";
+"Master Volume" = "Volume Utama";
 
 /* preferences */
 "Maximum Text Length" = "Panjang Teks Maksimum";
