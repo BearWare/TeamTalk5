@@ -689,7 +689,7 @@
 "Users Online" = "Pengguna Online";
 
 /* serverlist */
-"Users: %d, Country: %@" = "Pengguna: %1$d, Negara: %2$@";
+"Users: %d, Country: %@" = "Pengguna: %d, Negara: %@";
 
 /* codec detail */
 "Variable Bitrate" = "Variable Bitrate";
@@ -717,13 +717,13 @@
 "Voice Activation Level: Disabled" = "Tahap Pengaktifan Suara: Dinyahaktifkan";
 
 /* preferences */
-"Voice Activation Triggered" = "Pemicu Pengaktifan Suara";
+"Voice Activation Triggered" = "Pengaktifan Suara Dipicu";
 
 /* preferences */
-"Voice Preprocessing" = "Suara Preprocessing";
+"Voice Preprocessing" = "Prapemprosesan Suara";
 
 /* preferences */
-"Voice Transmission Toggled" = "Transmisi Suara Toggled";
+"Voice Transmission Toggled" = "Transmisi Suara Ditogol";
 
 /* user detail */
 "Voice Volume" = "Volume Suara";
@@ -735,7 +735,7 @@
 "Volume Controls" = "Kontrol Volume";
 
 /* Web Login controller */
-"Web Login ID" = "Web Login ID";
+"Web Login ID" = "ID Log Masuk Web";
 
 /* preferences
    user detail */
@@ -748,13 +748,13 @@
 "You have been kicked from channel" = "Anda telah dikeluarkan dari saluran";
 
 /* Dialog */
-"You have been kicked from channel by %@" = "%@ Telah mengeluarkan anda dari saluran ini";
+"You have been kicked from channel by %@" = "%@ Telah mengeluarkan anda dari saluran";
 
 /* Dialog */
 "You have been kicked from server" = "Anda telah dikeluarkan dari server";
 
 /* Dialog */
-"You have been kicked from server by %@" = "%@ Telah mengeluarkan anda dari server ini";
+"You have been kicked from server by %@" = "%@ Telah mengeluarkan anda dari server";
 
 /* speech */
 "You have selected %@" = "Anda telah memilih %@";
