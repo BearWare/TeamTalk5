@@ -23,7 +23,7 @@
 "5K7-Hd-4h7.title" = "Pemberitahuan Teks Ke Pertuturan";
 
 /* Class = "UIButton"; normalTitle = "Login"; ObjectID = "5YA-rx-tGz"; */
-"5YA-rx-tGz.normalTitle" = "Masuk";
+"5YA-rx-tGz.normalTitle" = "Log Masuk";
 
 /* Class = "UINavigationItem"; title = "Text-to-Speech Voice"; ObjectID = "79c-sV-yxb"; */
 "79c-sV-yxb.title" = "Suara Teks-ke-Pertuturan";
@@ -98,7 +98,7 @@
 "gPj-u1-dPn.text" = "Tunjukkan server Publik";
 
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
-"Hcv-zz-riB.text" = "Login Web BearWare.dk";
+"Hcv-zz-riB.text" = "Log Masuk Web BearWare.dk";
 
 /* Class = "UITableViewCell"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
 "hqu-CX-Vn4.accessibilityHint" = "Ketik dua kali untuk mengembangkan pilihan saluran ini.";
@@ -149,7 +149,7 @@
 "o2H-Vm-Vjd.text" = "Tunjukkan Server Rasmi";
 
 /* Class = "UITableViewController"; title = "BearWare.dk Web Login"; ObjectID = "o7z-cC-U4w"; */
-"o7z-cC-U4w.title" = "Login Web BearWare.dk";
+"o7z-cC-U4w.title" = "Log Masuk Web BearWare.dk";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.accessibilityLabel" = "Sambungkan";
@@ -176,7 +176,7 @@
 "Rrg-2O-NzF.normalTitle" = "Gunakan OPUS Codec";
 
 /* Class = "UILabel"; text = "Login ID from BearWare.dk"; ObjectID = "SmF-8J-cWK"; */
-"SmF-8J-cWK.text" = "Login ID dari BearWare.dk";
+"SmF-8J-cWK.text" = "ID Log Masuk dari BearWare.dk";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
 "Uc0-gP-wr1.text" = "Kosong";
