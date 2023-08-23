@@ -313,13 +313,13 @@
 "Media File Volume" = "Volume File Media";
 
 /* preferences */
-"Media file vs. voice volume" = "File Media  vs. volume suara";
+"Media file vs. voice volume" = "File media  vs. volume suara";
 
 /* server entry */
 "Message of the Day" = "Mesej Hari Ini";
 
 /* preferences */
-"Microphone Gain" = "Volume Mikrofon";
+"Microphone Gain" = "Gain Mikrofon";
 
 /* codec detail
    create channel */
@@ -338,7 +338,7 @@
 "Mute" = "Senyapkan";
 
 /* user detail */
-"Mute Media File" = "Senyapkan file Media";
+"Mute Media File" = "Senyapkan File Media";
 
 /* user detail */
 "Mute Voice" = "Senyapkan Suara";
@@ -348,7 +348,7 @@
 "Name" = "Nama";
 
 /* preferences */
-"Name displayed in channel list" = "Nama dipaparkan dalam senarai saluran";
+"Name displayed in channel list" = "Nama yang dipaparkan dalam senarai saluran";
 
 /* Dialog message */
 "New Server" = "Server Baharu";
@@ -367,10 +367,10 @@
 "No Audio" = "Tanpa Audio";
 
 /* create channel */
-"No Audio Recording" = "Tanpa rakaman Audio";
+"No Audio Recording" = "Tanpa Rakaman Audio";
 
 /* create channel */
-"No Interruptions" = "Tiada gangguan";
+"No Interruptions" = "Tiada Gangguan";
 
 /* channel list */
 "No password" = "Tiada kata laluan";
@@ -395,10 +395,10 @@
 "OPUS Codec" = "OPUS Codec";
 
 /* preferences */
-"Order of channels in Channel List" = "Urutan saluran dalam senarai saluran";
+"Order of channels in Channel List" = "Urutan saluran dalam Senarai Saluran";
 
 /* channel list */
-"Parent channel" = "Saluran Induk";
+"Parent channel" = "Saluran induk";
 
 /* create channel
    Dialog message
