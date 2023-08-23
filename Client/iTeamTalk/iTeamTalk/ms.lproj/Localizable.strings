@@ -103,13 +103,13 @@
 "Bitrate" = "Bitrate";
 
 /* preferences */
-"Bjoern D. Rasmussen, contact@bearware.dk" = "Bjoern D. Rasmussen, hubungi@bearware.dk";
+"Bjoern D. Rasmussen, contact@bearware.dk" = "Bjoern D. Rasmussen, contact@bearware.dk";
 
 /* Sound Devices */
 "Bluetooth A2DP Playback" = "Bluetooth A2DP Playback";
 
 /* Sound Devices */
-"Bluetooth playback should use Advanced Audio Distribution Profile" = "Playback Bluetooth harus menggunakan Profil Pengedaran Audio Lanjutan";
+"Bluetooth playback should use Advanced Audio Distribution Profile" = "Playback Bluetooth harus menggunakan Profil Advanced Audio Distribution";
 
 /* text message type */
 "Broadcast message" = "Broadcast mesej";
@@ -119,7 +119,7 @@
 "Broadcast Messages" = "Broadcast Mesej";
 
 /* preferences */
-"Broadcast Text Message" = "Broadcast teks mesej ";
+"Broadcast Text Message" = "Broadcast Mesej Teks";
 
 /* Dialog message */
 "Cancel" = "Batal";
@@ -148,7 +148,7 @@
 "Channel. %d users" = "Saluran. %d pengguna";
 
 /* server entry */
-"Check only if this server has enabled BearWare.dk Web Login" = "tanda kotak semak hanya jika server ini telah mengaktifkan Log Masuk Web BearWare.dk";
+"Check only if this server has enabled BearWare.dk Web Login" = "tanda hanya jika server ini telah mengaktifkan Log Masuk Web BearWare.dk";
 
 /* log entry */
 "Command failed: %@" = "Perintah gagal: %@";
@@ -160,7 +160,7 @@
 "Connect to server" = "Sambung ke server";
 
 /* connect to a server */
-"Connect to Server" = "Connect to Server";
+"Connect to Server" = "Sambung ke Server";
 
 /* preferences
    server entry */
@@ -168,7 +168,7 @@
 
 /* preferences
    tts event */
-"Connection lost" = "Sambungan Terputus";
+"Connection lost" = "Sambungan terputus";
 
 /* server entry */
 "Country" = "Negara";
@@ -186,7 +186,7 @@
 "Default Subscriptions" = "Langganan Default";
 
 /* serverlist */
-"Delete server from list" = "Padam server dari senarai";
+"Delete server from list" = "Padam server daripada senarai";
 
 /* preferences
    user detail */
@@ -196,10 +196,10 @@
 "Display" = "Paparan";
 
 /* channel list */
-"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Ketik dua kali dan tahan untuk bercakap. Ketik tiga kali dengan pantas untuk mengunci mikrofon Anda.";
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Ketik dua kali dan tahan untuk bercakap. Ketik tiga kali dengan pantas untuk mengunci mikrofon.";
 
 /* preferences */
-"Double tap to lock TX button" = "Ketuk dua kali untuk mengunci Butang Penghantaran";
+"Double tap to lock TX button" = "Ketuk dua kali untuk mengunci butang TX";
 
 /* codec detail */
 "DTX" = "DTX";
