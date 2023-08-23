@@ -431,7 +431,7 @@
 "Play sound when private text message is received" = "Mainkan bunyi apabila mesej teks peribadi diterima";
 
 /* preferences */
-"Play sound when transmit ready in \"No Interruptions\" channel" = "Mainkan bunyi apabila penghantaran sedia dalam saluran \"Tiada Gangguan\".";
+"Play sound when transmit ready in \"No Interruptions\" channel" = "Mainkan bunyi apabila transmisi sedia dalam saluran \"Tiada Gangguan\".";
 
 /* preferences */
 "Play sound when user logs off to the server" = "Mainkan bunyi apabila pengguna keluar dari server";
@@ -503,13 +503,13 @@
 "Receive webcam streams by default" = "Terima stream webcam secara default";
 
 /* preferences */
-"Return Sends Message" = "Kembali untuk menghantar mesej";
+"Return Sends Message" = "Enter untuk menghantar mesej";
 
 /* channel list */
 "Return to previous channel" = "Kembali ke saluran sebelumnya";
 
 /* log entry */
-"root channel" = "Saluran utama";
+"root channel" = "saluran utama";
 
 /* codec detail */
 "Sample Rate" = "Sample Rate";
@@ -524,7 +524,7 @@
 "Send empty message to close keyboard" = "Hantar mesej kosong untuk menutup papan kekunci";
 
 /* channel list */
-"Send private message" = "Hantar mesej pribadi";
+"Send private message" = "Hantar mesej peribadi";
 
 /* preferences */
 "Server Connection Lost" = "Sambungan ke Server Terputus";
@@ -536,19 +536,19 @@
 "Server Status" = "Status Server";
 
 /* preferences */
-"Show in Server List" = "Tampilkan dalam senarai Server";
+"Show in Server List" = "Tampilkan Dalam Senarai Server";
 
 /* preferences */
 "Show male or female icon" = "Tampilkan Ikon lelaki atau wanita";
 
 /* preferences */
-"Show Text Messages Instantly" = "Tampilkan Teks Mesej dengan Segera";
+"Show Text Messages Instantly" = "Tampilkan Mesej Teks Dengan Segera";
 
 /* preferences */
 "Show Usernames" = "Tampilkan Nama Pengguna";
 
 /* preferences */
-"Show usernames instead of nicknames" = "Hanya tampilkan nama pengguna, selain Nama panggilan";
+"Show usernames instead of nicknames" = "Tampilkan nama pengguna, bukannya Nama panggilan";
 
 /* channel list */
 "Silent" = "Senyap";
@@ -589,7 +589,7 @@
 "Subscriptions" = "Langganan";
 
 /* channel list */
-"Talking" = "Sedang bercakap";
+"Talking" = "Sedang Bercakap";
 
 /* server entry */
 "TCP Port" = "TCP Port";
@@ -598,16 +598,16 @@
 "Text To Speech Events" = "Pemberitahuan Teks Ke Ucapan";
 
 /* preferences */
-"The rate of the speaking voice is %.1f" = "tingkat kadar suara Teks Ke Ucapan adalah %.1f";
+"The rate of the speaking voice is %.1f" = "tingkat kadar suara yang bercakap adalah %.1f";
 
 /* preferences */
-"The volume of the speaking voice is %.1f" = "Volume suara Teks Ke Ucapan adalah %.1f";
+"The volume of the speaking voice is %.1f" = "Volume suara yang bercakap adalah %.1f";
 
 /* channel list */
-"Toggle to enable/disable transmission" = "Beralih untuk mengaktifkan / menyahaktifkan penghantaran";
+"Toggle to enable/disable transmission" = "Togol untuk mengaktifkan / menyahaktifkan transmisi";
 
 /* preferences */
-"Toggle voice transmission using headset" = "Beralih transmisi suara menggunakan headset";
+"Toggle voice transmission using headset" = "Togol transmisi suara menggunakan headset";
 
 /* create channel */
 "Topic" = "Topik";
@@ -616,16 +616,16 @@
 "Translator" = "Penterjemah";
 
 /* channel list */
-"Transmit inactive" = "Transmit Mikrofon tidak aktif";
+"Transmit inactive" = "Mikrofon tidak aktif";
 
 /* codec detail */
-"Transmit Interval" = "Transmisi Interval";
+"Transmit Interval" = "Interval Transmisi";
 
 /* channel list */
-"Transmitting" = "Transmitting mikrofon, aktif";
+"Transmitting" = "Mikrofon aktif";
 
 /* preferences */
-"Turn off screen when holding phone near ear" = "Matikan skrin ketika melekap telefon di telinga";
+"Turn off screen when holding phone near ear" = "Matikan skrin ketika melekap telefon menghampiri telinga";
 
 /* text field hint
    text message */
@@ -638,10 +638,10 @@
 "Unofficial server" = "Server tidak rasmi";
 
 /* preferences */
-"Use echo cancellation and automatic gain control" = "Gunakan echo cancellation dan  gain control otomatis";
+"Use echo cancellation and automatic gain control" = "Gunakan echo cancellation dan  gain control automatik";
 
 /* preferences */
-"Use iPhone's speaker instead of earpiece" = "Ubah pengunaan earpiece ke speaker iPhone";
+"Use iPhone's speaker instead of earpiece" = "Gunakan speaker iPhone bukannya earpiece";
 
 /* channel list */
 "User" = "Pengguna";
@@ -675,7 +675,7 @@
 
 /* preferences
    user detail */
-"User Messages" = "Pesan Pengguna";
+"User Messages" = "Mesej Pengguna";
 
 /* server entry
    user detail
