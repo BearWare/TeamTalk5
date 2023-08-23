@@ -112,11 +112,11 @@
 "Bluetooth playback should use Advanced Audio Distribution Profile" = "Playback Bluetooth harus menggunakan Profil Advanced Audio Distribution";
 
 /* text message type */
-"Broadcast message" = "Broadcast mesej";
+"Broadcast message" = "Mesej broadcast";
 
 /* preferences
    user detail */
-"Broadcast Messages" = "Broadcast Mesej";
+"Broadcast Messages" = "Mesej Broadcast";
 
 /* preferences */
 "Broadcast Text Message" = "Broadcast Mesej Teks";
@@ -434,10 +434,10 @@
 "Play sound when transmit ready in \"No Interruptions\" channel" = "Mainkan bunyi apabila penghantaran sedia dalam saluran \"Tiada Gangguan\".";
 
 /* preferences */
-"Play sound when user logs off to the server" = "Mainkan bunyi ketika pengguna keluar dari server";
+"Play sound when user logs off to the server" = "Mainkan bunyi apabila pengguna keluar dari server";
 
 /* preferences */
-"Play sound when user logs on to the server" = "Mainkan bunyi ketika pengguna masuk ke server";
+"Play sound when user logs on to the server" = "Mainkan bunyi apabila pengguna masuk ke server";
 
 /* preferences */
 "Play sound when voice activation is triggered" = "Mainkan bunyi apabila pengaktifan suara diaktifkan";
@@ -446,10 +446,10 @@
 "Play sound when voice transmission is toggled" = "Mainkan bunyi apabila penghantaran suara ditogol";
 
 /* preferences */
-"Pop up text message when new messages are received" = "Paparkan Teks mesej dalam tetingkap pop up apabila mesej baharu diterima";
+"Pop up text message when new messages are received" = "Paparkan Teks mesej apabila mesej baharu diterima";
 
 /* preferences */
-"Popularity" = "Popularitas";
+"Popularity" = "Populariti";
 
 /* serverlist */
 "Preferences" = "Tetapan";
@@ -458,16 +458,16 @@
 "Preferred" = "Preferred";
 
 /* preferences */
-"Pressing Return-key sends text message" = "Menekan tombol enter akan mengirim pesan teks";
+"Pressing Return-key sends text message" = "Menekan butang enter akan menghantar mesej teks";
 
 /* text message type */
-"Private message" = "Mesej pribadi";
+"Private message" = "Mesej peribadi";
 
 /* preferences */
-"Private Text Message" = "Teks Mesej Pribadi";
+"Private Text Message" = "Mesej Teks Peribadi";
 
 /* TTS EVENT */
-"Private text message from %@. %@" = "Teks mesej pribadi daripada %@. %@";
+"Private text message from %@. %@" = "Mesej teks peribadi daripada %@. %@";
 
 /* preferences */
 "Proximity Sensor" = "Proximity Sensor";
@@ -476,31 +476,31 @@
 "Public server" = "Server publik";
 
 /* preferences */
-"Push To Talk Lock" = "Kunci Push To Talk";
+"Push To Talk Lock" = "Kunci Tekan Untuk Bercakap";
 
 /* codec detail */
 "Quality" = "Kualiti";
 
 /* preferences */
-"Receive broadcast messages by default" = "Terima pesan broadcast secara default";
+"Receive broadcast messages by default" = "Terima mesej broadcast secara default";
 
 /* preferences */
-"Receive channel messages by default" = "Terima pesan saluran secara default";
+"Receive channel messages by default" = "Terima mesej saluran secara default";
 
 /* preferences */
 "Receive desktop sessions by default" = "Terima sesi desktop secara default";
 
 /* preferences */
-"Receive media file streams by default" = "Terima Stream File Media secara default";
+"Receive media file streams by default" = "Terima stream file media secara default";
 
 /* preferences */
-"Receive text messages by default" = "Terima teks mesej secara default";
+"Receive text messages by default" = "Terima mesej teks secara default";
 
 /* preferences */
-"Receive voice streams by default" = "Terima strim suara secara default";
+"Receive voice streams by default" = "Terima stream suara secara default";
 
 /* preferences */
-"Receive webcam streams by default" = "Terima strim webcam secara default";
+"Receive webcam streams by default" = "Terima stream webcam secara default";
 
 /* preferences */
 "Return Sends Message" = "Kembali untuk menghantar mesej";
