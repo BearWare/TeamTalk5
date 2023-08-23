@@ -413,22 +413,22 @@
 "Permanent Channel" = "Saluran Kekal";
 
 /* preferences */
-"Play sound when a user joins the channel" = "Mainkan bunyi ketika Pengguna masuk ke saluran";
+"Play sound when a user joins the channel" = "Mainkan bunyi apabila Pengguna masuk ke saluran";
 
 /* preferences */
-"Play sound when a user leaves the channel" = "Mainkan bunyi ketika pengguna meninggalkan saluran";
+"Play sound when a user leaves the channel" = "Mainkan bunyi apabila pengguna meninggalkan saluran";
 
 /* preferences */
-"Play sound when broadcast text message is received" = "Mainkan bunyi ketika menerima broadcast mesej";
+"Play sound when broadcast text message is received" = "Mainkan bunyi apabila menerima mesej teks broadcast";
 
 /* preferences */
-"Play sound when channel text message is received" = "Mainkan bunyi ketika menerima mesej saluran";
+"Play sound when channel text message is received" = "Mainkan bunyi apabila menerima mesej teks saluran";
 
 /* preferences */
-"Play sound when connection is dropped" = "Mainkan bunyi ketika Sambungan Terputus";
+"Play sound when connection is dropped" = "Mainkan bunyi apabila Sambungan Terputus";
 
 /* preferences */
-"Play sound when private text message is received" = "Mainkan bunyi ketika mesej pribadi diterima";
+"Play sound when private text message is received" = "Mainkan bunyi apabila mesej teks peribadi diterima";
 
 /* preferences */
 "Play sound when transmit ready in \"No Interruptions\" channel" = "Mainkan bunyi apabila penghantaran sedia dalam saluran \"Tiada Gangguan\".";
