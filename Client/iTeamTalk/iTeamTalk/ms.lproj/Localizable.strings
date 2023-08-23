@@ -5,7 +5,7 @@
 "%@ left channel" = "%@ meninggalkan saluran";
 
 /* Web Login Controller */
-"%@, your username \"%@\" has been validated" = "%@, nama pengguna Anda \"%@\" telah disahkan";
+"%@, your username \"%@\" has been validated" = "%@, nama pengguna anda \"%@\" telah disahkan";
 
 /* preferences */
 "%d %% - Default" = "%d %% - Default";
@@ -35,7 +35,7 @@
 "8 KHz" = "8 KHz";
 
 /* serverlist */
-"Access preferences" = "Akses Ke Tetapan";
+"Access preferences" = "Akses ke tetapan";
 
 /* server entry
    user detail */
@@ -48,22 +48,22 @@
 "Add new server entry" = "Tambahkan entri server baru";
 
 /* preferences */
-"Announce content of text message" = "Mengumumkan kandungan teks";
+"Announce content of text message" = "Umumkan kandungan mesej teks";
 
 /* preferences */
 "Announce lost server connection" = "Umumkan apabila sambungan ke server terputus";
 
 /* preferences */
-"Announce user joining channel" = "Umumkan pengguna  saluran masuk";
+"Announce user joining channel" = "Umumkan pengguna  yang masuk ke saluran";
 
 /* preferences */
-"Announce user leaving channel" = "Umumkan pengguna meninggalkan saluran";
+"Announce user leaving channel" = "Umumkan pengguna yang meninggalkan saluran";
 
 /* preferences */
-"Announce user logged onto server" = "Umumkan pengguna masuk ke server";
+"Announce user logged onto server" = "Umumkan pengguna yang masuk ke server";
 
 /* preferences */
-"Announce user logged out of server" = "Umumkan pengguna keluar dari server";
+"Announce user logged out of server" = "Umumkan pengguna yang keluar dari server";
 
 /* text to speech */
 "Announcements" = "Pemberitahuan";
@@ -75,7 +75,7 @@
 "Application" = "Aplikasi";
 
 /* preferences */
-"Ascending" = "Urutkan dari a ke z";
+"Ascending" = "Menaik";
 
 /* codec detail */
 "Audio Channels" = "Saluran Audio";
@@ -97,7 +97,7 @@
 "BearWare.dk Web Login" = "BearWare.dk Web Login";
 
 /* weblogin event */
-"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web Login Gagal diautentikasi. Periksa BearWare.dk Web Login pada pengaturan TeamTalk anda";
+"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "gagal untuk mengesahkan BearWare.dk Web Login. Periksa BearWare.dk Web Login di Pengaturan";
 
 /* codec detail */
 "Bitrate" = "Bitrate";
