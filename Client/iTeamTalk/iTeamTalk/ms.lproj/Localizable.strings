@@ -5,7 +5,7 @@
 "%@ left channel" = "%@ meninggalkan saluran";
 
 /* Web Login Controller */
-"%@, your username \"%@\" has been validated" = "%@, nama pengguna Anda \"%@\" telah disahkan";
+"%@, your username \"%@\" has been validated" = "%@, nama pengguna anda \"%@\" telah disahkan";
 
 /* preferences */
 "%d %% - Default" = "%d %% - Default";
@@ -35,7 +35,7 @@
 "8 KHz" = "8 KHz";
 
 /* serverlist */
-"Access preferences" = "Akses Ke Tetapan";
+"Access preferences" = "Akses ke tetapan";
 
 /* server entry
    user detail */
@@ -48,22 +48,22 @@
 "Add new server entry" = "Tambahkan entri server baru";
 
 /* preferences */
-"Announce content of text message" = "Mengumumkan kandungan teks";
+"Announce content of text message" = "Umumkan kandungan mesej teks";
 
 /* preferences */
 "Announce lost server connection" = "Umumkan apabila sambungan ke server terputus";
 
 /* preferences */
-"Announce user joining channel" = "Umumkan pengguna  saluran masuk";
+"Announce user joining channel" = "Umumkan pengguna  yang masuk ke saluran";
 
 /* preferences */
-"Announce user leaving channel" = "Umumkan pengguna meninggalkan saluran";
+"Announce user leaving channel" = "Umumkan pengguna yang meninggalkan saluran";
 
 /* preferences */
-"Announce user logged onto server" = "Umumkan pengguna masuk ke server";
+"Announce user logged onto server" = "Umumkan pengguna yang masuk ke server";
 
 /* preferences */
-"Announce user logged out of server" = "Umumkan pengguna keluar dari server";
+"Announce user logged out of server" = "Umumkan pengguna yang keluar dari server";
 
 /* text to speech */
 "Announcements" = "Pemberitahuan";
@@ -75,7 +75,7 @@
 "Application" = "Aplikasi";
 
 /* preferences */
-"Ascending" = "Urutkan dari a ke z";
+"Ascending" = "Menaik";
 
 /* codec detail */
 "Audio Channels" = "Saluran Audio";
@@ -97,29 +97,29 @@
 "BearWare.dk Web Login" = "BearWare.dk Web Login";
 
 /* weblogin event */
-"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web Login Gagal diautentikasi. Periksa BearWare.dk Web Login pada pengaturan TeamTalk anda";
+"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "gagal untuk mengesahkan BearWare.dk Web Login. Periksa BearWare.dk Web Login di Pengaturan";
 
 /* codec detail */
 "Bitrate" = "Bitrate";
 
 /* preferences */
-"Bjoern D. Rasmussen, contact@bearware.dk" = "Bjoern D. Rasmussen, hubungi@bearware.dk";
+"Bjoern D. Rasmussen, contact@bearware.dk" = "Pengguna TeamTalk";
 
 /* Sound Devices */
 "Bluetooth A2DP Playback" = "Bluetooth A2DP Playback";
 
 /* Sound Devices */
-"Bluetooth playback should use Advanced Audio Distribution Profile" = "Playback Bluetooth harus menggunakan Profil Pengedaran Audio Lanjutan";
+"Bluetooth playback should use Advanced Audio Distribution Profile" = "Playback Bluetooth harus menggunakan Profil Advanced Audio Distribution";
 
 /* text message type */
-"Broadcast message" = "Broadcast mesej";
+"Broadcast message" = "Mesej broadcast";
 
 /* preferences
    user detail */
-"Broadcast Messages" = "Broadcast Mesej";
+"Broadcast Messages" = "Mesej Broadcast";
 
 /* preferences */
-"Broadcast Text Message" = "Broadcast teks mesej ";
+"Broadcast Text Message" = "Broadcast Mesej Teks";
 
 /* Dialog message */
 "Cancel" = "Batal";
@@ -148,7 +148,7 @@
 "Channel. %d users" = "Saluran. %d pengguna";
 
 /* server entry */
-"Check only if this server has enabled BearWare.dk Web Login" = "tanda kotak semak hanya jika server ini telah mengaktifkan Log Masuk Web BearWare.dk";
+"Check only if this server has enabled BearWare.dk Web Login" = "tanda hanya jika server ini telah mengaktifkan Log Masuk Web BearWare.dk";
 
 /* log entry */
 "Command failed: %@" = "Perintah gagal: %@";
@@ -160,7 +160,7 @@
 "Connect to server" = "Sambung ke server";
 
 /* connect to a server */
-"Connect to Server" = "Connect to Server";
+"Connect to Server" = "Sambung ke Server";
 
 /* preferences
    server entry */
@@ -168,7 +168,7 @@
 
 /* preferences
    tts event */
-"Connection lost" = "Sambungan Terputus";
+"Connection lost" = "Sambungan terputus";
 
 /* server entry */
 "Country" = "Negara";
@@ -186,7 +186,7 @@
 "Default Subscriptions" = "Langganan Default";
 
 /* serverlist */
-"Delete server from list" = "Padam server dari senarai";
+"Delete server from list" = "Padam server daripada senarai";
 
 /* preferences
    user detail */
@@ -196,10 +196,10 @@
 "Display" = "Paparan";
 
 /* channel list */
-"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Ketik dua kali dan tahan untuk bercakap. Ketik tiga kali dengan pantas untuk mengunci mikrofon Anda.";
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Ketik dua kali dan tahan untuk bercakap. Ketik tiga kali dengan pantas untuk mengunci mikrofon.";
 
 /* preferences */
-"Double tap to lock TX button" = "Ketuk dua kali untuk mengunci Butang Penghantaran";
+"Double tap to lock TX button" = "Ketuk dua kali untuk mengunci butang TX";
 
 /* codec detail */
 "DTX" = "DTX";
@@ -208,7 +208,7 @@
 "Edit properties" = "Sunting properti";
 
 /* server entry */
-"Encrypted" = "Disulitkan";
+"Encrypted" = "Encrypted";
 
 /* Dialog message */
 "Enter Password" = "Masukkan Kata Laluan";
@@ -217,13 +217,13 @@
    Dialog message
    message dialog
    user detail */
-"Error" = "ralat";
+"Error" = "Error";
 
 /* preferences */
 "Exclusive Mode Toggled" = "Ubah Modus Eksklusif";
 
 /* connect to a server */
-"Failed to setup encryption" = "Failed to setup encryption";
+"Failed to setup encryption" = "Gagal untuk menetapkan encryption";
 
 /* preferences */
 "Female" = "Wanita";
@@ -257,10 +257,10 @@
 "Hidden Channel" = "Saluran Tersembunyi";
 
 /* server entry */
-"Host address" = "Alamat IP atau Alamat host";
+"Host address" = "Alamat host";
 
 /* channel list */
-"Inactive" = "Tidak aktif";
+"Inactive" = "Tidak Aktif";
 
 /* Dialog message */
 "Join" = "Masuk";
@@ -269,19 +269,19 @@
 "Join Channel" = "Masuk Saluran";
 
 /* channel list */
-"Join channel" = "Masuk Saluran";
+"Join channel" = "Masuk saluran";
 
 /* preferences */
 "Join Root Channel" = "Masuk ke Saluran Utama";
 
 /* preferences */
-"Join root channel after login" = "Masuk ke saluran umum selepas log masuk";
+"Join root channel after login" = "Masuk ke saluran utama selepas log masuk";
 
 /* log entry */
 "Joined %@" = "Masuk %@";
 
 /* channel list */
-"Kick user" = "Keluarkan Pengguna";
+"Kick user" = "Keluarkan pengguna";
 
 /* preferences */
 "Limit length of names in channel list to %d characters" = "Hadkan panjang nama dalam senarai saluran kepada %d characters";
@@ -290,16 +290,16 @@
 "Local server" = "Server lokal";
 
 /* text message type */
-"Log message" = "Log mesej";
+"Log message" = "Mesej log";
 
 /* log entry */
-"Logged on to server" = "masuk ke server";
+"Logged on to server" = "Masuk ke server";
 
 /* preferences */
 "Male" = "Lelaki";
 
 /* preferences */
-"Master Volume" = "Volume utama";
+"Master Volume" = "Volume Utama";
 
 /* preferences */
 "Maximum Text Length" = "Panjang Teks Maksimum";
@@ -313,13 +313,13 @@
 "Media File Volume" = "Volume File Media";
 
 /* preferences */
-"Media file vs. voice volume" = "File Media  vs. volume suara";
+"Media file vs. voice volume" = "File media  vs. volume suara";
 
 /* server entry */
 "Message of the Day" = "Mesej Hari Ini";
 
 /* preferences */
-"Microphone Gain" = "Volume Mikrofon";
+"Microphone Gain" = "Gain Mikrofon";
 
 /* codec detail
    create channel */
@@ -338,7 +338,7 @@
 "Mute" = "Senyapkan";
 
 /* user detail */
-"Mute Media File" = "Senyapkan file Media";
+"Mute Media File" = "Senyapkan File Media";
 
 /* user detail */
 "Mute Voice" = "Senyapkan Suara";
@@ -348,7 +348,7 @@
 "Name" = "Nama";
 
 /* preferences */
-"Name displayed in channel list" = "Nama dipaparkan dalam senarai saluran";
+"Name displayed in channel list" = "Nama yang dipaparkan dalam senarai saluran";
 
 /* Dialog message */
 "New Server" = "Server Baharu";
@@ -367,10 +367,10 @@
 "No Audio" = "Tanpa Audio";
 
 /* create channel */
-"No Audio Recording" = "Tanpa rakaman Audio";
+"No Audio Recording" = "Tanpa Rakaman Audio";
 
 /* create channel */
-"No Interruptions" = "Tiada gangguan";
+"No Interruptions" = "Tiada Gangguan";
 
 /* channel list */
 "No password" = "Tiada kata laluan";
@@ -395,10 +395,10 @@
 "OPUS Codec" = "OPUS Codec";
 
 /* preferences */
-"Order of channels in Channel List" = "Urutan saluran dalam senarai saluran";
+"Order of channels in Channel List" = "Urutan saluran dalam Senarai Saluran";
 
 /* channel list */
-"Parent channel" = "Saluran Induk";
+"Parent channel" = "Saluran induk";
 
 /* create channel
    Dialog message
@@ -413,31 +413,31 @@
 "Permanent Channel" = "Saluran Kekal";
 
 /* preferences */
-"Play sound when a user joins the channel" = "Mainkan bunyi ketika Pengguna masuk ke saluran";
+"Play sound when a user joins the channel" = "Mainkan bunyi apabila Pengguna masuk ke saluran";
 
 /* preferences */
-"Play sound when a user leaves the channel" = "Mainkan bunyi ketika pengguna meninggalkan saluran";
+"Play sound when a user leaves the channel" = "Mainkan bunyi apabila pengguna meninggalkan saluran";
 
 /* preferences */
-"Play sound when broadcast text message is received" = "Mainkan bunyi ketika menerima broadcast mesej";
+"Play sound when broadcast text message is received" = "Mainkan bunyi apabila menerima mesej teks broadcast";
 
 /* preferences */
-"Play sound when channel text message is received" = "Mainkan bunyi ketika menerima mesej saluran";
+"Play sound when channel text message is received" = "Mainkan bunyi apabila menerima mesej teks saluran";
 
 /* preferences */
-"Play sound when connection is dropped" = "Mainkan bunyi ketika Sambungan Terputus";
+"Play sound when connection is dropped" = "Mainkan bunyi apabila Sambungan Terputus";
 
 /* preferences */
-"Play sound when private text message is received" = "Mainkan bunyi ketika mesej pribadi diterima";
+"Play sound when private text message is received" = "Mainkan bunyi apabila mesej teks peribadi diterima";
 
 /* preferences */
-"Play sound when transmit ready in \"No Interruptions\" channel" = "Mainkan bunyi apabila penghantaran sedia dalam saluran \"Tiada Gangguan\".";
+"Play sound when transmit ready in \"No Interruptions\" channel" = "Mainkan bunyi apabila transmisi sedia dalam saluran \"Tiada Gangguan\".";
 
 /* preferences */
-"Play sound when user logs off to the server" = "Mainkan bunyi ketika pengguna keluar dari server";
+"Play sound when user logs off to the server" = "Mainkan bunyi apabila pengguna keluar dari server";
 
 /* preferences */
-"Play sound when user logs on to the server" = "Mainkan bunyi ketika pengguna masuk ke server";
+"Play sound when user logs on to the server" = "Mainkan bunyi apabila pengguna masuk ke server";
 
 /* preferences */
 "Play sound when voice activation is triggered" = "Mainkan bunyi apabila pengaktifan suara diaktifkan";
@@ -446,10 +446,10 @@
 "Play sound when voice transmission is toggled" = "Mainkan bunyi apabila penghantaran suara ditogol";
 
 /* preferences */
-"Pop up text message when new messages are received" = "Paparkan Teks mesej dalam tetingkap pop up apabila mesej baharu diterima";
+"Pop up text message when new messages are received" = "Paparkan Teks mesej apabila mesej baharu diterima";
 
 /* preferences */
-"Popularity" = "Popularitas";
+"Popularity" = "Populariti";
 
 /* serverlist */
 "Preferences" = "Tetapan";
@@ -458,16 +458,16 @@
 "Preferred" = "Preferred";
 
 /* preferences */
-"Pressing Return-key sends text message" = "Menekan tombol enter akan mengirim pesan teks";
+"Pressing Return-key sends text message" = "Menekan butang enter akan menghantar mesej teks";
 
 /* text message type */
-"Private message" = "Mesej pribadi";
+"Private message" = "Mesej peribadi";
 
 /* preferences */
-"Private Text Message" = "Teks Mesej Pribadi";
+"Private Text Message" = "Mesej Teks Peribadi";
 
 /* TTS EVENT */
-"Private text message from %@. %@" = "Teks mesej pribadi daripada %@. %@";
+"Private text message from %@. %@" = "Mesej teks peribadi daripada %@. %@";
 
 /* preferences */
 "Proximity Sensor" = "Proximity Sensor";
@@ -476,40 +476,40 @@
 "Public server" = "Server publik";
 
 /* preferences */
-"Push To Talk Lock" = "Kunci Push To Talk";
+"Push To Talk Lock" = "Kunci Tekan Untuk Bercakap";
 
 /* codec detail */
 "Quality" = "Kualiti";
 
 /* preferences */
-"Receive broadcast messages by default" = "Terima pesan broadcast secara default";
+"Receive broadcast messages by default" = "Terima mesej broadcast secara default";
 
 /* preferences */
-"Receive channel messages by default" = "Terima pesan saluran secara default";
+"Receive channel messages by default" = "Terima mesej saluran secara default";
 
 /* preferences */
 "Receive desktop sessions by default" = "Terima sesi desktop secara default";
 
 /* preferences */
-"Receive media file streams by default" = "Terima Stream File Media secara default";
+"Receive media file streams by default" = "Terima stream file media secara default";
 
 /* preferences */
-"Receive text messages by default" = "Terima teks mesej secara default";
+"Receive text messages by default" = "Terima mesej teks secara default";
 
 /* preferences */
-"Receive voice streams by default" = "Terima strim suara secara default";
+"Receive voice streams by default" = "Terima stream suara secara default";
 
 /* preferences */
-"Receive webcam streams by default" = "Terima strim webcam secara default";
+"Receive webcam streams by default" = "Terima stream webcam secara default";
 
 /* preferences */
-"Return Sends Message" = "Kembali untuk menghantar mesej";
+"Return Sends Message" = "Enter untuk menghantar mesej";
 
 /* channel list */
 "Return to previous channel" = "Kembali ke saluran sebelumnya";
 
 /* log entry */
-"root channel" = "Saluran utama";
+"root channel" = "saluran utama";
 
 /* codec detail */
 "Sample Rate" = "Sample Rate";
@@ -524,7 +524,7 @@
 "Send empty message to close keyboard" = "Hantar mesej kosong untuk menutup papan kekunci";
 
 /* channel list */
-"Send private message" = "Hantar mesej pribadi";
+"Send private message" = "Hantar mesej peribadi";
 
 /* preferences */
 "Server Connection Lost" = "Sambungan ke Server Terputus";
@@ -536,19 +536,19 @@
 "Server Status" = "Status Server";
 
 /* preferences */
-"Show in Server List" = "Tampilkan dalam senarai Server";
+"Show in Server List" = "Tampilkan Dalam Senarai Server";
 
 /* preferences */
 "Show male or female icon" = "Tampilkan Ikon lelaki atau wanita";
 
 /* preferences */
-"Show Text Messages Instantly" = "Tampilkan Teks Mesej dengan Segera";
+"Show Text Messages Instantly" = "Tampilkan Mesej Teks Dengan Segera";
 
 /* preferences */
 "Show Usernames" = "Tampilkan Nama Pengguna";
 
 /* preferences */
-"Show usernames instead of nicknames" = "Hanya tampilkan nama pengguna, selain Nama panggilan";
+"Show usernames instead of nicknames" = "Tampilkan nama pengguna, bukannya Nama panggilan";
 
 /* channel list */
 "Silent" = "Senyap";
@@ -589,7 +589,7 @@
 "Subscriptions" = "Langganan";
 
 /* channel list */
-"Talking" = "Sedang bercakap";
+"Talking" = "Sedang Bercakap";
 
 /* server entry */
 "TCP Port" = "TCP Port";
@@ -598,16 +598,16 @@
 "Text To Speech Events" = "Pemberitahuan Teks Ke Ucapan";
 
 /* preferences */
-"The rate of the speaking voice is %.1f" = "tingkat kadar suara Teks Ke Ucapan adalah %.1f";
+"The rate of the speaking voice is %.1f" = "tingkat kadar suara yang bercakap adalah %.1f";
 
 /* preferences */
-"The volume of the speaking voice is %.1f" = "Volume suara Teks Ke Ucapan adalah %.1f";
+"The volume of the speaking voice is %.1f" = "Volume suara yang bercakap adalah %.1f";
 
 /* channel list */
-"Toggle to enable/disable transmission" = "Beralih untuk mengaktifkan / menyahaktifkan penghantaran";
+"Toggle to enable/disable transmission" = "Togol untuk mengaktifkan / menyahaktifkan transmisi";
 
 /* preferences */
-"Toggle voice transmission using headset" = "Beralih transmisi suara menggunakan headset";
+"Toggle voice transmission using headset" = "Togol transmisi suara menggunakan headset";
 
 /* create channel */
 "Topic" = "Topik";
@@ -616,16 +616,16 @@
 "Translator" = "Penterjemah";
 
 /* channel list */
-"Transmit inactive" = "Transmit Mikrofon tidak aktif";
+"Transmit inactive" = "Mikrofon tidak aktif";
 
 /* codec detail */
-"Transmit Interval" = "Transmisi Interval";
+"Transmit Interval" = "Interval Transmisi";
 
 /* channel list */
-"Transmitting" = "Transmitting mikrofon, aktif";
+"Transmitting" = "Mikrofon aktif";
 
 /* preferences */
-"Turn off screen when holding phone near ear" = "Matikan skrin ketika melekap telefon di telinga";
+"Turn off screen when holding phone near ear" = "Matikan skrin ketika melekap telefon menghampiri telinga";
 
 /* text field hint
    text message */
@@ -638,10 +638,10 @@
 "Unofficial server" = "Server tidak rasmi";
 
 /* preferences */
-"Use echo cancellation and automatic gain control" = "Gunakan echo cancellation dan  gain control otomatis";
+"Use echo cancellation and automatic gain control" = "Gunakan echo cancellation dan  gain control automatik";
 
 /* preferences */
-"Use iPhone's speaker instead of earpiece" = "Ubah pengunaan earpiece ke speaker iPhone";
+"Use iPhone's speaker instead of earpiece" = "Gunakan speaker iPhone bukannya earpiece";
 
 /* channel list */
 "User" = "Pengguna";
@@ -675,7 +675,7 @@
 
 /* preferences
    user detail */
-"User Messages" = "Pesan Pengguna";
+"User Messages" = "Mesej Pengguna";
 
 /* server entry
    user detail
@@ -689,7 +689,7 @@
 "Users Online" = "Pengguna Online";
 
 /* serverlist */
-"Users: %d, Country: %@" = "Pengguna: %1$d, Negara: %2$@";
+"Users: %d, Country: %@" = "Pengguna: %d, Negara: %@";
 
 /* codec detail */
 "Variable Bitrate" = "Variable Bitrate";
@@ -717,13 +717,13 @@
 "Voice Activation Level: Disabled" = "Tahap Pengaktifan Suara: Dinyahaktifkan";
 
 /* preferences */
-"Voice Activation Triggered" = "Pemicu Pengaktifan Suara";
+"Voice Activation Triggered" = "Pengaktifan Suara Dipicu";
 
 /* preferences */
-"Voice Preprocessing" = "Suara Preprocessing";
+"Voice Preprocessing" = "Prapemprosesan Suara";
 
 /* preferences */
-"Voice Transmission Toggled" = "Transmisi Suara Toggled";
+"Voice Transmission Toggled" = "Transmisi Suara Ditogol";
 
 /* user detail */
 "Voice Volume" = "Volume Suara";
@@ -735,7 +735,7 @@
 "Volume Controls" = "Kontrol Volume";
 
 /* Web Login controller */
-"Web Login ID" = "Web Login ID";
+"Web Login ID" = "ID Log Masuk Web";
 
 /* preferences
    user detail */
@@ -748,13 +748,13 @@
 "You have been kicked from channel" = "Anda telah dikeluarkan dari saluran";
 
 /* Dialog */
-"You have been kicked from channel by %@" = "%@ Telah mengeluarkan anda dari saluran ini";
+"You have been kicked from channel by %@" = "%@ Telah mengeluarkan anda dari saluran";
 
 /* Dialog */
 "You have been kicked from server" = "Anda telah dikeluarkan dari server";
 
 /* Dialog */
-"You have been kicked from server by %@" = "%@ Telah mengeluarkan anda dari server ini";
+"You have been kicked from server by %@" = "%@ Telah mengeluarkan anda dari server";
 
 /* speech */
 "You have selected %@" = "Anda telah memilih %@";
