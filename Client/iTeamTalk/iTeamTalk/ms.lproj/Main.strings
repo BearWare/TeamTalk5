@@ -23,7 +23,7 @@
 "5K7-Hd-4h7.title" = "Pemberitahuan Teks Ke Pertuturan";
 
 /* Class = "UIButton"; normalTitle = "Login"; ObjectID = "5YA-rx-tGz"; */
-"5YA-rx-tGz.normalTitle" = "Masuk";
+"5YA-rx-tGz.normalTitle" = "Log Masuk";
 
 /* Class = "UINavigationItem"; title = "Text-to-Speech Voice"; ObjectID = "79c-sV-yxb"; */
 "79c-sV-yxb.title" = "Suara Teks-ke-Pertuturan";
@@ -47,7 +47,7 @@
 "B8t-mo-k8g.text" = "Pertuturan";
 
 /* Class = "UIButton"; normalTitle = "Reset Web Login ID"; ObjectID = "baE-IB-ajD"; */
-"baE-IB-ajD.normalTitle" = "Tetapkan semula ID log masuk Web";
+"baE-IB-ajD.normalTitle" = "Tetapkan semula ID log masuk Melalui Web";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "bDf-Jp-1l5"; */
 "bDf-Jp-1l5.normalTitle" = "Sambung";
@@ -95,10 +95,10 @@
 "GFy-mN-epU.text" = "Tajuk";
 
 /* Class = "UILabel"; text = "Filter Server List"; ObjectID = "gPj-u1-dPn"; */
-"gPj-u1-dPn.text" = "Tunjukkan server Publik";
+"gPj-u1-dPn.text" = "Tapis Senarai Server";
 
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
-"Hcv-zz-riB.text" = "Login Web BearWare.dk";
+"Hcv-zz-riB.text" = "Log Masuk Web BearWare.dk";
 
 /* Class = "UITableViewCell"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
 "hqu-CX-Vn4.accessibilityHint" = "Ketik dua kali untuk mengembangkan pilihan saluran ini.";
@@ -149,10 +149,10 @@
 "o2H-Vm-Vjd.text" = "Tunjukkan Server Rasmi";
 
 /* Class = "UITableViewController"; title = "BearWare.dk Web Login"; ObjectID = "o7z-cC-U4w"; */
-"o7z-cC-U4w.title" = "Login Web BearWare.dk";
+"o7z-cC-U4w.title" = "Log Masuk Web BearWare.dk";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
-"PaV-2Q-pt4.accessibilityLabel" = "Sambungkan butang";
+"PaV-2Q-pt4.accessibilityLabel" = "Sambungkan";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.normalTitle" = "Sambungkan";
@@ -164,7 +164,7 @@
 "pQJ-c1-GEL.title" = "Senarai Server";
 
 /* Class = "UILabel"; text = "Setup Announcements"; ObjectID = "Q0w-pu-giG"; */
-"Q0w-pu-giG.text" = "Tetapkan Pemberitahuan Teks Kepada Pertuturan";
+"Q0w-pu-giG.text" = "Tetapkan Pemberitahuan";
 
 /* Class = "UILabel"; text = "Choose input and output devices"; ObjectID = "qgW-1i-aGQ"; */
 "qgW-1i-aGQ.text" = "Pilih peranti input dan output";
@@ -176,7 +176,7 @@
 "Rrg-2O-NzF.normalTitle" = "Gunakan OPUS Codec";
 
 /* Class = "UILabel"; text = "Login ID from BearWare.dk"; ObjectID = "SmF-8J-cWK"; */
-"SmF-8J-cWK.text" = "Login ID dari BearWare.dk";
+"SmF-8J-cWK.text" = "ID Log Masuk dari BearWare.dk";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
 "Uc0-gP-wr1.text" = "Kosong";
@@ -197,7 +197,7 @@
 "w6E-jf-09e.text" = "Kosong";
 
 /* Class = "UILabel"; text = "Select the text-to-speech voice to use"; ObjectID = "Wbh-f7-64c"; */
-"Wbh-f7-64c.text" = "Pilih suara teks ke pertuturan untuk digunakan";
+"Wbh-f7-64c.text" = "Pilih suara teks-ke-pertuturan untuk digunakan";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "WcB-pN-blB"; */
 "WcB-pN-blB.text" = "Kosong";
@@ -212,7 +212,7 @@
 "WRa-tI-lpY.normalTitle" = "Keluarkan dan Sekat Pengguna";
 
 /* Class = "UITableViewController"; title = "Setup Sound Devices"; ObjectID = "XmQ-1z-cFv"; */
-"XmQ-1z-cFv.title" = "Tetapkan Input Suara";
+"XmQ-1z-cFv.title" = "Tetapkan Peranti Suara";
 
 /* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
 "Y9o-rs-HCe.title" = "Putuskan Sambungan";

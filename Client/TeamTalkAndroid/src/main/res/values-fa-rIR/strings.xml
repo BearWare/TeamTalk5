@@ -378,6 +378,11 @@
     <string name="pref_title_server_usercount">کاربران آنلاین</string>
     <string name="pref_title_server_country">کشور</string>
     <string name="pref_title_server_status">وضعیت سِروِر</string>
+    <string name="pref_cat_tts_events">پیکربندی پیامهای متن به گفتار</string>
+    <string name="pref_title_a11y_volume">استفاده از صدای دسترسپذیری</string>
+    <string name="pref_summary_a11y_volume">پیام‌های نوشتار به گفتار با میزان صدای دسترسپذیری پخش می‌شوند</string>
+    <string name="pref_title_use_announcements">استفاده از رویدادهای اعلامی</string>
+    <string name="pref_summary_use_announcements">پیام‌های نوشتار به گفتار با خدمات دسترس پذیری جاری، اعلام می‌شوند</string>
 
 
 </resources>
