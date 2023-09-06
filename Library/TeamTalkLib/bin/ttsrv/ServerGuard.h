@@ -72,7 +72,7 @@ namespace teamtalk {
         void OnFileDownloaded(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file) override;
         void OnFileDeleted(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file) override;
 
-        void OnServerUpdated(const ServerUser& user, const ServerSettings& srvprop) override;
+        void OnServerUpdated(const ServerUser* user, const ServerSettings& srvprop) override;
         void OnSaveConfiguration(const ServerUser* user) override;
 
         void OnShutdown(const ServerStats& stats) override;

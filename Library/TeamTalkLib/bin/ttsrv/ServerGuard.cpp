@@ -529,14 +529,17 @@ void ServerGuard::OnFileDeleted(const ServerUser& user, const ServerChannel& cha
     TT_LOG(oss.str().c_str());
 }
 
-void ServerGuard::OnServerUpdated(const ServerUser& user, const ServerSettings& srvprop)
+void ServerGuard::OnServerUpdated(const ServerUser* user, const ServerSettings& srvprop)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
-    if(user.GetUsername().length())
-        oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("updated server properties.");
+    oss << ACE_TEXT("Server properties updated");
+    if (user)
+    {
+        oss << ACE_TEXT(" by user #") << user->GetUserID() << ACE_TEXT(" ");
+        oss << ACE_TEXT("nickname: \"") << LogPrepare(user->GetNickname()).c_str() << ACE_TEXT("\" ");
+        if(user->GetUsername().length())
+            oss << ACE_TEXT("username: \"") << LogPrepare(user->GetUsername()).c_str() << ACE_TEXT("\" ");
+    }
     TT_LOG(oss.str().c_str());
 }
 
