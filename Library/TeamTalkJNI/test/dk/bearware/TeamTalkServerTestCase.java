@@ -2171,6 +2171,42 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         client.stopStreamingMediaFileToChannel();
     }
 
+    @Test
+    public void testServerUpdatedLogEvent() {
+        class Log extends ServerLogger {
+            public boolean srvupdateevent = false;
+            public void serverUpdated(ServerProperties lpServerProperties, User lpUser) {
+                srvupdateevent = true;
+            }
+        };
+        Log log = new Log();
+
+        TeamTalkSrv server = newServerInstance("", "", null, log);
+        
+        ServerInterleave interleave = new RunServer(server);
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = "guest";
+        useraccount.szPassword = "guest";
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.uUserRights = UserRight.USERRIGHT_NONE;
+        useraccounts.add(useraccount);
+
+        TeamTalkBase client = newClientInstance();
+        initSound(client);
+        connect(server, client);
+        login(server, client, getTestMethodName(), useraccount.szUsername, useraccount.szPassword);
+
+        ServerProperties properties = new ServerProperties();
+        assertTrue("get props", client.getServerProperties(properties));
+        properties.szServerName = properties.szServerName + "some more";
+        assertEquals("update properties", ClientError.CMDERR_SUCCESS, server.updateServer(properties));
+        TTMessage msg = new TTMessage();
+        assertTrue("update event", waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_SERVER_UPDATE, DEF_WAIT, msg, interleave));
+        assertEquals("update properties client", properties.szServerName, msg.serverproperties.szServerName);
+        assertTrue("log event", log.srvupdateevent);
+    }
+    
     // @Test
     public void _testRunServer() {
 
@@ -2205,6 +2241,10 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     }
 
     public TeamTalkSrv newServerInstance(String systemid, String bindip, EncryptionContext srvcontext) {
+        return newServerInstance(systemid, bindip, srvcontext, this.logger);
+    }
+    
+    public TeamTalkSrv newServerInstance(String systemid, String bindip, EncryptionContext srvcontext, ServerLogger logger) {
 
         TeamTalkSrv server = new TeamTalk5Srv(cmdcallback, logger);
         if (ENCRYPTED) {

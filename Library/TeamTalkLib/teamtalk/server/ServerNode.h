@@ -451,7 +451,7 @@ namespace teamtalk {
         virtual void OnFileDownloaded(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file) = 0;
         virtual void OnFileDeleted(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file) = 0;
 
-        virtual void OnServerUpdated(const ServerUser& user, const ServerSettings& srvprop) = 0;
+        virtual void OnServerUpdated(const ServerUser* user, const ServerSettings& srvprop) = 0;
         virtual void OnSaveConfiguration(const ServerUser* user = nullptr) = 0;
 
         virtual void OnShutdown(const ServerStats& stats) = 0;

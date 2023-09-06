@@ -3537,15 +3537,7 @@ ErrorMsg ServerNode::UserUpdateServer(int userid, const ServerSettings& properti
     if((user->GetUserRights() & USERRIGHT_UPDATE_SERVERPROPERTIES) == 0)
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
-    // log server save event if it is or was enabled
-    bool logevent = (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) || (properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG);
-    ErrorMsg err = UpdateServer(properties, user.get());
-    if (err.success() && logevent)
-    {
-        m_srvguard->OnServerUpdated(*user, properties);
-    }
-    
-    return err;
+    return UpdateServer(properties, user.get());
 }
 
 ErrorMsg ServerNode::UserSaveServerConfig(int userid)
@@ -3567,7 +3559,15 @@ ErrorMsg ServerNode::UserSaveServerConfig(int userid)
 ErrorMsg ServerNode::UpdateServer(const ServerSettings& properties,
                                   const ServerUser* user /*= nullptr*/)
 {
+    // log server save event if it is or was enabled
+    bool logevent = (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) ||
+                    (properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG);
     SetServerProperties(properties);
+
+    if (logevent)
+    {
+        m_srvguard->OnServerUpdated(user, properties);
+    }
 
     for (auto u : GetAuthorizedUsers())
         u->DoServerUpdate(m_properties);
