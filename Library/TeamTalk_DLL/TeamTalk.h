@@ -3962,6 +3962,9 @@ extern "C" {
         __JITTERCONFIG            = 41,
         __WEBRTCAUDIOPREPROCESSOR = 42,
         __ENCRYPTIONCONTEXT       = 43,
+        __SOUNDDEVICEEFFECTS       = 44,
+        __DESKTOPWINDOW       = 45,
+        __ABUSEPREVENTION       = 46,
     } TTType;
 
     /**
