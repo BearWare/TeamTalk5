@@ -949,7 +949,6 @@ INPUT                  = mainpage.md \
                          howto.md \
                          ttfiles.md \
                          server.md \
-                         accessibility.md \
                          advanced.md
 
 # This tag can be used to specify the character encoding of the source files

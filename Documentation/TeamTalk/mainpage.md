@@ -21,8 +21,6 @@ Follow the links below to each of the help sections.
       they can connect to your TeamTalk server or join your channel.
 - [TeamTalk Server Setup](server.md)
     - Learn how to set up your own TeamTalk server.
-- [Accessibility](accessibility.md)
-    - Information regarding TeamTalk 5 Classic for Accessibility.
 - [Advanced Topics](advanced.md)
     - Command line options, INI-file settings, etc. for TeamTalk client.
 
