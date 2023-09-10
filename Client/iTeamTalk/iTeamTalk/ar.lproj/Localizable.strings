@@ -57,7 +57,7 @@
 "Announce user joining channel" = "الإعلان عن انضمام المستخدم إلى القناة";
 
 /* preferences */
-"Announce user leaving channel" = "اعلان خروج المستخدم من القناة";
+"Announce user leaving channel" = "الاعلان عن خروج المستخدم من القناة";
 
 /* preferences */
 "Announce user logged onto server" = "الإعلان بأن المستخدم قد سجل دخوله الى الخادم";
@@ -93,7 +93,7 @@
 "Ban user" = "حظر المستخدم";
 
 /* server entry */
-"BearWare.dk Web Login" = "تسجيل الدخول الى BearWare.dk";
+"BearWare.dk Web Login" = "تسجيل الدخول عبر BearWare.dk";
 
 /* weblogin event */
 "BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "فشل BearWare.dk في المصادقة. تحقق من BearWare.dk في التفضيلات";
@@ -159,7 +159,7 @@
 "Connect to server" = "الاتصال بالخادم";
 
 /* connect to a server */
-"Connect to Server" = "Connect to Server";
+"Connect to Server" = "الاتصال بالخادم";
 
 /* preferences
    server entry */
@@ -222,7 +222,7 @@
 "Exclusive Mode Toggled" = "تبديل الوضع الحصري";
 
 /* connect to a server */
-"Failed to setup encryption" = "Failed to setup encryption";
+"Failed to setup encryption" = "فشل في إعداد التشفير";
 
 /* preferences */
 "Female" = "أنثى";
@@ -381,7 +381,7 @@
 "Noname" = "بدون اسم";
 
 /* serverlist */
-"Official server" = "الخادم الرسمي";
+"Official server" = "خادم رسمي";
 
 /* Dialog
    Dialog message
@@ -452,19 +452,19 @@
 "Preferences" = "الاعدادات";
 
 /* Sound Input */
-"Preferred" = "Preferred";
+"Preferred" = "مُفَضَّل";
 
 /* preferences */
-"Pressing Return-key sends text message" = "يؤدي الضغط على رجوع (Return) في لوحة المفاتيح, لإرسال رسالةاً نصيةاً";
+"Pressing Return-key sends text message" = "يؤدي الضغط على رجوع (Return) في لوحة المفاتيح, لإرسال رسالة نصية";
 
 /* text message type */
 "Private message" = "رسالة خاصة";
 
 /* preferences */
-"Private Text Message" = "رسالة نصية خاصة";
+"Private Text Message" = "رسالة خاصة";
 
 /* TTS EVENT */
-"Private text message from %@. %@" = "رسالة نصية خاصة من %@: %@";
+"Private text message from %@. %@" = "رسالة خاصة من %@: %@";
 
 /* preferences */
 "Proximity Sensor" = "مستشعر القرب";
@@ -598,7 +598,7 @@
 "The rate of the speaking voice is %.1f" = "سرعة الكلام للصوت المتحدث هي %.1f";
 
 /* preferences */
-"The volume of the speaking voice is %.1f" = "مستوى الصوت للصوت المتحدث هو %.1f";
+"The volume of the speaking voice is %.1f" = "مستوى صوت المتحدث هو %.1f";
 
 /* channel list */
 "Toggle to enable/disable transmission" = "تبديل لتمكين او  تعطيل الإرسال";
@@ -741,7 +741,7 @@
 "Yes" = "نعم";
 
 /* Dialog */
-"You have been kicked from channel" = "You have been kicked from channel";
+"You have been kicked from channel" = "تم طردك من القناة";
 
 /* Dialog */
 "You have been kicked from channel by %@" = "لقد تم طردك من القناة من قبل %@";

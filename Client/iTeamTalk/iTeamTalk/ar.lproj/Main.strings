@@ -86,7 +86,7 @@
 "Fu9-tA-eYj.text" = "فارغ";
 
 /* Class = "UIViewController"; title = "Chat Channel"; ObjectID = "gA8-TJ-0RU"; */
-"gA8-TJ-0RU.title" = "قناة الدردشة";
+"gA8-TJ-0RU.title" = "دردشة القناة";
 
 /* Class = "UILabel"; text = "Limit types of servers to show"; ObjectID = "GeK-hh-gst"; */
 "GeK-hh-gst.text" = "إظهار الخوادم العامة في قائمة الخوادم";
@@ -101,7 +101,7 @@
 "Hcv-zz-riB.text" = "تسجيل الدخول عبر الويب الى BearWare.dk";
 
 /* Class = "UITableViewCell"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
-"hqu-CX-Vn4.accessibilityHint" = "انقر نقراً مزدوجاً لتوسيع خيارات هذه القناة.";
+"hqu-CX-Vn4.accessibilityHint" = "انقر نقرًا مزدوجاً لتوسيع خيارات هذه القناة.";
 
 /* Class = "UITabBarItem"; title = "Messages"; ObjectID = "j1c-gJ-hO8"; */
 "j1c-gJ-hO8.title" = "الرسائل";
@@ -152,7 +152,7 @@
 "o7z-cC-U4w.title" = "تسجيل الدخول عبر الويب الى BearWare.dk";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
-"PaV-2Q-pt4.accessibilityLabel" = "اتصال زر";
+"PaV-2Q-pt4.accessibilityLabel" = "اتصال";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.normalTitle" = "اتصال";
