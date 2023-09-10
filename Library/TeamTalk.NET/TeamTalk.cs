@@ -150,7 +150,7 @@ namespace BearWare
          *
          * Duplex mode is not supported by AudioUnit iOS sound API. */
         SOUNDSYSTEM_AUDIOUNIT = 8,
-        /** @brief Same as #SoundSystem.SOUNDSYSTEM_AUDIOUNIT. */
+        /** @brief Same as #BearWare.SoundSystem.SOUNDSYSTEM_AUDIOUNIT. */
         SOUNDSYSTEM_AUDIOUNIT_IOS = SOUNDSYSTEM_AUDIOUNIT,
     }
 
@@ -186,7 +186,7 @@ namespace BearWare
          * @see TeamTalkBase.InitSoundDuplexDevices() */
         SOUNDDEVICEFEATURE_DUPLEXMODE = 0x0010,
         /** @brief The #BearWare.SoundDevice is the default communication device.
-         * This feature is only supported on #SoundSystem.SOUNDSYSTEM_WASAPI. */
+         * This feature is only supported on #BearWare.SoundSystem.SOUNDSYSTEM_WASAPI. */
         SOUNDDEVICEFEATURE_DEFAULTCOMDEVICE = 0x0020,
     }
 
@@ -240,7 +240,7 @@ namespace BearWare
          * @see WindowsMixer.GetMixerCount */
         public int nWaveDeviceID;
         /** @brief Whether the sound device supports 3D-sound
-         * effects. @deprecated Use #SoundDeviceFeature.SOUNDDEVICEFEATURE_3DPOSITION. */
+         * effects. @deprecated Use #BearWare.SoundDeviceFeature.SOUNDDEVICEFEATURE_3DPOSITION. */
         public bool bSupports3D;
         /** @brief The maximum number of input channels. */
         public int nMaxInputChannels;
@@ -281,7 +281,7 @@ namespace BearWare
          * @brief Enable Automatic Gain Control.
          *
          * This effect can be enabled on a #BearWare.SoundDevice that has
-         * #SoundDeviceFeature.SOUNDDEVICEFEATURE_AGC flag in @c uSoundDeviceFeatures.
+         * #BearWare.SoundDeviceFeature.SOUNDDEVICEFEATURE_AGC flag in @c uSoundDeviceFeatures.
          *
          * Supported platforms:
          * - Windows
@@ -297,7 +297,7 @@ namespace BearWare
          * @brief Enable noise suppression.
          *
          * This effect can be enabled on a #BearWare.SoundDevice that has
-         * #SoundDeviceFeature.SOUNDDEVICEFEATURE_DENOISE flag in @c
+         * #BearWare.SoundDeviceFeature.SOUNDDEVICEFEATURE_DENOISE flag in @c
          * uSoundDeviceFeatures.
          *
          * Supported platforms:
@@ -314,7 +314,7 @@ namespace BearWare
          * @brief Enable echo cancellation.
          *
          * This effect can be enabled on a #BearWare.SoundDevice that has
-         * #SoundDeviceFeature.SOUNDDEVICEFEATURE_AEC flag in @c uSoundDeviceFeatures.
+         * #BearWare.SoundDeviceFeature.SOUNDDEVICEFEATURE_AEC flag in @c uSoundDeviceFeatures.
          *
          * Supported platforms:
          * - Windows
@@ -338,13 +338,13 @@ namespace BearWare
         /** @brief Sound device ID for iOS AudioUnit subtype Voice-Processing
          * I/O Unit.
          * This sound device ID include the flag
-         * #TT_SOUNDDEVICE_ID_SHARED_FLAG since multiple streams cannot be
+         * #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG since multiple streams cannot be
          * recorded/played on the device. @see SoundSystem.SOUNDSYSTEM_AUDIOUNIT */
         public const int TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO = (1 | (int)TT_SOUNDDEVICE_ID_SHARED_FLAG);
         /** @brief Sound device ID for Android OpenSL ES default audio
          * device. Note that this sound device may also exist in the form
          * where the @c nDeviceID as been or'ed with
-         * #TT_SOUNDDEVICE_ID_SHARED_FLAG. @see SOUNDSYSTEM_OPENSLES_ANDROID */        
+         * #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG. @see SOUNDSYSTEM_OPENSLES_ANDROID */        
         public const int TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT = 0;
         /** @brief Sound device ID for Android OpenSL ES voice communication
          * mode. This device uses the OpenSL ES' AndroidConfiguration @c
@@ -368,7 +368,7 @@ namespace BearWare
          * On Android the recording device can only be used by one TeamTalk
          * instance. As a workaround for this issue a shared recording device
          * has been introduced. Internally TeamTalk initializes
-         * #TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT which then resample and
+         * #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT which then resample and
          * distribution the audio data to multiple TeamTalk instances.
          *
          * The shared audio device on Android will show up as
@@ -427,7 +427,7 @@ namespace BearWare
          * @brief The maximum gain level. 
          *
          * A gain level of 32000 gains the volume by a factor 32.  A gain
-         * level of #SOUND_GAIN_DEFAULT means no gain.
+         * level of #BearWare.SoundLevel.SOUND_GAIN_DEFAULT means no gain.
          *
          * @see BearWare.TeamTalkBase.SetSoundInputGainLevel
          * @see BearWare.TeamTalkBase.GetSoundInputGainLevel */
@@ -435,8 +435,8 @@ namespace BearWare
         /**
          * @brief The default gain level.
          *
-         * A gain level of 1000 means no gain. Check #SOUND_GAIN_MAX
-         * and #SOUND_GAIN_MIN to see how to increase and lower gain
+         * A gain level of 1000 means no gain. Check #BearWare.SoundLevel.SOUND_GAIN_MAX
+         * and #BearWare.SoundLevel.SOUND_GAIN_MIN to see how to increase and lower gain
          * level.
          *
          * @see BearWare.TeamTalkBase.SetSoundInputGainLevel
@@ -499,7 +499,7 @@ namespace BearWare
          * multiple sources it can be useful to know what stream types
          * were mixed together to generate the AudioBlock.
          *
-         * If 'uStreamTypes' is #StreamType.STREAMTYPE_NONE it means that silence
+         * If 'uStreamTypes' is #BearWare.StreamType.STREAMTYPE_NONE it means that silence
          * was inserted. Silence is inserted if no audio was available
          * for mixing or the duration from last audio packet was
          * received and until @c nStoppedDelayVoice of #BearWare.User has
@@ -555,13 +555,13 @@ namespace BearWare
         AFF_WAVE_FORMAT = 2,
         /** @brief Store in MP3-format. */
         AFF_MP3_16KBIT_FORMAT = 3,
-        /** @see #AudioFileFormat.AFF_MP3_16KBIT_FORMAT */
+        /** @see #BearWare.AudioFileFormat.AFF_MP3_16KBIT_FORMAT */
         AFF_MP3_32KBIT_FORMAT = 4,
-        /** @see #AudioFileFormat.AFF_MP3_16KBIT_FORMAT */
+        /** @see #BearWare.AudioFileFormat.AFF_MP3_16KBIT_FORMAT */
         AFF_MP3_64KBIT_FORMAT = 5,
-        /** @see #AudioFileFormat.AFF_MP3_16KBIT_FORMAT */
+        /** @see #BearWare.AudioFileFormat.AFF_MP3_16KBIT_FORMAT */
         AFF_MP3_128KBIT_FORMAT = 6,
-        /** @see #AudioFileFormat.AFF_MP3_16KBIT_FORMAT */
+        /** @see #BearWare.AudioFileFormat.AFF_MP3_16KBIT_FORMAT */
         AFF_MP3_256KBIT_FORMAT = 7,
     }
 
@@ -917,7 +917,7 @@ namespace BearWare
          * Speex uses 20 msec frame sizes. Recommended is 40 msec. Min
          * is 20, max is 500 msec.
          *
-         * The #SoundSystem must be able to process audio packets at
+         * The #BearWare.SoundSystem must be able to process audio packets at
          * this interval. In most cases this makes less than 40 msec
          * transmission interval unfeasible. */
         [FieldOffset(8)]
@@ -1182,7 +1182,7 @@ namespace BearWare
          * TeamTalkBase.InitSoundDuplexDevices(). This is because the echo canceller
          * must first mixed all audio streams into a single stream and
          * have then run in synch with the input stream. After calling
-         * TeamTalkBase.InitSoundDuplexDevices() the flag #ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX
+         * TeamTalkBase.InitSoundDuplexDevices() the flag #BearWare.ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX
          * will be set.
          *
          * For echo cancellation to work the sound input and output device
@@ -1469,13 +1469,13 @@ namespace BearWare
         /** @brief The audio preprocessor to use in the union of audio preprocessors. */
         [FieldOffset(0)]
         public AudioPreprocessorType nPreprocessor;
-        /** @brief Used when @c nPreprocessor is #AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR. */
+        /** @brief Used when @c nPreprocessor is #BearWare.AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR. */
         [FieldOffset(4)]
         public SpeexDSP speexdsp;
-        /** @brief Used when @c nPreprocessor is #AudioPreprocessorType.TEAMTALK_AUDIOPREPROCESSOR. */
+        /** @brief Used when @c nPreprocessor is #BearWare.AudioPreprocessorType.TEAMTALK_AUDIOPREPROCESSOR. */
         [FieldOffset(4)]
         public TTAudioPreprocessor ttpreprocessor;
-        /** @brief Used when @c nPreprocessor is #AudioPreprocessorType.WEBRTC_AUDIOPREPROCESSOR. */
+        /** @brief Used when @c nPreprocessor is #BearWare.AudioPreprocessorType.WEBRTC_AUDIOPREPROCESSOR. */
         [FieldOffset(4)]
         public WebRTCAudioPreprocessor webrtc;
     }
@@ -1567,11 +1567,11 @@ namespace BearWare
         [FieldOffset(0)]
         public Codec nCodec;
         /** @brief Speex codec settings if @a nCodec is
-         * #Codec.SPEEX_CODEC. */
+         * #BearWare.Codec.SPEEX_CODEC. */
         [FieldOffset(4)]
         public SpeexCodec speex;
         /** @brief Speex codec settings if @a nCodec is
-         * #Codec.SPEEX_VBR_CODEC */
+         * #BearWare.Codec.SPEEX_VBR_CODEC */
         [FieldOffset(4)]
         public SpeexVBRCodec speex_vbr;
         /** @brief Opus codec settings if @a nCodec is
@@ -1737,7 +1737,7 @@ namespace BearWare
          * @see TeamTalkBase.DoMakeChannel() */
         USERRIGHT_MODIFY_CHANNELS                   = 0x00000008,
         /** @brief User can broadcast text message of type 
-         * #TextMsgType.MSGTYPE_BROADCAST to all users. */
+         * #BearWare.TextMsgType.MSGTYPE_BROADCAST to all users. */
         USERRIGHT_TEXTMESSAGE_BROADCAST             = 0x00000010,
         /** @brief User can kick users off the server. @see TeamTalkBase.DoKickUser() */
         USERRIGHT_KICK_USERS                        = 0x00000020,
@@ -1790,9 +1790,9 @@ namespace BearWare
           * cannot be used. */
         USERRIGHT_LOCKED_STATUS                     = 0x00080000,
         /** @brief User can record voice in all channels. Even channels
-         * with #ChannelType.CHANNEL_NO_RECORDING. */
+         * with #BearWare.ChannelType.CHANNEL_NO_RECORDING. */
         USERRIGHT_RECORD_VOICE                      = 0x00100000,
-        /** @brief User can see hidden channels, #ChannelType.CHANNEL_HIDDEN. */
+        /** @brief User can see hidden channels, #BearWare.ChannelType.CHANNEL_HIDDEN. */
         USERRIGHT_VIEW_HIDDEN_CHANNELS              = 0x00200000,
         /** @brief User with all rights.*/
         USERRIGHT_ALL                               = 0xFFFFFFFF & ~USERRIGHT_LOCKED_NICKNAME & ~USERRIGHT_LOCKED_STATUS
@@ -1940,7 +1940,7 @@ namespace BearWare
         /** @brief Number of msec before an IP-address can make
          * another login attempt. If less than this amount then
          * TeamTalkBase.DoLogin() will result in
-         * #ClientError.CMDERR_MAX_LOGINS_PER_IPADDRESS_EXCEEDED. Zero means
+         * #BearWare.ClientError.CMDERR_MAX_LOGINS_PER_IPADDRESS_EXCEEDED. Zero means
          * disabled.
          * 
          * Also checkout @c nMaxLoginAttempts and @c
@@ -2116,11 +2116,11 @@ namespace BearWare
         /** @brief The account's password. */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
         public string szPassword;
-        /** @brief A bitmask of the type of user based on #UserType. */
+        /** @brief A bitmask of the type of user based on #BearWare.UserType. */
         public UserType uUserType;
-        /** @brief A bitmask based on #UserRight which specifies the rights 
+        /** @brief A bitmask based on #BearWare.UserRight which specifies the rights 
          * the user have who logs onto the server. A user of type 
-         * #UserType.USERTYPE_ADMIN by default has all rights. */
+         * #BearWare.UserType.USERTYPE_ADMIN by default has all rights. */
         public UserRight uUserRights;
         /** @brief A user data field which can be used for additional
          * information. The @a nUserData field of the #BearWare.User struct will
@@ -2136,7 +2136,7 @@ namespace BearWare
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
         public string szInitChannel;
         /** @brief Channels where this user will automatically become channel
-         * operator when joining. The channels must be of type #ChannelType.CHANNEL_PERMANENT.
+         * operator when joining. The channels must be of type #BearWare.ChannelType.CHANNEL_PERMANENT.
          * @see TeamTalkBase.DoChannelOp() */
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = TeamTalkBase.TT_CHANNELS_OPERATOR_MAX)]
         public int[] autoOperatorChannels;
@@ -2183,58 +2183,58 @@ namespace BearWare
         /** @brief No subscriptions. */
         SUBSCRIBE_NONE = 0x00000000,
         /** @brief Subscribing to user text messages.
-         * @see #TextMsgType.MSGTYPE_USER. */
+         * @see #BearWare.TextMsgType.MSGTYPE_USER. */
         SUBSCRIBE_USER_MSG = 0x00000001,
         /** @brief Subscribing to channel texxt messages.
-         * @see #TextMsgType.MSGTYPE_CHANNEL. */
+         * @see #BearWare.TextMsgType.MSGTYPE_CHANNEL. */
         SUBSCRIBE_CHANNEL_MSG = 0x00000002,
         /** @brief Subscribing to broadcast text messsages. 
-         * @see #TextMsgType.MSGTYPE_BROADCAST.*/
+         * @see #BearWare.TextMsgType.MSGTYPE_BROADCAST.*/
         SUBSCRIBE_BROADCAST_MSG = 0x00000004,
         /** @brief Subscribing to custom user messages. 
-         * @see #TextMsgType.MSGTYPE_CUSTOM. */
+         * @see #BearWare.TextMsgType.MSGTYPE_CUSTOM. */
         SUBSCRIBE_CUSTOM_MSG = 0x00000008,
-        /** @brief Subscribing to #StreamType.STREAMTYPE_VOICE. */
+        /** @brief Subscribing to #BearWare.StreamType.STREAMTYPE_VOICE. */
         SUBSCRIBE_VOICE = 0x00000010,
-        /** @brief Subscribing to #StreamType.STREAMTYPE_VIDEOCAPTURE. */
+        /** @brief Subscribing to #BearWare.StreamType.STREAMTYPE_VIDEOCAPTURE. */
         SUBSCRIBE_VIDEOCAPTURE = 0x00000020,
-        /** @brief Subscribing to #StreamType.STREAMTYPE_DESKTOP. */
+        /** @brief Subscribing to #BearWare.StreamType.STREAMTYPE_DESKTOP. */
         SUBSCRIBE_DESKTOP = 0x00000040,
-        /** @brief Subscribing to #StreamType.STREAMTYPE_DESKTOPINPUT.
+        /** @brief Subscribing to #BearWare.StreamType.STREAMTYPE_DESKTOPINPUT.
          * @see TeamTalkBase.GetUserDesktopInput()
          * @see TeamTalkBase.SendDesktopInput() */
         SUBSCRIBE_DESKTOPINPUT = 0x00000080,
-        /** @brief Subscribing to #StreamType.STREAMTYPE_MEDIAFILE_VIDEO and
-         * #StreamType.STREAMTYPE_MEDIAFILE_AUDIO. */
+        /** @brief Subscribing to #BearWare.StreamType.STREAMTYPE_MEDIAFILE_VIDEO and
+         * #BearWare.StreamType.STREAMTYPE_MEDIAFILE_AUDIO. */
         SUBSCRIBE_MEDIAFILE = 0x00000100,
         /** @brief Intercept all user text messages sent by a
-        * user. Only user-type #UserType.USERTYPE_ADMIN can do this. */
+        * user. Only user-type #BearWare.UserType.USERTYPE_ADMIN can do this. */
         SUBSCRIBE_INTERCEPT_USER_MSG = 0x00010000,
         /** @brief Intercept all channel messages sent by a user. Only
-        * user-type #UserType.USERTYPE_ADMIN can do this. */
+        * user-type #BearWare.UserType.USERTYPE_ADMIN can do this. */
         SUBSCRIBE_INTERCEPT_CHANNEL_MSG = 0x00020000,
         /* unused SUBSCRIBE_INTERCEPT_BROADCAST_MSG = 0x00040000 */
         /** @brief Intercept all custom text messages sent by user. 
-         * Only user-type #UserType.USERTYPE_ADMIN can do this.  */
+         * Only user-type #BearWare.UserType.USERTYPE_ADMIN can do this.  */
         SUBSCRIBE_INTERCEPT_CUSTOM_MSG = 0x00080000,
         /** @brief Intercept all voice sent by a user. Only user-type
-         * #UserType.USERTYPE_ADMIN can do this. By enabling this subscription an
+         * #BearWare.UserType.USERTYPE_ADMIN can do this. By enabling this subscription an
          * administrator can listen to audio sent by users outside his
          * own channel. */
         SUBSCRIBE_INTERCEPT_VOICE = 0x00100000,
         /** @brief Intercept all video sent by a user. Only user-type
-         * #UserType.USERTYPE_ADMIN can do this. By enabling this subscription an
+         * #BearWare.UserType.USERTYPE_ADMIN can do this. By enabling this subscription an
          * administrator can receive video frames sent by users
          * outside his own channel. */
         SUBSCRIBE_INTERCEPT_VIDEOCAPTURE = 0x00200000,
         /** @brief Intercept all desktop data sent by a user. Only
-         * user-type #UserType.USERTYPE_ADMIN can do this. By enabling this
+         * user-type #BearWare.UserType.USERTYPE_ADMIN can do this. By enabling this
          * subscription an administrator can views desktops
          * sent by users outside his own channel. */
         SUBSCRIBE_INTERCEPT_DESKTOP = 0x00400000,
         /* unused SUBSCRIBE_INTERCEPT_DESKTOPINPUT = 0x00800000, */
         /** @brief Intercept all media file data sent by a user. Only user-type
-         * #UserType.USERTYPE_ADMIN can do this. By enabling this subscription an
+         * #BearWare.UserType.USERTYPE_ADMIN can do this. By enabling this subscription an
          * administrator can listen to media files sent by users outside his
          * own channel. */
         SUBSCRIBE_INTERCEPT_MEDIAFILE = 0x01000000,
@@ -2249,7 +2249,7 @@ namespace BearWare
         /** @brief The user is in initial state. */
         USERSTATE_NONE                                  = 0x0000000,
         /** @brief If set the user is currently talking. If this flag
-         * changes the event #ClientEvent.CLIENTEVENT_USER_STATECHANGE is
+         * changes the event #BearWare.ClientEvent.CLIENTEVENT_USER_STATECHANGE is
          * posted. */
         USERSTATE_VOICE                                 = 0x00000001,
         /** @brief If set the user's voice is muted. @see TeamTalkBase.SetUserMute */
@@ -2259,26 +2259,26 @@ namespace BearWare
         USERSTATE_MUTE_MEDIAFILE                        = 0x00000004,
         /** @brief If set the user currently has an active desktop
          * session. If this flag changes the event
-         * #ClientEvent.CLIENTEVENT_USER_STATECHANGE is posted.  @see
+         * #BearWare.ClientEvent.CLIENTEVENT_USER_STATECHANGE is posted.  @see
          * TeamTalkBase.SendDesktopWindow(). */
         USERSTATE_DESKTOP                               = 0x00000008,
         /** @brief If set the user currently has an active video
          * stream.  If this flag changes the event
-         * #ClientEvent.CLIENTEVENT_USER_STATECHANGE is posted.  @see
+         * #BearWare.ClientEvent.CLIENTEVENT_USER_STATECHANGE is posted.  @see
          * CLIENTEVENT_USER_VIDEOCAPTURE. */
         USERSTATE_VIDEOCAPTURE                          = 0x00000010,
         /** @brief If set the user currently streams an audio file. If
          * user is streaming a video file with audio then this value
          * is also set.  If this flag changes the event
-         * #ClientEvent.CLIENTEVENT_USER_STATECHANGE is posted.  @see
+         * #BearWare.ClientEvent.CLIENTEVENT_USER_STATECHANGE is posted.  @see
          * TeamTalkBase.StartStreamingMediaFile() */
         USERSTATE_MEDIAFILE_AUDIO                       = 0x00000020,
         /** @brief If set the user currently streams a video file.  If
-         * this flag changes the event #ClientEvent.CLIENTEVENT_USER_STATECHANGE
+         * this flag changes the event #BearWare.ClientEvent.CLIENTEVENT_USER_STATECHANGE
          * is posted.  @see TeamTalkBase.StartStreamingMediaFile() */
         USERSTATE_MEDIAFILE_VIDEO                       = 0x00000040,
         /** @brief If set user is streaming a media file.  If this
-         * flag changes the event #ClientEvent.CLIENTEVENT_USER_STATECHANGE is
+         * flag changes the event #BearWare.ClientEvent.CLIENTEVENT_USER_STATECHANGE is
          * posted.  @see TeamTalkBase.StartStreamingMediaFile() */
         USERSTATE_MEDIAFILE                             = USERSTATE_MEDIAFILE_AUDIO |
                                                           USERSTATE_MEDIAFILE_VIDEO
@@ -2322,35 +2322,35 @@ namespace BearWare
         /** @brief The channel which the user is currently
          * participating in. 0 if none. This value can change as a
          * result of TeamTalkBase.DoJoinChannel() or TeamTalkBase.DoLeaveChannel(). Events
-         * #ClientEvent.CLIENTEVENT_CMD_USER_JOINED and #ClientEvent.CLIENTEVENT_CMD_USER_LEFT
+         * #BearWare.ClientEvent.CLIENTEVENT_CMD_USER_JOINED and #BearWare.ClientEvent.CLIENTEVENT_CMD_USER_LEFT
          * are posted when this value changes. */
         public int nChannelID; 
         /** @brief A bitmask of what the local user subscribes to from
          * this user. Invoking TeamTalkBase.DoSubscribe() and TeamTalkBase.DoUnsubscribe()
          * on the local client instance can change this value. Event
-         * #ClientEvent.CLIENTEVENT_CMD_USER_UPDATE is posted if this value
+         * #BearWare.ClientEvent.CLIENTEVENT_CMD_USER_UPDATE is posted if this value
          * changes. */
         public Subscription uLocalSubscriptions;
         /** @brief A bitmask of what this user subscribes to from
          * local client instance. Invoking TeamTalkBase.DoSubscribe() and
          * TeamTalkBase.DoUnsubscribe() on the remoe client instance can change
-         * this value. Event #ClientEvent.CLIENTEVENT_CMD_USER_UPDATE is posted if
+         * this value. Event #BearWare.ClientEvent.CLIENTEVENT_CMD_USER_UPDATE is posted if
          * this value changes. */
         public Subscription uPeerSubscriptions;
          /** @brief The user's nickname. Invoking
           * TeamTalkBase.DoChangeNickname() changes this value. Event
-          * #ClientEvent.CLIENTEVENT_CMD_USER_UPDATE is posted if this value
+          * #BearWare.ClientEvent.CLIENTEVENT_CMD_USER_UPDATE is posted if this value
           * changes. */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
         public string szNickname;
         /** @brief The user's current status mode. Invoke
          * TeamTalkBase.DoChangeStatus() to change this value. Event
-         * #ClientEvent.CLIENTEVENT_CMD_USER_UPDATE is posted if this value
+         * #BearWare.ClientEvent.CLIENTEVENT_CMD_USER_UPDATE is posted if this value
          * changes. */
         public int nStatusMode;
         /** @brief The user's current status message. Invoke
          * TeamTalkBase.DoChangeStatus() to change this value. Event
-         * #ClientEvent.CLIENTEVENT_CMD_USER_UPDATE is posted if this value
+         * #BearWare.ClientEvent.CLIENTEVENT_CMD_USER_UPDATE is posted if this value
          * changes. */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
         public string szStatusMsg;
@@ -2477,15 +2477,15 @@ namespace BearWare
          * type can be sent across channels. */
         MSGTYPE_USER        = 1,
         /** @brief A User to channel text message. Users of type
-         * #UserType.USERTYPE_DEFAULT can only send this text message to the
+         * #BearWare.UserType.USERTYPE_DEFAULT can only send this text message to the
          * channel they're participating in, whereas users of type
-         * #UserType.USERTYPE_ADMIN can send to any channel. */
+         * #BearWare.UserType.USERTYPE_ADMIN can send to any channel. */
         MSGTYPE_CHANNEL     = 2,
         /** @brief A broadcast message. Requires
-         * #UserRight.USERRIGHT_TEXTMESSAGE_BROADCAST. */
+         * #BearWare.UserRight.USERRIGHT_TEXTMESSAGE_BROADCAST. */
         MSGTYPE_BROADCAST   = 3,
         /** @brief A custom user to user text message. Works the same
-         * way as #TextMsgType #TextMsgType.MSGTYPE_USER. */
+         * way as #BearWare.TextMsgType #BearWare.TextMsgType.MSGTYPE_USER. */
         MSGTYPE_CUSTOM = 4
     }
 
@@ -2508,8 +2508,8 @@ namespace BearWare
         public string szFromUsername;
         /** @brief Set to zero if channel message. */
         public int nToUserID;
-        /** @brief Set to zero if @a nMsgType is #TextMsgType #TextMsgType.MSGTYPE_USER or
-         * #TextMsgType #TextMsgType.MSGTYPE_BROADCAST. */
+        /** @brief Set to zero if @a nMsgType is #BearWare.TextMsgType #BearWare.TextMsgType.MSGTYPE_USER or
+         * #BearWare.TextMsgType #BearWare.TextMsgType.MSGTYPE_BROADCAST. */
         public int nChannelID;
         /** @brief The actual text message. The message can be
          * multi-line (include EOL)  */
@@ -2546,7 +2546,7 @@ namespace BearWare
          * TeamTalkBase.DoUpdateChannel().
          *
          * @see TeamTalkBase.IsChannelOperator
-         * @see #UserType.USERTYPE_ADMIN */
+         * @see #BearWare.UserType.USERTYPE_ADMIN */
         CHANNEL_CLASSROOM = 0x0004,
         /** @brief Only channel operators (and administrators) will receive 
          * audio/video/desktop transmissions. Default channel users 
@@ -2559,7 +2559,7 @@ namespace BearWare
         /** @brief Don't allow recording to files in the channel. */
         CHANNEL_NO_RECORDING                                    = 0x0020,
         /** @brief Hidden channel which can only be seen with
-         * #UserRight.USERRIGHT_VIEW_HIDDEN_CHANNELS. */
+         * #BearWare.UserRight.USERRIGHT_VIEW_HIDDEN_CHANNELS. */
         CHANNEL_HIDDEN                                          = 0x0040,
     }
 
@@ -2591,7 +2591,7 @@ namespace BearWare
         public string szTopic;
         /** @brief Password to join the channel.  When extracted
          * through TeamTalkBase.GetChannel() the password will only be set for
-         * users of user-type #UserType #UserType.USERTYPE_ADMIN. */
+         * users of user-type #BearWare.UserType #BearWare.UserType.USERTYPE_ADMIN. */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
         public string szPassword;
         /** @brief Whether password is required to join channel. Read-only 
@@ -2601,7 +2601,7 @@ namespace BearWare
         public ChannelType uChannelType;
         /** @brief User specific data which will be stored on
          * persistent storage on the server if the channel type is
-         * #ChannelType.CHANNEL_PERMANENT. */
+         * #BearWare.ChannelType.CHANNEL_PERMANENT. */
         public int nUserData;
         /** @brief Number of bytes available for file storage. */
         public long nDiskQuota;
@@ -2621,16 +2621,16 @@ namespace BearWare
          * @c transmitUsers is a 2-dimensional array which specifies
          * who can transmit to the channel.
          *
-         * If @c uChannelType is set to #ChannelType.CHANNEL_CLASSROOM then only
+         * If @c uChannelType is set to #BearWare.ChannelType.CHANNEL_CLASSROOM then only
          * the users in @c transmitUsers are allowed to transmit. 
          *
          * In TeamTalk v5.4 and onwards adding a user ID to @c
          * transmitUsers will block the user from transmitting if the
-         * #BearWare.ChannelType is not #ChannelType.CHANNEL_CLASSROOM. Basically the
-         * opposite effect of #ChannelType.CHANNEL_CLASSROOM.
+         * #BearWare.ChannelType is not #BearWare.ChannelType.CHANNEL_CLASSROOM. Basically the
+         * opposite effect of #BearWare.ChannelType.CHANNEL_CLASSROOM.
          * 
          * To specify user ID 46 can transmit voice to a
-         * #ChannelType.CHANNEL_CLASSROOM channel is done by assigning the
+         * #BearWare.ChannelType.CHANNEL_CLASSROOM channel is done by assigning the
          * following:
          *
          * @verbatim
@@ -2639,7 +2639,7 @@ namespace BearWare
          * @endverbatim
          *
          * To specify user ID 46 can transmit both voice and video
-         * capture to a #ChannelType.CHANNEL_CLASSROOM channel is done by
+         * capture to a #BearWare.ChannelType.CHANNEL_CLASSROOM channel is done by
          * assigning the following:
          *
          * @verbatim
@@ -2655,8 +2655,8 @@ namespace BearWare
          * transmitUsers[0][1] = StreamType.STREAMTYPE_NONE;
          * @endverbatim
          *
-         * To allow all users of a #ChannelType.CHANNEL_CLASSROOM channel to
-         * transmit a specific #StreamType is done like this:
+         * To allow all users of a #BearWare.ChannelType.CHANNEL_CLASSROOM channel to
+         * transmit a specific #BearWare.StreamType is done like this:
          *
          * @verbatim
          * transmitUsers[0][0] = TeamTalkBase.TT_CLASSROOM_FREEFORALL;
@@ -2683,7 +2683,7 @@ namespace BearWare
         /** @brief Delay for switching to next active voice user in 
          * @c transmitUsersQueue.
          * 
-         * In channels of type #ChannelType.CHANNEL_SOLO_TRANSMIT only one user can 
+         * In channels of type #BearWare.ChannelType.CHANNEL_SOLO_TRANSMIT only one user can 
          * transmit voice. When user has stopped transmitting this value
          * specifies the delay before switching to next user in 
          * @c transmitUsersQueue. Default value is 500 msec. */
@@ -2715,7 +2715,7 @@ namespace BearWare
                 transmitUsers[i * 2 + 1] |= (int)uStreamType;
             }
         }
-        /** @brief Helper function for getting the #StreamType a user
+        /** @brief Helper function for getting the #BearWare.StreamType a user
          * can transmit by querying @c transmitUsers. */
         public StreamType GetTransmitStreamTypes(int nUserID)
         {
@@ -2727,7 +2727,7 @@ namespace BearWare
             }
             return StreamType.STREAMTYPE_NONE;
         }
-        /** @brief Get the number of users who can currently transmit to the #ChannelType.CHANNEL_CLASSROOM. */
+        /** @brief Get the number of users who can currently transmit to the #BearWare.ChannelType.CHANNEL_CLASSROOM. */
         public int GetTransmitUserCount()
         {
             int i;
@@ -2738,7 +2738,7 @@ namespace BearWare
             }
             return i;
         }
-        /** @brief Helper function for removing a #StreamType for a user in @c transmitUsers. */
+        /** @brief Helper function for removing a #BearWare.StreamType for a user in @c transmitUsers. */
         public void RemoveTransmitUser(int nUserID, StreamType uStreamType)
         {
             int i;
@@ -2938,7 +2938,7 @@ namespace BearWare
          * then the client will afterwards try to connect on server's
          * UDP port. If the client cannot connect on UDP before the
          * time specified by @c nUdpConnectTimeoutMSec then the client
-         * instance will report #ClientEvent.CLIENTEVENT_CON_FAILED. */
+         * instance will report #BearWare.ClientEvent.CLIENTEVENT_CON_FAILED. */
         public int nUdpConnectTimeoutMSec;
     }
 
@@ -3281,10 +3281,10 @@ namespace BearWare
          * Added in TeamTalk v5.3 to support web-logins. */
         CMDERR_LOGINSERVICE_UNAVAILABLE         = 3016,
 
-        /** @brief Cannot apply #ChannelType.CHANNEL_HIDDEN to #BearWare.Channel's channel type.
+        /** @brief Cannot apply #BearWare.ChannelType.CHANNEL_HIDDEN to #BearWare.Channel's channel type.
          *
          * A hidden channel cannot contain subchannels or have it
-         * #ChannelType.CHANNEL_HIDDEN property toggled. */
+         * #BearWare.ChannelType.CHANNEL_HIDDEN property toggled. */
         CMDERR_CHANNEL_CANNOT_BE_HIDDEN         = 3017,
             
         /* ERRORS 10000-10999 ARE NOT COMMAND ERRORS BUT INSTEAD
@@ -3304,7 +3304,7 @@ namespace BearWare
          * Ensure the settings specified in #BearWare.AudioCodec are valid.
          * @see TeamTalkBase.DoJoinChannel() */
         INTERR_AUDIOCODEC_INIT_FAILED           = 10002,
-        /** @brief Same as #ClientError.INTERR_AUDIOPREPROCESSOR_INIT_FAILED. */
+        /** @brief Same as #BearWare.ClientError.INTERR_AUDIOPREPROCESSOR_INIT_FAILED. */
         INTERR_SPEEXDSP_INIT_FAILED = 10003,
         /** @brief #BearWare.AudioPreprocessor failed to initialize.
          *
@@ -3334,7 +3334,7 @@ namespace BearWare
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct ClientErrorMsg
     {
-        /** @brief Error number based on #ClientError. */
+        /** @brief Error number based on #BearWare.ClientError. */
         public int nErrorNo;
         /** @brief Text message describing the error. */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
@@ -3362,7 +3362,7 @@ namespace BearWare
          * server.
          *
          * @param nSource 0
-         * @param ttType #TTType.__NONE
+         * @param ttType #BearWare.TTType.__NONE
          * @see TeamTalkBase.Connect */
         CLIENTEVENT_CON_SUCCESS = CLIENTEVENT_NONE + 10,
         /** 
@@ -3372,7 +3372,7 @@ namespace BearWare
          * TeamTalkBase.Disconnect() before calling TeamTalkBase.Connect() again.
          *
          * @param nSource 0
-         * @param ttType #TTType.__NONE
+         * @param ttType #BearWare.TTType.__NONE
          * @see TeamTalkBase.Connect */
         CLIENTEVENT_CON_FAILED = CLIENTEVENT_NONE + 20,
         /** 
@@ -3388,7 +3388,7 @@ namespace BearWare
          * again.
          *
          * @param nSource 0
-         * @param ttType #TTType.__NONE
+         * @param ttType #BearWare.TTType.__NONE
          * @see TeamTalkBase.Connect */
         CLIENTEVENT_CON_LOST = CLIENTEVENT_NONE + 30,
         /**
@@ -3448,11 +3448,11 @@ namespace BearWare
          *
          * The call to TeamTalkBase.DoLogin() was successful and all channels on
          * the server will be posted in the event
-         * #ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW immediately following this
-         * event. If #UserRight.USERRIGHT_VIEW_ALL_USERS is enabled the client
+         * #BearWare.ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW immediately following this
+         * event. If #BearWare.UserRight.USERRIGHT_VIEW_ALL_USERS is enabled the client
          * instance will also receive the events
-         * #ClientEvent.CLIENTEVENT_CMD_USER_LOGGEDIN and
-         * #ClientEvent.CLIENTEVENT_CMD_USER_JOINED for every user on the server.
+         * #BearWare.ClientEvent.CLIENTEVENT_CMD_USER_LOGGEDIN and
+         * #BearWare.ClientEvent.CLIENTEVENT_CMD_USER_JOINED for every user on the server.
          *
          * @param nSource The client instance's user ID, i.e. what can now 
          * be retrieved through TeamTalkBase.GetMyUserID().
@@ -3632,11 +3632,11 @@ namespace BearWare
          *
          * The user state changes if:
          * - A user has started/stopped voice stream,
-         *   i.e. #UserState.USERSTATE_VOICE
+         *   i.e. #BearWare.UserState.USERSTATE_VOICE
          * - A user has started/stopped a video capture stream,
-         *   i.e. #UserState.USERSTATE_VIDEOCAPTURE
+         *   i.e. #BearWare.UserState.USERSTATE_VIDEOCAPTURE
          * - A user has started/stopped a media file stream, i.e.
-         *   i.e. #UserState.USERSTATE_MEDIAFILE_AUDIO or #UserState.USERSTATE_MEDIAFILE_VIDEO
+         *   i.e. #BearWare.UserState.USERSTATE_MEDIAFILE_AUDIO or #BearWare.UserState.USERSTATE_MEDIAFILE_VIDEO
          *
          * @param nSource 0
          * @param ttType #TTType.__USER.
@@ -3706,7 +3706,7 @@ namespace BearWare
          * This event is generated if a remote user has called
          * TeamTalkBase.SendDesktopInput(). In order for the local client
          * instance to receive desktop input it must have enabled the
-         * subscription #Subscription.SUBSCRIBE_DESKTOPINPUT.
+         * subscription #BearWare.Subscription.SUBSCRIBE_DESKTOPINPUT.
          *
          * Due to different keyboard layout it might be a good idea 
          * to look into the key-translation function 
@@ -3735,8 +3735,8 @@ namespace BearWare
         /**
          * @brief A new audio block can be extracted.
          *
-         * The #BearWare.AudioBlock can either be of #StreamType.STREAMTYPE_VOICE or
-         * #StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
+         * The #BearWare.AudioBlock can either be of #BearWare.StreamType.STREAMTYPE_VOICE or
+         * #BearWare.StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
          * 
          * This event is only generated if TeamTalkBase.EnableAudioBlockEvent()
          * is first called.
@@ -3752,7 +3752,7 @@ namespace BearWare
          * This can e.g. happen if a new user joins a channel and
          * a sound output device fails to start a new audio stream.
          *
-         * For at list of internal error messages check out #ClientError
+         * For at list of internal error messages check out #BearWare.ClientError
          * with errors prefixed @c INTERR_*
          *
          * @param nSource 0
@@ -3825,7 +3825,7 @@ namespace BearWare
          * @brief Used for tracking when a desktop window has been
          * transmitted to the server.
          *
-         * When the transmission has completed the flag #ClientFlag.CLIENT_TX_DESKTOP
+         * When the transmission has completed the flag #BearWare.ClientFlag.CLIENT_TX_DESKTOP
          * will be cleared from the local client instance.
          *
          * @param nSource The desktop session's ID. If the desktop session ID
@@ -3864,7 +3864,7 @@ namespace BearWare
         CLIENTEVENT_LOCAL_MEDIAFILE = CLIENTEVENT_NONE + 1070,
         /**
          * @brief Progress is audio being injected as
-         * #StreamType.STREAMTYPE_VOICE.
+         * #BearWare.StreamType.STREAMTYPE_VOICE.
          *
          * @c nStreamID of #BearWare.AudioInputProgress is the stream ID
          * provided in the #BearWare.AudioBlock when calling
@@ -4065,12 +4065,12 @@ namespace BearWare
      * @brief Flags used to describe the the client instance current
      * state.
      *
-     * The client's state is a bitmask of the flags in #ClientFlag.
+     * The client's state is a bitmask of the flags in #BearWare.ClientFlag.
      *
      * The state of the client instance can be retrieved by calling
      * TeamTalkBase.GetFlags() This enables the user application to display the
      * possible options to the end user. If e.g. the flag
-     * #ClientFlag.CLIENT_AUTHORIZED is not set it will not be possible to
+     * #BearWare.ClientFlag.CLIENT_AUTHORIZED is not set it will not be possible to
      * perform any other commands except TeamTalkBase.DoLogin(). Doing so will
      * make the server return an error message to the client. */
     [Flags]
@@ -4095,7 +4095,7 @@ namespace BearWare
         CLIENT_SNDINOUTPUT_DUPLEX = 0x00000004,
         /** @brief If set the client instance will start transmitting
          * audio if the sound level is above the voice activation
-         * level. The event #ClientEvent.CLIENTEVENT_VOICE_ACTIVATION is posted
+         * level. The event #BearWare.ClientEvent.CLIENTEVENT_VOICE_ACTIVATION is posted
          * when voice activation initiates transmission.
          * @see TeamTalkBase.SetVoiceActivationLevel()
          * @see TeamTalkBase.EnableVoiceActivation() */
@@ -4103,7 +4103,7 @@ namespace BearWare
         /** @brief If set GetSoundInputLevel() is higher than the
          * voice activation level.  To enable voice transmission if
          * voice level is higher than actication level also enable
-         * #ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED.  @see
+         * #BearWare.ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED.  @see
          * TeamTalkBase.SetVoiceActivationLevel() @see
          * TeamTalkBase.EnableVoiceActivation() */
         CLIENT_SNDINPUT_VOICEACTIVE = 0x00000010,
@@ -4112,7 +4112,7 @@ namespace BearWare
         CLIENT_SNDOUTPUT_MUTE = 0x00000020,
         /** @brief If set the client instance will auto position users
         * in a 180 degree circle using 3D-sound. This option is only
-        * available with #SoundSystem.SOUNDSYSTEM_DSOUND.
+        * available with #BearWare.SoundSystem.SOUNDSYSTEM_DSOUND.
         * @see TeamTalkBase.SetUserPosition()
         * @see TeamTalkBase.Enable3DSoundPositioning() */
         CLIENT_SNDOUTPUT_AUTO3DPOSITION = 0x00000040,
@@ -4129,7 +4129,7 @@ namespace BearWare
         /** @brief If set the client instance is currently transmitting
          * a desktop window. A desktop window update is issued by calling
          * TeamTalkBase.SendDesktopWindow(). The event 
-         * #ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER is triggered when a desktop
+         * #BearWare.ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER is triggered when a desktop
          * window transmission completes. */
         CLIENT_TX_DESKTOP = 0x00000400,
         /** @brief If set the client instance current have an active
@@ -4145,25 +4145,25 @@ namespace BearWare
          * connect to a server, i.e. TeamTalkBase.Connect() has been called. */
         CLIENT_CONNECTING = 0x00002000,
         /** @brief If set the client instance is connected to a server,
-         * i.e. #ClientEvent.CLIENTEVENT_CON_SUCCESS event has been issued after
+         * i.e. #BearWare.ClientEvent.CLIENTEVENT_CON_SUCCESS event has been issued after
          * doing a TeamTalkBase.Connect(). Valid commands in this state:
          * TeamTalkBase.DoLogin() */
         CLIENT_CONNECTED = 0x00004000,
-        /** @brief Helper for #ClientFlag.CLIENT_CONNECTING and #ClientFlag.CLIENT_CONNECTED
+        /** @brief Helper for #BearWare.ClientFlag.CLIENT_CONNECTING and #BearWare.ClientFlag.CLIENT_CONNECTED
          * to see if TeamTalkBase.Disconnect() should be called. */
         CLIENT_CONNECTION = CLIENT_CONNECTING | CLIENT_CONNECTED,
         /** @brief If set the client instance is logged on to a
-         * server, i.e. got #ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN event
+         * server, i.e. got #BearWare.ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN event
          * after issueing TeamTalkBase.DoLogin(). */
         CLIENT_AUTHORIZED = 0x00008000,
         /** @brief If set the client is currently streaming the audio
          * of a media file. When streaming a video file the
-         * #ClientFlag.CLIENT_STREAM_VIDEO flag is also typically set.
+         * #BearWare.ClientFlag.CLIENT_STREAM_VIDEO flag is also typically set.
          * @see TeamTalkBase.StartStreamingMediaFileToChannel() */
         CLIENT_STREAM_AUDIO = 0x00010000,
         /** @brief If set the client is currently streaming the video
          * of a media file. When streaming a video file the
-         * #ClientFlag.CLIENT_STREAM_AUDIO flag is also typically set.
+         * #BearWare.ClientFlag.CLIENT_STREAM_AUDIO flag is also typically set.
          * @see TeamTalkBase.StartStreamingMediaFileToChannel() */
         CLIENT_STREAM_VIDEO = 0x00020000
     }
@@ -4191,7 +4191,7 @@ namespace BearWare
         public const int TT_USERID_MAX = 0xFFF;
 
         /** @brief The highest channel ID. Also used for
-         * #TT_CLASSROOM_FREEFORALL */
+         * #BearWare.TeamTalkBase.TT_CLASSROOM_FREEFORALL */
         public const int TT_CHANNELID_MAX = 0xFFF;
 
         /** @ingroup videocapture
@@ -4203,13 +4203,13 @@ namespace BearWare
          *
          * @brief The maximum number of users allowed to transmit when
          * a #BearWare.Channel is configured with
-         * #ChannelType.CHANNEL_CLASSROOM. */
+         * #BearWare.ChannelType.CHANNEL_CLASSROOM. */
         public const int TT_TRANSMITUSERS_MAX = 128;
 
         /** @ingroup channels
          *
-         * If a #BearWare.Channel is configured with #ChannelType
-         * #ChannelType.CHANNEL_CLASSROOM then only users certain user IDs are
+         * If a #BearWare.Channel is configured with #BearWare.ChannelType
+         * #BearWare.ChannelType.CHANNEL_CLASSROOM then only users certain user IDs are
          * allowed to transmit. If, however, @c
          * TT_CLASSROOM_FREEFORALL is put in @c transmitUsers then
          * everyone in the channel are allowed to transmit. */
@@ -4220,19 +4220,19 @@ namespace BearWare
         public const int TT_CLASSROOM_USERID_INDEX = 0;
 
         /** @ingroup channels
-        * #StreamType index in @c transmitUsers of #BearWare.Channel */
+        * #BearWare.StreamType index in @c transmitUsers of #BearWare.Channel */
         public const int TT_CLASSROOM_STREAMTYPE_INDEX = 1;
 
         /** @ingroup channels
-         * Same as #TT_CLASSROOM_FREEFORALL */
+         * Same as #BearWare.TeamTalkBase.TT_CLASSROOM_FREEFORALL */
         public const int TT_TRANSMITUSERS_FREEFORALL = 0xFFF;
 
         /** @ingroup channels
-         * Same as #TT_CLASSROOM_USERID_INDEX */
+         * Same as #BearWare.TeamTalkBase.TT_CLASSROOM_USERID_INDEX */
         public const int TT_TRANSMITUSERS_USERID_INDEX = 0;
 
         /** @ingroup channels
-        * Same as #TT_CLASSROOM_STREAMTYPE_INDEX */
+        * Same as #BearWare.TeamTalkBase.TT_CLASSROOM_STREAMTYPE_INDEX */
         public const int TT_TRANSMITUSERS_STREAMTYPE_INDEX = 1;
 
         /**
@@ -4243,7 +4243,7 @@ namespace BearWare
          * When this user ID is passed then the #BearWare.AudioBlock received will be
          * prior to audio preprocessing (#BearWare.AudioPreprocessor).
          *
-         * Note, however, that #ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK will not be
+         * Note, however, that #BearWare.ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK will not be
          * triggered until the TeamTalk instance is in a channel. This is because
          * the sound input device is not started until it knows the
          * #BearWare.AudioCodec's sample rate, number of channels and transmit
@@ -4439,7 +4439,7 @@ namespace BearWare
          * event.
          *
          * Normally all events are due to a state change in the client
-         * instance. The state change (#ClientEvent) is submitted by the
+         * instance. The state change (#BearWare.ClientEvent) is submitted by the
          * client instance's internal thread. In some cases it's, however,
          * convenient to make the internal thread submit the latest
          * properties of an object. One example is after having changed
@@ -4455,7 +4455,7 @@ namespace BearWare
          * and therefore doesn't take the event queue into account.
          * 
          * @param nClientEvent The event which should be queued. Currently 
-         * only #ClientEvent.CLIENTEVENT_USER_STATECHANGE is supported.
+         * only #BearWare.ClientEvent.CLIENTEVENT_USER_STATECHANGE is supported.
          * @param nIdentifier The ID of the object to retrieve. Currently
          * only nUserID is supported.
          *
@@ -4471,7 +4471,7 @@ namespace BearWare
          *
          * Checks whether the client is connecting, connected, authorized,
          * etc. The current state can be checked by and'ing the returned
-         * bitmask which is based on #ClientFlag.
+         * bitmask which is based on #BearWare.ClientFlag.
          *
          * @return A bitmask describing the current state. */
         public BearWare.ClientFlag GetFlags()
@@ -4785,7 +4785,7 @@ namespace BearWare
          * mode ( @see TeamTalkBase.InitSoundDuplexDevices() ). Check out @c
          * supportedSampleRates of #BearWare.SoundDevice to see which sample rates
          * are supported. The #BearWare.SoundDevice must have the feature
-         * #SoundDeviceFeature.SOUNDDEVICEFEATURE_DUPLEXMODE.
+         * #BearWare.SoundDeviceFeature.SOUNDDEVICEFEATURE_DUPLEXMODE.
          * @param lpAudioPreprocessor The preprocessing settings to use, i.e. AGC
          * and denoising properties. Pass NULL to ignore AGC, denoise and AEC.
          * @param lpSoundDeviceEffects The sound device effects which should be
@@ -4834,7 +4834,7 @@ namespace BearWare
          * - All platforms
          *   - #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL
          * 
-         * Calling this function will set the flag #ClientFlag.CLIENT_SNDINPUT_READY.
+         * Calling this function will set the flag #BearWare.ClientFlag.CLIENT_SNDINPUT_READY.
          *
          * @param nInputDeviceID The @a nDeviceID of #BearWare.SoundDevice extracted 
          * through GetSoundDevices().
@@ -4903,7 +4903,7 @@ namespace BearWare
          *   - #BearWare.SoundDeviceConstants.TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL
          *
          * Calling this function will set the flag
-         * #ClientFlag.CLIENT_SNDOUTPUT_READY.
+         * #BearWare.ClientFlag.CLIENT_SNDOUTPUT_READY.
          *
          * @param nOutputDeviceID Should be the @a nDeviceID of 
          * #BearWare.SoundDevice extracted through GetSoundDevices().
@@ -4953,22 +4953,22 @@ namespace BearWare
          * @brief Enable duplex mode where multiple audio streams are
          * mixed into a single stream using software.
          *
-         * To use duplex mode the feature #SoundDeviceFeature.SOUNDDEVICEFEATURE_DUPLEXMODE
+         * To use duplex mode the feature #BearWare.SoundDeviceFeature.SOUNDDEVICEFEATURE_DUPLEXMODE
          * must be available on the #BearWare.SoundDevice.
          *
          * If TeamTalkBase.InitSoundDuplexDevices() is successful the following
          * flags will be set:
          *
-         * - #ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX
-         * - #ClientFlag.CLIENT_SNDOUTPUT_READY
-         * - #ClientFlag.CLIENT_SNDINPUT_READY
+         * - #BearWare.ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX
+         * - #BearWare.ClientFlag.CLIENT_SNDOUTPUT_READY
+         * - #BearWare.ClientFlag.CLIENT_SNDINPUT_READY
          *
          * Call TeamTalkBase.CloseSoundDuplexDevices() to shut down duplex mode.
          *
          * Note that it is only the audio streams from users in the local
          * client instance's current channel which will be mixed. If the
          * local client instance calls TeamTalkBase.DoSubscribe() with
-         * #Subscription #Subscription.SUBSCRIBE_INTERCEPT_VOICE on a user in another channel then
+         * #BearWare.Subscription #BearWare.Subscription.SUBSCRIBE_INTERCEPT_VOICE on a user in another channel then
          * the audio from this user will be started in a separate
          * stream. The reason for this is that the other user may use an
          * audio codec with a different sample rate or number of audio
@@ -4990,18 +4990,18 @@ namespace BearWare
          * @brief Shutdown the input sound device.
          *
          * Callling this function will clear the flag
-         * #ClientFlag.CLIENT_SNDINPUT_READY.
+         * #BearWare.ClientFlag.CLIENT_SNDINPUT_READY.
          * 
          * If the local client instance is running in duplex mode
-         * (flag #ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX is set) then
+         * (flag #BearWare.ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX is set) then
          * trying to close the sound device will fail since duplex
          * mode require that both input and output sound devices are
          * active at the same time. Therefore in order to close sound
          * devices running in duplex mode call
          * TeamTalkBase.CloseSoundDuplexDevices().
          * 
-         * @return If running in sound duplex mode (#ClientFlag
-         * #ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX) then ensure to disable duplex
+         * @return If running in sound duplex mode (#BearWare.ClientFlag
+         * #BearWare.ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX) then ensure to disable duplex
          * mode prior to closing the sound device.
          * 
          * @see TeamTalkBase.InitSoundInputDevice */
@@ -5013,17 +5013,17 @@ namespace BearWare
          * @brief Shutdown the output sound device.
          *
          * Callling this function will clear set the flag
-         * #ClientFlag.CLIENT_SNDOUTPUT_READY.
+         * #BearWare.ClientFlag.CLIENT_SNDOUTPUT_READY.
          *
          * If the local client instance is running in duplex mode (flag
-         * #ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX is set) then trying to close the
+         * #BearWare.ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX is set) then trying to close the
          * sound device will fail since duplex mode require that both
          * input and output sound devices are active at the same
          * time. Therefore in order to close sound devices running in
          * duplex mode call TeamTalkBase.CloseSoundDuplexDevices().
          *
-         * @return If running in sound duplex mode (#ClientFlag
-         * #ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX) then ensure to disable duplex
+         * @return If running in sound duplex mode (#BearWare.ClientFlag
+         * #BearWare.ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX) then ensure to disable duplex
          * mode prior to closing the sound device.
          * 
          * @see TeamTalkBase.InitSoundOutputDevice */
@@ -5050,11 +5050,11 @@ namespace BearWare
          * effects on the device.
          *
          * The following sound systems support TeamTalkBase.SetSoundDeviceEffects():
-         * - #SoundSystem.SOUNDSYSTEM_OPENSLES_ANDROID
+         * - #BearWare.SoundSystem.SOUNDSYSTEM_OPENSLES_ANDROID
          *   - Modifying #BearWare.SoundDeviceEffects on Android will apply to all
          *     active TeamTalkBase instances, i.e. #BearWare.SoundDeviceEffects are applied
          *     globally.
-         * - #SoundSystem.SOUNDSYSTEM_WASAPI
+         * - #BearWare.SoundSystem.SOUNDSYSTEM_WASAPI
          *   - TeamTalkBase.SetSoundDeviceEffects() must be called prior to
          *     TeamTalkBase.InitSoundDuplexDevices(). Sound device effects cannot be
          *     used with TeamTalkBase.InitSoundInputDevice() and TeamTalkBase.InitSoundOutputDevice()
@@ -5063,16 +5063,16 @@ namespace BearWare
          *
          * This setting should not be confused with
          * TeamTalkBase.SetSoundInputPreprocessEx() which runs entirely in software
-         * and is specific to the #TeamTalkBase instance.
+         * and is specific to the #BearWare.TeamTalkBase instance.
          *
          * Investigate #BearWare.SoundDeviceFeature to see what audio effects are
          * supported by the available #BearWare.SoundDevice.
          *
          * Note that the sound effects may not be immediately applied
-         * since an sound device is not active until the #TeamTalkBase instance joins
+         * since an sound device is not active until the #BearWare.TeamTalkBase instance joins
          * a channel where the sound device knowns the sample rate and
          * number of channels
-         * (mono/stereo). #ClientError.INTERR_SNDEFFECT_FAILURE will be
+         * (mono/stereo). #BearWare.ClientError.INTERR_SNDEFFECT_FAILURE will be
          * posted if the #BearWare.SoundDeviceEffects was unable to initialize.
          *
          * @see TeamTalkBase.GetSoundDeviceEffects() */
@@ -5224,7 +5224,7 @@ namespace BearWare
          * To stop receiving audio from a user call DoUnsubscribe().
          *
          * @param bMuteAll Whether to mute or unmute all users.
-         * @see ClientFlag #ClientFlag.CLIENT_SNDOUTPUT_MUTE */
+         * @see ClientFlag #BearWare.ClientFlag.CLIENT_SNDOUTPUT_MUTE */
         public bool SetSoundOutputMute(bool bMuteAll)
         {
             return TTDLL.TT_SetSoundOutputMute(m_ttInst, bMuteAll);
@@ -5232,10 +5232,10 @@ namespace BearWare
         /** 
          * @brief Enable automatically position users using 3D-sound.
          * 
-         * 3D sound position requires #SoundDeviceFeature.SOUNDDEVICEFEATURE_3DPOSITION.
+         * 3D sound position requires #BearWare.SoundDeviceFeature.SOUNDDEVICEFEATURE_3DPOSITION.
          *
          * Note that 3d-sound does not work if sound is running in duplex
-         * mode (#ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX) or in stereo.
+         * mode (#BearWare.ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX) or in stereo.
          *
          * @param bEnable TRUE to enable, otherwise FALSE.
          * @see TeamTalkBase.SetUserPosition */
@@ -5246,10 +5246,10 @@ namespace BearWare
         /** 
          * @brief Automatically position users using 3D-sound.
          *
-         * 3D sound position requires #SoundDeviceFeature.SOUNDDEVICEFEATURE_3DPOSITION.
+         * 3D sound position requires #BearWare.SoundDeviceFeature.SOUNDDEVICEFEATURE_3DPOSITION.
          *
          * Note that 3d-sound does not work if sound is running in duplex
-         * mode (#ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX) or in stereo.
+         * mode (#BearWare.ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX) or in stereo.
          *
          * @see TeamTalkBase.SetUserPosition */
         public bool AutoPositionUsers()
@@ -5269,51 +5269,51 @@ namespace BearWare
          * Special user IDs can be used to retrieve certain types of audio
          * from the client instance:
          *
-         * - #TT_LOCAL_USERID
-         *   - Unprocessed audio from microphone when using #StreamType.STREAMTYPE_VOICE.
-         *   - Decoded PCM16 when using #StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
-         *   - Decoded PCM16 when using #StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO
+         * - #BearWare.TeamTalkBase.TT_LOCAL_USERID
+         *   - Unprocessed audio from microphone when using #BearWare.StreamType.STREAMTYPE_VOICE.
+         *   - Decoded PCM16 when using #BearWare.StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
+         *   - Decoded PCM16 when using #BearWare.StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO
          *     from all active local playbacks @see TeamTalkBase.InitLocalPlayback().
-         * - #TT_LOCAL_TX_USERID
+         * - #BearWare.TeamTalkBase.TT_LOCAL_TX_USERID
          *   - Processed audio from microphone that is transmitted to channel
-         *     when using #StreamType.STREAMTYPE_VOICE.
-         *   - Not applicable for all other stream types except #StreamType.STREAMTYPE_VOICE
-         * - #TT_MUXED_USERID
+         *     when using #BearWare.StreamType.STREAMTYPE_VOICE.
+         *   - Not applicable for all other stream types except #BearWare.StreamType.STREAMTYPE_VOICE
+         * - #BearWare.TeamTalkBase.TT_MUXED_USERID
          *   - Decoded PCM16 from all specified audio streams (#BearWare.StreamType)
          *     mixed into a single stream.
          * 
          * @param nUserID User ID has different meanings depending on
-         *  the #StreamType being passed.
+         *  the #BearWare.StreamType being passed.
          *
-         * For #StreamType.STREAMTYPE_VOICE:
+         * For #BearWare.StreamType.STREAMTYPE_VOICE:
          * - Pass user ID to receive audio from voice stream.
-         * - Pass special user ID #TT_LOCAL_USERID for audio callback from
+         * - Pass special user ID #BearWare.TeamTalkBase.TT_LOCAL_USERID for audio callback from
          *   local recorded audio prior to encoding/processing.
-         * - Pass special user ID #TT_MUXED_USERID to receive audio where
+         * - Pass special user ID #BearWare.TeamTalkBase.TT_MUXED_USERID to receive audio where
          *   voice stream has been mixed into the single stream.
-         * For #StreamType.STREAMTYPE_MEDIAFILE_AUDIO:
+         * For #BearWare.StreamType.STREAMTYPE_MEDIAFILE_AUDIO:
          * - Pass user ID to receive audio from media stream.
-         * - Pass #TT_LOCAL_USERID to receive audio from media file being
+         * - Pass #BearWare.TeamTalkBase.TT_LOCAL_USERID to receive audio from media file being
          *   streamed (transmitted). @see StartStreamingMediaFileToChannel().
-         * - Pass special user ID #TT_MUXED_USERID to receive audio where
+         * - Pass special user ID #BearWare.TeamTalkBase.TT_MUXED_USERID to receive audio where
          *   media stream has been mixed into the single stream.
-         * For #StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO:
+         * For #BearWare.StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO:
          * - Pass session ID returned by InitLocalPlayback() to receive
          *   audio stream from local playback.
-         * - Pass #TT_LOCAL_USERID to receive audio stream from all local
+         * - Pass #BearWare.TeamTalkBase.TT_LOCAL_USERID to receive audio stream from all local
          *   playbacks.
-         * - Pass special user ID #TT_MUXED_USERID to receive audio where
+         * - Pass special user ID #BearWare.TeamTalkBase.TT_MUXED_USERID to receive audio where
          *   local playback stream has been mixed into the single stream.
          *
-         * When using #TT_MUXED_USERID as user ID the instance must be
+         * When using #BearWare.TeamTalkBase.TT_MUXED_USERID as user ID the instance must be
          * in a channel with a configured #BearWare.AudioCodec. Alternatively use
          * @c lpAudioFormat to specify the audio properties.
          *
-         * @param uStreamTypes Either #StreamType.STREAMTYPE_VOICE,
-         * #StreamType.STREAMTYPE_MEDIAFILE_AUDIO or #StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO.
-         * For #TT_MUXED_USERID it's possible to mix #BearWare.StreamType so e.g.
-         * #StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO **or'ed** with
-         * #StreamType.STREAMTYPE_VOICE) will return an #BearWare.AudioBlock where these two
+         * @param uStreamTypes Either #BearWare.StreamType.STREAMTYPE_VOICE,
+         * #BearWare.StreamType.STREAMTYPE_MEDIAFILE_AUDIO or #BearWare.StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO.
+         * For #BearWare.TeamTalkBase.TT_MUXED_USERID it's possible to mix #BearWare.StreamType so e.g.
+         * #BearWare.StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO **or'ed** with
+         * #BearWare.StreamType.STREAMTYPE_VOICE) will return an #BearWare.AudioBlock where these two
          * stream types have been mixed together.
          * @param bEnable Whether to enable the OnUserAudioBlock() event.
          * 
@@ -5329,25 +5329,25 @@ namespace BearWare
          * @brief Same as TeamTalkBase.EnableAudioBlockEvent() but option to specify
          * audio output format.
          * 
-         * When using #TT_MUXED_USERID as user ID in combination with @c
+         * When using #BearWare.TeamTalkBase.TT_MUXED_USERID as user ID in combination with @c
          * lpAudioFormat will cause #BearWare.AudioBlock to contain 20 msec of
          * audio. If @c lpAudioFormat is NULL then the instance will
          * use the audio format that is configured in the channel's
          * #BearWare.AudioCodec.
          *
-         * @param uStreamTypes Either #StreamType.STREAMTYPE_VOICE,
-         * #StreamType.STREAMTYPE_MEDIAFILE_AUDIO or #StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO.
-         * For #TT_MUXED_USERID it's possible to mix #BearWare.StreamType so e.g.
-         * #StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO **or'ed** with
-         * #StreamType.STREAMTYPE_VOICE) will return an #BearWare.AudioBlock where these two
+         * @param uStreamTypes Either #BearWare.StreamType.STREAMTYPE_VOICE,
+         * #BearWare.StreamType.STREAMTYPE_MEDIAFILE_AUDIO or #BearWare.StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO.
+         * For #BearWare.TeamTalkBase.TT_MUXED_USERID it's possible to mix #BearWare.StreamType so e.g.
+         * #BearWare.StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO **or'ed** with
+         * #BearWare.StreamType.STREAMTYPE_VOICE) will return an #BearWare.AudioBlock where these two
          * stream types have been mixed together.
          * @param nUserID The user ID to monitor for audio callback. Pass
-         * special user ID #TT_LOCAL_USERID to monitor local recorded
+         * special user ID #BearWare.TeamTalkBase.TT_LOCAL_USERID to monitor local recorded
          * audio prior to encoding/processing. Pass special user ID
-         * #TT_MUXED_USERID to get a single audio stream of all audio that
+         * #BearWare.TeamTalkBase.TT_MUXED_USERID to get a single audio stream of all audio that
          * is being played from users.
          * @param lpAudioFormat Resample audio format from user to this #BearWare.AudioFormat.
-         * Currently only #AudioFileFormat.AFF_WAVE_FORMAT is supported.
+         * Currently only #BearWare.AudioFileFormat.AFF_WAVE_FORMAT is supported.
          * Specify NULL to get original audio format.
          * @param bEnable Whether to enable the OnUserAudioBlock() event.
          * @see TeamTalkBase.AcquireUserAudioBlock()
@@ -5365,22 +5365,22 @@ namespace BearWare
 
         /**
          * @brief Transmit application provided raw audio in
-         * #BearWare.AudioBlock-structs as #StreamType.STREAMTYPE_VOICE, i.e. microphone
+         * #BearWare.AudioBlock-structs as #BearWare.StreamType.STREAMTYPE_VOICE, i.e. microphone
          * input.
          *
-         * Since #StreamType.STREAMTYPE_VOICE is being replaced by audio input this
+         * Since #BearWare.StreamType.STREAMTYPE_VOICE is being replaced by audio input this
          * means that while audio input is active then subsequent calls to
          * TeamTalkBase.EnableVoiceTransmission() or TeamTalkBase.EnableVoiceActivation() will
          * fail until the audio input has ended.
          *
-         * If the flags #ClientFlag.CLIENT_TX_VOICE or
-         * #ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED are active then calling
-         * TeamTalkBase.InputAudioBlock() will fail because #StreamType.STREAMTYPE_VOICE is
+         * If the flags #BearWare.ClientFlag.CLIENT_TX_VOICE or
+         * #BearWare.ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED are active then calling
+         * TeamTalkBase.InputAudioBlock() will fail because #BearWare.StreamType.STREAMTYPE_VOICE is
          * already in use.
          *
          * TeamTalkBase.InsertAudioBlock() can be called multiple times until the
          * client instance's internal queue is full. When the queue has
-         * been filled then monitor #ClientEvent.CLIENTEVENT_AUDIOINPUT to see when
+         * been filled then monitor #BearWare.ClientEvent.CLIENTEVENT_AUDIOINPUT to see when
          * more data can be queued.
          *
          * To end raw audio input set parameter @c lpAudioBlock to NULL
@@ -5390,7 +5390,7 @@ namespace BearWare
          * @param lpAudioBlock The audio to submit as audio input.
          * The member @c nStreamID of #BearWare.AudioBlock is used to identify the
          * audio input session which is currently in progress and is
-         * posted as the @c nSource of #ClientEvent.CLIENTEVENT_AUDIOINPUT.
+         * posted as the @c nSource of #BearWare.ClientEvent.CLIENTEVENT_AUDIOINPUT.
          * The member @c uSampleIndex of #BearWare.AudioBlock is ignored. */
         public bool InsertAudioBlock(AudioBlock lpAudioBlock)
         {
@@ -5403,10 +5403,10 @@ namespace BearWare
          * Sound input is initialized using TeamTalkBase.InitSoundInputDevice() or
          * TeamTalkBase.InitSoundDuplexDevices().
          *
-         * Voice transmission is stream type #StreamType.STREAMTYPE_VOICE.
+         * Voice transmission is stream type #BearWare.StreamType.STREAMTYPE_VOICE.
          *
          * User rights required:
-         * - #UserRight.USERRIGHT_TRANSMIT_VOICE
+         * - #BearWare.UserRight.USERRIGHT_TRANSMIT_VOICE
          *
          * Note that voice activation cannot be enabled when
          * TeamTalkBase.InsertAudioBlock() is active.
@@ -5430,10 +5430,10 @@ namespace BearWare
          * The current volume level can be queried calling
          * #GetSoundInputLevel.
          *
-         * Voice transmission is stream type #StreamType.STREAMTYPE_VOICE.
+         * Voice transmission is stream type #BearWare.StreamType.STREAMTYPE_VOICE.
          *
          * User rights required:
-         * - #UserRight.USERRIGHT_TRANSMIT_VOICE
+         * - #BearWare.UserRight.USERRIGHT_TRANSMIT_VOICE
          *
          * Note that voice activation cannot be enabled when
          * TeamTalkBase.InsertAudioBlock() is active.
@@ -5442,7 +5442,7 @@ namespace BearWare
          * @return TRUE on success. FALSE if voice activation cannot 
          * be enabled on the client instance.
          *
-         * @see #ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED
+         * @see #BearWare.ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED
          * @see TeamTalkBase.SetVoiceActivationStopDelay() */
         public bool EnableVoiceActivation(bool bEnable)
         {
@@ -5518,7 +5518,7 @@ namespace BearWare
          * conversations "across" channels given that the channels use the
          * same #BearWare.AudioCodec properties (i.e. @c audiocodec member of
          * #BearWare.Channel). To receive audio outside the TeamTalk instance's
-         * channel use TeamTalkBase.DoSubscribe() and #Subscription.SUBSCRIBE_INTERCEPT_VOICE.
+         * channel use TeamTalkBase.DoSubscribe() and #BearWare.Subscription.SUBSCRIBE_INTERCEPT_VOICE.
          *
          * If the user changes to a channel which uses a different audio
          * codec then the recording will continue but simply be silent
@@ -5526,14 +5526,14 @@ namespace BearWare
          * as was used for initializing muxed audio recording.
          *
          * Calling TeamTalkBase.StartRecordingMuxedAudioFile() will enable the
-         * #ClientFlag.CLIENT_MUX_AUDIOFILE flag from TeamTalkBase.GetFlags().
+         * #BearWare.ClientFlag.CLIENT_MUX_AUDIOFILE flag from TeamTalkBase.GetFlags().
          *
          * Call TeamTalkBase.StopRecordingMuxedAudioFile() to stop recording. Note
          * that only one muxed audio recording can be active at the same
          * time.
          *
-         * Only #StreamType.STREAMTYPE_VOICE is stored into the audio file, not
-         * #StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
+         * Only #BearWare.StreamType.STREAMTYPE_VOICE is stored into the audio file, not
+         * #BearWare.StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
          *
          * Use TeamTalkBase.SetUserMediaStorageDir() to store users' audio streams
          * in separate files.
@@ -5564,18 +5564,18 @@ namespace BearWare
          * single file.
          *
          * To record audio outside the TeamTalk instance's current channel use
-         * the TeamTalkBase.DoSubscribe() with the #Subscription.SUBSCRIBE_INTERCEPT_VOICE on all
+         * the TeamTalkBase.DoSubscribe() with the #BearWare.Subscription.SUBSCRIBE_INTERCEPT_VOICE on all
          * the user's in the channel.
          *
          * Unlike TeamTalkBase.StartRecordingMuxedAudioFile() this function does not
-         * toggle the flag #ClientFlag.CLIENT_MUX_AUDIOFILE.
+         * toggle the flag #BearWare.ClientFlag.CLIENT_MUX_AUDIOFILE.
          *
          * Use TeamTalkBase.StartRecordingMuxedAudioFile() to record conversations
          * from many different channels with the same #BearWare.AudioCodec
          * settings.
          *
-         * Only #StreamType.STREAMTYPE_VOICE is stored into the audio file, not
-         * #StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
+         * Only #BearWare.StreamType.STREAMTYPE_VOICE is stored into the audio file, not
+         * #BearWare.StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
          *
          * @see StopRecordingMuxedAudioFile() */
         public bool StartRecordingMuxedAudioFile(int nChannelID,
@@ -5596,9 +5596,9 @@ namespace BearWare
          * single file using this feature.
          *
          * Streams that can be mixed into a single file are:
-         * - #StreamType.STREAMTYPE_VOICE
-         * - #StreamType.STREAMTYPE_MEDIAFILE_AUDIO
-         * - #StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO
+         * - #BearWare.StreamType.STREAMTYPE_VOICE
+         * - #BearWare.StreamType.STREAMTYPE_MEDIAFILE_AUDIO
+         * - #BearWare.StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO
          *
          * StartRecordingMuxedAudioFile() is mutually exclusive with
          * StartRecordingMuxedStreams().
@@ -5607,9 +5607,9 @@ namespace BearWare
          *
          * @param uStreamTypes The #BearWare.StreamType to mix together.
          * Streams that can be mixed into a single file are:
-         * - #StreamType.STREAMTYPE_VOICE
-         * - #StreamType.STREAMTYPE_MEDIAFILE_AUDIO
-         * - #StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO
+         * - #BearWare.StreamType.STREAMTYPE_VOICE
+         * - #BearWare.StreamType.STREAMTYPE_MEDIAFILE_AUDIO
+         * - #BearWare.StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO
          * @param lpAudioCodec The reference codec for the recording. The recording
          * will use the sample rate and number of channels specified by the #BearWare.AudioCodec.
          * @param szAudioFileName The file to store audio to, e.g.
@@ -5636,7 +5636,7 @@ namespace BearWare
          * function.
          *
          * Calling TeamTalkBase.StopRecordingMuxedAudioFile() will clear the
-         * #ClientFlag.CLIENT_MUX_AUDIOFILE flag from TeamTalkBase.GetFlags().
+         * #BearWare.ClientFlag.CLIENT_MUX_AUDIOFILE flag from TeamTalkBase.GetFlags().
          *
          * @see StartRecordingMuxedAudioFile() */
         public bool StopRecordingMuxedAudioFile()
@@ -5664,13 +5664,13 @@ namespace BearWare
          * the capture device.
          *
          * Video capture data is transmitted with stream type
-         * #StreamType.STREAMTYPE_VIDEOCAPTURE and is subscribed/unsubscribed using
-         * #Subscription.SUBSCRIBE_VIDEOCAPTURE.
+         * #BearWare.StreamType.STREAMTYPE_VIDEOCAPTURE and is subscribed/unsubscribed using
+         * #BearWare.Subscription.SUBSCRIBE_VIDEOCAPTURE.
          *
          * To stop transmitting call TeamTalkBase.StopVideoCaptureTransmission()
          *
          * User rights required:
-         * - #UserRight.USERRIGHT_TRANSMIT_VIDEOCAPTURE.
+         * - #BearWare.UserRight.USERRIGHT_TRANSMIT_VIDEOCAPTURE.
          *
          * @param lpVideoCodec The video codec settings to use for
          * transmission.
@@ -5825,7 +5825,7 @@ namespace BearWare
          *
          * To release the acquired #BearWare.VideoFrame call TeamTalkBase.ReleaseUserVideoCaptureFrame().
          *
-         * A video capture frame comes from a user's #StreamType.STREAMTYPE_VIDEOCAPTURE.
+         * A video capture frame comes from a user's #BearWare.StreamType.STREAMTYPE_VIDEOCAPTURE.
          *
          * @param nUserID The user's ID. 0 for local user.
          * @param bmp A bitmap created from the #BearWare.VideoFrame's data.
@@ -5940,25 +5940,25 @@ namespace BearWare
          * Call TeamTalkBase.GetMediaFileInfo() to get the properties of a media
          * file, i.e. audio and video format.
          *
-         * The event #ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE  is posted when
-         * the media file starts streaming. The flags #ClientFlag.CLIENT_STREAM_AUDIO
-         * and/or #ClientFlag.CLIENT_STREAM_VIDEO will be set if the call is successful.
+         * The event #BearWare.ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE  is posted when
+         * the media file starts streaming. The flags #BearWare.ClientFlag.CLIENT_STREAM_AUDIO
+         * and/or #BearWare.ClientFlag.CLIENT_STREAM_VIDEO will be set if the call is successful.
          *
-         * A media file is streamed using #StreamType.STREAMTYPE_MEDIAFILE_AUDIO
-         * and/or #StreamType.STREAMTYPE_MEDIAFILE_VIDEO. To subscribe/unsubscribe a
-         * media file being streamed use #Subscription.SUBSCRIBE_MEDIAFILE.
+         * A media file is streamed using #BearWare.StreamType.STREAMTYPE_MEDIAFILE_AUDIO
+         * and/or #BearWare.StreamType.STREAMTYPE_MEDIAFILE_VIDEO. To subscribe/unsubscribe a
+         * media file being streamed use #BearWare.Subscription.SUBSCRIBE_MEDIAFILE.
          *
          * Streaming a media file requires
-         * #UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO and/or
-         * #UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO.
+         * #BearWare.UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO and/or
+         * #BearWare.UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO.
          *
          * @param szMediaFilePath File path to media file.
          * @param lpMediaFilePlayback Playback settings to pause, seek and
-         * preprocess audio. If #AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR then the echo
+         * preprocess audio. If #BearWare.AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR then the echo
          * cancellation part of #BearWare.SpeexDSP is unused. Only denoise and AGC
          * settings are applied.
          * @param lpVideoCodec If video file then specify output codec properties 
-         * here. Specify #Codec .NO_CODEC if video should be ignored.
+         * here. Specify #BearWare.Codec .NO_CODEC if video should be ignored.
          *
          * @see TeamTalkBase.UpdateStreamingMediaFileToChannel()
          * @see TeamTalkBase.StopStreamingMediaFileToChannel()
@@ -5980,7 +5980,7 @@ namespace BearWare
          * #BearWare.MediaFilePlayback properties.
          *
          * @param lpMediaFilePlayback Playback settings to pause, seek and
-         * preprocess audio. If #AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR then the echo
+         * preprocess audio. If #BearWare.AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR then the echo
          * cancellation part of #BearWare.SpeexDSP is unused. Only denoise and AGC
          * settings are applied.
          * @param lpVideoCodec If video file then specify output codec properties 
@@ -5997,8 +5997,8 @@ namespace BearWare
         /**
          * @brief Stop streaming media file to channel.
          *
-         * This will clear the flags #ClientFlag.CLIENT_STREAM_AUDIO
-         * and/or #ClientFlag.CLIENT_STREAM_VIDEO.
+         * This will clear the flags #BearWare.ClientFlag.CLIENT_STREAM_AUDIO
+         * and/or #BearWare.ClientFlag.CLIENT_STREAM_VIDEO.
          *
          * @see TeamTalkBase.StartStreamingMediaFileToChannel() */
         public bool StopStreamingMediaFileToChannel()
@@ -6007,9 +6007,9 @@ namespace BearWare
         }
 
         /**
-         * @brief Play media file using settings from #TeamTalkBase instance.
+         * @brief Play media file using settings from #BearWare.TeamTalkBase instance.
          * 
-         * The sound system properties of the #TeamTalkBase instance will be used
+         * The sound system properties of the #BearWare.TeamTalkBase instance will be used
          * for playback, i.e. TeamTalkBase.SetSoundOutputMute(),
          * TeamTalkBase.SetSoundOutputVolume() and TeamTalkBase.InitSoundOutputDevice().
          *
@@ -6018,7 +6018,7 @@ namespace BearWare
          *
          * @param szMediaFilePath Path to media file.
          * @param lpMediaFilePlayback Playback settings to pause, seek and
-         * preprocess audio. If #AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR then the echo
+         * preprocess audio. If #BearWare.AudioPreprocessorType.SPEEXDSP_AUDIOPREPROCESSOR then the echo
          * cancellation part of #BearWare.SpeexDSP is unused. Only denoise and AGC
          * settings are applied.
          *
@@ -6088,7 +6088,7 @@ namespace BearWare
          * TeamTalkBase.ReleaseUserMediaVideoFrame().
          *
          * A media video frame comes from a user's
-         * #StreamType.STREAMTYPE_MEDIAFILE_VIDEO.
+         * #BearWare.StreamType.STREAMTYPE_MEDIAFILE_VIDEO.
          *
          * @param nUserID The user's ID. 0 for local user.
          * @param bmp A bitmap created from the #BearWare.VideoFrame's data.
@@ -6147,7 +6147,7 @@ namespace BearWare
          * desktop transmission has finished. Tracking progress of the
          * current desktop transmission is done by checking for the
          * TeamTalkBase.OnDesktopTransferUpdate() event. While the desktop
-         * transmission is active the flag #ClientFlag.CLIENT_TX_DESKTOP will be set
+         * transmission is active the flag #BearWare.ClientFlag.CLIENT_TX_DESKTOP will be set
          * on the local client instance.
          *
          * If the desktop window (bitmap) changes size (width/height) or
@@ -6161,7 +6161,7 @@ namespace BearWare
          * window.
          * 
          * User rights required:
-         * - #UserRight.USERRIGHT_TRANSMIT_DESKTOP
+         * - #BearWare.UserRight.USERRIGHT_TRANSMIT_DESKTOP
          * 
          * @param lpDesktopWindow Properties of the bitmap. Set the @c nSessionID 
          * property to 0.
@@ -6195,14 +6195,14 @@ namespace BearWare
         /**
          * @brief Get RGB values of the palette for the bitmap format.
          *
-         * This currently only applies to bitmaps of format #BitmapFormat.BMP_RGB8_PALETTE.
+         * This currently only applies to bitmaps of format #BearWare.BitmapFormat.BMP_RGB8_PALETTE.
          *
          * Note that the pointer returned is non-const which means the
          * palette can be overwritten with a custom palette. The custom
          * palette will then be used internally during bitmap
          * conversion.
          *
-         * @param nBmpPalette The bitmap format. Currently only #BitmapFormat.BMP_RGB8_PALETTE
+         * @param nBmpPalette The bitmap format. Currently only #BearWare.BitmapFormat.BMP_RGB8_PALETTE
          * is supported.
          * @param nIndex The index in the color table of the RGB values to 
          * extract.
@@ -6316,7 +6316,7 @@ namespace BearWare
          * a desktop session which is currently active.
          * 
          * User rights required:
-         * - #UserRight.USERRIGHT_TRANSMIT_DESKTOP
+         * - #BearWare.UserRight.USERRIGHT_TRANSMIT_DESKTOP
          *
          * @param nPosX X coordinate of mouse cursor.
          * @param nPosY Y coordinate of mouse cursor.
@@ -6340,7 +6340,7 @@ namespace BearWare
          * instance sharing the desktop window.
          *
          * User rights required:
-         * - #UserRight.USERRIGHT_TRANSMIT_DESKTOPINPUT
+         * - #BearWare.UserRight.USERRIGHT_TRANSMIT_DESKTOPINPUT
          *
          * @param nUserID The user's ID who owns the shared desktop window
          * and should receive desktop input.
@@ -6374,7 +6374,7 @@ namespace BearWare
          * lpDesktopWindow.  The size of the buffer to allocate will be @c
          * nBytesPerLine multiplied by @c nHeight in the #BearWare.DesktopWindow.
          *
-         * For #BitmapFormat.BMP_RGB8_PALETTE bitmaps check out TeamTalkBase.Palette_GetColorTable().
+         * For #BearWare.BitmapFormat.BMP_RGB8_PALETTE bitmaps check out TeamTalkBase.Palette_GetColorTable().
          *
          * @param nUserID The user's ID.
          * @return A zero'ed #BearWare.DesktopWindow if there's no active desktop window for this user.
@@ -6486,7 +6486,7 @@ namespace BearWare
          * The system-ID is set in the TeamTalk server API using
          * TTS_StartServerSysID(). If a client tries to connect with a
          * different system-ID that client will receive the error
-         * #ClientError.CMDERR_INCOMPATIBLE_PROTOCOLS when trying to log in.
+         * #BearWare.ClientError.CMDERR_INCOMPATIBLE_PROTOCOLS when trying to log in.
          *
          * @param szHostAddress The IP-address or hostname of the server.
          * @param nTcpPort The host port of the server (TCP).
@@ -6551,7 +6551,7 @@ namespace BearWare
         /**
          * @brief Disconnect from the server.
          * 
-         * This will clear the flag #ClientFlag.CLIENT_CONNECTED and #ClientFlag.CLIENT_CONNECTING. */
+         * This will clear the flag #BearWare.ClientFlag.CLIENT_CONNECTED and #BearWare.ClientFlag.CLIENT_CONNECTING. */
         public bool Disconnect()
         {
             return TTDLL.TT_Disconnect(m_ttInst);
@@ -6624,10 +6624,10 @@ namespace BearWare
          * The client instance automatically pings the server at half the time
          * specified by @c nUserTimeout in #BearWare.ServerProperties.
          *
-         * #ClientEvent.CLIENTEVENT_CMD_PROCESSING is posted if server replies.
+         * #BearWare.ClientEvent.CLIENTEVENT_CMD_PROCESSING is posted if server replies.
          *
          * @return Returns command ID which will be passed in 
-         * #ClientEvent.CLIENTEVENT_CMD_PROCESSING event when the server is processing the 
+         * #BearWare.ClientEvent.CLIENTEVENT_CMD_PROCESSING event when the server is processing the 
          * command. -1 is returned in case of error.
          */
         public int DoPing()
@@ -6644,7 +6644,7 @@ namespace BearWare
          * @param szPassword The password of the user account on the server. Leave 
          * blank if no account is needed on the server.
          * @return Returns command ID which will be passed in 
-         * #ClientEvent.CLIENTEVENT_CMD_PROCESSING event when the server is processing the 
+         * #BearWare.ClientEvent.CLIENTEVENT_CMD_PROCESSING event when the server is processing the 
          * command. -1 is returned in case of error. */
         public int DoLogin(string szNickname, string szUsername, string szPassword)
         {
@@ -6661,11 +6661,11 @@ namespace BearWare
          * joins a channel. Call #DoJoinChannel to join a channel.
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_INCORRECT_CHANNEL_PASSWORD
-         * - #ClientError #ClientError.CMDERR_INVALID_ACCOUNT
-         * - #ClientError #ClientError.CMDERR_MAX_SERVER_USERS_EXCEEDED
-         * - #ClientError #ClientError.CMDERR_SERVER_BANNED
-         * - #ClientError #ClientError.CMDERR_ALREADY_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_INCORRECT_CHANNEL_PASSWORD
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_INVALID_ACCOUNT
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_MAX_SERVER_USERS_EXCEEDED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_SERVER_BANNED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_ALREADY_LOGGEDIN
          *
          * @param szNickname The nickname to use.
          * @param szUsername The username of the #BearWare.UserAccount set up on the 
@@ -6692,7 +6692,7 @@ namespace BearWare
          * will be posted.
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
          *
          * @return Returns command ID which will be passed in 
          * #OnCmdProcessing event when the server is processing the 
@@ -6716,20 +6716,20 @@ namespace BearWare
          * channel will be removed on the server.
          *
          * If the channel is created successfully the event
-         * #ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW will be sent, followed by
-         * #ClientEvent.CLIENTEVENT_CMD_USER_JOINED.
+         * #BearWare.ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW will be sent, followed by
+         * #BearWare.ClientEvent.CLIENTEVENT_CMD_USER_JOINED.
          *
          * User rights required:
-         * - #UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL
+         * - #BearWare.UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED
-         * - #ClientError #ClientError.CMDERR_INCORRECT_CHANNEL_PASSWORD
-         * - #ClientError #ClientError.CMDERR_MAX_CHANNEL_USERS_EXCEEDED
-         * - #ClientError #ClientError.CMDERR_ALREADY_IN_CHANNEL
-         * - #ClientError #ClientError.CMDERR_AUDIOCODEC_BITRATE_LIMIT_EXCEEDED
-         * - #ClientError #ClientError.CMDERR_UNKNOWN_AUDIOCODEC If the server doesn't support the audio
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_INCORRECT_CHANNEL_PASSWORD
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_MAX_CHANNEL_USERS_EXCEEDED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_ALREADY_IN_CHANNEL
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_AUDIOCODEC_BITRATE_LIMIT_EXCEEDED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_UNKNOWN_AUDIOCODEC If the server doesn't support the audio
          *   codec. Introduced in version 4.1.0.1264.
          *
          * @param lpChannel The channel to join or create if it doesn't already
@@ -6753,11 +6753,11 @@ namespace BearWare
          * creating a new one.
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED
-         * - #ClientError #ClientError.CMDERR_INCORRECT_CHANNEL_PASSWORD
-         * - #ClientError #ClientError.CMDERR_MAX_CHANNEL_USERS_EXCEEDED
-         * - #ClientError #ClientError.CMDERR_ALREADY_IN_CHANNEL
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_INCORRECT_CHANNEL_PASSWORD
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_MAX_CHANNEL_USERS_EXCEEDED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_ALREADY_IN_CHANNEL
          *
          * @param nChannelID The ID of the channel to join.
          * @param szPassword The password for the channel to join.
@@ -6781,10 +6781,10 @@ namespace BearWare
          * will be posted.
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED
-         * - #ClientError #ClientError.CMDERR_NOT_IN_CHANNEL
-         * - #ClientError #ClientError.CMDERR_CHANNEL_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_IN_CHANNEL
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_CHANNEL_NOT_FOUND
          *
          * @return Returns command ID which will be passed in 
          * #OnCmdProcessing event when the server is processing the 
@@ -6801,11 +6801,11 @@ namespace BearWare
          * The event #OnCmdUserUpdate will be posted if the
          * update was successful.
          *
-         * Command will be rejected if #UserRight.USERRIGHT_LOCKED_NICKNAME is set.
+         * Command will be rejected if #BearWare.UserRight.USERRIGHT_LOCKED_NICKNAME is set.
          *
          * Possible errors:
-         * - #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
          *
          * @param szNewNick is the new nick name to use.
          * @return Returns command ID which will be passed in 
@@ -6822,11 +6822,11 @@ namespace BearWare
          * The event #OnCmdUserUpdate will be posted if the update
          * was successful.
          *
-         * Command will be rejected if #UserRight.USERRIGHT_LOCKED_STATUS is set.
+         * Command will be rejected if #BearWare.UserRight.USERRIGHT_LOCKED_STATUS is set.
          *
          * Possible errors:
-         * - #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
          *
          * @param nStatusMode The value for the status mode.
          * @param szStatusMessage The user's message associated with the status 
@@ -6844,19 +6844,19 @@ namespace BearWare
          *
          * Can also be a broadcast message which is received by all users
          * on the server. This, however, requires
-         * #UserRight.USERRIGHT_TEXTMESSAGE_BROADCAST.
+         * #BearWare.UserRight.USERRIGHT_TEXTMESSAGE_BROADCAST.
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED 
-         * - #ClientError #ClientError.CMDERR_CHANNEL_NOT_FOUND
-         * - #ClientError #ClientError.CMDERR_USER_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED 
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_CHANNEL_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_USER_NOT_FOUND
          *
          * @param lpTextMessage A preallocated text-message struct.
          * @return Returns command ID which will be passed in 
          * #OnCmdProcessing event when the server is processing the 
          * command. -1 is returned in case of error.
-         * @see UserRight #UserRight.USERRIGHT_TEXTMESSAGE_BROADCAST */
+         * @see UserRight #BearWare.UserRight.USERRIGHT_TEXTMESSAGE_BROADCAST */
         public int DoTextMessage(TextMessage lpTextMessage)
         {
             return TTDLL.TT_DoTextMessage(m_ttInst, ref lpTextMessage);
@@ -6865,14 +6865,14 @@ namespace BearWare
          * @brief Make another user operator of a channel. 
          * 
          * User rights required:
-         * - #UserRight.USERRIGHT_OPERATOR_ENABLE
+         * - #BearWare.UserRight.USERRIGHT_OPERATOR_ENABLE
          *
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED
-         * - #ClientError #ClientError.CMDERR_CHANNEL_NOT_FOUND
-         * - #ClientError #ClientError.CMDERR_USER_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_CHANNEL_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_USER_NOT_FOUND
          *
          * @param nUserID The user who should become channel operator. 
          * @param nChannelID The channel where the user should become operator
@@ -6890,11 +6890,11 @@ namespace BearWare
          * @a szOpPassword of #BearWare.Channel.
          * 
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED
-         * - #ClientError #ClientError.CMDERR_CHANNEL_NOT_FOUND
-         * - #ClientError #ClientError.CMDERR_USER_NOT_FOUND
-         * - #ClientError #ClientError.CMDERR_INCORRECT_OP_PASSWORD
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_CHANNEL_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_USER_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_INCORRECT_OP_PASSWORD
          *
          * @param nUserID The user who should become channel operator. 
          * @param nChannelID The channel where the user should become operator.
@@ -6917,14 +6917,14 @@ namespace BearWare
          * To ban a user call TeamTalkBase.DoBanUser() before TeamTalkBase.DoKickUser().
          *
          * User rights required:
-         * - #UserRight.USERRIGHT_KICK_USERS
+         * - #BearWare.UserRight.USERRIGHT_KICK_USERS
          * - Alternative channel-operator (see TeamTalkBase.DoChannelOp()).
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED
-         * - #ClientError #ClientError.CMDERR_CHANNEL_NOT_FOUND
-         * - #ClientError #ClientError.CMDERR_USER_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_CHANNEL_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_USER_NOT_FOUND
          *
          * @param nUserID The ID of the user to kick. 
          * @param nChannelID The channel where the user shoul be kicked from
@@ -6950,18 +6950,18 @@ namespace BearWare
          * TeamTalkBase.GetChannel().
          *
          * User rights required:
-         * - #UserRight.USERRIGHT_UPLOAD_FILES
+         * - #BearWare.UserRight.USERRIGHT_UPLOAD_FILES
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED
-         * - #ClientError #ClientError.CMDERR_MAX_DISKUSAGE_EXCEEDED
-         * - #ClientError #ClientError.CMDERR_CHANNEL_NOT_FOUND
-         * - #ClientError #ClientError.CMDERR_FILETRANSFER_NOT_FOUND
-         * - #ClientError #ClientError.CMDERR_OPENFILE_FAILED
-         * - #ClientError #ClientError.CMDERR_FILE_NOT_FOUND
-         * - #ClientError #ClientError.CMDERR_FILE_ALREADY_EXISTS
-         * - #ClientError #ClientError.CMDERR_FILESHARING_DISABLED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_MAX_DISKUSAGE_EXCEEDED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_CHANNEL_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_FILETRANSFER_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_OPENFILE_FAILED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_FILE_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_FILE_ALREADY_EXISTS
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_FILESHARING_DISABLED
          *
          * @param nChannelID The ID of the channel of where to put the file. Only 
          * admins can upload in channel other then their own.
@@ -6983,16 +6983,16 @@ namespace BearWare
          * in the same channel as the user is currently participating in.
          *
          * User rights required:
-         * - #UserRight.USERRIGHT_DOWNLOAD_FILES
+         * - #BearWare.UserRight.USERRIGHT_DOWNLOAD_FILES
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED
-         * - #ClientError #ClientError.CMDERR_CHANNEL_NOT_FOUND
-         * - #ClientError #ClientError.CMDERR_FILETRANSFER_NOT_FOUND
-         * - #ClientError #ClientError.CMDERR_OPENFILE_FAILED
-         * - #ClientError #ClientError.CMDERR_FILE_NOT_FOUND
-         * - #ClientError #ClientError.CMDERR_FILESHARING_DISABLED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_CHANNEL_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_FILETRANSFER_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_OPENFILE_FAILED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_FILE_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_FILESHARING_DISABLED
          *
          * @param nChannelID The ID of the channel of where to get the file. Only 
          * admins can download in channel other then their own.
@@ -7017,10 +7017,10 @@ namespace BearWare
          * on the server.
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED 
-         * - #ClientError #ClientError.CMDERR_CHANNEL_NOT_FOUND
-         * - #ClientError #ClientError.CMDERR_FILE_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED 
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_CHANNEL_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_FILE_NOT_FOUND
          *
          * @param nChannelID The ID of the channel where the file is located.
          * @param nFileID The ID of the file to delete. The ID of the file which 
@@ -7038,12 +7038,12 @@ namespace BearWare
          * @brief Subscribe to user events and/or data.
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED 
-         * - #ClientError #ClientError.CMDERR_USER_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED 
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_USER_NOT_FOUND
          *
          * @param nUserID The ID of the user this should affect.
-         * @param uSubscriptions Union of #Subscription to subscribe to.
+         * @param uSubscriptions Union of #BearWare.Subscription to subscribe to.
          * @return Returns command ID which will be passed in 
          * #OnCmdProcessing event when the server is processing the 
          * command. -1 is returned in case of error.
@@ -7057,12 +7057,12 @@ namespace BearWare
          * or voice data from a specific user.
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED 
-         * - #ClientError #ClientError.CMDERR_USER_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED 
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_USER_NOT_FOUND
          *
          * @param nUserID The ID of the user this should affect.
-         * @param uSubscriptions Union of #Subscription to unsubscribe.
+         * @param uSubscriptions Union of #BearWare.Subscription to unsubscribe.
          * @return Returns command ID which will be passed in 
          * #OnCmdProcessing event when the server is processing the 
          * command. -1 is returned in case of error.
@@ -7074,20 +7074,20 @@ namespace BearWare
         /**
          * @brief Make a new channel on the server.
          * 
-         * This command only applies to users with #UserRight.USERRIGHT_MODIFY_CHANNELS.
+         * This command only applies to users with #BearWare.UserRight.USERRIGHT_MODIFY_CHANNELS.
          *
          * User rights required:
-         * - #UserRight.USERRIGHT_MODIFY_CHANNELS
+         * - #BearWare.UserRight.USERRIGHT_MODIFY_CHANNELS
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED
-         * - #ClientError #ClientError.CMDERR_CHANNEL_ALREADY_EXISTS
-         * - #ClientError #ClientError.CMDERR_CHANNEL_NOT_FOUND If channel's combined path is longer than
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_CHANNEL_ALREADY_EXISTS
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_CHANNEL_NOT_FOUND If channel's combined path is longer than
          *   #BearWare.TeamTalkBase.TT_STRLEN.
-         * - #ClientError #ClientError.CMDERR_INCORRECT_CHANNEL_PASSWORD If the password is longer than
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_INCORRECT_CHANNEL_PASSWORD If the password is longer than
          *   #BearWare.TeamTalkBase.TT_STRLEN.
-         * - #ClientError #ClientError.CMDERR_UNKNOWN_AUDIOCODEC If the server doesn't support the audio
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_UNKNOWN_AUDIOCODEC If the server doesn't support the audio
          *   codec. Introduced in version 4.1.0.1264.
          *
          * @param lpChannel A Channel-structure containing information about
@@ -7103,7 +7103,7 @@ namespace BearWare
         /**
          * @brief Update a channel's properties.
          *
-         * Users with #UserRight.USERRIGHT_MODIFY_CHANNELS can update all properties of
+         * Users with #BearWare.UserRight.USERRIGHT_MODIFY_CHANNELS can update all properties of
          * a channel.
          *
          * A user with channel-operator status (see TeamTalkBase.DoChannelOp()) can 
@@ -7113,17 +7113,17 @@ namespace BearWare
          * - @c nDiskQuota
          * - @c nMaxUsers
          * - @c uChannelType
-         *   - Cannot modify #ChannelType.CHANNEL_PERMANENT
+         *   - Cannot modify #BearWare.ChannelType.CHANNEL_PERMANENT
          *
          * Note that a channel's #BearWare.AudioCodec cannot be changed
          * if there's currently users in the channel.
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED 
-         * - #ClientError #ClientError.CMDERR_CHANNEL_NOT_FOUND
-         * - #ClientError #ClientError.CMDERR_CHANNEL_HAS_USERS
-         * - #ClientError #ClientError.CMDERR_CHANNEL_ALREADY_EXISTS
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED 
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_CHANNEL_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_CHANNEL_HAS_USERS
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_CHANNEL_ALREADY_EXISTS
          *
          * @param lpChannel A Channel-structure containing information about
          * the channel being modified. The channel member's \a nParentID
@@ -7139,15 +7139,15 @@ namespace BearWare
         /**
          * @brief Remove a channel from a server. 
          *
-         * This command only applies to users with #UserRight.USERRIGHT_MODIFY_CHANNELS.
+         * This command only applies to users with #BearWare.UserRight.USERRIGHT_MODIFY_CHANNELS.
          *
          * If there's any users in the channel they will be kicked and
          * subchannels will be deleted as well.
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED
-         * - #ClientError #ClientError.CMDERR_CHANNEL_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_CHANNEL_NOT_FOUND
          *
          * @param nChannelID The ID of the channel to remove.
          * @return Returns command ID which will be passed in 
@@ -7163,13 +7163,13 @@ namespace BearWare
          * another.
          *
          * User rights required:
-         * - #UserRight.USERRIGHT_MOVE_USERS
+         * - #BearWare.UserRight.USERRIGHT_MOVE_USERS
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED
-         * - #ClientError #ClientError.CMDERR_CHANNEL_NOT_FOUND
-         * - #ClientError #ClientError.CMDERR_USER_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_CHANNEL_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_USER_NOT_FOUND
          *
          * @param nUserID User to be moved.
          * @param nChannelID Channel where user should be put into.
@@ -7185,11 +7185,11 @@ namespace BearWare
          * @brief Update server properties.
          *
          * User rights required:
-         * - #UserRight.USERRIGHT_UPDATE_SERVERPROPERTIES
+         * - #BearWare.UserRight.USERRIGHT_UPDATE_SERVERPROPERTIES
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
          *
          * @param lpServerProperties A structure holding the information to be set 
          * on the server.
@@ -7211,12 +7211,12 @@ namespace BearWare
          * User accounts can be used to create users with different user
          * rights.
          *
-         * Only #UserType.USERTYPE_ADMIN can issue this command.
+         * Only #BearWare.UserType.USERTYPE_ADMIN can issue this command.
          *
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
          *
          * @param nIndex Index of first user to display.
          * @param nCount The number of users to retrieve.
@@ -7236,12 +7236,12 @@ namespace BearWare
          * Check out section @ref useradmin to see how the server handles
          * users.
          * 
-         * Only #UserType.USERTYPE_ADMIN can issue this command.
+         * Only #BearWare.UserType.USERTYPE_ADMIN can issue this command.
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED
-         * - #ClientError #ClientError.CMDERR_INVALID_USERNAME
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_INVALID_USERNAME
          *
          * @param lpUserAccount The properties of the user account to create.
          * @return Returns command ID which will be passed in 
@@ -7258,12 +7258,12 @@ namespace BearWare
         /**
          * @brief Issue command to delete a user account on the server.
          *
-         * Only #UserType.USERTYPE_ADMIN can issue this command.
+         * Only #BearWare.UserType.USERTYPE_ADMIN can issue this command.
          * 
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED
-         * - #ClientError #ClientError.CMDERR_ACCOUNT_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_ACCOUNT_NOT_FOUND
          *
          * @param szUsername The username of the user account to delete.
          * @return Returns command ID which will be passed in 
@@ -7284,13 +7284,13 @@ namespace BearWare
          * to kick the user off the server.
          *
          * User rights required:
-         * - #UserRight.USERRIGHT_BAN_USERS
+         * - #BearWare.UserRight.USERRIGHT_BAN_USERS
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED
-         * - #ClientError #ClientError.CMDERR_CHANNEL_NOT_FOUND
-         * - #ClientError #ClientError.CMDERR_USER_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_CHANNEL_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_USER_NOT_FOUND
          *
          * @param nUserID The ID of the user to ban.
          * @param nChannelID Set to 0 to ban from logging in. Otherwise specify
@@ -7312,10 +7312,10 @@ namespace BearWare
         /** 
          * @brief Ban the user with @c nUserID using the ban types specified.
          *
-         * If @c uBanTypes contains #BanType.BANTYPE_USERNAME then the username cannot join
+         * If @c uBanTypes contains #BearWare.BanType.BANTYPE_USERNAME then the username cannot join
          * the channel where @n nUserID is currently present.
          *
-         * If @c uBanTypes contains #BanType.BANTYPE_IPADDR then the IP-address cannot join
+         * If @c uBanTypes contains #BearWare.BanType.BANTYPE_IPADDR then the IP-address cannot join
          * the channel where @n nUserID is currently present.
          *
          * @see TeamTalkBase.DoListBans()
@@ -7329,16 +7329,16 @@ namespace BearWare
          * @brief Ban the properties specified in @c lpBannedUser.
          *
          * The @c uBanTypes specifies what the ban applies to.  If
-         * #BanType.BANTYPE_CHANNEL is specified in the @c uBanTypes of @c
+         * #BearWare.BanType.BANTYPE_CHANNEL is specified in the @c uBanTypes of @c
          * lpBannedUser then the ban applies to joining a channel,
          * DoJoinChannel(). Otherwise the ban applies to login,
          * DoLogin().
          *
-         * If #BanType.BANTYPE_IPADDR is specified then the IP-address must be set
+         * If #BearWare.BanType.BANTYPE_IPADDR is specified then the IP-address must be set
          * in @c szIPAddress and any IP-address matching will receive
-         * #ClientError.CMDERR_SERVER_BANNED or #ClientError.CMDERR_CHANNEL_BANNED for
+         * #BearWare.ClientError.CMDERR_SERVER_BANNED or #BearWare.ClientError.CMDERR_CHANNEL_BANNED for
          * TeamTalkBase.DoLogin() or TeamTalkBase.DoJoinChannel(). If instead
-         * #BanType.BANTYPE_USERNAME is specified then @c szUsername must be set
+         * #BearWare.BanType.BANTYPE_USERNAME is specified then @c szUsername must be set
          * and the same rule applies as for IP-addresses.
          *
          * @see TeamTalkBase.DoListBans()
@@ -7355,11 +7355,11 @@ namespace BearWare
          * and therefore doesn't require a user to be logged in.
          *
          * User rights required:
-         * - #UserRight.USERRIGHT_BAN_USERS
+         * - #BearWare.UserRight.USERRIGHT_BAN_USERS
          *
          * Possible errors:
-         * - #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
          *
          * @param szIPAddress The IP-address to ban.
          * @param nChannelID Set to zero.
@@ -7377,13 +7377,13 @@ namespace BearWare
          * @brief Unban the user with the specified IP-address.
          *
          * User rights required:
-         * - #UserRight.USERRIGHT_BAN_USERS
+         * - #BearWare.UserRight.USERRIGHT_BAN_USERS
          *
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED
-         * - #ClientError #ClientError.CMDERR_BAN_NOT_FOUND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_BAN_NOT_FOUND
          *
          * @param szIPAddress The IP-address to unban.
          * @param nChannelID Set to zero.
@@ -7402,7 +7402,7 @@ namespace BearWare
          * @brief Unban the properties specified in #BearWare.BannedUser.
          *
          * The uBanTypes in #BearWare.BannedUser determines which properties should have
-         * their ban remove. E.g. uBanTypes = #BanType.BANTYPE_USERNAME and 
+         * their ban remove. E.g. uBanTypes = #BearWare.BanType.BANTYPE_USERNAME and 
          * @c szUsername = "guest" will remove all bans where the username
          * is "guest".
          *
@@ -7419,11 +7419,11 @@ namespace BearWare
          * #BearWare.BannedUser on the server.
          *
          * User rights required:
-         * - #UserRight.USERRIGHT_BAN_USERS
+         * - #BearWare.UserRight.USERRIGHT_BAN_USERS
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
          *
          * @param nChannelID Set to zero.
          * @param nIndex Index of first ban to display.
@@ -7440,14 +7440,14 @@ namespace BearWare
          * @brief Save the server's current state to its settings file
          * (typically the server's .xml file).
          *
-         * Only #UserType.USERTYPE_ADMIN can issue this command.
+         * Only #BearWare.UserType.USERTYPE_ADMIN can issue this command.
          *
          * Note that the server only saves channels with the flag
-         * #ChannelType #ChannelType.CHANNEL_PERMANENT.
+         * #BearWare.ChannelType #BearWare.ChannelType.CHANNEL_PERMANENT.
          *
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
          *
          * @return Returns command ID which will be passed in 
          * #OnCmdProcessing event when the server is processing the 
@@ -7460,15 +7460,15 @@ namespace BearWare
         /**
          * @brief Get the server's current statistics.
          *
-         * Event #ClientEvent.CLIENTEVENT_CMD_SERVERSTATISTICS will be posted when
+         * Event #BearWare.ClientEvent.CLIENTEVENT_CMD_SERVERSTATISTICS will be posted when
          * server has sent response.
          *
-         * Only #UserType.USERTYPE_ADMIN can issue this command.
+         * Only #BearWare.UserType.USERTYPE_ADMIN can issue this command.
          * 
          * Possible errors:
-         * - #ClientError #ClientError.CMDERR_NOT_LOGGEDIN
-         * - #ClientError #ClientError.CMDERR_NOT_AUTHORIZED
-         * - #ClientError #ClientError.CMDERR_UNKNOWN_COMMAND
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_LOGGEDIN
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_NOT_AUTHORIZED
+         * - #BearWare.ClientError #BearWare.ClientError.CMDERR_UNKNOWN_COMMAND
          *
          * @return Returns command ID which will be passed in 
          * OnCmdProcessing() event when the server is processing the 
@@ -7707,7 +7707,7 @@ namespace BearWare
          * This information can be retrieved after
          * #OnCmdMyselfLoggedIn event.
          * 
-         * @return A bitmask of the type of user based on #UserType.
+         * @return A bitmask of the type of user based on #BearWare.UserType.
          * @see DoLogin
          * @see BearWare.UserType
          * @see GetMyUserAccount */
@@ -7774,7 +7774,7 @@ namespace BearWare
          * @brief Get the user with the specified username.
          *
          * Remember to take into account that multiple users can log in
-         * with the same account if #UserRight.USERRIGHT_MULTI_LOGIN is specified.
+         * with the same account if #BearWare.UserRight.USERRIGHT_MULTI_LOGIN is specified.
          * 
          * @param szUsername The user's username (from #BearWare.UserAccount).
          * @param lpUser A preallocated #BearWare.User struct. */
@@ -7795,7 +7795,7 @@ namespace BearWare
          * 
          * @param nUserID The ID of the user whose volume will be changed.
          * @param nStreamType The type of stream to change, either 
-         * #StreamType.STREAMTYPE_VOICE or #StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
+         * #BearWare.StreamType.STREAMTYPE_VOICE or #BearWare.StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
          * @param nVolume Must be between #BearWare.SoundLevel.SOUND_VOLUME_MIN and #BearWare.SoundLevel.SOUND_VOLUME_MAX.
          * @see SetSoundOutputVolume */
         public bool SetUserVolume(int nUserID, StreamType nStreamType, int nVolume)
@@ -7806,11 +7806,11 @@ namespace BearWare
          * @brief Mute a user.
          *
          * To stop receiving audio from a user call TeamTalkBase.DoUnsubscribe() with
-         * #Subscription.SUBSCRIBE_VOICE.
+         * #BearWare.Subscription.SUBSCRIBE_VOICE.
          *
          * @param nUserID The user ID of the user to mute (or unmute).
          * @param nStreamType The type of stream to change, either 
-         * #StreamType.STREAMTYPE_VOICE or #StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
+         * #BearWare.StreamType.STREAMTYPE_VOICE or #BearWare.StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
          * @param bMute TRUE will mute, FALSE will unmute.
          * @see SetSoundOutputMute */
         public bool SetUserMute(int nUserID, StreamType nStreamType, bool bMute)
@@ -7858,7 +7858,7 @@ namespace BearWare
         *
         * @param nUserID The user ID of the user to apply the configuration to.
         * @param nStreamType The type of stream to change, currently only
-        * #StreamType.STREAMTYPE_VOICE is supported. Other types are a no-op.
+        * #BearWare.StreamType.STREAMTYPE_VOICE is supported. Other types are a no-op.
         * @param lpJitterConfig The jitter buffer configuration.*/
         public bool SetUserJitterControl(int nUserID,
                                          StreamType nStreamType,
@@ -7874,7 +7874,7 @@ namespace BearWare
         *
         * @param nUserID The user ID of the user to apply the configuration to.
         * @param nStreamType The type of stream to change, currently only
-        * #StreamType.STREAMTYPE_VOICE is supported. Other types are a no-op.
+        * #BearWare.StreamType.STREAMTYPE_VOICE is supported. Other types are a no-op.
         * @param lpJitterConfig Pointer to an application-provided jitter buffer
         configuration that will be filled upon return.*/
         public bool GetUserJitterControl(int nUserID,
@@ -7887,15 +7887,15 @@ namespace BearWare
         /**
          * @brief Set the position of a user.
          *
-         * 3D sound position requires #SoundDeviceFeature.SOUNDDEVICEFEATURE_3DPOSITION.
+         * 3D sound position requires #BearWare.SoundDeviceFeature.SOUNDDEVICEFEATURE_3DPOSITION.
          *
-         * This can only be done using DirectSound (#SoundSystem.SOUNDSYSTEM_DSOUND),
+         * This can only be done using DirectSound (#BearWare.SoundSystem.SOUNDSYSTEM_DSOUND),
          * a mono channel and with sound duplex mode 
-         * (#ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX) disabled.
+         * (#BearWare.ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX) disabled.
          *
          * @param nUserID ID of user.
          * @param nStreamType The type of stream to change, either 
-         * #StreamType.STREAMTYPE_VOICE or #StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
+         * #BearWare.StreamType.STREAMTYPE_VOICE or #BearWare.StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
          * @param x Distance in meters to user (left/right).
          * @param y Distance in meters to user (back/forward).
          * @param z Distance in meters to user (up/down). */
@@ -7911,7 +7911,7 @@ namespace BearWare
          *
          * @param nUserID ID of user.
          * @param nStreamType The type of stream to change, either 
-         * #StreamType.STREAMTYPE_VOICE or #StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
+         * #BearWare.StreamType.STREAMTYPE_VOICE or #BearWare.StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
          * @param bLeftSpeaker TRUE if user should be played in left speaker.
          * @param bRightSpeaker TRUE if user should be played in right speaker.
          * @see GetUserStereo */
@@ -7927,7 +7927,7 @@ namespace BearWare
          * recording starts/stops.
          *
          * To stop recording set @c szFolderPath to an empty string
-         * and @a uAFF to #AudioFileFormat.AFF_NONE.
+         * and @a uAFF to #BearWare.AudioFileFormat.AFF_NONE.
          *
          * To store audio of other channels than the client instance check
          * out the section @ref spying.
@@ -7945,11 +7945,11 @@ namespace BearWare
          * \%username\%'.  The \%counter\% variable is a 9 digit
          * integer which is incremented for each audio file. The file
          * extension is automatically appended based on the file type
-         * (.wav for #AudioFileFormat #AudioFileFormat.AFF_WAVE_FORMAT and .mp3 for
+         * (.wav for #BearWare.AudioFileFormat #BearWare.AudioFileFormat.AFF_WAVE_FORMAT and .mp3 for
          * AFF_MP3_*_FORMAT). Pass NULL or empty string to revert to
          * default format.
-         * @param uAFF The #AudioFileFormat to use for storing audio files. Passing
-         * #AudioFileFormat #AudioFileFormat.AFF_NONE will cancel/reset the current recording.
+         * @param uAFF The #BearWare.AudioFileFormat to use for storing audio files. Passing
+         * #BearWare.AudioFileFormat #BearWare.AudioFileFormat.AFF_NONE will cancel/reset the current recording.
          * @return FALSE if path is invalid, otherwise TRUE.
          * 
          * @see BearWare.User
@@ -7974,7 +7974,7 @@ namespace BearWare
          * Note that the delay starts after the last packet was written to the playout and thus
          * the delay is already 'counting' when the jitter-buffered playout is still playing
          *
-         * Only supported for #StreamType.STREAMTYPE_VOICE.
+         * Only supported for #BearWare.StreamType.STREAMTYPE_VOICE.
          *
          * @param nUserID See description in TeamTalkBase.SetUserMediaStorageDir()
          * @param szFolderPath See description in TeamTalkBase.SetUserMediaStorageDir()
@@ -8008,7 +8008,7 @@ namespace BearWare
          * @param nUserID The ID of the user who should have changed
          * the size of the media buffer.
          * @param uStreamType The stream type to apply the buffer for, i.e.
-         * either #StreamType.STREAMTYPE_VOICE or #StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
+         * either #BearWare.StreamType.STREAMTYPE_VOICE or #BearWare.StreamType.STREAMTYPE_MEDIAFILE_AUDIO.
          * @param nMSec The number of miliseconds of audio and video which
          * should be allowed to be stored in the media buffer. 2000 - 3000 
          * msec is a good size for a media buffer. Set the media
@@ -8030,8 +8030,8 @@ namespace BearWare
          * instance therefore always remember to call
          * TeamTalkBase.ReleaseUserAudioBlock() to release the shared memory.
          *
-         * @param uStreamTypes The stream type to extract, either #StreamType.STREAMTYPE_VOICE
-         * #StreamType.STREAMTYPE_MEDIAFILE_AUDIO, #StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO.
+         * @param uStreamTypes The stream type to extract, either #BearWare.StreamType.STREAMTYPE_VOICE
+         * #BearWare.StreamType.STREAMTYPE_MEDIAFILE_AUDIO, #BearWare.StreamType.STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO.
          * @param nUserID The user ID to monitor for audio callback. Pass 0
          * to monitor local audio.
          * 
@@ -8242,7 +8242,7 @@ namespace BearWare
         /**
          * @brief Connected successfully to the server.
          *
-         * Event handler for #ClientEvent.CLIENTEVENT_CON_SUCCESS
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CON_SUCCESS
          * 
          * @see Connection Delegate for this event.
          * @see Connect
@@ -8251,7 +8251,7 @@ namespace BearWare
         /** 
          * @brief Failed to connect to server.
          *
-         * Event handler for #ClientEvent.CLIENTEVENT_CON_FAILED
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CON_FAILED
          *
          * @see Connection Delegate for this event.
          * @see Connect */
@@ -8259,7 +8259,7 @@ namespace BearWare
         /** 
          * @brief Connection to server has been lost.
          *
-         * Event handler for #ClientEvent.CLIENTEVENT_CON_LOST
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CON_LOST
          * 
          * @see Connection Delegate for this event.
          * @see Connect */
@@ -8276,7 +8276,7 @@ namespace BearWare
          * @brief The maximum size of the payload put into UDP packets
          * has been updated.
          * 
-         * Event handler for #ClientEvent.CLIENTEVENT_CON_MAX_PAYLOAD_UPDATED
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CON_MAX_PAYLOAD_UPDATED
          *
          * @see TeamTalkBase.QueryMaxPayload() */
         public event MaxPayloadUpdate OnConnectionMaxPayloadUpdated;
@@ -8294,7 +8294,7 @@ namespace BearWare
          * @brief A command issued by @c Do* methods is being
          * processed.
          *
-         * Event handler for #ClientEvent.CLIENTEVENT_CMD_PROCESSING
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CMD_PROCESSING
          * 
          * Read section @ref cmdprocessing on how to use command
          * processing in the user application.
@@ -8312,7 +8312,7 @@ namespace BearWare
          * @brief The server rejected a command issued by the local
          * client instance.
          * 
-         * Event handler for #ClientEvent.CLIENTEVENT_CMD_ERROR
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CMD_ERROR
          *
          * @see CommandError Delegate for this event.
          * @see GetErrorMessage */
@@ -8327,7 +8327,7 @@ namespace BearWare
          * @brief The server successfully processed  a command issued by the local
          * client instance.
          *
-         * Event handler for #ClientEvent.CLIENTEVENT_CMD_SUCCESS
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CMD_SUCCESS
          *
          * @see CommandError Delegate for this event. */
         public event CommandSuccess OnCmdSuccess;
@@ -8343,7 +8343,7 @@ namespace BearWare
          * @brief The client instance successfully logged on to
          * server.
          *
-         * Event handler for #ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN
          * 
          * @see MyselfLoggedIn Delegate for this event.
          * @see DoLogin */
@@ -8354,7 +8354,7 @@ namespace BearWare
         /** 
          * @brief The client instance logged out of a server.  
          *
-         * Event handler for #ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDOUT
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDOUT
          * 
          * @see MyselfLoggedOut Delegate for this event.
          * @see DoLogout */
@@ -8369,7 +8369,7 @@ namespace BearWare
         /** 
          * @brief The client instance was kicked from a channel.
          * 
-         * Event handler for #ClientEvent.CLIENTEVENT_CMD_MYSELF_KICKED
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CMD_MYSELF_KICKED
          * */
         public event MyselfKicked OnCmdMyselfKicked;
 
@@ -8387,7 +8387,7 @@ namespace BearWare
         /**
          * @brief A new user logged on to the server.
          *
-         * Event handler for #ClientEvent.CLIENTEVENT_CMD_USER_LOGGEDIN
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CMD_USER_LOGGEDIN
          *
          * @see DoLogin
          * @see OnCmdUserLoggedOut */
@@ -8396,7 +8396,7 @@ namespace BearWare
         /**
          * @brief A user logged out of the server. 
          *
-         * Event handler for #ClientEvent.CLIENTEVENT_CMD_USER_LOGGEDOUT
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CMD_USER_LOGGEDOUT
          *
          * @see DoLogout
          * @see Disconnect
@@ -8406,19 +8406,19 @@ namespace BearWare
         /**
          * @brief User changed properties.
          *
-         * Event handler for #ClientEvent.CLIENTEVENT_CMD_USER_UPDATE */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CMD_USER_UPDATE */
         public event UserUpdate OnCmdUserUpdate;
 
         /** 
          * @brief A user has joined a channel.
          * 
-         * Event handler for #ClientEvent.CLIENTEVENT_CMD_USER_JOINED */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CMD_USER_JOINED */
         public event UserUpdate OnCmdUserJoinedChannel;
 
         /** 
          * @brief User has left a channel.
          * 
-         * Event handler for #ClientEvent.CLIENTEVENT_CMD_USER_LEFT */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CMD_USER_LEFT */
         public event UserUpdate OnCmdUserLeftChannel;
 
         /** @brief Delegate for events #OnCmdUserTextMessage.
@@ -8431,7 +8431,7 @@ namespace BearWare
         /** 
          * @brief A user has sent a text-message.
          * 
-         * Event handler for #ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG */
         public event UserTextMessage OnCmdUserTextMessage;
 
 
@@ -8442,7 +8442,7 @@ namespace BearWare
         /** 
          * @brief A new channel has been created.
          * 
-         * Event handler for #ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW
          * 
          * @see ChannelUpdate Delegate for this event. */
         public event ChannelUpdate OnCmdChannelNew;
@@ -8450,12 +8450,12 @@ namespace BearWare
         /** 
          * @brief A channel's properties has been updated.
          * 
-         * Event handler for #ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE */
         public event ChannelUpdate OnCmdChannelUpdate;
 
         /** 
          * @brief A channel has been removed.
-         * Event handler for #ClientEvent.CLIENTEVENT_CMD_CHANNEL_REMOVE */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CMD_CHANNEL_REMOVE */
         public event ChannelUpdate OnCmdChannelRemove;
 
         /** @brief Delegate for event #OnCmdServerUpdate. */
@@ -8465,7 +8465,7 @@ namespace BearWare
          * @brief Server has updated its settings (server name, MOTD,
          * etc.)
          * 
-         * Event handler for #ClientEvent.CLIENTEVENT_CMD_SERVER_UPDATE */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CMD_SERVER_UPDATE */
         public event ServerUpdate OnCmdServerUpdate;
 
         /** @brief Delegate for event #OnCmdServerStatistics. */
@@ -8483,38 +8483,38 @@ namespace BearWare
         /** 
          * @brief A new file is added to a channel. 
          *
-         * Event handler for #ClientEvent.CLIENTEVENT_CMD_FILE_NEW */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CMD_FILE_NEW */
         public event FileUpdate OnCmdFileNew;
 
         /** 
          * @brief A file has been removed from a channel.
          *
-         * Event handler for #ClientEvent.CLIENTEVENT_CMD_FILE_REMOVE */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CMD_FILE_REMOVE */
         public event FileUpdate OnCmdFileRemove;
 
         /** @brief A delegate for event #OnCmdUserAccount. */
         public delegate void ListUserAccount(UserAccount useraccount);
 
         /** @brief A new user account has been listed by the server.
-         * Event handler for #ClientEvent.CLIENTEVENT_CMD_USERACCOUNT */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CMD_USERACCOUNT */
         public event ListUserAccount OnCmdUserAccount;
 
         /** @brief A delegate for event #OnCmdUserAccount. */
         public delegate void ListBannedUser(BannedUser banneduser);
 
         /** @brief A new banned user has been listed by the server.
-         * Event handler for #ClientEvent.CLIENTEVENT_CMD_BANNEDUSER */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_CMD_BANNEDUSER */
         public event ListBannedUser OnCmdBannedUser;
 
         /** @brief The first voice packet of a new voice stream
          * has been received.
          *
-         * Event handler for #ClientEvent.CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET */
         public event UserStreamUpdate OnUserFirstVoiceStreamPacket;
 
         /** @brief A user's state has been updated.
          * 
-         * Event handler for #ClientEvent.CLIENTEVENT_USER_STATECHANGE */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_USER_STATECHANGE */
         public event UserUpdate OnUserStateChange;
 
         /** @brief A delegate for the event #OnUserVideoCapture. */
@@ -8523,13 +8523,13 @@ namespace BearWare
         /** 
          * @brief A new video frame was received from a user.
          *
-         * Event handler for #ClientEvent.CLIENTEVENT_USER_VIDEOCAPTURE */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_USER_VIDEOCAPTURE */
         public event UserVideoFrame OnUserVideoCapture;
 
         /** 
          * @brief A new video frame was received from a user.
          *
-         * Event handler for #ClientEvent.CLIENTEVENT_USER_MEDIAFILE_VIDEO */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_USER_MEDIAFILE_VIDEO */
         public event UserVideoFrame OnUserMediaFileVideo;
 
         /** @brief Delegate for event #OnUserDesktopWindow.
@@ -8546,7 +8546,7 @@ namespace BearWare
          * @brief A new or updated desktop window has been received
          * from a user.
          * 
-         * Event handler for #ClientEvent.CLIENTEVENT_USER_DESKTOPWINDOW
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_USER_DESKTOPWINDOW
          *
          * Use TeamTalkBase.AcquireUserDesktopWindow() to retrieve the bitmap of the
          * desktop window. */
@@ -8566,7 +8566,7 @@ namespace BearWare
          * @brief Desktop input (mouse or keyboard input) has been
          * received from a user.
          * 
-         * Event handler for #ClientEvent.CLIENTEVENT_USER_DESKTOPINPUT */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_USER_DESKTOPINPUT */
         public event UserDesktopInput OnUserDesktopInput;
 
         /** @brief Delegate for event #OnUserRecordMediaFile. */
@@ -8575,7 +8575,7 @@ namespace BearWare
         /** 
          * @brief An media file recording has changed status.
          *
-         * Event handler for #ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE */
         public event UserRecordMediaFile OnUserRecordMediaFile;
 
         /** @brief Delegate for event #OnUserAudioBlock. */
@@ -8584,7 +8584,7 @@ namespace BearWare
         /**
          * @brief A new audio block can be extracted.
          *
-         * Event handler for #ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK
          * 
          * This event is only generated if TeamTalkBase.EnableAudioBlockEvent()
          * is first called.
@@ -8598,7 +8598,7 @@ namespace BearWare
         /** 
          * @brief A internal error occured.
          * 
-         * Event handler for #ClientEvent.CLIENTEVENT_INTERNAL_ERROR */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_INTERNAL_ERROR */
         public event ErrorOccured OnInternalError;
 
         /** @brief Delegate for event #OnVoiceActivation.
@@ -8608,7 +8608,7 @@ namespace BearWare
         /** 
          * @brief Voice activation has triggered transmission.
          *
-         * Event handler for #ClientEvent.CLIENTEVENT_VOICE_ACTIVATION */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_VOICE_ACTIVATION */
         public event VoiceActivation OnVoiceActivation;
 
         /** @brief Delegate for event #OnHotKeyToggle. 
@@ -8621,7 +8621,7 @@ namespace BearWare
         /** 
          * @brief A hotkey has been acticated or deactivated.
          *
-         * Event handler for #ClientEvent.CLIENTEVENT_HOTKEY
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_HOTKEY
          * 
          * @see HotKeyToggle Delegate for this event.
          * @see HotKey_Register
@@ -8638,7 +8638,7 @@ namespace BearWare
          * @brief A button was pressed or released on the user's
          * keyboard or mouse.
          * 
-         * Event handler for #ClientEvent.CLIENTEVENT_HOTKEY_TEST
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_HOTKEY_TEST
          * 
          * When #HotKey_InstallTestHook is called a hook is
          * installed in Windows which intercepts all keyboard and
@@ -8660,7 +8660,7 @@ namespace BearWare
         /**
          * @brief A file transfer is processing.
          * 
-         * Event handler for #ClientEvent.CLIENTEVENT_FILETRANSFER
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_FILETRANSFER
          *
          * Use TeamTalkBase.GetFileTransferInfo() to get information about the
          * file transfer. Ensure to check if the file transfer is
@@ -8685,10 +8685,10 @@ namespace BearWare
          * @brief Used for tracking when a desktop window has been
          * transmitted to the server.
          * 
-         * Event handler for #ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER
          *
          * When the transmission has completed the flag
-         * #ClientFlag.CLIENT_TX_DESKTOP will be cleared from the
+         * #BearWare.ClientFlag.CLIENT_TX_DESKTOP will be cleared from the
          * local client instance. */
         public event DesktopTransferUpdate OnDesktopWindowTransfer;
 
@@ -8698,7 +8698,7 @@ namespace BearWare
         /**
          * @brief Media file being streamed to a channel is processing.
          *
-         * Event handler for #ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE */
         public event StreamMediaFile OnStreamMediaFile;
 
         /** @brief Delegate for event #OnLocalMediaFile. */
@@ -8707,7 +8707,7 @@ namespace BearWare
         /**
          * @brief Media file is being played locally.
          * 
-         * Event handler for #ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE */
         public event LocalMediaFile OnLocalMediaFile;
 
         /** @brief Delegate for event #OnAudioInput. */
@@ -8716,7 +8716,7 @@ namespace BearWare
         /**
          * @brief Audio input progress as result of TeamTalkBase.InsertAudioBlock()
          * 
-         * Event handler for #ClientEvent.CLIENTEVENT_AUDIOINPUT */
+         * Event handler for #BearWare.ClientEvent.CLIENTEVENT_AUDIOINPUT */
         public event AudioInput OnAudioInput;
 
         /** @} */

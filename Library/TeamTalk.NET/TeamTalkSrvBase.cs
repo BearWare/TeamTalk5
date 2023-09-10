@@ -155,17 +155,17 @@ namespace BearWare
          * The root file folder cannot be changed after the server has
          * been started.
          *
-         * Ensure to set #UserRight.USERRIGHT_UPLOAD_FILES and #UserRight.USERRIGHT_DOWNLOAD_FILES
+         * Ensure to set #BearWare.UserRight.USERRIGHT_UPLOAD_FILES and #BearWare.UserRight.USERRIGHT_DOWNLOAD_FILES
          * in user's #BearWare.UserAccount.
          *
          * @param szFilesRoot Directory where to store uploaded files.
          * @param nMaxDiskUsage The maximum number of bytes which can be used for
          * file storage.
          * @param nDefaultChannelQuota The number of bytes available to temporary
-         * channels (not #ChannelType.CHANNEL_PERMANENT). This will be the value in #BearWare.Channel
+         * channels (not #BearWare.ChannelType.CHANNEL_PERMANENT). This will be the value in #BearWare.Channel
          * @c nDiskQuota.
          *
-         * @return Error code from #ClientError. */
+         * @return Error code from #BearWare.ClientError. */
         public ClientError SetChannelFilesRoot(string szFilesRoot, Int64 nMaxDiskUsage, Int64 nDefaultChannelQuota)
         {
             return TTProDLL.TTS_SetChannelFilesRoot(m_ttsInst, szFilesRoot, nMaxDiskUsage, nDefaultChannelQuota);
@@ -180,7 +180,7 @@ namespace BearWare
          *
          * @param lpServerProperties The server's properties which will be
          * see by all users who log on to the server.
-         * @return Returns a #ClientError.
+         * @return Returns a #BearWare.ClientError.
          *
          * @see StartServer() */
         public ClientError UpdateServer([In] BearWare.ServerProperties lpServerProperties)
@@ -195,7 +195,7 @@ namespace BearWare
          * channel. I.e. a #BearWare.Channel where @c nParentID is 0.
          *
          * @param lpChannel The new channel to create.
-         * @return Returns a #ClientError.
+         * @return Returns a #BearWare.ClientError.
          *
          * @see UpdateChannel()
          * @see RemoveChannel() */
@@ -208,7 +208,7 @@ namespace BearWare
          *
          * @param lpChannel The updated channel properties. @c nChannelID
          * and @c nParentID must remain the same.
-         * @return Returns a #ClientError.
+         * @return Returns a #BearWare.ClientError.
          *
          * @see MakeChannel()
          * @see RemoveChannel() */
@@ -220,7 +220,7 @@ namespace BearWare
          * @brief Remove a channel.
          *
          * @param nChannelID The ID of the channel to remove.
-         * @return Returns a #ClientError.
+         * @return Returns a #BearWare.ClientError.
          *
          * @see MakeChannel()
          * @see UpdateChannel() */
@@ -236,7 +236,7 @@ namespace BearWare
          *
          * @param szLocalFilePath Path to file.
          * @param lpRemoteFile Properties of file to add.
-         * @return Command error code from #ClientError.
+         * @return Command error code from #BearWare.ClientError.
          *
          * @see SetChannelFilesRoot().
          * @see MakeChannel() */
@@ -252,7 +252,7 @@ namespace BearWare
          *
          * @param lpRemoteFile Properties of file to remove. Channel ID and 
          * file name is enough.
-         * @return Command error code from #ClientError.
+         * @return Command error code from #BearWare.ClientError.
          *
          * @see SetChannelFilesRoot().
          * @see MakeChannel() */
@@ -267,7 +267,7 @@ namespace BearWare
          * @param lpChannel The channel the user should move to. If the
          * channel already exists then simply set @c nChannelID. To make
          * a user leave a channel set @c nChannelID to 0.
-         * @return Returns a #ClientError. */
+         * @return Returns a #BearWare.ClientError. */
         public ClientError MoveUser(int nUserID, BearWare.Channel lpChannel)
         {
             return TTProDLL.TTS_MoveUser(m_ttsInst, nUserID, ref lpChannel);
@@ -278,7 +278,7 @@ namespace BearWare
          * 
          * @param lpTextMessage Text message to send. The message type determines
          * how the message will be sent.
-         * @return Returns a #ClientError.
+         * @return Returns a #BearWare.ClientError.
          * @see TeamTalkBase.DoTextMessage() */
         public ClientError SendTextMessage(BearWare.TextMessage lpTextMessage)
         {
