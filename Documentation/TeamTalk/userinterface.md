@@ -353,7 +353,7 @@ Each of the items in the dialog are explained here:
       must register a username on BearWare.dk and use this to log on
       to the server.
     - Learn more about setting up user accounts by reading the section
-      on [configuring TeamTalk servers](server.md) or the
+      on [configuring TeamTalk servers](@ref teamtalkserver) or the
       section about [User Accounts](@ref useraccountsdlg).
   - **Password**
     - The password that is required to log on to the server. This may be blank.
@@ -398,12 +398,12 @@ field and afterwards click **Save to Server List**.
     - If you want others to connect to the same TeamTalk server as
       you, you can press *Generate .tt File* so you'll generate a
       file you can email to the users who should also connect to the
-      server. More information about the [Generate .tt File Dialog](ttfiles.md)
-      is available [here](ttfiles.md).
+      server. More information about the [Generate .tt File Dialog](@ref ttfile)
+      is available [here](@ref ttfiles).
   - **Import .tt File**
     - If you've received a .tt file from another TeamTalk user you can
       import the server to the *Server List* by pressing this button.
-    - Other users can send you [.tt files](ttfiles.md) that have been
+    - Other users can send you [.tt files](@ref ttfiles) that have been
       [generated](@ref ttfile) to contain the information you need to join
       their server.
 
@@ -422,7 +422,7 @@ server you're connecting to is authentic.
 
 To use certificates the owner of the TeamTalk Pro server must provide
 the client with a cerficate from a common/shared Certificate Authority
-(CA). This CA certificate can either be provided in a [.tt file](ttfiles.md)
+(CA). This CA certificate can either be provided in a [.tt file](@ref ttfile)
 or in a *.cer file* (in PEM format).
 
 To enable a CA certificate for a TeamTalk Pro server press the *Open
@@ -441,7 +441,7 @@ Some TeamTalk Pro server owners may also want to verify that the
 clients who connect are also authentic. This is done by using **Client
 certificate** that has been issued by the TeamTalk Pro server owner
 along with a **Client private key**. The client certificate and
-private key can be provided in either a [.tt file](ttfiles.md) or in
+private key can be provided in either a [.tt file](@ref ttfile) or in
 two .pem files (in PEM format).
 
 Press the *Open file button* in **Client certificate** row and add the
@@ -466,7 +466,7 @@ ensure everything is configured properly.
 
 ![Preferences Dialog](pref_general.png "Preferences dialog")
 
-Please read section [TeamTalk Preferences](preferences.md) for a guide
+Please read section [TeamTalk Preferences](@ref preferences) for a guide
 on how to configure TeamTalk.
 
 ## Sound Configuration-Menu {#soundconfigmenu}
@@ -778,7 +778,7 @@ Each of the menu items in the Subscriptions-menu are described here.
 
 If there's certain subscriptions you always want to have disabled by
 default you can set these in the [Connection-tab](@ref connectiontab) of
-the [Preferences](preferences.md) dialog.
+the [Preferences](@ref preferences) dialog.
 
 ## Transmit Control-Menu {#transmitcontrolmenu}
 
@@ -970,7 +970,7 @@ Each of the fields in the create channel dialog are described here:
       be modified if user has *User Right*
       [User can create/modify all channels](@ref useraccountsdlg). The
       default *Disk Quota* is set up when
-      [configuring the TeamTalk server](server.md).
+      [configuring the TeamTalk server](@ref teamtalkserver).
 
 - **Permanent channel (stored on server)**
     - Only users with *User Right*
@@ -1210,7 +1210,7 @@ Each of the menu items in the Server-menu are described here.
 
 For users to log on to a TeamTalk server they must have a user
 account. Only users of user-type *Administrator* can create/modify
-user accounts. When the TeamTalk server is [configured](server.md)
+user accounts. When the TeamTalk server is [configured](@ref teamtalkserver)
 initially an administrator account can be set up so
 further user accounts can be created using this user accounts
 dialog.
