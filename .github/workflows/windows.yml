@@ -47,6 +47,10 @@ jobs:
         arch: '${{ matrix.qtarch }}'
         setup-python: 'false'
 
+    - uses: ssciwr/doxygen-install@v1
+      with:
+        version: "1.9.7"
+
     - uses: actions/setup-python@v2
       with:
         python-version: '3.10'
