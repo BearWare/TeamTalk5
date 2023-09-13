@@ -769,7 +769,7 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
 
 ErrorMsg ServerGuard::JoinChannel(const ServerUser& user, const ServerChannel& chan)
 {
-    BannedUser testban = user.GetBan(BANTYPE_CHANNEL);
+    BannedUser testban = user.GenerateBan(BANTYPE_CHANNEL);
     testban.chanpath = chan.GetChannelPath();
     if (chan.IsBanned(testban))
         return TT_CMDERR_CHANNEL_BANNED;
@@ -848,7 +848,7 @@ ErrorMsg ServerGuard::AddUserBan(const ServerUser& banner, const ServerUser& ban
     // channel bans are stored in static channels
     if ((bantype & BANTYPE_CHANNEL) == BANTYPE_NONE)
     {
-        BannedUser ban = banee.GetBan(bantype);
+        BannedUser ban = banee.GenerateBan(bantype);
         m_settings.AddUserBan(ban);
     }
 
