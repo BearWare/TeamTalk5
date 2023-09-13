@@ -206,22 +206,6 @@ jobs:
         path-type: inherit
         install: make
 
-    - name: Install Doxygen in MSYS2 using pacman
-      run: pacman --noconfirm -S doxygen
-      shell: msys2 {0}
-
-    - name: Generate Doxygen documention from MSYS2
-      working-directory: ${{runner.workspace}}/TeamTalk5/Documentation
-      run: |
-        cd TeamTalk && doxygen TeamTalk5.dox
-        cd ..
-        cd TeamTalkSDK && doxygen TeamTalk.dox
-        cd ..
-        cd TeamTalkSDK && doxygen TeamTalk.NET.dox
-        cd ..
-        cd TeamTalkSDK && doxygen TeamTalk.Java.dox
-      shell: msys2 {0}
-
     - name: Compile TeamTalk5.chm
       working-directory: ${{runner.workspace}}/TeamTalk5/Documentation/TeamTalk
       shell: cmd
