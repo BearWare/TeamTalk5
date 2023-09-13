@@ -3217,6 +3217,59 @@ ErrorMsg ServerNode::UserKick(int userid, int kick_userid, int chanid,
     return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 }
 
+ErrorMsg ServerNode::UserBan(int userid, BannedUser ban)
+{
+    GUARD_OBJ(this, lock());
+
+    serveruser_t banner = GetUser(userid, nullptr);
+    if (!banner)
+        return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
+
+    serverchannel_t banchan;
+    ErrorMsg err(TT_CMDERR_SUCCESS);
+
+    if (ban.bantype & BANTYPE_CHANNEL)
+    {
+        if(ban.chanpath.is_empty())
+            return TT_CMDERR_CHANNEL_NOT_FOUND;
+
+        banchan = ChangeChannel(GetRootChannel(), ban.chanpath);
+        if (!banchan)
+            return TT_CMDERR_CHANNEL_NOT_FOUND;
+        ban.chanpath = banchan->GetChannelPath();
+    }
+
+    if ((banner->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
+    {
+        if (banchan && (banchan->IsOperator(userid) || banchan->IsAutoOperator(*banner)))
+            err = m_srvguard->AddUserBan(*banner, ban);
+        else
+            return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+    }
+    else
+    {
+        err = m_srvguard->AddUserBan(*banner, ban);
+    }
+
+    if (banchan && err.success())
+        AddBannedUserToChannel(ban);
+
+    if (err.success() && (m_properties.logevents & SERVERLOGEVENT_USER_BANNED))
+    {
+        m_srvguard->OnUserBanned(*banner, ban);
+    }
+
+    if (err.success() && IsAutoSaving())
+    {
+        err = m_srvguard->SaveConfiguration(*banner, *this);
+        if (err.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
+        {
+            m_srvguard->OnSaveConfiguration(banner.get());
+        }
+    }
+    return err;
+}
+
 ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
 {
     GUARD_OBJ(this, lock());
@@ -3228,77 +3281,41 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
     serverchannel_t banchan;
     ErrorMsg err(TT_CMDERR_SUCCESS);
 
-    if(ban_userid > 0)
+    serveruser_t ban_user = GetUser(ban_userid, banner.get());
+    if (!ban_user)
+        return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
+
+    if (ban.bantype & BANTYPE_CHANNEL)
     {
-        serveruser_t ban_user = GetUser(ban_userid, banner.get());
-        if (!ban_user)
-            return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
-
-        if (ban.bantype & BANTYPE_CHANNEL)
+        if (ban.chanpath.length())
         {
-            if(ban.chanpath.length())
-            {
-                banchan = ChangeChannel(GetRootChannel(), ban.chanpath);
-                if (!banchan)
-                    return TT_CMDERR_CHANNEL_NOT_FOUND;
-            }
-            else
-            {
-                banchan = ban_user->GetChannel();
-                if (!banchan)
-                    return TT_CMDERR_CHANNEL_NOT_FOUND;
-                ban.chanpath = banchan->GetChannelPath();
-            }
-            ban = ban_user->GenerateBan(ban.bantype, ban.chanpath);
-        }
-
-        if ((banner->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
-        {
-            if (!banchan || (!banchan->IsOperator(userid) && !banchan->IsAutoOperator(*banner)))
-                return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
-        }
-
-        err = m_srvguard->AddUserBan(*banner, *ban_user, ban.bantype);
-        if (banchan && err.success())
-            AddBannedUserToChannel(ban);
-        
-        if (err.success() && (m_properties.logevents & SERVERLOGEVENT_USER_BANNED))
-        {
-            m_srvguard->OnUserBanned(*ban_user, *banner);
-        }
-    }
-    else
-    {
-        if (ban.bantype & BANTYPE_CHANNEL)
-        {
-            if(ban.chanpath.is_empty())
-                return TT_CMDERR_CHANNEL_NOT_FOUND;
-
             banchan = ChangeChannel(GetRootChannel(), ban.chanpath);
+            if (!banchan)
+                return TT_CMDERR_CHANNEL_NOT_FOUND;
+        }
+        else
+        {
+            banchan = ban_user->GetChannel();
             if (!banchan)
                 return TT_CMDERR_CHANNEL_NOT_FOUND;
             ban.chanpath = banchan->GetChannelPath();
         }
+        ban = ban_user->GenerateBan(ban.bantype, ban.chanpath);
+    }
 
-        if ((banner->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
-        {
-            if (banchan && (banchan->IsOperator(userid) || banchan->IsAutoOperator(*banner)))
-                err = m_srvguard->AddUserBan(*banner, ban);
-            else
-                return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
-        }
-        else
-        {
-            err = m_srvguard->AddUserBan(*banner, ban);
-        }
+    if ((banner->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
+    {
+        if (!banchan || (!banchan->IsOperator(userid) && !banchan->IsAutoOperator(*banner)))
+            return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+    }
 
-        if (banchan && err.success())
-            AddBannedUserToChannel(ban);
+    err = m_srvguard->AddUserBan(*banner, *ban_user, ban.bantype);
+    if (banchan && err.success())
+        AddBannedUserToChannel(ban);
 
-        if (err.success() && (m_properties.logevents & SERVERLOGEVENT_USER_BANNED))
-        {
-            m_srvguard->OnUserBanned(*banner, ban);
-        }
+    if (err.success() && (m_properties.logevents & SERVERLOGEVENT_USER_BANNED))
+    {
+        m_srvguard->OnUserBanned(*ban_user, *banner);
     }
 
     if (err.success() && IsAutoSaving())
