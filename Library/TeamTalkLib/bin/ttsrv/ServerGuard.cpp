@@ -845,16 +845,8 @@ ErrorMsg ServerGuard::DeleteRegUser(const ServerUser& user, const ACE_TString& u
 
 ErrorMsg ServerGuard::AddUserBan(const ServerUser& banner, const ServerUser& banee, BanTypes bantype)
 {
-    // channel bans are stored in static channels
-    if ((bantype & BANTYPE_CHANNEL) == BANTYPE_NONE)
-    {
-        BannedUser ban = banee.GenerateBan(bantype);
-        m_settings.AddUserBan(ban);
-    }
-
-    return ErrorMsg(TT_CMDERR_SUCCESS);
+    return AddUserBan(banner, banee.GenerateBan(bantype));
 }
-
 
 ErrorMsg ServerGuard::AddUserBan(const ServerUser& banner, const BannedUser& ban)
 {
