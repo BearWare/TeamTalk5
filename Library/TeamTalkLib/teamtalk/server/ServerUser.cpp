@@ -1078,7 +1078,7 @@ ErrorMsg ServerUser::HandleQueryStats(const mstrings_t& properties)
     return TT_CMDERR_SUCCESS;
 }
 
-BannedUser ServerUser::GetBan(BanTypes bantype, const ACE_TString& chanpath) const
+BannedUser ServerUser::GenerateBan(BanTypes bantype, const ACE_TString& chanpath) const
 {
     BannedUser ban;
     ban.bantype = bantype;

@@ -3249,7 +3249,7 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
                     return TT_CMDERR_CHANNEL_NOT_FOUND;
                 ban.chanpath = banchan->GetChannelPath();
             }
-            ban = ban_user->GetBan(ban.bantype, ban.chanpath);
+            ban = ban_user->GenerateBan(ban.bantype, ban.chanpath);
         }
 
         if ((banner->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
