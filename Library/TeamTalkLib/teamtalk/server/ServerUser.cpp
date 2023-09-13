@@ -903,6 +903,7 @@ ErrorMsg ServerUser::HandleUserBan(const mstrings_t& properties)
 {
     int ban_userid = 0, chanid = 0;
     BannedUser ban;
+    // Deprecated TeamTalk v6
     ban.bantype = BANTYPE_DEFAULT; //default pre-TT-protocol 5.3
 
     GetProperty(properties, TT_USERID, ban_userid);
@@ -916,13 +917,15 @@ ErrorMsg ServerUser::HandleUserBan(const mstrings_t& properties)
     if (chanid)
         ban.bantype |= BANTYPE_CHANNEL;
 
-    //ban if admin
-    return m_servernode.UserBan(GetUserID(), ban_userid, ban);
+    return (ban_userid != 0) ?
+        m_servernode.UserBan(GetUserID(), ban_userid, ban) :
+        m_servernode.UserBan(GetUserID(), ban);
 }
 
 ErrorMsg ServerUser::HandleUserUnban(const mstrings_t& properties)
 {
     BannedUser ban;
+    // Deprecated TeamTalk v6
     ban.bantype = BANTYPE_DEFAULT; //default pre-TT-protocol 5.3
 
     GetProperty(properties, TT_IPADDR, ban.ipaddr);

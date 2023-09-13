@@ -280,6 +280,7 @@ namespace teamtalk {
         ErrorMsg UserOpDeOp(int userid, int channelid, //op user in a channel
                             const ACE_TString& oppasswd, int op_userid, bool op); 
         ErrorMsg UserKick(int userid, int kick_userid, int chanid, bool force_kick);
+        ErrorMsg UserBan(int userid, BannedUser ban);
         ErrorMsg UserBan(int userid, int ban_userid, BannedUser ban);
         ErrorMsg UserUnBan(int userid, const BannedUser& ban);
         ErrorMsg UserListServerBans(int userid, int chanid, int index, int count);
