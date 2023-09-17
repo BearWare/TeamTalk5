@@ -2741,6 +2741,7 @@ ErrorMsg ServerNode::UserLogout(int userid)
     if(!user->IsAuthorized())
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
+    // leave channel
     serverchannel_t chan = user->GetChannel();
     if(chan)
     {
@@ -2749,6 +2750,7 @@ ErrorMsg ServerNode::UserLogout(int userid)
             return err;
     }
 
+    // clear operator status in other channels
     std::set<int> chanids = m_rootchannel->RemoveOperator(userid, true);
     std::set<int>::iterator i;
     for(i=chanids.begin();i!=chanids.end();i++)
@@ -2757,6 +2759,14 @@ ErrorMsg ServerNode::UserLogout(int userid)
         TTASSERT(chan);
         if(chan)
             UpdateChannel(chan, user.get());
+    }
+
+    // clear file transfers owned by user
+    for (auto ift = m_filetransfers.begin();ift != m_filetransfers.end();)
+    {
+        if (ift->second.userid == userid)
+            ift = m_filetransfers.erase(ift);
+        else ++ift;
     }
 
     user->DoLoggedOut();
