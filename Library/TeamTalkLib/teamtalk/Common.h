@@ -355,22 +355,16 @@ namespace teamtalk {
 
     struct FileTransfer
     {
-        FileTransferStatus status;
-        int channelid;
+        FileTransferStatus status = FILETRANSFER_CLOSED;
+        int channelid = 0;
         ACE_TString localfile;
         ACE_TString filename;
-        int userid;
-        ACE_INT64 filesize;
-        ACE_INT64 transferred;
-        int transferid;
-        bool inbound;
-        FileTransfer()
-        {
-            status = FILETRANSFER_CLOSED;
-            filesize = transferred = 0;
-            userid = transferid = 0;
-            inbound = true;
-        }
+        int userid = 0;
+        ACE_INT64 filesize = 0;
+        ACE_INT64 transferred = 0;
+        int transferid = 0;
+        bool inbound = true;
+        FileTransfer() { }
     };
 
     /* Remember to updated DLL header file when modifying this */
