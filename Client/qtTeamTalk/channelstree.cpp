@@ -250,6 +250,7 @@ void ChannelsTree::getTransmitUsers(int channelid,
         Q_ASSERT(child);
         if(child->type() != USER_TYPE)
             continue;
+        transmitUsers[child->data(COLUMN_ITEM, Qt::UserRole).toInt()] = STREAMTYPE_NONE;
         if ((bool)child->checkState(COLUMN_CHANMSG))
             transmitUsers[child->data(COLUMN_ITEM, Qt::UserRole).toInt()] |= STREAMTYPE_CHANNELMSG;
         if ((bool)child->checkState(COLUMN_VOICE))
