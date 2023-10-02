@@ -328,8 +328,7 @@ serverchannel_t ServerNode::GetChannel(int channelid) const
         return m_rootchannel->GetSubChannel(channelid, true); //SLOW
 }
 
-ErrorMsg ServerNode::UserBeginFileTransfer(int transferid, 
-                                           FileTransfer& transfer, 
+ErrorMsg ServerNode::UserBeginFileTransfer(FileTransfer& transfer,
                                            MyFile& file)
 {
     GUARD_OBJ(this, lock());
@@ -337,8 +336,10 @@ ErrorMsg ServerNode::UserBeginFileTransfer(int transferid,
     if(m_properties.filesroot.length() == 0)
         return ErrorMsg(TT_CMDERR_FILESHARING_DISABLED);
 
-    filetransfers_t::iterator ite = m_filetransfers.find(transferid);
+    filetransfers_t::iterator ite = m_filetransfers.find(transfer.transferid);
     if(ite == m_filetransfers.end())
+        return ErrorMsg(TT_CMDERR_FILETRANSFER_NOT_FOUND);
+    if (transfer.inbound != ite->second.inbound)
         return ErrorMsg(TT_CMDERR_FILETRANSFER_NOT_FOUND);
 
     transfer = ite->second;
