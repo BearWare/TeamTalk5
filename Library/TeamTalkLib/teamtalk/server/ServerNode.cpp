@@ -391,10 +391,16 @@ ErrorMsg ServerNode::UserEndFileTransfer(int transferid)
     if(!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
+    return transfer.inbound ? FileInboundCompleted(*user, *chan, transfer) : FileOutboundCompleted(*user, *chan, transfer);
+}
+
+ErrorMsg ServerNode::FileInboundCompleted(const ServerUser& user, const ServerChannel& chan,
+                                          const FileTransfer& transfer)
+{
     RemoteFile remotefile;
     remotefile.fileid = std::max(1, m_file_id_counter + 1);
     while(GetRootChannel()->FileExists(remotefile.fileid, true) &&
-          remotefile.fileid != m_file_id_counter)
+           remotefile.fileid != m_file_id_counter)
     {
         remotefile.fileid = std::max(1, remotefile.fileid+1);
     }
@@ -421,41 +427,45 @@ ErrorMsg ServerNode::UserEndFileTransfer(int transferid)
     if(ACE_OS::rename(transfer.localfile.c_str(), internalpath.c_str()))
         return ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
 
-    remotefile.username = user->GetUsername();
+    remotefile.username = user.GetUsername();
     remotefile.filename = transfer.filename;
     remotefile.internalname = newfilename;
     remotefile.filesize = transfer.filesize;
-    remotefile.channelid = chan->GetChannelID();
+    remotefile.channelid = chan.GetChannelID();
 
     ErrorMsg err = AddFileToChannel(remotefile);
     if (!err.success())
         return ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
 
-    if(transfer.inbound)
+    m_stats.files_bytesreceived += remotefile.filesize;
+    if (m_properties.logevents & SERVERLOGEVENT_FILE_UPLOADED)
     {
-        m_stats.files_bytesreceived += remotefile.filesize;
-        if (m_properties.logevents & SERVERLOGEVENT_FILE_UPLOADED)
-        {
-            m_srvguard->OnFileUploaded(*user, *chan, remotefile);
-        }
-
-        if(IsAutoSaving() && (chan->GetChannelType() & CHANNEL_PERMANENT))
-        {
-            err = m_srvguard->SaveConfiguration(*user, *this);
-            if (err.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
-                m_srvguard->OnSaveConfiguration(user.get());
-        }
-    }
-    else
-    {
-        m_stats.files_bytessent += remotefile.filesize;
-        if (m_properties.logevents & SERVERLOGEVENT_FILE_DOWNLOADED)
-        {
-            m_srvguard->OnFileDownloaded(*user, *chan, remotefile);
-        }
+        m_srvguard->OnFileUploaded(user, chan, remotefile);
     }
 
+    if (IsAutoSaving() && (chan.GetChannelType() & CHANNEL_PERMANENT))
+    {
+        err = m_srvguard->SaveConfiguration(user, *this);
+        if (err.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
+            m_srvguard->OnSaveConfiguration(&user);
+    }
     return err;
+}
+
+ErrorMsg ServerNode::FileOutboundCompleted(const ServerUser& user,
+                                           const ServerChannel& chan,
+                                           const FileTransfer& transfer)
+{
+    RemoteFile remotefile;
+    if (!chan.GetFile(transfer.filename, remotefile))
+        return ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
+
+    m_stats.files_bytessent += remotefile.filesize;
+    if (m_properties.logevents & SERVERLOGEVENT_FILE_DOWNLOADED)
+    {
+        m_srvguard->OnFileDownloaded(user, chan, remotefile);
+    }
+    return ErrorMsg(TT_CMDERR_SUCCESS);
 }
 
 ErrorMsg ServerNode::UserDeleteFile(int userid, int channelid, 
