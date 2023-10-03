@@ -961,6 +961,7 @@ ErrorMsg ServerUser::HandleRegSendFile(const mstrings_t& properties)
     GET_PROP_OR_RETURN(properties, TT_CHANNELID, transfer.channelid);
     GET_PROP_OR_RETURN(properties, TT_FILENAME, transfer.filename);
     GET_PROP_OR_RETURN(properties, TT_FILESIZE, transfer.filesize);
+    GetProperty(properties, TT_TRANSFERKEY, transfer.transferkey);
 
     return m_servernode.UserRegFileTransfer(transfer);
 }
@@ -974,6 +975,7 @@ ErrorMsg ServerUser::HandleRegRecvFile(const mstrings_t& properties)
 
     GET_PROP_OR_RETURN(properties, TT_CHANNELID, transfer.channelid);
     GET_PROP_OR_RETURN(properties, TT_FILENAME, transfer.filename);
+    GetProperty(properties, TT_TRANSFERKEY, transfer.transferkey);
 
     return m_servernode.UserRegFileTransfer(transfer);
 }
@@ -983,6 +985,7 @@ ErrorMsg ServerUser::HandleSendFile(const mstrings_t& properties)
     FileTransfer transfer;
     transfer.inbound = true;
     GET_PROP_OR_RETURN(properties, TT_TRANSFERID, transfer.transferid);
+    GetProperty(properties, TT_TRANSFERKEY, transfer.transferkey);
 
     m_filetransfer.reset(new LocalFileTransfer());
 
@@ -1010,6 +1013,7 @@ ErrorMsg ServerUser::HandleRecvFile(const mstrings_t& properties)
     FileTransfer transfer;
     transfer.inbound = false;
     GET_PROP_OR_RETURN(properties, TT_TRANSFERID, transfer.transferid);
+    GetProperty(properties, TT_TRANSFERKEY, transfer.transferkey);
 
     m_filetransfer.reset(new LocalFileTransfer());
 

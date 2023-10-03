@@ -353,6 +353,8 @@ namespace teamtalk {
         FILETRANSFER_FINISHED   = 3,
     };
 
+#define TRANSFERKEY_SIZE 16
+
     struct FileTransfer
     {
         FileTransferStatus status = FILETRANSFER_CLOSED;
@@ -364,6 +366,7 @@ namespace teamtalk {
         ACE_INT64 transferred = 0;
         int transferid = 0;
         bool inbound = true;
+        ACE_TString transferkey;
         FileTransfer() { }
     };
 

@@ -341,6 +341,8 @@ ErrorMsg ServerNode::UserBeginFileTransfer(FileTransfer& transfer,
         return ErrorMsg(TT_CMDERR_FILETRANSFER_NOT_FOUND);
     if (transfer.inbound != ite->second.inbound)
         return ErrorMsg(TT_CMDERR_FILETRANSFER_NOT_FOUND);
+    if (transfer.transferkey != ite->second.transferkey)
+        return ErrorMsg(TT_CMDERR_FILETRANSFER_NOT_FOUND);
 
     transfer = ite->second;
     TTASSERT(transfer.filename.length());
