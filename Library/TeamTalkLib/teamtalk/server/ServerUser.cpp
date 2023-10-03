@@ -104,6 +104,8 @@ bool ServerUser::SendData(ACE_Message_Queue_Base& msg_queue)
             return true;
         }
 
+        m_servernode.UserEndFileTransfer(m_filetransfer->transferid);
+
         CloseTransfer();
     }
     else if(m_sendbuf.length())
