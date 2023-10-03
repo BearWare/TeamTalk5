@@ -49,7 +49,7 @@ jobs:
 
     - uses: ssciwr/doxygen-install@v1
       with:
-        version: "1.9.7"
+        version: "1.9.8"
 
     - uses: actions/setup-python@v2
       with:
