@@ -3180,6 +3180,12 @@ namespace BearWare
          * @see TeamTalkBase.DoBanUser() */
         CMDERR_CHANNEL_BANNED = 2015,
 
+        /** @brief Maximum number of file transfers exceeded.
+         *
+         *  @see TeamTalkBase.DoSendFile()
+         *  @see TeamTalkBase.DoRecvFile() */
+        CMDERR_MAX_FILETRANSFERS_EXCEEDED       = 2016,
+
         /* COMMAND ERRORS 3000-3999 ARE DUE TO INVALID STATE OF CLIENT INSTANCE */
 
         /** @brief Client instance has not been authenticated.

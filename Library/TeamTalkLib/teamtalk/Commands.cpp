@@ -78,6 +78,8 @@ namespace teamtalk {
             errmsg = ACE_TEXT("Commands are issued too fast. Flood protection."); break;
         case TT_CMDERR_CHANNEL_BANNED:
             errmsg = ACE_TEXT("Banned from channel"); break;
+        case TT_CMDERR_MAX_FILETRANSFERS_EXCEEDED :
+            errmsg = ACE_TEXT("Maximum number of file transfers exceeded"); break;
 
             // state errors
         case TT_CMDERR_NOT_LOGGEDIN :
