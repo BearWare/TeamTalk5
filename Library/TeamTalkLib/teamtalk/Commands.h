@@ -250,6 +250,7 @@ namespace teamtalk {
         TT_CMDERR_MAX_CHANNELS_EXCEEDED = 2013,
         TT_CMDERR_COMMAND_FLOOD = 2014,
         TT_CMDERR_CHANNEL_BANNED = 2015,
+        TT_CMDERR_MAX_FILETRANSFERS_EXCEEDED = 2016,
 
         /***** command errors due to invalid state *****/
         TT_CMDERR_NOT_LOGGEDIN = 3000,

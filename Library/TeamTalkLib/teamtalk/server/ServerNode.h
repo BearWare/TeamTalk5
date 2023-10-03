@@ -355,6 +355,7 @@ namespace teamtalk {
                                     bool start_nak_timer);
         ErrorMsg FileInboundCompleted(const ServerUser& user, const ServerChannel& chan, const FileTransfer& transfer);
         ErrorMsg FileOutboundCompleted(const ServerUser& user, const ServerChannel& chan, const FileTransfer& transfer);
+        int CountFileTransfers(int userid);
 
         //all connected users
         typedef std::map<int, serveruser_t> mapusers_t;

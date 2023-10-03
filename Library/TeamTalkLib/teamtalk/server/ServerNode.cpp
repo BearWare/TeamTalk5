@@ -4166,6 +4166,9 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
     if (!chan->UserExists(user->GetUserID()) && (user->GetUserType() & USERTYPE_ADMIN) == 0)
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
+    if (CountFileTransfers(user->GetUserID()) >= m_properties.maxfiletransfers)
+        return ErrorMsg(TT_CMDERR_MAX_FILETRANSFERS_EXCEEDED);
+
     if(transfer.inbound)
     {
         if((user->GetUserRights() & USERRIGHT_UPLOAD_FILES) == 0)
@@ -4218,6 +4221,23 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
     TTASSERT(transfer.transferid>0);
     user->DoFileAccepted(transfer);
     return ErrorMsg(TT_CMDERR_SUCCESS);
+}
+
+int ServerNode::CountFileTransfers(int userid)
+{
+    ASSERT_REACTOR_LOCKED(this);
+    auto ite = m_filetransfers.begin();
+    int c = 0;
+    while (ite != m_filetransfers.end())
+    {
+        ite = std::find_if(ite, m_filetransfers.end(),
+                           [userid] (const std::pair<int, FileTransfer>& transfer) { return transfer.second.userid == userid; });
+        if (ite != m_filetransfers.end())
+        {
+            ++c; ++ite;
+        }
+    }
+    return c;
 }
 
 ErrorMsg ServerNode::UserSubscribe(int userid, int subuserid, 

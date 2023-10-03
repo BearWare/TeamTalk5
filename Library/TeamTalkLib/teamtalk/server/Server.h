@@ -34,6 +34,7 @@ namespace teamtalk {
         std::vector<ACE_INET_Addr> tcpaddrs;
         std::vector<ACE_INET_Addr> udpaddrs;
         int rxloss = 0, txloss = 0;
+        int maxfiletransfers = 100; // per user
 
         ServerSettings()
         {
