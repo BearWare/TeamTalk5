@@ -23,6 +23,10 @@ android {
         buildConfig = true
     }
 
+    androidResources {
+        generateLocaleConfig true
+    }
+
     defaultConfig {
         applicationId "dk.bearware.gui"
         minSdkVersion 21
