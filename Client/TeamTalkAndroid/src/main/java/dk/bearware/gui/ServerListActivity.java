@@ -58,6 +58,8 @@ import org.xml.sax.InputSource;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.Collections;
 import java.util.Comparator;
@@ -256,11 +258,15 @@ extends AppCompatActivity
                     StringBuilder xml = new StringBuilder();
                     try {
                         String line;
-                        BufferedReader source = new BufferedReader(new FileReader(AbsolutePathHelper.getRealPath(this.getBaseContext(), data.getData())));
-                        while ((line = source.readLine()) != null) {
-                            xml.append(line);
+                        InputStream inputStream = this.getContentResolver().openInputStream(data.getData());
+                        if (inputStream != null) {
+                            BufferedReader source = new BufferedReader(new InputStreamReader(inputStream));
+                            while ((line = source.readLine()) != null) {
+                                xml.append(line);
+                            }
+                            source.close();
+                            inputStream.close();
                         }
-                        source.close();
                     }
                     catch (Exception ex) {
                     }
