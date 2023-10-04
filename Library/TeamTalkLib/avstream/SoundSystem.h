@@ -49,6 +49,7 @@ namespace soundsystem {
         SOUND_API_OPENSLES_ANDROID = 7,
         SOUND_API_AUDIOUNIT = 8,
         SOUND_API_AUDIOTOOLKIT = 9,
+        SOUND_API_PULSEAUDIO = 10,
     };
 
     enum SoundDeviceID

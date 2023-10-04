@@ -624,6 +624,9 @@ public abstract class TeamTalkTestCaseBase {
         case SoundSystem.SOUNDSYSTEM_AUDIOUNIT_IOS :
             System.out.println("\tSound System: AudioUnit for iOS");
             break;
+        case SoundSystem.SOUNDSYSTEM_PULSEAUDIO :
+            System.out.println("\tSound System: PulseAudio");
+            break;
         }
         System.out.println("\tInput channels: " + Integer.toString(dev.nMaxInputChannels));
         System.out.println("\tOutput channels: " + Integer.toString(dev.nMaxOutputChannels));
