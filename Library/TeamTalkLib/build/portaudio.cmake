@@ -25,4 +25,7 @@ if ( ${CMAKE_SYSTEM_NAME} MATCHES "Linux" )
   # Ubuntu: libasound2-dev
   find_library(ASOUND_LIBRARY asound)
   list (APPEND PORTAUDIO_LINK_FLAGS ${ASOUND_LIBRARY})
+  # Ubuntu: libpulse-dev
+  find_library(PULSE_LIBRARY pulse)
+  list (APPEND PORTAUDIO_LINK_FLAGS ${PULSE_LIBRARY})
 endif()

@@ -152,6 +152,9 @@ namespace BearWare
         SOUNDSYSTEM_AUDIOUNIT = 8,
         /** @brief Same as #BearWare.SoundSystem.SOUNDSYSTEM_AUDIOUNIT. */
         SOUNDSYSTEM_AUDIOUNIT_IOS = SOUNDSYSTEM_AUDIOUNIT,
+        /** @brief PulseAudio API.
+         *  PulseAudio is typically used on Ubuntu 22. */
+        SOUNDSYSTEM_PULSEAUDIO = 10,
     }
 
     /**
