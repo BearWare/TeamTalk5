@@ -1428,7 +1428,7 @@ HTML_DYNAMIC_SECTIONS  = NO
 # The default value is: YES.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_CODE_FOLDING      = YES
+HTML_CODE_FOLDING      = NO
 
 # With HTML_INDEX_NUM_ENTRIES one can control the preferred number of entries
 # shown in the various tree structured indices initially; the user can expand
