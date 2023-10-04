@@ -61,6 +61,11 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_PORTAUDIO})
   endif()
 
+  find_library (CARBON_LIBRARY Carbon)
+  find_library (AUDIOUNIT_LIBRARY AudioUnit)
+  find_library (COREAUDIO_LIBRARY CoreAudio)
+  find_library (AUDIOTOOLBOX_LIBRARY AudioToolBox )
+
   add_library(portaudio STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(portaudio portaudio-src)
@@ -68,6 +73,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   target_include_directories (portaudio INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(portaudio PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libportaudio.a)
+  target_link_libraries(portaudio INTERFACE ${CARBON_LIBRARY} ${AUDIOUNIT_LIBRARY} ${COREAUDIO_LIBRARY} ${AUDIOTOOLBOX_LIBRARY})
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
@@ -100,14 +106,22 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(portaudio portaudio-src)
   endif()
+
+  # Ubuntu: libasound2-dev
+  find_library(ASOUND_LIBRARY asound)
+  # Ubuntu: libpulse-dev
+  find_library(PULSE_LIBRARY pulse)
+
   if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
     set_target_properties(portaudio PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libportaudio.a)
+    target_link_libraries(portaudio INTERFACE ${ASOUND_LIBRARY} ${PULSE_LIBRARY})
   else()
     target_include_directories (portaudio INTERFACE ${INSTALL_DIR}/include)
     set_target_properties(portaudio PROPERTIES
       IMPORTED_LOCATION ${INSTALL_DIR}/lib/libportaudio.a)
+    target_link_libraries(portaudio INTERFACE ${ASOUND_LIBRARY} ${PULSE_LIBRARY})
   endif()
 
 endif()
