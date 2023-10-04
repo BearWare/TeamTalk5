@@ -8,21 +8,25 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.android.tools.build:gradle:8.1.2'
     }
 }
 
 apply plugin: 'com.android.application'
 
 android {
-    buildToolsVersion '30.0.3'
-    compileSdkVersion 33
+    buildToolsVersion '33.0.1'
+    compileSdkVersion 34
     namespace 'dk.bearware.gui'
+
+    buildFeatures {
+        buildConfig = true
+    }
 
     defaultConfig {
         applicationId "dk.bearware.gui"
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 124
         versionName '5.14'
 
@@ -62,15 +66,16 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.code.gson:gson:2.10'
-    implementation 'androidx.annotation:annotation:1.5.0'
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'androidx.core:core:1.9.0'
-    implementation 'androidx.fragment:fragment:1.5.4'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'androidx.annotation:annotation:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.core:core:1.12.0'
+    implementation 'androidx.fragment:fragment:1.6.0'
     implementation 'androidx.media:media:1.6.0'
-    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.preference:preference:1.2.1'
     implementation 'androidx.viewpager:viewpager:1.0.0'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
     implementation files('libs/TeamTalk5.jar')
 
