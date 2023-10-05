@@ -14,6 +14,7 @@ RUN apt install -y \
                    junit4 \
                    libasound2-dev \
                    libpcap-dev \
+                   libpulse-dev \
                    libqt5texttospeech5-dev \
                    libqt5x11extras5-dev \
                    libssl-dev \
