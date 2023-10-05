@@ -328,8 +328,7 @@ serverchannel_t ServerNode::GetChannel(int channelid) const
         return m_rootchannel->GetSubChannel(channelid, true); //SLOW
 }
 
-ErrorMsg ServerNode::UserBeginFileTransfer(int transferid, 
-                                           FileTransfer& transfer, 
+ErrorMsg ServerNode::UserBeginFileTransfer(FileTransfer& transfer,
                                            MyFile& file)
 {
     GUARD_OBJ(this, lock());
@@ -337,8 +336,12 @@ ErrorMsg ServerNode::UserBeginFileTransfer(int transferid,
     if(m_properties.filesroot.length() == 0)
         return ErrorMsg(TT_CMDERR_FILESHARING_DISABLED);
 
-    filetransfers_t::iterator ite = m_filetransfers.find(transferid);
+    filetransfers_t::iterator ite = m_filetransfers.find(transfer.transferid);
     if(ite == m_filetransfers.end())
+        return ErrorMsg(TT_CMDERR_FILETRANSFER_NOT_FOUND);
+    if (transfer.inbound != ite->second.inbound)
+        return ErrorMsg(TT_CMDERR_FILETRANSFER_NOT_FOUND);
+    if (transfer.transferkey != ite->second.transferkey)
         return ErrorMsg(TT_CMDERR_FILETRANSFER_NOT_FOUND);
 
     transfer = ite->second;
@@ -390,10 +393,16 @@ ErrorMsg ServerNode::UserEndFileTransfer(int transferid)
     if(!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
+    return transfer.inbound ? FileInboundCompleted(*user, *chan, transfer) : FileOutboundCompleted(*user, *chan, transfer);
+}
+
+ErrorMsg ServerNode::FileInboundCompleted(const ServerUser& user, const ServerChannel& chan,
+                                          const FileTransfer& transfer)
+{
     RemoteFile remotefile;
     remotefile.fileid = std::max(1, m_file_id_counter + 1);
     while(GetRootChannel()->FileExists(remotefile.fileid, true) &&
-          remotefile.fileid != m_file_id_counter)
+           remotefile.fileid != m_file_id_counter)
     {
         remotefile.fileid = std::max(1, remotefile.fileid+1);
     }
@@ -420,41 +429,45 @@ ErrorMsg ServerNode::UserEndFileTransfer(int transferid)
     if(ACE_OS::rename(transfer.localfile.c_str(), internalpath.c_str()))
         return ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
 
-    remotefile.username = user->GetUsername();
+    remotefile.username = user.GetUsername();
     remotefile.filename = transfer.filename;
     remotefile.internalname = newfilename;
     remotefile.filesize = transfer.filesize;
-    remotefile.channelid = chan->GetChannelID();
+    remotefile.channelid = chan.GetChannelID();
 
     ErrorMsg err = AddFileToChannel(remotefile);
     if (!err.success())
         return ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
 
-    if(transfer.inbound)
+    m_stats.files_bytesreceived += remotefile.filesize;
+    if (m_properties.logevents & SERVERLOGEVENT_FILE_UPLOADED)
     {
-        m_stats.files_bytesreceived += remotefile.filesize;
-        if (m_properties.logevents & SERVERLOGEVENT_FILE_UPLOADED)
-        {
-            m_srvguard->OnFileUploaded(*user, *chan, remotefile);
-        }
-
-        if(IsAutoSaving() && (chan->GetChannelType() & CHANNEL_PERMANENT))
-        {
-            err = m_srvguard->SaveConfiguration(*user, *this);
-            if (err.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
-                m_srvguard->OnSaveConfiguration(user.get());
-        }
-    }
-    else
-    {
-        m_stats.files_bytessent += remotefile.filesize;
-        if (m_properties.logevents & SERVERLOGEVENT_FILE_DOWNLOADED)
-        {
-            m_srvguard->OnFileDownloaded(*user, *chan, remotefile);
-        }
+        m_srvguard->OnFileUploaded(user, chan, remotefile);
     }
 
+    if (IsAutoSaving() && (chan.GetChannelType() & CHANNEL_PERMANENT))
+    {
+        err = m_srvguard->SaveConfiguration(user, *this);
+        if (err.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
+            m_srvguard->OnSaveConfiguration(&user);
+    }
     return err;
+}
+
+ErrorMsg ServerNode::FileOutboundCompleted(const ServerUser& user,
+                                           const ServerChannel& chan,
+                                           const FileTransfer& transfer)
+{
+    RemoteFile remotefile;
+    if (!chan.GetFile(transfer.filename, remotefile))
+        return ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
+
+    m_stats.files_bytessent += remotefile.filesize;
+    if (m_properties.logevents & SERVERLOGEVENT_FILE_DOWNLOADED)
+    {
+        m_srvguard->OnFileDownloaded(user, chan, remotefile);
+    }
+    return ErrorMsg(TT_CMDERR_SUCCESS);
 }
 
 ErrorMsg ServerNode::UserDeleteFile(int userid, int channelid, 
@@ -2741,6 +2754,7 @@ ErrorMsg ServerNode::UserLogout(int userid)
     if(!user->IsAuthorized())
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
+    // leave channel
     serverchannel_t chan = user->GetChannel();
     if(chan)
     {
@@ -2749,6 +2763,7 @@ ErrorMsg ServerNode::UserLogout(int userid)
             return err;
     }
 
+    // clear operator status in other channels
     std::set<int> chanids = m_rootchannel->RemoveOperator(userid, true);
     std::set<int>::iterator i;
     for(i=chanids.begin();i!=chanids.end();i++)
@@ -2757,6 +2772,14 @@ ErrorMsg ServerNode::UserLogout(int userid)
         TTASSERT(chan);
         if(chan)
             UpdateChannel(chan, user.get());
+    }
+
+    // clear file transfers owned by user
+    for (auto ift = m_filetransfers.begin();ift != m_filetransfers.end();)
+    {
+        if (ift->second.userid == userid)
+            ift = m_filetransfers.erase(ift);
+        else ++ift;
     }
 
     user->DoLoggedOut();
@@ -3217,6 +3240,59 @@ ErrorMsg ServerNode::UserKick(int userid, int kick_userid, int chanid,
     return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 }
 
+ErrorMsg ServerNode::UserBan(int userid, BannedUser ban)
+{
+    GUARD_OBJ(this, lock());
+
+    serveruser_t banner = GetUser(userid, nullptr);
+    if (!banner)
+        return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
+
+    serverchannel_t banchan;
+    ErrorMsg err(TT_CMDERR_SUCCESS);
+
+    if (ban.bantype & BANTYPE_CHANNEL)
+    {
+        if(ban.chanpath.is_empty())
+            return TT_CMDERR_CHANNEL_NOT_FOUND;
+
+        banchan = ChangeChannel(GetRootChannel(), ban.chanpath);
+        if (!banchan)
+            return TT_CMDERR_CHANNEL_NOT_FOUND;
+        ban.chanpath = banchan->GetChannelPath();
+    }
+
+    if ((banner->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
+    {
+        if (banchan && (banchan->IsOperator(userid) || banchan->IsAutoOperator(*banner)))
+            err = m_srvguard->AddUserBan(*banner, ban);
+        else
+            return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+    }
+    else
+    {
+        err = m_srvguard->AddUserBan(*banner, ban);
+    }
+
+    if (banchan && err.success())
+        AddBannedUserToChannel(ban);
+
+    if (err.success() && (m_properties.logevents & SERVERLOGEVENT_USER_BANNED))
+    {
+        m_srvguard->OnUserBanned(*banner, ban);
+    }
+
+    if (err.success() && IsAutoSaving())
+    {
+        err = m_srvguard->SaveConfiguration(*banner, *this);
+        if (err.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
+        {
+            m_srvguard->OnSaveConfiguration(banner.get());
+        }
+    }
+    return err;
+}
+
 ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
 {
     GUARD_OBJ(this, lock());
@@ -3228,77 +3304,41 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
     serverchannel_t banchan;
     ErrorMsg err(TT_CMDERR_SUCCESS);
 
-    if(ban_userid > 0)
+    serveruser_t ban_user = GetUser(ban_userid, banner.get());
+    if (!ban_user)
+        return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
+
+    if (ban.bantype & BANTYPE_CHANNEL)
     {
-        serveruser_t ban_user = GetUser(ban_userid, banner.get());
-        if (!ban_user)
-            return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
-
-        if (ban.bantype & BANTYPE_CHANNEL)
+        if (ban.chanpath.length())
         {
-            if(ban.chanpath.length())
-            {
-                banchan = ChangeChannel(GetRootChannel(), ban.chanpath);
-                if (!banchan)
-                    return TT_CMDERR_CHANNEL_NOT_FOUND;
-            }
-            else
-            {
-                banchan = ban_user->GetChannel();
-                if (!banchan)
-                    return TT_CMDERR_CHANNEL_NOT_FOUND;
-                ban.chanpath = banchan->GetChannelPath();
-            }
-            ban = ban_user->GetBan(ban.bantype, ban.chanpath);
-        }
-
-        if ((banner->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
-        {
-            if (!banchan || (!banchan->IsOperator(userid) && !banchan->IsAutoOperator(*banner)))
-                return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
-        }
-
-        err = m_srvguard->AddUserBan(*banner, *ban_user, ban.bantype);
-        if (banchan && err.success())
-            AddBannedUserToChannel(ban);
-        
-        if (err.success() && (m_properties.logevents & SERVERLOGEVENT_USER_BANNED))
-        {
-            m_srvguard->OnUserBanned(*ban_user, *banner);
-        }
-    }
-    else
-    {
-        if (ban.bantype & BANTYPE_CHANNEL)
-        {
-            if(ban.chanpath.is_empty())
-                return TT_CMDERR_CHANNEL_NOT_FOUND;
-
             banchan = ChangeChannel(GetRootChannel(), ban.chanpath);
+            if (!banchan)
+                return TT_CMDERR_CHANNEL_NOT_FOUND;
+        }
+        else
+        {
+            banchan = ban_user->GetChannel();
             if (!banchan)
                 return TT_CMDERR_CHANNEL_NOT_FOUND;
             ban.chanpath = banchan->GetChannelPath();
         }
+        ban = ban_user->GenerateBan(ban.bantype, ban.chanpath);
+    }
 
-        if ((banner->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
-        {
-            if (banchan && (banchan->IsOperator(userid) || banchan->IsAutoOperator(*banner)))
-                err = m_srvguard->AddUserBan(*banner, ban);
-            else
-                return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
-        }
-        else
-        {
-            err = m_srvguard->AddUserBan(*banner, ban);
-        }
+    if ((banner->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
+    {
+        if (!banchan || (!banchan->IsOperator(userid) && !banchan->IsAutoOperator(*banner)))
+            return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+    }
 
-        if (banchan && err.success())
-            AddBannedUserToChannel(ban);
+    err = m_srvguard->AddUserBan(*banner, *ban_user, ban.bantype);
+    if (banchan && err.success())
+        AddBannedUserToChannel(ban);
 
-        if (err.success() && (m_properties.logevents & SERVERLOGEVENT_USER_BANNED))
-        {
-            m_srvguard->OnUserBanned(*banner, ban);
-        }
+    if (err.success() && (m_properties.logevents & SERVERLOGEVENT_USER_BANNED))
+    {
+        m_srvguard->OnUserBanned(*ban_user, *banner);
     }
 
     if (err.success() && IsAutoSaving())
@@ -3537,15 +3577,7 @@ ErrorMsg ServerNode::UserUpdateServer(int userid, const ServerSettings& properti
     if((user->GetUserRights() & USERRIGHT_UPDATE_SERVERPROPERTIES) == 0)
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
-    // log server save event if it is or was enabled
-    bool logevent = (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) || (properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG);
-    ErrorMsg err = UpdateServer(properties, user.get());
-    if (err.success() && logevent)
-    {
-        m_srvguard->OnServerUpdated(*user, properties);
-    }
-    
-    return err;
+    return UpdateServer(properties, user.get());
 }
 
 ErrorMsg ServerNode::UserSaveServerConfig(int userid)
@@ -3567,7 +3599,15 @@ ErrorMsg ServerNode::UserSaveServerConfig(int userid)
 ErrorMsg ServerNode::UpdateServer(const ServerSettings& properties,
                                   const ServerUser* user /*= nullptr*/)
 {
+    // log server save event if it is or was enabled
+    bool logevent = (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) ||
+                    (properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG);
     SetServerProperties(properties);
+
+    if (logevent)
+    {
+        m_srvguard->OnServerUpdated(user, properties);
+    }
 
     for (auto u : GetAuthorizedUsers())
         u->DoServerUpdate(m_properties);
@@ -4126,6 +4166,9 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
     if (!chan->UserExists(user->GetUserID()) && (user->GetUserType() & USERTYPE_ADMIN) == 0)
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
+    if (CountFileTransfers(user->GetUserID()) >= m_properties.maxfiletransfers)
+        return ErrorMsg(TT_CMDERR_MAX_FILETRANSFERS_EXCEEDED);
+
     if(transfer.inbound)
     {
         if((user->GetUserRights() & USERRIGHT_UPLOAD_FILES) == 0)
@@ -4178,6 +4221,23 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
     TTASSERT(transfer.transferid>0);
     user->DoFileAccepted(transfer);
     return ErrorMsg(TT_CMDERR_SUCCESS);
+}
+
+int ServerNode::CountFileTransfers(int userid)
+{
+    ASSERT_REACTOR_LOCKED(this);
+    auto ite = m_filetransfers.begin();
+    int c = 0;
+    while (ite != m_filetransfers.end())
+    {
+        ite = std::find_if(ite, m_filetransfers.end(),
+                           [userid] (const std::pair<int, FileTransfer>& transfer) { return transfer.second.userid == userid; });
+        if (ite != m_filetransfers.end())
+        {
+            ++c; ++ite;
+        }
+    }
+    return c;
 }
 
 ErrorMsg ServerNode::UserSubscribe(int userid, int subuserid, 

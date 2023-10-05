@@ -35,6 +35,10 @@
 #include <ace/OS.h>
 #include <ace/Synch_Options.h>
 
+#if defined(ENABLE_ENCRYPTION)
+#include <openssl/rand.h>
+#endif
+
 using namespace teamtalk;
 using namespace std;
 using namespace media;
@@ -4535,13 +4539,19 @@ int ClientNode::DoFileSend(int channelid, const ACE_TString& localfilepath)
     transfer.inbound = false;
     transfer.transferid = 0;
     transfer.userid = GetUserID();
+#if defined(ENABLE_ENCRYPTION)
+    uint8_t transferkey[TRANSFERKEY_SIZE];
+    RAND_bytes(transferkey, sizeof(transferkey));
+    transfer.transferkey = KeyToHexString(transferkey, TRANSFERKEY_SIZE);
+#endif
     TTASSERT(GetUserID()>0);
 
     //first register file transfer before sending
     ACE_TString command = CLIENT_REGSENDFILE;
     AppendProperty(TT_FILENAME, transfer.filename, command);
-    AppendProperty(TT_FILESIZE, filesize, command);
-    AppendProperty(TT_CHANNELID, channelid, command);
+    AppendProperty(TT_FILESIZE, transfer.filesize, command);
+    AppendProperty(TT_CHANNELID, transfer.channelid, command);
+    AppendProperty(TT_TRANSFERKEY, transfer.transferkey, command);
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;
     int cmdid = TransmitCommand(command, m_cmdid_counter);
@@ -4565,12 +4575,18 @@ int ClientNode::DoFileRecv(int channelid,
     transfer.inbound = true;
     transfer.transferid = 0;
     transfer.userid = GetUserID();
+#if defined(ENABLE_ENCRYPTION)
+    uint8_t transferkey[TRANSFERKEY_SIZE];
+    RAND_bytes(transferkey, sizeof(transferkey));
+    transfer.transferkey = KeyToHexString(transferkey, TRANSFERKEY_SIZE);
+#endif
     TTASSERT(GetUserID()>0);
 
     //first register file transfer before sending
     ACE_TString command = CLIENT_REGRECVFILE;
-    AppendProperty(TT_FILENAME, remotefilename, command);
-    AppendProperty(TT_CHANNELID, channelid, command);
+    AppendProperty(TT_FILENAME, transfer.filename, command);
+    AppendProperty(TT_CHANNELID, transfer.channelid, command);
+    AppendProperty(TT_TRANSFERKEY, transfer.transferkey, command);
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;
     int cmdid = TransmitCommand(command, m_cmdid_counter);

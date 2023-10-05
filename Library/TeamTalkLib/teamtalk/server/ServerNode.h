@@ -280,6 +280,7 @@ namespace teamtalk {
         ErrorMsg UserOpDeOp(int userid, int channelid, //op user in a channel
                             const ACE_TString& oppasswd, int op_userid, bool op); 
         ErrorMsg UserKick(int userid, int kick_userid, int chanid, bool force_kick);
+        ErrorMsg UserBan(int userid, BannedUser ban);
         ErrorMsg UserBan(int userid, int ban_userid, BannedUser ban);
         ErrorMsg UserUnBan(int userid, const BannedUser& ban);
         ErrorMsg UserListServerBans(int userid, int chanid, int index, int count);
@@ -290,7 +291,7 @@ namespace teamtalk {
 
         //transfer id will be set if successful
         ErrorMsg UserRegFileTransfer(FileTransfer& transfer);
-        ErrorMsg UserBeginFileTransfer(int transferid, FileTransfer& transfer, 
+        ErrorMsg UserBeginFileTransfer(FileTransfer& transfer,
                                        MyFile& file);
         ErrorMsg UserEndFileTransfer(int transferid);
         ErrorMsg UserDeleteFile(int userid, int channelid, const ACE_TString& filename);
@@ -352,6 +353,9 @@ namespace teamtalk {
         void StopDesktopTransmitter(const ServerUser& src_user,
                                     ServerUser& dest_user,
                                     bool start_nak_timer);
+        ErrorMsg FileInboundCompleted(const ServerUser& user, const ServerChannel& chan, const FileTransfer& transfer);
+        ErrorMsg FileOutboundCompleted(const ServerUser& user, const ServerChannel& chan, const FileTransfer& transfer);
+        int CountFileTransfers(int userid);
 
         //all connected users
         typedef std::map<int, serveruser_t> mapusers_t;
@@ -451,7 +455,7 @@ namespace teamtalk {
         virtual void OnFileDownloaded(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file) = 0;
         virtual void OnFileDeleted(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file) = 0;
 
-        virtual void OnServerUpdated(const ServerUser& user, const ServerSettings& srvprop) = 0;
+        virtual void OnServerUpdated(const ServerUser* user, const ServerSettings& srvprop) = 0;
         virtual void OnSaveConfiguration(const ServerUser* user = nullptr) = 0;
 
         virtual void OnShutdown(const ServerStats& stats) = 0;

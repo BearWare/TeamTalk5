@@ -93,7 +93,7 @@ public:
                        const teamtalk::ServerChannel& chan,
                        const teamtalk::RemoteFile& file) override;
 
-    void OnServerUpdated(const teamtalk::ServerUser& user,
+    void OnServerUpdated(const teamtalk::ServerUser* user,
                          const teamtalk::ServerSettings& srvprop) override;
     void OnSaveConfiguration(const teamtalk::ServerUser* user = nullptr) override;
 

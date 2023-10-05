@@ -3439,6 +3439,12 @@ TEAMTALKDLL_API INT32 TT_DBG_SIZEOF(IN TTType nType)
         return sizeof(WebRTCAudioPreprocessor);
     case __ENCRYPTIONCONTEXT:
         return sizeof(EncryptionContext);
+    case __SOUNDDEVICEEFFECTS:
+        return sizeof(SoundDeviceEffects);
+    case __DESKTOPWINDOW:
+        return sizeof(DesktopWindow);
+    case __ABUSEPREVENTION:
+        return sizeof(AbusePrevention);
     }
     return 0;
 }

@@ -419,6 +419,7 @@ void FileNode::DoRecvFile()
     ACE_TString cmd;
     cmd = CLIENT_RECVFILE;
     AppendProperty(TT_TRANSFERID, m_transfer.transferid, cmd);
+    AppendProperty(TT_TRANSFERKEY, m_transfer.transferkey, cmd);
     cmd += EOL;
 
     TransmitCommand(cmd);
@@ -429,6 +430,7 @@ void FileNode::DoSendFile()
     ACE_TString cmd;
     cmd = CLIENT_SENDFILE;
     AppendProperty(TT_TRANSFERID, m_transfer.transferid, cmd);
+    AppendProperty(TT_TRANSFERKEY, m_transfer.transferkey, cmd);
     cmd += EOL;
 
     TransmitCommand(cmd);

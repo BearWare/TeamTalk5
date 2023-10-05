@@ -49,7 +49,7 @@ public class ClientError {
     public static final int CMDERR_MAX_CHANNELS_EXCEEDED            = 2013;
     public static final int CMDERR_COMMAND_FLOOD                    = 2014;
     public static final int CMDERR_CHANNEL_BANNED                   = 2015;
-
+    public static final int CMDERR_MAX_FILETRANSFERS_EXCEEDED       = 2016;
     public static final int CMDERR_NOT_LOGGEDIN                     = 3000;
     public static final int CMDERR_ALREADY_LOGGEDIN                 = 3001;
     public static final int CMDERR_NOT_IN_CHANNEL                   = 3002;

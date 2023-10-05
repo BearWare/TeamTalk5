@@ -2980,6 +2980,12 @@ extern "C" {
          * @see TT_DoBanUser() */
         CMDERR_CHANNEL_BANNED = 2015,
 
+        /** @brief Maximum number of file transfers exceeded.
+         *
+         *  @see TT_DoSendFile()
+         *  @see TT_DoRecvFile() */
+        CMDERR_MAX_FILETRANSFERS_EXCEEDED = 2016,
+
         /* COMMAND ERRORS 3000-3999 ARE DUE TO INVALID STATE OF CLIENT INSTANCE */
 
         /** @brief Client instance has not been authenticated.
@@ -3962,6 +3968,9 @@ extern "C" {
         __JITTERCONFIG            = 41,
         __WEBRTCAUDIOPREPROCESSOR = 42,
         __ENCRYPTIONCONTEXT       = 43,
+        __SOUNDDEVICEEFFECTS       = 44,
+        __DESKTOPWINDOW       = 45,
+        __ABUSEPREVENTION       = 46,
     } TTType;
 
     /**

@@ -47,6 +47,10 @@ jobs:
         arch: '${{ matrix.qtarch }}'
         setup-python: 'false'
 
+    - uses: ssciwr/doxygen-install@v1
+      with:
+        version: "1.9.8"
+
     - uses: actions/setup-python@v2
       with:
         python-version: '3.10'
@@ -201,22 +205,6 @@ jobs:
         msystem: ${{ matrix.msystem }}
         path-type: inherit
         install: make
-
-    - name: Install Doxygen in MSYS2 using pacman
-      run: pacman --noconfirm -S doxygen
-      shell: msys2 {0}
-
-    - name: Generate Doxygen documention from MSYS2
-      working-directory: ${{runner.workspace}}/TeamTalk5/Documentation
-      run: |
-        cd TeamTalk && doxygen TeamTalk5.dox
-        cd ..
-        cd TeamTalkSDK && doxygen TeamTalk.dox
-        cd ..
-        cd TeamTalkSDK && doxygen TeamTalk.NET.dox
-        cd ..
-        cd TeamTalkSDK && doxygen TeamTalk.Java.dox
-      shell: msys2 {0}
 
     - name: Compile TeamTalk5.chm
       working-directory: ${{runner.workspace}}/TeamTalk5/Documentation/TeamTalk

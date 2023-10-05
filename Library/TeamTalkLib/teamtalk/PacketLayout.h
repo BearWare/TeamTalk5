@@ -43,7 +43,7 @@
 #include <stdint.h>
 
 /******************************
-*    TEAMTALK 4 PACKET LAYOUT
+*    TEAMTALK PACKET LAYOUT
 *******************************/
 
 #define TEAMTALK_PACKET_PROTOCOL 1

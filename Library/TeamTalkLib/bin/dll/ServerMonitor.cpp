@@ -349,12 +349,13 @@ void ServerMonitor::OnFileDeleted(const teamtalk::ServerUser& user,
         i->second(m_ttInst, i->first, &sfile, &suser);
 }
 
-void ServerMonitor::OnServerUpdated(const teamtalk::ServerUser& user,
+void ServerMonitor::OnServerUpdated(const teamtalk::ServerUser* user,
                                     const teamtalk::ServerSettings& srvprop)
 {
     User suser;
     ServerProperties sprop;
-    Convert(user, suser);
+    if (user)
+        Convert(*user, suser);
     Convert(srvprop, sprop);
     
     serverupdated_t::iterator i=m_serverupdated.begin();

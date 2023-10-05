@@ -529,14 +529,17 @@ void ServerGuard::OnFileDeleted(const ServerUser& user, const ServerChannel& cha
     TT_LOG(oss.str().c_str());
 }
 
-void ServerGuard::OnServerUpdated(const ServerUser& user, const ServerSettings& srvprop)
+void ServerGuard::OnServerUpdated(const ServerUser* user, const ServerSettings& srvprop)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
-    if(user.GetUsername().length())
-        oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("updated server properties.");
+    oss << ACE_TEXT("Server properties updated");
+    if (user)
+    {
+        oss << ACE_TEXT(" by user #") << user->GetUserID() << ACE_TEXT(" ");
+        oss << ACE_TEXT("nickname: \"") << LogPrepare(user->GetNickname()).c_str() << ACE_TEXT("\" ");
+        if(user->GetUsername().length())
+            oss << ACE_TEXT("username: \"") << LogPrepare(user->GetUsername()).c_str() << ACE_TEXT("\" ");
+    }
     TT_LOG(oss.str().c_str());
 }
 
@@ -766,7 +769,7 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
 
 ErrorMsg ServerGuard::JoinChannel(const ServerUser& user, const ServerChannel& chan)
 {
-    BannedUser testban = user.GetBan(BANTYPE_CHANNEL);
+    BannedUser testban = user.GenerateBan(BANTYPE_CHANNEL);
     testban.chanpath = chan.GetChannelPath();
     if (chan.IsBanned(testban))
         return TT_CMDERR_CHANNEL_BANNED;
@@ -842,16 +845,8 @@ ErrorMsg ServerGuard::DeleteRegUser(const ServerUser& user, const ACE_TString& u
 
 ErrorMsg ServerGuard::AddUserBan(const ServerUser& banner, const ServerUser& banee, BanTypes bantype)
 {
-    // channel bans are stored in static channels
-    if ((bantype & BANTYPE_CHANNEL) == BANTYPE_NONE)
-    {
-        BannedUser ban = banee.GetBan(bantype);
-        m_settings.AddUserBan(ban);
-    }
-
-    return ErrorMsg(TT_CMDERR_SUCCESS);
+    return AddUserBan(banner, banee.GenerateBan(bantype));
 }
-
 
 ErrorMsg ServerGuard::AddUserBan(const ServerUser& banner, const BannedUser& ban)
 {

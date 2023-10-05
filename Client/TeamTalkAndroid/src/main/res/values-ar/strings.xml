@@ -164,13 +164,13 @@
 
     <string name="user_prop_title_username">اسم المستخدم</string>
     <string name="user_prop_title_clientname">اسم العميل</string>
-    <string name="user_prop_title_voice_volume">حجم الصوت</string>
+    <string name="user_prop_title_voice_volume">مستوى الصوت</string>
     <string name="user_prop_title_mute_voice">كتم الصوت</string>
     <string name="user_prop_title_media_volume">مستوى صوت ملف الوسائط</string>
     <string name="user_prop_title_mute_media">كتم ملف الوسائط</string>
-    <string name="user_prop_title_subscribe_txtmsg">الاشتراك في رسائل المستخدم</string>
-    <string name="user_prop_title_subscribe_chanmsg">الاشتراك في رسائل القناة</string>
-    <string name="user_prop_title_subscribe_bcastmsg">الاشتراك في الرسائل العامة</string>
+    <string name="user_prop_title_subscribe_txtmsg">تفعيل رسائل المستخدم</string>
+    <string name="user_prop_title_subscribe_chanmsg">تفعيل رسائل القناة</string>
+    <string name="user_prop_title_subscribe_bcastmsg">تفعيل الرسائل العامة</string>
     <string name="user_prop_title_subscribe_voice">تفعيل الصوت</string>
     <string name="user_prop_title_subscribe_vid">تفعيل الفيديو</string>
     <string name="user_prop_title_subscribe_desk">Subscribe to desktop</string>
@@ -189,14 +189,14 @@
     <string name="default_">إفتراضي</string>
 
     <string name="server_list_empty">قائمة خوادم TeamTalk5 فارغة</string>
-    <string name="no_nickname">لا يوجد اسم</string>
+    <string name="no_nickname">بدون اسم</string>
     <string name="message_text">رسالة نصية</string>
     <string name="time_date">تاريخ</string>
     <string name="name">اسم</string>
 
     <string name="err_init_sound_input">فشل في تهيئة جهاز إدخال الصوت</string>
     <string name="err_init_sound_output">فشل في تهيئة جهاز إخراج الصوت</string>
-    <string name="err_retrieve_public_server_list">فشل استرداد قائمة الخوادم العامة</string>
+    <string name="err_retrieve_public_server_list">فشل في استرداد قائمة الخوادم العامة</string>
     <string name="err_send_text_message">فشل في إرسال رسالة نصية</string>
     <string name="err_connection">فشل الاتصال</string>
     <string name="err_stream_media">فشل بث ملف الوسائط</string>
@@ -252,15 +252,15 @@
     <string name="channel_remove_confirmation">هل ترغب حقًا في إزالة القناة %1$s?</string>
     <string name="ban_confirmation">هل ترغب حقًا في حظر المستخدم %1$s?</string>
     <string name="kick_confirmation">هل ترغب حقًا في طرد المستخدم %1$s?</string>
-    <string name="version_update">إصدار TeamTalk الجديد متاح: %1$s?</string>
+    <string name="version_update">يتوفر تحديث جديد: %1$s?</string>
     <string name="decvolume">خفض الصوت</string>
     <string name="incvolume">رفع الصوت</string>
     <string name="speaker_mute">كتم الصوت</string>
     <string name="speaker_unmute">الغاء كتم الصوت</string>
     <string name="mic_mute">كتم الميكروفون</string>
     <string name="mic_unmute">الغاء كتم الميكروفون</string>
-    <string name="decgain">خفض صوت المايكرفون</string>
-    <string name="incgain">رفع صوت المايكرفون</string>
+    <string name="decgain">خفض صوت الميكروفون</string>
+    <string name="incgain">رفع صوت الميكروفون</string>
 
     <string name="speaker_volume_description">مستوى الصوت %1$s</string>
     <string name="mic_gain_description">مستوى صوت الميكروفون %1$s</string>
@@ -269,7 +269,7 @@
     <string name="voice_activation_off">قم بإيقاف التنشيط الصوتي</string>
     <string name="decvoxlevel">خفض مستوى التنشيط الصوتي</string>
     <string name="incvoxlevel">زيادة مستوى التنشيط الصوتي</string>
-    <string name="vox_level_description">مستوى التنشيط الصوتي هو %1$s</string>
+    <string name="vox_level_description">مستوى التنشيط الصوتي على %1$s</string>
 
     <string name="tx_on">الارسال يعمل</string>
     <string name="tx_off">الارسال معطل</string>
@@ -286,7 +286,7 @@
     <string name="text_publicserver">خادم عام</string>
     <string name="text_localserver">خادم محلي</string>
     <string name="text_passwdprot">محمية بكلمة مرور</string>
-    <string name="text_translator">تمت الترجمة من قبل Muamal Aljanahi</string>
+    <string name="text_translator">تمت الترجمة من قبل مؤمل الجناحي</string>
     <string name="desktop_image">Desktop image</string>
     <string name="channel_change_alert">سيتم إيقاف جميع عمليات النقل النشطة عند تبديل القناة</string>
     <string name="disconnect_alert">سيتم إيقاف جميع عمليات النقل النشطة عند مغادرة الخادم</string>
@@ -356,7 +356,7 @@
     <string name="pref_title_libraries">مكتبات الطرف الثالث</string>
     <string name="channel_prop_title_hiddenchannel">مخفي</string>
     <string name="pref_title_gender">الجنس</string>
-    <string name="pref_summary_gender">حدد اذا كنت انثى</string>
+    <string name="pref_summary_gender">حددي هاذا الخيار اذا كنتِ انثى</string>
     <string name="user_state_away">Away بعيد</string>
     <string name="pref_title_userloggedin_icon">سجل دخول</string>
     <string name="pref_summary_userloggedin_icon">تشغيل الصوت عندما يقوم مستخدم بتسجيل الدخول</string>
