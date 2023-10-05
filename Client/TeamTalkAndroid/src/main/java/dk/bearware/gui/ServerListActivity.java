@@ -256,9 +256,8 @@ extends AppCompatActivity
             case REQUEST_IMPORT_SERVERLIST : {
                 if(resultCode == RESULT_OK) {
                     StringBuilder xml = new StringBuilder();
-                    try {
+                    try (InputStream inputStream = this.getContentResolver().openInputStream(data.getData());){
                         String line;
-                        InputStream inputStream = this.getContentResolver().openInputStream(data.getData());
                         if (inputStream != null) {
                             BufferedReader source = new BufferedReader(new InputStreamReader(inputStream));
                             while ((line = source.readLine()) != null) {
