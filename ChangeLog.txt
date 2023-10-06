@@ -4,7 +4,7 @@
 
 Version 5.15, unreleased
 Default Qt Client
--
+- PulseAudio support on Ubuntu 22
 Android Client
 - Fixed importing of tt files on newer android versions
 -
