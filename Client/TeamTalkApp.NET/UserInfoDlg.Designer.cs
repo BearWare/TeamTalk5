@@ -50,6 +50,8 @@ namespace TeamTalkApp.NET
             this.audiolossTextBox = new System.Windows.Forms.TextBox();
             this.videolossTextBox = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label11 = new System.Windows.Forms.Label();
+            this.clientnameTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -118,7 +120,7 @@ namespace TeamTalkApp.NET
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(12, 185);
+            this.label8.Location = new System.Drawing.Point(12, 213);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(42, 13);
             this.label8.TabIndex = 7;
@@ -182,7 +184,7 @@ namespace TeamTalkApp.NET
             // 
             // versionTextBox
             // 
-            this.versionTextBox.Location = new System.Drawing.Point(130, 181);
+            this.versionTextBox.Location = new System.Drawing.Point(130, 209);
             this.versionTextBox.Name = "versionTextBox";
             this.versionTextBox.ReadOnly = true;
             this.versionTextBox.Size = new System.Drawing.Size(142, 20);
@@ -191,7 +193,7 @@ namespace TeamTalkApp.NET
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(12, 209);
+            this.label9.Location = new System.Drawing.Point(12, 239);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(96, 13);
             this.label9.TabIndex = 17;
@@ -200,7 +202,7 @@ namespace TeamTalkApp.NET
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(14, 234);
+            this.label10.Location = new System.Drawing.Point(12, 265);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(91, 13);
             this.label10.TabIndex = 18;
@@ -208,7 +210,7 @@ namespace TeamTalkApp.NET
             // 
             // audiolossTextBox
             // 
-            this.audiolossTextBox.Location = new System.Drawing.Point(130, 206);
+            this.audiolossTextBox.Location = new System.Drawing.Point(130, 235);
             this.audiolossTextBox.Name = "audiolossTextBox";
             this.audiolossTextBox.ReadOnly = true;
             this.audiolossTextBox.Size = new System.Drawing.Size(142, 20);
@@ -216,7 +218,7 @@ namespace TeamTalkApp.NET
             // 
             // videolossTextBox
             // 
-            this.videolossTextBox.Location = new System.Drawing.Point(130, 231);
+            this.videolossTextBox.Location = new System.Drawing.Point(130, 261);
             this.videolossTextBox.Name = "videolossTextBox";
             this.videolossTextBox.ReadOnly = true;
             this.videolossTextBox.Size = new System.Drawing.Size(142, 20);
@@ -228,11 +230,30 @@ namespace TeamTalkApp.NET
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(12, 187);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(64, 13);
+            this.label11.TabIndex = 21;
+            this.label11.Text = "Client Name";
+            // 
+            // clientnameTextBox
+            // 
+            this.clientnameTextBox.Location = new System.Drawing.Point(130, 183);
+            this.clientnameTextBox.Name = "clientnameTextBox";
+            this.clientnameTextBox.ReadOnly = true;
+            this.clientnameTextBox.Size = new System.Drawing.Size(142, 20);
+            this.clientnameTextBox.TabIndex = 22;
+            // 
             // UserInfoDlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 267);
+            this.ClientSize = new System.Drawing.Size(284, 302);
+            this.Controls.Add(this.clientnameTextBox);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.videolossTextBox);
             this.Controls.Add(this.audiolossTextBox);
             this.Controls.Add(this.label10);
@@ -283,5 +304,7 @@ namespace TeamTalkApp.NET
         private System.Windows.Forms.TextBox audiolossTextBox;
         private System.Windows.Forms.TextBox videolossTextBox;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox clientnameTextBox;
     }
 }
