@@ -50,6 +50,8 @@ FileTransferDlg::FileTransferDlg(const FileTransfer& transfer, QWidget* parent)
     m_timerid = startTimer(1000);
 
     updateFileTransfer(transfer);
+
+    ui.closeChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_CLOSE_FILEDIALOG, SETTINGS_DISPLAY_CLOSE_FILEDIALOG_DEFAULT).toBool());
 }
 
 void FileTransferDlg::timerEvent(QTimerEvent* event)
