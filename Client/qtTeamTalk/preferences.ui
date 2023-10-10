@@ -1069,6 +1069,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QRadioButton" name="pulseaudioButton">
+              <property name="text">
+               <string>PulseAudio</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="horizontalSpacer_17">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>

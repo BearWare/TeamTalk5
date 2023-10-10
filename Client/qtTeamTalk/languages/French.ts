@@ -4924,7 +4924,7 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../preferences.ui" line="420"/>
         <source>Enable VU-meter updates</source>
-        <translation>Activer les mises à jour de la barre de progression du microphone</translation>
+        <translation>Activer les mises à jour du VU-mètre</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="427"/>

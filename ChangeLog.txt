@@ -4,9 +4,11 @@
 
 Version 5.15, unreleased
 Default Qt Client
--
+- PulseAudio support on Ubuntu 22
+- Fixed state of "Close when completed" checkbox on "Transfer file" dialog
 Android Client
 - Fixed importing of tt files on newer android versions
+- It is now possible to select a language of TeamTalk on Android 13 and above from app languages settings.
 -
 iOS Client
 -

@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.14.0.5128"
+#define TEAMTALK_VERSION "5.14.1.5129"
 
 
 #if defined(WIN32)
@@ -342,6 +342,9 @@ extern "C" {
         SOUNDSYSTEM_AUDIOUNIT = 8,
         /** @brief Same as #SOUNDSYSTEM_AUDIOUNIT. */
         SOUNDSYSTEM_AUDIOUNIT_IOS = SOUNDSYSTEM_AUDIOUNIT,
+        /** @brief PulseAudio API.
+         *  PulseAudio is typically used on Ubuntu 22. */
+        SOUNDSYSTEM_PULSEAUDIO = 10,
     } SoundSystem;
 
     /**

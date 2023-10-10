@@ -56,6 +56,7 @@ namespace TeamTalkApp.NET
                 statusmsgTextBox.Text = user.szStatusMsg;
                 usertypeTextBox.Text = (user.uUserType & UserType.USERTYPE_ADMIN) == UserType.USERTYPE_ADMIN ? "Admin" : "Default";
                 versionTextBox.Text = user.uVersion.ToString();
+                clientnameTextBox.Text = user.szClientName;
             }
             UserStatistics stats = new UserStatistics();
             if (ttclient.GetUserStatistics(userid, ref stats))

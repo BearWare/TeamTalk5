@@ -103,7 +103,7 @@ void EncryptionSetupDlg::setupNewCA()
             }
             else
             {
-                QMessageBox::critical(this, tr("Setup Certificate Autority"),
+                QMessageBox::critical(this, tr("Setup Certificate Authority"),
                     tr("The file %1 does not contain a valid certificate authority").arg(QDir::toNativeSeparators(filename)));
             }
         }

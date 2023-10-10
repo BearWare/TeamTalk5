@@ -95,16 +95,19 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             this, &PreferencesDlg::slotDesktopAccess);
 
     //sound tab
-    connect(ui.winmmButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
-    connect(ui.dsoundButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
     connect(ui.wasapiButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
+    connect(ui.dsoundButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
+    connect(ui.winmmButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
     connect(ui.alsaButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
     connect(ui.coreaudioButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
+    connect(ui.pulseaudioButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
 #if defined(Q_OS_WIN32)
     ui.alsaButton->setDisabled(true);
     ui.alsaButton->hide();
     ui.coreaudioButton->setDisabled(true);
     ui.coreaudioButton->hide();
+    ui.pulseaudioButton->setDisabled(true);
+    ui.pulseaudioButton->hide();
 #elif defined(Q_OS_DARWIN)
     ui.wasapiButton->setDisabled(true);
     ui.wasapiButton->hide();
@@ -115,6 +118,8 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     ui.alsaButton->setDisabled(true);
     ui.alsaButton->hide();
     ui.winfwChkBox->hide();
+    ui.pulseaudioButton->setDisabled(true);
+    ui.pulseaudioButton->hide();
 #else
     ui.winmmButton->setDisabled(true);
     ui.winmmButton->hide();
@@ -331,6 +336,8 @@ SoundSystem PreferencesDlg::getSoundSystem()
         sndsys = SOUNDSYSTEM_ALSA;
     if(ui.coreaudioButton->isChecked())
         sndsys = SOUNDSYSTEM_COREAUDIO;
+    if (ui.pulseaudioButton->isChecked())
+        sndsys = SOUNDSYSTEM_PULSEAUDIO;
 
     // ensure tab has been initialized, otherwise sound system will end up as 'none'
     Q_ASSERT(sndsys != SOUNDSYSTEM_NONE);
@@ -358,6 +365,8 @@ void PreferencesDlg::showDevices(SoundSystem snd)
         ui.alsaButton->setChecked(true);break;
     case SOUNDSYSTEM_COREAUDIO :
         ui.coreaudioButton->setChecked(true);break;
+    case SOUNDSYSTEM_PULSEAUDIO :
+        ui.pulseaudioButton->setChecked(true);break;
     case SOUNDSYSTEM_NONE :
     case SOUNDSYSTEM_OPENSLES_ANDROID :
     case SOUNDSYSTEM_AUDIOUNIT :
@@ -956,6 +965,8 @@ void PreferencesDlg::slotSaveChanges()
             ttSettings->setValue(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_COREAUDIO);
         else if(ui.alsaButton->isChecked())
             ttSettings->setValue(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_ALSA);
+        else if (ui.pulseaudioButton->isChecked())
+            ttSettings->setValue(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_PULSEAUDIO);
 
         ttSettings->setValue(SETTINGS_SOUND_INPUTDEVICE_UID, "");
         for(int i=0;i<m_sounddevices.size();i++)

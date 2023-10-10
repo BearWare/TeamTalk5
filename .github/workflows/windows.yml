@@ -30,6 +30,8 @@ jobs:
             qtarch: win64_msvc2019_64
             msystem: MINGW64
             portablearch: win64
+        exlude:
+          - name: VS2019Release32
 
     runs-on: ${{ matrix.vmimage }}
     name: ${{ matrix.name }}

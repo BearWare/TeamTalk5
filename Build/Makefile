@@ -195,7 +195,8 @@ depend-ubuntu22:
                     libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
                     openjdk-18-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev yasm autoconf libtool pkg-config \
-                    libasound2-dev wget python2 g++ p7zip-full python3-pytest
+                    libasound2-dev wget python2 g++ p7zip-full python3-pytest \
+                    libpulse-dev
 	@echo "Ensure a default python is set up for WebRTC to compile:"
 	@echo "# sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10"
 

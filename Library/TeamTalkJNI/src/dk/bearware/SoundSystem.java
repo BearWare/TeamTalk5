@@ -35,4 +35,5 @@ public interface SoundSystem
     public static final int SOUNDSYSTEM_OPENSLES_ANDROID = SOUNDSYSTEM_OPENSLES;
     public static final int SOUNDSYSTEM_AUDIOUNIT = 8;
     public static final int SOUNDSYSTEM_AUDIOUNIT_IOS = SOUNDSYSTEM_AUDIOUNIT;
+    public static final int SOUNDSYSTEM_PULSEAUDIO = 10;
 }
