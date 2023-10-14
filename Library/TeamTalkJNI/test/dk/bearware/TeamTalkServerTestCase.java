@@ -1937,7 +1937,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         useraccount.szPassword = "guest";
         useraccount.uUserType = UserType.USERTYPE_DEFAULT;
         useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
-            UserRight.USERRIGHT_MULTI_LOGIN;
+            UserRight.USERRIGHT_MULTI_LOGIN | UserRight.USERRIGHT_TEXTMESSAGE_USER;
 
         useraccounts.add(useraccount);
 
@@ -1967,6 +1967,48 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
             assertTrue("message event", waitForEvent(client2, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg, interleave));
             assertEquals("message more", i < 56, msg.textmessage.bMore);
         }
+    }
+
+    @Test
+    public void testTextMessagePrivate() {
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = "guest";
+        useraccount.szPassword = "guest";
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
+            UserRight.USERRIGHT_MULTI_LOGIN | UserRight.USERRIGHT_TEXTMESSAGE_USER;
+        useraccounts.add(useraccount);
+
+        UserAccount useraccount2 = new UserAccount();
+        useraccount2.szUsername = "guest2";
+        useraccount2.szPassword = "guest";
+        useraccount2.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount2.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
+            UserRight.USERRIGHT_MULTI_LOGIN;
+        useraccounts.add(useraccount2);
+
+        TeamTalkSrv server = newServerInstance();
+        TeamTalkBase client1 = newClientInstance();
+        TeamTalkBase client2 = newClientInstance();
+
+        connect(server, client1);
+        connect(server, client2);
+
+        ServerInterleave interleave = new RunServer(server);
+
+        login(server, client1, getTestMethodName(), useraccount.szUsername, useraccount.szPassword);
+        login(server, client2, getTestMethodName(), useraccount2.szUsername, useraccount2.szPassword);
+
+        TextMessage txtmsg = new TextMessage();
+        txtmsg.nMsgType = TextMsgType.MSGTYPE_USER;
+        txtmsg.nToUserID = client2.getMyUserID();
+        txtmsg.szMessage = "My text message";
+
+        assertTrue("send text message with rights", waitCmdSuccess(client1, client1.doTextMessage(txtmsg), DEF_WAIT, interleave));
+
+        txtmsg.nToUserID = client1.getMyUserID();
+
+        assertTrue("send text message without rights", waitCmdError(client2, client2.doTextMessage(txtmsg), DEF_WAIT, interleave));
     }
 
     @Test
@@ -2139,7 +2181,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("User state changed to voice", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
         assertEquals("User is talking", UserState.USERSTATE_VOICE, msg.user.uUserState);
-        
+
         assertTrue("User state changed to not voice", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
         assertEquals("User is not talking", UserState.USERSTATE_NONE, msg.user.uUserState);
 
@@ -2149,7 +2191,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("User state changed to voice on new stream", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
         assertEquals("User is talking on new stream", UserState.USERSTATE_VOICE, msg.user.uUserState);
-        
+
         assertTrue("User state changed to not voice on new stream", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
         assertEquals("User is not talking on new stream", UserState.USERSTATE_NONE, msg.user.uUserState);
 
@@ -2164,7 +2206,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("User state changed to media file", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
         assertEquals("User is streaming", UserState.USERSTATE_MEDIAFILE_AUDIO, msg.user.uUserState);
-        
+
         assertTrue("User state changed to not streaming", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
         assertEquals("User is not streaming", UserState.USERSTATE_NONE, msg.user.uUserState);
 
@@ -2182,7 +2224,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         Log log = new Log();
 
         TeamTalkSrv server = newServerInstance("", "", null, log);
-        
+
         ServerInterleave interleave = new RunServer(server);
 
         UserAccount useraccount = new UserAccount();
@@ -2206,7 +2248,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         assertEquals("update properties client", properties.szServerName, msg.serverproperties.szServerName);
         assertTrue("log event", log.srvupdateevent);
     }
-    
+
     // @Test
     public void _testRunServer() {
 
@@ -2243,7 +2285,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     public TeamTalkSrv newServerInstance(String systemid, String bindip, EncryptionContext srvcontext) {
         return newServerInstance(systemid, bindip, srvcontext, this.logger);
     }
-    
+
     public TeamTalkSrv newServerInstance(String systemid, String bindip, EncryptionContext srvcontext, ServerLogger logger) {
 
         TeamTalkSrv server = new TeamTalk5Srv(cmdcallback, logger);

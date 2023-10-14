@@ -1701,7 +1701,10 @@ extern "C" {
          * with #CHANNEL_NO_RECORDING. */
         USERRIGHT_RECORD_VOICE              = 0x00100000,
         /** @brief User can see hidden channels, #CHANNEL_HIDDEN. */
-        USERRIGHT_VIEW_HIDDEN_CHANNELS      = 0x00200000
+        USERRIGHT_VIEW_HIDDEN_CHANNELS      = 0x00200000,
+        /** @brief User can send private text messages, i.e.
+         *  #MSGTYPE_USER. @see TT_DoTextMessage() */
+        USERRIGHT_TEXTMESSAGE_USER          = 0x00400000,
     } UserRight;
 
     /** 

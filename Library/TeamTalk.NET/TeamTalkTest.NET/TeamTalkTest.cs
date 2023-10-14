@@ -1146,7 +1146,8 @@ namespace TeamTalkTest.NET
         public void TestTextMessage()
         {
             const string USERNAME = "tt_test", PASSWORD = "tt_test"; string NICKNAME = "TeamTalkBase.NET - " + GetCurrentMethod();
-            const UserRight USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_VIEW_ALL_USERS;
+            const UserRight USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
+                UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_TEXTMESSAGE_USER;
             MakeUserAccount(GetCurrentMethod(), USERNAME, PASSWORD, USERRIGHTS);
             TeamTalkBase ttclient = NewClientInstance();
 
