@@ -4024,6 +4024,9 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
     {
     case TTUserMsg :
     {
+        if ((from->GetUserRights() & USERRIGHT_TEXTMESSAGE_USER) == USERRIGHT_NONE)
+            return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+
         serveruser_t to_user = GetUser(msg.to_userid, from.get());
         if (!to_user)
             return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
@@ -4125,7 +4128,7 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
     }
     case TTBroadcastMsg :
     {
-        if((from->GetUserRights() & USERRIGHT_TEXTMESSAGE_BROADCAST) == 0)
+        if ((from->GetUserRights() & USERRIGHT_TEXTMESSAGE_BROADCAST) == USERRIGHT_NONE)
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
         for (auto u : GetAuthorizedUsers())

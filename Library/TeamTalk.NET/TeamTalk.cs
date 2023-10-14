@@ -1797,6 +1797,10 @@ namespace BearWare
         USERRIGHT_RECORD_VOICE                      = 0x00100000,
         /** @brief User can see hidden channels, #BearWare.ChannelType.CHANNEL_HIDDEN. */
         USERRIGHT_VIEW_HIDDEN_CHANNELS              = 0x00200000,
+        /** @brief User can send private text messages, i.e.
+         *  #BearWare.TextMsgType.MSGTYPE_USER. @see TeamTalkBase.DoTextMessage() */
+        USERRIGHT_TEXTMESSAGE_USER                  = 0x00400000,
+        
         /** @brief User with all rights.*/
         USERRIGHT_ALL                               = 0xFFFFFFFF & ~USERRIGHT_LOCKED_NICKNAME & ~USERRIGHT_LOCKED_STATUS
     }

@@ -48,6 +48,25 @@ namespace teamtalk{
         return XMLDocument::SaveFile();
     }
 
+    bool ServerXML::UpdateFile()
+    {
+        if (!VersionSameOrLater(Utf8ToUnicode(GetFileVersion().c_str()), ACE_TEXT("5.3")))
+        {
+            int c = 0;
+            UserAccount ua;
+            while (GetNextUser(c, ua)) c++;
+            while (c--)
+            {
+                UserAccount ua;
+                GetNextUser(0, ua);
+                ua.userrights |= USERRIGHT_TEXTMESSAGE_USER;
+                RemoveUser(UnicodeToUtf8(ua.username).c_str());
+                AddNewUser(ua);
+            }
+            return SetFileVersion(TEAMTALK_XML_VERSION);
+        }
+        return true;
+    }
 
     TiXmlElement* ServerXML::GetRootElement()
     {
@@ -1342,7 +1361,7 @@ namespace teamtalk{
     {
         bool b = true;
         string s1,s2, s3, s4, tmp;
-        int user_type = 0, userdata = 0, userrights = 0, bpslimit = 0;
+        int user_type = 0, userdata = 0, userrights = USERRIGHT_NONE, bpslimit = 0;
         b &= GetString(userElement, "username", s1);
         b &= GetString(userElement, "password", s2);
         b &= GetInteger(userElement, "user-type", user_type);

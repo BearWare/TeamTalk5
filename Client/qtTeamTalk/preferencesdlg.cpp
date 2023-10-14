@@ -674,7 +674,7 @@ void PreferencesDlg::slotTabChange(int index)
 #elif defined(Q_OS_LINUX)
         if (QFile::exists(TTSENGINE_NOTIFY_PATH))
             ui.ttsengineComboBox->addItem(tr("Libnotify"), TTSENGINE_NOTIFY);
-#elif defined(Q_OS_MACX)
+#elif defined(Q_OS_MAC)
 
 #endif
 
