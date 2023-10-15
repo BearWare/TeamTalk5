@@ -48,33 +48,27 @@ void OnlineUsersModel::resetUsers()
     this->endResetModel();
 }
 
-void OnlineUsersModel::addUser(int userid)
+void OnlineUsersModel::addUser(const User& user)
 {
     this->beginResetModel();
 
-    User user;
-    if(TT_GetUser(ttInst, userid, &user))
-    {
-        m_users.insert(user.nUserID, user);
-    }
+    m_users.insert(user.nUserID, user);
 
     this->endResetModel();
 }
 
-void OnlineUsersModel::updateUser(int userid)
+void OnlineUsersModel::updateUser(const User& user)
 {
-    User user;
-    if(TT_GetUser(ttInst, userid, &user))
-        m_users.insert(user.nUserID, user);
+    m_users.insert(user.nUserID, user);
 }
 
-void OnlineUsersModel::removeUser(int userid, bool keep)
+void OnlineUsersModel::removeUser(const User& user, bool keep)
 {
     this->beginResetModel();
     if (keep)
-        m_users[userid].nUserID = DISCONNECTED_USERID;
+        m_users[user.nUserID].nUserID = DISCONNECTED_USERID;
     else
-        m_users.remove(userid);
+        m_users.remove(user.nUserID);
 
     this->endResetModel();
 }
