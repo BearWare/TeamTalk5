@@ -210,6 +210,7 @@ namespace teamtalk {
         USERRIGHT_RECORD_VOICE                          = 0x00100000,
         USERRIGHT_VIEW_HIDDEN_CHANNELS                  = 0x00200000,
         USERRIGHT_TEXTMESSAGE_USER                      = 0x00400000,
+        USERRIGHT_TEXTMESSAGE_CHANNEL                   = 0x00800000,
 
         USERRIGHT_DEFAULT = USERRIGHT_MULTI_LOGIN |
                             USERRIGHT_VIEW_ALL_USERS |
@@ -221,10 +222,11 @@ namespace teamtalk {
                             USERRIGHT_TRANSMIT_DESKTOP |
                             USERRIGHT_TRANSMIT_DESKTOPINPUT |
                             USERRIGHT_TRANSMIT_MEDIAFILE |
-                            USERRIGHT_TEXTMESSAGE_USER,
+                            USERRIGHT_TEXTMESSAGE_USER |
+                            USERRIGHT_TEXTMESSAGE_CHANNEL,
 
-        USERRIGHT_ALL                       =  0x007FFFFF ^ (USERRIGHT_LOCKED_NICKNAME | USERRIGHT_LOCKED_STATUS),
-        USERRIGHT_KNOWN_MASK                = ~0xFF800000
+        USERRIGHT_ALL                       =  0x00FFFFFF ^ (USERRIGHT_LOCKED_NICKNAME | USERRIGHT_LOCKED_STATUS),
+        USERRIGHT_KNOWN_MASK                = ~0xFF000000
     };
 
     typedef ACE_UINT32 UserRights;

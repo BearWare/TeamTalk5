@@ -162,7 +162,8 @@ do {                                                            \
                              USERRIGHT_TRANSMIT_DESKTOPINPUT |      \
                              USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO |   \
                              USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO |   \
-                             USERRIGHT_TEXTMESSAGE_USER)
+                             USERRIGHT_TEXTMESSAGE_USER |           \
+                             USERRIGHT_TEXTMESSAGE_CHANNEL)
 
 #define DEFAULT_MAX_STRING_LENGTH       50
 

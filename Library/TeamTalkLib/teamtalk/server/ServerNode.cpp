@@ -4089,6 +4089,9 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
     }
     case TTChannelMsg :
     {
+        if ((from->GetUserRights() & USERRIGHT_TEXTMESSAGE_CHANNEL) == USERRIGHT_NONE)
+            return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+
         serverchannel_t chan = GetChannel(msg.channelid);
         if (!chan)
             return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);

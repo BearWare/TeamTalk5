@@ -1246,7 +1246,10 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         useraccount.szUsername = USERNAME;
         useraccount.szPassword = PASSWORD;
         useraccount.uUserType = UserType.USERTYPE_DEFAULT;
-        useraccount.uUserRights = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_TRANSMIT_VOICE;
+        useraccount.uUserRights = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
+                                  UserRight.USERRIGHT_VIEW_ALL_USERS |
+                                  UserRight.USERRIGHT_TEXTMESSAGE_CHANNEL |
+                                  UserRight.USERRIGHT_TRANSMIT_VOICE;
         useraccounts.add(useraccount);
 
         TeamTalkSrv server = newServerInstance();
@@ -2008,6 +2011,47 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         txtmsg.nToUserID = client1.getMyUserID();
 
+        assertTrue("send text message without rights", waitCmdError(client2, client2.doTextMessage(txtmsg), DEF_WAIT, interleave));
+    }
+
+    @Test
+    public void testTextMessageChannel() {
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = "guest";
+        useraccount.szPassword = "guest";
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
+            UserRight.USERRIGHT_MULTI_LOGIN | UserRight.USERRIGHT_TEXTMESSAGE_CHANNEL;
+        useraccounts.add(useraccount);
+
+        UserAccount useraccount2 = new UserAccount();
+        useraccount2.szUsername = "guest2";
+        useraccount2.szPassword = "guest";
+        useraccount2.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount2.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS |
+            UserRight.USERRIGHT_MULTI_LOGIN;
+        useraccounts.add(useraccount2);
+
+        TeamTalkSrv server = newServerInstance();
+        TeamTalkBase client1 = newClientInstance();
+        TeamTalkBase client2 = newClientInstance();
+
+        connect(server, client1);
+        connect(server, client2);
+
+        ServerInterleave interleave = new RunServer(server);
+
+        login(server, client1, getTestMethodName(), useraccount.szUsername, useraccount.szPassword);
+        login(server, client2, getTestMethodName(), useraccount2.szUsername, useraccount2.szPassword);
+        joinRoot(server, client1);
+        joinRoot(server, client2);
+
+        TextMessage txtmsg = new TextMessage();
+        txtmsg.nMsgType = TextMsgType.MSGTYPE_CHANNEL;
+        txtmsg.nChannelID = client1.getMyChannelID();
+        txtmsg.szMessage = "My text message";
+
+        assertTrue("send text message with rights", waitCmdSuccess(client1, client1.doTextMessage(txtmsg), DEF_WAIT, interleave));
         assertTrue("send text message without rights", waitCmdError(client2, client2.doTextMessage(txtmsg), DEF_WAIT, interleave));
     }
 

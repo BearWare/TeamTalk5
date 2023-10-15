@@ -1800,7 +1800,10 @@ namespace BearWare
         /** @brief User can send private text messages, i.e.
          *  #BearWare.TextMsgType.MSGTYPE_USER. @see TeamTalkBase.DoTextMessage() */
         USERRIGHT_TEXTMESSAGE_USER                  = 0x00400000,
-        
+        /** @brief User can send private text messages, i.e.
+         *  #BearWare.TextMsgType.MSGTYPE_CHANNEL. @see TeamTalkBase.DoTextMessage() */
+        USERRIGHT_TEXTMESSAGE_CHANNEL               = 0x00800000,
+
         /** @brief User with all rights.*/
         USERRIGHT_ALL                               = 0xFFFFFFFF & ~USERRIGHT_LOCKED_NICKNAME & ~USERRIGHT_LOCKED_STATUS
     }

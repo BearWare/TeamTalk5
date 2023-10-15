@@ -474,6 +474,10 @@ useraccountcfg:
                 userrights = printGetBool(USERRIGHT_DEFAULT & USERRIGHT_TEXTMESSAGE_USER?true:false)?
                                  (userrights | USERRIGHT_TEXTMESSAGE_USER) : (userrights & ~USERRIGHT_TEXTMESSAGE_USER);
 
+                cout << "User can sent channel text messages: ";
+                userrights = printGetBool(USERRIGHT_DEFAULT & USERRIGHT_TEXTMESSAGE_CHANNEL?true:false)?
+                                 (userrights | USERRIGHT_TEXTMESSAGE_CHANNEL) : (userrights & ~USERRIGHT_TEXTMESSAGE_CHANNEL);
+
                 cout << "User can broadcast text message to all users: ";
                 userrights = printGetBool(USERRIGHT_DEFAULT & USERRIGHT_TEXTMESSAGE_BROADCAST?true:false)?
                             (userrights | USERRIGHT_TEXTMESSAGE_BROADCAST) : (userrights & ~USERRIGHT_TEXTMESSAGE_BROADCAST);

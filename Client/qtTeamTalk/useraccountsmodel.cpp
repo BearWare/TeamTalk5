@@ -174,6 +174,7 @@ void UserRightsModel::insertUserRights()
     m_userrights.push_back(USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO);
     m_userrights.push_back(USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO);
     m_userrights.push_back(USERRIGHT_TEXTMESSAGE_USER);
+    m_userrights.push_back(USERRIGHT_TEXTMESSAGE_CHANNEL);
     //m_userrights.push_back(USERRIGHT_LOCKED_STATUS);
 }
 
@@ -239,6 +240,8 @@ QVariant UserRightsModel::data(const QModelIndex & index, int role /*= Qt::Displ
             break;
         case USERRIGHT_TEXTMESSAGE_USER :
             return tr("User can send private text messages");
+        case USERRIGHT_TEXTMESSAGE_CHANNEL :
+            return tr("User can send channel text messages");
         case USERRIGHT_LOCKED_NICKNAME :
             return tr("User can change nickname"); // inverted text explanation due to compatibility
         case USERRIGHT_LOCKED_STATUS :

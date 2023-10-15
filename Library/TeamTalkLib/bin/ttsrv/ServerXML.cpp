@@ -60,6 +60,7 @@ namespace teamtalk{
                 UserAccount ua;
                 GetNextUser(0, ua);
                 ua.userrights |= USERRIGHT_TEXTMESSAGE_USER;
+                ua.userrights |= USERRIGHT_TEXTMESSAGE_CHANNEL;
                 RemoveUser(UnicodeToUtf8(ua.username).c_str());
                 AddNewUser(ua);
             }
