@@ -83,21 +83,21 @@ void OnlineUsersDlg::updateTitle()
 void OnlineUsersDlg::slotUserLoggedIn(const User& user)
 {
     RestoreItemData r(ui.treeView, m_proxyModel);
-    m_model->addUser(user.nUserID);
+    m_model->addUser(user);
     updateTitle();
 }
 
 void OnlineUsersDlg::slotUserLoggedOut(const User& user)
 {
     RestoreItemData r(ui.treeView, m_proxyModel);
-    m_model->removeUser(user.nUserID, ttSettings->value(SETTINGS_KEEP_DISCONNECTED_USERS, SETTINGS_KEEP_DISCONNECTED_USERS_DEFAULT).toBool());
+    m_model->removeUser(user, ttSettings->value(SETTINGS_KEEP_DISCONNECTED_USERS, SETTINGS_KEEP_DISCONNECTED_USERS_DEFAULT).toBool());
     updateTitle();
 }
 
 void OnlineUsersDlg::slotUserUpdate(const User& user)
 {
     RestoreItemData r(ui.treeView, m_proxyModel);
-    m_model->updateUser(user.nUserID);
+    m_model->updateUser(user);
     QModelIndex index = m_model->userRow(user.nUserID);
     if(index.isValid())
         ui.treeView->update(index);
@@ -106,7 +106,7 @@ void OnlineUsersDlg::slotUserUpdate(const User& user)
 void OnlineUsersDlg::slotUserJoin(int /*channelid*/, const User& user)
 {
     RestoreItemData r(ui.treeView, m_proxyModel);
-    m_model->updateUser(user.nUserID);
+    m_model->updateUser(user);
     QModelIndex index = m_model->userRow(user.nUserID);
     if(index.isValid())
         ui.treeView->update(index);
@@ -115,7 +115,7 @@ void OnlineUsersDlg::slotUserJoin(int /*channelid*/, const User& user)
 void OnlineUsersDlg::slotUserLeft(int /*channelid*/, const User& user)
 {
     RestoreItemData r(ui.treeView, m_proxyModel);
-    m_model->updateUser(user.nUserID);
+    m_model->updateUser(user);
     QModelIndex index = m_model->userRow(user.nUserID);
     if(index.isValid())
         ui.treeView->update(index);
