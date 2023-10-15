@@ -247,7 +247,14 @@ void AudioTransformEncoder(const media::AudioFormat& input, int bitrate, int fmt
 
 TEST_CASE("TestAudioTransformEncoder")
 {
-    std::vector<int> samplerates = {8000, 12000, 16000, 24000, 32000, 48000}, channels = {1, 2}, bitrates = {16000, 32000, 64000, 128000, 256000}, fmts = { MP3 , WMA, AAC};
+    std::vector<int> samplerates = soundsystem::standardSampleRates, channels = {1, 2},
+        bitrates = {teamtalk::AFFToMP3Bitrate(teamtalk::AFF_MP3_16KBIT_FORMAT),
+                    teamtalk::AFFToMP3Bitrate(teamtalk::AFF_MP3_32KBIT_FORMAT),
+                    teamtalk::AFFToMP3Bitrate(teamtalk::AFF_MP3_64KBIT_FORMAT),
+                    teamtalk::AFFToMP3Bitrate(teamtalk::AFF_MP3_128KBIT_FORMAT), 
+                    teamtalk::AFFToMP3Bitrate(teamtalk::AFF_MP3_256KBIT_FORMAT),
+                    teamtalk::AFFToMP3Bitrate(teamtalk::AFF_MP3_320KBIT_FORMAT)},
+        fmts = { MP3 , WMA, AAC};
 
     for (auto sr :samplerates)
         for (auto ch : channels)

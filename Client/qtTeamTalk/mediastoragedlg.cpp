@@ -62,6 +62,7 @@ MediaStorageDlg::MediaStorageDlg(QWidget * parent/* = 0*/)
     ui.affComboBox->addItem("MP3-format (64 kbit)", AFF_MP3_64KBIT_FORMAT);
     ui.affComboBox->addItem("MP3-format (128 kbit)", AFF_MP3_128KBIT_FORMAT);
     ui.affComboBox->addItem("MP3-format (256 kbit)", AFF_MP3_256KBIT_FORMAT);
+    ui.affComboBox->addItem("MP3-format (320 kbit)", AFF_MP3_320KBIT_FORMAT);
 #endif
 
     quint32 audiostorage_mode = ttSettings->value(SETTINGS_MEDIASTORAGE_MODE, 
