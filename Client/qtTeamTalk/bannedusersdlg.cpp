@@ -191,10 +191,13 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
 
     ui.bantypeBox->addItem(tr("Ban IP-address"), BanTypes(BANTYPE_IPADDR));
     ui.bantypeBox->addItem(tr("Ban Username"), BanTypes(BANTYPE_USERNAME));
+
+    ui.bannedTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_BANNEDUSERS_HEADERSIZES).toByteArray());
 }
 
 BannedUsersDlg::~BannedUsersDlg()
 {
+    ttSettings->setValue(SETTINGS_DISPLAY_BANNEDUSERS_HEADERSIZES, ui.bannedTreeView->header()->saveState());
     ttSettings->setValue(SETTINGS_DISPLAY_BANNEDUSERSWINDOWPOS, saveGeometry());
 }
 
