@@ -1705,6 +1705,9 @@ extern "C" {
         /** @brief User can send private text messages, i.e.
          *  #MSGTYPE_USER. @see TT_DoTextMessage() */
         USERRIGHT_TEXTMESSAGE_USER          = 0x00400000,
+        /** @brief User can send channel text messages, i.e.
+         *  #MSGTYPE_CHANNEL. @see TT_DoTextMessage() */
+        USERRIGHT_TEXTMESSAGE_CHANNEL       = 0x00800000,
     } UserRight;
 
     /** 
