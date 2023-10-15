@@ -5968,7 +5968,17 @@ void MainWindow::slotUsersKickBan(const User& user)
                 COPY_TTSTR(ban.szIPAddress, _Q(user.szIPAddress));
                 COPY_TTSTR(ban.szNickname, _Q(user.szNickname));
                 if (choice == items[0])
+                {
+                    if (versionSameOrLater(_Q(m_srvprop.szServerProtocolVersion), "5.13"))
+                    {
+                        bool ok;
+                        QString ipaddr = QInputDialog::getText(this, tr("Ban IP-address"), tr("IP-address ('/' for subnet, e.g. 192.168.0.0/16)"),
+                                                               QLineEdit::Normal, _Q(user.szIPAddress), &ok);
+                        if (ok && !ipaddr.isEmpty())
+                            COPY_TTSTR(ban.szIPAddress, ipaddr);
+                    }
                     ban.uBanTypes |= user.nChannelID > 0 ? BANTYPE_CHANNEL | BANTYPE_IPADDR : BANTYPE_IPADDR;
+                }
                 else
                     ban.uBanTypes |= user.nChannelID > 0 ? BANTYPE_CHANNEL | BANTYPE_USERNAME : BANTYPE_USERNAME;
                 TT_DoBan(ttInst, &ban);
