@@ -104,6 +104,7 @@ namespace teamtalk
         case AFF_MP3_64KBIT_FORMAT: return 64000;
         case AFF_MP3_128KBIT_FORMAT: return 128000;
         case AFF_MP3_256KBIT_FORMAT: return 256000;
+        case AFF_MP3_320KBIT_FORMAT: return 320000;
         default: return 0;
         }
     }

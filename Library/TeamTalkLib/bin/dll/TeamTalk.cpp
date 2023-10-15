@@ -3488,7 +3488,8 @@ TEAMTALKDLL_API TTBOOL TT_DBG_WriteAudioFileTone(IN const MediaFileInfo* lpMedia
     case AFF_MP3_32KBIT_FORMAT :
     case AFF_MP3_64KBIT_FORMAT :
     case AFF_MP3_128KBIT_FORMAT :
-    case AFF_MP3_256KBIT_FORMAT :
+    case AFF_MP3_256KBIT_FORMAT:
+    case AFF_MP3_320KBIT_FORMAT :
         return FALSE;
     }
 

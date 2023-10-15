@@ -702,6 +702,7 @@ namespace teamtalk {
         AFF_MP3_64KBIT_FORMAT    = 5,
         AFF_MP3_128KBIT_FORMAT   = 6,
         AFF_MP3_256KBIT_FORMAT   = 7,
+        AFF_MP3_320KBIT_FORMAT   = 8,
     };
 
     int AFFToMP3Bitrate(AudioFileFormat aff);

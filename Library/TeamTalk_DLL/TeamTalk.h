@@ -784,6 +784,8 @@ extern "C" {
         AFF_MP3_128KBIT_FORMAT   = 6,
         /** @see #AFF_MP3_16KBIT_FORMAT */
         AFF_MP3_256KBIT_FORMAT   = 7,
+        /** @see #AFF_MP3_16KBIT_FORMAT */
+        AFF_MP3_320KBIT_FORMAT   = 8,
     } AudioFileFormat;
 
     /**

@@ -554,7 +554,8 @@ QString generateAudioStorageFilename(AudioFileFormat aff)
     case AFF_MP3_32KBIT_FORMAT :
     case AFF_MP3_64KBIT_FORMAT :
     case AFF_MP3_128KBIT_FORMAT :
-    case AFF_MP3_256KBIT_FORMAT :
+    case AFF_MP3_256KBIT_FORMAT:
+    case AFF_MP3_320KBIT_FORMAT :
         filename += ".mp3";
         break;
     case AFF_NONE :
