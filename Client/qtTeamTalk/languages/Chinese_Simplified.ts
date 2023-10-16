@@ -1309,13 +1309,9 @@ p, li { white-space: pre-wrap; }
         <translation>证书颁发机构 (*.cer)</translation>
     </message>
     <message>
-        <source>Setup Certificate Autority</source>
-        <translation type="vanished">设置证书颁发机构</translation>
-    </message>
-    <message>
         <location filename="../encryptionsetupdlg.cpp" line="106"/>
         <source>Setup Certificate Authority</source>
-        <translation type="unfinished"></translation>
+        <translation>设置证书颁发机构</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="107"/>
@@ -5296,7 +5292,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1074"/>
         <source>PulseAudio</source>
-        <translation type="unfinished"></translation>
+        <translation>PulseAudio</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1388"/>
@@ -8148,12 +8144,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="242"/>
         <source>User can send private text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>用户可发送私人消息</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="244"/>
         <source>User can send channel text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>用户可发送频道消息</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="246"/>
