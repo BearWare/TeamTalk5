@@ -293,34 +293,8 @@ namespace teamtalk {
         ACE_TString nickname;
         ACE_TString username;
         BannedUser() : bantype(BANTYPE_NONE) { bantime = ACE_OS::gettimeofday(); }
-
-        bool Same(const BannedUser& user) const
-        {
-            bool same = user.bantype == this->bantype;
-            if (bantype & BANTYPE_IPADDR)
-                same &= user.ipaddr == this->ipaddr;
-            if (bantype & BANTYPE_CHANNEL)
-                same &= user.chanpath == this->chanpath;
-            if (bantype & BANTYPE_USERNAME)
-                same &= user.username == this->username;
-            return same;
-        }
-
-        bool Match(const BannedUser& user) const
-        {
-            bool match = true;
-            if((bantype & BANTYPE_IPADDR) && ipaddr.length())
-            {
-                ACE_TString rgx = ACE_TEXT("^") + ipaddr + ACE_TEXT("$");
-                match &= std::regex_search(user.ipaddr.c_str(), buildregex(rgx.c_str()));
-            }
-            if((bantype & BANTYPE_USERNAME))
-                match &= username == user.username;
-            if((bantype & BANTYPE_CHANNEL))
-                match &= chanpath == user.chanpath;
-            match &= bantype != BANTYPE_NONE;
-            return match;
-        }
+        bool Same(const BannedUser& user) const;
+        bool Match(const BannedUser& user) const;
     };
 
     typedef std::vector<BannedUser> bannedusers_t;

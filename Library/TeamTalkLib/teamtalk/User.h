@@ -29,7 +29,6 @@
 #include <ace/SString.h>
 #include <ace/INET_Addr.h>
 
-#include "Commands.h"
 #include "PacketLayout.h"
 
 namespace teamtalk {

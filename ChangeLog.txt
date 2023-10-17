@@ -18,6 +18,7 @@ iOS Client
 Server
 - User right to prevent private text messages
 - User right to prevent channel text messages
+- Support for banning IP-address as subnet, e.g. 192.168.0.0/24 or 2a02:09b0:402b:eed8::/63
 
 Version 5.14, 2023/08/16
 Default Qt Client
