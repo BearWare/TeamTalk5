@@ -377,7 +377,5 @@ namespace teamtalk {
                     ACE_CString& cmd, ACE_CString& remain_input);
     bool GetCmd(const ACE_CString& input, ACE_CString& cmd);
     ACE_TString stripEOL(const ACE_TString& input);
-
-    ACE_TString InetAddrToString(const ACE_INET_Addr& addr);
 }
 #endif

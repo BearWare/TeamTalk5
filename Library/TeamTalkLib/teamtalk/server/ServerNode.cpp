@@ -24,6 +24,8 @@
 #include "ServerNode.h"
 #include "ServerUser.h"
 
+#include <myace/MyINet.h>
+
 #include <ace/FILE_Connector.h>
 #include <ace/Dirent_Selector.h>
 #include <ace/Dirent.h>

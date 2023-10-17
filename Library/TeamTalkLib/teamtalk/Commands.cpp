@@ -24,6 +24,7 @@
 #include "Commands.h"
 #include "ttassert.h"
 #include <myace/MyACE.h>
+#include <myace/MyINet.h>
 
 #include <ctime>
 #include <ace/OS.h>
@@ -771,12 +772,4 @@ namespace teamtalk {
             return input.substr(0,input.length()-1);
         return input;
     }
-
-    ACE_TString InetAddrToString(const ACE_INET_Addr& addr)
-    {
-        ACE_TCHAR buf[MAX_STRING_LENGTH+1] = {};
-        addr.addr_to_string(buf, MAX_STRING_LENGTH);
-        return buf;
-    }
-
 }
