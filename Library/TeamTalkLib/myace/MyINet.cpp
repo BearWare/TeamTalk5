@@ -34,7 +34,9 @@
 #include <ace/INet/HTTPS_URL.h>
 #endif
 
+#if !defined(WIN32)
 #include <arpa/inet.h>
+#endif
 #include <assert.h>
 
 #include <algorithm>

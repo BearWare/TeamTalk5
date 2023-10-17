@@ -24,12 +24,14 @@
 #if !defined(SERVERUSER_H)
 #define SERVERUSER_H
 
-#include "Server.h"
-
-#include <teamtalk/User.h>
-#include <teamtalk/StreamHandler.h>
-#include "ServerChannel.h"
 #include "DesktopCache.h"
+#include "Server.h"
+#include "ServerChannel.h"
+
+#include <teamtalk/Commands.h>
+#include <teamtalk/StreamHandler.h>
+#include <teamtalk/User.h>
+
 #include <ace/Recursive_Thread_Mutex.h>
 
 namespace teamtalk { 

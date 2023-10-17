@@ -4317,3 +4317,43 @@ TEST_CASE( "IPExtract" )
     REQUIRE(INetAddrNetwork(ACE_TEXT("2a81::bdda"), 9) == ACE_TEXT("2a80::"));
     REQUIRE(INetAddrNetwork(ACE_TEXT("2a02:9b0:402b:eed8:849b:310c:25c:bdda"), 128) == ACE_TEXT("2a02:9b0:402b:eed8:849b:310c:25c:bdda"));
 }
+
+TEST_CASE( "MatchBan" )
+{
+    teamtalk::BannedUser banned_ipv4;
+    banned_ipv4.bantype = BANTYPE_IPADDR;
+    banned_ipv4.ipaddr = ACE_TEXT("192.168.1.111");
+
+    teamtalk::BannedUser bancheck;
+
+    bancheck.ipaddr = ACE_TEXT("192.168.1.111");
+    REQUIRE(banned_ipv4.Match(bancheck));
+
+    banned_ipv4.ipaddr = ACE_TEXT("192.168.1.111/32");
+    REQUIRE(banned_ipv4.Match(bancheck));
+
+    banned_ipv4.ipaddr = ACE_TEXT("192.168.0.0/23");
+    REQUIRE(banned_ipv4.Match(bancheck));
+
+    bancheck.ipaddr = ACE_TEXT("192.168.2.111");
+    REQUIRE(banned_ipv4.Match(bancheck) == false);
+
+    teamtalk::BannedUser banned_ipv6;
+    banned_ipv6.bantype = BANTYPE_IPADDR;
+    banned_ipv6.ipaddr = ACE_TEXT("2a02:9b0:402b:eed8:849b:310c:25c:bdda");
+
+    bancheck.ipaddr = ACE_TEXT("2a02:9b0:402b:eed8:849b:310c:25c:bdda");
+    REQUIRE(banned_ipv6.Match(bancheck));
+
+    banned_ipv6.ipaddr = ACE_TEXT("2a02:9b0:402b:eed8:849b:310c:25c:bdda/128");
+    REQUIRE(banned_ipv6.Match(bancheck));
+
+    banned_ipv6.ipaddr = ACE_TEXT("2a02:09b0:402b:eed8::/63");
+    REQUIRE(banned_ipv6.Match(bancheck));
+
+    banned_ipv6.ipaddr = ACE_TEXT("2a02:9b0:402b:eed8:849b:310c:25c:bdda/128");
+    REQUIRE(banned_ipv6.Match(bancheck));
+
+    bancheck.ipaddr = ACE_TEXT("192.168.1.111");
+    REQUIRE(banned_ipv6.Match(bancheck) == false);
+}
