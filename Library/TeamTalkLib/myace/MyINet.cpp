@@ -35,6 +35,8 @@
 #include <ace/INet/HTTPS_SessionFactory.h>
 #endif
 
+#include <arpa/inet.h>
+
 #include <iomanip>
 #include <sstream>
 
@@ -288,4 +290,11 @@ std::string URLEncode(const std::string& utf8)
     }
 
     return escaped.str();
+}
+
+ACE_TString InetAddrToString(const ACE_INET_Addr& addr)
+{
+    ACE_TCHAR buf[INET6_ADDRSTRLEN+1] = {};
+    addr.addr_to_string(buf, INET6_ADDRSTRLEN);
+    return buf;
 }
