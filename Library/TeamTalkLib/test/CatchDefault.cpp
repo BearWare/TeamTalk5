@@ -4300,3 +4300,20 @@ TEST_CASE( "TimeZoneConversion" )
     time_t t_now = std::mktime(&tm_now);
     REQUIRE(t_now == t_old);
 }
+
+TEST_CASE( "IPExtract" )
+{
+    REQUIRE(InetAddrFamily(ACE_TEXT("192.168.1.1")) == AF_INET);
+    REQUIRE(InetAddrFamily(ACE_TEXT("2a02:9b0:402b:eed8:849b:310c:25c:bdda")) == AF_INET6);
+    REQUIRE(InetAddrFamily(ACE_TEXT("jsdofkjsodfj")) < 0);
+
+    REQUIRE(INetAddrNetwork(ACE_TEXT("192.168.1.1"), 32) == ACE_TEXT("192.168.1.1"));
+    REQUIRE(INetAddrNetwork(ACE_TEXT("192.168.1.255"), 31) == ACE_TEXT("192.168.1.254"));
+    REQUIRE(INetAddrNetwork(ACE_TEXT("192.168.1.1"), 24) == ACE_TEXT("192.168.1.0"));
+    REQUIRE(INetAddrNetwork(ACE_TEXT("192.168.1.1"), 23) == ACE_TEXT("192.168.0.0"));
+    REQUIRE(INetAddrNetwork(ACE_TEXT("192.168.129.1"), 23) == ACE_TEXT("192.168.128.0"));
+
+    REQUIRE(INetAddrNetwork(ACE_TEXT("2a02:9b0:402b:eed8:849b:310c:25c:bdda"), 32) == ACE_TEXT("2a02:9b0::"));
+    REQUIRE(INetAddrNetwork(ACE_TEXT("2a81::bdda"), 9) == ACE_TEXT("2a80::"));
+    REQUIRE(INetAddrNetwork(ACE_TEXT("2a02:9b0:402b:eed8:849b:310c:25c:bdda"), 128) == ACE_TEXT("2a02:9b0:402b:eed8:849b:310c:25c:bdda"));
+}
