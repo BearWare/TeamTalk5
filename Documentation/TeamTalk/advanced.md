@@ -1,7 +1,7 @@
 # Advanced Topics {#advanced}
 
 The TeamTalk client supports a couple of command-line arguments and
-additionals configuration options which are explain in the following
+additional configuration options which are explain in the following
 sections:
 
 - [Command-line arguments](@ref cmdline)
