@@ -24,19 +24,21 @@
 #include "MyINet.h"
 #include "MyACE.h"
 
-#include <assert.h>
-#include <ace/OS.h>
-
-#include <ace/INet/HTTP_URL.h>
 #include <ace/INet/HTTP_ClientRequestHandler.h>
+#include <ace/INet/HTTP_URL.h>
+#include <ace/OS.h>
+#include <ace/ace_wchar.h>
 
 #if defined(ENABLE_ENCRYPTION)
-#include <ace/INet/HTTPS_URL.h>
 #include <ace/INet/HTTPS_SessionFactory.h>
+#include <ace/INet/HTTPS_URL.h>
 #endif
 
 #include <arpa/inet.h>
+#include <assert.h>
 
+#include <algorithm>
+#include <cmath>
 #include <iomanip>
 #include <sstream>
 
@@ -297,4 +299,56 @@ ACE_TString InetAddrToString(const ACE_INET_Addr& addr)
     ACE_TCHAR buf[INET6_ADDRSTRLEN+1] = {};
     addr.addr_to_string(buf, INET6_ADDRSTRLEN);
     return buf;
+}
+
+int InetAddrFamily(const ACE_TString& addr_str)
+{
+    char buf[INET6_ADDRSTRLEN];
+    if (ACE_OS::inet_pton(AF_INET, UnicodeToUtf8(addr_str).c_str(), buf) > 0)
+        return AF_INET;
+    if (ACE_OS::inet_pton(AF_INET6, UnicodeToUtf8(addr_str).c_str(), buf) > 0)
+        return AF_INET6;
+    return -1;
+}
+
+ACE_TString INetAddrNetwork(const ACE_TString& ipaddr, uint32_t prefix)
+{
+    int af = InetAddrFamily(ipaddr);
+    switch (af)
+    {
+    case AF_INET :
+    {
+        struct sockaddr_in ipv4addr;
+        if (inet_pton(AF_INET, UnicodeToUtf8(ipaddr).c_str(), &(ipv4addr.sin_addr)) <= 0)
+            return ACE_TString();
+        prefix = std::min(prefix, uint32_t(32));
+        uint32_t shift = 32-prefix;
+        ipv4addr.sin_addr.s_addr = ntohl(ipv4addr.sin_addr.s_addr);
+        ipv4addr.sin_addr.s_addr >>= shift;
+        ipv4addr.sin_addr.s_addr <<= shift;
+        ipv4addr.sin_addr.s_addr = ntohl(ipv4addr.sin_addr.s_addr);
+        char strnet[INET_ADDRSTRLEN];
+        if (inet_ntop(AF_INET, &(ipv4addr.sin_addr.s_addr), strnet, INET_ADDRSTRLEN))
+            return Utf8ToUnicode(strnet);
+    }
+    case AF_INET6 :
+    {
+        struct sockaddr_in6 ipv6addr;
+        if (inet_pton(AF_INET6, UnicodeToUtf8(ipaddr).c_str(), &(ipv6addr.sin6_addr)) <= 0)
+            return ACE_TString();
+        prefix = std::min(prefix, uint32_t(128));
+        for (int i = 0; i < 16; ++i)
+        {
+            uint32_t bits = std::min(uint32_t(8), prefix);
+            ipv6addr.sin6_addr.s6_addr[i] >>= 8 - bits;
+            ipv6addr.sin6_addr.s6_addr[i] <<= 8 - bits;
+            prefix -= bits;
+        }
+
+        char strnet[INET6_ADDRSTRLEN];
+        if (inet_ntop(AF_INET6, &(ipv6addr.sin6_addr), strnet, INET6_ADDRSTRLEN))
+            return Utf8ToUnicode(strnet);
+    }
+    }
+    return ACE_TString();
 }
