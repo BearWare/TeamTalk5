@@ -1973,6 +1973,8 @@ extern "C" {
         TTCHAR szUsername[TT_STRLEN];
         /** @brief The type of ban that applies to this banned user. */
         BanTypes uBanTypes;
+        /** @brief The username of the user who made the ban */
+        TTCHAR szOwner[TT_STRLEN];
     } BannedUser;
 
     /** @ingroup users

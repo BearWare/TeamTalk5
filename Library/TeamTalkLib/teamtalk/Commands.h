@@ -140,6 +140,7 @@
 #define TT_TOTVOICE ACE_TEXT("voicetot") // v5.12
 #define TT_TOTMEDIAFILE ACE_TEXT("mediafiletot") // v5.12
 #define TT_TRANSFERKEY ACE_TEXT("filetxkey") // v5.13
+#define TT_BANOWNER ACE_TEXT("owner") // v5.13
 
 //    Client ---> Server
 //    -------------------------

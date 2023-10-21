@@ -3264,6 +3264,7 @@ ErrorMsg ServerNode::UserBan(int userid, BannedUser ban)
         ban.chanpath = banchan->GetChannelPath();
     }
 
+    ban.owner = banner->GetUsername();
     if ((banner->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
     {
         if (banchan && (banchan->IsOperator(userid) || banchan->IsAutoOperator(*banner)))
@@ -3334,6 +3335,7 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
     }
 
+    ban.owner = banner->GetUsername();
     err = m_srvguard->AddUserBan(*banner, *ban_user, ban.bantype);
     if (banchan && err.success())
         AddBannedUserToChannel(ban);

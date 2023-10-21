@@ -1488,6 +1488,7 @@ void Convert(const teamtalk::BannedUser& banuser, BannedUser& result)
     ACE_OS::strsncpy(result.szNickname, banuser.nickname.c_str(), TT_STRLEN);
     ACE_OS::strsncpy(result.szUsername, banuser.username.c_str(), TT_STRLEN);
     ACE_OS::strsncpy(result.szBanTime, teamtalk::DateToString( banuser.bantime ).c_str(), TT_STRLEN);
+    ACE_OS::strsncpy(result.szOwner, banuser.owner.c_str(), TT_STRLEN);
     result.uBanTypes = BanTypes(banuser.bantype);
 }
 
@@ -1498,6 +1499,7 @@ void Convert(const BannedUser& banuser, teamtalk::BannedUser& result)
     result.ipaddr = banuser.szIPAddress;
     result.nickname = banuser.szNickname;
     result.username = banuser.szUsername;
+    result.owner = banuser.szOwner;
 }
 
 void Convert(const teamtalk::FileTransfer& transfer, FileTransfer& result)

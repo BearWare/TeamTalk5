@@ -291,7 +291,8 @@ namespace teamtalk {
         ACE_TString chanpath;
         ACE_Time_Value bantime;
         ACE_TString nickname;
-        ACE_TString username;
+        ACE_TString username; // banned username
+        ACE_TString owner; // who made the ban
         BannedUser() : bantype(BANTYPE_NONE) { bantime = ACE_OS::gettimeofday(); }
         bool Same(const BannedUser& user) const;
         bool Match(const BannedUser& user) const;

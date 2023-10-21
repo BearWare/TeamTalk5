@@ -1208,6 +1208,9 @@ namespace teamtalk{
            banElement.Attribute("address"))
             tmp = banElement.Attribute("address"); // pre XML v5.1
         ban.ipaddr = Utf8ToUnicode(tmp.c_str());
+        tmp.clear();
+        GetString(banElement, "owner", tmp);
+        ban.owner = Utf8ToUnicode(tmp.c_str());
         return true;
     }
     
@@ -1220,6 +1223,7 @@ namespace teamtalk{
         PutString(banElement, "nickname", UnicodeToUtf8(ban.nickname).c_str());
         PutString(banElement, "username", UnicodeToUtf8(ban.username).c_str());
         PutString(banElement, "channel-path", UnicodeToUtf8(ban.chanpath).c_str());
+        PutString(banElement, "owner", UnicodeToUtf8(ban.owner).c_str());
     }
 
     int ServerXML::GetUserBanCount()

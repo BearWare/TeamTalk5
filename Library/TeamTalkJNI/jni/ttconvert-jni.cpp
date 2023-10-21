@@ -1628,6 +1628,7 @@ void setBannedUser(JNIEnv* env, BannedUser& banned, jobject lpBannedUser, JConve
    jfieldID fid_nick = env->GetFieldID(cls_ban, "szNickname", "Ljava/lang/String;");
    jfieldID fid_username = env->GetFieldID(cls_ban, "szUsername", "Ljava/lang/String;");
    jfieldID fid_bantype = env->GetFieldID(cls_ban, "uBanTypes", "I");
+   jfieldID fid_owner = env->GetFieldID(cls_ban, "szOwner", "Ljava/lang/String;");
 
    assert(fid_ipaddr);
    assert(fid_chan);
@@ -1635,6 +1636,7 @@ void setBannedUser(JNIEnv* env, BannedUser& banned, jobject lpBannedUser, JConve
    assert(fid_nick);
    assert(fid_username);
    assert(fid_bantype);
+   assert(fid_owner);
 
    if (conv == N2J)
    {
@@ -1644,6 +1646,7 @@ void setBannedUser(JNIEnv* env, BannedUser& banned, jobject lpBannedUser, JConve
        env->SetObjectField(lpBannedUser, fid_nick, NEW_JSTRING(env, banned.szNickname));
        env->SetObjectField(lpBannedUser, fid_username, NEW_JSTRING(env, banned.szUsername));
        env->SetIntField(lpBannedUser, fid_bantype, banned.uBanTypes);
+       env->SetObjectField(lpBannedUser, fid_owner, NEW_JSTRING(env, banned.szOwner));
    }
    else
    {
@@ -1654,6 +1657,7 @@ void setBannedUser(JNIEnv* env, BannedUser& banned, jobject lpBannedUser, JConve
        TT_STRCPY(banned.szNickname, ttstr(env, (jstring)env->GetObjectField(lpBannedUser, fid_nick)));
        TT_STRCPY(banned.szUsername, ttstr(env, (jstring)env->GetObjectField(lpBannedUser, fid_username)));
        banned.uBanTypes = env->GetIntField(lpBannedUser, fid_bantype);
+       TT_STRCPY(banned.szOwner, ttstr(env, (jstring)env->GetObjectField(lpBannedUser, fid_owner)));
    }
 }
 

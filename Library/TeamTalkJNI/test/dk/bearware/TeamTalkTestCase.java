@@ -1924,6 +1924,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("list bans (expect 1)", ttclient.doListBans(ttclient.getMyChannelID(), 0, 100)>0);
 
         assertTrue("wait ban list", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_BANNEDUSER, DEF_WAIT, msg));
+        UserAccount account = new UserAccount();
+        assertTrue("get my account", ttclient.getMyUserAccount(account));
+        assertEquals("owner set", account.szUsername, msg.banneduser.szOwner);
         msg = new TTMessage();
         assertTrue("wait done msg", ttclient.getMessage(msg, DEF_WAIT));
         assertEquals("done msg, only one ban expected", msg.nClientEvent, ClientEvent.CLIENTEVENT_CMD_SUCCESS);
