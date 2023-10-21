@@ -26,7 +26,7 @@
 #include <QDialog>
 
 #define COMPANYNAME         "BearWare.dk"
-#define APPVERSION_SHORT    "5.14.1"
+#define APPVERSION_SHORT    "5.15.0"
 #define APPVERSION_POSTFIX  " - Unreleased"
 #define APPVERSION          TEAMTALK_VERSION APPVERSION_POSTFIX
 
