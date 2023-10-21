@@ -21,16 +21,10 @@
  *
  */
 
-import javax.xml.xpath.XPathExpressionException;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Vector;
+import javax.xml.xpath.XPathExpressionException;
 
 public class Main {
 
@@ -46,31 +40,13 @@ public class Main {
         if (passwd == null)
             passwd = new String(System.console().readPassword());
 
-        WebLogin weblogin = new WebLogin(username, passwd);
+        BadWords badwords = new BadWords();
+        badwords.loadFile("", "badwords.txt");
+        badwords.loadFile("english", "badwords.txt");
+        badwords.loadFile("french", "badwords_french.txt");
 
-        Map<String, String> files_badwords = new HashMap<>();
-        // languages must be lower case
-        files_badwords.put("", "badwords.txt");
-        files_badwords.put("english", "badwords.txt");
-        files_badwords.put("french", "badwords_french.txt");
-        Map<String, Vector<String>> lang_badwords = new HashMap<>();
-
-        for (String lang : files_badwords.keySet()) {
-            Vector<String> badwords = new Vector<>();
-            File file = new File(files_badwords.get(lang));
-            if (file.exists()) {
-                try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        badwords.addAll(Arrays.asList(line.split(",")));
-                    }
-
-                    while (badwords.remove(""));
-                }
-            }
-            lang_badwords.put(lang, badwords);
-        }
-
+        var bannetworks = IPBan.loadFile("vpnips.txt");
+        
         var sessions = new Vector<SpamBotSession>();
         var lastServers = new Vector<TeamTalkServer>();
         var serverlistUpdateTimeout = System.nanoTime();
@@ -80,7 +56,10 @@ public class Main {
             // update list of spambot servers
             if (System.nanoTime() >= serverlistUpdateTimeout) {
                 System.out.println("Updating server list...");
-                var servers = weblogin.getServerList();
+                var servers = getServerList();
+                if (servers.size() == 0)
+                    servers = new WebLogin(username, passwd).getServerList();
+
                 if (!lastServers.equals(servers)) {
                     System.out.println("Dirty server list. Updating...");
                     for (var session : sessions) {
@@ -88,7 +67,9 @@ public class Main {
                     }
                     sessions.clear();
                     for (var server : servers) {
-                        sessions.add(new SpamBotSession(server, weblogin, lang_badwords));
+                        sessions.add(new SpamBotSession(server,
+                                                        new WebLogin(username, passwd),
+                                                        new IPBan(bannetworks), badwords));
                     }
                     lastServers = servers;
                 }
@@ -134,5 +115,18 @@ public class Main {
     static String getInput(String prompt, String def) {
         System.out.print(prompt);
         return getInput(def);
+    }
+
+    static Vector<TeamTalkServer> getServerList() {
+        Vector<TeamTalkServer> servers = new Vector<>();
+        String ipaddr = System.getProperty("dk.bearware.test.server.ipaddr");
+        if (ipaddr != null) {
+            int tcpport = Integer.parseInt(System.getProperty("dk.bearware.test.server.tcpport"));
+            int udpport = Integer.parseInt(System.getProperty("dk.bearware.test.server.udpport"));
+            int encrypted = Integer.parseInt(System.getProperty("dk.bearware.test.server.encrypted"));
+            TeamTalkServer s = new TeamTalkServer(ipaddr, tcpport, udpport, encrypted != 0);
+            servers.add(s);
+        }
+        return servers;
     }
 }

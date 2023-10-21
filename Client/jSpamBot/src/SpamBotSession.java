@@ -42,15 +42,21 @@ implements ConnectionListener, CommandListener, AutoCloseable {
 
     TeamTalkServer server;
     WebLogin loginsession;
-    Vector<String> badwords;
-    Map<String, Vector<String>> langbadwords;
+    IPBan bans;
+    BadWords badwords;
+    Vector<String> langbadwords = new Vector<>();
+    enum CmdComplete {
+        CMD_NONE,
+        CMD_LISTBANS,
+        CMD_ADDBAN
+    }
+    Map<Integer, CmdComplete> activecommands = new HashMap<>();
 
-    int cmdid_completed = 0, cmdid_success = 0;
-
-    SpamBotSession(TeamTalkServer srv, WebLogin loginsession, Map<String, Vector<String>> langbadwords) {
+    SpamBotSession(TeamTalkServer srv, WebLogin loginsession, IPBan bans, BadWords badwords) {
         this.server = srv;
         this.loginsession = loginsession;
-        this.langbadwords = langbadwords;
+        this.bans = bans;
+        this.badwords = badwords;
         handler.addConnectionListener(this);
         handler.addCommandListener(this);
     }
@@ -90,8 +96,11 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         for (String word : words) {
             if (word.isEmpty())
                 continue;
-            if (badwords.contains(word))
-                return true;
+
+            for (String lang : langbadwords) {
+                if (badwords.contains(lang, word))
+                    return true;
+            }
         }
         return false;
     }
@@ -154,7 +163,8 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     }
 
     @Override
-    public void onCmdBannedUser(BannedUser arg0) {
+    public void onCmdBannedUser(BannedUser ban) {
+        this.bans.addBan(ban);
     }
 
     @Override
@@ -213,27 +223,31 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         if((useraccount.uUserRights & UserRight.USERRIGHT_BAN_USERS) != 0)
             System.out.println("\tBan users");
         if((useraccount.uUserRights & UserRight.USERRIGHT_MODIFY_CHANNELS) != 0)
-                System.out.println("\tModify all channels");
+            System.out.println("\tModify all channels");
         if((useraccount.uUserRights & UserRight.USERRIGHT_TRANSMIT_VOICE) != 0)
-                System.out.println("\tTransmit voice");
+            System.out.println("\tTransmit voice");
         if((useraccount.uUserRights & UserRight.USERRIGHT_TRANSMIT_VIDEOCAPTURE) != 0)
-                System.out.println("\tTransmit video from webcam");
+            System.out.println("\tTransmit video from webcam");
         if((useraccount.uUserRights & UserRight.USERRIGHT_TRANSMIT_DESKTOP) != 0)
-                System.out.println("\tTransmit desktop");
+            System.out.println("\tTransmit desktop");
         if((useraccount.uUserRights & UserRight.USERRIGHT_TRANSMIT_DESKTOPINPUT) != 0)
-                System.out.println("\tControl desktops");
+            System.out.println("\tControl desktops");
         if((useraccount.uUserRights & UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) != 0)
-                System.out.println("\tTransmit media files containing video");
+            System.out.println("\tTransmit media files containing video");
         if((useraccount.uUserRights & UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) != 0)
-                System.out.println("\tTransmit media files containing audio");
+            System.out.println("\tTransmit media files containing audio");
         if((useraccount.uUserRights & UserRight.USERRIGHT_DOWNLOAD_FILES) != 0)
-                System.out.println("\tDownload files");
+            System.out.println("\tDownload files");
         if((useraccount.uUserRights & UserRight.USERRIGHT_UPLOAD_FILES) != 0)
-                System.out.println("\tUpload files");
+            System.out.println("\tUpload files");
 
+        joinChannel(useraccount);
+        setupBadWords(useraccount);
+        syncBans(useraccount);
+    }
+
+    void joinChannel(UserAccount account) {
         // see if spambot should join initial channel
-        UserAccount account = new UserAccount();
-        ttclient.getMyUserAccount(account);
         if (!account.szInitChannel.isEmpty()) {
             int chanid = ttclient.getChannelIDFromPath(account.szInitChannel);
             Channel chan = new Channel();
@@ -247,13 +261,22 @@ implements ConnectionListener, CommandListener, AutoCloseable {
             }
             ttclient.doJoinChannel(chan);
         }
+    }
 
-        badwords = new Vector<>();
+    void setupBadWords(UserAccount account) {
         for (String lang : account.szNote.toLowerCase(Locale.ROOT).split(",")) {
-            if (langbadwords.get(lang) != null) {
-                badwords.addAll(langbadwords.get(lang));
-                System.out.printf("Using language \"%s\" with %d bad words on %s:%d.\n", lang, langbadwords.get(lang).size(), server.ipaddr, server.tcpport);
-            }
+            langbadwords.add(lang);
+            System.out.printf("Using language \"%s\" with %d bad words on %s:%d.\n", lang, badwords.getBadWords(lang).size(), server.ipaddr, server.tcpport);
+        }
+
+        if (langbadwords.isEmpty()) {
+            langbadwords.add(""); // use default
+        }
+    }
+
+    void syncBans(UserAccount account) {
+        if ((account.uUserRights & UserRight.USERRIGHT_BAN_USERS) == UserRight.USERRIGHT_BAN_USERS) {
+            activecommands.put(ttclient.doListBans(0, 0, 1000000), CmdComplete.CMD_LISTBANS);
         }
     }
 
@@ -264,8 +287,23 @@ implements ConnectionListener, CommandListener, AutoCloseable {
 
     @Override
     public void onCmdProcessing(int cmdid, boolean complete) {
-        if(complete)
-            cmdid_completed = cmdid;
+        if(complete) {
+            var v = activecommands.get(cmdid);
+            switch (v == null ? CmdComplete.CMD_NONE : v) {
+            case CMD_LISTBANS : {
+                int bancmdid = this.bans.syncBans(this.ttclient);
+                if (bancmdid > 0)
+                    activecommands.put(bancmdid, CmdComplete.CMD_ADDBAN);
+                break;
+            }
+            case CMD_ADDBAN : {
+                int bancmdid = this.bans.syncBans(this.ttclient);
+                if (bancmdid > 0)
+                    activecommands.put(bancmdid, CmdComplete.CMD_ADDBAN);
+            }
+            }
+            activecommands.remove(cmdid);
+        }
     }
 
     @Override
@@ -274,7 +312,6 @@ implements ConnectionListener, CommandListener, AutoCloseable {
 
     @Override
     public void onCmdSuccess(int cmdid) {
-        cmdid_success = cmdid;
     }
 
     @Override

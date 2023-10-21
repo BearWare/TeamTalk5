@@ -8,7 +8,9 @@ if (Java_FOUND)
 
   option (BUILD_TEAMTALK_JTEAMTALKSPAMBOT "Build TeamTalk Anti Spam Bot" ON)
 
-  set (JAVA_SOURCES src/SpamBotSession.java src/WebLogin.java src/Main.java src/TeamTalkServer.java)
+  set (JAVA_SOURCES src/SpamBotSession.java src/WebLogin.java
+    src/Main.java src/TeamTalkServer.java src/IPBan.java
+    src/BadWords.java)
 
   if (BUILD_TEAMTALK_JTEAMTALKSPAMBOT)
 
