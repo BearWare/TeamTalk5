@@ -12,8 +12,6 @@ Default Qt Client
 - Support for banning IP-address as subnet, e.g. 192.168.0.0/24 or 2a02:09b0:402b:eed8::/63
 - Username of user creating a ban is visible in "Banned Users" dialog
 Android Client
-- Fixed importing of tt files on newer android versions
-- It is now possible to select a language of TeamTalk on Android 13 and above from app languages settings.
 -
 iOS Client
 -
@@ -22,6 +20,11 @@ Server
 - User right to prevent channel text messages
 - Support for banning IP-address as subnet, e.g. 192.168.0.0/24 or 2a02:09b0:402b:eed8::/63
 - Owner of ban is stored
+
+Version 5.14.1, 2023/10/21
+Android Client
+- Fixed importing of tt files on newer android versions
+- It is now possible to select language for TeamTalk on Android 13 and above from app languages settings
 
 Version 5.14, 2023/08/16
 Default Qt Client
