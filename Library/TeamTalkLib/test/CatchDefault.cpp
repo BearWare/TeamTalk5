@@ -1649,7 +1649,7 @@ TEST_CASE("TestHTTPPost")
     headers["Content-Type"] = "application/x-www-form-urlencoded";
     std::string content = "client=TeamTalk5&version=5.0.0.0";
     std::string result;
-    REQUIRE(HttpPostRequest("http://www.bearware.dk/teamtalk/tt5update.php", content.c_str(), content.length(), headers, result) == 1);
+    REQUIRE(HttpPostRequest("http://www.bearware.dk/teamtalk/tt5update.php", content.c_str(), int(content.length()), headers, result) == 1);
 }
 #endif
 

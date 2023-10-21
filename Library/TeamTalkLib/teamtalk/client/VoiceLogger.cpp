@@ -121,7 +121,8 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
     case AFF_MP3_32KBIT_FORMAT :
     case AFF_MP3_64KBIT_FORMAT :
     case AFF_MP3_128KBIT_FORMAT :
-    case AFF_MP3_256KBIT_FORMAT :
+    case AFF_MP3_256KBIT_FORMAT:
+    case AFF_MP3_320KBIT_FORMAT :
 #if defined(ENABLE_MEDIAFOUNDATION)
     {
         int mp3bitrate = AFFToMP3Bitrate(aff);
@@ -615,19 +616,12 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
         }
         break;
     case AFF_MP3_16KBIT_FORMAT :
-        mp3bitrate = 16000;
-        break;
-    case AFF_MP3_32KBIT_FORMAT :
-        mp3bitrate = 32000;
-        break;
-    case AFF_MP3_64KBIT_FORMAT :
-        mp3bitrate = 64000;
-        break;
-    case AFF_MP3_128KBIT_FORMAT :
-        mp3bitrate = 128000;
-        break;
-    case AFF_MP3_256KBIT_FORMAT :
-        mp3bitrate = 256000;
+    case AFF_MP3_32KBIT_FORMAT:
+    case AFF_MP3_64KBIT_FORMAT:
+    case AFF_MP3_128KBIT_FORMAT:
+    case AFF_MP3_256KBIT_FORMAT:
+    case AFF_MP3_320KBIT_FORMAT:
+        mp3bitrate = teamtalk::AFFToMP3Bitrate(from_user.GetAudioFileFormat());
         break;
     case AFF_NONE :
     case AFF_WAVE_FORMAT :

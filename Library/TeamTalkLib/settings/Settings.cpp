@@ -84,9 +84,9 @@ namespace teamtalk {
         return false;
     }
 
-    string XMLDocument::GetFileVersion()
+    string XMLDocument::GetFileVersion() const
     {
-        TiXmlElement* item=GetRootElement();
+        const TiXmlElement* item=GetRootElement();
 
         string version;
         if(item)
@@ -180,7 +180,7 @@ namespace teamtalk {
         {
             m_filename = filename;
             m_rootname = GetRootElement()? GetRootElement()->Value() : "";
-            return true;
+            return UpdateFile();
         }
         return false;
     }
@@ -188,6 +188,11 @@ namespace teamtalk {
     bool XMLDocument::SaveFile()
     {
         return m_xmlDocument.SaveFile();
+    }
+
+    bool XMLDocument::UpdateFile()
+    {
+        return true;
     }
 
     void XMLDocument::PutElementText(TiXmlElement& element, const std::string& value)
@@ -372,6 +377,11 @@ namespace teamtalk {
     }
 
     TiXmlElement* XMLDocument::GetRootElement()
+    {
+        return m_xmlDocument.RootElement();
+    }
+
+    const TiXmlElement* XMLDocument::GetRootElement() const
     {
         return m_xmlDocument.RootElement();
     }

@@ -5,7 +5,10 @@
 Version 5.15, unreleased
 Default Qt Client
 - PulseAudio support on Ubuntu 22
+- User right to prevent private text messages
+- User right to prevent channel text messages
 - Fixed state of "Close when completed" checkbox on "Transfer file" dialog
+- Support for 320 KBit MP3 recording (Windows only)
 Android Client
 - Fixed importing of tt files on newer android versions
 - It is now possible to select a language of TeamTalk on Android 13 and above from app languages settings.
@@ -13,7 +16,8 @@ Android Client
 iOS Client
 -
 Server
--
+- User right to prevent private text messages
+- User right to prevent channel text messages
 
 Version 5.14, 2023/08/16
 Default Qt Client

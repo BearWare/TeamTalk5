@@ -209,6 +209,8 @@ namespace teamtalk {
         USERRIGHT_LOCKED_STATUS                         = 0x00080000,
         USERRIGHT_RECORD_VOICE                          = 0x00100000,
         USERRIGHT_VIEW_HIDDEN_CHANNELS                  = 0x00200000,
+        USERRIGHT_TEXTMESSAGE_USER                      = 0x00400000,
+        USERRIGHT_TEXTMESSAGE_CHANNEL                   = 0x00800000,
 
         USERRIGHT_DEFAULT = USERRIGHT_MULTI_LOGIN |
                             USERRIGHT_VIEW_ALL_USERS |
@@ -219,13 +221,14 @@ namespace teamtalk {
                             USERRIGHT_TRANSMIT_VIDEOCAPTURE |
                             USERRIGHT_TRANSMIT_DESKTOP |
                             USERRIGHT_TRANSMIT_DESKTOPINPUT |
-                            USERRIGHT_TRANSMIT_MEDIAFILE,
-                               
+                            USERRIGHT_TRANSMIT_MEDIAFILE |
+                            USERRIGHT_TEXTMESSAGE_USER |
+                            USERRIGHT_TEXTMESSAGE_CHANNEL,
 
-        USERRIGHT_ALL                       = 0x0033FFFF,
-        USERRIGHT_KNOWN_MASK                = 0x001FFFFF
+        USERRIGHT_ALL                       =  0x00FFFFFF ^ (USERRIGHT_LOCKED_NICKNAME | USERRIGHT_LOCKED_STATUS),
+        USERRIGHT_KNOWN_MASK                = ~0xFF000000
     };
-    
+
     typedef ACE_UINT32 UserRights;
 
     struct Abuse
@@ -702,6 +705,7 @@ namespace teamtalk {
         AFF_MP3_64KBIT_FORMAT    = 5,
         AFF_MP3_128KBIT_FORMAT   = 6,
         AFF_MP3_256KBIT_FORMAT   = 7,
+        AFF_MP3_320KBIT_FORMAT   = 8,
     };
 
     int AFFToMP3Bitrate(AudioFileFormat aff);

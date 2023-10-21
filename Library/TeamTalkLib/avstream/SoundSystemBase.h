@@ -31,6 +31,8 @@
 
 namespace soundsystem {
 
+    const std::vector<int> standardSampleRates = { 8000, 12000, 16000, 24000, 32000, 44100, 48000 };
+
     template < typename SOUNDGROUP, typename INPUTSTREAMER, typename OUTPUTSTREAMER, typename DUPLEXSTREAMER >
     class SoundSystemBase : public SoundSystem
     {
@@ -72,7 +74,6 @@ namespace soundsystem {
         typedef std::map<int, DeviceInfo> sounddevices_t;
 
         virtual void FillDevices(sounddevices_t& sounddevs) = 0;
-        const std::vector<int> standardSampleRates = {8000, 12000, 16000, 24000, 32000, 44100, 48000};
 
         virtual soundgroup_t NewSoundGroup() = 0;
         virtual void RemoveSoundGroup(soundgroup_t grp) = 0;

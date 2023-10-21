@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.14.1.5129"
+#define TEAMTALK_VERSION "5.14.1.5130"
 
 
 #if defined(WIN32)
@@ -784,6 +784,8 @@ extern "C" {
         AFF_MP3_128KBIT_FORMAT   = 6,
         /** @see #AFF_MP3_16KBIT_FORMAT */
         AFF_MP3_256KBIT_FORMAT   = 7,
+        /** @see #AFF_MP3_16KBIT_FORMAT */
+        AFF_MP3_320KBIT_FORMAT   = 8,
     } AudioFileFormat;
 
     /**
@@ -1699,7 +1701,13 @@ extern "C" {
          * with #CHANNEL_NO_RECORDING. */
         USERRIGHT_RECORD_VOICE              = 0x00100000,
         /** @brief User can see hidden channels, #CHANNEL_HIDDEN. */
-        USERRIGHT_VIEW_HIDDEN_CHANNELS      = 0x00200000
+        USERRIGHT_VIEW_HIDDEN_CHANNELS      = 0x00200000,
+        /** @brief User can send private text messages, i.e.
+         *  #MSGTYPE_USER. @see TT_DoTextMessage() */
+        USERRIGHT_TEXTMESSAGE_USER          = 0x00400000,
+        /** @brief User can send channel text messages, i.e.
+         *  #MSGTYPE_CHANNEL. @see TT_DoTextMessage() */
+        USERRIGHT_TEXTMESSAGE_CHANNEL       = 0x00800000,
     } UserRight;
 
     /** 

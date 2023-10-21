@@ -196,6 +196,7 @@ bool AudioMuxer::SaveFile(const teamtalk::AudioCodec& codec,
     case AFF_MP3_64KBIT_FORMAT :
     case AFF_MP3_128KBIT_FORMAT :
     case AFF_MP3_256KBIT_FORMAT :
+    case AFF_MP3_320KBIT_FORMAT :
     {
 #if defined(ENABLE_MEDIAFOUNDATION)
         int mp3bitrate = AFFToMP3Bitrate(aff);

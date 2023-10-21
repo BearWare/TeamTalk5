@@ -69,7 +69,7 @@ namespace teamtalk {
         bool Parse(const std::string& xml);
 
         bool SetFileVersion(const std::string& version);
-        std::string GetFileVersion();
+        std::string GetFileVersion() const;
 
         const std::string& GetFileName() const { return m_filename; }
 
@@ -83,6 +83,7 @@ namespace teamtalk {
         bool GetValueBool(bool prefixRoot, const std::string& path, bool defaultvalue);
 
     protected:
+        virtual bool UpdateFile();
         TiXmlDocument m_xmlDocument;
         void PutElementText(TiXmlElement& element, const std::string& value);
         void GetElementText(const TiXmlElement& element, std::string& value) const;
@@ -100,6 +101,7 @@ namespace teamtalk {
         TiXmlElement* AppendElement(TiXmlElement& parent, const TiXmlElement& newElement);
         TiXmlElement* ReplaceElement(TiXmlElement& target, const TiXmlElement& element);
         virtual TiXmlElement* GetRootElement();
+        virtual const TiXmlElement* GetRootElement() const;
         std::string m_rootname, m_filename, m_xmlversion;
     };
 

@@ -27,7 +27,7 @@
 #include <settings/Settings.h>
 #include <teamtalk/Common.h>
 
-#define TEAMTALK_XML_VERSION                    "5.2"
+#define TEAMTALK_XML_VERSION                    "5.3"
 
 namespace teamtalk {
 
@@ -177,6 +177,9 @@ namespace teamtalk {
         bool GetBearWareWebLogin(std::string& username,
                                  std::string& token);
         /******** </bearware-weblogin> *********/
+
+    protected:
+        bool UpdateFile();
     private:
         /**** Sections ****/
         TiXmlElement* GetGeneralElement();

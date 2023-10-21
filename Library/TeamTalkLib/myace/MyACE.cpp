@@ -297,27 +297,33 @@ void MYTRACE(const ACE_TCHAR* trace_str, ...)
 {
     va_list args;
     va_start(args, trace_str);
+#if defined(__ANDROID_API__) || defined(WIN32) || defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE || defined(TARGET_OS_SIMULATOR) && TARGET_OS_SIMULATOR
     const int MAX_TRACESTRLEN = 512;
-    ACE_TCHAR str_buf[MAX_TRACESTRLEN] = ACE_TEXT("[MYTRACE buffer overflow]\n"), tmp_str[MAX_TRACESTRLEN] = ACE_TEXT("");
+#else
+    const int MAX_TRACESTRLEN = 0x10000;
+#endif
+    std::vector<ACE_TCHAR> str_buf(MAX_TRACESTRLEN);
+    ACE_OS::strncpy(&str_buf[0], ACE_TEXT("[MYTRACE buffer overflow]\n"), MAX_TRACESTRLEN);
+    ACE_TCHAR tmp_str[MAX_TRACESTRLEN] = ACE_TEXT("");
     static ACE_UINT32 begin = GETTIMESTAMP(), next;
     next = GETTIMESTAMP();
     int out_len = 0;
 
 #if (MYTRACE_TIMESTAMP)
     ACE_OS::snprintf(tmp_str, MAX_TRACESTRLEN, ACE_TEXT("%08u: %s"), next - begin, trace_str);
-    out_len = ACE_OS::vsnprintf(str_buf, MAX_TRACESTRLEN, tmp_str, args);
+    out_len = ACE_OS::vsnprintf(&str_buf[0], MAX_TRACESTRLEN, tmp_str, args);
 #else
-    out_len = ACE_OS::vsnprintf(str_buf, MAX_TRACESTRLEN, trace_str, args);
+    out_len = ACE_OS::vsnprintf(&str_buf[0], MAX_TRACESTRLEN, trace_str, args);
 #endif
     
 #if defined(__ANDROID_API__)
-    __android_log_write(ANDROID_LOG_INFO, "bearware", str_buf);
+    __android_log_write(ANDROID_LOG_INFO, "bearware", &str_buf[0]);
 #elif defined(WIN32)
-    OutputDebugString(str_buf);
+    OutputDebugString(&str_buf[0]);
 #elif defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE || defined(TARGET_OS_SIMULATOR) && TARGET_OS_SIMULATOR
-    os_log_info(OS_LOG_DEFAULT, "%{public}s", str_buf);
+    os_log_info(OS_LOG_DEFAULT, "%{public}s", &str_buf[0]);
 #else
-    std::cout << str_buf;
+    std::cout << &str_buf[0];
     if (out_len >= MAX_TRACESTRLEN)
         std::cout << "[MYTRACE buffer overflow]" << std::endl << std::flush;
 #endif

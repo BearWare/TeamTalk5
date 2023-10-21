@@ -890,6 +890,12 @@ ErrorMsg ServerUser::HandleNewUserAccount(const mstrings_t& properties)
     GET_PROP_OR_RETURN(properties, TT_USERTYPE, account.usertype);
     GetProperties(properties, account);
 
+    if (!VersionSameOrLater(GetStreamProtocol(), ACE_TEXT("5.13")))
+    {
+        account.userrights |= USERRIGHT_TEXTMESSAGE_USER;
+        account.userrights |= USERRIGHT_TEXTMESSAGE_CHANNEL;
+    }
+
     return m_servernode.UserNewUserAccount(GetUserID(), account);
 }
 
