@@ -1753,6 +1753,7 @@ void ServerUser::DoShowBan(const BannedUser& ban)
     AppendProperty(TT_NICKNAME, ban.nickname, command);
     AppendProperty(TT_USERNAME, ban.username, command);
     AppendProperty(TT_BANTIME, ban.bantime, command);
+    AppendProperty(TT_BANOWNER, ban.owner, command);
     command += ACE_TString(EOL);
 
     TransmitCommand(command);

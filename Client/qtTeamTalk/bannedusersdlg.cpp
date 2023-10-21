@@ -30,6 +30,7 @@ enum
     COLUMN_INDEX_USERNAME,
     COLUMN_INDEX_BANTYPE,
     COLUMN_INDEX_BANTIME,
+    COLUMN_INDEX_OWNER,
     COLUMN_INDEX_CHANPATH,
     COLUMN_INDEX_IPADDRESS,
     COLUMN_COUNT_BANNEDUSERS
@@ -54,6 +55,7 @@ QVariant BannedUsersModel::headerData ( int section, Qt::Orientation orientation
             case COLUMN_INDEX_USERNAME: return tr("Username");
             case COLUMN_INDEX_BANTYPE: return tr("Ban type");
             case COLUMN_INDEX_BANTIME: return tr("Ban Time");
+            case COLUMN_INDEX_OWNER: return tr("Owner");
             case COLUMN_INDEX_CHANPATH: return tr("Channel");
             case COLUMN_INDEX_IPADDRESS: return tr("IP-address");
         }
@@ -92,6 +94,8 @@ QVariant BannedUsersModel::data ( const QModelIndex & index, int role /*= Qt::Di
         }
         case COLUMN_INDEX_BANTIME :
             return _Q(m_users[index.row()].szBanTime);
+        case COLUMN_INDEX_OWNER :
+            return _Q(m_users[index.row()].szOwner);
         case COLUMN_INDEX_CHANPATH :
             return _Q(m_users[index.row()].szChannelPath);
         case COLUMN_INDEX_IPADDRESS : 
@@ -100,7 +104,21 @@ QVariant BannedUsersModel::data ( const QModelIndex & index, int role /*= Qt::Di
         break;
         case Qt::AccessibleTextRole :
         {
-            return QString("%1: %2, %3: %4, %5: %6, %7: %8, %9: %10, %11: %12").arg(headerData(COLUMN_INDEX_NICKNAME, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_NICKNAME, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_USERNAME, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_USERNAME, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_BANTYPE, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_BANTYPE, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_BANTIME, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_BANTIME, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_CHANPATH, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_CHANPATH, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_IPADDRESS, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_IPADDRESS, index.internalId()), Qt::DisplayRole).toString());
+            return QString("%1: %2, %3: %4, %5: %6, %7: %8, %9: %10, %11: %12, %13: %14")
+            .arg(headerData(COLUMN_INDEX_NICKNAME, Qt::Horizontal, Qt::DisplayRole).toString())
+            .arg(data(createIndex(index.row(), COLUMN_INDEX_NICKNAME, index.internalId()), Qt::DisplayRole).toString())
+            .arg(headerData(COLUMN_INDEX_USERNAME, Qt::Horizontal, Qt::DisplayRole).toString())
+            .arg(data(createIndex(index.row(), COLUMN_INDEX_USERNAME, index.internalId()), Qt::DisplayRole).toString())
+            .arg(headerData(COLUMN_INDEX_BANTYPE, Qt::Horizontal, Qt::DisplayRole).toString())
+            .arg(data(createIndex(index.row(), COLUMN_INDEX_BANTYPE, index.internalId()), Qt::DisplayRole).toString())
+            .arg(headerData(COLUMN_INDEX_BANTIME, Qt::Horizontal, Qt::DisplayRole).toString())
+            .arg(data(createIndex(index.row(), COLUMN_INDEX_BANTIME, index.internalId()), Qt::DisplayRole).toString())
+            .arg(headerData(COLUMN_INDEX_OWNER, Qt::Horizontal, Qt::DisplayRole).toString())
+            .arg(data(createIndex(index.row(), COLUMN_INDEX_OWNER, index.internalId()), Qt::DisplayRole).toString())
+            .arg(headerData(COLUMN_INDEX_CHANPATH, Qt::Horizontal, Qt::DisplayRole).toString())
+            .arg(data(createIndex(index.row(), COLUMN_INDEX_CHANPATH, index.internalId()), Qt::DisplayRole).toString())
+            .arg(headerData(COLUMN_INDEX_IPADDRESS, Qt::Horizontal, Qt::DisplayRole).toString())
+            .arg(data(createIndex(index.row(), COLUMN_INDEX_IPADDRESS, index.internalId()), Qt::DisplayRole).toString());
         }
     }
     return QVariant();
@@ -210,11 +228,11 @@ void BannedUsersDlg::slotClose()
 
 void BannedUsersDlg::slotUnbanUser()
 {
-    int index = m_bannedproxy->mapToSource(ui.bannedTreeView->currentIndex()).row();
-    if(index<0)
+    auto index = m_bannedproxy->mapToSource(ui.bannedTreeView->currentIndex());
+    if (!index.isValid())
         return;
-    m_unbannedmodel->addBannedUser(m_bannedmodel->getUsers()[index], true);
-    m_bannedmodel->delBannedUser(index);
+    m_unbannedmodel->addBannedUser(m_bannedmodel->getUsers()[index.row()], true);
+    m_bannedmodel->delBannedUser(index.row());
 }
 
 void BannedUsersDlg::slotBanUser()

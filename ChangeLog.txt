@@ -10,6 +10,7 @@ Default Qt Client
 - Fixed state of "Close when completed" checkbox on "Transfer file" dialog
 - Support for 320 KBit MP3 recording (Windows only)
 - Support for banning IP-address as subnet, e.g. 192.168.0.0/24 or 2a02:09b0:402b:eed8::/63
+- Username of user creating a ban is visible in "Banned Users" dialog
 Android Client
 - Fixed importing of tt files on newer android versions
 - It is now possible to select a language of TeamTalk on Android 13 and above from app languages settings.
@@ -20,6 +21,7 @@ Server
 - User right to prevent private text messages
 - User right to prevent channel text messages
 - Support for banning IP-address as subnet, e.g. 192.168.0.0/24 or 2a02:09b0:402b:eed8::/63
+- Owner of ban is stored
 
 Version 5.14, 2023/08/16
 Default Qt Client
