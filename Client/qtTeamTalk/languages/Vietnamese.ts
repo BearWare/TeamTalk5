@@ -175,22 +175,22 @@ p, li { white-space: pre-wrap; }
         <translation>Người dùng bị chặn</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="153"/>
+        <location filename="../bannedusersdlg.cpp" line="171"/>
         <source>&amp;OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="154"/>
+        <location filename="../bannedusersdlg.cpp" line="172"/>
         <source>&amp;Cancel</source>
         <translation>Hủy</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="192"/>
+        <location filename="../bannedusersdlg.cpp" line="210"/>
         <source>Ban IP-address</source>
         <translation>Chặn địa chỉ IP</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="193"/>
+        <location filename="../bannedusersdlg.cpp" line="211"/>
         <source>Ban Username</source>
         <translation>Chặn tên người dùng</translation>
     </message>
@@ -243,54 +243,59 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>BannedUsersModel</name>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="53"/>
+        <location filename="../bannedusersdlg.cpp" line="54"/>
         <source>Nickname</source>
         <translatorcomment>	</translatorcomment>
         <translation>Tên hiển thị</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="54"/>
+        <location filename="../bannedusersdlg.cpp" line="55"/>
         <source>Username</source>
         <translation>Tên người dùng</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="55"/>
+        <location filename="../bannedusersdlg.cpp" line="56"/>
         <source>Ban type</source>
         <translation>Loại chặn</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="56"/>
+        <location filename="../bannedusersdlg.cpp" line="57"/>
         <source>Ban Time</source>
         <translation>Thời gian chặn</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="57"/>
-        <location filename="../bannedusersdlg.cpp" line="90"/>
+        <location filename="../bannedusersdlg.cpp" line="58"/>
+        <source>Owner</source>
+        <translation type="unfinished">Người sở hữu</translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="59"/>
+        <location filename="../bannedusersdlg.cpp" line="92"/>
         <source>Channel</source>
         <translation>Kênh</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="58"/>
+        <location filename="../bannedusersdlg.cpp" line="60"/>
         <source>IP-address</source>
         <translation>Địa chỉ IP</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="86"/>
+        <location filename="../bannedusersdlg.cpp" line="88"/>
         <source>User</source>
         <translation>Người dùng</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="88"/>
+        <location filename="../bannedusersdlg.cpp" line="90"/>
         <source>,IP</source>
         <translation>,IP</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="88"/>
+        <location filename="../bannedusersdlg.cpp" line="90"/>
         <source>IP</source>
         <translation>IP</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="90"/>
+        <location filename="../bannedusersdlg.cpp" line="92"/>
         <source>,Channel</source>
         <translation>Kênh</translation>
     </message>
@@ -1692,7 +1697,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="399"/>
         <location filename="../mainwindow.ui" line="1737"/>
-        <location filename="../mainwindow.cpp" line="7084"/>
+        <location filename="../mainwindow.cpp" line="7094"/>
         <source>&amp;Video</source>
         <translation>Video</translation>
     </message>
@@ -1750,7 +1755,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="674"/>
-        <location filename="../mainwindow.cpp" line="7092"/>
+        <location filename="../mainwindow.cpp" line="7102"/>
         <source>&amp;Desktops</source>
         <translation>Màn hình</translation>
     </message>
@@ -1942,7 +1947,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1511"/>
-        <location filename="../mainwindow.cpp" line="6136"/>
+        <location filename="../mainwindow.cpp" line="6146"/>
         <source>&amp;Join Channel</source>
         <translation>Tham gia kênh</translation>
     </message>
@@ -2755,7 +2760,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="797"/>
-        <location filename="../settings.h" line="274"/>
+        <location filename="../settings.h" line="275"/>
         <source>Default</source>
         <translation>Mặc định</translation>
     </message>
@@ -2862,7 +2867,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1312"/>
-        <location filename="../mainwindow.cpp" line="6224"/>
+        <location filename="../mainwindow.cpp" line="6234"/>
         <source>Failed to upload file %1</source>
         <translation>Không thể tải lên tệp %1</translation>
     </message>
@@ -3241,9 +3246,9 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5668"/>
         <location filename="../mainwindow.cpp" line="5906"/>
         <location filename="../mainwindow.cpp" line="5926"/>
-        <location filename="../mainwindow.cpp" line="7198"/>
-        <location filename="../mainwindow.cpp" line="7279"/>
-        <location filename="../mainwindow.cpp" line="7304"/>
+        <location filename="../mainwindow.cpp" line="7208"/>
+        <location filename="../mainwindow.cpp" line="7289"/>
+        <location filename="../mainwindow.cpp" line="7314"/>
         <source>&amp;Yes</source>
         <translation>Có</translation>
     </message>
@@ -3256,9 +3261,9 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5669"/>
         <location filename="../mainwindow.cpp" line="5907"/>
         <location filename="../mainwindow.cpp" line="5927"/>
-        <location filename="../mainwindow.cpp" line="7199"/>
-        <location filename="../mainwindow.cpp" line="7280"/>
-        <location filename="../mainwindow.cpp" line="7305"/>
+        <location filename="../mainwindow.cpp" line="7209"/>
+        <location filename="../mainwindow.cpp" line="7290"/>
+        <location filename="../mainwindow.cpp" line="7315"/>
         <source>&amp;No</source>
         <translation>Không</translation>
     </message>
@@ -3476,128 +3481,128 @@ p, li { white-space: pre-wrap; }
         <translation>Vắng mặt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6132"/>
+        <location filename="../mainwindow.cpp" line="6142"/>
         <source>CTRL+L</source>
         <translation>CTRL+L</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6137"/>
+        <location filename="../mainwindow.cpp" line="6147"/>
         <source>CTRL+J</source>
         <translation>CTRL+J</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6422"/>
+        <location filename="../mainwindow.cpp" line="6432"/>
         <source>%1 can no longer transmit</source>
         <comment>%1 can no longer transmit voice</comment>
         <translation>%1 không thể truyền</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6423"/>
+        <location filename="../mainwindow.cpp" line="6433"/>
         <source>%1 can now transmit</source>
         <comment>%1 can now transmit voice</comment>
         <translation>%1 bây giờ có thể truyền</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6426"/>
+        <location filename="../mainwindow.cpp" line="6436"/>
         <source>Everyone can no longer transmit</source>
         <comment>Everyone can no longer transmit voice</comment>
         <translation>Mọi người không còn có thể truyền</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6427"/>
+        <location filename="../mainwindow.cpp" line="6437"/>
         <source>Everyone can now transmit</source>
         <comment>Everyone can now transmit voice</comment>
         <translation>Bây giờ mọi người có thể truyền</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6431"/>
+        <location filename="../mainwindow.cpp" line="6441"/>
         <source>You can no longer transmit</source>
         <comment>You can no longer transmit voice</comment>
         <translation>Bạn không còn có thể truyền</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6432"/>
+        <location filename="../mainwindow.cpp" line="6442"/>
         <source>You can now transmit</source>
         <comment>You can now transmit voice</comment>
         <translation>Bây giờ bạn có thể truyền</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6442"/>
+        <location filename="../mainwindow.cpp" line="6452"/>
         <source>%1 channel messages</source>
         <comment>can now transmit ...</comment>
         <translation>%1 tin nhắn kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6444"/>
+        <location filename="../mainwindow.cpp" line="6454"/>
         <source>%1 channel messages</source>
         <comment>can no longer transmit ...</comment>
         <translation>%1 tin nhắn kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6453"/>
+        <location filename="../mainwindow.cpp" line="6463"/>
         <source>%1 voice</source>
         <comment>can now transmit ...</comment>
         <translation>%1 giọng nói</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6455"/>
+        <location filename="../mainwindow.cpp" line="6465"/>
         <source>%1 voice</source>
         <comment>can no longer transmit...</comment>
         <translation>%1 giọng nói</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6464"/>
+        <location filename="../mainwindow.cpp" line="6474"/>
         <source>%1 video</source>
         <comment>can now transmit ...</comment>
         <translation>%1 video</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6466"/>
+        <location filename="../mainwindow.cpp" line="6476"/>
         <source>%1 video</source>
         <comment>can no longer transmit ...</comment>
         <translation>%1 video</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6475"/>
+        <location filename="../mainwindow.cpp" line="6485"/>
         <source>%1 desktop windows</source>
         <comment>can now transmit ...</comment>
         <translation>%1 cửa sổ chia sẻ màn hình</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6477"/>
+        <location filename="../mainwindow.cpp" line="6487"/>
         <source>%1 desktop windows</source>
         <comment>can no longer transmit ...</comment>
         <translation>%1 cửa sổ chia sẻ màn hình</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6486"/>
+        <location filename="../mainwindow.cpp" line="6496"/>
         <source>%1 media files</source>
         <comment>can now transmit ...</comment>
         <translation>%1 tệp phương tiện</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6488"/>
+        <location filename="../mainwindow.cpp" line="6498"/>
         <source>%1 media files</source>
         <comment>can no longer transmit ...</comment>
         <translation>%1 tệp phương tiện</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7086"/>
+        <location filename="../mainwindow.cpp" line="7096"/>
         <source>&amp;Video (%1)</source>
         <translation>Video (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7094"/>
+        <location filename="../mainwindow.cpp" line="7104"/>
         <source>&amp;Desktops (%1)</source>
         <translation>Chia sẻ màn hình (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7278"/>
+        <location filename="../mainwindow.cpp" line="7288"/>
         <source>A new version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>Đã có phiên bản mới của %1: %2. Bạn có muốn mở trang tải xuống ngay bây giờ không?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7283"/>
+        <location filename="../mainwindow.cpp" line="7293"/>
         <source>New version available</source>
         <translation>Phiên bản mới có sẵn</translation>
     </message>
@@ -3610,12 +3615,12 @@ Bạn có thể tải xuống từ trang bên dưới:
 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7303"/>
+        <location filename="../mainwindow.cpp" line="7313"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>Đã có phiên bản beta mới của %1: %2. Bạn có muốn mở trang tải xuống ngay bây giờ không?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7308"/>
+        <location filename="../mainwindow.cpp" line="7318"/>
         <source>New beta version available</source>
         <translation>Phiên bản beta mới có sẵn</translation>
     </message>
@@ -3628,7 +3633,7 @@ Bạn có thể tải xuống từ trang bên dưới:
 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7413"/>
+        <location filename="../mainwindow.cpp" line="7423"/>
         <source>No available voices found for Text-To-Speech</source>
         <translation>Không tìm thấy giọng nói khả dụng nào cho Chuyển văn bản thành giọng nói</translation>
     </message>
@@ -3981,7 +3986,7 @@ Bạn có thể tải xuống từ trang bên dưới:
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4558"/>
-        <location filename="../mainwindow.cpp" line="6501"/>
+        <location filename="../mainwindow.cpp" line="6511"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translation>Thiết bị video chưa được định cấu hình đúng cách. Hãy kiểm tra lại thiết lập trong &apos;Tùy chọn&apos;</translation>
     </message>
@@ -4088,32 +4093,42 @@ Bạn có muốn làm điều này bây giờ không?</translation>
         <translation>Chặn người dùng khỏi máy chủ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7197"/>
+        <location filename="../mainwindow.cpp" line="5975"/>
+        <source>Ban IP-address</source>
+        <translation type="unfinished">Chặn địa chỉ IP</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5975"/>
+        <source>IP-address (&apos;/&apos; for subnet, e.g. 192.168.0.0/16)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="7207"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7290"/>
+        <location filename="../mainwindow.cpp" line="7300"/>
         <source>New version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7315"/>
+        <location filename="../mainwindow.cpp" line="7325"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7395"/>
+        <location filename="../mainwindow.cpp" line="7405"/>
         <source>Language %1 not found for Text-To-Speech</source>
         <translation>Không tìm thấy ngôn ngữ %1 cho Chuyển văn bản thành giọng nói</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7408"/>
+        <location filename="../mainwindow.cpp" line="7418"/>
         <source>Voice %1 not found for Text-To-Speech. Switching to %2</source>
         <translation>Không tìm thấy giọng nói %1 cho Chuyển văn bản thành giọng nói. Đang chuyển sang %2</translation>
     </message>
@@ -4310,23 +4325,23 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Chặn người dùng khỏi kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6131"/>
+        <location filename="../mainwindow.cpp" line="6141"/>
         <source>&amp;Leave Channel</source>
         <translation>Rời khỏi kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6372"/>
+        <location filename="../mainwindow.cpp" line="6382"/>
         <source>The maximum number of users who can transmit is %1</source>
         <translation>Số lượng người dùng tối đa có thể truyền là %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6500"/>
+        <location filename="../mainwindow.cpp" line="6510"/>
         <source>Start Webcam</source>
         <translation>Bật Webcam</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6522"/>
-        <location filename="../mainwindow.cpp" line="6574"/>
+        <location filename="../mainwindow.cpp" line="6532"/>
+        <location filename="../mainwindow.cpp" line="6584"/>
         <source>Myself</source>
         <translation>Chính mình</translation>
     </message>
@@ -4346,20 +4361,18 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Các tệp (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6920"/>
-        <location filename="../mainwindow.cpp" line="6925"/>
-        <location filename="../mainwindow.cpp" line="6931"/>
-        <location filename="../mainwindow.cpp" line="6936"/>
-        <location filename="../mainwindow.cpp" line="6942"/>
-        <location filename="../mainwindow.cpp" line="6947"/>
-        <location filename="../mainwindow.cpp" line="6953"/>
-        <location filename="../mainwindow.cpp" line="6958"/>
-        <location filename="../mainwindow.cpp" line="6964"/>
-        <location filename="../mainwindow.cpp" line="6969"/>
-        <location filename="../mainwindow.cpp" line="6975"/>
-        <location filename="../mainwindow.cpp" line="6980"/>
-        <location filename="../mainwindow.cpp" line="6988"/>
-        <location filename="../mainwindow.cpp" line="6993"/>
+        <location filename="../mainwindow.cpp" line="6930"/>
+        <location filename="../mainwindow.cpp" line="6935"/>
+        <location filename="../mainwindow.cpp" line="6941"/>
+        <location filename="../mainwindow.cpp" line="6946"/>
+        <location filename="../mainwindow.cpp" line="6952"/>
+        <location filename="../mainwindow.cpp" line="6957"/>
+        <location filename="../mainwindow.cpp" line="6963"/>
+        <location filename="../mainwindow.cpp" line="6968"/>
+        <location filename="../mainwindow.cpp" line="6974"/>
+        <location filename="../mainwindow.cpp" line="6979"/>
+        <location filename="../mainwindow.cpp" line="6985"/>
+        <location filename="../mainwindow.cpp" line="6990"/>
         <location filename="../mainwindow.cpp" line="6998"/>
         <location filename="../mainwindow.cpp" line="7003"/>
         <location filename="../mainwindow.cpp" line="7008"/>
@@ -4374,24 +4387,24 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="7053"/>
         <location filename="../mainwindow.cpp" line="7058"/>
         <location filename="../mainwindow.cpp" line="7063"/>
+        <location filename="../mainwindow.cpp" line="7068"/>
+        <location filename="../mainwindow.cpp" line="7073"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
         <translation>%1 đã thay đổi đăng ký &quot;%2&quot; thành: %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6924"/>
-        <location filename="../mainwindow.cpp" line="6925"/>
+        <location filename="../mainwindow.cpp" line="6934"/>
         <location filename="../mainwindow.cpp" line="6935"/>
-        <location filename="../mainwindow.cpp" line="6936"/>
+        <location filename="../mainwindow.cpp" line="6945"/>
         <location filename="../mainwindow.cpp" line="6946"/>
-        <location filename="../mainwindow.cpp" line="6947"/>
+        <location filename="../mainwindow.cpp" line="6956"/>
         <location filename="../mainwindow.cpp" line="6957"/>
-        <location filename="../mainwindow.cpp" line="6958"/>
+        <location filename="../mainwindow.cpp" line="6967"/>
         <location filename="../mainwindow.cpp" line="6968"/>
-        <location filename="../mainwindow.cpp" line="6969"/>
+        <location filename="../mainwindow.cpp" line="6978"/>
         <location filename="../mainwindow.cpp" line="6979"/>
-        <location filename="../mainwindow.cpp" line="6980"/>
-        <location filename="../mainwindow.cpp" line="6992"/>
-        <location filename="../mainwindow.cpp" line="6993"/>
+        <location filename="../mainwindow.cpp" line="6989"/>
+        <location filename="../mainwindow.cpp" line="6990"/>
         <location filename="../mainwindow.cpp" line="7002"/>
         <location filename="../mainwindow.cpp" line="7003"/>
         <location filename="../mainwindow.cpp" line="7012"/>
@@ -4406,24 +4419,24 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="7053"/>
         <location filename="../mainwindow.cpp" line="7062"/>
         <location filename="../mainwindow.cpp" line="7063"/>
+        <location filename="../mainwindow.cpp" line="7072"/>
+        <location filename="../mainwindow.cpp" line="7073"/>
         <source>On</source>
         <translation>Bật</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6924"/>
-        <location filename="../mainwindow.cpp" line="6925"/>
+        <location filename="../mainwindow.cpp" line="6934"/>
         <location filename="../mainwindow.cpp" line="6935"/>
-        <location filename="../mainwindow.cpp" line="6936"/>
+        <location filename="../mainwindow.cpp" line="6945"/>
         <location filename="../mainwindow.cpp" line="6946"/>
-        <location filename="../mainwindow.cpp" line="6947"/>
+        <location filename="../mainwindow.cpp" line="6956"/>
         <location filename="../mainwindow.cpp" line="6957"/>
-        <location filename="../mainwindow.cpp" line="6958"/>
+        <location filename="../mainwindow.cpp" line="6967"/>
         <location filename="../mainwindow.cpp" line="6968"/>
-        <location filename="../mainwindow.cpp" line="6969"/>
+        <location filename="../mainwindow.cpp" line="6978"/>
         <location filename="../mainwindow.cpp" line="6979"/>
-        <location filename="../mainwindow.cpp" line="6980"/>
-        <location filename="../mainwindow.cpp" line="6992"/>
-        <location filename="../mainwindow.cpp" line="6993"/>
+        <location filename="../mainwindow.cpp" line="6989"/>
+        <location filename="../mainwindow.cpp" line="6990"/>
         <location filename="../mainwindow.cpp" line="7002"/>
         <location filename="../mainwindow.cpp" line="7003"/>
         <location filename="../mainwindow.cpp" line="7012"/>
@@ -4438,30 +4451,32 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="7053"/>
         <location filename="../mainwindow.cpp" line="7062"/>
         <location filename="../mainwindow.cpp" line="7063"/>
+        <location filename="../mainwindow.cpp" line="7072"/>
+        <location filename="../mainwindow.cpp" line="7073"/>
         <source>Off</source>
         <translation>Tắt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7157"/>
-        <location filename="../mainwindow.cpp" line="7166"/>
+        <location filename="../mainwindow.cpp" line="7167"/>
         <location filename="../mainwindow.cpp" line="7176"/>
-        <location filename="../mainwindow.cpp" line="7187"/>
+        <location filename="../mainwindow.cpp" line="7186"/>
+        <location filename="../mainwindow.cpp" line="7197"/>
         <source>Load File</source>
         <translation>Tải tệp</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7158"/>
-        <location filename="../mainwindow.cpp" line="7167"/>
+        <location filename="../mainwindow.cpp" line="7168"/>
+        <location filename="../mainwindow.cpp" line="7177"/>
         <source>Failed to load file %1</source>
         <translation>Không tải được tệp %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7177"/>
+        <location filename="../mainwindow.cpp" line="7187"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
         <translation>Tệp &quot;%1&quot; không tương thích với %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7188"/>
+        <location filename="../mainwindow.cpp" line="7198"/>
         <source>Failed to extract host-information from %1</source>
         <translation>Không thể trích xuất thông tin máy chủ từ %1</translation>
     </message>
@@ -4472,7 +4487,7 @@ Should these settings be applied?</source>
 Bạn có muốn áp dụng các thiết lập này không?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7202"/>
+        <location filename="../mainwindow.cpp" line="7212"/>
         <source>Load %1 File</source>
         <translation>Tải tệp %1</translation>
     </message>
@@ -4751,37 +4766,37 @@ Bạn có muốn áp dụng các thiết lập này không?</translation>
 <context>
     <name>OnlineUsersModel</name>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="147"/>
+        <location filename="../onlineusersmodel.cpp" line="141"/>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="135"/>
+        <location filename="../onlineusersmodel.cpp" line="129"/>
         <source>Nickname</source>
         <translation>Tên hiển thị</translation>
     </message>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="137"/>
+        <location filename="../onlineusersmodel.cpp" line="131"/>
         <source>Status message</source>
         <translation>Trạng thái</translation>
     </message>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="139"/>
+        <location filename="../onlineusersmodel.cpp" line="133"/>
         <source>Username</source>
         <translation>Tên người dùng</translation>
     </message>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="141"/>
+        <location filename="../onlineusersmodel.cpp" line="135"/>
         <source>Channel</source>
         <translation>Kênh</translation>
     </message>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="143"/>
+        <location filename="../onlineusersmodel.cpp" line="137"/>
         <source>IP-address</source>
         <translation>Địa chỉ IP</translation>
     </message>
     <message>
-        <location filename="../onlineusersmodel.cpp" line="145"/>
+        <location filename="../onlineusersmodel.cpp" line="139"/>
         <source>Version</source>
         <translation>Phiên bản</translation>
     </message>
