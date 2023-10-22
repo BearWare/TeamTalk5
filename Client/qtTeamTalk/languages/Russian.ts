@@ -1345,7 +1345,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="106"/>
         <source>Setup Certificate Authority</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройка центра сертификации</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="107"/>
@@ -5239,7 +5239,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="1074"/>
         <source>PulseAudio</source>
-        <translation type="unfinished"></translation>
+        <translation>PulseAudio</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1098"/>
@@ -8257,12 +8257,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="242"/>
         <source>User can send private text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь может отправлять личные текстовые сообщения</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="244"/>
         <source>User can send channel text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь может отправлять текстовые сообщения канала</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="246"/>
