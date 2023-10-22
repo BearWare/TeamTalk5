@@ -298,7 +298,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="58"/>
         <source>Owner</source>
-        <translation type="unfinished">所有者</translation>
+        <translation>所有者</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="59"/>
@@ -4123,12 +4123,12 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5975"/>
         <source>Ban IP-address</source>
-        <translation type="unfinished">禁止 IP 地址</translation>
+        <translation>禁止 IP 地址</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5975"/>
         <source>IP-address (&apos;/&apos; for subnet, e.g. 192.168.0.0/16)</source>
-        <translation type="unfinished"></translation>
+        <translation>IP 地址（“/”表示子网，例如 192.168.0.0/16）</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7405"/>
