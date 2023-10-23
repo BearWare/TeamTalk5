@@ -5832,7 +5832,7 @@ void MainWindow::slotUsersSpeakUserInformation(int id)
         if (usersCount > 0)
             speakList += ", " + QString(tr("%1 users").arg(usersCount));
 
-        if(m_filesmodel->rowCount() > 0)
+        if ((id == m_mychannel.nChannelID || TT_GetMyUserType(ttInst) & USERTYPE_ADMIN) && (m_filesmodel->rowCount() > 0))
             speakList += ", " + QString(tr("%1 files").arg(m_filesmodel->rowCount()));
     }
     addTextToSpeechMessage(speakList);
