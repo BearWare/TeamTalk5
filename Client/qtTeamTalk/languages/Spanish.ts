@@ -296,9 +296,13 @@ p, li { white-space: pre-wrap; }
         <translation>Se bloqueó el día</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="58"/>
         <source>Owner</source>
-        <translation type="unfinished">Propietario</translation>
+        <translation type="obsolete">Propietario</translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="58"/>
+        <source>Creator</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="59"/>

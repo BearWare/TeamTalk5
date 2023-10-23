@@ -297,9 +297,13 @@ p, li { white-space: pre-wrap; }
         <translation>Waktu Larangan</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="58"/>
         <source>Owner</source>
-        <translation type="unfinished">Pemilik</translation>
+        <translation type="obsolete">Pemilik</translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="58"/>
+        <source>Creator</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="59"/>

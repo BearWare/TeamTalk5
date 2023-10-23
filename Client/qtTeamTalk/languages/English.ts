@@ -264,7 +264,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="58"/>
-        <source>Owner</source>
+        <source>Creator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

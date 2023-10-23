@@ -296,9 +296,13 @@ p, li { white-space: pre-wrap; }
         <translation>Yasaklanma Zamanı</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="58"/>
         <source>Owner</source>
-        <translation type="unfinished">Sahip</translation>
+        <translation type="obsolete">Sahip</translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="58"/>
+        <source>Creator</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="59"/>

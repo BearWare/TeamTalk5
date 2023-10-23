@@ -264,9 +264,13 @@ p, li { white-space: pre-wrap; }
         <translation>Thời gian chặn</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="58"/>
         <source>Owner</source>
-        <translation type="unfinished">Người sở hữu</translation>
+        <translation type="obsolete">Người sở hữu</translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="58"/>
+        <source>Creator</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="59"/>

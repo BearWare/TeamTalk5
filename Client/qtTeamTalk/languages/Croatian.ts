@@ -263,9 +263,13 @@ p, li { white-space: pre-wrap; }
         <translation>Vrijeme blokiranja</translation>
     </message>
     <message>
-        <location filename="../bannedusersdlg.cpp" line="58"/>
         <source>Owner</source>
-        <translation type="unfinished">Vlasnik</translation>
+        <translation type="obsolete">Vlasnik</translation>
+    </message>
+    <message>
+        <location filename="../bannedusersdlg.cpp" line="58"/>
+        <source>Creator</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="59"/>
