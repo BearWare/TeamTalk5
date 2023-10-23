@@ -44,7 +44,7 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5
       shell: bash
       run: |
-        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCATCH_UNITTEST=ON -DCATCH_UNITTEST_PERF=OFF -DBUILD_TEAMTALK_CLIENT_QT_EXAMPLE_PRODUCT=ON -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" CMAKE_GENERATOR="Unix Makefiles" -C Build mac
+        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCATCH_UNITTEST=ON -DCATCH_UNITTEST_PERF=OFF -DBUILD_TEAMTALK_CLIENT_QTTEAMTALK_PRODUCT=ON -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" CMAKE_GENERATOR="Unix Makefiles" -C Build mac
 
     - name: Start TeamTalk Standard Server
       working-directory: ${{runner.workspace}}/TeamTalk5

@@ -89,11 +89,11 @@ set (APP_SOURCES
 
 
 if (MSVC)
-  option (BUILD_TEAMTALK_CLIENT_DOTNET_EXAMPLE "Build TeamTalkApp.NET C# client example" ON)
+  option (BUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET "Build TeamTalkApp.NET C# client example" ON)
 
   csharp_set_windows_forms_properties (${APP_FORMS_SOURCES} ${APP_DESIGNER_SOURCES})
   
-  if (BUILD_TEAMTALK_CLIENT_DOTNET_EXAMPLE)
+  if (BUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET)
     add_executable (TeamTalk5App.NET WIN32 ${APP_SOURCES})
     set_property (TARGET TeamTalk5App.NET PROPERTY VS_DOTNET_REFERENCES
       "System" "System.Data" "System.Deployment" "System.Drawing" "System.Windows.Forms" "System.Xml")

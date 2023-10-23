@@ -4,13 +4,13 @@ project (TeamTalk5ProServer)
 include_directories (../../Library/TeamTalk_DLL)
 link_directories (../../Library/TeamTalk_DLL)
 
-option (BUILD_TEAMTALK_PROSERVER_EXAMPLE "Build TeamTalk Server Example for TeamTalk 5 Professional Edition" ON)
+option (BUILD_TEAMTALK_SERVER_TEAMTALKSERVER "Build TeamTalk Server Example for TeamTalk 5 Professional Edition" ON)
 
 if (MSVC)
   add_definitions (-DUNICODE -D_UNICODE)
 endif()
 
-if (BUILD_TEAMTALK_PROSERVER_EXAMPLE)
+if (BUILD_TEAMTALK_SERVER_TEAMTALKSERVER)
   add_executable (TeamTalk5ProServer Main.cpp)
   set_property(TARGET TeamTalk5ProServer PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Library/TeamTalk_DLL")
   if (BUILD_TEAMTALK_PRODLL)
