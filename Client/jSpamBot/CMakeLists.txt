@@ -6,13 +6,15 @@ if (Java_FOUND)
 
   include (UseJava)
 
-  option (BUILD_TEAMTALK_JTEAMTALKSPAMBOT "Build TeamTalk Anti Spam Bot" ON)
+  option (BUILD_TEAMTALK_CLIENT_JSPAMBOT "Build TeamTalk Anti Spam Bot" ON)
 
-  set (JAVA_SOURCES src/SpamBotSession.java src/WebLogin.java src/Main.java src/TeamTalkServer.java)
+  set (JAVA_SOURCES src/SpamBotSession.java src/WebLogin.java
+    src/Main.java src/TeamTalkServer.java src/IPBan.java
+    src/BadWords.java)
 
-  if (BUILD_TEAMTALK_JTEAMTALKSPAMBOT)
+  if (BUILD_TEAMTALK_CLIENT_JSPAMBOT)
 
-    if (BUILD_TEAMTALK_JAR)
+    if (BUILD_TEAMTALK_LIBRARY_JAR)
       set (TEAMTALKJAR_LIBRARY TeamTalk5JAR)
     else()
       find_jar (TEAMTALKJAR_LIBRARY NAMES TeamTalk5

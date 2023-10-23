@@ -2067,6 +2067,9 @@ namespace BearWare
         public string szUsername;
         /** @brief The type of ban that applies to this banned user. */
         public BanType uBanTypes;
+        /** @brief The username of the user who made the ban */
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
+        public string szOwner;
     }
 
     /** @ingroup users

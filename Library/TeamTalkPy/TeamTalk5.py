@@ -609,7 +609,8 @@ class BannedUser(Structure):
     ("szBanTime", TTCHAR*TT_STRLEN),
     ("szNickname", TTCHAR*TT_STRLEN),
     ("szUsername", TTCHAR*TT_STRLEN),
-    ("uBanTypes", UINT32)
+    ("uBanTypes", UINT32),
+    ("szOwner", TTCHAR*TT_STRLEN)
     ]
     def __init__(self):
         assert(DBG_SIZEOF(TTType.BANNEDUSER) == ctypes.sizeof(BannedUser))

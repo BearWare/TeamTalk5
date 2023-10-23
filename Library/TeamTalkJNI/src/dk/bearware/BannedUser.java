@@ -23,12 +23,12 @@
 
 package dk.bearware;
 
-public class BannedUser
-{
+public class BannedUser {
     public String szIPAddress;
     public String szChannelPath;
     public String szBanTime;
     public String szNickname;
     public String szUsername;
     public int uBanTypes = 0;
+    public String szOwner;
 }

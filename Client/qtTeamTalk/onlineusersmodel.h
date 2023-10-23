@@ -43,9 +43,9 @@ public:
 	OnlineUsersModel(QObject* parent);
 	void resetUsers();
 
-    void addUser(int userid);
-    void updateUser(int userid);
-    void removeUser(int userid, bool keep);
+    void addUser(const User& user);
+    void updateUser(const User& user);
+    void removeUser(const User& user, bool keep);
     void removeDisconnected();
     User getUser(int userid) const;
 

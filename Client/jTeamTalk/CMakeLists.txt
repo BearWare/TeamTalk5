@@ -6,13 +6,13 @@ if (Java_FOUND)
 
   include (UseJava)
 
-  option (BUILD_TEAMTALK_JTEAMTALK "Build TeamTalk Client for Java" ON)
+  option (BUILD_TEAMTALK_CLIENT_JTEAMTALK "Build TeamTalk Client for Java" ON)
 
   set (JAVA_SOURCES src/TeamTalkClient.java)
 
-  if (BUILD_TEAMTALK_JTEAMTALK)
+  if (BUILD_TEAMTALK_CLIENT_JTEAMTALK)
 
-    if (BUILD_TEAMTALK_JAR)
+    if (BUILD_TEAMTALK_LIBRARY_JAR)
       set (TEAMTALKJAR_LIBRARY TeamTalk5JAR)
     else()
       find_jar (TEAMTALKJAR_LIBRARY NAMES TeamTalk5

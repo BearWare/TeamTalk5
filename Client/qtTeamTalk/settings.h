@@ -97,6 +97,7 @@
 #define SETTINGS_DISPLAY_USERACCOUNTSWINDOWPOS      "display/useraccount-windowposition"
 #define SETTINGS_DISPLAY_CHANNELWINDOWPOS           "display/channel-windowposition"
 #define SETTINGS_DISPLAY_BANNEDUSERSWINDOWPOS       "display/bannedusers-windowposition"
+#define SETTINGS_DISPLAY_BANNEDUSERS_HEADERSIZES    "display/bannedusers-headersize"
 #define SETTINGS_DISPLAY_MEDIASTORAGEWINDOWPOS      "display/mediastorage-windowposition"
 #define SETTINGS_DISPLAY_PREFERENCESWINDOWPOS       "display/preferences-windowposition"
 #define SETTINGS_DISPLAY_SERVERPROPERTIESWINDOWPOS  "display/serverproperties-windowposition"

@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.14.1.5130"
+#define TEAMTALK_VERSION "5.15.0.5131"
 
 
 #if defined(WIN32)
@@ -1973,6 +1973,8 @@ extern "C" {
         TTCHAR szUsername[TT_STRLEN];
         /** @brief The type of ban that applies to this banned user. */
         BanTypes uBanTypes;
+        /** @brief The username of the user who made the ban */
+        TTCHAR szOwner[TT_STRLEN];
     } BannedUser;
 
     /** @ingroup users

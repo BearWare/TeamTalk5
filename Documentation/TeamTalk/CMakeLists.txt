@@ -1,4 +1,4 @@
-option (BUILD_TEAMTALK_CLIENT_DOCS "Build documentation for TeamTalk client and server applications" ON)
+option (BUILD_TEAMTALK_DOCUMENTATION_TEAMTALK "Build documentation for TeamTalk client and server applications" ON)
 
 find_package (Doxygen)
 if (DOXYGEN_FOUND)

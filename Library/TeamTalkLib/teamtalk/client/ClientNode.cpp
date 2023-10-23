@@ -5871,6 +5871,7 @@ void ClientNode::HandleBannedUser(const mstrings_t& properties)
     GetProperty(properties, TT_NICKNAME, ban.nickname);
     GetProperty(properties, TT_USERNAME, ban.username);
     GetProperty(properties, TT_BANTIME, ban.bantime);
+    GetProperty(properties, TT_BANOWNER, ban.owner);
 
     m_listener->OnBannedUser(ban);
 }

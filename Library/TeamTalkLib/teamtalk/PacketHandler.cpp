@@ -24,6 +24,7 @@
 #include "PacketHandler.h"
 #include "ttassert.h"
 #include "Commands.h"
+#include <myace/MyINet.h>
 #include <vector>
 #include <queue>
 

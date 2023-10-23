@@ -845,7 +845,9 @@ ErrorMsg ServerGuard::DeleteRegUser(const ServerUser& user, const ACE_TString& u
 
 ErrorMsg ServerGuard::AddUserBan(const ServerUser& banner, const ServerUser& banee, BanTypes bantype)
 {
-    return AddUserBan(banner, banee.GenerateBan(bantype));
+    auto ban = banee.GenerateBan(bantype);
+    ban.owner = banner.GetUsername();
+    return AddUserBan(banner, ban);
 }
 
 ErrorMsg ServerGuard::AddUserBan(const ServerUser& banner, const BannedUser& ban)
