@@ -79,8 +79,8 @@ jobs:
       shell: cmd
       run: >-
         cmake -S TeamTalk5 -B output -A ${{ matrix.cmakeplatform }}
-        -DCATCH_UNITTEST=ON
-        -DCATCH_UNITTEST_PERF=OFF
+        -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
+        -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF
         -DFEATURE_LIBVPX=OFF
         -DFEATURE_WEBRTC=OFF
         -DTOOLCHAIN_LIBVPX=OFF

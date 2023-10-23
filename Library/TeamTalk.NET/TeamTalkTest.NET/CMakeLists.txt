@@ -4,10 +4,10 @@ project (TeamTalk5Test.NET)
 enable_language (CSharp)
 
 if (MSVC)
-  option (BUILD_TEAMTALK_DOTNET_UNITTEST "Build TeamTalk 5 Unit Test for TeamTalk 5 Standard Edition" ON)
-  option (BUILD_TEAMTALK_PRODOTNET_UNITTEST "Build TeamTalk 5 Pro Unit Test for TeamTalk 5 Professional Edition" ON)
+  option (BUILD_TEAMTALK_LIBRARY_UNITTEST_DOTNET "Build TeamTalk 5 Unit Test for TeamTalk 5 Standard Edition" ON)
+  option (BUILD_TEAMTALK_LIBRARY_UNITTEST_PRODOTNET "Build TeamTalk 5 Pro Unit Test for TeamTalk 5 Professional Edition" ON)
 
-  if (BUILD_TEAMTALK_DOTNET_UNITTEST)
+  if (BUILD_TEAMTALK_LIBRARY_UNITTEST_DOTNET)
     add_library (TeamTalk5Test.NET SHARED TeamTalkTest.cs Properties/AssemblyInfo.cs)
     set_property (TARGET TeamTalk5Test.NET PROPERTY VS_DOTNET_REFERENCES
       "Microsoft.VisualStudio.QualityTools.UnitTestFramework"

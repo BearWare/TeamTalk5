@@ -35,18 +35,18 @@ if (JNI_FOUND OR ${CMAKE_SYSTEM_NAME} MATCHES "Android")
       link_directories (../../Library/TeamTalk_DLL)
     endif()
 
-    option (BUILD_TEAMTALK_JNI "Build TeamTalk 5 JNI DLL for TeamTalk 5 Standard Edition" ON)
-    option (BUILD_TEAMTALK_PROJNI "Build TeamTalk 5 Pro JNI DLL for TeamTalk 5 Professional Edition" ON)
+    option (BUILD_TEAMTALK_LIBRARY_JNI "Build TeamTalk 5 JNI DLL for TeamTalk 5 Standard Edition" ON)
+    option (BUILD_TEAMTALK_LIBRARY_PROJNI "Build TeamTalk 5 Pro JNI DLL for TeamTalk 5 Professional Edition" ON)
 
     if (MSVC)
       add_definitions (-DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS)
     endif()
 
-    if (BUILD_TEAMTALK_PROJNI OR BUILD_TEAMTALK_JNI)
+    if (BUILD_TEAMTALK_LIBRARY_PROJNI OR BUILD_TEAMTALK_LIBRARY_JNI)
       set (CMAKE_CXX_STANDARD 11)
     endif()
 
-    if (BUILD_TEAMTALK_JNI)
+    if (BUILD_TEAMTALK_LIBRARY_JNI)
 
       add_library (TeamTalk5-jni SHARED
         jni/teamtalk-jni.cpp
@@ -54,9 +54,9 @@ if (JNI_FOUND OR ${CMAKE_SYSTEM_NAME} MATCHES "Android")
         jni/ttconvert-jni.h)
 
       if (BUILD_TEAMTALK_CORE)
-        if (BUILD_TEAMTALK_LIB)
+        if (BUILD_TEAMTALK_LIBRARY_LIB)
           target_link_libraries (TeamTalk5-jni PRIVATE TeamTalk5Lib ${JNI_LIBRARIES})
-        elseif (BUILD_TEAMTALK_DLL)
+        elseif (BUILD_TEAMTALK_LIBRARY_DLL)
           target_link_libraries (TeamTalk5-jni PRIVATE TeamTalk5DLL ${JNI_LIBRARIES})
         else()
           target_link_libraries (TeamTalk5-jni PRIVATE TeamTalk5 ${JNI_LIBRARIES})
@@ -75,7 +75,7 @@ if (JNI_FOUND OR ${CMAKE_SYSTEM_NAME} MATCHES "Android")
       
     endif()
 
-    if (BUILD_TEAMTALK_PROJNI)
+    if (BUILD_TEAMTALK_LIBRARY_PROJNI)
       add_library (TeamTalk5Pro-jni SHARED
         jni/teamtalk-jni.cpp
         jni/teamtalksrv-jni.cpp
@@ -83,9 +83,9 @@ if (JNI_FOUND OR ${CMAKE_SYSTEM_NAME} MATCHES "Android")
         jni/ttconvert-jni.h)
 
       if (BUILD_TEAMTALK_CORE)
-        if (BUILD_TEAMTALK_PROLIB)
+        if (BUILD_TEAMTALK_LIBRARY_PROLIB)
           target_link_libraries (TeamTalk5Pro-jni PRIVATE TeamTalk5ProLib ${JNI_LIBRARIES})
-        elseif (BUILD_TEAMTALK_PRODLL)
+        elseif (BUILD_TEAMTALK_LIBRARY_PRODLL)
           target_link_libraries (TeamTalk5Pro-jni PRIVATE TeamTalk5ProDLL ${JNI_LIBRARIES})
         else()
           target_link_libraries (TeamTalk5Pro-jni PRIVATE TeamTalk5Pro ${JNI_LIBRARIES})
@@ -113,8 +113,8 @@ if (Java_FOUND)
 
   include (UseJava)
 
-  option (BUILD_TEAMTALK_JAR "Build TeamTalk 5 jar file with Java classes for TeamTalk 5 Standard Edition" ON)
-  option (BUILD_TEAMTALK_PROJAR "Build TeamTalk 5 Pro jar file with Java classes for TeamTalk 5 Professional Edition" ON)
+  option (BUILD_TEAMTALK_LIBRARY_JAR "Build TeamTalk 5 jar file with Java classes for TeamTalk 5 Standard Edition" ON)
+  option (BUILD_TEAMTALK_LIBRARY_PROJAR "Build TeamTalk 5 Pro jar file with Java classes for TeamTalk 5 Professional Edition" ON)
 
   set (JAVA_SOURCES
     src/dk/bearware/AbusePrevention.java
@@ -206,7 +206,7 @@ if (Java_FOUND)
   # Minimum source/target is Java 1.8 in Java 20
   set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.8" "-target" "1.8")
 
-  if (BUILD_TEAMTALK_JAR)
+  if (BUILD_TEAMTALK_LIBRARY_JAR)
     add_jar (TeamTalk5JAR
       SOURCES ${JAVA_SOURCES} src/dk/bearware/TeamTalk5.java
       OUTPUT_NAME TeamTalk5
@@ -214,7 +214,7 @@ if (Java_FOUND)
     install (FILES ${CMAKE_CURRENT_LIST_DIR}/libs/TeamTalk5.jar DESTINATION Library/TeamTalkJNI/libs)
   endif()
 
-  if (BUILD_TEAMTALK_PROJAR)
+  if (BUILD_TEAMTALK_LIBRARY_PROJAR)
     add_jar (TeamTalk5ProJAR
       SOURCES ${JAVA_SOURCES} src/dk/bearware/TeamTalk5Pro.java src/dk/bearware/TeamTalk5Srv.java src/dk/bearware/TeamTalkSrv.java
       OUTPUT_NAME TeamTalk5Pro
@@ -232,7 +232,7 @@ if (Java_FOUND)
     message(WARNING "Cannot find JUnit jar. Skipping JUnit tests.")
   else()
 
-    if (BUILD_TEAMTALK_JAR)
+    if (BUILD_TEAMTALK_LIBRARY_JAR)
       add_jar (TeamTalk5Test INCLUDE_JARS TeamTalk5JAR ${junit}
         ENTRY_POINT org/junit/runner/JUnitCore
         SOURCES test/dk/bearware/TeamTalkTestCase.java
@@ -243,7 +243,7 @@ if (Java_FOUND)
         OUTPUT_DIR libs)
     endif()
 
-    if (BUILD_TEAMTALK_PROJAR)
+    if (BUILD_TEAMTALK_LIBRARY_PROJAR)
       add_jar (TeamTalk5ProTest INCLUDE_JARS TeamTalk5ProJAR ${junit}
         ENTRY_POINT org/junit/runner/JUnitCore
         SOURCES test/dk/bearware/TeamTalkTestCase.java

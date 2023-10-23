@@ -153,9 +153,9 @@ include (unittest)
 # libTeamTalk5.so #
 ######################
 
-option (BUILD_TEAMTALK_DLL "Build TeamTalk5 shared library" ON)
-add_feature_info (BUILD_TEAMTALK_DLL BUILD_TEAMTALK_DLL "Build shared library [TeamTalk5.dll | libTeamTalk5.so | libTeamTalk5.dylib] in Library/TeamTalk_DLL")
-if (BUILD_TEAMTALK_DLL)
+option (BUILD_TEAMTALK_LIBRARY_DLL "Build TeamTalk5 shared library" ON)
+add_feature_info (BUILD_TEAMTALK_LIBRARY_DLL BUILD_TEAMTALK_LIBRARY_DLL "Build shared library [TeamTalk5.dll | libTeamTalk5.so | libTeamTalk5.dylib] in Library/TeamTalk_DLL")
+if (BUILD_TEAMTALK_LIBRARY_DLL)
 
   if (MSVS_UNITTEST)
     list (APPEND TTCLIENTDLL_SOURCES ${MSVS_UNITTEST_SOURCES})
@@ -190,10 +190,10 @@ endif()
 # libTeamTalk5.a #
 ######################
 
-option (BUILD_TEAMTALK_LIB "Build TeamTalk5 static library" OFF)
-add_feature_info (BUILD_TEAMTALK_LIB BUILD_TEAMTALK_LIB "Build static library [TeamTalk5.lib | libTeamTalk5.a ] in Library/TeamTalk_DLL")
+option (BUILD_TEAMTALK_LIBRARY_LIB "Build TeamTalk5 static library" OFF)
+add_feature_info (BUILD_TEAMTALK_LIBRARY_LIB BUILD_TEAMTALK_LIBRARY_LIB "Build static library [TeamTalk5.lib | libTeamTalk5.a ] in Library/TeamTalk_DLL")
 
-if (BUILD_TEAMTALK_LIB)
+if (BUILD_TEAMTALK_LIBRARY_LIB)
 
   if (MSVS_UNITTEST)
     list (APPEND TTCLIENTDLL_SOURCES ${MSVS_UNITTEST_SOURCES})
@@ -224,10 +224,10 @@ endif()
 # libTeamTalk5Pro.so #
 ######################
 
-option (BUILD_TEAMTALK_PRODLL "Build TeamTalk5Pro shared library" ON)
-add_feature_info (BUILD_TEAMTALK_PRODLL BUILD_TEAMTALK_PRODLL "Build shared library [TeamTalk5Pro.dll | libTeamTalk5Pro.so | libTeamTalk5Pro.dylib] in Library/TeamTalk_DLL")
+option (BUILD_TEAMTALK_LIBRARY_PRODLL "Build TeamTalk5Pro shared library" ON)
+add_feature_info (BUILD_TEAMTALK_LIBRARY_PRODLL BUILD_TEAMTALK_LIBRARY_PRODLL "Build shared library [TeamTalk5Pro.dll | libTeamTalk5Pro.so | libTeamTalk5Pro.dylib] in Library/TeamTalk_DLL")
 
-if (BUILD_TEAMTALK_PRODLL)
+if (BUILD_TEAMTALK_LIBRARY_PRODLL)
 
   if (MSVS_UNITTEST)
     list (APPEND TTCLIENTPRODLL_SOURCES ${MSVS_UNITTEST_SOURCES})
@@ -268,10 +268,10 @@ endif()
 # libTeamTalk5Pro.a #
 ######################
 
-option (BUILD_TEAMTALK_PROLIB "Build TeamTalk5Pro static library" OFF)
-add_feature_info (BUILD_TEAMTALK_PROLIB BUILD_TEAMTALK_PROLIB "Build static library [TeamTalk5Pro.lib | libTeamTalk5Pro.a ] in Library/TeamTalk_DLL")
+option (BUILD_TEAMTALK_LIBRARY_PROLIB "Build TeamTalk5Pro static library" OFF)
+add_feature_info (BUILD_TEAMTALK_LIBRARY_PROLIB BUILD_TEAMTALK_LIBRARY_PROLIB "Build static library [TeamTalk5Pro.lib | libTeamTalk5Pro.a ] in Library/TeamTalk_DLL")
 
-if (BUILD_TEAMTALK_PROLIB)
+if (BUILD_TEAMTALK_LIBRARY_PROLIB)
 
   if (MSVS_UNITTEST)
     list (APPEND TTCLIENTPRODLL_SOURCES ${MSVS_UNITTEST_SOURCES})
@@ -308,10 +308,10 @@ endif()
 # tt5srv #
 ##########
 
-option (BUILD_TEAMTALK_SRVEXE "Build TeamTalk server" ON)
-add_feature_info (BUILD_TEAMTALK_SRVEXE BUILD_TEAMTALK_SRVEXE "Build TeamTalk server executable [tt5srv.exe | tt5srv ] in Server")
+option (BUILD_TEAMTALK_SERVER_SRVEXE "Build TeamTalk server" ON)
+add_feature_info (BUILD_TEAMTALK_SERVER_SRVEXE BUILD_TEAMTALK_SERVER_SRVEXE "Build TeamTalk server executable [tt5srv.exe | tt5srv ] in Server")
 
-if (BUILD_TEAMTALK_SRVEXE)
+if (BUILD_TEAMTALK_SERVER_SRVEXE)
   add_executable (tt5srv
     ${TTSRV_SOURCES} ${TTSRV_HEADERS})
 
@@ -334,10 +334,10 @@ endif()
 # tt5prosrv #
 #############
 
-option (BUILD_TEAMTALK_PROSRVEXE "Build TeamTalk server" ON)
-add_feature_info (BUILD_TEAMTALK_PROSRVEXE BUILD_TEAMTALK_PROSRVEXE "Build TeamTalk Pro server executable [tt5prosrv.exe | tt5prosrv ] in Server")
+option (BUILD_TEAMTALK_SERVER_PROSRVEXE "Build TeamTalk server" ON)
+add_feature_info (BUILD_TEAMTALK_SERVER_PROSRVEXE BUILD_TEAMTALK_SERVER_PROSRVEXE "Build TeamTalk Pro server executable [tt5prosrv.exe | tt5prosrv ] in Server")
 
-if (BUILD_TEAMTALK_PROSRVEXE)
+if (BUILD_TEAMTALK_SERVER_PROSRVEXE)
 
   add_executable (tt5prosrv ${TTSRV_SOURCES} ${TTSRV_HEADERS})
 
@@ -362,10 +362,10 @@ if (MSVC)
   ##############
   # tt5svc.exe #
   ##############
-  option (BUILD_TEAMTALK_SVCEXE "Build TeamTalk service" ON)
-  add_feature_info (BUILD_TEAMTALK_SVCEXE BUILD_TEAMTALK_SVCEXE "Build TeamTalk service executable [tt5svc.exe ] in Server")
+  option (BUILD_TEAMTALK_SERVER_SVCEXE "Build TeamTalk service" ON)
+  add_feature_info (BUILD_TEAMTALK_SERVER_SVCEXE BUILD_TEAMTALK_SERVER_SVCEXE "Build TeamTalk service executable [tt5svc.exe ] in Server")
 
-  if (BUILD_TEAMTALK_SVCEXE)
+  if (BUILD_TEAMTALK_SERVER_SVCEXE)
     add_executable (tt5svc ${TTSRV_SOURCES} ${TTSRV_HEADERS})
 
     target_include_directories (tt5svc PRIVATE ${TTSRV_INCLUDE_DIR})
@@ -395,10 +395,10 @@ if (MSVC)
   #################
   # tt5prosvc.exe #
   #################
-  option (BUILD_TEAMTALK_PROSVCEXE "Build TeamTalk Professional service" ON)
-  add_feature_info (BUILD_TEAMTALK_PROSVCEXE BUILD_TEAMTALK_PROSVCEXE "Build TeamTalk Pro service executable [tt5prosvc.exe ] in Server")
+  option (BUILD_TEAMTALK_SERVER_PROSVCEXE "Build TeamTalk Professional service" ON)
+  add_feature_info (BUILD_TEAMTALK_SERVER_PROSVCEXE BUILD_TEAMTALK_SERVER_PROSVCEXE "Build TeamTalk Pro service executable [tt5prosvc.exe ] in Server")
 
-  if (BUILD_TEAMTALK_PROSVCEXE)
+  if (BUILD_TEAMTALK_SERVER_PROSVCEXE)
     add_executable (tt5prosvc ${TTSRV_SOURCES} ${TTSRV_HEADERS})
 
     target_include_directories (tt5prosvc PRIVATE ${TTSRVPRO_INCLUDE_DIR})
@@ -429,7 +429,7 @@ endif()
 # Catch unit-tests #
 ####################
 
-if (CATCH_UNITTEST)
+if (BUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2)
 
   add_executable (catchtt ${CATCH_UNITTEST_SOURCES} ${TTCLIENTPRODLL_SOURCES} ${TTCLIENTPRODLL_HEADERS}
       ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerConfig.cpp ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerConfig.h

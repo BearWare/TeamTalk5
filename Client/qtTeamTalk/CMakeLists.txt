@@ -251,7 +251,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
       add_executable (${TEAMTALK_TARGET} ${QTTEAMTALK_SOURCES})
     endif()
 
-    if (BUILD_TEAMTALK_DLL)
+    if (BUILD_TEAMTALK_LIBRARY_DLL)
       target_include_directories (${TEAMTALK_TARGET} PUBLIC ./)
       target_link_libraries (${TEAMTALK_TARGET} ${TEAMTALK_LINK_FLAGS} TeamTalk5DLL)
     else()
