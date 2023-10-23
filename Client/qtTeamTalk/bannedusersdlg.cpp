@@ -55,7 +55,7 @@ QVariant BannedUsersModel::headerData ( int section, Qt::Orientation orientation
             case COLUMN_INDEX_USERNAME: return tr("Username");
             case COLUMN_INDEX_BANTYPE: return tr("Ban type");
             case COLUMN_INDEX_BANTIME: return tr("Ban Time");
-            case COLUMN_INDEX_OWNER: return tr("Owner");
+            case COLUMN_INDEX_OWNER: return tr("Creator");
             case COLUMN_INDEX_CHANPATH: return tr("Channel");
             case COLUMN_INDEX_IPADDRESS: return tr("IP-address");
         }
