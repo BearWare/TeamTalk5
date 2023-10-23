@@ -10,11 +10,11 @@ CMake build option for TeamTalk JNI DLL:
 
 * `BUILD_TEAMTALK_LIBRARY_JNI`
   * JNI library for TeamTalk Standard Edition
-* `BUILD_TEAMTALK_LIBRARY_PROJNI`
+* `BUILD_TEAMTALK_LIBRARY_JNIPRO`
   * JNI library for TeamTalk Professional Edition
 * `BUILD_TEAMTALK_LIBRARY_JAR`
   * TeamTalk5.jar Java classes for libTeamTalk5-jni.so/TeamTalk5-jni.dll  
-* `BUILD_TEAMTALK_LIBRARY_PROJAR`
+* `BUILD_TEAMTALK_LIBRARY_JARPRO`
   * TeamTalk5Pro.jar Java classes for libTeamTalk5Pro-jni.so/TeamTalk5Pro-jni.dll  
 
 ## Makefile for running JUnit tests
