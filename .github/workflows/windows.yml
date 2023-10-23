@@ -84,7 +84,7 @@ jobs:
         -DFEATURE_LIBVPX=OFF
         -DFEATURE_WEBRTC=OFF
         -DTOOLCHAIN_LIBVPX=OFF
-        -DBUILD_TEAMTALK_CLIENT_DOTNET_EXAMPLE=OFF
+        -DBUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET=OFF
         -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-teamtalk
 
     - name: Build and Install CMake Projects

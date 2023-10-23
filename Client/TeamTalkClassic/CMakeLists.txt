@@ -73,7 +73,7 @@ if (MSVC)
     set (VS_BUILD 0)
   endif()
 
-  cmake_dependent_option (BUILD_TEAMTALK_CLIENT_MFC_EXAMPLE "Build MFC TeamTalk 5 Classic for client example" ON "VS_BUILD" OFF)
+  cmake_dependent_option (BUILD_TEAMTALK_CLIENT_TEAMTALKCLASSIC "Build MFC TeamTalk 5 Classic for client example" ON "VS_BUILD" OFF)
 
   set(CMAKE_MFC_FLAG 1)
 
@@ -99,18 +99,18 @@ if (MSVC)
 
   if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
     add_definitions (-D_WIN64)
-    if (BUILD_TEAMTALK_CLIENT_MFC_EXAMPLE)
+    if (BUILD_TEAMTALK_CLIENT_TEAMTALKCLASSIC)
       add_executable (TeamTalk5Classic WIN32 ${TTCLASSIC_SOURCES} ${TTCLASSIC_HEADERS} res/TeamTalk_amd64.manifest)
     endif()
   else()
-    if (BUILD_TEAMTALK_CLIENT_MFC_EXAMPLE)
+    if (BUILD_TEAMTALK_CLIENT_TEAMTALKCLASSIC)
       add_executable (TeamTalk5Classic WIN32 ${TTCLASSIC_SOURCES} ${TTCLASSIC_HEADERS} res/TeamTalk.manifest)
     endif()
   endif()
 
   set (TTCLASSIC_COMPILE_FLAGS -DUNICODE -D_CRT_SECURE_NO_WARNINGS -D_WINSOCK_DEPRECATED_NO_WARNINGS -D_UNICODE -wd4800)
 
-  if (BUILD_TEAMTALK_CLIENT_MFC_EXAMPLE)
+  if (BUILD_TEAMTALK_CLIENT_TEAMTALKCLASSIC)
     set_property(TARGET TeamTalk5Classic PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Library/TeamTalk_DLL")
 
     if (BUILD_TEAMTALK_CLIENT_TOLK)
