@@ -75,8 +75,8 @@ void UserInfoDlg::updateUser()
     if(ui.username->text() != _Q(user.szUsername))
         ui.username->setText(_Q(user.szUsername));
 
-    if(ui.clientname->text() != _Q(user.szClientName))
-        ui.clientname->setText(_Q(user.szClientName));
+    if(ui.clientname->text() != _Q(user.szClientName)+" "+getVersion(user))
+        ui.clientname->setText(_Q(user.szClientName)+" "+getVersion(user));
 
     switch(user.uUserType)
     {
@@ -93,9 +93,6 @@ void UserInfoDlg::updateUser()
 
     if(ui.ipaddr->text() != _Q(user.szIPAddress))
         ui.ipaddr->setText(_Q(user.szIPAddress));
-
-    if(ui.version->text() != getVersion(user))
-        ui.version->setText(getVersion(user));
 
     UserStatistics stats;
     if(!TT_GetUserStatistics(ttInst, m_userid, &stats))
