@@ -147,4 +147,5 @@ void saveWindowPosition(const QString& setting, QWidget* widget);
 bool restoreWindowPosition(const QString& setting, QWidget* widget);
 QStringList extractLanguages();
 bool switchLanguage(const QString& language);
+QString getFormattedDateTime(QString originalDateTime, QString format);
 #endif

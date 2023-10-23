@@ -11,6 +11,7 @@ Default Qt Client
 - Support for 320 KBit MP3 recording (Windows only)
 - Support for banning IP-address as subnet, e.g. 192.168.0.0/24 or 2a02:09b0:402b:eed8::/63
 - Username of user creating a ban is visible in "Banned Users" dialog
+- Dates and times are now formatted in user locale
 Android Client
 -
 iOS Client

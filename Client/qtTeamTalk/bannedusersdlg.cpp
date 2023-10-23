@@ -93,7 +93,7 @@ QVariant BannedUsersModel::data ( const QModelIndex & index, int role /*= Qt::Di
             return bantype;
         }
         case COLUMN_INDEX_BANTIME :
-            return _Q(m_users[index.row()].szBanTime);
+            return getFormattedDateTime(_Q(m_users[index.row()].szBanTime), "yyyy/MM/dd hh:mm");
         case COLUMN_INDEX_OWNER :
             return _Q(m_users[index.row()].szOwner);
         case COLUMN_INDEX_CHANPATH :

@@ -22,6 +22,8 @@
 
 #include <QTranslator>
 #include <QDir>
+#include <QDateTime>
+#include <QLocale>
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QDesktopWidget>
 #include <QApplication>
@@ -299,4 +301,12 @@ QStringList extractLanguages()
     for (auto lang : dir.entryList())
         languages.append(lang.left(lang.size()-3));
     return languages;
+}
+
+QString getFormattedDateTime(QString originalDateTimeString, QString format)
+{
+    QDateTime originalDateTime = QDateTime::fromString(originalDateTimeString, format);
+    QLocale userLocale = QLocale::system();
+    QString formattedDateTime = userLocale.toString(originalDateTime, QLocale::ShortFormat);
+    return formattedDateTime;
 }
