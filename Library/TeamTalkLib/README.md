@@ -318,27 +318,27 @@ prefixed by `BUILD_TEAMTALK_`.
 
 Most interesting are:
 
-* `BUILD_TEAMTALK_DLL`
+* `BUILD_TEAMTALK_LIBRARY_DLL`
   * TeamTalk 5 shared library
   * Builds binary `TEAMTALK_ROOT/Library/TeamTalk_DLL/TeamTalk5.dll` or `libTeamTalk5.so`
-* `BUILD_TEAMTALK_PRODLL`
+* `BUILD_TEAMTALK_LIBRARY_PRODLL`
   * TeamTalk 5 Pro shared library
   * Builds binary `TEAMTALK_ROOT/Library/TeamTalk_DLL/TeamTalk5Pro.dll` or `libTeamTalk5Pro.so`
-* `BUILD_TEAMTALK_LIB`
+* `BUILD_TEAMTALK_LIBRARY_LIB`
   * TeamTalk 5 static library used for iOS and Android
   * Builds binary `TEAMTALK_ROOT/Library/TeamTalk_DLL/libTeamTalk5.a`
-* `BUILD_TEAMTALK_PROLIB`
+* `BUILD_TEAMTALK_LIBRARY_PROLIB`
   * TeamTalk 5 Pro static library used for iOS and Android
   * Builds binary `TEAMTALK_ROOT/Library/TeamTalk_DLL/libTeamTalk5Pro.a`
-* `BUILD_TEAMTALK_SRVEXE`
+* `BUILD_TEAMTALK_SERVER_SRVEXE`
   * TeamTalk 5 console/daemon server
   * Builds binary `TEAMTALK_ROOT/Server/tt5srv.exe` or `tt5srv`
-* `BUILD_TEAMTALK_PROSRVEXE`
+* `BUILD_TEAMTALK_SERVER_PROSRVEXE`
   * TeamTalk 5 Pro console/daemon server
   * Builds binary `TEAMTALK_ROOT/Server/tt5prosrv.exe` or `tt5prosrv`
-* `BUILD_TEAMTALK_SVCEXE`
+* `BUILD_TEAMTALK_SERVER_SVCEXE`
   * TeamTalk 5 NT service server
   * Builds binary `TEAMTALK_ROOT/Server/tt5svc.exe`
-* `BUILD_TEAMTALK_PROSVCEXE`
+* `BUILD_TEAMTALK_SERVER_PROSVCEXE`
   * TeamTalk 5 NT service server
   * Builds binary `TEAMTALK_ROOT/Server/tt5prosvc.exe`

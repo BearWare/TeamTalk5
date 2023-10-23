@@ -8,7 +8,7 @@ TeamTalk5.NET.dll/TeamTalk5Pro.NET.dll files.
 
 CMake build options for TeamTalk5.NET:
 
-* BUILD_TEAMTALK_DOTNETDLL
+* BUILD_TEAMTALK_LIBRARY_DLL_DOTNET
   * Build TeamTalk5.NET.dll for .NET runtime
-* BUILD_TEAMTALK_PRODOTNETDLL
+* BUILD_TEAMTALK_LIBRARY_PRODLL_DOTNET
   * Build TeamTalk5Pro.NET.dll for .NET runtime
