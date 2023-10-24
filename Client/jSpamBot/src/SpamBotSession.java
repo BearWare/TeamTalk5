@@ -90,19 +90,10 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         while (handler.processEvent(ttclient, timeoutMSec));
     }
 
-    public boolean containsBadWord(String value) {
-        value = value.toLowerCase();
-
-        String[] words = value.split("\\W");
-
-        for (String word : words) {
-            if (word.isEmpty())
-                continue;
-
-            for (String lang : langbadwords) {
-                if (badwords.contains(lang, word))
-                    return true;
-            }
+    public boolean containsBadWord(String text) {
+        for (String lang : langbadwords) {
+            if (badwords.contains(lang, text))
+                return true;
         }
         return false;
     }

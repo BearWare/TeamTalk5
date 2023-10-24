@@ -61,7 +61,20 @@ public class BadWords {
         return true;
     }
 
-    boolean contains(String language, String wordLowerCase) {
+    boolean contains(String language, String sentence) {
+        sentence = sentence.toLowerCase();
+        String[] words = sentence.split("\\W");
+        for (String word : words) {
+            if (word.isEmpty())
+                continue;
+            if (containsWord(language, word)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    boolean containsWord(String language, String wordLowerCase) {
         var badwords = lang_badwords.get(language);
         return badwords != null ? badwords.contains(wordLowerCase) : false;
     }
