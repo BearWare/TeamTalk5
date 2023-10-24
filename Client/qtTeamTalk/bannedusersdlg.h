@@ -21,7 +21,6 @@
 #include "ui_bannedusers.h"
 
 #include "common.h"
-#include "utilui.h"
 
 #include <QAbstractItemModel>
 #include <QVector>
