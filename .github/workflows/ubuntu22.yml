@@ -52,7 +52,7 @@ jobs:
       shell: bash
       run: |
         source env.sh
-        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCATCH_UNITTEST=ON -DCATCH_UNITTEST_PERF=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build ubuntu22
+        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build ubuntu22
         echo TEAMTALK_INSTALLDIR=${{runner.workspace}}/install>> $GITHUB_ENV
 
     - name: Java Server API Test (non-encrypted)

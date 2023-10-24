@@ -56,12 +56,26 @@ public class BadWords {
         Vector<String> badwords_lower = new Vector<>();
         for (String w : badwords)
             badwords_lower.add(w.toLowerCase());
-        
+
         lang_badwords.put(language, badwords_lower);
         return true;
     }
 
-    boolean contains(String language, String wordLowerCase) {
+    boolean contains(String language, String sentence) {
+        sentence = sentence.toLowerCase().replace('_', ' ');
+
+        String[] words = sentence.split("\\W");
+        for (String word : words) {
+            if (word.isEmpty())
+                continue;
+            if (containsWord(language, word)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    boolean containsWord(String language, String wordLowerCase) {
         var badwords = lang_badwords.get(language);
         return badwords != null ? badwords.contains(wordLowerCase) : false;
     }

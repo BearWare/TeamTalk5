@@ -94,7 +94,7 @@ jobs:
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
       run: >-
            cmake $GITHUB_WORKSPACE -G Ninja
-           -DCATCH_UNITTEST=ON
+           -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
            -DFEATURE_PORTAUDIO=OFF
            -DFEATURE_V4L2=OFF
            -DFEATURE_WEBRTC=OFF

@@ -172,7 +172,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     set_source_files_properties (${TEAMTALK_ICON_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
   endif()
 
-  option (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE "Build Qt TeamTalk client example" ON)
+  option (BUILD_TEAMTALK_CLIENT_QTTEAMTALK "Build Qt TeamTalk client example" ON)
 
   if (BUILD_TEAMTALK_CLIENT_TOLK)
     list (APPEND TEAMTALK_LINK_FLAGS Tolk)
@@ -185,7 +185,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     find_program(WINDEPLOYQT_EXE_PATH windeployqt)
   endif()
 
-  if (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE)
+  if (BUILD_TEAMTALK_CLIENT_QTTEAMTALK)
 
     if (MSVC)
       add_executable (${TEAMTALK_TARGET} WIN32 ${QTTEAMTALK_SOURCES})
@@ -251,7 +251,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
       add_executable (${TEAMTALK_TARGET} ${QTTEAMTALK_SOURCES})
     endif()
 
-    if (BUILD_TEAMTALK_DLL)
+    if (BUILD_TEAMTALK_LIBRARY_DLL)
       target_include_directories (${TEAMTALK_TARGET} PUBLIC ./)
       target_link_libraries (${TEAMTALK_TARGET} ${TEAMTALK_LINK_FLAGS} TeamTalk5DLL)
     else()
@@ -278,9 +278,9 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-      option (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE_PRODUCT "Build Qt TeamTalk 5 Installer" OFF)
+      option (BUILD_TEAMTALK_CLIENT_QTTEAMTALK_PRODUCT "Build Qt TeamTalk 5 Installer" OFF)
 
-      if (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE_PRODUCT)
+      if (BUILD_TEAMTALK_CLIENT_QTTEAMTALK_PRODUCT)
 
         if (MACDEPLOYQT_EXECUTABLE-NOTFOUND)
           message(WARNING "Cannot deploy Qt to TeamTalk 5 Installer due to missing macdeployqt")
@@ -318,9 +318,9 @@ if (Qt5_FOUND OR Qt6_FOUND)
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
             DEPENDS tt5srv QtTeamTalk5ClientProduct)
 
-          option (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE_PRODUCT_CODESIGN "Sign Qt TeamTalk 5 Install Package" OFF)
+          option (BUILD_TEAMTALK_CLIENT_QTTEAMTALK_PRODUCT_CODESIGN "Sign Qt TeamTalk 5 Install Package" OFF)
 
-          if (BUILD_TEAMTALK_CLIENT_QT_EXAMPLE_PRODUCT_CODESIGN)
+          if (BUILD_TEAMTALK_CLIENT_QTTEAMTALK_PRODUCT_CODESIGN)
 
             # Build TeamTalk 5 installer for Apple AppStore, i.e. without server application
             add_custom_target(QtTeamTalk5Product ALL
