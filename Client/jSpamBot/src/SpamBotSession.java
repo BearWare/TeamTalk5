@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import dk.bearware.*;
 import dk.bearware.events.CommandListener;
@@ -276,7 +278,15 @@ implements ConnectionListener, CommandListener, AutoCloseable {
 
     void syncBans(UserAccount account) {
         if ((account.uUserRights & UserRight.USERRIGHT_BAN_USERS) == UserRight.USERRIGHT_BAN_USERS) {
-            activecommands.put(ttclient.doListBans(0, 0, 1000000), CmdComplete.CMD_LISTBANS);
+            if (versionSameOrLater("5.13")) {
+                activecommands.put(ttclient.doListBans(0, 0, 1000000), CmdComplete.CMD_LISTBANS);
+            }
+            else {
+                System.out.println("Skipping ban sync due to version");
+            }
+        }
+        else {
+            System.out.println("Skipping ban sync due to missing user right");
         }
     }
 
@@ -380,5 +390,19 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     @Override
     public void close() {
         ttclient.disconnect();
+    }
+
+    boolean versionSameOrLater(String version) {
+        ServerProperties prop = new ServerProperties();
+        if (ttclient.getServerProperties(prop)) {
+            Pattern pattern = Pattern.compile("(\\d+)\\.(\\d+)");
+            Matcher remotematcher = pattern.matcher(prop.szServerProtocolVersion);
+            Matcher versionmatcher = pattern.matcher(version);
+            if (remotematcher.find() && versionmatcher.find()) {
+                return remotematcher.group(1).compareTo(versionmatcher.group(1)) >= 0 &&
+                    remotematcher.group(2).compareTo(versionmatcher.group(2)) >= 0;
+            }
+        }
+        return false;
     }
 }
