@@ -5950,8 +5950,7 @@ void MainWindow::slotUsersKickBan(const User& user)
         QString choice = inputDialog.textValue();
         if (ok)
         {
-            User tmp;
-            if (TT_GetUser(ttInst, user.nUserID, &tmp))
+            if (ui.channelsWidget->getUser(user.nUserID).nUserID != 0)
             {
                 //ban first since the user will otherwise have disappeared
                 if (choice == items[0])

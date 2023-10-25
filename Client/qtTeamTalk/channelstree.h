@@ -39,6 +39,7 @@ public:
     bool getChannel(int channelid, Channel& chan) const;
     bool getSelectedChannel(Channel& chan) const;
     bool getUser(int userid, User& user) const;
+    User getUser(int userid) const;
     bool getSelectedUser(User& user) const;
     QVector<User> getSelectedUsers() const;
 
