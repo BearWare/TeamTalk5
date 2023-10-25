@@ -296,13 +296,9 @@ p, li { white-space: pre-wrap; }
         <translation>禁止时间</translation>
     </message>
     <message>
-        <source>Owner</source>
-        <translation type="vanished">所有者</translation>
-    </message>
-    <message>
         <location filename="../bannedusersdlg.cpp" line="58"/>
         <source>Creator</source>
-        <translation type="unfinished"></translation>
+        <translation>创建者</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="59"/>
