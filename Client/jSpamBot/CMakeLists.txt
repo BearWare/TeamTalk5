@@ -12,7 +12,7 @@ if (Java_FOUND)
 
   set (JAVA_SOURCES src/SpamBotSession.java src/WebLogin.java
     src/Main.java src/TeamTalkServer.java src/IPBan.java
-    src/BadWords.java)
+    src/BadWords.java src/Abuse.java)
 
   if (BUILD_TEAMTALK_CLIENT_JSPAMBOT)
 

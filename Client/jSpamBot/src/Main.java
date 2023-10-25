@@ -69,7 +69,8 @@ public class Main {
                     for (var server : servers) {
                         sessions.add(new SpamBotSession(server,
                                                         new WebLogin(username, passwd),
-                                                        new IPBan(bannetworks), badwords));
+                                                        new IPBan(bannetworks), badwords,
+                                                        new Abuse(10, 10, 60)));
                     }
                     lastServers = servers;
                 }
