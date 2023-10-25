@@ -1244,13 +1244,16 @@ namespace teamtalk{
 
     bool ServerXML::IsUserBanned(const BannedUser& ban)
     {
-        int c = GetUserBanCount();
-        for(int i=0;i<c;i++)
+        TiXmlElement* item = GetServerBansElement();
+        if (item)
         {
-            BannedUser tmp;
-            if(GetUserBan(i, tmp) && tmp.Match(ban))
+            for(TiXmlElement* child = item->FirstChildElement("serverban");
+                 child;
+                 child = child->NextSiblingElement("serverban"))
             {
-                return true;
+                BannedUser tmp;
+                if (GetUserBan(*child, tmp) && tmp.Match(ban))
+                    return true;
             }
         }
         return false;
@@ -1266,11 +1269,17 @@ namespace teamtalk{
     std::vector<BannedUser> ServerXML::GetUserBans()
     {
         std::vector<BannedUser> result;
-        for(int i=0;i<GetUserBanCount();i++)
+        TiXmlElement* item = GetServerBansElement();
+        if (item)
         {
-            BannedUser ban;
-            GetUserBan(i, ban);
-            result.push_back(ban);
+            for(TiXmlElement* child = item->FirstChildElement("serverban");
+                 child;
+                 child = child->NextSiblingElement("serverban"))
+            {
+                BannedUser tmp;
+                GetUserBan(*child, tmp);
+                result.push_back(tmp);
+            }
         }
         return result;
     }
