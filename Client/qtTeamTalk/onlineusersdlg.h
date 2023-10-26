@@ -60,8 +60,10 @@ private:
         VIEW_USERINFORMATION,
         SEND_TEXTMESSAGE,
         OP,
-        KICK,
-        BAN,
+        KICK_FROM_CHANNEL,
+        KICK_FROM_SERVER,
+        BAN_FROM_CHANNEL,
+        BAN_FROM_SERVER,
         MOVE
     };
 

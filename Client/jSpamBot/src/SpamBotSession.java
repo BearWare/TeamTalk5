@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import dk.bearware.*;
 import dk.bearware.events.CommandListener;
@@ -45,18 +47,22 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     IPBan bans;
     BadWords badwords;
     Vector<String> langbadwords = new Vector<>();
+    Abuse abuse;
     enum CmdComplete {
         CMD_NONE,
         CMD_LISTBANS,
-        CMD_ADDBAN
+        CMD_ADDBAN,
+        CMD_ABUSE
     }
     Map<Integer, CmdComplete> activecommands = new HashMap<>();
 
-    SpamBotSession(TeamTalkServer srv, WebLogin loginsession, IPBan bans, BadWords badwords) {
+    SpamBotSession(TeamTalkServer srv, WebLogin loginsession,
+                   IPBan bans, BadWords badwords, Abuse abuse) {
         this.server = srv;
         this.loginsession = loginsession;
         this.bans = bans;
         this.badwords = badwords;
+        this.abuse = abuse;
         handler.addConnectionListener(this);
         handler.addCommandListener(this);
     }
@@ -88,19 +94,10 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         while (handler.processEvent(ttclient, timeoutMSec));
     }
 
-    public boolean containsBadWord(String value) {
-        value = value.toLowerCase();
-
-        String[] words = value.split("\\W");
-
-        for (String word : words) {
-            if (word.isEmpty())
-                continue;
-
-            for (String lang : langbadwords) {
-                if (badwords.contains(lang, word))
-                    return true;
-            }
+    public boolean containsBadWord(String text) {
+        for (String lang : langbadwords) {
+            if (badwords.contains(lang, text))
+                return true;
         }
         return false;
     }
@@ -276,8 +273,25 @@ implements ConnectionListener, CommandListener, AutoCloseable {
 
     void syncBans(UserAccount account) {
         if ((account.uUserRights & UserRight.USERRIGHT_BAN_USERS) == UserRight.USERRIGHT_BAN_USERS) {
-            activecommands.put(ttclient.doListBans(0, 0, 1000000), CmdComplete.CMD_LISTBANS);
+            if (versionSameOrLater("5.13")) {
+                activecommands.put(ttclient.doListBans(0, 0, 1000000), CmdComplete.CMD_LISTBANS);
+            }
+            else {
+                System.out.println("Skipping ban sync due to version");
+            }
         }
+        else {
+            System.out.println("Skipping ban sync due to missing user right");
+        }
+    }
+
+    void abuseBan(User user) {
+        BannedUser b = new BannedUser();
+        b.szIPAddress = user.szIPAddress;
+        b.uBanTypes = BanType.BANTYPE_IPADDR;
+        activecommands.put(ttclient.doBan(b), CmdComplete.CMD_ABUSE);
+
+        ttclient.doKickUser(user.nUserID, 0);
     }
 
     @Override
@@ -338,6 +352,12 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         if (user.nChannelID == ttclient.getMyChannelID()) {
             ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_VOICE | Subscription.SUBSCRIBE_DESKTOP | Subscription.SUBSCRIBE_VIDEOCAPTURE | Subscription.SUBSCRIBE_MEDIAFILE);
         }
+
+        abuse.incJoins(user.szIPAddress);
+        if (abuse.checkJoinAbuse(user.szIPAddress)) {
+            System.out.printf("Banning %s from %s:%d due to join abuse\n", user.szNickname, server.ipaddr, server.tcpport);
+            abuseBan(user);
+        }
     }
 
     @Override
@@ -352,6 +372,12 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         if (!cleanUser(user)) {
             ttclient.doKickUser(user.nUserID, 0);
             System.out.printf("Kicking %s from %s:%d\n", user.szNickname, server.ipaddr, server.tcpport);
+        }
+
+        abuse.incLogin(user.szIPAddress);
+        if (abuse.checkLoginAbuse(user.szIPAddress)) {
+            System.out.printf("Banning %s from %s:%d due to login abuse\n", user.szNickname, server.ipaddr, server.tcpport);
+            abuseBan(user);
         }
     }
 
@@ -380,5 +406,19 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     @Override
     public void close() {
         ttclient.disconnect();
+    }
+
+    boolean versionSameOrLater(String version) {
+        ServerProperties prop = new ServerProperties();
+        if (ttclient.getServerProperties(prop)) {
+            Pattern pattern = Pattern.compile("(\\d+)\\.(\\d+)");
+            Matcher remotematcher = pattern.matcher(prop.szServerProtocolVersion);
+            Matcher versionmatcher = pattern.matcher(version);
+            if (remotematcher.find() && versionmatcher.find()) {
+                return remotematcher.group(1).compareTo(versionmatcher.group(1)) >= 0 &&
+                    remotematcher.group(2).compareTo(versionmatcher.group(2)) >= 0;
+            }
+        }
+        return false;
     }
 }

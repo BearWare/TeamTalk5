@@ -46,7 +46,7 @@ public class Main {
         badwords.loadFile("french", "badwords_french.txt");
 
         var bannetworks = IPBan.loadFile("vpnips.txt");
-        
+
         var sessions = new Vector<SpamBotSession>();
         var lastServers = new Vector<TeamTalkServer>();
         var serverlistUpdateTimeout = System.nanoTime();
@@ -69,7 +69,8 @@ public class Main {
                     for (var server : servers) {
                         sessions.add(new SpamBotSession(server,
                                                         new WebLogin(username, passwd),
-                                                        new IPBan(bannetworks), badwords));
+                                                        new IPBan(bannetworks), badwords,
+                                                        new Abuse(10, 10, 60)));
                     }
                     lastServers = servers;
                 }

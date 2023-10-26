@@ -51,15 +51,15 @@ void OnlineUsersModel::resetUsers()
 void OnlineUsersModel::addUser(const User& user)
 {
     this->beginResetModel();
-
     m_users.insert(user.nUserID, user);
-
     this->endResetModel();
 }
 
 void OnlineUsersModel::updateUser(const User& user)
 {
+    this->beginResetModel();
     m_users.insert(user.nUserID, user);
+    this->endResetModel();
 }
 
 void OnlineUsersModel::removeUser(const User& user, bool keep)

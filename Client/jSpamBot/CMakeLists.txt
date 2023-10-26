@@ -8,9 +8,11 @@ if (Java_FOUND)
 
   option (BUILD_TEAMTALK_CLIENT_JSPAMBOT "Build TeamTalk Anti Spam Bot" ON)
 
+  set(CMAKE_JAVA_COMPILE_FLAGS "-source" "11" "-target" "11")
+
   set (JAVA_SOURCES src/SpamBotSession.java src/WebLogin.java
     src/Main.java src/TeamTalkServer.java src/IPBan.java
-    src/BadWords.java)
+    src/BadWords.java src/Abuse.java)
 
   if (BUILD_TEAMTALK_CLIENT_JSPAMBOT)
 

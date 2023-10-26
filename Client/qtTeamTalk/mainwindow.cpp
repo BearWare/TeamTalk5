@@ -5832,7 +5832,7 @@ void MainWindow::slotUsersSpeakUserInformation(int id)
         if (usersCount > 0)
             speakList += ", " + QString(tr("%1 users").arg(usersCount));
 
-        if(m_filesmodel->rowCount() > 0)
+        if ((id == m_mychannel.nChannelID || TT_GetMyUserType(ttInst) & USERTYPE_ADMIN) && (m_filesmodel->rowCount() > 0))
             speakList += ", " + QString(tr("%1 files").arg(m_filesmodel->rowCount()));
     }
     addTextToSpeechMessage(speakList);
@@ -5950,8 +5950,7 @@ void MainWindow::slotUsersKickBan(const User& user)
         QString choice = inputDialog.textValue();
         if (ok)
         {
-            User tmp;
-            if (TT_GetUser(ttInst, user.nUserID, &tmp))
+            if (ui.channelsWidget->getUser(user.nUserID).nUserID != 0)
             {
                 //ban first since the user will otherwise have disappeared
                 if (choice == items[0])

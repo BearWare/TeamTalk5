@@ -178,6 +178,13 @@ bool ChannelsTree::getUser(int userid, User& user) const
     return false;
 }
 
+User ChannelsTree::getUser(int userid) const
+{
+    User user = {};
+    users_t::const_iterator ite = m_users.find(userid);
+    return ite != m_users.end() ? *ite : user;
+}
+
 bool ChannelsTree::getSelectedUser(User& user) const
 {
     int userid = selectedUser();
