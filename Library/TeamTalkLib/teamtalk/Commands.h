@@ -24,13 +24,14 @@
 #if !defined(COMMANDS_H)
 #define COMMANDS_H
 
-#include <vector>
-#include <set>
-#include <map>
+#include "Common.h"
 
 #include <ace/ACE.h>
 #include <ace/SString.h>
-#include "Common.h"
+
+#include <vector>
+#include <set>
+#include <map>
 
 #define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.13")
 

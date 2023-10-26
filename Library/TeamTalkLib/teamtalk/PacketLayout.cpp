@@ -22,6 +22,7 @@
  */
 
 #include "PacketLayout.h"
+#include "Common.h"
 
 using namespace std;
 

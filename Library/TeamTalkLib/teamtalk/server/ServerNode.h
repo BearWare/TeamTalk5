@@ -24,12 +24,10 @@
 #if !defined(SERVERNODE_H)
 #define SERVERNODE_H
 
+#include "AcceptHandler.h"
+#include "ServerChannel.h"
+#include "ServerUser.h"
 #include "Server.h"
-
-// ACE
-#include <ace/Recursive_Thread_Mutex.h>
-#include <ace/Guard_T.h>
-#include <ace/Acceptor.h>
 
 #include <teamtalk/Commands.h>
 #include <teamtalk/PacketHandler.h>
@@ -37,9 +35,10 @@
 #include <myace/TimerHandler.h>
 #include <myace/MyACE.h>
 
-#include "AcceptHandler.h"
-#include "ServerChannel.h"
-#include "ServerUser.h"
+// ACE
+#include <ace/Recursive_Thread_Mutex.h>
+#include <ace/Guard_T.h>
+#include <ace/Acceptor.h>
 
 // STL
 #include <map>
