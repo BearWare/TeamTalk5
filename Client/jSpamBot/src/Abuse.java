@@ -24,7 +24,7 @@ public class Abuse {
         }
         timestamps.add(System.nanoTime());
     }
-    
+
     public void incLogin(String ipaddr) {
         inc(iplogins, ipaddr);
     }
@@ -32,7 +32,7 @@ public class Abuse {
     public void incJoins(String ipaddr) {
         inc(ipjoins, ipaddr);
     }
-    
+
     private static void clean(Map< String, Vector<Long> > history, long durationSec) {
         Vector<String> removeme = new Vector<>();
         for (String key : history.keySet()) {
@@ -61,5 +61,5 @@ public class Abuse {
         clean(ipjoins, this.durationSec);
         return ipjoins.get(ipaddr) != null ? ipjoins.get(ipaddr).size() >= ipjoinCount : false;
     }
-    
+
 }

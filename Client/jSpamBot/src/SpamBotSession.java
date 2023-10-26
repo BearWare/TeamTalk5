@@ -52,7 +52,9 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         CMD_NONE,
         CMD_LISTBANS,
         CMD_ADDBAN,
-        CMD_ABUSE
+        CMD_ABUSE_BAN,
+        CMD_ABUSE_KICK,
+        CMD_ABUSE_TEXTMSG
     }
     Map<Integer, CmdComplete> activecommands = new HashMap<>();
 
@@ -289,9 +291,17 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         BannedUser b = new BannedUser();
         b.szIPAddress = user.szIPAddress;
         b.uBanTypes = BanType.BANTYPE_IPADDR;
-        activecommands.put(ttclient.doBan(b), CmdComplete.CMD_ABUSE);
+        b.szNickname = user.szNickname;
+        activecommands.put(ttclient.doBan(b), CmdComplete.CMD_ABUSE_BAN);
 
-        ttclient.doKickUser(user.nUserID, 0);
+        TextMessage textmsg = new TextMessage();
+        textmsg.nMsgType = TextMsgType.MSGTYPE_USER;
+        textmsg.szMessage = "You have been banned due to abuse";
+        textmsg.nToUserID = user.nUserID;
+
+        activecommands.put(ttclient.doTextMessage(textmsg), CmdComplete.CMD_ABUSE_TEXTMSG);
+
+        activecommands.put(ttclient.doKickUser(user.nUserID, 0), CmdComplete.CMD_ABUSE_KICK);
     }
 
     @Override
