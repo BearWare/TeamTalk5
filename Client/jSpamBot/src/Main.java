@@ -21,6 +21,7 @@
  *
  */
 
+import dk.bearware.TeamTalk5;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Vector;
@@ -39,6 +40,15 @@ public class Main {
         passwd = System.getProperty("dk.bearware.password");
         if (passwd == null)
             passwd = new String(System.console().readPassword());
+
+        int iplogins = Integer.parseInt(System.getProperty("dk.bearware.iplogincount", "10"));
+        int ipjoins = Integer.parseInt(System.getProperty("dk.bearware.ipjoinscount", "10"));
+        int ipcmdduration = Integer.parseInt(System.getProperty("dk.bearware.ipcmdduration", "60"));
+
+        TeamTalk5.loadLibrary();
+        String regname = System.getProperty("dk.bearware.regname", "");
+        String regkey = System.getProperty("dk.bearware.regkey", "");
+        TeamTalk5.setLicenseInformation(regname, regkey);
 
         BadWords badwords = new BadWords();
         badwords.loadFile("", "badwords.txt");
@@ -70,7 +80,7 @@ public class Main {
                         sessions.add(new SpamBotSession(server,
                                                         new WebLogin(username, passwd),
                                                         new IPBan(bannetworks), badwords,
-                                                        new Abuse(10, 10, 60)));
+                                                        new Abuse(ipjoins, iplogins, ipcmdduration)));
                     }
                     lastServers = servers;
                 }
