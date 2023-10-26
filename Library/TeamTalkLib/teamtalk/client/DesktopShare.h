@@ -24,18 +24,18 @@
 #ifndef DESKTOPSHARE_H
 #define DESKTOPSHARE_H
 
-#include <map>
-#include <vector>
-#include <set>
-#include <memory>
+#include <teamtalk/PacketLayout.h>
+#include <teamtalk/PacketHelper.h>
+#include <teamtalk/DesktopSession.h>
 
 #include <ace/Task.h>
 #include <ace/Reactor.h>
 #include <ace/Semaphore.h>
 
-#include <teamtalk/PacketLayout.h>
-#include <teamtalk/PacketHelper.h>
-#include <teamtalk/DesktopSession.h>
+#include <map>
+#include <vector>
+#include <set>
+#include <memory>
 
 namespace teamtalk {
 

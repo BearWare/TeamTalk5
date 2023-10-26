@@ -25,7 +25,6 @@
 #define DESKTOPSESSION_H
 
 #include "Common.h"
-#include "PacketLayout.h"
 #include <vector>
 
 #define RGB8_BLOCK_PIXEL_W 120

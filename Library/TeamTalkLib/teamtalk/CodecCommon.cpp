@@ -22,6 +22,8 @@
  */
 
 #include "CodecCommon.h"
+#include "PacketLayout.h"
+
 #include <myace/MyACE.h>
 
 #define SPEEX_NB_MODE 0

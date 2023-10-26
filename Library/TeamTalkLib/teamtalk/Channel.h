@@ -24,12 +24,13 @@
 #if !defined(CHANNEL_H)
 #define CHANNEL_H
 
-#include <ace/SString.h>
-
-#include <myace/MyACE.h>
-#include "ttassert.h"
 #include "Common.h"
 #include "PacketLayout.h"
+#include "ttassert.h"
+
+#include <myace/MyACE.h>
+
+#include <ace/SString.h>
 
 #include <map>
 #include <vector>
