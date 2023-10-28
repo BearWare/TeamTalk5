@@ -128,7 +128,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="219"/>
         <source>&amp;Default</source>
-        <translation>&amp;기본값</translation>
+        <translation>기본값 (&amp;D)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="230"/>
@@ -5179,7 +5179,7 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="1289"/>
         <location filename="../preferences.ui" line="2950"/>
         <source>&amp;Default</source>
-        <translation>&amp;기본값</translation>
+        <translation>기본값 (&amp;D)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1315"/>
@@ -8220,7 +8220,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../uservolume.ui" line="147"/>
         <source>&amp;Default</source>
-        <translation>&amp;기본값</translation>
+        <translation>기본값 (&amp;D)</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="54"/>

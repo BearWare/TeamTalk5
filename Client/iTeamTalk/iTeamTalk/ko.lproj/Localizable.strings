@@ -35,7 +35,7 @@
 "8 KHz" = "8 KHz";
 
 /* serverlist */
-"Access preferences" = "설정 창에 접근";
+"Access preferences" = "환경 설정 접근";
 
 /* server entry
    user detail */
@@ -48,7 +48,7 @@
 "Add new server entry" = "새 서버 항목 추가";
 
 /* preferences */
-"Announce content of text message" = "메시지 내용 알림";
+"Announce content of text message" = "텍스트 메시지 내용 알림";
 
 /* preferences */
 "Announce lost server connection" = "서버와의 연결 끊어짐 알림";
@@ -106,10 +106,10 @@
 "Bjoern D. Rasmussen, contact@bearware.dk" = "Bjoern D. Rasmussen, contact@bearware.dk";
 
 /* Sound Devices */
-"Bluetooth A2DP Playback" = "Bluetooth A2DP Playback";
+"Bluetooth A2DP Playback" = "Bluetooth A2DP 재생";
 
 /* Sound Devices */
-"Bluetooth playback should use Advanced Audio Distribution Profile" = "Bluetooth playback should use Advanced Audio Distribution Profile";
+"Bluetooth playback should use Advanced Audio Distribution Profile" = "블루투스 재생은 고급 오디오 배포 프로필(A2DP)을 사용해야 합니다.;
 
 /* text message type */
 "Broadcast message" = "방송";
@@ -142,25 +142,25 @@
 "Channel Properties" = "채널 속성";
 
 /* preferences */
-"Channel Text Message" = "채널 메시지";
+"Channel Text Message" = "채널 텍스트 메시지";
 
 /* channel list */
-"Channel. %d users" = "채널, %d명의 사용자";
+"Channel. %d users" = "채널, 사용자 %d명";
 
 /* server entry */
 "Check only if this server has enabled BearWare.dk Web Login" = "BearWare.dk 웹 로그인 인증이 가능한 서버에서만 사용 가능한 옵션입니다.";
 
 /* log entry */
-"Command failed: %@" = "Command failed: %@";
+"Command failed: %@" = "명령 실패: %@";
 
 /* create channel */
 "Commands" = "명령";
 
 /* serverlist */
-"Connect to server" = "서버 접속";
+"Connect to server" = "서버 연결";
 
 /* connect to a server */
-"Connect to Server" = "Connect to Server";
+"Connect to Server" = "서버 연결";
 
 /* preferences
    server entry */
@@ -180,7 +180,7 @@
 "Create new channel" = "새 채널 만들기";
 
 /* Sound Input */
-"Default" = "기본";
+"Default" = "기본값";
 
 /* preferences */
 "Default Subscriptions" = "기본 수신";
@@ -190,16 +190,16 @@
 
 /* preferences
    user detail */
-"Desktop" = "데스크톱 공유";
+"Desktop" = "화면 공유";
 
 /* preferences */
 "Display" = "출력";
 
 /* channel list */
-"Double tap and hold to transmit. Triple tap fast to lock transmission." = "말하려면 이중탭한 채로 길게 누르세요. 말하기 활성화 고정을 토글하려면 빠르게 삼중탭하세요.";
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "말하려면 이중탭한 채로 길게 누르세요. 말하기 활성화 고정 상태를 전환하려면 빠르게 삼중탭하세요.";
 
 /* preferences */
-"Double tap to lock TX button" = "이중탭하여 말하기 활성화 토글 잠금";
+"Double tap to lock TX button" = "이중탭하여 말하기 활성화 상태 전환";
 
 /* codec detail */
 "DTX" = "DTX";
@@ -223,7 +223,7 @@
 "Exclusive Mode Toggled" = "단독 모드로 전환";
 
 /* connect to a server */
-"Failed to setup encryption" = "Failed to setup encryption";
+"Failed to setup encryption" = "암호화 설정 실패";
 
 /* preferences */
 "Female" = "여성";
@@ -251,10 +251,10 @@
 "has logged out" = "로그아웃함";
 
 /* preferences */
-"Headset TX Toggle" = "헤드셋으로 말하기 활성화 토글";
+"Headset TX Toggle" = "헤드셋으로 말하기 활성화 상태 전환";
 
 /* hidden channel */
-"Hidden Channel" = "숨김 채널";
+"Hidden Channel" = "숨겨진 채널";
 
 /* server entry */
 "Host address" = "호스트 주소";
@@ -266,16 +266,16 @@
 "Join" = "입장";
 
 /* server entry */
-"Join Channel" = "채널에 입장";
+"Join Channel" = "채널 입장";
 
 /* channel list */
-"Join channel" = "채널에 입장";
+"Join channel" = "채널 입장";
 
 /* preferences */
-"Join Root Channel" = "최상위 채널에 입장";
+"Join Root Channel" = "최상위 채널 입장";
 
 /* preferences */
-"Join root channel after login" = "로그인 시 최상위 채널로 자동 입장";
+"Join root channel after login" = "로그인 시 최상위 채널에 자동으로 입장";
 
 /* log entry */
 "Joined %@" = "%@에 입장함";
@@ -306,24 +306,24 @@
 
 /* preferences
    user detail */
-"Media File" = "미디어 파일 스트리밍";
+"Media File" = "미디어 파일";
 
 /* preferences
    user detail */
-"Media File Volume" = "미디어 파일 스트리밍 음량";
+"Media File Volume" = "미디어 파일 음량";
 
 /* preferences */
 "Media file vs. voice volume" = "미디어 파일 음량 대비 말하기 음량";
 
 /* server entry */
-"Message of the Day" = "새소식";
+"Message of the Day" = "환영사";
 
 /* preferences */
 "Microphone Gain" = "마이크 음량";
 
 /* codec detail
    create channel */
-"Mono" = "Mono";
+"Mono" = "모노";
 
 /* channel list */
 "Move user" = "이동";
@@ -338,7 +338,7 @@
 "Mute" = "음소거";
 
 /* user detail */
-"Mute Media File" = "미디어 파일 스트리밍 음소거";
+"Mute Media File" = "미디어 파일 음소거";
 
 /* user detail */
 "Mute Voice" = "말하기 음소거";
@@ -348,38 +348,38 @@
 "Name" = "이름";
 
 /* preferences */
-"Name displayed in channel list" = "채널 목록에서 출력될 닉네임";
+"Name displayed in channel list" = "채널 목록에서 출력될 이름";
 
 /* Dialog message */
 "New Server" = "새 서버";
 
 /* preferences */
-"Nickname" = "닉네임";
+"Nickname" = "대화명";
 
 /* server entry */
-"Nickname (optional)" = "닉네임 (선택 사항)";
+"Nickname (optional)" = "대화명 (선택 사항)";
 
 /* Dialog message */
 "No" = "아니요";
 
 /* codec detail
    create channel */
-"No Audio" = "오디오 없음";
+"No Audio" = "오디오 사용 안 함";
 
 /* create channel */
-"No Audio Recording" = "오디오 녹음 금지";
+"No Audio Recording" = "소리 녹음 금지";
 
 /* create channel */
-"No Interruptions" = "끊김 없는 말하기 채널";
+"No Interruptions" = "끊김 없는 말하기";
 
 /* channel list */
-"No password" = "패스워드 없음";
+"No password" = "암호 없음";
 
 /* create channel */
 "No Voice Activation" = "말하기 활성화 금지";
 
 /* default nickname */
-"Noname" = "이름 없음";
+"Noname" = "익명";
 
 /* serverlist */
 "Official server" = "공식 서버";
@@ -407,7 +407,7 @@
 "Password" = "암호";
 
 /* channel list */
-"Password protected" = "암호 필요";
+"Password protected" = "암호로 보호됨";
 
 /* create channel */
 "Permanent Channel" = "영구 채널";
@@ -443,7 +443,7 @@
 "Play sound when voice activation is triggered" = "말하기가 감지되면 소리로 알림";
 
 /* preferences */
-"Play sound when voice transmission is toggled" = "말하기 활성화를 토글하면 소리로 알림";
+"Play sound when voice transmission is toggled" = "말하기 활성화 상태가 전환되면 소리로 알림";
 
 /* preferences */
 "Pop up text message when new messages are received" = "새 메시지가 수신되면 팝업으로 알림";
@@ -452,31 +452,31 @@
 "Popularity" = "인원순";
 
 /* serverlist */
-"Preferences" = "설정";
+"Preferences" = "환경 설정";
 
 /* Sound Input */
 "Preferred" = "선호";
 
 /* preferences */
-"Pressing Return-key sends text message" = "리턴 키를 누르면 메시지를 바로 전송함";
+"Pressing Return-key sends text message" = "리턴 키를 누르면 메시지 즉시 보내기";
 
 /* text message type */
 "Private message" = "개인 메시지";
 
 /* preferences */
-"Private Text Message" = "개인 메시지";
+"Private Text Message" = "개인 텍스트 메시지";
 
 /* TTS EVENT */
-"Private text message from %@. %@" = "%@님의 개인 메시지: %@";
+"Private text message from %@. %@" = "%@님의 개인 텍스트 메시지: %@";
 
 /* preferences */
 "Proximity Sensor" = "근접 센서";
 
 /* serverlist */
-"Public server" = "공용 서버";
+"Public server" = "공개 서버";
 
 /* preferences */
-"Push To Talk Lock" = "밀어서 말하기 토글";
+"Push To Talk Lock" = "눌러서 말하기 상태 전환";
 
 /* codec detail */
 "Quality" = "품질";
@@ -488,7 +488,7 @@
 "Receive channel messages by default" = "채널 메시지 수신";
 
 /* preferences */
-"Receive desktop sessions by default" = "데스크톱 공유 세션 수신";
+"Receive desktop sessions by default" = "화면 공유 세션 수신";
 
 /* preferences */
 "Receive media file streams by default" = "송출 중인 미디어 파일 수신";
@@ -536,7 +536,7 @@
 "Server Status" = "서버 상태";
 
 /* preferences */
-"Show in Server List" = "서버 목록에 보이기";
+"Show in Server List" = "서버 목록에 표시";
 
 /* preferences */
 "Show male or female icon" = "성별 이모티콘 보기";
@@ -548,7 +548,7 @@
 "Show Usernames" = "사용자 이름 보기";
 
 /* preferences */
-"Show usernames instead of nicknames" = "닉네임을 대신하여 사용자 이름 출력";
+"Show usernames instead of nicknames" = "대화명 대신 사용자 이름 표시";
 
 /* channel list */
 "Silent" = "조용함";
@@ -583,7 +583,7 @@
 
 /* codec detail
    create channel */
-"Stereo" = "Stereo";
+"Stereo" = "스테레오";
 
 /* user detail */
 "Subscriptions" = "수신";
@@ -604,10 +604,10 @@
 "The volume of the speaking voice is %.1f" = "현재 말하기 음량 %.1f";
 
 /* channel list */
-"Toggle to enable/disable transmission" = "말하기 활성화 토글";
+"Toggle to enable/disable transmission" = "말하기 활성화 상태 전환";
 
 /* preferences */
-"Toggle voice transmission using headset" = "헤드셋을 이용하여 말하기 활성화 토글 가능";
+"Toggle voice transmission using headset" = "헤드셋을 이용하여 말하기 활성화 상태 전환 가능";
 
 /* create channel */
 "Topic" = "주제";
@@ -641,13 +641,13 @@
 "Use echo cancellation and automatic gain control" = "자동으로 반향을 제거하고 말하기 음량을 조절함";
 
 /* preferences */
-"Use iPhone's speaker instead of earpiece" = "이어피스를 대신하여 iPhone 스피커 사용";
+"Use iPhone's speaker instead of earpiece" = "수화기 대신 iPhone 스피커 사용";
 
 /* channel list */
 "User" = "사용자";
 
 /* channel list */
-"User female" = "사용자 여성";
+"User female" = "사용자, 여성";
 
 /* preferences */
 "User Joins Channel" = "사용자가 채널에 입장함";
@@ -675,7 +675,7 @@
 
 /* preferences
    user detail */
-"User Messages" = "사용자의 메시지";
+"User Messages" = "사용자 메시지";
 
 /* server entry
    user detail
@@ -689,7 +689,7 @@
 "Users Online" = "접속자";
 
 /* serverlist */
-"Users: %d, Country: %@" = "접속자: %1$d, 국가: %2$@";
+"Users: %d, Country: %@" = "사용자 %1$d명, 국가: %2$@";
 
 /* codec detail */
 "Variable Bitrate" = "가변 비트레이트";
@@ -711,7 +711,7 @@
 "Voice Activation Level" = "말하기 활성화 수준";
 
 /* preferences */
-"Voice Activation Level: %d. Recommended: %d" = "현재 말하기 활성화 수준: %d. 권장값: %d";
+"Voice Activation Level: %d. Recommended: %d" = "말하기 활성화 수준: %d. 권장값: %d";
 
 /* preferences */
 "Voice Activation Level: Disabled" = "말하기 활성화 수준: 꺼짐";
@@ -723,7 +723,7 @@
 "Voice Preprocessing" = "음성 전처리기";
 
 /* preferences */
-"Voice Transmission Toggled" = "말하기 활성화 토글됨";
+"Voice Transmission Toggled" = "말하기 활성화 상태 전환됨";
 
 /* user detail */
 "Voice Volume" = "말하기 음량";
@@ -745,16 +745,16 @@
 "Yes" = "예";
 
 /* Dialog */
-"You have been kicked from channel" = "채널에서 쫓겨남";
+"You have been kicked from channel" = "채널에서 추방당함";
 
 /* Dialog */
-"You have been kicked from channel by %@" = "%@에 의해 채널에서 쫓겨남";
+"You have been kicked from channel by %@" = "%@에 의해 채널에서 추방당함";
 
 /* Dialog */
-"You have been kicked from server" = "서버에서 쫓겨남";
+"You have been kicked from server" = "서버에서 추방당함";
 
 /* Dialog */
-"You have been kicked from server by %@" = "%@에 의해 서버에서 쫓겨남";
+"You have been kicked from server by %@" = "%@에 의해 서버에서 추방당함";
 
 /* speech */
 "You have selected %@" = "%@ 선택됨";
