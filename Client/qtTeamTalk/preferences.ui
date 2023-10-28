@@ -448,6 +448,11 @@
                  <string>Show emojis and text for channel/user state</string>
                 </property>
                </widget>
+               <widget class="QCheckBox" name="animChkBox">
+                <property name="text">
+                 <string>Disable all animations</string>
+                </property>
+               </widget>
               </item>
               <item>
                <widget class="QCheckBox" name="ServnameChkBox">

@@ -751,11 +751,14 @@ void ChannelsTree::setChannelTransmitUsers(const Channel& chan, QTreeWidgetItem*
     //set speaker or webcam icon
     if (chan.nChannelID == TT_GetMyChannelID(ttInst))
     {
-        item->setIcon(COLUMN_CHANMSG, QIcon(QString::fromUtf8(":/images/images/message_blue.png")));
-        item->setIcon(COLUMN_VOICE, QIcon(QString::fromUtf8(":/images/images/speaker.png")));
-        item->setIcon(COLUMN_VIDEO, QIcon(QString::fromUtf8(":/images/images/webcam.png")));
-        item->setIcon(COLUMN_DESKTOP, QIcon(QString::fromUtf8(":/images/images/desktoptx.png")));
-        item->setIcon(COLUMN_MEDIAFILE, QIcon(QString::fromUtf8(":/images/images/streammedia.png")));
+        if (anim)
+        {
+            item->setIcon(COLUMN_CHANMSG, QIcon(QString::fromUtf8(":/images/images/message_blue.png")));
+            item->setIcon(COLUMN_VOICE, QIcon(QString::fromUtf8(":/images/images/speaker.png")));
+            item->setIcon(COLUMN_VIDEO, QIcon(QString::fromUtf8(":/images/images/webcam.png")));
+            item->setIcon(COLUMN_DESKTOP, QIcon(QString::fromUtf8(":/images/images/desktoptx.png")));
+            item->setIcon(COLUMN_MEDIAFILE, QIcon(QString::fromUtf8(":/images/images/streammedia.png")));
+        }
 
         bool opadmin = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), chan.nChannelID);
         opadmin |= (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN) == USERTYPE_ADMIN;
@@ -882,40 +885,43 @@ void ChannelsTree::setUserTransmitUser(const User& user, const Channel& chan, QT
             if (!item->data(COLUMN_MEDIAFILE, Qt::CheckStateRole).isNull())
                 item->setData(COLUMN_MEDIAFILE, Qt::CheckStateRole, QVariant());
 
-            if (txchanmsg || isFreeForAll(STREAMTYPE_CHANNELMSG, chan.transmitUsers))
-                item->setIcon(COLUMN_CHANMSG,
-                              QIcon(QString::fromUtf8(":/images/images/oksign.png")));
-            else
-                item->setIcon(COLUMN_CHANMSG,
-                              QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
+            if (anim)
+            {
+                if (txchanmsg || isFreeForAll(STREAMTYPE_CHANNELMSG, chan.transmitUsers))
+                    item->setIcon(COLUMN_CHANMSG,
+                                  QIcon(QString::fromUtf8(":/images/images/oksign.png")));
+                else
+                    item->setIcon(COLUMN_CHANMSG,
+                                  QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
 
-            if (txvoice || isFreeForAll(STREAMTYPE_VOICE, chan.transmitUsers))
-                item->setIcon(COLUMN_VOICE,
-                              QIcon(QString::fromUtf8(":/images/images/oksign.png")));
-            else
-                item->setIcon(COLUMN_VOICE,
-                              QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
+                if (txvoice || isFreeForAll(STREAMTYPE_VOICE, chan.transmitUsers))
+                    item->setIcon(COLUMN_VOICE,
+                                  QIcon(QString::fromUtf8(":/images/images/oksign.png")));
+                else
+                    item->setIcon(COLUMN_VOICE,
+                                  QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
 
-            if (txvideo || isFreeForAll(STREAMTYPE_VIDEOCAPTURE, chan.transmitUsers))
-                item->setIcon(COLUMN_VIDEO,
-                              QIcon(QString::fromUtf8(":/images/images/oksign.png")));
-            else
-                item->setIcon(COLUMN_VIDEO,
-                              QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
+                if (txvideo || isFreeForAll(STREAMTYPE_VIDEOCAPTURE, chan.transmitUsers))
+                    item->setIcon(COLUMN_VIDEO,
+                                  QIcon(QString::fromUtf8(":/images/images/oksign.png")));
+                else
+                    item->setIcon(COLUMN_VIDEO,
+                                  QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
 
-            if (txdesktop || isFreeForAll(STREAMTYPE_DESKTOP, chan.transmitUsers))
-                item->setIcon(COLUMN_DESKTOP,
-                              QIcon(QString::fromUtf8(":/images/images/oksign.png")));
-            else
-                item->setIcon(COLUMN_DESKTOP,
-                              QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
+                if (txdesktop || isFreeForAll(STREAMTYPE_DESKTOP, chan.transmitUsers))
+                    item->setIcon(COLUMN_DESKTOP,
+                                  QIcon(QString::fromUtf8(":/images/images/oksign.png")));
+                else
+                    item->setIcon(COLUMN_DESKTOP,
+                                  QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
 
-            if (txmediafile || isFreeForAll(STREAMTYPE_MEDIAFILE, chan.transmitUsers))
-                item->setIcon(COLUMN_MEDIAFILE,
-                              QIcon(QString::fromUtf8(":/images/images/oksign.png")));
-            else
-                item->setIcon(COLUMN_MEDIAFILE,
-                              QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
+                if (txmediafile || isFreeForAll(STREAMTYPE_MEDIAFILE, chan.transmitUsers))
+                    item->setIcon(COLUMN_MEDIAFILE,
+                                  QIcon(QString::fromUtf8(":/images/images/oksign.png")));
+                else
+                    item->setIcon(COLUMN_MEDIAFILE,
+                                  QIcon(QString::fromUtf8(":/images/images/stopsign.png")));
+            }
         }
     }
     else //make sure columns COLUMN_VOICE and COLUMN_VIDEO are empty
@@ -1071,6 +1077,7 @@ void ChannelsTree::updateChannelItem(int channelid)
 void ChannelsTree::updateChannelItem(QTreeWidgetItem* item)
 {
     bool emoji = ttSettings->value(SETTINGS_DISPLAY_EMOJI, SETTINGS_DISPLAY_EMOJI_DEFAULT).toBool();
+    bool anim = ttSettings->value(SETTINGS_DISPLAY_ANIM, SETTINGS_DISPLAY_ANIM_DEFAULT).toBool();
     int maxstrlen = ttSettings->value(SETTINGS_DISPLAY_MAX_STRING,
                                       SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt();
     int channelid = (item->data(COLUMN_ITEM, Qt::UserRole).toInt() & ID_MASK);
@@ -1114,7 +1121,8 @@ void ChannelsTree::updateChannelItem(QTreeWidgetItem* item)
     if (emoji && chan.bPassword)
         channame += " - 🔒";
     item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
-    item->setData(COLUMN_ITEM, Qt::DecorationRole, getChannelIcon(chan, item));
+    if (anim)
+        item->setData(COLUMN_ITEM, Qt::DecorationRole, getChannelIcon(chan, item));
     setChannelTransmitUsers(chan, item);
 #if QT_VERSION < QT_VERSION_CHECK(6,4,0)
     item->setData(COLUMN_ITEM, Qt::AccessibleTextRole, QString("%1: %2").arg(channame).arg((item->isExpanded()? tr("Expanded"):tr("Collapsed"))));
@@ -1194,7 +1202,8 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
         itemtext += "...";
     }
     item->setData(COLUMN_ITEM, Qt::DisplayRole, itemtext);
-    item->setData(COLUMN_ITEM, Qt::DecorationRole, getUserIcon(user, chan, item));
+    if (anim)
+        item->setData(COLUMN_ITEM, Qt::DecorationRole, getUserIcon(user, chan, item));
     setUserTransmitUser(user, chan, item);
 
     QBrush bgColor = talking ? QBrush(COLOR_TALK) : QPalette().brush(QPalette::Base);
