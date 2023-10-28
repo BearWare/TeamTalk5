@@ -748,6 +748,7 @@ QPixmap ChannelsTree::getUserIcon(const User& user, const Channel& chan, const Q
 
 void ChannelsTree::setChannelTransmitUsers(const Channel& chan, QTreeWidgetItem* item)
 {
+    bool anim = ttSettings->value(SETTINGS_DISPLAY_ANIM, SETTINGS_DISPLAY_ANIM_DEFAULT).toBool();
     //set speaker or webcam icon
     if (chan.nChannelID == TT_GetMyChannelID(ttInst))
     {
@@ -837,6 +838,7 @@ void ChannelsTree::setChannelTransmitUsers(const Channel& chan, QTreeWidgetItem*
 
 void ChannelsTree::setUserTransmitUser(const User& user, const Channel& chan, QTreeWidgetItem* item)
 {
+    bool anim = ttSettings->value(SETTINGS_DISPLAY_ANIM, SETTINGS_DISPLAY_ANIM_DEFAULT).toBool();
     //set checkboxes if it's a CHANNEL_CLASSROOM
     if (chan.nChannelID == TT_GetMyChannelID(ttInst))
     {
@@ -1133,6 +1135,7 @@ void ChannelsTree::updateChannelItem(QTreeWidgetItem* item)
 void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
 {
     bool emoji = ttSettings->value(SETTINGS_DISPLAY_EMOJI, SETTINGS_DISPLAY_EMOJI_DEFAULT).toBool();
+    bool anim = ttSettings->value(SETTINGS_DISPLAY_ANIM, SETTINGS_DISPLAY_ANIM_DEFAULT).toBool();
     int maxstrlen = ttSettings->value(SETTINGS_DISPLAY_MAX_STRING,
                                       SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt();
     auto ite = m_users.find((item->data(COLUMN_ITEM, Qt::UserRole).toInt() & ID_MASK));
