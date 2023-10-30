@@ -303,7 +303,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="58"/>
         <source>Creator</source>
-        <translation type="unfinished"></translation>
+        <translation>Creator</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="59"/>
@@ -3676,12 +3676,12 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5975"/>
         <source>Ban IP-address</source>
-        <translation type="unfinished">Заблокировать IP-адрес</translation>
+        <translation>Заблокировать IP-адрес</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5975"/>
         <source>IP-address (&apos;/&apos; for subnet, e.g. 192.168.0.0/16)</source>
-        <translation type="unfinished"></translation>
+        <translation>IP-адрес (&apos;/&apos; для подсети, например 192.168.0.0/16)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7300"/>
