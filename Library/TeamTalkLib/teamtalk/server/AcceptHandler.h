@@ -24,11 +24,11 @@
 #if !defined(ACCEPTHANDLER_H)
 #define ACCEPTHANDLER_H
 
+#include <teamtalk/StreamHandler.h>
+
 #include <ace/Acceptor.h>
 #include <ace/SOCK_Stream.h>
 #include <ace/SOCK_Acceptor.h>
-
-#include <teamtalk/StreamHandler.h>
 
 #if defined(ENABLE_ENCRYPTION)
 #include <ace/SSL/SSL_SOCK_Stream.h>
