@@ -68,6 +68,7 @@ private:
     void slotUnbanUser();
     void slotBanUser();
     void slotNewBan();
+    void banSelectionChanged(const QModelIndex &selected, const QModelIndex &deselected);
 };
 
 #endif

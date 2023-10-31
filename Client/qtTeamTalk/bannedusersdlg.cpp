@@ -207,6 +207,8 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
     connect(ui.unbannedTreeView, &QTreeView::doubleClicked, this, &BannedUsersDlg::slotBanUser);
     connect(ui.banEdit, &QLineEdit::textEdited, banfunc);
     connect(ui.bantypeBox, &QComboBox::currentTextChanged, banfunc);
+    connect(ui.bannedTreeView->selectionModel(), &QItemSelectionModel::currentChanged,
+            this, &BannedUsersDlg::banSelectionChanged);
 
     ui.bantypeBox->addItem(tr("Ban IP-address"), BanTypes(BANTYPE_IPADDR));
     ui.bantypeBox->addItem(tr("Ban Username"), BanTypes(BANTYPE_USERNAME));
@@ -294,5 +296,21 @@ void BannedUsersDlg::slotNewBan()
     if(TT_DoBan(ttInst, &ban) > 0)
     {
         m_bannedmodel->addBannedUser(ban, true);
+    }
+}
+
+void BannedUsersDlg::banSelectionChanged(const QModelIndex &selected, const QModelIndex &/*deselected*/)
+{
+    auto index = m_bannedproxy->mapToSource(selected);
+    const auto& ban = m_bannedmodel->getUsers()[index.row()];
+    if ((ui.bantypeBox->currentData().toInt() & BANTYPE_IPADDR) == BANTYPE_IPADDR &&
+        (ban.uBanTypes & BANTYPE_IPADDR) == BANTYPE_IPADDR)
+    {
+        ui.banEdit->setText(_Q(ban.szIPAddress));
+    }
+    else if ((ui.bantypeBox->currentData().toInt() & BANTYPE_USERNAME) == BANTYPE_USERNAME &&
+             (ban.uBanTypes & BANTYPE_USERNAME) == BANTYPE_USERNAME)
+    {
+        ui.banEdit->setText(_Q(ban.szUsername));
     }
 }
