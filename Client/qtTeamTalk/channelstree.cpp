@@ -339,6 +339,7 @@ void ChannelsTree::updateAllItems()
 
 void ChannelsTree::updateUserStatistics()
 {
+    bool anim = ttSettings->value(SETTINGS_DISPLAY_ANIM, SETTINGS_DISPLAY_ANIM_DEFAULT).toBool();
     UserStatistics stats;
     QTreeWidgetItem* userItem;
     statistics_t::iterator ii = m_stats.begin();
@@ -365,15 +366,18 @@ void ChannelsTree::updateUserStatistics()
         if(userItem)
         {
             bool update_item = false;
-            if(audloss_pct >= .1f || vidloss_pct >= .1f)
+            if (anim)
             {
-                if(userItem->background(COLUMN_ITEM) != COLOR_LOSSY)
-                    userItem->setBackground(COLUMN_ITEM, COLOR_LOSSY);
-                else
-                    update_item = true;
-            }
+                if(audloss_pct >= .1f || vidloss_pct >= .1f)
+                {
+                    if(userItem->background(COLUMN_ITEM) != COLOR_LOSSY)
+                        userItem->setBackground(COLUMN_ITEM, COLOR_LOSSY);
+                    else
+                        update_item = true;
+                }
             else if(userItem->background(COLUMN_ITEM) == COLOR_LOSSY)
                 update_item = true;
+            }
 
             if(vidrecv)
             {
@@ -1209,13 +1213,16 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
         item->setData(COLUMN_ITEM, Qt::DecorationRole, getUserIcon(user, chan, item));
     setUserTransmitUser(user, chan, item);
 
-    QBrush bgColor = talking ? QBrush(COLOR_TALK) : QPalette().brush(QPalette::Base);
-    if (!talking && user.nUserID == m_last_talker_id &&
-        ttSettings->value(SETTINGS_DISPLAY_LASTTALK, SETTINGS_DISPLAY_LASTTALK_DEFAULT).toBool())
+    if (anim)
     {
-        bgColor = QBrush(COLOR_LASTTALK);
+        QBrush bgColor = talking ? QBrush(COLOR_TALK) : QPalette().brush(QPalette::Base);
+        if (!talking && user.nUserID == m_last_talker_id &&
+            ttSettings->value(SETTINGS_DISPLAY_LASTTALK, SETTINGS_DISPLAY_LASTTALK_DEFAULT).toBool())
+        {
+            bgColor = QBrush(COLOR_LASTTALK);
+        }
+        item->setBackground(COLUMN_ITEM, bgColor);
     }
-    item->setBackground(COLUMN_ITEM, bgColor);
 }
 
 void ChannelsTree::slotUpdateTreeWidgetItem(QTreeWidgetItem* item)
