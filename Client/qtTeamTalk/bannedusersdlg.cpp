@@ -21,6 +21,7 @@
 #include "utilui.h"
 
 #include <QPushButton>
+#include <set>
 
 extern QSettings* ttSettings;
 
@@ -127,7 +128,7 @@ QVariant BannedUsersModel::data ( const QModelIndex & index, int role /*= Qt::Di
 QModelIndex BannedUsersModel::index ( int row, int column, const QModelIndex & parent /*= QModelIndex()*/ ) const
 {
     if(!parent.isValid() && row<m_users.size())
-        return createIndex(row, column);
+        return createIndex(row, column, row);
     return QModelIndex();
 }
 
@@ -219,6 +220,11 @@ BannedUsersDlg::~BannedUsersDlg()
     ttSettings->setValue(SETTINGS_DISPLAY_BANNEDUSERSWINDOWPOS, saveGeometry());
 }
 
+void BannedUsersDlg::cmdProcessing(int cmdid, bool active)
+{
+
+}
+
 void BannedUsersDlg::slotClose()
 {
     bannedusers_t users = m_unbannedmodel->getUsers();
@@ -228,20 +234,46 @@ void BannedUsersDlg::slotClose()
 
 void BannedUsersDlg::slotUnbanUser()
 {
-    auto index = m_bannedproxy->mapToSource(ui.bannedTreeView->currentIndex());
-    if (!index.isValid())
-        return;
-    m_unbannedmodel->addBannedUser(m_bannedmodel->getUsers()[index.row()], true);
-    m_bannedmodel->delBannedUser(index.row());
+    QItemSelectionModel* selModel = ui.bannedTreeView->selectionModel();
+    QModelIndexList indexes = selModel->selectedRows();
+
+    RestoreItemData r(ui.bannedTreeView, m_bannedproxy);
+
+    std::set<int> unbanlist;
+    for (const auto& ii : indexes)
+    {
+        auto index = m_bannedproxy->mapToSource(ii);
+        Q_ASSERT(index.isValid());
+        m_unbannedmodel->addBannedUser(m_bannedmodel->getUsers()[index.row()], true);
+        unbanlist.insert(index.row());
+    }
+
+    for (auto i=unbanlist.rbegin();i!=unbanlist.rend();++i)
+    {
+        m_bannedmodel->delBannedUser(*i);
+    }
 }
 
 void BannedUsersDlg::slotBanUser()
 {
-    int index = m_unbannedproxy->mapToSource(ui.unbannedTreeView->currentIndex()).row();
-    if(index<0)
-        return;
-    m_bannedmodel->addBannedUser(m_unbannedmodel->getUsers()[index], true);
-    m_unbannedmodel->delBannedUser(index);
+    QItemSelectionModel* selModel = ui.unbannedTreeView->selectionModel();
+    QModelIndexList indexes = selModel->selectedRows();
+
+    RestoreItemData r(ui.unbannedTreeView, m_unbannedproxy);
+
+    std::set<int> banlist;
+    for (const auto& ii : indexes)
+    {
+        auto index = m_unbannedproxy->mapToSource(ii);
+        Q_ASSERT(index.isValid());
+        m_bannedmodel->addBannedUser(m_unbannedmodel->getUsers()[index.row()], true);
+        banlist.insert(index.row());
+    }
+
+    for (auto i=banlist.rbegin();i!=banlist.rend();++i)
+    {
+        m_unbannedmodel->delBannedUser(*i);
+    }
 }
 
 void BannedUsersDlg::slotNewBan()
