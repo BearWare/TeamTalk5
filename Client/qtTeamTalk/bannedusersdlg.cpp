@@ -224,7 +224,18 @@ BannedUsersDlg::~BannedUsersDlg()
 
 void BannedUsersDlg::cmdProcessing(int cmdid, bool active)
 {
+    if (m_cmdid_active == cmdid && !active)
+    {
+        ui.newbanBtn->setEnabled(true);
+        m_cmdid_active = 0;
+    }
+}
 
+void BannedUsersDlg::keyPressEvent(QKeyEvent *e)
+{
+    if ((e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) && ui.banEdit->hasFocus())
+        slotNewBan();
+    else QDialog::keyPressEvent(e);
 }
 
 void BannedUsersDlg::slotClose()
@@ -293,8 +304,10 @@ void BannedUsersDlg::slotNewBan()
         COPY_TTSTR(ban.szUsername, ui.banEdit->text());
     ui.banEdit->setText("");
 
-    if(TT_DoBan(ttInst, &ban) > 0)
+    m_cmdid_active = TT_DoBan(ttInst, &ban);
+    if (m_cmdid_active > 0)
     {
+        ui.newbanBtn->setEnabled(false);
         m_bannedmodel->addBannedUser(ban, true);
     }
 }

@@ -13,6 +13,7 @@ Default Qt Client
 - Username of user creating a ban is visible in "Banned Users" dialog
 - Multi selection in Banned Users dialog
 - Username or IP-address of current selection is shown in text box in "Banned Users" dialog
+- Pressing Enter in text box of "Banned Users" dialog will add new ban
 - Kick/Ban From Server now in context menu of Online Users dialog
 - Client version shown in View User Information dialog
 - Fixed state of "Close when completed" checkbox on "Transfer file" dialog
