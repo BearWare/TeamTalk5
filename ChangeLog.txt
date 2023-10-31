@@ -16,7 +16,7 @@ Default Qt Client
 - Fixed state of "Close when completed" checkbox on "Transfer file" dialog
 - Fixed files count not announced for non admin users when pressing CTRL+G on non current channel
 - Fixed users still showning channel in Online Users dialog
-- Option to disable animations
+- Option to disable visual effects
 Android Client
 -
 iOS Client
