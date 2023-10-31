@@ -452,7 +452,7 @@
               <item>
                <widget class="QCheckBox" name="animChkBox">
                 <property name="text">
-                 <string>Disable all animations</string>
+                 <string>Disable visual effects</string>
                 </property>
                </widget>
               </item>
