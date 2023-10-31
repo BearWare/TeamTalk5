@@ -20,7 +20,7 @@
 
 #include "ui_bannedusers.h"
 
-#include "common.h"
+#include "utiltt.h"
 
 #include <QAbstractItemModel>
 #include <QVector>
@@ -56,6 +56,7 @@ public:
     BannedUsersDlg(const bannedusers_t& bannedusers, const QString& chanpath, QWidget * parent = 0);
     ~BannedUsersDlg();
 
+    void cmdProcessing(int cmdid, bool active);
 private:
     Ui::BannedUsersDlg ui;
     BannedUsersModel* m_bannedmodel, *m_unbannedmodel;

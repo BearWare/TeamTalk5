@@ -486,6 +486,7 @@ signals:
     void filetransferUpdate(const FileTransfer& transfer);
     void mediaStreamUpdate(const MediaFileInfo& mfi);
     void mediaPlaybackUpdate(int sessionID, const MediaFileInfo& mfi);
+    void cmdProcessing(int cmdid, bool active);
     void cmdSuccess(int cmdid);
     void cmdError(int errorno, int cmdid);
     /* End - CLIENTEVENT_* based events */

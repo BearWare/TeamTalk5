@@ -11,7 +11,8 @@ Default Qt Client
 - Support for 320 KBit MP3 recording (Windows only)
 - Support for banning IP-address as subnet, e.g. 192.168.0.0/24 or 2a02:09b0:402b:eed8::/63
 - Username of user creating a ban is visible in "Banned Users" dialog
-- Kick/Ban From Server menu option in Online Users dialog
+- Multi selection in Banned Users dialog
+- Kick/Ban From Server now in context menu of Online Users dialog
 - Client version shown in View User Information dialog
 - Fixed state of "Close when completed" checkbox on "Transfer file" dialog
 - Fixed files count not announced for non admin users when pressing CTRL+G on non current channel

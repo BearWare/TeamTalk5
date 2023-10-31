@@ -32,6 +32,9 @@
             <pointsize>8</pointsize>
            </font>
           </property>
+          <property name="accessibleName">
+           <string>Banned users</string>
+          </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -40,6 +43,9 @@
           </property>
           <property name="alternatingRowColors">
            <bool>true</bool>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::ExtendedSelection</enum>
           </property>
           <property name="selectionBehavior">
            <enum>QAbstractItemView::SelectRows</enum>
@@ -55,9 +61,6 @@
           </property>
           <property name="expandsOnDoubleClick">
            <bool>false</bool>
-          </property>
-          <property name="accessibleName">
-           <string>Banned users</string>
           </property>
          </widget>
         </item>
@@ -155,8 +158,14 @@
             <pointsize>8</pointsize>
            </font>
           </property>
+          <property name="accessibleName">
+           <string>Unbanned users</string>
+          </property>
           <property name="alternatingRowColors">
            <bool>true</bool>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::ExtendedSelection</enum>
           </property>
           <property name="selectionBehavior">
            <enum>QAbstractItemView::SelectRows</enum>
@@ -172,9 +181,6 @@
           </property>
           <property name="expandsOnDoubleClick">
            <bool>false</bool>
-          </property>
-          <property name="accessibleName">
-           <string>Unbanned users</string>
           </property>
          </widget>
         </item>
