@@ -375,8 +375,8 @@ void ChannelsTree::updateUserStatistics()
                     else
                         update_item = true;
                 }
-            else if(userItem->background(COLUMN_ITEM) == COLOR_LOSSY)
-                update_item = true;
+                else if(userItem->background(COLUMN_ITEM) == COLOR_LOSSY)
+                    update_item = true;
             }
 
             if(vidrecv)
@@ -756,14 +756,11 @@ void ChannelsTree::setChannelTransmitUsers(const Channel& chan, QTreeWidgetItem*
     //set speaker or webcam icon
     if (chan.nChannelID == TT_GetMyChannelID(ttInst))
     {
-        if (anim)
-        {
-            item->setIcon(COLUMN_CHANMSG, QIcon(QString::fromUtf8(":/images/images/message_blue.png")));
-            item->setIcon(COLUMN_VOICE, QIcon(QString::fromUtf8(":/images/images/speaker.png")));
-            item->setIcon(COLUMN_VIDEO, QIcon(QString::fromUtf8(":/images/images/webcam.png")));
-            item->setIcon(COLUMN_DESKTOP, QIcon(QString::fromUtf8(":/images/images/desktoptx.png")));
-            item->setIcon(COLUMN_MEDIAFILE, QIcon(QString::fromUtf8(":/images/images/streammedia.png")));
-        }
+        item->setIcon(COLUMN_CHANMSG, anim ? QIcon(QString::fromUtf8(":/images/images/message_blue.png")) : QIcon());
+        item->setIcon(COLUMN_VOICE, anim ? QIcon(QString::fromUtf8(":/images/images/speaker.png")) : QIcon());
+        item->setIcon(COLUMN_VIDEO, anim ? QIcon(QString::fromUtf8(":/images/images/webcam.png")) : QIcon());
+        item->setIcon(COLUMN_DESKTOP, anim ? QIcon(QString::fromUtf8(":/images/images/desktoptx.png")) : QIcon());
+        item->setIcon(COLUMN_MEDIAFILE, anim ? QIcon(QString::fromUtf8(":/images/images/streammedia.png")) : QIcon());
 
         bool opadmin = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), chan.nChannelID);
         opadmin |= (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN) == USERTYPE_ADMIN;
