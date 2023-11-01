@@ -20,7 +20,7 @@
 
 #include "ui_bannedusers.h"
 
-#include "common.h"
+#include "utiltt.h"
 
 #include <QAbstractItemModel>
 #include <QVector>
@@ -56,17 +56,22 @@ public:
     BannedUsersDlg(const bannedusers_t& bannedusers, const QString& chanpath, QWidget * parent = 0);
     ~BannedUsersDlg();
 
+    void cmdProcessing(int cmdid, bool active);
+protected:
+    void keyPressEvent(QKeyEvent *e) override;
 private:
     Ui::BannedUsersDlg ui;
     BannedUsersModel* m_bannedmodel, *m_unbannedmodel;
     QSortFilterProxyModel* m_bannedproxy, *m_unbannedproxy;
     QString m_chanpath;
+    int m_cmdid_active = 0;
 
 private:
     void slotClose();
     void slotUnbanUser();
     void slotBanUser();
     void slotNewBan();
+    void banSelectionChanged(const QModelIndex &selected, const QModelIndex &deselected);
 };
 
 #endif
