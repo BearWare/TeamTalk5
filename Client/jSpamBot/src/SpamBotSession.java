@@ -357,6 +357,8 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         if (!cleanUser(user)) {
             ttclient.doKickUser(user.nUserID, 0);
             System.out.printf("Kicking %s from %s:%d\n", user.szNickname, server.ipaddr, server.tcpport);
+
+            abuse.incKicks(user.szIPAddress);
         }
 
         if (user.nChannelID == ttclient.getMyChannelID()) {
@@ -382,11 +384,17 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         if (!cleanUser(user)) {
             ttclient.doKickUser(user.nUserID, 0);
             System.out.printf("Kicking %s from %s:%d\n", user.szNickname, server.ipaddr, server.tcpport);
+
+            abuse.incKicks(user.szIPAddress);
         }
 
         abuse.incLogin(user.szIPAddress);
         if (abuse.checkLoginAbuse(user.szIPAddress)) {
             System.out.printf("Banning %s from %s:%d due to login abuse\n", user.szNickname, server.ipaddr, server.tcpport);
+            abuseBan(user);
+        }
+        if (abuse.checkKickAbuse(user.szIPAddress)) {
+            System.out.printf("Banning %s from %s:%d due to badwords abuse\n", user.szNickname, server.ipaddr, server.tcpport);
             abuseBan(user);
         }
     }
@@ -401,6 +409,10 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         if (!cleanTextMessage(textmsg)) {
             ttclient.doKickUser(textmsg.nFromUserID, 0);
             System.out.printf("Kicking #%d from %s:%d\n", textmsg.nFromUserID, server.ipaddr, server.tcpport);
+            User user = users.get(textmsg.nFromUserID);
+            if (user != null) {
+                abuse.incKicks(user.szIPAddress);
+            }
         }
     }
 
@@ -410,6 +422,7 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         if (!cleanUser(user)) {
             ttclient.doKickUser(user.nUserID, 0);
             System.out.printf("Kicking %s from %s:%d\n", user.szNickname, server.ipaddr, server.tcpport);
+            abuse.incKicks(user.szIPAddress);
         }
     }
 
