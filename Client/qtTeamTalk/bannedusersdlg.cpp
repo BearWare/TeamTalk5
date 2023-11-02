@@ -21,6 +21,7 @@
 #include "utilui.h"
 
 #include <QPushButton>
+#include <set>
 
 extern QSettings* ttSettings;
 
@@ -127,7 +128,7 @@ QVariant BannedUsersModel::data ( const QModelIndex & index, int role /*= Qt::Di
 QModelIndex BannedUsersModel::index ( int row, int column, const QModelIndex & parent /*= QModelIndex()*/ ) const
 {
     if(!parent.isValid() && row<m_users.size())
-        return createIndex(row, column);
+        return createIndex(row, column, row);
     return QModelIndex();
 }
 
@@ -206,6 +207,8 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
     connect(ui.unbannedTreeView, &QTreeView::doubleClicked, this, &BannedUsersDlg::slotBanUser);
     connect(ui.banEdit, &QLineEdit::textEdited, banfunc);
     connect(ui.bantypeBox, &QComboBox::currentTextChanged, banfunc);
+    connect(ui.bannedTreeView->selectionModel(), &QItemSelectionModel::currentChanged,
+            this, &BannedUsersDlg::banSelectionChanged);
 
     ui.bantypeBox->addItem(tr("Ban IP-address"), BanTypes(BANTYPE_IPADDR));
     ui.bantypeBox->addItem(tr("Ban Username"), BanTypes(BANTYPE_USERNAME));
@@ -219,6 +222,22 @@ BannedUsersDlg::~BannedUsersDlg()
     ttSettings->setValue(SETTINGS_DISPLAY_BANNEDUSERSWINDOWPOS, saveGeometry());
 }
 
+void BannedUsersDlg::cmdProcessing(int cmdid, bool active)
+{
+    if (m_cmdid_active == cmdid && !active)
+    {
+        ui.newbanBtn->setEnabled(true);
+        m_cmdid_active = 0;
+    }
+}
+
+void BannedUsersDlg::keyPressEvent(QKeyEvent *e)
+{
+    if ((e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) && ui.banEdit->hasFocus())
+        slotNewBan();
+    else QDialog::keyPressEvent(e);
+}
+
 void BannedUsersDlg::slotClose()
 {
     bannedusers_t users = m_unbannedmodel->getUsers();
@@ -228,20 +247,46 @@ void BannedUsersDlg::slotClose()
 
 void BannedUsersDlg::slotUnbanUser()
 {
-    auto index = m_bannedproxy->mapToSource(ui.bannedTreeView->currentIndex());
-    if (!index.isValid())
-        return;
-    m_unbannedmodel->addBannedUser(m_bannedmodel->getUsers()[index.row()], true);
-    m_bannedmodel->delBannedUser(index.row());
+    QItemSelectionModel* selModel = ui.bannedTreeView->selectionModel();
+    QModelIndexList indexes = selModel->selectedRows();
+
+    RestoreItemData r(ui.bannedTreeView, m_bannedproxy);
+
+    std::set<int> unbanlist;
+    for (const auto& ii : indexes)
+    {
+        auto index = m_bannedproxy->mapToSource(ii);
+        Q_ASSERT(index.isValid());
+        m_unbannedmodel->addBannedUser(m_bannedmodel->getUsers()[index.row()], true);
+        unbanlist.insert(index.row());
+    }
+
+    for (auto i=unbanlist.rbegin();i!=unbanlist.rend();++i)
+    {
+        m_bannedmodel->delBannedUser(*i);
+    }
 }
 
 void BannedUsersDlg::slotBanUser()
 {
-    int index = m_unbannedproxy->mapToSource(ui.unbannedTreeView->currentIndex()).row();
-    if(index<0)
-        return;
-    m_bannedmodel->addBannedUser(m_unbannedmodel->getUsers()[index], true);
-    m_unbannedmodel->delBannedUser(index);
+    QItemSelectionModel* selModel = ui.unbannedTreeView->selectionModel();
+    QModelIndexList indexes = selModel->selectedRows();
+
+    RestoreItemData r(ui.unbannedTreeView, m_unbannedproxy);
+
+    std::set<int> banlist;
+    for (const auto& ii : indexes)
+    {
+        auto index = m_unbannedproxy->mapToSource(ii);
+        Q_ASSERT(index.isValid());
+        m_bannedmodel->addBannedUser(m_unbannedmodel->getUsers()[index.row()], true);
+        banlist.insert(index.row());
+    }
+
+    for (auto i=banlist.rbegin();i!=banlist.rend();++i)
+    {
+        m_unbannedmodel->delBannedUser(*i);
+    }
 }
 
 void BannedUsersDlg::slotNewBan()
@@ -259,8 +304,26 @@ void BannedUsersDlg::slotNewBan()
         COPY_TTSTR(ban.szUsername, ui.banEdit->text());
     ui.banEdit->setText("");
 
-    if(TT_DoBan(ttInst, &ban) > 0)
+    m_cmdid_active = TT_DoBan(ttInst, &ban);
+    if (m_cmdid_active > 0)
     {
+        ui.newbanBtn->setEnabled(false);
         m_bannedmodel->addBannedUser(ban, true);
+    }
+}
+
+void BannedUsersDlg::banSelectionChanged(const QModelIndex &selected, const QModelIndex &/*deselected*/)
+{
+    auto index = m_bannedproxy->mapToSource(selected);
+    const auto& ban = m_bannedmodel->getUsers()[index.row()];
+    if ((ui.bantypeBox->currentData().toInt() & BANTYPE_IPADDR) == BANTYPE_IPADDR &&
+        (ban.uBanTypes & BANTYPE_IPADDR) == BANTYPE_IPADDR)
+    {
+        ui.banEdit->setText(_Q(ban.szIPAddress));
+    }
+    else if ((ui.bantypeBox->currentData().toInt() & BANTYPE_USERNAME) == BANTYPE_USERNAME &&
+             (ban.uBanTypes & BANTYPE_USERNAME) == BANTYPE_USERNAME)
+    {
+        ui.banEdit->setText(_Q(ban.szUsername));
     }
 }

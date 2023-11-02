@@ -1614,6 +1614,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         qDebug() << "User #" << msg.nSource << "max payload is" << msg.nPayloadSize;
     break;
     case CLIENTEVENT_CMD_PROCESSING :
+        emit cmdProcessing(msg.nSource, msg.bActive);
         clienteventCmdProcessing(msg.nSource, !msg.bActive);
         break;
     case CLIENTEVENT_CMD_ERROR :
@@ -1916,6 +1917,7 @@ void MainWindow::cmdCompleteListServers(CommandComplete complete)
             chanpath = _Q(path);
         }
         m_bannedusersdlg = new BannedUsersDlg(m_bannedusers, chanpath);
+        connect(this, &MainWindow::cmdProcessing, m_bannedusersdlg, &BannedUsersDlg::cmdProcessing);
         if (chanpath.size())
             m_bannedusersdlg->setWindowTitle(tr("Banned Users in Channel %1").arg(chanpath));
         connect(m_bannedusersdlg, &QDialog::finished,

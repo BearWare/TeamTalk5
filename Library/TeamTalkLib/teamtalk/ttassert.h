@@ -24,6 +24,8 @@
 #ifndef _TTASSERT_H
 #define _TTASSERT_H
 
+#include <assert.h>
+
 void tt_assert(const char* assertion, const char* file, int line);
 
 #if defined(NDEBUG)
@@ -31,8 +33,6 @@ void tt_assert(const char* assertion, const char* file, int line);
 #define TTASSERT(_EX) ((_EX) ? (void)0 : tt_assert(#_EX, __FILE__, __LINE__))
 
 #else  // !NDEBUG
-
-#include <assert.h>
 
 #define TTASSERT(_EX) do { (_EX)? (void)0 : tt_assert(#_EX, __FILE__, __LINE__);  assert(_EX); } while(0)
 

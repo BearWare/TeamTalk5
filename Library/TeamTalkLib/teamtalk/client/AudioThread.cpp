@@ -23,10 +23,11 @@
 
 #include "AudioThread.h"
 
-#include <myace/MyACE.h>
 #include <teamtalk/ttassert.h>
 #include <teamtalk/CodecCommon.h>
+#include <teamtalk/PacketLayout.h>
 #include <codec/MediaUtil.h>
+#include <myace/MyACE.h>
 
 using namespace std;
 using namespace teamtalk;

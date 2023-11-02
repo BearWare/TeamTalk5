@@ -23,6 +23,7 @@
 
 #include "Common.h"
 #include "Commands.h"
+#include "Channel.h"
 #include <myace/MyINet.h>
 
 #include <time.h>
@@ -71,8 +72,9 @@ namespace teamtalk
 
     bool BannedUser::Match(const BannedUser& user) const
     {
-        bool match = true;
-        if((bantype & BANTYPE_IPADDR) && ipaddr.length())
+        bool match = bantype != BANTYPE_NONE;
+
+        if ((bantype & BANTYPE_IPADDR) && ipaddr.length())
         {
             const ACE_TString rgxsubnet = ACE_TEXT("^") ACE_TEXT("(.*)/(\\d+)") ACE_TEXT("$");
 #if defined(UNICODE)
@@ -97,11 +99,13 @@ namespace teamtalk
                 match &= std::regex_search(user.ipaddr.c_str(), buildregex(rgx.c_str()));
             }
         }
-        if((bantype & BANTYPE_USERNAME))
+
+        if ((bantype & BANTYPE_USERNAME))
             match &= username == user.username;
-        if((bantype & BANTYPE_CHANNEL))
-            match &= chanpath == user.chanpath;
-        match &= bantype != BANTYPE_NONE;
+
+        if ((bantype & BANTYPE_CHANNEL))
+            match &= ChannelsEquals(chanpath, user.chanpath);
+
         return match;
     }
 

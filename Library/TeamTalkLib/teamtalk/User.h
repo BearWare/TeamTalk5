@@ -24,12 +24,13 @@
 #if !defined(USER_H)
 #define USER_H
 
-#include <map>
+#include "Common.h"
+#include "PacketLayout.h"
 
 #include <ace/SString.h>
 #include <ace/INET_Addr.h>
 
-#include "PacketLayout.h"
+#include <map>
 
 namespace teamtalk {
 

@@ -24,7 +24,6 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#include "PacketLayout.h"
 #include <TeamTalkDefs.h>
 #include <codec/MediaUtil.h>
 
