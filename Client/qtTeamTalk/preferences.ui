@@ -452,7 +452,7 @@
               <item>
                <widget class="QCheckBox" name="animChkBox">
                 <property name="text">
-                 <string>Show animations</string>
+                 <string>Show user and channel icons</string>
                 </property>
                </widget>
               </item>
