@@ -30,6 +30,10 @@ Server
 - Support for banning IP-address as subnet, e.g. 192.168.0.0/24 or 2a02:09b0:402b:eed8::/63
 - Owner of ban is stored
 
+Version 5.14.2, unreleased
+Android Client
+- Fixed crash issue on Android 14 upon establishing connection to server
+
 Version 5.14.1, 2023/10/21
 Android Client
 - Fixed importing of tt files on newer android versions
