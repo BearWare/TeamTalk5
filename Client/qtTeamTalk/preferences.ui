@@ -450,6 +450,13 @@
                </widget>
               </item>
               <item>
+               <widget class="QCheckBox" name="animChkBox">
+                <property name="text">
+                 <string>Show user and channel icons</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QCheckBox" name="ServnameChkBox">
                 <property name="text">
                  <string>Show both server and channel name in window title</string>

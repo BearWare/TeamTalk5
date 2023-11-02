@@ -550,6 +550,8 @@ void PreferencesDlg::slotTabChange(int index)
                                                             SETTINGS_DISPLAY_SHOWUSERNAME_DEFAULT).toBool());
         ui.emojiChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_EMOJI,
                                                      SETTINGS_DISPLAY_EMOJI_DEFAULT).toBool());
+        ui.animChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_ANIM,
+                                                     SETTINGS_DISPLAY_ANIM_DEFAULT).toBool());
         ui.ServnameChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_SERVNAME,
                                                      SETTINGS_DISPLAY_SERVNAME_DEFAULT).toBool());
 
@@ -856,6 +858,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_DISPLAY_MAX_STRING, ui.maxtextSpinBox->value());
         ttSettings->setValue(SETTINGS_DISPLAY_SHOWUSERNAME, ui.showusernameChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_EMOJI, ui.emojiChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_DISPLAY_ANIM, ui.animChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_SERVNAME, ui.ServnameChkBox->isChecked());
 
         int index = ui.languageBox->currentIndex();

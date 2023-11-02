@@ -85,6 +85,8 @@
 #define SETTINGS_DISPLAY_LASTTALK_DEFAULT           true
 #define SETTINGS_DISPLAY_EMOJI                     "display/show-emoji"
 #define SETTINGS_DISPLAY_EMOJI_DEFAULT              true
+#define SETTINGS_DISPLAY_ANIM                     "display/show-animations"
+#define SETTINGS_DISPLAY_ANIM_DEFAULT              true
 #define SETTINGS_DISPLAY_SERVNAME                     "display/show-servname"
 #define SETTINGS_DISPLAY_SERVNAME_DEFAULT              true
 #define SETTINGS_DISPLAY_MSGTIMESTAMP               "display/msgtimestamp"
