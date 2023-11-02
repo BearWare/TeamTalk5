@@ -21,6 +21,10 @@
  *
  */
 
+import java.net.Inet4Address;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -45,6 +49,7 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     TeamTalkServer server;
     WebLogin loginsession;
     IPBan bans;
+    int ipv4banprefix, ipv6banprefix;
     BadWords badwords;
     Vector<String> langbadwords = new Vector<>();
     Abuse abuse;
@@ -59,12 +64,15 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     Map<Integer, CmdComplete> activecommands = new HashMap<>();
 
     SpamBotSession(TeamTalkServer srv, WebLogin loginsession,
-                   IPBan bans, BadWords badwords, Abuse abuse) {
+                   IPBan bans, BadWords badwords, Abuse abuse,
+                   int ipv4banprefix, int ipv6banprefix) {
         this.server = srv;
         this.loginsession = loginsession;
         this.bans = bans;
         this.badwords = badwords;
         this.abuse = abuse;
+        this.ipv4banprefix = ipv4banprefix;
+        this.ipv6banprefix = ipv6banprefix;
         handler.addConnectionListener(this);
         handler.addCommandListener(this);
     }
@@ -287,11 +295,27 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         }
     }
 
+    int getBanPrefix(String ipaddr) {
+        try {
+            InetAddress ipv = InetAddress.getByName(ipaddr);
+            if (ipv instanceof Inet6Address)
+                return ipv6banprefix == 128 ? 0 : ipv6banprefix;
+            else if (ipv instanceof Inet4Address)
+                return ipv4banprefix == 32 ? 0 : ipv4banprefix;
+        }
+        catch(UnknownHostException e) {
+        }
+        return 0;
+    }
+
     void abuseBan(User user) {
         BannedUser b = new BannedUser();
-        b.szIPAddress = user.szIPAddress;
         b.uBanTypes = BanType.BANTYPE_IPADDR;
         b.szNickname = user.szNickname;
+        b.szIPAddress = user.szIPAddress;
+        int prefix = getBanPrefix(user.szIPAddress);
+        if (prefix > 0)
+            b.szIPAddress = String.format("%s/%d", b.szIPAddress, prefix);
         activecommands.put(ttclient.doBan(b), CmdComplete.CMD_ABUSE_BAN);
 
         TextMessage textmsg = new TextMessage();

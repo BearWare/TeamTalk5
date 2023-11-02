@@ -45,6 +45,8 @@ public class Main {
         int ipjoins = Integer.parseInt(System.getProperty("dk.bearware.ipjoinscount", "10"));
         int ipkicks = Integer.parseInt(System.getProperty("dk.bearware.ipkickscount", "10"));
         int ipcmdduration = Integer.parseInt(System.getProperty("dk.bearware.ipcmdduration", "60"));
+        int ipv4banprefix = Integer.parseInt(System.getProperty("dk.bearware.ipv4banprefix", "32"));
+        int ipv6banprefix = Integer.parseInt(System.getProperty("dk.bearware.ipv6banprefix", "128"));
 
         TeamTalk5.loadLibrary();
         String regname = System.getProperty("dk.bearware.regname", "");
@@ -81,7 +83,8 @@ public class Main {
                         sessions.add(new SpamBotSession(server,
                                                         new WebLogin(username, passwd),
                                                         new IPBan(bannetworks), badwords,
-                                                        new Abuse(ipjoins, iplogins, ipkicks, ipcmdduration)));
+                                                        new Abuse(ipjoins, iplogins, ipkicks, ipcmdduration),
+                                                        ipv4banprefix, ipv6banprefix));
                     }
                     lastServers = servers;
                 }
