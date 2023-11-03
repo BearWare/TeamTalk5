@@ -117,6 +117,7 @@ TRANSLATIONS = languages/Bulgarian.ts \
                languages/Indonesian.ts \
                languages/Italian.ts \
                languages/Korean.ts \
+               languages/Persian.ts \
                languages/Polish.ts \
                languages/Portuguese_BR.ts \
                languages/Portuguese_EU.ts \
