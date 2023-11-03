@@ -20,6 +20,7 @@ Default Qt Client
 - Fixed files count not announced for non admin users when pressing CTRL+G on non current channel
 - Fixed users still showning channel in Online Users dialog
 - Option in Display-tab to disable user and channel icons
+- Added Persian language
 Android Client
 -
 iOS Client
