@@ -6597,9 +6597,13 @@ Hapus akun pengguna yang dipublikasikan untuk membatalkan pendaftaran server and
         <translation>Tampilkan variabel</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>Variabel pesan hari ini: %users% jumlah pengguna di server, %admins% jumlah admin di server, %uptime% waktu server online, %voicetx% KBytes diterima, %voicerx% KBytes terkirim dan %lastuser% pengguna terakhir yang masuk.</translation>
+        <translation type="vanished">Variabel pesan hari ini: %users% jumlah pengguna di server, %admins% jumlah admin di server, %uptime% waktu server online, %voicetx% KBytes diterima, %voicerx% KBytes terkirim dan %lastuser% pengguna terakhir yang masuk.</translation>
+    </message>
+    <message>
+        <location filename="../serverproperties.ui" line="106"/>
+        <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicerx% KBytes received, %voicetx% KBytes sent and %lastuser% last user to log on.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="122"/>

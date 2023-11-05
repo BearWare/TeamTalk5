@@ -6565,9 +6565,8 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
         <translation>Nachricht des Tages</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>Mögliche Variablen: %users% Anzahl Benutzer auf Server, %admins% Anzahl Admins, %uptime% vergangene Zeit seit Serverstart, %voicetx% KBytes gesendet, %voicerx% KBytes empfangen und %lastuser% zuletzt eingeloggter Benutzer.</translation>
+        <translation type="vanished">Mögliche Variablen: %users% Anzahl Benutzer auf Server, %admins% Anzahl Admins, %uptime% vergangene Zeit seit Serverstart, %voicetx% KBytes gesendet, %voicerx% KBytes empfangen und %lastuser% zuletzt eingeloggter Benutzer.</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="122"/>
@@ -6628,6 +6627,11 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
         <location filename="../serverproperties.ui" line="373"/>
         <source>KBytes/sec (0 = disabled)</source>
         <translation>KByte/Sek (0 = ausgeschaltet)</translation>
+    </message>
+    <message>
+        <location filename="../serverproperties.ui" line="106"/>
+        <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicerx% KBytes received, %voicetx% KBytes sent and %lastuser% last user to log on.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="245"/>

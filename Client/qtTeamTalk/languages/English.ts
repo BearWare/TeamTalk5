@@ -6447,7 +6447,7 @@ Delete the published user account to unregister your server.</source>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="106"/>
-        <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
+        <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicerx% KBytes received, %voicetx% KBytes sent and %lastuser% last user to log on.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

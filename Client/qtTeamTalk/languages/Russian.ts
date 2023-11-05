@@ -6611,9 +6611,13 @@ Delete the published user account to unregister your server.</source>
         <translation>Показать Переменные</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>переменные для установки статистики в сообщении дня: %users% количество  пользователей на сервере, %admins% количество администраторов на сервере, %uptime% время работы сервера, %voicetx% КБ получено, %voicerx% КБ отправлено и %lastuser% Последний активный пользователь.</translation>
+        <translation type="vanished">переменные для установки статистики в сообщении дня: %users% количество  пользователей на сервере, %admins% количество администраторов на сервере, %uptime% время работы сервера, %voicetx% КБ получено, %voicerx% КБ отправлено и %lastuser% Последний активный пользователь.</translation>
+    </message>
+    <message>
+        <location filename="../serverproperties.ui" line="106"/>
+        <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicerx% KBytes received, %voicetx% KBytes sent and %lastuser% last user to log on.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="122"/>

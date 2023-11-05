@@ -6484,9 +6484,13 @@ Delete the published user account to unregister your server.</source>
         <translation>변수 표시</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>환영사 변수: %users% 서버 내 사용자 수, %admins% 서버 내 관리자 수, %uptime% 서버 가동 시간, %voicetx% 받은 패킷, %voicerx% 보낸 패킷, %lastuser% 마지막으로 로그인한 사용자.</translation>
+        <translation type="vanished">환영사 변수: %users% 서버 내 사용자 수, %admins% 서버 내 관리자 수, %uptime% 서버 가동 시간, %voicetx% 받은 패킷, %voicerx% 보낸 패킷, %lastuser% 마지막으로 로그인한 사용자.</translation>
+    </message>
+    <message>
+        <location filename="../serverproperties.ui" line="106"/>
+        <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicerx% KBytes received, %voicetx% KBytes sent and %lastuser% last user to log on.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="122"/>

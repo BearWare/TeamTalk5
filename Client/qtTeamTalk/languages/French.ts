@@ -6494,8 +6494,8 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     </message>
     <message>
         <location filename="../serverproperties.ui" line="106"/>
-        <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>Variables message du jour: nombre d’utilisateurs sur le serveur %users%, nombre d’admins sur le serveur %admins%, temps de connexion du serveur %uptime%, KO reçus %voicetx%, KO envoyés %voicerx% et dernier utilisateur s’étant connecté %lastuser%</translation>
+        <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicerx% KBytes received, %voicetx% KBytes sent and %lastuser% last user to log on.</source>
+        <translation>Variables message du jour: %users% nombre d’utilisateurs sur le serveur, %admins% nombre d’administrateurs sur le serveur, %uptime% durée de mise en ligne du serveur, %voicerx% Ko reçus, %voicetx% Ko envoyés et %lastuser% dernier utilisateur à s’être connecté.</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="122"/>

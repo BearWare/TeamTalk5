@@ -6574,9 +6574,13 @@ Elimina la cuenta de usuario publicada para quitar el servidor de la lista.</tra
         <translation>Mostrar variables</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>Variables para usar en el mensaje del día:  %users% cantidad de usuarios en el servidor, %admins% cantidad de administradores en el servidor, %uptime% tiempo en línea del servidor, %voicetx% KBytes recibidos, %voicerx% KBytes enviados y %lastuser% último usuario conectado.</translation>
+        <translation type="vanished">Variables para usar en el mensaje del día:  %users% cantidad de usuarios en el servidor, %admins% cantidad de administradores en el servidor, %uptime% tiempo en línea del servidor, %voicetx% KBytes recibidos, %voicerx% KBytes enviados y %lastuser% último usuario conectado.</translation>
+    </message>
+    <message>
+        <location filename="../serverproperties.ui" line="106"/>
+        <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicerx% KBytes received, %voicetx% KBytes sent and %lastuser% last user to log on.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="122"/>

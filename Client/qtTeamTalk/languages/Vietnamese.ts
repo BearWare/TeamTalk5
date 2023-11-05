@@ -6510,9 +6510,13 @@ Xóa tài khoản người dùng đã xuất bản để hủy đăng ký máy c
         <translation>Hiển thị các biến</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>Các biến MOTD: %users% số lượng người dùng trên máy chủ, %admins% số lượng quản trị viên trên máy chủ, %uptime% thời gian trực tuyến của máy chủ, %voicetx% KByte đã nhận, %voicerx% KByte đã gửi và %lastuser% người dùng đăng nhập cuối cùng.</translation>
+        <translation type="vanished">Các biến MOTD: %users% số lượng người dùng trên máy chủ, %admins% số lượng quản trị viên trên máy chủ, %uptime% thời gian trực tuyến của máy chủ, %voicetx% KByte đã nhận, %voicerx% KByte đã gửi và %lastuser% người dùng đăng nhập cuối cùng.</translation>
+    </message>
+    <message>
+        <location filename="../serverproperties.ui" line="106"/>
+        <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicerx% KBytes received, %voicetx% KBytes sent and %lastuser% last user to log on.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="122"/>

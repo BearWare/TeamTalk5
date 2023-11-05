@@ -6595,9 +6595,13 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <translation>Değişkenleri göster</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>Günün iletisi değişkenleri: %users% sunucudaki kullanıcı sayısı, %admins% sunucudaki yönetici sayısı, %uptime% sunucunun çevrimiçi olma zamanı, %voicetx% alınan KB, %voicerx% gönderilen KB ve %lastuser% giriş yapan son kullanıcı.</translation>
+        <translation type="vanished">Günün iletisi değişkenleri: %users% sunucudaki kullanıcı sayısı, %admins% sunucudaki yönetici sayısı, %uptime% sunucunun çevrimiçi olma zamanı, %voicetx% alınan KB, %voicerx% gönderilen KB ve %lastuser% giriş yapan son kullanıcı.</translation>
+    </message>
+    <message>
+        <location filename="../serverproperties.ui" line="106"/>
+        <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicerx% KBytes received, %voicetx% KBytes sent and %lastuser% last user to log on.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="122"/>

@@ -6499,9 +6499,8 @@ Delete the published user account to unregister your server.</source>
         <translation>Dagens besked</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>MOTD variabler: %users% antal brugere på server, %admins% antal administratorer på serveren, %uptime% serverens oppetid, %voicetx% KBytes modtaget, %voicerx% KBytes sendt og %lastuser% sidste bruger som loggede på.</translation>
+        <translation type="vanished">MOTD variabler: %users% antal brugere på server, %admins% antal administratorer på serveren, %uptime% serverens oppetid, %voicetx% KBytes modtaget, %voicerx% KBytes sendt og %lastuser% sidste bruger som loggede på.</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="122"/>
@@ -6567,6 +6566,11 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverproperties.ui" line="245"/>
         <source>Video TX max</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="../serverproperties.ui" line="106"/>
+        <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicerx% KBytes received, %voicetx% KBytes sent and %lastuser% last user to log on.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="289"/>

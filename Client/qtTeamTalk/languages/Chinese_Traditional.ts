@@ -6485,9 +6485,8 @@ Delete the published user account to unregister your server.</source>
         <translation>今日訊息</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>今日訊息中可使用的環境變數: %users% 伺服器上的使用者數量, %admins% 伺服器上的管理者數量, %uptime% 伺服器已開機時間, %voicetx% 已接收K位元組, %voicerx% 已發送K位元組 以及 %lastuser% 最後一位登入的使用者.</translation>
+        <translation type="vanished">今日訊息中可使用的環境變數: %users% 伺服器上的使用者數量, %admins% 伺服器上的管理者數量, %uptime% 伺服器已開機時間, %voicetx% 已接收K位元組, %voicerx% 已發送K位元組 以及 %lastuser% 最後一位登入的使用者.</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="122"/>
@@ -6548,6 +6547,11 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverproperties.ui" line="373"/>
         <source>KBytes/sec (0 = disabled)</source>
         <translation>千位元組/秒 (0 = 停用)</translation>
+    </message>
+    <message>
+        <location filename="../serverproperties.ui" line="106"/>
+        <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicerx% KBytes received, %voicetx% KBytes sent and %lastuser% last user to log on.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="245"/>

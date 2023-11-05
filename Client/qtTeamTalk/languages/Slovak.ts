@@ -6493,9 +6493,8 @@ Delete the published user account to unregister your server.</source>
         <translation>Správa dňa </translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>MOTD premenné: %users% počet užívateľov na serveri, %admins% počet adminov na serveri, %uptime% doba trvania servera, %voicetx% prijaté KByty, %voicerx% odoslané KByty a %lastuser% posledné prihlásenie užívateľa.</translation>
+        <translation type="vanished">MOTD premenné: %users% počet užívateľov na serveri, %admins% počet adminov na serveri, %uptime% doba trvania servera, %voicetx% prijaté KByty, %voicerx% odoslané KByty a %lastuser% posledné prihlásenie užívateľa.</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="122"/>
@@ -6556,6 +6555,11 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverproperties.ui" line="373"/>
         <source>KBytes/sec (0 = disabled)</source>
         <translation>KByty/sek (0 = bez obmedzenia)</translation>
+    </message>
+    <message>
+        <location filename="../serverproperties.ui" line="106"/>
+        <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicerx% KBytes received, %voicetx% KBytes sent and %lastuser% last user to log on.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="245"/>

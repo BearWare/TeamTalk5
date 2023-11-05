@@ -6486,9 +6486,8 @@ Delete the published user account to unregister your server.</source>
         <translation>ขัอความประจำวัน</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>ข้อความจากเซิฟเวอร์: %users ผู้ใช้งาน% number of users on server จำนวนผู้ใช้งานในเซิฟเวอร์, %admins ผู้ดูแลระบบ% number of admins on server จำนวนผู้ดูแลระบบ, %uptime เวลาที่ใช้งานได้% server&apos;s time online เวลาที่เปิดใช้งาน online มาแล้ว, %voicetx ส่งเสียงแล้ว% KBytes, %voicerx รับเสียง มาแล้ว% KBytes และ %lastuser ผู้ใช้งานคนล่าสุด%  ผู้ใช้งานคนล่าสุด.</translation>
+        <translation type="vanished">ข้อความจากเซิฟเวอร์: %users ผู้ใช้งาน% number of users on server จำนวนผู้ใช้งานในเซิฟเวอร์, %admins ผู้ดูแลระบบ% number of admins on server จำนวนผู้ดูแลระบบ, %uptime เวลาที่ใช้งานได้% server&apos;s time online เวลาที่เปิดใช้งาน online มาแล้ว, %voicetx ส่งเสียงแล้ว% KBytes, %voicerx รับเสียง มาแล้ว% KBytes และ %lastuser ผู้ใช้งานคนล่าสุด%  ผู้ใช้งานคนล่าสุด.</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="122"/>
@@ -6549,6 +6548,11 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverproperties.ui" line="373"/>
         <source>KBytes/sec (0 = disabled)</source>
         <translation>KBytes/sec (0 = ปิดใช้งาน)</translation>
+    </message>
+    <message>
+        <location filename="../serverproperties.ui" line="106"/>
+        <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicerx% KBytes received, %voicetx% KBytes sent and %lastuser% last user to log on.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="245"/>

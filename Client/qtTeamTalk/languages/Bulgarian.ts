@@ -6490,9 +6490,13 @@ Delete the published user account to unregister your server.</source>
         <translation>Покажи променливи</translation>
     </message>
     <message>
-        <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation>MOTD променливи: %потребители% брой на потребители в сървъра, %администратори% брой на администратори в сървъра, %време на работа% онлайн време, %voicetx% Кбайти получени, %voicerx% Кбайти изпратени и %последен потребител%Последен вписан.</translation>
+        <translation type="vanished">MOTD променливи: %потребители% брой на потребители в сървъра, %администратори% брой на администратори в сървъра, %време на работа% онлайн време, %voicetx% Кбайти получени, %voicerx% Кбайти изпратени и %последен потребител%Последен вписан.</translation>
+    </message>
+    <message>
+        <location filename="../serverproperties.ui" line="106"/>
+        <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicerx% KBytes received, %voicetx% KBytes sent and %lastuser% last user to log on.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="122"/>
