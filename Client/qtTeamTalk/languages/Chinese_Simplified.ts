@@ -2650,7 +2650,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2208"/>
         <source>Kick From Channel</source>
-        <translation>从频道中踢出</translation>
+        <translation>从频道踢出</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2211"/>
@@ -4706,36 +4706,28 @@ Should these settings be applied?</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <source>&amp;Kick</source>
-        <translation type="vanished">踢出(&amp;K)</translation>
-    </message>
-    <message>
         <location filename="../onlineusersdlg.cpp" line="61"/>
         <location filename="../onlineusersdlg.cpp" line="136"/>
         <source>Ctrl+K</source>
         <translation>Ctrl+K</translation>
     </message>
     <message>
-        <source>Kick and &amp;Ban</source>
-        <translation type="vanished">踢出并禁止(&amp;B)</translation>
-    </message>
-    <message>
         <location filename="../onlineusersdlg.cpp" line="61"/>
         <location filename="../onlineusersdlg.cpp" line="135"/>
         <source>&amp;Kick from Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>从频道踢出(&amp;K)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="62"/>
         <location filename="../onlineusersdlg.cpp" line="137"/>
         <source>&amp;Kick from Server</source>
-        <translation type="unfinished"></translation>
+        <translation>从服务器踢出(&amp;K)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="62"/>
         <location filename="../onlineusersdlg.cpp" line="138"/>
         <source>Ctrl+Alt+K</source>
-        <translation type="unfinished">Ctrl+Alt+K</translation>
+        <translation>Ctrl+Alt+K</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="63"/>
@@ -4747,19 +4739,19 @@ Should these settings be applied?</source>
         <location filename="../onlineusersdlg.cpp" line="63"/>
         <location filename="../onlineusersdlg.cpp" line="139"/>
         <source>Kick and &amp;Ban from Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>从频道踢出并禁止(&amp;B)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="64"/>
         <location filename="../onlineusersdlg.cpp" line="141"/>
         <source>Kick and &amp;Ban from Server</source>
-        <translation type="unfinished"></translation>
+        <translation>从服务器踢出并禁止(&amp;B)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="64"/>
         <location filename="../onlineusersdlg.cpp" line="142"/>
         <source>Ctrl+Alt+B</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+B</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="65"/>
@@ -5329,7 +5321,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="455"/>
         <source>Show user and channel icons</source>
-        <translation type="unfinished"></translation>
+        <translation>显示用户和频道图标</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="582"/>
@@ -8002,10 +7994,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../userinfo.ui" line="160"/>
         <source>IP-address</source>
         <translation>IP 地址</translation>
-    </message>
-    <message>
-        <source>Version</source>
-        <translation type="vanished">版本</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="180"/>
