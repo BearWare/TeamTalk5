@@ -2192,7 +2192,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1699"/>
         <source>Ctrl+4</source>
-        <translation>Ctrl+4</translation>
+        <translation>Ctrl+۴</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1711"/>
@@ -2202,7 +2202,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1714"/>
         <source>Ctrl+1</source>
-        <translation>Ctrl+1</translation>
+        <translation>Ctrl+۱</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1722"/>
@@ -2212,12 +2212,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1725"/>
         <source>Ctrl+2</source>
-        <translation>Ctrl+2</translation>
+        <translation>Ctrl+۲</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1740"/>
         <source>Ctrl+5</source>
-        <translation>Ctrl+5</translation>
+        <translation>Ctrl+۵</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1748"/>
@@ -2227,7 +2227,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1751"/>
         <source>Ctrl+3</source>
-        <translation>Ctrl+3</translation>
+        <translation>Ctrl+۳</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1763"/>
@@ -2282,7 +2282,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1818"/>
         <source>Ctrl+Shift+1</source>
-        <translation>Ctrl+Shift+1</translation>
+        <translation>Ctrl+Shift+۱</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1826"/>
@@ -2292,7 +2292,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1829"/>
         <source>Ctrl+Shift+2</source>
-        <translation>Ctrl+Shift+2</translation>
+        <translation>Ctrl+Shift+۲</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1841"/>
@@ -2302,7 +2302,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1844"/>
         <source>Ctrl+Shift+4</source>
-        <translation>Ctrl+Shift+4</translation>
+        <translation>Ctrl+Shift+۴</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1856"/>
@@ -2312,7 +2312,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1859"/>
         <source>Ctrl+Shift+5</source>
-        <translation>Ctrl+Shift+5</translation>
+        <translation>Ctrl+Shift+۵</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1864"/>
@@ -2517,7 +2517,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2053"/>
         <source>Ctrl+6</source>
-        <translation>Ctrl+6</translation>
+        <translation>Ctrl+۶</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2065"/>
@@ -2527,7 +2527,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2068"/>
         <source>Ctrl+Shift+6</source>
-        <translation>Ctrl+Shift+6</translation>
+        <translation>Ctrl+Shift+۶</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2080"/>
@@ -2552,7 +2552,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2121"/>
         <source>Ctrl+7</source>
-        <translation>Ctrl+7</translation>
+        <translation>Ctrl+۷</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2129"/>
@@ -2567,7 +2567,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2144"/>
         <source>Ctrl+8</source>
-        <translation>Ctrl+8</translation>
+        <translation>Ctrl+۸</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2156"/>
@@ -2577,7 +2577,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2159"/>
         <source>Ctrl+Shift+8</source>
-        <translation>Ctrl+Shift+8</translation>
+        <translation>Ctrl+Shift+۸</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2167"/>
@@ -2697,7 +2697,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2289"/>
         <source>Ctrl+Shift+3</source>
-        <translation>Ctrl+Shift+3</translation>
+        <translation>Ctrl+Shift+۳</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="905"/>
@@ -6459,13 +6459,9 @@ Delete the published user account to unregister your server.</source>
         <translation>نمایش متغیرها</translation>
     </message>
     <message>
-        <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation type="vanished">متغیر‌های پیام روز: %users% تعداد کاربران حاضر در سِروِر, %admins% تعداد مدیران حاضر در سِروِر, %uptime% زمان کار سِروِ&apos;ر, %voicetx% میزان دریافت صدا از زمان اجرای سِروِر تا این لحظه (بر‌حسب کیلوبایت), %voicerx% میزان ارسال صدا از زمان اجرای سِروِر تا این لحظه (بر‌حسب کیلوبایت), و %lastuser% آخرین کاربری که وارد سِروِر شده‌است.</translation>
-    </message>
-    <message>
         <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicerx% KBytes received, %voicetx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation type="unfinished"></translation>
+        <translation>متغیر‌های پیام روز: %users% تعداد کاربران حاضر در سِروِر, %admins% تعداد مدیران حاضر در سِروِر, %uptime% زمان کار سِروِ&apos;ر, %voicerx% میزان دریافت صدا از زمان اجرای سِروِر تا این لحظه (بر‌حسب کیلوبایت), %voicetx% میزان ارسال صدا از زمان اجرای سِروِر تا این لحظه (بر‌حسب کیلوبایت), و %lastuser% آخرین کاربری که وارد سِروِر شده‌است.</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="122"/>
