@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ko_KR">
+<TS version="2.1" language="fa_rIR">
 <context>
     <name>AboutDlg</name>
     <message>
         <location filename="../about.ui" line="14"/>
         <source>About</source>
-        <translation>정보</translation>
+        <translation>درباره</translation>
     </message>
     <message>
         <location filename="../about.ui" line="73"/>
@@ -44,27 +44,27 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.webmproject.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://webrtc.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebRTC&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="30"/>
         <source>Compiled on %1 %2 using Qt %3 (Qt %4 used by this instance).</source>
-        <translation></translation>
+        <translation>گردآوری شده در تاریخ  %1 %2 با استفاده از QT %3 qt %4 در این نمونه مورد استفاده قرار گرفته است</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="31"/>
         <source>Version </source>
-        <translation>버전 </translation>
+        <translation>نسخۀ</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="33"/>
         <source>TeamTalk 64-bit DLL version %1.</source>
-        <translation>TeamTalk 64비트 DLL 버전 %1.</translation>
+        <translation>تیم‌تاک 64 بیتی نسخۀ ساخت: %1</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="35"/>
         <source>TeamTalk 32-bit DLL version %1.</source>
-        <translation>TeamTalk 32비트 DLL 버전 %1.</translation>
+        <translation>تیم‌تاک 32 بیتی نسخۀ ساخت: %1</translation>
     </message>
 </context>
 <context>
@@ -72,98 +72,98 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="14"/>
         <source>Audio Preprocessor Setup</source>
-        <translation>오디오 전처리 설정</translation>
+        <translation>راه‌اندازی پیش‌پردازشگر صوتی</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="42"/>
         <source>Automatic Gain Control (AGC)</source>
-        <translation>자동으로 음량 조절(AGC)</translation>
+        <translation>کنترل خودکار بلندی میکروفون</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="50"/>
         <source>Enable AGC</source>
-        <translation>자동으로 음량 조절(AGC) 활성화</translation>
+        <translation>فعالسازی کنترل خودکار بلندی میکروفون</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="70"/>
         <source>Default</source>
-        <translation>기본값</translation>
+        <translation>پیشفرض</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="81"/>
         <location filename="../audiopreprocessor.ui" line="202"/>
         <source>Gain Level</source>
-        <translation>음량 수준</translation>
+        <translation>سطح بلندی</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="94"/>
         <source>Max Gain dB</source>
-        <translation>음량 최대값</translation>
+        <translation>حداکثر بلندی</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="111"/>
         <source>Max Gain Increase Per Sec (dB)</source>
-        <translation>초당 음량 최대값 증가</translation>
+        <translation>حداکثر افزایش بلندی در ثانیه</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="128"/>
         <source>Max Gain Decrease Per Sec (dB)</source>
-        <translation>초당 음량 최대값 감소</translation>
+        <translation>حداکثر کاهش بلندی در ثانیه</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="146"/>
         <source>Denoising</source>
-        <translation>소음 억제</translation>
+        <translation>نویزگیر</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="154"/>
         <source>Enable Denoising</source>
-        <translation>소음 억제 활성화</translation>
+        <translation>فعالسازی نویزگیر</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="178"/>
         <source>Max Attenuation of noise (dB)</source>
-        <translation>소음 억제 최대값</translation>
+        <translation>حداکثر کاهش نویز</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="219"/>
         <source>&amp;Default</source>
-        <translation>기본값 (&amp;D)</translation>
+        <translation>&amp;پیشفرض</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="230"/>
         <source>Mute left channel</source>
-        <translation>왼쪽 채널 음소거</translation>
+        <translation>قطع صدا از سمت چپ</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="237"/>
         <source>Mute right channel</source>
-        <translation>오른쪽 채널 음소거</translation>
+        <translation>قطع صدا از سمت راست</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="26"/>
         <source>&amp;OK</source>
-        <translation>확인 (&amp;O)</translation>
+        <translation>&amp;تأیید</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="27"/>
         <source>&amp;Cancel</source>
-        <translation>취소 (&amp;C)</translation>
+        <translation>&amp;لغو</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="50"/>
         <source>No Audio Preprocessor</source>
-        <translation>오디오 전처리 사용 안 함</translation>
+        <translation>بدون پیش‌پردازندۀ صوتی</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="68"/>
         <source>TeamTalk Audio Preprocessor</source>
-        <translation>TeamTalk 오디오 전처리기</translation>
+        <translation>پیش‌پردازندۀ صوتی تیم‌تاک</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="61"/>
         <source>Speex DSP Audio Preprocessor</source>
-        <translation>Speex DSP 오디오 전처리기</translation>
+        <translation>پیش‌پردازندۀ صوتی Speex DSP</translation>
     </message>
 </context>
 <context>
@@ -172,72 +172,72 @@ p, li { white-space: pre-wrap; }
         <location filename="../bannedusers.ui" line="14"/>
         <location filename="../bannedusers.ui" line="25"/>
         <source>Banned Users</source>
-        <translation>차단한 사용자</translation>
+        <translation>کاربران محروم‌شده</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="172"/>
         <source>&amp;OK</source>
-        <translation>확인 (&amp;O)</translation>
+        <translation>&amp;تأیید</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="173"/>
         <source>&amp;Cancel</source>
-        <translation>취소 (&amp;C)</translation>
+        <translation>&amp;لغو</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="213"/>
         <source>Ban IP-address</source>
-        <translation>IP 주소 차단</translation>
+        <translation>محروم کردن از طریق آدرس آیپی</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="214"/>
         <source>Ban Username</source>
-        <translation>사용자 이름 차단</translation>
+        <translation>محروم کردن از طریق نام کاربری</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="36"/>
         <source>Banned users</source>
-        <translation>차단한 사용자</translation>
+        <translation>کاربران محروم‌شده</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="72"/>
         <source>Ban type</source>
-        <translation>차단 유형</translation>
+        <translation>نوع محرومیت</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="79"/>
         <source>Enter an IP or an username to ban</source>
-        <translation>차단할 IP 주소 또는 사용자 이름을 입력하세요</translation>
+        <translation>یک IP یا یک نام کاربری برای محروم کردن وارد کنید</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="86"/>
         <source>Add to list of banned users</source>
-        <translation>차단한 사용자 목록에 추가</translation>
+        <translation>افزودن به لیست کاربران محروم‌شده</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="89"/>
         <source>Add</source>
-        <translation>추가</translation>
+        <translation>افزودن</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="116"/>
         <source>Remove banned user</source>
-        <translation>차단한 사용자 제거</translation>
+        <translation>حذف کاربر محروم شده</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="126"/>
         <source>Put back to banned users</source>
-        <translation>차단한 사용자로 되돌리기</translation>
+        <translation>برگرداندن به کاربران محروم‌شده</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="151"/>
         <source>Unbanned Users</source>
-        <translation>차단하지 않은 사용자</translation>
+        <translation>کاربران محروم نشده</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="162"/>
         <source>Unbanned users</source>
-        <translation>차단하지 않은 사용자</translation>
+        <translation>کاربران محروم نشده</translation>
     </message>
 </context>
 <context>
@@ -245,58 +245,58 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="55"/>
         <source>Nickname</source>
-        <translation>대화명</translation>
+        <translation>نام مستعار</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="56"/>
         <source>Username</source>
-        <translation>사용자 이름</translation>
+        <translation>نام کاربری</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="57"/>
         <source>Ban type</source>
-        <translation>차단 유형</translation>
+        <translation>نوع محرومیت</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="58"/>
         <source>Ban Time</source>
-        <translation>차단 시간</translation>
+        <translation>زمان محرومیت</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="59"/>
         <source>Creator</source>
-        <translation>만든 사람</translation>
+        <translation>محروم‌کننده</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="60"/>
         <location filename="../bannedusersdlg.cpp" line="93"/>
         <source>Channel</source>
-        <translation>채널 </translation>
+        <translation>کانال</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="61"/>
         <source>IP-address</source>
-        <translation>IP 주소</translation>
+        <translation>آدرس آیپی</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="89"/>
         <source>User</source>
-        <translation>사용자</translation>
+        <translation>کاربر</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="91"/>
         <source>,IP</source>
-        <translation>, IP</translation>
+        <translation>,آیپی</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="91"/>
         <source>IP</source>
-        <translation>IP</translation>
+        <translation>آیپی</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="93"/>
         <source>,Channel</source>
-        <translation>, 채널</translation>
+        <translation>,کانال</translation>
     </message>
 </context>
 <context>
@@ -304,57 +304,57 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.ui" line="14"/>
         <source>Activate BearWare.dk Web Login</source>
-        <translation>BearWare.dk 웹 로그인 활성화</translation>
+        <translation>فعالسازی ورود با حساب BearWare.dk</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="20"/>
         <source>BearWare.dk Web Login</source>
-        <translation>BearWare.dk 웹 로그인</translation>
+        <translation>ورود با حساب BearWare.dk</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="26"/>
         <source>A BearWare.dk Web Login is used to identify a TeamTalk user. A login ID can be created on the BearWare.dk web site.</source>
-        <translation>BearWare.dk 웹 로그인을 통해 TeamTalk 사용자임을 증명해보세요. BearWare.dk 사이트에 방문하여 ID를 만들 수 있습니다.</translation>
+        <translation>حساب BearWare.dk برای شناسایی کاربر تیم‌تاک استفاده میشود. شناسۀ ورود میتواند در وبسایت BearWare.dk ایجاد شود.</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="51"/>
         <source>C&amp;reate</source>
-        <translation>새로 만들기 (&amp;L)</translation>
+        <translation>ا&amp;یجاد</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="76"/>
         <source>Authentication</source>
-        <translation>인증</translation>
+        <translation>احراز هویت</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="84"/>
         <source>Username</source>
-        <translation>사용자 이름</translation>
+        <translation>نام کاربری</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="97"/>
         <source>Password</source>
-        <translation>암호</translation>
+        <translation>کلمۀ عبور</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="42"/>
         <source>&amp;OK</source>
-        <translation>확인 (&amp;O)</translation>
+        <translation>&amp;تأیید</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="43"/>
         <source>&amp;Cancel</source>
-        <translation>취소 (&amp;C)</translation>
+        <translation>&amp;لغو</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="107"/>
         <source>Failed to authenticate</source>
-        <translation>인증 실패</translation>
+        <translation>احراز هویت ناموفق بود</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="117"/>
         <source>%1, your username &quot;%2&quot; has been validated.</source>
-        <translation>%1, 사용자 이름 &quot;%2&quot; 인증되었습니다.</translation>
+        <translation>%1, نام کاربری شما &quot;%2&quot; تأیید شده است.</translation>
     </message>
 </context>
 <context>
@@ -362,59 +362,59 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatus.ui" line="14"/>
         <source>Change Status</source>
-        <translation>상태 변경</translation>
+        <translation>تغییر وضعیت</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="29"/>
         <source>Status mode</source>
-        <translation>상태 유형</translation>
+        <translation>حالت وضعیت</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="41"/>
         <source>&amp;Available</source>
-        <translation>사용 가능 (&amp;A)</translation>
+        <translation>&amp;آنلاین</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="48"/>
         <source>A&amp;way</source>
-        <translation>자리비움 (&amp;W)</translation>
+        <translation>د&amp;ور</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="55"/>
         <source>&amp;Question</source>
-        <translation>질문 모드 (&amp;Q)</translation>
+        <translation>&amp;پرسش</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="64"/>
         <source>Message</source>
-        <translation>메시지</translation>
+        <translation>پیام</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="77"/>
         <source>Display file name in status message when streaming</source>
-        <translation>상태 메시지에 스트리밍 중인 파일명 표시</translation>
+        <translation>نمایش نام فایل در پیام وضعیت هنگام پخش استریم</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="31"/>
         <source>&amp;OK</source>
-        <translation>확인 (&amp;O)</translation>
+        <translation>&amp;تأیید</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="32"/>
         <source>&amp;Cancel</source>
-        <translation>취소 (&amp;C)</translation>
+        <translation>&amp;لغو</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="40"/>
         <source>&amp;Available</source>
         <comment>For female</comment>
-        <translation>사용 가능 (&amp;A)</translation>
+        <translation>&amp;آنلاین</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="41"/>
         <source>A&amp;way</source>
         <comment>For female</comment>
-        <translation>자리비움 (&amp;W)</translation>
+        <translation>د&amp;ور</translation>
     </message>
 </context>
 <context>
@@ -422,72 +422,72 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="14"/>
         <source>Channel</source>
-        <translation>채널 </translation>
+        <translation>کانال</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="27"/>
         <source>Channel Information</source>
-        <translation>채널 정보</translation>
+        <translation>اطلاعات کانال</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="33"/>
         <source>Channel path</source>
-        <translation>채널 경로</translation>
+        <translation>مسیر کانال</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="50"/>
         <source>Channel name</source>
-        <translation>채널 이름</translation>
+        <translation>نام کانال</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="63"/>
         <source>Topic</source>
-        <translation>주제</translation>
+        <translation>موضوع</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="80"/>
         <source>Password</source>
-        <translation>암호</translation>
+        <translation>کلمۀ عبور</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="100"/>
         <source>Operator password</source>
-        <translation>관리자 암호</translation>
+        <translation>کلمۀ عبورِ اپراتور</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="120"/>
         <source>Max users</source>
-        <translation>최대 인원 수</translation>
+        <translation>حداکثر تعداد کاربران</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="146"/>
         <source>Disk quota</source>
-        <translation>디스크 할당량</translation>
+        <translation>فضای دیسک</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="162"/>
         <source> KBytes</source>
-        <translation> KB</translation>
+        <translation> کیلوبایت</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="175"/>
         <source>Channel type</source>
-        <translation>채널 유형</translation>
+        <translation>نوع کانال</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="181"/>
         <source>Permanent channel (stored on server)</source>
-        <translation>영구 채널 (서버에 저장됩니다.)</translation>
+        <translation>کانال همیشگی, (در سِروِر ذخیره میشود)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="190"/>
         <source>No interruptions (no simultaneous voice transmission)</source>
-        <translation>끊김 없는 맗하기 (두 명 이상이 동시에 말할 수 없습니다.)</translation>
+        <translation>بدون وقفه, (بدون ارسال همزمان صدا)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="197"/>
         <source>Setup</source>
-        <translation>설정</translation>
+        <translation>راه‌اندازی</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="200"/>
@@ -497,260 +497,260 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="209"/>
         <source>Classroom (operator-controlled transmissions)</source>
-        <translation>교실 모드 (관리자가 전송을 제어합니다.)</translation>
+        <translation>کلاس درس (اپراتور صداها را کنترل میکند)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="216"/>
         <source>Operator receive only (only operator see and hear users)</source>
-        <translation>관리자만 수신 받기 (관리자만 보고 들을 수 있습니다.)</translation>
+        <translation>فقط اپراتور مشاهده کننده است, (فقط اپراتور می تواند کاربران را ببیند و بشنود)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="223"/>
         <source>No voice activation (only Push-to-Talk allowed)</source>
-        <translation>말하기 활성화 금지 (눌러서 말하기만 사용 가능합니다.)</translation>
+        <translation>غیرفعال‌کردن حالت ارسال خودکار صدا, (در این صورت, فقط گفتگو با فشار دادن دکمه مجاز خواهد بود)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="230"/>
         <source>No audio recording allowed (save to disk not allowed)</source>
-        <translation>녹음 금지 (디스크에 저장되지 않습니다.)</translation>
+        <translation>ممنوعیت ضبط صدا, (ذخیره روی دیسک مجاز نخواهد بود)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="237"/>
         <source>Hidden channel (invisible and only known by name)</source>
-        <translation>숨겨진 채널 (보이지 않으며, 이름으로만 알 수 있습니다.)</translation>
+        <translation>کانال مخفی (غیر‌قابل‌مشاهده است و تنها با نام شناخته میشود)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="251"/>
         <source>Audio Codec</source>
-        <translation>오디오 코덱</translation>
+        <translation>مبدل صوتی</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="259"/>
         <source>Codec type</source>
-        <translation>코덱 유형</translation>
+        <translation>نوع مبدل صوتی</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="289"/>
         <location filename="../channel.ui" line="426"/>
         <location filename="../channel.ui" line="636"/>
         <source>Sample rate</source>
-        <translation>샘플레이트</translation>
+        <translation>نرخ نمونه برداری, (Sample rate)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="304"/>
         <location filename="../channel.ui" line="441"/>
         <location filename="../channel.ui" line="651"/>
         <source>Hz</source>
-        <translation>Hz</translation>
+        <translation>هرتز</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="326"/>
         <location filename="../channel.ui" line="463"/>
         <source>Quality</source>
-        <translation>품질</translation>
+        <translation>کیفیت</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="376"/>
         <location filename="../channel.ui" line="556"/>
         <location filename="../channel.ui" line="754"/>
         <source>Transmit interval</source>
-        <translation>전송 간격</translation>
+        <translation>فاصله زمانی انتقال</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="388"/>
         <location filename="../channel.ui" line="568"/>
         <location filename="../channel.ui" line="766"/>
         <source> msec</source>
-        <translation>밀리초</translation>
+        <translation> میلیثانیه</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="512"/>
         <source> bps</source>
-        <translation> bps</translation>
+        <translation> بیت بر ثانیه</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="715"/>
         <source> Kbps</source>
-        <translation> Kbps</translation>
+        <translation> کیلوبایت بر ثانیه</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="799"/>
         <source>msec</source>
-        <translation>밀리초</translation>
+        <translation>میلیثانیه</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="500"/>
         <source>Max bitrate</source>
-        <translation>최대 비트레이트</translation>
+        <translation>حداکثر نرخ بیت, (Max bitrate)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="546"/>
         <location filename="../channel.ui" line="744"/>
         <source>Ignore silence (DTX)</source>
-        <translation>무음 무시(DTX)</translation>
+        <translation>نادیده‌گرفتن سکوت</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="606"/>
         <source>Application</source>
-        <translation>애플리케이션</translation>
+        <translation>کاربرد</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="673"/>
         <source>Audio channels</source>
-        <translation>오디오 채널</translation>
+        <translation>کانال‌های صوتی</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="703"/>
         <source>Bitrate</source>
-        <translation>비트레이트</translation>
+        <translation>نرخ بیت, (Bitrate)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="735"/>
         <source>Variable bitrate</source>
-        <translation>가변 비트레이트</translation>
+        <translation>نرخ بیت متغیر, (Variable bitrate)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="786"/>
         <source>Frame size</source>
-        <translation>프레임 크기</translation>
+        <translation>اندازۀ فریم</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="815"/>
         <source>Audio Configuration</source>
-        <translation>오디오 정책</translation>
+        <translation>پیکربندی صدا</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="821"/>
         <source>Ensure all users in the channel have the same audio volume</source>
-        <translation>채널 내 모든 사용자 볼륨 평준화</translation>
+        <translation>اطمینان حاصل کنید که همۀ کاربران در کانال دارای صدای یکسانی هستند</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="824"/>
         <source>Enable fixed audio volume for all users</source>
-        <translation>모든 사용자 볼륨 고정 활성화</translation>
+        <translation>فعالسازی صدای ثابت برای تمام کاربران</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="833"/>
         <source>Volume level</source>
-        <translation>볼륨 수준</translation>
+        <translation>میزان صدا</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="871"/>
         <source>Stream Timeout Timer</source>
-        <translation>스트리밍 시간 제한</translation>
+        <translation>تایمر توقف استریم</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="877"/>
         <source>Voice stream max duration</source>
-        <translation>최대 말하기 스트리밍 시간</translation>
+        <translation>حداکثر مدت زمان پخش استریم صدا</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="887"/>
         <source>Media file stream max duration</source>
-        <translation>최대 미디어 파일 스트리밍 시간</translation>
+        <translation>حداکثر مدت زمان پخش فایل‌های رسانه ای</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="897"/>
         <location filename="../channel.ui" line="907"/>
         <source> seconds</source>
-        <translation>초</translation>
+        <translation> ثانیه</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="952"/>
         <source>&amp;Join channel on exit</source>
-        <translation>앱을 재시작하면 채널에 다시 입장 (&amp;J)</translation>
+        <translation>پیوستن خودکار به کانال هنگام خروج</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="38"/>
         <location filename="../channeldlg.cpp" line="443"/>
         <source>&amp;OK</source>
-        <translation>확인 (&amp;O)</translation>
+        <translation>&amp;تأیید</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="39"/>
         <location filename="../channeldlg.cpp" line="444"/>
         <source>&amp;Cancel</source>
-        <translation>취소 (&amp;C)</translation>
+        <translation>&amp;لغو</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="70"/>
         <source>No Audio</source>
-        <translation>오디오 사용 안 함</translation>
+        <translation>بدون صدا</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="90"/>
         <source>Mono</source>
-        <translation>모노</translation>
+        <translation>مُنُ</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="91"/>
         <source>Stereo</source>
-        <translation>스테레오</translation>
+        <translation>استریو</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="92"/>
         <source>VoIP</source>
-        <translation>VoIP</translation>
+        <translation>صوت بر روی پروتکل اینترنت, (VoIP)</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="93"/>
         <source>Music</source>
-        <translation>Music</translation>
+        <translation>موسیقی</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="143"/>
         <source>Create Channel</source>
-        <translation>채널 만들기</translation>
+        <translation>ایجاد کانال</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="144"/>
         <source>Add channel on %1</source>
-        <translation>%1에 채널 추가</translation>
+        <translation>افزودن کانال در %1</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="159"/>
         <source>Update Channel</source>
-        <translation>채널 업데이트</translation>
+        <translation>به‌روز‌رسانی کانال</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="161"/>
         <source>Modify root channel</source>
-        <translation>최상위 채널 편집</translation>
+        <translation>ویرایش کانال اصلی</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="163"/>
         <source>Modify channel %1</source>
-        <translation>%1 채널 편집</translation>
+        <translation>ویرایش کانال %1</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="174"/>
         <source>View Channel Information</source>
-        <translation>채널 정보 보기</translation>
+        <translation>مشاهدۀ اطلاعات کانال</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="176"/>
         <source>View root channel information</source>
-        <translation>최상위 채널 정보 보기</translation>
+        <translation>مشاهدۀ اطلاعات کانال اصلی</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="178"/>
         <source>View %1 information</source>
-        <translation>%1 정보 보기</translation>
+        <translation>مشاهدۀ اطلاعات %1</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="203"/>
         <source>&amp;Close</source>
-        <translation>닫기 (&amp;C)</translation>
+        <translation>&amp;بستن</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="447"/>
         <source>Transmission Queue Delay</source>
-        <translation>전송 대기열 지연</translation>
+        <translation>تأخیر صف انتقال</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="448"/>
         <source>Delay before switching to next user in queue (in msec)</source>
-        <translation>대기열 내 다음 사용자로 전환하기 전 지연 시간 (밀리초)</translation>
+        <translation>فاصلۀ زمانی قبل از اعطای نوبت به کاربرِ بعدی در صف. (اگر کاربری صحبتِ خود را به پایان برساند, پس از چند ثانیه نوبتِ صحبت کردن از او گرفته شده و به کاربرِ بعدی داده شود? عددی که وارد میکنید, باید بر‌حسبِ میلیثانیه باشد. عددِ 0 این قابلیت را غیرفعال میکند)</translation>
     </message>
 </context>
 <context>
@@ -758,17 +758,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="1131"/>
         <source>Expanded</source>
-        <translation>펼쳐짐</translation>
+        <translation>باز‌شده</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1131"/>
         <source>Collapsed</source>
-        <translation>접힘</translation>
+        <translation>بسته‌شده</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="824"/>
         <source>Text message transmission allowed for everyone: %1</source>
-        <translation>모든 사용자에게 텍스트 메시지 전송 허용: %1</translation>
+        <translation>همه بتوانند پیام های متنی ارسال کنند: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="824"/>
@@ -782,7 +782,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="958"/>
         <location filename="../channelstree.cpp" line="959"/>
         <source>Yes</source>
-        <translation>예</translation>
+        <translation>بله</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="824"/>
@@ -796,128 +796,128 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="958"/>
         <location filename="../channelstree.cpp" line="959"/>
         <source>No</source>
-        <translation>아니요</translation>
+        <translation>خیر</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="825"/>
         <source>Voice transmission allowed for everyone: %1</source>
-        <translation>모든 사용자에게 말하기 허용: %1</translation>
+        <translation>همه بتوانند صحبت کنند: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="826"/>
         <source>Video transmission allowed for everyone: %1</source>
-        <translation>모든 사용자에게 동영상 전송 허용: %1</translation>
+        <translation>همه بتوانند ویدیو ارسال کنند: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="827"/>
         <source>Desktop transmission allowed for everyone: %1</source>
-        <translation>모든 사용자에게 화면 공유 전송 허용: %1</translation>
+        <translation>همه بتوانند صفحه نمایش خود را به اشتراک بگذارند: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="828"/>
         <source>Media files transmission allowed for everyone: %1</source>
-        <translation>모든 사용자에게 미디어 파일 전송 허용: %1</translation>
+        <translation>همه بتوانند فایلهای صوتی و تصویری استریم کنند: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="832"/>
         <source>Text message transmission</source>
-        <translation>텍스트 메시지 전송</translation>
+        <translation>ارسال پیام متنی</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="833"/>
         <source>Voice transmission</source>
-        <translation>말하기</translation>
+        <translation>ارسال صدا</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="834"/>
         <source>Video transmission</source>
-        <translation>동영상 전송</translation>
+        <translation>اشتراک ویدیو</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="835"/>
         <source>Desktop transmission</source>
-        <translation>화면 공유 전송</translation>
+        <translation>اشتراک‌گذاری دسکتاپ</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="836"/>
         <source>Media files transmission</source>
-        <translation>미디어 파일 전송</translation>
+        <translation>استریم فایل‌های صوتی و تصویری</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1172"/>
         <source>Away</source>
         <comment>For female</comment>
-        <translation>자리비움</translation>
+        <translation>دور</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1172"/>
         <source>Away</source>
         <comment>For male and neutral</comment>
-        <translation>자리비움</translation>
+        <translation>دور</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1197"/>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation>서버 관리자</translation>
+        <translation>مدیر</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1197"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
-        <translation>서버 관리자</translation>
+        <translation>مدیر</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1200"/>
         <source>Channel operator</source>
         <comment>For female</comment>
-        <translation>채널 관리자</translation>
+        <translation>اپراتور کانال</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1200"/>
         <source>Channel operator</source>
         <comment>For male and neutral</comment>
-        <translation>채널 관리자</translation>
+        <translation>اپراتور کانال</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1175"/>
         <source>Question</source>
-        <translation>질문 모드</translation>
+        <translation>پرسش</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1181"/>
         <source>Streaming media file</source>
-        <translation>스트리밍</translation>
+        <translation>در حال پخش فایل</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1184"/>
         <source>Webcam</source>
-        <translation>웹캠</translation>
+        <translation>وب‌کم</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="955"/>
         <source>Text message transmission allowed: %1</source>
-        <translation>텍스트 메시지 전송 허용: %1</translation>
+        <translation>اجازه دادن به این کاربر برای ارسال پیام‌های متنی: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="956"/>
         <source>Voice transmission allowed: %1</source>
-        <translation>말하기 허용: %1</translation>
+        <translation>اجازه دادن به این کاربر برای صحبت کردن: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="957"/>
         <source>Video transmission allowed: %1</source>
-        <translation>동영상 전송 허용: %1</translation>
+        <translation>اجازه دادن به این کاربر برای اشتراک‌گذاری ویدیو: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="958"/>
         <source>Desktop transmission allowed: %1</source>
-        <translation>화면 공유 전송 허용: %1</translation>
+        <translation>اجازه دادن به این کاربر برای اشتراک‌گذاری صفحه نمایش: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="959"/>
         <source>Media files transmission allowed: %1</source>
-        <translation>미디어 파일 전송 허용: %1</translation>
+        <translation>اجازه دادن به این کاربر برای استریم فایلهای صوتی و تصویری: %1</translation>
     </message>
 </context>
 <context>
@@ -925,37 +925,37 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="132"/>
         <source>yyyy-MM-dd HH:mm:ss</source>
-        <translation></translation>
+        <translation>تاریخ و زمان با فرمتِ: سال-ماه-روز ساعت:دقیقه:ثانیه</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="151"/>
         <source>Server Name: %1</source>
-        <translation>서버 이름: %1</translation>
+        <translation>نام سِروِر: %1</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="156"/>
         <source>Message of the Day: %1</source>
-        <translation>환영사: %1</translation>
+        <translation>پیام روز: %1</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="197"/>
         <source>Joined channel %1</source>
-        <translation>%1 채널에 입장</translation>
+        <translation>وارد %1 شُدید</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="203"/>
         <source>Topic: %1</source>
-        <translation>주제: %1</translation>
+        <translation>موضوع: %1</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="210"/>
         <source>Disk quota: %1 KBytes</source>
-        <translation>디스크 할당량: %1 KB</translation>
+        <translation>فضای دیسک: %1 کیلوبایت</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="368"/>
         <source>&amp;Clear</source>
-        <translation>초기화 (&amp;C)</translation>
+        <translation>پاک کردن</translation>
     </message>
 </context>
 <context>
@@ -963,47 +963,47 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../customvideofmt.ui" line="14"/>
         <source>Custom Video Format</source>
-        <translation>맞춤 비디오 형식</translation>
+        <translation>فرمت ویدیویی دلخواه</translation>
     </message>
     <message>
         <location filename="../customvideofmt.ui" line="20"/>
         <source>Video Format</source>
-        <translation>비디오 형식</translation>
+        <translation>فرمت ویدیو</translation>
     </message>
     <message>
         <location filename="../customvideofmt.ui" line="28"/>
         <source>Video Resolution</source>
-        <translation>동영상 해상도</translation>
+        <translation>وضوح تصویر</translation>
     </message>
     <message>
         <location filename="../customvideofmt.ui" line="48"/>
         <source>640</source>
-        <translation>640</translation>
+        <translation>۶۴۰</translation>
     </message>
     <message>
         <location filename="../customvideofmt.ui" line="62"/>
         <source>480</source>
-        <translation>480</translation>
+        <translation>۴۸۰</translation>
     </message>
     <message>
         <location filename="../customvideofmt.ui" line="69"/>
         <source>FPS</source>
-        <translation>FPS</translation>
+        <translation>فریم بر ثانیه</translation>
     </message>
     <message>
         <location filename="../customvideofmt.ui" line="76"/>
         <source>10</source>
-        <translation>10</translation>
+        <translation>۱۰</translation>
     </message>
     <message>
         <location filename="../customvideofmtdlg.cpp" line="28"/>
         <source>&amp;OK</source>
-        <translation>확인 (&amp;O)</translation>
+        <translation>&amp;تأیید</translation>
     </message>
     <message>
         <location filename="../customvideofmtdlg.cpp" line="29"/>
         <source>&amp;Cancel</source>
-        <translation>취소 (&amp;C)</translation>
+        <translation>&amp;لغو</translation>
     </message>
 </context>
 <context>
@@ -1011,97 +1011,97 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="14"/>
         <source>Safe List For Automatic Desktop Access</source>
-        <translation>안전한 자동 화면 공유 접근 목록</translation>
+        <translation>لیست ایمن برای دسترسی خودکار به دسکتاپ</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="22"/>
         <source>Safe List For Desktop Access</source>
-        <translation>안전한 화면 공유 접근 목록</translation>
+        <translation>لیست ایمن برای دسترسی به دسکتاپ</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="33"/>
         <source>&amp;Delete</source>
-        <translation>삭제 (&amp;D)</translation>
+        <translation>&amp;حذف	</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="60"/>
         <source>Desktop Access Entry</source>
-        <translation>화면 공유 접근 항목</translation>
+        <translation>دسترسی ورود به دسکتاپ از راه دور</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="66"/>
         <source>Here it is possible to automatically give desktop access to a selected group of users on a server. This way it is not required to click &quot;Allow Desktop Access&quot; every time a user logs on.</source>
-        <translation>그룹에 추가한 사용자는 서버에 로그인할 때마다 &quot;화면 공유 접근 허용&quot;을 받을 필요 없이 자동으로 화면 공유 접근 권한을 얻습니다.</translation>
+        <translation>در اینجا امکان دسترسی به دسکتاپ از راه دور به صورت خودکار برای یک گروه انتخاب شده از کاربران در یک سِروِر وجود دارد. به این ترتیب نیازی نیست هر بار که کاربری وارد سِروِر می شود، روی &quot;اجازه دسترسی به دسکتاپ&quot; کلیک کند.</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="78"/>
         <source>Host IP-address</source>
-        <translation>호스트 IP 주소</translation>
+        <translation>آدرس آیپی یا دامنۀ سِروِر</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="91"/>
         <source>TCP port</source>
-        <translation>TCP 포트</translation>
+        <translation>پورت TCP</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="115"/>
         <source>Enable desktop access to all users in channel</source>
-        <translation>채널 내 모든 사용자에게 화면 공유 접근 활성화</translation>
+        <translation>فعال کردن دسترسی به دسکتاپ برای همۀ کاربران در کانال</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="135"/>
         <source>&amp;Add</source>
-        <translation>추가 (&amp;A)</translation>
+        <translation>&amp;افزودن</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="142"/>
         <source>&amp;Remove</source>
-        <translation>제거 (&amp;R)</translation>
+        <translation>&amp;حذف</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="153"/>
         <source>Enable desktop access to users with username</source>
-        <translation>사용자 이름별 화면 공유 접근 활성화</translation>
+        <translation>فعال کردن دسترسی به دسکتاپ برای کاربرانی که دارای نام کاربری هستند</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="179"/>
         <source>A&amp;dd</source>
-        <translation>추가 (&amp;D)</translation>
+        <translation>ا&amp;فزودن</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="186"/>
         <source>R&amp;emove</source>
-        <translation>제거 (&amp;E)</translation>
+        <translation>ح&amp;ذف</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="197"/>
         <source>&amp;Clear</source>
-        <translation>초기화 (&amp;C)</translation>
+        <translation>&amp;پاک کردن</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="217"/>
         <source>Add to &amp;Safe List</source>
-        <translation>안전 목록에 추가 (&amp;S)</translation>
+        <translation>افزودن به &amp;لیست ایمن</translation>
     </message>
     <message>
         <location filename="../desktopaccessdlg.cpp" line="28"/>
         <source>&amp;OK</source>
-        <translation>확인 (&amp;O)</translation>
+        <translation>&amp;تأیید</translation>
     </message>
     <message>
         <location filename="../desktopaccessdlg.cpp" line="29"/>
         <source>&amp;Cancel</source>
-        <translation>취소 (&amp;C)</translation>
+        <translation>&amp;لغو</translation>
     </message>
     <message>
         <location filename="../desktopaccessdlg.cpp" line="113"/>
         <source>Missing fields</source>
-        <translation>필드 누락됨</translation>
+        <translation>فیلدهای خالی</translation>
     </message>
     <message>
         <location filename="../desktopaccessdlg.cpp" line="114"/>
         <source>Please fill the field &apos;Host IP-address&apos;</source>
-        <translation>호스트 IP 주소가 입력되지 않았습니다.</translation>
+        <translation>لطفا فیلد &apos;آدرس آیپی یا دامنۀ سِروِر&apos; را پر کنید</translation>
     </message>
 </context>
 <context>
@@ -1109,7 +1109,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopgridwidget.cpp" line="28"/>
         <source>No active desktop sessions</source>
-        <translation>활성화된 화면 공유 세션 없음</translation>
+        <translation>هیچ جلسۀ دسکتاپِ فعالی وجود ندارد</translation>
     </message>
 </context>
 <context>
@@ -1117,82 +1117,82 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopshare.ui" line="14"/>
         <source>Desktop Sharing</source>
-        <translation>화면 공유</translation>
+        <translation>اشتراک‌گذاری صفحه نمایش</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="20"/>
         <source>Window to Share</source>
-        <translation>창 공유</translation>
+        <translation>پنجره برای اشتراک‌گذاری</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="26"/>
         <source>Share entire desktop</source>
-        <translation>전체 화면 공유</translation>
+        <translation>اشتراک‌گذاری کل دسکتاپ</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="36"/>
         <source>Share active window</source>
-        <translation>활성 창 공유</translation>
+        <translation>اشتراک‌گذاری پنجرۀ فعلی</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="45"/>
         <source>Share specific window</source>
-        <translation>특정 창 공유</translation>
+        <translation>اشتراک‌گذاری پنجرۀ مورد نظر</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="70"/>
         <source>Shared Window Look</source>
-        <translation>공유할 창 모양</translation>
+        <translation>ظاهر پنجرۀ مشترک شده</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="78"/>
         <source>Color mode</source>
-        <translation>색상 모드</translation>
+        <translation>حالت رنگ</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="108"/>
         <source>Update interval</source>
-        <translation>업데이트 간격</translation>
+        <translation>مدت زمان به‌روز‌رسانی</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="140"/>
         <source>msec</source>
-        <translation>밀리초</translation>
+        <translation>میلیثانیه</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="162"/>
         <source>Share desktop cursor</source>
-        <translation>커서 공유</translation>
+        <translation>اشتراک‌گذاری نشانگر دسکتاپ</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="48"/>
         <source>&amp;OK</source>
-        <translation>확인 (&amp;O)</translation>
+        <translation>&amp;تأیید</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="49"/>
         <source>&amp;Cancel</source>
-        <translation>취소 (&amp;C)</translation>
+        <translation>&amp;لغو</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="156"/>
         <source>Low (8-bit colors)</source>
-        <translation>저화질 (8비트 색상)</translation>
+        <translation>کیفیت پایین (رنگ‌های ۸ بیتی)</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="157"/>
         <source>Medium (16-bit colors)</source>
-        <translation>중간화질 (16비트 색상)</translation>
+        <translation>کیفیت متوسط (رنگ‌های ۱۶ بیتی)</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="158"/>
         <source>High (24-bit colors)</source>
-        <translation>고화질 (24비트 색상)</translation>
+        <translation>کیفیت بالا (رنگ‌های ۲۴ بیتی)</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="159"/>
         <source>Maximum (32-bit colors)</source>
-        <translation>최고화질 (32비트 색상)</translation>
+        <translation>بالاترین کیفیت (رنگ‌های ۳۲ بیتی)</translation>
     </message>
 </context>
 <context>
@@ -1200,17 +1200,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../encryptionsetupdlg.ui" line="14"/>
         <source>Setup Encryption</source>
-        <translation>암호화 설정</translation>
+        <translation>تنظیم رمزگذاری</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="20"/>
         <source>Client Encryption Settings</source>
-        <translation>클라이언트 암호화 설정</translation>
+        <translation>تنظیمات رمزگذاری کلاینت</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="26"/>
         <source>Certificate Authority (CA)</source>
-        <translation>인증 기관 (CA)</translation>
+        <translation>سازمان صدور گواهینامه</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="48"/>
@@ -1227,113 +1227,113 @@ p, li { white-space: pre-wrap; }
         <location filename="../encryptionsetupdlg.ui" line="110"/>
         <location filename="../encryptionsetupdlg.ui" line="164"/>
         <source>Browse</source>
-        <translation>찾아보기</translation>
+        <translation>جستجو</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="71"/>
         <location filename="../encryptionsetupdlg.ui" line="125"/>
         <location filename="../encryptionsetupdlg.ui" line="179"/>
         <source>Reset</source>
-        <translation>재설정</translation>
+        <translation>بازنشانی</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="80"/>
         <source>Client certificate</source>
-        <translation>클라이언트 인증서</translation>
+        <translation>گواهینامۀ کلاینت</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="134"/>
         <source>Client private key</source>
-        <translation>클라이언트 개인 키</translation>
+        <translation>کلید خصوصی کلاینت</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="188"/>
         <source>Verify server certificate</source>
-        <translation>서버인증서 확인</translation>
+        <translation>بررسی هویت سِروِر</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="77"/>
         <location filename="../encryptionsetupdlg.cpp" line="120"/>
         <source>Issuer: %1</source>
-        <translation>발급자: %1</translation>
+        <translation>صادر‌کنندۀ گواهینامه: %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="78"/>
         <location filename="../encryptionsetupdlg.cpp" line="121"/>
         <source>Subject: %1</source>
-        <translation>제목: %1</translation>
+        <translation>موضوع: %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="79"/>
         <location filename="../encryptionsetupdlg.cpp" line="122"/>
         <source>Effective date: %1</source>
-        <translation>유효 일자: %1</translation>
+        <translation>تاریخ شروع: %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="80"/>
         <location filename="../encryptionsetupdlg.cpp" line="123"/>
         <source>Expiration date: %1</source>
-        <translation>만료 일자: %1</translation>
+        <translation>تاریخ انقضا: %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="92"/>
         <source>Certificate Authority (*.cer)</source>
-        <translation>인증 기관 (*.cer)</translation>
+        <translation>مرجع صدور گواهینامۀ دیجیتال (*.cer)</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="106"/>
         <source>Setup Certificate Authority</source>
-        <translation>인증 기관 설정</translation>
+        <translation>نصب مرجع صدور گواهینامه</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="107"/>
         <source>The file %1 does not contain a valid certificate authority</source>
-        <translation>%1 파일에 유효한 인증 기관이 없습니다.</translation>
+        <translation>فایل %1 حاوی گواهینامۀ دیجیتال معتبر نیست</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="135"/>
         <source>Client Certificate (*.pem)</source>
-        <translation>클라이언트 인증서 (*.pem)</translation>
+        <translation>گواهینامۀ دیجیتالِ کلاینت (*.pem)</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="149"/>
         <source>Setup Client Certificate</source>
-        <translation>클라이언트 인증서 설정</translation>
+        <translation>نصب گواهینامۀ کلاینت</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="150"/>
         <source>The file %1 does not contain a valid client certificate</source>
-        <translation>%1 파일에 유효한 클라이언트 인증서가 없습니다.</translation>
+        <translation>فایل %1 حاوی گواهینامۀ دیجیتال کلاینت معتبر نیست</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="163"/>
         <source>RSA encryption</source>
-        <translation>RSA 암호화</translation>
+        <translation>رمزنگاری نامتقارن RSA</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="165"/>
         <source>Private key: %1 bits</source>
-        <translation>개인 키: %1비트</translation>
+        <translation>کلید خصوصی: %1 بیت</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="177"/>
         <source>Client Private Key (*.pem)</source>
-        <translation>클라이언트 개인 키 (*.pem)</translation>
+        <translation>کلید خصوصی کلاینت (*.pem)</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="191"/>
         <source>Setup Client Private Key</source>
-        <translation>클라이언트 개인 키 설정</translation>
+        <translation>تنظیم کلید خصوصی کلاینت</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="192"/>
         <source>The file %1 does not contain a valid client private key</source>
-        <translation>%1 파일에 유효한 클라이언트 개인 키가 없습니다.</translation>
+        <translation>فایل %1 حاوی کلید خصوصی کلاینت معتبر نیست</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="201"/>
         <source>Open File</source>
-        <translation>파일 열기</translation>
+        <translation>باز کردن فایل</translation>
     </message>
 </context>
 <context>
@@ -1342,62 +1342,62 @@ p, li { white-space: pre-wrap; }
         <location filename="../filetransfer.ui" line="14"/>
         <location filename="../filetransferdlg.cpp" line="66"/>
         <source>File Transfer</source>
-        <translation>파일 전송</translation>
+        <translation>انتقال فایل</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="25"/>
         <source>Filename:</source>
-        <translation>파일 이름:</translation>
+        <translation>نام فایل:</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="42"/>
         <source>File size:</source>
-        <translation>파일 크기:</translation>
+        <translation>حجم فایل:</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="59"/>
         <source>Throughput:</source>
-        <translation>처리량:</translation>
+        <translation>سرعت انتقال:</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="76"/>
         <source>Destination:</source>
-        <translation>목적지:</translation>
+        <translation>مقصد:</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="127"/>
         <source>C&amp;lose when completed</source>
-        <translation>완료되면 닫기 (&amp;L)</translation>
+        <translation>پ&amp;س از خاطمۀ فرایندِ آپلود یا دانلود, این پنجره به طورِ خودکار بسته شود</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="147"/>
         <source>&amp;Cancel</source>
-        <translation>취소 (&amp;C)</translation>
+        <translation>&amp;لغو</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="154"/>
         <source>&amp;Open</source>
-        <translation>열기 (&amp;O)</translation>
+        <translation>&amp;باز کردن</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="67"/>
         <source>File transfer failed.</source>
-        <translation>파일 전송 실패.</translation>
+        <translation>انتقال فایل انجام نشد.</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="112"/>
         <source>%1 KBytes/second, last second %2 bytes</source>
-        <translation>%1 KB/초, 마지막 초 %2 B</translation>
+        <translation>سرعت انتقال داده در حال حاضر %1 کیلوبایت بر ثانیه است, حجم انتقال داده در آخرین ثانیه %2 بایت بوده است</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="139"/>
         <source>&amp;Close</source>
-        <translation>닫기 (&amp;C)</translation>
+        <translation>&amp;بستن</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="164"/>
         <source>Unable to open &quot;%1&quot;. File does not have a default file association</source>
-        <translation>%1 파일은 기본 연결이 존재하지 않아 열 수 없습니다.</translation>
+        <translation>باز کردن &quot;%1&quot; امکان‌پذیر نیست. این فایل هیچ برنامۀ پیشفرضی برای باز شدن ندارد</translation>
     </message>
 </context>
 <context>
@@ -1405,22 +1405,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filesmodel.cpp" line="41"/>
         <source>Name</source>
-        <translation>이름</translation>
+        <translation>نام</translation>
     </message>
     <message>
         <location filename="../filesmodel.cpp" line="42"/>
         <source>Size</source>
-        <translation>크기</translation>
+        <translation>حجم</translation>
     </message>
     <message>
         <location filename="../filesmodel.cpp" line="43"/>
         <source>Owner</source>
-        <translation>등록자</translation>
+        <translation>آپلودکننده</translation>
     </message>
     <message>
         <location filename="../filesmodel.cpp" line="44"/>
         <source>Date</source>
-        <translation>등록일시</translation>
+        <translation>تاریخ</translation>
     </message>
 </context>
 <context>
@@ -1428,123 +1428,123 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="14"/>
         <source>Generate .tt File</source>
-        <translation>.tt 파일 만들기</translation>
+        <translation>ایجاد فایل .tt</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="22"/>
         <location filename="../generatettfile.ui" line="25"/>
         <source>Authentication (optional)</source>
-        <translation>인증 (선택 사항)</translation>
+        <translation>اعتبارسنجی (اختیاری)</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="31"/>
         <source>Username</source>
-        <translation>사용자 이름</translation>
+        <translation>نام کاربری</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="44"/>
         <source>Password</source>
-        <translation>암호</translation>
+        <translation>کلمۀ عبور</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="79"/>
         <source>Client settings</source>
-        <translation>클라이언트 설정</translation>
+        <translation>تنظیمات کلاینت</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="85"/>
         <source>Override client&apos;s predefined settings</source>
-        <translation>클라이언트에 이미 정의된 설정값 덮어쓰기</translation>
+        <translation>اِعمالِ &apos;تنظیماتِ سفارشی برای کلاینت</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="94"/>
         <source>User Settings</source>
-        <translation>사용자 설정</translation>
+        <translation>تنظیمات کاربر</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="102"/>
         <source>Nickname</source>
-        <translation>대화명</translation>
+        <translation>نام مستعار</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="126"/>
         <source>Gender</source>
-        <translation>성별</translation>
+        <translation>جنسیت</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="161"/>
         <source>Male</source>
-        <translation>남성</translation>
+        <translation>مرد</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="174"/>
         <source>Female</source>
-        <translation>여성</translation>
+        <translation>زن</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="184"/>
         <source>Neutral</source>
-        <translation>중립</translation>
+        <translation>خنثی</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="209"/>
         <source>Voice Transmission Mode</source>
-        <translation>말하기 전송 모드</translation>
+        <translation>روش ارسال صدا</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="224"/>
         <source>Push To Talk</source>
-        <translation>눌러서 말하기</translation>
+        <translation>نگه داشتن یک کلید برای صحبت</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="234"/>
         <source>&amp;Setup Keys</source>
-        <translation>키 설정 (&amp;S)</translation>
+        <translation>&amp;تنظیم کلیدها</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="241"/>
         <source>Key Combination</source>
-        <translation>키 조합</translation>
+        <translation>ترکیب کلیدها</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="264"/>
         <source>Voice activated</source>
-        <translation>말하기 활성화</translation>
+        <translation>فعال کردن ارسال خودکار صدا</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="284"/>
         <source>Video Codec Settings</source>
-        <translation>비디오 코덱 설정</translation>
+        <translation>تنظیمات فشرده‌سازی ویدیو</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="287"/>
         <source>Video Capture Settings</source>
-        <translation>동영상 캡처 설정</translation>
+        <translation>تنظیمات ضبط ویدیو</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="296"/>
         <source>Video Resolution</source>
-        <translation>동영상 해상도</translation>
+        <translation>وضوح تصویر</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="313"/>
         <source>Codec</source>
-        <translation>코덱</translation>
+        <translation>مبدل</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="336"/>
         <source>Bitrate</source>
-        <translation>비트레이트</translation>
+        <translation>نرخ بیت, (Bitrate)</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="428"/>
         <source>&amp;Save .tt File</source>
-        <translation>.tt 파일 저장 (&amp;S)</translation>
+        <translation>&amp;ذخیره کردن فایل .tt</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="435"/>
         <source>&amp;Close</source>
-        <translation>닫기 (&amp;C)</translation>
+        <translation>&amp;بستن</translation>
     </message>
 </context>
 <context>
@@ -1553,23 +1553,23 @@ p, li { white-space: pre-wrap; }
         <location filename="../generatettfiledlg.cpp" line="64"/>
         <location filename="../generatettfiledlg.cpp" line="75"/>
         <source>Any</source>
-        <translation>모두</translation>
+        <translation>همه</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="182"/>
         <location filename="../generatettfiledlg.cpp" line="190"/>
         <source>Save File</source>
-        <translation>파일 저장</translation>
+        <translation>ذخیرۀ فایل</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="183"/>
         <source>%1 File (*%1)</source>
-        <translation>%1 파일 (*%1)</translation>
+        <translation>%1 فایل (*%1)</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="190"/>
         <source>Unable to save file</source>
-        <translation>파일 저장 실패</translation>
+        <translation>ذخیرۀ فایل ممکن نیست</translation>
     </message>
 </context>
 <context>
@@ -1578,42 +1578,42 @@ p, li { white-space: pre-wrap; }
         <location filename="../keycomp.ui" line="20"/>
         <location filename="../keycompdlg.cpp" line="52"/>
         <source>Key Combination</source>
-        <translation>키 조합</translation>
+        <translation>ترکیب کلیدها</translation>
     </message>
     <message>
         <location filename="../keycomp.ui" line="29"/>
         <source>Setup Hotkey</source>
-        <translation>기능키 설정</translation>
+        <translation>تنظیم کلید میانبر</translation>
     </message>
     <message>
         <location filename="../keycomp.ui" line="35"/>
         <source>Hold down the keys which should be used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
-        <translation>기능키로 사용할 키를 길게 누르세요. 수식키를 조합할 수 있습니다.</translation>
+        <translation>برای تنظیم میانبر, کلیدهای مورد نظر را فشار داده و نگه دارید. کلیدهای چندگانه مانند Shift, CTRL و Alt را میتوان با سایر کلیدها ترکیب کرد</translation>
     </message>
     <message>
         <location filename="../keycomp.ui" line="47"/>
         <source>Current key combination</source>
-        <translation>현재 키 조합</translation>
+        <translation>ترکیب کلیدهای فعلی</translation>
     </message>
     <message>
         <location filename="../keycomp.ui" line="69"/>
         <source>This dialog closes when you have released all keys</source>
-        <translation>모든 키 입력이 끝나면 대화상자가 닫힙니다</translation>
+        <translation>پس از رها کردن تمام کلیدها، این پنجره بسته میشود</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="53"/>
         <source>Modifiers (Option, Control, Command and Shift) must be used in combination with other keys.</source>
-        <translation>수식키는 단독으로 사용할 수 없습니다.</translation>
+        <translation>کلیدهای تغییردهنده, (مانند Option, Control, Command و Shift) باید با سایر کلیدها ترکیب شوند.</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="225"/>
         <source>Invalid key combination</source>
-        <translation>키 입력 오류</translation>
+        <translation>ترکیب کلیدها اشتباه است</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="226"/>
         <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
-        <translation>단독 수식키 사용이 불가능한 운영체제입니다. 다른 키와 조합하여 사용해야 합니다.</translation>
+        <translation>سیستم‌عاملِ مک  فقط از کلیدهای چندگانه پشتیبانی نمی‌کند, یعنی Cmd, Option و Shift باید با سایرِ کلیدهای غیرچندگانه ترکیب شوند.</translation>
     </message>
 </context>
 <context>
@@ -1621,20 +1621,20 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="49"/>
         <source>Channel list</source>
-        <translation>채널 목록</translation>
+        <translation>کانال‌ها</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="136"/>
         <location filename="../mainwindow.ui" line="158"/>
         <location filename="../mainwindow.ui" line="161"/>
         <source>Master volume</source>
-        <translation>마스터 볼륨</translation>
+        <translation>صدای اسپیکر</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="174"/>
         <location filename="../mainwindow.ui" line="196"/>
         <source>Voice level</source>
-        <translation>말하기 볼륨</translation>
+        <translation>میزان صدا</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="215"/>
@@ -1642,194 +1642,194 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="243"/>
         <location filename="../mainwindow.cpp" line="3234"/>
         <source>Microphone gain</source>
-        <translation>마이크 음량</translation>
+        <translation>بلندی میکروفون</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="256"/>
         <location filename="../mainwindow.ui" line="281"/>
         <location filename="../mainwindow.ui" line="284"/>
         <source>Voice activation level</source>
-        <translation>말하기 활성화 수준</translation>
+        <translation>سطح حساسیت تشخیص صدا</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="340"/>
         <location filename="../mainwindow.ui" line="624"/>
         <location filename="../mainwindow.ui" line="910"/>
         <source>History</source>
-        <translation>지난 메시지</translation>
+        <translation>تاریخچه</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="364"/>
         <location filename="../mainwindow.ui" line="648"/>
         <location filename="../mainwindow.ui" line="934"/>
         <source>Message</source>
-        <translation>메시지</translation>
+        <translation>پیام</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="380"/>
         <source>Send text message</source>
-        <translation>텍스트 메시지 보내기</translation>
+        <translation>ارسال پیام</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="383"/>
         <location filename="../mainwindow.ui" line="658"/>
         <location filename="../mainwindow.ui" line="944"/>
         <source>Sen&amp;d</source>
-        <translation>보내기 (&amp;D)</translation>
+        <translation>ارس&amp;ال</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="399"/>
         <location filename="../mainwindow.ui" line="1737"/>
         <location filename="../mainwindow.cpp" line="7095"/>
         <source>&amp;Video</source>
-        <translation>동영상 (&amp;V)</translation>
+        <translation>&amp;ویدیو</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="454"/>
         <location filename="../mainwindow.ui" line="457"/>
         <source>Detach User Video</source>
-        <translation>사용자 동영상 분리</translation>
+        <translation>جداسازی تصویر کاربر</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="487"/>
         <location filename="../mainwindow.ui" line="490"/>
         <source>Add User to Video Grid</source>
-        <translation>동영상 그리드에 사용자 추가</translation>
+        <translation>اضافه کردن کاربر به جدول ویدیو</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="523"/>
         <location filename="../mainwindow.ui" line="526"/>
         <source>Remove User From Video Grid</source>
-        <translation>동영상 그리드에서 사용자 제거</translation>
+        <translation>حذف کاربر از جدول ویدیو</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="556"/>
         <location filename="../mainwindow.ui" line="559"/>
         <source>Start/Stop Webcam</source>
-        <translation>웹캠 시작/중지</translation>
+        <translation>روشن یا خاموش کردن وب‌کم</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="729"/>
         <location filename="../mainwindow.ui" line="732"/>
         <source>Detach selected window</source>
-        <translation>선택한 창 분리</translation>
+        <translation>جداسازی پنجرۀ انتخاب‌شده</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="765"/>
         <source>Put back removed window</source>
-        <translation>제거한 창 되돌리기</translation>
+        <translation>بازیابی پنجرۀ حذف شده</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="801"/>
         <location filename="../mainwindow.ui" line="804"/>
         <source>Remove selected window</source>
-        <translation>선택한 창 제거</translation>
+        <translation>پاک کردن پنجرۀ انتخاب‌شده</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="840"/>
         <location filename="../mainwindow.ui" line="843"/>
         <source>Request desktop access</source>
-        <translation>화면 공유 접근 요청</translation>
+        <translation>درخواست دسترسی به دسکتاپ</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="319"/>
         <source>Ch&amp;at</source>
-        <translation>채팅 (&amp;A)</translation>
+        <translation>پی&amp;ام‌ها</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="674"/>
         <location filename="../mainwindow.cpp" line="7103"/>
         <source>&amp;Desktops</source>
-        <translation>화면 공유 (&amp;D)</translation>
+        <translation>&amp;دسکتاپ‌ها</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="960"/>
         <location filename="../mainwindow.cpp" line="3101"/>
         <source>&amp;Files</source>
-        <translation>파일 (&amp;F)</translation>
+        <translation>&amp;فایل‌ها</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="988"/>
         <source>Files list</source>
-        <translation>파일 목록</translation>
+        <translation>فهرستِ فایلها</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1082"/>
         <location filename="../mainwindow.ui" line="1085"/>
         <source>Upload</source>
-        <translation>업로드</translation>
+        <translation>آپلود</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1036"/>
         <location filename="../mainwindow.ui" line="1039"/>
         <source>Download</source>
-        <translation>다운로드</translation>
+        <translation>دانلود</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1059"/>
         <location filename="../mainwindow.ui" line="1062"/>
         <source>Delete</source>
-        <translation>삭제</translation>
+        <translation>حذف</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1119"/>
         <source>C&amp;lient</source>
-        <translation>클라이언트 (&amp;L)</translation>
+        <translation>ک&amp;لاینت</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1157"/>
         <source>&amp;Me</source>
-        <translation>나 (&amp;M)</translation>
+        <translation>&amp;من</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1181"/>
         <source>&amp;Users</source>
-        <translation>사용자 (&amp;U)</translation>
+        <translation>&amp;کاربران</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1185"/>
         <source>&amp;Subscriptions</source>
-        <translation>수신 (&amp;S)</translation>
+        <translation>&amp;اشتراک‌ها</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1205"/>
         <source>&amp;Advanced</source>
-        <translation>고급 (&amp;A)</translation>
+        <translation>&amp;گزینه‌های پیشرفته</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1221"/>
         <source>&amp;Mute</source>
-        <translation>음소거 (&amp;M)</translation>
+        <translation>&amp;قطع صدا</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1228"/>
         <source>&amp;Kick</source>
-        <translation>추방 (&amp;K)</translation>
+        <translation>&amp;بیرون کردن</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1274"/>
         <source>&amp;Channels</source>
-        <translation>채널 (&amp;C)</translation>
+        <translation>&amp;کانال‌ها</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1278"/>
         <source>&amp;Channel Information</source>
-        <translation>채널 정보 (&amp;C)</translation>
+        <translation>&amp;اطلاعات کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1302"/>
         <source>&amp;Server</source>
-        <translation>서버 (&amp;S)</translation>
+        <translation>&amp;سِروِر</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1317"/>
         <source>&amp;Help</source>
-        <translation>도움말 (&amp;H)</translation>
+        <translation>&amp;راهنما</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1380"/>
         <source>&amp;Server List</source>
-        <translation>서버 목록 (&amp;S)</translation>
+        <translation>&amp;لیست سِروِر‌ها</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1383"/>
@@ -1840,7 +1840,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1395"/>
         <source>&amp;Connect</source>
-        <translation>연결 (&amp;C)</translation>
+        <translation>&amp;اتصال</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1398"/>
@@ -1850,7 +1850,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1427"/>
         <source>&amp;Preferences</source>
-        <translation>환경 설정 (&amp;P)</translation>
+        <translation>&amp;تنظیمات</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1430"/>
@@ -1861,12 +1861,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="1435"/>
         <location filename="../mainwindow.cpp" line="2559"/>
         <source>&amp;Exit</source>
-        <translation>끝내기 (&amp;E)</translation>
+        <translation>&amp;خروج از برنامه</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1455"/>
         <source>Enable &amp;Push To Talk</source>
-        <translation>눌러서 말하기 활성화 (&amp;P)</translation>
+        <translation>فعال‌کردن &amp;صحبت با فشردن دکمه</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1458"/>
@@ -1876,12 +1876,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1463"/>
         <source>&amp;About</source>
-        <translation>정보 (&amp;A)</translation>
+        <translation>&amp;دربارۀ برنامه</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1471"/>
         <source>&amp;Manual</source>
-        <translation>설명서 (&amp;M)</translation>
+        <translation>&amp;راهنمای برنامه</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1474"/>
@@ -1891,7 +1891,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1479"/>
         <source>Server &amp;Properties</source>
-        <translation>서버 속성 (&amp;P)</translation>
+        <translation>تنظیمات &amp;سِروِر</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1482"/>
@@ -1901,7 +1901,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1487"/>
         <source>&amp;Create Channel</source>
-        <translation>채널 만들기 (&amp;C)</translation>
+        <translation>&amp;ساختن کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1490"/>
@@ -1911,7 +1911,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1495"/>
         <source>&amp;Update Channel</source>
-        <translation>채널 업데이트 (&amp;U)</translation>
+        <translation>&amp;ویرایش کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1498"/>
@@ -1921,7 +1921,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1503"/>
         <source>&amp;Delete Channel</source>
-        <translation>채널 삭제 (&amp;D)</translation>
+        <translation>&amp;حذف کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1506"/>
@@ -1932,7 +1932,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="1511"/>
         <location filename="../mainwindow.cpp" line="6147"/>
         <source>&amp;Join Channel</source>
-        <translation>채널에 입장 (&amp;J)</translation>
+        <translation>&amp;ورود به کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1514"/>
@@ -1942,7 +1942,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1526"/>
         <source>Enable Voice &amp;Activation</source>
-        <translation>말하기 활성화 (&amp;A)</translation>
+        <translation>فعال کردن &amp;ارسال خودکار صدا</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1529"/>
@@ -1952,7 +1952,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1534"/>
         <source>Change &amp;Nickname</source>
-        <translation>대화명 바꾸기 (&amp;N)</translation>
+        <translation>تغییر &amp;نام مستعار</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1537"/>
@@ -1962,7 +1962,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1542"/>
         <source>Change &amp;Status</source>
-        <translation>상태 바꾸기 (&amp;S)</translation>
+        <translation>تغییر &amp;وضعیت</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1545"/>
@@ -1972,7 +1972,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1550"/>
         <source>&amp;View User Information</source>
-        <translation>사용자 정보 보기 (&amp;V)</translation>
+        <translation>&amp;مشاهدۀ مشخصات کاربر</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1553"/>
@@ -1982,7 +1982,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1573"/>
         <source>Mute &amp;All</source>
-        <translation>모두 음소거 (&amp;A)</translation>
+        <translation>قطع &amp;صدای همۀ کاربران برای خودم</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1576"/>
@@ -1992,7 +1992,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1581"/>
         <source>Up&amp;load File</source>
-        <translation>파일 업로드 (&amp;L)</translation>
+        <translation>آپ&amp;لود فایل</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1584"/>
@@ -2002,7 +2002,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1589"/>
         <source>D&amp;ownload File</source>
-        <translation>파일 다운로드 (&amp;O)</translation>
+        <translation>د&amp;انلود فایل</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1592"/>
@@ -2012,17 +2012,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1597"/>
         <source>Dele&amp;te File</source>
-        <translation>파일 삭제 (&amp;T)</translation>
+        <translation>حذ&amp;ف فایل</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1600"/>
         <source>Shift+Del</source>
-        <translation>Shift+Del</translation>
+        <translation>Shift+Delete</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1605"/>
         <source>&amp;Banned Users</source>
-        <translation>차단된 사용자 (&amp;B)</translation>
+        <translation>&amp;کاربران محروم‌شده</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1608"/>
@@ -2032,7 +2032,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1613"/>
         <source>&amp;User Accounts</source>
-        <translation>사용자 계정 (&amp;U)</translation>
+        <translation>&amp;حساب‌های کاربری</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1616"/>
@@ -2042,7 +2042,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1621"/>
         <source>&amp;Save Configuration</source>
-        <translation>정책 저장 (&amp;S)</translation>
+        <translation>&amp;ذخیرۀ تنظیمات</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1624"/>
@@ -2052,12 +2052,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1629"/>
         <source>&amp;View Channel Info</source>
-        <translation>채널 정보 보기 (&amp;V)</translation>
+        <translation>&amp;مشاهدۀ اطلاعات کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1653"/>
         <source>M&amp;essages</source>
-        <translation>메시지 (&amp;E)</translation>
+        <translation>پ&amp;یام‌ها</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1656"/>
@@ -2067,7 +2067,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1661"/>
         <source>Kick and &amp;Ban From Server</source>
-        <translation>서버에서 추방 및 차단 (&amp;B)</translation>
+        <translation>بیرون کردن و &amp;منع دائمی از ورود به سِروِر</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2203"/>
@@ -2077,62 +2077,62 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1673"/>
         <source>&amp;Op</source>
-        <translation>관리자 (&amp;O)</translation>
+        <translation>&amp;اپراتور</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="768"/>
         <source>Add window</source>
-        <translation>창 추가</translation>
+        <translation>افزودن پنجره</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1123"/>
         <source>S&amp;ound Configuration</source>
-        <translation>사운드 정책 (&amp;O)</translation>
+        <translation>ت&amp;نظیمات صدا</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1127"/>
         <source>&amp;Input Devices</source>
-        <translation>입력 장치 (&amp;I)</translation>
+        <translation>&amp;دستگاه‌های ورودی</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1132"/>
         <source>&amp;Output Devices</source>
-        <translation>출력 장치 (&amp;O)</translation>
+        <translation>&amp;دستگاه‌های خروجی</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1161"/>
         <source>&amp;Notifications</source>
-        <translation>알림 (&amp;N)</translation>
+        <translation>&amp;پیام‌های هشدار</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1238"/>
         <source>&amp;User Information</source>
-        <translation>사용자 정보 (&amp;U)</translation>
+        <translation>&amp;مشخصات کاربر</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1245"/>
         <source>&amp;Transmit Control</source>
-        <translation>전송 제어 (&amp;T)</translation>
+        <translation>&amp;تنظیم دسترسی‌های ارتباطی برای کاربران کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1406"/>
         <source>&amp;Enable Echo Cancellation</source>
-        <translation>반향 제거 활성화 (&amp;E)</translation>
+        <translation>&amp;فعال‌کردن قابلیت حذف اکوی صدا</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1414"/>
         <source>Enable &amp;Automatic Gain Control</source>
-        <translation>음량 자동 조절 활성화 (&amp;A)</translation>
+        <translation>فعال‌کردن &amp;قابلیت تنظیم خودکار بلندی میکروفون</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1422"/>
         <source>Enable &amp;Denoising</source>
-        <translation>소음 억제 활성화 (&amp;D)</translation>
+        <translation>روشن کردن &amp;نویزگیر</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1440"/>
         <source>&amp;Speak Client Statistics</source>
-        <translation>클라이언트 통계 음성 듣기 (&amp;S)</translation>
+        <translation>&amp;گزارش آمار کلاینت</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1443"/>
@@ -2142,7 +2142,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1558"/>
         <source>&amp;Speak User Information</source>
-        <translation>사용자 정보 음성 듣기 (&amp;S)</translation>
+        <translation>&amp;اعلام اطلاعات کاربر</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1561"/>
@@ -2152,7 +2152,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1637"/>
         <source>&amp;Speak Channel Info</source>
-        <translation>채널 정보 음성 듣기 (&amp;S)</translation>
+        <translation>&amp;اعلام اطلاعات کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1640"/>
@@ -2162,7 +2162,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1645"/>
         <source>S&amp;peak Channel State</source>
-        <translation>채널 상태 음성 듣기 (&amp;P)</translation>
+        <translation>ا&amp;علام وضعیت کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1648"/>
@@ -2177,7 +2177,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1681"/>
         <source>&amp;Volume</source>
-        <translation>볼륨 (&amp;V)</translation>
+        <translation>&amp;تنظیم صدای این کاربر برای خودم</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1684"/>
@@ -2187,52 +2187,52 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1696"/>
         <source>V&amp;oice</source>
-        <translation>말하기 (&amp;O)</translation>
+        <translation>ق&amp;طع یا وصل کردن صدای این کاربر برای خودم</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1699"/>
         <source>Ctrl+4</source>
-        <translation>Ctrl+4</translation>
+        <translation>Ctrl+۴</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1711"/>
         <source>&amp;User Messages</source>
-        <translation>사용자 메시지 (&amp;U)</translation>
+        <translation>&amp;دریافت کردن پیامهای خصوصی این کاربر برای خودم</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1714"/>
         <source>Ctrl+1</source>
-        <translation>Ctrl+1</translation>
+        <translation>Ctrl+۱</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1722"/>
         <source>&amp;Channel Messages</source>
-        <translation>채널 메시지 (&amp;C)</translation>
+        <translation>&amp;دریافت کردن پیامهای کانال این کاربر برای خودم</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1725"/>
         <source>Ctrl+2</source>
-        <translation>Ctrl+2</translation>
+        <translation>Ctrl+۲</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1740"/>
         <source>Ctrl+5</source>
-        <translation>Ctrl+5</translation>
+        <translation>Ctrl+۵</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1748"/>
         <source>&amp;Broadcast Messages</source>
-        <translation>방송 (&amp;B)</translation>
+        <translation>&amp;دریافت کردن پیامهای همگانی این کاربر برای خودم</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1751"/>
         <source>Ctrl+3</source>
-        <translation>Ctrl+3</translation>
+        <translation>Ctrl+۳</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1763"/>
         <source>Enable &amp;Video Transmission</source>
-        <translation>동영상 전송 활성화 (&amp;V)</translation>
+        <translation>ارسال &amp;تصویر خودم برای دیگران</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1766"/>
@@ -2242,7 +2242,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1774"/>
         <source>&amp;Stream Audio File to Channel</source>
-        <translation>채널에 오디오 파일 스트리밍 (&amp;S)</translation>
+        <translation>&amp;استریم کردن فایل صوتی در کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1777"/>
@@ -2252,7 +2252,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1782"/>
         <source>Stream Audio &amp;File to User</source>
-        <translation>사용자에게 오디오 파일 스트리밍 (&amp;F)</translation>
+        <translation>استریم کردن &amp;فایل صوتی برای کاربر</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1785"/>
@@ -2262,12 +2262,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1797"/>
         <source>Record Conversations to &amp;Disk</source>
-        <translation>대화 녹음 (&amp;D)</translation>
+        <translation>ضبط &amp;مکالمات</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1800"/>
         <source>Specify a folder where audio from users will be stored</source>
-        <translation>사용자의 오디오를 저장할 폴더 선택</translation>
+        <translation>لطفاً محل ذخیرۀ صداهای کاربران را مشخص کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1803"/>
@@ -2277,62 +2277,62 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1815"/>
         <source>Intercept User Messages</source>
-        <translation>사용자 메시지 가로채기</translation>
+        <translation>شنود پیامهای خصوصی کاربر</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1818"/>
         <source>Ctrl+Shift+1</source>
-        <translation>Ctrl+Shift+1</translation>
+        <translation>Ctrl+Shift+۱</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1826"/>
         <source>Intercept Channel Messages</source>
-        <translation>채널 메시지 가로채기</translation>
+        <translation>شنود پیامهای کانال کاربر</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1829"/>
         <source>Ctrl+Shift+2</source>
-        <translation>Ctrl+Shift+2</translation>
+        <translation>Ctrl+Shift+۲</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1841"/>
         <source>Intercept Voice</source>
-        <translation>말하기 가로채기</translation>
+        <translation>شنود صدای کاربر</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1844"/>
         <source>Ctrl+Shift+4</source>
-        <translation>Ctrl+Shift+4</translation>
+        <translation>Ctrl+Shift+۴</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1856"/>
         <source>Intercept Video</source>
-        <translation>동영상 가로채기</translation>
+        <translation>شنود تصویر کاربر</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1859"/>
         <source>Ctrl+Shift+5</source>
-        <translation>Ctrl+Shift+5</translation>
+        <translation>Ctrl+Shift+۵</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1864"/>
         <source>&amp;Broadcast Message</source>
-        <translation>방송 (&amp;B)</translation>
+        <translation>&amp;فرستادن پیام همگانی</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1872"/>
         <source>&amp;Increase Voice Volume</source>
-        <translation>말하기 볼륨 증가 (&amp;I)</translation>
+        <translation>&amp;افزایش صدای این کاربر برای خودم</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1880"/>
         <source>&amp;Lower Voice Volume</source>
-        <translation>말하기 볼륨 감소 (&amp;L)</translation>
+        <translation>&amp;کاهش صدای این کاربر برای خودم</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1888"/>
         <source>&amp;Store User(s) for Move</source>
-        <translation>이동할 사용자 목록에 추가 (&amp;S)</translation>
+        <translation>&amp;انتخاب کاربران برای جابجایی</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1891"/>
@@ -2342,7 +2342,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1896"/>
         <source>&amp;Move User(s)</source>
-        <translation>사용자 이동 (&amp;M)</translation>
+        <translation>&amp;جابجا کردن کاربران</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1899"/>
@@ -2352,12 +2352,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1908"/>
         <source>&amp;BearWare.dk Website</source>
-        <translation>&amp;BearWare.dk 웹사이트</translation>
+        <translation>&amp;باز کردن سایت BearWare.dk در مرورگر شما</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1916"/>
         <source>Allow V&amp;oice Transmission</source>
-        <translation>말하기 허용 (&amp;O)</translation>
+        <translation>اجازه دادن به این کاربر برای ص&amp;حبت کردن</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1919"/>
@@ -2367,7 +2367,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1927"/>
         <source>Allow Video Transmission</source>
-        <translation>동영상 전송 허용</translation>
+        <translation>اجازه دادن به این کاربر برای اشتراک‌گذاری ویدیو</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1930"/>
@@ -2377,7 +2377,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1938"/>
         <source>Allow All V&amp;oice Transmission</source>
-        <translation>모든 말하기 허용 (&amp;O)</translation>
+        <translation>اجازه دادن به همۀ کاربران برای ص&amp;حبت کردن</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1941"/>
@@ -2387,7 +2387,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1949"/>
         <source>Allow All Video Transmission</source>
-        <translation>모든 동영상 전송 허용</translation>
+        <translation>اجازه دادن به همۀ کاربران برای اشتراک‌گذاری ویدیو</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1952"/>
@@ -2397,7 +2397,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1957"/>
         <source>Server S&amp;tatistics</source>
-        <translation>서버 통계 (&amp;T)</translation>
+        <translation>آمار س&amp;ِروِر</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1960"/>
@@ -2407,7 +2407,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1965"/>
         <source>&amp;New Client Instance</source>
-        <translation>새 클라이언트 인스턴스 (&amp;N)</translation>
+        <translation>&amp;باز کردن یک کلاینت جدید</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1968"/>
@@ -2417,7 +2417,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1976"/>
         <source>&amp;Online Users</source>
-        <translation>접속자 (&amp;O)</translation>
+        <translation>&amp;کاربران آنلاین</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1979"/>
@@ -2427,7 +2427,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2091"/>
         <source>&amp;Generate tt:// URL to Clipboard</source>
-        <translation>클립보드로 tt:// URL 복사 (&amp;G)</translation>
+        <translation>&amp;ایجاد لینک tt:// در کلیپ‌برد</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2094"/>
@@ -2437,7 +2437,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2301"/>
         <source>Toggle &amp;Question Mode</source>
-        <translation>질문 모드 토글 (&amp;Q)</translation>
+        <translation>روشن یا خاموش کردن &amp;حالت پرسش</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2307"/>
@@ -2447,22 +2447,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2320"/>
         <source>&amp;Relay Voice Stream</source>
-        <translation>말하기 스트림 연결 중계 (&amp;R)</translation>
+        <translation>&amp;باز‌پخش استریم صدا</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2328"/>
         <source>Relay Media &amp;File Stream</source>
-        <translation>미디어 파일 중계 (&amp;F)</translation>
+        <translation>باز‌پخش استریم &amp;فایل‌های صوتی</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2304"/>
         <source>Show blinking icon</source>
-        <translation>깜박이는 아이콘 표시</translation>
+        <translation>نمایش آیکون چشمک‌زن</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1991"/>
         <source>Enable Desktop Sharing</source>
-        <translation>화면 공유 활성화</translation>
+        <translation>اشتراک‌گذاری صفحه نمایش خودم برای دیگران</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1994"/>
@@ -2472,7 +2472,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2002"/>
         <source>Enable Text-To-Speech Events</source>
-        <translation>TTS 이벤트 활성화</translation>
+        <translation>روشن کردن هشدار‌های متن به گفتار</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2005"/>
@@ -2482,7 +2482,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2013"/>
         <source>Enable Sound Events</source>
-        <translation>사운드 이벤트 활성화</translation>
+        <translation>روشن کردن هشدار‌های صوتی</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2016"/>
@@ -2492,7 +2492,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2024"/>
         <source>Allow Desktop Transmission</source>
-        <translation>화면 공유 전송 허용</translation>
+        <translation>اجازه دادن به این کاربر برای اشتراک‌گذاری صفحه نمایش</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2027"/>
@@ -2502,7 +2502,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2035"/>
         <source>Allow All Desktop Transmission</source>
-        <translation>모든 화면 공유 전송 허용</translation>
+        <translation>اجازه دادن به همۀ کاربران برای اشتراک‌گذاری صفحه نمایش</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2038"/>
@@ -2512,27 +2512,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2050"/>
         <source>&amp;Desktop</source>
-        <translation>화면 공유 (&amp;D)</translation>
+        <translation>&amp;دریافت کردن اشتراک‌گذاری دسکتاپ این کاربر برای خودم</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2053"/>
         <source>Ctrl+6</source>
-        <translation>Ctrl+6</translation>
+        <translation>Ctrl+۶</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2065"/>
         <source>Intercept Desktop</source>
-        <translation>화면 공유 가로채기</translation>
+        <translation>شنود اشتراک‌گذاری‌های دسکتاپ کاربر</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2068"/>
         <source>Ctrl+Shift+6</source>
-        <translation>Ctrl+Shift+6</translation>
+        <translation>Ctrl+Shift+۶</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2080"/>
         <source>Stream &amp;Media File to Channel</source>
-        <translation>채널에 미디어 파일 스트리밍 (&amp;M)</translation>
+        <translation>استریم &amp;فایل</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2083"/>
@@ -2542,47 +2542,47 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2106"/>
         <source>Desktop Acce&amp;ss</source>
-        <translation>화면 공유 권한 (&amp;S)</translation>
+        <translation>اجازۀ دستر&amp;سی به دسکتاپ این کاربر</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2118"/>
         <source>Allow Desktop Access</source>
-        <translation>화면 공유 접근 허용</translation>
+        <translation>اجازۀ دسترسی به دسکتاپ این کاربر</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2121"/>
         <source>Ctrl+7</source>
-        <translation>Ctrl+7</translation>
+        <translation>Ctrl+۷</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2129"/>
         <source>&amp;Deny</source>
-        <translation>거부 (&amp;D)</translation>
+        <translation>&amp;رد‌کردن</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2141"/>
         <source>Media File Stream</source>
-        <translation>미디어 파일 스트리밍</translation>
+        <translation>دریافت کردن استریم‌های این کاربر برای خودم</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2144"/>
         <source>Ctrl+8</source>
-        <translation>Ctrl+8</translation>
+        <translation>Ctrl+۸</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2156"/>
         <source>Intercept Media File Stream</source>
-        <translation>미디어 파일 가로채기</translation>
+        <translation>شنود استریم‌های کاربر</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2159"/>
         <source>Ctrl+Shift+8</source>
-        <translation>Ctrl+Shift+8</translation>
+        <translation>Ctrl+Shift+۸</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2167"/>
         <source>Allow Media File Transmission</source>
-        <translation>미디어 파일 전송 허용</translation>
+        <translation>اجازه دادن به این کاربر برای استریم فایل</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2170"/>
@@ -2592,7 +2592,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2178"/>
         <source>Allow All Media File Transmission</source>
-        <translation>모든 미디어 파일 전송 허용</translation>
+        <translation>اجازه دادن به همۀ کاربران برای استریم فایل</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2181"/>
@@ -2602,7 +2602,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2189"/>
         <source>Mu&amp;te Voice</source>
-        <translation>말하기 음소거 (&amp;T)</translation>
+        <translation>قط&amp;ع صدای این کاربر برای خودم</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2192"/>
@@ -2612,12 +2612,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2200"/>
         <source>Mute Media File</source>
-        <translation>미디어 파일 음소거</translation>
+        <translation>قطع استریم‌های این کاربر برای خودم</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2208"/>
         <source>Kick From Channel</source>
-        <translation>채널에서 추방</translation>
+        <translation>بیرون‌کردن از کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2211"/>
@@ -2627,7 +2627,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2216"/>
         <source>Kick From Server</source>
-        <translation>서버에서 추방</translation>
+        <translation>بیرون کردن از سِروِر</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2219"/>
@@ -2637,22 +2637,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2224"/>
         <source>Increase Media File Volume</source>
-        <translation>미디어 파일 볼륨 증가</translation>
+        <translation>افزایش صدای استریم‌های این کاربر برای خودم</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2232"/>
         <source>Lower Media File Volume</source>
-        <translation>미디어 파일 볼륨 감소</translation>
+        <translation>کاهش صدای استریم‌های این کاربر برای خودم</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2240"/>
         <source>R&amp;eset Preferences to Default</source>
-        <translation>기본값으로 재설정 (&amp;E)</translation>
+        <translation>ب&amp;ازنشانی تنظیمات به حالت پیشفرض</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2245"/>
         <source>Kick and Ban From &amp;Channel</source>
-        <translation>채널에서 추방 및 차단 (&amp;C)</translation>
+        <translation>بیرون کردن و منع دائمی از ورود به &amp;کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2248"/>
@@ -2662,7 +2662,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2253"/>
         <source>Banned Users From Channel</source>
-        <translation>채널에서 차단한 사용자</translation>
+        <translation>کاربران محروم‌شده از کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2256"/>
@@ -2672,7 +2672,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2264"/>
         <source>Allow Channel Text Messages</source>
-        <translation>채널 텍스트 메시지 허용</translation>
+        <translation>اجازه دادن به این کاربر برای ارسال پیام‌های متنی در کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2267"/>
@@ -2682,7 +2682,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2275"/>
         <source>Allow All Channel Text Messages</source>
-        <translation>모든 채널 텍스트 메시지 허용</translation>
+        <translation>اجازه دادن به همۀ کاربران برای ارسال پیام‌های متنی در کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2278"/>
@@ -2692,75 +2692,75 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2286"/>
         <source>&amp;Hear Myself</source>
-        <translation>내 말하기 듣기 (&amp;H)</translation>
+        <translation>&amp;شنیدن صدای خودم</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2289"/>
         <source>Ctrl+Shift+3</source>
-        <translation>Ctrl+Shift+3</translation>
+        <translation>Ctrl+Shift+۳</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="905"/>
         <location filename="../mainwindow.cpp" line="2672"/>
         <source>Firewall exception</source>
-        <translation>방화벽 예외</translation>
+        <translation>استثنای فایروال</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="906"/>
         <source>Failed to remove %1 from Windows Firewall exceptions.</source>
-        <translation>Windows 방화벽 예외에서 %1 제거에 실패했습니다.</translation>
+        <translation>حذف %1 از استثنائات فایروال ویندوز ناموفق بود.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="922"/>
         <source>Startup arguments</source>
-        <translation>시작 인수</translation>
+        <translation>پارامترهای راه‌اندازی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="923"/>
         <source>Program argument &quot;%1&quot; is unrecognized.</source>
-        <translation>&quot;%1&quot; 프로그램 인수를 인식할 수 없습니다.</translation>
+        <translation>برنامه نمیتواند پارامتر &quot;%1&quot; را تشخیص دهد.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2071"/>
         <source>Connected to %1 TCP port %2 UDP port %3</source>
-        <translation>연결됨: %1 TCP 포트 %2 UDP 포트 %3</translation>
+        <translation>اتصال برقرار شد. آدرس سِروِر: %1   ,   پورت TCP: %2   ,   پورت UDP: %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="984"/>
         <location filename="../mainwindow.cpp" line="2009"/>
         <source>Failed to connect to %1 TCP port %2 UDP port %3</source>
-        <translation>연결 실패: %1 TCP 포트 %2 UDP 포트 %3</translation>
+        <translation>اتصال نا‌موفق بود. آدرس سِروِر: %1   ,   پورت TCP: %2   ,   پورت UDP: %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="663"/>
         <source>Translate</source>
-        <translation>번역</translation>
+        <translation>ترجمه</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="763"/>
         <source>%1 has detected usage of a screenreader on your computer. Do you wish to enable accessibility options offered by %1 with recommended settings?</source>
-        <translation>%1에서 화면 낭독기 사용을 감지했습니다. %1에서 제공되는 접근성 옵션을 활성화 할까요?</translation>
+        <translation>%1 تشخیص داد که شما از یک صفحه‌خوان استفاده میکنید. آیا میخواهید تنظیمات دسترسپذیری توصیه شده توسط %1 را فعال کنید?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="797"/>
         <location filename="../settings.h" line="277"/>
         <source>Default</source>
-        <translation>기본값</translation>
+        <translation>پیشفرض</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="800"/>
         <source>The sound pack %1 does not exist. Would you like to use the default sound pack?</source>
-        <translation>%1 소리 구성표가 존재하지 않습니다. 기본 소리 구성표를 사용할까요?</translation>
+        <translation>پک صدای %1 وجود ندارد. آیا میخواهید از صداهای پیشفرض استفاده کنید?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1000"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
-        <translation>연결 끊김: %1 TCP 포트 %2 UDP 포트 %3</translation>
+        <translation>اتصال قطع شد. آدرس سِروِر: %1   ,   پورت TCP: %2   ,   پورت UDP: %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1004"/>
         <source>Connection to server lost</source>
-        <translation>서버와의 연결이 끊어졌습니다.</translation>
+        <translation>اتصال به سِروِر قطع شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2975"/>
@@ -2768,258 +2768,258 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="4985"/>
         <location filename="../mainwindow.cpp" line="5810"/>
         <source>root</source>
-        <translation>최상위</translation>
+        <translation>کانال اصلی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1258"/>
         <source>File %1 added</source>
-        <translation>%1 파일 추가됨</translation>
+        <translation>فایل %1 آپلود شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1024"/>
         <location filename="../mainwindow.cpp" line="1027"/>
         <source>Kicked from server</source>
-        <translation>서버에서 쫓겨남</translation>
+        <translation>از سِروِر اخراج شُدید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1025"/>
         <source>You have been kicked from server by %1</source>
-        <translation>%1의 명령으로 서버에서 쫓겨남</translation>
+        <translation>%1 شما را از سِروِر بیرون کرد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1028"/>
         <source>You have been kicked from server by unknown user</source>
-        <translation>누군가의 명령으로 서버에서 쫓겨남</translation>
+        <translation>شما توسط یک کاربر ناشناس از سِروِر اخراج شُدید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1044"/>
         <location filename="../mainwindow.cpp" line="1047"/>
         <source>Kicked from channel</source>
-        <translation>채널에서 쫓겨남</translation>
+        <translation>از کانال اخراج شُدید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1045"/>
         <source>You have been kicked from channel by %1</source>
-        <translation>%1의 명령으로 채널에서 쫓겨남</translation>
+        <translation>%1 شما را از کانال بیرون کرد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1048"/>
         <source>You have been kicked from channel by unknown user</source>
-        <translation>누군가의 명령으로 채널에서 쫓겨남</translation>
+        <translation>شما توسط یک کاربر ناشناس از کانال اخراج شُدید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1160"/>
         <source>%1 joined root channel</source>
-        <translation>%1, 최상위 채널에 입장함</translation>
+        <translation>%1 وارد لابی شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1166"/>
         <source>%1 joined channel %2</source>
-        <translation>%1, %2 채널에 입장함</translation>
+        <translation>%1 وارد %2 شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1203"/>
         <source>%1 left root channel</source>
-        <translation>%1, 최상위 채널에서 퇴장함</translation>
+        <translation>%1 از لابی رفت</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1209"/>
         <source>%1 left channel %2</source>
-        <translation>%1, %2 채널에서 퇴장함</translation>
+        <translation>%1 از %2 رفت</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1263"/>
         <source>File %1 added by %2</source>
-        <translation>%2, %1 파일 추가함</translation>
+        <translation>فایل %1 توسط %2 آپلود شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1282"/>
         <source>File %1 removed</source>
-        <translation>%1 파일 제거됨</translation>
+        <translation>فایل %1 حذف شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1286"/>
         <source>File %1 removed by %2</source>
-        <translation>%2, %1 파일 제거함</translation>
+        <translation>فایل %1 توسط %2 حذف شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1308"/>
         <location filename="../mainwindow.cpp" line="5359"/>
         <source>Failed to download file %1</source>
-        <translation>%1 파일 다운로드 실패</translation>
+        <translation>فایل %1 دانلود نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1312"/>
         <location filename="../mainwindow.cpp" line="6235"/>
         <source>Failed to upload file %1</source>
-        <translation>%1 파일 업로드 실패</translation>
+        <translation>فایل %1 آپلود نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1325"/>
         <source>Failed to initialize sound input device</source>
-        <translation>사운드 입력 장치 초기화 실패</translation>
+        <translation>دستگاه ورودی صدا به درستی راه‌اندازی نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1327"/>
         <source>Failed to initialize sound output device</source>
-        <translation>사운드 출력 장치 초기화 실패</translation>
+        <translation>دستگاه خروجی صدا به درستی راه‌اندازی نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1329"/>
         <source>Failed to initialize audio codec</source>
-        <translation>오디오 코덱 초기화 실패</translation>
+        <translation>مبدل صوتی به درستی راه‌اندازی نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1332"/>
         <source>Failed to initialize audio configuration</source>
-        <translation>오디오 정책 초기화 실패</translation>
+        <translation>تنظیمات صوتی به درستی راه‌اندازی نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1335"/>
         <source>Internal message queue overloaded</source>
-        <translation>내부 메시지 대기열이 너무 깁니다</translation>
+        <translation>صف پیام داخلی قادر به پردازش پیام‌های جدید نیست</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1341"/>
         <source>Internal Error</source>
-        <translation>내부 오류</translation>
+        <translation>خطای داخلی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1369"/>
         <source>Streaming from %1 started</source>
-        <translation>%1, 스트리밍 시작</translation>
+        <translation>استریم %1 شروع شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1391"/>
         <source>Error streaming media file to channel</source>
-        <translation>미디어 파일을 채널로 스트리밍하는 도중 오류가 발생했습니다</translation>
+        <translation>استریم این فایل امکان‌پذیر نیست</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1395"/>
         <source>Started streaming media file to channel</source>
-        <translation>채널에 미디어 파일 스트리밍 시작함</translation>
+        <translation>استریم فایل شروع شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1398"/>
         <source>Finished streaming media file to channel</source>
-        <translation>채널에서 미디어 파일 스트리밍 종료함</translation>
+        <translation>استریم فایل به پایان رسید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1402"/>
         <source>Aborted streaming media file to channel</source>
-        <translation>채널에서 미디어 파일 스트리밍 중단함</translation>
+        <translation>استریم فایل لغو شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1450"/>
         <location filename="../mainwindow.cpp" line="1478"/>
         <source>New video session from %1</source>
-        <translation>%1, 동영상 세션 추가함</translation>
+        <translation>نشست ویدیویی جدید از %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1503"/>
         <source>New desktop session from %1</source>
-        <translation>%1, 화면 공유 세션 추가함</translation>
+        <translation>نشست دسکتاپ جدید از %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1530"/>
         <source>Your desktop session was cancelled</source>
-        <translation>화면 공유 세션 취소됨</translation>
+        <translation>نشست دسکتاپ شما لغو شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1541"/>
         <source>Writing audio file %1 for %2</source>
-        <translation>%2, %1 오디오 파일 작성 중</translation>
+        <translation>در حال نوشتن فایل صوتی %1 برای %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1546"/>
         <source>Failed to write audio file %1 for %2</source>
-        <translation>%2, %1 오디오 파일 작성에 실패함</translation>
+        <translation>فایل صوتی %1 برای %2 نوشته نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1551"/>
         <source>Finished writing to audio file %1</source>
-        <translation>%1 오디오 파일 작성 종료</translation>
+        <translation>نوشتن فایل صوتی %1 به پایان رسید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1555"/>
         <source>Aborted audio file %1</source>
-        <translation>%1 오디오 파일 중단됨</translation>
+        <translation>فایل صوتی %1 لغو شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1922"/>
         <source>Banned Users in Channel %1</source>
-        <translation>%1 채널에서 차단한 사용자</translation>
+        <translation>کاربران محروم‌شده از کانال %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1898"/>
         <source>Cannot join channel %1</source>
-        <translation>%1 채널에 입장할 수 없음</translation>
+        <translation>ورود به %1 ممکن نیست</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1238"/>
         <source>%1 set question mode</source>
-        <translation>%1, 질문 모드로 전환함</translation>
+        <translation>%1 حالت پرسش را فعال کرد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1984"/>
         <source>Using sound input: %1</source>
-        <translation>입력 장치 %1 사용</translation>
+        <translation>در حال استفاده از: %1 به عنوان دستگاه ورودی صدا</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1984"/>
         <source>Using sound output: %2</source>
-        <translation>출력 장치 %2 사용</translation>
+        <translation>در حال استفاده از: %2 به عنوان دستگاه خروجی صدا</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2001"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
-        <translation>연결 중: %1 TCP 포트 %2 UDP 포트 %3</translation>
+        <translation>در حال اتصال به %1   ,   پورت TCP: %2   ,   پورت UDP: %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2056"/>
         <source>Logged out from %1, TCP port %2, UDP port %3</source>
-        <translation>연결 해제함: %1 TCP 포트 %2 UDP 포트 %3</translation>
+        <translation>از سِروِر خارج شُدید. آدرس سِروِر: %1, پورت TCP: %2, پورت UDP: %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2075"/>
         <source>Connected to %1</source>
-        <translation>%1 연결 중</translation>
+        <translation>وارد سِروِر %1 شُدید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2093"/>
         <location filename="../mainwindow.cpp" line="3157"/>
         <source>Error</source>
-        <translation>오류</translation>
+        <translation>خطا</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2099"/>
         <source>Syntax error</source>
-        <translation>문법 오류</translation>
+        <translation>خطای ساختاری</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2101"/>
         <source>Unknown command</source>
-        <translation>알 수 없는 동작</translation>
+        <translation>دستور ناشناخته است</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2103"/>
         <source>The server uses a protocol which is incompatible with the client instance</source>
-        <translation>클라이언트 인스턴스와 서버의 프로토콜이 호환되지 않습니다</translation>
+        <translation>نسخۀ کلاینت با پروتکل سِروِر سازگار نیست</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2105"/>
         <source>Unknown audio codec</source>
-        <translation>알 수 없는 오디오 코덱</translation>
+        <translation>مبدل صوتی ناشناخته است</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2107"/>
         <source>This client is not compatible with the server, so the action cannot be performed.</source>
-        <translation>서버와 클라이언트가 호환되지 않아 작업을 계속할 수 없습니다.</translation>
+        <translation>نسخۀ کلاینت با نسخۀ سِروِر سازگار نیست, بنابراین این عمل قابل انجام نیست.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2110"/>
         <source>The username is invalid</source>
-        <translation>사용자 이름이 부적절합니다</translation>
+        <translation>نام کاربری نامعتبر است</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="642"/>
@@ -3035,7 +3035,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5888"/>
         <location filename="../mainwindow.cpp" line="5942"/>
         <source>&amp;OK</source>
-        <translation>확인 (&amp;O)</translation>
+        <translation>&amp;تأیید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2121"/>
@@ -3043,182 +3043,182 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2169"/>
         <location filename="../mainwindow.cpp" line="2174"/>
         <source>Login error</source>
-        <translation>로그인 오류</translation>
+        <translation>خطای ورود</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2122"/>
         <source>Invalid user account. Type username:</source>
-        <translation>사용자 계정이 잘못되었습니다. 사용자 이름을 입력하세요:</translation>
+        <translation>حساب کاربری نامعتبر است.  نام کاربری را وارد کنید:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2130"/>
         <source>Invalid user account. Type password:</source>
-        <translation>사용자 계정이 잘못되었습니다. 암호를 입력하세요:</translation>
+        <translation>حساب کاربری نامعتبر است.  کلمۀ عبور را وارد کنید:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2155"/>
         <source>Join channel error</source>
-        <translation>채널 입장 오류</translation>
+        <translation>خطای ورود به کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2156"/>
         <source>Incorrect channel password. Try again:</source>
-        <translation>올바른 암호가 아닙니다. 다시 입력하세요:</translation>
+        <translation>رمز عبور کانال نادرست است. لطفا دوباره امتحان کنید:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2170"/>
         <source>Banned from server</source>
-        <translation>서버에서 차단됨</translation>
+        <translation>شما از سِروِر محروم هستید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2172"/>
         <source>Command not authorized</source>
-        <translation>승인받지 않은 동작입니다</translation>
+        <translation>دستور مجاز نیست. لطفا دوباره امتحان کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2175"/>
         <source>Maximum number of users on server exceeded</source>
-        <translation>서버 최대 인원을 초과했습니다</translation>
+        <translation>ظرفیت سِروِر پر است</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2177"/>
         <source>Maximum disk usage exceeded</source>
-        <translation>디스크 할당량을 초과했습니다</translation>
+        <translation>شما نمیتوانید این فایل را آپلود کنید, زیرا  فضای کافی برای آپلود فایل در این کانال وجود ندارد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2179"/>
         <source>Maximum number of users in channel exceeded</source>
-        <translation>채널 최대 인원을 초과했습니다</translation>
+        <translation>ورود شما به این کانال امکان‌پذیر نیست, زیرا ظرفیت کانال پر شده است</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2181"/>
         <source>Incorrect channel operator password</source>
-        <translation>채널 관리자 암호가 아닙니다.</translation>
+        <translation>رمز عبور اپراتور کانال صحیح نیست</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2183"/>
         <source>The maximum number of channels has been exceeded</source>
-        <translation>최대 채널 수를 초과했습니다.</translation>
+        <translation>امکان ایجاد کانال جدید وجود ندارد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2185"/>
         <source>Command flooding prevented by server</source>
-        <translation>서버에서 정한 동작 한도를 초과했습니다</translation>
+        <translation>ارسال دستورات پیاپی توسط سِروِر مسدود شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2189"/>
         <source>Already logged in</source>
-        <translation>이미 로그인함</translation>
+        <translation>شما قبلا وارد سِروِر شده‌اید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2191"/>
         <source>Cannot perform action because client is currently not logged in</source>
-        <translation>클라이언트가 로그인되어 있지 않아 작업을 계속할 수 없습니다.</translation>
+        <translation>باید ابتدا کلاینت شما وارد سِروِر شود تا بتوانید این کار را انجام دهید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2194"/>
         <source>Cannot join the same channel twice</source>
-        <translation>같은 채널에 두 번 참여할 수 없습니다</translation>
+        <translation>شما نمی‌توانید دو‌بار وارد کانال شوید, زیرا قبلا وارد این کانال شده‌اید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2196"/>
         <source>Channel already exists</source>
-        <translation>이미 존재하는 채널입니다</translation>
+        <translation>کانالی قبلا با این نام ساخته شده است. لطفا نام دیگری برای کانال خود انتخاب کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2202"/>
         <source>User not found</source>
-        <translation>없는 사용자입니다</translation>
+        <translation>کاربر یافت نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2205"/>
         <source>Server failed to open file</source>
-        <translation>서버가 파일을 열 수 없습니다</translation>
+        <translation>سِروِر نتوانست این فایل را باز کند</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2207"/>
         <source>The login service is currently unavailable</source>
-        <translation>지금은 로그인할 수 없습니다</translation>
+        <translation>سرویس ورود فعلا در دسترس نیست</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2209"/>
         <source>This channel cannot be hidden</source>
-        <translation>숨길 수 없는 채널입니다</translation>
+        <translation>امکان مخفی کردن این کانال وجود ندارد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2211"/>
         <source>Channel not found</source>
-        <translation>없는 채널입니다</translation>
+        <translation>کانال یافت نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2213"/>
         <source>Cannot leave channel because not in channel.</source>
-        <translation>입장하지 않은 채널입니다.</translation>
+        <translation>شما در این کانال حضور ندارید, بنابراین نمیتوانید از آن خارج شوید.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2215"/>
         <source>Banned user not found</source>
-        <translation>차단하지 않은 사용자입니다</translation>
+        <translation>کاربرِ محروم‌شده یافت نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2217"/>
         <source>File transfer not found</source>
-        <translation>없는 파일 전송입니다</translation>
+        <translation>انتقال فایل یافت نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2219"/>
         <source>User account not found</source>
-        <translation>없는 사용자 계정입니다</translation>
+        <translation>حساب کاربری یافت نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2221"/>
         <source>File not found</source>
-        <translation>없는 파일입니다</translation>
+        <translation>فایل یافت نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2223"/>
         <source>File already exists</source>
-        <translation>이미 존재하는 파일입니다</translation>
+        <translation>فایلی قبلا با این نام آپلود شده است</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2225"/>
         <source>File sharing is disabled</source>
-        <translation>파일 공유가 비활성화되어 있습니다</translation>
+        <translation>امکان اشتراک‌گذاری فایل وجود ندارد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2227"/>
         <source>Channel has active users</source>
-        <translation>채널 내 활동 중인 사용자가 있습니다</translation>
+        <translation>کانال دارای کاربران فعال است</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2232"/>
         <source>Unknown error occured</source>
-        <translation>알 수 없는 오류</translation>
+        <translation>خطایی ناشناخته رخ داده است</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2239"/>
         <source>The server reported an error:</source>
-        <translation>서버에서 오류를 보고했습니다:</translation>
+        <translation>خطای سِروِر:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2860"/>
         <source>Channel message from %1: %2</source>
-        <translation>%1의 채널 메시지: %2</translation>
+        <translation>پیام کانال از %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2879"/>
         <source>Broadcast message from %1: %2</source>
-        <translation>%1의 방송: %2</translation>
+        <translation>پیام همگانی از %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4333"/>
         <source>No Sound Device</source>
-        <translation>사운드 장치 없음</translation>
+        <translation>عدم استفاده از دستگاه صوتی</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2333"/>
         <source>&amp;Refresh Sound Devices</source>
-        <translation>사운드 장치 새로고침 (&amp;R)</translation>
+        <translation>&amp;تازه‌سازی دستگاه‌های صوتی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="764"/>
@@ -3233,7 +3233,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="7290"/>
         <location filename="../mainwindow.cpp" line="7315"/>
         <source>&amp;Yes</source>
-        <translation>예 (&amp;Y)</translation>
+        <translation>&amp;بله</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="765"/>
@@ -3248,220 +3248,220 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="7291"/>
         <location filename="../mainwindow.cpp" line="7316"/>
         <source>&amp;No</source>
-        <translation>아니요 (&amp;N)</translation>
+        <translation>&amp;خیر</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2865"/>
         <source>Channel message sent: %1</source>
-        <translation>채널 메시지 보냄: %1</translation>
+        <translation>پیام کانال ارسال شد: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2889"/>
         <source>Private message from %1: %2</source>
-        <translation>%1의 개인 메시지: %2</translation>
+        <translation>پیام خصوصی از %1: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2966"/>
         <location filename="../mainwindow.cpp" line="2978"/>
         <source>Joined classroom channel %1</source>
-        <translation>%1 교실에 입장함</translation>
+        <translation>وارد کلاس درس %1 شُدید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3019"/>
         <location filename="../mainwindow.cpp" line="3031"/>
         <source>Left classroom channel %1</source>
-        <translation>%1 교실에서 퇴장함</translation>
+        <translation>از کلاس درس %1 رفتید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3023"/>
         <location filename="../mainwindow.cpp" line="3035"/>
         <source>Left channel %1</source>
-        <translation>%1 채널에서 퇴장함</translation>
+        <translation>از %1 رفتید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4736"/>
         <source>Voice for %1 disabled</source>
-        <translation>%1 말하기가 비활성화됨</translation>
+        <translation>صدای %1 قطع شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4738"/>
         <source>Voice for %1 enabled</source>
-        <translation>%1 말하기가 활성화됨</translation>
+        <translation>صدای %1 وصل شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4755"/>
         <source>Media files for %1 disabled</source>
-        <translation>%1 미디어 파일 스트리밍이 비활성화됨</translation>
+        <translation>استریم‌های %1 قطع شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4757"/>
         <source>Media files for %1 enabled</source>
-        <translation>%1 미디어 파일 스트리밍이 활성화됨</translation>
+        <translation>استریم‌های %1 وصل شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4773"/>
         <source>Master volume disabled</source>
-        <translation>마스터 볼륨을 비활성화했습니다</translation>
+        <translation>صدای اسپیکر قطع شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4778"/>
         <source>Master volume enabled</source>
-        <translation>마스터 볼륨을 활성화했습니다</translation>
+        <translation>صدای اسپیکر وصل شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4910"/>
         <source>Voice volume for %1 increased to %2%</source>
-        <translation>%1 말하기 볼륨 증가됨: %2%</translation>
+        <translation>صدای %1 بیشتر شد و به %2% رسید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4923"/>
         <source>Voice volume for %1 decreased to %2%</source>
-        <translation>%1 말하기 볼륨 감소됨: %2%</translation>
+        <translation>صدای %1 کمتر شد و به %2% رسید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4936"/>
         <source>Media files volume for %1 increased to %2%</source>
-        <translation>%1 미디어 파일 볼륨 증가됨: %2%</translation>
+        <translation>صدای استریم‌های %1 بیشتر شد و به %2% رسید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4949"/>
         <source>Media files volume for %1 decreased to %2%</source>
-        <translation>%1 미디어 파일 볼륨 감소됨: %2%</translation>
+        <translation>صدای استریم‌های %1 کمتر شد و به %2% رسید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4968"/>
         <source>%1 selected for move</source>
-        <translation>%1, 이동할 사용자 목록에 추가함</translation>
+        <translation>%1 برای موو انتخاب شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4986"/>
         <location filename="../mainwindow.cpp" line="4990"/>
         <source>Selected users has been moved to channel %1</source>
-        <translation>%1 채널로 목록 내 사용자들을 이동했습니다</translation>
+        <translation>کاربران انتخاب‌شده به کانال %1 منتقل شدند</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5377"/>
         <source>Delete %1 files</source>
-        <translation>%1개 파일 삭제됨</translation>
+        <translation>حذف %1 فایل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5633"/>
         <source>Broadcast message sent: %1</source>
-        <translation>방송 보냄: %1</translation>
+        <translation>پیام همگانی ارسال شد: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2086"/>
         <location filename="../mainwindow.cpp" line="2087"/>
         <source>Server configuration saved</source>
-        <translation>서버 정책 저장됨</translation>
+        <translation>تنظیمات سِروِر ذخیره شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1114"/>
         <location filename="../mainwindow.cpp" line="1116"/>
         <source>%1 has logged in</source>
-        <translation>%1, 로그인함</translation>
+        <translation>%1 وارد سِروِر شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5472"/>
         <source>Ascending</source>
-        <translation>오름차순</translation>
+        <translation>صعودی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5472"/>
         <source>Descending</source>
-        <translation>내림차순</translation>
+        <translation>نزولی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5474"/>
         <source>&amp;Name (%1)</source>
-        <translation>이름 (%1)</translation>
+        <translation>&amp;نام (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5480"/>
         <source>&amp;Size (%1)</source>
-        <translation>크기 (%1)</translation>
+        <translation>&amp;حجم (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5486"/>
         <source>&amp;Owner (%1)</source>
-        <translation>등록자 (%1)</translation>
+        <translation>&amp;آپلود‌کننده (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5492"/>
         <source>&amp;Upload Date (%1)</source>
-        <translation>등록일시 (%1)</translation>
+        <translation>&amp;تاریخ آپلود (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5757"/>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation>서버 관리자</translation>
+        <translation>مدیر</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5757"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
-        <translation>서버 관리자</translation>
+        <translation>مدیر</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5761"/>
         <source>User</source>
         <comment>For female</comment>
-        <translation>사용자</translation>
+        <translation>کاربر</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5761"/>
         <source>User</source>
         <comment>For male and neutral</comment>
-        <translation>사용자</translation>
+        <translation>کاربر</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5768"/>
         <source>Selected for move</source>
         <comment>For female</comment>
-        <translation>이동할 사용자</translation>
+        <translation>برای موو انتخاب شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5768"/>
         <source>Selected for move</source>
         <comment>For male and neutral</comment>
-        <translation>이동할 사용자</translation>
+        <translation>برای موو انتخاب شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5771"/>
         <source>Channel operator</source>
         <comment>For female</comment>
-        <translation>채널 관리자</translation>
+        <translation>اپراتور کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5771"/>
         <source>Channel operator</source>
         <comment>For male and neutral</comment>
-        <translation>채널 관리자</translation>
+        <translation>اپراتور کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5779"/>
         <source>Available</source>
         <comment>For female</comment>
-        <translation>사용 가능</translation>
+        <translation>آنلاین</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5779"/>
         <source>Available</source>
         <comment>For male and neutral</comment>
-        <translation>사용 가능</translation>
+        <translation>آنلاین</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5782"/>
         <source>Away</source>
         <comment>For female</comment>
-        <translation>자리비움</translation>
+        <translation>دور</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5782"/>
         <source>Away</source>
         <comment>For male and neutral</comment>
-        <translation>자리비움</translation>
+        <translation>دور</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6143"/>
@@ -3477,173 +3477,175 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="6433"/>
         <source>%1 can no longer transmit</source>
         <comment>%1 can no longer transmit voice</comment>
-        <translation>%1, 전송 비활성화됨</translation>
+        <translation>%1 دیگر نمیتواند صحبت کند</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6434"/>
         <source>%1 can now transmit</source>
         <comment>%1 can now transmit voice</comment>
-        <translation>%1, 전송 활성화됨</translation>
+        <translation>%1 اکنون میتواند صحبت کند</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6437"/>
         <source>Everyone can no longer transmit</source>
         <comment>Everyone can no longer transmit voice</comment>
-        <translation>모든 사용자의 전송이 비활성화됨</translation>
+        <translation>هیچکس دیگر نمیتواند صحبت کند</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6438"/>
         <source>Everyone can now transmit</source>
         <comment>Everyone can now transmit voice</comment>
-        <translation>모든 사용자의 전송이 활성화됨</translation>
+        <translation>همۀ کاربران اکنون میتوانند صحبت کنند</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6442"/>
         <source>You can no longer transmit</source>
         <comment>You can no longer transmit voice</comment>
-        <translation>전송 비활성화됨</translation>
+        <translation>شما دیگر نمیتوانید صحبت کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6443"/>
         <source>You can now transmit</source>
         <comment>You can now transmit voice</comment>
-        <translation>전송 활성화됨</translation>
+        <translation>شما اکنون میتوانید صحبت کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6453"/>
         <source>%1 channel messages</source>
         <comment>can now transmit ...</comment>
-        <translation>%1: 채널 메시지</translation>
+        <translation>%1 اکنون میتواند در کانال پیام ارسال کند</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6455"/>
         <source>%1 channel messages</source>
         <comment>can no longer transmit ...</comment>
-        <translation>%1: 채널 메시지</translation>
+        <translation>%1 دیگر نمیتواند در کانال پیام ارسال کند</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6464"/>
         <source>%1 voice</source>
         <comment>can now transmit ...</comment>
-        <translation>%1: 말하기</translation>
+        <translation>%1 اکنون میتواند صحبت کند</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6466"/>
         <source>%1 voice</source>
         <comment>can no longer transmit...</comment>
-        <translation>%1: 말하기</translation>
+        <translation>%1 دیگر نمیتواند صحبت کند</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6475"/>
         <source>%1 video</source>
         <comment>can now transmit ...</comment>
-        <translation>%1: 동영상</translation>
+        <translation>%1 اکنون میتواند تصویر خود را به اشتراک بگذارد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6477"/>
         <source>%1 video</source>
         <comment>can no longer transmit ...</comment>
-        <translation>%1: 동영상</translation>
+        <translation>%1 دیگر نمیتواند تصویر خود را به اشتراک بگذارد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6486"/>
         <source>%1 desktop windows</source>
         <comment>can now transmit ...</comment>
-        <translation>%1: 화면 공유</translation>
+        <translation>%1 اکنون میتواند صفحه نمایش خود را به اشتراک بگذارد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6488"/>
         <source>%1 desktop windows</source>
         <comment>can no longer transmit ...</comment>
-        <translation>%1: 화면 공유</translation>
+        <translation>%1 دیگر نمیتواند صفحه نمایش خود را به اشتراک بگذارد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6497"/>
         <source>%1 media files</source>
         <comment>can now transmit ...</comment>
-        <translation>%1: 미디어 파일</translation>
+        <translation>%1 اکنون میتواند فایل‌های صوتی و تصویری استریم کند</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6499"/>
         <source>%1 media files</source>
         <comment>can no longer transmit ...</comment>
-        <translation>%1: 미디어 파일</translation>
+        <translation>%1 دیگر نمیتواند فایل‌های صوتی و تصویری استریم کند</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7097"/>
         <source>&amp;Video (%1)</source>
-        <translation>동영상 (%1) (&amp;V)</translation>
+        <translation>&amp;ویدیو (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7105"/>
         <source>&amp;Desktops (%1)</source>
-        <translation>화면 공유 (%1) (&amp;D)</translation>
+        <translation>&amp;دسکتاپ (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7289"/>
         <source>A new version of %1 is available: %2. Do you wish to open the download page now?</source>
-        <translation>%1 새 버전(%2)을 사용할 수 있습니다. 지금 다운로드 페이지로 이동할까요?</translation>
+        <translation>نسخۀ جدیدی از %1 منتشر شده است: %2. آیا مایل به دانلود آن هستید?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7294"/>
         <source>New version available</source>
-        <translation>새 버전 사용 가능</translation>
+        <translation>به‌روز‌رسانی تیم‌تاک</translation>
     </message>
     <message>
-        <source>New version available: %1
-You can download it on the page below:
+        <location filename="../mainwindow.cpp" line="7301"/>
+        <source>New version available: %1<byte value="xd"/>
+You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="vanished">새 버전(%1)을 사용할 수 있어요.
-아래의 페이지에서 다운로드:
+        <translation>نسخۀ جدیدی از تیم‌تاک در دسترس قرار گرفت: %1<byte value="xd"/>
+میتوانید آن را از صفحۀ زیر دانلود کنید:<byte value="xd"/>
 %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7314"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
-        <translation>%1 새 베타 버전(%2)을 사용할 수 있습니다. 지금 다운로드 페이지로 이동할까요?</translation>
+        <translation>بتای جدیدی از %1 منتشر شده است: %2. آیا مایل به دانلود آن هستید? این نسخۀ رسمی نیست و ممکن است مشکلات زیادی داشته باشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7319"/>
         <source>New beta version available</source>
-        <translation>새 베타 버전 사용 가능</translation>
+        <translation>به‌روز‌رسانی نسخۀ بتا</translation>
     </message>
     <message>
-        <source>New beta version available: %1
-You can download it on the page below:
+        <location filename="../mainwindow.cpp" line="7326"/>
+        <source>New beta version available: %1<byte value="xd"/>
+You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="vanished">새 베타 버전(%1)을 사용할 수 있어요.
-아래의 페이지에서 다운로드:
+        <translation>بتای جدیدی از تیم‌تاک در دسترس قرار گرفت: %1<byte value="xd"/>
+میتوانید آن را از صفحۀ زیر دانلود کنید:<byte value="xd"/>
 %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7424"/>
         <source>No available voices found for Text-To-Speech</source>
-        <translation>사용 가능한 TTS 엔진이 없습니다</translation>
+        <translation>هیچ صدایی برای تبدیل متن-به-گفتار پیدا نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2557"/>
         <source>&amp;Restore</source>
-        <translation>복원 (&amp;R)</translation>
+        <translation>&amp;بازیابی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1016"/>
         <source>Kicked from server by %1</source>
-        <translation>%1의 명령으로 서버에서 쫓겨남</translation>
+        <translation>%1 شما را از سِروِر بیرون کرد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1019"/>
         <source>Kicked from server by unknown user</source>
-        <translation>누군가의 명령으로 서버에서 쫓겨남</translation>
+        <translation>شما توسط یک کاربر ناشناس از سِروِر اخراج شُدید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1036"/>
         <source>Kicked from channel by %1</source>
-        <translation>%1의 명령으로 채널에서 쫓겨남</translation>
+        <translation>%1 شما را از کانال بیرون کرد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1039"/>
         <source>Kicked from channel by unknown user</source>
-        <translation>누군가의 명령으로 채널에서 쫓겨남</translation>
+        <translation>شما توسط یک کاربر ناشناس از کانال اخراج شُدید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="643"/>
@@ -3659,689 +3661,669 @@ You can download it on the page below:
         <location filename="../mainwindow.cpp" line="5889"/>
         <location filename="../mainwindow.cpp" line="5943"/>
         <source>&amp;Cancel</source>
-        <translation>취소 (&amp;C)</translation>
+        <translation>&amp;لغو</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="646"/>
         <source>Choose language</source>
-        <translation>언어 선택</translation>
+        <translation>انتخاب زبان</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="647"/>
         <source>Select the language will be use by %1</source>
-        <translation>%1에서 사용할 언어 선택</translation>
+        <translation>لطفا زبان مورد نظر خود را برای استفاده در %1 انتخاب کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="990"/>
         <location filename="../mainwindow.cpp" line="991"/>
         <source>Secure connection failed due to error 0x%1: %2.</source>
-        <translation>0x%1 오류가 발생하여 보안 연결이 불가능합니다: %2</translation>
+        <translation>اتصال امن به دلیل خطای 0x%1 ناموفق بود: %2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1132"/>
         <location filename="../mainwindow.cpp" line="1134"/>
         <source>%1 has logged out</source>
         <comment>For female</comment>
-        <translation>%1, 로그아웃함</translation>
+        <translation>%1 از سِروِر رفت</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1132"/>
         <location filename="../mainwindow.cpp" line="1134"/>
         <source>%1 has logged out</source>
         <comment>For male and neutral</comment>
-        <translation>%1, 로그아웃함</translation>
+        <translation>%1 از سِروِر رفت</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1583"/>
         <source>New sound device available: %1. Refresh sound devices to discover new device.</source>
-        <translation>새 사운드 장치(%1)를 사용할 수 있습니다. 사운드 장치를 새로고침하여 접근할 수 있습니다.</translation>
+        <translation>دستگاه صوتی جدیدی در دسترس است: %1. برای شناسایی دستگاه جدید, لطفا از دکمۀ تازه‌سازی دستگاه‌های صوتی استفاده کنید.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1588"/>
         <source>Sound device removed: %1.</source>
-        <translation>%1 사운드 장치가 제거되었습니다.</translation>
+        <translation>دستگاه صوتی %1 حذف شد.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1994"/>
         <source>Failed to setup encryption settings</source>
-        <translation>암호화 설정 실패</translation>
+        <translation>تنظیمات رمزگذاری انجام نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2017"/>
         <source>Disconnected from %1</source>
-        <translation>%1 연결 해제됨</translation>
+        <translation>از سِروِر %1 رفتید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2351"/>
         <source>Voice transmission failed</source>
-        <translation>말하기 전송 실패</translation>
+        <translation>صدا ارسال نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2460"/>
         <source>Trying to reconnect to %1 port %2</source>
-        <translation>연결 재시도: %1 포트 %2</translation>
+        <translation>در حال تلاش برای اتصال مجدد به %1 و پورت‌های %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2660"/>
         <source>Do you wish to add %1 to the Windows Firewall exception list?</source>
-        <translation>Windows 방화벽 예외 목록에 %1 항목을 추가할까요?</translation>
+        <translation>آیا مایلید %1 را به لیست استثناهای فایروال ویندوز اضافه کنید?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2673"/>
         <source>Failed to add %1 to Windows Firewall exceptions.</source>
-        <translation>Windows 방화벽 예외 목록에 %1 항목을 추가할 수 없습니다.</translation>
+        <translation>افزودن %1 به استثنائات فایروال ویندوز ناموفق بود.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2688"/>
         <source>Private messages</source>
-        <translation>개인 메시지</translation>
+        <translation>پیامهای خصوصی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2693"/>
         <source>Channel messages</source>
-        <translation>채널 메시지</translation>
+        <translation>پیامهای کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2698"/>
         <source>Broadcast messages</source>
-        <translation>방송</translation>
+        <translation>پیامهای همگانی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2703"/>
         <source>Voice</source>
-        <translation>말하기</translation>
+        <translation>صدا</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2708"/>
         <source>Video</source>
-        <translation>동영상</translation>
+        <translation>ویدیو</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2718"/>
         <source>Desktop input</source>
-        <translation>화면 공유</translation>
+        <translation>ورودی دسکتاپ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2723"/>
         <source>Media files</source>
-        <translation>미디어 파일</translation>
+        <translation>استریم فایلهای صوتی و تصویری</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2728"/>
         <source>Intercept private messages</source>
-        <translation>개인 메시지 가로채기</translation>
+        <translation>شنود پیامهای خصوصی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2733"/>
         <source>Intercept channel messages</source>
-        <translation>채널 메시지 가로채기</translation>
+        <translation>شنود پیامهای کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2738"/>
         <source>Intercept voice</source>
-        <translation>말하기 가로채기</translation>
+        <translation>شنود صدا</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2743"/>
         <source>Intercept video capture</source>
-        <translation>동영상 캡처 가로채기</translation>
+        <translation>شنود اشتراک ویدیو</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2748"/>
         <source>Intercept desktop</source>
-        <translation>화면 공유 가로채기</translation>
+        <translation>شنود اشتراک‌گذاری‌های دسکتاپ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2753"/>
         <source>Intercept media files</source>
-        <translation>미디어 파일 가로채기</translation>
+        <translation>شنود استریم فایل‌های صوتی و تصویری</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2777"/>
         <location filename="../mainwindow.cpp" line="2778"/>
         <source>Subscription &quot;%1&quot; enabled for %2</source>
-        <translation>%2, %1 수신 활성화됨</translation>
+        <translation>اشتراک &quot;%1&quot; برای %2 فعال شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2787"/>
         <location filename="../mainwindow.cpp" line="2788"/>
         <source>Subscription &quot;%1&quot; disabled for %2</source>
-        <translation>%2, %1 수신 비활성화됨</translation>
+        <translation>اشتراک &quot;%1&quot; برای %2 غیرفعال شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2920"/>
         <source>%1 is requesting desktop access</source>
-        <translation>%1, 화면 공유 접근 요청함</translation>
+        <translation>%1 درخواست دسترسی به دسکتاپ را دارد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2926"/>
         <location filename="../mainwindow.cpp" line="4856"/>
         <source>%1 granted desktop access</source>
-        <translation>%1, 화면 공유 접근 허가됨</translation>
+        <translation>%1 اجازۀ دسترسی به دسکتاپ را صادر کرد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2932"/>
         <source>%1 retracted desktop access</source>
-        <translation>%1, 화면 공유 접근 중단됨</translation>
+        <translation>%1 اجازۀ دسترسی به دسکتاپ را پس گرفت</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2970"/>
         <location filename="../mainwindow.cpp" line="2982"/>
         <source>Joined channel %1</source>
-        <translation>%1 채널에 입장</translation>
+        <translation>وارد %1 شُدید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3097"/>
         <source>Files in channel: %1</source>
-        <translation>채널 내 파일: %1</translation>
+        <translation>تعداد فایل‌های موجود در کانال: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3157"/>
         <source>Failed to start recording</source>
-        <translation>녹음을 시작할 수 없습니다</translation>
+        <translation>شروع ضبط ناموفق بود</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3161"/>
         <source>Recording to file: %1</source>
-        <translation>녹음 시작됨: %1</translation>
+        <translation>ضبط در فایل: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3215"/>
         <source>Microphone gain is controlled by channel</source>
-        <translation>채널에서 마이크 음량을 일괄 제어 중입니다</translation>
+        <translation>بلندی میکروفون توسط کانال کنترل میشود</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3591"/>
         <source>Failed to stream media file %1</source>
-        <translation>%1 파일을 스트리밍할 수 없습니다</translation>
+        <translation>شما نمیتوانید این فایل را استریم کنید: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3753"/>
         <source>Enable HotKey</source>
-        <translation>기능키 활성화</translation>
+        <translation>فعال‌کردن کلید میانبر</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3754"/>
         <source>Failed to register hotkey. Please try another key combination.</source>
-        <translation>등록할 수 없는 기능키입니다. 다른 키 조합을 입력하세요.</translation>
+        <translation>ثبت کلید میانبر امکان‌پذیر نیست. لطفا کلیدهای دیگری را امتحان کنید.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3759"/>
         <source>Push To Talk: </source>
-        <translation>눌러서 말하기: </translation>
+        <translation>صحبت با فشردن دکمه: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3932"/>
         <source>Text messages blocked by channel operator</source>
-        <translation>채널 관리자의 명령으로 채널 메시지가 차단되었습니다</translation>
+        <translation>امکان ارسال پیام‌های متنی توسط اپراتور کانال مسدود شده‌است</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3936"/>
         <source>Voice transmission blocked by channel operator</source>
-        <translation>채널 관리자의 명령으로 말하기가 차단되었습니다</translation>
+        <translation>امکان صحبت کردن توسط اپراتور کانال مسدود شده‌است</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3940"/>
         <source>Media file transmission blocked by channel operator</source>
-        <translation>채널 관리자의 명령으로 미디어 파일 전송이 차단되었습니다</translation>
+        <translation>امکان استریم فایل‌های صوتی و تصویری توسط اپراتور کانال مسدود شده‌است</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3944"/>
         <source>Video transmission blocked by channel operator</source>
-        <translation>채널 관리자의 명령으로 동영상 전송이 차단되었습니다</translation>
+        <translation>امکان اشتراک‌گذاری ویدیو توسط اپراتور کانال مسدود شده‌است</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3948"/>
         <source>Desktop transmission blocked by channel operator</source>
-        <translation>채널 관리자의 명령으로 화면 공유 전송이 차단되었습니다</translation>
+        <translation>امکان اشتراک‌گذاری صفحه نمایش توسط اپراتور کانال مسدود شده‌است</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4025"/>
         <location filename="../mainwindow.cpp" line="4071"/>
         <source>New Profile</source>
-        <translation>새 프로필</translation>
+        <translation>پروفایل جدید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4025"/>
         <source>Delete Profile</source>
-        <translation>프로필 삭제</translation>
+        <translation>حذف پروفایل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4025"/>
         <source>Current Profile</source>
-        <translation>현재 프로필</translation>
+        <translation>پروفایل فعلی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4038"/>
         <location filename="../mainwindow.cpp" line="4056"/>
         <source>New Client Instance</source>
-        <translation>새 클라이언트 인스턴스</translation>
+        <translation>کلاینت جدید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4039"/>
         <source>Select profile</source>
-        <translation>프로필 선택</translation>
+        <translation>لطفا یک پروفایل انتخاب کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4057"/>
         <source>Delete profile</source>
-        <translation>프로필 삭제</translation>
+        <translation>حذف پروفایل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4072"/>
         <source>Profile name</source>
-        <translation>프로필 이름</translation>
+        <translation>نام پروفایل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4437"/>
         <source>Specify new nickname for current server</source>
-        <translation>현재 서버에서 사용할 새 대화명 입력</translation>
+        <translation>لطفا نام مستعار مورد نظر خود را برای سِروِر فعلی تعیین کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4439"/>
         <source>Specify new nickname</source>
-        <translation>새 대화명 입력</translation>
+        <translation>تعیین نام مستعار جدید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4505"/>
         <source>Push-To-Talk enabled</source>
-        <translation>눌러서 말하기 활성화됨</translation>
+        <translation>حالت فشردن-برای-صحبت فعال شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4511"/>
         <source>Push-To-Talk disabled</source>
-        <translation>눌러서 말하기 비활성화됨</translation>
+        <translation>حالت فشردن-برای-صحبت غیرفعال شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4528"/>
         <source>Voice activation enabled</source>
-        <translation>말하기 활성화됨</translation>
+        <translation>حالت ارسال خودکار صدا فعال شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4528"/>
         <source>Voice activation disabled</source>
-        <translation>말하기 비활성화됨</translation>
+        <translation>حالت ارسال خودکار صدا غیرفعال شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4535"/>
         <source>Failed to enable voice activation</source>
-        <translation>말하기를 활성화할 수 없습니다</translation>
+        <translation>امکان فعالسازی حالت ارسال خودکار صدا وجود ندارد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4560"/>
         <location filename="../mainwindow.cpp" line="6512"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translation>비디오 장치 구성에 실패했습니다. &apos;환경 설정&apos;에서 확인하세요.</translation>
+        <translation>دستگاه ویدیویی به‌د&apos;رستی تنظیم نشده است. لطفا &apos;تنظیمات&apos; مربوط به دستگاه ویدیویی را بررسی کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4583"/>
         <source>Video transmission enabled</source>
-        <translation>동영상 전송 활성화됨</translation>
+        <translation>ارسال ویدیو فعال شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4602"/>
         <source>Video transmission disabled</source>
-        <translation>동영상 전송 비활성화됨</translation>
+        <translation>ارسال ویدیو غیرفعال شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4649"/>
         <source>Desktop sharing enabled</source>
-        <translation>화면 공유 활성화됨</translation>
+        <translation>اشتراک‌گذاری صفحه نمایش فعال شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4669"/>
         <source>Desktop sharing disabled</source>
-        <translation>화면 공유 비활성화됨</translation>
+        <translation>اشتراک‌گذاری صفحه نمایش غیرفعال شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4693"/>
         <source>Sound events enabled</source>
-        <translation>사운드 이벤트 활성화됨</translation>
+        <translation>هشدار‌های صوتی روشن شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4698"/>
         <source>Sound events disabled</source>
-        <translation>사운드 이벤트 비활성화됨</translation>
+        <translation>هشدار‌های صوتی خاموش شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5047"/>
         <source>To relay voice stream from other channel you must enable subscription &quot;Intercept Voice&quot;.
 Do you wish to do this now?</source>
-        <translation>다른 채널에 말하기 스트리밍을 중계하려면 &quot;말하기 가로채기&quot; 수신을 활성화 해야 합니다.
-지금 활성화 할까요?</translation>
+        <translation>برای باز‌پخش استریم صدا از یک کانال دیگر, باید &quot;شنود صدا&quot; را فعال کنید.
+آیا مایلید اکنون این کار را انجام دهید?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5067"/>
         <source>To relay media file stream from other channel you must enable subscription &quot;Intercept Media File&quot;.
 Do you wish to do this now?</source>
-        <translation>다른 채널에 미디어 파일을 중계하려면 &quot;미디어 파일 가로채기&quot; 수신을 활성화 해야 합니다.
-지금 활성화 할까요?</translation>
+        <translation>برای باز‌پخش استریم فایل‌های صوتی و تصویری از یک کانال دیگر, باید &quot;شنود فایل‌های صوتی&quot; را فعال کنید.
+آیا مایلید اکنون این کار را انجام دهید?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5419"/>
         <location filename="../mainwindow.cpp" line="5428"/>
         <location filename="../mainwindow.cpp" line="5450"/>
         <source>Share channel</source>
-        <translation>채널 공유</translation>
+        <translation>اشتراک‌گذاری کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5420"/>
         <source>Type username of user account:</source>
-        <translation>사용자 이름 입력</translation>
+        <translation>لطفا نام کاربری مربوط به این حساب کاربری را وارد کنید:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5429"/>
         <source>Type password of user account:</source>
-        <translation>암호 입력</translation>
+        <translation>لطفا رمز عبور این حساب کاربری را وارد کنید:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5451"/>
         <source>Type password of channel:</source>
-        <translation>채널 암호 입력</translation>
+        <translation>لطفا رمز عبور کانال را وارد کنید:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5464"/>
         <location filename="../mainwindow.cpp" line="5465"/>
         <source>Link copied to clipboard</source>
-        <translation>클립보드에 링크 복사됨</translation>
+        <translation>لینک در کلیپ‌برد کپی شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5471"/>
         <source>Sort By...</source>
-        <translation>정렬 기준</translation>
+        <translation>مرتب‌سازی بر اساسِ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5835"/>
         <source>%1 users</source>
-        <translation>사용자 %1명</translation>
+        <translation>%1 کاربر</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5907"/>
         <source>Are you sure you want to kick yourself?</source>
-        <translation>자기 자신을 추방할까요?</translation>
+        <translation>آیا مطمئن هستید که میخواهید خودتان را از سِروِر بیرون کنید?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5927"/>
         <source>Are you sure you want to kick and ban yourself?</source>
-        <translation>자기 자신을 추방 및 차단할까요?</translation>
+        <translation>آیا مطمئن هستید که میخواهید ضمنِ بیرون‌کردن, خودتان را از ورودِ مجدد به سِروِر به‌طورِ دائمی منع کنید?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5946"/>
         <source>Ban user #%1</source>
-        <translation>사용자 %1 차단</translation>
+        <translation>محروم کردن کاربر شماره %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5950"/>
         <source>Ban User From Server</source>
-        <translation>서버에서 사용자 차단</translation>
+        <translation>محروم کردن همیشگی کاربر از ورود مجدد به سِروِر</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5976"/>
         <source>Ban IP-address</source>
-        <translation>IP 주소 차단</translation>
+        <translation>محروم کردن از طریق آدرس آیپی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5976"/>
         <source>IP-address (&apos;/&apos; for subnet, e.g. 192.168.0.0/16)</source>
-        <translation>IP 주소 (&apos;/&apos; 서브넷의 경우의 예: 192.168.0.0/16</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="7208"/>
-        <source>The file %1 contains %2 setup information.<byte value="xd"/>
-Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="7301"/>
-        <source>New version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
-%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="7326"/>
-        <source>New beta version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
-%2</source>
-        <translation type="unfinished"></translation>
+        <translation>آدرس آیپی (&apos;/&apos; برای زیرشبکه, به‌عنوان مثال: 192.168.0.0/16)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7406"/>
         <source>Language %1 not found for Text-To-Speech</source>
-        <translation>%1 TTS 언어가 없습니다.</translation>
+        <translation>زبان %1 برای تبدیل متن-به-گفتار یافت نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7419"/>
         <source>Voice %1 not found for Text-To-Speech. Switching to %2</source>
-        <translation>%1 TTS 엔진이 없습니다. %2 엔진으로 전환합니다.</translation>
+        <translation>صدای %1 برای تبدیل متن-به-گفتار یافت نشد. در عوض, از %2 استفاده خواهد شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4571"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
-        <translation>비디오 코덱 구성에 실패했습니다. &apos;환경 설정&apos;에서 확인하세요.</translation>
+        <translation>فشرده‌سازی ویدیو ناموفق بود. لطفا &apos;تنظیمات&apos; مربوط به فشرده‌سازی ویدیو را بررسی کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4619"/>
         <source>Failed to open X11 display.</source>
-        <translation>X11 디스플레이를 열 수 없습니다.</translation>
+        <translation>نمایشگر X11 باز نشد.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4638"/>
         <source>Failed to start desktop sharing</source>
-        <translation>화면 공유를 시작할 수 없습니다</translation>
+        <translation>امکان اشتراک‌گذاری صفحه نمایش وجود ندارد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4678"/>
         <source>Text-To-Speech enabled</source>
-        <translation>TTS 활성화됨</translation>
+        <translation>هشدار‌های متن-به-گفتار روشن شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4683"/>
         <source>Text-To-Speech disabled</source>
-        <translation>TTS 비활성화됨</translation>
+        <translation>هشدار‌های متن-به-گفتار خاموش شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5100"/>
         <location filename="../mainwindow.cpp" line="5113"/>
         <source>Failed to issue command to create channel</source>
-        <translation>채널을 만들 수 없습니다</translation>
+        <translation>کانال ایجاد نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5127"/>
         <source>Failed to issue command to update channel</source>
-        <translation>채널을 업데이트할 수 없습니다</translation>
+        <translation>کانال به‌روز‌رسانی نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5140"/>
         <source>Are you sure you want to delete channel &quot;%1&quot;?</source>
-        <translation>&quot;%1&quot; 채널을 삭제할까요?</translation>
+        <translation>آیا واقعا میخواهید کانالِ &quot;%1&quot; را حذف کنید?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5152"/>
         <source>Failed to issue command to delete channel</source>
-        <translation>채널을 삭제할 수 없습니다</translation>
+        <translation>نمیتوانید این کانال را حذف کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5182"/>
         <location filename="../mainwindow.cpp" line="5893"/>
         <source>Specify password</source>
-        <translation>암호 입력</translation>
+        <translation>رمز عبور کانال را وارد کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5197"/>
         <source>Failed to issue command to join channel</source>
-        <translation>채널에 입장할 수 없습니다</translation>
+        <translation>نمیتوانید وارد این کانال شوید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5287"/>
         <source>Nobody is active in this channel</source>
-        <translation>채널 내 활동 중인 사용자가 없습니다</translation>
+        <translation>هیچ‌کس صحبت نمی‌کند</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5329"/>
         <source>Open File</source>
-        <translation>파일 열기</translation>
+        <translation>باز کردن فایل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5350"/>
         <source>Save File</source>
-        <translation>파일 저장</translation>
+        <translation>ذخیرۀ فایل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5380"/>
         <source>Are you sure you want to delete &quot;%1&quot;?</source>
-        <translation>&quot;%1&quot; 항목을 삭제할까요?</translation>
+        <translation>مطمئنید که میخواهید &quot;%1&quot; را حذف کنید?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5389"/>
         <source>Are you sure you want to delete %1 file(s)?</source>
-        <translation>&quot;%1&quot;개 파일을 삭제할까요?</translation>
+        <translation>آیا مطمئن هستید که میخواهید %1 فایل را حذف کنید?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5623"/>
         <source>Message to broadcast:</source>
-        <translation>방송:</translation>
+        <translation>لطفا پیام مورد نظر خود را برای اطلاع‌رسانی به همۀ افراد حاضر در سِروِر وارد کنید:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5669"/>
         <source>Are you sure you want to delete your existing settings?</source>
-        <translation>기존 설정을 삭제할까요?</translation>
+        <translation>آیا مطمئنید که میخواهید تنظیمات فعلی خود را حذف کنید?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5684"/>
         <source>Cannot find %1</source>
-        <translation>%1 항목이 없습니다</translation>
+        <translation>%1 یافت نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5691"/>
         <source>Cannot remove %1</source>
-        <translation>%1 항목을 제거할 수 없습니다</translation>
+        <translation>حذف %1 امکان‌پذیر نیست</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5698"/>
         <source>Failed to copy %1 to %2</source>
-        <translation>%1 항목을 %2 항목으로 복사할 수 없습니다</translation>
+        <translation>%1 در %2 کپی نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5244"/>
         <location filename="../mainwindow.cpp" line="5753"/>
         <source>Talking</source>
-        <translation>대화</translation>
+        <translation>در حال صحبت</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5753"/>
         <source>Mute</source>
-        <translation>음소거</translation>
+        <translation>قطع صدا</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5255"/>
         <location filename="../mainwindow.cpp" line="5753"/>
         <source>Streaming</source>
-        <translation>스트리밍</translation>
+        <translation>در حال استریم</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5753"/>
         <source>Mute media file</source>
-        <translation>미디어 파일 음소거</translation>
+        <translation>قطع استریم‌های این کاربر</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5266"/>
         <location filename="../mainwindow.cpp" line="5753"/>
         <source>Webcam</source>
-        <translation>웹캠</translation>
+        <translation>وب‌کم</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2713"/>
         <location filename="../mainwindow.cpp" line="5277"/>
         <location filename="../mainwindow.cpp" line="5753"/>
         <source>Desktop</source>
-        <translation>화면 공유</translation>
+        <translation>دسکتاپ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5785"/>
         <source>Question</source>
-        <translation>질문 모드</translation>
+        <translation>پرسش</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5810"/>
         <source>Channel</source>
-        <translation>채널 </translation>
+        <translation>کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5810"/>
         <source>Password protected</source>
-        <translation>암호로 보호됨</translation>
+        <translation>رمزدار</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5810"/>
         <source>Classroom</source>
-        <translation>교실</translation>
+        <translation>کلاس درس</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5810"/>
         <source>Hidden</source>
-        <translation>숨겨짐</translation>
+        <translation>مخفی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5831"/>
         <source>Topic: %1</source>
-        <translation>주제: %1</translation>
+        <translation>موضوع: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5838"/>
         <source>%1 files</source>
-        <translation>파일 %1개</translation>
+        <translation>%1 فایل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5939"/>
         <source>IP-address</source>
-        <translation>IP 주소</translation>
+        <translation>آدرس آیپی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5939"/>
         <source>Username</source>
-        <translation>사용자 이름</translation>
+        <translation>نام کاربری</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5948"/>
         <source>Ban User From Channel</source>
-        <translation>채널에서 사용자 차단</translation>
+        <translation>محروم‌کردن همیشگی کاربر از ورود مجدد به کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6142"/>
         <source>&amp;Leave Channel</source>
-        <translation>채널에서 퇴장 (&amp;L)</translation>
+        <translation>&amp;خروج از کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6383"/>
         <source>The maximum number of users who can transmit is %1</source>
-        <translation>최대 %1명이 전송 가능합니다</translation>
+        <translation>حداکثر تعداد کاربرانی که میتوانند صحبت کنند %1 نفر است</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6511"/>
         <source>Start Webcam</source>
-        <translation>웹캠 시작</translation>
+        <translation>روشن کردن وب‌کم</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6533"/>
         <location filename="../mainwindow.cpp" line="6585"/>
         <source>Myself</source>
-        <translation>나 자신</translation>
+        <translation>خودم</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1155"/>
         <source>%1 joined channel</source>
-        <translation>%1, 채널에 입장함</translation>
+        <translation>%1 وارد کانال شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1198"/>
         <source>%1 left channel</source>
-        <translation>%1, 채널에서 퇴장함</translation>
+        <translation>%1 از کانال رفت</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3107"/>
         <source>&amp;Files (%1)</source>
-        <translation>파일 (%1) (&amp;F)</translation>
+        <translation>&amp;فایل‌ها (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6931"/>
@@ -4373,7 +4355,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="7069"/>
         <location filename="../mainwindow.cpp" line="7074"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
-        <translation>%1, %2 수신 %3</translation>
+        <translation>%1 امکانِ دریافتِ &quot;%2&quot; از طرفِ شما را برای خودش %3 کرد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6935"/>
@@ -4405,7 +4387,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="7073"/>
         <location filename="../mainwindow.cpp" line="7074"/>
         <source>On</source>
-        <translation>활성화됨</translation>
+        <translation>روشن</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6935"/>
@@ -4437,7 +4419,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="7073"/>
         <location filename="../mainwindow.cpp" line="7074"/>
         <source>Off</source>
-        <translation>비활성화됨</translation>
+        <translation>خاموش</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7168"/>
@@ -4445,39 +4427,40 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="7187"/>
         <location filename="../mainwindow.cpp" line="7198"/>
         <source>Load File</source>
-        <translation>파일 불러오기</translation>
+        <translation>بارگذاری فایل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7169"/>
         <location filename="../mainwindow.cpp" line="7178"/>
         <source>Failed to load file %1</source>
-        <translation>%1 파일 불러오기 실패</translation>
+        <translation>فایل %1 بارگذاری نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7188"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
-        <translation>&quot;%1&quot; 파일이 %2 앱과 호환되지 않습니다</translation>
+        <translation>فایل &quot;%1&quot; با %2 سازگار نیست</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7199"/>
         <source>Failed to extract host-information from %1</source>
-        <translation>%1에서 호스트 정보를 찾을 수 없습니다</translation>
+        <translation>اطلاعات سِروِر از %1 قابل استخراج نیست</translation>
     </message>
     <message>
-        <source>The file %1 contains %2 setup information.
+        <location filename="../mainwindow.cpp" line="7208"/>
+        <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
-        <translation type="vanished">%1 파일에서 %2 설정 정보를 찾았습니다.
-설정을 적용할까요?</translation>
+        <translation>فایل %1 حاوی اطلاعات نصب %2 است.<byte value="xd"/>
+آیا این تنظیمات را اِعمال میکنید?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7213"/>
         <source>Load %1 File</source>
-        <translation>%1 파일 불러오기</translation>
+        <translation>باز‌کردن فایل %1</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="28"/>
         <source>NoName</source>
-        <translation>이름없음</translation>
+        <translation>بی‌نام</translation>
     </message>
 </context>
 <context>
@@ -4485,139 +4468,139 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastorage.ui" line="14"/>
         <source>Record Conversations to Disk</source>
-        <translation>대화 녹음</translation>
+        <translation>ضبط مکالمات و ذخیرۀ آنها روی هارد‌دیسک</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="20"/>
         <source>Store audio conversations</source>
-        <translation>대화 녹음 저장</translation>
+        <translation>ذخیرۀ صدا‌هایی که ضبط میکنید</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="28"/>
         <source>Storage mode</source>
-        <translation>저장 형태</translation>
+        <translation>روش ذخیره‌سازی</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="35"/>
         <source>Single audio file for all users</source>
-        <translation>모든 사용자 대화를 한 파일로 저장</translation>
+        <translation>یک فایل صوتی برای همۀ کاربران. (با انتخاب این گزینه, صدای همۀ کاربران در یک فایل ذخیره میشود)</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="42"/>
         <source>Separate audio file for each user</source>
-        <translation>사용자별로 오디오 파일 분리</translation>
+        <translation>فایل صوتی اختصاصی برای هر کاربر. (با انتخاب این گزینه, صدای هر کاربر, جداگانه  در یک فایل مجزا ذخیره میشود)</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="53"/>
         <source>Stream types</source>
-        <translation>스트리밍 유형</translation>
+        <translation>انواع استریم‌ها</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="60"/>
         <source>Voice</source>
-        <translation>말하기</translation>
+        <translation>ضبطِ صدای کاربران</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="67"/>
         <source>Media files</source>
-        <translation>미디어 파일</translation>
+        <translation>ضبطِ استریم‌های کاربران</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="78"/>
         <source>Audio file format</source>
-        <translation>오디오 파일 형식</translation>
+        <translation>فرمتِ فایلِ ضبط‌شده</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="91"/>
         <location filename="../mediastoragedlg.cpp" line="116"/>
         <source>Folder for audio files</source>
-        <translation>오디오 파일 폴더</translation>
+        <translation>پوشۀ ذخیرۀ فایل‌های ضبط‌شده</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="119"/>
         <source>Store text message conversations</source>
-        <translation>텍스트 메시지 저장</translation>
+        <translation>ذخیرۀ پیام‌های متنی</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="125"/>
         <source>Folder for channel log files</source>
-        <translation>채널 로그 파일 폴더</translation>
+        <translation>پوشۀ ذخیرۀ پیام‌های کانال</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="148"/>
         <source>Folder for user-to-user log files</source>
-        <translation>사용자 간 로그 파일 폴더</translation>
+        <translation>پوشۀ ذخیرۀ پیام‌های خصوصی</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="196"/>
         <source>S&amp;top</source>
-        <translation>중지 (&amp;T)</translation>
+        <translation>ت&amp;وقف</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="189"/>
         <source>&amp;Start</source>
-        <translation>시작 (&amp;S)</translation>
+        <translation>&amp;ضبط</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="107"/>
         <location filename="../mediastorage.ui" line="141"/>
         <location filename="../mediastorage.ui" line="164"/>
         <source>Browse</source>
-        <translation>찾아보기</translation>
+        <translation>جستجوی پوشه</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="203"/>
         <source>&amp;Cancel</source>
-        <translation>취소 (&amp;C)</translation>
+        <translation>&amp;لغو</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="111"/>
         <source>Folder for storing audio files does not exist. Do you want %1 to create it for you?</source>
-        <translation>%1 폴더가 없어 오디오 파일을 저장할 수 없습니다. 새로 만들까요?</translation>
+        <translation>پوشه ای برای ذخیرۀ فایل‌های ضبط شده وجود ندارد. آیا میخواهید %1 یک پوشه برای شما بسازد?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="112"/>
         <location filename="../mediastoragedlg.cpp" line="150"/>
         <location filename="../mediastoragedlg.cpp" line="167"/>
         <source>&amp;Yes</source>
-        <translation>예 (&amp;Y)</translation>
+        <translation>&amp;بله</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="113"/>
         <location filename="../mediastoragedlg.cpp" line="151"/>
         <location filename="../mediastoragedlg.cpp" line="168"/>
         <source>&amp;No</source>
-        <translation>아니요 (&amp;N)</translation>
+        <translation>&amp;خیر</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="132"/>
         <source>Stream type to store</source>
-        <translation>저장할 스트리밍 유형</translation>
+        <translation>نوع استریم برای ذخیره</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="133"/>
         <source>No stream type has been selected as audio input for recording</source>
-        <translation>스트리밍 유형을 선택하지 않았습니다</translation>
+        <translation>هیچ نوع اِستِریمی به عنوان ورودی صدا برای ضبط انتخاب نشده است</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="149"/>
         <source>Folder for storing channel messages does not exist. Do you want %1 to create it for you?</source>
-        <translation>%1 폴더가 없어 채널 메시지를 저장할 수 없습니다. 새로 만들까요?</translation>
+        <translation>پوشه ای برای ذخیرۀ پیام‌های کانال وجود ندارد. آیا میخواهید %1 یک پوشه برای شما بسازد?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="154"/>
         <source>Folder for channel messages</source>
-        <translation>채널 메시지 폴더</translation>
+        <translation>پوشۀ ذخیرۀ پیام‌های کانال</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="166"/>
         <source>Folder for storing private text messages does not exist. Do you want %1 to create it for you?</source>
-        <translation>%1 폴더가 없어 개인 텍스트 메시지를 저장할 수 없습니다. 새로 만들까요?</translation>
+        <translation>پوشه ای برای ذخیرۀ پیام‌های خصوصی وجود ندارد. آیا میخواهید %1 یک پوشه برای شما بسازد?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="171"/>
         <source>Folder for private text messages</source>
-        <translation>개인 텍스트 메시지 폴더</translation>
+        <translation>پوشۀ ذخیرۀ پیام‌های خصوصی</translation>
     </message>
 </context>
 <context>
@@ -4625,29 +4608,29 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusers.ui" line="14"/>
         <source>Online Users</source>
-        <translation>접속자</translation>
+        <translation>کاربران آنلاین</translation>
     </message>
     <message>
         <location filename="../onlineusers.ui" line="20"/>
         <location filename="../onlineusersdlg.cpp" line="80"/>
         <source>Users Currently on Server</source>
-        <translation>현재 온라인인 사용자</translation>
+        <translation>کاربرانی که در سِروِر حضور دارند</translation>
     </message>
     <message>
         <location filename="../onlineusers.ui" line="50"/>
         <source>Online users</source>
-        <translation>접속자</translation>
+        <translation>کاربران آنلاین</translation>
     </message>
     <message>
         <location filename="../onlineusers.ui" line="57"/>
         <source>Keep disconnected users</source>
-        <translation>연결이 끊긴 사용자 유지</translation>
+        <translation>نگه‌داشتن نام کاربرانی که از سِروِر رفته‌اند</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="58"/>
         <location filename="../onlineusersdlg.cpp" line="129"/>
         <source>&amp;View User Information</source>
-        <translation>사용자 정보 보기 (&amp;V)</translation>
+        <translation>&amp;مشاهدۀ مشخصات کاربر</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="58"/>
@@ -4659,7 +4642,7 @@ Should these settings be applied?</source>
         <location filename="../onlineusersdlg.cpp" line="59"/>
         <location filename="../onlineusersdlg.cpp" line="131"/>
         <source>M&amp;essages</source>
-        <translation>메시지 (&amp;E)</translation>
+        <translation>ا&amp;رسال پیام به این کاربر</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="59"/>
@@ -4671,7 +4654,7 @@ Should these settings be applied?</source>
         <location filename="../onlineusersdlg.cpp" line="60"/>
         <location filename="../onlineusersdlg.cpp" line="133"/>
         <source>&amp;Op</source>
-        <translation>관리자 (&amp;O)</translation>
+        <translation>&amp;تعیین به عنوان اپراتور کانال</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="60"/>
@@ -4680,36 +4663,28 @@ Should these settings be applied?</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <source>&amp;Kick</source>
-        <translation type="vanished">추방 (&amp;K)</translation>
-    </message>
-    <message>
         <location filename="../onlineusersdlg.cpp" line="61"/>
         <location filename="../onlineusersdlg.cpp" line="136"/>
         <source>Ctrl+K</source>
         <translation>Ctrl+K</translation>
     </message>
     <message>
-        <source>Kick and &amp;Ban</source>
-        <translation type="vanished">추방 및 차단 (&amp;B)</translation>
-    </message>
-    <message>
         <location filename="../onlineusersdlg.cpp" line="61"/>
         <location filename="../onlineusersdlg.cpp" line="135"/>
         <source>&amp;Kick from Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;بیرون‌کردن از کانال</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="62"/>
         <location filename="../onlineusersdlg.cpp" line="137"/>
         <source>&amp;Kick from Server</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;بیرون‌کردن از سِروِر</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="62"/>
         <location filename="../onlineusersdlg.cpp" line="138"/>
         <source>Ctrl+Alt+K</source>
-        <translation type="unfinished">Ctrl+Alt+K</translation>
+        <translation>Ctrl+Alt+K</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="63"/>
@@ -4721,25 +4696,25 @@ Should these settings be applied?</source>
         <location filename="../onlineusersdlg.cpp" line="63"/>
         <location filename="../onlineusersdlg.cpp" line="139"/>
         <source>Kick and &amp;Ban from Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>بیرون‌کردن و &amp;منع دائمی از ورود به کانال</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="64"/>
         <location filename="../onlineusersdlg.cpp" line="141"/>
         <source>Kick and &amp;Ban from Server</source>
-        <translation type="unfinished"></translation>
+        <translation>بیرون‌کردن و &amp;منع دائمی از ورود به سِروِر</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="64"/>
         <location filename="../onlineusersdlg.cpp" line="142"/>
         <source>Ctrl+Alt+B</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+B</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="65"/>
         <location filename="../onlineusersdlg.cpp" line="143"/>
         <source>Select User(s) for Move</source>
-        <translation>이동할 사용자 선택</translation>
+        <translation>انتخاب کاربران برای جابجایی</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="65"/>
@@ -4750,32 +4725,32 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusersdlg.cpp" line="145"/>
         <source>Sort By...</source>
-        <translation>정렬 기준</translation>
+        <translation>مرتب‌سازی بر اساسِ...</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="146"/>
         <source>Ascending</source>
-        <translation>오름차순</translation>
+        <translation>سعودی</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="146"/>
         <source>Descending</source>
-        <translation>내림차순</translation>
+        <translation>نزولی</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="148"/>
         <source>&amp;Id (%1)</source>
-        <translation>&amp;Id (%1)</translation>
+        <translation>&amp;شمارۀ کاربر (%1)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="154"/>
         <source>&amp;Nickname (%1)</source>
-        <translation>대화명 (%1) (&amp;N)</translation>
+        <translation>&amp;نام مستعار (%1)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="260"/>
         <source>Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7, ID: %1</source>
-        <translation>대화명: %2, 상태 메시지: %3, 사용자 이름: %4, 채널: %5, IP 주소: %6, 버전: %7, ID: %1</translation>
+        <translation>نام مستعار: %2, پیام وضعیت: %3, نام کاربری: %4, کانال: %5, آدرس آیپی: %6, نسخۀ تیم‌تاک: %7, شمارۀ کاربر: %1</translation>
     </message>
 </context>
 <context>
@@ -4783,37 +4758,37 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusersmodel.cpp" line="141"/>
         <source>ID</source>
-        <translation>ID</translation>
+        <translation>شمارۀ کاربر</translation>
     </message>
     <message>
         <location filename="../onlineusersmodel.cpp" line="129"/>
         <source>Nickname</source>
-        <translation>대화명</translation>
+        <translation>نام مستعار</translation>
     </message>
     <message>
         <location filename="../onlineusersmodel.cpp" line="131"/>
         <source>Status message</source>
-        <translation>상태 메시지</translation>
+        <translation>پیام وضعیت</translation>
     </message>
     <message>
         <location filename="../onlineusersmodel.cpp" line="133"/>
         <source>Username</source>
-        <translation>사용자 이름</translation>
+        <translation>نام کاربری</translation>
     </message>
     <message>
         <location filename="../onlineusersmodel.cpp" line="135"/>
         <source>Channel</source>
-        <translation>채널 </translation>
+        <translation>کانال</translation>
     </message>
     <message>
         <location filename="../onlineusersmodel.cpp" line="137"/>
         <source>IP-address</source>
-        <translation>IP 주소</translation>
+        <translation>آدرس آیپی</translation>
     </message>
     <message>
         <location filename="../onlineusersmodel.cpp" line="139"/>
         <source>Version</source>
-        <translation>버전</translation>
+        <translation>نسخۀ تیم‌تاک</translation>
     </message>
 </context>
 <context>
@@ -4821,82 +4796,82 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="14"/>
         <source>Preferences</source>
-        <translation>환경 설정</translation>
+        <translation>تنظیمات</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="33"/>
         <source>General</source>
-        <translation>일반</translation>
+        <translation>تنظیمات عمومی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="39"/>
         <source>User Settings</source>
-        <translation>사용자 설정</translation>
+        <translation>تنظیمات شخصی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="47"/>
         <source>Nickname</source>
-        <translation>대화명</translation>
+        <translation>نام مستعار</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="80"/>
         <source>Gender</source>
-        <translation>성별</translation>
+        <translation>جنسیت</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="112"/>
         <source>Male</source>
-        <translation>남성</translation>
+        <translation>مرد</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="122"/>
         <source>Female</source>
-        <translation>여성</translation>
+        <translation>زن</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="240"/>
         <source>BearWare.dk Web Login ID</source>
-        <translation>BearWare.dk 웹 로그인 ID</translation>
+        <translation>شناسۀ ورود با حساب BearWare.dk</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="257"/>
         <source>&amp;Activate</source>
-        <translation>활성화 (&amp;A)</translation>
+        <translation>&amp;فعالسازی ورود با حساب Bearware.dk</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="153"/>
         <source>Set away status after</source>
-        <translation>자리비움으로 상태 전환 시간</translation>
+        <translation>تغییر وضعیت به حالت &quot;دور&quot; بعد از</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="129"/>
         <source>Neutral</source>
-        <translation>중립</translation>
+        <translation>خنثی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="170"/>
         <source>seconds of inactivity (0 means disabled)</source>
-        <translation>비활동 시간(0 = 비활성화됨)</translation>
+        <translation>ثانیه. چنانچه پس از این مدت کاری انجام ندهید, وضعیت شما به حالت &quot;دور&quot; تغییر پیدا میکند. (برای خاموش کردن این ویژگی, عدد 0 را وارد کنید)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="232"/>
         <source>BearWare.dk Web Login</source>
-        <translation>BearWare.dk 웹 로그인</translation>
+        <translation>ورود با حساب BearWare.dk</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="279"/>
         <source>Restore volume settings and subscriptions on login for Web Login users</source>
-        <translation>웹 로그인 사용자가 로그인하면 수신 및 볼륨 설정값 복원</translation>
+        <translation>بازیابی تنظیمات صدا و اشتراک‌ها در هنگام ورود برای کاربرانی که با استفاده از حساب bearware.dk وارد سِروِر میشوند</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="289"/>
         <source>Voice Transmission Mode</source>
-        <translation>말하기 전송 모드</translation>
+        <translation>روش ارسال صدا</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="301"/>
         <source>Push To Talk</source>
-        <translation>눌러서 말하기</translation>
+        <translation>صحبت‌کردن با فشردن دکمه, (Push to talk)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="308"/>
@@ -4910,341 +4885,341 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="2611"/>
         <location filename="../preferences.ui" line="2638"/>
         <source>&amp;Setup Keys</source>
-        <translation>키 설정 (&amp;S)</translation>
+        <translation>&amp;تنظیمِ کلیدِ میانبر برای صحبت کردن. (اگر از قابلیتِ پوش‌توتاک استفاده میکنید, با انتخابِ این گزینه, میتوانید یک کلیدِ دلخواه برای صحبت‌کردن تعریف کنید. هنگامی که این کلید را نگه‌دارید, میکروفونِ شما روشن میشود)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="315"/>
         <source>Key Combination</source>
-        <translation>키 조합</translation>
+        <translation>کلیدِ تعریف‌شده</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="342"/>
         <source>Voice activated</source>
-        <translation>말하기 활성화</translation>
+        <translation>فعال‌کردن ارسال خودکار صدا. (این گزینه, امکانی را برای شما فراهم میکند که بتوانید بدون فشار‌دادن هیچ دکمه‌ای, با دیگران صحبت کنید. تا زمانی که این قابلیت را غیرفعال نکنید, میکروفون شما روشن خواهد‌ماند)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="366"/>
         <source>Display</source>
-        <translation>출력</translation>
+        <translation>تنظیمات رابط کاربری</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="372"/>
         <source>User Interface Settings</source>
-        <translation>UI 설정</translation>
+        <translation>در این بخش میتوانید رابط کاربری تیم‌تاک را برای خود شخصیسازی کنید</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="384"/>
         <source>User interface language</source>
-        <translation>앱 언어</translation>
+        <translation>زبان برنامه</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="399"/>
         <source>Start minimized</source>
-        <translation>최소화 상태로 시작</translation>
+        <translation>اجرای برنامه به‌صورت کوچک‌شده. (این گزینه هر‌بار که تیم‌تاک را باز میکنید, پنجرۀ برنامه را کوچک میکند)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="406"/>
         <source>Minimize to tray icon</source>
-        <translation>최소화하면 트레이 영역으로 보내기</translation>
+        <translation>کوچکنمایی آیکون برنامه در نوار وظیفه. (اگر این گزینه فعال باشد, پنجرۀ تیم‌تاک کوچک میشود و نماد آن در گوشه پایین سمت راست صفحه نمایش شما قرار میگیرد. System tray, یک منطقۀ کوچک در گوشه پایین سمت راست صفحه نمایش شما است که نماد برنامه‌های در حال اجرا را در خود جای داده است)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="413"/>
         <source>&amp;Always on top</source>
-        <translation>항상 위에 표시 (&amp;A)</translation>
+        <translation>&amp;پنجرۀ تیمتاک همیشه در بالای صفحه و در بالاترین اولویت نگه‌داشته‌شود. (اگر این گزینه فعال باشد, تیم‌تاک همیشه در جلوی سایر برنامه‌های در حال اجرا قرار میگیرد)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="420"/>
         <source>Enable VU-meter updates</source>
-        <translation>VU-meter 업데이트 활성화</translation>
+        <translation>فعالسازی به‌روز‌رسانی سنجش میزان بلندی صدا. (اگر از صفحه‌خوان استفاده میکنید, پیشنهاد میشود این گزینه را فعال نکنید)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="427"/>
         <source>Show number of users in channel</source>
-        <translation>채널 내 사용자 수 표시</translation>
+        <translation>نمایش تعداد کاربران حاضر در کانال</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="434"/>
         <source>Show username instead of nickname</source>
-        <translation>대화명 대신 사용자 이름 보기</translation>
+        <translation>نمایش نام کاربری افراد بجای نام مستعار آنها</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="441"/>
         <source>Show last to talk in yellow</source>
-        <translation>마지막 대화를 노란색으로 표시</translation>
+        <translation>نشان‌دادن آخرین کاربری که صحبت کرده‌است به رنگ زرد</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="448"/>
         <source>Show emojis and text for channel/user state</source>
-        <translation>채널/사용자 상태 정보 표시 (텍스트 및 이모티콘)</translation>
+        <translation>نمایش ایموجی‌های نشانگر بعد از نام کاربران یا کانالها. (این گزینه, جنسیت مرد یا زن را در‌مورد کاربران, و وضعیت کانالها مانند قفل یا مخفی بودن را به صورت شکلک نشان میدهد)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="462"/>
         <source>Show both server and channel name in window title</source>
-        <translation>창 제목에 서버 이름과 채널 이름 모두 표시</translation>
+        <translation>نشان‌دادن نام سِروِر و کانال در عنوان پنجره</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="469"/>
         <source>Popup dialog when receiving text message</source>
-        <translation>텍스트 메시지 수신 시 팝업 대화상자 표시</translation>
+        <translation>نمایش پیام‌های خصوصی جدید در پنجرۀ مجزا به‌صورت پاپ‌آپ</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="476"/>
         <source>Start video in popup dialog</source>
-        <translation>팝업 대화상자에서 동영상 시작</translation>
+        <translation>نمایش تصویر کاربران در پنجرۀ مجزا به‌صورت پاپ‌آپ. (با فعال‌کردن این گزینه, چنانچه کاربری با استفاده از وب‌کم ویدئوی خود را به اشتراک بگذارد, بجای سربرگ ویدیو در پنجرۀ اصلی برنامه, تصویر او در یک پنجرۀ پاپ‌آپ به شما نشان داده میشود)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="513"/>
         <source>Start desktops in popup dialog</source>
-        <translation>팝업 대화상자에서 화면 공유 시작</translation>
+        <translation>نمایش دسکتاپ کاربران در پنجرۀ مجزا به‌صورت پاپ‌آپ. (با فعال‌کردن این گزینه, چنانچه کاربری صفحه نمایش خود را به اشتراک بگذارد, بجای سربرگ دسکتاپ در پنجرۀ اصلی برنامه, محتوای صفحه نمایش  او در یک پنجرۀ پاپ‌آپ به شما نشان داده میشود)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="520"/>
         <source>Timestamp text messages</source>
-        <translation>텍스트 메시지 전송 시간 보기</translation>
+        <translation>درجِ تاریخ و زمان برای پیام‌های متنی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="591"/>
         <source>Show statusbar events in chat-window</source>
-        <translation>채팅 창에 상태 표시줄 이벤트 표시</translation>
+        <translation>نمایش هشدار‌های نوار وضعیت در تاریخچۀ پیام‌ها. (این گزینه, رویداد‌هایی که در نوار وضعیت نشان داده میشوند, مانند ورود و خروج افراد از کانال یا سِروِر, آپلود یا حذف فایل‌ها از کانال, و شنود‌شدن شما توسط مدیر سِروِر را در بخش تاریخچۀ پیام‌ها درج میکند)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="717"/>
         <source>Show new version available in dialog box</source>
-        <translation>대화상자에 사용 가능한 새 버전 표시</translation>
+        <translation>چنانچه نسخۀ جدیدی از تیم‌تاک در دسترس قرار گیرد, با استفاده از پنجرۀ محاوره ای به شما اطلاع داده شود. (به‌طور پیشفرض, اطلاعیه‌های به‌روز‌رسانی در بخشِ تاریخچۀ پیام‌ها درج میشوند. اگر این گزینه را علامت بزنید, زمانی که به‌روز‌رسانی جدیدی از برنامه منتشر شود, یک پنجرۀ محاوره‌ای به شما نشان داده میشود که در صورت تمایل میتوانید با انتخاب گزینۀ بله, وارد سایت bearware.dk شده و نسخۀ جدید را دانلود کنید)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="628"/>
         <source>Show source in corner of video window</source>
-        <translation>동영상 창 모서리에 출처 표시</translation>
+        <translation>نمایش نام شخصی که تصویر خود را به اشتراک گذاشته‌است در گوشۀ پنجره</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="190"/>
         <source>Disable voice activation during inactivity</source>
-        <translation>활동 중이 아니면 말하기 비활성화</translation>
+        <translation>غیرفعال‌کردن ارسال خودکار صدا در حالت عدم فعالیت. (اگر این گزینه را علامت بزنید, چنانچه هیچ‌کاری با کامپیوتر خود انجام ندهید و وضعیت شما به حالت &quot;دور&quot; تغییر پیدا کند, میکروفون شما خاموش شده, و قابلیت ارسال خودکار صدا بطور خودکار غیرفعال میگردد)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="214"/>
         <source>Status message during inactivity</source>
-        <translation>활동 중이 아닐 때 상태 메시지</translation>
+        <translation>پیام وضعیت در حالت عدم فعالیت. (چنانچه هیچ کاری با کامپیوتر خود انجام ندهید و وضعیت شما به حالت &quot;دور&quot; تغییر پیدا کند, متنی که در این قسمت مینویسید, بطور خودکار روبروی اسم شما درج میگردد)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="635"/>
         <source>Video window settings</source>
-        <translation>동영상 창 설정</translation>
+        <translation>تنظیمات پنجرۀ نمایش ویدیو</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="662"/>
         <source>Maximum text length in channel list</source>
-        <translation>채널 목록 항목 최대 글자 수</translation>
+        <translation>حداکثر طول متن قابل نمایش در لیست کانال‌ها. (ممکن است گاهی اوقات نام کاربران و کانال‌ها بسیار طولانی باشد. از این گزینه برای محدود کردن طول آنها برای خودتان استفاده کنید. بالاترین مقدار برای این قابلیت, 512 کاراکتر در نظر گرفته شده‌است. این امکان صرفا برای شما قابل تنظیم است و برای سایر افراد حاضر در سِروِر مؤثر نخواهد بود)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="758"/>
         <source>Connection</source>
-        <translation>연결</translation>
+        <translation>تنظیمات اتصال</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="764"/>
         <source>Client Connection</source>
-        <translation>클라이언트 연결</translation>
+        <translation>در این بخش میتوانید نحوۀ اتصالِ کلاینت به سِروِر‌های مختلف را تنظیم کنید</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="770"/>
         <source>Connect to latest host on startup</source>
-        <translation>시작하면 마지막 호스트로 연결</translation>
+        <translation>اتصال خودکار به آخرین سِروِری که در آن حضور داشتید در هنگام اجرای برنامه</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="777"/>
         <source>Reconnect on connection dropped</source>
-        <translation>연결이 끊기면 재연결 시도</translation>
+        <translation>اتصال مجدد به سِروِر در صورت قطع اتصال. (اگر اتصال شما به سِروِر قطع شود, برنامه دائما تلاش میکند که مجددا شما را به سِروِر متصل کند)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="784"/>
         <source>Join root channel upon connection</source>
-        <translation>연결되면 최상위 채널에 입장</translation>
+        <translation>ورود به کانال اصلی در هنگام اتصال. (اگر این گزینه را فعال کنید, هنگامی که اتصال شما به یک سِروِر برقرار شود, بطور خودکار وارد کانال اصلی میشوید. اگر این گزینه را غیرفعال کنید, پس از اتصال به سِروِر, روی سِروِر میمانید و تا زمانی که خودتان نخواهید, وارد هیچ کانالی نمیشوید)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="791"/>
         <source>Query server&apos;s maximum payload upon connection</source>
-        <translation>서버 연결 시 최대 페이로드 요청</translation>
+        <translation>درخواست بارگذاری حداکثر داده‌های سِروِ&apos;ر هنگام اتصال. (برخی از شبکه‌ها اندازۀ بسته‌های UDP را محدود میکنند که میتواند باعث اختلال در جلسات صوتی, تصویری و دسکتاپ شود. فعال کردن این گزینه باعث میشود تیم‌تاک حداکثر اندازۀ بسته ای را که سِروِر برای بسته‌های UDP مجاز میکند، بپرسد. تیم‌تاک این کار را با ارسال چندین بستۀ UDP &quot;جعلی&quot; با اندازه‌های مختلف به سِروِر برای تعیین اندازۀ بسته‌های UDP مجاز انجام میدهد)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="798"/>
         <source>Add application to Windows Firewall exceptions list</source>
-        <translation>Windows 방화벽 예외 목록에 앱 추가</translation>
+        <translation>اضافه‌کردن برنامه به فهرست استثناهای فایروال ویندوز</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="805"/>
         <location filename="../preferences.ui" line="808"/>
         <source>Default Subscriptions upon Connection</source>
-        <translation>연결 시 기본 수신 상태</translation>
+        <translation>اشتراک‌های پیشفرض در هنگام اتصال</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="816"/>
         <source>User Messages</source>
-        <translation>사용자 메시지</translation>
+        <translation>پیام‌های خصوصی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="823"/>
         <source>Channel Messages</source>
-        <translation>채널 메시지</translation>
+        <translation>پیام‌های کانال</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="830"/>
         <source>Broadcast Messages</source>
-        <translation>방송</translation>
+        <translation>پیام‌های همگانی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="837"/>
         <location filename="../preferences.ui" line="2247"/>
         <source>Voice</source>
-        <translation>말하기</translation>
+        <translation>صدا</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="844"/>
         <location filename="../preferences.ui" line="2667"/>
         <source>Video Capture</source>
-        <translation>동영상 캡처</translation>
+        <translation>ویدیو</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="851"/>
         <source>Desktop</source>
-        <translation>화면 공유</translation>
+        <translation>دسکتاپ</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="863"/>
         <source>Desktop Access</source>
-        <translation>화면 공유 접근</translation>
+        <translation>دسترسی دسکتاپ</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="873"/>
         <source>Configure trusted list</source>
-        <translation>신뢰자 목록 설정</translation>
+        <translation>پیکربندی لیست قابل اعتماد</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="885"/>
         <source>Media Files</source>
-        <translation>미디어 파일</translation>
+        <translation>استریم</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="910"/>
         <location filename="../preferences.ui" line="913"/>
         <source>Local Socket Settings</source>
-        <translation>로컬 소켓 설정</translation>
+        <translation>نحوه اتصال برنامه به شبکۀ محلی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="919"/>
         <source>TCP port</source>
-        <translation>TCP 포트</translation>
+        <translation>پورت TCP. (نقطۀ اتصال TCP باید به پورت مشخص‌شده متصل شود. تغییر این تنظیمات فقط در صورت لزوم و با آگاهی از عواقب آن انجام شود)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="929"/>
         <location filename="../preferences.ui" line="946"/>
         <source>Default: 0</source>
-        <translation>기본값: 0</translation>
+        <translation>پیشفرض: ۰</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="936"/>
         <source>UDP port</source>
-        <translation>UDP 포트</translation>
+        <translation>پورت UDP. (نقطۀ اتصال UDP باید به پورت مشخص‌شده متصل شود. تغییر این تنظیمات فقط در صورت لزوم و با آگاهی از عواقب آن انجام شود)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1019"/>
         <location filename="../preferencesdlg.cpp" line="1012"/>
         <source>Sound System</source>
-        <translation>사운드 정책</translation>
+        <translation>تنظیمات صدا</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1025"/>
         <source>Sound System Settings</source>
-        <translation>사운드 정책 설정</translation>
+        <translation>در این بخش میتوانید دستگاه‌های ضبط و پخش صدا را تنظیم کنید</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1046"/>
         <source>Windows Audio Session</source>
-        <translation>Windows Audio Session</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1053"/>
         <source>DirectSound</source>
-        <translation>DirectSound</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1060"/>
         <source>Windows Standard</source>
-        <translation>Windows 표준</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1067"/>
         <source>ALSA</source>
-        <translation>ALSA</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1074"/>
         <source>CoreAudio</source>
-        <translation>CoreAudio</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1105"/>
         <source>Input device</source>
-        <translation>입력 장치</translation>
+        <translation>دستگاه ورودی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1151"/>
         <source>Output device</source>
-        <translation>출력 장치</translation>
+        <translation>دستگاه خروجی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1118"/>
         <location filename="../preferences.ui" line="1164"/>
         <source>Refresh devices</source>
-        <translation>장치 새로고침</translation>
+        <translation>تازه‌سازی دستگاه‌ها</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1211"/>
         <source>&amp;Test Selected</source>
-        <translation>선택한 장치 테스트 (&amp;T)</translation>
+        <translation>&amp;بررسی عملکرد دستگاه‌های انتخاب‌شده</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1236"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
-        <translation>스피커에서 반향 제거 활성화</translation>
+        <translation>فعال‌کردن قابلیت حذف اکوی صدا. (اگر از اسپیکر دستگاه استفاده میکنید, پیشنهاد میشود برای جلوگیری از اکوی صدای کاربران این گزینه را علامت بزنید)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1243"/>
         <source>Enable automatic gain control (microphone level adjusted automatically)</source>
-        <translation>자동 마이크 음량 조절 활성화</translation>
+        <translation>فعال‌کردن قابلیت تنظیم خودکار بلندی میکروفون. (این ویژگی, بلندی میکروفون شما را بطور خودکار تنظیم میکند)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1250"/>
         <source>Enable denoising (suppress noise from microphone)</source>
-        <translation>마이크 소음 억제 활성화</translation>
+        <translation>روشن‌کردن نویزگیر. (این ویژگی, نویز میکروفون شما را از بین میبَرَد, ولی ممکن است سایر کاربران صدای شما را با کیفیت پایینتری بشنوند)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1259"/>
         <source>Media file vs. voice volume</source>
-        <translation>미디어 파일 대비 말하기 볼륨</translation>
+        <translation>بلندی صدای استریم‌ها نسبت به صدای سایر کاربران</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1296"/>
         <location filename="../preferences.ui" line="2957"/>
         <source>&amp;Default</source>
-        <translation>기본값 (&amp;D)</translation>
+        <translation>&amp;بازنشانی تنظیمات صدا به حالت پیشفرض</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1322"/>
         <location filename="../preferences.ui" line="1328"/>
         <source>Sound Events</source>
-        <translation>사운드 이벤트</translation>
+        <translation>تنظیمات هشدار‌های صوتی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1336"/>
         <source>Sound pack</source>
-        <translation>소리 구성표</translation>
+        <translation>پک صدا</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1362"/>
         <source>Sound event volume level</source>
-        <translation>사운드 이벤트 볼륨 수준</translation>
+        <translation>میزان صدای هشدار‌های صوتی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1433"/>
@@ -5278,627 +5253,627 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="2081"/>
         <location filename="../preferences.ui" line="2104"/>
         <source>Browse</source>
-        <translation>찾아보기</translation>
+        <translation>تغییرِ صدا</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1512"/>
         <source>Private message sent</source>
-        <translation>개인 메시지 보냄</translation>
+        <translation>ارسال پیام خصوصی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1558"/>
         <source>Channel message sent</source>
-        <translation>채널 메시지 보냄</translation>
+        <translation>ارسال پیام در کانال</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1581"/>
         <source>New broadcast message</source>
-        <translation>새 방송</translation>
+        <translation>پیام همگانی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1414"/>
         <source>New user</source>
-        <translation>새 사용자</translation>
+        <translation>ورود کاربران به کانال</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="455"/>
         <source>Show user and channel icons</source>
-        <translation type="unfinished"></translation>
+        <translation>نشان‌دادن آیکون‌های کاربران و کانال‌ها</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="582"/>
         <source>Show server list on startup</source>
-        <translation>시작할 때 서버 목록 보기</translation>
+        <translation>نمایش لیست سِروِر‌ها در هنگام اجرای برنامه</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="598"/>
         <source>Configure events</source>
-        <translation>이벤트 정책</translation>
+        <translation>سفارشی‌سازی رویداد‌ها</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1081"/>
         <source>PulseAudio</source>
-        <translation>PulseAudio</translation>
+        <translation>سیستم صوتی PulseAudio</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1395"/>
         <source>Playback mode</source>
-        <translation>재생 모드</translation>
+        <translation>حالت پخش هشدار‌های صوتی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1443"/>
         <source>User removed</source>
-        <translation>사용자 제거</translation>
+        <translation>خروج کاربران از کانال</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1466"/>
         <source>Server lost</source>
-        <translation>연결 끊김</translation>
+        <translation>قطع‌شدن اتصال به سِروِر</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1489"/>
         <source>New user message</source>
-        <translation>새 사용자 메시지</translation>
+        <translation>دریافت پیام خصوصی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1535"/>
         <source>New channel message</source>
-        <translation>새 채널 메시지</translation>
+        <translation>دریافت پیام‌های کانال</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1604"/>
         <source>Hotkey pressed</source>
-        <translation>기능키 누름</translation>
+        <translation>هنگام فشار‌دادن کلید مشخص‌شده برای پوش‌توتاک, این صدا پخش میشود</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1627"/>
         <source>Channel silent</source>
-        <translation>채널이 조용함</translation>
+        <translation>هنگامی که آخرین کاربر صحبت خود را به پایان برساند و بعد از او هیچ کاربر دیگری صحبت نکند, این صدا پخش میشود</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1650"/>
         <source>Files updated</source>
-        <translation>파일이 업데이트됨</translation>
+        <translation>هنگام آپلود یا حذف‌شدن فایل‌ها از کانال, این صدا پخش میشود</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1673"/>
         <source>File transfer complete</source>
-        <translation>파일 전송 완료</translation>
+        <translation>هنگامی که آپلود یا دانلود فایل‌ها به‌پایان برسد, این صدا پخش میشود</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1696"/>
         <source>New video session</source>
-        <translation>새 동영상 세션</translation>
+        <translation>هنگامی که کاربری ویدئوی  خود را به اشتراک بگذارد, این صدا پخش میشود</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1719"/>
         <source>New desktop session</source>
-        <translation>새 화면 공유 세션</translation>
+        <translation>هنگامی که کاربری صفحه نمایش خود را به اشتراک بگذارد, این صدا پخش میشود</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1742"/>
         <source>Intercepted by another user</source>
-        <translation>다른 사용자가 가로챔</translation>
+        <translation>چنانچه مدیر سِروِر شما را شنود کند, این صدا پخش میشود</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1769"/>
         <source>Finish intercepted by another user</source>
-        <translation>다른 사용자가 가로챔을 종료함</translation>
+        <translation>هنگامی که شنود‌شدنِ شما توسط مدیرِ سِروِر به پایان برسد, این صدا پخش میشود</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1792"/>
         <source>User entered question-mode</source>
-        <translation>질문 모드로 전환함</translation>
+        <translation>هنگامی که کاربری وضعیت خود را به حالت &quot;پرسش&quot; تغییر دهد, این صدا پخش میشود</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1815"/>
         <source>Desktop access request</source>
-        <translation>화면 공유 접근 요청</translation>
+        <translation>چنانچه شما صفحه نمایش خود را به اشتراک بگذارید و کاربری برای دسترسی به دسکتاپتان از شما اجازه بخواهد, این صدا پخش میشود</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1838"/>
         <source>User logged in</source>
-        <translation>로그인함</translation>
+        <translation>ورود کاربر به سِروِر</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1861"/>
         <source>User logged out</source>
-        <translation>로그아웃함</translation>
+        <translation>خروج کاربر از سِروِر</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1884"/>
         <source>Voice activation enabled</source>
-        <translation>말하기 활성화됨</translation>
+        <translation>فعال‌شدن حالت ارسال خودکار صدا</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1907"/>
         <source>Voice activation disabled</source>
-        <translation>말하기 비활성화됨</translation>
+        <translation>غیرفعال‌شدن حالت ارسال خودکار صدا</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1930"/>
         <source>Mute master volume</source>
-        <translation>마스터 볼륨 음소거</translation>
+        <translation>قطع‌شدن صدای اسپیکر</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1953"/>
         <source>Unmute master volume</source>
-        <translation>마스터 볼륨 음소거 해제</translation>
+        <translation>وصل‌شدن صدای اسپیکر</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1976"/>
         <source>Transmit ready in &quot;No interruption&quot; channel</source>
-        <translation>&quot;끊김 없는 말하기&quot; 채널에서 전송 준비됨</translation>
+        <translation>اگر قابلیت &quot;بدون وقفه, بدون ارسال همزمان صدا&quot; از تنظیمات کانال فعال باشد و نوبت شما برای صحبت فرا برسد, این صدا پخش میشود</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1999"/>
         <source>Transmit stopped in &quot;No interruption&quot; channel</source>
-        <translation>&quot;끊김 없는 말하기&quot; 채널에서 전송 중단함</translation>
+        <translation>اگر قابلیت &quot;بدون وقفه, بدون ارسال همزمان صدا&quot; از تنظیمات کانال فعال باشد و نوبت شما برای صحبت تمام شود, این صدا پخش میشود</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2022"/>
         <source>Voice activation triggered</source>
-        <translation>말하기 감지됨</translation>
+        <translation>چنانچه قابلیت &quot;ارسال خودکار صدا&quot; فعال باشد و &quot;سطح حساسیت تشخیص صدا&quot; میکروفون شما را روشن کند, این صدا پخش میشود</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2045"/>
         <source>Voice activation stopped</source>
-        <translation>말하기 중단됨</translation>
+        <translation>چنانچه قابلیت &quot;ارسال خودکار صدا&quot; فعال باشد و &quot;سطح حساسیت تشخیص صدا&quot; میکروفون شما را خاموش کند, این صدا پخش میشود</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2068"/>
         <source>Voice activation enabled via &quot;Me&quot; menu</source>
-        <translation>&quot;나&quot; 메뉴에서 말하기 활성화</translation>
+        <translation>چنانچه قابلیت ارسال خودکار صدا از طریق منوی &quot;من&quot; یا با استفاده از کلید‌های میانبر CTRL+SHIFT+A روشن شود, این صدا پخش میشود</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2091"/>
         <source>Voice activation disabled via &quot;Me&quot; menu</source>
-        <translation>&quot;나&quot; 메뉴에서 말하기 비활성화</translation>
+        <translation>چنانچه قابلیت ارسال خودکار صدا از طریق منوی &quot;من&quot; یا با استفاده از کلید‌های میانبر CTRL+SHIFT+A خاموش شود, این صدا پخش میشود</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2135"/>
         <source>Text To Speech</source>
-        <translation>TTS</translation>
+        <translation>تنظیمات متن به گفتار</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2141"/>
         <source>Enable/disable Text to Speech Events</source>
-        <translation>TTS 이벤트 활성화 토글</translation>
+        <translation>در این بخش میتوانید هشدار‌های متن به گفتار را روشن یا خاموش کنید</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2171"/>
         <source>Enable &amp;all</source>
-        <translation>모두 활성화 (&amp;A)</translation>
+        <translation>روشن‌کردنِ &amp;همۀ هشدار‌های متن به گفتار</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2191"/>
         <source>C&amp;lear all</source>
-        <translation>모두 비활성화 (&amp;L)</translation>
+        <translation>خ&amp;اموش‌کردنِ همۀ هشدار‌های متن به گفتار</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2211"/>
         <source>&amp;Revert</source>
-        <translation>되돌리기 (&amp;R)</translation>
+        <translation>&amp;بازنشانی تنظیمات متن به گفتار به حالت پیشفرض</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2223"/>
         <source>Text to Speech Preferences</source>
-        <translation>TTS 설정</translation>
+        <translation>پیکربندی تبدیل متن به گفتار</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2286"/>
         <source>Text to Speech Engine</source>
-        <translation>TTS 엔진</translation>
+        <translation>موتور تبدیل متن به گفتار</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2234"/>
         <source>Language</source>
-        <translation>언어</translation>
+        <translation>زبان موتور تبدیل متن به گفتار</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2260"/>
         <source>Voice rate</source>
-        <translation>음성 속도</translation>
+        <translation>سرعت گفتار</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2296"/>
         <source>Voice volume</source>
-        <translation>음성 볼륨</translation>
+        <translation>میزان صدا</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2322"/>
         <source>Display duration of notifications</source>
-        <translation>알림 표시 시간</translation>
+        <translation>نمایش مدت‌زمان اعلانها</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2345"/>
         <source>Text to Speech output mode</source>
-        <translation>TTS 출력 모드</translation>
+        <translation>روش خروجی تبدیل متن به گفتار</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2365"/>
         <source>Use SAPI instead of current screenreader</source>
-        <translation>화면 낭독기 대신 SAPI 사용</translation>
+        <translation>استفاده از SAPI بجای صفحه‌خوانِ فعلی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2391"/>
         <source>Shortcuts</source>
-        <translation>기능키</translation>
+        <translation>تنظیمات کلید‌های میانبر</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2397"/>
         <source>Keyboard Shortcuts</source>
-        <translation>키보드 기능키</translation>
+        <translation>به‌منظورِ استفادۀ بهتر از برنامه, در این بخش میتوانید میانبر‌های صفحه‌کلید را برای خودتان شخصی‌سازی کنید</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2405"/>
         <source>Enable/disable voice activation</source>
-        <translation>말하기 활성화 토글</translation>
+        <translation>روشن یا خاموش کردن ارسال خودکار صدا</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2432"/>
         <source>Increase volume</source>
-        <translation>볼륨 증가</translation>
+        <translation>زیاد‌کردن صدای اسپیکر</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2459"/>
         <source>Lower volume</source>
-        <translation>볼륨 감소</translation>
+        <translation>کم‌کردن صدای اسپیکر</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2486"/>
         <source>Enable/disable mute all</source>
-        <translation>모두 음소거 토글</translation>
+        <translation>قطع یا وصل‌کردن صدای همۀ کاربران برای خودم</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2513"/>
         <source>Increase microphone gain</source>
-        <translation>마이크 음량 증가</translation>
+        <translation>زیاد‌کردن بلندی میکروفون</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2540"/>
         <source>Lower microphone gain</source>
-        <translation>마이크 음량 감소</translation>
+        <translation>کم‌کردن بلندی میکروفون</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2567"/>
         <source>Enable/disable video transmission</source>
-        <translation>동영상 전송 토글</translation>
+        <translation>فعال یا غیرفعال کردن ارسال تصویر خودم برای دیگران</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2621"/>
         <source>Show/hide main window</source>
-        <translation>메인 창 숨기기 또는 표시</translation>
+        <translation>نشان‌دادن یا پنهان‌کردن پنجرۀ برنامه</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2673"/>
         <source>Video Capture Settings</source>
-        <translation>동영상 캡처 설정</translation>
+        <translation>در این بخش میتوانید دوربین دستگاه خود را برای اشتراک‌گذاری ویدیو تنظیم کنید</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2679"/>
         <source>Video Capture Device</source>
-        <translation>비디오 캡처 장치</translation>
+        <translation>دستگاه ضبط ویدیو</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2699"/>
         <source>Video Resolution</source>
-        <translation>동영상 해상도</translation>
+        <translation>وضوح تصویر</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2714"/>
         <source>Customize video format</source>
-        <translation>맞춤 비디오 형식</translation>
+        <translation>شخصی‌سازی فرمت ویدیو</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2728"/>
         <source>Image Format</source>
-        <translation>이미지 형식</translation>
+        <translation>فرمت عکس</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2738"/>
         <source>RGB32</source>
-        <translation>RGB32</translation>
+        <translation>قالب رنگ RGB با عمق ۳۲ بیت</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2745"/>
         <source>I420</source>
-        <translation>I420</translation>
+        <translation>I۴۲۰</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2752"/>
         <source>YUY2</source>
-        <translation>YUY2</translation>
+        <translation>YUY۲</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2776"/>
         <location filename="../preferencesdlg.cpp" line="1360"/>
         <source>Test Selected</source>
-        <translation>선택한 장치 테스트</translation>
+        <translation>بررسی عملکرد ضبط ویدیو با تنظیمات انتخاب‌شده</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2804"/>
         <location filename="../preferences.ui" line="2807"/>
         <source>Video Codec Settings</source>
-        <translation>비디오 코덱 설정</translation>
+        <translation>تنظیمات فشرده‌سازی ویدیو</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2815"/>
         <source>Codec</source>
-        <translation>코덱</translation>
+        <translation>فشرده‌ساز</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2871"/>
         <source>Bitrate</source>
-        <translation>비트레이트</translation>
+        <translation>نرخ بیت, (Bitrate)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="383"/>
         <source>Default Input Device</source>
-        <translation>기본 입력 장치</translation>
+        <translation>دستگاه ورودی پیشفرض</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="416"/>
         <source>Default Output Device</source>
-        <translation>기본 출력 장치</translation>
+        <translation>دستگاه خروجی پیشفرض</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="400"/>
         <location filename="../preferencesdlg.cpp" line="429"/>
         <source>No Sound Device</source>
-        <translation>사운드 장치 없음</translation>
+        <translation>عدم استفاده از دستگاه صوتی</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="470"/>
         <source>Open Wave File</source>
-        <translation>Wave 파일 열기</translation>
+        <translation>باز‌کردن فایل Wave</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="471"/>
         <source>Wave files (*.wav)</source>
-        <translation>Wave 파일 (*.wav)</translation>
+        <translation>فایل‌های صوتی با فرمت .wav</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="631"/>
         <source>One by One (TeamTalk Sound Device)</source>
-        <translation>순차 재생 (TeamTalk 사운드 장치 사용)</translation>
+        <translation>پخش هشدار‌های صوتی به صورت یک‌به‌یک. (هشدار‌های صوتی جدید, هشدار‌های قبلی را قطع نمیکنند و به ترتیب, یکی پس از دیگری پخش میشوند)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="632"/>
         <source>Overlapping (TeamTalk Sound Device)</source>
-        <translation>동시 재생 (TeamTalk 사운드 장치 사용)</translation>
+        <translation>پخش هشدار‌های صوتی به‌صورت همزمان. (در این حالت, هشدار‌های صوتی, علاوه‌بر اینکه هشدار‌های قبلی را قطع نمیکنند, میتوانند به‌صورت همزمان پخش شوند)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="896"/>
         <location filename="../preferencesdlg.cpp" line="903"/>
         <source>Windows Firewall</source>
-        <translation>Windows 방화벽</translation>
+        <translation>فایروال ویندوز</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="897"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
-        <translation>Windows 방화벽 예외 목록에 %1 앱을 추가할 수 없습니다</translation>
+        <translation>افزودن %1 به فهرست استثنائات فایروال ویندوز ناموفق بود</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="904"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
-        <translation>Windows 방화벽 예외 목록에서 %1 앱을 제거할 수 없습니다</translation>
+        <translation>حذف %1 از فهرست استثنائات فایروال ویندوز ناموفق بود</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1378"/>
         <source>Sound Initialization</source>
-        <translation>사운드 초기화</translation>
+        <translation>راه‌اندازی صدا</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1140"/>
         <location filename="../preferencesdlg.cpp" line="1172"/>
         <source>Video Device</source>
-        <translation>비디오 장치</translation>
+        <translation>دستگاه ویدیویی</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="65"/>
         <source>&amp;OK</source>
-        <translation>확인 (&amp;O)</translation>
+        <translation>&amp;تأیید</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="66"/>
         <source>&amp;Cancel</source>
-        <translation>취소 (&amp;C)</translation>
+        <translation>&amp;لغو</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="506"/>
         <source>&amp;Reset</source>
-        <translation>재설정 (&amp;R)</translation>
+        <translation>&amp;بازنشانی</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="670"/>
         <source>None</source>
-        <translation>없음</translation>
+        <translation>هیچ‌کدام</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="617"/>
         <location filename="../preferencesdlg.cpp" line="630"/>
         <location filename="../preferencesdlg.cpp" line="672"/>
         <source>Default</source>
-        <translation>기본값</translation>
+        <translation>پخش هشدار‌های صوتی به‌صورت پیشفرض. (اگر یک هشدار صوتی در حال پخش شدن باشد و همزمان هشدار صوتی دیگری ارسال شود, هشدار صوتی جدید, صدای هشدار قبلی را قطع میکند. در این حالت, هشدار‌های صوتی نمیتوانند به‌صورت همزمان پخش شوند)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="67"/>
         <source>Client settings</source>
-        <translation>클라이언트 설정</translation>
+        <translation>تنظیمات کلاینت</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="569"/>
         <source>Do nothing</source>
-        <translation>아무것도 안 함</translation>
+        <translation>هیچ اتفاقی نیفتد</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="570"/>
         <source>Join only</source>
-        <translation>입장만</translation>
+        <translation>فقط وارد کانال شوم</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="571"/>
         <source>Leave only</source>
-        <translation>퇴장만</translation>
+        <translation>فقط از کانال خارج شوم</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="572"/>
         <source>Join or leave</source>
-        <translation>입장 및 퇴장</translation>
+        <translation>هم وارد کانال شوم و هم از کانال خارج شوم</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="576"/>
         <source>Ascending</source>
-        <translation>오름차순</translation>
+        <translation>مرتب‌سازی صعودی</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="577"/>
         <source>Popularity</source>
-        <translation>인원순</translation>
+        <translation>پر‌طرفدار‌ترین, (شلوغ‌ترین)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="675"/>
         <source>Tolk</source>
-        <translation>Tolk</translation>
+        <translation>صفحه‌خوان فعلی</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="678"/>
         <source>Libnotify</source>
-        <translation>Libnotify</translation>
+        <translation>کتابخانۀ نمایشِ اعلان‌ها</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1141"/>
         <location filename="../preferencesdlg.cpp" line="1173"/>
         <location filename="../preferencesdlg.cpp" line="1863"/>
         <source>Failed to initialize video device</source>
-        <translation>비디오 장치 초기화 실패</translation>
+        <translation>دستگاه ویدیویی به‌درستی راه‌اندازی نشد</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1264"/>
         <source>Max Input Channels %1</source>
-        <translation>최대 입력 채널 %1</translation>
+        <translation>حداکثر تعداد کانال‌های ورودی %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1266"/>
         <location filename="../preferencesdlg.cpp" line="1290"/>
         <source>Sample Rates:</source>
-        <translation>샘플레이트:</translation>
+        <translation>نرخ نمونه‌برداری صوتی, (Sample Rates):</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1288"/>
         <source>Max Output Channels %1</source>
-        <translation>최대 출력 채널 %1</translation>
+        <translation>حداکثر تعداد کانال‌های خروجی %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1319"/>
         <source>Refresh Sound Devices</source>
-        <translation>사운드 장치 새로고침</translation>
+        <translation>تازه‌سازی دستگاه‌های صوتی</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1320"/>
         <source>Failed to restart sound systems. Please restart application.</source>
-        <translation>사운드 정책을 재구성하려면 앱을 재시작해야 합니다.</translation>
+        <translation>راه‌اندازی مجدد سیستم‌های صوتی ناموفق بود. لطفا برنامه را دوباره راه‌اندازی کنید.</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1361"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
-        <translation>선택한 사운드 장치 정책에서 차선의 반향 제거 기능이 제공됩니다.</translation>
+        <translation>تنظیمات دستگاه صوتی برای حذف اکوی صدا بهینه نشده است. لطفا برای جزئیات بیشتر به راهنمای برنامه مراجعه کنید</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1379"/>
         <source>Failed to initialize new sound devices</source>
-        <translation>새 사운드 장치 초기화 실패</translation>
+        <translation>برنامه نتوانست دستگاه‌های صوتی جدید را مجددا راه‌اندازی کند</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1712"/>
         <source>Use SAPI instead of %1 screenreader</source>
-        <translation>화면 낭독기 %1 대신 SAPI 사용</translation>
+        <translation>استفاده از SAPI بجای صفحه‌خوانِ %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1716"/>
         <source>Speech and Braille</source>
-        <translation>말하기 및 점자</translation>
+        <translation>گفتار و بریل</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1718"/>
         <source>Braille only</source>
-        <translation>점자만</translation>
+        <translation>فقط بریل</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1720"/>
         <source>Speech only</source>
-        <translation>말하기만</translation>
+        <translation>فقط گفتار</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1822"/>
         <source>Custom video format</source>
-        <translation>맞춤 비디오 형식</translation>
+        <translation>فرمت ویدیویی دلخواه</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1915"/>
         <source>Default Video Capture</source>
-        <translation>기본 비디오 캡처</translation>
+        <translation>ضبط ویدئوی پیشفرض</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1916"/>
         <source>Unable to find preferred video capture settings</source>
-        <translation>기본 비디오 캡처 설정이 존재하지 않습니다</translation>
+        <translation>تنظیمات ضبط ویدئوی مورد نظر پیدا نشد</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="332"/>
         <source>Press to transmit.  Press to stop transmit</source>
-        <translation>눌러서 전송 시작.  눌러서 전송 중지.</translation>
+        <translation>چنانچه این قابلیت را روشن کنید, برای صحبت کردن, نیازی به نگه‌داشتنِ دکمه نیست. اگر دکمه ای که برای صحبت کردن تنظیم کرده اید را یک بار فشار دهید, میکروفونِ شما روشن میشود, و با فشردن مجدد این دکمه, میکروفونِ شما خاموش میشود</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="335"/>
         <source>Push To Talk Lock</source>
-        <translation>눌러서 말하기 잠금</translation>
+        <translation>قفل کردنِ دکمۀ پوش‌توتاک</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="527"/>
         <source>Auto expand channels</source>
-        <translation>채널 자동으로 펼치기</translation>
+        <translation>گسترش خودکار کانال‌ها. (بطور پیشفرض, تمام کانالها, به جز کانالی که هم‌اکنون در آن حضور دارید, به صورت &quot;بسته‌شده&quot; نشان داده میشوند. شما میتوانید از این گزینه برای نمایش همۀ کانال‌ها به‌صورت &quot;باز‌شده&quot; استفاده کنید)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="536"/>
         <source>Double click on a channel</source>
-        <translation>채널 두 번 클릭</translation>
+        <translation>اگر روی اسم یک کانال دوبار کلیک کنم یا کلید اینتر را فشار بدهم, چه اتفاقی بیفتد?</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="553"/>
         <source>Sort channels by</source>
-        <translation>채널 정렬 기준</translation>
+        <translation>مرتب‌کردنِ کانال‌ها بر اساسِ...</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="568"/>
         <source>Close dialog box when a file transfer is finished</source>
-        <translation>전송이 완료되면 대화상자 닫기</translation>
+        <translation>هنگامی که آپلود یا دانلود فایل‌ها به پایان برسد, پنجرۀ محاوره‌ای بطور خودکار بسته شود</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="575"/>
         <source>Show a dialog box when excluded from channel or server</source>
-        <translation>채널 및 서버에서 제외되면 대화상자 표시</translation>
+        <translation>نمایش پنجرۀ محاوره‌ای هنگام اخراج از کانال یا سِروِر. (اگر این گزینه بدون‌علامت باشد, اطلاعیه‌های مربوط به اخراج یا محرومیت شما از کانال یا سِروِر در بخش تاریخچۀ پیام‌ها درج میشود. چنانچه این گزینه را علامت بزنید, این اطلاعیه‌ها از طریق یک کادر محاوره‌ای به شما نشان داده خواهد شد)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="703"/>
         <source>Check for software updates on startup</source>
-        <translation>시작하면 앱 업데이트 확인</translation>
+        <translation>بررسی خودکار برای نسخه‌های بروز در هنگام اجرای برنامه</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="710"/>
         <source>Check for beta software updates on startup</source>
-        <translation>시작하면 앱 베타 업데이트 확인</translation>
+        <translation>بررسی خودکار برای نسخه‌های بتا در هنگام اجرای برنامه</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2358"/>
         <source>Speak selected item in lists</source>
-        <translation>목록에서 선택한 항목 말하기</translation>
+        <translation>خواندن مورد انتخاب شده در لیست‌ها</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2594"/>
         <source>Reinitialize sound devices</source>
-        <translation>사운드 장치 초기화</translation>
+        <translation>راه‌اندازی مجدد دستگاه‌های صوتی</translation>
     </message>
 </context>
 <context>
@@ -5907,42 +5882,42 @@ Should these settings be applied?</source>
         <location filename="../utilsound.cpp" line="252"/>
         <location filename="../utilsound.cpp" line="306"/>
         <source>Failed to initialize sound duplex mode</source>
-        <translation>사운드 이중통신 모드 초기화 실패</translation>
+        <translation>راه‌اندازی حالت دوطرفۀ صدا انجام نشد</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="260"/>
         <source>Failed to initialize sound input device</source>
-        <translation>사운드 입력 장치 초기화 실패</translation>
+        <translation>دستگاه ورودی صدا به درستی راه‌اندازی نشد</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="265"/>
         <source>Failed to initialize sound output device</source>
-        <translation>사운드 출력 장치 초기화 실패</translation>
+        <translation>دستگاه خروجی صدا به درستی راه‌اندازی نشد</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="280"/>
         <source>Switching to default sound devices</source>
-        <translation>기본 사운드 장치로 전환</translation>
+        <translation>در حال تغییر به دستگاه‌های صوتی پیشفرض</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="288"/>
         <source>Unable to get default sound devices</source>
-        <translation>기본 사운드 장치를 불러올 수 없습니다</translation>
+        <translation>امکان دریافت دستگاه‌های صوتی پیش‌فرض وجود ندارد</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="314"/>
         <source>Failed to initialize default sound input device</source>
-        <translation>기본 사운드 입력 장치 초기화 실패</translation>
+        <translation>دستگاه ورودی صدای پیشفرض به درستی راه‌اندازی نشد</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="319"/>
         <source>Failed to initialize default sound output device</source>
-        <translation>기본 사운드 출력 장치 초기화 실패</translation>
+        <translation>دستگاه خروجی صدای پیشفرض به درستی راه‌اندازی نشد</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="544"/>
         <source>Conference</source>
-        <translation>회의</translation>
+        <translation>کنفرانس</translation>
     </message>
 </context>
 <context>
@@ -5950,189 +5925,189 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="14"/>
         <source>Connect to a Server</source>
-        <translation>서버에 연결</translation>
+        <translation>اتصال به سِروِر</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="27"/>
         <source>Server List</source>
-        <translation>서버 목록</translation>
+        <translation>لیست سِروِر‌ها</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="95"/>
         <source>Include official servers (blue ones)</source>
-        <translation>공식 서버 포함 (파란색 항목)</translation>
+        <translation>مشاهدۀ سِروِر‌های رسمی (آبی‌رنگ) در لیست سِروِر‌ها</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="102"/>
         <source>Include unofficial servers (orange ones)</source>
-        <translation>비공식 서버 포함 (주황색 항목)</translation>
+        <translation>مشاهدۀ سِروِر‌های غیررسمی (نارنجی‌رنگ) در لیست سِروِر‌ها</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="116"/>
         <source>Server Information</source>
-        <translation>서버 정보</translation>
+        <translation>اطلاعات سِروِر</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="122"/>
         <source>Host IP-address</source>
-        <translation>호스트 IP 주소</translation>
+        <translation>آدرس آیپی یا دامنۀ سِروِر</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="164"/>
         <source>TCP port</source>
-        <translation>TCP 포트</translation>
+        <translation>پورت TCP</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="177"/>
         <location filename="../serverlist.ui" line="197"/>
         <source>Default: 10333</source>
-        <translation>기본값: 10333</translation>
+        <translation>پیشفرض: ۱۰۳۳۳</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="184"/>
         <source>UDP port</source>
-        <translation>UDP 포트</translation>
+        <translation>پورت UDP</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="144"/>
         <location filename="../serverlist.ui" line="147"/>
         <source>Remove entry</source>
-        <translation>항목 삭제</translation>
+        <translation>حذفِ سِروِرِ فعلی از لیستِ سِروِر‌های اخیر</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="33"/>
         <source>Server list</source>
-        <translation>서버 목록</translation>
+        <translation>لیست سِروِر‌ها</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="52"/>
         <location filename="../serverlist.ui" line="55"/>
         <source>Filter Servers</source>
-        <translation>서버 필터</translation>
+        <translation>فیلتر‌کردنِ سِروِر‌ها بر اساسِ...</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="63"/>
         <source>Name</source>
-        <translation>이름</translation>
+        <translation>نامِ سِروِر</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="76"/>
         <source>Users</source>
-        <translation>사용자</translation>
+        <translation>تعدادِ کاربران</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="206"/>
         <source>Encrypted server</source>
-        <translation>암호화된 서버</translation>
+        <translation>اگر سِروِرِ موردِ نظرِ شما رمزگذاری شده‌است, این گزینه را علامت بزنید</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="216"/>
         <source>Setup</source>
-        <translation>설정</translation>
+        <translation>راه‌اندازی رمزگذاری</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="238"/>
         <source>Authentication (optional)</source>
-        <translation>인증 (선택 사항)</translation>
+        <translation>احراز هویت, (اختیاری)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="241"/>
         <source>Authentication</source>
-        <translation>인증</translation>
+        <translation>احراز هویت</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="247"/>
         <source>Username</source>
-        <translation>사용자 이름</translation>
+        <translation>نام کاربری</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="264"/>
         <location filename="../serverlist.ui" line="330"/>
         <source>Password</source>
-        <translation>암호</translation>
+        <translation>رمز عبور</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="283"/>
         <location filename="../serverlist.ui" line="349"/>
         <source>Show password</source>
-        <translation>암호 표시</translation>
+        <translation>نمایش رمز عبور</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="292"/>
         <source>Nickname (optional)</source>
-        <translation>대화명 (선택 사항)</translation>
+        <translation>نام مستعار, (اختیاری)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="308"/>
         <location filename="../serverlist.ui" line="311"/>
         <source>Join specific channel after authentication (optional)</source>
-        <translation>인증 후 특정 채널로 입장 (선택 사항)</translation>
+        <translation>پس از اینکه به سِروِر متصل شُدید, میخواهید مستقیما وارد چه کانالی شوید?</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="317"/>
         <source>Channel</source>
-        <translation>채널 </translation>
+        <translation>نام کانال</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="369"/>
         <source>C&amp;lear</source>
-        <translation>초기화 (&amp;L)</translation>
+        <translation>پ&amp;اک‌کردنِ این سِروِر از لیستِ سِروِر‌های ذخیره‌شده</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="389"/>
         <source>&amp;Connect</source>
-        <translation>연결 (&amp;C)</translation>
+        <translation>&amp;اتصال به سِروِر</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="404"/>
         <source>Store Server Information</source>
-        <translation>서버 정보 저장</translation>
+        <translation>ذخیره‌سازی اطلاعات سِروِر</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="412"/>
         <source>Entry name</source>
-        <translation>항목 이름</translation>
+        <translation>نام سِروِر</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="451"/>
         <source>&amp;Save to Server List</source>
-        <translation>서버 목록에 저장 (&amp;S)</translation>
+        <translation>&amp;ذخیرۀ سِروِر در لیست سِروِر‌ها</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="465"/>
         <location filename="../serverlist.ui" line="468"/>
         <source>.tt files can be double-clicked and the client will automatically start and connect to the specified server</source>
-        <translation>.tt 파일을 두 번 클릭하면 클라이언트가 자동으로 시작되어 지정된 서버에 연결됩니다.</translation>
+        <translation>با دوبار کلیک کردن یا فشردن دکمۀ اینتر روی فایل‌های .tt, برنامۀ تیم‌تاک بطور خودکار اجرا شده و به سِروِرِ موردِ نظرِ شما وصل میشود</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="471"/>
         <source>&amp;Generate .tt File</source>
-        <translation>.tt 파일 만들기</translation>
+        <translation>&amp;ساختن فایل .tt</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="478"/>
         <source>&amp;Import .tt File</source>
-        <translation>.tt 파일 불러오기</translation>
+        <translation>&amp;وارد‌کردن یک سِروِر از طریق فایل .tt</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="458"/>
         <source>Publish Publicly</source>
-        <translation>공개 게시</translation>
+        <translation>انتشار به‌صورت عمومی و نشان‌دادن این سِروِر در لیست سِروِر‌های غیررسمی</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="394"/>
         <source>Missing fields</source>
-        <translation>필드 누락됨</translation>
+        <translation>فیلدهای خالی</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="395"/>
         <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
-        <translation>&apos;호스트 IP 주소&apos;, &apos;TCP 포트&apos;, &apos;UDP 포트&apos; 값을 입력해야 합니다</translation>
+        <translation>لطفا فیلد‌های &apos;آدرس آیپی یا دامنۀ سِروِر&apos;, &apos;پورت TCP&apos; و &apos;پورت UDP&apos; را پر کنید</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="458"/>
         <source>Open File</source>
-        <translation>파일 열기</translation>
+        <translation>باز‌کردن فایل</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="465"/>
@@ -6140,91 +6115,91 @@ Should these settings be applied?</source>
         <location filename="../serverlistdlg.cpp" line="484"/>
         <location filename="../serverlistdlg.cpp" line="495"/>
         <source>Load File</source>
-        <translation>파일 불러오기</translation>
+        <translation>بارگذاری فایل</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="466"/>
         <location filename="../serverlistdlg.cpp" line="475"/>
         <source>Failed to load file %1</source>
-        <translation>%1 파일 불러오기 실패</translation>
+        <translation>فایل %1 بارگذاری نشد</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="485"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
-        <translation>&quot;%1&quot; 파일이 %2 앱과 호환되지 않습니다</translation>
+        <translation>فایل &quot;%1&quot; با %2 سازگار نیست</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="496"/>
         <source>Failed to extract host-information from %1</source>
-        <translation>%1에서 호스트 정보를 찾을 수 없습니다</translation>
+        <translation>اطلاعات سِروِر از %1 قابل استخراج نیست</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="665"/>
         <location filename="../serverlistdlg.cpp" line="815"/>
         <source>&amp;Yes</source>
-        <translation>예 (&amp;Y)</translation>
+        <translation>&amp;بله</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="666"/>
         <location filename="../serverlistdlg.cpp" line="816"/>
         <source>&amp;No</source>
-        <translation>아니요 (&amp;N)</translation>
+        <translation>&amp;خیر</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="669"/>
         <location filename="../serverlistdlg.cpp" line="696"/>
         <source>Publish Server</source>
-        <translation>게시된 서버</translation>
+        <translation>انتشار سِروِر</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="743"/>
         <source>Ascending</source>
-        <translation>오름차순</translation>
+        <translation>سعودی</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="743"/>
         <source>Descending</source>
-        <translation>내림차순</translation>
+        <translation>نزولی</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="745"/>
         <source>De&amp;fault (%1)</source>
-        <translation>기본값 (%1) (&amp;F)</translation>
+        <translation>پی&amp;شفرض (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="751"/>
         <source>&amp;Name (%1)</source>
-        <translation>이름 (%1)</translation>
+        <translation>&amp;نام (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="757"/>
         <source>&amp;User Count (%1)</source>
-        <translation>사용자 수 (%1) (&amp;U)</translation>
+        <translation>&amp;تعداد کاربران (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="763"/>
         <source>Country (%1)</source>
-        <translation>국가 (%1) (&amp;C)</translation>
+        <translation>کشور (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="664"/>
         <source>Are you sure you want to publish the server named &quot;%1&quot;</source>
-        <translation>&quot;%1&quot; 서버를 게시할까요?</translation>
+        <translation>آیا مطمئن هستید که میخواهید سِروِر با نام &quot;%1&quot; را به‌صورت عمومی در دسترس قرار دهید?</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="264"/>
         <source>Host manager</source>
-        <translation>호스트 관리자</translation>
+        <translation>مدیریت سِروِر‌ها</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="697"/>
         <source>Failed to publish server.</source>
-        <translation>서버를 게시할 수 없습니다.</translation>
+        <translation>سِروِر منتشر نشد.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="701"/>
         <source>Publish Server Completed</source>
-        <translation>서버 게시 완료</translation>
+        <translation>سِروِر منتشر شد</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="702"/>
@@ -6236,33 +6211,33 @@ The #teamtalkpublish# notification can be removed once
 the server has been verified.
 
 Delete the published user account to unregister your server.</source>
-        <translation>서버 이름에 #teamtalkpublish# 텍스트가 추가되도록 서버 속성을 업데이트하세요.
-그러면 게시자가 서버 관리자인지 식별할 수 있습니다.
-확인된 서버는 몇분 내 목록에 나타납니다.
+        <translation>تنظیماتِ سِروِر&apos;ِ خود را به‌روز کنید تا نامِ سِروِر شاملِ متنِ #teamtalkpublish# شود.
+این کار تأیید میکند که ش&apos;ما مالکِ سِروِر هستید.
+پس از تأیید‌شدنِ سِروِر, سِروِرِ شما در عرضِ چند دقیقه قابلِ مشاهده خواهد بود.
 
-서버가 확인되었다면 #teamtalkpublish# 텍스트를 제거해도 됩니다.
+هنگامی که سِروِر تأیید شده باشد, اعلانِ #teamtalkpublish# را میتوانید حذف کنید.
 
-서버 등록을 해제하려면 게시된 사용자 계정을 삭제하세요.</translation>
+برای لغوِ ثبتِ سِروِرِ خود, حسابِ کاربریِ منتشر‌شده را حذف کنید.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="742"/>
         <source>Sort By...</source>
-        <translation>정렬 기준</translation>
+        <translation>مرتب‌سازی بر اساسِ...</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="768"/>
         <source>&amp;Delete Selected Server</source>
-        <translation>선택한 서버 삭제 (&amp;D)</translation>
+        <translation>&amp;پاک‌کردنِ این سِروِر از لیستِ سِروِر‌ها</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="819"/>
         <source>Delete Server</source>
-        <translation>서버 삭제</translation>
+        <translation>حذفِ سِروِر</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="814"/>
         <source>Delete server named &quot;%1&quot;</source>
-        <translation>&quot;%1&quot; 서버 삭제</translation>
+        <translation>آیا میخواهید سِروِرِ &quot;%1&quot; را حذف کنید?</translation>
     </message>
 </context>
 <context>
@@ -6270,42 +6245,42 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="93"/>
         <source>Name</source>
-        <translation>이름</translation>
+        <translation>نام</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="94"/>
         <source>Users</source>
-        <translation>사용자</translation>
+        <translation>تعداد کاربران</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="95"/>
         <source>Country</source>
-        <translation>국가</translation>
+        <translation>کشور</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="129"/>
         <source>Local server, Name: %1</source>
-        <translation>로컬 서버 이름: %1</translation>
+        <translation>سِروِرِ ذخیره‌شده, نام: %1</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="131"/>
         <source>Official server</source>
-        <translation>공식 서버</translation>
+        <translation>سِروِرِ رسمی</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="134"/>
         <source>Public server</source>
-        <translation>공개 서버</translation>
+        <translation>سِروِرِ پابلیک</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="137"/>
         <source>Unofficial server</source>
-        <translation>비공식 서버</translation>
+        <translation>سِروِرِ غیررسمی</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="140"/>
         <source>%1, Name: %2, Users: %3, Country: %4, MOTD: %5</source>
-        <translation>%1, 이름: %2, 사용자: %3, 국가: %4, 환영사: %5</translation>
+        <translation>%1, نام سِروِر: %2, تعداد کاربران: %3, کشور: %4, پیام روز: %5</translation>
     </message>
 </context>
 <context>
@@ -6313,145 +6288,145 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="66"/>
         <source>Event</source>
-        <translation>이벤트</translation>
+        <translation>رویداد</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="67"/>
         <location filename="../serverlogeventsmodel.cpp" line="88"/>
         <location filename="../serverlogeventsmodel.cpp" line="147"/>
         <source>Enabled</source>
-        <translation>활성화됨</translation>
+        <translation>فعال شد</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="88"/>
         <location filename="../serverlogeventsmodel.cpp" line="147"/>
         <source>Disabled</source>
-        <translation>비활성화됨</translation>
+        <translation>غیرفعال شد</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="93"/>
         <source>User connected</source>
-        <translation>서버에 연결됨</translation>
+        <translation>اتصال کاربر به سِروِر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="95"/>
         <source>User disconnected</source>
-        <translation>서버와의 연결 해제됨</translation>
+        <translation>قطع اتصال کاربر از سِروِر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="97"/>
         <source>User logged in</source>
-        <translation>로그인함</translation>
+        <translation>ورود کاربر به سِروِر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="99"/>
         <source>User logged out</source>
-        <translation>로그아웃함</translation>
+        <translation>خروج کاربر از سِروِر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="101"/>
         <source>User login failed</source>
-        <translation>로그인 실패</translation>
+        <translation>موفقیت‌آمیز نبودن ورود کاربر به سِروِر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="103"/>
         <source>User connection timed out</source>
-        <translation>연결 시간 제한 초과함</translation>
+        <translation>به‌پایان‌رسیدن زمان اتصال کاربر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="105"/>
         <source>User kicked</source>
-        <translation>추방당함</translation>
+        <translation>اخراج‌شدن کاربر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="107"/>
         <source>User banned</source>
-        <translation>차단당함</translation>
+        <translation>محروم‌شدن کاربر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="109"/>
         <source>User ban removed</source>
-        <translation>차단 해제됨</translation>
+        <translation>رفع محرومیت کاربر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="111"/>
         <source>User status updated</source>
-        <translation>상태 업데이트함</translation>
+        <translation>به‌روز‌رسانی وضعیت کاربر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="113"/>
         <source>User joined channel</source>
-        <translation>채널에 입장함</translation>
+        <translation>ورود کاربر به سایر کانالها</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="115"/>
         <source>User left channel</source>
-        <translation>채널에서 퇴장함</translation>
+        <translation>خروج کاربر از سایر کانالها</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="117"/>
         <source>User moved to other channel</source>
-        <translation>다른 채널로 이동됨</translation>
+        <translation>موو‌شدن کاربر به یک کانال دیگر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="119"/>
         <source>User sent private text message</source>
-        <translation>개인 텍스트 메시지 보냄</translation>
+        <translation>ارسال پیام‌های خصوصی توسط کاربر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="121"/>
         <source>User sent custom text message</source>
-        <translation>맞춤 텍스트 메시지 보냄</translation>
+        <translation>ارسال پیام‌های متنی سفارشی توسط کاربر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="123"/>
         <source>User sent channel text message</source>
-        <translation>채널 텍스트 메시지 보냄</translation>
+        <translation>ارسال پیام‌های کانال توسط کاربر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="125"/>
         <source>User sent broadcast text message</source>
-        <translation>방송 보냄</translation>
+        <translation>ارسال پیام‌های همگانی توسط کاربر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="127"/>
         <source>Channel created</source>
-        <translation>채널 만들어짐</translation>
+        <translation>ایجاد کانالها</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="129"/>
         <source>Channel updated</source>
-        <translation>채널 업데이트됨</translation>
+        <translation>به‌روز‌رسانی کانالها</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="131"/>
         <source>Channel removed</source>
-        <translation>채널 제거됨</translation>
+        <translation>حذف کانالها</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="133"/>
         <source>File uploaded</source>
-        <translation>파일 업로드됨</translation>
+        <translation>آپلود فایلها</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="135"/>
         <source>File downloaded</source>
-        <translation>파일 다운로드됨</translation>
+        <translation>دانلود فایلها</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="137"/>
         <source>File deleted</source>
-        <translation>파일 삭제됨</translation>
+        <translation>حذف فایلها</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="139"/>
         <source>Server updated</source>
-        <translation>서버 업데이트됨</translation>
+        <translation>به‌روز‌رسانی سِروِر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="141"/>
         <source>Server configuration saved</source>
-        <translation>서버 정책 저장됨</translation>
+        <translation>ذخیرۀ تنظیمات سِروِر</translation>
     </message>
 </context>
 <context>
@@ -6460,67 +6435,63 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverproperties.ui" line="14"/>
         <location filename="../serverproperties.ui" line="22"/>
         <source>Server Properties</source>
-        <translation>서버 속성</translation>
+        <translation>تنظیمات سِروِر</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="31"/>
         <source>Server name</source>
-        <translation>서버 이름</translation>
+        <translation>نام سِروِر</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="44"/>
         <source>Max users</source>
-        <translation>최대 인원 수</translation>
+        <translation>حداکثر تعداد کاربران</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="70"/>
         <location filename="../serverpropertiesdlg.cpp" line="123"/>
         <source>Message of the day</source>
-        <translation>환영사</translation>
+        <translation>پیام روز</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="99"/>
         <source>Show variables</source>
-        <translation>변수 표시</translation>
-    </message>
-    <message>
-        <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation type="vanished">환영사 변수: %users% 서버 내 사용자 수, %admins% 서버 내 관리자 수, %uptime% 서버 가동 시간, %voicetx% 받은 패킷, %voicerx% 보낸 패킷, %lastuser% 마지막으로 로그인한 사용자.</translation>
+        <translation>نمایش متغیرها</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicerx% KBytes received, %voicetx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation type="unfinished"></translation>
+        <translation>متغیر‌های پیام روز: %users% تعداد کاربران حاضر در سِروِر, %admins% تعداد مدیران حاضر در سِروِر, %uptime% زمان کار سِروِ&apos;ر, %voicerx% میزان دریافت صدا از زمان اجرای سِروِر تا این لحظه (بر‌حسب کیلوبایت), %voicetx% میزان ارسال صدا از زمان اجرای سِروِر تا این لحظه (بر‌حسب کیلوبایت), و %lastuser% آخرین کاربری که وارد سِروِر شده‌است.</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="122"/>
         <source>TCP port</source>
-        <translation>TCP 포트</translation>
+        <translation>پورت TCP</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="151"/>
         <source>UDP port</source>
-        <translation>UDP 포트</translation>
+        <translation>پورت UDP</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="180"/>
         <source>User timeout</source>
-        <translation>연결 시간 제한</translation>
+        <translation>به‌پایان‌رسیدن مهلت اتصال کاربر بر‌حسب ثانیه. (مدت‌زمانی که کاربر میتواند بدون فرستادن اطلاعات به سِروِر, متصل بماند. اگر مقداری که برای مدت‌زمان اتصال کاربر به سِروِر تعیین کرده‌اید به‌پایان برسد, سِروِر بطور خودکار کاربر را بیرون میکند)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="212"/>
         <source>Auto save server changes</source>
-        <translation>서버 변경 사항을 자동으로 저장</translation>
+        <translation>ذخیرۀ خودکار تغییرات سِروِر</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="239"/>
         <source>Server Bandwidth Limitations</source>
-        <translation>서버 대역폭 제한</translation>
+        <translation>محدودیت‌های پهنای باند سِروِر</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="245"/>
         <source>Video TX max</source>
-        <translation>최대 동영상 수신량</translation>
+        <translation>حداکثر پهنای باند قابل‌استفاده توسط سِروِر برای اشتراک‌گذاری ویدیو در هر ثانیه (بر‌حسب کیلوبایت)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="265"/>
@@ -6529,113 +6500,113 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverproperties.ui" line="346"/>
         <location filename="../serverproperties.ui" line="373"/>
         <source>KBytes/sec (0 = disabled)</source>
-        <translation>KB/초 (0 = 비활성화됨)</translation>
+        <translation>کیلوبایت بر ثانیه. (برای خاموش کردن این ویژگی, عدد 0 را وارد کنید)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="289"/>
         <source>Voice TX max</source>
-        <translation>최대 말하기 수신량</translation>
+        <translation>حداکثر پهنای باند قابل‌استفاده توسط سِروِر برای صحبت‌کردن در هر ثانیه (بر‌حسب کیلوبایت)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="316"/>
         <source>Total TX max</source>
-        <translation>최대 전체 콘텐츠 수신량</translation>
+        <translation>حداکثر پهنای باند قابل‌استفاده توسط سِروِر برای ارسال و دریافت همۀ محتواها در هر ثانیه (بر‌حسب کیلوبایت)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="326"/>
         <source>Desktop TX max</source>
-        <translation>최대 화면 공유 수신량</translation>
+        <translation>حداکثر پهنای باند قابل‌استفاده توسط سِروِر برای اشتراک‌گذاری صفحه نمایش در هر ثانیه (بر‌حسب کیلوبایت)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="353"/>
         <source>Media File TX max</source>
-        <translation>최대 미디어 파일 수신량</translation>
+        <translation>حداکثر پهنای باند قابل‌استفاده توسط سِروِر برای استریم فایل‌های صوتی و تصویری در هر ثانیه (بر‌حسب کیلوبایت)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="383"/>
         <source>Server Abuse</source>
-        <translation>서버 어뷰징</translation>
+        <translation>محدودیت‌های قابل‌تنظیم برای جلوگیری از استفادۀ نادرست کاربران از سِروِر</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="389"/>
         <source>Max login attempts before ban</source>
-        <translation>로그인 시도 횟수 제한</translation>
+        <translation>حداکثر تعداد تلاش‌های یک کاربر برای ورود به سِروِر با پسورد اشتباه. در صورت تجاوز به این تعداد, آدرس آیپی کاربر توسط سِروِر مسدود میشود</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="409"/>
         <location filename="../serverproperties.ui" line="436"/>
         <source>(0 = disabled)</source>
-        <translation>(0 = 비활성화됨)</translation>
+        <translation>(برای خاموش کردن این ویژگی, عدد 0 را وارد کنید)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="416"/>
         <source>Max logins per IP-address</source>
-        <translation>IP 주소당 최대 로그인 수</translation>
+        <translation>حداکثر ورودها به ازای هر آدرس آیپی. (بیشترین تعداد حسابها یا دستگاه‌هایی که شما میتوانید بطور همزمان به وسیلۀ آنها, با یک آدرس آیپی وارد سِروِر شوید)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="443"/>
         <source>Login delay per IP-address</source>
-        <translation>IP 주소별 로그인 지연</translation>
+        <translation>زمان انتظار برای ورود به سِروِر برای هر آدرس آیپی بر‌حسب میلیثانیه. (هنگامی که کاربران از سِروِر خارج میشوند, چقدر باید صبر کنند تا مجددا بتوانند وارد سِروِر شوند?)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="460"/>
         <source>msec (0 = disabled)</source>
-        <translation>밀리초 (0 = 비활성화됨)</translation>
+        <translation>بر‌حسب میلیثانیه. برای خاموش کردن این ویژگی, عدد 0 را وارد کنید</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="470"/>
         <source>Server Logging</source>
-        <translation>서버 로깅</translation>
+        <translation>ثبت گزارشات سِروِر</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="476"/>
         <source>Server events logged</source>
-        <translation>서버 이벤트 기록됨</translation>
+        <translation>مایلید چه رویداد‌هایی در لاگ سِروِر ثبت شوند?</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="504"/>
         <source>Server Information</source>
-        <translation>서버 정보</translation>
+        <translation>اطلاعات سِروِر</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="513"/>
         <source>Server version</source>
-        <translation>서버 버전</translation>
+        <translation>نسخۀ سِروِر</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="36"/>
         <source>&amp;OK</source>
-        <translation>확인 (&amp;O)</translation>
+        <translation>&amp;تأیید</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="37"/>
         <source>&amp;Cancel</source>
-        <translation>취소 (&amp;C)</translation>
+        <translation>&amp;لغو</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="46"/>
         <source>&amp;Close</source>
-        <translation>닫기 (&amp;C)</translation>
+        <translation>&amp;بستن</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="53"/>
         <source>Properties of %1</source>
-        <translation>%1 속성</translation>
+        <translation>تنظیماتِ %1</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="118"/>
         <source>Change message of the day?</source>
-        <translation>환영사를 변경할까요?</translation>
+        <translation>آیا مطمئن هستید که میخواهید پیام روز را تغییر دهید?</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="119"/>
         <source>&amp;Yes</source>
-        <translation>예 (&amp;Y)</translation>
+        <translation>&amp;بله</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="120"/>
         <source>&amp;No</source>
-        <translation>아니요 (&amp;N)</translation>
+        <translation>&amp;خیر</translation>
     </message>
 </context>
 <context>
@@ -6643,7 +6614,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstatsdlg.cpp" line="31"/>
         <source>Server statistics</source>
-        <translation>서버 통계</translation>
+        <translation>آمار سِروِر</translation>
     </message>
 </context>
 <context>
@@ -6651,27 +6622,27 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstats.ui" line="14"/>
         <source>Server Statistics</source>
-        <translation>서버 통계</translation>
+        <translation>در این بخش میتوانید آمار سِروِر, شامل میزان استفاده از پهنای باند ورودی و خروجی  را مشاهده کنید</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="22"/>
         <source>Uptime</source>
-        <translation>가동 시간</translation>
+        <translation>زمان کار سِروِر</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="32"/>
         <source>Media File RX/TX</source>
-        <translation>미디어 파일 송/수신량</translation>
+        <translation>میزان حجم دریافت‌شده و ارسال‌شده برای استریم فایل‌های صوتی و تصویری (بر‌حسب کیلوبایت)</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="52"/>
         <source>KBytes/sec</source>
-        <translation>KB/초</translation>
+        <translation>کیلوبایت بر ثانیه</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="69"/>
         <source>Throughput RX/TX</source>
-        <translation>처리량</translation>
+        <translation>سرعت دریافت و ارسال داده (بر‌حسب کیلوبایت)</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="79"/>
@@ -6681,57 +6652,57 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverstats.ui" line="248"/>
         <location filename="../serverstats.ui" line="281"/>
         <source>KBytes</source>
-        <translation>KB</translation>
+        <translation>کیلوبایت</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="86"/>
         <source>msec</source>
-        <translation>밀리초</translation>
+        <translation>میلیثانیه</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="115"/>
         <source>Update interval</source>
-        <translation>업데이트 간격</translation>
+        <translation>به‌روز‌رسانی لحظه‌ای آمار سِروِر. (با علامت‌زدن این گزینه, میتوانید مدت‌زمان به‌روز‌رسانی آمار سِروِر را بر‌حسب میلیثانیه تعیین کنید)</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="146"/>
         <source>Files RX/TX</source>
-        <translation>파일 송/수신량</translation>
+        <translation>میزان حجم فایل‌هایی که سِروِر دانلود یا آپلود کرده‌است (بر‌حسب کیلوبایت)</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="156"/>
         <source>Total RX/TX</source>
-        <translation>전체 콘텐츠 송/수신량</translation>
+        <translation>بطور کلی, سِروِر از زمان اجرا تا کنون, این مقدار دریافت و ارسال کرده‌است: (بر‌حسب کیلوبایت)</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="189"/>
         <source>Voice RX/TX</source>
-        <translation>말하기 송/수신량</translation>
+        <translation>میزان حجم دریافت‌شده و ارسال‌شده برای صدای کاربران (بر‌حسب کیلوبایت)</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="222"/>
         <source>Video RX/TX</source>
-        <translation>동영상 송/수신량</translation>
+        <translation>میزان حجمی که کاربران برای اشتراک‌گذاری تصویر خود دریافت و ارسال کرده‌اند (بر‌حسب کیلوبایت)</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="255"/>
         <source>Desktop RX/TX</source>
-        <translation>화면 공유 송/수신량</translation>
+        <translation>میزان حجمی که کاربران برای اشتراک‌گذاری صفحه نمایش خود دریافت و ارسال کرده‌اند (بر‌حسب کیلوبایت)</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="288"/>
         <source>Users served</source>
-        <translation>누적 사용자 수</translation>
+        <translation>تعداد کاربرانی که از زمان راه‌اندازی مجدد سِروِر, وارد سِروِر شده‌اند</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="308"/>
         <source>Users peak</source>
-        <translation>최대 사용자 수</translation>
+        <translation>بیشترین تعداد کاربرانی که از زمان راه‌اندازی سِروِر تا این لحظه, وارد سِروِر شده‌اند</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="345"/>
         <source>&amp;Close</source>
-        <translation>닫기 (&amp;C)</translation>
+        <translation>&amp;بستن</translation>
     </message>
 </context>
 <context>
@@ -6739,37 +6710,37 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.ui" line="14"/>
         <source>Configure status bar</source>
-        <translation>상태 표시줄 설정</translation>
+        <translation>سفارشی‌سازی نوار وضعیت</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="20"/>
         <source>Enable/disable status bar events</source>
-        <translation>상태 표시줄 이벤트 활성화 전환</translation>
+        <translation>در این بخش مشخص کنید که میخواهید کدامیک از هشدار‌های نوار وضعیت در تاریخچۀ پیام‌ها به شما نشان داده شود</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="50"/>
         <source>Enable &amp;all</source>
-        <translation>모두 활성화 (&amp;A)</translation>
+        <translation>روشن‌کردنِ نمایشِ &amp;همۀ هشدار‌های نوار وضعیت در تاریخچۀ پیام‌ها</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="70"/>
         <source>C&amp;lear all</source>
-        <translation>모두 비활성화 (&amp;L)</translation>
+        <translation>خ&amp;اموش‌کردنِ نمایشِ همۀ هشدار‌های نوار وضعیت در تاریخچۀ پیام‌ها</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="90"/>
         <source>&amp;Revert</source>
-        <translation>되돌리기 (&amp;R)</translation>
+        <translation>&amp;بازنشانی تنظیمات رویداد‌های نوار وضعیت به حالت پیشفرض</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="31"/>
         <source>&amp;OK</source>
-        <translation>확인 (&amp;O)</translation>
+        <translation>&amp;تأیید</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="32"/>
         <source>&amp;Cancel</source>
-        <translation>취소 (&amp;C)</translation>
+        <translation>&amp;لغو</translation>
     </message>
 </context>
 <context>
@@ -6777,167 +6748,167 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="79"/>
         <source>Event</source>
-        <translation>이벤트</translation>
+        <translation>رویداد</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="169"/>
         <source>Enabled</source>
-        <translation>활성화됨</translation>
+        <translation>فعال</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="169"/>
         <source>Disabled</source>
-        <translation>비활성화됨</translation>
+        <translation>غیرفعال</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="103"/>
         <source>User logged in</source>
-        <translation>로그인함</translation>
+        <translation>ورود کاربر به سِروِر</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="105"/>
         <source>User logged out</source>
-        <translation>로그아웃함</translation>
+        <translation>خروج کاربر از سِروِر</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="107"/>
         <source>User joined channel</source>
-        <translation>채널에 입장함</translation>
+        <translation>ورود کاربر به سایر کانالها</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="109"/>
         <source>User left channel</source>
-        <translation>채널에서 퇴장함</translation>
+        <translation>خروج کاربر از سایر کانالها</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="111"/>
         <source>User join current channel</source>
-        <translation>현재 채널에 입장함</translation>
+        <translation>ورود کاربر به کانال فعلی</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="113"/>
         <source>User left current channel</source>
-        <translation>현재 채널에서 퇴장함</translation>
+        <translation>خروج کاربر از کانال فعلی</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="115"/>
         <source>Subscription private text message changed</source>
-        <translation>개인 텍스트 메시지 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن امکان دریافت پیامهای خصوصی شما توسط سایر کاربران</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="117"/>
         <source>Subscription channel text message changed</source>
-        <translation>채널 텍스트 메시지 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن امکان دریافت پیام‌های کانال شما توسط سایر کاربران</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="119"/>
         <source>Subscription broadcast text message changed</source>
-        <translation>방송 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن امکان دریافت پیامهای همگانی شما توسط سایر کاربران</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="121"/>
         <source>Subscription voice stream changed</source>
-        <translation>말하기 스트리밍 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن امکان شنیدن صدای شما توسط سایر کاربران</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="123"/>
         <source>Subscription webcam stream changed</source>
-        <translation>웹캠 스트리밍 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن امکان مشاهدۀ تصویر شما توسط سایر کاربران</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="125"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation>화면 공유 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن امکان مشاهدۀ اشتراک‌گذاری صفحه نمایش شما توسط سایر کاربران</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="127"/>
         <source>Subscription desktop access changed</source>
-        <translation>화면 공유 접근 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن امکان دسترسی به دسکتاپ شما توسط سایر کاربران</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="129"/>
         <source>Subscription media file stream changed</source>
-        <translation>미디어 파일 스트리밍 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن امکان شنیدن استریم‌های شما توسط سایر کاربران</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="131"/>
         <source>Subscription intercept private text message changed</source>
-        <translation>개인 텍스트 메시지 가로채기 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن شنود پیامهای خصوصی شما توسط مدیر سِروِر</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="133"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation>채널 텍스트 메시지 가로채기 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن شنود پیامهای کانال شما توسط مدیر سِروِر</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="135"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation>말하기 스트리밍 가로채기 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن شنود صدای شما توسط مدیر سِروِر</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="137"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation>웹캠 스트리밍 가로채기 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن شنود تصویر شما توسط مدیر سِروِر</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="139"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation>화면 공유 가로채기 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن شنود اشتراک‌گذاری‌های دسکتاپ شما توسط مدیر سِروِر</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="141"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation>미디어 파일 스트리밍 가로채기 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن شنود استریم‌های شما توسط مدیر سِروِر</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="143"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation>교실에서 채널 메시지 전송 가능 여부 업데이트함</translation>
+        <translation>روشن یا خاموش کردن دسترسی ارسال پیام در کانال توسط اپراتور</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="145"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation>교실에서 말하기 전송 가능 여부 업데이트함</translation>
+        <translation>روشن یا خاموش کردن دسترسی صحبت‌کردن توسط اپراتور</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="147"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation>교실에서 웹캠 전송 가능 여부 업데이트함</translation>
+        <translation>روشن یا خاموش کردن دسترسی اشتراک‌گذاری ویدیو توسط اپراتور</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="149"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation>교실에서 화면 공유 전송 가능 여부 업데이트함</translation>
+        <translation>روشن یا خاموش کردن دسترسی اشتراک‌گذاری صفحه نمایش توسط اپراتور</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="151"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation>교실에서 미디어 파일 전송 가능 여부 업데이트함</translation>
+        <translation>روشن یا خاموش کردن دسترسی استریم فایل در کانال توسط اپراتور</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="153"/>
         <source>File added</source>
-        <translation>파일 추가됨</translation>
+        <translation>آپلود فایلها در کانال</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="155"/>
         <source>File removed</source>
-        <translation>파일 제거됨</translation>
+        <translation>حذف فایلها از کانال</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="157"/>
         <source>Save server configuration</source>
-        <translation>서버 정책 저장됨</translation>
+        <translation>ذخیره‌سازی تنظیمات سِروِر</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="159"/>
         <source>Start a recording</source>
-        <translation>녹음 시작됨</translation>
+        <translation>شروع ضبط</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="161"/>
         <source>Transmission blocked by channel operator</source>
-        <translation>채널 관리자의 명령으로 전송 차단됨</translation>
+        <translation>مسدود‌شدن ارسال و دریافتها توسط اپراتور کانال</translation>
     </message>
 </context>
 <context>
@@ -6945,97 +6916,97 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="14"/>
         <source>Stream Media File To Channel</source>
-        <translation>채널에 미디어 파일 스트리밍</translation>
+        <translation>استریم فایل در کانال</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="20"/>
         <source>Media File Properties</source>
-        <translation>미디어 파일 속성</translation>
+        <translation>مشخصات فایل رسانه‌ای</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="28"/>
         <source>Media file</source>
-        <translation>미디어 파일</translation>
+        <translation>فایل مورد نظر شما برای استریم</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="45"/>
         <location filename="../streammediafile.ui" line="48"/>
         <source>Browse</source>
-        <translation>찾아보기</translation>
+        <translation>جستجوی فایل</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="51"/>
         <source>&amp;B</source>
-        <translation>&amp;B</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="62"/>
         <location filename="../streammediafile.ui" line="65"/>
         <source>Refresh</source>
-        <translation>새로고침</translation>
+        <translation>تازه‌سازی</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="68"/>
         <source>&amp;R</source>
-        <translation>&amp;R</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="79"/>
         <location filename="../streammediafile.ui" line="82"/>
         <source>Delete from history</source>
-        <translation>히스토리에서 삭제</translation>
+        <translation>حذفِ این مورد از تاریخچۀ فایل‌های استریم‌شده</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="85"/>
         <source>&amp;D</source>
-        <translation>&amp;D</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="96"/>
         <location filename="../streammediafile.ui" line="99"/>
         <location filename="../streammediafiledlg.cpp" line="181"/>
         <source>Clear history</source>
-        <translation>히스토리 초기화</translation>
+        <translation>حذفِ همۀ موارد از تاریخچۀ فایل‌های استریم‌شده</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="102"/>
         <source>&amp;L</source>
-        <translation>&amp;L</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="117"/>
         <source>Audio format:</source>
-        <translation>오디오 형식:</translation>
+        <translation>فرمت صدا:</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="138"/>
         <source>Video format:</source>
-        <translation>비디오 형식:</translation>
+        <translation>فرمت ویدیو:</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="159"/>
         <source>Duration:</source>
-        <translation>시간:</translation>
+        <translation>مدت‌زمان:</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="178"/>
         <source>Co&amp;ntinuously play media file</source>
-        <translation>미디어 파일 이어서 재생 (&amp;N)</translation>
+        <translation>فا&amp;یلی که استریم میکنید, دائما تکرار شود</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="188"/>
         <source>Playback Settings</source>
-        <translation>재생 설정</translation>
+        <translation>تنظیمات نحوه پخش</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="196"/>
         <source>Audio preprocessor</source>
-        <translation>오디오 전처리기</translation>
+        <translation>پیش‌پردازشگر صوتی</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="288"/>
         <source>S&amp;top</source>
-        <translation>중지 (&amp;T)</translation>
+        <translation>ت&amp;وقف</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="274"/>
@@ -7044,173 +7015,173 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafiledlg.cpp" line="432"/>
         <location filename="../streammediafiledlg.cpp" line="465"/>
         <source>&amp;Play</source>
-        <translation>재생 (&amp;P)</translation>
+        <translation>&amp;پخش</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="209"/>
         <source>&amp;Setup</source>
-        <translation>설정 (&amp;S)</translation>
+        <translation>&amp;تنظیم پیش‌پردازشگر صوتی</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="236"/>
         <location filename="../streammediafile.ui" line="243"/>
         <source>Start position</source>
-        <translation>시작 위치</translation>
+        <translation>نقطۀ شروع</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="267"/>
         <source>Test playback</source>
-        <translation>재생 테스트</translation>
+        <translation>بررسی عملکرد پخش</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="299"/>
         <location filename="../streammediafiledlg.cpp" line="313"/>
         <location filename="../streammediafiledlg.cpp" line="351"/>
         <source>Play</source>
-        <translation>재생</translation>
+        <translation>پخش</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="323"/>
         <location filename="../streammediafile.ui" line="326"/>
         <source>Video Codec Settings</source>
-        <translation>비디오 코덱 설정</translation>
+        <translation>تنظیمات فشرده‌سازی ویدیو</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="334"/>
         <source>Codec</source>
-        <translation>코덱</translation>
+        <translation>فشرده‌ساز</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="390"/>
         <source>Bitrate</source>
-        <translation>비트레이트</translation>
+        <translation>نرخ بیت, (Bitrate)</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="476"/>
         <source>&amp;OK</source>
-        <translation>확인 (&amp;O)</translation>
+        <translation>&amp;تأیید</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="483"/>
         <source>&amp;Cancel</source>
-        <translation>취소 (&amp;C)</translation>
+        <translation>&amp;لغو</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="39"/>
         <source>Streaming to channel</source>
-        <translation>채널에 스트리밍</translation>
+        <translation>استریم فایل در کانال</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="62"/>
         <source>No Audio Preprocessor</source>
-        <translation>오디오 전처리 사용 안 함</translation>
+        <translation>بدون استفاده از پیش‌پردازشگر صوتی</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="63"/>
         <source>TeamTalk Audio Preprocessor</source>
-        <translation>TeamTalk 오디오 전처리기</translation>
+        <translation>پیش‌پردازشگر صوتی تیم‌تاک</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="64"/>
         <source>Speex DSP Audio Preprocessor</source>
-        <translation>Speex DSP 오디오 전처리기</translation>
+        <translation>پیش‌پردازشگر صوتی DSP Speex</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="82"/>
         <source>No video</source>
-        <translation>동영상 없음</translation>
+        <translation>بدون استفاده از فشرده‌ساز ویدیو</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="135"/>
         <source>Open Media File</source>
-        <translation>미디어 파일 열기</translation>
+        <translation>انتخاب فایل برای استریم</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="137"/>
         <source>Media files %1</source>
-        <translation>미디어 파일 %1</translation>
+        <translation>فایل‌های رسانه‌ای %1</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="176"/>
         <source>Are you sure you want to clear stream history?</source>
-        <translation>스트리밍 히스토리를 초기화 할까요?</translation>
+        <translation>آیا مطمئن هستید که میخواهید تاریخچۀ فایل‌های استریم‌شده را پاک کنید?</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="177"/>
         <source>&amp;Yes</source>
-        <translation>예 (&amp;Y)</translation>
+        <translation>&amp;بله</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="178"/>
         <source>&amp;No</source>
-        <translation>아니요 (&amp;N)</translation>
+        <translation>&amp;خیر</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="213"/>
         <source>Stereo</source>
-        <translation>스테레오</translation>
+        <translation>استریو</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="215"/>
         <source>Mono</source>
-        <translation>모노</translation>
+        <translation>مُنُ</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="217"/>
         <source>%1 audio channels</source>
-        <translation>오디오 채널 %1</translation>
+        <translation>%1 کانال‌های صوتی</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="219"/>
         <source>%1 Hz, %2</source>
-        <translation>%1 Hz, %2</translation>
+        <translation>%1 هرتز, %2</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="222"/>
         <location filename="../streammediafiledlg.cpp" line="229"/>
         <source>Unknown format</source>
-        <translation>알 수 없는 형식</translation>
+        <translation>فرمت ناشناخته</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="227"/>
         <source>%1x%2 %3 FPS</source>
-        <translation>%1x%2 %3 FPS</translation>
+        <translation>%1x%2 %3 فریم بر ثانیه</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="299"/>
         <location filename="../streammediafiledlg.cpp" line="313"/>
         <location filename="../streammediafiledlg.cpp" line="351"/>
         <source>Failed to play media file</source>
-        <translation>미디어 파일 재생 실패</translation>
+        <translation>فایل پخش نشد</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="316"/>
         <location filename="../streammediafiledlg.cpp" line="427"/>
         <location filename="../streammediafiledlg.cpp" line="460"/>
         <source>&amp;Pause</source>
-        <translation>일시정지 (&amp;P)</translation>
+        <translation>&amp;مکث</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="359"/>
         <source>Stream</source>
-        <translation>스트리밍</translation>
+        <translation>استریم</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="359"/>
         <source>Failed to stream media file</source>
-        <translation>미디어 파일 스트리밍 실패</translation>
+        <translation>فایل استریم نشد</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="406"/>
         <location filename="../streammediafiledlg.cpp" line="411"/>
         <source>Audio Preprocessor</source>
-        <translation>오디오 전처리기</translation>
+        <translation>پیش‌پردازشگر صوتی</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="406"/>
         <location filename="../streammediafiledlg.cpp" line="411"/>
         <source>Failed to activate audio preprocessor</source>
-        <translation>오디오 전처리기 활성화 실패</translation>
+        <translation>فعال‌سازی پیش‌پردازشگر صوتی با مشکل مواجه شد</translation>
     </message>
 </context>
 <context>
@@ -7218,222 +7189,222 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="90"/>
         <source>Event</source>
-        <translation>이벤트</translation>
+        <translation>رویداد</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="202"/>
         <source>Enabled</source>
-        <translation>활성화됨</translation>
+        <translation>فعال</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="202"/>
         <source>Disabled</source>
-        <translation>비활성화됨</translation>
+        <translation>غیرفعال</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="114"/>
         <source>User logged in</source>
-        <translation>로그인함</translation>
+        <translation>ورود کاربر به سِروِر</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="116"/>
         <source>User logged out</source>
-        <translation>로그아웃함</translation>
+        <translation>خروج کاربر از سِروِر</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="118"/>
         <source>User joined channel</source>
-        <translation>채널에 입장함</translation>
+        <translation>ورود کاربر به سایر کانالها</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="120"/>
         <source>User left channel</source>
-        <translation>채널에서 퇴장함</translation>
+        <translation>خروج کاربر از سایر کانالها</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="122"/>
         <source>User join current channel</source>
-        <translation>현재 채널에 입장함</translation>
+        <translation>ورود کاربر به کانال فعلی</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="124"/>
         <source>User left current channel</source>
-        <translation>현재 채널에서 퇴장함</translation>
+        <translation>خروج کاربر از کانال فعلی</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="126"/>
         <source>Received private message</source>
-        <translation>개인 메시지 수신됨</translation>
+        <translation>دریافت پیام خصوصی</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="128"/>
         <source>Sent private message</source>
-        <translation>개인 메시지 보냄</translation>
+        <translation>ارسال پیام خصوصی</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="130"/>
         <source>User is typing a private text message in focused window</source>
-        <translation>포커스된 창에 개인 메시지 입력 중</translation>
+        <translation>اعلام نام کاربری که در حال تایپ یک پیام خصوصی در پنجرۀ فعلی است</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="132"/>
         <source>User is typing a private text message</source>
-        <translation>개인 메시지 입력 중</translation>
+        <translation>اعلام نام کاربری که در حال تایپ یک پیام خصوصی است</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="134"/>
         <source>User enabled question mode</source>
-        <translation>질문 모드 활성화됨</translation>
+        <translation>اعلام نام کاربری که حالت پرسش را فعال میکند</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="136"/>
         <source>Received channel message</source>
-        <translation>채널 메시지 수신됨</translation>
+        <translation>دریافت پیام کانال</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="138"/>
         <source>Sent channel message</source>
-        <translation>채널 메시지 보냄</translation>
+        <translation>ارسال پیام کانال</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="140"/>
         <source>Received broadcast message</source>
-        <translation>방송 수신됨</translation>
+        <translation>دریافت پیام همگانی</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="142"/>
         <source>Sent broadcast message</source>
-        <translation>방송 보냄</translation>
+        <translation>ارسال پیام همگانی</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="144"/>
         <source>Subscription private text message changed</source>
-        <translation>개인 텍스트 메시지 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن امکان دریافت پیام‌های خصوصی شما توسط سایر کاربران</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="146"/>
         <source>Subscription channel text message changed</source>
-        <translation>채널 텍스트 메시지 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن امکان دریافت پیام‌های کانال شما توسط سایر کاربران</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="148"/>
         <source>Subscription broadcast text message changed</source>
-        <translation>방송 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن امکان دریافت پیام‌های همگانی شما توسط سایر کاربران</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="150"/>
         <source>Subscription voice stream changed</source>
-        <translation>말하기 스트리밍 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن امکان شنیدن صدای شما توسط سایر کاربران</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="152"/>
         <source>Subscription webcam stream changed</source>
-        <translation>웹캠 스트리밍 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن امکان مشاهدۀ تصویر شما توسط سایر کاربران</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="154"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation>화면 공유 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن امکان مشاهدۀ اشتراک‌گذاری صفحه نمایش شما توسط سایر کاربران</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="156"/>
         <source>Subscription desktop access changed</source>
-        <translation>화면 공유 접근 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن امکان دسترسی به دسکتاپ شما توسط سایر کاربران</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="158"/>
         <source>Subscription media file stream changed</source>
-        <translation>미디어 파일 스트리밍 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن امکان شنیدن استریم‌های شما توسط سایر کاربران</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="160"/>
         <source>Subscription intercept private text message changed</source>
-        <translation>개인 텍스트 메시지 가로채기 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن شنود پیامهای خصوصی شما توسط مدیر سِروِر</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="162"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation>채널 텍스트 메시지 가로채기 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن شنود پیامهای کانال شما توسط مدیر سِروِر</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="164"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation>말하기 스트리밍 가로채기 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن شنود صدای شما توسط مدیر سِروِر</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="166"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation>웹캠 스트리밍 가로채기 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن شنود تصویر شما توسط مدیر سِروِر</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="168"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation>화면 공유 가로채기 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن شنود اشتراک‌گذاری‌های دسکتاپ شما توسط مدیر سِروِر</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="170"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation>미디어 파일 스트리밍 가로채기 수신 상태 업데이트함</translation>
+        <translation>روشن یا خاموش کردن شنود استریم‌های شما توسط مدیر سِروِر</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="172"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation>교실에서 채널 메시지 전송 가능 여부 업데이트함</translation>
+        <translation>روشن یا خاموش کردن دسترسی ارسال پیام در کانال توسط اپراتور</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="174"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation>교실에서 말하기 전송 가능 여부 업데이트함</translation>
+        <translation>روشن یا خاموش کردن دسترسی صحبت‌کردن توسط اپراتور</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="176"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation>교실에서 웹캠 전송 가능 여부 업데이트함</translation>
+        <translation>روشن یا خاموش کردن دسترسی اشتراک‌گذاری ویدیو توسط اپراتور</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="178"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation>교실에서 화면 공유 전송 가능 여부 업데이트함</translation>
+        <translation>روشن یا خاموش کردن دسترسی اشتراک‌گذاری صفحه نمایش توسط اپراتور</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="180"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation>교실에서 미디어 파일 전송 가능 여부 업데이트함</translation>
+        <translation>روشن یا خاموش کردن دسترسی استریم فایل در کانال توسط اپراتور</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="182"/>
         <source>File added</source>
-        <translation>파일 추가됨</translation>
+        <translation>آپلود فایلها در کانال</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="184"/>
         <source>File removed</source>
-        <translation>파일 제거됨</translation>
+        <translation>حذف فایلها از کانال</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="186"/>
         <source>Menu actions</source>
-        <translation>메뉴 동작</translation>
+        <translation>اقدامات منو</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="188"/>
         <source>Voice transmission mode toggled</source>
-        <translation>말하기 전송 토글함</translation>
+        <translation>تغییر در روش ارسال صدا</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="190"/>
         <source>Video transmission toggled</source>
-        <translation>동영상 전송 토글함</translation>
+        <translation>فعال یا غیرفعال‌کردن اشتراک‌گذاری ویدیو</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="192"/>
         <source>Desktop sharing toggled</source>
-        <translation>화면 공유 토글함</translation>
+        <translation>فعال یا غیرفعال‌کردن اشتراک‌گذاری صفحه نمایش</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="194"/>
         <source>Server connectivity</source>
-        <translation>서버 연결</translation>
+        <translation>اتصال یا قطع اتصال به سِروِر</translation>
     </message>
 </context>
 <context>
@@ -7442,55 +7413,55 @@ Delete the published user account to unregister your server.</source>
         <location filename="../textmessage.ui" line="14"/>
         <location filename="../textmessagedlg.cpp" line="91"/>
         <source>Messages</source>
-        <translation>메시지</translation>
+        <translation>پیامها</translation>
     </message>
     <message>
         <location filename="../textmessage.ui" line="42"/>
         <source>History</source>
-        <translation>지난 메시지</translation>
+        <translation>تاریخچه</translation>
     </message>
     <message>
         <location filename="../textmessage.ui" line="74"/>
         <source>Message</source>
-        <translation>메시지</translation>
+        <translation>پیام</translation>
     </message>
     <message>
         <location filename="../textmessage.ui" line="133"/>
         <source>&amp;Close</source>
-        <translation>닫기 (&amp;C)</translation>
+        <translation>&amp;بستن</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="136"/>
         <location filename="../textmessagedlg.cpp" line="194"/>
         <location filename="../textmessagedlg.cpp" line="234"/>
         <source>New message</source>
-        <translation>새 메시지</translation>
+        <translation>پیام جدید</translation>
     </message>
     <message>
         <location filename="../textmessage.ui" line="114"/>
         <source>&amp;Send</source>
-        <translation>보내기 (&amp;S)</translation>
+        <translation>&amp;ارسال</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="92"/>
         <source>Private chat with %1</source>
-        <translation>개인 메시지: %1</translation>
+        <translation>پیام خصوصی با %1</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="176"/>
         <source>Private message sent: %1</source>
-        <translation>개인 메시지 보냄: %1</translation>
+        <translation>پیام خصوصی ارسال شد: %1</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="216"/>
         <source>New message - remote user typing.</source>
-        <translation>원격 사용자가 새 메시지를 입력하고 있습니다.</translation>
+        <translation>پیام جدید, - کاربر در حال نوشتن پیام است.</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="221"/>
         <location filename="../textmessagedlg.cpp" line="223"/>
         <source>%1 is typing</source>
-        <translation>%1 입력 중</translation>
+        <translation>%1 در‌حال نوشتن</translation>
     </message>
 </context>
 <context>
@@ -7498,314 +7469,314 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="14"/>
         <source>User Accounts</source>
-        <translation>사용자 계정</translation>
+        <translation>حساب‌های کاربری</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="27"/>
         <source>Active Users</source>
-        <translation>활동 중인 사용자</translation>
+        <translation>در این بخش میتوانید حساب‌های کاربری را مدیریت کنید</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="79"/>
         <source>Modify User Account</source>
-        <translation>사용자 계정 수정</translation>
+        <translation>ویرایش حساب کاربری</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="131"/>
         <source>Username</source>
-        <translation>사용자 이름</translation>
+        <translation>نام کاربری</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="151"/>
         <source>Password</source>
-        <translation>암호</translation>
+        <translation>رمز عبور</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="171"/>
         <source>Note</source>
-        <translation>비고</translation>
+        <translation>یادداشت</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="188"/>
         <source>Initial Channel</source>
-        <translation>초기 채널</translation>
+        <translation>کانال پیشفرض</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="198"/>
         <source>User should automatically join this channel after login</source>
-        <translation>로그인하면 이 채널에 자동 입장합니다</translation>
+        <translation>کاربر پس از ورود به سِروِر بطور خودکار وارد این کانال میشود</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="93"/>
         <source>User type</source>
-        <translation>사용자 유형</translation>
+        <translation>نوع کاربر</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="115"/>
         <source>Administrator</source>
-        <translation>서버 관리자</translation>
+        <translation>مدیر</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="105"/>
         <source>Default user</source>
-        <translation>기본 사용자</translation>
+        <translation>کاربر معمولی</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="87"/>
         <source>Basic Account Properties</source>
-        <translation>계정 속성 일반</translation>
+        <translation>مشخصات اولیۀ حساب کاربری</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="122"/>
         <source>Disabled (inactive)</source>
-        <translation>비활성화됨</translation>
+        <translation>غیرفعال‌شده</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="278"/>
         <location filename="../useraccounts.ui" line="281"/>
         <source>Auto-Operator Channels</source>
-        <translation>자동 관리 채널</translation>
+        <translation>در این بخش میتوانید مشخص کنید که این کاربر بطور خودکار در چه کانال‌هایی اپراتور شود</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="287"/>
         <source>Selected Channels</source>
-        <translation>선택한 채널</translation>
+        <translation>کانال‌هایی که این کاربر در حالِ حاضر اپراتورِ آنهاست</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="297"/>
         <source>User will automatically become operator when joining these channels</source>
-        <translation>입장하면 자동으로 관리자 권한을 얻을 수 있는 채널입니다</translation>
+        <translation>کاربر هنگام ورود به این کانالها بطور خودکار اپراتور میشود</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="310"/>
         <source>Available Channels</source>
-        <translation>사용 가능 채널</translation>
+        <translation>کانال‌های موجود</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="332"/>
         <source>Add</source>
-        <translation>추가</translation>
+        <translation>اضافه‌کردن</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="329"/>
         <source>Set selected user auto operator for selected channels</source>
-        <translation>선택한 사용자들에게 선택한 채널의 관리자 권한 부여</translation>
+        <translation>این کاربر را در کانال‌های انتخاب‌شده اپراتور میکند</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="342"/>
         <source>Remove</source>
-        <translation>제거</translation>
+        <translation>برداشتن</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="339"/>
         <source>No longer set selected user auto operator for selected channels</source>
-        <translation>선택한 사용자들에게 선택한 채널의 관리자 권한 부여 안 함</translation>
+        <translation>این کاربر را از اپراتور‌بودن در کانال‌های انتخاب‌شده خارج میکند</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="71"/>
         <source>User accounts</source>
-        <translation>사용자 계정</translation>
+        <translation>حساب‌های کاربری</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="234"/>
         <source>User Actions Allowed on Server</source>
-        <translation>서버에서 허용한 사용자 동작</translation>
+        <translation>در این بخش میتوانید تعیین کنید که این کاربر چه دسترسی‌هایی داشته باشد و چه کار‌هایی بتواند انجام دهد</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="368"/>
         <source>Codec Limitations</source>
-        <translation>코덱 제한</translation>
+        <translation>محدودیت‌های فشرده‌سازی</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="374"/>
         <source>Audio Codec Limitations</source>
-        <translation>오디오 코덱 제한</translation>
+        <translation>محدودیت‌های فشرده‌سازی صوتی</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="380"/>
         <source>Max bitrate for audio codecs</source>
-        <translation>오디오 코덱 비트레이트 제한</translation>
+        <translation>حداکثر نرخ بیت برای فشرده‌سازی صوتی</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="403"/>
         <source>kbps (0 = disabled)</source>
-        <translation>kbps (0 = 비활성화됨)</translation>
+        <translation>کیلوبایت بر ثانیه. (برای خاموش کردن این ویژگی, عدد 0 را وارد کنید)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="427"/>
         <source>Abuse Prevention</source>
-        <translation>어뷰징 방지</translation>
+        <translation>جلوگیری از آزار و اذیت</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="433"/>
         <source>Flood Protection</source>
-        <translation>도배 방지</translation>
+        <translation>در این بخش میتوانید از سوءاستفاده, یا استفادۀ نادرستِ کاربران از سِروِر جلوگیری کنید</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="439"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
-        <translation>특정 시간 내에 실행할 수 있는 동작 수를 제한하여 메시지 도배 등을 방지합니다.</translation>
+        <translation>برای جلوگیری از ارسال پیام‌های اسپم, یک بازۀ زمانی برای کاربر مشخص کنید. در این بازۀ زمانی, میتوانید تعداد دستورات قابل‌ارسال توسط کاربر را محدود کنید. این دستورات شامل خاموش و روشن کردن امکان دریافت پیامها یا شنیدن صدای سایر کاربران, ارسال پیام‌های متنی, ورود و خروج کاربر از سِروِر یا کانالها, و سایر موارد میشود. به عنوان مثال, میتوانید تعیین کنید که این کاربر در ۱ دقیقه بتواند ۶۰ پیام ارسال کند.</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="451"/>
         <location filename="../useraccountsdlg.cpp" line="488"/>
         <location filename="../useraccountsdlg.cpp" line="497"/>
         <source>Limit issued commands</source>
-        <translation>동작 제한</translation>
+        <translation>تعداد دَستوراتی که کاربر میتواند ارسال کند را محدود کنید</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="228"/>
         <location filename="../useraccounts.ui" line="258"/>
         <source>User Rights</source>
-        <translation>사용자 권한</translation>
+        <translation>اختیارات کاربر</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="510"/>
         <source>&amp;Clear</source>
-        <translation>초기화 (&amp;C)</translation>
+        <translation>&amp;پاک‌کردن</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="533"/>
         <source>&amp;Add/Update</source>
-        <translation>추가 및 업데이트 (&amp;A)</translation>
+        <translation>&amp;اضافه‌کردن یا به‌روز‌رسانی</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="530"/>
         <source>Add or update user with specified informations</source>
-        <translation>입력된 정보로 사용자 추가 또는 업데이트</translation>
+        <translation>اگر حساب کاربری جدیدی ایجاد کرده اید, یا مشخصات, محدودیتها و دسترسی‌های این کاربر را ویرایش کرده‌اید, برای ذخیرۀ تغییرات, از این گزینه استفاده کنید</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="490"/>
         <source>C&amp;lose</source>
-        <translation>닫기 (&amp;L)</translation>
+        <translation>ب&amp;ستن</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="92"/>
         <source>Disabled</source>
-        <translation>비활성화됨</translation>
+        <translation>غیرفعال‌کردنِ این قابلیت. (با انتخابِ این گزینه, هیچ محدودیتی برای کاربر اِعمال نمیشود)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="93"/>
         <source>10 commands in 10 sec.</source>
-        <translation>10초동안 10개의 동작 가능</translation>
+        <translation>کاربر بتواند در ۱۰ ثانیه, ۱۰ دستور ارسال کند.</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="94"/>
         <source>10 commands in 1 minute</source>
-        <translation>1분동안 10개 동작 가능</translation>
+        <translation>کاربر بتواند در ۱ دقیقه, ۱۰ دستور ارسال کند.</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="95"/>
         <source>60 commands in 1 minute</source>
-        <translation>1분동안 60개 동작 가능</translation>
+        <translation>کاربر بتواند در ۱ دقیقه, ۶۰ دستور ارسال کند.</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="96"/>
         <source>Custom specified</source>
-        <translation>사용자 지정</translation>
+        <translation>این قابلیت را مطابق نیاز خود شخصی‌سازی کنید</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="322"/>
         <location filename="../useraccountsdlg.cpp" line="374"/>
         <source>&amp;Yes</source>
-        <translation>예 (&amp;Y)</translation>
+        <translation>&amp;بله</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="323"/>
         <location filename="../useraccountsdlg.cpp" line="375"/>
         <source>&amp;No</source>
-        <translation>아니요 (&amp;N)</translation>
+        <translation>&amp;خیر</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="326"/>
         <source>Add/Update</source>
-        <translation>추가 및 업데이트</translation>
+        <translation>اضافه‌کردن یا به‌روز‌رسانی</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="535"/>
         <source>Sort By...</source>
-        <translation>정렬 기준</translation>
+        <translation>مرتب‌سازی بر اساسِ...</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="536"/>
         <source>Ascending</source>
-        <translation>오름차순</translation>
+        <translation>سعودی</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="536"/>
         <source>Descending</source>
-        <translation>내림차순</translation>
+        <translation>نزولی</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="538"/>
         <source>&amp;Username (%1)</source>
-        <translation>사용자 이름 (%1) (&amp;U)</translation>
+        <translation>&amp;نام کاربری (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="544"/>
         <source>User &amp;Type (%1)</source>
-        <translation>사용자 유형 (%1) (&amp;T)</translation>
+        <translation>نوع &amp;کاربر (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="550"/>
         <source>&amp;Channel (%1)</source>
-        <translation>채널 (%1) (&amp;C)</translation>
+        <translation>&amp;کانال (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="556"/>
         <source>&amp;Modified (%1)</source>
-        <translation>수정됨 (%1) (&amp;M)</translation>
+        <translation>&amp;ویرایش‌شده (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="561"/>
         <source>&amp;Delete Selected User</source>
-        <translation>선택한 사용자 삭제 (&amp;D)</translation>
+        <translation>&amp;حذفِ این حسابِ کاربری</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="321"/>
         <source>Create anonymous user account?</source>
-        <translation>익명 계정을 만들까요?</translation>
+        <translation>آیا مایل به ایجاد حساب کاربری ناشناس هستید?</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="373"/>
         <source>Are you sure you want to delete user &quot;%1&quot;?</source>
-        <translation>&quot;%1&quot; 사용자를 삭제할까요?</translation>
+        <translation>آیا مطمئن هستید که میخواهید کاربرِ &quot;%1&quot; را حذف کنید?</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="378"/>
         <source>Delete user</source>
-        <translation>사용자 삭제</translation>
+        <translation>حذفِ کاربر</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="484"/>
         <source>&amp;OK</source>
-        <translation>확인 (&amp;O)</translation>
+        <translation>&amp;تأیید</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="485"/>
         <source>&amp;Cancel</source>
-        <translation>취소 (&amp;C)</translation>
+        <translation>&amp;لغو</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="489"/>
         <source>Number of commands to allow (0 = disabled)</source>
-        <translation>가능한 동작 수 (0 = 비활성화됨)</translation>
+        <translation>تعداد دَستوراتی که کاربر مجاز به ارسال آنها خواهد بود را مشخص کنید. (برای خاموش کردن این ویژگی, عدد 0 را وارد کنید)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="498"/>
         <source>Timeframe to allow %1 commands (in seconds)</source>
-        <translation>동작 %1개를 실행할 수 있는 시간 (초)</translation>
+        <translation>لطفا بازۀ زمانی مجاز برای ارسال %1 دستور را بر‌حسب ثانیه مشخص کنید. (مثلا, اگر تعداد دستورات قابل‌ارسال را &quot;۶۰&quot; عدد در نظر گرفته باشید و بازۀ زمانی مجاز را هم 60 ثانیه در نظر بگیرید, کاربر میتواند در ۱ دقیقه, ۶۰ دستور ارسال کند)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="272"/>
         <location filename="../useraccountsdlg.cpp" line="437"/>
         <source>Channel Operator</source>
-        <translation>채널 관리자</translation>
+        <translation>اپراتور کانال</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="438"/>
         <source>The maximum number of channels where a user can automatically become channel operator is %1.</source>
-        <translation>최대 %1개의 채널에서 채널 관리자 권한을 자동으로 획득할 수 있어요.</translation>
+        <translation>یک کاربر میتواند حداکثر در %1 کانال بطور خودکار اپراتور شود.</translation>
     </message>
 </context>
 <context>
@@ -7813,52 +7784,52 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="33"/>
         <source>Username</source>
-        <translation>사용자 이름</translation>
+        <translation>نام کاربری</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="34"/>
         <source>Password</source>
-        <translation>암호</translation>
+        <translation>رمز عبور</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="35"/>
         <source>User Type</source>
-        <translation>사용자 유형</translation>
+        <translation>نوع کاربر</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="36"/>
         <source>Note</source>
-        <translation>비고</translation>
+        <translation>یادداشت</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="37"/>
         <source>Channel</source>
-        <translation>채널 </translation>
+        <translation>کانال</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="38"/>
         <source>Modified</source>
-        <translation>수정됨</translation>
+        <translation>ویرایش‌شده در</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="66"/>
         <source>Administrator</source>
-        <translation>서버 관리자</translation>
+        <translation>مدیر</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="68"/>
         <source>Default User</source>
-        <translation>기본 사용자</translation>
+        <translation>کاربر معمولی</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="70"/>
         <source>Disabled</source>
-        <translation>비활성화됨</translation>
+        <translation>غیرفعال‌شده</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="72"/>
         <source>Unknown</source>
-        <translation>알 수 없음</translation>
+        <translation>نامشخص</translation>
     </message>
 </context>
 <context>
@@ -7868,12 +7839,12 @@ Delete the published user account to unregister your server.</source>
         <location filename="../userdesktopdlg.cpp" line="72"/>
         <location filename="../userdesktopdlg.cpp" line="74"/>
         <source>Desktop</source>
-        <translation>화면 공유</translation>
+        <translation>دسکتاپ</translation>
     </message>
     <message>
         <location filename="../userdesktopdlg.cpp" line="72"/>
         <source>Myself</source>
-        <translation>나 자신</translation>
+        <translation>خودم</translation>
     </message>
 </context>
 <context>
@@ -7882,32 +7853,32 @@ Delete the published user account to unregister your server.</source>
         <location filename="../userdesktopwidget.cpp" line="245"/>
         <location filename="../userdesktopwidget.cpp" line="262"/>
         <source>&amp;Save to Image File</source>
-        <translation>이미지 파일로 저장 (&amp;S)</translation>
+        <translation>&amp;ذخیره در فایل تصویری</translation>
     </message>
     <message>
         <location filename="../userdesktopwidget.cpp" line="251"/>
         <source>Retract &amp;Desktop Access</source>
-        <translation>화면 공유 접근 중단 (&amp;D)</translation>
+        <translation>لغو اجازۀ دسترسی به &amp;دسکتاپ</translation>
     </message>
     <message>
         <location filename="../userdesktopwidget.cpp" line="253"/>
         <source>Request &amp;Desktop Access</source>
-        <translation>화면 공유 접근 요청 (&amp;D)</translation>
+        <translation>درخواست مجوز دسترسی به &amp;دسکتاپ</translation>
     </message>
     <message>
         <location filename="../userdesktopwidget.cpp" line="259"/>
         <source>Save File</source>
-        <translation>파일 저장</translation>
+        <translation>ذخیرۀ فایل</translation>
     </message>
     <message>
         <location filename="../userdesktopwidget.cpp" line="260"/>
         <source>PNG files (*.png)</source>
-        <translation>PNG 파일 (*.png)</translation>
+        <translation>فایل‌های تصویری با فرمت .png</translation>
     </message>
     <message>
         <location filename="../userdesktopwidget.cpp" line="262"/>
         <source>Failed to save file.</source>
-        <translation>파일 저장 실패</translation>
+        <translation>فایل ذخیره نشد.</translation>
     </message>
 </context>
 <context>
@@ -7916,27 +7887,27 @@ Delete the published user account to unregister your server.</source>
         <location filename="../userimagewidget.cpp" line="194"/>
         <location filename="../userimagewidget.cpp" line="204"/>
         <source>&amp;Save to Image File</source>
-        <translation>이미지 파일로 저장 (&amp;S)</translation>
+        <translation>&amp;ذخیره در فایل تصویری</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="195"/>
         <source>&amp;Flip image</source>
-        <translation>이미지 반전 (&amp;F)</translation>
+        <translation>&amp;برعکس‌کردنِ عکس</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="201"/>
         <source>Save File</source>
-        <translation>파일 저장</translation>
+        <translation>ذخیرۀ فایل</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="202"/>
         <source>PNG files (*.png)</source>
-        <translation>PNG 파일 (*.png)</translation>
+        <translation>فایل‌های تصویری با فرمت .png</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="204"/>
         <source>Failed to save file.</source>
-        <translation>파일 저장 실패</translation>
+        <translation>فایل ذخیره نشد.</translation>
     </message>
 </context>
 <context>
@@ -7944,128 +7915,124 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfo.ui" line="14"/>
         <source>User Information</source>
-        <translation>사용자 정보</translation>
+        <translation>اطلاعاتِ کاربر</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="20"/>
         <source>User ID</source>
-        <translation>사용자 ID</translation>
+        <translation>شمارۀ کاربر</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="40"/>
         <source>Nickname</source>
-        <translation>대화명</translation>
+        <translation>نام مستعار</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="60"/>
         <source>Username</source>
-        <translation>사용자 이름</translation>
+        <translation>نام کاربری</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="97"/>
         <source>Status mode</source>
-        <translation>상태 유형</translation>
+        <translation>حالت وضعیت</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="117"/>
         <source>Status message</source>
-        <translation>상태 메시지</translation>
+        <translation>پیام وضعیت</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="140"/>
         <source>User type</source>
-        <translation>사용자 유형</translation>
+        <translation>نوع کاربر</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="160"/>
         <source>IP-address</source>
-        <translation>IP 주소</translation>
-    </message>
-    <message>
-        <source>Version</source>
-        <translation type="vanished">버전</translation>
+        <translation>آدرس آیپی</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="180"/>
         <source>Voice packet loss</source>
-        <translation>말하기 패킷 손실</translation>
+        <translation>میزان از‌دست‌رفتن بسته‌های صدا</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="200"/>
         <source>Video frame loss</source>
-        <translation>동영상 프레임 손실</translation>
+        <translation>میزان از دست رفتن فریم‌های ویدیویی</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="220"/>
         <source>Audio file packets loss</source>
-        <translation>오디오 파일 패킷 손실</translation>
+        <translation>میزان از دست رفتن بسته‌های استریم فایل‌های صوتی</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="233"/>
         <source>Video file frame loss</source>
-        <translation>비디오 파일 프레임 손실</translation>
+        <translation>میزان از دست رفتن فریم‌های استریم فایل‌های ویدیویی</translation>
     </message>
     <message>
         <location filename="../userinfo.ui" line="80"/>
         <source>Client name</source>
-        <translation>클라이언트 이름</translation>
+        <translation>نام کلاینت</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="49"/>
         <source>Information of %1</source>
-        <translation>%1 정보</translation>
+        <translation>اطلاعاتِ مربوط به %1</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="61"/>
         <source>Available</source>
         <comment>For female</comment>
-        <translation>사용 가능</translation>
+        <translation>آنلاین</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="61"/>
         <source>Available</source>
         <comment>For male and neutral</comment>
-        <translation>사용 가능</translation>
+        <translation>آنلاین</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="63"/>
         <source>Away</source>
         <comment>For female</comment>
-        <translation>자리비움</translation>
+        <translation>دور</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="63"/>
         <source>Away</source>
         <comment>For male and neutral</comment>
-        <translation>자리비움</translation>
+        <translation>دور</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="65"/>
         <source>Question</source>
-        <translation>질문 모드</translation>
+        <translation>پرسش</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="67"/>
         <location filename="../userinfodlg.cpp" line="88"/>
         <source>Unknown</source>
-        <translation>알 수 없음</translation>
+        <translation>نا‌مشخص</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="84"/>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation>서버 관리자</translation>
+        <translation>مدیر</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="84"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
-        <translation>서버 관리자</translation>
+        <translation>مدیر</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="86"/>
         <source>Default</source>
-        <translation>기본값</translation>
+        <translation>کاربر معمولی</translation>
     </message>
 </context>
 <context>
@@ -8073,134 +8040,134 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="198"/>
         <source>User can log in multiple times</source>
-        <translation>다중 로그인 가능</translation>
+        <translation>کاربر دسترسی مولتی لاگین داشته باشد و بتواند با استفاده از یک نام کاربری, بطور همزمان, توسط دستگاهها و کلاینت‌های مختلف وارد سِروِر شود</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="200"/>
         <source>User can see users in all channels</source>
-        <translation>모든 채널 내 사용자를 볼 수 있음</translation>
+        <translation>کاربر بتواند سایر کاربران را در همۀ کانالها ببیند</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="202"/>
         <source>User can see hidden channels</source>
-        <translation>숨겨진 채널을 볼 수 있음</translation>
+        <translation>کاربر بتواند کانال‌های مخفی را مشاهده کند</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="204"/>
         <source>User can create/modify all channels</source>
-        <translation>모든 채널을 만들고 수정할 수 있음</translation>
+        <translation>کاربر دارای مجوز کامل برای ایجاد, ویرایش و حذف همۀ کانالها باشد, (مثلا بتواند کانال‌هایی که ایجاد میکند را بطور دائمی در سِروِر ذخیره کند و تنظیمات سایر کانالها را تغییر دهد)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="206"/>
         <source>User can create temporary channels</source>
-        <translation>임시 채널을 만들 수 있음</translation>
+        <translation>کاربر فقط بتواند کانال‌های موقت بسازد. (کانال‌های موقت, در سِروِر ذخیره نمیشوند و با خروج آخرین کاربر از کانال, بطور خودکار از بین میروند)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="208"/>
         <source>User can broadcast text messages</source>
-        <translation>방송할 수 있음</translation>
+        <translation>کاربر بتواند پیام‌های همگانی ارسال کند</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="210"/>
         <source>User can kick users off the server</source>
-        <translation>서버에서 사용자를 추방할 수 있음</translation>
+        <translation>کاربر بتواند سایر کاربران را از سِروِر بیرون کند</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="212"/>
         <source>User can ban users from server</source>
-        <translation>서버에서 사용자를 차단할 수 있음</translation>
+        <translation>کاربر بتواند سایر کاربران را از ورود مجدد به سِروِر محروم کند</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="214"/>
         <source>User can move users between channels</source>
-        <translation>다른 채널로 사용자를 이동시킬 수 있음</translation>
+        <translation>کاربر بتواند سایر کاربران را از یک کانال به کانال دیگر منطقل کند</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="216"/>
         <source>User can make other users channel operator</source>
-        <translation>다른 사용자를 채널 관리자로 설정할 수 있음</translation>
+        <translation>کاربر بتواند بدون نیاز به استفاده از &quot;رمز عبور اپراتور&quot;, سایر کاربران را در کانال‌های مختلف اپراتور کند</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="218"/>
         <source>User can upload files</source>
-        <translation>파일을 업로드할 수 있음</translation>
+        <translation>کاربر بتواند فایل آپلود کند</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="220"/>
         <source>User can download files</source>
-        <translation>파일을 다운로드할 수 있음</translation>
+        <translation>کاربر بتواند فایل‌های آپلود‌شده را دانلود کند</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="222"/>
         <source>User can record voice in all channels</source>
-        <translation>모든 채널에서 말하기를 녹음할 수 있음</translation>
+        <translation>کاربر بتواند در همۀ کانالها صدای سایر کاربران را ضبط کند</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="224"/>
         <source>User can update server properties</source>
-        <translation>서버 속성을 업데이트할 수 있음</translation>
+        <translation>کاربر بتواند تنظیمات سِروِر را تغییر دهد</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="226"/>
         <source>User can transmit voice data (microphone)</source>
-        <translation>마이크를 사용하여 말하기 전송 가능</translation>
+        <translation>کاربر بتواند صحبت کند</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="228"/>
         <source>User can transmit video data (webcam)</source>
-        <translation>웹캠을 사용하여 동영상 전송 가능</translation>
+        <translation>کاربر بتواند تصویر خود را به اشتراک بگذارد</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="230"/>
         <source>User can transmit desktop sessions (shared desktop)</source>
-        <translation>화면 공유 가능</translation>
+        <translation>کاربر بتواند صفحه نمایش خود را به اشتراک بگذارد</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="232"/>
         <source>User can get remote access to desktop sessions</source>
-        <translation>화면 공유 세션을 원격 접근할 수 있음</translation>
+        <translation>چنانچه سایر کاربران صفحه نمایش خود را به اشتراک بگذارند, کاربر بتواند از راه دور, ماوس و صفحه‌کلید آنان را در پنجرۀ دسکتاپ به اشتراک‌گذاشته‌شده کنترل کند</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="234"/>
         <source>User can transmit audio files (wav, mp3 files)</source>
-        <translation>wav, mp3 등 오디오 파일 전송 가능</translation>
+        <translation>کاربر قادر به استریم فایل‌های صوتی با فرمت wav و mp3 باشد</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="236"/>
         <source>User can transmit video files (avi, mp4 files)</source>
-        <translation>avi, mp4 등 비디오 파일 전송 가능</translation>
+        <translation>کاربر قادر به استریم فایل‌های ویدیویی با فرمت avi و mp4 باشد</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="242"/>
         <source>User can send private text messages</source>
-        <translation>개인 텍스트 메시지 전송 가능</translation>
+        <translation>کاربر امکان ارسال پیام‌های خصوصی به دیگران را داشته‌باشد</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="244"/>
         <source>User can send channel text messages</source>
-        <translation>채널 텍스트 메시지 전송 가능</translation>
+        <translation>کاربر امکان ارسال پیام در کانال را داشته‌باشد</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="246"/>
         <source>User can change nickname</source>
-        <translation>대화명 변경 가능</translation>
+        <translation>کاربر بتواند نام مستعار خود را تغییر دهد</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="248"/>
         <source>User can change status mode</source>
-        <translation>상태 변경 가능</translation>
+        <translation>کاربر بتواند وضعیت خود را تغییر دهد</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="257"/>
         <location filename="../useraccountsmodel.cpp" line="259"/>
         <source>Enabled</source>
-        <translation>활성화됨</translation>
+        <translation>بله</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="257"/>
         <location filename="../useraccountsmodel.cpp" line="259"/>
         <source>Disabled</source>
-        <translation>비활성화됨</translation>
+        <translation>خیر</translation>
     </message>
 </context>
 <context>
@@ -8210,12 +8177,12 @@ Delete the published user account to unregister your server.</source>
         <location filename="../uservideodlg.cpp" line="89"/>
         <location filename="../uservideodlg.cpp" line="91"/>
         <source>Video</source>
-        <translation>동영상</translation>
+        <translation>ویدیو</translation>
     </message>
     <message>
         <location filename="../uservideodlg.cpp" line="89"/>
         <source>Myself</source>
-        <translation>나 자신</translation>
+        <translation>خودم</translation>
     </message>
 </context>
 <context>
@@ -8223,17 +8190,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../uservideowidget.cpp" line="48"/>
         <source>Waiting for local video</source>
-        <translation>로컬 영상 기다리는 중</translation>
+        <translation>در انتظار دریافت ویدئوی محلی</translation>
     </message>
     <message>
         <location filename="../uservideowidget.cpp" line="50"/>
         <source>Waiting for video from %1</source>
-        <translation>%1의 동영상 기다리는 중</translation>
+        <translation>در انتظار دریافت ویدیو از %1</translation>
     </message>
     <message>
         <location filename="../uservideowidget.cpp" line="54"/>
         <source>Waiting for media file from %1</source>
-        <translation>%1의 미디어 파일 기다리는 중</translation>
+        <translation>در انتظار دریافت فایل رسانه‌ای از %1</translation>
     </message>
 </context>
 <context>
@@ -8244,50 +8211,50 @@ Delete the published user account to unregister your server.</source>
         <location filename="../uservolume.ui" line="84"/>
         <location filename="../uservolumedlg.cpp" line="79"/>
         <source>Volume</source>
-        <translation>볼륨</translation>
+        <translation>بلندی صدا</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="20"/>
         <source>Voice Volume Settings</source>
-        <translation>말하기 볼륨 설정</translation>
+        <translation>در این بخش میتوانید میزان صدای این کاربر را برای خود تنظیم کنید</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="50"/>
         <location filename="../uservolume.ui" line="106"/>
         <source>Stereo Option</source>
-        <translation>스테레오 옵션</translation>
+        <translation>گزینۀ استریو</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="56"/>
         <location filename="../uservolume.ui" line="112"/>
         <source>Mute left</source>
-        <translation>왼쪽 음소거</translation>
+        <translation>قطعِ صدا از سمتِ چپ</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="63"/>
         <location filename="../uservolume.ui" line="119"/>
         <source>Mute right</source>
-        <translation>오른쪽 음소거</translation>
+        <translation>قطعِ صدا از سمتِ راست</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="76"/>
         <source>Media File Volume Settings</source>
-        <translation>미디어 파일 볼륨 설정</translation>
+        <translation>در این بخش میتوانید میزان صدای استریم‌های این کاربر را برای خود تنظیم کنید</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="147"/>
         <source>&amp;Default</source>
-        <translation>기본값 (&amp;D)</translation>
+        <translation>&amp;بازگردانی تنظیمات صدای این کاربر به حالت پیشفرض</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="54"/>
         <source>Volume for %1</source>
-        <translation>%1의 볼륨</translation>
+        <translation>تنظیمِ صدای %1</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="80"/>
         <source>Failed to change user&apos;s volume</source>
-        <translation>사용자 볼륨 변경 실패</translation>
+        <translation>امکانِ تغییرِ صدای این کارب&apos;ر وجود ندارد</translation>
     </message>
 </context>
 <context>
@@ -8295,7 +8262,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../videogridwidget.cpp" line="29"/>
         <source>No active video sessions</source>
-        <translation>활성화된 동영상 세션이 없습니다</translation>
+        <translation>هیچ نشست ویدیویی فعالی وجود ندارد</translation>
     </message>
 </context>
 <context>
@@ -8303,63 +8270,63 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../videotext.ui" line="14"/>
         <source>Video Source Text Box</source>
-        <translation>비디오 출처 글상자</translation>
+        <translation>محل نوشتن منبع ویدیو</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="24"/>
         <source>Text to Show</source>
-        <translation>표시할 텍스트</translation>
+        <translation>متن برای نمایش</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="30"/>
         <source>Show nickname</source>
-        <translation>대화명 표시</translation>
+        <translation>نمایش نام مستعار</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="40"/>
         <source>Show username</source>
-        <translation>사용자 이름 표시</translation>
+        <translation>نمایش نام کاربری</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="47"/>
         <source>Show status text</source>
-        <translation>상태 메시지 표시</translation>
+        <translation>نمایش متن وضعیت</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="57"/>
         <source>Text Position</source>
-        <translation>글자 위치</translation>
+        <translation>محل قرارگیری متن</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="63"/>
         <source>Top-Left</source>
-        <translation>좌상단</translation>
+        <translation>بالا-سمت چپ</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="70"/>
         <source>Bottom-Left</source>
-        <translation>좌하단</translation>
+        <translation>پایین-سمت چپ</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="80"/>
         <source>Top-Right</source>
-        <translation>우상단</translation>
+        <translation>بالا-سمت راست</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="90"/>
         <source>Bottom-Right</source>
-        <translation>우하단</translation>
+        <translation>پایین-سمت راست</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="105"/>
         <source>Text Appearance</source>
-        <translation>글자 모양</translation>
+        <translation>ظاهر متن</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="111"/>
         <location filename="../videotext.ui" line="124"/>
         <source>Font color</source>
-        <translation>글자색</translation>
+        <translation>رنگ فونت</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="121"/>
@@ -8371,47 +8338,47 @@ Delete the published user account to unregister your server.</source>
         <location filename="../videotext.ui" line="131"/>
         <location filename="../videotext.ui" line="144"/>
         <source>Background color</source>
-        <translation>바탕색</translation>
+        <translation>رنگ پس‌زمینه</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="151"/>
         <source>Width in percent</source>
-        <translation>너비 (%)</translation>
+        <translation>عرض (بر‌حسب درصد)</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="180"/>
         <source>Height in percent</source>
-        <translation>높이 (%)</translation>
+        <translation>ارتفاع (بر‌حسب درصد)</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="35"/>
         <source>&amp;OK</source>
-        <translation>확인 (&amp;O)</translation>
+        <translation>&amp;تأیید</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="36"/>
         <source>&amp;Cancel</source>
-        <translation>취소 (&amp;C)</translation>
+        <translation>&amp;لغو</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="37"/>
         <source>Video window settings</source>
-        <translation>동영상 창 설정</translation>
+        <translation>تنظیمات پنجرۀ نمایش ویدیو</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="183"/>
         <source>Nickname</source>
-        <translation>대화명</translation>
+        <translation>نام مستعار</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="186"/>
         <source>Username</source>
-        <translation>사용자 이름</translation>
+        <translation>نام کاربری</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="189"/>
         <source>Status message</source>
-        <translation>상태 메시지</translation>
+        <translation>پیام وضعیت</translation>
     </message>
 </context>
 </TS>

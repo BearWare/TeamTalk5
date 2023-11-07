@@ -33,6 +33,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ServiceInfo;
 import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Binder;
@@ -374,7 +375,7 @@ public class TeamTalkService extends Service
     @SuppressLint("NewApi")
     private void displayNotification(boolean enabled) {
         if (enabled) {
-            final int UI_WIDGET_ID = 1;
+            final int UI_WIDGET_ID = android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE | ServiceInfo.FLAG_STOP_WITH_TASK;
             if (widget == null) {
                 Intent ui = new Intent(this, MainActivity.class);
                 ui.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

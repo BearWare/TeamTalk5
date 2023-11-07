@@ -19,6 +19,8 @@ Default Qt Client
 - Fixed state of "Close when completed" checkbox on "Transfer file" dialog
 - Fixed files count not announced for non admin users when pressing CTRL+G on non current channel
 - Fixed users still showning channel in Online Users dialog
+- Option in Display-tab to disable user and channel icons
+- Added Persian language
 Android Client
 -
 iOS Client
@@ -28,6 +30,19 @@ Server
 - User right to prevent channel text messages
 - Support for banning IP-address as subnet, e.g. 192.168.0.0/24 or 2a02:09b0:402b:eed8::/63
 - Owner of ban is stored
+
+Version 5.14.2, 2023/11/03
+Android Client
+- Fixed crash issue on Android 14 upon establishing connection to server
+
+Version 5.14.1, 2023/10/21
+Android Client
+- Fixed importing of tt files on newer android versions
+- It is now possible to select language for TeamTalk on Android 13 and above from app languages settings
+
+Version 5.14.2, unreleased
+Android Client
+- Fixed crash issue on Android 14 upon establishing connection to server
 
 Version 5.14.1, 2023/10/21
 Android Client

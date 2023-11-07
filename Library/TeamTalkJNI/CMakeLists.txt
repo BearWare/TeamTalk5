@@ -1,5 +1,3 @@
-# Relative paths are not supported pre-2.8.1, target_link_libraries seems to require 3.0.2
-cmake_minimum_required(VERSION 3.1)
 project (TeamTalk5JNI)
 
 function(set_output_dir target dir)
