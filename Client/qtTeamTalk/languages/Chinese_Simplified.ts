@@ -6502,13 +6502,9 @@ Delete the published user account to unregister your server.</source>
         <translation>显示变量</translation>
     </message>
     <message>
-        <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicetx% KBytes received, %voicerx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation type="vanished">每日消息可用变量： %users% 服务器上的用户数， %admins% 服务器上的管理员数， %uptime% 服务器在线时间， %voicetx% 语音总接收量(KB)， %voicerx% 语音总发送量(KB)， %lastuser% 最后登录用户。</translation>
-    </message>
-    <message>
         <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicerx% KBytes received, %voicetx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation type="unfinished"></translation>
+        <translation>每日消息变量： %users% 服务器上的用户数， %admins% 服务器上的管理员数， %uptime% 服务器在线时间， %voicerx% 语音总接收量（KB）， %voicetx% 语音总发送量（KB）， %lastuser% 最后登陆用户。</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="122"/>
