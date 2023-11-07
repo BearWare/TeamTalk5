@@ -5109,7 +5109,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="455"/>
         <source>Show user and channel icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Показывать значки пользователя и канала</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="462"/>
@@ -6617,7 +6617,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicerx% KBytes received, %voicetx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Переменные сообщения дня: %users% количество пользователей на сервере, %admins% количество администраторов на сервере, %uptime% время работы сервера онлайн, %voicerx% КБ получено, %voicetx% КБ отправлено и %lastuser% последний пользователь, вошедший в систему.</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="122"/>
