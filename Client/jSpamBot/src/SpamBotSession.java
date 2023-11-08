@@ -32,7 +32,6 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 import dk.bearware.*;
 import dk.bearware.events.CommandListener;
 import dk.bearware.events.ConnectionListener;
@@ -296,6 +295,14 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         }
     }
 
+    void sendBadWordsNotify(int userid, String text) {
+        TextMessage textmsg = new TextMessage();
+        textmsg.nMsgType = TextMsgType.MSGTYPE_USER;
+        textmsg.szMessage = text;
+        textmsg.nToUserID = userid;
+        activecommands.put(ttclient.doTextMessage(textmsg), CmdComplete.CMD_ABUSE_TEXTMSG);
+    }
+
     int getBanPrefix(String ipaddr) {
         try {
             InetAddress ipv = InetAddress.getByName(ipaddr);
@@ -380,6 +387,7 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         users.put(user.nUserID, user);
 
         if (!cleanUser(user)) {
+            sendBadWordsNotify(user.nUserID, "Your nick name and/or status message contains foul language");
             ttclient.doKickUser(user.nUserID, 0);
             System.out.printf("Kicking %s from %s:%d\n", user.szNickname, server.ipaddr, server.tcpport);
 
@@ -407,6 +415,7 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         users.put(user.nUserID, user);
 
         if (!cleanUser(user)) {
+            sendBadWordsNotify(user.nUserID, "Your nick name and/or status message contains foul language");
             ttclient.doKickUser(user.nUserID, 0);
             System.out.printf("Kicking %s from %s:%d\n", user.szNickname, server.ipaddr, server.tcpport);
 
@@ -432,6 +441,7 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     @Override
     public void onCmdUserTextMessage(TextMessage textmsg) {
         if (!cleanTextMessage(textmsg)) {
+            sendBadWordsNotify(textmsg.nFromUserID, "Your text message contains foul language");
             ttclient.doKickUser(textmsg.nFromUserID, 0);
             System.out.printf("Kicking #%d from %s:%d\n", textmsg.nFromUserID, server.ipaddr, server.tcpport);
             User user = users.get(textmsg.nFromUserID);
@@ -445,6 +455,7 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     public void onCmdUserUpdate(User user) {
         users.put(user.nUserID, user);
         if (!cleanUser(user)) {
+            sendBadWordsNotify(user.nUserID, "Your nick name and/or status message contains foul language");
             ttclient.doKickUser(user.nUserID, 0);
             System.out.printf("Kicking %s from %s:%d\n", user.szNickname, server.ipaddr, server.tcpport);
             abuse.incKicks(user.szIPAddress);
