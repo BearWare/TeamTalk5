@@ -6,6 +6,8 @@ if (Java_FOUND)
 
   include (UseJava)
 
+  add_subdirectory(deps)
+
   option (BUILD_TEAMTALK_CLIENT_JSPAMBOT "Build TeamTalk Anti Spam Bot" ON)
 
   set(CMAKE_JAVA_COMPILE_FLAGS "-source" "11" "-target" "11")
@@ -27,8 +29,10 @@ if (Java_FOUND)
       message("Cannot find TeamTalk5.jar")
     else()
       add_jar (jTeamTalkSpamBot INCLUDE_JARS ${TEAMTALKJAR_LIBRARY}
+        ${CMAKE_INSTALL_PREFIX}/Client/jSpamBot/org-json.jar
         ENTRY_POINT Main
         SOURCES ${JAVA_SOURCES})
+      install_jar (jTeamTalkSpamBot DESTINATION Client/jSpamBot)
     endif()
   endif()
 endif()
