@@ -53,6 +53,7 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     BadWords badwords;
     Vector<String> langbadwords = new Vector<>();
     Abuse abuse;
+    AbuseDB abusedb;
     enum CmdComplete {
         CMD_NONE,
         CMD_LISTBANS,
@@ -65,12 +66,13 @@ implements ConnectionListener, CommandListener, AutoCloseable {
 
     SpamBotSession(TeamTalkServer srv, WebLogin loginsession,
                    IPBan bans, BadWords badwords, Abuse abuse,
-                   int ipv4banprefix, int ipv6banprefix) {
+                   AbuseDB abusedb, int ipv4banprefix, int ipv6banprefix) {
         this.server = srv;
         this.loginsession = loginsession;
         this.bans = bans;
         this.badwords = badwords;
         this.abuse = abuse;
+        this.abusedb = abusedb;
         this.ipv4banprefix = ipv4banprefix;
         this.ipv6banprefix = ipv6banprefix;
         handler.addConnectionListener(this);
@@ -334,6 +336,8 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         activecommands.put(ttclient.doTextMessage(textmsg), CmdComplete.CMD_ABUSE_TEXTMSG);
 
         activecommands.put(ttclient.doKickUser(user.nUserID, 0), CmdComplete.CMD_ABUSE_KICK);
+
+        abusedb.report(user.szIPAddress, "Spam");
     }
 
     @Override
@@ -414,11 +418,18 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     public void onCmdUserLoggedIn(User user) {
         users.put(user.nUserID, user);
 
-        if (!cleanUser(user)) {
+        if (user.nUserID == ttclient.getMyUserID())
+            abusedb.addWhiteListIPAddr(user.szIPAddress);
+        else if (user.szIPAddress.length() > 0 && abusedb.checkForReported(user.szIPAddress)) {
+            sendBadWordsNotify(user.nUserID, "Your IP-address is listed as a spammer");
+            ttclient.doKickUser(user.nUserID, 0);
+            System.out.printf("Kicking %s from %s:%d because %s is listed as spammer\n", user.szNickname, server.ipaddr, server.tcpport, user.szIPAddress);
+            abuse.incKicks(user.szIPAddress);
+        }
+        else if (!cleanUser(user)) {
             sendBadWordsNotify(user.nUserID, "Your nick name and/or status message contains foul language");
             ttclient.doKickUser(user.nUserID, 0);
-            System.out.printf("Kicking %s from %s:%d\n", user.szNickname, server.ipaddr, server.tcpport);
-
+            System.out.printf("Kicking %s from %s:%d due to bad words\n", user.szNickname, server.ipaddr, server.tcpport);
             abuse.incKicks(user.szIPAddress);
         }
 

@@ -14,7 +14,7 @@ if (Java_FOUND)
 
   set (JAVA_SOURCES src/SpamBotSession.java src/WebLogin.java
     src/Main.java src/TeamTalkServer.java src/IPBan.java
-    src/BadWords.java src/Abuse.java)
+    src/BadWords.java src/Abuse.java src/AbuseDB.java)
 
   if (BUILD_TEAMTALK_CLIENT_JSPAMBOT)
 
@@ -29,7 +29,7 @@ if (Java_FOUND)
       message("Cannot find TeamTalk5.jar")
     else()
       add_jar (jTeamTalkSpamBot INCLUDE_JARS ${TEAMTALKJAR_LIBRARY}
-        ${CMAKE_INSTALL_PREFIX}/Client/jSpamBot/org-json.jar
+        ${CMAKE_CURRENT_BINARY_DIR}/deps/org-json.jar
         ENTRY_POINT Main
         SOURCES ${JAVA_SOURCES})
       install_jar (jTeamTalkSpamBot DESTINATION Client/jSpamBot)
