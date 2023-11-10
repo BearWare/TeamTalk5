@@ -21,6 +21,7 @@ Default Qt Client
 - Fixed users still showning channel in Online Users dialog
 - Option in Display-tab to disable user and channel icons
 - Added Persian language
+- Option in text-to-speech tab to configure wether to try sapi when screenreader is not available
 Android Client
 -
 iOS Client

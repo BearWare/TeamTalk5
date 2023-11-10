@@ -324,6 +324,8 @@
 #elif defined(Q_OS_WIN)
 #define SETTINGS_TTS_SAPI                         "texttospeech/force-sapi"
 #define SETTINGS_TTS_SAPI_DEFAULT                 false
+#define SETTINGS_TTS_TRY_SAPI                         "texttospeech/try-sapi"
+#define SETTINGS_TTS_TRY_SAPI_DEFAULT                 true
 #define SETTINGS_TTS_OUTPUT_MODE                         "texttospeech/output-mode"
 #define SETTINGS_TTS_OUTPUT_MODE_DEFAULT                 TTS_OUTPUTMODE_SPEECHBRAILLE
 #elif defined(Q_OS_DARWIN)
