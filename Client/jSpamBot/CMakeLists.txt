@@ -32,6 +32,7 @@ if (Java_FOUND)
         ${CMAKE_CURRENT_BINARY_DIR}/deps/org-json.jar
         ENTRY_POINT Main
         SOURCES ${JAVA_SOURCES})
+      add_dependencies(jTeamTalkSpamBot JSON-java-src) # required for -G "Unix Makefiles"
       install_jar (jTeamTalkSpamBot DESTINATION Client/jSpamBot)
     endif()
   endif()
