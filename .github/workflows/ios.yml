@@ -23,7 +23,7 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Install Toolchain Dependencies
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
@@ -44,7 +44,7 @@ jobs:
       run: cmake --build . --target install
 
     - name: Upload TeamTalk Artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: teamtalksdk-ios-${{ matrix.cmakearch }}
         path: ${{runner.workspace}}/install-${{ matrix.cmakearch }}
