@@ -8,6 +8,7 @@ Default Qt Client
 - User right to prevent private text messages
 - User right to prevent channel text messages
 - Added Korean language
+- Added Persian language
 - Support for 320 KBit MP3 recording (Windows only)
 - Support for banning IP-address as subnet, e.g. 192.168.0.0/24 or 2a02:09b0:402b:eed8::/63
 - Username of user creating a ban is visible in "Banned Users" dialog
@@ -16,12 +17,11 @@ Default Qt Client
 - Pressing Enter in text box of "Banned Users" dialog will add new ban
 - Kick/Ban From Server now in context menu of Online Users dialog
 - Client version shown in View User Information dialog
+- Option in Display-tab to disable user and channel icons
+- Option in Text-To-Speech-tab to configure whether to try SAPI when screenreader is not available
 - Fixed state of "Close when completed" checkbox on "Transfer file" dialog
 - Fixed files count not announced for non admin users when pressing CTRL+G on non current channel
 - Fixed users still showning channel in Online Users dialog
-- Option in Display-tab to disable user and channel icons
-- Added Persian language
-- Option in text-to-speech tab to configure wether to try sapi when screenreader is not available
 Android Client
 -
 iOS Client

@@ -2369,7 +2369,7 @@
             <item row="10" column="0">
              <widget class="QCheckBox" name="ttsTrySapiChkBox">
               <property name="text">
-               <string>Try to switch to sapi when screenreader is not available</string>
+               <string>Try to switch to SAPI when screenreader is not available</string>
               </property>
              </widget>
             </item>
