@@ -45,6 +45,7 @@ void addTextToSpeechMessage(const QString& msg)
     case TTSENGINE_TOLK:
 #if defined(ENABLE_TOLK)
         Tolk_PreferSAPI(ttSettings->value(SETTINGS_TTS_SAPI, SETTINGS_TTS_SAPI_DEFAULT).toBool());
+        Tolk_TrySAPI(ttSettings->value(SETTINGS_TTS_TRY_SAPI, SETTINGS_TTS_TRY_SAPI_DEFAULT).toBool());
         switch (ttSettings->value(SETTINGS_TTS_OUTPUT_MODE, SETTINGS_TTS_OUTPUT_MODE_DEFAULT).toInt())
         {
             case TTS_OUTPUTMODE_BRAILLE:
