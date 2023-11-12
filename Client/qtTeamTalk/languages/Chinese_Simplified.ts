@@ -4918,15 +4918,15 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="308"/>
-        <location filename="../preferences.ui" line="2422"/>
-        <location filename="../preferences.ui" line="2449"/>
-        <location filename="../preferences.ui" line="2476"/>
-        <location filename="../preferences.ui" line="2503"/>
-        <location filename="../preferences.ui" line="2530"/>
-        <location filename="../preferences.ui" line="2557"/>
-        <location filename="../preferences.ui" line="2584"/>
-        <location filename="../preferences.ui" line="2611"/>
-        <location filename="../preferences.ui" line="2638"/>
+        <location filename="../preferences.ui" line="2429"/>
+        <location filename="../preferences.ui" line="2456"/>
+        <location filename="../preferences.ui" line="2483"/>
+        <location filename="../preferences.ui" line="2510"/>
+        <location filename="../preferences.ui" line="2537"/>
+        <location filename="../preferences.ui" line="2564"/>
+        <location filename="../preferences.ui" line="2591"/>
+        <location filename="../preferences.ui" line="2618"/>
+        <location filename="../preferences.ui" line="2645"/>
         <source>&amp;Setup Keys</source>
         <translation>热键注册(&amp;S)</translation>
     </message>
@@ -5119,7 +5119,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="844"/>
-        <location filename="../preferences.ui" line="2667"/>
+        <location filename="../preferences.ui" line="2674"/>
         <source>Video Capture</source>
         <translation>视频</translation>
     </message>
@@ -5244,7 +5244,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="1296"/>
-        <location filename="../preferences.ui" line="2957"/>
+        <location filename="../preferences.ui" line="2964"/>
         <source>&amp;Default</source>
         <translation>默认(&amp;D)</translation>
     </message>
@@ -5539,114 +5539,119 @@ Should these settings be applied?</source>
         <translation>使用 SAPI 代替当前屏幕阅读器</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2391"/>
+        <location filename="../preferences.ui" line="2372"/>
+        <source>Try to switch to SAPI when screenreader is not available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="2398"/>
         <source>Shortcuts</source>
         <translation>快捷键</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2397"/>
+        <location filename="../preferences.ui" line="2404"/>
         <source>Keyboard Shortcuts</source>
         <translation>快捷键</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2405"/>
+        <location filename="../preferences.ui" line="2412"/>
         <source>Enable/disable voice activation</source>
         <translation>启用/禁用语音激活</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2432"/>
+        <location filename="../preferences.ui" line="2439"/>
         <source>Increase volume</source>
         <translation>增加音量</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2459"/>
+        <location filename="../preferences.ui" line="2466"/>
         <source>Lower volume</source>
         <translation>降低音量</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2486"/>
+        <location filename="../preferences.ui" line="2493"/>
         <source>Enable/disable mute all</source>
         <translation>启用/禁用全部静音</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2513"/>
+        <location filename="../preferences.ui" line="2520"/>
         <source>Increase microphone gain</source>
         <translation>增加麦克风增益</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2540"/>
+        <location filename="../preferences.ui" line="2547"/>
         <source>Lower microphone gain</source>
         <translation>降低麦克风增益</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2567"/>
+        <location filename="../preferences.ui" line="2574"/>
         <source>Enable/disable video transmission</source>
         <translation>启用/禁用视频传输</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2621"/>
+        <location filename="../preferences.ui" line="2628"/>
         <source>Show/hide main window</source>
         <translation>显示/隐藏主窗口</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2673"/>
+        <location filename="../preferences.ui" line="2680"/>
         <source>Video Capture Settings</source>
         <translation>视频采集</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2679"/>
+        <location filename="../preferences.ui" line="2686"/>
         <source>Video Capture Device</source>
         <translation>视频捕获设备</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2699"/>
+        <location filename="../preferences.ui" line="2706"/>
         <source>Video Resolution</source>
         <translation>视频分辨率</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2714"/>
+        <location filename="../preferences.ui" line="2721"/>
         <source>Customize video format</source>
         <translation>自定义视频格式</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2728"/>
+        <location filename="../preferences.ui" line="2735"/>
         <source>Image Format</source>
         <translation>图像格式</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2738"/>
+        <location filename="../preferences.ui" line="2745"/>
         <source>RGB32</source>
         <translation>RGB32</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2745"/>
+        <location filename="../preferences.ui" line="2752"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2752"/>
+        <location filename="../preferences.ui" line="2759"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2776"/>
-        <location filename="../preferencesdlg.cpp" line="1360"/>
+        <location filename="../preferences.ui" line="2783"/>
+        <location filename="../preferencesdlg.cpp" line="1361"/>
         <source>Test Selected</source>
         <translation>测试所选项</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2804"/>
-        <location filename="../preferences.ui" line="2807"/>
+        <location filename="../preferences.ui" line="2811"/>
+        <location filename="../preferences.ui" line="2814"/>
         <source>Video Codec Settings</source>
         <translation>视频编解码器设置</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2815"/>
+        <location filename="../preferences.ui" line="2822"/>
         <source>Codec</source>
         <translation>编解码器</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2871"/>
+        <location filename="../preferences.ui" line="2878"/>
         <source>Bitrate</source>
         <translation>比特率</translation>
     </message>
@@ -5703,13 +5708,13 @@ Should these settings be applied?</source>
         <translation>无法从Windows防火墙例外列表中删除 %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1378"/>
+        <location filename="../preferencesdlg.cpp" line="1379"/>
         <source>Sound Initialization</source>
         <translation>初始化声音</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1140"/>
-        <location filename="../preferencesdlg.cpp" line="1172"/>
+        <location filename="../preferencesdlg.cpp" line="1173"/>
         <source>Video Device</source>
         <translation>视频设备</translation>
     </message>
@@ -5787,79 +5792,79 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1141"/>
-        <location filename="../preferencesdlg.cpp" line="1173"/>
-        <location filename="../preferencesdlg.cpp" line="1863"/>
+        <location filename="../preferencesdlg.cpp" line="1174"/>
+        <location filename="../preferencesdlg.cpp" line="1867"/>
         <source>Failed to initialize video device</source>
         <translation>无法初始化视频设备</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1264"/>
+        <location filename="../preferencesdlg.cpp" line="1265"/>
         <source>Max Input Channels %1</source>
         <translation>最大输入声道 %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1266"/>
-        <location filename="../preferencesdlg.cpp" line="1290"/>
+        <location filename="../preferencesdlg.cpp" line="1267"/>
+        <location filename="../preferencesdlg.cpp" line="1291"/>
         <source>Sample Rates:</source>
         <translation>采样率：</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1288"/>
+        <location filename="../preferencesdlg.cpp" line="1289"/>
         <source>Max Output Channels %1</source>
         <translation>最大输出声道 %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1319"/>
+        <location filename="../preferencesdlg.cpp" line="1320"/>
         <source>Refresh Sound Devices</source>
         <translation>刷新声音设备</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1320"/>
+        <location filename="../preferencesdlg.cpp" line="1321"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>无法重新启动声音系统。请重新启动应用程序。</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1361"/>
+        <location filename="../preferencesdlg.cpp" line="1362"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
         <translation>此声音设备配置提供了欠佳的回声消除。请查看手册以了解详细信息。</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1379"/>
+        <location filename="../preferencesdlg.cpp" line="1380"/>
         <source>Failed to initialize new sound devices</source>
         <translation>无法初始化新的声音设备</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1712"/>
+        <location filename="../preferencesdlg.cpp" line="1715"/>
         <source>Use SAPI instead of %1 screenreader</source>
         <translation>使用 SAPI 代替 %1 屏幕阅读器</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1716"/>
+        <location filename="../preferencesdlg.cpp" line="1720"/>
         <source>Speech and Braille</source>
         <translation>语音和盲文</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1718"/>
+        <location filename="../preferencesdlg.cpp" line="1722"/>
         <source>Braille only</source>
         <translation>盲文</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1720"/>
+        <location filename="../preferencesdlg.cpp" line="1724"/>
         <source>Speech only</source>
         <translation>语音</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1822"/>
+        <location filename="../preferencesdlg.cpp" line="1826"/>
         <source>Custom video format</source>
         <translation>自定义视频格式</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1915"/>
+        <location filename="../preferencesdlg.cpp" line="1919"/>
         <source>Default Video Capture</source>
         <translation>默认视频捕获</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1916"/>
+        <location filename="../preferencesdlg.cpp" line="1920"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>无法找到首选的视频捕获设置</translation>
     </message>
@@ -5914,7 +5919,7 @@ Should these settings be applied?</source>
         <translation>朗读列表中所选项目</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2594"/>
+        <location filename="../preferences.ui" line="2601"/>
         <source>Reinitialize sound devices</source>
         <translation>重新初始化声音设备</translation>
     </message>

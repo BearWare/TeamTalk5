@@ -4927,15 +4927,15 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="308"/>
-        <location filename="../preferences.ui" line="2422"/>
-        <location filename="../preferences.ui" line="2449"/>
-        <location filename="../preferences.ui" line="2476"/>
-        <location filename="../preferences.ui" line="2503"/>
-        <location filename="../preferences.ui" line="2530"/>
-        <location filename="../preferences.ui" line="2557"/>
-        <location filename="../preferences.ui" line="2584"/>
-        <location filename="../preferences.ui" line="2611"/>
-        <location filename="../preferences.ui" line="2638"/>
+        <location filename="../preferences.ui" line="2429"/>
+        <location filename="../preferences.ui" line="2456"/>
+        <location filename="../preferences.ui" line="2483"/>
+        <location filename="../preferences.ui" line="2510"/>
+        <location filename="../preferences.ui" line="2537"/>
+        <location filename="../preferences.ui" line="2564"/>
+        <location filename="../preferences.ui" line="2591"/>
+        <location filename="../preferences.ui" line="2618"/>
+        <location filename="../preferences.ui" line="2645"/>
         <source>&amp;Setup Keys</source>
         <translation>&amp;Billentyű beállítások</translation>
     </message>
@@ -5113,7 +5113,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="844"/>
-        <location filename="../preferences.ui" line="2667"/>
+        <location filename="../preferences.ui" line="2674"/>
         <source>Video Capture</source>
         <translation>Videorögzítő</translation>
     </message>
@@ -5238,7 +5238,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="1296"/>
-        <location filename="../preferences.ui" line="2957"/>
+        <location filename="../preferences.ui" line="2964"/>
         <source>&amp;Default</source>
         <translation>&amp;Alapértelmezett</translation>
     </message>
@@ -5528,114 +5528,119 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2391"/>
+        <location filename="../preferences.ui" line="2372"/>
+        <source>Try to switch to SAPI when screenreader is not available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="2398"/>
         <source>Shortcuts</source>
         <translation>Hivatkozások</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2397"/>
+        <location filename="../preferences.ui" line="2404"/>
         <source>Keyboard Shortcuts</source>
         <translation>Billentyűparancsok</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2405"/>
+        <location filename="../preferences.ui" line="2412"/>
         <source>Enable/disable voice activation</source>
         <translation>Hang aktiválás (Hangvezérlés) engedélyezése/tiltása</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2432"/>
+        <location filename="../preferences.ui" line="2439"/>
         <source>Increase volume</source>
         <translation>Hangerő növelése</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2459"/>
+        <location filename="../preferences.ui" line="2466"/>
         <source>Lower volume</source>
         <translation>Hangerő csökkentése</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2486"/>
+        <location filename="../preferences.ui" line="2493"/>
         <source>Enable/disable mute all</source>
         <translation>Mindenki elnémításának engedélyezése/tiltása</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2513"/>
+        <location filename="../preferences.ui" line="2520"/>
         <source>Increase microphone gain</source>
         <translation>Mirofonerősítés növelése</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2540"/>
+        <location filename="../preferences.ui" line="2547"/>
         <source>Lower microphone gain</source>
         <translation>Mikrofonerősítés csökkentése</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2567"/>
+        <location filename="../preferences.ui" line="2574"/>
         <source>Enable/disable video transmission</source>
         <translation>Video átvitel engedélyezése/tiltása</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2621"/>
+        <location filename="../preferences.ui" line="2628"/>
         <source>Show/hide main window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2673"/>
+        <location filename="../preferences.ui" line="2680"/>
         <source>Video Capture Settings</source>
         <translation>A video rögzítés beállításai</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2679"/>
+        <location filename="../preferences.ui" line="2686"/>
         <source>Video Capture Device</source>
         <translation>Videorögzítő eszköz</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2699"/>
+        <location filename="../preferences.ui" line="2706"/>
         <source>Video Resolution</source>
         <translation>Video felbontás</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2714"/>
+        <location filename="../preferences.ui" line="2721"/>
         <source>Customize video format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2728"/>
+        <location filename="../preferences.ui" line="2735"/>
         <source>Image Format</source>
         <translation>Kép formátum</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2738"/>
+        <location filename="../preferences.ui" line="2745"/>
         <source>RGB32</source>
         <translation>RGB32</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2745"/>
+        <location filename="../preferences.ui" line="2752"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2752"/>
+        <location filename="../preferences.ui" line="2759"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2776"/>
-        <location filename="../preferencesdlg.cpp" line="1360"/>
+        <location filename="../preferences.ui" line="2783"/>
+        <location filename="../preferencesdlg.cpp" line="1361"/>
         <source>Test Selected</source>
         <translation>Kiválasztott Test</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2804"/>
-        <location filename="../preferences.ui" line="2807"/>
+        <location filename="../preferences.ui" line="2811"/>
+        <location filename="../preferences.ui" line="2814"/>
         <source>Video Codec Settings</source>
         <translation>Video kodek beállítások</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2815"/>
+        <location filename="../preferences.ui" line="2822"/>
         <source>Codec</source>
         <translation>Kodek</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2871"/>
+        <location filename="../preferences.ui" line="2878"/>
         <source>Bitrate</source>
         <translation>Bitsebesség</translation>
     </message>
@@ -5749,13 +5754,13 @@ Should these settings be applied?</source>
         <translation>%1 eltávolítása a Windows tűzfal kivételek listájáról sikertelen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1378"/>
+        <location filename="../preferencesdlg.cpp" line="1379"/>
         <source>Sound Initialization</source>
         <translation>Hang indítása</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1140"/>
-        <location filename="../preferencesdlg.cpp" line="1172"/>
+        <location filename="../preferencesdlg.cpp" line="1173"/>
         <source>Video Device</source>
         <translation>Video eszköz</translation>
     </message>
@@ -5776,79 +5781,79 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1141"/>
-        <location filename="../preferencesdlg.cpp" line="1173"/>
-        <location filename="../preferencesdlg.cpp" line="1863"/>
+        <location filename="../preferencesdlg.cpp" line="1174"/>
+        <location filename="../preferencesdlg.cpp" line="1867"/>
         <source>Failed to initialize video device</source>
         <translation>A video eszköz indítása sikertelen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1264"/>
+        <location filename="../preferencesdlg.cpp" line="1265"/>
         <source>Max Input Channels %1</source>
         <translation>Maximális bejövő csatorna %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1266"/>
-        <location filename="../preferencesdlg.cpp" line="1290"/>
+        <location filename="../preferencesdlg.cpp" line="1267"/>
+        <location filename="../preferencesdlg.cpp" line="1291"/>
         <source>Sample Rates:</source>
         <translation>Mintavételi sebesség:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1288"/>
+        <location filename="../preferencesdlg.cpp" line="1289"/>
         <source>Max Output Channels %1</source>
         <translation>Maximális kimenő csatorna %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1319"/>
+        <location filename="../preferencesdlg.cpp" line="1320"/>
         <source>Refresh Sound Devices</source>
         <translation>Hangeszközök frissítése</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1320"/>
+        <location filename="../preferencesdlg.cpp" line="1321"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>Hangrendszer újraindítása sikertelen. Kérjük indítsa újra  az alkalmazást.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1361"/>
+        <location filename="../preferencesdlg.cpp" line="1362"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1379"/>
+        <location filename="../preferencesdlg.cpp" line="1380"/>
         <source>Failed to initialize new sound devices</source>
         <translation>Az új hangeszköz indítása sikertelen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1712"/>
+        <location filename="../preferencesdlg.cpp" line="1715"/>
         <source>Use SAPI instead of %1 screenreader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1716"/>
+        <location filename="../preferencesdlg.cpp" line="1720"/>
         <source>Speech and Braille</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1718"/>
+        <location filename="../preferencesdlg.cpp" line="1722"/>
         <source>Braille only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1720"/>
+        <location filename="../preferencesdlg.cpp" line="1724"/>
         <source>Speech only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1822"/>
+        <location filename="../preferencesdlg.cpp" line="1826"/>
         <source>Custom video format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1915"/>
+        <location filename="../preferencesdlg.cpp" line="1919"/>
         <source>Default Video Capture</source>
         <translation>Alapértelmezett Videorögzítő</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1916"/>
+        <location filename="../preferencesdlg.cpp" line="1920"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Nem találhatóak a preferált videó rögzítési beállítások</translation>
     </message>
@@ -5913,7 +5918,7 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2594"/>
+        <location filename="../preferences.ui" line="2601"/>
         <source>Reinitialize sound devices</source>
         <translation type="unfinished"></translation>
     </message>
