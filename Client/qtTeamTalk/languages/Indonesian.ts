@@ -5008,15 +5008,15 @@ Should these settings be applied?</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="308"/>
-        <location filename="../preferences.ui" line="2429"/>
-        <location filename="../preferences.ui" line="2456"/>
-        <location filename="../preferences.ui" line="2483"/>
-        <location filename="../preferences.ui" line="2510"/>
-        <location filename="../preferences.ui" line="2537"/>
-        <location filename="../preferences.ui" line="2564"/>
-        <location filename="../preferences.ui" line="2591"/>
-        <location filename="../preferences.ui" line="2618"/>
-        <location filename="../preferences.ui" line="2645"/>
+        <location filename="../preferences.ui" line="2422"/>
+        <location filename="../preferences.ui" line="2449"/>
+        <location filename="../preferences.ui" line="2476"/>
+        <location filename="../preferences.ui" line="2503"/>
+        <location filename="../preferences.ui" line="2530"/>
+        <location filename="../preferences.ui" line="2557"/>
+        <location filename="../preferences.ui" line="2584"/>
+        <location filename="../preferences.ui" line="2611"/>
+        <location filename="../preferences.ui" line="2638"/>
         <source>&amp;Setup Keys</source>
         <translation>&amp;Atur Tombol</translation>
     </message>
@@ -5209,7 +5209,7 @@ Should these settings be applied?</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="844"/>
-        <location filename="../preferences.ui" line="2674"/>
+        <location filename="../preferences.ui" line="2667"/>
         <source>Video Capture</source>
         <translation>Pengambilan Video</translation>
     </message>
@@ -5334,7 +5334,7 @@ Should these settings be applied?</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1296"/>
-        <location filename="../preferences.ui" line="2964"/>
+        <location filename="../preferences.ui" line="2957"/>
         <source>&amp;Default</source>
         <translation>&amp;Default</translation>
     </message>
@@ -5629,119 +5629,114 @@ Should these settings be applied?</translation>
         <translation>Gunakan SAPI bukan pembaca layar saat ini</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2372"/>
-        <source>Try to switch to SAPI when screenreader is not available</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../preferences.ui" line="2398"/>
+        <location filename="../preferences.ui" line="2391"/>
         <source>Shortcuts</source>
         <translation>Pintasan</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2404"/>
+        <location filename="../preferences.ui" line="2397"/>
         <source>Keyboard Shortcuts</source>
         <translation>Pintasan Keyboard</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2412"/>
+        <location filename="../preferences.ui" line="2405"/>
         <source>Enable/disable voice activation</source>
         <translation>Aktifkan/nonaktifkan aktivasi suara</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2439"/>
+        <location filename="../preferences.ui" line="2432"/>
         <source>Increase volume</source>
         <translation>Tingkatkan volume</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2466"/>
+        <location filename="../preferences.ui" line="2459"/>
         <source>Lower volume</source>
         <translation>Turunkan volume</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2493"/>
+        <location filename="../preferences.ui" line="2486"/>
         <source>Enable/disable mute all</source>
         <translation>Aktifkan/nonaktifkan diamkan semua</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2520"/>
+        <location filename="../preferences.ui" line="2513"/>
         <source>Increase microphone gain</source>
         <translation>Tingkatkan gain mikrofon</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2547"/>
+        <location filename="../preferences.ui" line="2540"/>
         <source>Lower microphone gain</source>
         <translation>Turunkan gain mikrofon</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2574"/>
+        <location filename="../preferences.ui" line="2567"/>
         <source>Enable/disable video transmission</source>
         <translation>Aktifkan/nonaktifkan transmisi video</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2628"/>
+        <location filename="../preferences.ui" line="2621"/>
         <source>Show/hide main window</source>
         <translation>Tampilkan/sembunyikan jendela utama</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2680"/>
+        <location filename="../preferences.ui" line="2673"/>
         <source>Video Capture Settings</source>
         <translation>Pengaturan Pengambilan Video</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2686"/>
+        <location filename="../preferences.ui" line="2679"/>
         <source>Video Capture Device</source>
         <translation>Perangkat Pengambilan Video</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2706"/>
+        <location filename="../preferences.ui" line="2699"/>
         <source>Video Resolution</source>
         <translation>Resolusi Video</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2721"/>
+        <location filename="../preferences.ui" line="2714"/>
         <source>Customize video format</source>
         <translation>Sesuaikan format video</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2735"/>
+        <location filename="../preferences.ui" line="2728"/>
         <source>Image Format</source>
         <translation>Format Gambar</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2745"/>
+        <location filename="../preferences.ui" line="2738"/>
         <source>RGB32</source>
         <translation>RGB32</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2752"/>
+        <location filename="../preferences.ui" line="2745"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2759"/>
+        <location filename="../preferences.ui" line="2752"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2783"/>
-        <location filename="../preferencesdlg.cpp" line="1361"/>
+        <location filename="../preferences.ui" line="2776"/>
+        <location filename="../preferencesdlg.cpp" line="1360"/>
         <source>Test Selected</source>
         <translation>Uji Yang Terpilih</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2811"/>
-        <location filename="../preferences.ui" line="2814"/>
+        <location filename="../preferences.ui" line="2804"/>
+        <location filename="../preferences.ui" line="2807"/>
         <source>Video Codec Settings</source>
         <translation>Pengaturan Codec Video</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2822"/>
+        <location filename="../preferences.ui" line="2815"/>
         <source>Codec</source>
         <translation>Codec</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2878"/>
+        <location filename="../preferences.ui" line="2871"/>
         <source>Bitrate</source>
         <translation>Bitrate</translation>
     </message>
@@ -5803,13 +5798,13 @@ Should these settings be applied?</translation>
         <translation>Gagal untuk menghapus %1 dari daftar pengecualian Windows Firewall</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1379"/>
+        <location filename="../preferencesdlg.cpp" line="1378"/>
         <source>Sound Initialization</source>
         <translation>Inisialisasi Suara</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1140"/>
-        <location filename="../preferencesdlg.cpp" line="1173"/>
+        <location filename="../preferencesdlg.cpp" line="1172"/>
         <source>Video Device</source>
         <translation>Perangkat Video</translation>
     </message>
@@ -5882,79 +5877,79 @@ Should these settings be applied?</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1141"/>
-        <location filename="../preferencesdlg.cpp" line="1174"/>
-        <location filename="../preferencesdlg.cpp" line="1867"/>
+        <location filename="../preferencesdlg.cpp" line="1173"/>
+        <location filename="../preferencesdlg.cpp" line="1863"/>
         <source>Failed to initialize video device</source>
         <translation>Gagal untuk menginisialisasi perangkat video</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1265"/>
+        <location filename="../preferencesdlg.cpp" line="1264"/>
         <source>Max Input Channels %1</source>
         <translation>Saluran Input Maks %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1267"/>
-        <location filename="../preferencesdlg.cpp" line="1291"/>
+        <location filename="../preferencesdlg.cpp" line="1266"/>
+        <location filename="../preferencesdlg.cpp" line="1290"/>
         <source>Sample Rates:</source>
         <translation>Sample Rates:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1289"/>
+        <location filename="../preferencesdlg.cpp" line="1288"/>
         <source>Max Output Channels %1</source>
         <translation>Saluran Output Maks %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1320"/>
+        <location filename="../preferencesdlg.cpp" line="1319"/>
         <source>Refresh Sound Devices</source>
         <translation>Segarkan Perangkat Suara</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1321"/>
+        <location filename="../preferencesdlg.cpp" line="1320"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>Gagal untuk memulai ulang sistem suara. Silakan mulai ulang aplikasi.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1362"/>
+        <location filename="../preferencesdlg.cpp" line="1361"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
         <translation>Konfigurasi perangkat suara ini memberikan pembatalan echo yang tidak optimal. Periksa manual untuk detailnya.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1380"/>
+        <location filename="../preferencesdlg.cpp" line="1379"/>
         <source>Failed to initialize new sound devices</source>
         <translation>Gagal untuk menginisialisasi perangkat suara baru</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1715"/>
+        <location filename="../preferencesdlg.cpp" line="1712"/>
         <source>Use SAPI instead of %1 screenreader</source>
         <translation>Gunakan SAPI bukan pembaca layar %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1720"/>
+        <location filename="../preferencesdlg.cpp" line="1716"/>
         <source>Speech and Braille</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1722"/>
+        <location filename="../preferencesdlg.cpp" line="1718"/>
         <source>Braille only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1724"/>
+        <location filename="../preferencesdlg.cpp" line="1720"/>
         <source>Speech only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1826"/>
+        <location filename="../preferencesdlg.cpp" line="1822"/>
         <source>Custom video format</source>
         <translation>Format video khusus</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1919"/>
+        <location filename="../preferencesdlg.cpp" line="1915"/>
         <source>Default Video Capture</source>
         <translation>Pengambilan Video Default</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1920"/>
+        <location filename="../preferencesdlg.cpp" line="1916"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Tidak dapat menemukan pengaturan pengambilan video pilihan</translation>
     </message>
@@ -6009,7 +6004,7 @@ Should these settings be applied?</translation>
         <translation>Ucapkan item yang dipilih dalam daftar</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2601"/>
+        <location filename="../preferences.ui" line="2594"/>
         <source>Reinitialize sound devices</source>
         <translation>Inisialisasi ulang perangkat suara</translation>
     </message>
