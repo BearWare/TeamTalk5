@@ -2086,9 +2086,16 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("join chan success", waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
 
-        for (int i=0; i < Constants.TT_USERID_MAX + Constants.TT_USERID_MAX + Constants.TT_CHANNELID_MAX + Constants.TT_CHANNELID_MAX;) {
-            if (ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, ttclient.getMyUserID()))
-                ++i;
+        assertTrue("get channel", ttclient.getChannel(ttclient.getMyChannelID(), chan));
+
+        while (ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, ttclient.getMyUserID())) {
+            int nextuserdata = ++chan.nUserData;
+            assertTrue("update channel", ttclient.doUpdateChannel(chan) >= 0);
+            while (ttclient.getChannel(ttclient.getMyChannelID(), chan) && chan.nUserData != nextuserdata) {
+                if (!ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, ttclient.getMyUserID()))
+                    break;
+                Thread.sleep(0, 1);
+            }
         }
 
         assertTrue("Internal error", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, DEF_WAIT, msg));
