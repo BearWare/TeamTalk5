@@ -5541,7 +5541,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="2372"/>
         <source>Switch to SAPI if current screenreader is not available</source>
-        <translation type="unfinished"></translation>
+        <translation>如果当前屏幕阅读器不可用，则切换到 SAPI</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2398"/>
@@ -5841,7 +5841,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="1717"/>
         <source>Switch to SAPI if %1 screenreader is not available</source>
-        <translation type="unfinished"></translation>
+        <translation>如果 %1 屏幕阅读器不可用，则切换到 SAPI</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1723"/>
