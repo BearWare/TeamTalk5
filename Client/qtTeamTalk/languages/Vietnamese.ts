@@ -4921,15 +4921,15 @@ Bạn có muốn áp dụng các thiết lập này không?</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="308"/>
-        <location filename="../preferences.ui" line="2422"/>
-        <location filename="../preferences.ui" line="2449"/>
-        <location filename="../preferences.ui" line="2476"/>
-        <location filename="../preferences.ui" line="2503"/>
-        <location filename="../preferences.ui" line="2530"/>
-        <location filename="../preferences.ui" line="2557"/>
-        <location filename="../preferences.ui" line="2584"/>
-        <location filename="../preferences.ui" line="2611"/>
-        <location filename="../preferences.ui" line="2638"/>
+        <location filename="../preferences.ui" line="2429"/>
+        <location filename="../preferences.ui" line="2456"/>
+        <location filename="../preferences.ui" line="2483"/>
+        <location filename="../preferences.ui" line="2510"/>
+        <location filename="../preferences.ui" line="2537"/>
+        <location filename="../preferences.ui" line="2564"/>
+        <location filename="../preferences.ui" line="2591"/>
+        <location filename="../preferences.ui" line="2618"/>
+        <location filename="../preferences.ui" line="2645"/>
         <source>&amp;Setup Keys</source>
         <translation>Thiết lập phím</translation>
     </message>
@@ -5122,7 +5122,7 @@ Bạn có muốn áp dụng các thiết lập này không?</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="844"/>
-        <location filename="../preferences.ui" line="2667"/>
+        <location filename="../preferences.ui" line="2674"/>
         <source>Video Capture</source>
         <translation>Video</translation>
     </message>
@@ -5247,7 +5247,7 @@ Bạn có muốn áp dụng các thiết lập này không?</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1296"/>
-        <location filename="../preferences.ui" line="2957"/>
+        <location filename="../preferences.ui" line="2964"/>
         <source>&amp;Default</source>
         <translation>Mặc định</translation>
     </message>
@@ -5542,114 +5542,119 @@ Bạn có muốn áp dụng các thiết lập này không?</translation>
         <translation>Sử dụng SAPI thay vì trình đọc màn hình hiện tại</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2391"/>
+        <location filename="../preferences.ui" line="2372"/>
+        <source>Switch to SAPI if current screenreader is not available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="2398"/>
         <source>Shortcuts</source>
         <translation>Phím tắt</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2397"/>
+        <location filename="../preferences.ui" line="2404"/>
         <source>Keyboard Shortcuts</source>
         <translation>Các phím tắt bàn phím</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2405"/>
+        <location filename="../preferences.ui" line="2412"/>
         <source>Enable/disable voice activation</source>
         <translation>Bật/tắt kích hoạt bằng giọng nói</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2432"/>
+        <location filename="../preferences.ui" line="2439"/>
         <source>Increase volume</source>
         <translation>Tăng âm lượng</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2459"/>
+        <location filename="../preferences.ui" line="2466"/>
         <source>Lower volume</source>
         <translation>Giảm âm lượng</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2486"/>
+        <location filename="../preferences.ui" line="2493"/>
         <source>Enable/disable mute all</source>
         <translation>Bật/tắt tắt tiếng tất cả</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2513"/>
+        <location filename="../preferences.ui" line="2520"/>
         <source>Increase microphone gain</source>
         <translation>Increase microphone gain</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2540"/>
+        <location filename="../preferences.ui" line="2547"/>
         <source>Lower microphone gain</source>
         <translation>Lower microphone gain</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2567"/>
+        <location filename="../preferences.ui" line="2574"/>
         <source>Enable/disable video transmission</source>
         <translation>Bật/tắt video</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2621"/>
+        <location filename="../preferences.ui" line="2628"/>
         <source>Show/hide main window</source>
         <translation>Hiện/ẩn cửa sổ chính</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2673"/>
+        <location filename="../preferences.ui" line="2680"/>
         <source>Video Capture Settings</source>
         <translation>Thiết lập video</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2679"/>
+        <location filename="../preferences.ui" line="2686"/>
         <source>Video Capture Device</source>
         <translation>Thiết bị quay video</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2699"/>
+        <location filename="../preferences.ui" line="2706"/>
         <source>Video Resolution</source>
         <translation>Độ phân giải video</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2714"/>
+        <location filename="../preferences.ui" line="2721"/>
         <source>Customize video format</source>
         <translation>Tùy chỉnh định dạng video</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2728"/>
+        <location filename="../preferences.ui" line="2735"/>
         <source>Image Format</source>
         <translation>Định dạng hình ảnh</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2738"/>
+        <location filename="../preferences.ui" line="2745"/>
         <source>RGB32</source>
         <translation>RGB32</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2745"/>
+        <location filename="../preferences.ui" line="2752"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2752"/>
+        <location filename="../preferences.ui" line="2759"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2776"/>
-        <location filename="../preferencesdlg.cpp" line="1360"/>
+        <location filename="../preferences.ui" line="2783"/>
+        <location filename="../preferencesdlg.cpp" line="1361"/>
         <source>Test Selected</source>
         <translation>Kiểm tra</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2804"/>
-        <location filename="../preferences.ui" line="2807"/>
+        <location filename="../preferences.ui" line="2811"/>
+        <location filename="../preferences.ui" line="2814"/>
         <source>Video Codec Settings</source>
         <translation>Cài đặt mã hóa Video</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2815"/>
+        <location filename="../preferences.ui" line="2822"/>
         <source>Codec</source>
         <translation>Codec</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2871"/>
+        <location filename="../preferences.ui" line="2878"/>
         <source>Bitrate</source>
         <translation>Bitrate</translation>
     </message>
@@ -5706,13 +5711,13 @@ Bạn có muốn áp dụng các thiết lập này không?</translation>
         <translation>Không thể xóa %1 khỏi danh sách ngoại lệ của Tường lửa Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1378"/>
+        <location filename="../preferencesdlg.cpp" line="1379"/>
         <source>Sound Initialization</source>
         <translation>Khởi tạo âm thanh</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1140"/>
-        <location filename="../preferencesdlg.cpp" line="1172"/>
+        <location filename="../preferencesdlg.cpp" line="1173"/>
         <source>Video Device</source>
         <translation>Thiết bị video</translation>
     </message>
@@ -5790,79 +5795,84 @@ Bạn có muốn áp dụng các thiết lập này không?</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1141"/>
-        <location filename="../preferencesdlg.cpp" line="1173"/>
-        <location filename="../preferencesdlg.cpp" line="1863"/>
+        <location filename="../preferencesdlg.cpp" line="1174"/>
+        <location filename="../preferencesdlg.cpp" line="1870"/>
         <source>Failed to initialize video device</source>
         <translation>Không thể khởi chạy thiết bị video</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1264"/>
+        <location filename="../preferencesdlg.cpp" line="1265"/>
         <source>Max Input Channels %1</source>
         <translation>Kênh đầu vào tối đa %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1266"/>
-        <location filename="../preferencesdlg.cpp" line="1290"/>
+        <location filename="../preferencesdlg.cpp" line="1267"/>
+        <location filename="../preferencesdlg.cpp" line="1291"/>
         <source>Sample Rates:</source>
         <translation>Sample Rates:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1288"/>
+        <location filename="../preferencesdlg.cpp" line="1289"/>
         <source>Max Output Channels %1</source>
         <translation>Kênh đầu ra tối đa %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1319"/>
+        <location filename="../preferencesdlg.cpp" line="1320"/>
         <source>Refresh Sound Devices</source>
         <translation>Làm mới lại thiết bị âm thanh</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1320"/>
+        <location filename="../preferencesdlg.cpp" line="1321"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>Không thể khởi động lại hệ thống âm thanh. Vui lòng khởi động lại ứng dụng.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1361"/>
+        <location filename="../preferencesdlg.cpp" line="1362"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
         <translation>Cấu hình thiết bị âm thanh này mang lại khả năng khử tiếng vang dưới mức tối ưu. Kiểm tra hướng dẫn để biết chi tiết.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1379"/>
+        <location filename="../preferencesdlg.cpp" line="1380"/>
         <source>Failed to initialize new sound devices</source>
         <translation>Không thể khởi tạo thiết bị âm thanh mới</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1712"/>
+        <location filename="../preferencesdlg.cpp" line="1716"/>
         <source>Use SAPI instead of %1 screenreader</source>
         <translation>Sử dụng SAPI thay vì trình đọc màn hình %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1716"/>
+        <location filename="../preferencesdlg.cpp" line="1717"/>
+        <source>Switch to SAPI if %1 screenreader is not available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="1723"/>
         <source>Speech and Braille</source>
         <translation>Giọng nói và chữ nổi</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1718"/>
+        <location filename="../preferencesdlg.cpp" line="1725"/>
         <source>Braille only</source>
         <translation>Chỉ chữ nổi</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1720"/>
+        <location filename="../preferencesdlg.cpp" line="1727"/>
         <source>Speech only</source>
         <translation>Chỉ giọng nói</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1822"/>
+        <location filename="../preferencesdlg.cpp" line="1829"/>
         <source>Custom video format</source>
         <translation>Định dạng video tùy chỉnh</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1915"/>
+        <location filename="../preferencesdlg.cpp" line="1922"/>
         <source>Default Video Capture</source>
         <translation>Mặc định video</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1916"/>
+        <location filename="../preferencesdlg.cpp" line="1923"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Không thể tìm thấy cài đặt video</translation>
     </message>
@@ -5917,7 +5927,7 @@ Bạn có muốn áp dụng các thiết lập này không?</translation>
         <translation>Nói mục đã chọn trong danh sách</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2594"/>
+        <location filename="../preferences.ui" line="2601"/>
         <source>Reinitialize sound devices</source>
         <translation>Đặt lại các thiết bị âm thanh</translation>
     </message>
