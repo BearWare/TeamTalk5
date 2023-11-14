@@ -4982,15 +4982,15 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="308"/>
-        <location filename="../preferences.ui" line="2422"/>
-        <location filename="../preferences.ui" line="2449"/>
-        <location filename="../preferences.ui" line="2476"/>
-        <location filename="../preferences.ui" line="2503"/>
-        <location filename="../preferences.ui" line="2530"/>
-        <location filename="../preferences.ui" line="2557"/>
-        <location filename="../preferences.ui" line="2584"/>
-        <location filename="../preferences.ui" line="2611"/>
-        <location filename="../preferences.ui" line="2638"/>
+        <location filename="../preferences.ui" line="2429"/>
+        <location filename="../preferences.ui" line="2456"/>
+        <location filename="../preferences.ui" line="2483"/>
+        <location filename="../preferences.ui" line="2510"/>
+        <location filename="../preferences.ui" line="2537"/>
+        <location filename="../preferences.ui" line="2564"/>
+        <location filename="../preferences.ui" line="2591"/>
+        <location filename="../preferences.ui" line="2618"/>
+        <location filename="../preferences.ui" line="2645"/>
         <source>&amp;Setup Keys</source>
         <translation>Tasten &amp;definieren</translation>
     </message>
@@ -5294,17 +5294,17 @@ Should these settings be applied?</source>
         <translation>SAPI anstelle des momentanen Bildschirmlesers verwenden</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2621"/>
+        <location filename="../preferences.ui" line="2628"/>
         <source>Show/hide main window</source>
         <translation>Hauptfenster zeigen/verstecken</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2714"/>
+        <location filename="../preferences.ui" line="2721"/>
         <source>Customize video format</source>
         <translation>Videoformat anpassen</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2871"/>
+        <location filename="../preferences.ui" line="2878"/>
         <source>Bitrate</source>
         <translation>Bitrate</translation>
     </message>
@@ -5500,7 +5500,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="1296"/>
-        <location filename="../preferences.ui" line="2957"/>
+        <location filename="../preferences.ui" line="2964"/>
         <source>&amp;Default</source>
         <translation>&amp;Standard</translation>
     </message>
@@ -5612,105 +5612,110 @@ Should these settings be applied?</source>
         <translation>Sprachausgabenmodus</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2391"/>
+        <location filename="../preferences.ui" line="2372"/>
+        <source>Switch to SAPI if current screenreader is not available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="2398"/>
         <source>Shortcuts</source>
         <translation>Tastenkombinationen</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2397"/>
+        <location filename="../preferences.ui" line="2404"/>
         <source>Keyboard Shortcuts</source>
         <translation>Tastaturkürzel</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2405"/>
+        <location filename="../preferences.ui" line="2412"/>
         <source>Enable/disable voice activation</source>
         <translation>Spracherkennung ein/ausschalten</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2432"/>
+        <location filename="../preferences.ui" line="2439"/>
         <source>Increase volume</source>
         <translation>Lautstärke erhöhen</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2459"/>
+        <location filename="../preferences.ui" line="2466"/>
         <source>Lower volume</source>
         <translation>Lautstärke verringern</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2486"/>
+        <location filename="../preferences.ui" line="2493"/>
         <source>Enable/disable mute all</source>
         <translation>Alles stumm schalten ein/aus</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2513"/>
+        <location filename="../preferences.ui" line="2520"/>
         <source>Increase microphone gain</source>
         <translation>Mikrofonverstärkung erhöhen</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2540"/>
+        <location filename="../preferences.ui" line="2547"/>
         <source>Lower microphone gain</source>
         <translation>Mikrofonverstärkung verringern</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2567"/>
+        <location filename="../preferences.ui" line="2574"/>
         <source>Enable/disable video transmission</source>
         <translation>Videoübertragung ein/aus</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="844"/>
-        <location filename="../preferences.ui" line="2667"/>
+        <location filename="../preferences.ui" line="2674"/>
         <source>Video Capture</source>
         <translation>Videoerfassung</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2673"/>
+        <location filename="../preferences.ui" line="2680"/>
         <source>Video Capture Settings</source>
         <translation>Videoeinstellungen</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2679"/>
+        <location filename="../preferences.ui" line="2686"/>
         <source>Video Capture Device</source>
         <translation>Videogerät</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2699"/>
+        <location filename="../preferences.ui" line="2706"/>
         <source>Video Resolution</source>
         <translation>Videoauflösung</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2728"/>
+        <location filename="../preferences.ui" line="2735"/>
         <source>Image Format</source>
         <translation>Bildformat</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2738"/>
+        <location filename="../preferences.ui" line="2745"/>
         <source>RGB32</source>
         <translation>RGB32</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2745"/>
+        <location filename="../preferences.ui" line="2752"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2752"/>
+        <location filename="../preferences.ui" line="2759"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2776"/>
-        <location filename="../preferencesdlg.cpp" line="1360"/>
+        <location filename="../preferences.ui" line="2783"/>
+        <location filename="../preferencesdlg.cpp" line="1361"/>
         <source>Test Selected</source>
         <translation>Gewählte testen</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2804"/>
-        <location filename="../preferences.ui" line="2807"/>
+        <location filename="../preferences.ui" line="2811"/>
+        <location filename="../preferences.ui" line="2814"/>
         <source>Video Codec Settings</source>
         <translation>Videocodec-Einstellungen</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2815"/>
+        <location filename="../preferences.ui" line="2822"/>
         <source>Codec</source>
         <translation>Codec</translation>
     </message>
@@ -5829,18 +5834,18 @@ Should these settings be applied?</source>
         <translation>Konnte %1 nicht aus der Ausnahmenliste der Windows-Firewall entfernen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1361"/>
+        <location filename="../preferencesdlg.cpp" line="1362"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
         <translation>Diese Soundkarten-Konfiguration bietet eine weniger optimale Echounterdrückung. Weitere Informationen findest du in der Anleitung.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1378"/>
+        <location filename="../preferencesdlg.cpp" line="1379"/>
         <source>Sound Initialization</source>
         <translation>Sound-Initialisierung</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1140"/>
-        <location filename="../preferencesdlg.cpp" line="1172"/>
+        <location filename="../preferencesdlg.cpp" line="1173"/>
         <source>Video Device</source>
         <translation>Videogerät</translation>
     </message>
@@ -5856,74 +5861,79 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1141"/>
-        <location filename="../preferencesdlg.cpp" line="1173"/>
-        <location filename="../preferencesdlg.cpp" line="1863"/>
+        <location filename="../preferencesdlg.cpp" line="1174"/>
+        <location filename="../preferencesdlg.cpp" line="1870"/>
         <source>Failed to initialize video device</source>
         <translation>Fehler beim Initialisieren des Videogerätes</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1264"/>
+        <location filename="../preferencesdlg.cpp" line="1265"/>
         <source>Max Input Channels %1</source>
         <translation>Max. Eingabekanäle %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1266"/>
-        <location filename="../preferencesdlg.cpp" line="1290"/>
+        <location filename="../preferencesdlg.cpp" line="1267"/>
+        <location filename="../preferencesdlg.cpp" line="1291"/>
         <source>Sample Rates:</source>
         <translation>Abtastfrequenzen:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1288"/>
+        <location filename="../preferencesdlg.cpp" line="1289"/>
         <source>Max Output Channels %1</source>
         <translation>Max. Ausgabekanäle %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1319"/>
+        <location filename="../preferencesdlg.cpp" line="1320"/>
         <source>Refresh Sound Devices</source>
         <translation>Soundgeräte aktualisieren</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1320"/>
+        <location filename="../preferencesdlg.cpp" line="1321"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>Fehler beim Neustarten der Soundsysteme. Bitte starte die Anwendung neu.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1379"/>
+        <location filename="../preferencesdlg.cpp" line="1380"/>
         <source>Failed to initialize new sound devices</source>
         <translation>Fehler beim Initialisieren der neuen Soundgeräte</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1712"/>
+        <location filename="../preferencesdlg.cpp" line="1716"/>
         <source>Use SAPI instead of %1 screenreader</source>
         <translation>SAPI anstelle des %1 Bildschirmlesers verwenden</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1716"/>
+        <location filename="../preferencesdlg.cpp" line="1717"/>
+        <source>Switch to SAPI if %1 screenreader is not available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="1723"/>
         <source>Speech and Braille</source>
         <translation>Sprache und Braille</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1718"/>
+        <location filename="../preferencesdlg.cpp" line="1725"/>
         <source>Braille only</source>
         <translation>Nur Braille</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1720"/>
+        <location filename="../preferencesdlg.cpp" line="1727"/>
         <source>Speech only</source>
         <translation>Nur Sprache</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1822"/>
+        <location filename="../preferencesdlg.cpp" line="1829"/>
         <source>Custom video format</source>
         <translation>Benutzerdefiniertes Videoformat</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1915"/>
+        <location filename="../preferencesdlg.cpp" line="1922"/>
         <source>Default Video Capture</source>
         <translation>Standard-Videoerfassung</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1916"/>
+        <location filename="../preferencesdlg.cpp" line="1923"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Konnte bevorzugte Videoerfassungseinstellungen nicht finden</translation>
     </message>
@@ -5978,7 +5988,7 @@ Should these settings be applied?</source>
         <translation>Gewählten Eintrag in Listen ansagen</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2594"/>
+        <location filename="../preferences.ui" line="2601"/>
         <source>Reinitialize sound devices</source>
         <translation>Audiogeräte re-inizialisieren</translation>
     </message>

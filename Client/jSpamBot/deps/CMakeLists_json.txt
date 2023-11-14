@@ -1,0 +1,14 @@
+cmake_minimum_required(VERSION 3.5)
+
+project(JSON-java)
+
+find_package (Java REQUIRED)
+include (UseJava)
+
+set(CMAKE_JAVA_COMPILE_FLAGS "-source" "11" "-target" "11")
+
+file (GLOB_RECURSE JSONJAVA_SRCS src/main/java/*.java)
+
+add_jar (org-json SOURCES ${JSONJAVA_SRCS})
+
+install_jar (org-json DESTINATION ${CMAKE_INSTALL_PREFIX})

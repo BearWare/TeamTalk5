@@ -6,13 +6,15 @@ if (Java_FOUND)
 
   include (UseJava)
 
+  add_subdirectory(deps)
+
   option (BUILD_TEAMTALK_CLIENT_JSPAMBOT "Build TeamTalk Anti Spam Bot" ON)
 
   set(CMAKE_JAVA_COMPILE_FLAGS "-source" "11" "-target" "11")
 
   set (JAVA_SOURCES src/SpamBotSession.java src/WebLogin.java
     src/Main.java src/TeamTalkServer.java src/IPBan.java
-    src/BadWords.java src/Abuse.java)
+    src/BadWords.java src/Abuse.java src/AbuseDB.java)
 
   if (BUILD_TEAMTALK_CLIENT_JSPAMBOT)
 
@@ -27,8 +29,11 @@ if (Java_FOUND)
       message("Cannot find TeamTalk5.jar")
     else()
       add_jar (jTeamTalkSpamBot INCLUDE_JARS ${TEAMTALKJAR_LIBRARY}
+        ${CMAKE_CURRENT_BINARY_DIR}/deps/org-json.jar
         ENTRY_POINT Main
         SOURCES ${JAVA_SOURCES})
+      add_dependencies(jTeamTalkSpamBot JSON-java-src) # required for -G "Unix Makefiles"
+      install_jar (jTeamTalkSpamBot DESTINATION Client/jSpamBot)
     endif()
   endif()
 endif()

@@ -1153,6 +1153,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_TTS_TIMESTAMP, ui.ttsNotifTimestampSpinBox->value());
 #elif defined(Q_OS_WIN)
         ttSettings->setValue(SETTINGS_TTS_SAPI, ui.ttsForceSapiChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_TTS_TRY_SAPI, ui.ttsTrySapiChkBox->isChecked());
         ttSettings->setValue(SETTINGS_TTS_OUTPUT_MODE, getCurrentItemData(ui.ttsOutputModeComboBox, ""));
 #elif defined(Q_OS_DARWIN)
 #if QT_VERSION < QT_VERSION_CHECK(6,4,0)
@@ -1633,6 +1634,7 @@ void PreferencesDlg::slotUpdateTTSTab()
     ui.ttsNotifTimestampSpinBox->hide();
 
     ui.ttsForceSapiChkBox->hide();
+    ui.ttsTrySapiChkBox->hide();
     ui.ttsSpeakListsChkBox->hide();
     ui.label_ttsoutputmode->hide();
     ui.ttsOutputModeComboBox->hide();
@@ -1699,6 +1701,7 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.label_ttsoutputmode->show();
         ui.ttsOutputModeComboBox->show();
         ui.ttsForceSapiChkBox->show();
+        ui.ttsTrySapiChkBox->show();
 
         bool tolkLoaded = Tolk_IsLoaded();
         if (!tolkLoaded)
@@ -1709,8 +1712,12 @@ void PreferencesDlg::slotUpdateTTSTab()
         if (!tolkLoaded)
             Tolk_Unload();
         if(currentSR.size())
+        {
             ui.ttsForceSapiChkBox->setText(tr("Use SAPI instead of %1 screenreader").arg(currentSR));
+            ui.ttsTrySapiChkBox->setText(tr("Switch to SAPI if %1 screenreader is not available").arg(currentSR));
+        }
         ui.ttsForceSapiChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SAPI, SETTINGS_TTS_SAPI_DEFAULT).toBool());
+        ui.ttsTrySapiChkBox->setChecked(ttSettings->value(SETTINGS_TTS_TRY_SAPI, SETTINGS_TTS_TRY_SAPI_DEFAULT).toBool());
         ui.ttsOutputModeComboBox->clear();
         if (hasSpeech == true && hasBraille == true)
             ui.ttsOutputModeComboBox->addItem(tr("Speech and Braille"), TTS_OUTPUTMODE_SPEECHBRAILLE);
