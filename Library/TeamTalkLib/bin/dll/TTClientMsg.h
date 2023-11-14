@@ -62,9 +62,11 @@ public:
 
     TTBOOL GetMessage(TTMessage& msg, ACE_Time_Value* tv);
 
-    //ClientListener
+    TTBOOL IsSuspended() const { return m_suspended; }
+
     void RegisterEventSuspender(teamtalk::EventSuspender* suspender) override;
 
+    //ClientListener
     void OnConnectSuccess() override;
     void OnConnectFailed() override;
     void OnConnectionLost() override;
