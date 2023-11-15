@@ -5633,7 +5633,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferences.ui" line="2372"/>
         <source>Switch to SAPI if current screenreader is not available</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключитесь на SAPI, если текущая программа чтения с экрана недоступна</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2398"/>
@@ -5935,7 +5935,7 @@ You can download it on the page below:
     <message>
         <location filename="../preferencesdlg.cpp" line="1717"/>
         <source>Switch to SAPI if %1 screenreader is not available</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключитесь на SAPI, если программа для чтения с экрана %1 недоступна</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1723"/>
