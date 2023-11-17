@@ -41,15 +41,6 @@ Android Client
 - Fixed importing of tt files on newer android versions
 - It is now possible to select language for TeamTalk on Android 13 and above from app languages settings
 
-Version 5.14.2, unreleased
-Android Client
-- Fixed crash issue on Android 14 upon establishing connection to server
-
-Version 5.14.1, 2023/10/21
-Android Client
-- Fixed importing of tt files on newer android versions
-- It is now possible to select language for TeamTalk on Android 13 and above from app languages settings
-
 Version 5.14, 2023/08/16
 Default Qt Client
 - Support for verifying authenticity of encrypted TeamTalk servers using certificates
