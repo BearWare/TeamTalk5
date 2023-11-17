@@ -1327,10 +1327,14 @@ void MainWindow::clienteventInternalError(const ClientErrorMsg& clienterrormsg)
         textmsg = tr("Failed to initialize sound output device"); break;
     case INTERR_AUDIOCODEC_INIT_FAILED :
         textmsg = tr("Failed to initialize audio codec"); break;
+    case INTERR_AUDIOPREPROCESSOR_INIT_FAILED :
+        textmsg = tr("Audio preprocessor failed to initialize"); break;
+    case INTERR_SNDEFFECT_FAILURE :
+        textmsg = tr("An audio effect could not be applied on the sound device"); break;
     case INTERR_SPEEXDSP_INIT_FAILED :
         critical = false;
         textmsg = tr("Failed to initialize audio configuration"); break;
-    case INTERR_TTMESSAGE_QUEUE_OVERFLOW :
+    case INTERR_MSGQUEUE_OVERFLOW :
         critical = false;
         textmsg = tr("Internal message queue overloaded"); break;
     default :
@@ -2168,6 +2172,8 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
     case CMDERR_SERVER_BANNED :
         title = tr("Login error");
         textmsg = tr("Banned from server"); break;
+    case CMDERR_CHANNEL_BANNED :
+        textmsg = tr("Banned from channel");    break;
     case CMDERR_NOT_AUTHORIZED :
         textmsg = tr("Command not authorized");    break;
     case CMDERR_MAX_SERVER_USERS_EXCEEDED :
@@ -2179,10 +2185,16 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
         textmsg = tr("Maximum number of users in channel exceeded"); break;
     case CMDERR_INCORRECT_OP_PASSWORD :
         textmsg = tr("Incorrect channel operator password"); break;
+    case CMDERR_MAX_LOGINS_PER_IPADDRESS_EXCEEDED :
+        textmsg = tr("Maximum number of logins per IP-address exceeded"); break;
+    case CMDERR_AUDIOCODEC_BITRATE_LIMIT_EXCEEDED :
+        textmsg = tr("Maximum bitrate for audio codec exceeded"); break;
     case CMDERR_MAX_CHANNELS_EXCEEDED :
         textmsg = tr("The maximum number of channels has been exceeded"); break;
     case CMDERR_COMMAND_FLOOD :
         textmsg = tr("Command flooding prevented by server"); break;
+    case CMDERR_MAX_FILETRANSFERS_EXCEEDED :
+        textmsg = tr("Maximum number of file transfers exceeded"); break;
 
         // state errors
     case CMDERR_ALREADY_LOGGEDIN :
