@@ -347,7 +347,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     /* Begin - Me menu */
     connect(ui.actionChangeNickname, &QAction::triggered,
             this, &MainWindow::slotMeChangeNickname);
-    connect(ui.actionChangeStatus, &QAction::triggered,
+    connect(ui.action`, &QAction::triggered,
             this, &MainWindow::slotMeChangeStatus);
     connect(ui.actionHearMyself, &QAction::triggered,
             this, &MainWindow::slotMeHearMyself);
@@ -2512,10 +2512,7 @@ void MainWindow::updateIdleTimeout()
         {
             m_statusmode |= STATUSMODE_AWAY;
             statusmsg = (ttSettings->value(SETTINGS_GENERAL_AWAY_STATUSMSG).toString().isEmpty()?statusmsg:ttSettings->value(SETTINGS_GENERAL_AWAY_STATUSMSG).toString());
-            if (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
-            {
-                TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
-            }
+            TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
             m_idled_out = true;
             if (ttSettings->value(SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT, SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT_DEFAULT).toBool() &&
                 ttSettings->value(SETTINGS_GENERAL_VOICEACTIVATED, SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT).toBool())
@@ -2526,10 +2523,7 @@ void MainWindow::updateIdleTimeout()
         else if (m_idled_out && !isComputerIdle(idle_time))
         {
             m_statusmode &= ~STATUSMODE_AWAY;
-            if (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
-            {
-                TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
-            }
+            TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
             m_idled_out = false;
             if (ttSettings->value(SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT, SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT_DEFAULT).toBool() &&
                 ttSettings->value(SETTINGS_GENERAL_VOICEACTIVATED, SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT).toBool())
@@ -4573,11 +4567,8 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
             }
 
             m_statusmode |= STATUSMODE_VIDEOTX;
-            if(flags & CLIENT_AUTHORIZED)
-            {
-                TT_DoChangeStatus(ttInst, m_statusmode, 
+            TT_DoChangeStatus(ttInst, m_statusmode, 
                 _W(ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString()));
-            }
             ttSettings->setValue(SETTINGS_VIDCAP_ENABLE, true);
             transmitOn(STREAMTYPE_VIDEOCAPTURE);
             addTextToSpeechMessage(TTS_TOGGLE_VIDEOTRANSMISSION, tr("Video transmission enabled"));
@@ -4588,11 +4579,8 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
         TT_StopVideoCaptureTransmission(ttInst);
         TT_CloseVideoCaptureDevice(ttInst);
         m_statusmode &= ~STATUSMODE_VIDEOTX;
-        if(flags & CLIENT_AUTHORIZED)
-        {
-            TT_DoChangeStatus(ttInst, m_statusmode, 
+        TT_DoChangeStatus(ttInst, m_statusmode, 
             _W(ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString()));
-        }
 
         //remove local from video grid
         if(ui.videogridWidget->userExists(0))
@@ -4643,8 +4631,7 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
 
             m_statusmode |= STATUSMODE_DESKTOP;
             QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
-            if(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
-                TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
+            TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
             transmitOn(STREAMTYPE_DESKTOP);
             addTextToSpeechMessage(TTS_TOGGLE_DESKTOPTRANSMISSION, tr("Desktop sharing enabled"));
         }
@@ -4664,8 +4651,7 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
 #endif
             m_statusmode &= ~STATUSMODE_DESKTOP;
             QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
-            if(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
-                TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
+            TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
             addTextToSpeechMessage(TTS_TOGGLE_DESKTOPTRANSMISSION, tr("Desktop sharing disabled"));
     }
 }
@@ -7084,8 +7070,7 @@ void MainWindow::slotToggleQuestionMode(bool checked)
         m_statusmode &= ~STATUSMODE_QUESTION;
 
     QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
-    if(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
-        TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
+    TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
 }
 
 void MainWindow::slotUpdateVideoCount(int count)
