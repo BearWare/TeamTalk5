@@ -347,7 +347,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     /* Begin - Me menu */
     connect(ui.actionChangeNickname, &QAction::triggered,
             this, &MainWindow::slotMeChangeNickname);
-    connect(ui.action`, &QAction::triggered,
+    connect(ui.actionChangeStatus, &QAction::triggered,
             this, &MainWindow::slotMeChangeStatus);
     connect(ui.actionHearMyself, &QAction::triggered,
             this, &MainWindow::slotMeHearMyself);
