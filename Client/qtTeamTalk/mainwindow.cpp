@@ -6040,7 +6040,6 @@ void MainWindow::slotUpdateUI()
     ui.actionEnableAGC->setChecked(ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool());
     ui.actionEnableDenoising->setChecked(ttSettings->value(SETTINGS_SOUND_DENOISING, SETTINGS_SOUND_DENOISING_DEFAULT).toBool());
     ui.actionSpeakClientStats->setEnabled(tts);
-    ui.actionChangeStatus->setEnabled(auth);
 #ifdef Q_OS_WIN32
     ui.actionEnablePushToTalk->setChecked(TT_HotKey_IsActive(ttInst, HOTKEY_PUSHTOTALK) >= 0);
 #elif defined(Q_OS_LINUX) || defined(Q_OS_DARWIN)
