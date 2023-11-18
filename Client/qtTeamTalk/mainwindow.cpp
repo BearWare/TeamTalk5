@@ -1331,10 +1331,7 @@ void MainWindow::clienteventInternalError(const ClientErrorMsg& clienterrormsg)
         textmsg = tr("Audio preprocessor failed to initialize"); break;
     case INTERR_SNDEFFECT_FAILURE :
         textmsg = tr("An audio effect could not be applied on the sound device"); break;
-    case INTERR_SPEEXDSP_INIT_FAILED :
-        critical = false;
-        textmsg = tr("Failed to initialize audio configuration"); break;
-    case INTERR_MSGQUEUE_OVERFLOW :
+    case INTERR_TTMESSAGE_QUEUE_OVERFLOW :
         critical = false;
         textmsg = tr("Internal message queue overloaded"); break;
     default :
