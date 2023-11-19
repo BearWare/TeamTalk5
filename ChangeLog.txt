@@ -4,7 +4,6 @@
 
 Version 5.15, unreleased
 Default Qt Client
-- enabled change status option when not connected
 - PulseAudio support on Ubuntu 22
 - User right to prevent private text messages
 - User right to prevent channel text messages
