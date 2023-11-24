@@ -1640,7 +1640,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="215"/>
         <location filename="../mainwindow.ui" line="240"/>
         <location filename="../mainwindow.ui" line="243"/>
-        <location filename="../mainwindow.cpp" line="3234"/>
+        <location filename="../mainwindow.cpp" line="3243"/>
         <source>Microphone gain</source>
         <translation>마이크 음량</translation>
     </message>
@@ -1680,7 +1680,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="399"/>
         <location filename="../mainwindow.ui" line="1737"/>
-        <location filename="../mainwindow.cpp" line="7095"/>
+        <location filename="../mainwindow.cpp" line="7104"/>
         <source>&amp;Video</source>
         <translation>동영상 (&amp;V)</translation>
     </message>
@@ -1738,13 +1738,13 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="674"/>
-        <location filename="../mainwindow.cpp" line="7103"/>
+        <location filename="../mainwindow.cpp" line="7112"/>
         <source>&amp;Desktops</source>
         <translation>화면 공유 (&amp;D)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="960"/>
-        <location filename="../mainwindow.cpp" line="3101"/>
+        <location filename="../mainwindow.cpp" line="3110"/>
         <source>&amp;Files</source>
         <translation>파일 (&amp;F)</translation>
     </message>
@@ -1859,7 +1859,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1435"/>
-        <location filename="../mainwindow.cpp" line="2559"/>
+        <location filename="../mainwindow.cpp" line="2568"/>
         <source>&amp;Exit</source>
         <translation>끝내기 (&amp;E)</translation>
     </message>
@@ -1930,7 +1930,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1511"/>
-        <location filename="../mainwindow.cpp" line="6147"/>
+        <location filename="../mainwindow.cpp" line="6156"/>
         <source>&amp;Join Channel</source>
         <translation>채널에 입장 (&amp;J)</translation>
     </message>
@@ -2701,7 +2701,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="905"/>
-        <location filename="../mainwindow.cpp" line="2672"/>
+        <location filename="../mainwindow.cpp" line="2681"/>
         <source>Firewall exception</source>
         <translation>방화벽 예외</translation>
     </message>
@@ -2721,13 +2721,13 @@ p, li { white-space: pre-wrap; }
         <translation>&quot;%1&quot; 프로그램 인수를 인식할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2071"/>
+        <location filename="../mainwindow.cpp" line="2072"/>
         <source>Connected to %1 TCP port %2 UDP port %3</source>
         <translation>연결됨: %1 TCP 포트 %2 UDP 포트 %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="984"/>
-        <location filename="../mainwindow.cpp" line="2009"/>
+        <location filename="../mainwindow.cpp" line="2010"/>
         <source>Failed to connect to %1 TCP port %2 UDP port %3</source>
         <translation>연결 실패: %1 TCP 포트 %2 UDP 포트 %3</translation>
     </message>
@@ -2763,10 +2763,10 @@ p, li { white-space: pre-wrap; }
         <translation>서버와의 연결이 끊어졌습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2975"/>
-        <location filename="../mainwindow.cpp" line="3028"/>
-        <location filename="../mainwindow.cpp" line="4985"/>
-        <location filename="../mainwindow.cpp" line="5810"/>
+        <location filename="../mainwindow.cpp" line="2984"/>
+        <location filename="../mainwindow.cpp" line="3037"/>
+        <location filename="../mainwindow.cpp" line="4994"/>
+        <location filename="../mainwindow.cpp" line="5819"/>
         <source>root</source>
         <translation>최상위</translation>
     </message>
@@ -2844,13 +2844,13 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1308"/>
-        <location filename="../mainwindow.cpp" line="5359"/>
+        <location filename="../mainwindow.cpp" line="5368"/>
         <source>Failed to download file %1</source>
         <translation>%1 파일 다운로드 실패</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1312"/>
-        <location filename="../mainwindow.cpp" line="6235"/>
+        <location filename="../mainwindow.cpp" line="6244"/>
         <source>Failed to upload file %1</source>
         <translation>%1 파일 업로드 실패</translation>
     </message>
@@ -2870,88 +2870,87 @@ p, li { white-space: pre-wrap; }
         <translation>오디오 코덱 초기화 실패</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1332"/>
         <source>Failed to initialize audio configuration</source>
-        <translation>오디오 정책 초기화 실패</translation>
+        <translation type="vanished">오디오 정책 초기화 실패</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1335"/>
+        <location filename="../mainwindow.cpp" line="1336"/>
         <source>Internal message queue overloaded</source>
         <translation>내부 메시지 대기열이 너무 깁니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1341"/>
+        <location filename="../mainwindow.cpp" line="1342"/>
         <source>Internal Error</source>
         <translation>내부 오류</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1369"/>
+        <location filename="../mainwindow.cpp" line="1370"/>
         <source>Streaming from %1 started</source>
         <translation>%1, 스트리밍 시작</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1391"/>
+        <location filename="../mainwindow.cpp" line="1392"/>
         <source>Error streaming media file to channel</source>
         <translation>미디어 파일을 채널로 스트리밍하는 도중 오류가 발생했습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1395"/>
+        <location filename="../mainwindow.cpp" line="1396"/>
         <source>Started streaming media file to channel</source>
         <translation>채널에 미디어 파일 스트리밍 시작함</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1398"/>
+        <location filename="../mainwindow.cpp" line="1399"/>
         <source>Finished streaming media file to channel</source>
         <translation>채널에서 미디어 파일 스트리밍 종료함</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1402"/>
+        <location filename="../mainwindow.cpp" line="1403"/>
         <source>Aborted streaming media file to channel</source>
         <translation>채널에서 미디어 파일 스트리밍 중단함</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1450"/>
-        <location filename="../mainwindow.cpp" line="1478"/>
+        <location filename="../mainwindow.cpp" line="1451"/>
+        <location filename="../mainwindow.cpp" line="1479"/>
         <source>New video session from %1</source>
         <translation>%1, 동영상 세션 추가함</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1503"/>
+        <location filename="../mainwindow.cpp" line="1504"/>
         <source>New desktop session from %1</source>
         <translation>%1, 화면 공유 세션 추가함</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1530"/>
+        <location filename="../mainwindow.cpp" line="1531"/>
         <source>Your desktop session was cancelled</source>
         <translation>화면 공유 세션 취소됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1541"/>
+        <location filename="../mainwindow.cpp" line="1542"/>
         <source>Writing audio file %1 for %2</source>
         <translation>%2, %1 오디오 파일 작성 중</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1546"/>
+        <location filename="../mainwindow.cpp" line="1547"/>
         <source>Failed to write audio file %1 for %2</source>
         <translation>%2, %1 오디오 파일 작성에 실패함</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1551"/>
+        <location filename="../mainwindow.cpp" line="1552"/>
         <source>Finished writing to audio file %1</source>
         <translation>%1 오디오 파일 작성 종료</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1555"/>
+        <location filename="../mainwindow.cpp" line="1556"/>
         <source>Aborted audio file %1</source>
         <translation>%1 오디오 파일 중단됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1922"/>
+        <location filename="../mainwindow.cpp" line="1923"/>
         <source>Banned Users in Channel %1</source>
         <translation>%1 채널에서 차단한 사용자</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1898"/>
+        <location filename="../mainwindow.cpp" line="1899"/>
         <source>Cannot join channel %1</source>
         <translation>%1 채널에 입장할 수 없음</translation>
     </message>
@@ -2961,257 +2960,257 @@ p, li { white-space: pre-wrap; }
         <translation>%1, 질문 모드로 전환함</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1984"/>
+        <location filename="../mainwindow.cpp" line="1985"/>
         <source>Using sound input: %1</source>
         <translation>입력 장치 %1 사용</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1984"/>
+        <location filename="../mainwindow.cpp" line="1985"/>
         <source>Using sound output: %2</source>
         <translation>출력 장치 %2 사용</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2001"/>
+        <location filename="../mainwindow.cpp" line="2002"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
         <translation>연결 중: %1 TCP 포트 %2 UDP 포트 %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2056"/>
+        <location filename="../mainwindow.cpp" line="2057"/>
         <source>Logged out from %1, TCP port %2, UDP port %3</source>
         <translation>연결 해제함: %1 TCP 포트 %2 UDP 포트 %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2075"/>
+        <location filename="../mainwindow.cpp" line="2076"/>
         <source>Connected to %1</source>
         <translation>%1 연결 중</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2093"/>
-        <location filename="../mainwindow.cpp" line="3157"/>
+        <location filename="../mainwindow.cpp" line="2094"/>
+        <location filename="../mainwindow.cpp" line="3166"/>
         <source>Error</source>
         <translation>오류</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2099"/>
+        <location filename="../mainwindow.cpp" line="2100"/>
         <source>Syntax error</source>
         <translation>문법 오류</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2101"/>
+        <location filename="../mainwindow.cpp" line="2102"/>
         <source>Unknown command</source>
         <translation>알 수 없는 동작</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2103"/>
+        <location filename="../mainwindow.cpp" line="2104"/>
         <source>The server uses a protocol which is incompatible with the client instance</source>
         <translation>클라이언트 인스턴스와 서버의 프로토콜이 호환되지 않습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2105"/>
+        <location filename="../mainwindow.cpp" line="2106"/>
         <source>Unknown audio codec</source>
         <translation>알 수 없는 오디오 코덱</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2107"/>
+        <location filename="../mainwindow.cpp" line="2108"/>
         <source>This client is not compatible with the server, so the action cannot be performed.</source>
         <translation>서버와 클라이언트가 호환되지 않아 작업을 계속할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2110"/>
+        <location filename="../mainwindow.cpp" line="2111"/>
         <source>The username is invalid</source>
         <translation>사용자 이름이 부적절합니다</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="642"/>
-        <location filename="../mainwindow.cpp" line="2117"/>
-        <location filename="../mainwindow.cpp" line="2150"/>
-        <location filename="../mainwindow.cpp" line="4034"/>
-        <location filename="../mainwindow.cpp" line="4052"/>
-        <location filename="../mainwindow.cpp" line="4067"/>
-        <location filename="../mainwindow.cpp" line="4431"/>
-        <location filename="../mainwindow.cpp" line="5176"/>
-        <location filename="../mainwindow.cpp" line="5415"/>
-        <location filename="../mainwindow.cpp" line="5619"/>
-        <location filename="../mainwindow.cpp" line="5888"/>
-        <location filename="../mainwindow.cpp" line="5942"/>
+        <location filename="../mainwindow.cpp" line="2118"/>
+        <location filename="../mainwindow.cpp" line="2151"/>
+        <location filename="../mainwindow.cpp" line="4043"/>
+        <location filename="../mainwindow.cpp" line="4061"/>
+        <location filename="../mainwindow.cpp" line="4076"/>
+        <location filename="../mainwindow.cpp" line="4440"/>
+        <location filename="../mainwindow.cpp" line="5185"/>
+        <location filename="../mainwindow.cpp" line="5424"/>
+        <location filename="../mainwindow.cpp" line="5628"/>
+        <location filename="../mainwindow.cpp" line="5897"/>
+        <location filename="../mainwindow.cpp" line="5951"/>
         <source>&amp;OK</source>
         <translation>확인 (&amp;O)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2121"/>
-        <location filename="../mainwindow.cpp" line="2129"/>
-        <location filename="../mainwindow.cpp" line="2169"/>
-        <location filename="../mainwindow.cpp" line="2174"/>
+        <location filename="../mainwindow.cpp" line="2122"/>
+        <location filename="../mainwindow.cpp" line="2130"/>
+        <location filename="../mainwindow.cpp" line="2170"/>
+        <location filename="../mainwindow.cpp" line="2177"/>
         <source>Login error</source>
         <translation>로그인 오류</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2122"/>
+        <location filename="../mainwindow.cpp" line="2123"/>
         <source>Invalid user account. Type username:</source>
         <translation>사용자 계정이 잘못되었습니다. 사용자 이름을 입력하세요:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2130"/>
+        <location filename="../mainwindow.cpp" line="2131"/>
         <source>Invalid user account. Type password:</source>
         <translation>사용자 계정이 잘못되었습니다. 암호를 입력하세요:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2155"/>
+        <location filename="../mainwindow.cpp" line="2156"/>
         <source>Join channel error</source>
         <translation>채널 입장 오류</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2156"/>
+        <location filename="../mainwindow.cpp" line="2157"/>
         <source>Incorrect channel password. Try again:</source>
         <translation>올바른 암호가 아닙니다. 다시 입력하세요:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2170"/>
+        <location filename="../mainwindow.cpp" line="2171"/>
         <source>Banned from server</source>
         <translation>서버에서 차단됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2172"/>
+        <location filename="../mainwindow.cpp" line="2175"/>
         <source>Command not authorized</source>
         <translation>승인받지 않은 동작입니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2175"/>
+        <location filename="../mainwindow.cpp" line="2178"/>
         <source>Maximum number of users on server exceeded</source>
         <translation>서버 최대 인원을 초과했습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2177"/>
+        <location filename="../mainwindow.cpp" line="2180"/>
         <source>Maximum disk usage exceeded</source>
         <translation>디스크 할당량을 초과했습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2179"/>
+        <location filename="../mainwindow.cpp" line="2182"/>
         <source>Maximum number of users in channel exceeded</source>
         <translation>채널 최대 인원을 초과했습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2181"/>
+        <location filename="../mainwindow.cpp" line="2184"/>
         <source>Incorrect channel operator password</source>
         <translation>채널 관리자 암호가 아닙니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2183"/>
+        <location filename="../mainwindow.cpp" line="2190"/>
         <source>The maximum number of channels has been exceeded</source>
         <translation>최대 채널 수를 초과했습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2185"/>
+        <location filename="../mainwindow.cpp" line="2192"/>
         <source>Command flooding prevented by server</source>
         <translation>서버에서 정한 동작 한도를 초과했습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2189"/>
+        <location filename="../mainwindow.cpp" line="2198"/>
         <source>Already logged in</source>
         <translation>이미 로그인함</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2191"/>
+        <location filename="../mainwindow.cpp" line="2200"/>
         <source>Cannot perform action because client is currently not logged in</source>
         <translation>클라이언트가 로그인되어 있지 않아 작업을 계속할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2194"/>
+        <location filename="../mainwindow.cpp" line="2203"/>
         <source>Cannot join the same channel twice</source>
         <translation>같은 채널에 두 번 참여할 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2196"/>
+        <location filename="../mainwindow.cpp" line="2205"/>
         <source>Channel already exists</source>
         <translation>이미 존재하는 채널입니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2202"/>
+        <location filename="../mainwindow.cpp" line="2211"/>
         <source>User not found</source>
         <translation>없는 사용자입니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2205"/>
+        <location filename="../mainwindow.cpp" line="2214"/>
         <source>Server failed to open file</source>
         <translation>서버가 파일을 열 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2207"/>
+        <location filename="../mainwindow.cpp" line="2216"/>
         <source>The login service is currently unavailable</source>
         <translation>지금은 로그인할 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2209"/>
+        <location filename="../mainwindow.cpp" line="2218"/>
         <source>This channel cannot be hidden</source>
         <translation>숨길 수 없는 채널입니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2211"/>
+        <location filename="../mainwindow.cpp" line="2220"/>
         <source>Channel not found</source>
         <translation>없는 채널입니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2213"/>
+        <location filename="../mainwindow.cpp" line="2222"/>
         <source>Cannot leave channel because not in channel.</source>
         <translation>입장하지 않은 채널입니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2215"/>
+        <location filename="../mainwindow.cpp" line="2224"/>
         <source>Banned user not found</source>
         <translation>차단하지 않은 사용자입니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2217"/>
+        <location filename="../mainwindow.cpp" line="2226"/>
         <source>File transfer not found</source>
         <translation>없는 파일 전송입니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2219"/>
+        <location filename="../mainwindow.cpp" line="2228"/>
         <source>User account not found</source>
         <translation>없는 사용자 계정입니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2221"/>
+        <location filename="../mainwindow.cpp" line="2230"/>
         <source>File not found</source>
         <translation>없는 파일입니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2223"/>
+        <location filename="../mainwindow.cpp" line="2232"/>
         <source>File already exists</source>
         <translation>이미 존재하는 파일입니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2225"/>
+        <location filename="../mainwindow.cpp" line="2234"/>
         <source>File sharing is disabled</source>
         <translation>파일 공유가 비활성화되어 있습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2227"/>
+        <location filename="../mainwindow.cpp" line="2236"/>
         <source>Channel has active users</source>
         <translation>채널 내 활동 중인 사용자가 있습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2232"/>
+        <location filename="../mainwindow.cpp" line="2241"/>
         <source>Unknown error occured</source>
         <translation>알 수 없는 오류</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2239"/>
+        <location filename="../mainwindow.cpp" line="2248"/>
         <source>The server reported an error:</source>
         <translation>서버에서 오류를 보고했습니다:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2860"/>
+        <location filename="../mainwindow.cpp" line="2869"/>
         <source>Channel message from %1: %2</source>
         <translation>%1의 채널 메시지: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2879"/>
+        <location filename="../mainwindow.cpp" line="2888"/>
         <source>Broadcast message from %1: %2</source>
         <translation>%1의 방송: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4333"/>
+        <location filename="../mainwindow.cpp" line="4342"/>
         <source>No Sound Device</source>
         <translation>사운드 장치 없음</translation>
     </message>
@@ -3223,135 +3222,135 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="764"/>
         <location filename="../mainwindow.cpp" line="801"/>
-        <location filename="../mainwindow.cpp" line="2661"/>
-        <location filename="../mainwindow.cpp" line="5141"/>
-        <location filename="../mainwindow.cpp" line="5373"/>
-        <location filename="../mainwindow.cpp" line="5670"/>
-        <location filename="../mainwindow.cpp" line="5908"/>
-        <location filename="../mainwindow.cpp" line="5928"/>
-        <location filename="../mainwindow.cpp" line="7209"/>
-        <location filename="../mainwindow.cpp" line="7290"/>
-        <location filename="../mainwindow.cpp" line="7315"/>
+        <location filename="../mainwindow.cpp" line="2670"/>
+        <location filename="../mainwindow.cpp" line="5150"/>
+        <location filename="../mainwindow.cpp" line="5382"/>
+        <location filename="../mainwindow.cpp" line="5679"/>
+        <location filename="../mainwindow.cpp" line="5917"/>
+        <location filename="../mainwindow.cpp" line="5937"/>
+        <location filename="../mainwindow.cpp" line="7218"/>
+        <location filename="../mainwindow.cpp" line="7299"/>
+        <location filename="../mainwindow.cpp" line="7324"/>
         <source>&amp;Yes</source>
         <translation>예 (&amp;Y)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="765"/>
         <location filename="../mainwindow.cpp" line="802"/>
-        <location filename="../mainwindow.cpp" line="2662"/>
-        <location filename="../mainwindow.cpp" line="5142"/>
-        <location filename="../mainwindow.cpp" line="5374"/>
-        <location filename="../mainwindow.cpp" line="5671"/>
-        <location filename="../mainwindow.cpp" line="5909"/>
-        <location filename="../mainwindow.cpp" line="5929"/>
-        <location filename="../mainwindow.cpp" line="7210"/>
-        <location filename="../mainwindow.cpp" line="7291"/>
-        <location filename="../mainwindow.cpp" line="7316"/>
+        <location filename="../mainwindow.cpp" line="2671"/>
+        <location filename="../mainwindow.cpp" line="5151"/>
+        <location filename="../mainwindow.cpp" line="5383"/>
+        <location filename="../mainwindow.cpp" line="5680"/>
+        <location filename="../mainwindow.cpp" line="5918"/>
+        <location filename="../mainwindow.cpp" line="5938"/>
+        <location filename="../mainwindow.cpp" line="7219"/>
+        <location filename="../mainwindow.cpp" line="7300"/>
+        <location filename="../mainwindow.cpp" line="7325"/>
         <source>&amp;No</source>
         <translation>아니요 (&amp;N)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2865"/>
+        <location filename="../mainwindow.cpp" line="2874"/>
         <source>Channel message sent: %1</source>
         <translation>채널 메시지 보냄: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2889"/>
+        <location filename="../mainwindow.cpp" line="2898"/>
         <source>Private message from %1: %2</source>
         <translation>%1의 개인 메시지: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2966"/>
-        <location filename="../mainwindow.cpp" line="2978"/>
+        <location filename="../mainwindow.cpp" line="2975"/>
+        <location filename="../mainwindow.cpp" line="2987"/>
         <source>Joined classroom channel %1</source>
         <translation>%1 교실에 입장함</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3019"/>
-        <location filename="../mainwindow.cpp" line="3031"/>
+        <location filename="../mainwindow.cpp" line="3028"/>
+        <location filename="../mainwindow.cpp" line="3040"/>
         <source>Left classroom channel %1</source>
         <translation>%1 교실에서 퇴장함</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3023"/>
-        <location filename="../mainwindow.cpp" line="3035"/>
+        <location filename="../mainwindow.cpp" line="3032"/>
+        <location filename="../mainwindow.cpp" line="3044"/>
         <source>Left channel %1</source>
         <translation>%1 채널에서 퇴장함</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4736"/>
+        <location filename="../mainwindow.cpp" line="4745"/>
         <source>Voice for %1 disabled</source>
         <translation>%1 말하기가 비활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4738"/>
+        <location filename="../mainwindow.cpp" line="4747"/>
         <source>Voice for %1 enabled</source>
         <translation>%1 말하기가 활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4755"/>
+        <location filename="../mainwindow.cpp" line="4764"/>
         <source>Media files for %1 disabled</source>
         <translation>%1 미디어 파일 스트리밍이 비활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4757"/>
+        <location filename="../mainwindow.cpp" line="4766"/>
         <source>Media files for %1 enabled</source>
         <translation>%1 미디어 파일 스트리밍이 활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4773"/>
+        <location filename="../mainwindow.cpp" line="4782"/>
         <source>Master volume disabled</source>
         <translation>마스터 볼륨을 비활성화했습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4778"/>
+        <location filename="../mainwindow.cpp" line="4787"/>
         <source>Master volume enabled</source>
         <translation>마스터 볼륨을 활성화했습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4910"/>
+        <location filename="../mainwindow.cpp" line="4919"/>
         <source>Voice volume for %1 increased to %2%</source>
         <translation>%1 말하기 볼륨 증가됨: %2%</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4923"/>
+        <location filename="../mainwindow.cpp" line="4932"/>
         <source>Voice volume for %1 decreased to %2%</source>
         <translation>%1 말하기 볼륨 감소됨: %2%</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4936"/>
+        <location filename="../mainwindow.cpp" line="4945"/>
         <source>Media files volume for %1 increased to %2%</source>
         <translation>%1 미디어 파일 볼륨 증가됨: %2%</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4949"/>
+        <location filename="../mainwindow.cpp" line="4958"/>
         <source>Media files volume for %1 decreased to %2%</source>
         <translation>%1 미디어 파일 볼륨 감소됨: %2%</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4968"/>
+        <location filename="../mainwindow.cpp" line="4977"/>
         <source>%1 selected for move</source>
         <translation>%1, 이동할 사용자 목록에 추가함</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4986"/>
-        <location filename="../mainwindow.cpp" line="4990"/>
+        <location filename="../mainwindow.cpp" line="4995"/>
+        <location filename="../mainwindow.cpp" line="4999"/>
         <source>Selected users has been moved to channel %1</source>
         <translation>%1 채널로 목록 내 사용자들을 이동했습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5377"/>
+        <location filename="../mainwindow.cpp" line="5386"/>
         <source>Delete %1 files</source>
         <translation>%1개 파일 삭제됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5633"/>
+        <location filename="../mainwindow.cpp" line="5642"/>
         <source>Broadcast message sent: %1</source>
         <translation>방송 보냄: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2086"/>
         <location filename="../mainwindow.cpp" line="2087"/>
+        <location filename="../mainwindow.cpp" line="2088"/>
         <source>Server configuration saved</source>
         <translation>서버 정책 저장됨</translation>
     </message>
@@ -3362,230 +3361,230 @@ p, li { white-space: pre-wrap; }
         <translation>%1, 로그인함</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5472"/>
+        <location filename="../mainwindow.cpp" line="5481"/>
         <source>Ascending</source>
         <translation>오름차순</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5472"/>
+        <location filename="../mainwindow.cpp" line="5481"/>
         <source>Descending</source>
         <translation>내림차순</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5474"/>
+        <location filename="../mainwindow.cpp" line="5483"/>
         <source>&amp;Name (%1)</source>
         <translation>이름 (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5480"/>
+        <location filename="../mainwindow.cpp" line="5489"/>
         <source>&amp;Size (%1)</source>
         <translation>크기 (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5486"/>
+        <location filename="../mainwindow.cpp" line="5495"/>
         <source>&amp;Owner (%1)</source>
         <translation>등록자 (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5492"/>
+        <location filename="../mainwindow.cpp" line="5501"/>
         <source>&amp;Upload Date (%1)</source>
         <translation>등록일시 (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5757"/>
+        <location filename="../mainwindow.cpp" line="5766"/>
         <source>Administrator</source>
         <comment>For female</comment>
         <translation>서버 관리자</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5757"/>
+        <location filename="../mainwindow.cpp" line="5766"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
         <translation>서버 관리자</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5761"/>
+        <location filename="../mainwindow.cpp" line="5770"/>
         <source>User</source>
         <comment>For female</comment>
         <translation>사용자</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5761"/>
+        <location filename="../mainwindow.cpp" line="5770"/>
         <source>User</source>
         <comment>For male and neutral</comment>
         <translation>사용자</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5768"/>
+        <location filename="../mainwindow.cpp" line="5777"/>
         <source>Selected for move</source>
         <comment>For female</comment>
         <translation>이동할 사용자</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5768"/>
+        <location filename="../mainwindow.cpp" line="5777"/>
         <source>Selected for move</source>
         <comment>For male and neutral</comment>
         <translation>이동할 사용자</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5771"/>
+        <location filename="../mainwindow.cpp" line="5780"/>
         <source>Channel operator</source>
         <comment>For female</comment>
         <translation>채널 관리자</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5771"/>
+        <location filename="../mainwindow.cpp" line="5780"/>
         <source>Channel operator</source>
         <comment>For male and neutral</comment>
         <translation>채널 관리자</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5779"/>
+        <location filename="../mainwindow.cpp" line="5788"/>
         <source>Available</source>
         <comment>For female</comment>
         <translation>사용 가능</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5779"/>
+        <location filename="../mainwindow.cpp" line="5788"/>
         <source>Available</source>
         <comment>For male and neutral</comment>
         <translation>사용 가능</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5782"/>
+        <location filename="../mainwindow.cpp" line="5791"/>
         <source>Away</source>
         <comment>For female</comment>
         <translation>자리비움</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5782"/>
+        <location filename="../mainwindow.cpp" line="5791"/>
         <source>Away</source>
         <comment>For male and neutral</comment>
         <translation>자리비움</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6143"/>
+        <location filename="../mainwindow.cpp" line="6152"/>
         <source>CTRL+L</source>
         <translation>CTRL+L</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6148"/>
+        <location filename="../mainwindow.cpp" line="6157"/>
         <source>CTRL+J</source>
         <translation>CTRL+J</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6433"/>
+        <location filename="../mainwindow.cpp" line="6442"/>
         <source>%1 can no longer transmit</source>
         <comment>%1 can no longer transmit voice</comment>
         <translation>%1, 전송 비활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6434"/>
+        <location filename="../mainwindow.cpp" line="6443"/>
         <source>%1 can now transmit</source>
         <comment>%1 can now transmit voice</comment>
         <translation>%1, 전송 활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6437"/>
+        <location filename="../mainwindow.cpp" line="6446"/>
         <source>Everyone can no longer transmit</source>
         <comment>Everyone can no longer transmit voice</comment>
         <translation>모든 사용자의 전송이 비활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6438"/>
+        <location filename="../mainwindow.cpp" line="6447"/>
         <source>Everyone can now transmit</source>
         <comment>Everyone can now transmit voice</comment>
         <translation>모든 사용자의 전송이 활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6442"/>
+        <location filename="../mainwindow.cpp" line="6451"/>
         <source>You can no longer transmit</source>
         <comment>You can no longer transmit voice</comment>
         <translation>전송 비활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6443"/>
+        <location filename="../mainwindow.cpp" line="6452"/>
         <source>You can now transmit</source>
         <comment>You can now transmit voice</comment>
         <translation>전송 활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6453"/>
+        <location filename="../mainwindow.cpp" line="6462"/>
         <source>%1 channel messages</source>
         <comment>can now transmit ...</comment>
         <translation>%1: 채널 메시지</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6455"/>
+        <location filename="../mainwindow.cpp" line="6464"/>
         <source>%1 channel messages</source>
         <comment>can no longer transmit ...</comment>
         <translation>%1: 채널 메시지</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6464"/>
+        <location filename="../mainwindow.cpp" line="6473"/>
         <source>%1 voice</source>
         <comment>can now transmit ...</comment>
         <translation>%1: 말하기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6466"/>
+        <location filename="../mainwindow.cpp" line="6475"/>
         <source>%1 voice</source>
         <comment>can no longer transmit...</comment>
         <translation>%1: 말하기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6475"/>
+        <location filename="../mainwindow.cpp" line="6484"/>
         <source>%1 video</source>
         <comment>can now transmit ...</comment>
-        <translation>%1: 동영상</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6477"/>
-        <source>%1 video</source>
-        <comment>can no longer transmit ...</comment>
         <translation>%1: 동영상</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6486"/>
-        <source>%1 desktop windows</source>
-        <comment>can now transmit ...</comment>
-        <translation>%1: 화면 공유</translation>
+        <source>%1 video</source>
+        <comment>can no longer transmit ...</comment>
+        <translation>%1: 동영상</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6488"/>
+        <location filename="../mainwindow.cpp" line="6495"/>
         <source>%1 desktop windows</source>
-        <comment>can no longer transmit ...</comment>
+        <comment>can now transmit ...</comment>
         <translation>%1: 화면 공유</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6497"/>
+        <source>%1 desktop windows</source>
+        <comment>can no longer transmit ...</comment>
+        <translation>%1: 화면 공유</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="6506"/>
         <source>%1 media files</source>
         <comment>can now transmit ...</comment>
         <translation>%1: 미디어 파일</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6499"/>
+        <location filename="../mainwindow.cpp" line="6508"/>
         <source>%1 media files</source>
         <comment>can no longer transmit ...</comment>
         <translation>%1: 미디어 파일</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7097"/>
+        <location filename="../mainwindow.cpp" line="7106"/>
         <source>&amp;Video (%1)</source>
         <translation>동영상 (%1) (&amp;V)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7105"/>
+        <location filename="../mainwindow.cpp" line="7114"/>
         <source>&amp;Desktops (%1)</source>
         <translation>화면 공유 (%1) (&amp;D)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7289"/>
+        <location filename="../mainwindow.cpp" line="7298"/>
         <source>A new version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>%1 새 버전(%2)을 사용할 수 있습니다. 지금 다운로드 페이지로 이동할까요?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7294"/>
+        <location filename="../mainwindow.cpp" line="7303"/>
         <source>New version available</source>
         <translation>새 버전 사용 가능</translation>
     </message>
@@ -3598,12 +3597,12 @@ You can download it on the page below:
 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7314"/>
+        <location filename="../mainwindow.cpp" line="7323"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>%1 새 베타 버전(%2)을 사용할 수 있습니다. 지금 다운로드 페이지로 이동할까요?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7319"/>
+        <location filename="../mainwindow.cpp" line="7328"/>
         <source>New beta version available</source>
         <translation>새 베타 버전 사용 가능</translation>
     </message>
@@ -3616,12 +3615,12 @@ You can download it on the page below:
 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7424"/>
+        <location filename="../mainwindow.cpp" line="7433"/>
         <source>No available voices found for Text-To-Speech</source>
         <translation>사용 가능한 TTS 엔진이 없습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2557"/>
+        <location filename="../mainwindow.cpp" line="2566"/>
         <source>&amp;Restore</source>
         <translation>복원 (&amp;R)</translation>
     </message>
@@ -3647,17 +3646,17 @@ You can download it on the page below:
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="643"/>
-        <location filename="../mainwindow.cpp" line="2118"/>
-        <location filename="../mainwindow.cpp" line="2151"/>
-        <location filename="../mainwindow.cpp" line="4035"/>
-        <location filename="../mainwindow.cpp" line="4053"/>
-        <location filename="../mainwindow.cpp" line="4068"/>
-        <location filename="../mainwindow.cpp" line="4432"/>
-        <location filename="../mainwindow.cpp" line="5177"/>
-        <location filename="../mainwindow.cpp" line="5416"/>
-        <location filename="../mainwindow.cpp" line="5620"/>
-        <location filename="../mainwindow.cpp" line="5889"/>
-        <location filename="../mainwindow.cpp" line="5943"/>
+        <location filename="../mainwindow.cpp" line="2119"/>
+        <location filename="../mainwindow.cpp" line="2152"/>
+        <location filename="../mainwindow.cpp" line="4044"/>
+        <location filename="../mainwindow.cpp" line="4062"/>
+        <location filename="../mainwindow.cpp" line="4077"/>
+        <location filename="../mainwindow.cpp" line="4441"/>
+        <location filename="../mainwindow.cpp" line="5186"/>
+        <location filename="../mainwindow.cpp" line="5425"/>
+        <location filename="../mainwindow.cpp" line="5629"/>
+        <location filename="../mainwindow.cpp" line="5898"/>
+        <location filename="../mainwindow.cpp" line="5952"/>
         <source>&amp;Cancel</source>
         <translation>취소 (&amp;C)</translation>
     </message>
@@ -3692,639 +3691,669 @@ You can download it on the page below:
         <translation>%1, 로그아웃함</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1583"/>
+        <location filename="../mainwindow.cpp" line="1331"/>
+        <source>Audio preprocessor failed to initialize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1333"/>
+        <source>An audio effect could not be applied on the sound device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1584"/>
         <source>New sound device available: %1. Refresh sound devices to discover new device.</source>
         <translation>새 사운드 장치(%1)를 사용할 수 있습니다. 사운드 장치를 새로고침하여 접근할 수 있습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1588"/>
+        <location filename="../mainwindow.cpp" line="1589"/>
         <source>Sound device removed: %1.</source>
         <translation>%1 사운드 장치가 제거되었습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1994"/>
+        <location filename="../mainwindow.cpp" line="1995"/>
         <source>Failed to setup encryption settings</source>
         <translation>암호화 설정 실패</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2017"/>
+        <location filename="../mainwindow.cpp" line="2018"/>
         <source>Disconnected from %1</source>
         <translation>%1 연결 해제됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2351"/>
+        <location filename="../mainwindow.cpp" line="2173"/>
+        <source>Banned from channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2186"/>
+        <source>Maximum number of logins per IP-address exceeded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2188"/>
+        <source>Maximum bitrate for audio codec exceeded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2194"/>
+        <source>Maximum number of file transfers exceeded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2360"/>
         <source>Voice transmission failed</source>
         <translation>말하기 전송 실패</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2460"/>
+        <location filename="../mainwindow.cpp" line="2469"/>
         <source>Trying to reconnect to %1 port %2</source>
         <translation>연결 재시도: %1 포트 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2660"/>
+        <location filename="../mainwindow.cpp" line="2669"/>
         <source>Do you wish to add %1 to the Windows Firewall exception list?</source>
         <translation>Windows 방화벽 예외 목록에 %1 항목을 추가할까요?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2673"/>
+        <location filename="../mainwindow.cpp" line="2682"/>
         <source>Failed to add %1 to Windows Firewall exceptions.</source>
         <translation>Windows 방화벽 예외 목록에 %1 항목을 추가할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2688"/>
+        <location filename="../mainwindow.cpp" line="2697"/>
         <source>Private messages</source>
         <translation>개인 메시지</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2693"/>
+        <location filename="../mainwindow.cpp" line="2702"/>
         <source>Channel messages</source>
         <translation>채널 메시지</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2698"/>
+        <location filename="../mainwindow.cpp" line="2707"/>
         <source>Broadcast messages</source>
         <translation>방송</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2703"/>
+        <location filename="../mainwindow.cpp" line="2712"/>
         <source>Voice</source>
         <translation>말하기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2708"/>
+        <location filename="../mainwindow.cpp" line="2717"/>
         <source>Video</source>
         <translation>동영상</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2718"/>
+        <location filename="../mainwindow.cpp" line="2727"/>
         <source>Desktop input</source>
         <translation>화면 공유</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2723"/>
+        <location filename="../mainwindow.cpp" line="2732"/>
         <source>Media files</source>
         <translation>미디어 파일</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2728"/>
+        <location filename="../mainwindow.cpp" line="2737"/>
         <source>Intercept private messages</source>
         <translation>개인 메시지 가로채기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2733"/>
+        <location filename="../mainwindow.cpp" line="2742"/>
         <source>Intercept channel messages</source>
         <translation>채널 메시지 가로채기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2738"/>
+        <location filename="../mainwindow.cpp" line="2747"/>
         <source>Intercept voice</source>
         <translation>말하기 가로채기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2743"/>
+        <location filename="../mainwindow.cpp" line="2752"/>
         <source>Intercept video capture</source>
         <translation>동영상 캡처 가로채기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2748"/>
+        <location filename="../mainwindow.cpp" line="2757"/>
         <source>Intercept desktop</source>
         <translation>화면 공유 가로채기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2753"/>
+        <location filename="../mainwindow.cpp" line="2762"/>
         <source>Intercept media files</source>
         <translation>미디어 파일 가로채기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2777"/>
-        <location filename="../mainwindow.cpp" line="2778"/>
+        <location filename="../mainwindow.cpp" line="2786"/>
+        <location filename="../mainwindow.cpp" line="2787"/>
         <source>Subscription &quot;%1&quot; enabled for %2</source>
         <translation>%2, %1 수신 활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2787"/>
-        <location filename="../mainwindow.cpp" line="2788"/>
+        <location filename="../mainwindow.cpp" line="2796"/>
+        <location filename="../mainwindow.cpp" line="2797"/>
         <source>Subscription &quot;%1&quot; disabled for %2</source>
         <translation>%2, %1 수신 비활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2920"/>
+        <location filename="../mainwindow.cpp" line="2929"/>
         <source>%1 is requesting desktop access</source>
         <translation>%1, 화면 공유 접근 요청함</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2926"/>
-        <location filename="../mainwindow.cpp" line="4856"/>
+        <location filename="../mainwindow.cpp" line="2935"/>
+        <location filename="../mainwindow.cpp" line="4865"/>
         <source>%1 granted desktop access</source>
         <translation>%1, 화면 공유 접근 허가됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2932"/>
+        <location filename="../mainwindow.cpp" line="2941"/>
         <source>%1 retracted desktop access</source>
         <translation>%1, 화면 공유 접근 중단됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2970"/>
-        <location filename="../mainwindow.cpp" line="2982"/>
+        <location filename="../mainwindow.cpp" line="2979"/>
+        <location filename="../mainwindow.cpp" line="2991"/>
         <source>Joined channel %1</source>
         <translation>%1 채널에 입장</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3097"/>
+        <location filename="../mainwindow.cpp" line="3106"/>
         <source>Files in channel: %1</source>
         <translation>채널 내 파일: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3157"/>
+        <location filename="../mainwindow.cpp" line="3166"/>
         <source>Failed to start recording</source>
         <translation>녹음을 시작할 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3161"/>
+        <location filename="../mainwindow.cpp" line="3170"/>
         <source>Recording to file: %1</source>
         <translation>녹음 시작됨: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3215"/>
+        <location filename="../mainwindow.cpp" line="3224"/>
         <source>Microphone gain is controlled by channel</source>
         <translation>채널에서 마이크 음량을 일괄 제어 중입니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3591"/>
+        <location filename="../mainwindow.cpp" line="3600"/>
         <source>Failed to stream media file %1</source>
         <translation>%1 파일을 스트리밍할 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3753"/>
+        <location filename="../mainwindow.cpp" line="3762"/>
         <source>Enable HotKey</source>
         <translation>기능키 활성화</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3754"/>
+        <location filename="../mainwindow.cpp" line="3763"/>
         <source>Failed to register hotkey. Please try another key combination.</source>
         <translation>등록할 수 없는 기능키입니다. 다른 키 조합을 입력하세요.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3759"/>
+        <location filename="../mainwindow.cpp" line="3768"/>
         <source>Push To Talk: </source>
         <translation>눌러서 말하기: </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3932"/>
+        <location filename="../mainwindow.cpp" line="3941"/>
         <source>Text messages blocked by channel operator</source>
         <translation>채널 관리자의 명령으로 채널 메시지가 차단되었습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3936"/>
+        <location filename="../mainwindow.cpp" line="3945"/>
         <source>Voice transmission blocked by channel operator</source>
         <translation>채널 관리자의 명령으로 말하기가 차단되었습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3940"/>
+        <location filename="../mainwindow.cpp" line="3949"/>
         <source>Media file transmission blocked by channel operator</source>
         <translation>채널 관리자의 명령으로 미디어 파일 전송이 차단되었습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3944"/>
+        <location filename="../mainwindow.cpp" line="3953"/>
         <source>Video transmission blocked by channel operator</source>
         <translation>채널 관리자의 명령으로 동영상 전송이 차단되었습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3948"/>
+        <location filename="../mainwindow.cpp" line="3957"/>
         <source>Desktop transmission blocked by channel operator</source>
         <translation>채널 관리자의 명령으로 화면 공유 전송이 차단되었습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4025"/>
-        <location filename="../mainwindow.cpp" line="4071"/>
+        <location filename="../mainwindow.cpp" line="4034"/>
+        <location filename="../mainwindow.cpp" line="4080"/>
         <source>New Profile</source>
         <translation>새 프로필</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4025"/>
+        <location filename="../mainwindow.cpp" line="4034"/>
         <source>Delete Profile</source>
         <translation>프로필 삭제</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4025"/>
+        <location filename="../mainwindow.cpp" line="4034"/>
         <source>Current Profile</source>
         <translation>현재 프로필</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4038"/>
-        <location filename="../mainwindow.cpp" line="4056"/>
+        <location filename="../mainwindow.cpp" line="4047"/>
+        <location filename="../mainwindow.cpp" line="4065"/>
         <source>New Client Instance</source>
         <translation>새 클라이언트 인스턴스</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4039"/>
+        <location filename="../mainwindow.cpp" line="4048"/>
         <source>Select profile</source>
         <translation>프로필 선택</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4057"/>
+        <location filename="../mainwindow.cpp" line="4066"/>
         <source>Delete profile</source>
         <translation>프로필 삭제</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4072"/>
+        <location filename="../mainwindow.cpp" line="4081"/>
         <source>Profile name</source>
         <translation>프로필 이름</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4437"/>
+        <location filename="../mainwindow.cpp" line="4446"/>
         <source>Specify new nickname for current server</source>
         <translation>현재 서버에서 사용할 새 대화명 입력</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4439"/>
+        <location filename="../mainwindow.cpp" line="4448"/>
         <source>Specify new nickname</source>
         <translation>새 대화명 입력</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4505"/>
+        <location filename="../mainwindow.cpp" line="4514"/>
         <source>Push-To-Talk enabled</source>
         <translation>눌러서 말하기 활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4511"/>
+        <location filename="../mainwindow.cpp" line="4520"/>
         <source>Push-To-Talk disabled</source>
         <translation>눌러서 말하기 비활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4528"/>
+        <location filename="../mainwindow.cpp" line="4537"/>
         <source>Voice activation enabled</source>
         <translation>말하기 활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4528"/>
+        <location filename="../mainwindow.cpp" line="4537"/>
         <source>Voice activation disabled</source>
         <translation>말하기 비활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4535"/>
+        <location filename="../mainwindow.cpp" line="4544"/>
         <source>Failed to enable voice activation</source>
         <translation>말하기를 활성화할 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4560"/>
-        <location filename="../mainwindow.cpp" line="6512"/>
+        <location filename="../mainwindow.cpp" line="4569"/>
+        <location filename="../mainwindow.cpp" line="6521"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translation>비디오 장치 구성에 실패했습니다. &apos;환경 설정&apos;에서 확인하세요.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4583"/>
+        <location filename="../mainwindow.cpp" line="4592"/>
         <source>Video transmission enabled</source>
         <translation>동영상 전송 활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4602"/>
+        <location filename="../mainwindow.cpp" line="4611"/>
         <source>Video transmission disabled</source>
         <translation>동영상 전송 비활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4649"/>
+        <location filename="../mainwindow.cpp" line="4658"/>
         <source>Desktop sharing enabled</source>
         <translation>화면 공유 활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4669"/>
+        <location filename="../mainwindow.cpp" line="4678"/>
         <source>Desktop sharing disabled</source>
         <translation>화면 공유 비활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4693"/>
+        <location filename="../mainwindow.cpp" line="4702"/>
         <source>Sound events enabled</source>
         <translation>사운드 이벤트 활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4698"/>
+        <location filename="../mainwindow.cpp" line="4707"/>
         <source>Sound events disabled</source>
         <translation>사운드 이벤트 비활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5047"/>
+        <location filename="../mainwindow.cpp" line="5056"/>
         <source>To relay voice stream from other channel you must enable subscription &quot;Intercept Voice&quot;.
 Do you wish to do this now?</source>
         <translation>다른 채널에 말하기 스트리밍을 중계하려면 &quot;말하기 가로채기&quot; 수신을 활성화 해야 합니다.
 지금 활성화 할까요?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5067"/>
+        <location filename="../mainwindow.cpp" line="5076"/>
         <source>To relay media file stream from other channel you must enable subscription &quot;Intercept Media File&quot;.
 Do you wish to do this now?</source>
         <translation>다른 채널에 미디어 파일을 중계하려면 &quot;미디어 파일 가로채기&quot; 수신을 활성화 해야 합니다.
 지금 활성화 할까요?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5419"/>
         <location filename="../mainwindow.cpp" line="5428"/>
-        <location filename="../mainwindow.cpp" line="5450"/>
+        <location filename="../mainwindow.cpp" line="5437"/>
+        <location filename="../mainwindow.cpp" line="5459"/>
         <source>Share channel</source>
         <translation>채널 공유</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5420"/>
+        <location filename="../mainwindow.cpp" line="5429"/>
         <source>Type username of user account:</source>
         <translation>사용자 이름 입력</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5429"/>
+        <location filename="../mainwindow.cpp" line="5438"/>
         <source>Type password of user account:</source>
         <translation>암호 입력</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5451"/>
+        <location filename="../mainwindow.cpp" line="5460"/>
         <source>Type password of channel:</source>
         <translation>채널 암호 입력</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5464"/>
-        <location filename="../mainwindow.cpp" line="5465"/>
+        <location filename="../mainwindow.cpp" line="5473"/>
+        <location filename="../mainwindow.cpp" line="5474"/>
         <source>Link copied to clipboard</source>
         <translation>클립보드에 링크 복사됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5471"/>
+        <location filename="../mainwindow.cpp" line="5480"/>
         <source>Sort By...</source>
         <translation>정렬 기준</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5835"/>
+        <location filename="../mainwindow.cpp" line="5844"/>
         <source>%1 users</source>
         <translation>사용자 %1명</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5907"/>
+        <location filename="../mainwindow.cpp" line="5916"/>
         <source>Are you sure you want to kick yourself?</source>
         <translation>자기 자신을 추방할까요?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5927"/>
+        <location filename="../mainwindow.cpp" line="5936"/>
         <source>Are you sure you want to kick and ban yourself?</source>
         <translation>자기 자신을 추방 및 차단할까요?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5946"/>
+        <location filename="../mainwindow.cpp" line="5955"/>
         <source>Ban user #%1</source>
         <translation>사용자 %1 차단</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5950"/>
+        <location filename="../mainwindow.cpp" line="5959"/>
         <source>Ban User From Server</source>
         <translation>서버에서 사용자 차단</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5976"/>
+        <location filename="../mainwindow.cpp" line="5985"/>
         <source>Ban IP-address</source>
         <translation>IP 주소 차단</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5976"/>
+        <location filename="../mainwindow.cpp" line="5985"/>
         <source>IP-address (&apos;/&apos; for subnet, e.g. 192.168.0.0/16)</source>
         <translation>IP 주소 (&apos;/&apos; 서브넷의 경우의 예: 192.168.0.0/16</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7208"/>
+        <location filename="../mainwindow.cpp" line="7217"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7301"/>
+        <location filename="../mainwindow.cpp" line="7310"/>
         <source>New version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7326"/>
+        <location filename="../mainwindow.cpp" line="7335"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7406"/>
+        <location filename="../mainwindow.cpp" line="7415"/>
         <source>Language %1 not found for Text-To-Speech</source>
         <translation>%1 TTS 언어가 없습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7419"/>
+        <location filename="../mainwindow.cpp" line="7428"/>
         <source>Voice %1 not found for Text-To-Speech. Switching to %2</source>
         <translation>%1 TTS 엔진이 없습니다. %2 엔진으로 전환합니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4571"/>
+        <location filename="../mainwindow.cpp" line="4580"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
         <translation>비디오 코덱 구성에 실패했습니다. &apos;환경 설정&apos;에서 확인하세요.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4619"/>
+        <location filename="../mainwindow.cpp" line="4628"/>
         <source>Failed to open X11 display.</source>
         <translation>X11 디스플레이를 열 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4638"/>
+        <location filename="../mainwindow.cpp" line="4647"/>
         <source>Failed to start desktop sharing</source>
         <translation>화면 공유를 시작할 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4678"/>
+        <location filename="../mainwindow.cpp" line="4687"/>
         <source>Text-To-Speech enabled</source>
         <translation>TTS 활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4683"/>
+        <location filename="../mainwindow.cpp" line="4692"/>
         <source>Text-To-Speech disabled</source>
         <translation>TTS 비활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5100"/>
-        <location filename="../mainwindow.cpp" line="5113"/>
+        <location filename="../mainwindow.cpp" line="5109"/>
+        <location filename="../mainwindow.cpp" line="5122"/>
         <source>Failed to issue command to create channel</source>
         <translation>채널을 만들 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5127"/>
+        <location filename="../mainwindow.cpp" line="5136"/>
         <source>Failed to issue command to update channel</source>
         <translation>채널을 업데이트할 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5140"/>
+        <location filename="../mainwindow.cpp" line="5149"/>
         <source>Are you sure you want to delete channel &quot;%1&quot;?</source>
         <translation>&quot;%1&quot; 채널을 삭제할까요?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5152"/>
+        <location filename="../mainwindow.cpp" line="5161"/>
         <source>Failed to issue command to delete channel</source>
         <translation>채널을 삭제할 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5182"/>
-        <location filename="../mainwindow.cpp" line="5893"/>
+        <location filename="../mainwindow.cpp" line="5191"/>
+        <location filename="../mainwindow.cpp" line="5902"/>
         <source>Specify password</source>
         <translation>암호 입력</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5197"/>
+        <location filename="../mainwindow.cpp" line="5206"/>
         <source>Failed to issue command to join channel</source>
         <translation>채널에 입장할 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5287"/>
+        <location filename="../mainwindow.cpp" line="5296"/>
         <source>Nobody is active in this channel</source>
         <translation>채널 내 활동 중인 사용자가 없습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5329"/>
+        <location filename="../mainwindow.cpp" line="5338"/>
         <source>Open File</source>
         <translation>파일 열기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5350"/>
+        <location filename="../mainwindow.cpp" line="5359"/>
         <source>Save File</source>
         <translation>파일 저장</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5380"/>
+        <location filename="../mainwindow.cpp" line="5389"/>
         <source>Are you sure you want to delete &quot;%1&quot;?</source>
         <translation>&quot;%1&quot; 항목을 삭제할까요?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5389"/>
+        <location filename="../mainwindow.cpp" line="5398"/>
         <source>Are you sure you want to delete %1 file(s)?</source>
         <translation>&quot;%1&quot;개 파일을 삭제할까요?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5623"/>
+        <location filename="../mainwindow.cpp" line="5632"/>
         <source>Message to broadcast:</source>
         <translation>방송:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5669"/>
+        <location filename="../mainwindow.cpp" line="5678"/>
         <source>Are you sure you want to delete your existing settings?</source>
         <translation>기존 설정을 삭제할까요?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5684"/>
+        <location filename="../mainwindow.cpp" line="5693"/>
         <source>Cannot find %1</source>
         <translation>%1 항목이 없습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5691"/>
+        <location filename="../mainwindow.cpp" line="5700"/>
         <source>Cannot remove %1</source>
         <translation>%1 항목을 제거할 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5698"/>
+        <location filename="../mainwindow.cpp" line="5707"/>
         <source>Failed to copy %1 to %2</source>
         <translation>%1 항목을 %2 항목으로 복사할 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5244"/>
-        <location filename="../mainwindow.cpp" line="5753"/>
+        <location filename="../mainwindow.cpp" line="5253"/>
+        <location filename="../mainwindow.cpp" line="5762"/>
         <source>Talking</source>
         <translation>대화</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5753"/>
+        <location filename="../mainwindow.cpp" line="5762"/>
         <source>Mute</source>
         <translation>음소거</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5255"/>
-        <location filename="../mainwindow.cpp" line="5753"/>
+        <location filename="../mainwindow.cpp" line="5264"/>
+        <location filename="../mainwindow.cpp" line="5762"/>
         <source>Streaming</source>
         <translation>스트리밍</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5753"/>
+        <location filename="../mainwindow.cpp" line="5762"/>
         <source>Mute media file</source>
         <translation>미디어 파일 음소거</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5266"/>
-        <location filename="../mainwindow.cpp" line="5753"/>
+        <location filename="../mainwindow.cpp" line="5275"/>
+        <location filename="../mainwindow.cpp" line="5762"/>
         <source>Webcam</source>
         <translation>웹캠</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2713"/>
-        <location filename="../mainwindow.cpp" line="5277"/>
-        <location filename="../mainwindow.cpp" line="5753"/>
+        <location filename="../mainwindow.cpp" line="2722"/>
+        <location filename="../mainwindow.cpp" line="5286"/>
+        <location filename="../mainwindow.cpp" line="5762"/>
         <source>Desktop</source>
         <translation>화면 공유</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5785"/>
+        <location filename="../mainwindow.cpp" line="5794"/>
         <source>Question</source>
         <translation>질문 모드</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5810"/>
+        <location filename="../mainwindow.cpp" line="5819"/>
         <source>Channel</source>
         <translation>채널 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5810"/>
+        <location filename="../mainwindow.cpp" line="5819"/>
         <source>Password protected</source>
         <translation>암호로 보호됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5810"/>
+        <location filename="../mainwindow.cpp" line="5819"/>
         <source>Classroom</source>
         <translation>교실</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5810"/>
+        <location filename="../mainwindow.cpp" line="5819"/>
         <source>Hidden</source>
         <translation>숨겨짐</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5831"/>
+        <location filename="../mainwindow.cpp" line="5840"/>
         <source>Topic: %1</source>
         <translation>주제: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5838"/>
+        <location filename="../mainwindow.cpp" line="5847"/>
         <source>%1 files</source>
         <translation>파일 %1개</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5939"/>
+        <location filename="../mainwindow.cpp" line="5948"/>
         <source>IP-address</source>
         <translation>IP 주소</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5939"/>
+        <location filename="../mainwindow.cpp" line="5948"/>
         <source>Username</source>
         <translation>사용자 이름</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5948"/>
+        <location filename="../mainwindow.cpp" line="5957"/>
         <source>Ban User From Channel</source>
         <translation>채널에서 사용자 차단</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6142"/>
+        <location filename="../mainwindow.cpp" line="6151"/>
         <source>&amp;Leave Channel</source>
         <translation>채널에서 퇴장 (&amp;L)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6383"/>
+        <location filename="../mainwindow.cpp" line="6392"/>
         <source>The maximum number of users who can transmit is %1</source>
         <translation>최대 %1명이 전송 가능합니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6511"/>
+        <location filename="../mainwindow.cpp" line="6520"/>
         <source>Start Webcam</source>
         <translation>웹캠 시작</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6533"/>
-        <location filename="../mainwindow.cpp" line="6585"/>
+        <location filename="../mainwindow.cpp" line="6542"/>
+        <location filename="../mainwindow.cpp" line="6594"/>
         <source>Myself</source>
         <translation>나 자신</translation>
     </message>
@@ -4339,127 +4368,127 @@ You can download it on the page below:<byte value="xd"/>
         <translation>%1, 채널에서 퇴장함</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3107"/>
+        <location filename="../mainwindow.cpp" line="3116"/>
         <source>&amp;Files (%1)</source>
         <translation>파일 (%1) (&amp;F)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6931"/>
-        <location filename="../mainwindow.cpp" line="6936"/>
-        <location filename="../mainwindow.cpp" line="6942"/>
-        <location filename="../mainwindow.cpp" line="6947"/>
-        <location filename="../mainwindow.cpp" line="6953"/>
-        <location filename="../mainwindow.cpp" line="6958"/>
-        <location filename="../mainwindow.cpp" line="6964"/>
-        <location filename="../mainwindow.cpp" line="6969"/>
-        <location filename="../mainwindow.cpp" line="6975"/>
-        <location filename="../mainwindow.cpp" line="6980"/>
-        <location filename="../mainwindow.cpp" line="6986"/>
-        <location filename="../mainwindow.cpp" line="6991"/>
-        <location filename="../mainwindow.cpp" line="6999"/>
-        <location filename="../mainwindow.cpp" line="7004"/>
-        <location filename="../mainwindow.cpp" line="7009"/>
-        <location filename="../mainwindow.cpp" line="7014"/>
-        <location filename="../mainwindow.cpp" line="7019"/>
-        <location filename="../mainwindow.cpp" line="7024"/>
-        <location filename="../mainwindow.cpp" line="7029"/>
-        <location filename="../mainwindow.cpp" line="7034"/>
-        <location filename="../mainwindow.cpp" line="7039"/>
-        <location filename="../mainwindow.cpp" line="7044"/>
-        <location filename="../mainwindow.cpp" line="7049"/>
-        <location filename="../mainwindow.cpp" line="7054"/>
-        <location filename="../mainwindow.cpp" line="7059"/>
-        <location filename="../mainwindow.cpp" line="7064"/>
-        <location filename="../mainwindow.cpp" line="7069"/>
-        <location filename="../mainwindow.cpp" line="7074"/>
+        <location filename="../mainwindow.cpp" line="6940"/>
+        <location filename="../mainwindow.cpp" line="6945"/>
+        <location filename="../mainwindow.cpp" line="6951"/>
+        <location filename="../mainwindow.cpp" line="6956"/>
+        <location filename="../mainwindow.cpp" line="6962"/>
+        <location filename="../mainwindow.cpp" line="6967"/>
+        <location filename="../mainwindow.cpp" line="6973"/>
+        <location filename="../mainwindow.cpp" line="6978"/>
+        <location filename="../mainwindow.cpp" line="6984"/>
+        <location filename="../mainwindow.cpp" line="6989"/>
+        <location filename="../mainwindow.cpp" line="6995"/>
+        <location filename="../mainwindow.cpp" line="7000"/>
+        <location filename="../mainwindow.cpp" line="7008"/>
+        <location filename="../mainwindow.cpp" line="7013"/>
+        <location filename="../mainwindow.cpp" line="7018"/>
+        <location filename="../mainwindow.cpp" line="7023"/>
+        <location filename="../mainwindow.cpp" line="7028"/>
+        <location filename="../mainwindow.cpp" line="7033"/>
+        <location filename="../mainwindow.cpp" line="7038"/>
+        <location filename="../mainwindow.cpp" line="7043"/>
+        <location filename="../mainwindow.cpp" line="7048"/>
+        <location filename="../mainwindow.cpp" line="7053"/>
+        <location filename="../mainwindow.cpp" line="7058"/>
+        <location filename="../mainwindow.cpp" line="7063"/>
+        <location filename="../mainwindow.cpp" line="7068"/>
+        <location filename="../mainwindow.cpp" line="7073"/>
+        <location filename="../mainwindow.cpp" line="7078"/>
+        <location filename="../mainwindow.cpp" line="7083"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
         <translation>%1, %2 수신 %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6935"/>
-        <location filename="../mainwindow.cpp" line="6936"/>
-        <location filename="../mainwindow.cpp" line="6946"/>
-        <location filename="../mainwindow.cpp" line="6947"/>
-        <location filename="../mainwindow.cpp" line="6957"/>
-        <location filename="../mainwindow.cpp" line="6958"/>
-        <location filename="../mainwindow.cpp" line="6968"/>
-        <location filename="../mainwindow.cpp" line="6969"/>
-        <location filename="../mainwindow.cpp" line="6979"/>
-        <location filename="../mainwindow.cpp" line="6980"/>
-        <location filename="../mainwindow.cpp" line="6990"/>
-        <location filename="../mainwindow.cpp" line="6991"/>
-        <location filename="../mainwindow.cpp" line="7003"/>
-        <location filename="../mainwindow.cpp" line="7004"/>
+        <location filename="../mainwindow.cpp" line="6944"/>
+        <location filename="../mainwindow.cpp" line="6945"/>
+        <location filename="../mainwindow.cpp" line="6955"/>
+        <location filename="../mainwindow.cpp" line="6956"/>
+        <location filename="../mainwindow.cpp" line="6966"/>
+        <location filename="../mainwindow.cpp" line="6967"/>
+        <location filename="../mainwindow.cpp" line="6977"/>
+        <location filename="../mainwindow.cpp" line="6978"/>
+        <location filename="../mainwindow.cpp" line="6988"/>
+        <location filename="../mainwindow.cpp" line="6989"/>
+        <location filename="../mainwindow.cpp" line="6999"/>
+        <location filename="../mainwindow.cpp" line="7000"/>
+        <location filename="../mainwindow.cpp" line="7012"/>
         <location filename="../mainwindow.cpp" line="7013"/>
-        <location filename="../mainwindow.cpp" line="7014"/>
+        <location filename="../mainwindow.cpp" line="7022"/>
         <location filename="../mainwindow.cpp" line="7023"/>
-        <location filename="../mainwindow.cpp" line="7024"/>
+        <location filename="../mainwindow.cpp" line="7032"/>
         <location filename="../mainwindow.cpp" line="7033"/>
-        <location filename="../mainwindow.cpp" line="7034"/>
+        <location filename="../mainwindow.cpp" line="7042"/>
         <location filename="../mainwindow.cpp" line="7043"/>
-        <location filename="../mainwindow.cpp" line="7044"/>
+        <location filename="../mainwindow.cpp" line="7052"/>
         <location filename="../mainwindow.cpp" line="7053"/>
-        <location filename="../mainwindow.cpp" line="7054"/>
+        <location filename="../mainwindow.cpp" line="7062"/>
         <location filename="../mainwindow.cpp" line="7063"/>
-        <location filename="../mainwindow.cpp" line="7064"/>
+        <location filename="../mainwindow.cpp" line="7072"/>
         <location filename="../mainwindow.cpp" line="7073"/>
-        <location filename="../mainwindow.cpp" line="7074"/>
+        <location filename="../mainwindow.cpp" line="7082"/>
+        <location filename="../mainwindow.cpp" line="7083"/>
         <source>On</source>
         <translation>활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6935"/>
-        <location filename="../mainwindow.cpp" line="6936"/>
-        <location filename="../mainwindow.cpp" line="6946"/>
-        <location filename="../mainwindow.cpp" line="6947"/>
-        <location filename="../mainwindow.cpp" line="6957"/>
-        <location filename="../mainwindow.cpp" line="6958"/>
-        <location filename="../mainwindow.cpp" line="6968"/>
-        <location filename="../mainwindow.cpp" line="6969"/>
-        <location filename="../mainwindow.cpp" line="6979"/>
-        <location filename="../mainwindow.cpp" line="6980"/>
-        <location filename="../mainwindow.cpp" line="6990"/>
-        <location filename="../mainwindow.cpp" line="6991"/>
-        <location filename="../mainwindow.cpp" line="7003"/>
-        <location filename="../mainwindow.cpp" line="7004"/>
+        <location filename="../mainwindow.cpp" line="6944"/>
+        <location filename="../mainwindow.cpp" line="6945"/>
+        <location filename="../mainwindow.cpp" line="6955"/>
+        <location filename="../mainwindow.cpp" line="6956"/>
+        <location filename="../mainwindow.cpp" line="6966"/>
+        <location filename="../mainwindow.cpp" line="6967"/>
+        <location filename="../mainwindow.cpp" line="6977"/>
+        <location filename="../mainwindow.cpp" line="6978"/>
+        <location filename="../mainwindow.cpp" line="6988"/>
+        <location filename="../mainwindow.cpp" line="6989"/>
+        <location filename="../mainwindow.cpp" line="6999"/>
+        <location filename="../mainwindow.cpp" line="7000"/>
+        <location filename="../mainwindow.cpp" line="7012"/>
         <location filename="../mainwindow.cpp" line="7013"/>
-        <location filename="../mainwindow.cpp" line="7014"/>
+        <location filename="../mainwindow.cpp" line="7022"/>
         <location filename="../mainwindow.cpp" line="7023"/>
-        <location filename="../mainwindow.cpp" line="7024"/>
+        <location filename="../mainwindow.cpp" line="7032"/>
         <location filename="../mainwindow.cpp" line="7033"/>
-        <location filename="../mainwindow.cpp" line="7034"/>
+        <location filename="../mainwindow.cpp" line="7042"/>
         <location filename="../mainwindow.cpp" line="7043"/>
-        <location filename="../mainwindow.cpp" line="7044"/>
+        <location filename="../mainwindow.cpp" line="7052"/>
         <location filename="../mainwindow.cpp" line="7053"/>
-        <location filename="../mainwindow.cpp" line="7054"/>
+        <location filename="../mainwindow.cpp" line="7062"/>
         <location filename="../mainwindow.cpp" line="7063"/>
-        <location filename="../mainwindow.cpp" line="7064"/>
+        <location filename="../mainwindow.cpp" line="7072"/>
         <location filename="../mainwindow.cpp" line="7073"/>
-        <location filename="../mainwindow.cpp" line="7074"/>
+        <location filename="../mainwindow.cpp" line="7082"/>
+        <location filename="../mainwindow.cpp" line="7083"/>
         <source>Off</source>
         <translation>비활성화됨</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7168"/>
         <location filename="../mainwindow.cpp" line="7177"/>
-        <location filename="../mainwindow.cpp" line="7187"/>
-        <location filename="../mainwindow.cpp" line="7198"/>
+        <location filename="../mainwindow.cpp" line="7186"/>
+        <location filename="../mainwindow.cpp" line="7196"/>
+        <location filename="../mainwindow.cpp" line="7207"/>
         <source>Load File</source>
         <translation>파일 불러오기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7169"/>
         <location filename="../mainwindow.cpp" line="7178"/>
+        <location filename="../mainwindow.cpp" line="7187"/>
         <source>Failed to load file %1</source>
         <translation>%1 파일 불러오기 실패</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7188"/>
+        <location filename="../mainwindow.cpp" line="7197"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
         <translation>&quot;%1&quot; 파일이 %2 앱과 호환되지 않습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7199"/>
+        <location filename="../mainwindow.cpp" line="7208"/>
         <source>Failed to extract host-information from %1</source>
         <translation>%1에서 호스트 정보를 찾을 수 없습니다</translation>
     </message>
@@ -4470,7 +4499,7 @@ Should these settings be applied?</source>
 설정을 적용할까요?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7213"/>
+        <location filename="../mainwindow.cpp" line="7222"/>
         <source>Load %1 File</source>
         <translation>%1 파일 불러오기</translation>
     </message>
