@@ -2909,10 +2909,6 @@ p, li { white-space: pre-wrap; }
         <translation>无法初始化音频编解码器</translation>
     </message>
     <message>
-        <source>Failed to initialize audio configuration</source>
-        <translation type="vanished">无法初始化音频配置</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1336"/>
         <source>Internal message queue overloaded</source>
         <translation>内部消息队列超载</translation>
@@ -3738,12 +3734,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="1331"/>
         <source>Audio preprocessor failed to initialize</source>
-        <translation type="unfinished"></translation>
+        <translation>音频预处理器初始化失败</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1333"/>
         <source>An audio effect could not be applied on the sound device</source>
-        <translation type="unfinished"></translation>
+        <translation>无法在声音设备上应用音频效果</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1584"/>
@@ -3768,22 +3764,22 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="2173"/>
         <source>Banned from channel</source>
-        <translation type="unfinished"></translation>
+        <translation>从频道禁止</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2186"/>
         <source>Maximum number of logins per IP-address exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>超出每个 IP 地址的最大登录次数</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2188"/>
         <source>Maximum bitrate for audio codec exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>超出音频编解码器的最大比特率</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2194"/>
         <source>Maximum number of file transfers exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>超出文件传输最大数量</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2360"/>
