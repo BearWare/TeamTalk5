@@ -3213,12 +3213,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1331"/>
         <source>Audio preprocessor failed to initialize</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось инициализировать аудио припроцессор</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1333"/>
         <source>An audio effect could not be applied on the sound device</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось применить звуковой эффект на звуковом устройстве</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1584"/>
@@ -3243,22 +3243,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2173"/>
         <source>Banned from channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Запрещен доступ к каналу</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2186"/>
         <source>Maximum number of logins per IP-address exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>Превышено максимальное количество входов в систему на один IP-адрес</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2188"/>
         <source>Maximum bitrate for audio codec exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>Превышен максимальный битрейт для аудиокодека</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2194"/>
         <source>Maximum number of file transfers exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>Превышено максимальное количество переданных файлов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2682"/>
