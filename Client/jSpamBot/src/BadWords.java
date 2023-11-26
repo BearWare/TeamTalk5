@@ -29,11 +29,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+import java.util.logging.Logger;
 
 public class BadWords {
     Map<String, Vector<String>> lang_badwords = new HashMap<>();
+    Logger logger;
 
-    public BadWords() {
+    public BadWords(Logger log) {
+        this.logger = log;
     }
 
     boolean loadFile(String language, String filename) {
@@ -49,6 +52,7 @@ public class BadWords {
                 while (badwords.remove(""));
             }
             catch (IOException e) {
+                logger.severe("Failed to load badwords for " + filename);
                 return false;
             }
         }
