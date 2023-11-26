@@ -336,8 +336,9 @@ implements ConnectionListener, CommandListener, AutoCloseable {
 
     void abuseBan(User user) {
         BannedUser b = new BannedUser();
-        b.uBanTypes = BanType.BANTYPE_IPADDR;
+        b.uBanTypes = BanType.BANTYPE_IPADDR | BanType.BANTYPE_USERNAME;
         b.szNickname = user.szNickname;
+        b.szUsername = user.szUsername;
         b.szIPAddress = user.szIPAddress;
         int prefix = getBanPrefix(user.szIPAddress);
         if (prefix > 0)
