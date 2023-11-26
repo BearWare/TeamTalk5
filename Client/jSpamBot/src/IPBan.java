@@ -21,14 +21,15 @@
  *
  */
 
-import dk.bearware.BannedUser;
 import dk.bearware.BanType;
+import dk.bearware.BannedUser;
 import dk.bearware.TeamTalkBase;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Vector;
+import java.util.logging.Logger;
 
 public class IPBan {
     // bans already on server (doListBans() result)
@@ -37,11 +38,14 @@ public class IPBan {
     Vector<String> networks;
     int networkindex = -1;
 
-    public IPBan(Vector<String> networks) {
+    Logger logger;
+
+    public IPBan(Vector<String> networks, Logger log) {
         this.networks = networks;
+        this.logger = log;
     }
 
-    public static Vector<String> loadFile(String filename) {
+    public static Vector<String> loadFile(String filename, Logger log) {
         Vector<String> networks = new Vector<>();
         File file = new File(filename);
         if (file.exists()) {
@@ -52,7 +56,7 @@ public class IPBan {
                 }
             }
             catch(IOException e) {
-                System.err.println("Failed to load "+filename+": " + e);
+                log.severe("Failed to load " + filename + ": " + e);
             }
         }
         return networks;
