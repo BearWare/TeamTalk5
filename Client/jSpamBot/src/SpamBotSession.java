@@ -112,31 +112,43 @@ implements ConnectionListener, CommandListener, AutoCloseable {
 
     public boolean containsBadWord(String text) {
         for (String lang : langbadwords) {
-            if (badwords.contains(lang, text))
+            if (badwords.contains(lang, text)) {
+                logger.info("Bad word in language: " + lang + ". Text: " + text);
                 return true;
+            }
         }
         return false;
     }
 
     public boolean cleanUser(User user) {
-        if (containsBadWord(user.szNickname))
+        if (containsBadWord(user.szNickname)) {
+            logger.info("Bad word in nickname: " + user.szNickname);
             return false;
-        if (containsBadWord(user.szStatusMsg))
+        }
+        if (containsBadWord(user.szStatusMsg)) {
+            logger.info("Bad word in status message: " + user.szStatusMsg);
             return false;
+        }
         return true;
     }
 
     public boolean cleanChannel(Channel chan) {
-        if (containsBadWord(chan.szName))
+        if (containsBadWord(chan.szName)) {
+            logger.info("Bad word in channel name: " + chan.szName);
             return false;
-        if (containsBadWord(chan.szTopic))
+        }
+        if (containsBadWord(chan.szTopic)) {
+            logger.info("Bad word in channel topic: " + chan.szTopic);
             return false;
+        }
         return true;
     }
 
     public boolean cleanTextMessage(TextMessage msg) {
-        if (containsBadWord(msg.szMessage))
+        if (containsBadWord(msg.szMessage)) {
+            logger.info("Bad word in text message: " + msg.szMessage);
             return false;
+        }
         return true;
     }
 
