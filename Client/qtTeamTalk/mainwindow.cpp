@@ -3104,6 +3104,7 @@ void MainWindow::updateChannelFiles(int channelid)
     TTCHAR chanpath[TT_STRLEN] = {};
     TT_GetChannelPath(ttInst, channelid, chanpath);
     ui.channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
+    ui.filesView->setAccessibleName(tr("Files in channel: %1").arg(_Q(chanpath)));
 
     if (m_proxyFilesModel->rowCount() == 0)
     {

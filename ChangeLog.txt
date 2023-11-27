@@ -22,6 +22,7 @@ Default Qt Client
 - Fixed state of "Close when completed" checkbox on "Transfer file" dialog
 - Fixed files count not announced for non admin users when pressing CTRL+G on non current channel
 - Fixed users still showning channel in Online Users dialog
+- Label of files list now includes channel path
 Android Client
 -
 iOS Client
