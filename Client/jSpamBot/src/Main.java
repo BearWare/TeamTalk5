@@ -87,8 +87,14 @@ public class Main {
             if (System.nanoTime() >= serverlistUpdateTimeout) {
                 logger.info("Updating server list...");
                 var servers = getServerList();
-                if (servers.size() == 0)
-                    servers = new WebLogin(username, passwd, logger).getServerList();
+                if (servers.size() == 0) {
+                    try {
+                        servers = new WebLogin(username, passwd, logger).getServerList();
+                    }
+                    catch (IOException e) {
+                        logger.severe("Failed to retrieve server list: " + e);
+                    }
+                }
 
                 if (!lastServers.equals(servers)) {
                     logger.info("Dirty server list. Updating...");
@@ -97,11 +103,18 @@ public class Main {
                     }
                     sessions.clear();
                     for (var server : servers) {
-                        sessions.add(new SpamBotSession(server,
-                                                        new WebLogin(username, passwd, logger),
-                                                        new IPBan(bannetworks, logger), badwords,
-                                                        new Abuse(ipjoins, iplogins, ipkicks, ipcmdduration),
-                                                        abusedb, ipv4banprefix, ipv6banprefix, logger));
+                        try {
+                            var spambot = new SpamBotSession(server,
+                                                             new WebLogin(username, passwd, logger),
+                                                             new IPBan(bannetworks, logger), badwords,
+                                                             new Abuse(ipjoins, iplogins, ipkicks, ipcmdduration),
+                                                             abusedb, ipv4banprefix, ipv6banprefix, logger);
+
+                            sessions.add(spambot);
+                        }
+                        catch (IOException e) {
+                            logger.severe("Failed to add spambot: " + e);
+                        }
                     }
                     lastServers = servers;
                 }
