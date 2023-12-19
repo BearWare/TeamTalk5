@@ -2062,8 +2062,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
     }
 
-    // This test is unstable: java.lang.AssertionError: Internal error"
-    // @Test
+    @Test
     public void testMessageQueue() throws InterruptedException {
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - "
