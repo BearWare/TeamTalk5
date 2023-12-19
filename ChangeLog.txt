@@ -16,13 +16,14 @@ Default Qt Client
 - Username or IP-address of current selection is shown in text box in "Banned Users" dialog
 - Pressing Enter in text box of "Banned Users" dialog will add new ban
 - Kick/Ban From Server now in context menu of Online Users dialog
-- Client version shown in View User Information dialog
+- Client version shown in "View User Information" dialog
 - Option in Display-tab to disable user and channel icons
 - Option in Text-To-Speech-tab to configure whether to try SAPI when screenreader is not available
+- Label of files list now includes channel path
 - Fixed state of "Close when completed" checkbox on "Transfer file" dialog
 - Fixed files count not announced for non admin users when pressing CTRL+G on non current channel
 - Fixed users still showning channel in Online Users dialog
-- Label of files list now includes channel path
+- Changed to Qt 6.6.1 on macOS and Windows
 Android Client
 -
 iOS Client
@@ -31,7 +32,7 @@ Server
 - User right to prevent private text messages
 - User right to prevent channel text messages
 - Support for banning IP-address as subnet, e.g. 192.168.0.0/24 or 2a02:09b0:402b:eed8::/63
-- Owner of ban is stored
+- Creator of ban is stored
 
 Version 5.14.2, 2023/11/03
 Android Client
