@@ -65,4 +65,10 @@ public interface TTType {
     public static final int __CLIENTKEEPALIVE         = 38;
     public static final int __UINT32                  = 39;
     public static final int __AUDIOINPUTPROGRESS      = 40;
+    public static final int __JITTERCONFIG            = 41;
+    public static final int __WEBRTCAUDIOPREPROCESSOR = 42;
+    public static final int __ENCRYPTIONCONTEXT       = 43;
+    public static final int __SOUNDDEVICEEFFECTS      = 44;
+    public static final int __DESKTOPWINDOW           = 45;
+    public static final int __ABUSEPREVENTION         = 46;
 }

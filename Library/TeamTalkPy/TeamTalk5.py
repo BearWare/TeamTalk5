@@ -186,6 +186,7 @@ class AudioFileFormat(INT32):
     AFF_MP3_64KBIT_FORMAT = 5
     AFF_MP3_128KBIT_FORMAT = 6
     AFF_MP3_256KBIT_FORMAT = 7
+    AFF_MP3_320KBIT_FORMAT = 8
 
 class AudioFormat(Structure):
     _fields_ = [
@@ -1023,6 +1024,9 @@ class TTType(INT32):
     JITTERCONFIG = 41
     WEBRTCAUDIOPREPROCESSOR = 42
     ENCRYPTIONCONTEXT = 43
+    SOUNDDEVICEEFFECTS = 44
+    DESKTOPWINDOW = 45
+    ABUSEPREVENTION = 46
 
 class TTMessageUnion(Union):
     _fields_ = [
