@@ -26,13 +26,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
@@ -44,17 +37,27 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Vector;
+import java.util.logging.Logger;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 public class WebLogin {
 
     String mUsername;
     String mToken;
+    Logger logger;
 
     public String getUsername() {
         return mUsername;
     }
 
-    public WebLogin(String username, String passwd) throws IOException, InterruptedException, URISyntaxException, XPathExpressionException {
+    public WebLogin(String username, String passwd, Logger log) throws IOException, InterruptedException, URISyntaxException, XPathExpressionException {
+        this.logger = log;
         String encodedUsername = URLEncoder.encode(username, StandardCharsets.UTF_8);
         String encodedPasswd = URLEncoder.encode(passwd, StandardCharsets.UTF_8);
         String url = String.format("https://www.bearware.dk/teamtalk/weblogin.php?service=bearware&action=auth&username=%s&password=%s", encodedUsername, encodedPasswd);
@@ -70,7 +73,7 @@ public class WebLogin {
                 .send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() > 300) {
-            System.out.println(response.body());
+            logger.severe("Response: " + response.body());
             throw new IOException("Invalid password for " + username + ". Error code: " + response.statusCode());
         }
 
@@ -98,15 +101,15 @@ public class WebLogin {
                     .send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() > 300) {
-                System.out.println(response.body());
-                System.err.println("Invalid token for " + mUsername + ". Error code: " + response.statusCode());
+                logger.severe("WebLogin with token failed: " + response.body());
+                logger.severe("Invalid token for " + mUsername + ". Error code: " + response.statusCode());
                 return false;
             }
 
             return true;
         }
         catch (IOException | InterruptedException | URISyntaxException e) {
-            System.err.println("Failed to get token for " + mUsername + ". "+ e);
+            logger.severe("Failed to get token for " + mUsername + ". "+ e);
             return false;
         }
     }
@@ -130,7 +133,7 @@ public class WebLogin {
                     .send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() > 300) {
-                System.err.println("Invalid token for " + mUsername + ". Error code: " + response.statusCode());
+                logger.severe("Invalid token for " + mUsername + ". Error code: " + response.statusCode());
                 return servers;
             }
 
@@ -153,7 +156,7 @@ public class WebLogin {
             }
         }
         catch (IOException | InterruptedException | URISyntaxException | XPathExpressionException | ParserConfigurationException | SAXException e) {
-            System.err.println("Failed to get server list for " + mUsername + ". "+ e);
+            logger.severe("Failed to get server list for " + mUsername + ". "+ e);
         }
         return servers;
     }

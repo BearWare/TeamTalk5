@@ -522,7 +522,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="251"/>
         <source>Audio Codec</source>
-        <translation>مبدل صوتی</translation>
+        <translation>فشرده‌ساز صوتی</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="259"/>
@@ -2867,11 +2867,11 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1329"/>
         <source>Failed to initialize audio codec</source>
-        <translation>مبدل صوتی به درستی راه‌اندازی نشد</translation>
+        <translation>فشرده‌ساز صوتی به درستی راه‌اندازی نشد</translation>
     </message>
     <message>
         <source>Failed to initialize audio configuration</source>
-        <translation type="vanished">تنظیمات صوتی به درستی راه‌اندازی نشد</translation>
+        <translation>تنظیمات صوتی به درستی راه‌اندازی نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1336"/>
@@ -3008,7 +3008,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2106"/>
         <source>Unknown audio codec</source>
-        <translation>مبدل صوتی ناشناخته است</translation>
+        <translation>فشرده‌ساز صوتی ناشناخته است</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2108"/>
@@ -3695,12 +3695,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="1331"/>
         <source>Audio preprocessor failed to initialize</source>
-        <translation type="unfinished"></translation>
+        <translation>پیش‌پردازشگر صوتی راه‌اندازی نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1333"/>
         <source>An audio effect could not be applied on the sound device</source>
-        <translation type="unfinished"></translation>
+        <translation>اِعمالِ افکتِ صوتی روی دستگاهِ صدا ناموفق بود</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1584"/>
@@ -3725,22 +3725,22 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="2173"/>
         <source>Banned from channel</source>
-        <translation type="unfinished"></translation>
+        <translation>شما از کانال محروم هستید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2186"/>
         <source>Maximum number of logins per IP-address exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>تعداد آیپی‌هایی که به‌صورت همزمان وارد سِروِر شده‌اند به حداکثر رسیده است</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2188"/>
         <source>Maximum bitrate for audio codec exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>نرخ بیت فشرده‌ساز صوتی از حد مجاز فراتر رفته است</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2194"/>
         <source>Maximum number of file transfers exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>تعداد انتقال فایل‌ها به حداکثر رسیده‌است</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2360"/>

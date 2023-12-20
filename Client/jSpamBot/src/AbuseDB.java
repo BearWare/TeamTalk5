@@ -34,6 +34,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringJoiner;
+import java.util.logging.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,9 +44,11 @@ public class AbuseDB {
     String abuseIPDBKey;
     Set<String> whitelist = new HashSet<>();
     Set<String> badlist = new HashSet<>();
+    Logger logger;
 
-    public AbuseDB(String apikey) {
+    public AbuseDB(String apikey, Logger log) {
         this.abuseIPDBKey = apikey;
+        this.logger = log;
     }
 
     public void addWhiteListIPAddr(String ipaddr) {
@@ -74,11 +77,11 @@ public class AbuseDB {
             var client = HttpClient.newHttpClient();
             var response = client.send(request, BodyHandlers.ofString());
             if (response.statusCode() >= 300) {
-                System.err.println(response.body());
+                logger.severe("Failed to report: " + response.body());
             }
         }
         catch (IOException | InterruptedException e) {
-            System.err.println("Failed to submit IP-address: " + ipaddr);
+            logger.severe("Failed to submit IP-address: " + ipaddr);
         }
     }
 
@@ -111,7 +114,7 @@ public class AbuseDB {
             }
         }
         catch (IOException | InterruptedException | JSONException e) {
-            System.err.println("Failed to check IP-address: " + ipaddr);
+            logger.severe("Failed to check IP-address: " + ipaddr);
         }
 
         return badlist.contains(ipaddr);
