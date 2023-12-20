@@ -176,7 +176,8 @@ depend-ubuntu18:
                     libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
                     openjdk-11-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev yasm autoconf libtool pkg-config \
-                    libasound2-dev wget python g++ python3-pytest
+                    libasound2-dev wget python g++ python3-pytest \
+                    libpulse-dev
 
 depend-ubuntu20:
 # Duplicate install in Docker/Dockerfile_ubuntu20
@@ -184,7 +185,8 @@ depend-ubuntu20:
                     libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
                     openjdk-17-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev yasm autoconf libtool pkg-config \
-                    libasound2-dev wget python g++
+                    libasound2-dev wget python g++ \
+                    libpulse-dev
 
 depend-ubuntu22:
 	apt install qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev \
@@ -212,9 +214,9 @@ depend-debian9:
 depend-rasp10:
 	apt install qt5-default libqt5x11extras5-dev qtmultimedia5-dev \
                     libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
-                    openjdk-8-jdk ninja-build libpcap-dev junit4 cmake \
+                    openjdk-11-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev autoconf libtool pkg-config \
-                    libasound2-dev wget python
+                    libasound2-dev wget python libpulse-dev
 
 # TeamTalk 5 dependencies for Raspbian 11 Bullseye
 depend-rasp11:
@@ -222,7 +224,8 @@ depend-rasp11:
                     libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
                     openjdk-17-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev autoconf libtool pkg-config \
-                    libasound2-dev wget g++ p7zip-full python3-pytest
+                    libasound2-dev wget g++ p7zip-full python3-pytest \
+                    libpulse-dev
 
 depend-mac:
 	brew install autoconf automake libtool pkg-config yasm ninja
