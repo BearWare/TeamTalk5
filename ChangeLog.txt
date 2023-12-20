@@ -2,7 +2,17 @@
                  TeamTalk
 ----------------------------------------------
 
-Version 5.15, unreleased
+Version 5.16, unreleased
+Default Qt Client
+-
+Android Client
+-
+iOS Client
+-
+Server
+-
+
+Version 5.15, 2023/12/20
 Default Qt Client
 - PulseAudio support on Ubuntu 22
 - User right to prevent private text messages
@@ -24,10 +34,6 @@ Default Qt Client
 - Fixed files count not announced for non admin users when pressing CTRL+G on non current channel
 - Fixed users still showning channel in Online Users dialog
 - Changed to Qt 6.6.1 on macOS and Windows
-Android Client
--
-iOS Client
--
 Server
 - User right to prevent private text messages
 - User right to prevent channel text messages
