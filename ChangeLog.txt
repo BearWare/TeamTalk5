@@ -12,6 +12,11 @@ iOS Client
 Server
 -
 
+Version 5.15.1, 2023/12/21
+Default Qt Client
+- Fixed crashes and missing dialogs when using VoiceOver on macOS
+- Changed to Qt 6.7.0beta1 on macOS
+
 Version 5.15, 2023/12/20
 Default Qt Client
 - PulseAudio support on Ubuntu 22
