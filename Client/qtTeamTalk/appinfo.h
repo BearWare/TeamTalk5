@@ -26,9 +26,9 @@
 #include <QDialog>
 
 #define COMPANYNAME         "BearWare.dk"
-#define APPVERSION_SHORT    "5.15.0"
+#define APPVERSION_SHORT    "5.15.1"
 #define APPVERSION_POSTFIX  ""
-#define APPVERSION          "5.15" APPVERSION_POSTFIX
+#define APPVERSION          "5.15.1" APPVERSION_POSTFIX
 
 #define APPICON             QString::fromUtf8(":/images/images/teamtalk.png")
 #define APPTRAYICON         QString::fromUtf8(":/images/images/teamtalky.png")
