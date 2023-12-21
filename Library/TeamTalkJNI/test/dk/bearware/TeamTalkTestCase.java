@@ -2210,7 +2210,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertFalse("no voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 1000));
 
-        assertTrue("pass 0 user id as MYSELF", ttclient.enableAudioBlockEvent(0, StreamType.STREAMTYPE_VOICE, true));
+        assertTrue("pass 0 user id as MYSELF", ttclient.enableAudioBlockEvent(Constants.TT_LOCAL_USERID, StreamType.STREAMTYPE_VOICE, true));
 
         String wavefilePath = STORAGEFOLDER + File.separator + "MyWaveFile.wav";
 
@@ -2234,8 +2234,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             v = WRITE_BYTES - 44;
             fs.write(new byte[] {(byte)(v & 0xFF), (byte)((v>>8) & 0xFF), (byte)((v>>16) & 0xFF), (byte)((v>>24) & 0xFF)}); //WRITE_BYTES - 44
 
+            int n_ab = 0;
             while(WRITE_BYTES > 0) {
-                assertTrue("gimme voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+                assertTrue("gimme voice audioblock #" + (n_ab++), waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
 
                 AudioBlock block = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, 0);
                 assertTrue("audio block is valid", block != null);
@@ -2252,7 +2253,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             }
         }
 
-        assertTrue("disable callback for MYSELF", ttclient.enableAudioBlockEvent(0, StreamType.STREAMTYPE_VOICE, false));
+        assertTrue("disable callback for MYSELF", ttclient.enableAudioBlockEvent(Constants.TT_LOCAL_USERID, StreamType.STREAMTYPE_VOICE, false));
 
         assertTrue("disable voice now that we have the wav-file", ttclient.enableVoiceTransmission(false));
 
