@@ -62,6 +62,9 @@ public class Main {
         int ipv4banprefix = Integer.parseInt(System.getProperty("dk.bearware.ipv4banprefix", "32"));
         int ipv6banprefix = Integer.parseInt(System.getProperty("dk.bearware.ipv6banprefix", "128"));
         String abuseIPDBKey = System.getProperty("dk.bearware.abuseipdbkey", "");
+        int abuseIPDBTotalReports = Integer.parseInt(System.getProperty("dk.bearware.abuseipdbtotalreports", "2"));
+        int abuseIPDBDistinctUsers = Integer.parseInt(System.getProperty("dk.bearware.abuseipdbdistinctusers", "2"));
+        int abuseIPDBConfidenceScore = Integer.parseInt(System.getProperty("dk.bearware.abuseipdbconfidencescore", "2"));
 
         TeamTalk5.loadLibrary();
         String regname = System.getProperty("dk.bearware.regname", "");
@@ -75,7 +78,9 @@ public class Main {
 
         var bannetworks = IPBan.loadFile("vpnips.txt", logger);
 
-        AbuseDB abusedb = new AbuseDB(abuseIPDBKey, logger);
+        AbuseDB abusedb = new AbuseDB(abuseIPDBKey, abuseIPDBTotalReports,
+                                      abuseIPDBDistinctUsers, abuseIPDBConfidenceScore,
+                                      logger);
 
         var sessions = new Vector<SpamBotSession>();
         var lastServers = new Vector<TeamTalkServer>();
