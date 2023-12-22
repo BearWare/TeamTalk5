@@ -44,10 +44,14 @@ public class AbuseDB {
     String abuseIPDBKey;
     Set<String> whitelist = new HashSet<>();
     Set<String> badlist = new HashSet<>();
+    int totalReports, distinctUsers, confidenceScore;
     Logger logger;
 
-    public AbuseDB(String apikey, Logger log) {
+    public AbuseDB(String apikey, int totalReports, int distinctUsers, int confidenceScore, Logger log) {
         this.abuseIPDBKey = apikey;
+        this.totalReports = totalReports;
+        this.distinctUsers = distinctUsers;
+        this.confidenceScore = confidenceScore;
         this.logger = log;
     }
 
@@ -104,8 +108,9 @@ public class AbuseDB {
 
             JSONObject json = new JSONObject(response.body());
             json = json.getJSONObject("data");
-            if (json.getInt("totalReports") > 1 &&
-                json.getInt("numDistinctUsers") > 1 &&
+            if (json.getInt("totalReports") >= this.totalReports &&
+                json.getInt("numDistinctUsers") >= this.distinctUsers &&
+                json.getInt("abuseConfidenceScore") >= this.confidenceScore &&
                 json.getBoolean("isWhitelisted") == false) {
                 badlist.add(ipaddr);
             }
