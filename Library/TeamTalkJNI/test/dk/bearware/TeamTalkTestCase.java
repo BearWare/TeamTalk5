@@ -1445,7 +1445,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                 assertTrue("enable tx", ttclient.enableVoiceTransmission(true));
                 receiveSamples = chan.audiocodec.opus.nSampleRate;
                 do {
-                    assertTrue("gimme 1 sec tone of voice audioblock", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+                    assertTrue("gimme 1 sec tone of voice audioblock, so far " + receiveSamples,
+                               waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
                     assertEquals("muxed userid", Constants.TT_MUXED_USERID, msg.nSource);
                     AudioBlock block = rxclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
                     assertTrue("block valid", block != null);
@@ -1463,7 +1464,8 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
             receiveSamples = chan.audiocodec.opus.nSampleRate;
             do {
-                assertTrue("gimme 1 sec tone of voice audioblock", waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
+                assertTrue("gimme 1 sec tone of voice audioblock, so far " + receiveSamples,
+                           waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg));
                 assertEquals("muxed userid", Constants.TT_MUXED_USERID, msg.nSource);
                 AudioBlock block = rxclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);
                 assertTrue("block valid", block != null);
