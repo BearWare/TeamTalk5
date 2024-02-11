@@ -458,9 +458,15 @@ public abstract class TeamTalkTestCaseBase {
                 }
 
                 switch (tmp.nClientEvent) {
-                case ClientError.INTERR_TTMESSAGE_QUEUE_OVERFLOW :
-                    System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + ": Message queue overflow");
-                    break;
+                case ClientEvent.CLIENTEVENT_INTERNAL_ERROR :
+                    switch (tmp.clienterrormsg.nErrorNo) {
+                    case ClientError.INTERR_TTMESSAGE_QUEUE_OVERFLOW :
+                        System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + ": Message queue overflow");
+                        break;
+                    default :
+                        System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + ": Internal error: " + tmp.clienterrormsg.nErrorNo);
+                        break;
+                    }
                 }
             }
         }
