@@ -174,8 +174,6 @@ public abstract class TeamTalkTestCaseBase {
             ttclient.closeTeamTalk();
         }
         ttclients.clear();
-
-        DEBUG_OUTPUT = false;
     }
 
     protected void initSound(TeamTalkBase ttclient) {
@@ -399,7 +397,7 @@ public abstract class TeamTalkTestCaseBase {
 
         assertTrue("Wait join complete", waitCmdComplete(ttclient, cmdid, DEF_WAIT, server));
 
-        assertEquals("In root channel", ttclient.getMyChannelID(), ttclient.getRootChannelID());
+        assertEquals("In root channel", ttclient.getRootChannelID(), ttclient.getMyChannelID());
     }
 
     protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent,
@@ -445,10 +443,20 @@ public abstract class TeamTalkTestCaseBase {
 
             interleave.interleave();
 
-            if(DEBUG_OUTPUT && gotmsg) {
-                System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + ": " + tmp.nClientEvent);
-                if(tmp.nClientEvent == ClientEvent.CLIENTEVENT_CMD_ERROR) {
-                    System.out.println("Command error: " + tmp.clienterrormsg.szErrorMsg);
+            if (gotmsg) {
+                if (DEBUG_OUTPUT) {
+                    System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + ": " + tmp.nClientEvent);
+                    switch (tmp.nClientEvent) {
+                    case ClientEvent.CLIENTEVENT_CMD_ERROR :
+                        System.out.println("Command error: " + tmp.clienterrormsg.szErrorMsg);
+                        break;
+                    }
+                }
+
+                switch (tmp.nClientEvent) {
+                case ClientError.INTERR_TTMESSAGE_QUEUE_OVERFLOW :
+                    System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + ": Message queue overflow");
+                    break;
                 }
             }
         }
