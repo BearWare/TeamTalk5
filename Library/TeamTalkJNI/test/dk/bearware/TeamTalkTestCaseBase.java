@@ -141,6 +141,10 @@ public abstract class TeamTalkTestCaseBase {
         if (prop != null && !prop.isEmpty())
             this.GITHUBSKIP = Integer.parseInt(prop) != 0;
 
+        prop = System.getProperty("dk.bearware.debug");
+        if (prop != null && !prop.isEmpty())
+            this.DEBUG_OUTPUT = Integer.parseInt(prop) != 0;
+        
         if (TCPPORT == 0 && UDPPORT == 0) {
             if (this.ENCRYPTED) {
                 TCPPORT = Constants.DEFAULT_TCP_PORT_ENCRYPTED;
