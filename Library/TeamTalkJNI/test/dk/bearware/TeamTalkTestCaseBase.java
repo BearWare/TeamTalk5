@@ -32,6 +32,7 @@ import org.junit.runner.Description;
 import org.junit.rules.Stopwatch;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.util.Vector;
 import java.io.FileOutputStream;
@@ -424,6 +425,7 @@ public abstract class TeamTalkTestCaseBase {
             // ClientEvent.CLIENTEVENT_NONE' which is default in
             // TTMessage. So set to something unsupported.
             tmp.nClientEvent = -1;
+            assertNotEquals("ClientEvent -1 is reserved", tmp.nClientEvent, nClientEvent);
 
             gotmsg = ttclient.getMessage(tmp, 0);
 
