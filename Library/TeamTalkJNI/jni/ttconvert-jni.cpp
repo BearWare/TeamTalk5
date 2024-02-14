@@ -44,6 +44,14 @@ const INT32* TO_INT32_ARRAY(const jint* jints, INT32* ttints, jsize N)
     return ttints;
 }
 
+jint hashCode(JNIEnv* env, jobject thiz)
+{
+    jclass cls = env->GetObjectClass(thiz);
+    jmethodID hashCodeMethod = env->GetMethodID(cls, "hashCode", "()I");
+    jint hash = env->CallIntMethod(thiz, hashCodeMethod);
+    return hash;
+}
+
 jobject newObject(JNIEnv* env, jclass cls_obj)
 {
     jmethodID midInit = env->GetMethodID(cls_obj, "<init>", "()V");

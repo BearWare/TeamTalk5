@@ -97,6 +97,7 @@ enum JConvert
     J2N = 2
 };
 
+jint hashCode(JNIEnv* env, jobject thiz);
 jobject newObject(JNIEnv* env, jclass cls_obj);
 jobject newSoundDevice(JNIEnv* env, const SoundDevice& dev);
 jobject newVideoDevice(JNIEnv* env, VideoCaptureDevice& dev);

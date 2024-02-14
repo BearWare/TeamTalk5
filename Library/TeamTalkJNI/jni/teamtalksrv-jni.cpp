@@ -28,16 +28,43 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <mutex>
 
 #include <TeamTalkSrv.h>
 
-using namespace std;
-
-
-typedef map<TTSInstance*, JNIEnv*> jenv_t;
-typedef map<TTSInstance*, jobject> refs_t;
+typedef std::map<TTSInstance*, JNIEnv*> jenv_t;
+typedef std::map<TTSInstance*, jobject> refs_t;
 jenv_t envs;
 refs_t command_refs, logger_refs;
+
+std::mutex ttsinstmutex;
+std::map<jint, TTSInstance*> ttsinstances;
+
+void AddTTSInstance(JNIEnv* env, jobject thiz, TTSInstance* ttsinst)
+{
+    auto hash = hashCode(env, thiz);
+
+    std::lock_guard<std::mutex> g(ttsinstmutex);
+    ttsinstances[hash] = ttsinst;
+}
+
+TTSInstance* RemoveTTSInstance(JNIEnv* env, jobject thiz)
+{
+    auto hash = hashCode(env, thiz);
+
+    std::lock_guard<std::mutex> g(ttsinstmutex);
+    TTSInstance* ttsinst = ttsinstances[hash];
+    ttsinstances.erase(hash);
+    return ttsinst;
+}
+
+TTSInstance* GetTTSInstance(JNIEnv* env, jobject thiz)
+{
+    auto hash = hashCode(env, thiz);
+    std::lock_guard<std::mutex> g(ttsinstmutex);
+    return ttsinstances[hash];
+}
+
 
 extern "C" {
     
@@ -747,7 +774,7 @@ extern "C" {
     (JNIEnv *env, jobject thiz) {
 
         TTSInstance* ttsInst = TTS_InitTeamTalk();
-
+        AddTTSInstance(env, thiz, ttsInst);
         envs[ttsInst] = env;
 
         return jlong(ttsInst);
@@ -755,7 +782,7 @@ extern "C" {
 
     JNIEXPORT void JNICALL Java_dk_bearware_TeamTalkSrv_closeTeamTalk
     (JNIEnv *env, jobject thiz, jlong lpTTSInstance) {
-        TTSInstance* inst = reinterpret_cast<TTSInstance*>(lpTTSInstance);
+        TTSInstance* inst = RemoveTTSInstance(env, thiz);
 
         TTS_CloseTeamTalk(inst);
         
@@ -772,7 +799,7 @@ extern "C" {
     JNIEXPORT void JNICALL Java_dk_bearware_TeamTalkSrv_registerServerCallback
     (JNIEnv *env, jobject thiz, jlong lpTTSInstance, jobject servercallback) {
 
-        TTSInstance* inst = reinterpret_cast<TTSInstance*>(lpTTSInstance);
+        TTSInstance* inst = GetTTSInstance(env, thiz);
 
         command_refs[inst] = env->NewGlobalRef(servercallback);
 
@@ -797,7 +824,7 @@ extern "C" {
     JNIEXPORT void JNICALL Java_dk_bearware_TeamTalkSrv_registerServerLogger
     (JNIEnv *env, jobject thiz, jlong lpTTSInstance, jobject serverlogger) {
 
-        TTSInstance* inst = reinterpret_cast<TTSInstance*>(lpTTSInstance);
+        TTSInstance* inst = GetTTSInstance(env, thiz);
 
         logger_refs[inst] = env->NewGlobalRef(serverlogger);
         
@@ -826,7 +853,7 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkSrv_setEncryptionContext
     (JNIEnv *env, jobject thiz, jlong lpTTSInstance, jstring szCertificateFile, jstring szPrivateKeyFile) {
-        return TTS_SetEncryptionContext(reinterpret_cast<TTSInstance*>(lpTTSInstance), ttstr(env, szCertificateFile),
+        return TTS_SetEncryptionContext(GetTTSInstance(env, thiz), ttstr(env, szCertificateFile),
                                         ttstr(env, szPrivateKeyFile));
     }
 
@@ -838,25 +865,25 @@ extern "C" {
         EncryptionContext context = {};
         setEncryptionContext(env, context, lpEncryptionContext, J2N);
 
-        return TTS_SetEncryptionContextEx(reinterpret_cast<TTSInstance*>(lpTTSInstance),
+        return TTS_SetEncryptionContextEx(GetTTSInstance(env, thiz),
                                           &context);
     }
     
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkSrv_runEventLoop
     (JNIEnv *env, jobject thiz, jlong lpTTSInstance, jint pnWaitMs) {
 
-        envs[reinterpret_cast<TTSInstance*>(lpTTSInstance)] = env;
+        envs[GetTTSInstance(env, thiz)] = env;
 
         INT32 _pnWaitMs = pnWaitMs;
 
-        return TTS_RunEventLoop(reinterpret_cast<TTSInstance*>(lpTTSInstance), &_pnWaitMs);
+        return TTS_RunEventLoop(GetTTSInstance(env, thiz), &_pnWaitMs);
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkSrv_setChannelFilesRoot
     (JNIEnv *env, jobject thiz, jlong lpTTSInstance, jstring szFilesRoot,
      jlong nMaxDiskUsage, jlong nDefaultChannelQuota) {
 
-        return TTS_SetChannelFilesRoot(reinterpret_cast<TTSInstance*>(lpTTSInstance),
+        return TTS_SetChannelFilesRoot(GetTTSInstance(env, thiz),
                                        ttstr(env, szFilesRoot), nMaxDiskUsage, nDefaultChannelQuota);
     }
 
@@ -865,7 +892,7 @@ extern "C" {
 
         ServerProperties srvprop;
         setServerProperties(env, srvprop, lpServerProperties, J2N);
-        return TTS_UpdateServer(reinterpret_cast<TTSInstance*>(lpTTSInstance), &srvprop);
+        return TTS_UpdateServer(GetTTSInstance(env, thiz), &srvprop);
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkSrv_makeChannel
@@ -874,7 +901,7 @@ extern "C" {
         Channel chan;
         setChannel(env, chan, lpChannel, J2N);
         
-        return TTS_MakeChannel(reinterpret_cast<TTSInstance*>(lpTTSInstance), &chan);
+        return TTS_MakeChannel(GetTTSInstance(env, thiz), &chan);
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkSrv_updateChannel
@@ -883,12 +910,12 @@ extern "C" {
         Channel chan;
         setChannel(env, chan, lpChannel, J2N);
         
-        return TTS_UpdateChannel(reinterpret_cast<TTSInstance*>(lpTTSInstance), &chan);
+        return TTS_UpdateChannel(GetTTSInstance(env, thiz), &chan);
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkSrv_removeChannel
     (JNIEnv *env, jobject thiz, jlong lpTTSInstance, jint nChannelID) {
-        return TTS_RemoveChannel(reinterpret_cast<TTSInstance*>(lpTTSInstance), nChannelID);
+        return TTS_RemoveChannel(GetTTSInstance(env, thiz), nChannelID);
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkSrv_addFileToChannel
@@ -896,7 +923,7 @@ extern "C" {
         RemoteFile rmfile;
         setRemoteFile(env, rmfile, lpRemoteFile, J2N);
 
-        return TTS_AddFileToChannel(reinterpret_cast<TTSInstance*>(lpTTSInstance), 
+        return TTS_AddFileToChannel(GetTTSInstance(env, thiz), 
                                     ttstr(env, szLocalFilePath), &rmfile);
     }
 
@@ -906,7 +933,7 @@ extern "C" {
         RemoteFile rmfile;
         setRemoteFile(env, rmfile, lpRemoteFile, J2N);
 
-        return TTS_RemoveFileFromChannel(reinterpret_cast<TTSInstance*>(lpTTSInstance), 
+        return TTS_RemoveFileFromChannel(GetTTSInstance(env, thiz), 
                                          &rmfile);
     }
 
@@ -916,7 +943,7 @@ extern "C" {
         TextMessage msg;
         setTextMessage(env, msg, lpTextMessage, J2N);
 
-        return TTS_SendTextMessage(reinterpret_cast<TTSInstance*>(lpTTSInstance), 
+        return TTS_SendTextMessage(GetTTSInstance(env, thiz), 
                                    &msg);
     }
     
@@ -925,13 +952,13 @@ extern "C" {
 
         Channel chan;
         setChannel(env, chan, lpChannel, J2N);
-        return TTS_MoveUser(reinterpret_cast<TTSInstance*>(lpTTSInstance), nUserID, &chan);
+        return TTS_MoveUser(GetTTSInstance(env, thiz), nUserID, &chan);
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkSrv_startServer
     (JNIEnv *env, jobject thiz, jlong lpTTSInstance, jstring szBindIPAddr, 
      jint nTcpPort, jint nUdpPort, jboolean bEncrypted) {
-        return TTS_StartServer(reinterpret_cast<TTSInstance*>(lpTTSInstance), 
+        return TTS_StartServer(GetTTSInstance(env, thiz), 
                                ttstr(env, szBindIPAddr), 
                                UINT16(nTcpPort), UINT16(nUdpPort), bEncrypted);
     }
@@ -939,7 +966,7 @@ extern "C" {
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkSrv_startServerSysID
     (JNIEnv *env, jobject thiz, jlong lpTTSInstance, jstring szBindIPAddr, 
      jint nTcpPort, jint nUdpPort, jboolean bEncrypted, jstring szSystemID) {
-        return TTS_StartServerSysID(reinterpret_cast<TTSInstance*>(lpTTSInstance), 
+        return TTS_StartServerSysID(GetTTSInstance(env, thiz), 
                                     ttstr(env, szBindIPAddr), 
                                     UINT16(nTcpPort), UINT16(nUdpPort), bEncrypted,
                                     ttstr(env, szSystemID));
@@ -947,7 +974,7 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkSrv_stopServer
     (JNIEnv *env, jobject thiz, jlong lpTTSInstance) {
-        return TTS_StopServer(reinterpret_cast<TTSInstance*>(lpTTSInstance));
+        return TTS_StopServer(GetTTSInstance(env, thiz));
     }
 
 }
