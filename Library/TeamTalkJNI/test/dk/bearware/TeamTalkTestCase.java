@@ -60,13 +60,6 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         connect(ttclient);
         login(ttclient, NICKNAME, USERNAME, PASSWORD);
         joinRoot(ttclient);
-
-        // TTMessage msg = new TTMessage();
-        // assertTrue("Wait desktop window", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_DESKTOPWINDOW, DEF_WAIT, msg));
-
-        // DesktopWindow wnd = ttclient.acquireUserDesktopWindow(msg.nSource);
-
-        // System.out.println("Desktop window: " + wnd.nWidth + "x" + wnd.nHeight + " size " + wnd.frameBuffer.length);
     }
 
     @Test

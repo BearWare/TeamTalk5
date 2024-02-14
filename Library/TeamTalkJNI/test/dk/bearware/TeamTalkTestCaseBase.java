@@ -413,25 +413,7 @@ public abstract class TeamTalkTestCaseBase {
                                           int waittimeout, ServerInterleave interleave) {
         return waitForEvent(ttclient, nClientEvent, waittimeout, new TTMessage(), interleave);
     }
-/*
-    protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent,
-                                          int waittimeout, TeamTalkEventHandler eventhandler,
-                                          ServerInterleave interleave) {
 
-        long start = System.currentTimeMillis();
-        TTMessage tmp = new TTMessage();
-        boolean gotmsg;
-        do {
-            gotmsg = eventhandler.processEvent(ttclient, waittimeout);
-
-            interleave.interleave();
-
-            if(System.currentTimeMillis() - start >= waittimeout)
-                break;
-        }
-        while (!gotmsg || tmp.nClientEvent != nClientEvent);
-    }
-*/
     protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent,
                                           int waittimeout, TTMessage msg, ServerInterleave interleave) {
         long start = System.currentTimeMillis();
