@@ -25,7 +25,6 @@
 
 #include <string.h>
 #include <assert.h>
-#include <iostream>
 #include <vector>
 #include <algorithm>
 #include <mutex>
@@ -79,15 +78,13 @@ extern "C" {
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_closeTeamTalk(JNIEnv* env,
-                                                                           jobject thiz,
-                                                                           jlong lpTTInstance)
+                                                                           jobject thiz)
     {
         return TT_CloseTeamTalk(RemoveTTInstance(env, thiz));
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getMessage(JNIEnv* env,
                                                                         jobject thiz,
-                                                                        jlong lpTTInstance,
                                                                         jobject pMsg,
                                                                         jint pnWaitMs)
     {
@@ -104,7 +101,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_pumpMessage(JNIEnv* env,
                                                                          jobject thiz,
-                                                                         jlong lpTTInstance,
                                                                          jint nClientEvent,
                                                                          jint nIdentifier)
     {
@@ -113,8 +109,7 @@ extern "C" {
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_getFlags(JNIEnv* env,
-                                                                  jobject thiz,
-                                                                  jlong lpTTInstance)
+                                                                  jobject thiz)
     {
         return TT_GetFlags(GetTTInstance(env, thiz));
     }
@@ -167,7 +162,7 @@ extern "C" {
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getSoundDevices(JNIEnv* env,
-                                                                             jobject thiz,
+                                                                             jclass,
                                                                              jobjectArray lpSoundDevices,
                                                                              jobject lpnHowMany)
     {
@@ -195,7 +190,7 @@ extern "C" {
         return true;
     }
 
-    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_restartSoundSystem(JNIEnv* env,
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_restartSoundSystem(JNIEnv*,
                                                                                 jclass)
     {
         return TT_RestartSoundSystem();
@@ -256,7 +251,7 @@ extern "C" {
         return reinterpret_cast<jlong>(inst);
     }
 
-    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_closeSoundLoopbackTest(JNIEnv* env,
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_closeSoundLoopbackTest(JNIEnv*,
                                                                                     jclass,
                                                                                     jlong lpTTSoundLoop)
     {
@@ -265,13 +260,12 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_initSoundInputDevice(JNIEnv* env,
                                                                                   jobject thiz,
-                                                                                  jlong lpTTInstance,
                                                                                   jint nInputDeviceID)
     {
         return TT_InitSoundInputDevice(GetTTInstance(env, thiz), nInputDeviceID);
     }
 
-    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_initSoundInputSharedDevice(JNIEnv* env,
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_initSoundInputSharedDevice(JNIEnv*,
                                                                                         jclass,
                                                                                         jint nSampleRate,
                                                                                         jint nChannels,
@@ -282,13 +276,12 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_initSoundOutputDevice(JNIEnv* env,
                                                                                    jobject thiz,
-                                                                                   jlong lpTTInstance,
                                                                                    jint nOutputDeviceID)
     {
         return TT_InitSoundOutputDevice(GetTTInstance(env, thiz), nOutputDeviceID);
     }
 
-    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_initSoundOutputSharedDevice(JNIEnv* env,
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_initSoundOutputSharedDevice(JNIEnv*,
                                                                                         jclass,
                                                                                         jint nSampleRate,
                                                                                         jint nChannels,
@@ -300,7 +293,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_initSoundDuplexDevices(JNIEnv* env,
                                                                                     jobject thiz,
-                                                                                    jlong lpTTInstance,
                                                                                     jint nInputDeviceID,
                                                                                     jint nOutputDeviceID)
     {
@@ -308,29 +300,25 @@ extern "C" {
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_closeSoundInputDevice(JNIEnv* env,
-                                                                                   jobject thiz,
-                                                                                   jlong lpTTInstance)
+                                                                                   jobject thiz)
     {
         return TT_CloseSoundInputDevice(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_closeSoundOutputDevice(JNIEnv* env,
-                                                                                    jobject thiz,
-                                                                                    jlong lpTTInstance)
+                                                                                    jobject thiz)
     {
         return TT_CloseSoundOutputDevice(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_closeSoundDuplexDevices(JNIEnv* env,
-                                                                                     jobject thiz,
-                                                                                     jlong lpTTInstance)
+                                                                                     jobject thiz)
     {
         return TT_CloseSoundDuplexDevices(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setSoundDeviceEffects(JNIEnv* env,
                                                                                    jobject thiz,
-                                                                                   jlong lpTTInstance,
                                                                                    jobject lpSoundDeviceEffects)
     {
         SoundDeviceEffects effects = {};
@@ -341,7 +329,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getSoundDeviceEffects(JNIEnv* env,
                                                                                    jobject thiz,
-                                                                                   jlong lpTTInstance,
                                                                                    jobject lpSoundDeviceEffects)
     {
         SoundDeviceEffects effects = {};
@@ -354,15 +341,13 @@ extern "C" {
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_getSoundInputLevel(JNIEnv* env,
-                                                                            jobject thiz,
-                                                                            jlong lpTTInstance)
+                                                                            jobject thiz)
     {
         return TT_GetSoundInputLevel(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setSoundInputGainLevel(JNIEnv* env,
                                                                                     jobject thiz,
-                                                                                    jlong lpTTInstance,
                                                                                     jint nLevel)
     {
         return TT_SetSoundInputGainLevel(GetTTInstance(env, thiz),
@@ -370,15 +355,13 @@ extern "C" {
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_getSoundInputGainLevel(JNIEnv* env,
-                                                                                jobject thiz,
-                                                                                jlong lpTTInstance)
+                                                                                jobject thiz)
     {
         return TT_GetSoundInputGainLevel(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setSoundInputPreprocess(JNIEnv* env,
                                                                                      jobject thiz,
-                                                                                     jlong lpTTInstance,
                                                                                      jobject lpSpeexDSP)
     {
         THROW_NULLEX(env, lpSpeexDSP, false);
@@ -391,7 +374,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getSoundInputPreprocess(JNIEnv* env,
                                                                                      jobject thiz,
-                                                                                     jlong lpTTInstance,
                                                                                      jobject lpSpeexDSP)
     {
         THROW_NULLEX(env, lpSpeexDSP, false);
@@ -408,7 +390,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setSoundInputPreprocessEx(JNIEnv* env,
                                                                                        jobject thiz,
-                                                                                       jlong lpTTInstance,
                                                                                        jobject lpAudioPreprocessor)
     {
         THROW_NULLEX(env, lpAudioPreprocessor, false);
@@ -420,7 +401,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getSoundInputPreprocessEx(JNIEnv* env,
                                                                                        jobject thiz,
-                                                                                       jlong lpTTInstance,
                                                                                        jobject lpAudioPreprocessor)
     {
         THROW_NULLEX(env, lpAudioPreprocessor, false);
@@ -437,7 +417,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setSoundOutputVolume(JNIEnv* env,
                                                                                   jobject thiz,
-                                                                                  jlong lpTTInstance,
                                                                                   jint nVolume)
     {
         return TT_SetSoundOutputVolume(GetTTInstance(env, thiz),
@@ -445,15 +424,13 @@ extern "C" {
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_getSoundOutputVolume(JNIEnv* env,
-                                                                              jobject thiz,
-                                                                              jlong lpTTInstance)
+                                                                              jobject thiz)
     {
         return TT_GetSoundOutputVolume(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setSoundOutputMute(JNIEnv* env,
                                                                                 jobject thiz,
-                                                                                jlong lpTTInstance,
                                                                                 jboolean bMuteAll)
     {
         return TT_SetSoundOutputMute(GetTTInstance(env, thiz),
@@ -462,7 +439,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_enableVoiceTransmission(JNIEnv* env,
                                                                                      jobject thiz,
-                                                                                     jlong lpTTInstance,
                                                                                      jboolean bEnable)
     {
         return TT_EnableVoiceTransmission(GetTTInstance(env, thiz),
@@ -471,7 +447,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_enable3DSoundPositioning(JNIEnv* env,
                                                                                       jobject thiz,
-                                                                                      jlong lpTTInstance,
                                                                                       jboolean bEnable)
     {
         return TT_Enable3DSoundPositioning(GetTTInstance(env, thiz),
@@ -479,15 +454,13 @@ extern "C" {
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_autoPositionUsers(JNIEnv* env,
-                                                                               jobject thiz,
-                                                                               jlong lpTTInstance)
+                                                                               jobject thiz)
     {
         return TT_AutoPositionUsers(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_enableAudioBlockEvent(JNIEnv* env,
                                                                                    jobject thiz,
-                                                                                   jlong lpTTInstance,
                                                                                    jint nUserID,
                                                                                    jint nStreamType,
                                                                                    jboolean bEnable)
@@ -498,7 +471,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_enableAudioBlockEventEx(JNIEnv* env,
                                                                                      jobject thiz,
-                                                                                     jlong lpTTInstance,
                                                                                      jint nUserID,
                                                                                      jint nStreamType,
                                                                                      jobject lpAudioFormat,
@@ -514,7 +486,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_insertAudioBlock(JNIEnv* env,
                                                                               jobject thiz,
-                                                                              jlong lpTTInstance,
                                                                               jobject lpAudioBlock)
     {
         AudioBlock ab = {};
@@ -527,7 +498,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_enableVoiceActivation(JNIEnv* env,
                                                                                    jobject thiz,
-                                                                                   jlong lpTTInstance,
                                                                                    jboolean bEnable)
     {
         return TT_EnableVoiceActivation(GetTTInstance(env, thiz),
@@ -536,7 +506,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setVoiceActivationLevel(JNIEnv* env,
                                                                                      jobject thiz,
-                                                                                     jlong lpTTInstance,
                                                                                      jint nLevel)
     {
         return TT_SetVoiceActivationLevel(GetTTInstance(env, thiz),
@@ -544,15 +513,13 @@ extern "C" {
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_getVoiceActivationLevel(JNIEnv* env,
-                                                                                 jobject thiz,
-                                                                                 jlong lpTTInstance)
+                                                                                 jobject thiz)
     {
         return TT_GetVoiceActivationLevel(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setVoiceActivationStopDelay(JNIEnv* env,
                                                                                          jobject thiz,
-                                                                                         jlong lpTTInstance,
                                                                                          jint nDelayMSec)
     {
         return TT_SetVoiceActivationStopDelay(GetTTInstance(env, thiz),
@@ -560,15 +527,13 @@ extern "C" {
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_getVoiceActivationStopDelay(JNIEnv* env,
-                                                                                     jobject thiz,
-                                                                                     jlong lpTTInstance)
+                                                                                     jobject thiz)
     {
         return TT_GetVoiceActivationStopDelay(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_startRecordingMuxedAudioFile(JNIEnv* env,
                                                                                           jobject thiz,
-                                                                                          jlong lpTTInstance,
                                                                                           jobject lpAudioCodec,
                                                                                           jstring szAudioFileName,
                                                                                           jint uAFF)
@@ -585,7 +550,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_startRecordingMuxedAudioFileEx(JNIEnv* env,
                                                                                             jobject thiz,
-                                                                                            jlong lpTTInstance,
                                                                                             jint nChannelID,
                                                                                             jstring szAudioFileName,
                                                                                             jint uAFF)
@@ -598,7 +562,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_startRecordingMuxedStreams(JNIEnv* env,
                                                                                         jobject thiz,
-                                                                                        jlong lpTTInstance,
                                                                                         jint uStreamTypes,
                                                                                         jobject lpAudioCodec,
                                                                                         jstring szAudioFileName,
@@ -617,15 +580,13 @@ extern "C" {
 
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_stopRecordingMuxedAudioFile(JNIEnv* env,
-                                                                                         jobject thiz,
-                                                                                         jlong lpTTInstance)
+                                                                                         jobject thiz)
     {
         return TT_StopRecordingMuxedAudioFile(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_stopRecordingMuxedAudioFileEx(JNIEnv* env,
                                                                                            jobject thiz,
-                                                                                           jlong lpTTInstance,
                                                                                            jint nChannelID)
     {
         return TT_StopRecordingMuxedAudioFileEx(GetTTInstance(env, thiz), nChannelID);
@@ -633,7 +594,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_startVideoCaptureTransmission(JNIEnv* env,
                                                                                            jobject thiz,
-                                                                                           jlong lpTTInstance,
                                                                                            jobject lpVideoCodec)
     {
         THROW_NULLEX(env, lpVideoCodec, false);
@@ -646,14 +606,13 @@ extern "C" {
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_stopVideoCaptureTransmission(JNIEnv* env,
-                                                                                          jobject thiz,
-                                                                                          jlong lpTTInstance)
+                                                                                          jobject thiz)
     {
         return TT_StopVideoCaptureTransmission(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getVideoCaptureDevices(JNIEnv* env,
-                                                                                    jobject thiz,
+                                                                                    jclass,
                                                                                     jobjectArray lpVideoDevices,
                                                                                     jobject lpnHowMany)
     {
@@ -683,7 +642,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_initVideoCaptureDevice(JNIEnv* env,
                                                                                    jobject thiz,
-                                                                                   jlong lpTTInstance,
                                                                                    jstring szDeviceID,
                                                                                    jobject lpVideoFormat)
     {
@@ -696,15 +654,13 @@ extern "C" {
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_closeVideoCaptureDevice(JNIEnv* env,
-                                                                                    jobject thiz,
-                                                                                    jlong lpTTInstance)
+                                                                                    jobject thiz)
     {
         return TT_CloseVideoCaptureDevice(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jobject JNICALL Java_dk_bearware_TeamTalkBase_acquireUserVideoCaptureFrame(JNIEnv* env,
                                                                                          jobject thiz,
-                                                                                         jlong lpTTInstance,
                                                                                          jint nUserID)
     {
         VideoFrame* vidframe = TT_AcquireUserVideoCaptureFrame(GetTTInstance(env, thiz),
@@ -724,7 +680,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_startStreamingMediaFileToChannel(JNIEnv* env,
                                                                                               jobject thiz,
-                                                                                              jlong lpTTInstance,
                                                                                               jstring szMediaFilePath,
                                                                                               jobject lpVideoCodec)
     {
@@ -740,7 +695,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_startStreamingMediaFileToChannelEx(JNIEnv* env,
                                                                                                 jobject thiz,
-                                                                                                jlong lpTTInstance,
                                                                                                 jstring szMediaFilePath,
                                                                                                 jobject lpMediaFilePlayback,
                                                                                                 jobject lpVideoCodec)
@@ -762,7 +716,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_updateStreamingMediaFileToChannel(JNIEnv* env,
                                                                                                jobject thiz,
-                                                                                               jlong lpTTInstance,
                                                                                                jobject lpMediaFilePlayback,
                                                                                                jobject lpVideoCodec)
     {
@@ -782,14 +735,12 @@ extern "C" {
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_stopStreamingMediaFileToChannel(JNIEnv* env,
-                                                                                             jobject thiz,
-                                                                                             jlong lpTTInstance)
+                                                                                             jobject thiz)
     {
         return TT_StopStreamingMediaFileToChannel(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_initLocalPlayback(JNIEnv* env, jobject thiz,
-                                                                           jlong lpTTInstance,
                                                                            jstring szMediaFilePath,
                                                                            jobject lpMediaFilePlayback) {
         THROW_NULLEX(env, szMediaFilePath, 0);
@@ -803,7 +754,6 @@ extern "C" {
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_updateLocalPlayback(JNIEnv* env, jobject thiz,
-                                                                                 jlong lpTTInstance,
                                                                                  jint nPlaybackSessionID,
                                                                                  jobject lpMediaFilePlayback) {
 
@@ -817,14 +767,13 @@ extern "C" {
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_stopLocalPlayback(JNIEnv* env, jobject thiz,
-                                                                               jlong lpTTInstance,
                                                                                jint nPlaybackSessionID) {
         return TT_StopLocalPlayback(GetTTInstance(env, thiz),
                                     nPlaybackSessionID);
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getMediaFileInfo(JNIEnv* env,
-                                                                              jobject thiz,
+                                                                              jclass,
                                                                               jstring szMediaFilePath,
                                                                               jobject lpMediaFileInfo)
     {
@@ -842,7 +791,6 @@ extern "C" {
 
     JNIEXPORT jobject JNICALL Java_dk_bearware_TeamTalkBase_acquireUserMediaVideoFrame(JNIEnv* env,
                                                                                        jobject thiz,
-                                                                                       jlong lpTTInstance,
                                                                                        jint nUserID)
     {
         VideoFrame* vidframe = TT_AcquireUserMediaVideoFrame(GetTTInstance(env, thiz),
@@ -871,7 +819,6 @@ extern "C" {
 */
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_sendDesktopWindow(JNIEnv* env,
                                                                            jobject thiz,
-                                                                           jlong lpTTInstance,
                                                                            jobject lpDesktopWindow,
                                                                            jint nConvertBmpFormat)
     {
@@ -898,8 +845,7 @@ extern "C" {
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_closeDesktopWindow(JNIEnv* env,
-                                                                                jobject thiz,
-                                                                                jlong lpTTInstance)
+                                                                                jobject thiz)
     {
         return TT_CloseDesktopWindow(GetTTInstance(env, thiz));
     }
@@ -908,7 +854,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_sendDesktopCursorPosition(JNIEnv* env,
                                                                                        jobject thiz,
-                                                                                       jlong lpTTInstance,
                                                                                        jint nPosX,
                                                                                        jint nPosY)
     {
@@ -918,7 +863,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_sendDesktopInput(JNIEnv* env,
                                                                               jobject thiz,
-                                                                              jlong lpTTInstance,
                                                                               jint nUserID,
                                                                               jobjectArray lpDesktopInputs)
     {
@@ -934,7 +878,6 @@ extern "C" {
 
     JNIEXPORT jobject JNICALL Java_dk_bearware_TeamTalkBase_acquireUserDesktopWindow(JNIEnv* env,
                                                                                      jobject thiz,
-                                                                                     jlong lpTTInstance,
                                                                                      jint nUserID) {
         DesktopWindow* deskwnd = TT_AcquireUserDesktopWindow(GetTTInstance(env, thiz),
                                                              nUserID);
@@ -951,7 +894,6 @@ extern "C" {
 
     JNIEXPORT jobject JNICALL Java_dk_bearware_TeamTalkBase_acquireUserDesktopWindowEx(JNIEnv* env,
                                                                                        jobject thiz,
-                                                                                       jlong lpTTInstance,
                                                                                        jint nUserID,
                                                                                        jint nBitmapFormat) {
         DesktopWindow* deskwnd = TT_AcquireUserDesktopWindowEx(GetTTInstance(env, thiz),
@@ -969,7 +911,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setEncryptionContext(JNIEnv* env,
                                                                                   jobject thiz,
-                                                                                  jlong lpTTInstance,
                                                                                   jobject lpEncryptionContext) {
         THROW_NULLEX(env, lpEncryptionContext, false);
 
@@ -982,7 +923,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_connect(JNIEnv* env,
                                                                      jobject thiz,
-                                                                     jlong lpTTInstance,
                                                                      jstring szHostAddress,
                                                                      jint nTcpPort,
                                                                      jint nUdpPort,
@@ -999,7 +939,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_connectSysID(JNIEnv* env,
                                                                           jobject thiz,
-                                                                          jlong lpTTInstance,
                                                                           jstring szHostAddress,
                                                                           jint nTcpPort,
                                                                           jint nUdpPort,
@@ -1019,7 +958,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_connectEx(JNIEnv* env,
                                                                        jobject thiz,
-                                                                       jlong lpTTInstance,
                                                                        jstring szHostAddress,
                                                                        jint nTcpPort,
                                                                        jint nUdpPort,
@@ -1038,8 +976,7 @@ extern "C" {
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_disconnect(JNIEnv* env,
-                                                                        jobject thiz,
-                                                                        jlong lpTTInstance)
+                                                                        jobject thiz)
 
     {
         return TT_Disconnect(GetTTInstance(env, thiz));
@@ -1047,7 +984,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_queryMaxPayload(JNIEnv* env,
                                                                              jobject thiz,
-                                                                             jlong lpTTInstance,
                                                                              jint nUserID)
     {
         return TT_QueryMaxPayload(GetTTInstance(env, thiz), nUserID);
@@ -1055,7 +991,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getClientStatistics(JNIEnv* env,
                                                                                  jobject thiz,
-                                                                                 jlong lpTTInstance,
                                                                                  jobject lpClientStatistics)
     {
         THROW_NULLEX(env, lpClientStatistics, false);
@@ -1072,7 +1007,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setClientKeepAlive(JNIEnv* env,
                                                                                 jobject thiz,
-                                                                                jlong lpTTInstance,
                                                                                 jobject lpClientKeepAlive)
     {
         THROW_NULLEX(env, lpClientKeepAlive, false);
@@ -1085,7 +1019,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getClientKeepAlive(JNIEnv* env,
                                                                                 jobject thiz,
-                                                                                jlong lpTTInstance,
                                                                                 jobject lpClientKeepAlive)
     {
         THROW_NULLEX(env, lpClientKeepAlive, false);
@@ -1100,15 +1033,13 @@ extern "C" {
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doPing(JNIEnv* env,
-                                                                jobject thiz,
-                                                                jlong lpTTInstance)
+                                                                jobject thiz)
     {
         return TT_DoPing(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doLogin(JNIEnv* env,
                                                                  jobject thiz,
-                                                                 jlong lpTTInstance,
                                                                  jstring szNickname,
                                                                  jstring szUsername,
                                                                  jstring szPassword)
@@ -1124,7 +1055,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doLoginEx(JNIEnv* env,
                                                                    jobject thiz,
-                                                                   jlong lpTTInstance,
                                                                    jstring szNickname,
                                                                    jstring szUsername,
                                                                    jstring szPassword,
@@ -1141,15 +1071,13 @@ extern "C" {
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doLogout(JNIEnv* env,
-                                                                  jobject thiz,
-                                                                  jlong lpTTInstance)
+                                                                  jobject thiz)
     {
         return TT_DoLogout(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doJoinChannel(JNIEnv* env,
                                                                        jobject thiz,
-                                                                       jlong lpTTInstance,
                                                                        jobject lpChannel)
     {
         THROW_NULLEX(env, lpChannel, -1);
@@ -1161,7 +1089,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doJoinChannelByID(JNIEnv* env,
                                                                            jobject thiz,
-                                                                           jlong lpTTInstance,
                                                                            jint nChannelID,
                                                                            jstring szPassword)
     {
@@ -1172,8 +1099,7 @@ extern "C" {
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doLeaveChannel(JNIEnv* env,
-                                                                        jobject thiz,
-                                                                        jlong lpTTInstance)
+                                                                        jobject thiz)
     {
         return TT_DoLeaveChannel(GetTTInstance(env, thiz));
 
@@ -1181,7 +1107,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doChangeNickname(JNIEnv* env,
                                                                           jobject thiz,
-                                                                          jlong lpTTInstance,
                                                                           jstring szNewNick)
     {
         THROW_NULLEX(env, szNewNick, -1);
@@ -1192,7 +1117,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doChangeStatus(JNIEnv* env,
                                                                         jobject thiz,
-                                                                        jlong lpTTInstance,
                                                                         jint nStatusMode,
                                                                         jstring szStatusMessage)
     {
@@ -1204,7 +1128,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doTextMessage(JNIEnv* env,
                                                                        jobject thiz,
-                                                                       jlong lpTTInstance,
                                                                        jobject lpTextMessage)
     {
         THROW_NULLEX(env, lpTextMessage, -1);
@@ -1216,7 +1139,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doChannelOp(JNIEnv* env,
                                                                      jobject thiz,
-                                                                     jlong lpTTInstance,
                                                                      jint nUserID,
                                                                      jint nChannelID,
                                                                      jboolean bMakeOperator)
@@ -1226,7 +1148,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doChannelOpEx(JNIEnv* env,
                                                                        jobject thiz,
-                                                                       jlong lpTTInstance,
                                                                        jint nUserID,
                                                                        jint nChannelID,
                                                                        jstring szOpPassword,
@@ -1240,7 +1161,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doKickUser(JNIEnv* env,
                                                                     jobject thiz,
-                                                                    jlong lpTTInstance,
                                                                     jint nUserID,
                                                                     jint nChannelID)
     {
@@ -1250,7 +1170,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doSendFile(JNIEnv* env,
                                                                     jobject thiz,
-                                                                    jlong lpTTInstance,
                                                                     jint nChannelID,
                                                                     jstring szLocalFilePath)
     {
@@ -1262,7 +1181,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doRecvFile(JNIEnv* env,
                                                                     jobject thiz,
-                                                                    jlong lpTTInstance,
                                                                     jint nChannelID,
                                                                     jint nFileID,
                                                                     jstring szLocalFilePath)
@@ -1275,7 +1193,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doDeleteFile(JNIEnv* env,
                                                                       jobject thiz,
-                                                                      jlong lpTTInstance,
                                                                       jint nChannelID,
                                                                       jint nFileID)
     {
@@ -1284,7 +1201,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doSubscribe(JNIEnv* env,
                                                                      jobject thiz,
-                                                                     jlong lpTTInstance,
                                                                      jint nUserID,
                                                                      jint uSubscriptions)
     {
@@ -1293,7 +1209,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doUnsubscribe(JNIEnv* env,
                                                                        jobject thiz,
-                                                                       jlong lpTTInstance,
                                                                        jint nUserID,
                                                                        jint uSubscriptions)
     {
@@ -1302,7 +1217,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doMakeChannel(JNIEnv* env,
                                                                        jobject thiz,
-                                                                       jlong lpTTInstance,
                                                                        jobject lpChannel)
     {
         THROW_NULLEX(env, lpChannel, -1);
@@ -1314,7 +1228,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doUpdateChannel(JNIEnv* env,
                                                                          jobject thiz,
-                                                                         jlong lpTTInstance,
                                                                          jobject lpChannel)
     {
         THROW_NULLEX(env, lpChannel, -1);
@@ -1326,7 +1239,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doRemoveChannel(JNIEnv* env,
                                                                          jobject thiz,
-                                                                         jlong lpTTInstance,
                                                                          jint nChannelID)
     {
         return TT_DoRemoveChannel(GetTTInstance(env, thiz), nChannelID);
@@ -1334,7 +1246,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doMoveUser(JNIEnv* env,
                                                                     jobject thiz,
-                                                                    jlong lpTTInstance,
                                                                     jint nUserID,
                                                                     jint nChannelID)
     {
@@ -1343,7 +1254,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doUpdateServer(JNIEnv* env,
                                                                         jobject thiz,
-                                                                        jlong lpTTInstance,
                                                                         jobject lpServerProperties)
     {
         THROW_NULLEX(env, lpServerProperties, -1);
@@ -1355,7 +1265,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doListUserAccounts(JNIEnv* env,
                                                                             jobject thiz,
-                                                                            jlong lpTTInstance,
                                                                             jint nIndex,
                                                                             jint nCount)
     {
@@ -1364,7 +1273,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doNewUserAccount(JNIEnv* env,
                                                                           jobject thiz,
-                                                                          jlong lpTTInstance,
                                                                           jobject lpUserAccount)
     {
         THROW_NULLEX(env, lpUserAccount, -1);
@@ -1376,7 +1284,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doDeleteUserAccount(JNIEnv* env,
                                                                              jobject thiz,
-                                                                             jlong lpTTInstance,
                                                                              jstring szUsername)
     {
         THROW_NULLEX(env, szUsername, -1);
@@ -1386,7 +1293,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doBanUser(JNIEnv* env,
                                                                    jobject thiz,
-                                                                   jlong lpTTInstance,
                                                                    jint nUserID,
                                                                    jint nChannelID)
     {
@@ -1395,7 +1301,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doBanUserEx(JNIEnv* env,
                                                                      jobject thiz,
-                                                                     jlong lpTTInstance,
                                                                      jint nUserID,
                                                                      jint uBanTypes)
     {
@@ -1404,7 +1309,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doBan(JNIEnv* env,
                                                                jobject thiz,
-                                                               jlong lpTTInstance,
                                                                jobject lpBannedUser)
     {
         BannedUser ban;
@@ -1414,7 +1318,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doBanIPAddress(JNIEnv* env,
                                                                         jobject thiz,
-                                                                        jlong lpTTInstance,
                                                                         jstring szIPAddress,
                                                                         jint nChannelID)
     {
@@ -1426,7 +1329,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doUnBanUser(JNIEnv* env,
                                                                      jobject thiz,
-                                                                     jlong lpTTInstance,
                                                                      jstring szIPAddress,
                                                                      jint nChannelID)
     {
@@ -1438,7 +1340,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doUnBanUserEx(JNIEnv* env,
                                                                        jobject thiz,
-                                                                       jlong lpTTInstance,
                                                                        jobject lpBannedUser)
     {
         THROW_NULLEX(env, lpBannedUser, -1);
@@ -1449,7 +1350,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doListBans(JNIEnv* env,
                                                                     jobject thiz,
-                                                                    jlong lpTTInstance,
                                                                     jint nChannelID,
                                                                     jint nIndex,
                                                                     jint nCount)
@@ -1459,29 +1359,25 @@ extern "C" {
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doSaveConfig(JNIEnv* env,
-                                                                      jobject thiz,
-                                                                      jlong lpTTInstance)
+                                                                      jobject thiz)
     {
         return TT_DoSaveConfig(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doQueryServerStats(JNIEnv* env,
-                                                                            jobject thiz,
-                                                                            jlong lpTTInstance)
+                                                                            jobject thiz)
     {
         return TT_DoQueryServerStats(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_doQuit(JNIEnv* env,
-                                                                jobject thiz,
-                                                                jlong lpTTInstance)
+                                                                jobject thiz)
     {
         return TT_DoQuit(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getServerProperties(JNIEnv* env,
                                                                                  jobject thiz,
-                                                                                 jlong lpTTInstance,
                                                                                  jobject lpServerProperties)
     {
         THROW_NULLEX(env, lpServerProperties, false);
@@ -1498,7 +1394,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getServerUsers(JNIEnv* env,
                                                                             jobject thiz,
-                                                                            jlong lpTTInstance,
                                                                             jobjectArray lpUsers,
                                                                             jobject lpnHowMany)
     {
@@ -1539,22 +1434,19 @@ extern "C" {
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_getRootChannelID(JNIEnv* env,
-                                                                          jobject thiz,
-                                                                          jlong lpTTInstance)
+                                                                          jobject thiz)
     {
         return TT_GetRootChannelID(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_getMyChannelID(JNIEnv* env,
-                                                                        jobject thiz,
-                                                                        jlong lpTTInstance)
+                                                                        jobject thiz)
     {
         return TT_GetMyChannelID(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getChannel(JNIEnv* env,
                                                                         jobject thiz,
-                                                                        jlong lpTTInstance,
                                                                         jint nChannelID,
                                                                         jobject lpChannel)
     {
@@ -1572,7 +1464,6 @@ extern "C" {
 
     JNIEXPORT jstring JNICALL Java_dk_bearware_TeamTalkBase_getChannelPath(JNIEnv* env,
                                                                            jobject thiz,
-                                                                           jlong lpTTInstance,
                                                                            jint nChannelID)
     {
         TTCHAR channel[TT_STRLEN] = {};
@@ -1583,7 +1474,6 @@ extern "C" {
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_getChannelIDFromPath(JNIEnv* env,
                                                                               jobject thiz,
-                                                                              jlong lpTTInstance,
                                                                               jstring szChannelPath)
     {
         THROW_NULLEX(env, szChannelPath, -1);
@@ -1595,7 +1485,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getChannelUsers(JNIEnv* env,
                                                                              jobject thiz,
-                                                                             jlong lpTTInstance,
                                                                              jint nChannelID,
                                                                              jobjectArray lpUsers,
                                                                              jobject lpnHowMany)
@@ -1638,7 +1527,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getChannelFiles(JNIEnv* env,
                                                                              jobject thiz,
-                                                                             jlong lpTTInstance,
                                                                              jint nChannelID,
                                                                              jobjectArray lpRemoteFiles,
                                                                              jobject lpnHowMany)
@@ -1684,7 +1572,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getChannelRemoteFile(JNIEnv* env,
                                                                                   jobject thiz,
-                                                                                  jlong lpTTInstance,
                                                                                   jint nChannelID,
                                                                                   jint nFileID,
                                                                                   jobject lpRemoteFile)
@@ -1703,7 +1590,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_isChannelOperator(JNIEnv* env,
                                                                                jobject thiz,
-                                                                               jlong lpTTInstance,
                                                                                jint nUserID,
                                                                                jint nChannelID)
     {
@@ -1713,7 +1599,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getServerChannels(JNIEnv* env,
                                                                                jobject thiz,
-                                                                               jlong lpTTInstance,
                                                                                jobjectArray lpChannels,
                                                                                jobject lpnHowMany)
     {
@@ -1753,15 +1638,13 @@ extern "C" {
     }
 
     JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_getMyUserID(JNIEnv* env,
-                                                                     jobject thiz,
-                                                                     jlong lpTTInstance)
+                                                                     jobject thiz)
     {
         return TT_GetMyUserID(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getMyUserAccount(JNIEnv* env,
                                                                               jobject thiz,
-                                                                              jlong lpTTInstance,
                                                                               jobject lpUserAccount)
     {
         THROW_NULLEX(env, lpUserAccount, false);
@@ -1776,22 +1659,19 @@ extern "C" {
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getMyUserType(JNIEnv* env,
-                                                                           jobject thiz,
-                                                                           jlong lpTTInstance)
+                                                                           jobject thiz)
     {
         return TT_GetMyUserType(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getMyUserData(JNIEnv* env,
-                                                                           jobject thiz,
-                                                                           jlong lpTTInstance)
+                                                                           jobject thiz)
     {
         return TT_GetMyUserData(GetTTInstance(env, thiz));
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getUser(JNIEnv* env,
                                                                      jobject thiz,
-                                                                     jlong lpTTInstance,
                                                                      jint nUserID,
                                                                      jobject lpUser)
     {
@@ -1809,7 +1689,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getUserStatistics(JNIEnv* env,
                                                                                jobject thiz,
-                                                                               jlong lpTTInstance,
                                                                                jint nUserID,
                                                                                jobject lpUserStatistics)
     {
@@ -1827,7 +1706,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getUserByUsername(JNIEnv* env,
                                                                                jobject thiz,
-                                                                               jlong lpTTInstance,
                                                                                jstring szUsername,
                                                                                jobject lpUser)
     {
@@ -1845,7 +1723,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserVolume(JNIEnv* env,
                                                                            jobject thiz,
-                                                                           jlong lpTTInstance,
                                                                            jint nUserID,
                                                                            jint nStreamType,
                                                                            jint nVolume)
@@ -1856,7 +1733,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserMute(JNIEnv* env,
                                                                          jobject thiz,
-                                                                         jlong lpTTInstance,
                                                                          jint nUserID,
                                                                          jint nStreamType,
                                                                          jboolean bMute)
@@ -1867,7 +1743,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserStoppedPlaybackDelay(JNIEnv* env,
                                                                                          jobject thiz,
-                                                                                         jlong lpTTInstance,
                                                                                          jint nUserID,
                                                                                          jint nStreamType,
                                                                                          jint nDelayMSec)
@@ -1878,7 +1753,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserJitterControl(JNIEnv* env,
                                                                                          jobject thiz,
-                                                                                         jlong lpTTInstance,
                                                                                          jint nUserID,
                                                                                          jint nStreamType,
                                                                                          jobject lpJitterConfig)
@@ -1895,7 +1769,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getUserJitterControl(JNIEnv* env,
                                                                                         jobject thiz,
-                                                                                        jlong lpTTInstance,
                                                                                         jint nUserID,
                                                                                         jint nStreamType,
                                                                                         jobject lpJitterConfig)
@@ -1915,7 +1788,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserPosition(JNIEnv* env,
                                                                              jobject thiz,
-                                                                             jlong lpTTInstance,
                                                                              jint nUserID,
                                                                              jint nStreamType,
                                                                              jfloat x,
@@ -1928,7 +1800,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserStereo(JNIEnv* env,
                                                                            jobject thiz,
-                                                                           jlong lpTTInstance,
                                                                            jint nUserID,
                                                                            jint nStreamType,
                                                                            jboolean bLeftSpeaker,
@@ -1940,7 +1811,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserMediaStorageDir(JNIEnv* env,
                                                                                     jobject thiz,
-                                                                                    jlong lpTTInstance,
                                                                                     jint nUserID,
                                                                                     jstring szFolderPath,
                                                                                     jstring szFileNameVars,
@@ -1957,7 +1827,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserMediaStorageDirEx(JNIEnv* env,
                                                                                     jobject thiz,
-                                                                                    jlong lpTTInstance,
                                                                                     jint nUserID,
                                                                                     jstring szFolderPath,
                                                                                     jstring szFileNameVars,
@@ -1976,7 +1845,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setUserAudioStreamBufferSize(JNIEnv* env,
                                                                                           jobject thiz,
-                                                                                          jlong lpTTInstance,
                                                                                           jint nUserID,
                                                                                           jint uStreamType,
                                                                                           jint nMSec)
@@ -1987,7 +1855,6 @@ extern "C" {
 
     JNIEXPORT jobject JNICALL Java_dk_bearware_TeamTalkBase_acquireUserAudioBlock(JNIEnv* env,
                                                                                   jobject thiz,
-                                                                                  jlong lpTTInstance,
                                                                                   jint nStreamType,
                                                                                   jint nUserID)
     {
@@ -2004,7 +1871,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_getFileTransferInfo(JNIEnv* env,
                                                                                  jobject thiz,
-                                                                                 jlong lpTTInstance,
                                                                                  jint nTransferID,
                                                                                  jobject lpFileTransfer)
     {
@@ -2022,7 +1888,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_cancelFileTransfer(JNIEnv* env,
                                                                                 jobject thiz,
-                                                                                jlong lpTTInstance,
                                                                                 jint nTransferID)
     {
         return TT_CancelFileTransfer(GetTTInstance(env, thiz),
@@ -2030,7 +1895,7 @@ extern "C" {
     }
 
     JNIEXPORT jstring JNICALL Java_dk_bearware_TeamTalkBase_getErrorMessage(JNIEnv* env,
-                                                                            jobject thiz,
+                                                                            jclass,
                                                                             jint nError)
     {
         TTCHAR szError[TT_STRLEN] = {};
@@ -2040,7 +1905,6 @@ extern "C" {
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_DBG_1SetSoundInputTone(JNIEnv* env,
                                                                                     jobject thiz,
-                                                                                    jlong lpTTInstance,
                                                                                     jint uStreamTypes,
                                                                                     jint nFrequency) {
         return TT_DBG_SetSoundInputTone(GetTTInstance(env, thiz),
@@ -2048,7 +1912,7 @@ extern "C" {
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_DBG_1WriteAudioFileTone(JNIEnv* env,
-                                                                                     jobject thiz,
+                                                                                     jclass,
                                                                                      jobject lpMediaFileInfo,
                                                                                      jint nFrequency)
     {
