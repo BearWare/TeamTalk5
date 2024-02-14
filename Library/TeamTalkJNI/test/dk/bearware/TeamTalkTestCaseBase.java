@@ -448,35 +448,34 @@ public abstract class TeamTalkTestCaseBase {
             interleave.interleave();
 
             if (gotmsg) {
-                if (DEBUG_OUTPUT) {
-                    System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + ": " + tmp.nClientEvent);
-                    switch (tmp.nClientEvent) {
-                    case ClientEvent.CLIENTEVENT_CMD_ERROR :
-                        System.out.println("Command error: " + tmp.clienterrormsg.szErrorMsg);
-                        break;
-                    }
-                }
-
+                
                 switch (tmp.nClientEvent) {
                 case ClientEvent.CLIENTEVENT_INTERNAL_ERROR :
                     switch (tmp.clienterrormsg.nErrorNo) {
                     case ClientError.INTERR_TTMESSAGE_QUEUE_OVERFLOW :
-                        System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + ": Message queue overflow");
+                        System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + " Got: " + tmp.nClientEvent + " Message queue overflow");
                         break;
                     default :
-                        System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + ": Internal error: " + tmp.clienterrormsg.nErrorNo);
+                        System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + "Got: " + tmp.nClientEvent + " Internal error: " + tmp.clienterrormsg.nErrorNo);
                         break;
                     }
+                    break;
+                default :
+                    if (DEBUG_OUTPUT) {
+                        System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + " Got: " + tmp.nClientEvent);
+                    }
+                    break;
                 }
             }
         }
         while (tmp.nClientEvent != nClientEvent && (System.currentTimeMillis() - start <= waittimeout || gotmsg));
 
-        if (tmp.nClientEvent == nClientEvent)
-        {
-            if (DEBUG_OUTPUT)
-                System.out.println("Success. Event: " + nClientEvent);
-
+        if (tmp.nClientEvent == nClientEvent) {
+            
+            if (DEBUG_OUTPUT) {
+                System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + " Success: " + tmp.nClientEvent);
+            }
+            
             msg.nClientEvent = tmp.nClientEvent;
             msg.ttType = tmp.ttType;
             msg.nSource = tmp.nSource;
@@ -502,10 +501,10 @@ public abstract class TeamTalkTestCaseBase {
             //if assert fails it's because the TTType isn't handled here
             assertTrue("TTType unhandled: " + tmp.ttType, tmp.ttType <= TTType.__AUDIOINPUTPROGRESS);
         }
-        else
-        {
-            if (DEBUG_OUTPUT)
-                System.out.println("Failed. Event: " + nClientEvent);
+        else {
+            if (DEBUG_OUTPUT) {
+                System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + " Failed: " + nClientEvent);
+            }
         }
         return tmp.nClientEvent == nClientEvent;
     }
