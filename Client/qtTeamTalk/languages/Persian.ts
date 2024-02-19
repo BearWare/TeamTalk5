@@ -5311,7 +5311,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="582"/>
-        <source>Show server list on startup</source>
+        <source>Show dialog box with server list on startup</source>
         <translation>نمایش لیست سِروِر‌ها در هنگام اجرای برنامه</translation>
     </message>
     <message>
@@ -5891,7 +5891,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="575"/>
-        <source>Show a dialog box when excluded from channel or server</source>
+        <source>Show dialog box when excluded from channel or server</source>
         <translation>نمایش پنجرۀ محاوره‌ای هنگام اخراج از کانال یا سِروِر. (اگر این گزینه بدون‌علامت باشد, اطلاعیه‌های مربوط به اخراج یا محرومیت شما از کانال یا سِروِر در بخش تاریخچۀ پیام‌ها درج میشود. چنانچه این گزینه را علامت بزنید, این اطلاعیه‌ها از طریق یک کادر محاوره‌ای به شما نشان داده خواهد شد)</translation>
     </message>
     <message>

@@ -5270,7 +5270,7 @@ Bu ayarlar uygulanmalı mı?</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="582"/>
-        <source>Show server list on startup</source>
+        <source>Show dialog box with server list on startup</source>
         <translation>Başlangıçta sunucu listesini göster</translation>
     </message>
     <message>
@@ -5850,7 +5850,7 @@ Bu ayarlar uygulanmalı mı?</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="575"/>
-        <source>Show a dialog box when excluded from channel or server</source>
+        <source>Show dialog box when excluded from channel or server</source>
         <translation>Kanal veya sunucunun dışında bırakıldığında bir iletişim kutusu göster</translation>
     </message>
     <message>
