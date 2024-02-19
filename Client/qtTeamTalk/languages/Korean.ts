@@ -5336,7 +5336,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="582"/>
-        <source>Show server list on startup</source>
+        <source>Show dialog box with server list on startup</source>
         <translation>시작할 때 서버 목록 보기</translation>
     </message>
     <message>
@@ -5916,7 +5916,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="575"/>
-        <source>Show a dialog box when excluded from channel or server</source>
+        <source>Show dialog box when excluded from channel or server</source>
         <translation>채널 및 서버에서 제외되면 대화상자 표시</translation>
     </message>
     <message>
