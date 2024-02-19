@@ -572,14 +572,14 @@
               <item>
                <widget class="QCheckBox" name="dlgExcludeChkBox">
                 <property name="text">
-                 <string>Show a dialog box when excluded from channel or server</string>
+                 <string>Show dialog box when excluded from channel or server</string>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QCheckBox" name="startServerListChkBox">
                 <property name="text">
-                 <string>Show server list on startup</string>
+                 <string>Show dialog box with server list on startup</string>
                 </property>
                </widget>
               </item>

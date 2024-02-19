@@ -5357,7 +5357,7 @@ Bạn có muốn áp dụng các thiết lập này không?</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="582"/>
-        <source>Show server list on startup</source>
+        <source>Show dialog box with server list on startup</source>
         <translation>Hiển thị danh sách máy chủ khi khởi động</translation>
     </message>
     <message>
@@ -5937,7 +5937,7 @@ Bạn có muốn áp dụng các thiết lập này không?</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="575"/>
-        <source>Show a dialog box when excluded from channel or server</source>
+        <source>Show dialog box when excluded from channel or server</source>
         <translation>Hiển thị hộp thoại khi bị loại khỏi kênh hoặc máy chủ</translation>
     </message>
     <message>

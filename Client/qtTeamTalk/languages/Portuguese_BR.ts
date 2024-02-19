@@ -5121,7 +5121,7 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../preferences.ui" line="582"/>
-        <source>Show server list on startup</source>
+        <source>Show dialog box with server list on startup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5999,7 +5999,7 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../preferences.ui" line="575"/>
-        <source>Show a dialog box when excluded from channel or server</source>
+        <source>Show dialog box when excluded from channel or server</source>
         <translation>Mostrar caixa de diálogo quando excluir do canal ou servidor</translation>
     </message>
     <message>
