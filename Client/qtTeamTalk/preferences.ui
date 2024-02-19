@@ -579,7 +579,7 @@
               <item>
                <widget class="QCheckBox" name="dlgMOTDChkBox">
                 <property name="text">
-                 <string>Show welcome dialog with server's message of the day</string>
+                 <string>Show dialog box with server's message of the day</string>
                 </property>
                </widget>
               </item>
