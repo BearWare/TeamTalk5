@@ -297,7 +297,7 @@ QByteArray generateTTFile(const HostEntry& entry)
         nickname.appendChild(doc.createTextNode(entry.nickname));
         client.appendChild(nickname);
     }
-    if(!entry.gender)
+    if (entry.gender != GENDER_NONE)
     {
         QDomElement gender = doc.createElement("gender");
         gender.appendChild(doc.createTextNode(QString::number(entry.gender)));
