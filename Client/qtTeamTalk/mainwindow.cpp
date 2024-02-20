@@ -6103,8 +6103,9 @@ void MainWindow::slotUpdateUI()
     ui.actionMuteMediaFile->setEnabled(userid>0);
     ui.actionVolume->setEnabled(userid>0);
     ui.actionOp->setEnabled(userid>0);
-    ui.actionKickFromChannel->setEnabled(userid>0);
+    ui.actionKickFromChannel->setEnabled(userid>0 && (me_op || userrights & USERRIGHT_KICK_USERS));
     ui.actionKickFromServer->setEnabled(userid>0 && (userrights & USERRIGHT_KICK_USERS));
+    ui.actionKickAndBanFromChannel->setEnabled(userid>0 && (me_op || userrights & USERRIGHT_BAN_USERS));
     ui.actionKickBan->setEnabled(userid>0 && (userrights & USERRIGHT_BAN_USERS));
     ui.actionDesktopAccessAllow->setEnabled(userid>0);
 
@@ -6117,12 +6118,12 @@ void MainWindow::slotUpdateUI()
     ui.actionDesktopInput->setEnabled(userid>0);
     ui.actionMediaFile->setEnabled(userid>0);
     //intercept only works for admins
-    ui.actionInterceptUserMessages->setEnabled(userid>0);
-    ui.actionInterceptChannelMessages->setEnabled(userid>0);
-    ui.actionInterceptVoice->setEnabled(userid>0);
-    ui.actionInterceptVideo->setEnabled(userid>0);
-    ui.actionInterceptDesktop->setEnabled(userid>0);
-    ui.actionInterceptMediaFile->setEnabled(userid>0);
+    ui.actionInterceptUserMessages->setEnabled(userid>0 && me_admin);
+    ui.actionInterceptChannelMessages->setEnabled(userid>0 && me_admin);
+    ui.actionInterceptVoice->setEnabled(userid>0 && me_admin);
+    ui.actionInterceptVideo->setEnabled(userid>0 && me_admin);
+    ui.actionInterceptDesktop->setEnabled(userid>0 && me_admin);
+    ui.actionInterceptMediaFile->setEnabled(userid>0 && me_admin);
 
     ui.actionIncreaseVoiceVolume->setEnabled(userid>0 && user.nVolumeVoice < SOUND_VOLUME_MAX);
     ui.actionLowerVoiceVolume->setEnabled(userid>0 && user.nVolumeVoice > SOUND_VOLUME_MIN);
@@ -6163,7 +6164,7 @@ void MainWindow::slotUpdateUI()
     ui.actionGenerateTTURL->setEnabled(chanid > 0);
     ui.actionSpeakChannelInfo->setEnabled(tts);
     ui.actionSpeakChannelStat->setEnabled(tts);
-    ui.actionBannedUsersInChannel->setEnabled(chanid>0);
+    ui.actionBannedUsersInChannel->setEnabled(chanid>0 && (me_op || userrights & USERRIGHT_BAN_USERS));
     ui.actionCreateChannel->setEnabled(chanid>0 || mychannel>0);
     ui.actionUpdateChannel->setEnabled(chanid>0);
     ui.actionDeleteChannel->setEnabled(chanid>0);
@@ -6200,12 +6201,12 @@ void MainWindow::slotUpdateUI()
 
     //Server-menu items
     ui.actionUserAccounts->setEnabled(auth);
-    ui.actionBannedUsers->setEnabled(me_op || (userrights & USERRIGHT_BAN_USERS));
+    ui.actionBannedUsers->setEnabled(userrights & USERRIGHT_BAN_USERS);
     ui.actionOnlineUsers->setEnabled(auth);
-    ui.actionBroadcastMessage->setEnabled(auth && (userrights & USERRIGHT_TEXTMESSAGE_BROADCAST));
+    ui.actionBroadcastMessage->setEnabled(userrights & USERRIGHT_TEXTMESSAGE_BROADCAST);
     ui.actionServerProperties->setEnabled(auth);
-    ui.actionSaveConfiguration->setEnabled(auth && me_admin);
-    ui.actionServerStatistics->setEnabled(auth && me_admin);
+    ui.actionSaveConfiguration->setEnabled(me_admin);
+    ui.actionServerStatistics->setEnabled(me_admin);
 
     ui.uploadButton->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_UPLOAD_FILES);
     ui.downloadButton->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_DOWNLOAD_FILES);
