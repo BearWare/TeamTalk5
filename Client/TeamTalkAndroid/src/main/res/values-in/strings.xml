@@ -381,6 +381,7 @@
     <string name="pref_title_server_usercount">Pengguna Online</string>
     <string name="pref_title_server_country">Negara</string>
     <string name="pref_title_server_status">Status server</string>
+    <string name="user_prop_title_clientversion">version</string>
 
 
 </resources>

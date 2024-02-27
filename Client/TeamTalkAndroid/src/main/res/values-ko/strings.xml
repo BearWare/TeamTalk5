@@ -388,6 +388,7 @@
     <string name="pref_title_server_usercount">접속자</string>
     <string name="pref_title_server_country">국가</string>
     <string name="pref_title_server_status">서버 상태</string>
+    <string name="user_prop_title_clientversion">version</string>
 
 
 </resources>

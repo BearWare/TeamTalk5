@@ -388,6 +388,7 @@
     <string name="pref_title_server_usercount">تعداد کاربران آنلاین</string>
     <string name="pref_title_server_country">کشور</string>
     <string name="pref_title_server_status">وضعیت سِروِر</string>
+    <string name="user_prop_title_clientversion">version</string>
 
 
 </resources>

@@ -388,6 +388,7 @@
     <string name="pref_title_server_usercount">在线用户</string>
     <string name="pref_title_server_country">国家</string>
     <string name="pref_title_server_status">服务器状态</string>
+    <string name="user_prop_title_clientversion">version</string>
 
 
 </resources>
