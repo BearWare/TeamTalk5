@@ -870,7 +870,7 @@ bool LoginBearWare(teamtalk::ServerXML& xmlSettings)
             cout << "To avoid providing your credentials every time the server is started" << endl;
             cout << "it is recommended to store your access token in the server's configuration" << endl;
             cout << "file." << endl << endl;
-            cout << "Store access token in " << TEAMTALK_SETTINGSFILE << "? ";
+            cout << "Store access token in " << xmlSettings.GetFileName() << "? ";
             if (printGetBool(true))
             {
                 xmlSettings.SetBearWareWebLogin(UnicodeToUtf8(loginid).c_str(), UnicodeToUtf8(newtoken).c_str());
