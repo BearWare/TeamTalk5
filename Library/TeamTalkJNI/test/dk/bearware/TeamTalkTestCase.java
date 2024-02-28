@@ -2529,6 +2529,61 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
+    public void testMediaStorageCompletion() {
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN |
+            UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_VIEW_ALL_USERS;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase ttclient1, ttclient2;
+
+        ttclient1 = newClientInstance();
+        ttclient2 = newClientInstance();
+
+        initSound(ttclient2);
+        connect(ttclient2);
+        login(ttclient2, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient2);
+
+        initSound(ttclient1);
+        connect(ttclient1);
+        login(ttclient1, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient1);
+
+        assertTrue("specify audio storage", ttclient1.setUserMediaStorageDir(ttclient2.getMyUserID(),
+                                                                            STORAGEFOLDER, "%username%_%counter%",
+                                                                            AudioFileFormat.AFF_CHANNELCODEC_FORMAT));
+
+        // test audio recording start/finished
+        TTMessage msg = new TTMessage();
+        assertTrue("enable voice tx", ttclient2.enableVoiceTransmission(true));
+        assertTrue("audio file created", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("recording started", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
+        assertTrue("disable voice tx", ttclient2.enableVoiceTransmission(false));
+        assertTrue("audio file done", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("recording ended", MediaFileStatus.MFS_FINISHED, msg.mediafileinfo.nStatus);
+
+        // test audio recording start/finished when leaving channel
+        assertTrue("enable voice tx 2", ttclient2.enableVoiceTransmission(true));
+        assertTrue("audio file created 2", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("recording started 2", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
+        Channel chan = buildDefaultChannel(ttclient2, "Opus");
+        assertTrue("join", waitCmdSuccess(ttclient2, ttclient2.doJoinChannel(chan), DEF_WAIT));
+        assertTrue("audio file done 2", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("recording ended 2", MediaFileStatus.MFS_FINISHED, msg.mediafileinfo.nStatus);
+
+        // test audio recording start/finished when resetting storage folder
+        joinRoot(ttclient2);
+        assertTrue("audio file created 3", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("recording started 3", MediaFileStatus.MFS_STARTED, msg.mediafileinfo.nStatus);
+        assertTrue("specify audio storage 3", ttclient1.setUserMediaStorageDir(ttclient2.getMyUserID(),
+                                                                               STORAGEFOLDER, "",
+                                                                               AudioFileFormat.AFF_NONE));
+        assertTrue("audio file done 3", waitForEvent(ttclient1, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, DEF_WAIT, msg));
+        assertEquals("recording ended 3", MediaFileStatus.MFS_FINISHED, msg.mediafileinfo.nStatus);
+    }
+
+    @Test
     public void testSoundLoopback() {
         TeamTalkBase ttclient;
 
