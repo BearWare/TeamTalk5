@@ -2127,17 +2127,12 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         Channel chan = buildDefaultChannel(ttclient, "Speex", Codec.SPEEX_CODEC);
         chan.audiocodec.speex.nBandmode = SpeexConstants.SPEEX_BANDMODE_WIDE; //16000
         chan.audiocodec.speex.bStereoPlayback = true;
-//        Channel chan = buildDefaultChannel(ttclient, "OPUS", Codec.OPUS_CODEC);
-//        chan.audiocodec.opus.nChannels = CHANNELS;
-//        chan.audiocodec.opus.nSampleRate = SAMPLERATE;
 
         assertTrue(waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
 
         assertTrue(waitCmdSuccess(ttclient, ttclient.doSubscribe(ttclient.getMyUserID(), Subscription.SUBSCRIBE_VOICE), DEF_WAIT));
 
         assertTrue(ttclient.enableVoiceTransmission(true));
-
-//        assertTrue(ttclient.setUserMediaStorageDir(ttclient.getMyUserID(), "", "", AudioFileFormat.AFF_WAVE_FORMAT));
 
         assertFalse("no voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 1000));
         assertTrue(ttclient.DBG_SetSoundInputTone(StreamType.STREAMTYPE_VOICE, 440));
@@ -2199,8 +2194,6 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue(waitCmdSuccess(ttclient, ttclient.doJoinChannel(chan), DEF_WAIT));
 
         assertTrue(ttclient.enableVoiceTransmission(true));
-
-//        assertTrue(ttclient.setUserMediaStorageDir(ttclient.getMyUserID(), "", "", AudioFileFormat.AFF_WAVE_FORMAT));
 
         assertFalse("no voice audioblock", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 1000));
 
