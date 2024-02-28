@@ -378,5 +378,4 @@
     <string name="pref_title_server_usercount">Brugere online</string>
     <string name="pref_title_server_country">Land</string>
     <string name="pref_title_server_status">Server Status</string>
-    <string name="user_prop_title_clientversion">version</string>
 </resources>

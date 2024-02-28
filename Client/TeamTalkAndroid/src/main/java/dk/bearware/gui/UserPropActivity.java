@@ -23,6 +23,7 @@
 
 package dk.bearware.gui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -119,6 +120,7 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
     TeamTalkBase ttclient;
     User user = new User();
 
+    @SuppressLint("DefaultLocale")
     void showUser() {
         TextView nickname = findViewById(R.id.user_nickname);
         TextView username = findViewById(R.id.user_username);
@@ -139,7 +141,7 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
 
         nickname.setText(user.szNickname);
         username.setText(user.szUsername);
-        clientname.setText(String.format("%s %s %d.%d.%d",user.szClientName,getString(R.string.user_prop_title_clientversion) , ((user.uVersion >> 16) & 0xFF) , ((user.uVersion >> 8) & 0xFF) , (user.uVersion & 0xFF)));
+        clientname.setText(String.format("%s %s %d.%d.%d",user.szClientName,getString(R.string.user_prop_clientversion) , ((user.uVersion >> 16) & 0xFF) , ((user.uVersion >> 8) & 0xFF) , (user.uVersion & 0xFF)));
         voiceVol.setMax(100);
         voiceVol.setProgress(Utils.refVolumeToPercent(user.nVolumeVoice));
         mediaVol.setMax(100);

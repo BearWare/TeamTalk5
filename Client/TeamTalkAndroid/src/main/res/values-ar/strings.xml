@@ -379,7 +379,6 @@
     <string name="pref_title_server_usercount">المستخدمين المتصلين</string>
     <string name="pref_title_server_country">الدولة</string>
     <string name="pref_title_server_status">حالة الخادم</string>
-    <string name="user_prop_title_clientversion">الاصدار</string>
 
 
 </resources>
