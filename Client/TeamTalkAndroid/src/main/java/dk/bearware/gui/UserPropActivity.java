@@ -23,7 +23,6 @@
 
 package dk.bearware.gui;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -120,7 +119,6 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
     TeamTalkBase ttclient;
     User user = new User();
 
-    @SuppressLint("DefaultLocale")
     void showUser() {
         TextView nickname = findViewById(R.id.user_nickname);
         TextView username = findViewById(R.id.user_username);
