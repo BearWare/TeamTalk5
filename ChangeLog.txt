@@ -5,6 +5,7 @@
 Version 5.16, unreleased
 Default Qt Client
 - Option to show server's message of the day in a welcome dialog box
+- Don't display server name when disconnected from server where not authentified
 - Fixed "Gender" property not being saved in .tt files
 Android Client
 -
