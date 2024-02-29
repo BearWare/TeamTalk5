@@ -338,6 +338,7 @@ implements Comparator<RemoteFile>, ClientEventListener.OnFileTransferListener {
         convertView.setAccessibilityDelegate(accessibilityAssistant);
         return convertView;
     }
+
     @SuppressLint("NewApi") @SuppressWarnings("fallthrough")
     @Override
     public void onFileTransfer(FileTransfer transfer) {

@@ -135,7 +135,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
         ttclient = ttservice.getTTInstance();
         Button browse_btn = this.findViewById(R.id.media_file_select_btn);
         Button stream_btn = this.findViewById(R.id.media_file_stream_btn);
-        
+
         OnClickListener listener = v -> {
             switch(v.getId()) {
                 case R.id.media_file_select_btn :
@@ -165,7 +165,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
                     break;
             }
         };
-        
+
         browse_btn.setOnClickListener(listener);
         stream_btn.setOnClickListener(listener);
     }
