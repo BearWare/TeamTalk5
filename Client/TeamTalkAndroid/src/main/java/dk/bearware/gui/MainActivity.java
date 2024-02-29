@@ -32,6 +32,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -40,6 +41,8 @@ import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -48,6 +51,7 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.provider.OpenableColumns;
 import android.text.InputType;
 import android.util.Log;
 import android.util.SparseArray;
@@ -90,6 +94,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -564,29 +570,83 @@ extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if ((requestCode == REQUEST_SELECT_FILE) && (resultCode == RESULT_OK)) {
-            String path = AbsolutePathHelper.getRealPath(this.getBaseContext(), data.getData());
+            Uri uri = data.getData();
+            String path = AbsolutePathHelper.getRealPath(this.getBaseContext(), uri);
             if (path != null) {
                 File localFile = new File(path);
                 if (localFile.canRead()) {
-                    String remoteName = filesAdapter.getRemoteName(path);
-                    if (remoteName != null) {
-                        Toast.makeText(this, getString(R.string.remote_file_exists, remoteName), Toast.LENGTH_LONG).show();
-                    } else if (ttclient.doSendFile(curchannel.nChannelID, path) <= 0) {
-                        Toast.makeText(this, getString(R.string.upload_failed, path), Toast.LENGTH_LONG).show();
-                    }
-                    else {
-                        Toast.makeText(this, R.string.upload_started, Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else {
+                    startFileUpload(path);
+                } else {
                     Toast.makeText(this, getString(R.string.upload_failed, path), Toast.LENGTH_LONG).show();
                 }
+            } else {
+                new FileCopyingTask().execute(uri);
             }
-        }
-        else {
+        } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+    private boolean startFileUpload(String path) {
+        String remoteName = filesAdapter.getRemoteName(path);
+        if (remoteName != null) {
+            Toast.makeText(this, getString(R.string.remote_file_exists, remoteName), Toast.LENGTH_LONG).show();
+        } else if (ttclient.doSendFile(curchannel.nChannelID, path) <= 0) {
+            Toast.makeText(this, getString(R.string.upload_failed, path), Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, R.string.upload_started, Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
+    }
+
+
+    private class FileCopyingTask extends AsyncTask<Uri, Void, String> {
+
+        @Override
+        protected String doInBackground(Uri... uris) {
+            Uri uri = uris[0];
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            int columnIndex = ((cursor != null) && cursor.moveToFirst()) ? cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME) : -1;
+            if (columnIndex >= 0) {
+                File transitFile = new File(getCacheDir(), cursor.getString(columnIndex));
+                cursor.close();
+                try {
+                    if (((!transitFile.exists()) || transitFile.delete()) && transitFile.createNewFile()) {
+                        transitFile.deleteOnExit();
+                    } else {
+                        return null;
+                    }
+                } catch (Exception ex) {
+                    return null;
+                }
+                try (InputStream src = getContentResolver().openInputStream(uri);
+                     FileOutputStream dest = new FileOutputStream(transitFile)) {
+                    byte[] buffer = new byte[1024];
+                    int read;
+                    while ((read = src.read(buffer)) > 0) {
+                        dest.write(buffer, 0, read);
+                    }
+                } catch (Exception ex) {
+                    return null;
+                }
+                return transitFile.getPath();
+            } else if (cursor != null) {
+                cursor.close();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String path) {
+            if ((path != null) && !startFileUpload(path)) {
+                File transitFile = new File(path);
+                transitFile.delete();
+            }
+        }
+
+    }
+
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
