@@ -300,7 +300,7 @@ extends AppCompatActivity
             }
             break;
             case R.id.action_upload : {
-                if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)) {
+                if (Permissions.READ_EXTERNAL_STORAGE.request(this)) {
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
                     intent.setType("*/*");
@@ -401,7 +401,7 @@ extends AppCompatActivity
         else {
             adjustSoundSystem(prefs);
             if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)) {
-                if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_BLUETOOTH))
+                if (Permissions.BLUETOOTH.request(this))
                     ttservice.watchBluetoothHeadset();
             }
             else ttservice.unwatchBluetoothHeadset();
@@ -1766,7 +1766,7 @@ private EditText newmsg;
             ttservice.setMute(false);
             ttservice.enableVoiceTransmission(false);
             ttservice.enableVoiceActivation(false);
-            if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_PHONE_STATE))
+            if (Permissions.READ_PHONE_STATE.request(this))
                 ttservice.enablePhoneCallReaction();
         }
 
@@ -1795,10 +1795,10 @@ private EditText newmsg;
         adjustSoundSystem(prefs);
 
         if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)
-            && Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_BLUETOOTH))
+            && Permissions.BLUETOOTH.request(this))
             ttservice.watchBluetoothHeadset();
 
-        if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_WAKE_LOCK))
+        if (Permissions.WAKE_LOCK.request(this))
             wakeLock.acquire();
 
         int mastervol = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
@@ -1837,27 +1837,28 @@ private EditText newmsg;
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+        Permissions granted = Permissions.onRequestResult(this, requestCode, grantResults);
+        if (granted == null)
+            return;
+        switch (granted) {
+            case READ_EXTERNAL_STORAGE:
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("*/*");
                 Intent i = Intent.createChooser(intent, "File");
                 startActivityForResult(i, REQUEST_SELECT_FILE);
                 break;
-            case Permissions.MY_PERMISSIONS_REQUEST_WAKE_LOCK:
+            case WAKE_LOCK:
                 wakeLock.acquire();
                 break;
-            case Permissions.MY_PERMISSIONS_REQUEST_READ_PHONE_STATE:
+            case READ_PHONE_STATE:
                 if ((mConnection != null) && mConnection.isBound())
                     ttservice.enablePhoneCallReaction();
                 break;
-            case Permissions.MY_PERMISSIONS_BLUETOOTH:
+            case BLUETOOTH:
                 if ((mConnection != null) && mConnection.isBound())
                     ttservice.watchBluetoothHeadset();
                 break;
-            case Permissions.MY_PERMISSIONS_REQUEST_VIBRATE:
-            case Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE:
             default:
                 break;
         }
@@ -2183,7 +2184,7 @@ private EditText newmsg;
         if (!isSuspended) {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
             boolean ptt_vibrate = pref.getBoolean("vibrate_checkbox", true) &&
-                Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_VIBRATE);
+                Permissions.VIBRATE.request(this);
             if (voiceTransmissionEnabled) {
                 accessibilityAssistant.shutUp();
                 if (sounds.get(SOUND_VOICETXON) != 0) {
