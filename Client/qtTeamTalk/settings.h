@@ -336,6 +336,8 @@
 #define SETTINGS_TTS_SPEAKLISTS_DEFAULT                 true
 #endif
 #endif
+#define SETTINGS_TTS_SRVNAME                         "texttospeech/announce-server-name"
+#define SETTINGS_TTS_SRVNAME_DEFAULT                 false
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"
