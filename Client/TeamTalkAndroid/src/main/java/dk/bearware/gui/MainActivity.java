@@ -327,12 +327,12 @@ extends AppCompatActivity
 
             case R.id.action_newchannel : {
                 Intent intent = new Intent(MainActivity.this, ChannelPropActivity.class);
-                
+
                 int parent_chan_id = ttclient.getRootChannelID();
                 if(curchannel != null)
                     parent_chan_id = curchannel.nChannelID;
                 intent = intent.putExtra(ChannelPropActivity.EXTRA_PARENTID, parent_chan_id);
-                
+
                 startActivityForResult(intent, REQUEST_NEWCHANNEL);
             }
             break;
@@ -376,7 +376,7 @@ extends AppCompatActivity
     }
 
     CountDownTimer stats_timer = null;
-    
+
     TeamTalkConnection mConnection;
     TeamTalkService ttservice;
     TeamTalkBase ttclient;
@@ -609,12 +609,12 @@ extends AppCompatActivity
     FilesSectionFragment filesFragment;
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
-        
+
         public static final int CHANNELS_PAGE   = 0,
                                 CHAT_PAGE       = 1,
                                 MEDIA_PAGE      = 2,
                                 FILES_PAGE      = 3,
-                                
+
                                 PAGE_COUNT      = 4;
 
         public SectionsPagerAdapter(FragmentManager fm) {

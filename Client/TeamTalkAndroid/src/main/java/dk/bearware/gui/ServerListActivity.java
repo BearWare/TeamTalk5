@@ -410,7 +410,7 @@ extends AppCompatActivity
 
             if(convertView == null)
                 convertView = inflater.inflate(R.layout.item_serverentry, parent, false);
-            
+
             ImageView img = convertView.findViewById(R.id.servericon);
             TextView name = convertView.findViewById(R.id.server_name);
             TextView summary = convertView.findViewById(R.id.server_summary);
@@ -526,11 +526,11 @@ extends AppCompatActivity
             servers.add(entry);
             i++;
         }
-        
+
         Collections.sort(servers, this);
         adapter.notifyDataSetChanged();
     }
-    
+
     class ServerListAsyncTask extends AsyncTask<Void, Void, Void> {
 
         Vector<ServerEntry> entries;
@@ -563,7 +563,7 @@ extends AppCompatActivity
             }
         }
     }
-    
+
     void refreshServerList() {
         synchronized(servers) {
             servers.clear();
@@ -575,9 +575,9 @@ extends AppCompatActivity
         // version number).
         new ServerListAsyncTask().execute();
     }
-    
+
     class VersionCheckAsyncTask extends AsyncTask<Void, Void, Void> {
-        
+
         String latestclient = "", versionmsg = "";
 
         @Override
@@ -596,9 +596,9 @@ extends AppCompatActivity
                 catch(Exception e) {
                     return null;
                 }
-                
+
                 doc.getDocumentElement().normalize();
-                
+
                 NodeList nList = doc.getElementsByTagName("teamtalk");
                 for (int i = 0; i < nList.getLength(); i++) {
                     Node nNode = nList.item(i);
@@ -662,7 +662,7 @@ extends AppCompatActivity
         refreshServerList();
 
         String version = AppInfo.getVersion(this);
-                
+
         TextView tv_version = findViewById(R.id.version_textview);
         TextView tv_dllversion = findViewById(R.id.dllversion_textview);
         tv_version.setText(String.format("%s%s%s Build %d", getString(R.string.ttversion), version, AppInfo.APPVERSION_POSTFIX, BuildConfig.VERSION_CODE));
