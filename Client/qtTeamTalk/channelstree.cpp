@@ -1123,6 +1123,8 @@ void ChannelsTree::updateChannelItem(QTreeWidgetItem* item)
         channame += " - 👻";
     if (emoji && chan.bPassword)
         channame += " - 🔒";
+    if (ttSettings->value(SETTINGS_DISPLAY_CHANNEL_TOPIC, SETTINGS_DISPLAY_CHANNEL_TOPIC_DEFAULT).toBool() == true && _Q(chan.szTopic).size())
+        channame += ": " + _Q(chan.szTopic);
     item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
     if (anim)
         item->setData(COLUMN_ITEM, Qt::DecorationRole, getChannelIcon(chan, item));

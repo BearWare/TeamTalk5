@@ -584,6 +584,13 @@
                </widget>
               </item>
               <item>
+               <widget class="QCheckBox" name="chanTopicChkBox">
+                <property name="text">
+                 <string>Show channel topic in channel list</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QCheckBox" name="startServerListChkBox">
                 <property name="text">
                  <string>Show dialog box with server list on startup</string>
@@ -2377,6 +2384,13 @@
              <widget class="QCheckBox" name="ttsTrySapiChkBox">
               <property name="text">
                <string>Switch to SAPI if current screenreader is not available</string>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="1">
+             <widget class="QCheckBox" name="ttsLogServernameChkBox">
+              <property name="text">
+               <string>Announce server name for user logs in/out events</string>
               </property>
              </widget>
             </item>
