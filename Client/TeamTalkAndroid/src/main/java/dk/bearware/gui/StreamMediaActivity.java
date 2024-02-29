@@ -36,6 +36,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import dk.bearware.Codec;
@@ -109,6 +110,26 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Permissions granted = Permissions.onRequestResult(this, requestCode, grantResults);
+        if (granted == null)
+            return;
+        switch (granted) {
+            case READ_EXTERNAL_STORAGE:
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("*/*");
+                Intent i = Intent.createChooser(intent, "File");
+                startActivityForResult(i, REQUEST_STREAM_MEDIA);
+                break;
+        default:
+            break;
+        }
+    }
+
+    @Override
     public void onServiceConnected(TeamTalkService service) {
         ttservice = service;
         ttclient = ttservice.getTTInstance();
@@ -118,12 +139,12 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
         OnClickListener listener = v -> {
             switch(v.getId()) {
                 case R.id.media_file_select_btn :
-                    if (Permissions.setupPermission(getBaseContext(), StreamMediaActivity.this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("*/*");
-                Intent i = Intent.createChooser(intent, "File");
-                startActivityForResult(i, REQUEST_STREAM_MEDIA);
+                    if (Permissions.READ_EXTERNAL_STORAGE.request(StreamMediaActivity.this)) {
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        intent.setType("*/*");
+                        Intent i = Intent.createChooser(intent, "File");
+                        startActivityForResult(i, REQUEST_STREAM_MEDIA);
                     }
                     break;
                 case R.id.media_file_stream_btn :

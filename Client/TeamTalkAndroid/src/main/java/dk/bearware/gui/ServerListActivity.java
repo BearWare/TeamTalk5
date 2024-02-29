@@ -165,10 +165,10 @@ extends AppCompatActivity
             saveServers();
         }
 
-        Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_POST_NOTIFICATIONS);
-        Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_INTERNET);
-        Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_RECORD_AUDIO);
-        Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_MODIFY_AUDIO_SETTINGS);
+        Permissions.POST_NOTIFICATIONS.request(this);
+        Permissions.INTERNET.request(this);
+        Permissions.RECORD_AUDIO.request(this);
+        Permissions.MODIFY_AUDIO_SETTINGS.request(this);
 
         // Bind to LocalService if not already
         if (mConnection == null)
@@ -304,7 +304,7 @@ extends AppCompatActivity
                 refreshServerList();
             break;
             case R.id.action_import_serverlist :
-                if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)) {
+                if (Permissions.READ_EXTERNAL_STORAGE.request(this)) {
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
                     intent.setType("*/*");
@@ -313,7 +313,7 @@ extends AppCompatActivity
                 }
             break;
             case R.id.action_export_serverlist :
-                if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE)) {
+                if (Permissions.WRITE_EXTERNAL_STORAGE.request(this)) {
                     exportServers();
                 }
             break;
@@ -626,22 +626,18 @@ extends AppCompatActivity
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        boolean granted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
-        switch (requestCode) {
-            case Permissions.MY_PERMISSIONS_REQUEST_INTERNET:
-                break;
-            case Permissions.MY_PERMISSIONS_REQUEST_RECORD_AUDIO:
-                break;
-            case Permissions.MY_PERMISSIONS_REQUEST_MODIFY_AUDIO_SETTINGS:
-                break;
-            case Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+        Permissions granted = Permissions.onRequestResult(this, requestCode, grantResults);
+        if (granted == null)
+            return;
+        switch (granted) {
+            case READ_EXTERNAL_STORAGE:
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("*/*");
                 Intent i = Intent.createChooser(intent, "File");
                 startActivityForResult(i, REQUEST_IMPORT_SERVERLIST);
                 break;
-            case Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE:
+            case WRITE_EXTERNAL_STORAGE:
                 exportServers();
                 break;
         }

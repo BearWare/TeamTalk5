@@ -245,7 +245,7 @@ implements Comparator<RemoteFile>, ClientEventListener.OnFileTransferListener {
                 break;
             }
             case R.id.download_btn: {
-                if (Permissions.setupPermission(context, activity, Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE)) {
+                if (Permissions.WRITE_EXTERNAL_STORAGE.request(activity)) {
                     File dlPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
                     if (dlPath.mkdirs() || dlPath.isDirectory()) {
                         final File localFile = new File(dlPath, remoteFile.szFileName);
