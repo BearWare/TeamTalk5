@@ -257,7 +257,7 @@ extends AppCompatActivity
             case REQUEST_IMPORT_SERVERLIST : {
                 if(resultCode == RESULT_OK) {
                     StringBuilder xml = new StringBuilder();
-                    try (InputStream inputStream = this.getContentResolver().openInputStream(data.getData());){
+                    try (InputStream inputStream = this.getContentResolver().openInputStream(data.getData())) {
                         String line;
                         if (inputStream != null) {
                             BufferedReader source = new BufferedReader(new InputStreamReader(inputStream));
@@ -265,7 +265,6 @@ extends AppCompatActivity
                                 xml.append(line);
                             }
                             source.close();
-                            inputStream.close();
                         }
                     }
                     catch (Exception ex) {
