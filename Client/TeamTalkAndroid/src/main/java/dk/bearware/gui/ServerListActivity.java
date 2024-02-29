@@ -305,11 +305,7 @@ extends AppCompatActivity
             break;
             case R.id.action_import_serverlist :
                 if (Permissions.READ_EXTERNAL_STORAGE.request(this)) {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("*/*");
-                    Intent i = Intent.createChooser(intent, "File");
-                    startActivityForResult(i, REQUEST_IMPORT_SERVERLIST);
+                    fileSelectionStart();
                 }
             break;
             case R.id.action_export_serverlist :
@@ -631,11 +627,7 @@ extends AppCompatActivity
             return;
         switch (granted) {
             case READ_EXTERNAL_STORAGE:
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("*/*");
-                Intent i = Intent.createChooser(intent, "File");
-                startActivityForResult(i, REQUEST_IMPORT_SERVERLIST);
+                fileSelectionStart();
                 break;
             case WRITE_EXTERNAL_STORAGE:
                 exportServers();
@@ -737,6 +729,14 @@ extends AppCompatActivity
                 break;
         }
         return 0;
+    }
+
+    private void fileSelectionStart() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        Intent i = Intent.createChooser(intent, "File");
+        startActivityForResult(i, REQUEST_IMPORT_SERVERLIST);
     }
 
     private void exportServers() {
