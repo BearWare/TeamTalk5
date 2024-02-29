@@ -89,6 +89,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -566,14 +567,22 @@ extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if ((requestCode == REQUEST_SELECT_FILE) && (resultCode == RESULT_OK)) {
             String path = AbsolutePathHelper.getRealPath(this.getBaseContext(), data.getData());
-            String remoteName = filesAdapter.getRemoteName(path);
-            if (remoteName != null) {
-                Toast.makeText(this, getString(R.string.remote_file_exists, remoteName), Toast.LENGTH_LONG).show();
-            } else if (ttclient.doSendFile(curchannel.nChannelID, path) <= 0) {
-                Toast.makeText(this, getString(R.string.upload_failed, path), Toast.LENGTH_LONG).show();
-            }
-            else {
-                Toast.makeText(this, R.string.upload_started, Toast.LENGTH_SHORT).show();
+            if (path != null) {
+                File localFile = new File(path);
+                if (localFile.canRead()) {
+                    String remoteName = filesAdapter.getRemoteName(path);
+                    if (remoteName != null) {
+                        Toast.makeText(this, getString(R.string.remote_file_exists, remoteName), Toast.LENGTH_LONG).show();
+                    } else if (ttclient.doSendFile(curchannel.nChannelID, path) <= 0) {
+                        Toast.makeText(this, getString(R.string.upload_failed, path), Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Toast.makeText(this, R.string.upload_started, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(this, getString(R.string.upload_failed, path), Toast.LENGTH_LONG).show();
+                }
             }
         }
         else {
