@@ -301,11 +301,7 @@ extends AppCompatActivity
             break;
             case R.id.action_upload : {
                 if (Permissions.READ_EXTERNAL_STORAGE.request(this)) {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("*/*");
-                    Intent i = Intent.createChooser(intent, "File");
-                    startActivityForResult(i, REQUEST_SELECT_FILE);
+                    fileSelectionStart();
                 }
             }
             break;
@@ -684,6 +680,15 @@ extends AppCompatActivity
         @Override
         public void onPageScrollStateChanged(int state) {
         }
+    }
+
+
+    private void fileSelectionStart() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        Intent i = Intent.createChooser(intent, "File");
+        startActivityForResult(i, REQUEST_SELECT_FILE);
     }
 
     private void editChannelProperties(Channel channel) {
@@ -1842,11 +1847,7 @@ private EditText newmsg;
             return;
         switch (granted) {
             case READ_EXTERNAL_STORAGE:
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("*/*");
-                Intent i = Intent.createChooser(intent, "File");
-                startActivityForResult(i, REQUEST_SELECT_FILE);
+                fileSelectionStart();
                 break;
             case WAKE_LOCK:
                 wakeLock.acquire();

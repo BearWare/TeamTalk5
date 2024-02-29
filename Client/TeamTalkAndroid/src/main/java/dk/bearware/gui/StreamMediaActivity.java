@@ -118,11 +118,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
             return;
         switch (granted) {
             case READ_EXTERNAL_STORAGE:
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("*/*");
-                Intent i = Intent.createChooser(intent, "File");
-                startActivityForResult(i, REQUEST_STREAM_MEDIA);
+                mediaSelectionStart();
                 break;
         default:
             break;
@@ -140,11 +136,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
             switch(v.getId()) {
                 case R.id.media_file_select_btn :
                     if (Permissions.READ_EXTERNAL_STORAGE.request(StreamMediaActivity.this)) {
-                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent.addCategory(Intent.CATEGORY_OPENABLE);
-                        intent.setType("*/*");
-                        Intent i = Intent.createChooser(intent, "File");
-                        startActivityForResult(i, REQUEST_STREAM_MEDIA);
+                        mediaSelectionStart();
                     }
                     break;
                 case R.id.media_file_stream_btn :
@@ -183,4 +175,13 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+    private void mediaSelectionStart() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        Intent i = Intent.createChooser(intent, "File");
+        startActivityForResult(i, REQUEST_STREAM_MEDIA);
+    }
+
 }
