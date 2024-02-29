@@ -2013,9 +2013,9 @@ void MainWindow::connectToServer()
 
 void MainWindow::disconnectFromServer()
 {
-    TT_Disconnect(ttInst);
     if (!timerExists(TIMER_RECONNECT))
-        addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Disconnected from %1").arg(limitText(_Q(m_srvprop.szServerName))));
+        addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED?tr("Disconnected from %1").arg(limitText(_Q(m_srvprop.szServerName))):tr("Disconnected from server")));
+    TT_Disconnect(ttInst);
 
     // sync user settings to cache
     auto users = ui.channelsWidget->getUsers();

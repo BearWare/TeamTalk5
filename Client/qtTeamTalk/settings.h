@@ -143,6 +143,8 @@
 #define SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT             false
 #define SETTINGS_DISPLAY_MOTD_DLG             "display/MOTD-dlg"
 #define SETTINGS_DISPLAY_MOTD_DLG_DEFAULT             false
+#define SETTINGS_DISPLAY_CHANNEL_TOPIC             "display/channel-topic"
+#define SETTINGS_DISPLAY_CHANNEL_TOPIC_DEFAULT             false
 #define SETTINGS_DISPLAY_START_SERVERLIST             "display/serverlist-on-start"
 #define SETTINGS_DISPLAY_START_SERVERLIST_DEFAULT             false
 #define SETTINGS_DISPLAY_CHANNELSORT                 "display/sort-channels"

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>994</width>
+    <width>1119</width>
     <height>697</height>
    </rect>
   </property>
@@ -453,6 +453,13 @@
                <widget class="QCheckBox" name="animChkBox">
                 <property name="text">
                  <string>Show user and channel icons</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="chanTopicChkBox">
+                <property name="text">
+                 <string>Show channel topic in channel list</string>
                 </property>
                </widget>
               </item>
