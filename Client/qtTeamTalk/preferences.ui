@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>994</width>
+    <width>1119</width>
     <height>697</height>
    </rect>
   </property>
@@ -457,6 +457,13 @@
                </widget>
               </item>
               <item>
+               <widget class="QCheckBox" name="chanTopicChkBox">
+                <property name="text">
+                 <string>Show channel topic in channel list</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QCheckBox" name="ServnameChkBox">
                 <property name="text">
                  <string>Show both server and channel name in window title</string>
@@ -580,13 +587,6 @@
                <widget class="QCheckBox" name="dlgMOTDChkBox">
                 <property name="text">
                  <string>Show dialog box with server's message of the day</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="chanTopicChkBox">
-                <property name="text">
-                 <string>Show channel topic in channel list</string>
                 </property>
                </widget>
               </item>
