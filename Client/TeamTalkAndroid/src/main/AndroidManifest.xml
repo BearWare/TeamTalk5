@@ -95,7 +95,7 @@
             android:name="dk.bearware.backend.TeamTalkService"
             android:foregroundServiceType="microphone"
             android:enabled="true"
-            android:exported="true"
+            android:exported="false"
             android:stopWithTask="true" />
 
         <activity
