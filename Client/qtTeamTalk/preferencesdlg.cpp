@@ -1165,6 +1165,7 @@ void PreferencesDlg::slotSaveChanges()
 #endif
 #endif
         ttSettings->setValue(SETTINGS_DISPLAY_TTSHEADER, ui.ttsTreeView->header()->saveState());
+        ttSettings->setValue(SETTINGS_TTS_SRVNAME, ui.ttsSrvNameChkBox->isChecked());
     }
 }
 
@@ -1736,6 +1737,7 @@ void PreferencesDlg::slotUpdateTTSTab()
     case TTSENGINE_NONE :
     break;
     }
+    ui.ttsSrvNameChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SRVNAME, SETTINGS_TTS_SRVNAME_DEFAULT).toBool());
 }
 
 void PreferencesDlg::slotTTSLocaleChanged(const QString& locale)
