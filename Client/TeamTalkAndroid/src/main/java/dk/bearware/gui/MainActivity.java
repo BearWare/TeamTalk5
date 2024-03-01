@@ -441,17 +441,17 @@ extends AppCompatActivity
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         if (prefs.getBoolean("server_lost_audio_icon", true)) {
-            sounds.put(SOUND_SERVERLOST, audioIcons.load(getApplicationContext(), R.raw.serverlost, 1));
+            sounds.put(SOUND_SERVERLOST, audioIcons.load(getApplicationContext(), prefs.getBoolean("oldsoundtheme_icon", false) ? R.raw.old_serverlost: R.raw.serverlost, 1));
         }
         if (prefs.getBoolean("rx_tx_audio_icon", true)) {
             sounds.put(SOUND_VOICETXON, audioIcons.load(getApplicationContext(), R.raw.on, 1));
             sounds.put(SOUND_VOICETXOFF, audioIcons.load(getApplicationContext(), R.raw.off, 1));
         }
         if (prefs.getBoolean("private_message_audio_icon", true)) {
-            sounds.put(SOUND_USERMSG, audioIcons.load(getApplicationContext(), R.raw.user_message, 1));
+            sounds.put(SOUND_USERMSG, audioIcons.load(getApplicationContext(), prefs.getBoolean("oldsoundtheme_icon", false) ? R.raw.old_user_message : R.raw.user_message, 1));
         }
         if (prefs.getBoolean("channel_message_audio_icon", true)) {
-            sounds.put(SOUND_CHANMSG, audioIcons.load(getApplicationContext(), R.raw.channel_message, 1));
+            sounds.put(SOUND_CHANMSG, audioIcons.load(getApplicationContext(), prefs.getBoolean("oldsoundtheme_icon",   false) ? R.raw.old_channel_message : R.raw.channel_message, 1));
         }
         if (prefs.getBoolean("channel_message_sent_audio_icon", true)) {
             sounds.put(SOUND_CHANMSGSENT, audioIcons.load(getApplicationContext(), R.raw.channel_message_sent, 1));
@@ -471,16 +471,16 @@ extends AppCompatActivity
             sounds.put(SOUND_TXSTOP, audioIcons.load(getApplicationContext(), R.raw.txqueue_stop, 1));
         }
         if (prefs.getBoolean("userjoin_icon", true)) {
-            sounds.put(SOUND_USERJOIN, audioIcons.load(getApplicationContext(), R.raw.user_join, 1));
+            sounds.put(SOUND_USERJOIN, audioIcons.load(getApplicationContext(), prefs.getBoolean("oldsoundtheme_icon", false) ? R.raw.old_user_join: R.raw.user_join, 1));
         }
         if (prefs.getBoolean("userleft_icon", true)) {
-            sounds.put(SOUND_USERLEFT, audioIcons.load(getApplicationContext(), R.raw.user_left, 1));
+            sounds.put(SOUND_USERLEFT, audioIcons.load(getApplicationContext(), prefs.getBoolean("oldsoundtheme_icon", false) ? R.raw.old_user_left: R.raw.user_left, 1));
         }
         if (prefs.getBoolean("userloggedin_icon", true)) {
-            sounds.put(SOUND_USERLOGGEDIN, audioIcons.load(getApplicationContext(), R.raw.logged_on, 1));
+            sounds.put(SOUND_USERLOGGEDIN, audioIcons.load(getApplicationContext(), prefs.getBoolean("oldsoundtheme_icon", false) ? R.raw.old_logged_on: R.raw.logged_on, 1));
         }
         if (prefs.getBoolean("userloggedoff_icon", true)) {
-            sounds.put(SOUND_USERLOGGEDOFF, audioIcons.load(getApplicationContext(), R.raw.logged_off, 1));
+            sounds.put(SOUND_USERLOGGEDOFF, audioIcons.load(getApplicationContext(), prefs.getBoolean("oldsoundtheme_icon", false) ? R.raw.old_logged_off: R.raw.logged_off, 1));
         }
 
         getTextMessagesAdapter().showLogMessages(prefs.getBoolean("show_log_messages", true));
