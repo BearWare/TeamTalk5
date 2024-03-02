@@ -10,6 +10,7 @@ Default Qt Client
 - Don't display server name when disconnected from server where not authentified
 - Option to show channel topic in channel list
 - Fixed "Gender" property not being saved in .tt files
+- Fixed sort by size on file list
 Android Client
 -
 iOS Client

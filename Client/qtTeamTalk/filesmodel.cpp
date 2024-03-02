@@ -101,11 +101,18 @@ QVariant FilesModel::data ( const QModelIndex & index, int role /*= Qt::DisplayR
         }
         break;
     case Qt::UserRole :
-        if (index.column() == COLUMN_INDEX_UPLOADED)
+        switch(index.column())
         {
+        case COLUMN_INDEX_UPLOADED :
             return _Q(m_files[index.row()].szUploadTime);
+            break;
+        case COLUMN_INDEX_SIZE :
+            return m_files[index.row()].nFileSize;
+            break;
+        default :
+            return data(index, Qt::DisplayRole);
+            break;
         }
-        return data(index, Qt::DisplayRole);
         break;
     case Qt::AccessibleTextRole :
     {

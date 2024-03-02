@@ -79,11 +79,15 @@ QVariant UserAccountsModel::data(const QModelIndex & index, int role /*= Qt::Dis
         }
         break;
     case Qt::UserRole :
-        if (index.column() == COLUMN_INDEX_MODIFIED)
+        switch(index.column())
         {
+        case COLUMN_INDEX_MODIFIED :
             return _Q(m_users[index.row()].szLastModified);
+            break;
+        default :
+            return data(index, Qt::DisplayRole);
+            break;
         }
-        return data(index, Qt::DisplayRole);
         break;
     case Qt::AccessibleTextRole :
     {
