@@ -1131,7 +1131,7 @@ void MainWindow::clienteventCmdUserLoggedOut(const User& user)
     {
         addStatusMsg(STATUSBAR_USER_LOGGEDOUT, ((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out", "For female").arg(getDisplayName(user)):tr("%1 has logged out", "For male and neutral").arg(getDisplayName(user))));
         playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
-        addTextToSpeechMessage(TTS_USER_LOGGEDOUT, (ttSettings->value(SETTINGS_TTS_SRVNAME, SETTINGS_TTS_SRVNAME_DEFAULT).toBool()?QString(((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out from %2", "For female").arg(getDisplayName(user).arg(limitText(_Q(m_srvprop.szServerName)))):tr("%1 has logged out from %2", "For male and neutral").arg(getDisplayName(user)).arg(limitText(_Q(m_srvprop.szServerName))))):QString(((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out", "For female").arg(getDisplayName(user)):tr("%1 has logged out", "For male and neutral").arg(getDisplayName(user))))));
+        addTextToSpeechMessage(TTS_USER_LOGGEDOUT, (ttSettings->value(SETTINGS_TTS_SRVNAME, SETTINGS_TTS_SRVNAME_DEFAULT).toBool()?QString(((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out from %2", "For female").arg(getDisplayName(user)).arg(limitText(_Q(m_srvprop.szServerName))):tr("%1 has logged out from %2", "For male and neutral").arg(getDisplayName(user)).arg(limitText(_Q(m_srvprop.szServerName))))):QString(((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out", "For female").arg(getDisplayName(user)):tr("%1 has logged out", "For male and neutral").arg(getDisplayName(user))))));
     }
 
     // sync user settings to cache
