@@ -1310,6 +1310,7 @@ private EditText newmsg;
             userActions.getMenu().findItem(R.id.action_kicksrv).setEnabled(kickRight).setVisible(kickRight);
             userActions.getMenu().findItem(R.id.action_banchan).setEnabled(banRight | operatorRight).setVisible(banRight | operatorRight);
             userActions.getMenu().findItem(R.id.action_bansrv).setEnabled(banRight).setVisible(banRight);
+            userActions.getMenu().findItem(R.id.action_makeop).setTitle(ttclient.isChannelOperator(selectedUser.nUserID , selectedUser.nChannelID) ? R.string.action_revoke_operator : R.string.action_make_operator);
             userActions.getMenu().findItem(R.id.action_select).setEnabled(moveRight).setVisible(moveRight);
             userActions.show();
             return true;
@@ -1370,6 +1371,16 @@ private EditText newmsg;
             alert.setNegativeButton(android.R.string.no, null);
             alert.show();
             break;
+            case R.id.action_makeop:
+                alert.setTitle(ttclient.isChannelOperator(selectedUser.nUserID , selectedUser.nChannelID) ? R.string.action_revoke_operator : R.string.action_make_operator);
+                alert.setMessage(R.string.text_operator_password);
+                final EditText input = new EditText(this);
+                input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
+                alert.setPositiveButton(android.R.string.yes, ((dialog, whichButton) -> ttclient.doChannelOpEx(selectedUser.nUserID, selectedUser.nChannelID, input.getText().toString(), ttclient.isChannelOperator(selectedUser.nUserID, selectedUser.nChannelID)? false: true)));
+                alert.setNegativeButton(android.R.string.no, null);
+                alert.setView(input);
+                alert.show();
+                break;
         case R.id.action_move:
             for (Integer userID : userIDS) {
                 ttclient.doMoveUser(userID, selectedChannel.nChannelID);

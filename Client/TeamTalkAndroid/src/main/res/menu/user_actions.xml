@@ -17,6 +17,10 @@
         android:title="@string/action_bansrv"/>
 
     <item
+        android:id="@+id/action_makeop"
+        android:title="@string/action_make_operator"/>
+
+    <item
         android:id="@+id/action_select"
         android:title="@string/action_select"/>
 
