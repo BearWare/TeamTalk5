@@ -26,6 +26,7 @@ package dk.bearware.gui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -118,7 +119,10 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
             return;
         switch (granted) {
             case READ_EXTERNAL_STORAGE:
-                mediaSelectionStart();
+            case READ_MEDIA_VIDEO:
+            case READ_MEDIA_AUDIO:
+                if ((Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) || areMediaPermissionsComplete())
+                    mediaSelectionStart();
                 break;
         default:
             break;
@@ -135,7 +139,9 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
         OnClickListener listener = v -> {
             switch(v.getId()) {
                 case R.id.media_file_select_btn :
-                    if (Permissions.READ_EXTERNAL_STORAGE.request(StreamMediaActivity.this)) {
+                if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) ?
+                    requestMediaPermissions() :
+                    Permissions.READ_EXTERNAL_STORAGE.request(this)) {
                         mediaSelectionStart();
                     }
                     break;
@@ -182,6 +188,19 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
         intent.setType("*/*");
         Intent i = Intent.createChooser(intent, "File");
         startActivityForResult(i, REQUEST_STREAM_MEDIA);
+    }
+
+    private boolean requestMediaPermissions() {
+        boolean video = Permissions.READ_MEDIA_VIDEO.request(this);
+        boolean audio = Permissions.READ_MEDIA_AUDIO.request(this);
+        return areMediaPermissionsComplete() ?
+            (video || audio) :
+            false;
+    }
+
+    private boolean areMediaPermissionsComplete() {
+        return !(Permissions.READ_MEDIA_VIDEO.isPending() ||
+                 Permissions.READ_MEDIA_AUDIO.isPending());
     }
 
 }

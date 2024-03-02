@@ -14,8 +14,12 @@
     <!-- VIBRATE is needed to vibrate on up/down of tx button -->
     <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
     <!-- READ_EXTERNAL_STORAGE and WRITE_EXTERNAL_STORAGE are needed for file transfer facilities -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29"></uses-permission>
+    <!-- Media read permissions for modern Android -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"></uses-permission>
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"></uses-permission>
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"></uses-permission>
     <!-- WAKE_LOCK is needed to keep connection alive when screen dims out -->
     <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
     <!-- READ_PHONE_STATE is needed to suspend on incoming call -->

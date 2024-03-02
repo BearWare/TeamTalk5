@@ -30,6 +30,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -304,12 +305,12 @@ extends AppCompatActivity
                 refreshServerList();
             break;
             case R.id.action_import_serverlist :
-                if (Permissions.READ_EXTERNAL_STORAGE.request(this)) {
+                if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) || Permissions.READ_EXTERNAL_STORAGE.request(this)) {
                     fileSelectionStart();
                 }
             break;
             case R.id.action_export_serverlist :
-                if (Permissions.WRITE_EXTERNAL_STORAGE.request(this)) {
+                if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) || Permissions.WRITE_EXTERNAL_STORAGE.request(this)) {
                     exportServers();
                 }
             break;
