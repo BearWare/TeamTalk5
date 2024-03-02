@@ -47,6 +47,9 @@ public enum Permissions {
     VIBRATE(Manifest.permission.VIBRATE, R.string.permission_vibrate),
     READ_EXTERNAL_STORAGE(Manifest.permission.READ_EXTERNAL_STORAGE, R.string.permission_filetx),
     WRITE_EXTERNAL_STORAGE(Manifest.permission.WRITE_EXTERNAL_STORAGE, R.string.permission_filerx),
+    READ_MEDIA_IMAGES(Manifest.permission.READ_MEDIA_IMAGES, R.string.permission_imagetx),
+    READ_MEDIA_VIDEO(Manifest.permission.READ_MEDIA_VIDEO, R.string.permission_videotx),
+    READ_MEDIA_AUDIO(Manifest.permission.READ_MEDIA_AUDIO, R.string.permission_audiotx),
     WAKE_LOCK(Manifest.permission.WAKE_LOCK, R.string.permission_wake_lock),
     READ_PHONE_STATE(Manifest.permission.READ_PHONE_STATE, R.string.permission_read_phone_state),
     BLUETOOTH((Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) ? Manifest.permission.BLUETOOTH_CONNECT : Manifest.permission.BLUETOOTH, R.string.permission_bluetooth),
@@ -55,13 +58,20 @@ public enum Permissions {
     private final String id;
     private final int msgResId;
 
+    private boolean pending;
+
     Permissions(String id, int msgResId) {
         this.id = id;
         this.msgResId = msgResId;
+        pending = false;
     }
 
     public boolean isGranted(@NonNull Context context) {
         return ContextCompat.checkSelfPermission(context, id) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public boolean isPending() {
+        return pending;
     }
 
     public boolean request(@NonNull Activity activity) {
@@ -71,6 +81,7 @@ public enum Permissions {
                 Toast.makeText(activity.getBaseContext(), msgResId, Toast.LENGTH_LONG).show();
             } else {
                 ActivityCompat.requestPermissions(activity, new String[]{id}, ordinal() + 1);
+                pending = true;
             }
         }
         return state;
@@ -80,11 +91,14 @@ public enum Permissions {
     public static Permissions onRequestResult(@NonNull Activity activity, int requestCode, @NonNull int[] grantResults) {
         Permissions permission = ((requestCode > 0) && (requestCode <= values().length)) ? values()[requestCode - 1] : null;
         boolean granted = (grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED);
-        if ((permission != null) && !granted) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission.id)) {
-                Toast.makeText(activity.getBaseContext(), permission.msgResId, Toast.LENGTH_LONG).show();
+        if (permission != null) {
+            permission.pending = false;
+            if (!granted) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission.id)) {
+                    Toast.makeText(activity.getBaseContext(), permission.msgResId, Toast.LENGTH_LONG).show();
+                }
+                return null;
             }
-            return null;
         }
         return permission;
     }

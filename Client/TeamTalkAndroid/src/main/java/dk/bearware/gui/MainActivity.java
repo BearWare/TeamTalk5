@@ -300,7 +300,9 @@ extends AppCompatActivity
             }
             break;
             case R.id.action_upload : {
-                if (Permissions.READ_EXTERNAL_STORAGE.request(this)) {
+                if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) ?
+                    requestMediaPermissions() :
+                    Permissions.READ_EXTERNAL_STORAGE.request(this)) {
                     fileSelectionStart();
                 }
             }
@@ -689,6 +691,21 @@ extends AppCompatActivity
         intent.setType("*/*");
         Intent i = Intent.createChooser(intent, "File");
         startActivityForResult(i, REQUEST_SELECT_FILE);
+    }
+
+    private boolean requestMediaPermissions() {
+        boolean images = Permissions.READ_MEDIA_IMAGES.request(this);
+        boolean video = Permissions.READ_MEDIA_VIDEO.request(this);
+        boolean audio = Permissions.READ_MEDIA_AUDIO.request(this);
+        return areMediaPermissionsComplete() ?
+            (images || video || audio) :
+            false;
+    }
+
+    private boolean areMediaPermissionsComplete() {
+        return !(Permissions.READ_MEDIA_IMAGES.isPending() ||
+                 Permissions.READ_MEDIA_VIDEO.isPending() ||
+                 Permissions.READ_MEDIA_AUDIO.isPending());
     }
 
     private void editChannelProperties(Channel channel) {
@@ -1847,7 +1864,11 @@ private EditText newmsg;
             return;
         switch (granted) {
             case READ_EXTERNAL_STORAGE:
-                fileSelectionStart();
+            case READ_MEDIA_IMAGES:
+            case READ_MEDIA_VIDEO:
+            case READ_MEDIA_AUDIO:
+                if ((Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) || areMediaPermissionsComplete())
+                    fileSelectionStart();
                 break;
             case WAKE_LOCK:
                 wakeLock.acquire();
