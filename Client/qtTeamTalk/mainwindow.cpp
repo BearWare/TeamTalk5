@@ -1113,7 +1113,7 @@ void MainWindow::clienteventCmdUserLoggedIn(const User& user)
     {
         addStatusMsg(STATUSBAR_USER_LOGGEDIN, tr("%1 has logged in").arg(getDisplayName(user)));
         playSoundEvent(SOUNDEVENT_USERLOGGEDIN);
-        addTextToSpeechMessage(TTS_USER_LOGGEDIN, QString(tr("%1 has logged in").arg(getDisplayName(user))));
+        addTextToSpeechMessage(TTS_USER_LOGGEDIN, (ttSettings->value(SETTINGS_TTS_SRVNAME, SETTINGS_TTS_SRVNAME_DEFAULT).toBool()?QString(tr("%1 has logged in on %2").arg(getDisplayName(user)).arg(limitText(_Q(m_srvprop.szServerName)))):QString(tr("%1 has logged in").arg(getDisplayName(user)))));
     }
 
     // sync user settings from cache
@@ -1131,7 +1131,7 @@ void MainWindow::clienteventCmdUserLoggedOut(const User& user)
     {
         addStatusMsg(STATUSBAR_USER_LOGGEDOUT, ((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out", "For female").arg(getDisplayName(user)):tr("%1 has logged out", "For male and neutral").arg(getDisplayName(user))));
         playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
-        addTextToSpeechMessage(TTS_USER_LOGGEDOUT, QString(((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out", "For female").arg(getDisplayName(user)):tr("%1 has logged out", "For male and neutral").arg(getDisplayName(user)))));
+        addTextToSpeechMessage(TTS_USER_LOGGEDOUT, (ttSettings->value(SETTINGS_TTS_SRVNAME, SETTINGS_TTS_SRVNAME_DEFAULT).toBool()?QString(((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out from %2", "For female").arg(getDisplayName(user).arg(limitText(_Q(m_srvprop.szServerName)))):tr("%1 has logged out from %2", "For male and neutral").arg(getDisplayName(user)).arg(limitText(_Q(m_srvprop.szServerName))))):QString(((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out", "For female").arg(getDisplayName(user)):tr("%1 has logged out", "For male and neutral").arg(getDisplayName(user))))));
     }
 
     // sync user settings to cache
@@ -1327,9 +1327,10 @@ void MainWindow::clienteventInternalError(const ClientErrorMsg& clienterrormsg)
         textmsg = tr("Failed to initialize sound output device"); break;
     case INTERR_AUDIOCODEC_INIT_FAILED :
         textmsg = tr("Failed to initialize audio codec"); break;
-    case INTERR_SPEEXDSP_INIT_FAILED :
-        critical = false;
-        textmsg = tr("Failed to initialize audio configuration"); break;
+    case INTERR_AUDIOPREPROCESSOR_INIT_FAILED :
+        textmsg = tr("Audio preprocessor failed to initialize"); break;
+    case INTERR_SNDEFFECT_FAILURE :
+        textmsg = tr("An audio effect could not be applied on the sound device"); break;
     case INTERR_TTMESSAGE_QUEUE_OVERFLOW :
         critical = false;
         textmsg = tr("Internal message queue overloaded"); break;
@@ -1614,6 +1615,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         qDebug() << "User #" << msg.nSource << "max payload is" << msg.nPayloadSize;
     break;
     case CLIENTEVENT_CMD_PROCESSING :
+        emit cmdProcessing(msg.nSource, msg.bActive);
         clienteventCmdProcessing(msg.nSource, !msg.bActive);
         break;
     case CLIENTEVENT_CMD_ERROR :
@@ -1916,6 +1918,7 @@ void MainWindow::cmdCompleteListServers(CommandComplete complete)
             chanpath = _Q(path);
         }
         m_bannedusersdlg = new BannedUsersDlg(m_bannedusers, chanpath);
+        connect(this, &MainWindow::cmdProcessing, m_bannedusersdlg, &BannedUsersDlg::cmdProcessing);
         if (chanpath.size())
             m_bannedusersdlg->setWindowTitle(tr("Banned Users in Channel %1").arg(chanpath));
         connect(m_bannedusersdlg, &QDialog::finished,
@@ -2010,9 +2013,9 @@ void MainWindow::connectToServer()
 
 void MainWindow::disconnectFromServer()
 {
-    TT_Disconnect(ttInst);
     if (!timerExists(TIMER_RECONNECT))
-        addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Disconnected from %1").arg(limitText(_Q(m_srvprop.szServerName))));
+        addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED?tr("Disconnected from %1").arg(limitText(_Q(m_srvprop.szServerName))):tr("Disconnected from server")));
+    TT_Disconnect(ttInst);
 
     // sync user settings to cache
     auto users = ui.channelsWidget->getUsers();
@@ -2166,6 +2169,8 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
     case CMDERR_SERVER_BANNED :
         title = tr("Login error");
         textmsg = tr("Banned from server"); break;
+    case CMDERR_CHANNEL_BANNED :
+        textmsg = tr("Banned from channel");    break;
     case CMDERR_NOT_AUTHORIZED :
         textmsg = tr("Command not authorized");    break;
     case CMDERR_MAX_SERVER_USERS_EXCEEDED :
@@ -2177,10 +2182,16 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
         textmsg = tr("Maximum number of users in channel exceeded"); break;
     case CMDERR_INCORRECT_OP_PASSWORD :
         textmsg = tr("Incorrect channel operator password"); break;
+    case CMDERR_MAX_LOGINS_PER_IPADDRESS_EXCEEDED :
+        textmsg = tr("Maximum number of logins per IP-address exceeded"); break;
+    case CMDERR_AUDIOCODEC_BITRATE_LIMIT_EXCEEDED :
+        textmsg = tr("Maximum bitrate for audio codec exceeded"); break;
     case CMDERR_MAX_CHANNELS_EXCEEDED :
         textmsg = tr("The maximum number of channels has been exceeded"); break;
     case CMDERR_COMMAND_FLOOD :
         textmsg = tr("Command flooding prevented by server"); break;
+    case CMDERR_MAX_FILETRANSFERS_EXCEEDED :
+        textmsg = tr("Maximum number of file transfers exceeded"); break;
 
         // state errors
     case CMDERR_ALREADY_LOGGEDIN :
@@ -3093,6 +3104,7 @@ void MainWindow::updateChannelFiles(int channelid)
     TTCHAR chanpath[TT_STRLEN] = {};
     TT_GetChannelPath(ttInst, channelid, chanpath);
     ui.channelLabel->setText(tr("Files in channel: %1").arg(_Q(chanpath)));
+    ui.filesView->setAccessibleName(tr("Files in channel: %1").arg(_Q(chanpath)));
 
     if (m_proxyFilesModel->rowCount() == 0)
     {
@@ -5950,8 +5962,7 @@ void MainWindow::slotUsersKickBan(const User& user)
         QString choice = inputDialog.textValue();
         if (ok)
         {
-            User tmp;
-            if (TT_GetUser(ttInst, user.nUserID, &tmp))
+            if (ui.channelsWidget->getUser(user.nUserID).nUserID != 0)
             {
                 //ban first since the user will otherwise have disappeared
                 if (choice == items[0])

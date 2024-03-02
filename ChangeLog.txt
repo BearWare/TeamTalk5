@@ -2,26 +2,57 @@
                  TeamTalk
 ----------------------------------------------
 
-Version 5.15, unreleased
+Version 5.16, unreleased
 Default Qt Client
-- PulseAudio support on Ubuntu 22
-- User right to prevent private text messages
-- User right to prevent channel text messages
-- Fixed state of "Close when completed" checkbox on "Transfer file" dialog
-- Support for 320 KBit MP3 recording (Windows only)
-- Support for banning IP-address as subnet, e.g. 192.168.0.0/24 or 2a02:09b0:402b:eed8::/63
-- Username of user creating a ban is visible in "Banned Users" dialog
 - Dates and times are now formatted in user locale on "User accounts" dialog and main window's files tab
-- Files count not announced for non admin users when pressing CTRL+G on non current channel
+- Option to show server's message of the day in a welcome dialog box
+- Option to announce server name on some server related TTS events
+- Don't display server name when disconnected from server where not authentified
+- Option to show channel topic in channel list
+- Fixed "Gender" property not being saved in .tt files
 Android Client
 -
 iOS Client
 -
 Server
+-
+
+Version 5.15.1, 2023/12/21
+Default Qt Client
+- Fixed crashes and missing dialogs when using VoiceOver on macOS
+- Changed to Qt 6.7.0beta1 on macOS
+
+Version 5.15, 2023/12/20
+Default Qt Client
+- PulseAudio support on Ubuntu 22
+- User right to prevent private text messages
+- User right to prevent channel text messages
+- Added Korean language
+- Added Persian language
+- Support for 320 KBit MP3 recording (Windows only)
+- Support for banning IP-address as subnet, e.g. 192.168.0.0/24 or 2a02:09b0:402b:eed8::/63
+- Username of user creating a ban is visible in "Banned Users" dialog
+- Multi selection in Banned Users dialog
+- Username or IP-address of current selection is shown in text box in "Banned Users" dialog
+- Pressing Enter in text box of "Banned Users" dialog will add new ban
+- Kick/Ban From Server now in context menu of Online Users dialog
+- Client version shown in "View User Information" dialog
+- Option in Display-tab to disable user and channel icons
+- Option in Text-To-Speech-tab to configure whether to try SAPI when screenreader is not available
+- Label of files list now includes channel path
+- Fixed state of "Close when completed" checkbox on "Transfer file" dialog
+- Fixed files count not announced for non admin users when pressing CTRL+G on non current channel
+- Fixed users still showning channel in Online Users dialog
+- Changed to Qt 6.6.1 on macOS and Windows
+Server
 - User right to prevent private text messages
 - User right to prevent channel text messages
 - Support for banning IP-address as subnet, e.g. 192.168.0.0/24 or 2a02:09b0:402b:eed8::/63
-- Owner of ban is stored
+- Creator of ban is stored
+
+Version 5.14.2, 2023/11/03
+Android Client
+- Fixed crash issue on Android 14 upon establishing connection to server
 
 Version 5.14.1, 2023/10/21
 Android Client

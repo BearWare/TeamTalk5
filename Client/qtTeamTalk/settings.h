@@ -85,6 +85,8 @@
 #define SETTINGS_DISPLAY_LASTTALK_DEFAULT           true
 #define SETTINGS_DISPLAY_EMOJI                     "display/show-emoji"
 #define SETTINGS_DISPLAY_EMOJI_DEFAULT              true
+#define SETTINGS_DISPLAY_ANIM                     "display/show-animations"
+#define SETTINGS_DISPLAY_ANIM_DEFAULT              true
 #define SETTINGS_DISPLAY_SERVNAME                     "display/show-servname"
 #define SETTINGS_DISPLAY_SERVNAME_DEFAULT              true
 #define SETTINGS_DISPLAY_MSGTIMESTAMP               "display/msgtimestamp"
@@ -139,6 +141,10 @@
 #define SETTINGS_DISPLAY_CLOSE_FILEDIALOG_DEFAULT             false
 #define SETTINGS_DISPLAY_CHANEXCLUDE_DLG             "display/dlg-alert-exclude"
 #define SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT             false
+#define SETTINGS_DISPLAY_MOTD_DLG             "display/MOTD-dlg"
+#define SETTINGS_DISPLAY_MOTD_DLG_DEFAULT             false
+#define SETTINGS_DISPLAY_CHANNEL_TOPIC             "display/channel-topic"
+#define SETTINGS_DISPLAY_CHANNEL_TOPIC_DEFAULT             false
 #define SETTINGS_DISPLAY_START_SERVERLIST             "display/serverlist-on-start"
 #define SETTINGS_DISPLAY_START_SERVERLIST_DEFAULT             false
 #define SETTINGS_DISPLAY_CHANNELSORT                 "display/sort-channels"
@@ -322,6 +328,8 @@
 #elif defined(Q_OS_WIN)
 #define SETTINGS_TTS_SAPI                         "texttospeech/force-sapi"
 #define SETTINGS_TTS_SAPI_DEFAULT                 false
+#define SETTINGS_TTS_TRY_SAPI                         "texttospeech/try-sapi"
+#define SETTINGS_TTS_TRY_SAPI_DEFAULT                 true
 #define SETTINGS_TTS_OUTPUT_MODE                         "texttospeech/output-mode"
 #define SETTINGS_TTS_OUTPUT_MODE_DEFAULT                 TTS_OUTPUTMODE_SPEECHBRAILLE
 #elif defined(Q_OS_DARWIN)
@@ -330,6 +338,8 @@
 #define SETTINGS_TTS_SPEAKLISTS_DEFAULT                 true
 #endif
 #endif
+#define SETTINGS_TTS_SRVNAME                         "texttospeech/announce-server-name"
+#define SETTINGS_TTS_SRVNAME_DEFAULT                 true
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"

@@ -24,15 +24,15 @@
 #ifndef VIDEOTHREAD_H
 #define VIDEOTHREAD_H
 
-#include <ace/Task.h>
-#include <ace/Message_Block.h>
-
 #if defined(ENABLE_VPX)
 #include <codec/VpxEncoder.h>
 #endif
 
 #include <teamtalk/Common.h>
 #include <codec/MediaUtil.h>
+
+#include <ace/Task.h>
+#include <ace/Message_Block.h>
 
 #include <memory>
 

@@ -58,8 +58,10 @@ OnlineUsersDlg::OnlineUsersDlg(QWidget* parent/* = 0 */)
     addAction(tr("&View User Information"), QKeySequence(tr("Ctrl+I")), this, [&](){ menuAction(VIEW_USERINFORMATION); });
     addAction(tr("M&essages"), QKeySequence(tr("Ctrl+E")), this, [&]() { menuAction(SEND_TEXTMESSAGE); });
     addAction(tr("&Op"), QKeySequence(tr("Ctrl+O")), this, [&]() { menuAction(OP); });
-    addAction(tr("&Kick"), QKeySequence(tr("Ctrl+K")), this, [&]() { menuAction(KICK); });
-    addAction(tr("Kick and &Ban"), QKeySequence(tr("Ctrl+B")), this, [&]() { menuAction(BAN); });
+    addAction(tr("&Kick from Channel"), QKeySequence(tr("Ctrl+K")), this, [&]() { menuAction(KICK_FROM_CHANNEL); });
+    addAction(tr("&Kick from Server"), QKeySequence(tr("Ctrl+Alt+K")), this, [&]() { menuAction(KICK_FROM_SERVER); });
+    addAction(tr("Kick and &Ban from Channel"), QKeySequence(tr("Ctrl+B")), this, [&]() { menuAction(BAN_FROM_CHANNEL); });
+    addAction(tr("Kick and &Ban from Server"), QKeySequence(tr("Ctrl+Alt+B")), this, [&]() { menuAction(BAN_FROM_SERVER); });
     addAction(tr("Select User(s) for Move"), QKeySequence(tr("Ctrl+Alt+X")), this, [&]() { menuAction(MOVE); });
 #endif
     m_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
@@ -130,10 +132,14 @@ void OnlineUsersDlg::slotTreeContextMenu(const QPoint& /*point*/)
                    QKeySequence(tr("Ctrl+E")));
     menu.addAction(tr("&Op"), this, [&]() { menuAction(OP); },
                    QKeySequence(tr("Ctrl+O")));
-    menu.addAction(tr("&Kick"), this, [&]() { menuAction(KICK); },
+    menu.addAction(tr("&Kick from Channel"), this, [&]() { menuAction(KICK_FROM_CHANNEL); },
                    QKeySequence(tr("Ctrl+K")));
-    menu.addAction(tr("Kick and &Ban"), this, [&]() { menuAction(BAN); },
+    menu.addAction(tr("&Kick from Server"), this, [&]() { menuAction(KICK_FROM_SERVER); },
+        QKeySequence(tr("Ctrl+Alt+K")));
+    menu.addAction(tr("Kick and &Ban from Channel"), this, [&]() { menuAction(BAN_FROM_CHANNEL); },
                    QKeySequence(tr("Ctrl+B")));
+    menu.addAction(tr("Kick and &Ban from Server"), this, [&]() { menuAction(BAN_FROM_SERVER); },
+        QKeySequence(tr("Ctrl+Alt+B")));
     menu.addAction(tr("Select User(s) for Move"), this, [&]() { menuAction(MOVE); },
                    QKeySequence(tr("Ctrl+Alt+X")));
     QMenu* sortMenu = menu.addMenu(tr("Sort By..."));
@@ -191,22 +197,32 @@ void OnlineUsersDlg::menuAction(MenuAction ma)
         switch (ma)
         {
         case VIEW_USERINFORMATION :
-            emit(viewUserInformation(userids[i]));
+            emit viewUserInformation(userids[i]);
             break;
         case SEND_TEXTMESSAGE :
-            emit(sendUserMessage(userids[i]));
+            emit sendUserMessage(userids[i]);
             break;
         case OP :
-            emit(opUser(userids[i], chanids[i]));
+            emit opUser(userids[i], chanids[i]);
             break;
-        case KICK :
-            emit(kickUser(userids[i], chanids[i]));
+        case KICK_FROM_CHANNEL :
+            emit kickUser(userids[i], chanids[i]);
             break;
-        case BAN :
-            emit(kickbanUser(m_model->getUser(userids[i])));
+        case KICK_FROM_SERVER :
+            emit kickUser(userids[i], 0);
             break;
+        case BAN_FROM_CHANNEL :
+            emit kickbanUser(m_model->getUser(userids[i]));
+            break;
+        case BAN_FROM_SERVER :
+        {
+            auto user = m_model->getUser(userids[i]);
+            user.nChannelID = 0;
+            emit kickbanUser(user);
+            break;
+        }
         case MOVE :
-            emit(moveUser(userids[i]));
+            emit moveUser(userids[i]);
             break;
         }
     }

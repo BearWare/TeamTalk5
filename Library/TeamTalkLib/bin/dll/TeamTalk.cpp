@@ -3642,6 +3642,10 @@ TEAMTALKDLL_API TTBOOL TT_PumpMessage(IN TTInstance* lpTTInstance,
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
+    auto inst = GET_CLIENT(lpTTInstance);
+    if (inst && inst->eventhandler->IsSuspended())
+        return FALSE;
+
     switch(nEvent) {
     case CLIENTEVENT_USER_STATECHANGE :
         return clientnode->StartUserTimer(teamtalk::USER_TIMER_UPDATE_USER,

@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.1)
-
 if (CMAKE_VERSION VERSION_LESS "3.7.0")
   set(CMAKE_INCLUDE_CURRENT_DIR ON)
 endif()
@@ -124,25 +122,6 @@ if (Qt5_FOUND OR Qt6_FOUND)
     resources.qrc mainwindow.rc
     )
 
-  # Setup translations
-  file (GLOB TS_FILES ${CMAKE_CURRENT_SOURCE_DIR}/languages/*.ts)
-  set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/languages)
-  if (Qt6_FOUND)
-    find_package(Qt6LinguistTools)
-    if (Qt6LinguistTools_FOUND)
-      qt6_add_translation (QM_FILES ${TS_FILES})
-      add_custom_target(QtTeamTalk5-Translations DEPENDS ${QM_FILES})
-        install (FILES ${QM_FILES} DESTINATION Client/qtTeamTalk/languages)
-    endif()
-  else()
-    find_package(Qt5LinguistTools)
-    if (Qt5LinguistTools_FOUND)
-      qt5_add_translation (QM_FILES ${TS_FILES})
-      add_custom_target(QtTeamTalk5-Translations DEPENDS ${QM_FILES})
-        install (FILES ${QM_FILES} DESTINATION Client/qtTeamTalk/languages)
-    endif()
-  endif()
-
   if (Qt6_FOUND)
     set (TEAMTALK_LINK_FLAGS Qt6::Widgets Qt6::Xml Qt6::Network Qt6::Multimedia Qt6::TextToSpeech)
   else()
@@ -187,6 +166,25 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
   if (BUILD_TEAMTALK_CLIENT_QTTEAMTALK)
 
+    # Build translations
+    file (GLOB TS_FILES ${CMAKE_CURRENT_SOURCE_DIR}/languages/*.ts)
+    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/languages)
+    if (Qt6_FOUND)
+      find_package(Qt6LinguistTools)
+      if (Qt6LinguistTools_FOUND)
+        qt6_add_translation (QM_FILES ${TS_FILES})
+        add_custom_target(QtTeamTalk5-Translations DEPENDS ${QM_FILES})
+        install (FILES ${QM_FILES} DESTINATION Client/qtTeamTalk/languages)
+      endif()
+    else()
+      find_package(Qt5LinguistTools)
+      if (Qt5LinguistTools_FOUND)
+        qt5_add_translation (QM_FILES ${TS_FILES})
+        add_custom_target(QtTeamTalk5-Translations DEPENDS ${QM_FILES})
+        install (FILES ${QM_FILES} DESTINATION Client/qtTeamTalk/languages)
+      endif()
+    endif()
+    
     if (MSVC)
       add_executable (${TEAMTALK_TARGET} WIN32 ${QTTEAMTALK_SOURCES})
 

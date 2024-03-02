@@ -186,6 +186,7 @@ class AudioFileFormat(INT32):
     AFF_MP3_64KBIT_FORMAT = 5
     AFF_MP3_128KBIT_FORMAT = 6
     AFF_MP3_256KBIT_FORMAT = 7
+    AFF_MP3_320KBIT_FORMAT = 8
 
 class AudioFormat(Structure):
     _fields_ = [
@@ -1023,6 +1024,9 @@ class TTType(INT32):
     JITTERCONFIG = 41
     WEBRTCAUDIOPREPROCESSOR = 42
     ENCRYPTIONCONTEXT = 43
+    SOUNDDEVICEEFFECTS = 44
+    DESKTOPWINDOW = 45
+    ABUSEPREVENTION = 46
 
 class TTMessageUnion(Union):
     _fields_ = [
@@ -1153,7 +1157,7 @@ _StopStreamingMediaFileToChannel = function_factory(dll.TT_StopStreamingMediaFil
 _InitLocalPlayback = function_factory(dll.TT_InitLocalPlayback, [INT32, [_TTInstance, TTCHAR_P, POINTER(MediaFilePlayback)]])
 _UpdateLocalPlayback = function_factory(dll.TT_UpdateLocalPlayback, [BOOL, [_TTInstance, INT32, POINTER(MediaFilePlayback)]])
 _StopLocalPlayback = function_factory(dll.TT_StopLocalPlayback, [BOOL, [_TTInstance, INT32]])
-_GetMediaFileInfo = function_factory(dll.TT_GetMediaFileInfo, [BOOL, [_TTInstance, TTCHAR_P, POINTER(MediaFileInfo)]])
+_GetMediaFileInfo = function_factory(dll.TT_GetMediaFileInfo, [BOOL, [TTCHAR_P, POINTER(MediaFileInfo)]])
 _SetEncryptionContext = function_factory(dll.TT_SetEncryptionContext, [BOOL, [_TTInstance, POINTER(EncryptionContext)]])
 _Connect = function_factory(dll.TT_Connect, [BOOL, [_TTInstance, TTCHAR_P, INT32, INT32, INT32, INT32, BOOL]])
 _ConnectSysID = function_factory(dll.TT_ConnectSysID, [BOOL, [_TTInstance, TTCHAR_P, INT32, INT32, INT32, INT32, BOOL, TTCHAR_P]])
@@ -1630,6 +1634,10 @@ class TeamTalk(object):
     def releaseUserAudioBlock(self, lpAudioBlock: POINTER(AudioBlock)) -> bool:
         return _ReleaseUserAudioBlock(self._tt, lpAudioBlock)
 
+    def getMediaFileInfo(szMediaFilePath) -> MediaFileInfo:
+        mfi = MediaFileInfo()
+        _GetMediaFileInfo(szMediaFilePath, mfi)
+        return mfi
 
     # event handling
 

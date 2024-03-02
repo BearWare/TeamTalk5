@@ -23,6 +23,7 @@
 
 #include "Common.h"
 #include "Commands.h"
+#include "Channel.h"
 #include <myace/MyINet.h>
 
 #include <time.h>
@@ -71,8 +72,9 @@ namespace teamtalk
 
     bool BannedUser::Match(const BannedUser& user) const
     {
-        bool match = true;
-        if((bantype & BANTYPE_IPADDR) && ipaddr.length())
+        bool match = bantype != BANTYPE_NONE;
+
+        if ((bantype & BANTYPE_IPADDR) && ipaddr.length())
         {
             const ACE_TString rgxsubnet = ACE_TEXT("^") ACE_TEXT("(.*)/(\\d+)") ACE_TEXT("$");
 #if defined(UNICODE)
@@ -82,9 +84,11 @@ namespace teamtalk
             std::smatch sm;
             std::string bannedip = ipaddr.c_str();
 #endif
-            // check if network ban
-            if (std::regex_search(bannedip, sm, buildregex(rgxsubnet.c_str())) && sm.size() == 3)
+            if (user.ipaddr.is_empty())
+                match = false; // do not report banned if user has no IP-address
+            else if (std::regex_search(bannedip, sm, buildregex(rgxsubnet.c_str())) && sm.size() == 3)
             {
+                // check if network ban
                 ACE_TString net = sm[1].str().c_str();
                 uint32_t prefix = string2i(sm[2].str().c_str());
                 // match &= INetAddrNetwork(user.ipaddr, prefix) == net;
@@ -97,11 +101,13 @@ namespace teamtalk
                 match &= std::regex_search(user.ipaddr.c_str(), buildregex(rgx.c_str()));
             }
         }
-        if((bantype & BANTYPE_USERNAME))
+
+        if ((bantype & BANTYPE_USERNAME))
             match &= username == user.username;
-        if((bantype & BANTYPE_CHANNEL))
-            match &= chanpath == user.chanpath;
-        match &= bantype != BANTYPE_NONE;
+
+        if ((bantype & BANTYPE_CHANNEL))
+            match &= ChannelsEquals(chanpath, user.chanpath);
+
         return match;
     }
 

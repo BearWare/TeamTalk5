@@ -550,6 +550,8 @@ void PreferencesDlg::slotTabChange(int index)
                                                             SETTINGS_DISPLAY_SHOWUSERNAME_DEFAULT).toBool());
         ui.emojiChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_EMOJI,
                                                      SETTINGS_DISPLAY_EMOJI_DEFAULT).toBool());
+        ui.animChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_ANIM,
+                                                     SETTINGS_DISPLAY_ANIM_DEFAULT).toBool());
         ui.ServnameChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_SERVNAME,
                                                      SETTINGS_DISPLAY_SERVNAME_DEFAULT).toBool());
 
@@ -577,6 +579,8 @@ void PreferencesDlg::slotTabChange(int index)
 
         ui.closeFileDlgChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_CLOSE_FILEDIALOG, SETTINGS_DISPLAY_CLOSE_FILEDIALOG_DEFAULT).toBool());
         ui.dlgExcludeChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_CHANEXCLUDE_DLG, SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT).toBool());
+        ui.dlgMOTDChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_MOTD_DLG, SETTINGS_DISPLAY_MOTD_DLG_DEFAULT).toBool());
+        ui.chanTopicChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_CHANNEL_TOPIC, SETTINGS_DISPLAY_CHANNEL_TOPIC_DEFAULT).toBool());
         ui.startServerListChkBox->setVisible(!ttSettings->value(SETTINGS_CONNECTION_AUTOCONNECT, SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT).toBool());
         ui.startServerListChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_START_SERVERLIST, SETTINGS_DISPLAY_START_SERVERLIST_DEFAULT).toBool());
     }
@@ -856,6 +860,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_DISPLAY_MAX_STRING, ui.maxtextSpinBox->value());
         ttSettings->setValue(SETTINGS_DISPLAY_SHOWUSERNAME, ui.showusernameChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_EMOJI, ui.emojiChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_DISPLAY_ANIM, ui.animChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_SERVNAME, ui.ServnameChkBox->isChecked());
 
         int index = ui.languageBox->currentIndex();
@@ -873,6 +878,8 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_DISPLAY_CHANNELSORT, getCurrentItemData(ui.channelsortComboBox, CHANNELSORT_ASCENDING));
         ttSettings->setValue(SETTINGS_DISPLAY_CLOSE_FILEDIALOG, ui.closeFileDlgChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_CHANEXCLUDE_DLG, ui.dlgExcludeChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_DISPLAY_MOTD_DLG, ui.dlgMOTDChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_DISPLAY_CHANNEL_TOPIC, ui.chanTopicChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_START_SERVERLIST, ui.startServerListChkBox->isChecked());
     }
     if(m_modtab.find(CONNECTION_TAB) != m_modtab.end())
@@ -1150,6 +1157,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_TTS_TIMESTAMP, ui.ttsNotifTimestampSpinBox->value());
 #elif defined(Q_OS_WIN)
         ttSettings->setValue(SETTINGS_TTS_SAPI, ui.ttsForceSapiChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_TTS_TRY_SAPI, ui.ttsTrySapiChkBox->isChecked());
         ttSettings->setValue(SETTINGS_TTS_OUTPUT_MODE, getCurrentItemData(ui.ttsOutputModeComboBox, ""));
 #elif defined(Q_OS_DARWIN)
 #if QT_VERSION < QT_VERSION_CHECK(6,4,0)
@@ -1157,6 +1165,7 @@ void PreferencesDlg::slotSaveChanges()
 #endif
 #endif
         ttSettings->setValue(SETTINGS_DISPLAY_TTSHEADER, ui.ttsTreeView->header()->saveState());
+        ttSettings->setValue(SETTINGS_TTS_SRVNAME, ui.ttsSrvNameChkBox->isChecked());
     }
 }
 
@@ -1630,6 +1639,7 @@ void PreferencesDlg::slotUpdateTTSTab()
     ui.ttsNotifTimestampSpinBox->hide();
 
     ui.ttsForceSapiChkBox->hide();
+    ui.ttsTrySapiChkBox->hide();
     ui.ttsSpeakListsChkBox->hide();
     ui.label_ttsoutputmode->hide();
     ui.ttsOutputModeComboBox->hide();
@@ -1696,6 +1706,7 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.label_ttsoutputmode->show();
         ui.ttsOutputModeComboBox->show();
         ui.ttsForceSapiChkBox->show();
+        ui.ttsTrySapiChkBox->show();
 
         bool tolkLoaded = Tolk_IsLoaded();
         if (!tolkLoaded)
@@ -1706,8 +1717,12 @@ void PreferencesDlg::slotUpdateTTSTab()
         if (!tolkLoaded)
             Tolk_Unload();
         if(currentSR.size())
+        {
             ui.ttsForceSapiChkBox->setText(tr("Use SAPI instead of %1 screenreader").arg(currentSR));
+            ui.ttsTrySapiChkBox->setText(tr("Switch to SAPI if %1 screenreader is not available").arg(currentSR));
+        }
         ui.ttsForceSapiChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SAPI, SETTINGS_TTS_SAPI_DEFAULT).toBool());
+        ui.ttsTrySapiChkBox->setChecked(ttSettings->value(SETTINGS_TTS_TRY_SAPI, SETTINGS_TTS_TRY_SAPI_DEFAULT).toBool());
         ui.ttsOutputModeComboBox->clear();
         if (hasSpeech == true && hasBraille == true)
             ui.ttsOutputModeComboBox->addItem(tr("Speech and Braille"), TTS_OUTPUTMODE_SPEECHBRAILLE);
@@ -1722,6 +1737,7 @@ void PreferencesDlg::slotUpdateTTSTab()
     case TTSENGINE_NONE :
     break;
     }
+    ui.ttsSrvNameChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SRVNAME, SETTINGS_TTS_SRVNAME_DEFAULT).toBool());
 }
 
 void PreferencesDlg::slotTTSLocaleChanged(const QString& locale)

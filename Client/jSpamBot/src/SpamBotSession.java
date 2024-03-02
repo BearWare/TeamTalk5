@@ -21,10 +21,15 @@
  *
  */
 
+import java.net.Inet4Address;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,20 +50,35 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     TeamTalkServer server;
     WebLogin loginsession;
     IPBan bans;
+    int ipv4banprefix, ipv6banprefix;
     BadWords badwords;
     Vector<String> langbadwords = new Vector<>();
+    Abuse abuse;
+    AbuseDB abusedb;
     enum CmdComplete {
         CMD_NONE,
         CMD_LISTBANS,
-        CMD_ADDBAN
+        CMD_ADDBAN,
+        CMD_ABUSE_BAN,
+        CMD_ABUSE_KICK,
+        CMD_ABUSE_TEXTMSG
     }
     Map<Integer, CmdComplete> activecommands = new HashMap<>();
+    Logger logger;
 
-    SpamBotSession(TeamTalkServer srv, WebLogin loginsession, IPBan bans, BadWords badwords) {
+    SpamBotSession(TeamTalkServer srv, WebLogin loginsession,
+                   IPBan bans, BadWords badwords, Abuse abuse,
+                   AbuseDB abusedb, int ipv4banprefix, int ipv6banprefix,
+                   Logger log) {
         this.server = srv;
         this.loginsession = loginsession;
         this.bans = bans;
         this.badwords = badwords;
+        this.abuse = abuse;
+        this.abusedb = abusedb;
+        this.ipv4banprefix = ipv4banprefix;
+        this.ipv6banprefix = ipv6banprefix;
+        this.logger = log;
         handler.addConnectionListener(this);
         handler.addCommandListener(this);
     }
@@ -71,17 +91,17 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         // disconnect if no authentication has been made (afterwards try again)
         if ((ttclient.getFlags() & ClientFlag.CLIENT_CONNECTED) == ClientFlag.CLIENT_CONNECTED &&
                 (ttclient.getFlags() & ClientFlag.CLIENT_AUTHORIZED) == ClientFlag.CLIENT_CLOSED) {
-            System.err.printf("Authentication failed for %s:%d\n", server.ipaddr, server.tcpport);
+            logger.warning(String.format("Authentication failed for %s:%d", server.ipaddr, server.tcpport));
             ttclient.disconnect();
         }
 
         if ((ttclient.getFlags() & ClientFlag.CLIENT_CONNECTION) == ClientFlag.CLIENT_CLOSED) {
             if (!ttclient.connect(server.ipaddr, server.tcpport, server.udpport, 0, 0, server.encrypted)) {
-                System.err.printf("Failed to connect to %s:%d\n", server.ipaddr, server.tcpport);
+                logger.warning(String.format("Failed to connect to %s:%d", server.ipaddr, server.tcpport));
                 return;
             }
             else {
-                System.out.printf("Connecting to %s:%d\n", server.ipaddr, server.tcpport);
+                logger.info(String.format("Connecting to %s:%d", server.ipaddr, server.tcpport));
             }
         }
     }
@@ -92,48 +112,60 @@ implements ConnectionListener, CommandListener, AutoCloseable {
 
     public boolean containsBadWord(String text) {
         for (String lang : langbadwords) {
-            if (badwords.contains(lang, text))
+            if (badwords.contains(lang, text)) {
+                logger.info("Bad word in language: " + lang + ". Text: " + text);
                 return true;
+            }
         }
         return false;
     }
 
     public boolean cleanUser(User user) {
-        if (containsBadWord(user.szNickname))
+        if (containsBadWord(user.szNickname)) {
+            logger.info("Bad word in nickname: " + user.szNickname);
             return false;
-        if (containsBadWord(user.szStatusMsg))
+        }
+        if (containsBadWord(user.szStatusMsg)) {
+            logger.info("Bad word in status message: " + user.szStatusMsg);
             return false;
+        }
         return true;
     }
 
     public boolean cleanChannel(Channel chan) {
-        if (containsBadWord(chan.szName))
+        if (containsBadWord(chan.szName)) {
+            logger.info("Bad word in channel name: " + chan.szName);
             return false;
-        if (containsBadWord(chan.szTopic))
+        }
+        if (containsBadWord(chan.szTopic)) {
+            logger.info("Bad word in channel topic: " + chan.szTopic);
             return false;
+        }
         return true;
     }
 
     public boolean cleanTextMessage(TextMessage msg) {
-        if (containsBadWord(msg.szMessage))
+        if (containsBadWord(msg.szMessage)) {
+            logger.info("Bad word in text message: " + msg.szMessage);
             return false;
+        }
         return true;
     }
 
     @Override
     public void onEncryptionError(int opensslErrorNo, ClientErrorMsg errmsg) {
-        System.err.printf("Encryption error %s while connecting to server %s:%d\n", errmsg.szErrorMsg, server.ipaddr, server.tcpport);
+        logger.warning(String.format("Encryption error %s while connecting to server %s:%d", errmsg.szErrorMsg, server.ipaddr, server.tcpport));
     }
 
     @Override
     public void onConnectFailed() {
-        System.err.printf("Failed to connect to server %s:%d\n", server.ipaddr, server.tcpport);
+        logger.warning(String.format("Failed to connect to server %s:%d", server.ipaddr, server.tcpport));
         ttclient.disconnect();
     }
 
     @Override
     public void onConnectSuccess() {
-        System.out.printf("Connected to server: %s:%d\n", server.ipaddr, server.tcpport);
+        logger.info(String.format("Connected to server: %s:%d", server.ipaddr, server.tcpport));
 
         ServerProperties srvprop = new ServerProperties();
         ttclient.getServerProperties(srvprop);
@@ -142,12 +174,12 @@ implements ConnectionListener, CommandListener, AutoCloseable {
 
         // perform login
         int cmdid = ttclient.doLogin("SpamBot", loginsession.getUsername(), "");
-        System.out.printf("Issued login cmd #%d to %s:%d\n", cmdid, server.ipaddr, server.tcpport);
+        logger.info(String.format("Issued login cmd #%d to %s:%d", cmdid, server.ipaddr, server.tcpport));
     }
 
     @Override
     public void onConnectionLost() {
-        System.err.printf("Lost connection to server: %s:%d\n", server.ipaddr, server.tcpport);
+        logger.warning(String.format("Lost connection to server: %s:%d", server.ipaddr, server.tcpport));
         ttclient.disconnect();
     }
 
@@ -183,7 +215,7 @@ implements ConnectionListener, CommandListener, AutoCloseable {
 
     @Override
     public void onCmdError(int cmdid, ClientErrorMsg err) {
-        System.err.printf("Command #%d failed on %s:%d. %s\n", cmdid, server.ipaddr, server.tcpport, err.szErrorMsg);
+        logger.warning(String.format("Command #%d failed on %s:%d. %s", cmdid, server.ipaddr, server.tcpport, err.szErrorMsg));
     }
 
     @Override
@@ -205,34 +237,34 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     @Override
     public void onCmdMyselfLoggedIn(int userid, UserAccount useraccount) {
 
-        System.out.printf("Got userID #%d on %s:%d.\n", userid, server.ipaddr, server.tcpport);
-        System.out.println("User rights assigned:");
+        logger.info(String.format("Got userID #%d on %s:%d.", userid, server.ipaddr, server.tcpport));
+        logger.info("User rights assigned:");
         if((useraccount.uUserRights & UserRight.USERRIGHT_VIEW_ALL_USERS) != 0)
-            System.out.println("\tSee all users");
+            logger.info("See all users");
         if((useraccount.uUserRights & UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL) != 0)
-            System.out.println("\tCreate temporary channel");
+            logger.info("Create temporary channel");
         if((useraccount.uUserRights & UserRight.USERRIGHT_KICK_USERS) != 0)
-            System.out.println("\tKick users");
+            logger.info("Kick users");
         if((useraccount.uUserRights & UserRight.USERRIGHT_BAN_USERS) != 0)
-            System.out.println("\tBan users");
+            logger.info("Ban users");
         if((useraccount.uUserRights & UserRight.USERRIGHT_MODIFY_CHANNELS) != 0)
-            System.out.println("\tModify all channels");
+            logger.info("Modify all channels");
         if((useraccount.uUserRights & UserRight.USERRIGHT_TRANSMIT_VOICE) != 0)
-            System.out.println("\tTransmit voice");
+            logger.info("Transmit voice");
         if((useraccount.uUserRights & UserRight.USERRIGHT_TRANSMIT_VIDEOCAPTURE) != 0)
-            System.out.println("\tTransmit video from webcam");
+            logger.info("Transmit video from webcam");
         if((useraccount.uUserRights & UserRight.USERRIGHT_TRANSMIT_DESKTOP) != 0)
-            System.out.println("\tTransmit desktop");
+            logger.info("Transmit desktop");
         if((useraccount.uUserRights & UserRight.USERRIGHT_TRANSMIT_DESKTOPINPUT) != 0)
-            System.out.println("\tControl desktops");
+            logger.info("Control desktops");
         if((useraccount.uUserRights & UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) != 0)
-            System.out.println("\tTransmit media files containing video");
+            logger.info("Transmit media files containing video");
         if((useraccount.uUserRights & UserRight.USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) != 0)
-            System.out.println("\tTransmit media files containing audio");
+            logger.info("Transmit media files containing audio");
         if((useraccount.uUserRights & UserRight.USERRIGHT_DOWNLOAD_FILES) != 0)
-            System.out.println("\tDownload files");
+            logger.info("Download files");
         if((useraccount.uUserRights & UserRight.USERRIGHT_UPLOAD_FILES) != 0)
-            System.out.println("\tUpload files");
+            logger.info("Upload files");
 
         joinChannel(useraccount);
         setupBadWords(useraccount);
@@ -259,7 +291,7 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     void setupBadWords(UserAccount account) {
         for (String lang : account.szNote.toLowerCase(Locale.ROOT).split(",")) {
             langbadwords.add(lang);
-            System.out.printf("Using language \"%s\" with %d bad words on %s:%d.\n", lang, badwords.getBadWords(lang).size(), server.ipaddr, server.tcpport);
+            logger.info(String.format("Using language \"%s\" with %d bad words on %s:%d.", lang, badwords.getBadWords(lang).size(), server.ipaddr, server.tcpport));
         }
 
         if (langbadwords.isEmpty()) {
@@ -273,12 +305,56 @@ implements ConnectionListener, CommandListener, AutoCloseable {
                 activecommands.put(ttclient.doListBans(0, 0, 1000000), CmdComplete.CMD_LISTBANS);
             }
             else {
-                System.out.println("Skipping ban sync due to version");
+                logger.info("Skipping ban sync due to version");
             }
         }
         else {
-            System.out.println("Skipping ban sync due to missing user right");
+            logger.info("Skipping ban sync due to missing user right");
         }
+    }
+
+    void sendBadWordsNotify(int userid, String text) {
+        TextMessage textmsg = new TextMessage();
+        textmsg.nMsgType = TextMsgType.MSGTYPE_USER;
+        textmsg.szMessage = text;
+        textmsg.nToUserID = userid;
+        activecommands.put(ttclient.doTextMessage(textmsg), CmdComplete.CMD_ABUSE_TEXTMSG);
+    }
+
+    int getBanPrefix(String ipaddr) {
+        try {
+            InetAddress ipv = InetAddress.getByName(ipaddr);
+            if (ipv instanceof Inet6Address)
+                return ipv6banprefix == 128 ? 0 : ipv6banprefix;
+            else if (ipv instanceof Inet4Address)
+                return ipv4banprefix == 32 ? 0 : ipv4banprefix;
+        }
+        catch(UnknownHostException e) {
+        }
+        return 0;
+    }
+
+    void abuseBan(User user) {
+        BannedUser b = new BannedUser();
+        b.uBanTypes = BanType.BANTYPE_IPADDR | BanType.BANTYPE_USERNAME;
+        b.szNickname = user.szNickname;
+        b.szUsername = user.szUsername;
+        b.szIPAddress = user.szIPAddress;
+        int prefix = getBanPrefix(user.szIPAddress);
+        if (prefix > 0)
+            b.szIPAddress = String.format("%s/%d", b.szIPAddress, prefix);
+        activecommands.put(ttclient.doBan(b), CmdComplete.CMD_ABUSE_BAN);
+
+        TextMessage textmsg = new TextMessage();
+        textmsg.nMsgType = TextMsgType.MSGTYPE_USER;
+        textmsg.szMessage = "You have been banned due to abuse";
+        textmsg.nToUserID = user.nUserID;
+
+        activecommands.put(ttclient.doTextMessage(textmsg), CmdComplete.CMD_ABUSE_TEXTMSG);
+
+        activecommands.put(ttclient.doKickUser(user.nUserID, 0), CmdComplete.CMD_ABUSE_KICK);
+
+        abusedb.report(user.szIPAddress, "Spam");
     }
 
     @Override
@@ -332,12 +408,21 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         users.put(user.nUserID, user);
 
         if (!cleanUser(user)) {
+            sendBadWordsNotify(user.nUserID, "Your nick name and/or status message contains foul language");
             ttclient.doKickUser(user.nUserID, 0);
-            System.out.printf("Kicking %s from %s:%d\n", user.szNickname, server.ipaddr, server.tcpport);
+            logger.info(String.format("Kicking %s from %s:%d", user.szNickname, server.ipaddr, server.tcpport));
+
+            abuse.incKicks(user.szIPAddress);
         }
 
         if (user.nChannelID == ttclient.getMyChannelID()) {
             ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_VOICE | Subscription.SUBSCRIBE_DESKTOP | Subscription.SUBSCRIBE_VIDEOCAPTURE | Subscription.SUBSCRIBE_MEDIAFILE);
+        }
+
+        abuse.incJoins(user.szIPAddress);
+        if (abuse.checkJoinAbuse(user.szIPAddress)) {
+            logger.info(String.format("Banning %s from %s:%d due to join abuse", user.szNickname, server.ipaddr, server.tcpport));
+            abuseBan(user);
         }
     }
 
@@ -350,9 +435,29 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     public void onCmdUserLoggedIn(User user) {
         users.put(user.nUserID, user);
 
-        if (!cleanUser(user)) {
+        if (user.nUserID == ttclient.getMyUserID())
+            abusedb.addWhiteListIPAddr(user.szIPAddress);
+        else if (user.szIPAddress.length() > 0 && abusedb.checkForReported(user.szIPAddress)) {
+            sendBadWordsNotify(user.nUserID, "Your IP-address is listed as a spammer");
             ttclient.doKickUser(user.nUserID, 0);
-            System.out.printf("Kicking %s from %s:%d\n", user.szNickname, server.ipaddr, server.tcpport);
+            logger.info(String.format("Kicking %s from %s:%d because %s is listed as spammer", user.szNickname, server.ipaddr, server.tcpport, user.szIPAddress));
+            abuse.incKicks(user.szIPAddress);
+        }
+        else if (!cleanUser(user)) {
+            sendBadWordsNotify(user.nUserID, "Your nick name and/or status message contains foul language");
+            ttclient.doKickUser(user.nUserID, 0);
+            logger.info(String.format("Kicking %s from %s:%d due to bad words", user.szNickname, server.ipaddr, server.tcpport));
+            abuse.incKicks(user.szIPAddress);
+        }
+
+        abuse.incLogin(user.szIPAddress);
+        if (abuse.checkLoginAbuse(user.szIPAddress)) {
+            logger.info(String.format("Banning %s from %s:%d due to login abuse", user.szNickname, server.ipaddr, server.tcpport));
+            abuseBan(user);
+        }
+        if (abuse.checkKickAbuse(user.szIPAddress)) {
+            logger.info(String.format("Banning %s from %s:%d due to badwords abuse", user.szNickname, server.ipaddr, server.tcpport));
+            abuseBan(user);
         }
     }
 
@@ -364,8 +469,13 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     @Override
     public void onCmdUserTextMessage(TextMessage textmsg) {
         if (!cleanTextMessage(textmsg)) {
+            sendBadWordsNotify(textmsg.nFromUserID, "Your text message contains foul language");
             ttclient.doKickUser(textmsg.nFromUserID, 0);
-            System.out.printf("Kicking #%d from %s:%d\n", textmsg.nFromUserID, server.ipaddr, server.tcpport);
+            logger.info(String.format("Kicking #%d from %s:%d", textmsg.nFromUserID, server.ipaddr, server.tcpport));
+            User user = users.get(textmsg.nFromUserID);
+            if (user != null) {
+                abuse.incKicks(user.szIPAddress);
+            }
         }
     }
 
@@ -373,8 +483,10 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     public void onCmdUserUpdate(User user) {
         users.put(user.nUserID, user);
         if (!cleanUser(user)) {
+            sendBadWordsNotify(user.nUserID, "Your nick name and/or status message contains foul language");
             ttclient.doKickUser(user.nUserID, 0);
-            System.out.printf("Kicking %s from %s:%d\n", user.szNickname, server.ipaddr, server.tcpport);
+            logger.info(String.format("Kicking %s from %s:%d", user.szNickname, server.ipaddr, server.tcpport));
+            abuse.incKicks(user.szIPAddress);
         }
     }
 

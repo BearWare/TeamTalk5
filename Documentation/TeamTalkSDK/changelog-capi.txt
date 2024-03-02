@@ -4,6 +4,12 @@
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v515arelease
+ * - @ref v515afeatures
+ *   - @ref v515apulse
+ *   - @ref v515amsg
+ * - @ref v515aapi
+ *
  * @ref v514arelease
  * - @ref v514afeatures
  *   - @ref v514atot
@@ -249,6 +255,35 @@
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v515arelease TeamTalk 5 SDK v. 5.15a release, December 19th 2023
+ *
+ * @subsection v515afeatures New features in v5.15a
+ *
+ * @subsubsection v515apulse PulseAudio support
+ *
+ * PulseAudio sound system is now supported in the TeamTalk SDKs for
+ * Ubuntu 22 and Raspbian. @see #SOUNDSYSTEM_PULSEAUDIO.
+ *
+ * @subsubsection v515amsg User right for sending text messages
+ *
+ * It is now possible to disable the ability to send private and
+ * channel text messages using #USERRIGHT_TEXTMESSAGE_USER and
+ * #USERRIGHT_TEXTMESSAGE_CHANNEL.
+ *
+ * @subsection v515aapi API changes in v5.15a
+ *
+ * - New field @c szOwner in #BannedUser
+ * - New enum value @c #CMDERR_MAX_FILETRANSFERS_EXCEEDED in #ClientError
+ * - New enum value @c #__SOUNDDEVICEEFFECTS in #TTType
+ * - New enum value @c #__DESKTOPWINDOW in #TTType
+ * - New enum value @c #__ABUSEPREVENTION in #TTType
+ * - New enum value @c #SOUNDSYSTEM_PULSEAUDIO in #SoundSystem
+ * - New enum value @c #AFF_MP3_320KBIT_FORMAT in #AudioFileFormat
+ * - New enum value @c #USERRIGHT_TEXTMESSAGE_USER in #UserRight
+ * - New enum value @c #USERRIGHT_TEXTMESSAGE_CHANNEL in #UserRight
  *
  * <hr>
  *

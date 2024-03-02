@@ -32,6 +32,7 @@ import org.junit.runner.Description;
 import org.junit.rules.Stopwatch;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.util.Vector;
 import java.io.FileOutputStream;
@@ -141,6 +142,10 @@ public abstract class TeamTalkTestCaseBase {
         if (prop != null && !prop.isEmpty())
             this.GITHUBSKIP = Integer.parseInt(prop) != 0;
 
+        prop = System.getProperty("dk.bearware.debug");
+        if (prop != null && !prop.isEmpty())
+            this.DEBUG_OUTPUT = Integer.parseInt(prop) != 0;
+        
         if (TCPPORT == 0 && UDPPORT == 0) {
             if (this.ENCRYPTED) {
                 TCPPORT = Constants.DEFAULT_TCP_PORT_ENCRYPTED;
@@ -174,8 +179,6 @@ public abstract class TeamTalkTestCaseBase {
             ttclient.closeTeamTalk();
         }
         ttclients.clear();
-
-        DEBUG_OUTPUT = false;
     }
 
     protected void initSound(TeamTalkBase ttclient) {
@@ -399,7 +402,7 @@ public abstract class TeamTalkTestCaseBase {
 
         assertTrue("Wait join complete", waitCmdComplete(ttclient, cmdid, DEF_WAIT, server));
 
-        assertEquals("In root channel", ttclient.getMyChannelID(), ttclient.getRootChannelID());
+        assertEquals("In root channel", ttclient.getRootChannelID(), ttclient.getMyChannelID());
     }
 
     protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent,
@@ -411,25 +414,7 @@ public abstract class TeamTalkTestCaseBase {
                                           int waittimeout, ServerInterleave interleave) {
         return waitForEvent(ttclient, nClientEvent, waittimeout, new TTMessage(), interleave);
     }
-/*
-    protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent,
-                                          int waittimeout, TeamTalkEventHandler eventhandler,
-                                          ServerInterleave interleave) {
 
-        long start = System.currentTimeMillis();
-        TTMessage tmp = new TTMessage();
-        boolean gotmsg;
-        do {
-            gotmsg = eventhandler.processEvent(ttclient, waittimeout);
-
-            interleave.interleave();
-
-            if(System.currentTimeMillis() - start >= waittimeout)
-                break;
-        }
-        while (!gotmsg || tmp.nClientEvent != nClientEvent);
-    }
-*/
     protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent,
                                           int waittimeout, TTMessage msg, ServerInterleave interleave) {
         long start = System.currentTimeMillis();
@@ -440,25 +425,41 @@ public abstract class TeamTalkTestCaseBase {
             // ClientEvent.CLIENTEVENT_NONE' which is default in
             // TTMessage. So set to something unsupported.
             tmp.nClientEvent = -1;
+            assertNotEquals("ClientEvent -1 is reserved", tmp.nClientEvent, nClientEvent);
 
             gotmsg = ttclient.getMessage(tmp, 0);
 
             interleave.interleave();
 
-            if(DEBUG_OUTPUT && gotmsg) {
-                System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + ": " + tmp.nClientEvent);
-                if(tmp.nClientEvent == ClientEvent.CLIENTEVENT_CMD_ERROR) {
-                    System.out.println("Command error: " + tmp.clienterrormsg.szErrorMsg);
+            if (gotmsg) {
+                
+                switch (tmp.nClientEvent) {
+                case ClientEvent.CLIENTEVENT_INTERNAL_ERROR :
+                    switch (tmp.clienterrormsg.nErrorNo) {
+                    case ClientError.INTERR_TTMESSAGE_QUEUE_OVERFLOW :
+                        System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + " Got: " + tmp.nClientEvent + " Message queue overflow");
+                        break;
+                    default :
+                        System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + "Got: " + tmp.nClientEvent + " Internal error: " + tmp.clienterrormsg.nErrorNo);
+                        break;
+                    }
+                    break;
+                default :
+                    if (DEBUG_OUTPUT) {
+                        System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + " Got: " + tmp.nClientEvent);
+                    }
+                    break;
                 }
             }
         }
         while (tmp.nClientEvent != nClientEvent && (System.currentTimeMillis() - start <= waittimeout || gotmsg));
 
-        if (tmp.nClientEvent == nClientEvent)
-        {
-            if (DEBUG_OUTPUT)
-                System.out.println("Success. Event: " + nClientEvent);
-
+        if (tmp.nClientEvent == nClientEvent) {
+            
+            if (DEBUG_OUTPUT) {
+                System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + " Success: " + tmp.nClientEvent);
+            }
+            
             msg.nClientEvent = tmp.nClientEvent;
             msg.ttType = tmp.ttType;
             msg.nSource = tmp.nSource;
@@ -484,10 +485,10 @@ public abstract class TeamTalkTestCaseBase {
             //if assert fails it's because the TTType isn't handled here
             assertTrue("TTType unhandled: " + tmp.ttType, tmp.ttType <= TTType.__AUDIOINPUTPROGRESS);
         }
-        else
-        {
-            if (DEBUG_OUTPUT)
-                System.out.println("Failed. Event: " + nClientEvent);
+        else {
+            if (DEBUG_OUTPUT) {
+                System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + " Failed: " + nClientEvent);
+            }
         }
         return tmp.nClientEvent == nClientEvent;
     }
