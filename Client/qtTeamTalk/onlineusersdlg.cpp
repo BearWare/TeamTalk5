@@ -146,19 +146,19 @@ void OnlineUsersDlg::slotTreeContextMenu(const QPoint& /*point*/)
 #else
     menu.addAction(tr("&View User Information"), this, [&]() { menuAction(VIEW_USERINFORMATION); },
                    QKeySequence(tr("Ctrl+I")));
-    menu.addAction(tr("M&essages"), this, [&]() { menuAction(SEND_TEXTMESSAGE); }
+    menu.addAction(tr("M&essages"), this, [&]() { menuAction(SEND_TEXTMESSAGE); },
                    QKeySequence(tr("Ctrl+E")));
-    menu.addAction(tr("&Op"), this, [&]() { menuAction(OP); }
+    menu.addAction(tr("&Op"), this, [&]() { menuAction(OP); },
                    QKeySequence(tr("Ctrl+O")));
-    menu.addAction(tr("&Kick from Channel"), this, [&]() { menuAction(KICK_FROM_CHANNEL); }
+    menu.addAction(tr("&Kick from Channel"), this, [&]() { menuAction(KICK_FROM_CHANNEL); },
                    QKeySequence(tr("Ctrl+K")));
-    menu.addAction(tr("&Kick from Server"), this, [&]() { menuAction(KICK_FROM_SERVER); }
+    menu.addAction(tr("&Kick from Server"), this, [&]() { menuAction(KICK_FROM_SERVER); },
                    QKeySequence(tr("Ctrl+Alt+K")));
-    menu.addAction(tr("Kick and &Ban from Channel"), this, [&]() { menuAction(BAN_FROM_CHANNEL); }
+    menu.addAction(tr("Kick and &Ban from Channel"), this, [&]() { menuAction(BAN_FROM_CHANNEL); },
                    QKeySequence(tr("Ctrl+B")));
-    menu.addAction(tr("Kick and &Ban from Server"), this, [&]() { menuAction(BAN_FROM_SERVER); }
+    menu.addAction(tr("Kick and &Ban from Server"), this, [&]() { menuAction(BAN_FROM_SERVER); },
                    QKeySequence(tr("Ctrl+Alt+B")));
-    menu.addAction(tr("Select User(s) for Move"), this, [&]() { menuAction(MOVE); }
+    menu.addAction(tr("Select User(s) for Move"), this, [&]() { menuAction(MOVE); },
                    QKeySequence(tr("Ctrl+Alt+X")));
 #endif
     QMenu* sortMenu = menu.addMenu(tr("Sort By..."));
