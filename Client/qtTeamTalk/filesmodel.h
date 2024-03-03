@@ -19,6 +19,7 @@
 #define FILESMODEL_H
 
 #include "common.h"
+#include "utilui.h"
 
 #include <QAbstractItemModel>
 #include <QVector>

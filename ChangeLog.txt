@@ -4,11 +4,13 @@
 
 Version 5.16, unreleased
 Default Qt Client
+- Dates and times are now formatted in user locale on "User accounts" dialog and main window's files tab
 - Option to show server's message of the day in a welcome dialog box
 - Option to announce server name on some server related TTS events
 - Don't display server name when disconnected from server where not authentified
 - Option to show channel topic in channel list
 - Fixed "Gender" property not being saved in .tt files
+- Fixed sort by size on file list
 Android Client
 -
 iOS Client

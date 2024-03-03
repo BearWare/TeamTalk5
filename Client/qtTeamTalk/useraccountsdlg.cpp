@@ -51,6 +51,7 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, UserAccount
     m_useraccountsModel = new UserAccountsModel(this);
     m_proxyModel = new QSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_useraccountsModel);
+    m_proxyModel->setSortRole(Qt::UserRole);
     ui.usersTreeView->setModel(m_proxyModel);
     m_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
     m_proxyModel->sort(COLUMN_INDEX_USERNAME, Qt::AscendingOrder);
