@@ -97,7 +97,21 @@ QVariant FilesModel::data ( const QModelIndex & index, int role /*= Qt::DisplayR
         case COLUMN_INDEX_OWNER :
             return _Q(m_files[index.row()].szUsername);
         case COLUMN_INDEX_UPLOADED :
+            return getFormattedDateTime(_Q(m_files[index.row()].szUploadTime), "yyyy/MM/dd hh:mm");
+        }
+        break;
+    case Qt::UserRole :
+        switch(index.column())
+        {
+        case COLUMN_INDEX_UPLOADED :
             return _Q(m_files[index.row()].szUploadTime);
+            break;
+        case COLUMN_INDEX_SIZE :
+            return m_files[index.row()].nFileSize;
+            break;
+        default :
+            return data(index, Qt::DisplayRole);
+            break;
         }
         break;
     case Qt::AccessibleTextRole :

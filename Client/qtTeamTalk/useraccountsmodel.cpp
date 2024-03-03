@@ -75,7 +75,18 @@ QVariant UserAccountsModel::data(const QModelIndex & index, int role /*= Qt::Dis
         case COLUMN_INDEX_CHANNEL :
             return _Q(m_users[index.row()].szInitChannel);
         case COLUMN_INDEX_MODIFIED :
+            return getFormattedDateTime(_Q(m_users[index.row()].szLastModified), "yyyy/MM/dd hh:mm");
+        }
+        break;
+    case Qt::UserRole :
+        switch(index.column())
+        {
+        case COLUMN_INDEX_MODIFIED :
             return _Q(m_users[index.row()].szLastModified);
+            break;
+        default :
+            return data(index, Qt::DisplayRole);
+            break;
         }
         break;
     case Qt::AccessibleTextRole :
