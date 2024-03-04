@@ -4,6 +4,7 @@
 
 Version 5.17, unreleased
 Default Qt Client
+- Option to show channel topic in channel list
 -
 Android Client
 -
@@ -23,7 +24,6 @@ Default Qt Client
 - Option to announce server name on some server related TTS events
 - Option to show channel topic in channel list
 - Don't display server name when disconnected from server where not authentified
-- Ask for accessibility settings on Linux at first startup
 - Fixed "Gender" property not being saved in .tt files
 - Fixed sort by size on file list
 - OPUS codec updated to v1.5.1
