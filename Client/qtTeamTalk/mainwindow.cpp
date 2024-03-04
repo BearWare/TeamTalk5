@@ -180,6 +180,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     m_filesmodel = new FilesModel(this);
     m_proxyFilesModel = new QSortFilterProxyModel(this);
     m_proxyFilesModel->setSourceModel(m_filesmodel);
+    m_proxyFilesModel->setSortRole(Qt::UserRole);
     ui.filesView->setModel(m_proxyFilesModel);
     m_proxyFilesModel->setSortCaseSensitivity(Qt::CaseInsensitive);
     m_proxyFilesModel->sort(COLUMN_INDEX_NAME, Qt::AscendingOrder);

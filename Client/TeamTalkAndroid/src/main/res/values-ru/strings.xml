@@ -165,6 +165,7 @@
 
     <string name="user_prop_title_username">Имя Пользователя</string>
     <string name="user_prop_title_clientname">Имя клиента</string>
+    <string name="user_prop_clientversion">версия</string>
     <string name="user_prop_title_voice_volume">Громкость Голоса</string>
     <string name="user_prop_title_mute_voice">Выключить Голос</string>
     <string name="user_prop_title_media_volume">Громкость Проигрывания Медиафайлов</string>

@@ -19,6 +19,7 @@
 #define USERACCOUNTSMODEL_H
 
 #include "common.h"
+#include "utilui.h"
 
 #include <QAbstractItemModel>
 #include <QSortFilterProxyModel>
