@@ -12,7 +12,7 @@ Default Qt Client
 - Fixed "Gender" property not being saved in .tt files
 - Fixed sort by size on file list
 Android Client
--
+- Navigating back returns to Channels-tab prior to disconnecting
 iOS Client
 -
 Server
