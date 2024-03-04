@@ -13,6 +13,7 @@ Default Qt Client
 - Fixed sort by size on file list
 Android Client
 - Navigating back returns to Channels-tab prior to disconnecting
+- User menu action to grant/revoke channel operator
 iOS Client
 -
 Server
