@@ -342,12 +342,15 @@ extends AppCompatActivity
                 break;
             }
             case android.R.id.home : {
-                Channel parentChannel = ((mViewPager.getCurrentItem() == SectionsPagerAdapter.CHANNELS_PAGE)
+                int currentPage = mViewPager.getCurrentItem();
+                Channel parentChannel = ((currentPage == SectionsPagerAdapter.CHANNELS_PAGE)
                                          && (curchannel != null)
                                          && (curchannel.nChannelID != ttclient.getRootChannelID())) ?
                     ttservice.getChannels().get(curchannel.nParentID) :
                     null;
-                if ((parentChannel != null) && (parentChannel.nChannelID > 0)) {
+                if (currentPage != SectionsPagerAdapter.CHANNELS_PAGE) {
+                    mViewPager.setCurrentItem(SectionsPagerAdapter.CHANNELS_PAGE);
+                } else if ((parentChannel != null) && (parentChannel.nChannelID > 0)) {
                     setCurrentChannel(parentChannel);
                     channelsAdapter.notifyDataSetChanged();
                 }
