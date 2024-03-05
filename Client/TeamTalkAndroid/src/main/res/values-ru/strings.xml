@@ -324,6 +324,9 @@
     <string name="permission_audiomodify">Запись и воспроизведение звука будут недоступны</string>
     <string name="permission_filerx">Загрузка файлов будет недоступна</string>
     <string name="permission_filetx">Выкладывание и импортирование файлов будет недоступно</string>
+    <string name="permission_imagetx">Выкладывание фотографий будет недоступно</string>
+    <string name="permission_videotx">Видео файлы будут недоступны для выкладывания и трансляции</string>
+    <string name="permission_audiotx">Аудио файлы будут недоступны для выкладывания и трансляции</string>
     <string name="permission_internet">Клиент не сможет подключаться к серверам</string>
     <string name="permission_vibrate">Виброотклик кнопки включения передачи будет недоступен</string>
     <string name="permission_wake_lock">Соединение с сервером может быть потеряно при выключении экрана</string>
