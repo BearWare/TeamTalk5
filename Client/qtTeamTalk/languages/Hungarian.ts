@@ -772,12 +772,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ChannelsTree</name>
     <message>
-        <location filename="../channelstree.cpp" line="1131"/>
+        <location filename="../channelstree.cpp" line="1133"/>
         <source>Expanded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1131"/>
+        <location filename="../channelstree.cpp" line="1133"/>
         <source>Collapsed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -860,37 +860,37 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1172"/>
+        <location filename="../channelstree.cpp" line="1174"/>
         <source>Away</source>
         <comment>For female</comment>
         <translation type="unfinished">Nincs jelen</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1172"/>
+        <location filename="../channelstree.cpp" line="1174"/>
         <source>Away</source>
         <comment>For male and neutral</comment>
         <translation type="unfinished">Nincs jelen</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1197"/>
+        <location filename="../channelstree.cpp" line="1199"/>
         <source>Administrator</source>
         <comment>For female</comment>
         <translation type="unfinished">Adminisztrátor</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1197"/>
+        <location filename="../channelstree.cpp" line="1199"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
         <translation type="unfinished">Adminisztrátor</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1200"/>
+        <location filename="../channelstree.cpp" line="1202"/>
         <source>Channel operator</source>
         <comment>For female</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1200"/>
+        <location filename="../channelstree.cpp" line="1202"/>
         <source>Channel operator</source>
         <comment>For male and neutral</comment>
         <translation type="unfinished"></translation>
@@ -900,17 +900,17 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Nincs jelen</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1175"/>
+        <location filename="../channelstree.cpp" line="1177"/>
         <source>Question</source>
         <translation type="unfinished">Kérdés</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1181"/>
+        <location filename="../channelstree.cpp" line="1183"/>
         <source>Streaming media file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1184"/>
+        <location filename="../channelstree.cpp" line="1186"/>
         <source>Webcam</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1676,7 +1676,7 @@ Message of the day: %2</source>
         <location filename="../mainwindow.ui" line="215"/>
         <location filename="../mainwindow.ui" line="240"/>
         <location filename="../mainwindow.ui" line="243"/>
-        <location filename="../mainwindow.cpp" line="3244"/>
+        <location filename="../mainwindow.cpp" line="3245"/>
         <source>Microphone gain</source>
         <translation>Mikrofon erősítés</translation>
     </message>
@@ -1716,7 +1716,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="399"/>
         <location filename="../mainwindow.ui" line="1737"/>
-        <location filename="../mainwindow.cpp" line="7105"/>
+        <location filename="../mainwindow.cpp" line="7106"/>
         <source>&amp;Video</source>
         <translation>&amp;Video</translation>
     </message>
@@ -1774,7 +1774,7 @@ Message of the day: %2</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="674"/>
-        <location filename="../mainwindow.cpp" line="7113"/>
+        <location filename="../mainwindow.cpp" line="7114"/>
         <source>&amp;Desktops</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1785,7 +1785,7 @@ Message of the day: %2</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="960"/>
-        <location filename="../mainwindow.cpp" line="3111"/>
+        <location filename="../mainwindow.cpp" line="3112"/>
         <source>&amp;Files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1945,7 +1945,7 @@ Message of the day: %2</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1435"/>
-        <location filename="../mainwindow.cpp" line="2568"/>
+        <location filename="../mainwindow.cpp" line="2569"/>
         <source>&amp;Exit</source>
         <translation>&amp;Kilépés</translation>
     </message>
@@ -2016,7 +2016,7 @@ Message of the day: %2</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1511"/>
-        <location filename="../mainwindow.cpp" line="6157"/>
+        <location filename="../mainwindow.cpp" line="6158"/>
         <source>&amp;Join Channel</source>
         <translation>Csa&amp;tlakozás a csatornához</translation>
     </message>
@@ -2736,94 +2736,94 @@ Message of the day: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="905"/>
-        <location filename="../mainwindow.cpp" line="2681"/>
+        <location filename="../mainwindow.cpp" line="906"/>
+        <location filename="../mainwindow.cpp" line="2682"/>
         <source>Firewall exception</source>
         <translation>Tűzfal kivétel</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="906"/>
+        <location filename="../mainwindow.cpp" line="907"/>
         <source>Failed to remove %1 from Windows Firewall exceptions.</source>
         <translation>%1 eltávolítása a Windows tűzfal kivételek listájáról sikertelen.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="922"/>
+        <location filename="../mainwindow.cpp" line="923"/>
         <source>Startup arguments</source>
         <translation>Indúló paraméterek</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="923"/>
+        <location filename="../mainwindow.cpp" line="924"/>
         <source>Program argument &quot;%1&quot; is unrecognized.</source>
         <translation>A %1 Programparaméter felismerése sikertelen.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2072"/>
+        <location filename="../mainwindow.cpp" line="2073"/>
         <source>Connected to %1 TCP port %2 UDP port %3</source>
         <translation>%1 csatlakoztatva a %2 TCP porthoz, %3 UDP porthoz</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="984"/>
-        <location filename="../mainwindow.cpp" line="2010"/>
+        <location filename="../mainwindow.cpp" line="985"/>
+        <location filename="../mainwindow.cpp" line="2011"/>
         <source>Failed to connect to %1 TCP port %2 UDP port %3</source>
         <translation>Sikertelen %1 csatlakoztatása a %2 TCP porthoz, %3 UDP porthoz</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1000"/>
+        <location filename="../mainwindow.cpp" line="1001"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
         <translation>Megszünt a %1 csatlakoztatása a %2 TCP porthoz, a %3 UDP porthoz</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2984"/>
-        <location filename="../mainwindow.cpp" line="3037"/>
-        <location filename="../mainwindow.cpp" line="4995"/>
-        <location filename="../mainwindow.cpp" line="5820"/>
+        <location filename="../mainwindow.cpp" line="2985"/>
+        <location filename="../mainwindow.cpp" line="3038"/>
+        <location filename="../mainwindow.cpp" line="4996"/>
+        <location filename="../mainwindow.cpp" line="5821"/>
         <source>root</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1258"/>
+        <location filename="../mainwindow.cpp" line="1259"/>
         <source>File %1 added</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1263"/>
+        <location filename="../mainwindow.cpp" line="1264"/>
         <source>File %1 added by %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1282"/>
+        <location filename="../mainwindow.cpp" line="1283"/>
         <source>File %1 removed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1286"/>
+        <location filename="../mainwindow.cpp" line="1287"/>
         <source>File %1 removed by %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1308"/>
-        <location filename="../mainwindow.cpp" line="5369"/>
+        <location filename="../mainwindow.cpp" line="1309"/>
+        <location filename="../mainwindow.cpp" line="5370"/>
         <source>Failed to download file %1</source>
         <translation>A %1 fájl letöltése sikertelen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1312"/>
-        <location filename="../mainwindow.cpp" line="6245"/>
+        <location filename="../mainwindow.cpp" line="1313"/>
+        <location filename="../mainwindow.cpp" line="6246"/>
         <source>Failed to upload file %1</source>
         <translation>A %1 fájl feltöltése sikertelen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1325"/>
+        <location filename="../mainwindow.cpp" line="1326"/>
         <source>Failed to initialize sound input device</source>
         <translation>Hang bemenet indítása sikertelen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1327"/>
+        <location filename="../mainwindow.cpp" line="1328"/>
         <source>Failed to initialize sound output device</source>
         <translation>Hang kimenet indítása sikertelen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1329"/>
+        <location filename="../mainwindow.cpp" line="1330"/>
         <source>Failed to initialize audio codec</source>
         <translation>Az audio kodek indítása sikertelen</translation>
     </message>
@@ -2832,1457 +2832,106 @@ Message of the day: %2</source>
         <translation type="vanished">Hangkonfiguráció indítása sikertelen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1336"/>
+        <location filename="../mainwindow.cpp" line="1337"/>
         <source>Internal message queue overloaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1342"/>
+        <location filename="../mainwindow.cpp" line="1343"/>
         <source>Internal Error</source>
         <translation>Belső hiba</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1370"/>
+        <location filename="../mainwindow.cpp" line="1371"/>
         <source>Streaming from %1 started</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1392"/>
+        <location filename="../mainwindow.cpp" line="1393"/>
         <source>Error streaming media file to channel</source>
         <translation>Hiba lépett fel a Médiafájl folyamatos közvetítése során a csatornába</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1396"/>
+        <location filename="../mainwindow.cpp" line="1397"/>
         <source>Started streaming media file to channel</source>
         <translation>Elkezdődöttl a Médiafájl folyamatos közvetítése a csatornába</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1399"/>
+        <location filename="../mainwindow.cpp" line="1400"/>
         <source>Finished streaming media file to channel</source>
         <translation>Befejeződött a Médiafájl folyamatos közvetítése a csatornába</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1403"/>
+        <location filename="../mainwindow.cpp" line="1404"/>
         <source>Aborted streaming media file to channel</source>
         <translation>A médiafájl közvetítése a csatornába sikertelen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1451"/>
-        <location filename="../mainwindow.cpp" line="1479"/>
+        <location filename="../mainwindow.cpp" line="1452"/>
+        <location filename="../mainwindow.cpp" line="1480"/>
         <source>New video session from %1</source>
         <translation>Új video munkamenet a %1-től</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1504"/>
+        <location filename="../mainwindow.cpp" line="1505"/>
         <source>New desktop session from %1</source>
         <translation>Új asztali munkamenet %1-től</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1531"/>
+        <location filename="../mainwindow.cpp" line="1532"/>
         <source>Your desktop session was cancelled</source>
         <translation>Asztali munkamenete törölve lett</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1542"/>
+        <location filename="../mainwindow.cpp" line="1543"/>
         <source>Writing audio file %1 for %2</source>
         <translation>A %1 hangfájl kiírása %2 részére</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1547"/>
+        <location filename="../mainwindow.cpp" line="1548"/>
         <source>Failed to write audio file %1 for %2</source>
         <translation>%1 hangfájl kiírása %2 részére sikertelen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1552"/>
+        <location filename="../mainwindow.cpp" line="1553"/>
         <source>Finished writing to audio file %1</source>
         <translation>A %1 audiófájl befejeződött</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1556"/>
+        <location filename="../mainwindow.cpp" line="1557"/>
         <source>Aborted audio file %1</source>
         <translation>Sikertelen hangfájl %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1923"/>
+        <location filename="../mainwindow.cpp" line="1924"/>
         <source>Banned Users in Channel %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1899"/>
+        <location filename="../mainwindow.cpp" line="1900"/>
         <source>Cannot join channel %1</source>
         <translation>Nem tud csatlakozni a %1 csatornához</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2002"/>
+        <location filename="../mainwindow.cpp" line="2003"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
         <translation>%1 csatlakoztatása a %2 TCP porthoz, %3 UDP porthoz</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2094"/>
-        <location filename="../mainwindow.cpp" line="3167"/>
+        <location filename="../mainwindow.cpp" line="2095"/>
+        <location filename="../mainwindow.cpp" line="3168"/>
         <source>Error</source>
         <translation>Hiba</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2108"/>
+        <location filename="../mainwindow.cpp" line="2109"/>
         <source>This client is not compatible with the server, so the action cannot be performed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2111"/>
+        <location filename="../mainwindow.cpp" line="2112"/>
         <source>The username is invalid</source>
         <translation>A felhsználónév érvénytelen</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="642"/>
-        <location filename="../mainwindow.cpp" line="2118"/>
-        <location filename="../mainwindow.cpp" line="2151"/>
-        <location filename="../mainwindow.cpp" line="4044"/>
-        <location filename="../mainwindow.cpp" line="4062"/>
-        <location filename="../mainwindow.cpp" line="4077"/>
-        <location filename="../mainwindow.cpp" line="4441"/>
-        <location filename="../mainwindow.cpp" line="5186"/>
-        <location filename="../mainwindow.cpp" line="5425"/>
-        <location filename="../mainwindow.cpp" line="5629"/>
-        <location filename="../mainwindow.cpp" line="5898"/>
-        <location filename="../mainwindow.cpp" line="5952"/>
-        <source>&amp;OK</source>
-        <translation type="unfinished">&amp;Rendben</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2122"/>
-        <location filename="../mainwindow.cpp" line="2130"/>
-        <location filename="../mainwindow.cpp" line="2170"/>
-        <location filename="../mainwindow.cpp" line="2177"/>
-        <source>Login error</source>
-        <translation>Bejelentkezési hiba</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2123"/>
-        <source>Invalid user account. Type username:</source>
-        <translation>Érvénytelen felhasználói fiók. Adja meg a felhasználónevet:</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2131"/>
-        <source>Invalid user account. Type password:</source>
-        <translation>Érvénytelen felhasználói fiók. Adja meg a jelszót:</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2156"/>
-        <source>Join channel error</source>
-        <translation>Csatorna csatlakozási hiba</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2157"/>
-        <source>Incorrect channel password. Try again:</source>
-        <translation>Hibás csatorna jelszó. Próbálja mégegyszer:</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2171"/>
-        <source>Banned from server</source>
-        <translation>Szerver letiltotta</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2175"/>
-        <source>Command not authorized</source>
-        <translation>A parancs nincs hitelesítve</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2178"/>
-        <source>Maximum number of users on server exceeded</source>
-        <translation>A szerver maximális felhasználószáma túllépve</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2180"/>
-        <source>Maximum disk usage exceeded</source>
-        <translation>Maximális diszkhasználat meghaladva</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2182"/>
-        <source>Maximum number of users in channel exceeded</source>
-        <translation>Csatorna maximális felhasználószáma meghaladva</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2184"/>
-        <source>Incorrect channel operator password</source>
-        <translation>Csatornakezelői jelszó érvénytelen</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2198"/>
-        <source>Already logged in</source>
-        <translation>Már bejelentkezett</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2200"/>
-        <source>Cannot perform action because client is currently not logged in</source>
-        <translation>Nem tudja végrehajtani az akciót, mivel az ügyfél jelenleg nincs bejelentkezve</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2203"/>
-        <source>Cannot join the same channel twice</source>
-        <translation>Nem tud kétszer ugyanahhoz a csatornához csatlakozni</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2205"/>
-        <source>Channel already exists</source>
-        <translation>Csatorna már létezik</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2211"/>
-        <source>User not found</source>
-        <translation>A felhasználó nem található</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2220"/>
-        <source>Channel not found</source>
-        <translation>Csatorna nem található</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2224"/>
-        <source>Banned user not found</source>
-        <translation>Letiltott felhasználó nem található</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2226"/>
-        <source>File transfer not found</source>
-        <translation>Fájl átvitel nem található</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2228"/>
-        <source>User account not found</source>
-        <translation>A felhasználói fiók nem található</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2230"/>
-        <source>File not found</source>
-        <translation>Fájl nem található</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2232"/>
-        <source>File already exists</source>
-        <translation>A fájl már létezik</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2234"/>
-        <source>File sharing is disabled</source>
-        <translation>A fájl megosztás letiltva</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2236"/>
-        <source>Channel has active users</source>
-        <translation>A csatornában aktív felhasználók vannak</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2241"/>
-        <source>Unknown error occured</source>
-        <translation>Ismeretlen hiba történt</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2248"/>
-        <source>The server reported an error:</source>
-        <translation>A szerver hibát jelentett:</translation>
-    </message>
-    <message>
-        <source>Available</source>
-        <translation type="obsolete">Elérhető</translation>
-    </message>
-    <message>
-        <source>Away</source>
-        <translation type="obsolete">Nincs jelen</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2566"/>
-        <source>&amp;Restore</source>
-        <translation>&amp;Visszaállítás</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2669"/>
-        <source>Do you wish to add %1 to the Windows Firewall exception list?</source>
-        <translation>%1-et fel akarja venni a Windows tűzfal kivételek listájára?</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="764"/>
-        <location filename="../mainwindow.cpp" line="801"/>
-        <location filename="../mainwindow.cpp" line="2670"/>
-        <location filename="../mainwindow.cpp" line="5151"/>
-        <location filename="../mainwindow.cpp" line="5383"/>
-        <location filename="../mainwindow.cpp" line="5680"/>
-        <location filename="../mainwindow.cpp" line="5918"/>
-        <location filename="../mainwindow.cpp" line="5938"/>
-        <location filename="../mainwindow.cpp" line="7219"/>
-        <location filename="../mainwindow.cpp" line="7300"/>
-        <location filename="../mainwindow.cpp" line="7325"/>
-        <source>&amp;Yes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="765"/>
-        <location filename="../mainwindow.cpp" line="802"/>
-        <location filename="../mainwindow.cpp" line="2671"/>
-        <location filename="../mainwindow.cpp" line="5152"/>
-        <location filename="../mainwindow.cpp" line="5384"/>
-        <location filename="../mainwindow.cpp" line="5681"/>
-        <location filename="../mainwindow.cpp" line="5919"/>
-        <location filename="../mainwindow.cpp" line="5939"/>
-        <location filename="../mainwindow.cpp" line="7220"/>
-        <location filename="../mainwindow.cpp" line="7301"/>
-        <location filename="../mainwindow.cpp" line="7326"/>
-        <source>&amp;No</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1114"/>
-        <location filename="../mainwindow.cpp" line="1116"/>
-        <source>%1 has logged in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2018"/>
-        <source>Disconnected from %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2682"/>
-        <source>Failed to add %1 to Windows Firewall exceptions.</source>
-        <translation>%1 hozzáadása a Windows tűzfal kivételek listájához sikertelen.</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2929"/>
-        <source>%1 is requesting desktop access</source>
-        <translation>%1 asztali hozzáférést kér</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2935"/>
-        <location filename="../mainwindow.cpp" line="4866"/>
-        <source>%1 granted desktop access</source>
-        <translation>%1 engedélyezte az asztaii hozzáférést</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2941"/>
-        <source>%1 retracted desktop access</source>
-        <translation>%1 visszavonta az asztali hozzáférés igényét</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2979"/>
-        <location filename="../mainwindow.cpp" line="2991"/>
-        <source>Joined channel %1</source>
-        <translation>Csatlakozott csatorna %1</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="3106"/>
-        <location filename="../mainwindow.cpp" line="3107"/>
-        <source>Files in channel: %1</source>
-        <translation>%1 fájl a csatornában</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="3167"/>
-        <source>Failed to start recording</source>
-        <translation>A rögzítés elkezdése sikertelen</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="3171"/>
-        <source>Recording to file: %1</source>
-        <translation>Felvétel a Következő fájlba: %1</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="3225"/>
-        <source>Microphone gain is controlled by channel</source>
-        <translation>Mikrofonerősítést a csatorna vezérli</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="3601"/>
-        <source>Failed to stream media file %1</source>
-        <translation>A %1 Médiafájl folyamatos közvetítése (streaming) sikertelen</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="3763"/>
-        <source>Enable HotKey</source>
-        <translation>Gyorsbillentyű engedélyezése</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="3764"/>
-        <source>Failed to register hotkey. Please try another key combination.</source>
-        <translation>A gyorsbillentyű regisztrálása sikertelen. Kérem próbáljon más billentyű kombinációt.</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="3769"/>
-        <source>Push To Talk: </source>
-        <translation>Push-To-Talk:</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4035"/>
-        <location filename="../mainwindow.cpp" line="4081"/>
-        <source>New Profile</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4035"/>
-        <source>Delete Profile</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4048"/>
-        <location filename="../mainwindow.cpp" line="4066"/>
-        <source>New Client Instance</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4049"/>
-        <source>Select profile</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4067"/>
-        <source>Delete profile</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4082"/>
-        <source>Profile name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4447"/>
-        <source>Specify new nickname for current server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4449"/>
-        <source>Specify new nickname</source>
-        <translation>Új becenév megadása</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4570"/>
-        <location filename="../mainwindow.cpp" line="6522"/>
-        <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translation>A videoeszköz helytelenűl lett configurálva.Ellenőrizze a beállításokat a &apos;Beállítások&apos;-nál</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4581"/>
-        <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
-        <translation>A video kodek konfigurációja sikertelen. Ellenőrizze a beállításokat a &apos;Beállítások&apos;-nál</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4593"/>
-        <source>Video transmission enabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4612"/>
-        <source>Video transmission disabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4629"/>
-        <source>Failed to open X11 display.</source>
-        <translation>Az X11 kijelző megnyitása sikertelen.</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4648"/>
-        <source>Failed to start desktop sharing</source>
-        <translation>Az asztalmegosztás nem sikerűlt</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4659"/>
-        <source>Desktop sharing enabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4679"/>
-        <source>Desktop sharing disabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4688"/>
-        <source>Text-To-Speech enabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4693"/>
-        <source>Text-To-Speech disabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4746"/>
-        <source>Voice for %1 disabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4748"/>
-        <source>Voice for %1 enabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4765"/>
-        <source>Media files for %1 disabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4767"/>
-        <source>Media files for %1 enabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4783"/>
-        <source>Master volume disabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4788"/>
-        <source>Master volume enabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4920"/>
-        <source>Voice volume for %1 increased to %2%</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4933"/>
-        <source>Voice volume for %1 decreased to %2%</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4946"/>
-        <source>Media files volume for %1 increased to %2%</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4959"/>
-        <source>Media files volume for %1 decreased to %2%</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4978"/>
-        <source>%1 selected for move</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4996"/>
-        <location filename="../mainwindow.cpp" line="5000"/>
-        <source>Selected users has been moved to channel %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5110"/>
-        <location filename="../mainwindow.cpp" line="5123"/>
-        <source>Failed to issue command to create channel</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5137"/>
-        <source>Failed to issue command to update channel</source>
-        <translation>A cstorna frissítésére kiadott parancs sikertelen</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5150"/>
-        <source>Are you sure you want to delete channel &quot;%1&quot;?</source>
-        <translation>Biztos benne, hogy törölni akarja a &quot;%1&quot; csatornát?</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5162"/>
-        <source>Failed to issue command to delete channel</source>
-        <translation>Csatornatörlés parancs kiadása sikertelen</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5192"/>
-        <location filename="../mainwindow.cpp" line="5903"/>
-        <source>Specify password</source>
-        <translation>A jelszó megadása</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5207"/>
-        <source>Failed to issue command to join channel</source>
-        <translation>Csatorna csatlkoztatására kiadott parancs  sikertelen</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5297"/>
-        <source>Nobody is active in this channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5339"/>
-        <source>Open File</source>
-        <translation>Fájl megnyitása</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5360"/>
-        <source>Save File</source>
-        <translation>Fájl mentése</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5387"/>
-        <source>Delete %1 files</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5390"/>
-        <source>Are you sure you want to delete &quot;%1&quot;?</source>
-        <translation>Biztos benne, hogy a &quot;%1&quot;-et törölni akarja?</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5399"/>
-        <source>Are you sure you want to delete %1 file(s)?</source>
-        <translation>Biztos benne, hogy törölni akarja a %1 fájl(oka)t?</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5482"/>
-        <source>Ascending</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5482"/>
-        <source>Descending</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5484"/>
-        <source>&amp;Name (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5490"/>
-        <source>&amp;Size (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5496"/>
-        <source>&amp;Owner (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5502"/>
-        <source>&amp;Upload Date (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5633"/>
-        <source>Message to broadcast:</source>
-        <translation>A következő üzenet közzététele:</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5643"/>
-        <source>Broadcast message sent: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2087"/>
-        <location filename="../mainwindow.cpp" line="2088"/>
-        <source>Server configuration saved</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5679"/>
-        <source>Are you sure you want to delete your existing settings?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5694"/>
-        <source>Cannot find %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5701"/>
-        <source>Cannot remove %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5708"/>
-        <source>Failed to copy %1 to %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5254"/>
-        <location filename="../mainwindow.cpp" line="5763"/>
-        <source>Talking</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5763"/>
-        <source>Mute</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5265"/>
-        <location filename="../mainwindow.cpp" line="5763"/>
-        <source>Streaming</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5763"/>
-        <source>Mute media file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5276"/>
-        <location filename="../mainwindow.cpp" line="5763"/>
-        <source>Webcam</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2722"/>
-        <location filename="../mainwindow.cpp" line="5287"/>
-        <location filename="../mainwindow.cpp" line="5763"/>
-        <source>Desktop</source>
-        <translation type="unfinished">Asztal</translation>
-    </message>
-    <message>
-        <source>Channel Operator</source>
-        <translation type="obsolete">Csatorna operátor</translation>
-    </message>
-    <message>
-        <source>Administrator</source>
-        <translation type="obsolete">Adminisztrátor</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5795"/>
-        <source>Question</source>
-        <translation type="unfinished">Kérdés</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5820"/>
-        <source>Channel</source>
-        <translation type="unfinished">Csatorna</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5820"/>
-        <source>Password protected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5820"/>
-        <source>Classroom</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5820"/>
-        <source>Hidden</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5841"/>
-        <source>Topic: %1</source>
-        <translation type="unfinished">Téma: %1</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5848"/>
-        <source>%1 files</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5949"/>
-        <source>IP-address</source>
-        <translation type="unfinished">IP-cím</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5949"/>
-        <source>Username</source>
-        <translation type="unfinished">Felhasználónév</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5958"/>
-        <source>Ban User From Channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="7299"/>
-        <source>A new version of %1 is available: %2. Do you wish to open the download page now?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="7304"/>
-        <source>New version available</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="7311"/>
-        <source>New version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
-%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="7324"/>
-        <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="7329"/>
-        <source>New beta version available</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="7336"/>
-        <source>New beta version available: %1<byte value="xd"/>
-You can download it on the page below:<byte value="xd"/>
-%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="7434"/>
-        <source>No available voices found for Text-To-Speech</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="646"/>
-        <source>Choose language</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="647"/>
-        <source>Select the language will be use by %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="663"/>
-        <source>Translate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="763"/>
-        <source>%1 has detected usage of a screenreader on your computer. Do you wish to enable accessibility options offered by %1 with recommended settings?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="797"/>
-        <location filename="../settings.h" line="279"/>
-        <source>Default</source>
-        <translation type="unfinished">Alapértelmezett</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="800"/>
-        <source>The sound pack %1 does not exist. Would you like to use the default sound pack?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="990"/>
-        <location filename="../mainwindow.cpp" line="991"/>
-        <source>Secure connection failed due to error 0x%1: %2.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1004"/>
-        <source>Connection to server lost</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1016"/>
-        <source>Kicked from server by %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1019"/>
-        <source>Kicked from server by unknown user</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1024"/>
-        <location filename="../mainwindow.cpp" line="1027"/>
-        <source>Kicked from server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1025"/>
-        <source>You have been kicked from server by %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1028"/>
-        <source>You have been kicked from server by unknown user</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1036"/>
-        <source>Kicked from channel by %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1039"/>
-        <source>Kicked from channel by unknown user</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1044"/>
-        <location filename="../mainwindow.cpp" line="1047"/>
-        <source>Kicked from channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1045"/>
-        <source>You have been kicked from channel by %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1048"/>
-        <source>You have been kicked from channel by unknown user</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1132"/>
-        <location filename="../mainwindow.cpp" line="1134"/>
-        <source>%1 has logged out</source>
-        <comment>For female</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1132"/>
-        <location filename="../mainwindow.cpp" line="1134"/>
-        <source>%1 has logged out</source>
-        <comment>For male and neutral</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1160"/>
-        <source>%1 joined root channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1166"/>
-        <source>%1 joined channel %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1203"/>
-        <source>%1 left root channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1209"/>
-        <source>%1 left channel %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1238"/>
-        <source>%1 set question mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1331"/>
-        <source>Audio preprocessor failed to initialize</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1333"/>
-        <source>An audio effect could not be applied on the sound device</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1584"/>
-        <source>New sound device available: %1. Refresh sound devices to discover new device.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1589"/>
-        <source>Sound device removed: %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1995"/>
-        <source>Failed to setup encryption settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2057"/>
-        <source>Logged out from %1, TCP port %2, UDP port %3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2076"/>
-        <source>Connected to %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2100"/>
-        <source>Syntax error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2102"/>
-        <source>Unknown command</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2104"/>
-        <source>The server uses a protocol which is incompatible with the client instance</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2106"/>
-        <source>Unknown audio codec</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2173"/>
-        <source>Banned from channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2186"/>
-        <source>Maximum number of logins per IP-address exceeded</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2188"/>
-        <source>Maximum bitrate for audio codec exceeded</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2190"/>
-        <source>The maximum number of channels has been exceeded</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2192"/>
-        <source>Command flooding prevented by server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2194"/>
-        <source>Maximum number of file transfers exceeded</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2214"/>
-        <source>Server failed to open file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2216"/>
-        <source>The login service is currently unavailable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2218"/>
-        <source>This channel cannot be hidden</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2222"/>
-        <source>Cannot leave channel because not in channel.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2360"/>
-        <source>Voice transmission failed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2469"/>
-        <source>Trying to reconnect to %1 port %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2697"/>
-        <source>Private messages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2702"/>
-        <source>Channel messages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2707"/>
-        <source>Broadcast messages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2712"/>
-        <source>Voice</source>
-        <translation type="unfinished">Hang</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2717"/>
-        <source>Video</source>
-        <translation type="unfinished">Video</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2727"/>
-        <source>Desktop input</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2732"/>
-        <source>Media files</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2737"/>
-        <source>Intercept private messages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2742"/>
-        <source>Intercept channel messages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2747"/>
-        <source>Intercept voice</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2752"/>
-        <source>Intercept video capture</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2757"/>
-        <source>Intercept desktop</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2762"/>
-        <source>Intercept media files</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2786"/>
-        <location filename="../mainwindow.cpp" line="2787"/>
-        <source>Subscription &quot;%1&quot; enabled for %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2796"/>
-        <location filename="../mainwindow.cpp" line="2797"/>
-        <source>Subscription &quot;%1&quot; disabled for %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2869"/>
-        <source>Channel message from %1: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2874"/>
-        <source>Channel message sent: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2888"/>
-        <source>Broadcast message from %1: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2898"/>
-        <source>Private message from %1: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2975"/>
-        <location filename="../mainwindow.cpp" line="2987"/>
-        <source>Joined classroom channel %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="3028"/>
-        <location filename="../mainwindow.cpp" line="3040"/>
-        <source>Left classroom channel %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="3032"/>
-        <location filename="../mainwindow.cpp" line="3044"/>
-        <source>Left channel %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="3942"/>
-        <source>Text messages blocked by channel operator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="3946"/>
-        <source>Voice transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="3950"/>
-        <source>Media file transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="3954"/>
-        <source>Video transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="3958"/>
-        <source>Desktop transmission blocked by channel operator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4035"/>
-        <source>Current Profile</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4343"/>
-        <source>No Sound Device</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="2333"/>
-        <source>&amp;Refresh Sound Devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4515"/>
-        <source>Push-To-Talk enabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4521"/>
-        <source>Push-To-Talk disabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4538"/>
-        <source>Voice activation enabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4538"/>
-        <source>Voice activation disabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4545"/>
-        <source>Failed to enable voice activation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4703"/>
-        <source>Sound events enabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4708"/>
-        <source>Sound events disabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5057"/>
-        <source>To relay voice stream from other channel you must enable subscription &quot;Intercept Voice&quot;.
-Do you wish to do this now?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5077"/>
-        <source>To relay media file stream from other channel you must enable subscription &quot;Intercept Media File&quot;.
-Do you wish to do this now?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5429"/>
-        <location filename="../mainwindow.cpp" line="5438"/>
-        <location filename="../mainwindow.cpp" line="5460"/>
-        <source>Share channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5430"/>
-        <source>Type username of user account:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5439"/>
-        <source>Type password of user account:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5461"/>
-        <source>Type password of channel:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5474"/>
-        <location filename="../mainwindow.cpp" line="5475"/>
-        <source>Link copied to clipboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5481"/>
-        <source>Sort By...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5767"/>
-        <source>Administrator</source>
-        <comment>For female</comment>
-        <translation type="unfinished">Adminisztrátor</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5767"/>
-        <source>Administrator</source>
-        <comment>For male and neutral</comment>
-        <translation type="unfinished">Adminisztrátor</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5771"/>
-        <source>User</source>
-        <comment>For female</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5771"/>
-        <source>User</source>
-        <comment>For male and neutral</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5778"/>
-        <source>Selected for move</source>
-        <comment>For female</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5778"/>
-        <source>Selected for move</source>
-        <comment>For male and neutral</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5781"/>
-        <source>Channel operator</source>
-        <comment>For female</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5781"/>
-        <source>Channel operator</source>
-        <comment>For male and neutral</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5789"/>
-        <source>Available</source>
-        <comment>For female</comment>
-        <translation type="unfinished">Elérhető</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5789"/>
-        <source>Available</source>
-        <comment>For male and neutral</comment>
-        <translation type="unfinished">Elérhető</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5792"/>
-        <source>Away</source>
-        <comment>For female</comment>
-        <translation type="unfinished">Nincs jelen</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5792"/>
-        <source>Away</source>
-        <comment>For male and neutral</comment>
-        <translation type="unfinished">Nincs jelen</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5845"/>
-        <source>%1 users</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5917"/>
-        <source>Are you sure you want to kick yourself?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5937"/>
-        <source>Are you sure you want to kick and ban yourself?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5956"/>
-        <source>Ban user #%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5960"/>
-        <source>Ban User From Server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5986"/>
-        <source>Ban IP-address</source>
-        <translation type="unfinished">IP-cím letiltása</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="5986"/>
-        <source>IP-address (&apos;/&apos; for subnet, e.g. 192.168.0.0/16)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6152"/>
-        <source>&amp;Leave Channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6153"/>
-        <source>CTRL+L</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6158"/>
-        <source>CTRL+J</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6393"/>
-        <source>The maximum number of users who can transmit is %1</source>
-        <translation>Az átviteli lehetőséggel bíró felhasználók maximális száma %1</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6521"/>
-        <source>Start Webcam</source>
-        <translation>A Webkamera indítása</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6543"/>
-        <location filename="../mainwindow.cpp" line="6595"/>
-        <source>Myself</source>
-        <translation>Én</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="7107"/>
-        <source>&amp;Video (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="7115"/>
-        <source>&amp;Desktops (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="7416"/>
-        <source>Language %1 not found for Text-To-Speech</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="7429"/>
-        <source>Voice %1 not found for Text-To-Speech. Switching to %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1155"/>
-        <source>%1 joined channel</source>
-        <translation>%1 csatlakozott a csatornához</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1198"/>
-        <source>%1 left channel</source>
-        <translation>%1 elhagyta a csatornát</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1985"/>
-        <source>Using sound input: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1985"/>
-        <source>Using sound output: %2</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="643"/>
@@ -4297,238 +2946,1611 @@ Do you wish to do this now?</source>
         <location filename="../mainwindow.cpp" line="5630"/>
         <location filename="../mainwindow.cpp" line="5899"/>
         <location filename="../mainwindow.cpp" line="5953"/>
+        <source>&amp;OK</source>
+        <translation type="unfinished">&amp;Rendben</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2123"/>
+        <location filename="../mainwindow.cpp" line="2131"/>
+        <location filename="../mainwindow.cpp" line="2171"/>
+        <location filename="../mainwindow.cpp" line="2178"/>
+        <source>Login error</source>
+        <translation>Bejelentkezési hiba</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2124"/>
+        <source>Invalid user account. Type username:</source>
+        <translation>Érvénytelen felhasználói fiók. Adja meg a felhasználónevet:</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2132"/>
+        <source>Invalid user account. Type password:</source>
+        <translation>Érvénytelen felhasználói fiók. Adja meg a jelszót:</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2157"/>
+        <source>Join channel error</source>
+        <translation>Csatorna csatlakozási hiba</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2158"/>
+        <source>Incorrect channel password. Try again:</source>
+        <translation>Hibás csatorna jelszó. Próbálja mégegyszer:</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2172"/>
+        <source>Banned from server</source>
+        <translation>Szerver letiltotta</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2176"/>
+        <source>Command not authorized</source>
+        <translation>A parancs nincs hitelesítve</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2179"/>
+        <source>Maximum number of users on server exceeded</source>
+        <translation>A szerver maximális felhasználószáma túllépve</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2181"/>
+        <source>Maximum disk usage exceeded</source>
+        <translation>Maximális diszkhasználat meghaladva</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2183"/>
+        <source>Maximum number of users in channel exceeded</source>
+        <translation>Csatorna maximális felhasználószáma meghaladva</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2185"/>
+        <source>Incorrect channel operator password</source>
+        <translation>Csatornakezelői jelszó érvénytelen</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2199"/>
+        <source>Already logged in</source>
+        <translation>Már bejelentkezett</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2201"/>
+        <source>Cannot perform action because client is currently not logged in</source>
+        <translation>Nem tudja végrehajtani az akciót, mivel az ügyfél jelenleg nincs bejelentkezve</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2204"/>
+        <source>Cannot join the same channel twice</source>
+        <translation>Nem tud kétszer ugyanahhoz a csatornához csatlakozni</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2206"/>
+        <source>Channel already exists</source>
+        <translation>Csatorna már létezik</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2212"/>
+        <source>User not found</source>
+        <translation>A felhasználó nem található</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2221"/>
+        <source>Channel not found</source>
+        <translation>Csatorna nem található</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2225"/>
+        <source>Banned user not found</source>
+        <translation>Letiltott felhasználó nem található</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2227"/>
+        <source>File transfer not found</source>
+        <translation>Fájl átvitel nem található</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2229"/>
+        <source>User account not found</source>
+        <translation>A felhasználói fiók nem található</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2231"/>
+        <source>File not found</source>
+        <translation>Fájl nem található</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2233"/>
+        <source>File already exists</source>
+        <translation>A fájl már létezik</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2235"/>
+        <source>File sharing is disabled</source>
+        <translation>A fájl megosztás letiltva</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2237"/>
+        <source>Channel has active users</source>
+        <translation>A csatornában aktív felhasználók vannak</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2242"/>
+        <source>Unknown error occured</source>
+        <translation>Ismeretlen hiba történt</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2249"/>
+        <source>The server reported an error:</source>
+        <translation>A szerver hibát jelentett:</translation>
+    </message>
+    <message>
+        <source>Available</source>
+        <translation type="obsolete">Elérhető</translation>
+    </message>
+    <message>
+        <source>Away</source>
+        <translation type="obsolete">Nincs jelen</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2567"/>
+        <source>&amp;Restore</source>
+        <translation>&amp;Visszaállítás</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2670"/>
+        <source>Do you wish to add %1 to the Windows Firewall exception list?</source>
+        <translation>%1-et fel akarja venni a Windows tűzfal kivételek listájára?</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="765"/>
+        <location filename="../mainwindow.cpp" line="802"/>
+        <location filename="../mainwindow.cpp" line="2671"/>
+        <location filename="../mainwindow.cpp" line="5152"/>
+        <location filename="../mainwindow.cpp" line="5384"/>
+        <location filename="../mainwindow.cpp" line="5681"/>
+        <location filename="../mainwindow.cpp" line="5919"/>
+        <location filename="../mainwindow.cpp" line="5939"/>
+        <location filename="../mainwindow.cpp" line="7220"/>
+        <location filename="../mainwindow.cpp" line="7301"/>
+        <location filename="../mainwindow.cpp" line="7326"/>
+        <source>&amp;Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="766"/>
+        <location filename="../mainwindow.cpp" line="803"/>
+        <location filename="../mainwindow.cpp" line="2672"/>
+        <location filename="../mainwindow.cpp" line="5153"/>
+        <location filename="../mainwindow.cpp" line="5385"/>
+        <location filename="../mainwindow.cpp" line="5682"/>
+        <location filename="../mainwindow.cpp" line="5920"/>
+        <location filename="../mainwindow.cpp" line="5940"/>
+        <location filename="../mainwindow.cpp" line="7221"/>
+        <location filename="../mainwindow.cpp" line="7302"/>
+        <location filename="../mainwindow.cpp" line="7327"/>
+        <source>&amp;No</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1115"/>
+        <location filename="../mainwindow.cpp" line="1117"/>
+        <source>%1 has logged in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2018"/>
+        <source>Disconnected from %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2683"/>
+        <source>Failed to add %1 to Windows Firewall exceptions.</source>
+        <translation>%1 hozzáadása a Windows tűzfal kivételek listájához sikertelen.</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2930"/>
+        <source>%1 is requesting desktop access</source>
+        <translation>%1 asztali hozzáférést kér</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2936"/>
+        <location filename="../mainwindow.cpp" line="4867"/>
+        <source>%1 granted desktop access</source>
+        <translation>%1 engedélyezte az asztaii hozzáférést</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2942"/>
+        <source>%1 retracted desktop access</source>
+        <translation>%1 visszavonta az asztali hozzáférés igényét</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2980"/>
+        <location filename="../mainwindow.cpp" line="2992"/>
+        <source>Joined channel %1</source>
+        <translation>Csatlakozott csatorna %1</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="3107"/>
+        <location filename="../mainwindow.cpp" line="3108"/>
+        <source>Files in channel: %1</source>
+        <translation>%1 fájl a csatornában</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="3168"/>
+        <source>Failed to start recording</source>
+        <translation>A rögzítés elkezdése sikertelen</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="3172"/>
+        <source>Recording to file: %1</source>
+        <translation>Felvétel a Következő fájlba: %1</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="3226"/>
+        <source>Microphone gain is controlled by channel</source>
+        <translation>Mikrofonerősítést a csatorna vezérli</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="3602"/>
+        <source>Failed to stream media file %1</source>
+        <translation>A %1 Médiafájl folyamatos közvetítése (streaming) sikertelen</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="3764"/>
+        <source>Enable HotKey</source>
+        <translation>Gyorsbillentyű engedélyezése</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="3765"/>
+        <source>Failed to register hotkey. Please try another key combination.</source>
+        <translation>A gyorsbillentyű regisztrálása sikertelen. Kérem próbáljon más billentyű kombinációt.</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="3770"/>
+        <source>Push To Talk: </source>
+        <translation>Push-To-Talk:</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4036"/>
+        <location filename="../mainwindow.cpp" line="4082"/>
+        <source>New Profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4036"/>
+        <source>Delete Profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4049"/>
+        <location filename="../mainwindow.cpp" line="4067"/>
+        <source>New Client Instance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4050"/>
+        <source>Select profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4068"/>
+        <source>Delete profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4083"/>
+        <source>Profile name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4448"/>
+        <source>Specify new nickname for current server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4450"/>
+        <source>Specify new nickname</source>
+        <translation>Új becenév megadása</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4571"/>
+        <location filename="../mainwindow.cpp" line="6523"/>
+        <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
+        <translation>A videoeszköz helytelenűl lett configurálva.Ellenőrizze a beállításokat a &apos;Beállítások&apos;-nál</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4582"/>
+        <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
+        <translation>A video kodek konfigurációja sikertelen. Ellenőrizze a beállításokat a &apos;Beállítások&apos;-nál</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4594"/>
+        <source>Video transmission enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4613"/>
+        <source>Video transmission disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4630"/>
+        <source>Failed to open X11 display.</source>
+        <translation>Az X11 kijelző megnyitása sikertelen.</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4649"/>
+        <source>Failed to start desktop sharing</source>
+        <translation>Az asztalmegosztás nem sikerűlt</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4660"/>
+        <source>Desktop sharing enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4680"/>
+        <source>Desktop sharing disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4689"/>
+        <source>Text-To-Speech enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4694"/>
+        <source>Text-To-Speech disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4747"/>
+        <source>Voice for %1 disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4749"/>
+        <source>Voice for %1 enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4766"/>
+        <source>Media files for %1 disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4768"/>
+        <source>Media files for %1 enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4784"/>
+        <source>Master volume disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4789"/>
+        <source>Master volume enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4921"/>
+        <source>Voice volume for %1 increased to %2%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4934"/>
+        <source>Voice volume for %1 decreased to %2%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4947"/>
+        <source>Media files volume for %1 increased to %2%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4960"/>
+        <source>Media files volume for %1 decreased to %2%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4979"/>
+        <source>%1 selected for move</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4997"/>
+        <location filename="../mainwindow.cpp" line="5001"/>
+        <source>Selected users has been moved to channel %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5111"/>
+        <location filename="../mainwindow.cpp" line="5124"/>
+        <source>Failed to issue command to create channel</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5138"/>
+        <source>Failed to issue command to update channel</source>
+        <translation>A cstorna frissítésére kiadott parancs sikertelen</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5151"/>
+        <source>Are you sure you want to delete channel &quot;%1&quot;?</source>
+        <translation>Biztos benne, hogy törölni akarja a &quot;%1&quot; csatornát?</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5163"/>
+        <source>Failed to issue command to delete channel</source>
+        <translation>Csatornatörlés parancs kiadása sikertelen</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5193"/>
+        <location filename="../mainwindow.cpp" line="5904"/>
+        <source>Specify password</source>
+        <translation>A jelszó megadása</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5208"/>
+        <source>Failed to issue command to join channel</source>
+        <translation>Csatorna csatlkoztatására kiadott parancs  sikertelen</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5298"/>
+        <source>Nobody is active in this channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5340"/>
+        <source>Open File</source>
+        <translation>Fájl megnyitása</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5361"/>
+        <source>Save File</source>
+        <translation>Fájl mentése</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5388"/>
+        <source>Delete %1 files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5391"/>
+        <source>Are you sure you want to delete &quot;%1&quot;?</source>
+        <translation>Biztos benne, hogy a &quot;%1&quot;-et törölni akarja?</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5400"/>
+        <source>Are you sure you want to delete %1 file(s)?</source>
+        <translation>Biztos benne, hogy törölni akarja a %1 fájl(oka)t?</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5483"/>
+        <source>Ascending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5483"/>
+        <source>Descending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5485"/>
+        <source>&amp;Name (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5491"/>
+        <source>&amp;Size (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5497"/>
+        <source>&amp;Owner (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5503"/>
+        <source>&amp;Upload Date (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5634"/>
+        <source>Message to broadcast:</source>
+        <translation>A következő üzenet közzététele:</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5644"/>
+        <source>Broadcast message sent: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2088"/>
+        <location filename="../mainwindow.cpp" line="2089"/>
+        <source>Server configuration saved</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5680"/>
+        <source>Are you sure you want to delete your existing settings?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5695"/>
+        <source>Cannot find %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5702"/>
+        <source>Cannot remove %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5709"/>
+        <source>Failed to copy %1 to %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5255"/>
+        <location filename="../mainwindow.cpp" line="5764"/>
+        <source>Talking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5764"/>
+        <source>Mute</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5266"/>
+        <location filename="../mainwindow.cpp" line="5764"/>
+        <source>Streaming</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5764"/>
+        <source>Mute media file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5277"/>
+        <location filename="../mainwindow.cpp" line="5764"/>
+        <source>Webcam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2723"/>
+        <location filename="../mainwindow.cpp" line="5288"/>
+        <location filename="../mainwindow.cpp" line="5764"/>
+        <source>Desktop</source>
+        <translation type="unfinished">Asztal</translation>
+    </message>
+    <message>
+        <source>Channel Operator</source>
+        <translation type="obsolete">Csatorna operátor</translation>
+    </message>
+    <message>
+        <source>Administrator</source>
+        <translation type="obsolete">Adminisztrátor</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5796"/>
+        <source>Question</source>
+        <translation type="unfinished">Kérdés</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5821"/>
+        <source>Channel</source>
+        <translation type="unfinished">Csatorna</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5821"/>
+        <source>Password protected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5821"/>
+        <source>Classroom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5821"/>
+        <source>Hidden</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5842"/>
+        <source>Topic: %1</source>
+        <translation type="unfinished">Téma: %1</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5849"/>
+        <source>%1 files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5950"/>
+        <source>IP-address</source>
+        <translation type="unfinished">IP-cím</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5950"/>
+        <source>Username</source>
+        <translation type="unfinished">Felhasználónév</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5959"/>
+        <source>Ban User From Channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="7300"/>
+        <source>A new version of %1 is available: %2. Do you wish to open the download page now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="7305"/>
+        <source>New version available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="7312"/>
+        <source>New version available: %1<byte value="xd"/>
+You can download it on the page below:<byte value="xd"/>
+%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="7325"/>
+        <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="7330"/>
+        <source>New beta version available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="7337"/>
+        <source>New beta version available: %1<byte value="xd"/>
+You can download it on the page below:<byte value="xd"/>
+%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="7435"/>
+        <source>No available voices found for Text-To-Speech</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="647"/>
+        <source>Choose language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="648"/>
+        <source>Select the language will be use by %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="664"/>
+        <source>Translate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="764"/>
+        <source>%1 has detected usage of a screenreader on your computer. Do you wish to enable accessibility options offered by %1 with recommended settings?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="798"/>
+        <location filename="../settings.h" line="281"/>
+        <source>Default</source>
+        <translation type="unfinished">Alapértelmezett</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="801"/>
+        <source>The sound pack %1 does not exist. Would you like to use the default sound pack?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="991"/>
+        <location filename="../mainwindow.cpp" line="992"/>
+        <source>Secure connection failed due to error 0x%1: %2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1005"/>
+        <source>Connection to server lost</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1017"/>
+        <source>Kicked from server by %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1020"/>
+        <source>Kicked from server by unknown user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1025"/>
+        <location filename="../mainwindow.cpp" line="1028"/>
+        <source>Kicked from server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1026"/>
+        <source>You have been kicked from server by %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1029"/>
+        <source>You have been kicked from server by unknown user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1037"/>
+        <source>Kicked from channel by %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1040"/>
+        <source>Kicked from channel by unknown user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1045"/>
+        <location filename="../mainwindow.cpp" line="1048"/>
+        <source>Kicked from channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1046"/>
+        <source>You have been kicked from channel by %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1049"/>
+        <source>You have been kicked from channel by unknown user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1117"/>
+        <source>%1 has logged in on %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1133"/>
+        <location filename="../mainwindow.cpp" line="1135"/>
+        <source>%1 has logged out</source>
+        <comment>For female</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1133"/>
+        <location filename="../mainwindow.cpp" line="1135"/>
+        <source>%1 has logged out</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1135"/>
+        <source>%1 has logged out from %2</source>
+        <comment>For female</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1135"/>
+        <source>%1 has logged out from %2</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1161"/>
+        <source>%1 joined root channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1167"/>
+        <source>%1 joined channel %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1204"/>
+        <source>%1 left root channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1210"/>
+        <source>%1 left channel %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1239"/>
+        <source>%1 set question mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1332"/>
+        <source>Audio preprocessor failed to initialize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1334"/>
+        <source>An audio effect could not be applied on the sound device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1585"/>
+        <source>New sound device available: %1. Refresh sound devices to discover new device.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1590"/>
+        <source>Sound device removed: %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1996"/>
+        <source>Failed to setup encryption settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2018"/>
+        <source>Disconnected from server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2058"/>
+        <source>Logged out from %1, TCP port %2, UDP port %3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2077"/>
+        <source>Connected to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2101"/>
+        <source>Syntax error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2103"/>
+        <source>Unknown command</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2105"/>
+        <source>The server uses a protocol which is incompatible with the client instance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2107"/>
+        <source>Unknown audio codec</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2174"/>
+        <source>Banned from channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2187"/>
+        <source>Maximum number of logins per IP-address exceeded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2189"/>
+        <source>Maximum bitrate for audio codec exceeded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2191"/>
+        <source>The maximum number of channels has been exceeded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2193"/>
+        <source>Command flooding prevented by server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2195"/>
+        <source>Maximum number of file transfers exceeded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2215"/>
+        <source>Server failed to open file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2217"/>
+        <source>The login service is currently unavailable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2219"/>
+        <source>This channel cannot be hidden</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2223"/>
+        <source>Cannot leave channel because not in channel.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2361"/>
+        <source>Voice transmission failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2470"/>
+        <source>Trying to reconnect to %1 port %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2698"/>
+        <source>Private messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2703"/>
+        <source>Channel messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2708"/>
+        <source>Broadcast messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2713"/>
+        <source>Voice</source>
+        <translation type="unfinished">Hang</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2718"/>
+        <source>Video</source>
+        <translation type="unfinished">Video</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2728"/>
+        <source>Desktop input</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2733"/>
+        <source>Media files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2738"/>
+        <source>Intercept private messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2743"/>
+        <source>Intercept channel messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2748"/>
+        <source>Intercept voice</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2753"/>
+        <source>Intercept video capture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2758"/>
+        <source>Intercept desktop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2763"/>
+        <source>Intercept media files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2787"/>
+        <location filename="../mainwindow.cpp" line="2788"/>
+        <source>Subscription &quot;%1&quot; enabled for %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2797"/>
+        <location filename="../mainwindow.cpp" line="2798"/>
+        <source>Subscription &quot;%1&quot; disabled for %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2870"/>
+        <source>Channel message from %1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2875"/>
+        <source>Channel message sent: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2889"/>
+        <source>Broadcast message from %1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2899"/>
+        <source>Private message from %1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2976"/>
+        <location filename="../mainwindow.cpp" line="2988"/>
+        <source>Joined classroom channel %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="3029"/>
+        <location filename="../mainwindow.cpp" line="3041"/>
+        <source>Left classroom channel %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="3033"/>
+        <location filename="../mainwindow.cpp" line="3045"/>
+        <source>Left channel %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="3943"/>
+        <source>Text messages blocked by channel operator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="3947"/>
+        <source>Voice transmission blocked by channel operator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="3951"/>
+        <source>Media file transmission blocked by channel operator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="3955"/>
+        <source>Video transmission blocked by channel operator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="3959"/>
+        <source>Desktop transmission blocked by channel operator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4036"/>
+        <source>Current Profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4344"/>
+        <source>No Sound Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="2333"/>
+        <source>&amp;Refresh Sound Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4516"/>
+        <source>Push-To-Talk enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4522"/>
+        <source>Push-To-Talk disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4539"/>
+        <source>Voice activation enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4539"/>
+        <source>Voice activation disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4546"/>
+        <source>Failed to enable voice activation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4704"/>
+        <source>Sound events enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4709"/>
+        <source>Sound events disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5058"/>
+        <source>To relay voice stream from other channel you must enable subscription &quot;Intercept Voice&quot;.
+Do you wish to do this now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5078"/>
+        <source>To relay media file stream from other channel you must enable subscription &quot;Intercept Media File&quot;.
+Do you wish to do this now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5430"/>
+        <location filename="../mainwindow.cpp" line="5439"/>
+        <location filename="../mainwindow.cpp" line="5461"/>
+        <source>Share channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5431"/>
+        <source>Type username of user account:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5440"/>
+        <source>Type password of user account:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5462"/>
+        <source>Type password of channel:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5475"/>
+        <location filename="../mainwindow.cpp" line="5476"/>
+        <source>Link copied to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5482"/>
+        <source>Sort By...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5768"/>
+        <source>Administrator</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Adminisztrátor</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5768"/>
+        <source>Administrator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Adminisztrátor</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5772"/>
+        <source>User</source>
+        <comment>For female</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5772"/>
+        <source>User</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5779"/>
+        <source>Selected for move</source>
+        <comment>For female</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5779"/>
+        <source>Selected for move</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5782"/>
+        <source>Channel operator</source>
+        <comment>For female</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5782"/>
+        <source>Channel operator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5790"/>
+        <source>Available</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Elérhető</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5790"/>
+        <source>Available</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Elérhető</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5793"/>
+        <source>Away</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Nincs jelen</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5793"/>
+        <source>Away</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Nincs jelen</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5846"/>
+        <source>%1 users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5918"/>
+        <source>Are you sure you want to kick yourself?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5938"/>
+        <source>Are you sure you want to kick and ban yourself?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5957"/>
+        <source>Ban user #%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5961"/>
+        <source>Ban User From Server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5987"/>
+        <source>Ban IP-address</source>
+        <translation type="unfinished">IP-cím letiltása</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5987"/>
+        <source>IP-address (&apos;/&apos; for subnet, e.g. 192.168.0.0/16)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="6153"/>
+        <source>&amp;Leave Channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="6154"/>
+        <source>CTRL+L</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="6159"/>
+        <source>CTRL+J</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="6394"/>
+        <source>The maximum number of users who can transmit is %1</source>
+        <translation>Az átviteli lehetőséggel bíró felhasználók maximális száma %1</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="6522"/>
+        <source>Start Webcam</source>
+        <translation>A Webkamera indítása</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="6544"/>
+        <location filename="../mainwindow.cpp" line="6596"/>
+        <source>Myself</source>
+        <translation>Én</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="7108"/>
+        <source>&amp;Video (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="7116"/>
+        <source>&amp;Desktops (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="7417"/>
+        <source>Language %1 not found for Text-To-Speech</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="7430"/>
+        <source>Voice %1 not found for Text-To-Speech. Switching to %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1156"/>
+        <source>%1 joined channel</source>
+        <translation>%1 csatlakozott a csatornához</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1199"/>
+        <source>%1 left channel</source>
+        <translation>%1 elhagyta a csatornát</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1986"/>
+        <source>Using sound input: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1986"/>
+        <source>Using sound output: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="644"/>
+        <location filename="../mainwindow.cpp" line="2120"/>
+        <location filename="../mainwindow.cpp" line="2153"/>
+        <location filename="../mainwindow.cpp" line="4046"/>
+        <location filename="../mainwindow.cpp" line="4064"/>
+        <location filename="../mainwindow.cpp" line="4079"/>
+        <location filename="../mainwindow.cpp" line="4443"/>
+        <location filename="../mainwindow.cpp" line="5188"/>
+        <location filename="../mainwindow.cpp" line="5427"/>
+        <location filename="../mainwindow.cpp" line="5631"/>
+        <location filename="../mainwindow.cpp" line="5900"/>
+        <location filename="../mainwindow.cpp" line="5954"/>
         <source>&amp;Cancel</source>
         <translation type="unfinished">&amp;Mégse</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3117"/>
+        <location filename="../mainwindow.cpp" line="3118"/>
         <source>&amp;Files (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6443"/>
+        <location filename="../mainwindow.cpp" line="6444"/>
         <source>%1 can no longer transmit</source>
         <comment>%1 can no longer transmit voice</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6444"/>
+        <location filename="../mainwindow.cpp" line="6445"/>
         <source>%1 can now transmit</source>
         <comment>%1 can now transmit voice</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6447"/>
+        <location filename="../mainwindow.cpp" line="6448"/>
         <source>Everyone can no longer transmit</source>
         <comment>Everyone can no longer transmit voice</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6448"/>
+        <location filename="../mainwindow.cpp" line="6449"/>
         <source>Everyone can now transmit</source>
         <comment>Everyone can now transmit voice</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6452"/>
+        <location filename="../mainwindow.cpp" line="6453"/>
         <source>You can no longer transmit</source>
         <comment>You can no longer transmit voice</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6453"/>
+        <location filename="../mainwindow.cpp" line="6454"/>
         <source>You can now transmit</source>
         <comment>You can now transmit voice</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6463"/>
+        <location filename="../mainwindow.cpp" line="6464"/>
         <source>%1 channel messages</source>
         <comment>can now transmit ...</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6465"/>
+        <location filename="../mainwindow.cpp" line="6466"/>
         <source>%1 channel messages</source>
         <comment>can no longer transmit ...</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6474"/>
+        <location filename="../mainwindow.cpp" line="6475"/>
         <source>%1 voice</source>
         <comment>can now transmit ...</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6476"/>
+        <location filename="../mainwindow.cpp" line="6477"/>
         <source>%1 voice</source>
         <comment>can no longer transmit...</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6485"/>
+        <location filename="../mainwindow.cpp" line="6486"/>
         <source>%1 video</source>
         <comment>can now transmit ...</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6487"/>
+        <location filename="../mainwindow.cpp" line="6488"/>
         <source>%1 video</source>
         <comment>can no longer transmit ...</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6496"/>
+        <location filename="../mainwindow.cpp" line="6497"/>
         <source>%1 desktop windows</source>
         <comment>can now transmit ...</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6498"/>
+        <location filename="../mainwindow.cpp" line="6499"/>
         <source>%1 desktop windows</source>
         <comment>can no longer transmit ...</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6507"/>
+        <location filename="../mainwindow.cpp" line="6508"/>
         <source>%1 media files</source>
         <comment>can now transmit ...</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6509"/>
+        <location filename="../mainwindow.cpp" line="6510"/>
         <source>%1 media files</source>
         <comment>can no longer transmit ...</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6941"/>
-        <location filename="../mainwindow.cpp" line="6946"/>
-        <location filename="../mainwindow.cpp" line="6952"/>
-        <location filename="../mainwindow.cpp" line="6957"/>
-        <location filename="../mainwindow.cpp" line="6963"/>
-        <location filename="../mainwindow.cpp" line="6968"/>
-        <location filename="../mainwindow.cpp" line="6974"/>
-        <location filename="../mainwindow.cpp" line="6979"/>
-        <location filename="../mainwindow.cpp" line="6985"/>
-        <location filename="../mainwindow.cpp" line="6990"/>
-        <location filename="../mainwindow.cpp" line="6996"/>
-        <location filename="../mainwindow.cpp" line="7001"/>
-        <location filename="../mainwindow.cpp" line="7009"/>
-        <location filename="../mainwindow.cpp" line="7014"/>
-        <location filename="../mainwindow.cpp" line="7019"/>
-        <location filename="../mainwindow.cpp" line="7024"/>
-        <location filename="../mainwindow.cpp" line="7029"/>
-        <location filename="../mainwindow.cpp" line="7034"/>
-        <location filename="../mainwindow.cpp" line="7039"/>
-        <location filename="../mainwindow.cpp" line="7044"/>
-        <location filename="../mainwindow.cpp" line="7049"/>
-        <location filename="../mainwindow.cpp" line="7054"/>
-        <location filename="../mainwindow.cpp" line="7059"/>
-        <location filename="../mainwindow.cpp" line="7064"/>
-        <location filename="../mainwindow.cpp" line="7069"/>
-        <location filename="../mainwindow.cpp" line="7074"/>
-        <location filename="../mainwindow.cpp" line="7079"/>
-        <location filename="../mainwindow.cpp" line="7084"/>
+        <location filename="../mainwindow.cpp" line="6942"/>
+        <location filename="../mainwindow.cpp" line="6947"/>
+        <location filename="../mainwindow.cpp" line="6953"/>
+        <location filename="../mainwindow.cpp" line="6958"/>
+        <location filename="../mainwindow.cpp" line="6964"/>
+        <location filename="../mainwindow.cpp" line="6969"/>
+        <location filename="../mainwindow.cpp" line="6975"/>
+        <location filename="../mainwindow.cpp" line="6980"/>
+        <location filename="../mainwindow.cpp" line="6986"/>
+        <location filename="../mainwindow.cpp" line="6991"/>
+        <location filename="../mainwindow.cpp" line="6997"/>
+        <location filename="../mainwindow.cpp" line="7002"/>
+        <location filename="../mainwindow.cpp" line="7010"/>
+        <location filename="../mainwindow.cpp" line="7015"/>
+        <location filename="../mainwindow.cpp" line="7020"/>
+        <location filename="../mainwindow.cpp" line="7025"/>
+        <location filename="../mainwindow.cpp" line="7030"/>
+        <location filename="../mainwindow.cpp" line="7035"/>
+        <location filename="../mainwindow.cpp" line="7040"/>
+        <location filename="../mainwindow.cpp" line="7045"/>
+        <location filename="../mainwindow.cpp" line="7050"/>
+        <location filename="../mainwindow.cpp" line="7055"/>
+        <location filename="../mainwindow.cpp" line="7060"/>
+        <location filename="../mainwindow.cpp" line="7065"/>
+        <location filename="../mainwindow.cpp" line="7070"/>
+        <location filename="../mainwindow.cpp" line="7075"/>
+        <location filename="../mainwindow.cpp" line="7080"/>
+        <location filename="../mainwindow.cpp" line="7085"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
         <translation>%1 megváltoztatta az aláírást &quot;%2&quot;-ről %3-ra</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6945"/>
         <location filename="../mainwindow.cpp" line="6946"/>
-        <location filename="../mainwindow.cpp" line="6956"/>
+        <location filename="../mainwindow.cpp" line="6947"/>
         <location filename="../mainwindow.cpp" line="6957"/>
-        <location filename="../mainwindow.cpp" line="6967"/>
+        <location filename="../mainwindow.cpp" line="6958"/>
         <location filename="../mainwindow.cpp" line="6968"/>
-        <location filename="../mainwindow.cpp" line="6978"/>
+        <location filename="../mainwindow.cpp" line="6969"/>
         <location filename="../mainwindow.cpp" line="6979"/>
-        <location filename="../mainwindow.cpp" line="6989"/>
+        <location filename="../mainwindow.cpp" line="6980"/>
         <location filename="../mainwindow.cpp" line="6990"/>
-        <location filename="../mainwindow.cpp" line="7000"/>
+        <location filename="../mainwindow.cpp" line="6991"/>
         <location filename="../mainwindow.cpp" line="7001"/>
-        <location filename="../mainwindow.cpp" line="7013"/>
+        <location filename="../mainwindow.cpp" line="7002"/>
         <location filename="../mainwindow.cpp" line="7014"/>
-        <location filename="../mainwindow.cpp" line="7023"/>
+        <location filename="../mainwindow.cpp" line="7015"/>
         <location filename="../mainwindow.cpp" line="7024"/>
-        <location filename="../mainwindow.cpp" line="7033"/>
+        <location filename="../mainwindow.cpp" line="7025"/>
         <location filename="../mainwindow.cpp" line="7034"/>
-        <location filename="../mainwindow.cpp" line="7043"/>
+        <location filename="../mainwindow.cpp" line="7035"/>
         <location filename="../mainwindow.cpp" line="7044"/>
-        <location filename="../mainwindow.cpp" line="7053"/>
+        <location filename="../mainwindow.cpp" line="7045"/>
         <location filename="../mainwindow.cpp" line="7054"/>
-        <location filename="../mainwindow.cpp" line="7063"/>
+        <location filename="../mainwindow.cpp" line="7055"/>
         <location filename="../mainwindow.cpp" line="7064"/>
-        <location filename="../mainwindow.cpp" line="7073"/>
+        <location filename="../mainwindow.cpp" line="7065"/>
         <location filename="../mainwindow.cpp" line="7074"/>
-        <location filename="../mainwindow.cpp" line="7083"/>
+        <location filename="../mainwindow.cpp" line="7075"/>
         <location filename="../mainwindow.cpp" line="7084"/>
+        <location filename="../mainwindow.cpp" line="7085"/>
         <source>On</source>
         <translation>Be</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6945"/>
         <location filename="../mainwindow.cpp" line="6946"/>
-        <location filename="../mainwindow.cpp" line="6956"/>
+        <location filename="../mainwindow.cpp" line="6947"/>
         <location filename="../mainwindow.cpp" line="6957"/>
-        <location filename="../mainwindow.cpp" line="6967"/>
+        <location filename="../mainwindow.cpp" line="6958"/>
         <location filename="../mainwindow.cpp" line="6968"/>
-        <location filename="../mainwindow.cpp" line="6978"/>
+        <location filename="../mainwindow.cpp" line="6969"/>
         <location filename="../mainwindow.cpp" line="6979"/>
-        <location filename="../mainwindow.cpp" line="6989"/>
+        <location filename="../mainwindow.cpp" line="6980"/>
         <location filename="../mainwindow.cpp" line="6990"/>
-        <location filename="../mainwindow.cpp" line="7000"/>
+        <location filename="../mainwindow.cpp" line="6991"/>
         <location filename="../mainwindow.cpp" line="7001"/>
-        <location filename="../mainwindow.cpp" line="7013"/>
+        <location filename="../mainwindow.cpp" line="7002"/>
         <location filename="../mainwindow.cpp" line="7014"/>
-        <location filename="../mainwindow.cpp" line="7023"/>
+        <location filename="../mainwindow.cpp" line="7015"/>
         <location filename="../mainwindow.cpp" line="7024"/>
-        <location filename="../mainwindow.cpp" line="7033"/>
+        <location filename="../mainwindow.cpp" line="7025"/>
         <location filename="../mainwindow.cpp" line="7034"/>
-        <location filename="../mainwindow.cpp" line="7043"/>
+        <location filename="../mainwindow.cpp" line="7035"/>
         <location filename="../mainwindow.cpp" line="7044"/>
-        <location filename="../mainwindow.cpp" line="7053"/>
+        <location filename="../mainwindow.cpp" line="7045"/>
         <location filename="../mainwindow.cpp" line="7054"/>
-        <location filename="../mainwindow.cpp" line="7063"/>
+        <location filename="../mainwindow.cpp" line="7055"/>
         <location filename="../mainwindow.cpp" line="7064"/>
-        <location filename="../mainwindow.cpp" line="7073"/>
+        <location filename="../mainwindow.cpp" line="7065"/>
         <location filename="../mainwindow.cpp" line="7074"/>
-        <location filename="../mainwindow.cpp" line="7083"/>
+        <location filename="../mainwindow.cpp" line="7075"/>
         <location filename="../mainwindow.cpp" line="7084"/>
+        <location filename="../mainwindow.cpp" line="7085"/>
         <source>Off</source>
         <translation>Ki</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7178"/>
-        <location filename="../mainwindow.cpp" line="7187"/>
-        <location filename="../mainwindow.cpp" line="7197"/>
-        <location filename="../mainwindow.cpp" line="7208"/>
+        <location filename="../mainwindow.cpp" line="7179"/>
+        <location filename="../mainwindow.cpp" line="7188"/>
+        <location filename="../mainwindow.cpp" line="7198"/>
+        <location filename="../mainwindow.cpp" line="7209"/>
         <source>Load File</source>
         <translation>Fájlletöltés</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7179"/>
-        <location filename="../mainwindow.cpp" line="7188"/>
+        <location filename="../mainwindow.cpp" line="7180"/>
+        <location filename="../mainwindow.cpp" line="7189"/>
         <source>Failed to load file %1</source>
         <translation>A %1 fájl letöltése sikertelen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7198"/>
+        <location filename="../mainwindow.cpp" line="7199"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
         <translation>A %1 fájl nem kompatibilis a %2-vel</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7209"/>
+        <location filename="../mainwindow.cpp" line="7210"/>
         <source>Failed to extract host-information from %1</source>
         <translation>A host információ kinyerése a %1-ből sikertelen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7218"/>
+        <location filename="../mainwindow.cpp" line="7219"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7223"/>
+        <location filename="../mainwindow.cpp" line="7224"/>
         <source>Load %1 File</source>
         <translation>Töltse le a %1 fájlt</translation>
     </message>
@@ -4703,37 +4725,43 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="58"/>
-        <location filename="../onlineusersdlg.cpp" line="129"/>
+        <location filename="../onlineusersdlg.cpp" line="130"/>
+        <location filename="../onlineusersdlg.cpp" line="147"/>
         <source>&amp;View User Information</source>
         <translation>&amp;Felhasználói információ mutatása</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="58"/>
         <location filename="../onlineusersdlg.cpp" line="130"/>
+        <location filename="../onlineusersdlg.cpp" line="148"/>
         <source>Ctrl+I</source>
         <translation type="unfinished">Ctrl+I</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="59"/>
-        <location filename="../onlineusersdlg.cpp" line="131"/>
+        <location filename="../onlineusersdlg.cpp" line="132"/>
+        <location filename="../onlineusersdlg.cpp" line="149"/>
         <source>M&amp;essages</source>
         <translation>Ü&amp;zenetek</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="59"/>
         <location filename="../onlineusersdlg.cpp" line="132"/>
+        <location filename="../onlineusersdlg.cpp" line="150"/>
         <source>Ctrl+E</source>
         <translation type="unfinished">Ctrl+E</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="60"/>
-        <location filename="../onlineusersdlg.cpp" line="133"/>
+        <location filename="../onlineusersdlg.cpp" line="134"/>
+        <location filename="../onlineusersdlg.cpp" line="151"/>
         <source>&amp;Op</source>
         <translation>&amp;Op</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="60"/>
         <location filename="../onlineusersdlg.cpp" line="134"/>
+        <location filename="../onlineusersdlg.cpp" line="152"/>
         <source>Ctrl+O</source>
         <translation type="unfinished">Ctrl+O</translation>
     </message>
@@ -4744,6 +4772,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusersdlg.cpp" line="61"/>
         <location filename="../onlineusersdlg.cpp" line="136"/>
+        <location filename="../onlineusersdlg.cpp" line="154"/>
         <source>Ctrl+K</source>
         <translation type="unfinished">Ctrl+K</translation>
     </message>
@@ -4753,85 +4782,94 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="61"/>
-        <location filename="../onlineusersdlg.cpp" line="135"/>
+        <location filename="../onlineusersdlg.cpp" line="136"/>
+        <location filename="../onlineusersdlg.cpp" line="153"/>
         <source>&amp;Kick from Channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="62"/>
-        <location filename="../onlineusersdlg.cpp" line="137"/>
+        <location filename="../onlineusersdlg.cpp" line="138"/>
+        <location filename="../onlineusersdlg.cpp" line="155"/>
         <source>&amp;Kick from Server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="62"/>
         <location filename="../onlineusersdlg.cpp" line="138"/>
+        <location filename="../onlineusersdlg.cpp" line="156"/>
         <source>Ctrl+Alt+K</source>
         <translation type="unfinished">Ctrl+Alt+K</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="63"/>
         <location filename="../onlineusersdlg.cpp" line="140"/>
+        <location filename="../onlineusersdlg.cpp" line="158"/>
         <source>Ctrl+B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="63"/>
-        <location filename="../onlineusersdlg.cpp" line="139"/>
+        <location filename="../onlineusersdlg.cpp" line="140"/>
+        <location filename="../onlineusersdlg.cpp" line="157"/>
         <source>Kick and &amp;Ban from Channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="64"/>
-        <location filename="../onlineusersdlg.cpp" line="141"/>
+        <location filename="../onlineusersdlg.cpp" line="142"/>
+        <location filename="../onlineusersdlg.cpp" line="159"/>
         <source>Kick and &amp;Ban from Server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="64"/>
         <location filename="../onlineusersdlg.cpp" line="142"/>
+        <location filename="../onlineusersdlg.cpp" line="160"/>
         <source>Ctrl+Alt+B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="65"/>
-        <location filename="../onlineusersdlg.cpp" line="143"/>
+        <location filename="../onlineusersdlg.cpp" line="144"/>
+        <location filename="../onlineusersdlg.cpp" line="161"/>
         <source>Select User(s) for Move</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="65"/>
         <location filename="../onlineusersdlg.cpp" line="144"/>
+        <location filename="../onlineusersdlg.cpp" line="162"/>
         <source>Ctrl+Alt+X</source>
         <translation type="unfinished">Ctrl+Alt+X</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="145"/>
+        <location filename="../onlineusersdlg.cpp" line="164"/>
         <source>Sort By...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="146"/>
+        <location filename="../onlineusersdlg.cpp" line="165"/>
         <source>Ascending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="146"/>
+        <location filename="../onlineusersdlg.cpp" line="165"/>
         <source>Descending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="148"/>
+        <location filename="../onlineusersdlg.cpp" line="167"/>
         <source>&amp;Id (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="154"/>
+        <location filename="../onlineusersdlg.cpp" line="173"/>
         <source>&amp;Nickname (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="260"/>
+        <location filename="../onlineusersdlg.cpp" line="279"/>
         <source>Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7, ID: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4968,15 +5006,15 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="308"/>
-        <location filename="../preferences.ui" line="2436"/>
-        <location filename="../preferences.ui" line="2463"/>
-        <location filename="../preferences.ui" line="2490"/>
-        <location filename="../preferences.ui" line="2517"/>
-        <location filename="../preferences.ui" line="2544"/>
-        <location filename="../preferences.ui" line="2571"/>
-        <location filename="../preferences.ui" line="2598"/>
-        <location filename="../preferences.ui" line="2625"/>
-        <location filename="../preferences.ui" line="2652"/>
+        <location filename="../preferences.ui" line="2450"/>
+        <location filename="../preferences.ui" line="2477"/>
+        <location filename="../preferences.ui" line="2504"/>
+        <location filename="../preferences.ui" line="2531"/>
+        <location filename="../preferences.ui" line="2558"/>
+        <location filename="../preferences.ui" line="2585"/>
+        <location filename="../preferences.ui" line="2612"/>
+        <location filename="../preferences.ui" line="2639"/>
+        <location filename="../preferences.ui" line="2666"/>
         <source>&amp;Setup Keys</source>
         <translation>&amp;Billentyű beállítások</translation>
     </message>
@@ -5052,641 +5090,651 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="462"/>
-        <source>Show both server and channel name in window title</source>
+        <source>Show channel topic in channel list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="469"/>
+        <source>Show both server and channel name in window title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="476"/>
         <source>Popup dialog when receiving text message</source>
         <translation>Felugró ablak jelenjen meg szöveges üzenet vételekor </translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="476"/>
+        <location filename="../preferences.ui" line="483"/>
         <source>Start video in popup dialog</source>
         <translation>Video indulás felugró ablakban</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="513"/>
+        <location filename="../preferences.ui" line="520"/>
         <source>Start desktops in popup dialog</source>
         <translation>Asztalok indulása felugró ablakban</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="520"/>
+        <location filename="../preferences.ui" line="527"/>
         <source>Timestamp text messages</source>
         <translation>Timestamp szöveges üzenetek</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="582"/>
+        <location filename="../preferences.ui" line="589"/>
         <source>Show dialog box with server&apos;s message of the day</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="598"/>
+        <location filename="../preferences.ui" line="605"/>
         <source>Show statusbar events in chat-window</source>
         <translation>A státuszbar eseményt jelenítse meg a csevegő ablakban</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="635"/>
+        <location filename="../preferences.ui" line="642"/>
         <source>Show source in corner of video window</source>
         <translation>Mutassa a forrást a video ablak sarkában</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="669"/>
+        <location filename="../preferences.ui" line="676"/>
         <source>Maximum text length in channel list</source>
         <translation>Maximális szöveghossz a csatorna listában</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="765"/>
+        <location filename="../preferences.ui" line="772"/>
         <source>Connection</source>
         <translation>Csatlakozás</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="771"/>
+        <location filename="../preferences.ui" line="778"/>
         <source>Client Connection</source>
         <translation>Ügyfél kapcsolat</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="777"/>
+        <location filename="../preferences.ui" line="784"/>
         <source>Connect to latest host on startup</source>
         <translation>Indításkor kapcsoljon vissza az utolsó hosthoz</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="784"/>
+        <location filename="../preferences.ui" line="791"/>
         <source>Reconnect on connection dropped</source>
         <translation>Csatlakozzon újra a csatlakozás elvesztése után</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="791"/>
+        <location filename="../preferences.ui" line="798"/>
         <source>Join root channel upon connection</source>
         <translation>Csatlakozáskor a szerver alapcsatornájához csatlakozzon</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="798"/>
+        <location filename="../preferences.ui" line="805"/>
         <source>Query server&apos;s maximum payload upon connection</source>
         <translation>Kérdezze le a szerver maximális terhelhetőségét csatlakozáskor</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="805"/>
+        <location filename="../preferences.ui" line="812"/>
         <source>Add application to Windows Firewall exceptions list</source>
         <translation>Add az alkalmazást a Windows tűzfal kivételek listájához</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="812"/>
-        <location filename="../preferences.ui" line="815"/>
+        <location filename="../preferences.ui" line="819"/>
+        <location filename="../preferences.ui" line="822"/>
         <source>Default Subscriptions upon Connection</source>
         <translation>Alapértelmezett előfizetői tulajdonságok csatlakozáskor</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="823"/>
+        <location filename="../preferences.ui" line="830"/>
         <source>User Messages</source>
         <translation>Felhasználói üzenetek</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="830"/>
+        <location filename="../preferences.ui" line="837"/>
         <source>Channel Messages</source>
         <translation>Csatorna üzenetek</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="837"/>
+        <location filename="../preferences.ui" line="844"/>
         <source>Broadcast Messages</source>
         <translation>Üzenetek közzététele</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="844"/>
-        <location filename="../preferences.ui" line="2254"/>
+        <location filename="../preferences.ui" line="851"/>
+        <location filename="../preferences.ui" line="2261"/>
         <source>Voice</source>
         <translation>Hang</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="851"/>
-        <location filename="../preferences.ui" line="2681"/>
+        <location filename="../preferences.ui" line="858"/>
+        <location filename="../preferences.ui" line="2695"/>
         <source>Video Capture</source>
         <translation>Videorögzítő</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="858"/>
+        <location filename="../preferences.ui" line="865"/>
         <source>Desktop</source>
         <translation>Asztal</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="870"/>
+        <location filename="../preferences.ui" line="877"/>
         <source>Desktop Access</source>
         <translation>Asztali hozzáférés</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="892"/>
+        <location filename="../preferences.ui" line="899"/>
         <source>Media Files</source>
         <translation>Médiafájlok</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="917"/>
-        <location filename="../preferences.ui" line="920"/>
+        <location filename="../preferences.ui" line="924"/>
+        <location filename="../preferences.ui" line="927"/>
         <source>Local Socket Settings</source>
         <translation>Helyi foglalat (socket) beállítások</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="926"/>
+        <location filename="../preferences.ui" line="933"/>
         <source>TCP port</source>
         <translation>TCP port</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="936"/>
-        <location filename="../preferences.ui" line="953"/>
+        <location filename="../preferences.ui" line="943"/>
+        <location filename="../preferences.ui" line="960"/>
         <source>Default: 0</source>
         <translation>Alapértelmezett:0</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="943"/>
+        <location filename="../preferences.ui" line="950"/>
         <source>UDP port</source>
         <translation>UDP port</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1026"/>
-        <location filename="../preferencesdlg.cpp" line="1014"/>
+        <location filename="../preferences.ui" line="1033"/>
+        <location filename="../preferencesdlg.cpp" line="1016"/>
         <source>Sound System</source>
         <translation>Hangrendszer</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1032"/>
+        <location filename="../preferences.ui" line="1039"/>
         <source>Sound System Settings</source>
         <translation>Hangrendszer beállítások</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1053"/>
+        <location filename="../preferences.ui" line="1060"/>
         <source>Windows Audio Session</source>
         <translation>Windows Audio Session</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1060"/>
+        <location filename="../preferences.ui" line="1067"/>
         <source>DirectSound</source>
         <translation>DirectSound</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1067"/>
+        <location filename="../preferences.ui" line="1074"/>
         <source>Windows Standard</source>
         <translation>Windows Standard</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1074"/>
+        <location filename="../preferences.ui" line="1081"/>
         <source>ALSA</source>
         <translation>ALSA</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1081"/>
+        <location filename="../preferences.ui" line="1088"/>
         <source>CoreAudio</source>
         <translation>CoreAudio</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1088"/>
+        <location filename="../preferences.ui" line="1095"/>
         <source>PulseAudio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1112"/>
+        <location filename="../preferences.ui" line="1119"/>
         <source>Input device</source>
         <translation>Bemeneti eszköz</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1158"/>
+        <location filename="../preferences.ui" line="1165"/>
         <source>Output device</source>
         <translation>Kimeneti eszköz</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1125"/>
-        <location filename="../preferences.ui" line="1171"/>
+        <location filename="../preferences.ui" line="1132"/>
+        <location filename="../preferences.ui" line="1178"/>
         <source>Refresh devices</source>
         <translation>Eszközök frissítése</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1218"/>
+        <location filename="../preferences.ui" line="1225"/>
         <source>&amp;Test Selected</source>
         <translation>Kiválasztott &amp;Test</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1243"/>
+        <location filename="../preferences.ui" line="1250"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
         <translation>Visszhangelnyomás engedélyezése (a visszhang eltávolítása a hangszórókból)</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1250"/>
+        <location filename="../preferences.ui" line="1257"/>
         <source>Enable automatic gain control (microphone level adjusted automatically)</source>
         <translation>Automatikus erősítésszabályozás engedélyezése (a mikrofon szintjének automatikus állítása)</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1257"/>
+        <location filename="../preferences.ui" line="1264"/>
         <source>Enable denoising (suppress noise from microphone)</source>
         <translation>A zajcsökkentés engedélyezése (elnyomja a mikrofon zaját)</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1266"/>
+        <location filename="../preferences.ui" line="1273"/>
         <source>Media file vs. voice volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1303"/>
-        <location filename="../preferences.ui" line="2971"/>
+        <location filename="../preferences.ui" line="1310"/>
+        <location filename="../preferences.ui" line="2985"/>
         <source>&amp;Default</source>
         <translation>&amp;Alapértelmezett</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1329"/>
-        <location filename="../preferences.ui" line="1335"/>
+        <location filename="../preferences.ui" line="1336"/>
+        <location filename="../preferences.ui" line="1342"/>
         <source>Sound Events</source>
         <translation>Hangesemények</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1588"/>
+        <location filename="../preferences.ui" line="1595"/>
         <source>New broadcast message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1421"/>
+        <location filename="../preferences.ui" line="1428"/>
         <source>New user</source>
         <translation>Új felhasználó</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="724"/>
+        <location filename="../preferences.ui" line="731"/>
         <source>Show new version available in dialog box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="605"/>
+        <location filename="../preferences.ui" line="612"/>
         <source>Configure events</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="589"/>
+        <location filename="../preferences.ui" line="596"/>
         <source>Show dialog box with server list on startup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="642"/>
+        <location filename="../preferences.ui" line="649"/>
         <source>Video window settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="880"/>
+        <location filename="../preferences.ui" line="887"/>
         <source>Configure trusted list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1402"/>
+        <location filename="../preferences.ui" line="1409"/>
         <source>Playback mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1440"/>
-        <location filename="../preferences.ui" line="1463"/>
-        <location filename="../preferences.ui" line="1486"/>
-        <location filename="../preferences.ui" line="1509"/>
-        <location filename="../preferences.ui" line="1532"/>
-        <location filename="../preferences.ui" line="1555"/>
-        <location filename="../preferences.ui" line="1578"/>
-        <location filename="../preferences.ui" line="1601"/>
-        <location filename="../preferences.ui" line="1624"/>
-        <location filename="../preferences.ui" line="1647"/>
-        <location filename="../preferences.ui" line="1670"/>
-        <location filename="../preferences.ui" line="1693"/>
-        <location filename="../preferences.ui" line="1716"/>
-        <location filename="../preferences.ui" line="1739"/>
-        <location filename="../preferences.ui" line="1762"/>
-        <location filename="../preferences.ui" line="1789"/>
-        <location filename="../preferences.ui" line="1812"/>
-        <location filename="../preferences.ui" line="1835"/>
-        <location filename="../preferences.ui" line="1858"/>
-        <location filename="../preferences.ui" line="1881"/>
-        <location filename="../preferences.ui" line="1904"/>
-        <location filename="../preferences.ui" line="1927"/>
-        <location filename="../preferences.ui" line="1950"/>
-        <location filename="../preferences.ui" line="1973"/>
-        <location filename="../preferences.ui" line="1996"/>
-        <location filename="../preferences.ui" line="2019"/>
-        <location filename="../preferences.ui" line="2042"/>
-        <location filename="../preferences.ui" line="2065"/>
-        <location filename="../preferences.ui" line="2088"/>
-        <location filename="../preferences.ui" line="2111"/>
+        <location filename="../preferences.ui" line="1447"/>
+        <location filename="../preferences.ui" line="1470"/>
+        <location filename="../preferences.ui" line="1493"/>
+        <location filename="../preferences.ui" line="1516"/>
+        <location filename="../preferences.ui" line="1539"/>
+        <location filename="../preferences.ui" line="1562"/>
+        <location filename="../preferences.ui" line="1585"/>
+        <location filename="../preferences.ui" line="1608"/>
+        <location filename="../preferences.ui" line="1631"/>
+        <location filename="../preferences.ui" line="1654"/>
+        <location filename="../preferences.ui" line="1677"/>
+        <location filename="../preferences.ui" line="1700"/>
+        <location filename="../preferences.ui" line="1723"/>
+        <location filename="../preferences.ui" line="1746"/>
+        <location filename="../preferences.ui" line="1769"/>
+        <location filename="../preferences.ui" line="1796"/>
+        <location filename="../preferences.ui" line="1819"/>
+        <location filename="../preferences.ui" line="1842"/>
+        <location filename="../preferences.ui" line="1865"/>
+        <location filename="../preferences.ui" line="1888"/>
+        <location filename="../preferences.ui" line="1911"/>
+        <location filename="../preferences.ui" line="1934"/>
+        <location filename="../preferences.ui" line="1957"/>
+        <location filename="../preferences.ui" line="1980"/>
+        <location filename="../preferences.ui" line="2003"/>
+        <location filename="../preferences.ui" line="2026"/>
+        <location filename="../preferences.ui" line="2049"/>
+        <location filename="../preferences.ui" line="2072"/>
+        <location filename="../preferences.ui" line="2095"/>
+        <location filename="../preferences.ui" line="2118"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1450"/>
+        <location filename="../preferences.ui" line="1457"/>
         <source>User removed</source>
         <translation>A felhasználó eltávolítva</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1473"/>
+        <location filename="../preferences.ui" line="1480"/>
         <source>Server lost</source>
         <translation>A szerver elveszett</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1496"/>
+        <location filename="../preferences.ui" line="1503"/>
         <source>New user message</source>
         <translation>Új felhasználói üzenet</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1519"/>
+        <location filename="../preferences.ui" line="1526"/>
         <source>Private message sent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1542"/>
+        <location filename="../preferences.ui" line="1549"/>
         <source>New channel message</source>
         <translation>Új csatorna üzenet</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1565"/>
+        <location filename="../preferences.ui" line="1572"/>
         <source>Channel message sent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1611"/>
+        <location filename="../preferences.ui" line="1618"/>
         <source>Hotkey pressed</source>
         <translation>Gyorsbillentyű megnyomva</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1634"/>
+        <location filename="../preferences.ui" line="1641"/>
         <source>Channel silent</source>
         <translation>Csatorna csendes</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1657"/>
+        <location filename="../preferences.ui" line="1664"/>
         <source>Files updated</source>
         <translation>Fájlok frissítve</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1680"/>
+        <location filename="../preferences.ui" line="1687"/>
         <source>File transfer complete</source>
         <translation>A fájlátvitel befejeződött</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1703"/>
+        <location filename="../preferences.ui" line="1710"/>
         <source>New video session</source>
         <translation>Új video munkamenet</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1726"/>
+        <location filename="../preferences.ui" line="1733"/>
         <source>New desktop session</source>
         <translation>Új asztali munkamenet</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1749"/>
+        <location filename="../preferences.ui" line="1756"/>
         <source>Intercepted by another user</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1776"/>
+        <location filename="../preferences.ui" line="1783"/>
         <source>Finish intercepted by another user</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1799"/>
+        <location filename="../preferences.ui" line="1806"/>
         <source>User entered question-mode</source>
         <translation>A felhasználó által megadott kérdés-mód</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1822"/>
+        <location filename="../preferences.ui" line="1829"/>
         <source>Desktop access request</source>
         <translation>Asztali hozzáférés kérése</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1845"/>
+        <location filename="../preferences.ui" line="1852"/>
         <source>User logged in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1868"/>
+        <location filename="../preferences.ui" line="1875"/>
         <source>User logged out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1891"/>
+        <location filename="../preferences.ui" line="1898"/>
         <source>Voice activation enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1914"/>
+        <location filename="../preferences.ui" line="1921"/>
         <source>Voice activation disabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1937"/>
+        <location filename="../preferences.ui" line="1944"/>
         <source>Mute master volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1960"/>
+        <location filename="../preferences.ui" line="1967"/>
         <source>Unmute master volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1983"/>
+        <location filename="../preferences.ui" line="1990"/>
         <source>Transmit ready in &quot;No interruption&quot; channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2006"/>
+        <location filename="../preferences.ui" line="2013"/>
         <source>Transmit stopped in &quot;No interruption&quot; channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2029"/>
+        <location filename="../preferences.ui" line="2036"/>
         <source>Voice activation triggered</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2052"/>
+        <location filename="../preferences.ui" line="2059"/>
         <source>Voice activation stopped</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2075"/>
+        <location filename="../preferences.ui" line="2082"/>
         <source>Voice activation enabled via &quot;Me&quot; menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2098"/>
+        <location filename="../preferences.ui" line="2105"/>
         <source>Voice activation disabled via &quot;Me&quot; menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2142"/>
+        <location filename="../preferences.ui" line="2149"/>
         <source>Text To Speech</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2148"/>
+        <location filename="../preferences.ui" line="2155"/>
         <source>Enable/disable Text to Speech Events</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2178"/>
+        <location filename="../preferences.ui" line="2185"/>
         <source>Enable &amp;all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2198"/>
+        <location filename="../preferences.ui" line="2205"/>
         <source>C&amp;lear all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2218"/>
+        <location filename="../preferences.ui" line="2225"/>
         <source>&amp;Revert</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2230"/>
+        <location filename="../preferences.ui" line="2237"/>
         <source>Text to Speech Preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2293"/>
+        <location filename="../preferences.ui" line="2300"/>
         <source>Text to Speech Engine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2241"/>
+        <location filename="../preferences.ui" line="2248"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2267"/>
+        <location filename="../preferences.ui" line="2274"/>
         <source>Voice rate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2303"/>
+        <location filename="../preferences.ui" line="2310"/>
         <source>Voice volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2329"/>
+        <location filename="../preferences.ui" line="2336"/>
         <source>Display duration of notifications</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2352"/>
+        <location filename="../preferences.ui" line="2359"/>
         <source>Text to Speech output mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2372"/>
+        <location filename="../preferences.ui" line="2379"/>
         <source>Use SAPI instead of current screenreader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2379"/>
+        <location filename="../preferences.ui" line="2386"/>
         <source>Switch to SAPI if current screenreader is not available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2405"/>
+        <location filename="../preferences.ui" line="2393"/>
+        <source>Announce server name for server events</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="2419"/>
         <source>Shortcuts</source>
         <translation>Hivatkozások</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2411"/>
+        <location filename="../preferences.ui" line="2425"/>
         <source>Keyboard Shortcuts</source>
         <translation>Billentyűparancsok</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2419"/>
+        <location filename="../preferences.ui" line="2433"/>
         <source>Enable/disable voice activation</source>
         <translation>Hang aktiválás (Hangvezérlés) engedélyezése/tiltása</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2446"/>
+        <location filename="../preferences.ui" line="2460"/>
         <source>Increase volume</source>
         <translation>Hangerő növelése</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2473"/>
+        <location filename="../preferences.ui" line="2487"/>
         <source>Lower volume</source>
         <translation>Hangerő csökkentése</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2500"/>
+        <location filename="../preferences.ui" line="2514"/>
         <source>Enable/disable mute all</source>
         <translation>Mindenki elnémításának engedélyezése/tiltása</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2527"/>
+        <location filename="../preferences.ui" line="2541"/>
         <source>Increase microphone gain</source>
         <translation>Mirofonerősítés növelése</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2554"/>
+        <location filename="../preferences.ui" line="2568"/>
         <source>Lower microphone gain</source>
         <translation>Mikrofonerősítés csökkentése</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2581"/>
+        <location filename="../preferences.ui" line="2595"/>
         <source>Enable/disable video transmission</source>
         <translation>Video átvitel engedélyezése/tiltása</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2635"/>
+        <location filename="../preferences.ui" line="2649"/>
         <source>Show/hide main window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2687"/>
+        <location filename="../preferences.ui" line="2701"/>
         <source>Video Capture Settings</source>
         <translation>A video rögzítés beállításai</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2693"/>
+        <location filename="../preferences.ui" line="2707"/>
         <source>Video Capture Device</source>
         <translation>Videorögzítő eszköz</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2713"/>
+        <location filename="../preferences.ui" line="2727"/>
         <source>Video Resolution</source>
         <translation>Video felbontás</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2728"/>
+        <location filename="../preferences.ui" line="2742"/>
         <source>Customize video format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2742"/>
+        <location filename="../preferences.ui" line="2756"/>
         <source>Image Format</source>
         <translation>Kép formátum</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2752"/>
+        <location filename="../preferences.ui" line="2766"/>
         <source>RGB32</source>
         <translation>RGB32</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2759"/>
+        <location filename="../preferences.ui" line="2773"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2766"/>
+        <location filename="../preferences.ui" line="2780"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2790"/>
-        <location filename="../preferencesdlg.cpp" line="1363"/>
+        <location filename="../preferences.ui" line="2804"/>
+        <location filename="../preferencesdlg.cpp" line="1366"/>
         <source>Test Selected</source>
         <translation>Kiválasztott Test</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2818"/>
-        <location filename="../preferences.ui" line="2821"/>
+        <location filename="../preferences.ui" line="2832"/>
+        <location filename="../preferences.ui" line="2835"/>
         <source>Video Codec Settings</source>
         <translation>Video kodek beállítások</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2829"/>
+        <location filename="../preferences.ui" line="2843"/>
         <source>Codec</source>
         <translation>Kodek</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2885"/>
+        <location filename="../preferences.ui" line="2899"/>
         <source>Bitrate</source>
         <translation>Bitsebesség</translation>
     </message>
@@ -5762,51 +5810,51 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="671"/>
+        <location filename="../preferencesdlg.cpp" line="672"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="618"/>
-        <location filename="../preferencesdlg.cpp" line="631"/>
-        <location filename="../preferencesdlg.cpp" line="673"/>
+        <location filename="../preferencesdlg.cpp" line="619"/>
+        <location filename="../preferencesdlg.cpp" line="632"/>
+        <location filename="../preferencesdlg.cpp" line="674"/>
         <source>Default</source>
         <translation type="unfinished">Alapértelmezett</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="676"/>
+        <location filename="../preferencesdlg.cpp" line="677"/>
         <source>Tolk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="679"/>
+        <location filename="../preferencesdlg.cpp" line="680"/>
         <source>Libnotify</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="898"/>
-        <location filename="../preferencesdlg.cpp" line="905"/>
+        <location filename="../preferencesdlg.cpp" line="900"/>
+        <location filename="../preferencesdlg.cpp" line="907"/>
         <source>Windows Firewall</source>
         <translation>Windows tűzfal</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="899"/>
+        <location filename="../preferencesdlg.cpp" line="901"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
         <translation>%1 hozzáadása a Windows tűzfal kivételek listájához sikertelen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="906"/>
+        <location filename="../preferencesdlg.cpp" line="908"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
         <translation>%1 eltávolítása a Windows tűzfal kivételek listájáról sikertelen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1381"/>
+        <location filename="../preferencesdlg.cpp" line="1384"/>
         <source>Sound Initialization</source>
         <translation>Hang indítása</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1142"/>
-        <location filename="../preferencesdlg.cpp" line="1175"/>
+        <location filename="../preferencesdlg.cpp" line="1144"/>
+        <location filename="../preferencesdlg.cpp" line="1178"/>
         <source>Video Device</source>
         <translation>Video eszköz</translation>
     </message>
@@ -5816,95 +5864,95 @@ Should these settings be applied?</source>
         <translation type="unfinished">Ügyfél beállítások</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="632"/>
+        <location filename="../preferencesdlg.cpp" line="633"/>
         <source>One by One (TeamTalk Sound Device)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="633"/>
+        <location filename="../preferencesdlg.cpp" line="634"/>
         <source>Overlapping (TeamTalk Sound Device)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1143"/>
-        <location filename="../preferencesdlg.cpp" line="1176"/>
-        <location filename="../preferencesdlg.cpp" line="1872"/>
+        <location filename="../preferencesdlg.cpp" line="1145"/>
+        <location filename="../preferencesdlg.cpp" line="1179"/>
+        <location filename="../preferencesdlg.cpp" line="1876"/>
         <source>Failed to initialize video device</source>
         <translation>A video eszköz indítása sikertelen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1267"/>
+        <location filename="../preferencesdlg.cpp" line="1270"/>
         <source>Max Input Channels %1</source>
         <translation>Maximális bejövő csatorna %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1269"/>
-        <location filename="../preferencesdlg.cpp" line="1293"/>
+        <location filename="../preferencesdlg.cpp" line="1272"/>
+        <location filename="../preferencesdlg.cpp" line="1296"/>
         <source>Sample Rates:</source>
         <translation>Mintavételi sebesség:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1291"/>
+        <location filename="../preferencesdlg.cpp" line="1294"/>
         <source>Max Output Channels %1</source>
         <translation>Maximális kimenő csatorna %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1322"/>
+        <location filename="../preferencesdlg.cpp" line="1325"/>
         <source>Refresh Sound Devices</source>
         <translation>Hangeszközök frissítése</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1323"/>
+        <location filename="../preferencesdlg.cpp" line="1326"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>Hangrendszer újraindítása sikertelen. Kérjük indítsa újra  az alkalmazást.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1364"/>
+        <location filename="../preferencesdlg.cpp" line="1367"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1382"/>
+        <location filename="../preferencesdlg.cpp" line="1385"/>
         <source>Failed to initialize new sound devices</source>
         <translation>Az új hangeszköz indítása sikertelen</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1718"/>
+        <location filename="../preferencesdlg.cpp" line="1721"/>
         <source>Use SAPI instead of %1 screenreader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1719"/>
+        <location filename="../preferencesdlg.cpp" line="1722"/>
         <source>Switch to SAPI if %1 screenreader is not available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1725"/>
+        <location filename="../preferencesdlg.cpp" line="1728"/>
         <source>Speech and Braille</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1727"/>
+        <location filename="../preferencesdlg.cpp" line="1730"/>
         <source>Braille only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1729"/>
+        <location filename="../preferencesdlg.cpp" line="1732"/>
         <source>Speech only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1831"/>
+        <location filename="../preferencesdlg.cpp" line="1835"/>
         <source>Custom video format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1924"/>
+        <location filename="../preferencesdlg.cpp" line="1928"/>
         <source>Default Video Capture</source>
         <translation>Alapértelmezett Videorögzítő</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1925"/>
+        <location filename="../preferencesdlg.cpp" line="1929"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Nem találhatóak a preferált videó rögzítési beállítások</translation>
     </message>
@@ -5919,57 +5967,57 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="527"/>
+        <location filename="../preferences.ui" line="534"/>
         <source>Auto expand channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="536"/>
+        <location filename="../preferences.ui" line="543"/>
         <source>Double click on a channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="553"/>
+        <location filename="../preferences.ui" line="560"/>
         <source>Sort channels by</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="568"/>
+        <location filename="../preferences.ui" line="575"/>
         <source>Close dialog box when a file transfer is finished</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="575"/>
+        <location filename="../preferences.ui" line="582"/>
         <source>Show dialog box when excluded from channel or server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="710"/>
+        <location filename="../preferences.ui" line="717"/>
         <source>Check for software updates on startup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="717"/>
+        <location filename="../preferences.ui" line="724"/>
         <source>Check for beta software updates on startup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1343"/>
+        <location filename="../preferences.ui" line="1350"/>
         <source>Sound pack</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1369"/>
+        <location filename="../preferences.ui" line="1376"/>
         <source>Sound event volume level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2365"/>
+        <location filename="../preferences.ui" line="2372"/>
         <source>Speak selected item in lists</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2608"/>
+        <location filename="../preferences.ui" line="2622"/>
         <source>Reinitialize sound devices</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7719,8 +7767,8 @@ Delete the published user account to unregister your server.</source>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="451"/>
-        <location filename="../useraccountsdlg.cpp" line="488"/>
-        <location filename="../useraccountsdlg.cpp" line="497"/>
+        <location filename="../useraccountsdlg.cpp" line="489"/>
+        <location filename="../useraccountsdlg.cpp" line="498"/>
         <source>Limit issued commands</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7751,130 +7799,130 @@ Delete the published user account to unregister your server.</source>
         <translation>Be&amp;zárás</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="92"/>
+        <location filename="../useraccountsdlg.cpp" line="93"/>
         <source>Disabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="93"/>
+        <location filename="../useraccountsdlg.cpp" line="94"/>
         <source>10 commands in 10 sec.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="94"/>
+        <location filename="../useraccountsdlg.cpp" line="95"/>
         <source>10 commands in 1 minute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="95"/>
+        <location filename="../useraccountsdlg.cpp" line="96"/>
         <source>60 commands in 1 minute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="96"/>
+        <location filename="../useraccountsdlg.cpp" line="97"/>
         <source>Custom specified</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../useraccountsdlg.cpp" line="322"/>
-        <location filename="../useraccountsdlg.cpp" line="374"/>
-        <source>&amp;Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="323"/>
         <location filename="../useraccountsdlg.cpp" line="375"/>
+        <source>&amp;Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../useraccountsdlg.cpp" line="324"/>
+        <location filename="../useraccountsdlg.cpp" line="376"/>
         <source>&amp;No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="326"/>
+        <location filename="../useraccountsdlg.cpp" line="327"/>
         <source>Add/Update</source>
         <translation>Hozzáadás/Frissítés</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="535"/>
+        <location filename="../useraccountsdlg.cpp" line="536"/>
         <source>Sort By...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="536"/>
+        <location filename="../useraccountsdlg.cpp" line="537"/>
         <source>Ascending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="536"/>
+        <location filename="../useraccountsdlg.cpp" line="537"/>
         <source>Descending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="538"/>
+        <location filename="../useraccountsdlg.cpp" line="539"/>
         <source>&amp;Username (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="544"/>
+        <location filename="../useraccountsdlg.cpp" line="545"/>
         <source>User &amp;Type (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="550"/>
+        <location filename="../useraccountsdlg.cpp" line="551"/>
         <source>&amp;Channel (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="556"/>
+        <location filename="../useraccountsdlg.cpp" line="557"/>
         <source>&amp;Modified (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="561"/>
+        <location filename="../useraccountsdlg.cpp" line="562"/>
         <source>&amp;Delete Selected User</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="321"/>
+        <location filename="../useraccountsdlg.cpp" line="322"/>
         <source>Create anonymous user account?</source>
         <translation>Hozzon létre névtelen (anonymous) felhasználói fiókot?</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="373"/>
+        <location filename="../useraccountsdlg.cpp" line="374"/>
         <source>Are you sure you want to delete user &quot;%1&quot;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="378"/>
+        <location filename="../useraccountsdlg.cpp" line="379"/>
         <source>Delete user</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="484"/>
+        <location filename="../useraccountsdlg.cpp" line="485"/>
         <source>&amp;OK</source>
         <translation type="unfinished">&amp;Rendben</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="485"/>
+        <location filename="../useraccountsdlg.cpp" line="486"/>
         <source>&amp;Cancel</source>
         <translation type="unfinished">&amp;Mégse</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="489"/>
+        <location filename="../useraccountsdlg.cpp" line="490"/>
         <source>Number of commands to allow (0 = disabled)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="498"/>
+        <location filename="../useraccountsdlg.cpp" line="499"/>
         <source>Timeframe to allow %1 commands (in seconds)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="272"/>
-        <location filename="../useraccountsdlg.cpp" line="437"/>
+        <location filename="../useraccountsdlg.cpp" line="438"/>
         <source>Channel Operator</source>
         <translation>Csatorna operátor</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="438"/>
+        <location filename="../useraccountsdlg.cpp" line="439"/>
         <source>The maximum number of channels where a user can automatically become channel operator is %1.</source>
         <translation>Maximális csatornaszám, ahol a felhasználó automatikusan csatornaoperátorrá válhat az %1.</translation>
     </message>
@@ -8154,134 +8202,134 @@ Delete the published user account to unregister your server.</source>
 <context>
     <name>UserRightsModel</name>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="198"/>
+        <location filename="../useraccountsmodel.cpp" line="209"/>
         <source>User can log in multiple times</source>
         <translation type="unfinished">A felhasználó többször is bejelentkezhet</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="200"/>
+        <location filename="../useraccountsmodel.cpp" line="211"/>
         <source>User can see users in all channels</source>
         <translation type="unfinished">A felhasználó láthatja a felhasználókat az összes csatornában</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="202"/>
+        <location filename="../useraccountsmodel.cpp" line="213"/>
         <source>User can see hidden channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="204"/>
+        <location filename="../useraccountsmodel.cpp" line="215"/>
         <source>User can create/modify all channels</source>
         <translation type="unfinished">A felhasználó létrehozhat/módosíthat minden csatornát</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="206"/>
+        <location filename="../useraccountsmodel.cpp" line="217"/>
         <source>User can create temporary channels</source>
         <translation type="unfinished">A felhasználó létrehozhat ideiglenes csatornákat</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="208"/>
+        <location filename="../useraccountsmodel.cpp" line="219"/>
         <source>User can broadcast text messages</source>
         <translation type="unfinished">A felhasználó közzétehet szöveges üzeneteket</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="210"/>
+        <location filename="../useraccountsmodel.cpp" line="221"/>
         <source>User can kick users off the server</source>
         <translation type="unfinished">A felhasználó eltávolíthat felhasználókat a szerverről</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="212"/>
+        <location filename="../useraccountsmodel.cpp" line="223"/>
         <source>User can ban users from server</source>
         <translation type="unfinished">A felhasználó le tud tiltani felhasználókat a szerverről</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="214"/>
+        <location filename="../useraccountsmodel.cpp" line="225"/>
         <source>User can move users between channels</source>
         <translation type="unfinished">A felhasználó mozgathat felhasználókat a csatornák között</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="216"/>
+        <location filename="../useraccountsmodel.cpp" line="227"/>
         <source>User can make other users channel operator</source>
         <translation type="unfinished">A felhasználó meghatározhat más csatornakezelőt</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="218"/>
+        <location filename="../useraccountsmodel.cpp" line="229"/>
         <source>User can upload files</source>
         <translation type="unfinished">A felhasználó feltölthet fájlokat</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="220"/>
+        <location filename="../useraccountsmodel.cpp" line="231"/>
         <source>User can download files</source>
         <translation type="unfinished">A felhasználó letölthet fájlokat</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="222"/>
+        <location filename="../useraccountsmodel.cpp" line="233"/>
         <source>User can record voice in all channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="224"/>
+        <location filename="../useraccountsmodel.cpp" line="235"/>
         <source>User can update server properties</source>
         <translation type="unfinished">A felhasználó frissítheti a szerver tulajdonságait</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="226"/>
+        <location filename="../useraccountsmodel.cpp" line="237"/>
         <source>User can transmit voice data (microphone)</source>
         <translation type="unfinished">A felhasználó továbbíthat hangcsatornát (mikrofon)</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="228"/>
+        <location filename="../useraccountsmodel.cpp" line="239"/>
         <source>User can transmit video data (webcam)</source>
         <translation type="unfinished">A felhasználó továbbíthat video adatokat (Webkamera)</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="230"/>
+        <location filename="../useraccountsmodel.cpp" line="241"/>
         <source>User can transmit desktop sessions (shared desktop)</source>
         <translation type="unfinished">A felhasználó továbbíthat asztali minkameneteket (megosztott asztalokat)</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="232"/>
+        <location filename="../useraccountsmodel.cpp" line="243"/>
         <source>User can get remote access to desktop sessions</source>
         <translation type="unfinished">A felhasználó hozzáférést nyerhet távoli asztali munkamenethez</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="234"/>
+        <location filename="../useraccountsmodel.cpp" line="245"/>
         <source>User can transmit audio files (wav, mp3 files)</source>
         <translation type="unfinished">A felhasználó továbbíthat hangfájlokat (wav, mp3 fájlok)</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="236"/>
+        <location filename="../useraccountsmodel.cpp" line="247"/>
         <source>User can transmit video files (avi, mp4 files)</source>
         <translation type="unfinished">A felhasználó továbbíthat videofájlokat (avi, mp4 fájlokat)</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="242"/>
+        <location filename="../useraccountsmodel.cpp" line="253"/>
         <source>User can send private text messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="244"/>
+        <location filename="../useraccountsmodel.cpp" line="255"/>
         <source>User can send channel text messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="246"/>
+        <location filename="../useraccountsmodel.cpp" line="257"/>
         <source>User can change nickname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="248"/>
+        <location filename="../useraccountsmodel.cpp" line="259"/>
         <source>User can change status mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="257"/>
-        <location filename="../useraccountsmodel.cpp" line="259"/>
+        <location filename="../useraccountsmodel.cpp" line="268"/>
+        <location filename="../useraccountsmodel.cpp" line="270"/>
         <source>Enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="257"/>
-        <location filename="../useraccountsmodel.cpp" line="259"/>
+        <location filename="../useraccountsmodel.cpp" line="268"/>
+        <location filename="../useraccountsmodel.cpp" line="270"/>
         <source>Disabled</source>
         <translation type="unfinished"></translation>
     </message>
