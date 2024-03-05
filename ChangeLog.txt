@@ -11,11 +11,13 @@ Default Qt Client
 - Option to show channel topic in channel list
 - Fixed "Gender" property not being saved in .tt files
 - Fixed sort by size on file list
+- OPUS codec updated to v1.5.1
 Android Client
 - Navigating back returns to Channels-tab prior to disconnecting
 - User menu action to grant/revoke channel operator
+- OPUS codec updated to v1.5.1
 iOS Client
--
+- OPUS codec updated to v1.5.1
 Server
 -
 
