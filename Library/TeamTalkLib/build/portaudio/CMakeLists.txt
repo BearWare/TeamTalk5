@@ -122,4 +122,67 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     target_link_libraries(portaudio INTERFACE ${ASOUND_LIBRARY} ${PULSE_LIBRARY})
   endif()
 
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
+
+    set (PA_OBOE_CFG_FLAGS -DCMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME}
+      -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+      -DANDROID_ABI=${ANDROID_ABI} -DANDROID_PLATFORM=${ANDROID_PLATFORM}
+      -DCMAKE_POSITION_INDEPENDENT_CODE=ON )
+
+    ExternalProject_Add(oboe-src
+      GIT_REPOSITORY    https://github.com/google/oboe
+      GIT_TAG           1.8.1
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/oboe
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/oboe
+      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ${PA_OBOE_CFG_FLAGS}
+      BUILD_COMMAND     ${CMAKE_COMMAND} --build .
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${ANDROID_ABI}/liboboe.a
+      )
+    ExternalProject_Get_Property(oboe-src SOURCE_DIR)
+    set (OBOE_SOURCE_DIR ${SOURCE_DIR})
+    ExternalProject_Get_Property(oboe-src INSTALL_DIR)
+    set (OBOE_INSTALL_DIR ${INSTALL_DIR})
+
+    ExternalProject_Add(portaudio-src
+      GIT_REPOSITORY    https://github.com/bear101/portaudio
+      GIT_TAG           portaudio_oboe_squash
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/portaudio
+      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DPA_USE_OBOE=ON
+                        -DPA_BUILD_SHARED_LIBS=OFF
+                        -DOBOE_DIRECTORY=${OBOE_SOURCE_DIR}
+                        -DPA_USE_ALSA=OFF -DPA_USE_PULSEAUDIO=OFF -DPA_USE_JACK=OFF -DPA_USE_OSS=OFF
+                        ${PA_OBOE_CFG_FLAGS}
+      BUILD_COMMAND     ${CMAKE_COMMAND} --build .
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libportaudio.a
+      DEPENDS           oboe-src
+      )
+    ExternalProject_Get_Property(portaudio-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  else()
+    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_PORTAUDIO})
+    set (OBOE_INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX}/oboe)
+  endif()
+
+  add_library(oboe STATIC IMPORTED GLOBAL)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
+    add_dependencies(oboe oboe-src)
+  endif()
+  set_target_properties(oboe PROPERTIES
+    IMPORTED_LOCATION ${OBOE_INSTALL_DIR}/lib/${ANDROID_ABI}/liboboe.a)
+  target_link_libraries(oboe INTERFACE log OpenSLES)
+
+  add_library(portaudio STATIC IMPORTED GLOBAL)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
+    add_dependencies(portaudio portaudio-src)
+  endif()
+  target_include_directories (portaudio INTERFACE ${INSTALL_DIR}/include)
+  set_target_properties(portaudio PROPERTIES
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libportaudio.a)
+  target_link_libraries(portaudio INTERFACE oboe)
+
 endif()
