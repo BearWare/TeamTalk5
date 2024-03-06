@@ -80,11 +80,13 @@ public enum Permissions {
     }
 
     public boolean request(@NonNull Activity activity) {
+        return request(activity, false);
+    }
+
+    public boolean request(@NonNull Activity activity, boolean noWarn) {
         boolean state = isGranted(activity.getBaseContext());
         if (!state) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, id)) {
-                Toast.makeText(activity.getBaseContext(), msgResId, Toast.LENGTH_LONG).show();
-            } else {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(activity, id)) {
                 boolean busy = false;
                 for (Permissions p : values())
                     if (p.pending) {
@@ -96,6 +98,8 @@ public enum Permissions {
                 } else {
                     emitRequest(activity);
                 }
+            } else if (!noWarn) {
+                Toast.makeText(activity.getBaseContext(), msgResId, Toast.LENGTH_LONG).show();
             }
         }
         return state;
@@ -108,7 +112,7 @@ public enum Permissions {
 
     @Nullable
     public static Permissions onRequestResult(@NonNull Activity activity, int requestCode, @NonNull int[] grantResults) {
-        Permissions permission = ((requestCode > 0) && (requestCode <= values().length)) ? values()[requestCode - 1] : null;
+        Permissions permission = fromRequestCode(requestCode);
         boolean granted = (grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED);
         if (permission != null) {
             permission.pending = false;
@@ -124,6 +128,11 @@ public enum Permissions {
             next.emitRequest(activity);
         }
         return permission;
+    }
+
+    @Nullable
+    public static Permissions fromRequestCode(int requestCode) {
+        return ((requestCode > 0) && (requestCode <= values().length)) ? values()[requestCode - 1] : null;
     }
 
 }
