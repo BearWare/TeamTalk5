@@ -23,6 +23,9 @@
 
 package dk.bearware.data;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Queue;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -55,6 +58,8 @@ public enum Permissions {
     BLUETOOTH((Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) ? Manifest.permission.BLUETOOTH_CONNECT : Manifest.permission.BLUETOOTH, R.string.permission_bluetooth),
     POST_NOTIFICATIONS(Manifest.permission.POST_NOTIFICATIONS, R.string.permission_post_notifications);
 
+    private static final Queue<Permissions> requestsQueue = new ConcurrentLinkedQueue<>();
+
     private final String id;
     private final int msgResId;
 
@@ -80,11 +85,25 @@ public enum Permissions {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity, id)) {
                 Toast.makeText(activity.getBaseContext(), msgResId, Toast.LENGTH_LONG).show();
             } else {
-                ActivityCompat.requestPermissions(activity, new String[]{id}, ordinal() + 1);
-                pending = true;
+                boolean busy = false;
+                for (Permissions p : values())
+                    if (p.pending) {
+                        busy = true;
+                        break;
+                    }
+                if (busy) {
+                    requestsQueue.offer(this);
+                } else {
+                    emitRequest(activity);
+                }
             }
         }
         return state;
+    }
+
+    private void emitRequest(@NonNull Activity activity) {
+        ActivityCompat.requestPermissions(activity, new String[]{id}, ordinal() + 1);
+        pending = true;
     }
 
     @Nullable
@@ -97,8 +116,12 @@ public enum Permissions {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission.id)) {
                     Toast.makeText(activity.getBaseContext(), permission.msgResId, Toast.LENGTH_LONG).show();
                 }
-                return null;
+                permission = null;
             }
+        }
+        Permissions next = requestsQueue.poll();
+        if (next != null) {
+            next.emitRequest(activity);
         }
         return permission;
     }
