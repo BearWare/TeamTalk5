@@ -763,12 +763,10 @@ extends AppCompatActivity
     }
 
     private boolean requestMediaPermissions() {
-        boolean images = Permissions.READ_MEDIA_IMAGES.request(this);
-        boolean video = Permissions.READ_MEDIA_VIDEO.request(this);
-        boolean audio = Permissions.READ_MEDIA_AUDIO.request(this);
-        return areMediaPermissionsComplete() ?
-            (images || video || audio) :
-            false;
+        Permissions.READ_MEDIA_IMAGES.request(this, true);
+        Permissions.READ_MEDIA_VIDEO.request(this, true);
+        Permissions.READ_MEDIA_AUDIO.request(this, true);
+        return areMediaPermissionsComplete();
     }
 
     private boolean areMediaPermissionsComplete() {
@@ -1929,8 +1927,13 @@ private EditText newmsg;
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Permissions granted = Permissions.onRequestResult(this, requestCode, grantResults);
-        if (granted == null)
-            return;
+        if (granted == null) {
+            granted = Permissions.fromRequestCode(requestCode);
+            if ((granted != Permissions.READ_MEDIA_IMAGES) &&
+                (granted != Permissions.READ_MEDIA_VIDEO) &&
+                (granted != Permissions.READ_MEDIA_AUDIO))
+                return;
+        }
         switch (granted) {
             case READ_EXTERNAL_STORAGE:
             case READ_MEDIA_IMAGES:
