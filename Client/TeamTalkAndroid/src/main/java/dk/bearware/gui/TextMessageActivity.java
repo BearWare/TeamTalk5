@@ -23,12 +23,15 @@
 
 package dk.bearware.gui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -86,6 +89,10 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
             return true;
         }
         else if (id == android.R.id.home) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            View v = getCurrentFocus();
+            if ((v != null) && imm.isActive())
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
             finish();
             return true;
         }
