@@ -968,13 +968,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="159"/>
         <source>Welcome</source>
-        <translation type="unfinished"></translation>
+        <translation>欢迎</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="159"/>
         <source>Welcome to %1.<byte value="xd"/>
 Message of the day: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>欢迎来到 %1。<byte value="xd"/>
+每日消息： %2</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="163"/>
@@ -3403,7 +3404,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="1117"/>
         <source>%1 has logged in on %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 已登录 %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5483"/>
@@ -3751,13 +3752,13 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="1135"/>
         <source>%1 has logged out from %2</source>
         <comment>For female</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 已从 %2 登出</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1135"/>
         <source>%1 has logged out from %2</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 已从 %2 登出</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1332"/>
@@ -3792,7 +3793,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="2018"/>
         <source>Disconnected from server</source>
-        <translation type="unfinished"></translation>
+        <translation>与服务器断开连接</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2174"/>
@@ -5401,12 +5402,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="462"/>
         <source>Show channel topic in channel list</source>
-        <translation type="unfinished"></translation>
+        <translation>在频道列表中显示频道主题</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="589"/>
         <source>Show dialog box with server&apos;s message of the day</source>
-        <translation type="unfinished"></translation>
+        <translation>显示包含服务器每日消息的对话框</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="596"/>
@@ -5631,7 +5632,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="2393"/>
         <source>Announce server name for server events</source>
-        <translation type="unfinished"></translation>
+        <translation>播报服务器事件的服务器名称</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2419"/>
