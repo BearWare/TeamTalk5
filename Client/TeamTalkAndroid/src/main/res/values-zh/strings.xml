@@ -170,6 +170,7 @@
 
     <string name="user_prop_title_username">用户名</string>
     <string name="user_prop_title_clientname">客户端名称</string>
+    <string name="user_prop_clientversion">版本</string>
     <string name="user_prop_title_voice_volume">语音音量</string>
     <string name="user_prop_title_mute_voice">语音静音</string>
     <string name="user_prop_title_media_volume">媒体文件音量</string>
@@ -329,6 +330,9 @@
     <string name="permission_audiomodify">录音与播放将不可用</string>
     <string name="permission_filerx">下载文件将不可用</string>
     <string name="permission_filetx">上传与导入文件将不可用</string>
+    <string name="permission_imagetx">图片上传将不可用</string>
+    <string name="permission_videotx">视频文件将无法上传和流式传输</string>
+    <string name="permission_audiotx">音频文件将无法上传和流式传输</string>
     <string name="permission_internet">客户端将无法连接到服务器</string>
     <string name="permission_vibrate">按键说话期间的振动将不可用</string>
     <string name="permission_wake_lock">屏幕锁定时，服务器连接可能会丢失</string>
@@ -388,6 +392,9 @@
     <string name="pref_title_server_usercount">在线用户</string>
     <string name="pref_title_server_country">国家</string>
     <string name="pref_title_server_status">服务器状态</string>
+    <string name="action_make_operator">授予频道管理员</string>
+    <string name="action_revoke_operator">撤销频道管理员</string>
+    <string name="text_operator_password">输入频道管理员密码</string>
 
 
 </resources>
