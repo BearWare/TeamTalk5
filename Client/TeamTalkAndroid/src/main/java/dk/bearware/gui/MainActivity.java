@@ -288,12 +288,16 @@ extends AppCompatActivity
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        UserAccount myuseraccount = new UserAccount();
+        ttclient.getMyUserAccount(myuseraccount);
+
+        boolean uploadRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_UPLOAD_FILES) !=0;
         boolean isEditable = curchannel != null;
         boolean isJoinable = (ttclient != null) && (curchannel != null) && (ttclient.getMyChannelID() != curchannel.nChannelID) && (curchannel.nMaxUsers > 0);
         boolean isMyChannel = (ttclient != null) && (curchannel != null) && (ttclient.getMyChannelID() == curchannel.nChannelID);
         menu.findItem(R.id.action_edit).setEnabled(isEditable).setVisible(isEditable);
         menu.findItem(R.id.action_join).setEnabled(isJoinable).setVisible(isJoinable);
-        menu.findItem(R.id.action_upload).setEnabled(isMyChannel).setVisible(isMyChannel);
+        menu.findItem(R.id.action_upload).setEnabled(uploadRight).setVisible(uploadRight);
         menu.findItem(R.id.action_stream).setEnabled(isMyChannel).setVisible(isMyChannel);
         return super.onPrepareOptionsMenu(menu);
     }
@@ -1410,11 +1414,16 @@ private EditText newmsg;
         if (item instanceof Channel) {
             selectedChannel = (Channel) item;
             if ((curchannel != null) && (curchannel.nParentID != selectedChannel.nChannelID)) {
+                UserAccount myuseraccount = new UserAccount();
+                ttclient.getMyUserAccount(myuseraccount);
+
+                boolean moveRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_MOVE_USERS) !=0;
                 boolean isRemovable = (ttclient != null) && (selectedChannel.nChannelID != ttclient.getMyChannelID());
                 PopupMenu channelActions = new PopupMenu(this, v);
                 channelActions.setOnMenuItemClickListener(this);
                 channelActions.inflate(R.menu.channel_actions);
                 channelActions.getMenu().findItem(R.id.action_remove).setEnabled(isRemovable).setVisible(isRemovable);
+                channelActions.getMenu().findItem(R.id.action_move).setEnabled(moveRight).setVisible(moveRight);
                 channelActions.show();
                 return true;
             }
