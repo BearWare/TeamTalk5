@@ -72,10 +72,9 @@
 #include <QTextToSpeech>
 #endif
 
-#ifdef Q_OS_LINUX //For hotkeys and DBus on X11
+#ifdef Q_OS_LINUX //For hotkeys on X11
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#include <QtDBus/QtDBus>
 #endif
 
 #include <functional>
@@ -749,24 +748,16 @@ void MainWindow::loadSettings()
 
     if (ttSettings->value(SETTINGS_GENERAL_FIRSTSTART, SETTINGS_GENERAL_FIRSTSTART_DEFAULT).toBool())
     {
-#if (defined(Q_OS_WINDOWS) && defined(ENABLE_TOLK)) || defined(Q_OS_LINUX)
-    bool SRActive = false;
 #if defined(Q_OS_WINDOWS) && defined(ENABLE_TOLK)
     bool tolkLoaded = Tolk_IsLoaded();
     if (!tolkLoaded)
         Tolk_Load();
 
-    SRActive = Tolk_DetectScreenReader() != nullptr;
+    bool SRActive = Tolk_DetectScreenReader() != nullptr;
 
     if (!tolkLoaded)
         Tolk_Unload();
-#elif defined(Q_OS_LINUX)
-    QDBusInterface interface("org.a11y.Bus", "/org/a11y/bus", "org.a11y.Status", QDBusConnection::sessionBus());
-    if (interface.isValid())
-    {
-        SRActive = interface.property("ScreenReaderEnabled").toBool();
-    }
-#endif
+
     if (SRActive)
     {
         QMessageBox answer;
@@ -780,17 +771,13 @@ void MainWindow::loadSettings()
 
         if(answer.clickedButton() == YesButton)
         {
-#if defined(Q_OS_WINDOWS)
             ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_TOLK);
-#elif defined(Q_OS_LINUX)
-            ttSettings->setValue(SETTINGS_TTS_ENGINE, QFile::exists(TTSENGINE_NOTIFY_PATH)?TTSENGINE_NOTIFY:TTSENGINE_QT);
-#endif
             ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, false);
         }
     }
+#endif
         ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, false);
     }
-#endif
 
     // setup VU-meter updates
     if (ttSettings->value(SETTINGS_DISPLAY_VU_METER_UPDATES,
@@ -2053,7 +2040,6 @@ void MainWindow::disconnectFromServer()
     m_vid_exclude.clear();
 
     m_desktopaccess_entries.clear();
-    m_filesmodel->clearModel();
 
     m_srvprop = {};
     m_mychannel = {};
