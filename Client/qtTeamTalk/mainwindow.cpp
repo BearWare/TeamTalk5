@@ -73,9 +73,9 @@
 #endif
 
 #ifdef Q_OS_LINUX //For hotkeys and DBus on X11
+#include <QtDBus/QtDBus>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#include <QtDBus/QtDBus>
 #endif
 
 #include <functional>
@@ -747,9 +747,9 @@ void MainWindow::loadSettings()
     if(connect_ok)
         QTimer::singleShot(0, this, &MainWindow::slotConnectToLatest);
 
+#if (defined(Q_OS_WINDOWS) && defined(ENABLE_TOLK)) || defined(Q_OS_LINUX)
     if (ttSettings->value(SETTINGS_GENERAL_FIRSTSTART, SETTINGS_GENERAL_FIRSTSTART_DEFAULT).toBool())
     {
-#if (defined(Q_OS_WINDOWS) && defined(ENABLE_TOLK)) || defined(Q_OS_LINUX)
     bool SRActive = false;
 #if defined(Q_OS_WINDOWS) && defined(ENABLE_TOLK)
     bool tolkLoaded = Tolk_IsLoaded();
