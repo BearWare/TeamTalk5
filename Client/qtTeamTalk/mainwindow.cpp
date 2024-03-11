@@ -72,9 +72,10 @@
 #include <QTextToSpeech>
 #endif
 
-#ifdef Q_OS_LINUX //For hotkeys on X11
+#ifdef Q_OS_LINUX //For hotkeys and DBus on X11
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <QtDBus/QtDBus>
 #endif
 
 #include <functional>
