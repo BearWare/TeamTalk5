@@ -268,7 +268,9 @@ if (Qt5_FOUND OR Qt6_FOUND)
       target_compile_options(${TEAMTALK_TARGET} PUBLIC -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS)
     endif()
 
-    add_dependencies(${TEAMTALK_TARGET} QtTeamTalk5-Translations)
+    if (Qt5LinguistTools_FOUND OR Qt6LinguistTools_FOUND)
+      add_dependencies(${TEAMTALK_TARGET} QtTeamTalk5-Translations)
+    endif()
 
     set_property(TARGET ${TEAMTALK_TARGET} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../Library/TeamTalk_DLL)
 
