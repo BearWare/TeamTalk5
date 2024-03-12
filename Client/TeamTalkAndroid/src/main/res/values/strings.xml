@@ -182,6 +182,12 @@
     <string name="user_prop_title_subscribe_vid">Subscribe to video</string>
     <string name="user_prop_title_subscribe_desk">Subscribe to desktop</string>
     <string name="user_prop_title_subscribe_media">Subscribe to media</string>
+    <string name="user_prop_title_subscribe_intercept_txtmsg">Intercept user messages</string>
+    <string name="user_prop_title_subscribe_intercept_chanmsg">Intercept channel messages</string>
+    <string name="user_prop_title_subscribe_intercept_voice">Intercept voice</string>
+    <string name="user_prop_title_subscribe_intercept_vid">Intercept video</string>
+    <string name="user_prop_title_subscribe_intercept_desk">Intercept desktop</string>
+    <string name="user_prop_title_subscribe_intercept_media">Intercept media</string>
 
     <string name="label_connection">Connection:</string>
     <string name="stat_online">Online</string>
