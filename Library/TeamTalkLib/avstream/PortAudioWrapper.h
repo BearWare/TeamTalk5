@@ -191,6 +191,9 @@ namespace soundsystem
     private:
 
         void FillDevices(sounddevices_t& sounddevs);
+        void SetupDeviceFeatures(const PaDeviceInfo* devinfo, soundsystem::DeviceInfo& device);
+        void FillSampleFormats(const PaDeviceInfo* devinfo, soundsystem::DeviceInfo& device);
+        void SetupDefaultCommunicationDevice(sounddevices_t& sounddevs);
         SoundAPI GetSoundSystem(const PaDeviceInfo* devinfo);    //see if device is DSound, Alsa, etc.
     };
 
