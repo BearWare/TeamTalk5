@@ -19,6 +19,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg-arm64
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-arm64
+      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Fix-signature-of-read_probe-AVProbeData-p-in-libavfo.patch
       CONFIGURE_COMMAND export PKG_CONFIG_PATH=${OPENSSL_DIR}/lib/pkgconfig &&
       <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --disable-iconv
       --disable-libxcb --disable-libxcb-shm --disable-libxcb-xfixes
@@ -52,6 +53,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg-intel
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-intel
+      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Fix-signature-of-read_probe-AVProbeData-p-in-libavfo.patch
       CONFIGURE_COMMAND export PKG_CONFIG_PATH=${OPENSSL_DIR}/lib/pkgconfig &&
       <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --disable-iconv
       --disable-libxcb --disable-libxcb-shm --disable-libxcb-xfixes
@@ -245,6 +247,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}
+      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Fix-signature-of-read_probe-AVProbeData-p-in-libavfo.patch
       CONFIGURE_COMMAND  <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> ${FFMPEG_CFG_FLAGS}
       BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
@@ -331,6 +334,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}
+      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Fix-signature-of-read_probe-AVProbeData-p-in-libavfo.patch
       CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
       --enable-pic --enable-openssl --disable-jack
       --disable-libxcb
@@ -482,6 +486,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}
+      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Fix-signature-of-read_probe-AVProbeData-p-in-libavfo.patch
       CONFIGURE_COMMAND ${FFMPEG_EXPORT} && <SOURCE_DIR>/configure ${FFMPEG_CFG} --prefix=<INSTALL_DIR>
       --enable-cross-compile --sysroot=${CMAKE_SYSROOT} --target-os=android
       --enable-pic --disable-doc --disable-programs --disable-indev=v4l2
