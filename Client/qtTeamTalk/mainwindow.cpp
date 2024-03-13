@@ -72,7 +72,8 @@
 #include <QTextToSpeech>
 #endif
 
-#ifdef Q_OS_LINUX //For hotkeys on X11
+#ifdef Q_OS_LINUX //For hotkeys and DBus on X11
+#include <QtDBus/QtDBus>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #endif
@@ -746,38 +747,7 @@ void MainWindow::loadSettings()
     if(connect_ok)
         QTimer::singleShot(0, this, &MainWindow::slotConnectToLatest);
 
-    if (ttSettings->value(SETTINGS_GENERAL_FIRSTSTART, SETTINGS_GENERAL_FIRSTSTART_DEFAULT).toBool())
-    {
-#if defined(Q_OS_WINDOWS) && defined(ENABLE_TOLK)
-    bool tolkLoaded = Tolk_IsLoaded();
-    if (!tolkLoaded)
-        Tolk_Load();
-
-    bool SRActive = Tolk_DetectScreenReader() != nullptr;
-
-    if (!tolkLoaded)
-        Tolk_Unload();
-
-    if (SRActive)
-    {
-        QMessageBox answer;
-        answer.setText(tr("%1 has detected usage of a screenreader on your computer. Do you wish to enable accessibility options offered by %1 with recommended settings?").arg(APPNAME_SHORT));
-        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
-        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
-        Q_UNUSED(NoButton);
-        answer.setIcon(QMessageBox::Question);
-        answer.setWindowTitle(APPNAME_SHORT);
-        answer.exec();
-
-        if(answer.clickedButton() == YesButton)
-        {
-            ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_TOLK);
-            ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, false);
-        }
-    }
-#endif
-        ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, false);
-    }
+    initialScreenReaderSetup();
 
     // setup VU-meter updates
     if (ttSettings->value(SETTINGS_DISPLAY_VU_METER_UPDATES,
@@ -820,6 +790,54 @@ void MainWindow::loadSettings()
     if ((ttSettings->value(SETTINGS_DISPLAY_START_SERVERLIST, SETTINGS_DISPLAY_START_SERVERLIST_DEFAULT).toBool() == true && ttSettings->value(SETTINGS_CONNECTION_AUTOCONNECT, SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT).toBool() == false) && ((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == CLIENT_CLOSED))
         slotClientConnect();
     slotUpdateUI();
+}
+
+void MainWindow::initialScreenReaderSetup()
+{
+#if defined(ENABLE_TOLK) || defined(Q_OS_LINUX)
+    if (ttSettings->value(SETTINGS_GENERAL_FIRSTSTART, SETTINGS_GENERAL_FIRSTSTART_DEFAULT).toBool())
+    {
+        bool SRActive = false;
+#if defined(ENABLE_TOLK)
+        bool tolkLoaded = Tolk_IsLoaded();
+        if (!tolkLoaded)
+            Tolk_Load();
+
+        SRActive = Tolk_DetectScreenReader() != nullptr;
+
+        if (!tolkLoaded)
+            Tolk_Unload();
+#elif defined(Q_OS_LINUX)
+        QDBusInterface interface("org.a11y.Bus", "/org/a11y/bus", "org.a11y.Status", QDBusConnection::sessionBus());
+        if (interface.isValid())
+        {
+            SRActive = interface.property("ScreenReaderEnabled").toBool();
+        }
+#endif
+        if (SRActive)
+        {
+            QMessageBox answer;
+            answer.setText(tr("%1 has detected usage of a screenreader on your computer. Do you wish to enable accessibility options offered by %1 with recommended settings?").arg(APPNAME_SHORT));
+            QAbstractButton* YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+            QAbstractButton* NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+            Q_UNUSED(NoButton);
+            answer.setIcon(QMessageBox::Question);
+            answer.setWindowTitle(APPNAME_SHORT);
+            answer.exec();
+
+            if (answer.clickedButton() == YesButton)
+            {
+#if defined(ENABLE_TOLK)
+                ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_TOLK);
+#elif defined(Q_OS_LINUX)
+                ttSettings->setValue(SETTINGS_TTS_ENGINE, QFile::exists(TTSENGINE_NOTIFY_PATH) ? TTSENGINE_NOTIFY : TTSENGINE_QT);
+#endif
+                ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, false);
+            }
+        }
+        ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, false);
+    }
+#endif
 }
 
 bool MainWindow::parseArgs(const QStringList& args)
