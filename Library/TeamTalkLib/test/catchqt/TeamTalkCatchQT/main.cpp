@@ -1,5 +1,5 @@
 #define CATCH_CONFIG_RUNNER //E.g. own main is supplied. In contrasts to CATCH_CONFIG_MAIN
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 
 #include "test/TTUnitTest.h"
 
