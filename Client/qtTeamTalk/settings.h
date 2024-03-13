@@ -31,7 +31,7 @@
 #define SETTINGS_VERSION                            "5.3"
 #define SETTINGS_GENERAL_VERSION                    "version"
 #define SETTINGS_GENERAL_VERSION_DEFAULT            SETTINGS_VERSION
-#if defined(Q_OS_WINDOWS) || defined(Q_OS_LINUX)
+#if defined(ENABLE_TOLK) || defined(Q_OS_LINUX)
 #define SETTINGS_GENERAL_FIRSTSTART                 "general_/first-start"
 #define SETTINGS_GENERAL_FIRSTSTART_DEFAULT         true
 #endif
