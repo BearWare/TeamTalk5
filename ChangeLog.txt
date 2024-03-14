@@ -14,6 +14,9 @@ Default Qt Client
 - Fixed sort by size on file list
 - OPUS codec updated to v1.5.1
 Android Client
+- admins can now upload files to the channels they have not joined
+- Navigating back now also closes root channel tree like other channels raather than disconnecting from the server
+- It is now possible to move users to root channel too
 - Intercept options for admins
 - Navigating back returns to Channels-tab prior to disconnecting
 - User menu action to grant/revoke channel operator
