@@ -67,8 +67,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
   if (NOT ANDROID_PLATFORM)
-    set (ANDROID_PLATFORM android-21)
-    message(WARNING "No Android API level specified. Defaulting to ${ANDROID_NATIVE_API_LEVEL}")
+    message(WARNING "No Android API level specified.")
   endif()
 
 endif()
