@@ -267,4 +267,4 @@ depend-rasp11:
                     libpulse-dev
 
 depend-mac:
-	brew install autoconf automake libtool pkg-config yasm ninja
+	brew install autoconf automake libtool pkg-config yasm ninja python-setuptools
