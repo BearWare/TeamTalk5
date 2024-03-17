@@ -68,7 +68,23 @@ ubuntu:
 	-DTOOLCHAIN_OPENSSL=OFF" generic
 
 ubuntu18:
-	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK_CLIENT_QTTEAMTALK=OFF \
+	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK_LIBRARY_DLL=OFF \
+                              -DBUILD_TEAMTALK_LIBRARY_DLLPRO=OFF \
+                              -DBUILD_TEAMTALK_LIBRARIES=OFF \
+                              -DBUILD_TEAMTALK_SERVERS=OFF \
+                              -DBUILD_TEAMTALK_CLIENTS=OFF \
+                              -DTOOLCHAIN_OPENSSL=OFF \
+                              -DTOOLCHAIN_ZLIB=OFF \
+                              -DTOOLCHAIN_CATCH2=OFF \
+                              -DTOOLCHAIN_LIBVPX=OFF \
+                              -DTOOLCHAIN_FFMPEG=OFF \
+                              -DTOOLCHAIN_OGG=OFF \
+                              -DTOOLCHAIN_OPUS=OFF \
+                              -DTOOLCHAIN_PORTAUDIO=OFF \
+                              -DTOOLCHAIN_SPEEX=OFF \
+                              -DTOOLCHAIN_SPEEXDSP=OFF \
+                              -DFEATURE_OPUSTOOLS=OFF \
+                              -DFEATURE_WEBRTC=OFF \
                               -DBUILD_TEAMTALK_DOCUMENTATION=OFF" UBUNTUDIR=$@ ubuntu
 ubuntu19:
 	$(MAKE) UBUNTUDIR=$@ ubuntu
