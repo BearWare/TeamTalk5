@@ -1388,9 +1388,9 @@ private EditText newmsg;
             UserAccount myuseraccount = new UserAccount();
             ttclient.getMyUserAccount(myuseraccount);
 
-            boolean banRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_BAN_USERS) !=0;
-            boolean moveRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_MOVE_USERS) !=0;
-            boolean kickRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_KICK_USERS) !=0;
+            boolean banRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_BAN_USERS) != UserRight.USERRIGHT_NONE;
+            boolean moveRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_MOVE_USERS) != UserRight.USERRIGHT_NONE;
+            boolean kickRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_KICK_USERS) != UserRight.USERRIGHT_NONE;
             // operator of a channel can also kick users
             int myuserid = ttclient.getMyUserID();
             boolean operatorRight = ttclient.isChannelOperator(myuserid, selectedUser.nChannelID);
@@ -1409,15 +1409,16 @@ private EditText newmsg;
         }
         if (item instanceof Channel) {
             selectedChannel = (Channel) item;
-            if ((curchannel != null) && (curchannel.nParentID != selectedChannel.nChannelID)) {
-                boolean isRemovable = (ttclient != null) && (selectedChannel.nChannelID != ttclient.getMyChannelID());
-                PopupMenu channelActions = new PopupMenu(this, v);
-                channelActions.setOnMenuItemClickListener(this);
-                channelActions.inflate(R.menu.channel_actions);
-                channelActions.getMenu().findItem(R.id.action_remove).setEnabled(isRemovable).setVisible(isRemovable);
-                channelActions.show();
-                return true;
-            }
+            UserAccount myuseraccount = new UserAccount();
+            ttclient.getMyUserAccount(myuseraccount);
+
+            boolean moveRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_MOVE_USERS) != UserRight.USERRIGHT_NONE;
+            PopupMenu channelActions = new PopupMenu(this, v);
+            channelActions.setOnMenuItemClickListener(this);
+            channelActions.inflate(R.menu.channel_actions);
+            channelActions.getMenu().findItem(R.id.action_move).setEnabled(moveRight).setVisible(moveRight);
+            channelActions.show();
+            return true;
         }
         return false;
     }
