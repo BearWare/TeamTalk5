@@ -1413,12 +1413,10 @@ private EditText newmsg;
             ttclient.getMyUserAccount(myuseraccount);
 
             boolean moveRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_MOVE_USERS) !=0;
-            boolean isRemovable = (ttclient != null) && (selectedChannel.nChannelID != ttclient.getMyChannelID());
             PopupMenu channelActions = new PopupMenu(this, v);
             channelActions.setOnMenuItemClickListener(this);
             channelActions.inflate(R.menu.channel_actions);
             channelActions.getMenu().findItem(R.id.action_move).setEnabled(moveRight).setVisible(moveRight);
-            channelActions.getMenu().findItem(R.id.action_remove).setEnabled(isRemovable).setVisible(isRemovable);
             channelActions.show();
             return true;
         }
