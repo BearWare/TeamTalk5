@@ -182,6 +182,12 @@
     <string name="user_prop_title_subscribe_vid">订阅视频</string>
     <string name="user_prop_title_subscribe_desk">订阅桌面</string>
     <string name="user_prop_title_subscribe_media">订阅媒体</string>
+    <string name="user_prop_title_subscribe_intercept_txtmsg">截取用户消息</string>
+    <string name="user_prop_title_subscribe_intercept_chanmsg">截取频道消息</string>
+    <string name="user_prop_title_subscribe_intercept_voice">截取语音</string>
+    <string name="user_prop_title_subscribe_intercept_vid">截取视频</string>
+    <string name="user_prop_title_subscribe_intercept_desk">截取桌面</string>
+    <string name="user_prop_title_subscribe_intercept_media">截取媒体</string>
 
     <string name="label_connection">连接：</string>
     <string name="stat_online">在线</string>
