@@ -15,8 +15,10 @@ Default Qt Client
 - OPUS codec updated to v1.5.1
 - Windows and macOS updated to Qt 6.7.0RC1
 Android Client
-- Admins can upload files to channels they have not  joined
+- Admins can upload files to channels they have not joined
+- It is now possible to move users to root channel
 - Navigating back returns to Channels-tab prior to disconnecting
+- Navigating back also displays root channel
 - User menu action to grant/revoke channel operator
 - Subscriptions for intercepting users
 - OPUS codec updated to v1.5.1
