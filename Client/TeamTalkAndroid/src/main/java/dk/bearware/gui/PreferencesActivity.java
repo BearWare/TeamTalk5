@@ -400,8 +400,10 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_tts);
 
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+            TTSWrapper tts = new TTSWrapper(getActivity().getBaseContext(), prefs.getString("pref_speech_engine", TTSWrapper.defaultEngineName));
+            List<EngineInfo> engines = tts.getEngines();
             ListPreference enginePrefs = (ListPreference) findPreference("pref_speech_engine");
-            List<EngineInfo> engines = TTSWrapper.getEngines();
             ArrayList<String> entries = new ArrayList<>();
             ArrayList<String> values = new ArrayList<>();
             for (EngineInfo info : engines) {
