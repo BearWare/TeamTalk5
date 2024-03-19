@@ -375,7 +375,7 @@ public class TeamTalkService extends Service
     @SuppressLint("NewApi")
     private void displayNotification(boolean enabled) {
         if (enabled) {
-            final int UI_WIDGET_ID = android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE | ServiceInfo.FLAG_STOP_WITH_TASK;
+            final int UI_WIDGET_ID = ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE | ServiceInfo.FLAG_STOP_WITH_TASK;
             if (widget == null) {
                 Intent ui = new Intent(this, MainActivity.class);
                 ui.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -400,12 +400,20 @@ public class TeamTalkService extends Service
                     widget.setChannelId("TeamtalkConnection");
                 }
                 widget.setShowWhen(false);
-                startForeground(UI_WIDGET_ID, widget.build());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    startForeground(UI_WIDGET_ID, widget.build(), ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST);
+                } else {
+                    startForeground(UI_WIDGET_ID, widget.build());
+                }
             } else {
                 ((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE)).notify(UI_WIDGET_ID, widget.setContentText(getNotificationText()).build());
             }
         } else if (widget != null) {
-            stopForeground(true);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                stopForeground(STOP_FOREGROUND_REMOVE);
+            } else {
+                stopForeground(true);
+            }
             widget = null;
         }
     }
