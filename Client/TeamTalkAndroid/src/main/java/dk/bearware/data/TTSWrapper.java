@@ -35,7 +35,7 @@ import java.util.List;
 
 public class TTSWrapper {
     private static final String TAG = "bearware";
-    private static TextToSpeech tts;
+    private TextToSpeech tts;
     public static final String defaultEngineName = "com.google.android.tts"; // should be got from getDefaultEngine method.
     private Context mContext;
     public Boolean useAnnouncements;
@@ -77,7 +77,7 @@ public class TTSWrapper {
         }
     }
 
-    public static List<EngineInfo> getEngines() {
+    public List<EngineInfo> getEngines() {
         List<EngineInfo> spEngines = tts.getEngines();
         return spEngines;
     }
