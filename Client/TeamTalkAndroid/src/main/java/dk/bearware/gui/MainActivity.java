@@ -85,6 +85,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -167,6 +168,8 @@ extends AppCompatActivity
     TabLayout mTabLayout;
 
     public static final String TAG = "bearware";
+
+    private static final String MSG_NOTIFICATION_CHANNEL_ID = "TT_PM";
 
     public final int REQUEST_EDITCHANNEL = 1,
                      REQUEST_NEWCHANNEL = 2,
@@ -2166,24 +2169,22 @@ private EditText newmsg;
             if (ttsWrapper != null && prefs.getBoolean("private_message_checkbox", false))
                 ttsWrapper.speak(getString(R.string.text_tts_private_message, senderName, textmessage.szMessage));
             Intent action = new Intent(this, TextMessageActivity.class);
-            Notification.Builder notification = new Notification.Builder(this);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationChannel mChannel = new NotificationChannel("TT_PM", "Teamtalk incoming message", NotificationManager.IMPORTANCE_HIGH);
+                NotificationChannel mChannel = new NotificationChannel(MSG_NOTIFICATION_CHANNEL_ID, "Teamtalk incoming message", NotificationManager.IMPORTANCE_HIGH);
                 mChannel.enableVibration(false);
                 mChannel.setVibrationPattern(null);
                 mChannel.enableLights(false);
                 mChannel.setSound(null, null);
                 notificationManager.createNotificationChannel(mChannel);
             }
-            notification.setSmallIcon(R.drawable.message)
+            Notification notification = new NotificationCompat.Builder(this, MSG_NOTIFICATION_CHANNEL_ID)
+                .setSmallIcon(R.drawable.message)
                 .setContentTitle(getString(R.string.private_message_notification, senderName))
                 .setContentText(getString(R.string.private_message_notification_hint))
                 .setContentIntent(PendingIntent.getActivity(this, textmessage.nFromUserID, action.putExtra(TextMessageActivity.EXTRA_USERID, textmessage.nFromUserID), PendingIntent.FLAG_IMMUTABLE))
-                .setAutoCancel(true);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                notification.setChannelId("TT_PM");
-			}
-            notificationManager.notify(MESSAGE_NOTIFICATION_TAG, textmessage.nFromUserID, notification.build());
+                .setAutoCancel(true)
+                .build();
+            notificationManager.notify(MESSAGE_NOTIFICATION_TAG, textmessage.nFromUserID, notification);
             break;
         case TextMsgType.MSGTYPE_CUSTOM:
         default:

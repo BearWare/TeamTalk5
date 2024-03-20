@@ -51,6 +51,8 @@ import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationCompat;
+
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -144,6 +146,7 @@ public class TeamTalkService extends Service
 
     private static final int UI_WIDGET_ID = 1;
     private static final String UI_WIDGET_TAG = "tt5_ui_widget";
+    private static final String UI_CHANNEL_ID = "TeamtalkConnection";
 
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
@@ -156,8 +159,8 @@ public class TeamTalkService extends Service
     private boolean voxSuspended;
     private boolean permanentMuteState;
     private boolean currentMuteState;
-    Notification.Builder widget = null;
-    NotificationManager notificationManager;
+    private Notification widget = null;
+    private NotificationManager notificationManager;
     private volatile boolean inPhoneCall;
     private MediaSessionCompat mediaSession;
     Handler reconnectHandler = new Handler();
@@ -378,12 +381,11 @@ public class TeamTalkService extends Service
     private void displayNotification(boolean enabled) {
         if (enabled) {
             if (widget == null) {
+                notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 Intent ui = new Intent(this, MainActivity.class);
                 ui.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                widget = new Notification.Builder(this);
-                notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    NotificationChannel mChannel = new NotificationChannel("TeamtalkConnection", "Teamtalk connection", NotificationManager.IMPORTANCE_DEFAULT);
+                    NotificationChannel mChannel = new NotificationChannel(UI_CHANNEL_ID, "Teamtalk connection", NotificationManager.IMPORTANCE_DEFAULT);
                     mChannel.enableVibration(false);
                     mChannel.setVibrationPattern(null);
                     mChannel.enableLights(false);
@@ -391,20 +393,21 @@ public class TeamTalkService extends Service
                     notificationManager.createNotificationChannel(mChannel);
                 }
                 int intentFlags = PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE;
-                widget.setSmallIcon(R.drawable.teamtalk_green)
+                widget = new NotificationCompat.Builder(this, UI_CHANNEL_ID)
+                    .setSmallIcon(R.drawable.teamtalk_green)
                     .setContentTitle(getString(R.string.app_name))
                     .setContentIntent(PendingIntent.getActivity(this, 0, ui, intentFlags))
                     .setOngoing(true)
                     .setAutoCancel(false)
-                    .setContentText(getNotificationText());
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    widget.setChannelId("TeamtalkConnection");
-                }
-                widget.setShowWhen(false);
+                    .setContentText(getNotificationText())
+                    .setShowWhen(false)
+                    .build();
             } else {
-                widget.setContentText(getNotificationText());
+                widget = new NotificationCompat.Builder(this, widget)
+                    .setContentText(getNotificationText())
+                    .build();
             }
-            notificationManager.notify(UI_WIDGET_TAG, UI_WIDGET_ID, widget.build());
+            notificationManager.notify(UI_WIDGET_TAG, UI_WIDGET_ID, widget);
         } else if (widget != null) {
             notificationManager.cancel(UI_WIDGET_TAG, UI_WIDGET_ID);
             widget = null;
