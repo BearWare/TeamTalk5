@@ -27,7 +27,6 @@
     <!-- BLUETOOTH is needed to use bluetooth headset microphone -->
     <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30"></uses-permission>
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"></uses-permission>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE"></uses-permission>
     <uses-permission android:name="android.hardware.sensor.proximity"></uses-permission>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
@@ -96,7 +95,6 @@
 
         <service
             android:name="dk.bearware.backend.TeamTalkService"
-            android:foregroundServiceType="microphone"
             android:enabled="true"
             android:exported="false"
             android:stopWithTask="true" />
