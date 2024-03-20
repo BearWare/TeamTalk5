@@ -33,7 +33,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ServiceInfo;
 import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Binder;
@@ -142,6 +141,9 @@ public class TeamTalkService extends Service
     public static final String CANCEL_TRANSFER = "cancel_transfer";
 
     public static final String TAG = "bearware";
+
+    private static final int UI_WIDGET_ID = 1;
+    private static final String UI_WIDGET_TAG = "tt5_ui_widget";
 
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
@@ -375,7 +377,6 @@ public class TeamTalkService extends Service
     @SuppressLint("NewApi")
     private void displayNotification(boolean enabled) {
         if (enabled) {
-            final int UI_WIDGET_ID = ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE | ServiceInfo.FLAG_STOP_WITH_TASK;
             if (widget == null) {
                 Intent ui = new Intent(this, MainActivity.class);
                 ui.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -401,9 +402,11 @@ public class TeamTalkService extends Service
                 }
                 widget.setShowWhen(false);
             } else {
-                ((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE)).notify(UI_WIDGET_ID, widget.setContentText(getNotificationText()).build());
+                widget.setContentText(getNotificationText());
             }
+            notificationManager.notify(UI_WIDGET_TAG, UI_WIDGET_ID, widget.build());
         } else if (widget != null) {
+            notificationManager.cancel(UI_WIDGET_TAG, UI_WIDGET_ID);
             widget = null;
         }
     }
