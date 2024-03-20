@@ -52,8 +52,6 @@ import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
-import androidx.core.app.ServiceCompat;
-
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -402,12 +400,10 @@ public class TeamTalkService extends Service
                     widget.setChannelId("TeamtalkConnection");
                 }
                 widget.setShowWhen(false);
-                ServiceCompat.startForeground(this, UI_WIDGET_ID, widget.build(), ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST);
             } else {
                 ((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE)).notify(UI_WIDGET_ID, widget.setContentText(getNotificationText()).build());
             }
         } else if (widget != null) {
-            ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE);
             widget = null;
         }
     }
