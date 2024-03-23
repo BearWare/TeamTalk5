@@ -208,6 +208,9 @@ bool PortAudio::GetDefaultDevices(SoundAPI sndsys, int& inputdeviceid,
     case SOUND_API_PULSEAUDIO :
         hostapiIndex = Pa_HostApiTypeIdToHostApiIndex(paPulseAudio);
         break;
+    case SOUND_API_OBOE_ANDROID :
+        hostapiIndex = Pa_HostApiTypeIdToHostApiIndex(paOboe);
+        break;
     case SOUND_API_OPENSLES_ANDROID :
     case SOUND_API_AUDIOUNIT :
     case SOUND_API_AUDIOTOOLKIT :
@@ -387,6 +390,8 @@ SoundAPI PortAudio::GetSoundSystem(const PaDeviceInfo* devinfo)
         return SOUND_API_WDMKS;
     else if (devinfo->hostApi == Pa_HostApiTypeIdToHostApiIndex(paPulseAudio))
         return SOUND_API_PULSEAUDIO;
+    else if (devinfo->hostApi == Pa_HostApiTypeIdToHostApiIndex(paOboe))
+        return SOUND_API_OBOE_ANDROID;
 
     return SOUND_API_NOSOUND;
 }
