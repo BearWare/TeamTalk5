@@ -8,7 +8,6 @@
 
 #if defined(__ANDROID__)
 
-#include <QtAndroid>
 #include <QDir> // for file copy from APK
 #include <QDirIterator> // for file copy from APK
 #include <QStandardPaths> // for file copy from APK
@@ -238,11 +237,11 @@ int main(int argc, char** argv)
                              "android.hardware.sensor.proximity"
                             });
 
-    QtAndroid::PermissionResultMap resultHash = QtAndroid::requestPermissionsSync(permissions);
-    for (auto permission : permissions)
-    {
-        qDebug() << "Permission: " << permission << " " << ((resultHash[permission] == QtAndroid::PermissionResult::Granted) ? "Granted" : "Denied");
-    }
+    // QtAndroid::PermissionResultMap resultHash = QtAndroid::requestPermissionsSync(permissions);
+    // for (auto permission : permissions)
+    // {
+    //     qDebug() << "Permission: " << permission << " " << ((resultHash[permission] == QtAndroid::PermissionResult::Granted) ? "Granted" : "Denied");
+    // }
 
     // Copy the file to 'testdata' dir below local files. This is the current path, so no special path needs to be set
     // files can be accessed as "testdata/file.ext"
