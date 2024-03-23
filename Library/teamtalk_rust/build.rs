@@ -39,6 +39,8 @@ fn main() {
         .rustified_enum("UserRight")
         .rustified_enum("UserState")
         .rustified_enum("UserType")
+        .default_macro_constant_type(bindgen::MacroTypeVariation::Signed) //FALSE and TRUE becomes u32 otherwise
+        .derive_default(true) //Default zero-init of structs
         .generate()
         // Unwrap the Result and panic on failure.
         .expect("Unable to generate bindings");
