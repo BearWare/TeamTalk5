@@ -1,4 +1,3 @@
-
 #![allow(non_upper_case_globals)]
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
@@ -6,7 +5,7 @@
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
 use std::time::{Duration, Instant};
-use std::{ffi::CString, ptr};
+use std::{ffi::CString, ffi::CStr, ptr};
 use std::result::Result;
 
 pub fn add(left: usize, right: usize) -> usize {
@@ -17,13 +16,24 @@ fn ttstr(str: &str) -> CString {
     CString::new(str).unwrap_or(CString::new("").unwrap())
 }
 
-fn wait_for_event(ttinst: *mut TTInstance, event: ClientEvent, def_wait: Duration) -> Result<TTMessage, ClientEvent> {
+fn from_ttstr(str: *const TTCHAR) -> String {
+    unsafe {
+        match CStr::from_ptr(str).to_str() {
+            Ok(s) => { return s.to_string() }
+            Err(e) => return "UTF8FAIL".to_string()
+        }
+    }
+}
+
+fn wait_for_event_pred<P>(ttinst: *mut TTInstance, event: ClientEvent, pred_fn: P, def_wait: Duration) -> Result<TTMessage, ClientEvent>
+    where P: Fn(&TTMessage) -> bool,
+{
     let mut m = TTMessage::default();
     let start = Instant::now();
     unsafe {
         let mut remain_msec: INT32  = def_wait.as_millis().try_into().expect("Duration is too high");
         while TT_GetMessage(ttinst, &mut m, &remain_msec) == TRUE || def_wait <= Instant::now() - start {
-            if m.nClientEvent == event {
+            if m.nClientEvent == event && pred_fn(&m) {
                 return Ok(m)
             }
             remain_msec = (def_wait - (Instant::now() - start)).as_millis().try_into().expect("Duration is too high");
@@ -32,15 +42,23 @@ fn wait_for_event(ttinst: *mut TTInstance, event: ClientEvent, def_wait: Duratio
     Err(event)
 }
 
-fn wait_for_cmdsuccess(ttinst: *mut TTInstance, cmdid: INT32, def_wait: Duration) -> Result<TTMessage, ClientEvent> {
-    loop {
-        match wait_for_event(ttinst, ClientEvent::CLIENTEVENT_CMD_SUCCESS, def_wait) {
-            Ok(m) => if m.nSource == cmdid {
-                return Ok(m)
-            }
-            Err(e) => return Err(e)
+fn wait_for_event(ttinst: *mut TTInstance, event: ClientEvent, def_wait: Duration) -> Result<TTMessage, ClientEvent> {
+    let m_fn = |m: &TTMessage| -> bool { true };
+    wait_for_event_pred(ttinst, event, m_fn, def_wait)
+}
+
+fn wait_for_cmd_success(ttinst: *mut TTInstance, cmdid: INT32, def_wait: Duration) -> Result<TTMessage, ClientEvent> {
+    let m_fn = |m: &TTMessage| -> bool { unsafe { m.nSource == cmdid } };
+    wait_for_event_pred(ttinst, ClientEvent::CLIENTEVENT_CMD_SUCCESS, m_fn, def_wait)
+}
+
+fn wait_for_cmd_complete(ttinst: *mut TTInstance, cmdid: INT32, def_wait: Duration) -> Result<TTMessage, ClientEvent> {
+    let m_fn = |m: &TTMessage| -> bool { 
+        unsafe {
+            m.nSource == cmdid && m.__bindgen_anon_1.bActive == FALSE   
         }
-    }
+    };
+    wait_for_event_pred(ttinst, ClientEvent::CLIENTEVENT_CMD_PROCESSING, m_fn, def_wait)
 }
 
 #[cfg(test)]
@@ -80,7 +98,12 @@ mod tests {
             assert!(wait_for_event(a, ClientEvent::CLIENTEVENT_CON_SUCCESS, DEF_WAIT).is_ok());
             let cmdid = TT_DoLogin(a, ttstr("foobar").as_ptr(), ttstr("guest").as_ptr(), ttstr("guest").as_ptr());
             assert!(cmdid > 0);
-            assert!(wait_for_cmdsuccess(a, cmdid, DEF_WAIT).is_ok());
+            let e = wait_for_event(a, ClientEvent::CLIENTEVENT_CMD_MYSELF_LOGGEDIN, DEF_WAIT);
+            assert!(e.is_ok());
+            assert!(e.unwrap().__bindgen_anon_1.useraccount.uUserType != 0);
+            print!("{}", from_ttstr(e.unwrap().__bindgen_anon_1.useraccount.szUsername.as_ptr()));
+            assert!(wait_for_cmd_success(a, cmdid, DEF_WAIT).is_ok());
+            assert!(wait_for_cmd_complete(a, cmdid, DEF_WAIT).is_ok());
             TT_CloseTeamTalk(a);
         }
     }
