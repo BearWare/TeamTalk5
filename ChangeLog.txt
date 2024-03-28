@@ -23,6 +23,7 @@ Android Client
 - Subscriptions for intercepting users
 - OPUS codec updated to v1.5.1
 - Fixed crash issue when entering Text-To-Speech settings
+- Fixed crash issue when updating text messages
 iOS Client
 - OPUS codec updated to v1.5.1
 Server
