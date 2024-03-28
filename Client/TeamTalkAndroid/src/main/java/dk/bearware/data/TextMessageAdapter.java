@@ -41,7 +41,8 @@ import android.widget.TextView;
 
 public class TextMessageAdapter extends BaseAdapter {
 
-    private Vector<MyTextMessage> messages;
+    private Vector<MyTextMessage> messages, // reference to TeamTalkService's messages (modified by other thread)
+            messagesUpdateView; // copy of 'this.message' after update
     
     private final LayoutInflater inflater;
     private final AccessibilityAssistant accessibilityAssistant;
@@ -91,16 +92,20 @@ public class TextMessageAdapter extends BaseAdapter {
     }
     
     public void setTextMessages(Vector<MyTextMessage> msgs) {
-        messages = msgs;
+        this.messages = msgs;
+        copyToMessagesView();
+    }
+
+    private void copyToMessagesView() {
+        this.messagesUpdateView = (Vector<MyTextMessage>)this.messages.clone();
     }
     
     Vector<MyTextMessage> getMessages() {
-        
         if(show_logs)
-            return messages;
+            return this.messagesUpdateView;
         
         Vector<MyTextMessage> result = new Vector<>();
-        for(MyTextMessage m : messages) {
+        for(MyTextMessage m : this.messagesUpdateView) {
             switch(m.nMsgType) {
                 case MyTextMessage.MSGTYPE_LOG_ERROR :
                 case MyTextMessage.MSGTYPE_LOG_INFO :
@@ -228,5 +233,11 @@ public class TextMessageAdapter extends BaseAdapter {
         convertView.setAccessibilityDelegate(accessibilityAssistant);
         
         return convertView;
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        copyToMessagesView();
+        super.notifyDataSetChanged();
     }
 }
