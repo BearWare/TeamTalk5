@@ -970,13 +970,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="159"/>
         <source>Welcome</source>
-        <translation type="unfinished"></translation>
+        <translation>Добро пожаловать</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="159"/>
         <source>Welcome to %1.<byte value="xd"/>
 Message of the day: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Добро пожаловать в %1.
+Message of the day: %2</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="163"/>
@@ -3159,13 +3160,13 @@ Message of the day: %2</source>
         <location filename="../mainwindow.cpp" line="1153"/>
         <source>%1 has logged out from %2</source>
         <comment>For female</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 Ушёл с %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1153"/>
         <source>%1 has logged out from %2</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 Ушёл из %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1350"/>
@@ -3200,7 +3201,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="2036"/>
         <source>Disconnected from server</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключен от сервера</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2192"/>
@@ -3937,7 +3938,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.cpp" line="1135"/>
         <source>%1 has logged in on %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Вошёл на %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1179"/>
@@ -5083,7 +5084,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="462"/>
         <source>Show channel topic in channel list</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать тему канала в списке каналов</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="469"/>
@@ -5113,7 +5114,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="589"/>
         <source>Show dialog box with server&apos;s message of the day</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать диалог с сообщением дня</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="605"/>
@@ -5617,7 +5618,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="2393"/>
         <source>Announce server name for server events</source>
-        <translation type="unfinished"></translation>
+        <translation>Объявлять имя сервера для серверных событий</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2419"/>
