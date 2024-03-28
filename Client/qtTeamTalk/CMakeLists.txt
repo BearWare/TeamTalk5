@@ -27,7 +27,7 @@ endif()
 
 # Locate Qt Framework
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-  find_package (Qt5 COMPONENTS Widgets Xml Network Multimedia TextToSpeech X11Extras)
+  find_package (Qt5 COMPONENTS Widgets Xml Network Multimedia TextToSpeech DBus X11Extras)
 else()
   find_package (Qt5 COMPONENTS Widgets Xml Network Multimedia TextToSpeech)
 endif()
@@ -126,7 +126,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     set (TEAMTALK_LINK_FLAGS Qt6::Widgets Qt6::Xml Qt6::Network Qt6::Multimedia Qt6::TextToSpeech)
   else()
     if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-      set (TEAMTALK_LINK_FLAGS Qt5::Widgets Qt5::Xml Qt5::Network Qt5::Multimedia Qt5::TextToSpeech Qt5::X11Extras -lX11)
+      set (TEAMTALK_LINK_FLAGS Qt5::Widgets Qt5::Xml Qt5::Network Qt5::Multimedia Qt5::TextToSpeech Qt5::DBus Qt5::X11Extras -lX11)
     else()
       set (TEAMTALK_LINK_FLAGS Qt5::Widgets Qt5::Xml Qt5::Network Qt5::Multimedia Qt5::TextToSpeech)
     endif()
@@ -268,7 +268,9 @@ if (Qt5_FOUND OR Qt6_FOUND)
       target_compile_options(${TEAMTALK_TARGET} PUBLIC -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS)
     endif()
 
-    add_dependencies(${TEAMTALK_TARGET} QtTeamTalk5-Translations)
+    if (Qt5LinguistTools_FOUND OR Qt6LinguistTools_FOUND)
+      add_dependencies(${TEAMTALK_TARGET} QtTeamTalk5-Translations)
+    endif()
 
     set_property(TARGET ${TEAMTALK_TARGET} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../Library/TeamTalk_DLL)
 

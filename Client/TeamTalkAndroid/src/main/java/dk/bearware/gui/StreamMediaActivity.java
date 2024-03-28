@@ -26,6 +26,7 @@ package dk.bearware.gui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -36,6 +37,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import dk.bearware.Codec;
@@ -109,21 +111,38 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Permissions granted = Permissions.onRequestResult(this, requestCode, grantResults);
+        if (granted == null)
+            return;
+        switch (granted) {
+            case READ_EXTERNAL_STORAGE:
+            case READ_MEDIA_VIDEO:
+            case READ_MEDIA_AUDIO:
+                if ((Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) || areMediaPermissionsComplete())
+                    mediaSelectionStart();
+                break;
+        default:
+            break;
+        }
+    }
+
+    @Override
     public void onServiceConnected(TeamTalkService service) {
         ttservice = service;
         ttclient = ttservice.getTTInstance();
         Button browse_btn = this.findViewById(R.id.media_file_select_btn);
         Button stream_btn = this.findViewById(R.id.media_file_stream_btn);
-        
+
         OnClickListener listener = v -> {
             switch(v.getId()) {
                 case R.id.media_file_select_btn :
-                    if (Permissions.setupPermission(getBaseContext(), StreamMediaActivity.this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("*/*");
-                Intent i = Intent.createChooser(intent, "File");
-                startActivityForResult(i, REQUEST_STREAM_MEDIA);
+                if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) ?
+                    requestMediaPermissions() :
+                    Permissions.READ_EXTERNAL_STORAGE.request(this)) {
+                        mediaSelectionStart();
                     }
                     break;
                 case R.id.media_file_stream_btn :
@@ -144,7 +163,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
                     break;
             }
         };
-        
+
         browse_btn.setOnClickListener(listener);
         stream_btn.setOnClickListener(listener);
     }
@@ -162,4 +181,26 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+    private void mediaSelectionStart() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        Intent i = Intent.createChooser(intent, "File");
+        startActivityForResult(i, REQUEST_STREAM_MEDIA);
+    }
+
+    private boolean requestMediaPermissions() {
+        boolean video = Permissions.READ_MEDIA_VIDEO.request(this);
+        boolean audio = Permissions.READ_MEDIA_AUDIO.request(this);
+        return areMediaPermissionsComplete() ?
+            (video || audio) :
+            false;
+    }
+
+    private boolean areMediaPermissionsComplete() {
+        return !(Permissions.READ_MEDIA_VIDEO.isPending() ||
+                 Permissions.READ_MEDIA_AUDIO.isPending());
+    }
+
 }

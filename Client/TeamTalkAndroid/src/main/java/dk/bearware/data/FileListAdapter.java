@@ -32,6 +32,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Environment;
 import android.text.format.Formatter;
 import android.util.SparseArray;
@@ -245,7 +246,7 @@ implements Comparator<RemoteFile>, ClientEventListener.OnFileTransferListener {
                 break;
             }
             case R.id.download_btn: {
-                if (Permissions.setupPermission(context, activity, Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE)) {
+                if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) || Permissions.WRITE_EXTERNAL_STORAGE.request(activity)) {
                     File dlPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
                     if (dlPath.mkdirs() || dlPath.isDirectory()) {
                         final File localFile = new File(dlPath, remoteFile.szFileName);
@@ -338,6 +339,7 @@ implements Comparator<RemoteFile>, ClientEventListener.OnFileTransferListener {
         convertView.setAccessibilityDelegate(accessibilityAssistant);
         return convertView;
     }
+
     @SuppressLint("NewApi") @SuppressWarnings("fallthrough")
     @Override
     public void onFileTransfer(FileTransfer transfer) {

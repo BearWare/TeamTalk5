@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>994</width>
+    <width>1119</width>
     <height>697</height>
    </rect>
   </property>
@@ -457,6 +457,13 @@
                </widget>
               </item>
               <item>
+               <widget class="QCheckBox" name="chanTopicChkBox">
+                <property name="text">
+                 <string>Show channel topic in channel list</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QCheckBox" name="ServnameChkBox">
                 <property name="text">
                  <string>Show both server and channel name in window title</string>
@@ -572,14 +579,21 @@
               <item>
                <widget class="QCheckBox" name="dlgExcludeChkBox">
                 <property name="text">
-                 <string>Show a dialog box when excluded from channel or server</string>
+                 <string>Show dialog box when excluded from channel or server</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="dlgMOTDChkBox">
+                <property name="text">
+                 <string>Show dialog box with server's message of the day</string>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QCheckBox" name="startServerListChkBox">
                 <property name="text">
-                 <string>Show server list on startup</string>
+                 <string>Show dialog box with server list on startup</string>
                 </property>
                </widget>
               </item>
@@ -2370,6 +2384,13 @@
              <widget class="QCheckBox" name="ttsTrySapiChkBox">
               <property name="text">
                <string>Switch to SAPI if current screenreader is not available</string>
+              </property>
+             </widget>
+            </item>
+            <item row="11" column="0">
+             <widget class="QCheckBox" name="ttsSrvNameChkBox">
+              <property name="text">
+               <string>Announce server name for server events</string>
               </property>
              </widget>
             </item>

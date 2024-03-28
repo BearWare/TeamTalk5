@@ -474,7 +474,7 @@ namespace BearWare
     public struct AudioBlock
     {
         /** @brief The ID of the stream. The stream id changes every time
-         * the user enables a new transmission using TeamTalkBase.EnableTransmission()
+         * the user enables a new transmission using TeamTalkBase.EnableVoiceTransmission()
          * or through voice activation. */
         public int nStreamID;
         /** @brief The sample rate of the raw audio. */
@@ -566,6 +566,8 @@ namespace BearWare
         AFF_MP3_128KBIT_FORMAT = 6,
         /** @see #BearWare.AudioFileFormat.AFF_MP3_16KBIT_FORMAT */
         AFF_MP3_256KBIT_FORMAT = 7,
+        /** @see #BearWare.AudioFileFormat.AFF_MP3_16KBIT_FORMAT */
+        AFF_MP3_320KBIT_FORMAT = 8,
     }
 
     /**
@@ -3762,7 +3764,7 @@ namespace BearWare
          *
          * Call TeamTalkBase.AcquireUserAudioBlock() to extract the #BearWare.AudioBlock.
          *
-         * @param nSource The user ID. @see TeamTalkBase.TT_LOCAL_USERID @see TeamTalkBase.TT_MUTEX_USERID
+         * @param nSource The user ID. @see TeamTalkBase.TT_LOCAL_USERID @see TeamTalkBase.TT_MUXED_USERID
          * @param ttType #TTType.__STREAMTYPE */
         CLIENTEVENT_USER_AUDIOBLOCK = CLIENTEVENT_NONE + 570,
         /** 
@@ -3791,7 +3793,7 @@ namespace BearWare
          * @see TeamTalkBase.GetSoundInputLevel()
          * @see TeamTalkBase.SetVoiceActivationLevel()
          * @see CLIENT_SNDINPUT_VOICEACTIVATED
-         * @see TeamTalkBase.EnableTransmission */
+         * @see TeamTalkBase.EnableVoiceActivation() */
         CLIENTEVENT_VOICE_ACTIVATION = CLIENTEVENT_NONE + 1010,
         /** 
          * @brief A hotkey has been acticated or deactivated.
@@ -3973,6 +3975,9 @@ namespace BearWare
         __JITTERCONFIG            = 41,
         __WEBRTCAUDIOPREPROCESSOR = 42,
         __ENCRYPTIONCONTEXT       = 43,
+        __SOUNDDEVICEEFFECTS      = 44,
+        __DESKTOPWINDOW           = 45,
+        __ABUSEPREVENTION         = 46,
     }
 
     /**

@@ -72,7 +72,8 @@
 #include <QTextToSpeech>
 #endif
 
-#ifdef Q_OS_LINUX //For hotkeys on X11
+#ifdef Q_OS_LINUX //For hotkeys and DBus on X11
+#include <QtDBus/QtDBus>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #endif
@@ -180,6 +181,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     m_filesmodel = new FilesModel(this);
     m_proxyFilesModel = new QSortFilterProxyModel(this);
     m_proxyFilesModel->setSourceModel(m_filesmodel);
+    m_proxyFilesModel->setSortRole(Qt::UserRole);
     ui.filesView->setModel(m_proxyFilesModel);
     m_proxyFilesModel->setSortCaseSensitivity(Qt::CaseInsensitive);
     m_proxyFilesModel->sort(COLUMN_INDEX_NAME, Qt::AscendingOrder);
@@ -745,38 +747,7 @@ void MainWindow::loadSettings()
     if(connect_ok)
         QTimer::singleShot(0, this, &MainWindow::slotConnectToLatest);
 
-    if (ttSettings->value(SETTINGS_GENERAL_FIRSTSTART, SETTINGS_GENERAL_FIRSTSTART_DEFAULT).toBool())
-    {
-#if defined(Q_OS_WINDOWS) && defined(ENABLE_TOLK)
-    bool tolkLoaded = Tolk_IsLoaded();
-    if (!tolkLoaded)
-        Tolk_Load();
-
-    bool SRActive = Tolk_DetectScreenReader() != nullptr;
-
-    if (!tolkLoaded)
-        Tolk_Unload();
-
-    if (SRActive)
-    {
-        QMessageBox answer;
-        answer.setText(tr("%1 has detected usage of a screenreader on your computer. Do you wish to enable accessibility options offered by %1 with recommended settings?").arg(APPNAME_SHORT));
-        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
-        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
-        Q_UNUSED(NoButton);
-        answer.setIcon(QMessageBox::Question);
-        answer.setWindowTitle(APPNAME_SHORT);
-        answer.exec();
-
-        if(answer.clickedButton() == YesButton)
-        {
-            ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_TOLK);
-            ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, false);
-        }
-    }
-#endif
-        ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, false);
-    }
+    initialScreenReaderSetup();
 
     // setup VU-meter updates
     if (ttSettings->value(SETTINGS_DISPLAY_VU_METER_UPDATES,
@@ -819,6 +790,54 @@ void MainWindow::loadSettings()
     if ((ttSettings->value(SETTINGS_DISPLAY_START_SERVERLIST, SETTINGS_DISPLAY_START_SERVERLIST_DEFAULT).toBool() == true && ttSettings->value(SETTINGS_CONNECTION_AUTOCONNECT, SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT).toBool() == false) && ((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == CLIENT_CLOSED))
         slotClientConnect();
     slotUpdateUI();
+}
+
+void MainWindow::initialScreenReaderSetup()
+{
+#if defined(ENABLE_TOLK) || defined(Q_OS_LINUX)
+    if (ttSettings->value(SETTINGS_GENERAL_FIRSTSTART, SETTINGS_GENERAL_FIRSTSTART_DEFAULT).toBool())
+    {
+        bool SRActive = false;
+#if defined(ENABLE_TOLK)
+        bool tolkLoaded = Tolk_IsLoaded();
+        if (!tolkLoaded)
+            Tolk_Load();
+
+        SRActive = Tolk_DetectScreenReader() != nullptr;
+
+        if (!tolkLoaded)
+            Tolk_Unload();
+#elif defined(Q_OS_LINUX)
+        QDBusInterface interface("org.a11y.Bus", "/org/a11y/bus", "org.a11y.Status", QDBusConnection::sessionBus());
+        if (interface.isValid())
+        {
+            SRActive = interface.property("ScreenReaderEnabled").toBool();
+        }
+#endif
+        if (SRActive)
+        {
+            QMessageBox answer;
+            answer.setText(tr("%1 has detected usage of a screenreader on your computer. Do you wish to enable accessibility options offered by %1 with recommended settings?").arg(APPNAME_SHORT));
+            QAbstractButton* YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+            QAbstractButton* NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+            Q_UNUSED(NoButton);
+            answer.setIcon(QMessageBox::Question);
+            answer.setWindowTitle(APPNAME_SHORT);
+            answer.exec();
+
+            if (answer.clickedButton() == YesButton)
+            {
+#if defined(ENABLE_TOLK)
+                ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_TOLK);
+#elif defined(Q_OS_LINUX)
+                ttSettings->setValue(SETTINGS_TTS_ENGINE, QFile::exists(TTSENGINE_NOTIFY_PATH) ? TTSENGINE_NOTIFY : TTSENGINE_QT);
+#endif
+                ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, false);
+            }
+        }
+        ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, false);
+    }
+#endif
 }
 
 bool MainWindow::parseArgs(const QStringList& args)
@@ -1113,7 +1132,7 @@ void MainWindow::clienteventCmdUserLoggedIn(const User& user)
     {
         addStatusMsg(STATUSBAR_USER_LOGGEDIN, tr("%1 has logged in").arg(getDisplayName(user)));
         playSoundEvent(SOUNDEVENT_USERLOGGEDIN);
-        addTextToSpeechMessage(TTS_USER_LOGGEDIN, QString(tr("%1 has logged in").arg(getDisplayName(user))));
+        addTextToSpeechMessage(TTS_USER_LOGGEDIN, (ttSettings->value(SETTINGS_TTS_SRVNAME, SETTINGS_TTS_SRVNAME_DEFAULT).toBool()?QString(tr("%1 has logged in on %2").arg(getDisplayName(user)).arg(limitText(_Q(m_srvprop.szServerName)))):QString(tr("%1 has logged in").arg(getDisplayName(user)))));
     }
 
     // sync user settings from cache
@@ -1131,7 +1150,7 @@ void MainWindow::clienteventCmdUserLoggedOut(const User& user)
     {
         addStatusMsg(STATUSBAR_USER_LOGGEDOUT, ((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out", "For female").arg(getDisplayName(user)):tr("%1 has logged out", "For male and neutral").arg(getDisplayName(user))));
         playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
-        addTextToSpeechMessage(TTS_USER_LOGGEDOUT, QString(((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out", "For female").arg(getDisplayName(user)):tr("%1 has logged out", "For male and neutral").arg(getDisplayName(user)))));
+        addTextToSpeechMessage(TTS_USER_LOGGEDOUT, (ttSettings->value(SETTINGS_TTS_SRVNAME, SETTINGS_TTS_SRVNAME_DEFAULT).toBool()?QString(((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out from %2", "For female").arg(getDisplayName(user)).arg(limitText(_Q(m_srvprop.szServerName))):tr("%1 has logged out from %2", "For male and neutral").arg(getDisplayName(user)).arg(limitText(_Q(m_srvprop.szServerName))))):QString(((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out", "For female").arg(getDisplayName(user)):tr("%1 has logged out", "For male and neutral").arg(getDisplayName(user))))));
     }
 
     // sync user settings to cache
@@ -2013,9 +2032,9 @@ void MainWindow::connectToServer()
 
 void MainWindow::disconnectFromServer()
 {
-    TT_Disconnect(ttInst);
     if (!timerExists(TIMER_RECONNECT))
-        addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Disconnected from %1").arg(limitText(_Q(m_srvprop.szServerName))));
+        addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED?tr("Disconnected from %1").arg(limitText(_Q(m_srvprop.szServerName))):tr("Disconnected from server")));
+    TT_Disconnect(ttInst);
 
     // sync user settings to cache
     auto users = ui.channelsWidget->getUsers();

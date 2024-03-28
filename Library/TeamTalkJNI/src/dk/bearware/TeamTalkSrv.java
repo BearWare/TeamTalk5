@@ -62,80 +62,42 @@ public abstract class TeamTalkSrv /* Java 1.7 implements AutoCloseable */ {
         registerServerLogger(logger);
     }
 
-    native void registerServerCallback(long lpTTSInstance, ServerCallback callback);
-    private void registerServerCallback(ServerCallback callback) {
-        registerServerCallback(ttsInst, callback);
-    }
+    public native void registerServerCallback(ServerCallback callback);
 
-    native void registerServerLogger(long lpTTSInstance, ServerLogger logger);
-    private void registerServerLogger(ServerLogger logger) {
-        registerServerLogger(ttsInst, logger);
-    }
+    public native void registerServerLogger(ServerLogger logger);
 
-    private native long initTeamTalk();
-    native void closeTeamTalk(long lpTTSInstance);
-    private void closeTeamTalk() {
-        closeTeamTalk(ttsInst);
-    }
-    native boolean setEncryptionContext(long lpTTSInstance, String szCertificateFile, String szPrivateKeyFile);
-    public boolean setEncryptionContext(String szCertificateFile, String szPrivateKeyFile) {
-        return setEncryptionContext(ttsInst, szCertificateFile, szPrivateKeyFile);
-    }
-    native boolean setEncryptionContextEx(long lpTTSInstance, EncryptionContext lpEncryptionContext);
+    native long initTeamTalk();
+    native void closeTeamTalk();
+
+    public native boolean setEncryptionContext(String szCertificateFile, String szPrivateKeyFile);
+
+    native boolean setEncryptionContextEx(EncryptionContext lpEncryptionContext);
     public boolean setEncryptionContext(EncryptionContext lpEncryptionContext) {
-        return setEncryptionContextEx(ttsInst, lpEncryptionContext);
+        return setEncryptionContextEx(lpEncryptionContext);
     }
-    native boolean runEventLoop(long lpTTSInstance, int pnWaitMs);
-    public boolean runEventLoop(int pnWaitMs) {
-        return runEventLoop(ttsInst, pnWaitMs);
-    }
-    native int setChannelFilesRoot(long lpTTSInstance, String szFilesRoot, long nMaxDiskUsage, long nDefaultChannelQuota);
-    public int setChannelFilesRoot(String szFilesRoot, long nMaxDiskUsage, long nDefaultChannelQuota) {
-        return setChannelFilesRoot(ttsInst, szFilesRoot, nMaxDiskUsage, nDefaultChannelQuota);
-    }
-    native int updateServer(long lpTTSInstance, ServerProperties lpServerProperties);
-    public int updateServer(ServerProperties lpServerProperties) {
-        return updateServer(ttsInst, lpServerProperties);
-    }
-    native int makeChannel(long lpTTSInstance, Channel lpChannel);
-    public int makeChannel(Channel lpChannel) {
-        return makeChannel(ttsInst, lpChannel);
-    }
-    native int updateChannel(long lpTTSInstance, Channel lpChannel);
-    public int updateChannel(Channel lpChannel) {
-        return updateChannel(ttsInst, lpChannel);
-    }
-    native int removeChannel(long lpTTSInstance, int nChannelID);
-    public int removeChannel(int nChannelID) {
-        return removeChannel(ttsInst, nChannelID);
-    }
-    native int addFileToChannel(long lpTTSInstance, String szLocalFilePath,
-                                RemoteFile lpRemoteFile);
-    public int addFileToChannel(String szLocalFilePath, RemoteFile lpRemoteFile) {
-        return addFileToChannel(ttsInst, szLocalFilePath, lpRemoteFile);
-    }
-    native int removeFileFromChannel(long lpTTSInstance, RemoteFile lpRemoteFile);
-    public int removeFileFromChannel(RemoteFile lpRemoteFile) {
-        return removeFileFromChannel(ttsInst, lpRemoteFile);
-    }
-    native int moveUser(long lpTTSInstance, int nUserID, Channel lpChannel);
-    public int moveUser(int nUserID, Channel lpChannel) {
-        return moveUser(ttsInst, nUserID, lpChannel);
-    }
-    native int sendTextMessage(long lpTTSInstance, TextMessage lpTextMessage);
-    public int sendTextMessage(TextMessage lpTextMessage) {
-        return sendTextMessage(ttsInst, lpTextMessage);
-    }
-    native boolean startServer(long lpTTSInstance, String szBindIPAddr, int nTcpPort, int nUdpPort, boolean bEncrypted);
-    public boolean startServer(String szBindIPAddr, int nTcpPort, int nUdpPort, boolean bEncrypted) {
-        return startServer(ttsInst, szBindIPAddr, nTcpPort, nUdpPort, bEncrypted);
-    }
-    native boolean startServerSysID(long lpTTSInstance, String szBindIPAddr, int nTcpPort, int nUdpPort, boolean bEncrypted, String szSystemID);
-    public boolean startServerSysID(String szBindIPAddr, int nTcpPort, int nUdpPort, boolean bEncrypted, String szSystemID) {
-        return startServerSysID(ttsInst, szBindIPAddr, nTcpPort, nUdpPort, bEncrypted, szSystemID);
-    }
-    native boolean stopServer(long lpTTSInstance);
-    public boolean stopServer() {
-        return stopServer(ttsInst);
-    }
+    public native boolean runEventLoop(int pnWaitMs);
+
+    public native int setChannelFilesRoot(String szFilesRoot, long nMaxDiskUsage, long nDefaultChannelQuota);
+
+    public native int updateServer(ServerProperties lpServerProperties);
+
+    public native int makeChannel(Channel lpChannel);
+
+    public native int updateChannel(Channel lpChannel);
+
+    public native int removeChannel(int nChannelID);
+
+    public native int addFileToChannel(String szLocalFilePath, RemoteFile lpRemoteFile);
+
+    public native int removeFileFromChannel(RemoteFile lpRemoteFile);
+
+    public native int moveUser(int nUserID, Channel lpChannel);
+
+    public native int sendTextMessage(TextMessage lpTextMessage);
+
+    public native boolean startServer(String szBindIPAddr, int nTcpPort, int nUdpPort, boolean bEncrypted);
+
+    public native boolean startServerSysID(String szBindIPAddr, int nTcpPort, int nUdpPort, boolean bEncrypted, String szSystemID);
+
+    public native boolean stopServer();
 }

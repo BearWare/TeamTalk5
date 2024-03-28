@@ -23,101 +23,116 @@
 
 package dk.bearware.data;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Queue;
+
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Build;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.os.Build;
-import android.util.Log;
-import android.widget.Toast;
-
 import dk.bearware.gui.R;
 
-public class Permissions {
+@SuppressLint("InlinedApi")
+public enum Permissions {
 
-    public static final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 1,
-    MY_PERMISSIONS_REQUEST_MODIFY_AUDIO_SETTINGS = 2,
-    MY_PERMISSIONS_REQUEST_INTERNET = 3,
-    MY_PERMISSIONS_REQUEST_VIBRATE = 4,
-    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 5,
-    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 6,
-    MY_PERMISSIONS_REQUEST_WAKE_LOCK = 7,
-    MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 8,
-    MY_PERMISSIONS_BLUETOOTH = 9,
-    MY_PERMISSIONS_POST_NOTIFICATIONS = 10;
+    RECORD_AUDIO(Manifest.permission.RECORD_AUDIO, R.string.permission_audioinput),
+    MODIFY_AUDIO_SETTINGS(Manifest.permission.MODIFY_AUDIO_SETTINGS, R.string.permission_audiomodify),
+    INTERNET(Manifest.permission.INTERNET, R.string.permission_internet),
+    VIBRATE(Manifest.permission.VIBRATE, R.string.permission_vibrate),
+    READ_EXTERNAL_STORAGE(Manifest.permission.READ_EXTERNAL_STORAGE, R.string.permission_filetx),
+    WRITE_EXTERNAL_STORAGE(Manifest.permission.WRITE_EXTERNAL_STORAGE, R.string.permission_filerx),
+    READ_MEDIA_IMAGES(Manifest.permission.READ_MEDIA_IMAGES, R.string.permission_imagetx),
+    READ_MEDIA_VIDEO(Manifest.permission.READ_MEDIA_VIDEO, R.string.permission_videotx),
+    READ_MEDIA_AUDIO(Manifest.permission.READ_MEDIA_AUDIO, R.string.permission_audiotx),
+    WAKE_LOCK(Manifest.permission.WAKE_LOCK, R.string.permission_wake_lock),
+    READ_PHONE_STATE(Manifest.permission.READ_PHONE_STATE, R.string.permission_read_phone_state),
+    BLUETOOTH((Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) ? Manifest.permission.BLUETOOTH_CONNECT : Manifest.permission.BLUETOOTH, R.string.permission_bluetooth),
+    POST_NOTIFICATIONS(Manifest.permission.POST_NOTIFICATIONS, R.string.permission_post_notifications);
 
-    public static boolean setupPermission(Context context, Activity activity, int permission) {
-        String stringPermission;
-        String errormessage;
+    private static final Queue<Permissions> requestsQueue = new ConcurrentLinkedQueue<>();
 
-        switch(permission) {
-            case MY_PERMISSIONS_REQUEST_RECORD_AUDIO :
-                stringPermission = Manifest.permission.RECORD_AUDIO;
-                errormessage = context.getString(R.string.permission_audioinput);
-                break;
-            case MY_PERMISSIONS_REQUEST_MODIFY_AUDIO_SETTINGS :
-                stringPermission = Manifest.permission.MODIFY_AUDIO_SETTINGS;
-                errormessage = context.getString(R.string.permission_audiomodify);
-                break;
-            case MY_PERMISSIONS_REQUEST_INTERNET :
-                stringPermission = Manifest.permission.INTERNET;
-                errormessage = context.getString(R.string.permission_internet);
-                break;
-            case MY_PERMISSIONS_REQUEST_VIBRATE :
-                stringPermission = Manifest.permission.VIBRATE;
-                errormessage = context.getString(R.string.permission_vibrate);
-                break;
-            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE :
-                stringPermission = Manifest.permission.READ_EXTERNAL_STORAGE;
-                errormessage = context.getString(R.string.permission_filetx);
-                break;
-            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE :
-                stringPermission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-                errormessage = context.getString(R.string.permission_filerx);
-                break;
-            case MY_PERMISSIONS_REQUEST_WAKE_LOCK:
-                stringPermission = Manifest.permission.WAKE_LOCK;
-                errormessage = context.getString(R.string.permission_wake_lock);
-                break;
-            case MY_PERMISSIONS_REQUEST_READ_PHONE_STATE:
-                stringPermission = Manifest.permission.READ_PHONE_STATE;
-                errormessage = context.getString(R.string.permission_read_phone_state);
-                break;
-            case MY_PERMISSIONS_BLUETOOTH:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    stringPermission = Manifest.permission.BLUETOOTH_CONNECT;
-                }
-                else {
-                    stringPermission = Manifest.permission.BLUETOOTH;
-                }
-                errormessage = context.getString(R.string.permission_bluetooth);
-                break;
-            case MY_PERMISSIONS_POST_NOTIFICATIONS:
-                stringPermission = Manifest.permission.POST_NOTIFICATIONS;
-                errormessage = context.getString(R.string.permission_post_notifications);
-                break;
-            default :
-                Log.e(AppInfo.TAG, String.format("Unknown permission %d", permission));
-                return false;
-        }
+    private final String id;
+    private final int msgResId;
 
-        int permissionCheck = ContextCompat.checkSelfPermission(context,
-                stringPermission);
+    private boolean pending;
 
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-
-            Toast.makeText(context, errormessage, Toast.LENGTH_LONG).show();
-
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(activity, stringPermission)) {
-                ActivityCompat.requestPermissions(activity,
-                        new String[]{stringPermission},
-                        permission);
-            }
-            return false;
-        }
-        return true;
+    Permissions(String id, int msgResId) {
+        this.id = id;
+        this.msgResId = msgResId;
+        pending = false;
     }
+
+    public boolean isGranted(@NonNull Context context) {
+        return ContextCompat.checkSelfPermission(context, id) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public boolean isPending() {
+        return pending;
+    }
+
+    public boolean request(@NonNull Activity activity) {
+        return request(activity, false);
+    }
+
+    public boolean request(@NonNull Activity activity, boolean noWarn) {
+        boolean state = isGranted(activity.getBaseContext());
+        if (!state) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(activity, id)) {
+                boolean busy = false;
+                for (Permissions p : values())
+                    if (p.pending) {
+                        busy = true;
+                        break;
+                    }
+                if (busy) {
+                    requestsQueue.offer(this);
+                } else {
+                    emitRequest(activity);
+                }
+            } else if (!noWarn) {
+                Toast.makeText(activity.getBaseContext(), msgResId, Toast.LENGTH_LONG).show();
+            }
+        }
+        return state;
+    }
+
+    private void emitRequest(@NonNull Activity activity) {
+        ActivityCompat.requestPermissions(activity, new String[]{id}, ordinal() + 1);
+        pending = true;
+    }
+
+    @Nullable
+    public static Permissions onRequestResult(@NonNull Activity activity, int requestCode, @NonNull int[] grantResults) {
+        Permissions permission = fromRequestCode(requestCode);
+        boolean granted = (grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED);
+        if (permission != null) {
+            permission.pending = false;
+            if (!granted) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission.id)) {
+                    Toast.makeText(activity.getBaseContext(), permission.msgResId, Toast.LENGTH_LONG).show();
+                }
+                permission = null;
+            }
+        }
+        Permissions next = requestsQueue.poll();
+        if (next != null) {
+            next.emitRequest(activity);
+        }
+        return permission;
+    }
+
+    @Nullable
+    public static Permissions fromRequestCode(int requestCode) {
+        return ((requestCode > 0) && (requestCode <= values().length)) ? values()[requestCode - 1] : null;
+    }
+
 }

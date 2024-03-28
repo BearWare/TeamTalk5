@@ -12,11 +12,11 @@ if (MSVC)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(opus-src
       GIT_REPOSITORY    https://github.com/xiph/opus
-      GIT_TAG           v1.4
+      GIT_TAG           v1.5.1
       PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-d-suffix-to-debug-build-and-MT-option.patch
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
-      CMAKE_ARGS        -DAVX_SUPPORTED=OFF -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus --config Debug
       COMMAND           ${CMAKE_COMMAND} --build . --target opus --config Release
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPUS}
@@ -46,13 +46,12 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     string (REPLACE ";" "\$<SEMICOLON>" ARCHS "${CMAKE_OSX_ARCHITECTURES}")
     ExternalProject_Add(opus-src
       GIT_REPOSITORY    https://github.com/xiph/opus
-      GIT_TAG           v1.4
+      GIT_TAG           v1.5.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPUS}
       CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET} -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_OSX_ARCHITECTURES=${ARCHS} -DCMAKE_BUILD_TYPE=release
-                        -DAVX_SUPPORTED=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target opus
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libopus.a
       )
@@ -86,7 +85,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(opus-src
       GIT_REPOSITORY    https://github.com/xiph/opus
-      GIT_TAG           v1.4
+      GIT_TAG           v1.5.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
@@ -120,7 +119,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
     ExternalProject_Add(opus-src
       GIT_REPOSITORY    https://github.com/xiph/opus
-      GIT_TAG           v1.4
+      GIT_TAG           v1.5.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
@@ -166,7 +165,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(opus-src
       GIT_REPOSITORY    https://github.com/xiph/opus
-      GIT_TAG           v1.4
+      GIT_TAG           v1.5.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus

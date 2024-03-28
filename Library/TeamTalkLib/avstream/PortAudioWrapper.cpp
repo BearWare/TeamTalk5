@@ -230,8 +230,8 @@ bool PortAudio::GetDefaultDevices(SoundAPI sndsys, int& inputdeviceid,
 
 void PortAudio::FillDevices(sounddevices_t& sounddevs)
 {
-    int n_devices = Pa_GetDeviceCount();
-    for(int i=0;i<n_devices; i++)
+    PaDeviceIndex n_devices = Pa_GetDeviceCount();
+    for(PaDeviceIndex i=0;i<n_devices; i++)
     {
         const PaDeviceInfo* devinfo = Pa_GetDeviceInfo(i);
         assert(devinfo);
@@ -240,92 +240,105 @@ void PortAudio::FillDevices(sounddevices_t& sounddevs)
 
         DeviceInfo device;
         device.devicename = devinfo->name;
-#if defined(WIN32)
-        if(devinfo->uniqueID)
-            device.deviceid = devinfo->uniqueID;
-#endif
         device.soundsystem = GetSoundSystem(devinfo);
         device.id = i;
         device.max_input_channels = devinfo->maxInputChannels;
         device.max_output_channels = devinfo->maxOutputChannels;
         device.default_samplerate = (int)devinfo->defaultSampleRate;
 
-        PaStreamParameters streamParameters = {};
-        streamParameters.device = i;
-        streamParameters.sampleFormat = paInt16;
-        streamParameters.suggestedLatency = 0;
-#if defined(WIN32)
-        const auto HOST_WASAPI = Pa_HostApiTypeIdToHostApiIndex(paWASAPI);
-        if (HOST_WASAPI == devinfo->hostApi)
-            streamParameters.hostApiSpecificStreamInfo = &WASAPICONVERT;
-#endif
-
-        if (devinfo->hostApi == Pa_HostApiTypeIdToHostApiIndex(paALSA))
-        {
-            if (devinfo->maxInputChannels > 0)
-            {
-                device.input_samplerates.insert(int(devinfo->defaultSampleRate));
-                for (int c=1; c <= std::min(devinfo->maxInputChannels, 2); ++c)
-                    device.input_channels.insert(c);
-            }
-            if (devinfo->maxOutputChannels > 0)
-            {
-                device.output_samplerates.insert(int(devinfo->defaultSampleRate));
-                for (int c=1; c <= std::min(devinfo->maxOutputChannels, 2); ++c)
-                    device.output_channels.insert(c);
-            }
-        }
-        else
-        {
-            for (int samplerate : standardSampleRates)
-            {
-                //check input sample rates
-                streamParameters.channelCount = devinfo->maxInputChannels;
-                if (Pa_IsFormatSupported(&streamParameters, NULL, samplerate) == paFormatIsSupported)
-                    device.input_samplerates.insert(samplerate);
-
-                //check output sample rates
-                streamParameters.channelCount = devinfo->maxOutputChannels;
-                if (Pa_IsFormatSupported(NULL, &streamParameters, samplerate) == paFormatIsSupported)
-                    device.output_samplerates.insert(samplerate);
-            }
-
-            for (int c=1;c<=devinfo->maxInputChannels;c++)
-            {
-                //check input channels
-                streamParameters.channelCount = c;
-                if (Pa_IsFormatSupported(&streamParameters, NULL, device.default_samplerate) == paFormatIsSupported)
-                    device.input_channels.insert(c);
-            }
-
-            for (int c=1;c<=devinfo->maxOutputChannels;c++)
-            {
-                //check output channels
-                streamParameters.channelCount = c;
-                if (Pa_IsFormatSupported(NULL, &streamParameters, device.default_samplerate) == paFormatIsSupported)
-                    device.output_channels.insert(c);
-            }
-        }
-
-        device.features |= SOUNDDEVICEFEATURE_DUPLEXMODE;
-
-#if defined(WIN32)
-        device.wavedeviceid = devinfo->wavedeviceid;
-        if (devinfo->max3dBuffers > 0)
-            device.features |= SOUNDDEVICEFEATURE_3DPOSITION;
-
-        // CWMAudioAECCapture
-        if (device.soundsystem == SOUND_API_WASAPI && device.input_channels.size())
-        {
-            device.features |= SOUNDDEVICEFEATURE_AEC;
-            device.features |= SOUNDDEVICEFEATURE_AGC;
-            device.features |= SOUNDDEVICEFEATURE_DENOISE;
-        }
-#endif
+        FillSampleFormats(devinfo, device);
+        SetupDeviceFeatures(devinfo, device);
 
         sounddevs[device.id] = device;
     }
 
+    SetupDefaultCommunicationDevice(sounddevs);
+}
+
+void PortAudio::SetupDeviceFeatures(const PaDeviceInfo* devinfo, soundsystem::DeviceInfo& device)
+{
+    device.features |= SOUNDDEVICEFEATURE_DUPLEXMODE;
+
+#if defined(WIN32)
+    if (devinfo->uniqueID)
+        device.deviceid = devinfo->uniqueID;
+    device.wavedeviceid = devinfo->wavedeviceid;
+    if (devinfo->max3dBuffers > 0)
+        device.features |= SOUNDDEVICEFEATURE_3DPOSITION;
+
+    // CWMAudioAECCapture
+    if (device.soundsystem == SOUND_API_WASAPI && device.input_channels.size())
+    {
+        device.features |= SOUNDDEVICEFEATURE_AEC;
+        device.features |= SOUNDDEVICEFEATURE_AGC;
+        device.features |= SOUNDDEVICEFEATURE_DENOISE;
+    }
+#endif
+}
+
+void PortAudio::FillSampleFormats(const PaDeviceInfo* devinfo, soundsystem::DeviceInfo& device)
+{
+    PaStreamParameters streamParameters = {};
+    streamParameters.device = device.id;
+    assert(Pa_GetDeviceInfo(device.id) == devinfo);
+    streamParameters.sampleFormat = paInt16;
+    streamParameters.suggestedLatency = 0;
+#if defined(WIN32)
+    const auto HOST_WASAPI = Pa_HostApiTypeIdToHostApiIndex(paWASAPI);
+    if (HOST_WASAPI == devinfo->hostApi)
+        streamParameters.hostApiSpecificStreamInfo = &WASAPICONVERT;
+#endif
+
+    if (devinfo->hostApi == Pa_HostApiTypeIdToHostApiIndex(paALSA))
+    {
+        if (devinfo->maxInputChannels > 0)
+        {
+            device.input_samplerates.insert(int(devinfo->defaultSampleRate));
+            for (int c = 1; c <= std::min(devinfo->maxInputChannels, 2); ++c)
+                device.input_channels.insert(c);
+        }
+        if (devinfo->maxOutputChannels > 0)
+        {
+            device.output_samplerates.insert(int(devinfo->defaultSampleRate));
+            for (int c = 1; c <= std::min(devinfo->maxOutputChannels, 2); ++c)
+                device.output_channels.insert(c);
+        }
+    }
+    else
+    {
+        for (int samplerate : standardSampleRates)
+        {
+            //check input sample rates
+            streamParameters.channelCount = devinfo->maxInputChannels;
+            if (Pa_IsFormatSupported(&streamParameters, NULL, samplerate) == paFormatIsSupported)
+                device.input_samplerates.insert(samplerate);
+
+            //check output sample rates
+            streamParameters.channelCount = devinfo->maxOutputChannels;
+            if (Pa_IsFormatSupported(NULL, &streamParameters, samplerate) == paFormatIsSupported)
+                device.output_samplerates.insert(samplerate);
+        }
+
+        for (int c = 1; c <= devinfo->maxInputChannels; c++)
+        {
+            //check input channels
+            streamParameters.channelCount = c;
+            if (Pa_IsFormatSupported(&streamParameters, NULL, device.default_samplerate) == paFormatIsSupported)
+                device.input_channels.insert(c);
+        }
+
+        for (int c = 1; c <= devinfo->maxOutputChannels; c++)
+        {
+            //check output channels
+            streamParameters.channelCount = c;
+            if (Pa_IsFormatSupported(NULL, &streamParameters, device.default_samplerate) == paFormatIsSupported)
+                device.output_channels.insert(c);
+        }
+    }
+}
+
+void PortAudio::SetupDefaultCommunicationDevice(sounddevices_t& sounddevs)
+{
 #if defined(WIN32)
     // Find default communication device on Windows
     CComPtr<IMMDeviceEnumerator> pEnumerator;

@@ -3,6 +3,7 @@ enable_dsyms=true
 enable_ios_bitcode=true
 gtest_enable_absl_printers=false
 ios_deployment_target="@CMAKE_OSX_DEPLOYMENT_TARGET@"
+ios_enable_code_signing=false
 is_component_build=false
 is_debug=false
 rtc_build_examples=false

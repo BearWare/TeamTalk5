@@ -2,7 +2,38 @@
                  TeamTalk
 ----------------------------------------------
 
-Version 5.15, unreleased
+Version 5.16, unreleased
+Default Qt Client
+- Dates and times are now formatted in user locale on "User accounts" dialog and main window's files tab
+- Option to show server's message of the day in a welcome dialog box
+- Option to announce server name on some server related TTS events
+- Don't display server name when disconnected from server where not authentified
+- Option to show channel topic in channel list
+- Ask for accessibility settings on Linux at first startup
+- Fixed "Gender" property not being saved in .tt files
+- Fixed sort by size on file list
+- OPUS codec updated to v1.5.1
+- Windows and macOS updated to Qt 6.7.0RC1
+Android Client
+- Admins can upload files to channels they have not joined
+- It is now possible to move users to root channel
+- Navigating back returns to Channels-tab prior to disconnecting
+- Navigating back also displays root channel
+- User menu action to grant/revoke channel operator
+- Subscriptions for intercepting users
+- OPUS codec updated to v1.5.1
+- Fixed crash issue when entering Text-To-Speech settings
+iOS Client
+- OPUS codec updated to v1.5.1
+Server
+-
+
+Version 5.15.1, 2023/12/21
+Default Qt Client
+- Fixed crashes and missing dialogs when using VoiceOver on macOS
+- Changed to Qt 6.7.0beta1 on macOS
+
+Version 5.15, 2023/12/20
 Default Qt Client
 - PulseAudio support on Ubuntu 22
 - User right to prevent private text messages
@@ -24,10 +55,6 @@ Default Qt Client
 - Fixed files count not announced for non admin users when pressing CTRL+G on non current channel
 - Fixed users still showning channel in Online Users dialog
 - Changed to Qt 6.6.1 on macOS and Windows
-Android Client
--
-iOS Client
--
 Server
 - User right to prevent private text messages
 - User right to prevent channel text messages

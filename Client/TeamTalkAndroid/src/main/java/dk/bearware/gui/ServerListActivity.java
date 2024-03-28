@@ -30,6 +30,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -165,10 +166,10 @@ extends AppCompatActivity
             saveServers();
         }
 
-        Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_POST_NOTIFICATIONS);
-        Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_INTERNET);
-        Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_RECORD_AUDIO);
-        Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_MODIFY_AUDIO_SETTINGS);
+        Permissions.POST_NOTIFICATIONS.request(this);
+        Permissions.INTERNET.request(this);
+        Permissions.RECORD_AUDIO.request(this);
+        Permissions.MODIFY_AUDIO_SETTINGS.request(this);
 
         // Bind to LocalService if not already
         if (mConnection == null)
@@ -256,7 +257,7 @@ extends AppCompatActivity
             case REQUEST_IMPORT_SERVERLIST : {
                 if(resultCode == RESULT_OK) {
                     StringBuilder xml = new StringBuilder();
-                    try (InputStream inputStream = this.getContentResolver().openInputStream(data.getData());){
+                    try (InputStream inputStream = this.getContentResolver().openInputStream(data.getData())) {
                         String line;
                         if (inputStream != null) {
                             BufferedReader source = new BufferedReader(new InputStreamReader(inputStream));
@@ -264,7 +265,6 @@ extends AppCompatActivity
                                 xml.append(line);
                             }
                             source.close();
-                            inputStream.close();
                         }
                     }
                     catch (Exception ex) {
@@ -304,16 +304,12 @@ extends AppCompatActivity
                 refreshServerList();
             break;
             case R.id.action_import_serverlist :
-                if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)) {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("*/*");
-                    Intent i = Intent.createChooser(intent, "File");
-                    startActivityForResult(i, REQUEST_IMPORT_SERVERLIST);
+                if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) || Permissions.READ_EXTERNAL_STORAGE.request(this)) {
+                    fileSelectionStart();
                 }
             break;
             case R.id.action_export_serverlist :
-                if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE)) {
+                if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) || Permissions.WRITE_EXTERNAL_STORAGE.request(this)) {
                     exportServers();
                 }
             break;
@@ -410,7 +406,7 @@ extends AppCompatActivity
 
             if(convertView == null)
                 convertView = inflater.inflate(R.layout.item_serverentry, parent, false);
-            
+
             ImageView img = convertView.findViewById(R.id.servericon);
             TextView name = convertView.findViewById(R.id.server_name);
             TextView summary = convertView.findViewById(R.id.server_summary);
@@ -526,11 +522,11 @@ extends AppCompatActivity
             servers.add(entry);
             i++;
         }
-        
+
         Collections.sort(servers, this);
         adapter.notifyDataSetChanged();
     }
-    
+
     class ServerListAsyncTask extends AsyncTask<Void, Void, Void> {
 
         Vector<ServerEntry> entries;
@@ -563,7 +559,7 @@ extends AppCompatActivity
             }
         }
     }
-    
+
     void refreshServerList() {
         synchronized(servers) {
             servers.clear();
@@ -575,9 +571,9 @@ extends AppCompatActivity
         // version number).
         new ServerListAsyncTask().execute();
     }
-    
+
     class VersionCheckAsyncTask extends AsyncTask<Void, Void, Void> {
-        
+
         String latestclient = "", versionmsg = "";
 
         @Override
@@ -596,9 +592,9 @@ extends AppCompatActivity
                 catch(Exception e) {
                     return null;
                 }
-                
+
                 doc.getDocumentElement().normalize();
-                
+
                 NodeList nList = doc.getElementsByTagName("teamtalk");
                 for (int i = 0; i < nList.getLength(); i++) {
                     Node nNode = nList.item(i);
@@ -626,22 +622,14 @@ extends AppCompatActivity
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        boolean granted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
-        switch (requestCode) {
-            case Permissions.MY_PERMISSIONS_REQUEST_INTERNET:
+        Permissions granted = Permissions.onRequestResult(this, requestCode, grantResults);
+        if (granted == null)
+            return;
+        switch (granted) {
+            case READ_EXTERNAL_STORAGE:
+                fileSelectionStart();
                 break;
-            case Permissions.MY_PERMISSIONS_REQUEST_RECORD_AUDIO:
-                break;
-            case Permissions.MY_PERMISSIONS_REQUEST_MODIFY_AUDIO_SETTINGS:
-                break;
-            case Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("*/*");
-                Intent i = Intent.createChooser(intent, "File");
-                startActivityForResult(i, REQUEST_IMPORT_SERVERLIST);
-                break;
-            case Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE:
+            case WRITE_EXTERNAL_STORAGE:
                 exportServers();
                 break;
         }
@@ -666,7 +654,7 @@ extends AppCompatActivity
         refreshServerList();
 
         String version = AppInfo.getVersion(this);
-                
+
         TextView tv_version = findViewById(R.id.version_textview);
         TextView tv_dllversion = findViewById(R.id.dllversion_textview);
         tv_version.setText(String.format("%s%s%s Build %d", getString(R.string.ttversion), version, AppInfo.APPVERSION_POSTFIX, BuildConfig.VERSION_CODE));
@@ -741,6 +729,14 @@ extends AppCompatActivity
                 break;
         }
         return 0;
+    }
+
+    private void fileSelectionStart() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        Intent i = Intent.createChooser(intent, "File");
+        startActivityForResult(i, REQUEST_IMPORT_SERVERLIST);
     }
 
     private void exportServers() {

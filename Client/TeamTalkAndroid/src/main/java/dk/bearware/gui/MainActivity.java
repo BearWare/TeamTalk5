@@ -32,6 +32,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -40,6 +41,8 @@ import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -48,6 +51,7 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.provider.OpenableColumns;
 import android.text.InputType;
 import android.util.Log;
 import android.util.SparseArray;
@@ -81,6 +85,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -89,6 +94,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -160,6 +168,8 @@ extends AppCompatActivity
     TabLayout mTabLayout;
 
     public static final String TAG = "bearware";
+
+    private static final String MSG_NOTIFICATION_CHANNEL_ID = "TT_PM";
 
     public final int REQUEST_EDITCHANNEL = 1,
                      REQUEST_NEWCHANNEL = 2,
@@ -281,12 +291,16 @@ extends AppCompatActivity
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        UserAccount myuseraccount = new UserAccount();
+        ttclient.getMyUserAccount(myuseraccount);
+
+        boolean uploadRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_UPLOAD_FILES) !=0;
         boolean isEditable = curchannel != null;
         boolean isJoinable = (ttclient != null) && (curchannel != null) && (ttclient.getMyChannelID() != curchannel.nChannelID) && (curchannel.nMaxUsers > 0);
         boolean isMyChannel = (ttclient != null) && (curchannel != null) && (ttclient.getMyChannelID() == curchannel.nChannelID);
         menu.findItem(R.id.action_edit).setEnabled(isEditable).setVisible(isEditable);
         menu.findItem(R.id.action_join).setEnabled(isJoinable).setVisible(isJoinable);
-        menu.findItem(R.id.action_upload).setEnabled(isMyChannel).setVisible(isMyChannel);
+        menu.findItem(R.id.action_upload).setEnabled(uploadRight).setVisible(uploadRight);
         menu.findItem(R.id.action_stream).setEnabled(isMyChannel).setVisible(isMyChannel);
         return super.onPrepareOptionsMenu(menu);
     }
@@ -300,12 +314,10 @@ extends AppCompatActivity
             }
             break;
             case R.id.action_upload : {
-                if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)) {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("*/*");
-                    Intent i = Intent.createChooser(intent, "File");
-                    startActivityForResult(i, REQUEST_SELECT_FILE);
+                if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) ?
+                    requestMediaPermissions() :
+                    Permissions.READ_EXTERNAL_STORAGE.request(this)) {
+                    fileSelectionStart();
                 }
             }
             break;
@@ -327,12 +339,12 @@ extends AppCompatActivity
 
             case R.id.action_newchannel : {
                 Intent intent = new Intent(MainActivity.this, ChannelPropActivity.class);
-                
+
                 int parent_chan_id = ttclient.getRootChannelID();
                 if(curchannel != null)
                     parent_chan_id = curchannel.nChannelID;
                 intent = intent.putExtra(ChannelPropActivity.EXTRA_PARENTID, parent_chan_id);
-                
+
                 startActivityForResult(intent, REQUEST_NEWCHANNEL);
             }
             break;
@@ -342,12 +354,15 @@ extends AppCompatActivity
                 break;
             }
             case android.R.id.home : {
-                Channel parentChannel = ((mViewPager.getCurrentItem() == SectionsPagerAdapter.CHANNELS_PAGE)
+                int currentPage = mViewPager.getCurrentItem();
+                Channel parentChannel = ((currentPage == SectionsPagerAdapter.CHANNELS_PAGE)
                                          && (curchannel != null)
-                                         && (curchannel.nChannelID != ttclient.getRootChannelID())) ?
+                                         ) ?
                     ttservice.getChannels().get(curchannel.nParentID) :
                     null;
-                if ((parentChannel != null) && (parentChannel.nChannelID > 0)) {
+                if (currentPage != SectionsPagerAdapter.CHANNELS_PAGE) {
+                    mViewPager.setCurrentItem(SectionsPagerAdapter.CHANNELS_PAGE);
+                } else if ((curchannel != null)) {
                     setCurrentChannel(parentChannel);
                     channelsAdapter.notifyDataSetChanged();
                 }
@@ -373,7 +388,7 @@ extends AppCompatActivity
     }
 
     CountDownTimer stats_timer = null;
-    
+
     TeamTalkConnection mConnection;
     TeamTalkService ttservice;
     TeamTalkBase ttclient;
@@ -398,7 +413,7 @@ extends AppCompatActivity
         else {
             adjustSoundSystem(prefs);
             if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)) {
-                if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_BLUETOOTH))
+                if (Permissions.BLUETOOTH.request(this))
                     ttservice.watchBluetoothHeadset();
             }
             else ttservice.unwatchBluetoothHeadset();
@@ -562,21 +577,83 @@ extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if ((requestCode == REQUEST_SELECT_FILE) && (resultCode == RESULT_OK)) {
-            String path = AbsolutePathHelper.getRealPath(this.getBaseContext(), data.getData());
-            String remoteName = filesAdapter.getRemoteName(path);
-            if (remoteName != null) {
-                Toast.makeText(this, getString(R.string.remote_file_exists, remoteName), Toast.LENGTH_LONG).show();
-            } else if (ttclient.doSendFile(curchannel.nChannelID, path) <= 0) {
-                Toast.makeText(this, getString(R.string.upload_failed, path), Toast.LENGTH_LONG).show();
+            Uri uri = data.getData();
+            String path = AbsolutePathHelper.getRealPath(this.getBaseContext(), uri);
+            if (path != null) {
+                File localFile = new File(path);
+                if (localFile.canRead()) {
+                    startFileUpload(path);
+                } else {
+                    Toast.makeText(this, getString(R.string.upload_failed, path), Toast.LENGTH_LONG).show();
+                }
+            } else {
+                new FileCopyingTask().execute(uri);
             }
-            else {
-                Toast.makeText(this, R.string.upload_started, Toast.LENGTH_SHORT).show();
-            }
-        }
-        else {
+        } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+    private boolean startFileUpload(String path) {
+        String remoteName = filesAdapter.getRemoteName(path);
+        if (remoteName != null) {
+            Toast.makeText(this, getString(R.string.remote_file_exists, remoteName), Toast.LENGTH_LONG).show();
+        } else if (ttclient.doSendFile(curchannel.nChannelID, path) <= 0) {
+            Toast.makeText(this, getString(R.string.upload_failed, path), Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, R.string.upload_started, Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
+    }
+
+
+    private class FileCopyingTask extends AsyncTask<Uri, Void, String> {
+
+        @Override
+        protected String doInBackground(Uri... uris) {
+            Uri uri = uris[0];
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            int columnIndex = ((cursor != null) && cursor.moveToFirst()) ? cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME) : -1;
+            if (columnIndex >= 0) {
+                File transitFile = new File(getCacheDir(), cursor.getString(columnIndex));
+                cursor.close();
+                try {
+                    if (((!transitFile.exists()) || transitFile.delete()) && transitFile.createNewFile()) {
+                        transitFile.deleteOnExit();
+                    } else {
+                        return null;
+                    }
+                } catch (Exception ex) {
+                    return null;
+                }
+                try (InputStream src = getContentResolver().openInputStream(uri);
+                     FileOutputStream dest = new FileOutputStream(transitFile)) {
+                    byte[] buffer = new byte[1024];
+                    int read;
+                    while ((read = src.read(buffer)) > 0) {
+                        dest.write(buffer, 0, read);
+                    }
+                } catch (Exception ex) {
+                    return null;
+                }
+                return transitFile.getPath();
+            } else if (cursor != null) {
+                cursor.close();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String path) {
+            if ((path != null) && !startFileUpload(path)) {
+                File transitFile = new File(path);
+                transitFile.delete();
+            }
+        }
+
+    }
+
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
@@ -606,12 +683,12 @@ extends AppCompatActivity
     FilesSectionFragment filesFragment;
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
-        
+
         public static final int CHANNELS_PAGE   = 0,
                                 CHAT_PAGE       = 1,
                                 MEDIA_PAGE      = 2,
                                 FILES_PAGE      = 3,
-                                
+
                                 PAGE_COUNT      = 4;
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -681,6 +758,28 @@ extends AppCompatActivity
         @Override
         public void onPageScrollStateChanged(int state) {
         }
+    }
+
+
+    private void fileSelectionStart() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        Intent i = Intent.createChooser(intent, "File");
+        startActivityForResult(i, REQUEST_SELECT_FILE);
+    }
+
+    private boolean requestMediaPermissions() {
+        Permissions.READ_MEDIA_IMAGES.request(this, true);
+        Permissions.READ_MEDIA_VIDEO.request(this, true);
+        Permissions.READ_MEDIA_AUDIO.request(this, true);
+        return areMediaPermissionsComplete();
+    }
+
+    private boolean areMediaPermissionsComplete() {
+        return !(Permissions.READ_MEDIA_IMAGES.isPending() ||
+                 Permissions.READ_MEDIA_VIDEO.isPending() ||
+                 Permissions.READ_MEDIA_AUDIO.isPending());
     }
 
     private void editChannelProperties(Channel channel) {
@@ -1296,9 +1395,9 @@ private EditText newmsg;
             UserAccount myuseraccount = new UserAccount();
             ttclient.getMyUserAccount(myuseraccount);
 
-            boolean banRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_BAN_USERS) !=0;
-            boolean moveRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_MOVE_USERS) !=0;
-            boolean kickRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_KICK_USERS) !=0;
+            boolean banRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_BAN_USERS) != UserRight.USERRIGHT_NONE;
+            boolean moveRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_MOVE_USERS) != UserRight.USERRIGHT_NONE;
+            boolean kickRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_KICK_USERS) != UserRight.USERRIGHT_NONE;
             // operator of a channel can also kick users
             int myuserid = ttclient.getMyUserID();
             boolean operatorRight = ttclient.isChannelOperator(myuserid, selectedUser.nChannelID);
@@ -1310,21 +1409,23 @@ private EditText newmsg;
             userActions.getMenu().findItem(R.id.action_kicksrv).setEnabled(kickRight).setVisible(kickRight);
             userActions.getMenu().findItem(R.id.action_banchan).setEnabled(banRight | operatorRight).setVisible(banRight | operatorRight);
             userActions.getMenu().findItem(R.id.action_bansrv).setEnabled(banRight).setVisible(banRight);
+            userActions.getMenu().findItem(R.id.action_makeop).setTitle(ttclient.isChannelOperator(selectedUser.nUserID , selectedUser.nChannelID) ? R.string.action_revoke_operator : R.string.action_make_operator);
             userActions.getMenu().findItem(R.id.action_select).setEnabled(moveRight).setVisible(moveRight);
             userActions.show();
             return true;
         }
         if (item instanceof Channel) {
             selectedChannel = (Channel) item;
-            if ((curchannel != null) && (curchannel.nParentID != selectedChannel.nChannelID)) {
-                boolean isRemovable = (ttclient != null) && (selectedChannel.nChannelID != ttclient.getMyChannelID());
-                PopupMenu channelActions = new PopupMenu(this, v);
-                channelActions.setOnMenuItemClickListener(this);
-                channelActions.inflate(R.menu.channel_actions);
-                channelActions.getMenu().findItem(R.id.action_remove).setEnabled(isRemovable).setVisible(isRemovable);
-                channelActions.show();
-                return true;
-            }
+            UserAccount myuseraccount = new UserAccount();
+            ttclient.getMyUserAccount(myuseraccount);
+
+            boolean moveRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_MOVE_USERS) != UserRight.USERRIGHT_NONE;
+            PopupMenu channelActions = new PopupMenu(this, v);
+            channelActions.setOnMenuItemClickListener(this);
+            channelActions.inflate(R.menu.channel_actions);
+            channelActions.getMenu().findItem(R.id.action_move).setEnabled(moveRight).setVisible(moveRight);
+            channelActions.show();
+            return true;
         }
         return false;
     }
@@ -1370,6 +1471,16 @@ private EditText newmsg;
             alert.setNegativeButton(android.R.string.no, null);
             alert.show();
             break;
+            case R.id.action_makeop:
+                alert.setTitle(ttclient.isChannelOperator(selectedUser.nUserID , selectedUser.nChannelID) ? R.string.action_revoke_operator : R.string.action_make_operator);
+                alert.setMessage(R.string.text_operator_password);
+                final EditText input = new EditText(this);
+                input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
+                alert.setPositiveButton(android.R.string.yes, ((dialog, whichButton) -> ttclient.doChannelOpEx(selectedUser.nUserID, selectedUser.nChannelID, input.getText().toString(), ttclient.isChannelOperator(selectedUser.nUserID, selectedUser.nChannelID)? false: true)));
+                alert.setNegativeButton(android.R.string.no, null);
+                alert.setView(input);
+                alert.show();
+                break;
         case R.id.action_move:
             for (Integer userID : userIDS) {
                 ttclient.doMoveUser(userID, selectedChannel.nChannelID);
@@ -1752,7 +1863,7 @@ private EditText newmsg;
             ttservice.setMute(false);
             ttservice.enableVoiceTransmission(false);
             ttservice.enableVoiceActivation(false);
-            if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_READ_PHONE_STATE))
+            if (Permissions.READ_PHONE_STATE.request(this))
                 ttservice.enablePhoneCallReaction();
         }
 
@@ -1781,10 +1892,10 @@ private EditText newmsg;
         adjustSoundSystem(prefs);
 
         if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)
-            && Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_BLUETOOTH))
+            && Permissions.BLUETOOTH.request(this))
             ttservice.watchBluetoothHeadset();
 
-        if (Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_WAKE_LOCK))
+        if (Permissions.WAKE_LOCK.request(this))
             wakeLock.acquire();
 
         int mastervol = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
@@ -1823,27 +1934,33 @@ private EditText newmsg;
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case Permissions.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("*/*");
-                Intent i = Intent.createChooser(intent, "File");
-                startActivityForResult(i, REQUEST_SELECT_FILE);
+        Permissions granted = Permissions.onRequestResult(this, requestCode, grantResults);
+        if (granted == null) {
+            granted = Permissions.fromRequestCode(requestCode);
+            if ((granted != Permissions.READ_MEDIA_IMAGES) &&
+                (granted != Permissions.READ_MEDIA_VIDEO) &&
+                (granted != Permissions.READ_MEDIA_AUDIO))
+                return;
+        }
+        switch (granted) {
+            case READ_EXTERNAL_STORAGE:
+            case READ_MEDIA_IMAGES:
+            case READ_MEDIA_VIDEO:
+            case READ_MEDIA_AUDIO:
+                if ((Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) || areMediaPermissionsComplete())
+                    fileSelectionStart();
                 break;
-            case Permissions.MY_PERMISSIONS_REQUEST_WAKE_LOCK:
+            case WAKE_LOCK:
                 wakeLock.acquire();
                 break;
-            case Permissions.MY_PERMISSIONS_REQUEST_READ_PHONE_STATE:
+            case READ_PHONE_STATE:
                 if ((mConnection != null) && mConnection.isBound())
                     ttservice.enablePhoneCallReaction();
                 break;
-            case Permissions.MY_PERMISSIONS_BLUETOOTH:
+            case BLUETOOTH:
                 if ((mConnection != null) && mConnection.isBound())
                     ttservice.watchBluetoothHeadset();
                 break;
-            case Permissions.MY_PERMISSIONS_REQUEST_VIBRATE:
-            case Permissions.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE:
             default:
                 break;
         }
@@ -2052,24 +2169,22 @@ private EditText newmsg;
             if (ttsWrapper != null && prefs.getBoolean("private_message_checkbox", false))
                 ttsWrapper.speak(getString(R.string.text_tts_private_message, senderName, textmessage.szMessage));
             Intent action = new Intent(this, TextMessageActivity.class);
-            Notification.Builder notification = new Notification.Builder(this);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationChannel mChannel = new NotificationChannel("TT_PM", "Teamtalk incoming message", NotificationManager.IMPORTANCE_HIGH);
+                NotificationChannel mChannel = new NotificationChannel(MSG_NOTIFICATION_CHANNEL_ID, "Teamtalk incoming message", NotificationManager.IMPORTANCE_HIGH);
                 mChannel.enableVibration(false);
                 mChannel.setVibrationPattern(null);
                 mChannel.enableLights(false);
                 mChannel.setSound(null, null);
                 notificationManager.createNotificationChannel(mChannel);
             }
-            notification.setSmallIcon(R.drawable.message)
+            Notification notification = new NotificationCompat.Builder(this, MSG_NOTIFICATION_CHANNEL_ID)
+                .setSmallIcon(R.drawable.message)
                 .setContentTitle(getString(R.string.private_message_notification, senderName))
                 .setContentText(getString(R.string.private_message_notification_hint))
                 .setContentIntent(PendingIntent.getActivity(this, textmessage.nFromUserID, action.putExtra(TextMessageActivity.EXTRA_USERID, textmessage.nFromUserID), PendingIntent.FLAG_IMMUTABLE))
-                .setAutoCancel(true);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                notification.setChannelId("TT_PM");
-			}
-            notificationManager.notify(MESSAGE_NOTIFICATION_TAG, textmessage.nFromUserID, notification.build());
+                .setAutoCancel(true)
+                .build();
+            notificationManager.notify(MESSAGE_NOTIFICATION_TAG, textmessage.nFromUserID, notification);
             break;
         case TextMsgType.MSGTYPE_CUSTOM:
         default:
@@ -2169,7 +2284,7 @@ private EditText newmsg;
         if (!isSuspended) {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
             boolean ptt_vibrate = pref.getBoolean("vibrate_checkbox", true) &&
-                Permissions.setupPermission(getBaseContext(), this, Permissions.MY_PERMISSIONS_REQUEST_VIBRATE);
+                Permissions.VIBRATE.request(this);
             if (voiceTransmissionEnabled) {
                 accessibilityAssistant.shutUp();
                 if (sounds.get(SOUND_VOICETXON) != 0) {

@@ -205,6 +205,60 @@
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_media" />
 
+    <Switch
+        android:id="@+id/user_subscribeintercepttxtmsgSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_subscribe_intercept_txtmsg" />
+
+    <Switch
+        android:id="@+id/user_subscribeinterceptchanmsgSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_subscribe_intercept_chanmsg" />
+
+    <Switch
+        android:id="@+id/user_subscribeinterceptvoiceSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_subscribe_intercept_voice" />
+
+    <Switch
+        android:id="@+id/user_subscribeinterceptvidSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_subscribe_intercept_vid" />
+
+    <Switch
+        android:id="@+id/user_subscribeinterceptdeskSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_subscribe_intercept_desk" />
+
+    <Switch
+        android:id="@+id/user_subscribeinterceptmediaSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_subscribe_intercept_media" />
+
     <Space
         android:layout_height="match_parent"
         android:layout_columnSpan="2" />

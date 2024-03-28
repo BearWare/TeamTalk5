@@ -24,7 +24,19 @@ android-build:
 	@echo "Testing if ANDROID_NDK_HOME environment variable is set: $(ANDROID_NDK_HOME)"
 	test -n "$(ANDROID_NDK_HOME)"
 	$(MAKE) CONFIGTYPE=$(CONFIGTYPE) \
-	CMAKE_EXTRA+="-DCMAKE_TOOLCHAIN_FILE=$(ANDROID_NDK_HOME)/build/cmake/android.toolchain.cmake -DANDROID_ABI=$(ANDROID_ABI) -DANDROID_PLATFORM=android-21 -DBUILD_TEAMTALK_LIBRARY_LIB=ON -DBUILD_TEAMTALK_LIBRARY_LIBPRO=ON -DBUILD_TEAMTALK_LIBRARIES=ON -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALK_SERVERS=OFF -DBUILD_TEAMTALK_SERVER_SRVEXE=OFF -DBUILD_TEAMTALK_SERVER_SRVEXEPRO=OFF -DTOOLCHAIN_ZLIB=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON" buildlib
+        CMAKE_EXTRA+="-DCMAKE_TOOLCHAIN_FILE=$(ANDROID_NDK_HOME)/build/cmake/android.toolchain.cmake \
+        -DANDROID_ABI=$(ANDROID_ABI) \
+        -DANDROID_PLATFORM=android-21 \
+        -DBUILD_TEAMTALK_LIBRARY_LIB=ON \
+        -DBUILD_TEAMTALK_LIBRARY_LIBPRO=ON \
+        -DBUILD_TEAMTALK_LIBRARIES=ON \
+        -DBUILD_TEAMTALK_CLIENTS=OFF \
+        -DBUILD_TEAMTALK_SERVERS=OFF \
+        -DBUILD_TEAMTALK_SERVER_SRVEXE=OFF \
+        -DBUILD_TEAMTALK_SERVER_SRVEXEPRO=OFF \
+        -DTOOLCHAIN_ZLIB=OFF \
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON" \
+        buildlib
 
 android-armeabi-v7a: teamtalk-env
 	$(MAKE) ANDROID_ABI=armeabi-v7a BUILDDIR=build-$@ android-build
@@ -51,9 +63,28 @@ deb64:
 
 ubuntu:
 	@echo May need to specify JAVA_HOME to help CMake find Java SDK
-	$(MAKE) BUILDDIR=build-$(UBUNTUDIR) CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON -DTOOLCHAIN_OPENSSL=OFF" generic
+	$(MAKE) BUILDDIR=build-$(UBUNTUDIR) \
+	CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+	-DTOOLCHAIN_OPENSSL=OFF" generic
+
 ubuntu18:
-	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK_CLIENT_QTTEAMTALK=OFF \
+	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK_LIBRARY_DLL=OFF \
+                              -DBUILD_TEAMTALK_LIBRARY_DLLPRO=OFF \
+                              -DBUILD_TEAMTALK_LIBRARIES=OFF \
+                              -DBUILD_TEAMTALK_SERVERS=OFF \
+                              -DBUILD_TEAMTALK_CLIENTS=OFF \
+                              -DTOOLCHAIN_OPENSSL=OFF \
+                              -DTOOLCHAIN_ZLIB=OFF \
+                              -DTOOLCHAIN_CATCH2=OFF \
+                              -DTOOLCHAIN_LIBVPX=OFF \
+                              -DTOOLCHAIN_FFMPEG=OFF \
+                              -DTOOLCHAIN_OGG=OFF \
+                              -DTOOLCHAIN_OPUS=OFF \
+                              -DTOOLCHAIN_PORTAUDIO=OFF \
+                              -DTOOLCHAIN_SPEEX=OFF \
+                              -DTOOLCHAIN_SPEEXDSP=OFF \
+                              -DFEATURE_OPUSTOOLS=OFF \
+                              -DFEATURE_WEBRTC=OFF \
                               -DBUILD_TEAMTALK_DOCUMENTATION=OFF" UBUNTUDIR=$@ ubuntu
 ubuntu19:
 	$(MAKE) UBUNTUDIR=$@ ubuntu
@@ -85,19 +116,35 @@ centos7:
                               -DTOOLCHAIN_SPEEX=OFF \
                               -DTOOLCHAIN_SPEEXDSP=OFF \
                               -DFEATURE_OPUSTOOLS=OFF \
-                              -DFEATURE_WEBRTC=OFF" BUILDDIR=build-$@ buildlib
+                              -DFEATURE_WEBRTC=OFF" \
+                              BUILDDIR=build-$@ buildlib
 
 rasp:
 	$(MAKE) CMAKE_EXTRA+="-DFEATURE_WEBRTC=OFF \
                               -DTOOLCHAIN_OPENSSL=OFF \
                               -DBUILD_TEAMTALK_CLIENTS=OFF \
-                              -DBUILD_TEAMTALK_DOCUMENTATION=OFF" BUILDDIR=build-$@ generic
+                              -DBUILD_TEAMTALK_DOCUMENTATION=OFF" \
+                              BUILDDIR=build-$@ generic
 
 mac:
 	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 -DCMAKE_OSX_ARCHITECTURES=\"arm64;x86_64\"" generic
 
 ios-build:
-	$(MAKE) CMAKE_EXTRA+="-DCMAKE_SYSTEM_NAME=iOS -DBUILD_TEAMTALK_LIBRARY_LIB=ON -DBUILD_TEAMTALK_LIBRARY_LIBPRO=ON -DBUILD_TEAMTALK_LIBRARY_DLL=OFF -DBUILD_TEAMTALK_LIBRARY_DLLPRO=OFF -DFEATURE_OGG=OFF -DFEATURE_FFMPEG=OFF -DFEATURE_OPUSTOOLS=OFF -DBUILD_TEAMTALK_LIBRARIES=OFF -DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALK_SERVERS=OFF -DBUILD_TEAMTALK_SERVER_SRVEXE=OFF -DBUILD_TEAMTALK_SERVER_SRVEXEPRO=OFF -DTOOLCHAIN_ZLIB=OFF" buildlib
+	$(MAKE) CMAKE_EXTRA+="-DCMAKE_SYSTEM_NAME=iOS \
+        -DBUILD_TEAMTALK_LIBRARY_LIB=ON \
+        -DBUILD_TEAMTALK_LIBRARY_LIBPRO=ON \
+        -DBUILD_TEAMTALK_LIBRARY_DLL=OFF \
+        -DBUILD_TEAMTALK_LIBRARY_DLLPRO=OFF \
+        -DFEATURE_OGG=OFF \
+        -DFEATURE_FFMPEG=OFF \
+        -DFEATURE_OPUSTOOLS=OFF \
+        -DBUILD_TEAMTALK_LIBRARIES=OFF \
+        -DBUILD_TEAMTALK_CLIENTS=OFF \
+        -DBUILD_TEAMTALK_SERVERS=OFF \
+        -DBUILD_TEAMTALK_SERVER_SRVEXE=OFF \
+        -DBUILD_TEAMTALK_SERVER_SRVEXEPRO=OFF \
+        -DTOOLCHAIN_ZLIB=OFF" \
+        buildlib
 
 IOS_INSTALL_DIR?=$(PWD)/ios-install
 
@@ -167,7 +214,15 @@ xcodeswap-apps:
 	sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 
 teamtalk-jar:
-	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DBUILD_TEAMTALK_CLIENTS=OFF -DBUILD_TEAMTALK_SERVERS=OFF -DBUILD_TEAMTALK_LIBRARY_JNI=OFF -DBUILD_TEAMTALK_LIBRARY_JNIPRO=OFF -DBUILD_TEAMTALK_LIBRARY_DLL_DOTNET=OFF -DBUILD_TEAMTALK_LIBRARY_DLLPRO_DOTNET=OFF -DBUILD_TEAMTALK_LIBRARY_DLL_DOTNET=OFF -DBUILD_TEAMTALK_LIBRARY_DLLPRO_DOTNET=OFF" buildlib
+	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DBUILD_TEAMTALK_CLIENTS=OFF \
+        -DBUILD_TEAMTALK_SERVERS=OFF \
+        -DBUILD_TEAMTALK_LIBRARY_JNI=OFF \
+        -DBUILD_TEAMTALK_LIBRARY_JNIPRO=OFF \
+        -DBUILD_TEAMTALK_LIBRARY_DLL_DOTNET=OFF \
+        -DBUILD_TEAMTALK_LIBRARY_DLLPRO_DOTNET=OFF \
+        -DBUILD_TEAMTALK_LIBRARY_DLL_DOTNET=OFF \
+        -DBUILD_TEAMTALK_LIBRARY_DLLPRO_DOTNET=OFF" \
+        buildlib
 
 # TeamTalk 5 dependencies for Ubuntu 18
 depend-ubuntu18:
@@ -176,7 +231,8 @@ depend-ubuntu18:
                     libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
                     openjdk-11-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev yasm autoconf libtool pkg-config \
-                    libasound2-dev wget python g++ python3-pytest
+                    libasound2-dev wget python g++ python3-pytest \
+                    libpulse-dev
 
 depend-ubuntu20:
 # Duplicate install in Docker/Dockerfile_ubuntu20
@@ -184,7 +240,8 @@ depend-ubuntu20:
                     libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
                     openjdk-17-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev yasm autoconf libtool pkg-config \
-                    libasound2-dev wget python g++
+                    libasound2-dev wget python g++ \
+                    libpulse-dev
 
 depend-ubuntu22:
 	apt install qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev \
@@ -212,9 +269,9 @@ depend-debian9:
 depend-rasp10:
 	apt install qt5-default libqt5x11extras5-dev qtmultimedia5-dev \
                     libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
-                    openjdk-8-jdk ninja-build libpcap-dev junit4 cmake \
+                    openjdk-11-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev autoconf libtool pkg-config \
-                    libasound2-dev wget python
+                    libasound2-dev wget python libpulse-dev
 
 # TeamTalk 5 dependencies for Raspbian 11 Bullseye
 depend-rasp11:
@@ -222,7 +279,8 @@ depend-rasp11:
                     libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
                     openjdk-17-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev autoconf libtool pkg-config \
-                    libasound2-dev wget g++ p7zip-full python3-pytest
+                    libasound2-dev wget g++ p7zip-full python3-pytest \
+                    libpulse-dev
 
 depend-mac:
-	brew install autoconf automake libtool pkg-config yasm ninja
+	brew install autoconf automake libtool pkg-config yasm ninja python-setuptools

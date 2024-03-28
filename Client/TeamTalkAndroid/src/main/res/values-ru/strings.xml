@@ -165,6 +165,7 @@
 
     <string name="user_prop_title_username">Имя Пользователя</string>
     <string name="user_prop_title_clientname">Имя клиента</string>
+    <string name="user_prop_clientversion">версия</string>
     <string name="user_prop_title_voice_volume">Громкость Голоса</string>
     <string name="user_prop_title_mute_voice">Выключить Голос</string>
     <string name="user_prop_title_media_volume">Громкость Проигрывания Медиафайлов</string>
@@ -175,7 +176,13 @@
     <string name="user_prop_title_subscribe_voice">Голос</string>
     <string name="user_prop_title_subscribe_vid">Видео</string>
     <string name="user_prop_title_subscribe_desk">Рабочий стол</string>
-    <string name="user_prop_title_subscribe_media">Поток медиа файла</string>
+    <string name="user_prop_title_subscribe_media">Трансляция медиа файла</string>
+    <string name="user_prop_title_subscribe_intercept_txtmsg">Перехват сообщений пользователя</string>
+    <string name="user_prop_title_subscribe_intercept_chanmsg">Перехват сообщений канала</string>
+    <string name="user_prop_title_subscribe_intercept_voice">Перехват голоса</string>
+    <string name="user_prop_title_subscribe_intercept_vid">Перехват видео</string>
+    <string name="user_prop_title_subscribe_intercept_desk">Перехват рабочего стола</string>
+    <string name="user_prop_title_subscribe_intercept_media">Перехват медиатрансляции</string>
 
     <string name="label_connection">Соединение:</string>
     <string name="stat_online">Активно</string>
@@ -323,6 +330,9 @@
     <string name="permission_audiomodify">Запись и воспроизведение звука будут недоступны</string>
     <string name="permission_filerx">Загрузка файлов будет недоступна</string>
     <string name="permission_filetx">Выкладывание и импортирование файлов будет недоступно</string>
+    <string name="permission_imagetx">Выкладывание фотографий будет недоступно</string>
+    <string name="permission_videotx">Видео файлы будут недоступны для выкладывания и трансляции</string>
+    <string name="permission_audiotx">Аудио файлы будут недоступны для выкладывания и трансляции</string>
     <string name="permission_internet">Клиент не сможет подключаться к серверам</string>
     <string name="permission_vibrate">Виброотклик кнопки включения передачи будет недоступен</string>
     <string name="permission_wake_lock">Соединение с сервером может быть потеряно при выключении экрана</string>
@@ -380,5 +390,8 @@
     <string name="pref_title_server_usercount">Пользователей в сети</string>
     <string name="pref_title_server_country">Страна</string>
     <string name="pref_title_server_status">Статус сервера</string>
+    <string name="action_make_operator">Предоставить права Оператора</string>
+    <string name="action_revoke_operator">Отозвать права Оператора</string>
+    <string name="text_operator_password">Введите пароль оператора канала</string>
 
 </resources>

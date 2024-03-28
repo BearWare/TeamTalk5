@@ -43,6 +43,7 @@
 #include <cmath>
 #include <iomanip>
 #include <sstream>
+#include <memory>
 
 using namespace std;
 
@@ -146,12 +147,12 @@ int HttpGetRequest(const ACE_CString& url, std::string& result)
 {
     aceSingletons();
 
-    ACE_Auto_Ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url));
-    if (url_safe.get() == 0)
+    std::unique_ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url));
+    if (!url_safe)
         return -1;
 
     ACE::HTTP::ClientRequestHandler http;
-    ACE::INet::URLStream urlin = url_safe.get()->open(http);
+    ACE::INet::URLStream urlin = url_safe->open(http);
 
     ostringstream oss;
     oss << urlin->rdbuf();
@@ -172,8 +173,8 @@ int HttpPostRequest(const ACE_CString& url, const char* data, int len, const std
 {
     aceSingletons();
 
-    ACE_Auto_Ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url));
-    if (url_safe.get() == 0)
+    std::unique_ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url));
+    if (!url_safe)
         return -1;
 
     class MyRequest : public ACE::HTTP::ClientRequestHandler
@@ -260,7 +261,7 @@ int HttpPostRequest(const ACE_CString& url, const char* data, int len, const std
 
     } http(data, len, headers);
 
-    ACE::INet::URLStream urlin = url_safe.get()->open(http);
+    ACE::INet::URLStream urlin = url_safe->open(http);
     ostringstream oss;
     oss << urlin->rdbuf();
     result = oss.str();

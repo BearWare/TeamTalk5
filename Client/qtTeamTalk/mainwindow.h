@@ -432,6 +432,7 @@ private:
     void slotClosedServerStatsDlg(int);
     void slotClosedUserAccountsDlg(int);
     void slotClosedBannedUsersDlg(int);
+    void initialScreenReaderSetup();
     void startTTS();
     void slotTextChanged();
     void slotSpeakClientStats(bool checked=false);

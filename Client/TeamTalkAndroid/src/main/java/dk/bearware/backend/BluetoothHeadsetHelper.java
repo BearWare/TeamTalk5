@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
@@ -18,6 +19,8 @@ import android.media.AudioManager;
 import android.os.Build;
 
 import androidx.core.app.ActivityCompat;
+
+import dk.bearware.data.Permissions;
 
 public class BluetoothHeadsetHelper {
 
@@ -165,12 +168,13 @@ public class BluetoothHeadsetHelper {
 
 
     private final BroadcastReceiver connectionEventReceiver = new BroadcastReceiver() {
+        @SuppressLint("MissingPermission")
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
                 BluetoothDevice connectedHeadset = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ActivityCompat.checkSelfPermission(BluetoothHeadsetHelper.this.context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !Permissions.BLUETOOTH.isGranted(BluetoothHeadsetHelper.this.context)) {
                     return;
                 }
                 BluetoothClass bluetoothClass = connectedHeadset.getBluetoothClass();
@@ -219,11 +223,12 @@ public class BluetoothHeadsetHelper {
     };
 
     private final BluetoothProfile.ServiceListener headsetProfileListener = new BluetoothProfile.ServiceListener() {
+        @SuppressLint("MissingPermission")
         @Override
         public void onServiceConnected(int profile, BluetoothProfile proxy) {
             if (profile == BluetoothProfile.HEADSET) {
                 bluetoothHeadset = (BluetoothHeadset) proxy;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ActivityCompat.checkSelfPermission(BluetoothHeadsetHelper.this.context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !Permissions.BLUETOOTH.isGranted(BluetoothHeadsetHelper.this.context)) {
                     return;
                 }
                 if (!bluetoothHeadset.getConnectedDevices().isEmpty())

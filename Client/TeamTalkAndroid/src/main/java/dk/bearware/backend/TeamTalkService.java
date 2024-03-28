@@ -33,7 +33,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ServiceInfo;
 import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Binder;
@@ -51,6 +50,8 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.widget.Toast;
+
+import androidx.core.app.NotificationCompat;
 
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -143,6 +144,10 @@ public class TeamTalkService extends Service
 
     public static final String TAG = "bearware";
 
+    private static final int UI_WIDGET_ID = 1;
+    private static final String UI_WIDGET_TAG = "tt5_ui_widget";
+    private static final String UI_CHANNEL_ID = "TeamtalkConnection";
+
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
 
@@ -154,8 +159,8 @@ public class TeamTalkService extends Service
     private boolean voxSuspended;
     private boolean permanentMuteState;
     private boolean currentMuteState;
-    Notification.Builder widget = null;
-    NotificationManager notificationManager;
+    private Notification widget = null;
+    private NotificationManager notificationManager;
     private volatile boolean inPhoneCall;
     private MediaSessionCompat mediaSession;
     Handler reconnectHandler = new Handler();
@@ -375,14 +380,12 @@ public class TeamTalkService extends Service
     @SuppressLint("NewApi")
     private void displayNotification(boolean enabled) {
         if (enabled) {
-            final int UI_WIDGET_ID = android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE | ServiceInfo.FLAG_STOP_WITH_TASK;
             if (widget == null) {
+                notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 Intent ui = new Intent(this, MainActivity.class);
                 ui.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                widget = new Notification.Builder(this);
-                notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    NotificationChannel mChannel = new NotificationChannel("TeamtalkConnection", "Teamtalk connection", NotificationManager.IMPORTANCE_DEFAULT);
+                    NotificationChannel mChannel = new NotificationChannel(UI_CHANNEL_ID, "Teamtalk connection", NotificationManager.IMPORTANCE_DEFAULT);
                     mChannel.enableVibration(false);
                     mChannel.setVibrationPattern(null);
                     mChannel.enableLights(false);
@@ -390,22 +393,23 @@ public class TeamTalkService extends Service
                     notificationManager.createNotificationChannel(mChannel);
                 }
                 int intentFlags = PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE;
-                widget.setSmallIcon(R.drawable.teamtalk_green)
+                widget = new NotificationCompat.Builder(this, UI_CHANNEL_ID)
+                    .setSmallIcon(R.drawable.teamtalk_green)
                     .setContentTitle(getString(R.string.app_name))
                     .setContentIntent(PendingIntent.getActivity(this, 0, ui, intentFlags))
                     .setOngoing(true)
                     .setAutoCancel(false)
-                    .setContentText(getNotificationText());
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    widget.setChannelId("TeamtalkConnection");
-                }
-                widget.setShowWhen(false);
-                startForeground(UI_WIDGET_ID, widget.build());
+                    .setContentText(getNotificationText())
+                    .setShowWhen(false)
+                    .build();
             } else {
-                ((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE)).notify(UI_WIDGET_ID, widget.setContentText(getNotificationText()).build());
+                widget = new NotificationCompat.Builder(this, widget)
+                    .setContentText(getNotificationText())
+                    .build();
             }
+            notificationManager.notify(UI_WIDGET_TAG, UI_WIDGET_ID, widget);
         } else if (widget != null) {
-            stopForeground(true);
+            notificationManager.cancel(UI_WIDGET_TAG, UI_WIDGET_ID);
             widget = null;
         }
     }

@@ -33,4 +33,5 @@ public interface AudioFileFormat
     public static final int AFF_MP3_64KBIT_FORMAT    = 5;
     public static final int AFF_MP3_128KBIT_FORMAT   = 6;
     public static final int AFF_MP3_256KBIT_FORMAT   = 7;
+    public static final int AFF_MP3_320KBIT_FORMAT   = 8;
 }

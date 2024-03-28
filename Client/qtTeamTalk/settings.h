@@ -31,8 +31,10 @@
 #define SETTINGS_VERSION                            "5.3"
 #define SETTINGS_GENERAL_VERSION                    "version"
 #define SETTINGS_GENERAL_VERSION_DEFAULT            SETTINGS_VERSION
+#if defined(ENABLE_TOLK) || defined(Q_OS_LINUX)
 #define SETTINGS_GENERAL_FIRSTSTART                 "general_/first-start"
 #define SETTINGS_GENERAL_FIRSTSTART_DEFAULT         true
+#endif
 
 #define SETTINGS_GENERAL_NICKNAME                   "general_/nickname"
 #define SETTINGS_GENERAL_NICKNAME_DEFAULT           ""
@@ -141,6 +143,10 @@
 #define SETTINGS_DISPLAY_CLOSE_FILEDIALOG_DEFAULT             false
 #define SETTINGS_DISPLAY_CHANEXCLUDE_DLG             "display/dlg-alert-exclude"
 #define SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT             false
+#define SETTINGS_DISPLAY_MOTD_DLG             "display/MOTD-dlg"
+#define SETTINGS_DISPLAY_MOTD_DLG_DEFAULT             false
+#define SETTINGS_DISPLAY_CHANNEL_TOPIC             "display/channel-topic"
+#define SETTINGS_DISPLAY_CHANNEL_TOPIC_DEFAULT             false
 #define SETTINGS_DISPLAY_START_SERVERLIST             "display/serverlist-on-start"
 #define SETTINGS_DISPLAY_START_SERVERLIST_DEFAULT             false
 #define SETTINGS_DISPLAY_CHANNELSORT                 "display/sort-channels"
@@ -334,6 +340,8 @@
 #define SETTINGS_TTS_SPEAKLISTS_DEFAULT                 true
 #endif
 #endif
+#define SETTINGS_TTS_SRVNAME                         "texttospeech/announce-server-name"
+#define SETTINGS_TTS_SRVNAME_DEFAULT                 true
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"

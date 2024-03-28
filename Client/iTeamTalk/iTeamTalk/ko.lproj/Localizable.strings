@@ -109,7 +109,7 @@
 "Bluetooth A2DP Playback" = "Bluetooth A2DP 재생";
 
 /* Sound Devices */
-"Bluetooth playback should use Advanced Audio Distribution Profile" = "블루투스 재생은 고급 오디오 배포 프로필(A2DP)을 사용해야 합니다.;
+"Bluetooth playback should use Advanced Audio Distribution Profile" = "블루투스 재생은 고급 오디오 배포 프로필(A2DP)을 사용해야 합니다.";
 
 /* text message type */
 "Broadcast message" = "방송";
