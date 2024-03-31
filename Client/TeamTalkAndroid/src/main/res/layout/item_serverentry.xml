@@ -8,14 +8,15 @@
         android:id="@+id/servericon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:src="@drawable/teamtalk_yellow" />
+        android:layout_alignParentStart="true"
+        android:src="@drawable/teamtalk_yellow"
+        android:contentDescription="@string/server_icon" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@id/servericon"
+        android:layout_toEndOf="@id/servericon"
         android:orientation="vertical" >
  
         <TextView
@@ -39,7 +40,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:orientation="horizontal" >
 

@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:singleLine="true"
-            android:hint="@string/channamelab" >
+            android:hint="@string/channamelab">
         </EditText>
     </LinearLayout>
 
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:lines="1"
-            android:hint="@string/chanpswlab" >
+            android:hint="@string/chanpswlab">
         </EditText>
     </LinearLayout>
     <LinearLayout
@@ -108,7 +108,7 @@
 
         <EditText
             android:id="@+id/chanmaxusers"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
@@ -130,7 +130,7 @@
 
         <EditText
             android:id="@+id/chandiskquota"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"

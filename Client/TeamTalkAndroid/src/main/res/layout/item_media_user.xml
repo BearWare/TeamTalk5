@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,21 +10,21 @@
         android:id="@+id/media_nickname_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:paddingLeft="30dip"
+        android:layout_alignParentStart="true"
+        android:paddingStart="30dip"
         android:text="@string/no_nickname"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true">
+        android:layout_alignParentEnd="true">
 
         <ImageView
             android:id="@+id/mediaicon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
+            android:paddingStart="5dp"
             android:src="@drawable/board_blue"
             android:contentDescription="" />
 
@@ -31,8 +32,9 @@
             android:id="@+id/mediainfo_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:text="0x0 0-bit" />
+            android:paddingStart="5dp"
+            android:text="0x0 0-bit"
+            tools:ignore="HardcodedText" />
 
     </LinearLayout>
 

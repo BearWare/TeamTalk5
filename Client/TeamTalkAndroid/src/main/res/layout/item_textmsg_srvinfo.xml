@@ -12,7 +12,7 @@
 
         <TextView
             android:id="@+id/srvname_text"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/message_text"
@@ -25,16 +25,16 @@
 
         <TextView
             android:id="@+id/srvmotd_text"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:layout_weight="0.9"
             android:text="@string/message_text"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
 		<TextView
 		    android:id="@+id/logtime_text"
-		    android:layout_marginRight="5dp"
+		    android:layout_marginEnd="5dp"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:textAppearance="?android:attr/textAppearanceSmall"
