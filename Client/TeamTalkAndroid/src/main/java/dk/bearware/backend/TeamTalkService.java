@@ -33,6 +33,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ServiceInfo;
 import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Binder;
@@ -52,6 +53,7 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.ServiceCompat;
 
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -145,7 +147,6 @@ public class TeamTalkService extends Service
     public static final String TAG = "bearware";
 
     private static final int UI_WIDGET_ID = 1;
-    private static final String UI_WIDGET_TAG = "tt5_ui_widget";
     private static final String UI_CHANNEL_ID = "TeamtalkConnection";
 
     // Binder given to clients
@@ -402,14 +403,15 @@ public class TeamTalkService extends Service
                     .setContentText(getNotificationText())
                     .setShowWhen(false)
                     .build();
+                ServiceCompat.startForeground(this, UI_WIDGET_ID, widget, ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST);
             } else {
                 widget = new NotificationCompat.Builder(this, widget)
                     .setContentText(getNotificationText())
                     .build();
+                notificationManager.notify(UI_WIDGET_ID, widget);
             }
-            notificationManager.notify(UI_WIDGET_TAG, UI_WIDGET_ID, widget);
         } else if (widget != null) {
-            notificationManager.cancel(UI_WIDGET_TAG, UI_WIDGET_ID);
+            ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE);
             widget = null;
         }
     }
