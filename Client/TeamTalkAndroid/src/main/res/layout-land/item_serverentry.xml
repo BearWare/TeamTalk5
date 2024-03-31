@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:src="@drawable/teamtalk_yellow"
-        android:contentDescription="@string/server_icon_landscape" />
+        android:contentDescription="@string/text_localserver" />
 
     <LinearLayout
         android:layout_width="wrap_content"

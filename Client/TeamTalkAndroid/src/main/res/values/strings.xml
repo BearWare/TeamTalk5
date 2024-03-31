@@ -401,12 +401,6 @@
     <string name="action_make_operator">Grant Operator</string>
     <string name="action_revoke_operator">Revoke Operator</string>
     <string name="text_operator_password">Enter channel operator password</string>
-    <string name="user_icon">User icon</string>
-    <string name="channel_icon">Channel icon</string>
-    <string name="channel_back_icon">Channel back icon</string>
-    <string name="file_icon">File icon</string>
-    <string name="server_icon">Server icon</string>
-    <string name="server_icon_landscape">Server icon</string>
 
 
 </resources>
