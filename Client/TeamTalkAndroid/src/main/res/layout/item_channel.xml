@@ -8,15 +8,16 @@
         android:id="@+id/channelicon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:paddingLeft="5dp"
-        android:src="@drawable/channel_green" />
+        android:layout_alignParentStart="true"
+        android:paddingStart="5dp"
+        android:src="@drawable/channel_green"
+        android:importantForAccessibility="no" />
     
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@id/channelicon"
+        android:layout_toEndOf="@id/channelicon"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -36,7 +37,7 @@
                 android:id="@+id/population"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
                 android:text=""
                 android:singleLine="true"
                 android:textSize="16sp" />
@@ -54,7 +55,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:orientation="horizontal" >
 

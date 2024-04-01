@@ -188,8 +188,16 @@ implements TeamTalkConnectionListener, ClientEventListener.OnCmdErrorListener, C
             channel.szTopic = chanTopic.getText().toString();
             channel.szPassword = chanPasswd.getText().toString();
             channel.szOpPassword = chanOpPasswd.getText().toString();
-            channel.nMaxUsers = Integer.parseInt(chanMaxUsers.getText().toString());
-            channel.nDiskQuota = Long.parseLong(chanDiskQuota.getText().toString());
+            try {
+                channel.nMaxUsers = Integer.parseInt(chanMaxUsers.getText().toString());
+            } catch (NumberFormatException e) {
+                Log.e(TAG, "Invalid input for channel's max users");
+            }
+            try {
+                channel.nDiskQuota = Long.parseLong(chanDiskQuota.getText().toString());
+            } catch (NumberFormatException e) {
+                Log.e(TAG, "Invalid input for channel's disk quota");
+            }
             channel.nDiskQuota *= 1024;
             
             if(chanPermanent.isChecked())

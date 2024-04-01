@@ -8,13 +8,14 @@
         android:id="@+id/usericon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:src="@drawable/man_blue" />
+        android:layout_alignParentStart="true"
+        android:src="@drawable/man_blue"
+        android:importantForAccessibility="no" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/usericon"
+        android:layout_toEndOf="@id/usericon"
         android:orientation="vertical" >
 
         <TextView
