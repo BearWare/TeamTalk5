@@ -262,6 +262,11 @@ implements TeamTalkConnectionListener, ClientEventListener.OnCmdErrorListener, C
             if(channelid > 0) {
                 //existing channel
                 channel = ttservice.getChannels().get(channelid);
+                if (channel == null) {
+                    setResult(RESULT_CANCELED);
+                    finish();
+                    return;
+                }
             }
             else if(parentid > 0) {
                 //create new channel
