@@ -292,9 +292,11 @@ extends AppCompatActivity
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         UserAccount myuseraccount = new UserAccount();
-        ttclient.getMyUserAccount(myuseraccount);
+        if (ttclient != null) {
+            ttclient.getMyUserAccount(myuseraccount);
+        }
 
-        boolean uploadRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_UPLOAD_FILES) !=0;
+        boolean uploadRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_UPLOAD_FILES) != UserRight.USERRIGHT_NONE;
         boolean isEditable = curchannel != null;
         boolean isJoinable = (ttclient != null) && (curchannel != null) && (ttclient.getMyChannelID() != curchannel.nChannelID) && (curchannel.nMaxUsers > 0);
         boolean isMyChannel = (ttclient != null) && (curchannel != null) && (ttclient.getMyChannelID() == curchannel.nChannelID);
