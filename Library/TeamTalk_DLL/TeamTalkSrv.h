@@ -18,7 +18,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_SERVER_VERSION "5.16.0.5138"
+#define TEAMTALK_SERVER_VERSION "5.16.0.5139"
 
 #ifdef __cplusplus
 extern "C" {
