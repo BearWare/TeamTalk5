@@ -2,18 +2,28 @@
                  TeamTalk
 ----------------------------------------------
 
-Version 5.16, unreleased
+Version 5.17, unreleased
+Default Qt Client
+-
+Android Client
+-
+iOS Client
+-
+Server
+-
+
+Version 5.16, 2024/04/08
 Default Qt Client
 - Dates and times are now formatted in user locale on "User accounts" dialog and main window's files tab
 - Option to show server's message of the day in a welcome dialog box
 - Option to announce server name on some server related TTS events
-- Don't display server name when disconnected from server where not authentified
 - Option to show channel topic in channel list
+- Don't display server name when disconnected from server where not authentified
 - Ask for accessibility settings on Linux at first startup
 - Fixed "Gender" property not being saved in .tt files
 - Fixed sort by size on file list
 - OPUS codec updated to v1.5.1
-- Windows and macOS updated to Qt 6.7.0RC2
+- Windows and macOS updated to Qt 6.7.0
 Android Client
 - Admins can upload files to channels they have not joined
 - It is now possible to move users to root channel
