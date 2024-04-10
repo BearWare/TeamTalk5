@@ -3264,7 +3264,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="2333"/>
         <source>&amp;Refresh Sound Devices</source>
-        <translation>刷新声音设备(amp;R)</translation>
+        <translation>刷新声音设备(&amp;R)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="772"/>
