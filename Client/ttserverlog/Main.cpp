@@ -68,7 +68,6 @@ int main(int argc, TTCHAR* argv[])
     bool encrypted = false;
     TTMessage msg;
     int wait_ms, cmd_id;
-    struct stat s_file;
 
     ttInst = TT_InitTeamTalkPoll();
 
@@ -90,12 +89,8 @@ int main(int argc, TTCHAR* argv[])
     cout << "Specify directory where to store audio: " << endl;
     audio_dir = get_str(DEFAULT_AUDIO_STORAGE);
 
-    int i = stat ( "lame_enc.dll", &s_file );
-    if ( i != 0 )
-        cout << "lame_enc.dll not found, so audio will be stored to .wav instead of .mp3" << endl;
-
     //now that we got all the information we needed we can connect and logon
-    if(!TT_Connect(ttInst, ipaddr.c_str(), tcpport, udpport, 0, 0, false))
+    if(!TT_Connect(ttInst, ipaddr.c_str(), tcpport, udpport, 0, 0, encrypted))
         goto error_connect;
     
     //wait for connect event
@@ -156,7 +151,7 @@ void processTTMessage(const TTMessage& msg)
     {
     case CLIENTEVENT_CMD_MYSELF_LOGGEDIN:
         cout << "Logged in successfully..." << endl;
-        cout << "Got user ID #" << msg.user.nUserID << endl;
+        cout << "Got user ID #" << TT_GetMyUserID(ttInst) << endl;
         break;
     case CLIENTEVENT_CMD_SERVER_UPDATE:
             cout << "Got new server properties:" << endl;
