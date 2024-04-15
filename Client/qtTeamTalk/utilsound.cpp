@@ -582,7 +582,9 @@ void PlaySoundEvent::playDefaultSoundEvent(const QString& filename)
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     QSound::play(filename);
 #else
-    static QSoundEffect* effect = new QSoundEffect(ttSettings);
+    static QSoundEffect* effect = nullptr;
+    delete effect;
+    effect = new QSoundEffect(ttSettings);
     effect->setSource(QUrl::fromLocalFile(filename));
     effect->setVolume(ttSettings->value(SETTINGS_SOUNDEVENT_VOLUME, SETTINGS_SOUNDEVENT_VOLUME_DEFAULT).toInt()/100.0);
     effect->play();
