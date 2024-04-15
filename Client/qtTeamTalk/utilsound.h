@@ -106,6 +106,9 @@ private:
     void playDefaultSoundEvent(const QString& filename);
     QQueue<SoundEvent> m_playbackQueue;
     QSet<int> m_activeSessions;
+#if defined(QT_MULTIMEDIA_LIB) && QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    QVector<class QSoundEffect*> m_playingQueue;
+#endif
 };
 
 void playSoundEvent(SoundEvent event);
