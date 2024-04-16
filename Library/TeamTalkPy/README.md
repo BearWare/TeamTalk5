@@ -1,6 +1,6 @@
 # Python 3 Interface for TeamTalk DLL
 
-The Python interface for TeamTalk is able to load the TeamTalk DLL
+The Python interface for TeamTalk is able to load the [TeamTalk DLL](../TeamTalk_DLL)
 (shared library) and invoke the functions that are defined in
 *TeamTalk5.py*.
 
