@@ -12,6 +12,10 @@ iOS Client
 Server
 -
 
+Version 5.16.1, 2024/04/16
+Default Qt Client
+- Fixed issue where initial sound event was played over and over again
+
 Version 5.16, 2024/04/08
 Default Qt Client
 - Dates and times are now formatted in user locale on "User accounts" dialog and main window's files tab
