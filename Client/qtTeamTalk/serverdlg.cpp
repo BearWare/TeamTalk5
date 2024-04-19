@@ -47,9 +47,9 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget * parent
     connect(ui.cryptChkBox, &QCheckBox::toggled, ui.encsetupBtn, &QAbstractButton::setEnabled);
     connect(ui.encsetupBtn, &QAbstractButton::clicked, [&]()
     {
-        HostEntry entry;
-        if (getHostEntry(entry) && EncryptionSetupDlg(entry.encryption, this).exec())
-            m_setup_encryption.reset(new HostEncryption(entry.encryption));
+        HostEntry copyentry = m_hostentry;
+        if (EncryptionSetupDlg(copyentry.encryption, this).exec())
+            m_hostentry = copyentry;
     });
     connect(ui.usernameBox, &QComboBox::editTextChanged,
             this, &ServerListDlg::slotGenerateEntryName);
