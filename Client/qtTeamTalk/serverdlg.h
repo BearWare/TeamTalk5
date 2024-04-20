@@ -42,7 +42,7 @@ private:
     void slotGenerateEntryName(const QString&);
 
 private:
-    Ui::ChannelDlg ui;
+    Ui::ServerDlg ui;
     HostEntry m_hostentry;
 };
 

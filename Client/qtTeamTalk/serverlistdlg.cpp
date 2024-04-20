@@ -322,34 +322,6 @@ void ServerListDlg::showHostEntry(const HostEntry& entry)
     m_setup_encryption.reset(entry.encrypted ? new HostEncryption(entry.encryption) : nullptr);
 }
 
-bool ServerListDlg::getHostEntry(HostEntry& entry)
-{
-    if(ui.hostaddrBox->lineEdit()->text().isEmpty() ||
-       ui.tcpportEdit->text().isEmpty() ||
-       ui.udpportEdit->text().isEmpty())
-    {
-        QMessageBox::information(this, tr("Missing fields"),
-            tr("Please fill the fields 'Host IP-address', 'TCP port' and 'UDP port'"));
-            return false;
-    }
-
-    entry.name = ui.nameEdit->text();
-    entry.ipaddr = ui.hostaddrBox->lineEdit()->text().trimmed();
-    entry.tcpport = ui.tcpportEdit->text().toInt();
-    entry.udpport = ui.udpportEdit->text().toInt();
-    entry.encrypted = ui.cryptChkBox->isChecked();
-    entry.username = ui.usernameBox->lineEdit()->text().trimmed();
-    entry.password = ui.passwordEdit->text();
-    entry.nickname = ui.nicknameEdit->text();
-    entry.channel = ui.channelEdit->text().trimmed();
-    entry.chanpasswd = ui.chanpasswdEdit->text();
-
-    if (m_setup_encryption)
-        entry.encryption = *m_setup_encryption;
-
-    return true;
-}
-
 void ServerListDlg::clearHostEntry()
 {
     showHostEntry(HostEntry());

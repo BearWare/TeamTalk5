@@ -41,9 +41,9 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget * parent
     ui.usernameBox->addItem(WEBLOGIN_BEARWARE_USERNAME);
 
     connect(ui.hostaddrBox, &QComboBox::editTextChanged,
-            this, &ServerListDlg::slotGenerateEntryName);
+            this, &ServerDlg::slotGenerateEntryName);
     connect(ui.tcpportEdit, &QLineEdit::textChanged,
-            this, &ServerListDlg::slotGenerateEntryName);
+            this, &ServerDlg::slotGenerateEntryName);
     connect(ui.cryptChkBox, &QCheckBox::toggled, ui.encsetupBtn, &QAbstractButton::setEnabled);
     connect(ui.encsetupBtn, &QAbstractButton::clicked, [&]()
     {
@@ -52,7 +52,7 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget * parent
             m_hostentry = copyentry;
     });
     connect(ui.usernameBox, &QComboBox::editTextChanged,
-            this, &ServerListDlg::slotGenerateEntryName);
+            this, &ServerDlg::slotGenerateEntryName);
     connect(ui.passwordChkBox, &QAbstractButton::clicked,
             this, [&](bool checked) { ui.passwordEdit->setEchoMode(checked ? QLineEdit::Normal : QLineEdit::Password); } );
     connect(ui.chanpasswordChkBox, &QAbstractButton::clicked,
@@ -110,10 +110,15 @@ HostEntry ServerDlg::GetHostEntry() const
 {
     HostEntry newhostentry = m_hostentry;
     COPY_TTSTR(newhostentry.name, ui.nameEdit->text());
-    COPY_TTSTR(newhostentry.ipaddr, ui.hostaddrBox->text());
+    COPY_TTSTR(newhostentry.ipaddr, ui.hostaddrBox->lineEdit()->text());
     COPY_TTSTR(newhostentry.tcpport, ui.tcpportEdit->text());
     COPY_TTSTR(newhostentry.udpport, ui.udpportEdit->text());
     newhostentry.encrypted = ui.cryptChkBox->isChecked();
+    COPY_TTSTR(newhostentry.username, ui.usernameBox->lineEdit()->text());
+    COPY_TTSTR(newhostentry.password, ui.passwordEdit->text());
+    COPY_TTSTR(newhostentry.nickname, ui.nicknameEdit->text());
+    COPY_TTSTR(newhostentry.channel, ui.channelEdit->text());
+    COPY_TTSTR(newhostentry.chanpasswd, ui.chanpasswdEdit->text());
 
     return newhostentry;
 }
