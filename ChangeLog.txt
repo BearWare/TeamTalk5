@@ -6,7 +6,7 @@ Version 5.17, unreleased
 Default Qt Client
 -
 Android Client
--
+- User id is also shown for users
 iOS Client
 -
 Server
