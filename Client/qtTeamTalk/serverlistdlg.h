@@ -101,6 +101,7 @@ private:
 
     void showLatestHosts();
     void deleteHostEntry();
+    void slotNewServer();
     void slotImportTTFile();
     void slotConnect();
 

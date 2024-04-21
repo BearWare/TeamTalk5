@@ -277,6 +277,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     ui.officialserverChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_OFFICIALSERVERS, SETTINGS_DISPLAY_OFFICIALSERVERS_DEFAULT).toBool());
     ui.unofficialserverChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_UNOFFICIALSERVERS, SETTINGS_DISPLAY_UNOFFICIALSERVERS_DEFAULT).toBool());
 
+    connect(ui.newsrvButton, &QPushButton::clicked, this, &ServerListDlg::slotNewServer);
     connect(ui.impttButton, &QPushButton::clicked, this, &ServerListDlg::slotImportTTFile);
 
     connect(ui.officialserverChkBox, &QCheckBox::clicked, this, &ServerListDlg::refreshServerList);
@@ -317,6 +318,18 @@ void ServerListDlg::showLatestHosts()
     deleteLatestHost(i);
     showLatestHosts();
 }*/
+
+void ServerListDlg::slotNewServer()
+{
+    HostEntry entry;
+    ServerDlg dlg(ServerDlg::SERVER_CREATE, entry, this);
+    if (dlg.exec() == QDialog::Accepted)
+    {
+        entry = dlg.GetHostEntry();
+        addServerEntry(entry);
+        refreshServerList();
+    }
+}
 
 void ServerListDlg::slotImportTTFile()
 {
