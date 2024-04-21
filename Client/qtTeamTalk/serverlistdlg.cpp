@@ -284,6 +284,8 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     connect(ui.filternameEdit, &QLineEdit::textChanged, this, &ServerListDlg::applyServerListFilter);
     connect(ui.filterusersSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ServerListDlg::applyServerListFilter);
     connect(ui.connectButton, &QAbstractButton::clicked, this, &ServerListDlg::slotConnect);
+    ui.serverTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui.serverTreeView, &QWidget::customContextMenuRequested, this, &ServerListDlg::slotTreeContextMenu);
 
     showLatestHosts();
     refreshServerList();
@@ -430,7 +432,7 @@ void ServerListDlg::slotAddUpdServer()
         refreshServerList();
         ui.serverTreeView->setFocus();
     }
-}
+}*/
 
 void ServerListDlg::deleteSelectedServer()
 {
@@ -441,11 +443,10 @@ void ServerListDlg::deleteSelectedServer()
         RestoreIndex ri(ui.serverTreeView);
 
         deleteServerEntry(servers[srcIndex.row()].name);
-        clearHostEntry();
         refreshServerList();
         ui.serverTreeView->setFocus();
     }
-}*/
+}
 
 void ServerListDlg::slotDoubleClicked(const QModelIndex& /*index*/)
 {
@@ -627,11 +628,11 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
             ui.serverTreeView->header()->setSortIndicator(COLUMN_INDEX_COUNTRY, m_proxyModel->sortColumn() == COLUMN_INDEX_COUNTRY ? sortToggle : Qt::AscendingOrder);
             ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, country);
         }
-/*        else if (action == delServ)
-            emit(deleteSelectedServer());*/
+        else if (action == delServ)
+            emit(deleteSelectedServer());
 /*        else if (action == editServ)
-            emit(editSelectedServer());*/
-/*        else if (action == genTTServ)
+            emit(editSelectedServer());
+        else if (action == genTTServ)
             emit(saveTTFile());*/
     }
 }

@@ -108,7 +108,7 @@ private:
     void applyServerListFilter();
     void showSelectedServer(const QModelIndex &index);
     void slotAddUpdServer();
-//    void deleteSelectedServer();
+    void deleteSelectedServer();
     void slotDoubleClicked(const QModelIndex& index);
     void requestServerList();
     void serverlistReply(QNetworkReply* reply);
