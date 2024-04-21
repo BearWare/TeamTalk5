@@ -111,16 +111,16 @@ ServerDlg::~ServerDlg()
 HostEntry ServerDlg::GetHostEntry() const
 {
     HostEntry newhostentry = m_hostentry;
-    COPY_TTSTR(newhostentry.name, ui->nameEdit->text());
-    COPY_TTSTR(newhostentry.ipaddr, ui->hostaddrBox->lineEdit()->text());
-    COPY_TTSTR(newhostentry.tcpport, ui->tcpportEdit->text());
-    COPY_TTSTR(newhostentry.udpport, ui->udpportEdit->text());
+    newhostentry.name = ui->nameEdit->text();
+    newhostentry.ipaddr = ui->hostaddrBox->lineEdit()->text();
+    newhostentry.tcpport = ui->tcpportEdit->text().toInt();
+    newhostentry.udpport = ui->udpportEdit->text().toInt();
     newhostentry.encrypted = ui->cryptChkBox->isChecked();
-    COPY_TTSTR(newhostentry.username, ui->usernameBox->lineEdit()->text());
-    COPY_TTSTR(newhostentry.password, ui->passwordEdit->text());
-    COPY_TTSTR(newhostentry.nickname, ui->nicknameEdit->text());
-    COPY_TTSTR(newhostentry.channel, ui->channelEdit->text());
-    COPY_TTSTR(newhostentry.chanpasswd, ui->chanpasswdEdit->text());
+    newhostentry.username = ui->usernameBox->lineEdit()->text();
+    newhostentry.password = ui->passwordEdit->text();
+    newhostentry.nickname = ui->nicknameEdit->text();
+    newhostentry.channel = ui->channelEdit->text();
+    newhostentry.chanpasswd = ui->chanpasswdEdit->text();
 
     return newhostentry;
 }

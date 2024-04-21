@@ -284,9 +284,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     connect(ui.filternameEdit, &QLineEdit::textChanged, this, &ServerListDlg::applyServerListFilter);
     connect(ui.filterusersSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ServerListDlg::applyServerListFilter);
 
-    clearHostEntry();
-
-    showLatestHosts();
+//    showLatestHosts();
     refreshServerList();
 
     ui.serverTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_HEADERSIZES).toByteArray());
@@ -299,42 +297,7 @@ ServerListDlg::~ServerListDlg()
     ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_HEADERSIZES, ui.serverTreeView->header()->saveState());
 }
 
-void ServerListDlg::showHostEntry(const HostEntry& entry)
-{
-    ui.hostaddrBox->lineEdit()->setText(entry.ipaddr);
-    ui.tcpportEdit->setText(QString::number(entry.tcpport));
-    ui.udpportEdit->setText(QString::number(entry.udpport));
-    ui.cryptChkBox->setChecked(entry.encrypted);
-    ui.usernameBox->lineEdit()->setText(entry.username);
-    if (isWebLogin(entry.username, true))
-        ui.passwordEdit->setText("");
-    else
-        ui.passwordEdit->setText(entry.password);
-    ui.passwordEdit->setDisabled(isWebLogin(entry.username, true));
-    ui.passwordChkBox->setDisabled(isWebLogin(entry.username, true));
-    ui.nicknameEdit->setText(entry.nickname);
-    ui.channelEdit->setText(entry.channel);
-    ui.chanpasswdEdit->setText(entry.chanpasswd);
-    if (!entry.name.isEmpty())
-        ui.nameEdit->setText(entry.name);
-
-    ui.clearButton->setEnabled(true);
-    m_setup_encryption.reset(entry.encrypted ? new HostEncryption(entry.encryption) : nullptr);
-}
-
-void ServerListDlg::clearHostEntry()
-{
-    showHostEntry(HostEntry());
-    ui.clearButton->setEnabled(false);
-}
-
-void ServerListDlg::slotClearServerClicked()
-{
-    clearHostEntry();
-    ui.hostaddrBox->setFocus();
-}
-
-void ServerListDlg::showLatestHosts()
+/*void ServerListDlg::showLatestHosts()
 {
     ui.hostaddrBox->clear();
 
@@ -359,7 +322,7 @@ void ServerListDlg::deleteHostEntry()
     int i = ui.hostaddrBox->currentIndex();
     deleteLatestHost(i);
     showLatestHosts();
-}
+}*/
 
 void ServerListDlg::slotImportTTFile()
 {
@@ -412,7 +375,7 @@ void ServerListDlg::slotImportTTFile()
 
 void ServerListDlg::slotConnect()
 {
-    HostEntry entry;
+/*    HostEntry entry;
     if(getHostEntry(entry))
     {
         if (isWebLogin(entry.username, true))
@@ -421,9 +384,9 @@ void ServerListDlg::slotConnect()
             ui.passwordEdit->setText("");
         }
 
-        addLatestHost(entry);
+        addLatestHost(entry);*/
         this->accept();
-    }
+//    }
 }
 
 void ServerListDlg::refreshServerList()
@@ -457,7 +420,7 @@ void ServerListDlg::applyServerListFilter()
     ttSettings->setValue(SETTINGS_DISPLAY_SERVERLISTFILTER_USERSCOUNT, ui.filterusersSpinBox->value());
 }
 
-void ServerListDlg::showSelectedServer(const QModelIndex &index)
+/*void ServerListDlg::showSelectedServer(const QModelIndex &index)
 {
     clearHostEntry();
     auto servers = m_model->getServers();
@@ -498,7 +461,7 @@ void ServerListDlg::deleteSelectedServer()
         refreshServerList();
         ui.serverTreeView->setFocus();
     }
-}
+}*/
 
 void ServerListDlg::slotDoubleClicked(const QModelIndex& /*index*/)
 {
@@ -553,7 +516,7 @@ void ServerListDlg::serverlistReply(QNetworkReply* reply)
     }
 }
 
-void ServerListDlg::saveTTFile()
+/*void ServerListDlg::saveTTFile()
 {
     HostEntry entry;
     if(!getHostEntry(entry))
@@ -596,7 +559,7 @@ void ServerListDlg::publishServer()
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "text/xml");
     m_http_srvpublish_manager->post(request, xml);
-}
+}*/
 
 void ServerListDlg::publishServerRequest(QNetworkReply* reply)
 {
@@ -616,12 +579,6 @@ void ServerListDlg::publishServerRequest(QNetworkReply* reply)
                               "Delete the published user account to unregister your server."),
                               QLineEdit::Normal, "#teamtalkpublish#");
     }
-}
-
-void ServerListDlg::hostEntryNameChanged(const QString& text)
-{
-    ui.addupdButton->setEnabled(text.size());
-    ui.publishButton->setEnabled(text.size());
 }
 
 void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
@@ -686,12 +643,12 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
             ui.serverTreeView->header()->setSortIndicator(COLUMN_INDEX_COUNTRY, m_proxyModel->sortColumn() == COLUMN_INDEX_COUNTRY ? sortToggle : Qt::AscendingOrder);
             ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, country);
         }
-        else if (action == delServ)
-            emit(deleteSelectedServer());
-        else if (action == editServ)
-            emit(editSelectedServer());
-        else if (action == genTTServ)
-            emit(saveTTFile());
+/*        else if (action == delServ)
+            emit(deleteSelectedServer());*/
+/*        else if (action == editServ)
+            emit(editSelectedServer());*/
+/*        else if (action == genTTServ)
+            emit(saveTTFile());*/
     }
 }
 
@@ -714,7 +671,7 @@ void ServerListDlg::keyPressEvent(QKeyEvent* e)
             answer.exec();
             if (srcIndex.isValid() && answer.clickedButton() == YesButton)
             {
-                emit(deleteSelectedServer());
+//                emit(deleteSelectedServer());
             }
         }
     }

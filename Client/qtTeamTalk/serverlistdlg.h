@@ -99,13 +99,9 @@ private:
     QNetworkAccessManager* m_httpsrvlist_manager = nullptr, *m_http_srvpublish_manager = nullptr;
     std::unique_ptr<HostEncryption> m_setup_encryption;
 
-    void showHostEntry(const HostEntry& entry);
-    bool getHostEntry(HostEntry& entry);
-    void clearHostEntry();
-    void showLatestHosts();
+//    void showLatestHosts();
     void showLatestHostEntry(int index);
     void deleteHostEntry();
-    void slotClearServerClicked();
     void slotImportTTFile();
     void slotConnect();
 
@@ -113,12 +109,12 @@ private:
     void applyServerListFilter();
     void showSelectedServer(const QModelIndex &index);
     void slotAddUpdServer();
-    void deleteSelectedServer();
+//    void deleteSelectedServer();
     void slotDoubleClicked(const QModelIndex& index);
     void requestServerList();
     void serverlistReply(QNetworkReply* reply);
 
-    void saveTTFile();
+//    void saveTTFile();
     void publishServer();
     void publishServerRequest(QNetworkReply* reply);
 
