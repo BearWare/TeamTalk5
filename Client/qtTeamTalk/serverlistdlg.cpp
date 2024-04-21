@@ -369,11 +369,26 @@ void ServerListDlg::slotImportTTFile()
 
 void ServerListDlg::slotConnect()
 {
-    auto servers = m_model->getServers();
-    auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
-    if (srcIndex.isValid() && srcIndex.row() < servers.size())
-        this->accept();
-    return;
+    HostEntry entry;
+    if (ui.hostListWidget->hasFocus())
+    {
+        int currentIndex = ui.hostListWidget->currentRow();
+        if (currentIndex != -1)
+        {
+            getLatestHost(currentIndex, entry);
+        }
+    }
+    else if (ui.serverTreeView->hasFocus())
+    {
+        auto servers = m_model->getServers();
+        auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
+        if (srcIndex.isValid() && srcIndex.row() < servers.size())
+        {
+            entry = servers[srcIndex.row()];
+        }
+    }
+    addLatestHost(entry);
+    this->accept();
 }
 
 void ServerListDlg::refreshServerList()
