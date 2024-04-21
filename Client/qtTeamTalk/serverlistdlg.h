@@ -123,7 +123,6 @@ private:
     void publishServerRequest(QNetworkReply* reply);
 
     void hostEntryNameChanged(const QString& text);
-    void slotGenerateEntryName(const QString&);
     void slotTreeContextMenu(const QPoint&);
 };
 

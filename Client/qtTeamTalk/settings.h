@@ -164,6 +164,7 @@
 #define SETTINGS_DISPLAY_ONLINEUSERS_SORT_DEFAULT                            "nickname"
 #define SETTINGS_DISPLAY_FILESLIST_SORT                            "display/files-list-sort"
 #define SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT                            "name"
+#define SETTINGS_DISPLAY_SERVERWINDOWPOS     "display/server-dialog-pos"
 
 #define SETTINGS_CONNECTION_AUTOCONNECT             "connection/autoconnect"
 #define SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT     false
