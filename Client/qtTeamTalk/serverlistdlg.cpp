@@ -440,11 +440,21 @@ void ServerListDlg::deleteSelectedServer()
     auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
     if (srcIndex.isValid() && srcIndex.row() < servers.size())
     {
-        RestoreIndex ri(ui.serverTreeView);
-
-        deleteServerEntry(servers[srcIndex.row()].name);
-        refreshServerList();
-        ui.serverTreeView->setFocus();
+        QMessageBox answer;
+        answer.setText(tr("Delete server named \"%1\"").arg(m_model->getServers()[srcIndex.row()].name));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        Q_UNUSED(NoButton);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(tr("Delete Server"));
+        answer.exec();
+        if (answer.clickedButton() == YesButton)
+        {
+            RestoreIndex ri(ui.serverTreeView);
+            deleteServerEntry(servers[srcIndex.row()].name);
+            refreshServerList();
+            ui.serverTreeView->setFocus();
+        }
     }
 }
 
@@ -645,19 +655,7 @@ void ServerListDlg::keyPressEvent(QKeyEvent* e)
     {
         if (e->matches(QKeySequence::Delete) || e->key() == Qt::Key_Backspace)
         {
-            auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
-            QMessageBox answer;
-            answer.setText(tr("Delete server named \"%1\"").arg(m_model->getServers()[srcIndex.row()].name));
-            QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
-            QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
-            Q_UNUSED(NoButton);
-            answer.setIcon(QMessageBox::Question);
-            answer.setWindowTitle(tr("Delete Server"));
-            answer.exec();
-            if (srcIndex.isValid() && answer.clickedButton() == YesButton)
-            {
-//                emit(deleteSelectedServer());
-            }
+            emit(deleteSelectedServer());
         }
     }
 }
