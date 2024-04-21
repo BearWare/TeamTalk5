@@ -99,8 +99,7 @@ private:
     QNetworkAccessManager* m_httpsrvlist_manager = nullptr, *m_http_srvpublish_manager = nullptr;
     std::unique_ptr<HostEncryption> m_setup_encryption;
 
-//    void showLatestHosts();
-    void showLatestHostEntry(int index);
+    void showLatestHosts();
     void deleteHostEntry();
     void slotImportTTFile();
     void slotConnect();

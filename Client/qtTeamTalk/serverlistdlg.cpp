@@ -284,7 +284,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     connect(ui.filternameEdit, &QLineEdit::textChanged, this, &ServerListDlg::applyServerListFilter);
     connect(ui.filterusersSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ServerListDlg::applyServerListFilter);
 
-//    showLatestHosts();
+    showLatestHosts();
     refreshServerList();
 
     ui.serverTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_HEADERSIZES).toByteArray());
@@ -297,27 +297,17 @@ ServerListDlg::~ServerListDlg()
     ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_HEADERSIZES, ui.serverTreeView->header()->saveState());
 }
 
-/*void ServerListDlg::showLatestHosts()
+void ServerListDlg::showLatestHosts()
 {
-    ui.hostaddrBox->clear();
+    ui.hostListWidget->clear();  // Assurez-vous que hostListWidget est un pointeur vers un QListWidget
 
     HostEntry host;
     int index = 0;
     while (getLatestHost(index++, host))
-        ui.hostaddrBox->addItem(host.ipaddr);
-    showLatestHostEntry(0);
+        ui.hostListWidget->addItem(host.ipaddr);
 }
 
-void ServerListDlg::showLatestHostEntry(int index)
-{
-    HostEntry host;
-    if(getLatestHost(index, host))
-    {
-        showHostEntry(host);
-    }
-}
-
-void ServerListDlg::deleteHostEntry()
+/*void ServerListDlg::deleteHostEntry()
 {
     int i = ui.hostaddrBox->currentIndex();
     deleteLatestHost(i);
