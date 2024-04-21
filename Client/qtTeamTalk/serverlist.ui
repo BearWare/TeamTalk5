@@ -57,7 +57,17 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
+   <item>
+    <widget class="QPushButton" name="connectButton">
+     <property name="text">
+      <string>&amp;Connect</string>
+     </property>
+     <property name="default">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QLabel" name="label_7">
      <property name="text">
       <string>Latest hosts</string>
