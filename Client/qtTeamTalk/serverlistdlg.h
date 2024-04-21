@@ -117,6 +117,7 @@ private:
 //    void saveTTFile();
     void publishServer();
     void publishServerRequest(QNetworkReply* reply);
+    bool getSelectedHost(HostEntry& host);
 
     void hostEntryNameChanged(const QString& text);
     void slotTreeContextMenu(const QPoint&);

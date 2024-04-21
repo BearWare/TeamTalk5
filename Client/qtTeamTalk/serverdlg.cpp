@@ -43,8 +43,6 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
 
     ui->usernameBox->addItem(WEBLOGIN_BEARWARE_USERNAME);
 
-    connect(ui->tcpportEdit, &QLineEdit::textChanged,
-            this, &ServerDlg::slotGenerateEntryName);
     connect(ui->cryptChkBox, &QCheckBox::toggled, ui->encsetupBtn, &QAbstractButton::setEnabled);
     connect(ui->encsetupBtn, &QAbstractButton::clicked, [&]()
     {
@@ -52,8 +50,6 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
         if (EncryptionSetupDlg(copyentry.encryption, this).exec())
             m_hostentry = copyentry;
     });
-    connect(ui->usernameBox, &QComboBox::editTextChanged,
-            this, &ServerDlg::slotGenerateEntryName);
     connect(ui->passwordChkBox, &QAbstractButton::clicked,
             this, [&](bool checked) { ui->passwordEdit->setEchoMode(checked ? QLineEdit::Normal : QLineEdit::Password); } );
     connect(ui->chanpasswordChkBox, &QAbstractButton::clicked,

@@ -369,25 +369,10 @@ void ServerListDlg::slotImportTTFile()
 
 void ServerListDlg::slotConnect()
 {
-    HostEntry entry;
-    if (ui.hostListWidget->hasFocus())
-    {
-        int currentIndex = ui.hostListWidget->currentRow();
-        if (currentIndex != -1)
-        {
-            getLatestHost(currentIndex, entry);
-        }
-    }
-    else if (ui.serverTreeView->hasFocus())
-    {
-        auto servers = m_model->getServers();
-        auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
-        if (srcIndex.isValid() && srcIndex.row() < servers.size())
-        {
-            entry = servers[srcIndex.row()];
-        }
-    }
-    addLatestHost(entry);
+    HostEntry host;
+    if (!getSelectedHost(host))
+        return;
+    addLatestHost(host);
     this->accept();
 }
 
@@ -476,16 +461,16 @@ void ServerListDlg::deleteSelectedServer()
 
 void ServerListDlg::editSelectedServer()
 {
-    auto servers = m_model->getServers();
-    auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
-    if (srcIndex.isValid() && srcIndex.row() < servers.size())
+    HostEntry host;
+    if (!getSelectedHost(host))
+        return;
+    ServerDlg dlg(ServerDlg::SERVER_UPDATE, host, this);
+    if (dlg.exec() == QDialog::Accepted)
     {
-        HostEntry host = servers[srcIndex.row()];
-        ServerDlg dlg(ServerDlg::SERVER_UPDATE, host, this);
-        if (dlg.exec() == QDialog::Accepted)
-        {
-//            updateModelWithHostEntry(host, ui->serverTreeView->currentIndex());
-        }
+        HostEntry updatedHost = dlg.GetHostEntry();
+        deleteServerEntry(host.name);
+        addServerEntry(updatedHost);
+        refreshServerList();
     }
 }
 
@@ -605,6 +590,30 @@ void ServerListDlg::publishServerRequest(QNetworkReply* reply)
                               "Delete the published user account to unregister your server."),
                               QLineEdit::Normal, "#teamtalkpublish#");
     }
+}
+
+bool ServerListDlg::getSelectedHost(HostEntry& host)
+{
+    if (ui.hostListWidget->hasFocus())
+    {
+        int currentIndex = ui.hostListWidget->currentRow();
+        if (currentIndex != -1)
+        {
+            getLatestHost(currentIndex, host);
+        }
+        return true;
+    }
+    else if (ui.serverTreeView->hasFocus())
+    {
+        auto servers = m_model->getServers();
+        auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
+        if (srcIndex.isValid() && srcIndex.row() < servers.size())
+        {
+            host = servers[srcIndex.row()];
+        }
+        return true;
+    }
+    return false;
 }
 
 void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
