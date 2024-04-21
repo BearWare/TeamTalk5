@@ -366,18 +366,11 @@ void ServerListDlg::slotImportTTFile()
 
 void ServerListDlg::slotConnect()
 {
-/*    HostEntry entry;
-    if(getHostEntry(entry))
-    {
-        if (isWebLogin(entry.username, true))
-        {
-            ui.usernameBox->lineEdit()->setText(getBearWareWebLogin(this));
-            ui.passwordEdit->setText("");
-        }
-
-        addLatestHost(entry);*/
+    auto servers = m_model->getServers();
+    auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
+    if (srcIndex.isValid() && srcIndex.row() < servers.size())
         this->accept();
-//    }
+    return;
 }
 
 void ServerListDlg::refreshServerList()
