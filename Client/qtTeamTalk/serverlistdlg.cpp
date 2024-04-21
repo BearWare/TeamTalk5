@@ -283,6 +283,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
 
     connect(ui.filternameEdit, &QLineEdit::textChanged, this, &ServerListDlg::applyServerListFilter);
     connect(ui.filterusersSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ServerListDlg::applyServerListFilter);
+    connect(ui.connectButton, &QAbstractButton::clicked, this, &ServerListDlg::slotConnect);
 
     showLatestHosts();
     refreshServerList();
