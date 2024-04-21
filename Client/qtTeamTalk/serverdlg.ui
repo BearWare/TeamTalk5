@@ -43,39 +43,14 @@
          <string>Host IP-address</string>
         </property>
         <property name="buddy">
-         <cstring>hostaddrBox</cstring>
+         <cstring>hostaddrEdit</cstring>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_6">
         <item>
-         <widget class="MyComboBox" name="hostaddrBox" native="true">
-          <property name="editable" stdset="0">
-           <bool>true</bool>
-          </property>
-          <property name="duplicatesEnabled" stdset="0">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QToolButton" name="deleteBtn">
-          <property name="toolTip">
-           <string>Remove entry</string>
-          </property>
-          <property name="accessibleName">
-           <string>Remove entry</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normalon>:/images/images/delete.png</normalon>
-           </iconset>
-          </property>
-         </widget>
+         <widget class="QLineEdit" name="hostaddrEdit"/>
         </item>
        </layout>
       </item>

@@ -43,8 +43,6 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
 
     ui->usernameBox->addItem(WEBLOGIN_BEARWARE_USERNAME);
 
-    connect(ui->hostaddrBox, &QComboBox::editTextChanged,
-            this, &ServerDlg::slotGenerateEntryName);
     connect(ui->tcpportEdit, &QLineEdit::textChanged,
             this, &ServerDlg::slotGenerateEntryName);
     connect(ui->cryptChkBox, &QCheckBox::toggled, ui->encsetupBtn, &QAbstractButton::setEnabled);
@@ -77,7 +75,7 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
         setWindowTitle(tr("View Server Information"));
         this->setAccessibleDescription(tr("View %1 information").arg(host.name));
         ui->nameEdit->setReadOnly(true);
-        ui->hostaddrBox->lineEdit()->setReadOnly(true);
+        ui->hostaddrEdit->setReadOnly(true);
         ui->tcpportEdit->setReadOnly(true);
         ui->udpportEdit->setReadOnly(true);
         ui->cryptChkBox->setDisabled(true);
@@ -91,7 +89,7 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
     }
 
     ui->nameEdit->setText(m_hostentry.name);
-    ui->hostaddrBox->lineEdit()->setText(m_hostentry.ipaddr);
+    ui->hostaddrEdit->setText(m_hostentry.ipaddr);
     ui->tcpportEdit->setText(QString::number(m_hostentry.tcpport));
     ui->udpportEdit->setText(QString::number(m_hostentry.udpport));
     ui->cryptChkBox->setChecked(m_hostentry.encrypted);
@@ -112,7 +110,7 @@ HostEntry ServerDlg::GetHostEntry() const
 {
     HostEntry newhostentry = m_hostentry;
     newhostentry.name = ui->nameEdit->text();
-    newhostentry.ipaddr = ui->hostaddrBox->lineEdit()->text();
+    newhostentry.ipaddr = ui->hostaddrEdit->text();
     newhostentry.tcpport = ui->tcpportEdit->text().toInt();
     newhostentry.udpport = ui->udpportEdit->text().toInt();
     newhostentry.encrypted = ui->cryptChkBox->isChecked();
@@ -131,11 +129,11 @@ void ServerDlg::slotGenerateEntryName(const QString&)
     if(username.size())
         ui->nameEdit->setText(QString("%1@%2:%3")
                              .arg(username)
-                             .arg(ui->hostaddrBox->lineEdit()->text())
+                             .arg(ui->hostaddrEdit->text())
                              .arg(ui->tcpportEdit->text()));
-    else if(ui->hostaddrBox->lineEdit()->text().size())
+    else if(ui->hostaddrEdit->text().size())
         ui->nameEdit->setText(QString("%1:%2")
-                             .arg(ui->hostaddrBox->lineEdit()->text())
+                             .arg(ui->hostaddrEdit->text())
                              .arg(ui->tcpportEdit->text()));
     else
         ui->nameEdit->setText(QString());

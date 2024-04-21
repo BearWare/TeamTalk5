@@ -23,6 +23,7 @@
 #include "utilui.h"
 #include "utilxml.h"
 #include "encryptionsetupdlg.h"
+#include "serverdlg.h"
 
 #include <QUrl>
 #include <QMessageBox>
@@ -458,6 +459,21 @@ void ServerListDlg::deleteSelectedServer()
     }
 }
 
+void ServerListDlg::editSelectedServer()
+{
+    auto servers = m_model->getServers();
+    auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
+    if (srcIndex.isValid() && srcIndex.row() < servers.size())
+    {
+        HostEntry host = servers[srcIndex.row()];
+        ServerDlg dlg(ServerDlg::SERVER_UPDATE, host, this);
+        if (dlg.exec() == QDialog::Accepted)
+        {
+//            updateModelWithHostEntry(host, ui->serverTreeView->currentIndex());
+        }
+    }
+}
+
 void ServerListDlg::slotDoubleClicked(const QModelIndex& /*index*/)
 {
     slotConnect();
@@ -640,9 +656,9 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
         }
         else if (action == delServ)
             emit(deleteSelectedServer());
-/*        else if (action == editServ)
+        else if (action == editServ)
             emit(editSelectedServer());
-        else if (action == genTTServ)
+/*        else if (action == genTTServ)
             emit(saveTTFile());*/
     }
 }
