@@ -74,11 +74,10 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
         ui->hostaddrEdit->setReadOnly(true);
         ui->tcpportEdit->setReadOnly(true);
         ui->udpportEdit->setReadOnly(true);
-        ui->cryptChkBox->setDisabled(true);
+        ui->cryptChkBox->setEnabled(false);
         ui->encsetupBtn->setEnabled(false);
         ui->usernameBox->lineEdit()->setReadOnly(true);
         ui->passwordEdit->setReadOnly(true);
-        ui->nicknameEdit->setReadOnly(true);
         ui->channelEdit->setReadOnly(true);
         ui->chanpasswdEdit->setReadOnly(true);
         break;
