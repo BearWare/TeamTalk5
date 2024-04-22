@@ -726,11 +726,11 @@ void ServerListDlg::keyPressEvent(QKeyEvent* e)
 {
     QDialog::keyPressEvent(e);
 
-    if (ui.serverTreeView->hasFocus())
+    if (e->matches(QKeySequence::Delete) || e->key() == Qt::Key_Backspace)
     {
-        if (e->matches(QKeySequence::Delete) || e->key() == Qt::Key_Backspace)
-        {
+        if (ui.serverTreeView->hasFocus())
             emit(deleteSelectedServer());
-        }
+        else if (ui.hostListWidget->hasFocus())
+            emit(deleteHostEntry());
     }
 }
