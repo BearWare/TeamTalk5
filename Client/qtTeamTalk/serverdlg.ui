@@ -60,14 +60,18 @@
          <string>TCP port</string>
         </property>
         <property name="buddy">
-         <cstring>tcpportEdit</cstring>
+         <cstring>tcpportSpinbox</cstring>
         </property>
        </widget>
       </item>
       <item row="2" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QLineEdit" name="tcpportEdit"/>
+         <widget class="QSpinBox" name="tcpportSpinbox">
+          <property name="maximum">
+           <number>65535</number>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QLabel" name="label_5">
@@ -84,14 +88,18 @@
          <string>UDP port</string>
         </property>
         <property name="buddy">
-         <cstring>udpportEdit</cstring>
+         <cstring>udpportSpinbox</cstring>
         </property>
        </widget>
       </item>
       <item row="3" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QLineEdit" name="udpportEdit"/>
+         <widget class="QSpinBox" name="udpportSpinbox">
+          <property name="maximum">
+           <number>65535</number>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QLabel" name="label_7">

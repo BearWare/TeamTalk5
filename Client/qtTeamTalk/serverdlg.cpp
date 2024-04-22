@@ -73,8 +73,8 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
         this->setAccessibleDescription(tr("View %1 information").arg(host.name));
         ui->nameEdit->setReadOnly(true);
         ui->hostaddrEdit->setReadOnly(true);
-        ui->tcpportEdit->setReadOnly(true);
-        ui->udpportEdit->setReadOnly(true);
+        ui->tcpportSpinbox->setReadOnly(true);
+        ui->udpportSpinbox->setReadOnly(true);
         ui->cryptChkBox->setEnabled(false);
         ui->encsetupBtn->setEnabled(false);
         ui->usernameBox->lineEdit()->setReadOnly(true);
@@ -89,8 +89,8 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
 
     ui->nameEdit->setText(m_hostentry.name);
     ui->hostaddrEdit->setText(m_hostentry.ipaddr);
-    ui->tcpportEdit->setText(QString::number(m_hostentry.tcpport));
-    ui->udpportEdit->setText(QString::number(m_hostentry.udpport));
+    ui->tcpportSpinbox->setValue(m_hostentry.tcpport);
+    ui->udpportSpinbox->setValue(m_hostentry.udpport);
     ui->cryptChkBox->setChecked(m_hostentry.encrypted);
     ui->usernameBox->lineEdit()->setText(m_hostentry.username);
     ui->passwordEdit->setText(m_hostentry.password);
@@ -110,8 +110,8 @@ HostEntry ServerDlg::GetHostEntry() const
     HostEntry newhostentry = m_hostentry;
     newhostentry.name = ui->nameEdit->text();
     newhostentry.ipaddr = ui->hostaddrEdit->text();
-    newhostentry.tcpport = ui->tcpportEdit->text().toInt();
-    newhostentry.udpport = ui->udpportEdit->text().toInt();
+    newhostentry.tcpport = ui->tcpportSpinbox->value();
+    newhostentry.udpport = ui->udpportSpinbox->value();
     newhostentry.encrypted = ui->cryptChkBox->isChecked();
     newhostentry.username = ui->usernameBox->lineEdit()->text();
     newhostentry.password = ui->passwordEdit->text();
@@ -129,11 +129,11 @@ void ServerDlg::generateEntryName()
         ui->nameEdit->setText(QString("%1@%2:%3")
                              .arg(username)
                              .arg(ui->hostaddrEdit->text())
-                             .arg(ui->tcpportEdit->text()));
+                             .arg(ui->tcpportSpinbox->value()));
     else if(ui->hostaddrEdit->text().size())
         ui->nameEdit->setText(QString("%1:%2")
                              .arg(ui->hostaddrEdit->text())
-                             .arg(ui->tcpportEdit->text()));
+                             .arg(ui->tcpportSpinbox->value()));
     else
         ui->nameEdit->setText(QString());
 }
@@ -146,9 +146,9 @@ void ServerDlg::accept()
         ui->nameEdit->setFocus();
         return;
     }
-    else if (ui->hostaddrEdit->text().trimmed().isEmpty() || ui->tcpportEdit->text().trimmed().isEmpty() || ui->udpportEdit->text().trimmed().isEmpty())
+    else if (ui->hostaddrEdit->text().trimmed().isEmpty())
     {
-        QMessageBox::critical(this, tr("Missing information"), tr("Please fill in host, TCP port and UDP port field"));
+        QMessageBox::critical(this, tr("Missing information"), tr("Please fill in host field"));
         return;
     }
     QDialog::accept();
