@@ -115,7 +115,7 @@ private:
     void requestServerList();
     void serverlistReply(QNetworkReply* reply);
 
-//    void saveTTFile();
+    void saveTTFile();
     void publishServer();
     void publishServerRequest(QNetworkReply* reply);
     bool getSelectedHost(HostEntry& host);

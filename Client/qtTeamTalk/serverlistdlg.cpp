@@ -481,7 +481,7 @@ void ServerListDlg::editSelectedServer()
     HostEntry host;
     if (!getSelectedHost(host))
         return;
-    ServerDlg dlg(ServerDlg::SERVER_UPDATE, host, this);
+    ServerDlg dlg((m_model->getServers()[m_proxyModel->mapToSource(ui.serverTreeView->currentIndex()).row()].srvtype == SERVERTYPE_LOCAL?ServerDlg::SERVER_UPDATE:ServerDlg::SERVER_READONLY), host, this);
     if (dlg.exec() == QDialog::Accepted)
     {
         HostEntry updatedHost = dlg.GetHostEntry();
@@ -544,50 +544,60 @@ void ServerListDlg::serverlistReply(QNetworkReply* reply)
     }
 }
 
-/*void ServerListDlg::saveTTFile()
+void ServerListDlg::saveTTFile()
 {
     HostEntry entry;
-    if(!getHostEntry(entry))
-        return;
-
-    GenerateTTFileDlg dlg(entry, this);
-    dlg.exec();
+    auto servers = m_model->getServers();
+    auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
+    if (srcIndex.isValid() && srcIndex.row() < servers.size())
+    {
+        entry = servers[srcIndex.row()];
+        GenerateTTFileDlg dlg(entry, this);
+        dlg.exec();
+    }
+    return;
 }
 
 void ServerListDlg::publishServer()
 {
     HostEntry entry;
-    if (!getHostEntry(entry) || entry.name.isEmpty())
-        return;
+    auto servers = m_model->getServers();
+    auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
+    if (srcIndex.isValid() && srcIndex.row() < servers.size())
+    {
+        entry = servers[srcIndex.row()];
+        if (entry.name.isEmpty())
+            return;
 
-    QMessageBox answer;
-    answer.setText(tr("Are you sure you want to publish the server named \"%1\"").arg(entry.name));
-    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
-    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
-    Q_UNUSED(NoButton);
-    answer.setIcon(QMessageBox::Question);
-    answer.setWindowTitle(tr("Publish Server"));
-    answer.exec();
-    if(answer.clickedButton() != YesButton)
-        return;
+        QMessageBox answer;
+        answer.setText(tr("Are you sure you want to publish the server named \"%1\"").arg(entry.name));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        Q_UNUSED(NoButton);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(tr("Publish Server"));
+        answer.exec();
+        if(answer.clickedButton() != YesButton)
+            return;
 
-    if (!m_http_srvpublish_manager)
-        m_http_srvpublish_manager = new QNetworkAccessManager(this);
+        if (!m_http_srvpublish_manager)
+            m_http_srvpublish_manager = new QNetworkAccessManager(this);
 
-    connect(m_http_srvpublish_manager, &QNetworkAccessManager::finished,
-            this, &ServerListDlg::publishServerRequest);
+        connect(m_http_srvpublish_manager, &QNetworkAccessManager::finished,
+                this, &ServerListDlg::publishServerRequest);
 
-    QString username = getBearWareWebLogin(this);
-    username = QUrl::toPercentEncoding(username);
-    QString token = ttSettings->value(SETTINGS_GENERAL_BEARWARE_TOKEN, "").toString();
-    token = QUrl::toPercentEncoding(token);
-    QUrl url(URL_PUBLISHSERVER(username, token));
-    QByteArray xml = generateTTFile(entry);
+        QString username = getBearWareWebLogin(this);
+        username = QUrl::toPercentEncoding(username);
+        QString token = ttSettings->value(SETTINGS_GENERAL_BEARWARE_TOKEN, "").toString();
+        token = QUrl::toPercentEncoding(token);
+        QUrl url(URL_PUBLISHSERVER(username, token));
+        QByteArray xml = generateTTFile(entry);
 
-    QNetworkRequest request(url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "text/xml");
-    m_http_srvpublish_manager->post(request, xml);
-}*/
+        QNetworkRequest request(url);
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "text/xml");
+        m_http_srvpublish_manager->post(request, xml);
+    }
+}
 
 void ServerListDlg::publishServerRequest(QNetworkReply* reply)
 {
@@ -665,9 +675,15 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
     QAction* delServ = menu.addAction(tr("&Delete Selected Server"));
     QAction* editServ = menu.addAction(tr("&Edit Selected Server"));
     QAction* genTTServ = menu.addAction(tr("&Generate .tt file for Selected Server"));
+    QAction* publishServ = menu.addAction(tr("&Publish Publicly"));
     auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
     if (srcIndex.isValid())
+    {
         delServ->setEnabled(m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
+        publishServ->setEnabled(m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
+        if (m_model->getServers()[srcIndex.row()].srvtype != SERVERTYPE_LOCAL)
+            editServ->setText(tr("&View Server Information"));
+    }
     if (QAction* action = menu.exec(QCursor::pos()))
     {
         auto sortToggle = m_proxyModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
@@ -699,8 +715,10 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
             emit(deleteSelectedServer());
         else if (action == editServ)
             emit(editSelectedServer());
-/*        else if (action == genTTServ)
-            emit(saveTTFile());*/
+        else if (action == genTTServ)
+            emit(saveTTFile());
+        else if (action == publishServ)
+            emit(publishServer());
     }
 }
 
