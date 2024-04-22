@@ -118,24 +118,3 @@ HostEntry ServerDlg::GetHostEntry() const
 
     return newhostentry;
 }
-
-void ServerDlg::slotGenerateEntryName(const QString&)
-{
-    QString username = ui->usernameBox->lineEdit()->text();
-    if(username.size())
-        ui->nameEdit->setText(QString("%1@%2:%3")
-                             .arg(username)
-                             .arg(ui->hostaddrEdit->text())
-                             .arg(ui->tcpportEdit->text()));
-    else if(ui->hostaddrEdit->text().size())
-        ui->nameEdit->setText(QString("%1:%2")
-                             .arg(ui->hostaddrEdit->text())
-                             .arg(ui->tcpportEdit->text()));
-    else
-        ui->nameEdit->setText(QString());
-
-    ui->passwordEdit->setDisabled(username == WEBLOGIN_BEARWARE_USERNAME);
-    ui->passwordChkBox->setDisabled(username == WEBLOGIN_BEARWARE_USERNAME);
-    if (isWebLogin(username, true))
-        ui->passwordEdit->setText("");
-}

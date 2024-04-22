@@ -340,6 +340,7 @@ void ServerListDlg::slotNewServer()
         entry = dlg.GetHostEntry();
         addServerEntry(entry);
         refreshServerList();
+        ui.serverTreeView->setFocus();
     }
 }
 
@@ -435,34 +436,6 @@ void ServerListDlg::applyServerListFilter()
     ttSettings->setValue(SETTINGS_DISPLAY_SERVERLISTFILTER_NAME, ui.filternameEdit->text());
     ttSettings->setValue(SETTINGS_DISPLAY_SERVERLISTFILTER_USERSCOUNT, ui.filterusersSpinBox->value());
 }
-
-/*void ServerListDlg::showSelectedServer(const QModelIndex &index)
-{
-    clearHostEntry();
-    auto servers = m_model->getServers();
-    auto srcIndex = m_proxyModel->mapToSource(index);
-    if (srcIndex.isValid() && srcIndex.row() < servers.size())
-    {
-        showHostEntry(servers[srcIndex.row()]);
-    }
-    else
-    {
-        ui.clearButton->setEnabled(false);
-    }
-}
-
-void ServerListDlg::slotAddUpdServer()
-{
-    HostEntry entry;
-    if(getHostEntry(entry))
-    {
-        RestoreIndex g(ui.serverTreeView);
-        deleteServerEntry(entry.name);
-        addServerEntry(entry);
-        refreshServerList();
-        ui.serverTreeView->setFocus();
-    }
-}*/
 
 void ServerListDlg::deleteSelectedServer()
 {

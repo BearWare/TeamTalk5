@@ -44,7 +44,6 @@ public:
 
 private:
     Ui::ServerDlg *ui;
-    void slotGenerateEntryName(const QString&);
     HostEntry m_hostentry;
 };
 

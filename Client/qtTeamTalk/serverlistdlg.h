@@ -108,8 +108,6 @@ private:
 
     void refreshServerList();
     void applyServerListFilter();
-    void showSelectedServer(const QModelIndex &index);
-    void slotAddUpdServer();
     void deleteSelectedServer();
     void editSelectedServer();
     void slotDoubleClicked(const QModelIndex& index);
