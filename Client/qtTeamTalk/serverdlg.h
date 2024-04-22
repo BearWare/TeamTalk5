@@ -42,9 +42,13 @@ public:
 
     HostEntry GetHostEntry() const;
 
+protected:
+    void accept() override;
+
 private:
     Ui::ServerDlg *ui;
     HostEntry m_hostentry;
+    void generateEntryName();
 };
 
 #endif // SERVERDLG_H

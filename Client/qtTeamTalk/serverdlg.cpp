@@ -24,6 +24,7 @@
 
 #include <QPushButton>
 #include <QInputDialog>
+#include <QMessageBox>
 
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
@@ -119,4 +120,36 @@ HostEntry ServerDlg::GetHostEntry() const
     newhostentry.chanpasswd = ui->chanpasswdEdit->text();
 
     return newhostentry;
+}
+
+void ServerDlg::generateEntryName()
+{
+    QString username = ui->usernameBox->lineEdit()->text();
+    if(username.size())
+        ui->nameEdit->setText(QString("%1@%2:%3")
+                             .arg(username)
+                             .arg(ui->hostaddrEdit->text())
+                             .arg(ui->tcpportEdit->text()));
+    else if(ui->hostaddrEdit->text().size())
+        ui->nameEdit->setText(QString("%1:%2")
+                             .arg(ui->hostaddrEdit->text())
+                             .arg(ui->tcpportEdit->text()));
+    else
+        ui->nameEdit->setText(QString());
+}
+
+void ServerDlg::accept()
+{
+    if (ui->nameEdit->text().trimmed().isEmpty())
+    {
+        generateEntryName();
+        ui->nameEdit->setFocus();
+        return;
+    }
+    else if (ui->hostaddrEdit->text().trimmed().isEmpty() || ui->tcpportEdit->text().trimmed().isEmpty() || ui->udpportEdit->text().trimmed().isEmpty())
+    {
+        QMessageBox::critical(this, tr("Missing information"), tr("Please fill in host, TCP port and UDP port field"));
+        return;
+    }
+    QDialog::accept();
 }
