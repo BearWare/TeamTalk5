@@ -81,6 +81,8 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
         ui->nicknameEdit->setReadOnly(true);
         ui->channelEdit->setReadOnly(true);
         ui->chanpasswdEdit->setReadOnly(true);
+        ui->buttonBox->setStandardButtons(QDialogButtonBox::Close);
+        ui->buttonBox->button(QDialogButtonBox::Close)->setText(tr("&Close"));
         break;
     }
 
