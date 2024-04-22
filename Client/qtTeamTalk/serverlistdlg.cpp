@@ -382,11 +382,15 @@ void ServerListDlg::slotImportTTFile()
 
 void ServerListDlg::slotConnect()
 {
-    HostEntry host;
-    if (!getSelectedHost(host))
-        return;
-    addLatestHost(host);
-    this->accept();
+    HostEntry host, latestHost;
+    if (getLatestHost(0, latestHost) || ui.hostListWidget->count() == 0)
+    {
+        if (!getSelectedHost(host))
+            return;
+        if (!host.sameHost(latestHost, true))
+            addLatestHost(host);
+        this->accept();
+    }
 }
 
 void ServerListDlg::refreshServerList()
