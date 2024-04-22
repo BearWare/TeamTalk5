@@ -288,6 +288,8 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     connect(ui.connectButton, &QAbstractButton::clicked, this, &ServerListDlg::slotConnect);
     ui.serverTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui.serverTreeView, &QWidget::customContextMenuRequested, this, &ServerListDlg::slotTreeContextMenu);
+    ui.hostListWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui.hostListWidget, &QWidget::customContextMenuRequested, this, &ServerListDlg::slotLatestHostsContextMenu);
 
     showLatestHosts();
     refreshServerList();
@@ -304,7 +306,7 @@ ServerListDlg::~ServerListDlg()
 
 void ServerListDlg::showLatestHosts()
 {
-    ui.hostListWidget->clear();  // Assurez-vous que hostListWidget est un pointeur vers un QListWidget
+    ui.hostListWidget->clear();
 
     HostEntry host;
     int index = 0;
@@ -312,12 +314,22 @@ void ServerListDlg::showLatestHosts()
         ui.hostListWidget->addItem(host.ipaddr);
 }
 
-/*void ServerListDlg::deleteHostEntry()
+void ServerListDlg::deleteHostEntry()
 {
-    int i = ui.hostaddrBox->currentIndex();
+    int i = ui.hostListWidget->currentRow();
     deleteLatestHost(i);
     showLatestHosts();
-}*/
+}
+
+void ServerListDlg::clearLatestHosts()
+{
+    while (ui.hostListWidget->count() > 0)
+    {
+        deleteLatestHost(0);
+        delete ui.hostListWidget->takeItem(0);
+    }
+    showLatestHosts();
+}
 
 void ServerListDlg::slotNewServer()
 {
@@ -681,8 +693,6 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
     {
         delServ->setEnabled(m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
         publishServ->setEnabled(m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
-        if (m_model->getServers()[srcIndex.row()].srvtype != SERVERTYPE_LOCAL)
-            editServ->setText(tr("&View Server Information"));
     }
     if (QAction* action = menu.exec(QCursor::pos()))
     {
@@ -719,6 +729,23 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
             emit(saveTTFile());
         else if (action == publishServ)
             emit(publishServer());
+    }
+}
+
+void ServerListDlg::slotLatestHostsContextMenu(const QPoint& /*point*/)
+{
+    QMenu menu(this);
+    QAction* delHost = menu.addAction(tr("&Remove from Latest Hosts"));
+    QAction* addHost = menu.addAction(tr("&Add to Saved Hosts"));
+    QAction* clearList = menu.addAction(tr("&Clear Latest Hosts"));
+    if (QAction* action = menu.exec(QCursor::pos()))
+    {
+        if (action == delHost)
+            emit(deleteHostEntry());
+        else if (action == addHost)
+            emit(editSelectedServer());
+        else if (action == clearList)
+            emit(clearLatestHosts());
     }
 }
 

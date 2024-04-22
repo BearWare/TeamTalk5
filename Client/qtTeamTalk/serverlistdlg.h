@@ -101,6 +101,7 @@ private:
 
     void showLatestHosts();
     void deleteHostEntry();
+    void clearLatestHosts();
     void slotNewServer();
     void slotImportTTFile();
     void slotConnect();
@@ -120,8 +121,8 @@ private:
     void publishServerRequest(QNetworkReply* reply);
     bool getSelectedHost(HostEntry& host);
 
-    void hostEntryNameChanged(const QString& text);
     void slotTreeContextMenu(const QPoint&);
+    void slotLatestHostsContextMenu(const QPoint&);
 };
 
 #endif

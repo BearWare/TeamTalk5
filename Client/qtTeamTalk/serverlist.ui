@@ -23,7 +23,7 @@
       <item>
        <widget class="QTreeView" name="serverTreeView">
         <property name="accessibleName">
-         <string>Saved hosts</string>
+         <string>Saved Hosts</string>
         </property>
        </widget>
       </item>
@@ -131,7 +131,7 @@
    <item>
     <widget class="QListWidget" name="hostListWidget">
      <property name="accessibleName">
-      <string>Latest hosts</string>
+      <string>Latest Hosts</string>
      </property>
      <property name="selectionMode">
       <enum>QAbstractItemView::SingleSelection</enum>
