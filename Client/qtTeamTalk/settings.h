@@ -386,6 +386,7 @@
 #define SETTINGS_DESKTOPSHARE_CURSOR                "desktop-share/desktop-cursor"
 #define SETTINGS_DESKTOPSHARE_WINDOWTITLE           "desktop-share/desktop-window-title"
 
+#define SETTINGS_LATESTHOST_NAME                "latesthosts/%1_name"
 #define SETTINGS_LATESTHOST_HOSTADDR                "latesthosts/%1_hostaddr"
 #define SETTINGS_LATESTHOST_TCPPORT                 "latesthosts/%1_tcpport"
 #define SETTINGS_LATESTHOST_UDPPORT                 "latesthosts/%1_udpport"

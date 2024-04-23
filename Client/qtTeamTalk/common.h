@@ -172,14 +172,12 @@ QStringList getCustomCommand(const MyTextMessage& msg);
 bool setupEncryption(const HostEntry& host);
 
 void addLatestHost(const HostEntry& host);
-void deleteLatestHost(int index);
-bool getLatestHost(int index, HostEntry& host);
 
 //server entries in settings file
 void addServerEntry(const HostEntry& host);
-void setServerEntry(int index, const HostEntry& host);
-bool getServerEntry(int index, HostEntry& host);
-void deleteServerEntry(const QString& name);
+void setServerEntry(int index, const HostEntry& host, bool latesthost = false);
+bool getServerEntry(int index, HostEntry& host, bool latesthost = false);
+void deleteServerEntry(const QString& name, bool latesthost = false);
 
 //get desktop access list
 void addDesktopAccessEntry(const DesktopAccessEntry& entry);

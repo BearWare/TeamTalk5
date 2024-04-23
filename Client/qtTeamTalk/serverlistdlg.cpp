@@ -310,24 +310,23 @@ void ServerListDlg::showLatestHosts()
 
     HostEntry host;
     int index = 0;
-    while (getLatestHost(index++, host))
+    while (getServerEntry(index++, host, true))
         ui.hostListWidget->addItem(host.ipaddr);
 }
 
 void ServerListDlg::deleteHostEntry()
 {
+    HostEntry host;
     int i = ui.hostListWidget->currentRow();
-    deleteLatestHost(i);
+    if (getServerEntry(i, host, true))
+        deleteServerEntry(host.name, true);
     showLatestHosts();
 }
 
 void ServerListDlg::clearLatestHosts()
 {
     while (ui.hostListWidget->count() > 0)
-    {
-        deleteLatestHost(0);
-        delete ui.hostListWidget->takeItem(0);
-    }
+        deleteServerEntry(0, true);
     showLatestHosts();
 }
 
@@ -396,7 +395,7 @@ void ServerListDlg::slotImportTTFile()
 void ServerListDlg::slotConnect()
 {
     HostEntry host, latestHost;
-    if (getLatestHost(0, latestHost) || ui.hostListWidget->count() == 0)
+    if (getServerEntry(0, latestHost, true) || ui.hostListWidget->count() == 0)
     {
         if (!getSelectedHost(host))
             return;
@@ -611,7 +610,7 @@ bool ServerListDlg::getSelectedHost(HostEntry& host)
         int currentIndex = ui.hostListWidget->currentRow();
         if (currentIndex != -1)
         {
-            getLatestHost(currentIndex, host);
+            getServerEntry(currentIndex, host, true);
         }
         return true;
     }

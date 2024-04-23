@@ -4149,7 +4149,7 @@ void MainWindow::slotClientConnect(bool /*checked =false */)
         if(dlg.exec())
         {
             m_host = HostEntry();
-            getLatestHost(0, m_host);
+            getServerEntry(0, m_host, true);
             m_channel_passwd[CHANNELID_TEMPPASSWORD] = m_host.chanpasswd;
             connectToServer();
         }
@@ -4485,7 +4485,7 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
             }
             tmp = HostEntry();
             index = 0;
-            while(getLatestHost(index, tmp))
+            while(getServerEntry(index, tmp, true))
             {
                 if (m_host.sameHostEntry(tmp))
                     lasthost = index;
@@ -5756,7 +5756,7 @@ void MainWindow::slotConnectToLatest()
 
     //auto connect to latest host
     if(ttSettings->value(SETTINGS_CONNECTION_AUTOCONNECT, SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT).toBool() &&
-        getLatestHost(0, lasthost))
+        getServerEntry(0, lasthost, true))
     {
         m_host = lasthost;
         connectToServer();
