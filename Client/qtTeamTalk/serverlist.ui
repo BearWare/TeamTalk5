@@ -21,7 +21,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayoutServerList">
       <item>
-       <widget class="QTreeView" name="serverTreeView">
+       <widget class="MyTreeView" name="serverTreeView">
         <property name="accessibleName">
          <string>Saved Hosts</string>
         </property>
