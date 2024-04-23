@@ -633,6 +633,21 @@ void MainWindow::loadSettings()
         }
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
+    if (!versionSameOrLater(iniversion, "5.4"))
+    {
+        // Latest hosts changed in 5.4 format
+        ttSettings->beginGroup("latesthosts");
+        int index = 0;
+        while (ttSettings->contains(QString("%1_hostaddr").arg(index)))
+        {
+            QString hostAddr = ttSettings->value(QString("%1_hostaddr").arg(index)).toString();
+            int tcpPort = ttSettings->value(QString("%1_tcpport").arg(index)).toInt();
+            ttSettings->setValue(QString("%1_name").arg(index), QString("%1_%2").arg(hostAddr).arg(tcpPort));
+            index++;
+        }
+        ttSettings->endGroup();
+        ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
+    }
 
     // Ask to set language at first start
     if (!ttSettings->contains(SETTINGS_DISPLAY_LANGUAGE))
