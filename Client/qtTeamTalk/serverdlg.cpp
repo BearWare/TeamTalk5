@@ -18,7 +18,6 @@
 #include "serverdlg.h"
 #include "ui_serverdlg.h"
 #include "appinfo.h"
-#include "utilui.h"
 #include "encryptionsetupdlg.h"
 #include "settings.h"
 
