@@ -293,6 +293,21 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
 
     showLatestHosts();
     refreshServerList();
+    HostEntry lasthost;
+    if (getServerEntry(0, lasthost, true))
+    {
+        ui.hostListWidget->setFocus();
+        auto servers = m_model->getServers();
+        for (int i=0;i<servers.size();++i)
+        {
+            if (servers[i].sameHost(lasthost, false))
+            {
+                auto srcIndex = m_proxyModel->mapFromSource(m_model->index(i, 0));
+                ui.serverTreeView->setCurrentIndex(srcIndex);
+                ui.serverTreeView->setFocus();
+            }
+        }
+    }
 
     ui.serverTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_HEADERSIZES).toByteArray());
     restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_SERVERLISTDLG_SIZE).toByteArray());
