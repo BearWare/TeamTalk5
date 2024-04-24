@@ -326,7 +326,7 @@ void ServerListDlg::showLatestHosts()
     HostEntry host;
     int index = 0;
     while (getServerEntry(index++, host, true))
-        ui.hostListWidget->addItem(host.ipaddr);
+        ui.hostListWidget->addItem(host.name);
 }
 
 void ServerListDlg::deleteHostEntry()
