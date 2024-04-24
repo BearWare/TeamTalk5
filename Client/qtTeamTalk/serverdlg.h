@@ -49,6 +49,7 @@ private:
     Ui::ServerDlg *ui;
     HostEntry m_hostentry;
     void generateEntryName();
+    void slotToggledWebLogin();
 };
 
 #endif // SERVERDLG_H

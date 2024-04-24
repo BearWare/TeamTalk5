@@ -42,8 +42,6 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
     ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&OK"));
     ui->buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
-    ui->usernameBox->addItem(WEBLOGIN_BEARWARE_USERNAME);
-
     connect(ui->cryptChkBox, &QCheckBox::toggled, ui->encsetupBtn, &QAbstractButton::setEnabled);
     connect(ui->encsetupBtn, &QAbstractButton::clicked, [&]()
     {
@@ -51,6 +49,8 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
         if (EncryptionSetupDlg(copyentry.encryption, this).exec())
             m_hostentry = copyentry;
     });
+    connect(ui->bdkLogChkBox, &QCheckBox::toggled,
+            this, &ServerDlg::slotToggledWebLogin);
     connect(ui->passwordChkBox, &QAbstractButton::clicked,
             this, [&](bool checked) { ui->passwordEdit->setEchoMode(checked ? QLineEdit::Normal : QLineEdit::Password); } );
     connect(ui->chanpasswordChkBox, &QAbstractButton::clicked,
@@ -77,7 +77,8 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
         ui->udpportSpinbox->setReadOnly(true);
         ui->cryptChkBox->setEnabled(false);
         ui->encsetupBtn->setEnabled(false);
-        ui->usernameBox->lineEdit()->setReadOnly(true);
+        ui->bdkLogChkBox->setEnabled(false);
+        ui->usernameEdit->setReadOnly(true);
         ui->passwordEdit->setReadOnly(true);
         ui->nicknameEdit->setReadOnly(true);
         ui->channelEdit->setReadOnly(true);
@@ -92,7 +93,8 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
     ui->tcpportSpinbox->setValue(m_hostentry.tcpport);
     ui->udpportSpinbox->setValue(m_hostentry.udpport);
     ui->cryptChkBox->setChecked(m_hostentry.encrypted);
-    ui->usernameBox->lineEdit()->setText(m_hostentry.username);
+    ui->bdkLogChkBox->setChecked(isWebLogin(m_hostentry.username, true));
+    ui->usernameEdit->setText(m_hostentry.username);
     ui->passwordEdit->setText(m_hostentry.password);
     ui->nicknameEdit->setText(m_hostentry.nickname);
     ui->channelEdit->setText(m_hostentry.channel);
@@ -113,7 +115,7 @@ HostEntry ServerDlg::GetHostEntry() const
     newhostentry.tcpport = ui->tcpportSpinbox->value();
     newhostentry.udpport = ui->udpportSpinbox->value();
     newhostentry.encrypted = ui->cryptChkBox->isChecked();
-    newhostentry.username = ui->usernameBox->lineEdit()->text();
+    newhostentry.username = ui->usernameEdit->text();
     newhostentry.password = ui->passwordEdit->text();
     newhostentry.nickname = ui->nicknameEdit->text();
     newhostentry.channel = ui->channelEdit->text();
@@ -124,7 +126,7 @@ HostEntry ServerDlg::GetHostEntry() const
 
 void ServerDlg::generateEntryName()
 {
-    QString username = ui->usernameBox->lineEdit()->text();
+    QString username = ui->usernameEdit->text();
     if(username.size())
         ui->nameEdit->setText(QString("%1@%2:%3")
                              .arg(username)
@@ -152,4 +154,13 @@ void ServerDlg::accept()
         return;
     }
     QDialog::accept();
+}
+
+void ServerDlg::slotToggledWebLogin()
+{
+    ui->usernameEdit->setReadOnly(ui->bdkLogChkBox->isChecked());
+    if (ui->bdkLogChkBox->isChecked())
+        ui->usernameEdit->setText(WEBLOGIN_BEARWARE_USERNAME);
+    ui->passwordEdit->setVisible(!ui->bdkLogChkBox->isChecked());
+    ui->passwordChkBox->setVisible(!ui->bdkLogChkBox->isChecked());
 }
