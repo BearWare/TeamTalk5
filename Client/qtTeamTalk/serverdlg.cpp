@@ -39,8 +39,8 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
 
     restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_SERVERWINDOWPOS).toByteArray());
 
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&OK"));
-    ui->buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Save and Close"));
+    ui->buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Close without saving"));
 
     connect(ui->cryptChkBox, &QCheckBox::toggled, ui->encsetupBtn, &QAbstractButton::setEnabled);
     connect(ui->encsetupBtn, &QAbstractButton::clicked, [&]()
@@ -83,6 +83,7 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
         ui->nicknameEdit->setReadOnly(true);
         ui->channelEdit->setReadOnly(true);
         ui->chanpasswdEdit->setReadOnly(true);
+        ui->connectSrvBox->setEnabled(false);
         ui->buttonBox->setStandardButtons(QDialogButtonBox::Close);
         ui->buttonBox->button(QDialogButtonBox::Close)->setText(tr("&Close"));
         break;
@@ -122,6 +123,11 @@ HostEntry ServerDlg::GetHostEntry() const
     newhostentry.chanpasswd = ui->chanpasswdEdit->text();
 
     return newhostentry;
+}
+
+bool ServerDlg::connectToServer() const
+{
+    return ui->connectSrvBox->isChecked();
 }
 
 void ServerDlg::generateEntryName()

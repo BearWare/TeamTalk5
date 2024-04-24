@@ -105,6 +105,7 @@ private:
     void slotNewServer();
     void slotImportTTFile();
     void slotConnect();
+    void connectToHost(const HostEntry& = HostEntry());
 
     void refreshServerList();
     void applyServerListFilter();

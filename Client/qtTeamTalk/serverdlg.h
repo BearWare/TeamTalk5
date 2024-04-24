@@ -41,6 +41,7 @@ public:
     ~ServerDlg();
 
     HostEntry GetHostEntry() const;
+    bool connectToServer() const;
 
 protected:
     void accept() override;

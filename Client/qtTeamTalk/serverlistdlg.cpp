@@ -353,8 +353,19 @@ void ServerListDlg::slotNewServer()
     {
         entry = dlg.GetHostEntry();
         addServerEntry(entry);
-        refreshServerList();
-        ui.serverTreeView->setFocus();
+        if (dlg.connectToServer())
+            connectToHost(entry);
+        else
+        {
+            refreshServerList();
+            ui.serverTreeView->setFocus();
+        }
+    }
+    else
+    {
+        entry = dlg.GetHostEntry();
+        if (dlg.connectToServer())
+            connectToHost(entry);
     }
 }
 
@@ -418,6 +429,14 @@ void ServerListDlg::slotConnect()
             addLatestHost(host);
         this->accept();
     }
+}
+
+void ServerListDlg::connectToHost(const HostEntry& host/* = HostEntry()*/)
+{
+    if (!host.ipaddr.isEmpty())
+        this->accept();
+    else
+        slotConnect();
 }
 
 void ServerListDlg::refreshServerList()
@@ -486,7 +505,16 @@ void ServerListDlg::editSelectedServer()
         HostEntry updatedHost = dlg.GetHostEntry();
         deleteServerEntry(host.name);
         addServerEntry(updatedHost);
-        refreshServerList();
+        if (dlg.connectToServer())
+            connectToHost(updatedHost);
+        else
+            refreshServerList();
+    }
+    else
+    {
+        HostEntry updatedHost = dlg.GetHostEntry();
+        if (dlg.connectToServer())
+            connectToHost(updatedHost);
     }
 }
 

@@ -265,6 +265,13 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QCheckBox" name="connectSrvBox">
+             <property name="text">
+              <string>&amp;Connect to Server on exit</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
         </layout>
