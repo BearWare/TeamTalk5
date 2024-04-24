@@ -15,22 +15,6 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayoutMain">
    <item>
-    <widget class="QGroupBox" name="groupBoxServerList">
-     <property name="title">
-      <string>Server List</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayoutServerList">
-      <item>
-       <widget class="MyTreeView" name="serverTreeView">
-        <property name="accessibleName">
-         <string>Saved Hosts</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
     <layout class="QHBoxLayout" name="horizontalLayoutFilters">
      <item>
       <widget class="QGroupBox" name="groupBox_6">
@@ -93,6 +77,22 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBoxServerList">
+     <property name="title">
+      <string>Server List</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayoutServerList">
+      <item>
+       <widget class="MyTreeView" name="serverTreeView">
+        <property name="accessibleName">
+         <string>Saved Hosts</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <widget class="QPushButton" name="connectButton">
