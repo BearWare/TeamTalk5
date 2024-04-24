@@ -32,6 +32,7 @@ extern QSettings* ttSettings;
 ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ServerDlg)
+    , m_type(type)
     , m_hostentry(host)
 {
     ui->setupUi(this);
@@ -154,11 +155,17 @@ void ServerDlg::accept()
         ui->nameEdit->setFocus();
         return;
     }
-    else if (ui->hostaddrEdit->text().trimmed().isEmpty())
+    if (m_type == SERVER_CREATE && !isServerNameUnique(ui->nameEdit->text()))
+    {
+        QMessageBox::critical(this, tr("Name already used"), tr("Another server with this name already exists. Please use a different name."));
+        return;
+    }
+    if (ui->hostaddrEdit->text().trimmed().isEmpty())
     {
         QMessageBox::critical(this, tr("Missing information"), tr("Please fill in host field"));
         return;
     }
+    
     QDialog::accept();
 }
 
@@ -171,4 +178,24 @@ void ServerDlg::slotToggledWebLogin()
         ui->usernameEdit->setText(m_hostentry.username);
     ui->passwordEdit->setVisible(!ui->bdkLogChkBox->isChecked());
     ui->passwordChkBox->setVisible(!ui->bdkLogChkBox->isChecked());
+}
+
+bool ServerDlg::isServerNameUnique(const QString& serverName)
+{
+    ttSettings->beginGroup("serverentries");
+    const QStringList keys = ttSettings->allKeys();
+    foreach (const QString &key, keys)
+    {
+        if (key.endsWith("_name"))
+        {
+            if (ttSettings->value(key).toString().compare(serverName, Qt::CaseInsensitive) == 0)
+            {
+                ttSettings->endGroup();
+                return false;
+            }
+        }
+    }
+
+    ttSettings->endGroup();
+    return true;
 }

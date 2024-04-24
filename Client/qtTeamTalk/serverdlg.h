@@ -49,8 +49,10 @@ protected:
 private:
     Ui::ServerDlg *ui;
     HostEntry m_hostentry;
+    ServerDlgType m_type;
     void generateEntryName();
     void slotToggledWebLogin();
+    bool isServerNameUnique(const QString& serverName);
 };
 
 #endif // SERVERDLG_H
