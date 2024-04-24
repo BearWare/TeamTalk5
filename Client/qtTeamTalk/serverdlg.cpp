@@ -116,7 +116,7 @@ HostEntry ServerDlg::GetHostEntry() const
     newhostentry.udpport = ui->udpportSpinbox->value();
     newhostentry.encrypted = ui->cryptChkBox->isChecked();
     newhostentry.username = ui->usernameEdit->text();
-    newhostentry.password = ui->passwordEdit->text();
+    newhostentry.password = isWebLogin(ui->usernameEdit->text(), true)?"":ui->passwordEdit->text();
     newhostentry.nickname = ui->nicknameEdit->text();
     newhostentry.channel = ui->channelEdit->text();
     newhostentry.chanpasswd = ui->chanpasswdEdit->text();
