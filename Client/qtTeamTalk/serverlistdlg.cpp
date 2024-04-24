@@ -434,7 +434,15 @@ void ServerListDlg::slotConnect()
 void ServerListDlg::connectToHost(const HostEntry& host/* = HostEntry()*/)
 {
     if (!host.ipaddr.isEmpty())
+    {
+        HostEntry latestHost;
+        if (getServerEntry(0, latestHost, true) || ui.hostListWidget->count() == 0)
+        {
+            if (!host.sameHost(latestHost, true))
+                addLatestHost(host);
+        }
         this->accept();
+    }
     else
         slotConnect();
 }
