@@ -161,6 +161,8 @@ void ServerDlg::slotToggledWebLogin()
     ui->usernameEdit->setReadOnly(ui->bdkLogChkBox->isChecked());
     if (ui->bdkLogChkBox->isChecked())
         ui->usernameEdit->setText(WEBLOGIN_BEARWARE_USERNAME);
+    else
+        ui->usernameEdit->setText("");
     ui->passwordEdit->setVisible(!ui->bdkLogChkBox->isChecked());
     ui->passwordChkBox->setVisible(!ui->bdkLogChkBox->isChecked());
 }
