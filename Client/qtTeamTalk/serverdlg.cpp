@@ -132,18 +132,7 @@ bool ServerDlg::connectToServer() const
 
 void ServerDlg::generateEntryName()
 {
-    QString username = ui->usernameEdit->text();
-    if(username.size())
-        ui->nameEdit->setText(QString("%1@%2:%3")
-                             .arg(username)
-                             .arg(ui->hostaddrEdit->text())
-                             .arg(ui->tcpportSpinbox->value()));
-    else if(ui->hostaddrEdit->text().size())
-        ui->nameEdit->setText(QString("%1:%2")
-                             .arg(ui->hostaddrEdit->text())
-                             .arg(ui->tcpportSpinbox->value()));
-    else
-        ui->nameEdit->setText(QString());
+    ui->nameEdit->setText(GetHostEntry().generateEntryName());
 }
 
 void ServerDlg::accept()

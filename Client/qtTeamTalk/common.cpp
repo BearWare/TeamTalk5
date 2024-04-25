@@ -58,6 +58,16 @@ bool HostEntry::sameHostEntry(const HostEntry& host) const
     return sameHost(host, false) && host.name == name;
 }
 
+QString HostEntry::generateEntryName() const
+{
+    QString genname;
+    if (username.size())
+        genname = QString("%1@%2:%3").arg(username).arg(ipaddr).arg(tcpport);
+    else if (ipaddr.size())
+        genname = QString("%1:%2").arg(ipaddr).arg(tcpport);
+    return genname;
+}
+
 bool setupEncryption(const HostEntry& host)
 {
     if (!host.encrypted)
@@ -148,7 +158,7 @@ void addServerEntry(const HostEntry& host)
 
 void setServerEntry(int index, const HostEntry& host, bool latesthost/* = false*/)
 {
-    ttSettings->setValue(QString((latesthost?SETTINGS_LATESTHOST_NAME:SETTINGS_SERVERENTRIES_NAME)).arg(index), (latesthost?QString("%1_%2").arg(host.ipaddr).arg(host.tcpport):host.name));
+    ttSettings->setValue(QString((latesthost?SETTINGS_LATESTHOST_NAME:SETTINGS_SERVERENTRIES_NAME)).arg(index), (latesthost ? host.generateEntryName() : host.name));
     ttSettings->setValue(QString((latesthost?SETTINGS_LATESTHOST_HOSTADDR:SETTINGS_SERVERENTRIES_HOSTADDR)).arg(index), host.ipaddr);
     ttSettings->setValue(QString((latesthost?SETTINGS_LATESTHOST_TCPPORT:SETTINGS_SERVERENTRIES_TCPPORT)).arg(index), host.tcpport);  
     ttSettings->setValue(QString((latesthost?SETTINGS_LATESTHOST_UDPPORT:SETTINGS_SERVERENTRIES_UDPPORT)).arg(index), host.udpport);  
