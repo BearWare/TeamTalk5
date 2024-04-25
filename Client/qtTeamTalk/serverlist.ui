@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>471</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,10 +18,10 @@
     <layout class="QHBoxLayout" name="horizontalLayoutFilters">
      <item>
       <widget class="QGroupBox" name="groupBox_6">
-       <property name="title">
+       <property name="accessibleName">
         <string>Filter Servers</string>
        </property>
-       <property name="accessibleName">
+       <property name="title">
         <string>Filter Servers</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -88,6 +88,18 @@
        <widget class="MyTreeView" name="serverTreeView">
         <property name="accessibleName">
          <string>Saved Hosts</string>
+        </property>
+        <property name="rootIsDecorated">
+         <bool>false</bool>
+        </property>
+        <property name="itemsExpandable">
+         <bool>false</bool>
+        </property>
+        <property name="sortingEnabled">
+         <bool>true</bool>
+        </property>
+        <property name="expandsOnDoubleClick">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
