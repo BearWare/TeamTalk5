@@ -288,6 +288,8 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     connect(ui.serverTreeView, &QAbstractItemView::doubleClicked, this, &ServerListDlg::slotConnect);
     ui.serverTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui.serverTreeView, &QWidget::customContextMenuRequested, this, &ServerListDlg::slotTreeContextMenu);
+
+    connect(ui.hostListWidget, &QAbstractItemView::doubleClicked, this, &ServerListDlg::slotConnect);
     ui.hostListWidget->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui.hostListWidget, &QWidget::customContextMenuRequested, this, &ServerListDlg::slotLatestHostsContextMenu);
 
