@@ -161,7 +161,7 @@
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="label_10">
+          <widget class="QLabel" name="usernameLabel">
            <property name="text">
             <string>Username</string>
            </property>
@@ -174,7 +174,7 @@
           <widget class="QLineEdit" name="usernameEdit"/>
          </item>
          <item row="2" column="0">
-          <widget class="QLabel" name="label_11">
+          <widget class="QLabel" name="passwdLabel">
            <property name="text">
             <string>Password</string>
            </property>
