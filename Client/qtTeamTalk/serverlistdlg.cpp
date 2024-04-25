@@ -718,7 +718,7 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
     sortMenu->addAction(sortCountry);
     QAction* delServ = menu.addAction(tr("&Delete Selected Server"));
     QAction* editServ = menu.addAction(tr("&Edit Selected Server"));
-    QAction* dupServ = menu.addAction(tr("&Duplicate Selected Server"));
+    QAction* dupServ = menu.addAction(tr("D&uplicate Selected Server"));
     QAction* genTTServ = menu.addAction(tr("&Generate .tt file for Selected Server"));
     QAction* publishServ = menu.addAction(tr("&Publish Publicly"));
     auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
