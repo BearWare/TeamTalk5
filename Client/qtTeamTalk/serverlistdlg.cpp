@@ -533,7 +533,10 @@ void ServerListDlg::duplicateSelectedServer()
     HostEntry host;
     if (!getSelectedHost(host))
         return;
-    host.name = QString("%1 - COPY").arg(host.name);
+
+    host.name = QInputDialog::getText(this, tr("Duplicate Server Entry"),
+                          tr("Entry Name"),
+                          QLineEdit::Normal, tr("%1 - COPY").arg(host.name));
     addServerEntry(host);
     refreshServerList();
 }
