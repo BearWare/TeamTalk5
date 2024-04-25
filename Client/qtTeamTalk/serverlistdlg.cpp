@@ -298,17 +298,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     HostEntry lasthost;
     if (getServerEntry(0, lasthost, true))
     {
-        ui.hostListWidget->setFocus();
-        auto servers = m_model->getServers();
-        for (int i=0;i<servers.size();++i)
-        {
-            if (servers[i].sameHost(lasthost, false))
-            {
-                auto srcIndex = m_proxyModel->mapFromSource(m_model->index(i, 0));
-                ui.serverTreeView->setCurrentIndex(srcIndex);
-                ui.serverTreeView->setFocus();
-            }
-        }
+        restoreSelectedHost(lasthost);
     }
 
     ui.serverTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_HEADERSIZES).toByteArray());
@@ -319,6 +309,21 @@ ServerListDlg::~ServerListDlg()
 {
     ttSettings->setValue(SETTINGS_DISPLAY_SERVERLISTDLG_SIZE, saveGeometry());
     ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_HEADERSIZES, ui.serverTreeView->header()->saveState());
+}
+
+void ServerListDlg::restoreSelectedHost(const HostEntry& entry)
+{
+    ui.hostListWidget->setFocus();
+    auto servers = m_model->getServers();
+    for (int i=0;i<servers.size();++i)
+    {
+        if (servers[i].sameHost(entry, false))
+        {
+            auto srcIndex = m_proxyModel->mapFromSource(m_model->index(i, 0));
+            ui.serverTreeView->setCurrentIndex(srcIndex);
+            ui.serverTreeView->setFocus();
+        }
+    }
 }
 
 void ServerListDlg::showLatestHosts()
@@ -539,6 +544,7 @@ void ServerListDlg::duplicateSelectedServer()
                           QLineEdit::Normal, tr("%1 - COPY").arg(host.name));
     addServerEntry(host);
     refreshServerList();
+    restoreSelectedHost(host);
 }
 
 void ServerListDlg::requestServerList()
