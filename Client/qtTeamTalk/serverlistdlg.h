@@ -112,7 +112,6 @@ private:
     void deleteSelectedServer();
     void editSelectedServer();
     void duplicateSelectedServer();
-    void slotDoubleClicked(const QModelIndex& index);
     void requestServerList();
     void serverlistReply(QNetworkReply* reply);
 

@@ -285,6 +285,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     connect(ui.filternameEdit, &QLineEdit::textChanged, this, &ServerListDlg::applyServerListFilter);
     connect(ui.filterusersSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ServerListDlg::applyServerListFilter);
     connect(ui.connectButton, &QAbstractButton::clicked, this, &ServerListDlg::slotConnect);
+    connect(ui.serverTreeView, &QAbstractItemView::doubleClicked, this, &ServerListDlg::slotConnect);
     ui.serverTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui.serverTreeView, &QWidget::customContextMenuRequested, this, &ServerListDlg::slotTreeContextMenu);
     ui.hostListWidget->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -533,11 +534,6 @@ void ServerListDlg::duplicateSelectedServer()
     host.name = QString("%1 - COPY").arg(host.name);
     addServerEntry(host);
     refreshServerList();
-}
-
-void ServerListDlg::slotDoubleClicked(const QModelIndex& /*index*/)
-{
-    slotConnect();
 }
 
 void ServerListDlg::requestServerList()
