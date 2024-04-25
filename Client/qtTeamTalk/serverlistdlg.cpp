@@ -755,15 +755,15 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
             ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, country);
         }
         else if (action == delServ)
-            emit(deleteSelectedServer());
+            deleteSelectedServer();
         else if (action == editServ)
-            emit(editSelectedServer());
+            editSelectedServer();
         else if (action == dupServ)
-            emit(duplicateSelectedServer());
+            duplicateSelectedServer();
         else if (action == genTTServ)
-            emit(saveTTFile());
+            saveTTFile();
         else if (action == publishServ)
-            emit(publishServer());
+            publishServer();
     }
 }
 
@@ -776,11 +776,11 @@ void ServerListDlg::slotLatestHostsContextMenu(const QPoint& /*point*/)
     if (QAction* action = menu.exec(QCursor::pos()))
     {
         if (action == delHost)
-            emit(deleteHostEntry());
+            deleteHostEntry();
         else if (action == addHost)
-            emit(editSelectedServer());
+            editSelectedServer();
         else if (action == clearList)
-            emit(clearLatestHosts());
+            clearLatestHosts();
     }
 }
 
@@ -791,8 +791,8 @@ void ServerListDlg::keyPressEvent(QKeyEvent* e)
     if (e->matches(QKeySequence::Delete) || e->key() == Qt::Key_Backspace)
     {
         if (ui.serverTreeView->hasFocus())
-            emit(deleteSelectedServer());
+            deleteSelectedServer();
         else if (ui.hostListWidget->hasFocus())
-            emit(deleteHostEntry());
+            deleteHostEntry();
     }
 }
