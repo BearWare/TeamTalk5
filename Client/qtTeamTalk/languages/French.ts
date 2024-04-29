@@ -6468,7 +6468,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../serverlistdlg.cpp" line="496"/>
         <source>Delete server named &quot;%1&quot;</source>
-        <translation>Supprimer le serveur de nom «%1»</translation>
+        <translation>Supprimer le serveur nommé «%1»</translation>
     </message>
 </context>
 <context>
