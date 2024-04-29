@@ -6065,13 +6065,13 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="150"/>
+        <location filename="../serverdlg.ui" line="153"/>
         <source>Authentication (optional)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverdlg.ui" line="153"/>
         <source>Authentication</source>
-        <translation type="unfinished">احراز هویت</translation>
+        <translation type="obsolete">احراز هویت</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="159"/>
@@ -6128,12 +6128,8 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="62"/>
-        <source>Add Server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../serverdlg.cpp" line="63"/>
-        <source>Add server</source>
+        <source>Add Server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6152,9 +6148,13 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverdlg.cpp" line="73"/>
         <source>View %1 information</source>
-        <translation type="unfinished">مشاهدۀ اطلاعات %1</translation>
+        <translation type="obsolete">مشاهدۀ اطلاعات %1</translation>
+    </message>
+    <message>
+        <location filename="../serverdlg.cpp" line="73"/>
+        <source>View %1 Information</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="88"/>
@@ -6178,7 +6178,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="153"/>
-        <source>Please fill in host field</source>
+        <source>Please fill in &quot;Host IP-address&quot; field</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6447,18 +6447,23 @@ Should these settings be applied?</source>
         <translation>کشور (%1)</translation>
     </message>
     <message>
+        <location filename="../serverlistdlg.cpp" line="730"/>
+        <source>&amp;Delete</source>
+        <translation type="unfinished">&amp;حذف	</translation>
+    </message>
+    <message>
         <location filename="../serverlistdlg.cpp" line="731"/>
-        <source>&amp;Edit Selected Server</source>
+        <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="732"/>
-        <source>D&amp;uplicate Selected Server</source>
+        <source>D&amp;uplicate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="733"/>
-        <source>&amp;Generate .tt file for Selected Server</source>
+        <source>&amp;Generate .tt file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6525,9 +6530,8 @@ Delete the published user account to unregister your server.</source>
         <translation>مرتب‌سازی بر اساسِ...</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="730"/>
         <source>&amp;Delete Selected Server</source>
-        <translation>&amp;پاک‌کردنِ این سِروِر از لیستِ سِروِر‌ها</translation>
+        <translation type="vanished">&amp;پاک‌کردنِ این سِروِر از لیستِ سِروِر‌ها</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="501"/>

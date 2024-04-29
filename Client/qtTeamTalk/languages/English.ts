@@ -6058,12 +6058,8 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="150"/>
-        <source>Authentication (optional)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../serverdlg.ui" line="153"/>
-        <source>Authentication</source>
+        <source>Authentication (optional)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6121,12 +6117,8 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="62"/>
-        <source>Add Server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../serverdlg.cpp" line="63"/>
-        <source>Add server</source>
+        <source>Add Server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6146,7 +6138,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="73"/>
-        <source>View %1 information</source>
+        <source>View %1 Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6171,7 +6163,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="153"/>
-        <source>Please fill in host field</source>
+        <source>Please fill in &quot;Host IP-address&quot; field</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6336,18 +6328,23 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../serverlistdlg.cpp" line="730"/>
+        <source>&amp;Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../serverlistdlg.cpp" line="731"/>
-        <source>&amp;Edit Selected Server</source>
+        <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="732"/>
-        <source>D&amp;uplicate Selected Server</source>
+        <source>D&amp;uplicate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="733"/>
-        <source>&amp;Generate .tt file for Selected Server</source>
+        <source>&amp;Generate .tt file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6405,11 +6402,6 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="704"/>
         <source>Sort By...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../serverlistdlg.cpp" line="730"/>
-        <source>&amp;Delete Selected Server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -6098,13 +6098,9 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="150"/>
+        <location filename="../serverdlg.ui" line="153"/>
         <source>Authentication (optional)</source>
         <translation type="unfinished">Kimlik doğrulama (isteğe bağlı)</translation>
-    </message>
-    <message>
-        <location filename="../serverdlg.ui" line="153"/>
-        <source>Authentication</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="159"/>
@@ -6161,12 +6157,8 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="62"/>
-        <source>Add Server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../serverdlg.cpp" line="63"/>
-        <source>Add server</source>
+        <source>Add Server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6185,9 +6177,13 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverdlg.cpp" line="73"/>
         <source>View %1 information</source>
-        <translation type="unfinished">%1 bilgilerini görüntüle</translation>
+        <translation type="obsolete">%1 bilgilerini görüntüle</translation>
+    </message>
+    <message>
+        <location filename="../serverdlg.cpp" line="73"/>
+        <source>View %1 Information</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="88"/>
@@ -6211,7 +6207,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="153"/>
-        <source>Please fill in host field</source>
+        <source>Please fill in &quot;Host IP-address&quot; field</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6480,18 +6476,23 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
         <translation>Ülke (%1)</translation>
     </message>
     <message>
+        <location filename="../serverlistdlg.cpp" line="730"/>
+        <source>&amp;Delete</source>
+        <translation type="unfinished">S&amp;il</translation>
+    </message>
+    <message>
         <location filename="../serverlistdlg.cpp" line="731"/>
-        <source>&amp;Edit Selected Server</source>
+        <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="732"/>
-        <source>D&amp;uplicate Selected Server</source>
+        <source>D&amp;uplicate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="733"/>
-        <source>&amp;Generate .tt file for Selected Server</source>
+        <source>&amp;Generate .tt file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6559,9 +6560,8 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <translation>Şuna göre sırala...</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="730"/>
         <source>&amp;Delete Selected Server</source>
-        <translation>&amp;Seçili Sunucuyu Sil</translation>
+        <translation type="vanished">&amp;Seçili Sunucuyu Sil</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="501"/>

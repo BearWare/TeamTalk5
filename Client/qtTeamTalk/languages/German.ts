@@ -6064,13 +6064,13 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="150"/>
+        <location filename="../serverdlg.ui" line="153"/>
         <source>Authentication (optional)</source>
         <translation type="unfinished">Anmeldung (optional)</translation>
     </message>
     <message>
-        <location filename="../serverdlg.ui" line="153"/>
         <source>Authentication</source>
-        <translation type="unfinished">Anmeldung</translation>
+        <translation type="obsolete">Anmeldung</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="159"/>
@@ -6127,12 +6127,8 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="62"/>
-        <source>Add Server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../serverdlg.cpp" line="63"/>
-        <source>Add server</source>
+        <source>Add Server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6151,9 +6147,13 @@ Should these settings be applied?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverdlg.cpp" line="73"/>
         <source>View %1 information</source>
-        <translation type="unfinished">Informationen für %1 ansehen</translation>
+        <translation type="obsolete">Informationen für %1 ansehen</translation>
+    </message>
+    <message>
+        <location filename="../serverdlg.cpp" line="73"/>
+        <source>View %1 Information</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="88"/>
@@ -6177,7 +6177,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="153"/>
-        <source>Please fill in host field</source>
+        <source>Please fill in &quot;Host IP-address&quot; field</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6442,18 +6442,23 @@ Should these settings be applied?</source>
         <translation>Land (%1)</translation>
     </message>
     <message>
+        <location filename="../serverlistdlg.cpp" line="730"/>
+        <source>&amp;Delete</source>
+        <translation type="unfinished">&amp;Löschen</translation>
+    </message>
+    <message>
         <location filename="../serverlistdlg.cpp" line="731"/>
-        <source>&amp;Edit Selected Server</source>
+        <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="732"/>
-        <source>D&amp;uplicate Selected Server</source>
+        <source>D&amp;uplicate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="733"/>
-        <source>&amp;Generate .tt file for Selected Server</source>
+        <source>&amp;Generate .tt file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6520,9 +6525,8 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
         <translation>Sortieren nach...</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="730"/>
         <source>&amp;Delete Selected Server</source>
-        <translation>Gewählten Server &amp;löschen</translation>
+        <translation type="vanished">Gewählten Server &amp;löschen</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="501"/>

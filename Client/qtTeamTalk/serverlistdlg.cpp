@@ -727,10 +727,10 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
     const QString country = "country";
     sortCountry->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == country)?true:false);
     sortMenu->addAction(sortCountry);
-    QAction* delServ = menu.addAction(tr("&Delete Selected Server"));
-    QAction* editServ = menu.addAction(tr("&Edit Selected Server"));
-    QAction* dupServ = menu.addAction(tr("D&uplicate Selected Server"));
-    QAction* genTTServ = menu.addAction(tr("&Generate .tt file for Selected Server"));
+    QAction* delServ = menu.addAction(tr("&Delete"));
+    QAction* editServ = menu.addAction(tr("&Edit"));
+    QAction* dupServ = menu.addAction(tr("D&uplicate"));
+    QAction* genTTServ = menu.addAction(tr("&Generate .tt file"));
     QAction* publishServ = menu.addAction(tr("&Publish Publicly"));
     auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
     if (srcIndex.isValid())

@@ -6099,13 +6099,9 @@ Faut-il appliquer ces paramètres?</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="150"/>
+        <location filename="../serverdlg.ui" line="153"/>
         <source>Authentication (optional)</source>
         <translation>Authentification (optionnel)</translation>
-    </message>
-    <message>
-        <location filename="../serverdlg.ui" line="153"/>
-        <source>Authentication</source>
-        <translation>Authentification</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="159"/>
@@ -6162,13 +6158,9 @@ Faut-il appliquer ces paramètres?</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="62"/>
+        <location filename="../serverdlg.cpp" line="63"/>
         <source>Add Server</source>
         <translation>Ajouter un Serveur</translation>
-    </message>
-    <message>
-        <location filename="../serverdlg.cpp" line="63"/>
-        <source>Add server</source>
-        <translation>Ajouter un serveur</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="67"/>
@@ -6187,8 +6179,8 @@ Faut-il appliquer ces paramètres?</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="73"/>
-        <source>View %1 information</source>
-        <translation>Voir les informations de %1</translation>
+        <source>View %1 Information</source>
+        <translation>Voir les Informations de %1</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="88"/>
@@ -6212,8 +6204,8 @@ Faut-il appliquer ces paramètres?</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="153"/>
-        <source>Please fill in host field</source>
-        <translation>Veuillez remplir le champ hôte</translation>
+        <source>Please fill in &quot;Host IP-address&quot; field</source>
+        <translation>Veuillez remplir le champ «Hôte ou adresse IP»</translation>
     </message>
 </context>
 <context>
@@ -6377,19 +6369,24 @@ Faut-il appliquer ces paramètres?</translation>
         <translation>&amp;Pays (%1)</translation>
     </message>
     <message>
+        <location filename="../serverlistdlg.cpp" line="730"/>
+        <source>&amp;Delete</source>
+        <translation>&amp;Supprimer</translation>
+    </message>
+    <message>
         <location filename="../serverlistdlg.cpp" line="731"/>
-        <source>&amp;Edit Selected Server</source>
-        <translation>&amp;Éditer le Serveur Sélectionné</translation>
+        <source>&amp;Edit</source>
+        <translation>&amp;Éditer</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="732"/>
-        <source>D&amp;uplicate Selected Server</source>
-        <translation>&amp;Dupliquer le Serveur Sélectionné</translation>
+        <source>D&amp;uplicate</source>
+        <translation>&amp;Dupliquer</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="733"/>
-        <source>&amp;Generate .tt file for Selected Server</source>
-        <translation>&amp;Générer un fichier .tt pour le Serveur Sélectionné</translation>
+        <source>&amp;Generate .tt file</source>
+        <translation>&amp;Générer un fichier .tt</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="734"/>
@@ -6454,11 +6451,6 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
         <location filename="../serverlistdlg.cpp" line="704"/>
         <source>Sort By...</source>
         <translation>Trier Par…</translation>
-    </message>
-    <message>
-        <location filename="../serverlistdlg.cpp" line="730"/>
-        <source>&amp;Delete Selected Server</source>
-        <translation>&amp;Supprimer le serveur sélectionné</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="501"/>

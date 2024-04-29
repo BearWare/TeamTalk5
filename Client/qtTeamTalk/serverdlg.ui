@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string notr="true">Dialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -150,7 +150,7 @@
          <string>Authentication (optional)</string>
         </property>
         <property name="title">
-         <string>Authentication</string>
+         <string>Authentication (optional)</string>
         </property>
         <layout class="QFormLayout" name="formLayout">
          <item row="0" column="0">

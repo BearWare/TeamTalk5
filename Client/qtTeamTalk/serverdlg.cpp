@@ -60,7 +60,7 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
     {
     case SERVER_CREATE :
         setWindowTitle(tr("Add Server"));
-        this->setAccessibleDescription(tr("Add server"));
+        this->setAccessibleDescription(tr("Add Server"));
         break;
     case SERVER_UPDATE :
     {
@@ -70,7 +70,7 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
     break;
     case SERVER_READONLY :
         setWindowTitle(tr("View Server Information"));
-        this->setAccessibleDescription(tr("View %1 information").arg(host.name));
+        this->setAccessibleDescription(tr("View %1 Information").arg(host.name));
         ui->nameEdit->setReadOnly(true);
         ui->hostaddrEdit->setReadOnly(true);
         ui->tcpportSpinbox->setReadOnly(true);
@@ -150,7 +150,7 @@ void ServerDlg::accept()
     }
     if (ui->hostaddrEdit->text().trimmed().isEmpty())
     {
-        QMessageBox::critical(this, tr("Missing information"), tr("Please fill in host field"));
+        QMessageBox::critical(this, tr("Missing information"), tr("Please fill in \"Host IP-address\" field"));
         return;
     }
     

@@ -6060,13 +6060,13 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="150"/>
+        <location filename="../serverdlg.ui" line="153"/>
         <source>Authentication (optional)</source>
         <translation type="unfinished">인증 (선택 사항)</translation>
     </message>
     <message>
-        <location filename="../serverdlg.ui" line="153"/>
         <source>Authentication</source>
-        <translation type="unfinished">인증</translation>
+        <translation type="obsolete">인증</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="159"/>
@@ -6123,12 +6123,8 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="62"/>
-        <source>Add Server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../serverdlg.cpp" line="63"/>
-        <source>Add server</source>
+        <source>Add Server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6147,9 +6143,13 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../serverdlg.cpp" line="73"/>
         <source>View %1 information</source>
-        <translation type="unfinished">%1 정보 보기</translation>
+        <translation type="obsolete">%1 정보 보기</translation>
+    </message>
+    <message>
+        <location filename="../serverdlg.cpp" line="73"/>
+        <source>View %1 Information</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="88"/>
@@ -6173,7 +6173,7 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="153"/>
-        <source>Please fill in host field</source>
+        <source>Please fill in &quot;Host IP-address&quot; field</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6442,18 +6442,23 @@ You can download it on the page below:<byte value="xd"/>
         <translation>국가 (%1) (&amp;C)</translation>
     </message>
     <message>
+        <location filename="../serverlistdlg.cpp" line="730"/>
+        <source>&amp;Delete</source>
+        <translation type="unfinished">삭제 (&amp;D)</translation>
+    </message>
+    <message>
         <location filename="../serverlistdlg.cpp" line="731"/>
-        <source>&amp;Edit Selected Server</source>
+        <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="732"/>
-        <source>D&amp;uplicate Selected Server</source>
+        <source>D&amp;uplicate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="733"/>
-        <source>&amp;Generate .tt file for Selected Server</source>
+        <source>&amp;Generate .tt file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6520,9 +6525,8 @@ Delete the published user account to unregister your server.</source>
         <translation>정렬 기준</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="730"/>
         <source>&amp;Delete Selected Server</source>
-        <translation>선택한 서버 삭제 (&amp;D)</translation>
+        <translation type="vanished">선택한 서버 삭제 (&amp;D)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="501"/>
