@@ -365,6 +365,7 @@ void ServerListDlg::slotNewServer()
         else
         {
             refreshServerList();
+            restoreSelectedHost(entry);
             ui.serverTreeView->setFocus();
         }
     }
