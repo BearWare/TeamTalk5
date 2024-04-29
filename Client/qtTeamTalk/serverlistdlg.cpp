@@ -523,7 +523,10 @@ void ServerListDlg::editSelectedServer()
         if (dlg.connectToServer())
             connectToHost(updatedHost);
         else
+        {
             refreshServerList();
+            restoreSelectedHost(updatedHost);
+        }
     }
     else
     {
