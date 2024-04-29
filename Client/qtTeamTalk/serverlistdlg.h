@@ -101,7 +101,7 @@ private:
 
     void restoreSelectedHost(const HostEntry& entry);
     void showLatestHosts();
-    void deleteHostEntry();
+    void deleteLatestHostEntry();
     void clearLatestHosts();
     void slotNewServer();
     void slotImportTTFile();

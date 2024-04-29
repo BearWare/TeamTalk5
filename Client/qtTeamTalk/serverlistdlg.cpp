@@ -336,7 +336,7 @@ void ServerListDlg::showLatestHosts()
         ui.hostListWidget->addItem(host.name);
 }
 
-void ServerListDlg::deleteHostEntry()
+void ServerListDlg::deleteLatestHostEntry()
 {
     HostEntry host;
     int i = ui.hostListWidget->currentRow();
@@ -786,7 +786,7 @@ void ServerListDlg::slotLatestHostsContextMenu(const QPoint& /*point*/)
     if (QAction* action = menu.exec(QCursor::pos()))
     {
         if (action == delHost)
-            deleteHostEntry();
+            deleteLatestHostEntry();
         else if (action == addHost)
             editSelectedServer();
         else if (action == clearList)
@@ -803,6 +803,6 @@ void ServerListDlg::keyPressEvent(QKeyEvent* e)
         if (ui.serverTreeView->hasFocus())
             deleteSelectedServer();
         else if (ui.hostListWidget->hasFocus())
-            deleteHostEntry();
+            deleteLatestHostEntry();
     }
 }
