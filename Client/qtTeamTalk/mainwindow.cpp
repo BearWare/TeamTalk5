@@ -633,6 +633,21 @@ void MainWindow::loadSettings()
         }
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
+    if (!versionSameOrLater(iniversion, "5.4"))
+    {
+        // Latest hosts changed in 5.4 format
+        ttSettings->beginGroup("latesthosts");
+        int index = 0;
+        while (ttSettings->contains(QString("%1_hostaddr").arg(index)))
+        {
+            QString hostAddr = ttSettings->value(QString("%1_hostaddr").arg(index)).toString();
+            int tcpPort = ttSettings->value(QString("%1_tcpport").arg(index)).toInt();
+            ttSettings->setValue(QString("%1_name").arg(index), QString("%1_%2").arg(hostAddr).arg(tcpPort));
+            index++;
+        }
+        ttSettings->endGroup();
+        ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
+    }
 
     // Ask to set language at first start
     if (!ttSettings->contains(SETTINGS_DISPLAY_LANGUAGE))
@@ -4149,7 +4164,7 @@ void MainWindow::slotClientConnect(bool /*checked =false */)
         if(dlg.exec())
         {
             m_host = HostEntry();
-            getLatestHost(0, m_host);
+            getServerEntry(0, m_host, true);
             m_channel_passwd[CHANNELID_TEMPPASSWORD] = m_host.chanpasswd;
             connectToServer();
         }
@@ -4485,7 +4500,7 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
             }
             tmp = HostEntry();
             index = 0;
-            while(getLatestHost(index, tmp))
+            while(getServerEntry(index, tmp, true))
             {
                 if (m_host.sameHostEntry(tmp))
                     lasthost = index;
@@ -5756,7 +5771,7 @@ void MainWindow::slotConnectToLatest()
 
     //auto connect to latest host
     if(ttSettings->value(SETTINGS_CONNECTION_AUTOCONNECT, SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT).toBool() &&
-        getLatestHost(0, lasthost))
+        getServerEntry(0, lasthost, true))
     {
         m_host = lasthost;
         connectToServer();

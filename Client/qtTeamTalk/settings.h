@@ -28,7 +28,7 @@
 #elif defined(Q_OS_DARWIN)
 #define SOUNDSPATH                                     "/Applications/TeamTalk5.app/Contents/Resources/Sounds"
 #endif
-#define SETTINGS_VERSION                            "5.3"
+#define SETTINGS_VERSION                            "5.4"
 #define SETTINGS_GENERAL_VERSION                    "version"
 #define SETTINGS_GENERAL_VERSION_DEFAULT            SETTINGS_VERSION
 #if defined(ENABLE_TOLK) || defined(Q_OS_LINUX)
@@ -164,6 +164,7 @@
 #define SETTINGS_DISPLAY_ONLINEUSERS_SORT_DEFAULT                            "nickname"
 #define SETTINGS_DISPLAY_FILESLIST_SORT                            "display/files-list-sort"
 #define SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT                            "name"
+#define SETTINGS_DISPLAY_SERVERWINDOWPOS     "display/server-dialog-pos"
 
 #define SETTINGS_CONNECTION_AUTOCONNECT             "connection/autoconnect"
 #define SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT     false
@@ -385,6 +386,7 @@
 #define SETTINGS_DESKTOPSHARE_CURSOR                "desktop-share/desktop-cursor"
 #define SETTINGS_DESKTOPSHARE_WINDOWTITLE           "desktop-share/desktop-window-title"
 
+#define SETTINGS_LATESTHOST_NAME                "latesthosts/%1_name"
 #define SETTINGS_LATESTHOST_HOSTADDR                "latesthosts/%1_hostaddr"
 #define SETTINGS_LATESTHOST_TCPPORT                 "latesthosts/%1_tcpport"
 #define SETTINGS_LATESTHOST_UDPPORT                 "latesthosts/%1_udpport"

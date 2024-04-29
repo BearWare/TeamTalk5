@@ -99,32 +99,30 @@ private:
     QNetworkAccessManager* m_httpsrvlist_manager = nullptr, *m_http_srvpublish_manager = nullptr;
     std::unique_ptr<HostEncryption> m_setup_encryption;
 
-    void showHostEntry(const HostEntry& entry);
-    bool getHostEntry(HostEntry& entry);
-    void clearHostEntry();
+    void restoreSelectedHost(const HostEntry& entry);
     void showLatestHosts();
-    void showLatestHostEntry(int index);
-    void deleteHostEntry();
-    void slotClearServerClicked();
+    void deleteLatestHostEntry();
+    void clearLatestHosts();
+    void slotNewServer();
     void slotImportTTFile();
     void slotConnect();
+    void connectToHost(const HostEntry& = HostEntry());
 
     void refreshServerList();
     void applyServerListFilter();
-    void showSelectedServer(const QModelIndex &index);
-    void slotAddUpdServer();
     void deleteSelectedServer();
-    void slotDoubleClicked(const QModelIndex& index);
+    void editSelectedServer();
+    void duplicateSelectedServer();
     void requestServerList();
     void serverlistReply(QNetworkReply* reply);
 
     void saveTTFile();
     void publishServer();
     void publishServerRequest(QNetworkReply* reply);
+    bool getSelectedHost(HostEntry& host);
 
-    void hostEntryNameChanged(const QString& text);
-    void slotGenerateEntryName(const QString&);
     void slotTreeContextMenu(const QPoint&);
+    void slotLatestHostsContextMenu(const QPoint&);
 };
 
 #endif

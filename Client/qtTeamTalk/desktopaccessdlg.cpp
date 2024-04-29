@@ -55,7 +55,7 @@ DesktopAccessDlg::DesktopAccessDlg(QWidget* parent)
     m_model->setEntries(entries);
 
     HostEntry host;
-    if(getLatestHost(0, host))
+    if(getServerEntry(0, host, true))
     {
         int i;
         for(i=0;i<m_model->getEntries().size();i++)
