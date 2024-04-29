@@ -6017,11 +6017,6 @@ Should these settings be applied?</source>
 <context>
     <name>ServerDlg</name>
     <message>
-        <location filename="../serverdlg.ui" line="14"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../serverdlg.ui" line="20"/>
         <source>Server Information</source>
         <translation type="unfinished">Szerver információk</translation>

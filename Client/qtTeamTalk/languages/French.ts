@@ -6057,168 +6057,163 @@ Faut-il appliquer ces paramètres?</translation>
 <context>
     <name>ServerDlg</name>
     <message>
-        <location filename="../serverdlg.ui" line="14"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../serverdlg.ui" line="20"/>
         <source>Server Information</source>
-        <translation type="unfinished">Informations du serveur</translation>
+        <translation>Informations du serveur</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="28"/>
         <source>Entry name</source>
-        <translation type="unfinished">Nom de l’entrée</translation>
+        <translation>Nom de l’entrée</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="43"/>
         <source>Host IP-address</source>
-        <translation type="unfinished"></translation>
+        <translation>Hôte ou adresse IP</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="60"/>
         <source>TCP port</source>
-        <translation type="unfinished">Port TCP</translation>
+        <translation>Port TCP</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="79"/>
         <location filename="../serverdlg.ui" line="107"/>
         <source>Default: 10333</source>
-        <translation type="unfinished">Défaut: 10333</translation>
+        <translation>Par défaut: 10333</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="88"/>
         <source>UDP port</source>
-        <translation type="unfinished">Port UDP</translation>
+        <translation>Port UDP</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="118"/>
         <source>Encrypted server</source>
-        <translation type="unfinished">Serveur crypté</translation>
+        <translation>Serveur crypté</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="128"/>
         <source>Setup</source>
-        <translation type="unfinished">Configurer</translation>
+        <translation>Configurer</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="150"/>
         <source>Authentication (optional)</source>
-        <translation type="unfinished">Authentification (optionnel)</translation>
+        <translation>Authentification (optionnel)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="153"/>
         <source>Authentication</source>
-        <translation type="unfinished">Authentification</translation>
+        <translation>Authentification</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="159"/>
         <source>Use BearWare.dk Web Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser la connexion Web BearWare.dk</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="166"/>
         <source>Username</source>
-        <translation type="unfinished">Nom d’utilisateur</translation>
+        <translation>Nom d’utilisateur</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="179"/>
         <location filename="../serverdlg.ui" line="245"/>
         <source>Password</source>
-        <translation type="unfinished">Mot de passe</translation>
+        <translation>Mot de passe</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="198"/>
         <location filename="../serverdlg.ui" line="264"/>
         <source>Show password</source>
-        <translation type="unfinished">Afficher le mot de passe</translation>
+        <translation>Afficher le mot de passe</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="210"/>
         <source>Nickname (optional)</source>
-        <translation type="unfinished">Pseudo (optionnel)</translation>
+        <translation>Pseudo (optionnel)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="223"/>
         <location filename="../serverdlg.ui" line="226"/>
         <source>Join specific channel after authentication (optional)</source>
-        <translation type="unfinished">Rejoindre le canal spécifié après authentification (optionnel)</translation>
+        <translation>Rejoindre le canal spécifié après authentification (optionnel)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="232"/>
         <source>Channel</source>
-        <translation type="unfinished">Canal</translation>
+        <translation>Canal</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="279"/>
         <source>&amp;Connect to Server on exit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Se connecter au serveur à la fermeture</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="42"/>
         <source>&amp;Save and Close</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Enregistrer et Fermer</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="43"/>
         <source>&amp;Close without saving</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Fermer sans Enregistrer</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="62"/>
         <source>Add Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter un Serveur</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="63"/>
         <source>Add server</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter un serveur</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="67"/>
         <source>Edit Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Éditer le Serveur</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="68"/>
         <source>Edit Server %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Éditer le Serveur %1</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="72"/>
         <source>View Server Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Voir les Informations du Serveur</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="73"/>
         <source>View %1 information</source>
-        <translation type="unfinished">Voir les informations du canal %1</translation>
+        <translation>Voir les informations de %1</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="88"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Fermer</translation>
+        <translation>&amp;Fermer</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="148"/>
         <source>Name already used</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom déjà utilisé</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="148"/>
         <source>Another server with this name already exists. Please use a different name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Un serveur avec ce nom existe déjà. Veuillez utiliser un autre nom.</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="153"/>
         <source>Missing information</source>
-        <translation type="unfinished"></translation>
+        <translation>Information manquante</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="153"/>
         <source>Please fill in host field</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez remplir le champ hôte</translation>
     </message>
 </context>
 <context>
@@ -6244,34 +6239,6 @@ Faut-il appliquer ces paramètres?</translation>
         <translation>Inclure les serveurs non-officiels (en orange)</translation>
     </message>
     <message>
-        <source>Server Information</source>
-        <translation type="vanished">Informations du serveur</translation>
-    </message>
-    <message>
-        <source>Host IP-address</source>
-        <translation type="vanished">Hôte ou adresse IP</translation>
-    </message>
-    <message>
-        <source>TCP port</source>
-        <translation type="vanished">Port TCP</translation>
-    </message>
-    <message>
-        <source>Default: 10333</source>
-        <translation type="vanished">Défaut: 10333</translation>
-    </message>
-    <message>
-        <source>UDP port</source>
-        <translation type="vanished">Port UDP</translation>
-    </message>
-    <message>
-        <source>Remove entry</source>
-        <translation type="vanished">Supprimer l’entrée</translation>
-    </message>
-    <message>
-        <source>Server list</source>
-        <translation type="vanished">Liste de serveurs</translation>
-    </message>
-    <message>
         <location filename="../serverlist.ui" line="22"/>
         <location filename="../serverlist.ui" line="25"/>
         <source>Filter Servers</source>
@@ -6290,66 +6257,22 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../serverlist.ui" line="90"/>
         <source>Saved Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Hôtes enregistrés</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="124"/>
         <source>&amp;Add new server</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ajouter un nouveau serveur</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="140"/>
         <source>Latest hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Derniers hôtes</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="150"/>
         <source>Latest Hosts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Encrypted server</source>
-        <translation type="vanished">Serveur crypté</translation>
-    </message>
-    <message>
-        <source>Setup</source>
-        <translation type="vanished">Configurer</translation>
-    </message>
-    <message>
-        <source>Authentication (optional)</source>
-        <translation type="vanished">Authentification (optionnel)</translation>
-    </message>
-    <message>
-        <source>Authentication</source>
-        <translation type="vanished">Authentification</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation type="vanished">Nom d’utilisateur</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation type="vanished">Mot de passe</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation type="vanished">Afficher le mot de passe</translation>
-    </message>
-    <message>
-        <source>Nickname (optional)</source>
-        <translation type="vanished">Pseudo (optionnel)</translation>
-    </message>
-    <message>
-        <source>Join specific channel after authentication (optional)</source>
-        <translation type="vanished">Rejoindre le canal spécifié après authentification (optionnel)</translation>
-    </message>
-    <message>
-        <source>Channel</source>
-        <translation type="vanished">Canal</translation>
-    </message>
-    <message>
-        <source>C&amp;lear</source>
-        <translation type="vanished">&amp;Vider</translation>
+        <translation>Derniers Hôtes</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="114"/>
@@ -6357,41 +6280,9 @@ Faut-il appliquer ces paramètres?</translation>
         <translation>&amp;Connexion</translation>
     </message>
     <message>
-        <source>Store Server Information</source>
-        <translation type="vanished">Sauvegarder les informations du serveur</translation>
-    </message>
-    <message>
-        <source>Entry name</source>
-        <translation type="vanished">Nom de l’entrée</translation>
-    </message>
-    <message>
-        <source>&amp;Save to Server List</source>
-        <translation type="vanished">&amp;Enregistrer dans la liste de serveurs</translation>
-    </message>
-    <message>
-        <source>.tt files can be double-clicked and the client will automatically start and connect to the specified server</source>
-        <translation type="vanished">Un fichier .tt peut être double cliqué et le client démarrera et se connectera automatiquement au serveur spécifié</translation>
-    </message>
-    <message>
-        <source>&amp;Generate .tt File</source>
-        <translation type="vanished">&amp;Générer un fichier .tt</translation>
-    </message>
-    <message>
         <location filename="../serverlist.ui" line="131"/>
         <source>&amp;Import .tt File</source>
         <translation>&amp;Importer un fichier .tt</translation>
-    </message>
-    <message>
-        <source>Publish Publicly</source>
-        <translation type="vanished">Publier publiquement</translation>
-    </message>
-    <message>
-        <source>Missing fields</source>
-        <translation type="vanished">Champs manquants</translation>
-    </message>
-    <message>
-        <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
-        <translation type="vanished">Veuillez remplir les champs «Hôte ou adresse IP», «Port TCP» et «Port UDP»</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="383"/>
@@ -6437,17 +6328,17 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../serverlistdlg.cpp" line="546"/>
         <source>Duplicate Server Entry</source>
-        <translation type="unfinished"></translation>
+        <translation>Dupliquer le serveur</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="547"/>
         <source>Entry Name</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="548"/>
         <source>%1 - COPY</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 - COPY</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="633"/>
@@ -6488,37 +6379,37 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../serverlistdlg.cpp" line="731"/>
         <source>&amp;Edit Selected Server</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Éditer le Serveur Sélectionné</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="732"/>
         <source>D&amp;uplicate Selected Server</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Dupliquer le Serveur Sélectionné</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="733"/>
         <source>&amp;Generate .tt file for Selected Server</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Générer un fichier .tt pour le Serveur Sélectionné</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="734"/>
         <source>&amp;Publish Publicly</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Publier Publiquement</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="784"/>
         <source>&amp;Remove from Latest Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Supprimer des Derniers Hôtes</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="785"/>
         <source>&amp;Add to Saved Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ajouter aux Hôtes Enregistrés</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="786"/>
         <source>&amp;Clear Latest Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Vider les Derniers Hôtes</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="628"/>
