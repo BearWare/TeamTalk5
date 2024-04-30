@@ -738,11 +738,11 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
     QAction* genTTServ = menu.addAction(tr("&Generate .tt file"));
     QAction* publishServ = menu.addAction(tr("&Publish Publicly"));
     auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
-    if (srcIndex.isValid())
-    {
-        delServ->setEnabled(m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
-        publishServ->setEnabled(m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
-    }
+    delServ->setEnabled(srcIndex.isValid() && m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
+    editServ->setEnabled(srcIndex.isValid());
+    dupServ->setEnabled(srcIndex.isValid());
+    genTTServ->setEnabled(srcIndex.isValid());
+    publishServ->setEnabled(srcIndex.isValid() && m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
     if (QAction* action = menu.exec(QCursor::pos()))
     {
         auto sortToggle = m_proxyModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
@@ -789,6 +789,10 @@ void ServerListDlg::slotLatestHostsContextMenu(const QPoint& /*point*/)
     QAction* delHost = menu.addAction(tr("&Remove from Latest Hosts"));
     QAction* addHost = menu.addAction(tr("&Add to Saved Hosts"));
     QAction* clearList = menu.addAction(tr("&Clear Latest Hosts"));
+    int i = ui.hostListWidget->currentRow();
+    delHost->setEnabled(i>=0);
+    addHost->setEnabled(i>=0);
+    clearList->setEnabled(ui.hostListWidget->count() > 0);
     if (QAction* action = menu.exec(QCursor::pos()))
     {
         if (action == delHost)
