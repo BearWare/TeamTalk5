@@ -6077,72 +6077,82 @@ Faut-il appliquer ces paramètres?</translation>
         <translation>Port TCP</translation>
     </message>
     <message>
-        <location filename="../serverdlg.ui" line="79"/>
-        <location filename="../serverdlg.ui" line="107"/>
+        <location filename="../serverdlg.ui" line="75"/>
+        <source>TCP Port (Default: 10333)</source>
+        <translation>Port TCP (Par défaut: 10333)</translation>
+    </message>
+    <message>
+        <location filename="../serverdlg.ui" line="82"/>
+        <location filename="../serverdlg.ui" line="113"/>
         <source>Default: 10333</source>
         <translation>Par défaut: 10333</translation>
     </message>
     <message>
-        <location filename="../serverdlg.ui" line="88"/>
+        <location filename="../serverdlg.ui" line="91"/>
         <source>UDP port</source>
         <translation>Port UDP</translation>
     </message>
     <message>
-        <location filename="../serverdlg.ui" line="118"/>
+        <location filename="../serverdlg.ui" line="106"/>
+        <source>UDP Port (Default: 10333)</source>
+        <translation>Port UDP (Par défaut: 10333)</translation>
+    </message>
+    <message>
+        <location filename="../serverdlg.ui" line="124"/>
         <source>Encrypted server</source>
         <translation>Serveur crypté</translation>
     </message>
     <message>
-        <location filename="../serverdlg.ui" line="128"/>
+        <location filename="../serverdlg.ui" line="134"/>
         <source>Setup</source>
         <translation>Configurer</translation>
     </message>
     <message>
-        <location filename="../serverdlg.ui" line="150"/>
-        <location filename="../serverdlg.ui" line="153"/>
+        <location filename="../serverdlg.ui" line="156"/>
+        <location filename="../serverdlg.ui" line="159"/>
         <source>Authentication (optional)</source>
         <translation>Authentification (optionnel)</translation>
     </message>
     <message>
-        <location filename="../serverdlg.ui" line="159"/>
+        <location filename="../serverdlg.ui" line="165"/>
         <source>Use BearWare.dk Web Login</source>
         <translation>Utiliser la connexion Web BearWare.dk</translation>
     </message>
     <message>
-        <location filename="../serverdlg.ui" line="166"/>
+        <location filename="../serverdlg.ui" line="172"/>
         <source>Username</source>
         <translation>Nom d’utilisateur</translation>
     </message>
     <message>
-        <location filename="../serverdlg.ui" line="179"/>
-        <location filename="../serverdlg.ui" line="245"/>
+        <location filename="../serverdlg.ui" line="185"/>
+        <location filename="../serverdlg.ui" line="251"/>
         <source>Password</source>
         <translation>Mot de passe</translation>
     </message>
     <message>
-        <location filename="../serverdlg.ui" line="198"/>
-        <location filename="../serverdlg.ui" line="264"/>
+        <location filename="../serverdlg.ui" line="204"/>
+        <location filename="../serverdlg.ui" line="270"/>
         <source>Show password</source>
         <translation>Afficher le mot de passe</translation>
     </message>
     <message>
-        <location filename="../serverdlg.ui" line="210"/>
+        <location filename="../serverdlg.ui" line="216"/>
         <source>Nickname (optional)</source>
         <translation>Pseudo (optionnel)</translation>
     </message>
     <message>
-        <location filename="../serverdlg.ui" line="223"/>
-        <location filename="../serverdlg.ui" line="226"/>
+        <location filename="../serverdlg.ui" line="229"/>
+        <location filename="../serverdlg.ui" line="232"/>
         <source>Join specific channel after authentication (optional)</source>
         <translation>Rejoindre le canal spécifié après authentification (optionnel)</translation>
     </message>
     <message>
-        <location filename="../serverdlg.ui" line="232"/>
+        <location filename="../serverdlg.ui" line="238"/>
         <source>Channel</source>
         <translation>Canal</translation>
     </message>
     <message>
-        <location filename="../serverdlg.ui" line="279"/>
+        <location filename="../serverdlg.ui" line="285"/>
         <source>&amp;Connect to Server on exit</source>
         <translation>&amp;Se connecter au serveur à la fermeture</translation>
     </message>

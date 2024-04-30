@@ -71,6 +71,9 @@
           <property name="maximum">
            <number>65535</number>
           </property>
+          <property name="accessibleName">
+           <string>TCP Port (Default: 10333)</string>
+          </property>
          </widget>
         </item>
         <item>
@@ -98,6 +101,9 @@
          <widget class="QSpinBox" name="udpportSpinbox">
           <property name="maximum">
            <number>65535</number>
+          </property>
+          <property name="accessibleName">
+           <string>UDP Port (Default: 10333)</string>
           </property>
          </widget>
         </item>
