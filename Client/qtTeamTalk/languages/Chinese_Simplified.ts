@@ -6059,22 +6059,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverdlg.ui" line="20"/>
         <source>Server Information</source>
-        <translation type="unfinished">服务器信息</translation>
+        <translation>服务器信息</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="28"/>
         <source>Entry name</source>
-        <translation type="unfinished">条目名称</translation>
+        <translation>条目名称</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="43"/>
         <source>Host IP-address</source>
-        <translation type="unfinished">主机 IP 地址</translation>
+        <translation>主机 IP 地址</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="60"/>
         <source>TCP port</source>
-        <translation type="unfinished">TCP 端口</translation>
+        <translation>TCP 端口</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="75"/>
@@ -6085,12 +6085,12 @@ Should these settings be applied?</source>
         <location filename="../serverdlg.ui" line="82"/>
         <location filename="../serverdlg.ui" line="113"/>
         <source>Default: 10333</source>
-        <translation type="unfinished">默认：10333</translation>
+        <translation>默认：10333</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="91"/>
         <source>UDP port</source>
-        <translation type="unfinished"></translation>
+        <translation>UDP 端口</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="106"/>
@@ -6100,92 +6100,92 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverdlg.ui" line="124"/>
         <source>Encrypted server</source>
-        <translation type="unfinished">加密服务器</translation>
+        <translation>加密服务器</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="134"/>
         <source>Setup</source>
-        <translation type="unfinished">设置</translation>
+        <translation>设置</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="156"/>
         <location filename="../serverdlg.ui" line="159"/>
         <source>Authentication (optional)</source>
-        <translation type="unfinished">身份验证（可选）</translation>
+        <translation>身份验证（可选）</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="165"/>
         <source>Use BearWare.dk Web Login</source>
-        <translation type="unfinished"></translation>
+        <translation>使用 BearWare.dk Web 登陆</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="172"/>
         <source>Username</source>
-        <translation type="unfinished">用户名</translation>
+        <translation>用户名</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="185"/>
         <location filename="../serverdlg.ui" line="251"/>
         <source>Password</source>
-        <translation type="unfinished">密码</translation>
+        <translation>密码</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="204"/>
         <location filename="../serverdlg.ui" line="270"/>
         <source>Show password</source>
-        <translation type="unfinished">显示密码</translation>
+        <translation>显示密码</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="216"/>
         <source>Nickname (optional)</source>
-        <translation type="unfinished">昵称（可选）</translation>
+        <translation>昵称（可选）</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="229"/>
         <location filename="../serverdlg.ui" line="232"/>
         <source>Join specific channel after authentication (optional)</source>
-        <translation type="unfinished">身份验证后加入特定频道（可选）</translation>
+        <translation>身份验证后加入特定频道（可选）</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="238"/>
         <source>Channel</source>
-        <translation type="unfinished">频道</translation>
+        <translation>频道</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="285"/>
         <source>&amp;Connect to Server on exit</source>
-        <translation type="unfinished"></translation>
+        <translation>退出时连接到服务器(&amp;C)</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="42"/>
         <source>&amp;Save and Close</source>
-        <translation type="unfinished"></translation>
+        <translation>保存并关闭(&amp;S)</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="43"/>
         <source>&amp;Close without saving</source>
-        <translation type="unfinished"></translation>
+        <translation>不保存关闭(&amp;C)</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="62"/>
         <location filename="../serverdlg.cpp" line="63"/>
         <source>Add Server</source>
-        <translation type="unfinished"></translation>
+        <translation>添加服务器</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="67"/>
         <source>Edit Server</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑服务器</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="68"/>
         <source>Edit Server %1</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑服务器 %1</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="72"/>
         <source>View Server Information</source>
-        <translation type="unfinished"></translation>
+        <translation>查看服务器信息</translation>
     </message>
     <message>
         <source>View %1 information</source>
@@ -6194,32 +6194,32 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverdlg.cpp" line="73"/>
         <source>View %1 Information</source>
-        <translation type="unfinished"></translation>
+        <translation>查看 %1 信息</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="88"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">关闭(&amp;C)</translation>
+        <translation>关闭(&amp;C)</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="148"/>
         <source>Name already used</source>
-        <translation type="unfinished"></translation>
+        <translation>名称已被使用</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="148"/>
         <source>Another server with this name already exists. Please use a different name.</source>
-        <translation type="unfinished"></translation>
+        <translation>具有此名称的另一服务器已存在。请使用不同的名称。</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="153"/>
         <source>Missing information</source>
-        <translation type="unfinished"></translation>
+        <translation>缺少信息</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="153"/>
         <source>Please fill in &quot;Host IP-address&quot; field</source>
-        <translation type="unfinished"></translation>
+        <translation>请填写“主机 IP 地址”字段</translation>
     </message>
 </context>
 <context>
@@ -6245,34 +6245,6 @@ Should these settings be applied?</source>
         <translation>包含非官方服务器（橙色）</translation>
     </message>
     <message>
-        <source>Server Information</source>
-        <translation type="vanished">服务器信息</translation>
-    </message>
-    <message>
-        <source>Host IP-address</source>
-        <translation type="vanished">主机 IP 地址</translation>
-    </message>
-    <message>
-        <source>TCP port</source>
-        <translation type="vanished">TCP 端口</translation>
-    </message>
-    <message>
-        <source>Default: 10333</source>
-        <translation type="vanished">默认：10333</translation>
-    </message>
-    <message>
-        <source>UDP port</source>
-        <translation type="vanished">UDP 端口</translation>
-    </message>
-    <message>
-        <source>Remove entry</source>
-        <translation type="vanished">删除条目</translation>
-    </message>
-    <message>
-        <source>Server list</source>
-        <translation type="vanished">服务器列表</translation>
-    </message>
-    <message>
         <location filename="../serverlist.ui" line="22"/>
         <location filename="../serverlist.ui" line="25"/>
         <source>Filter Servers</source>
@@ -6291,66 +6263,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="90"/>
         <source>Saved Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>已保存主机</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="124"/>
         <source>&amp;Add new server</source>
-        <translation type="unfinished"></translation>
+        <translation>添加新服务器(&amp;A)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="140"/>
         <source>Latest hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>最近主机</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="150"/>
         <source>Latest Hosts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Encrypted server</source>
-        <translation type="vanished">加密服务器</translation>
-    </message>
-    <message>
-        <source>Setup</source>
-        <translation type="vanished">设置</translation>
-    </message>
-    <message>
-        <source>Authentication (optional)</source>
-        <translation type="vanished">身份验证（可选）</translation>
-    </message>
-    <message>
-        <source>Authentication</source>
-        <translation type="vanished">身份验证</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation type="vanished">用户名</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation type="vanished">密码</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation type="vanished">显示密码</translation>
-    </message>
-    <message>
-        <source>Nickname (optional)</source>
-        <translation type="vanished">昵称（可选）</translation>
-    </message>
-    <message>
-        <source>Join specific channel after authentication (optional)</source>
-        <translation type="vanished">身份验证后加入特定频道（可选）</translation>
-    </message>
-    <message>
-        <source>Channel</source>
-        <translation type="vanished">频道</translation>
-    </message>
-    <message>
-        <source>C&amp;lear</source>
-        <translation type="vanished">清除(&amp;C)</translation>
+        <translation>最近主机</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="114"/>
@@ -6358,41 +6286,9 @@ Should these settings be applied?</source>
         <translation>连接(&amp;C)</translation>
     </message>
     <message>
-        <source>Store Server Information</source>
-        <translation type="vanished">存储服务器信息</translation>
-    </message>
-    <message>
-        <source>Entry name</source>
-        <translation type="vanished">条目名称</translation>
-    </message>
-    <message>
-        <source>&amp;Save to Server List</source>
-        <translation type="vanished">保存至服务器列表(&amp;S)</translation>
-    </message>
-    <message>
-        <source>.tt files can be double-clicked and the client will automatically start and connect to the specified server</source>
-        <translation type="vanished">双击 .tt 文件，客户端将自动启动并连接到指定的服务器</translation>
-    </message>
-    <message>
-        <source>&amp;Generate .tt File</source>
-        <translation type="vanished">生成 .tt 文件(&amp;G)</translation>
-    </message>
-    <message>
         <location filename="../serverlist.ui" line="131"/>
         <source>&amp;Import .tt File</source>
         <translation>导入 .tt 文件(&amp;I)</translation>
-    </message>
-    <message>
-        <source>Publish Publicly</source>
-        <translation type="vanished">公开发布</translation>
-    </message>
-    <message>
-        <source>Missing fields</source>
-        <translation type="vanished">缺少字段</translation>
-    </message>
-    <message>
-        <source>Please fill the fields &apos;Host IP-address&apos;, &apos;TCP port&apos; and &apos;UDP port&apos;</source>
-        <translation type="vanished">请填写“主机IP地址”，“TCP端口”和“UDP端口”字段</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="383"/>
@@ -6438,17 +6334,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="546"/>
         <source>Duplicate Server Entry</source>
-        <translation type="unfinished"></translation>
+        <translation>复制的服务器条目</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="547"/>
         <source>Entry Name</source>
-        <translation type="unfinished"></translation>
+        <translation>条目名称</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="548"/>
         <source>%1 - COPY</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 - 复制</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="633"/>
@@ -6489,42 +6385,42 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="730"/>
         <source>&amp;Delete</source>
-        <translation type="unfinished">删除(&amp;D)</translation>
+        <translation>删除(&amp;D)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="731"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑(&amp;E)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="732"/>
         <source>D&amp;uplicate</source>
-        <translation type="unfinished"></translation>
+        <translation>复制(&amp;u)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="733"/>
         <source>&amp;Generate .tt file</source>
-        <translation type="unfinished"></translation>
+        <translation>生成 .tt 文件(&amp;G)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="734"/>
         <source>&amp;Publish Publicly</source>
-        <translation type="unfinished"></translation>
+        <translation>公开发布(&amp;P)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="784"/>
         <source>&amp;Remove from Latest Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>从最近主机中删除(&amp;R)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="785"/>
         <source>&amp;Add to Saved Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>添加至已保存主机(&amp;A)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="786"/>
         <source>&amp;Clear Latest Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>清除最近主机(&amp;C)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="628"/>
@@ -6568,10 +6464,6 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverlistdlg.cpp" line="704"/>
         <source>Sort By...</source>
         <translation>排序方式...</translation>
-    </message>
-    <message>
-        <source>&amp;Delete Selected Server</source>
-        <translation type="vanished">删除选定服务器(&amp;D)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="501"/>
