@@ -1,4 +1,5 @@
 /*
+/*
  * Copyright (C) 2023, Bjørn D. Rasmussen, BearWare.dk
  *
  * This program is free software: you can redistribute it and/or modify
@@ -347,8 +348,12 @@ void ServerListDlg::deleteLatestHostEntry()
 
 void ServerListDlg::clearLatestHosts()
 {
-    while (ui.hostListWidget->count() > 0)
-        deleteServerEntry(0, true);
+    HostEntry host = HostEntry();
+    for (int i=0; i<ui.hostListWidget->count(); i++)
+    {
+        if (getServerEntry(i, host, true))
+            deleteServerEntry(host.name, true);
+    }
     showLatestHosts();
 }
 
