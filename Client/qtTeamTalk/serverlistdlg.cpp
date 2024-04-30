@@ -733,11 +733,11 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
     QAction* genTTServ = menu.addAction(tr("&Generate .tt file"));
     QAction* publishServ = menu.addAction(tr("&Publish Publicly"));
     auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
-        delServ->setEnabled(srcIndex.isValid() && m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
-        editServ->setEnabled(srcIndex.isValid());
-        dupServ->setEnabled(srcIndex.isValid());
-        genTTServ->setEnabled(srcIndex.isValid());
-        publishServ->setEnabled(srcIndex.isValid() && m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
+    delServ->setEnabled(srcIndex.isValid() && m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
+    editServ->setEnabled(srcIndex.isValid());
+    dupServ->setEnabled(srcIndex.isValid());
+    genTTServ->setEnabled(srcIndex.isValid());
+    publishServ->setEnabled(srcIndex.isValid() && m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
     if (QAction* action = menu.exec(QCursor::pos()))
     {
         auto sortToggle = m_proxyModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
