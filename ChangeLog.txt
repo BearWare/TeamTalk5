@@ -6,7 +6,7 @@ Version 5.17, unreleased
 Default Qt Client
 - "Connect to a Server" dialog simplied with multiple sub dialogs
 Android Client
--
+- users who have the "User can make other users channel operator" right will no longer be asked for the operator password for granting/revoking channel operator
 iOS Client
 -
 Server
