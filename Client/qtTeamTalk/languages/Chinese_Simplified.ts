@@ -6079,7 +6079,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverdlg.ui" line="75"/>
         <source>TCP Port (Default: 10333)</source>
-        <translation type="unfinished"></translation>
+        <translation>TCP 端口（默认：10333）</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="82"/>
@@ -6095,7 +6095,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverdlg.ui" line="106"/>
         <source>UDP Port (Default: 10333)</source>
-        <translation type="unfinished"></translation>
+        <translation>UDP 端口（默认：10333）</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="124"/>
