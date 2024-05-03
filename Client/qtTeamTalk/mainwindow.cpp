@@ -1145,9 +1145,11 @@ void MainWindow::clienteventCmdUserLoggedIn(const User& user)
     updateUserSubscription(user.nUserID);
     if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN)
     {
-        addStatusMsg(STATUSBAR_USER_LOGGEDIN, tr("%1 has logged in").arg(getDisplayName(user)));
+        QString eventMsg = ttSettings->value(SETTINGS_EVENTSMSG_USERLOGGEDIN, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERLOGGEDIN_DEFAULT)).toString();
+        eventMsg.replace("{user}", getDisplayName(user)).replace("{server}", limitText(_Q(m_srvprop.szServerName)));
+        addStatusMsg(STATUSBAR_USER_LOGGEDIN, eventMsg);
         playSoundEvent(SOUNDEVENT_USERLOGGEDIN);
-        addTextToSpeechMessage(TTS_USER_LOGGEDIN, (ttSettings->value(SETTINGS_TTS_SRVNAME, SETTINGS_TTS_SRVNAME_DEFAULT).toBool()?QString(tr("%1 has logged in on %2").arg(getDisplayName(user)).arg(limitText(_Q(m_srvprop.szServerName)))):QString(tr("%1 has logged in").arg(getDisplayName(user)))));
+        addTextToSpeechMessage(TTS_USER_LOGGEDIN, eventMsg);
     }
 
     // sync user settings from cache
@@ -1165,7 +1167,7 @@ void MainWindow::clienteventCmdUserLoggedOut(const User& user)
     {
         addStatusMsg(STATUSBAR_USER_LOGGEDOUT, ((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out", "For female").arg(getDisplayName(user)):tr("%1 has logged out", "For male and neutral").arg(getDisplayName(user))));
         playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
-        addTextToSpeechMessage(TTS_USER_LOGGEDOUT, (ttSettings->value(SETTINGS_TTS_SRVNAME, SETTINGS_TTS_SRVNAME_DEFAULT).toBool()?QString(((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out from %2", "For female").arg(getDisplayName(user)).arg(limitText(_Q(m_srvprop.szServerName))):tr("%1 has logged out from %2", "For male and neutral").arg(getDisplayName(user)).arg(limitText(_Q(m_srvprop.szServerName))))):QString(((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out", "For female").arg(getDisplayName(user)):tr("%1 has logged out", "For male and neutral").arg(getDisplayName(user))))));
+        addTextToSpeechMessage(TTS_USER_LOGGEDOUT, tr("%1 has logged out").arg(getDisplayName(user)));
     }
 
     // sync user settings to cache
@@ -2900,7 +2902,11 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         {
             User user;
             if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
-                addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL, QString(tr("Channel message from %1: %2").arg(getDisplayName(user)).arg(textmsg.moreMessage)));
+            {
+                QString TTSMsg = ttSettings->value(SETTINGS_EVENTSMSG_CHANNELMESSAGE, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_CHANNELMESSAGE_DEFAULT)).toString();
+                TTSMsg.replace("{user}", getDisplayName(user)).replace("{message}", textmsg.moreMessage);
+                addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL, TTSMsg);
+            }
             playSoundEvent(SOUNDEVENT_CHANNELMSG);
         }
         else

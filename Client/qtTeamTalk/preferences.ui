@@ -2387,13 +2387,6 @@
               </property>
              </widget>
             </item>
-            <item row="11" column="0">
-             <widget class="QCheckBox" name="ttsSrvNameChkBox">
-              <property name="text">
-               <string>Announce server name for server events</string>
-              </property>
-             </widget>
-            </item>
            </layout>
           </item>
           <item>
@@ -2411,6 +2404,106 @@
           </item>
          </layout>
         </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="eventsMsgTab">
+      <attribute name="title">
+       <string>Events Messages</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_8">
+       <item>
+        <widget class="QGroupBox" name="ttsmsg_groupbox">
+         <property name="title">
+          <string>Text-to-Speech Messages only</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_20">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_29">
+            <item>
+             <layout class="QGridLayout" name="gridLayout_9">
+              <item row="0" column="0">
+               <widget class="QLabel" name="ttsmsg_chanmsgLabel">
+                <property name="text">
+                 <string>Channel Message</string>
+                </property>
+                <property name="buddy">
+                 <cstring>ttsmsg_chanmsgEdit</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLineEdit" name="ttsmsg_chanmsgEdit"/>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLabel" name="ttsmsg_chanmsgVarLabel">
+                <property name="text">
+                 <string>Available variables: {user}: User who sent message, {message}: Message Content</string>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="statusmsg_groupbox">
+         <property name="title">
+          <string>Status and Text-to-Speech Messages</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_21">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_30">
+            <item>
+             <layout class="QGridLayout" name="gridLayout_10">
+              <item row="0" column="0">
+               <widget class="QLabel" name="statusmsg_userloggedinLabel">
+                <property name="text">
+                 <string>User Logged in</string>
+                </property>
+                <property name="buddy">
+                 <cstring>statusmsg_userloggedinEdit</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLineEdit" name="statusmsg_userloggedinEdit"/>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLabel" name="statusmsg_userLoggedInVarLabel">
+                <property name="text">
+                 <string>Available variables: {user}: User who logged in, {server}: Server name where user logged in</string>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_12">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>

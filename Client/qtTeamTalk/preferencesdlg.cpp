@@ -689,6 +689,12 @@ void PreferencesDlg::slotTabChange(int index)
 
         break;
     }
+    case EVENTSMSG_TAB :  //Events messages
+    {
+        ui.ttsmsg_chanmsgEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_CHANNELMESSAGE, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_CHANNELMESSAGE_DEFAULT)).toString());
+        ui.statusmsg_userloggedinEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_USERLOGGEDIN, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERLOGGEDIN_DEFAULT)).toString());
+        break;
+    }
     case SHORTCUTS_TAB :  //shortcuts
     {
         hotkey_t hotkey;
@@ -1058,6 +1064,11 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTMEON, ui.voiceactmeonEdit->text());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTMEOFF, ui.voiceactmeoffEdit->text());
     }
+    if(m_modtab.find(EVENTSMSG_TAB) != m_modtab.end())
+    {
+        ttSettings->setValue(SETTINGS_EVENTSMSG_CHANNELMESSAGE, ui.ttsmsg_chanmsgEdit->text());
+        ttSettings->setValue(SETTINGS_EVENTSMSG_USERLOGGEDIN, ui.statusmsg_userloggedinEdit->text());
+    }
     if(m_modtab.find(SHORTCUTS_TAB) != m_modtab.end())
     {
 #ifdef Q_OS_WIN32
@@ -1165,7 +1176,6 @@ void PreferencesDlg::slotSaveChanges()
 #endif
 #endif
         ttSettings->setValue(SETTINGS_DISPLAY_TTSHEADER, ui.ttsTreeView->header()->saveState());
-        ttSettings->setValue(SETTINGS_TTS_SRVNAME, ui.ttsSrvNameChkBox->isChecked());
     }
 }
 
@@ -1737,7 +1747,6 @@ void PreferencesDlg::slotUpdateTTSTab()
     case TTSENGINE_NONE :
     break;
     }
-    ui.ttsSrvNameChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SRVNAME, SETTINGS_TTS_SRVNAME_DEFAULT).toBool());
 }
 
 void PreferencesDlg::slotTTSLocaleChanged(const QString& locale)
