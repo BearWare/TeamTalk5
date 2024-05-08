@@ -2501,7 +2501,7 @@
               <item row="1" column="2">
                <widget class="QLabel" name="statusmsg_userfLoggedOutVarLabel">
                 <property name="text">
-                 <string>Available variables: {user}: User who logged in, {server}: Server name where user logged in</string>
+                 <string>Available variables: {user}: User who logged out, {server}: Server name where user logged out</string>
                 </property>
                 <property name="textInteractionFlags">
                  <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
@@ -2524,7 +2524,7 @@
               <item row="2" column="2">
                <widget class="QLabel" name="statusmsg_usermnLoggedOutVarLabel">
                 <property name="text">
-                 <string>Available variables: {user}: User who logged in, {server}: Server name where user logged in</string>
+                 <string>Available variables: {user}: User who logged out, {server}: Server name where user logged out</string>
                 </property>
                 <property name="textInteractionFlags">
                  <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
