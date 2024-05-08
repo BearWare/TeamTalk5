@@ -732,12 +732,14 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
     const QString country = "country";
     sortCountry->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == country)?true:false);
     sortMenu->addAction(sortCountry);
+    QAction* connectServ = menu.addAction(tr("&Connect"));
     QAction* delServ = menu.addAction(tr("&Delete"));
     QAction* editServ = menu.addAction(tr("&Edit"));
     QAction* dupServ = menu.addAction(tr("D&uplicate"));
     QAction* genTTServ = menu.addAction(tr("&Generate .tt file"));
     QAction* publishServ = menu.addAction(tr("&Publish Publicly"));
     auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
+    connectServ->setEnabled(srcIndex.isValid());
     delServ->setEnabled(srcIndex.isValid() && m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
     editServ->setEnabled(srcIndex.isValid());
     dupServ->setEnabled(srcIndex.isValid());
@@ -770,6 +772,8 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
             ui.serverTreeView->header()->setSortIndicator(COLUMN_INDEX_COUNTRY, m_proxyModel->sortColumn() == COLUMN_INDEX_COUNTRY ? sortToggle : Qt::AscendingOrder);
             ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, country);
         }
+        else if (action == connectServ)
+            connectToHost();
         else if (action == delServ)
             deleteSelectedServer();
         else if (action == editServ)
@@ -786,16 +790,20 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
 void ServerListDlg::slotLatestHostsContextMenu(const QPoint& /*point*/)
 {
     QMenu menu(this);
+    QAction* connectHost = menu.addAction(tr("&Connect"));
     QAction* delHost = menu.addAction(tr("&Remove from Latest Hosts"));
     QAction* addHost = menu.addAction(tr("&Add to Saved Hosts"));
     QAction* clearList = menu.addAction(tr("&Clear Latest Hosts"));
     int i = ui.hostListWidget->currentRow();
+    connectHost->setEnabled(i>=0);
     delHost->setEnabled(i>=0);
     addHost->setEnabled(i>=0);
     clearList->setEnabled(ui.hostListWidget->count() > 0);
     if (QAction* action = menu.exec(QCursor::pos()))
     {
-        if (action == delHost)
+        if (action == connectHost)
+            connectToHost();
+        else if (action == delHost)
             deleteLatestHostEntry();
         else if (action == addHost)
             editSelectedServer();
