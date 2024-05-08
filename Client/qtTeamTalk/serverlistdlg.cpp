@@ -790,7 +790,7 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
 void ServerListDlg::slotLatestHostsContextMenu(const QPoint& /*point*/)
 {
     QMenu menu(this);
-    QAction* connectHost = menu.addAction(tr("&Connect"));
+    QAction* connectHost = menu.addAction(tr("Co&nnect"));
     QAction* delHost = menu.addAction(tr("&Remove from Latest Hosts"));
     QAction* addHost = menu.addAction(tr("&Add to Saved Hosts"));
     QAction* clearList = menu.addAction(tr("&Clear Latest Hosts"));
