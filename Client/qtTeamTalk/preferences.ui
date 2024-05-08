@@ -2411,7 +2411,7 @@
       <attribute name="title">
        <string>Events Messages</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_8">
+      <layout class="QVBoxLayout" name="verticalLayout_23">
        <item>
         <widget class="QGroupBox" name="ttsmsg_groupbox">
          <property name="title">
@@ -2479,6 +2479,98 @@
                <widget class="QLabel" name="statusmsg_userLoggedInVarLabel">
                 <property name="text">
                  <string>Available variables: {user}: User who logged in, {server}: Server name where user logged in</string>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="statusmsg_userfloggedoutLabel">
+                <property name="text">
+                 <string>User (Female) Logged out</string>
+                </property>
+                <property name="buddy">
+                 <cstring>statusmsg_userfloggedoutEdit</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLineEdit" name="statusmsg_userfloggedoutEdit"/>
+              </item>
+              <item row="1" column="2">
+               <widget class="QLabel" name="statusmsg_userfLoggedOutVarLabel">
+                <property name="text">
+                 <string>Available variables: {user}: User who logged in, {server}: Server name where user logged in</string>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="statusmsg_usermnloggedoutLabel">
+                <property name="text">
+                 <string>User (Male or Neutral) Logged out</string>
+                </property>
+                <property name="buddy">
+                 <cstring>statusmsg_usermnloggedoutEdit</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLineEdit" name="statusmsg_usermnloggedoutEdit"/>
+              </item>
+              <item row="2" column="2">
+               <widget class="QLabel" name="statusmsg_usermnLoggedOutVarLabel">
+                <property name="text">
+                 <string>Available variables: {user}: User who logged in, {server}: Server name where user logged in</string>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="statusmsg_secconfailedLabel">
+                <property name="text">
+                 <string>Secure Connection Failed</string>
+                </property>
+                <property name="buddy">
+                 <cstring>statusmsg_secconfailedEdit</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLineEdit" name="statusmsg_secconfailedEdit"/>
+              </item>
+              <item row="3" column="2">
+               <widget class="QLabel" name="statusmsg_secConFailedVarLabel">
+                <property name="text">
+                 <string>Available variables: {errCode}: hexadecimal code of error, {errMessage}: Error Message</string>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="statusmsg_conlostLabel">
+                <property name="text">
+                 <string>Connection to Server Lost</string>
+                </property>
+                <property name="buddy">
+                 <cstring>statusmsg_conlostEdit</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QLineEdit" name="statusmsg_conlostEdit"/>
+              </item>
+              <item row="4" column="2">
+               <widget class="QLabel" name="statusmsg_conLostVarLabel">
+                <property name="text">
+                 <string>Available variables: {hostAddr}: Server Hostname/IP Address, {hostTCP}: Server TCP Port, {hostUDP}: Server UDP Port</string>
                 </property>
                 <property name="textInteractionFlags">
                  <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>

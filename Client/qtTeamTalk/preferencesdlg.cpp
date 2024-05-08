@@ -693,6 +693,10 @@ void PreferencesDlg::slotTabChange(int index)
     {
         ui.ttsmsg_chanmsgEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_CHANNELMESSAGE, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_CHANNELMESSAGE_DEFAULT)).toString());
         ui.statusmsg_userloggedinEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_USERLOGGEDIN, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERLOGGEDIN_DEFAULT)).toString());
+        ui.statusmsg_userfloggedoutEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_USERFLOGGEDOUT, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERFLOGGEDOUT_DEFAULT)).toString());
+        ui.statusmsg_usermnloggedoutEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_USERMNLOGGEDOUT, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERMNLOGGEDOUT_DEFAULT)).toString());
+        ui.statusmsg_secconfailedEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_SECCONFAILED, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_SECCONFAILED_DEFAULT)).toString());
+        ui.statusmsg_conlostEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_CONLOST, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_CONLOST_DEFAULT)).toString());
         break;
     }
     case SHORTCUTS_TAB :  //shortcuts
@@ -1068,6 +1072,10 @@ void PreferencesDlg::slotSaveChanges()
     {
         ttSettings->setValue(SETTINGS_EVENTSMSG_CHANNELMESSAGE, ui.ttsmsg_chanmsgEdit->text());
         ttSettings->setValue(SETTINGS_EVENTSMSG_USERLOGGEDIN, ui.statusmsg_userloggedinEdit->text());
+        ttSettings->setValue(SETTINGS_EVENTSMSG_USERFLOGGEDOUT, ui.statusmsg_userfloggedoutEdit->text());
+        ttSettings->setValue(SETTINGS_EVENTSMSG_USERMNLOGGEDOUT, ui.statusmsg_usermnloggedoutEdit->text());
+        ttSettings->setValue(SETTINGS_EVENTSMSG_SECCONFAILED, ui.statusmsg_secconfailedEdit->text());
+        ttSettings->setValue(SETTINGS_EVENTSMSG_CONLOST, ui.statusmsg_conlostEdit->text());
     }
     if(m_modtab.find(SHORTCUTS_TAB) != m_modtab.end())
     {

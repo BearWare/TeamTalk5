@@ -1021,8 +1021,10 @@ void MainWindow::clienteventConFailed()
 
 void MainWindow::clienteventConCryptError(const TTMessage& msg)
 {
-    addStatusMsg(STATUSBAR_BYPASS, tr("Secure connection failed due to error 0x%1: %2.").arg(msg.nSource, 0, 16).arg(_Q(msg.clienterrormsg.szErrorMsg)));
-    addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Secure connection failed due to error 0x%1: %2.").arg(msg.nSource, 0, 16).arg(_Q(msg.clienterrormsg.szErrorMsg)));
+    QString eventMsg = ttSettings->value(SETTINGS_EVENTSMSG_SECCONFAILED, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_SECCONFAILED_DEFAULT)).toString();
+    eventMsg.replace("{errCode}", QString::number(msg.nSource, 16)).replace("{errMessage}", _Q(msg.clienterrormsg.szErrorMsg));
+    addStatusMsg(STATUSBAR_BYPASS, eventMsg);
+    addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, eventMsg);
 }
 
 void MainWindow::clienteventConLost()
@@ -1031,11 +1033,11 @@ void MainWindow::clienteventConLost()
     if(ttSettings->value(SETTINGS_CONNECTION_RECONNECT, SETTINGS_CONNECTION_RECONNECT_DEFAULT).toBool())
         m_timers[startTimer(5000)] = TIMER_RECONNECT;
 
-    addStatusMsg(STATUSBAR_BYPASS, tr("Connection lost to %1 TCP port %2 UDP port %3")
-                 .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
-
+    QString eventMsg = ttSettings->value(SETTINGS_EVENTSMSG_CONLOST, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_CONLOST_DEFAULT)).toString();
+    eventMsg.replace("{hostAddr}", m_host.ipaddr).replace("{hostTCP}", QString::number(m_host.tcpport)).replace("{hostUDP}", QString::number(m_host.udpport));
+    addStatusMsg(STATUSBAR_BYPASS, eventMsg);
     playSoundEvent(SOUNDEVENT_SERVERLOST);
-    addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Connection to server lost"));
+    addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, eventMsg);
 }
 
 void MainWindow::clienteventMyselfKicked(const TTMessage& msg)
@@ -1165,9 +1167,11 @@ void MainWindow::clienteventCmdUserLoggedOut(const User& user)
     m_textmessages.clearUserTextMessages(user.nUserID);
     if (user.nUserID != TT_GetMyUserID(ttInst))
     {
-        addStatusMsg(STATUSBAR_USER_LOGGEDOUT, ((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out", "For female").arg(getDisplayName(user)):tr("%1 has logged out", "For male and neutral").arg(getDisplayName(user))));
+        QString eventMsg = ((user.nStatusMode & STATUSMODE_FEMALE)?ttSettings->value(SETTINGS_EVENTSMSG_USERFLOGGEDOUT, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERFLOGGEDOUT_DEFAULT)).toString():ttSettings->value(SETTINGS_EVENTSMSG_USERMNLOGGEDOUT, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERMNLOGGEDOUT_DEFAULT)).toString());
+        eventMsg.replace("{user}", getDisplayName(user)).replace("{server}", limitText(_Q(m_srvprop.szServerName)));
+        addStatusMsg(STATUSBAR_USER_LOGGEDOUT, eventMsg);
         playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
-        addTextToSpeechMessage(TTS_USER_LOGGEDOUT, tr("%1 has logged out").arg(getDisplayName(user)));
+        addTextToSpeechMessage(TTS_USER_LOGGEDOUT, eventMsg);
     }
 
     // sync user settings to cache
