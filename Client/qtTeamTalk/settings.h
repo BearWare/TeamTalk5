@@ -345,9 +345,9 @@
 #define SETTINGS_EVENTSMSG_CHANNELMESSAGE                         "events-message/channel-message"
 #define SETTINGS_EVENTSMSG_CHANNELMESSAGE_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "Channel message from {user}: {message}")
 #define SETTINGS_EVENTSMSG_USERLOGGEDIN                         "events-message/user-logged-in"
-#define SETTINGS_EVENTSMSG_USERLOGGEDIN_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "{user} has logged in")
+#define SETTINGS_EVENTSMSG_USERLOGGEDIN_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "{user} has logged in on {server}")
 #define SETTINGS_EVENTSMSG_USERFLOGGEDOUT                         "events-message/user-female-logged-out"
-#define SETTINGS_EVENTSMSG_USERFLOGGEDOUT_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "{user} has logged out")
+#define SETTINGS_EVENTSMSG_USERFLOGGEDOUT_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "{user} has logged out from {server}")
 #define SETTINGS_EVENTSMSG_USERMNLOGGEDOUT                         "events-message/user-mn-logged-out"
 #define SETTINGS_EVENTSMSG_USERMNLOGGEDOUT_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "{user} has logged out")
 #define SETTINGS_EVENTSMSG_SECCONFAILED                         "events-message/secure-connection-failed"
