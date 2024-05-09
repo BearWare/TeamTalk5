@@ -1320,6 +1320,7 @@
     <addaction name="actionResetPreferencesToDefault"/>
     <addaction name="actionVisitBearWare"/>
     <addaction name="separator"/>
+    <addaction name="actionCheckUpdate"/>
     <addaction name="actionAbout"/>
    </widget>
    <addaction name="menuClient"/>
