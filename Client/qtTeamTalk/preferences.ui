@@ -2577,6 +2577,98 @@
                 </property>
                </widget>
               </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="statusmsg_userjoinsameLabel">
+                <property name="text">
+                 <string>An User Joined Current Channel</string>
+                </property>
+                <property name="buddy">
+                 <cstring>statusmsg_userjoinsameEdit</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QLineEdit" name="statusmsg_userjoinsameEdit"/>
+              </item>
+              <item row="5" column="2">
+               <widget class="QLabel" name="statusmsg_userJoinSameVarLabel">
+                <property name="text">
+                 <string>Available variables: {user}: User who joined</string>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="0">
+               <widget class="QLabel" name="statusmsg_userleftsameLabel">
+                <property name="text">
+                 <string>An User Left Current Channel</string>
+                </property>
+                <property name="buddy">
+                 <cstring>statusmsg_userleftsameEdit</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="1">
+               <widget class="QLineEdit" name="statusmsg_userleftsameEdit"/>
+              </item>
+              <item row="6" column="2">
+               <widget class="QLabel" name="statusmsg_userLeftSameVarLabel">
+                <property name="text">
+                 <string>Available variables: {user}: User who Left</string>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="0">
+               <widget class="QLabel" name="statusmsg_userjoinLabel">
+                <property name="text">
+                 <string>An User Joined Different Channel</string>
+                </property>
+                <property name="buddy">
+                 <cstring>statusmsg_userjoinEdit</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="1">
+               <widget class="QLineEdit" name="statusmsg_userjoinEdit"/>
+              </item>
+              <item row="7" column="2">
+               <widget class="QLabel" name="statusmsg_userJoinVarLabel">
+                <property name="text">
+                 <string>Available variables: {user}}: User who Joined, {channel}: Channel Joined</string>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="0">
+               <widget class="QLabel" name="statusmsg_userleftLabel">
+                <property name="text">
+                 <string>An User Left Different Channel</string>
+                </property>
+                <property name="buddy">
+                 <cstring>statusmsg_userleftEdit</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="1">
+               <widget class="QLineEdit" name="statusmsg_userleftEdit"/>
+              </item>
+              <item row="8" column="2">
+               <widget class="QLabel" name="statusmsg_userLeftVarLabel">
+                <property name="text">
+                 <string>Available variables: {user}: User who Left, {channel}: Channel Left</string>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+                </property>
+               </widget>
+              </item>
              </layout>
             </item>
            </layout>

@@ -1192,18 +1192,14 @@ void MainWindow::clienteventCmdUserJoined(const User& user)
     {
         Channel chan = {};
         ui.channelsWidget->getChannel(user.nChannelID, chan);
-        QString userjoinchan = tr("%1 joined channel").arg(getDisplayName(user));
+        QString userjoinchan = ttSettings->value(SETTINGS_EVENTSMSG_USERJOINSAME, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERJOINSAME_DEFAULT)).toString();
+        userjoinchan.replace("{user}", getDisplayName(user));
         TextToSpeechEvent ttsType = TTS_USER_JOINED_SAME;
         StatusBarEvent statusType = STATUSBAR_USER_JOINED_SAME;
-        if(chan.nParentID == 0 && user.nChannelID != m_mychannel.nChannelID)
+        if((chan.nParentID == 0 && user.nChannelID != m_mychannel.nChannelID) || user.nChannelID != m_mychannel.nChannelID)
         {
-            userjoinchan = QString(tr("%1 joined root channel").arg(getDisplayName(user)));
-            ttsType = TTS_USER_JOINED;
-            statusType = STATUSBAR_USER_JOINED;
-        }
-        else if (user.nChannelID != m_mychannel.nChannelID)
-        {
-            userjoinchan = QString(tr("%1 joined channel %2").arg(getDisplayName(user)).arg(_Q(chan.szName)));
+            userjoinchan = ttSettings->value(SETTINGS_EVENTSMSG_USERJOIN, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERJOIN_DEFAULT)).toString();
+            userjoinchan.replace("{user}", getDisplayName(user)).replace("{channel}", ((chan.nParentID == 0 && user.nChannelID != m_mychannel.nChannelID)?tr("root"):_Q(chan.szName)));
             ttsType = TTS_USER_JOINED;
             statusType = STATUSBAR_USER_JOINED;
         }
@@ -1235,18 +1231,15 @@ void MainWindow::clienteventCmdUserLeft(int prevchannelid, const User& user)
     {
         Channel chan = {};
         ui.channelsWidget->getChannel(prevchannelid, chan);
-        QString userleftchan = tr("%1 left channel").arg(getDisplayName(user));
+        QString userleftchan = ttSettings->value(SETTINGS_EVENTSMSG_USERLEFTSAME, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERLEFTSAME_DEFAULT)).toString();
+        userleftchan.replace("{user}", getDisplayName(user));
         TextToSpeechEvent ttsType = TTS_USER_LEFT_SAME;
         StatusBarEvent statusType = STATUSBAR_USER_LEFT_SAME;
-        if (chan.nParentID == 0 && prevchannelid != m_mychannel.nChannelID)
+        if((chan.nParentID == 0 && prevchannelid != m_mychannel.nChannelID) || prevchannelid != m_mychannel.nChannelID)
         {
-            userleftchan = QString(tr("%1 left root channel").arg(getDisplayName(user)));
+            userleftchan = ttSettings->value(SETTINGS_EVENTSMSG_USERLEFT, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERLEFT_DEFAULT)).toString();
+            userleftchan.replace("{user}", getDisplayName(user)).replace("{channel}", ((chan.nParentID == 0 && prevchannelid != m_mychannel.nChannelID)?tr("root"):_Q(chan.szName)));
             ttsType = TTS_USER_LEFT;
-            statusType = STATUSBAR_USER_LEFT;
-        }
-        else if (prevchannelid != m_mychannel.nChannelID)
-        {
-            userleftchan = QString(tr("%1 left channel %2").arg(getDisplayName(user)).arg(_Q(chan.szName)));
             statusType = STATUSBAR_USER_LEFT;
         }
         addStatusMsg(statusType, userleftchan);

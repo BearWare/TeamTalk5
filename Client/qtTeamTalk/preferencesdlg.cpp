@@ -697,6 +697,10 @@ void PreferencesDlg::slotTabChange(int index)
         ui.statusmsg_usermnloggedoutEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_USERMNLOGGEDOUT, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERMNLOGGEDOUT_DEFAULT)).toString());
         ui.statusmsg_secconfailedEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_SECCONFAILED, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_SECCONFAILED_DEFAULT)).toString());
         ui.statusmsg_conlostEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_CONLOST, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_CONLOST_DEFAULT)).toString());
+        ui.statusmsg_userjoinsameEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_USERJOINSAME, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERJOINSAME_DEFAULT)).toString());
+        ui.statusmsg_userleftsameEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_USERLEFTSAME, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERLEFTSAME_DEFAULT)).toString());
+        ui.statusmsg_userjoinEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_USERJOIN, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERJOIN_DEFAULT)).toString());
+        ui.statusmsg_userleftEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_USERLEFT, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERLEFT_DEFAULT)).toString());
         break;
     }
     case SHORTCUTS_TAB :  //shortcuts
@@ -1076,6 +1080,10 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_EVENTSMSG_USERMNLOGGEDOUT, ui.statusmsg_usermnloggedoutEdit->text());
         ttSettings->setValue(SETTINGS_EVENTSMSG_SECCONFAILED, ui.statusmsg_secconfailedEdit->text());
         ttSettings->setValue(SETTINGS_EVENTSMSG_CONLOST, ui.statusmsg_conlostEdit->text());
+        ttSettings->setValue(SETTINGS_EVENTSMSG_USERJOINSAME, ui.statusmsg_userjoinsameEdit->text());
+        ttSettings->setValue(SETTINGS_EVENTSMSG_USERLEFTSAME, ui.statusmsg_userleftsameEdit->text());
+        ttSettings->setValue(SETTINGS_EVENTSMSG_USERJOIN, ui.statusmsg_userjoinEdit->text());
+        ttSettings->setValue(SETTINGS_EVENTSMSG_USERLEFT, ui.statusmsg_userleftEdit->text());
     }
     if(m_modtab.find(SHORTCUTS_TAB) != m_modtab.end())
     {

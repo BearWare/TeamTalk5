@@ -354,6 +354,14 @@
 #define SETTINGS_EVENTSMSG_SECCONFAILED_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "Secure connection failed due to error 0x{errCode}: {errMessage}.")
 #define SETTINGS_EVENTSMSG_CONLOST                         "events-message/connection-lost"
 #define SETTINGS_EVENTSMSG_CONLOST_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "Connection lost to {hostAddr}")
+#define SETTINGS_EVENTSMSG_USERJOINSAME                         "events-message/user-joined-current-channel"
+#define SETTINGS_EVENTSMSG_USERJOINSAME_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "{user} joined channel")
+#define SETTINGS_EVENTSMSG_USERLEFTSAME                         "events-message/user-left-current-channel"
+#define SETTINGS_EVENTSMSG_USERLEFTSAME_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "{user} left channel")
+#define SETTINGS_EVENTSMSG_USERJOIN                         "events-message/user-joined-channel"
+#define SETTINGS_EVENTSMSG_USERJOIN_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "{user} joined channel {channel}")
+#define SETTINGS_EVENTSMSG_USERLEFT                         "events-message/user-left-channel"
+#define SETTINGS_EVENTSMSG_USERLEFT_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "{user} left channel {channel}")
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"
