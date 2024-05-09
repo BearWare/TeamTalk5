@@ -520,6 +520,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotHelpResetPreferences);
     connect(ui.actionVisitBearWare, &QAction::triggered,
             this, &MainWindow::slotHelpVisitBearWare);
+    connect(ui.actionCheckUpdate, &QAction::triggered,
+            this, &MainWindow::checkAppUpdate);
     connect(ui.actionAbout, &QAction::triggered,
             this, &MainWindow::slotHelpAbout);
     /* End - Help menu */

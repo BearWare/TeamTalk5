@@ -1458,6 +1458,11 @@
     <string>Ctrl+Shift+T</string>
    </property>
   </action>
+  <action name="actionCheckUpdate">
+   <property name="text">
+    <string>&amp;Check for Update</string>
+   </property>
+  </action>
   <action name="actionAbout">
    <property name="text">
     <string>&amp;About</string>
