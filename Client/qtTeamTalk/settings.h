@@ -349,7 +349,7 @@
 #define SETTINGS_EVENTSMSG_USERFLOGGEDOUT                         "events-message/user-female-logged-out"
 #define SETTINGS_EVENTSMSG_USERFLOGGEDOUT_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "{user} has logged out from {server}")
 #define SETTINGS_EVENTSMSG_USERMNLOGGEDOUT                         "events-message/user-mn-logged-out"
-#define SETTINGS_EVENTSMSG_USERMNLOGGEDOUT_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "{user} has logged out")
+#define SETTINGS_EVENTSMSG_USERMNLOGGEDOUT_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "{user} has logged out from {server}")
 #define SETTINGS_EVENTSMSG_SECCONFAILED                         "events-message/secure-connection-failed"
 #define SETTINGS_EVENTSMSG_SECCONFAILED_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "Secure connection failed due to error 0x{errCode}: {errMessage}.")
 #define SETTINGS_EVENTSMSG_CONLOST                         "events-message/connection-lost"
