@@ -7,6 +7,7 @@ Default Qt Client
 - "Connect to a Server" dialog simplied with multiple sub dialogs
 - Ability to customize event messages (TTS and status)
 - Remove option "Announce server name for server events" from TTS settings, use customizable messages instead
+- Reset label of files list when disconnected from server
 Android Client
 -
 iOS Client

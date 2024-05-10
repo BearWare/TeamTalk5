@@ -6058,133 +6058,133 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.ui" line="20"/>
         <source>Server Information</source>
-        <translation type="unfinished">Sunucu Bilgileri</translation>
+        <translation>Sunucu Bilgileri</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="28"/>
         <source>Entry name</source>
-        <translation type="unfinished">Giriş adı</translation>
+        <translation>Giriş adı</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="43"/>
         <source>Host IP-address</source>
-        <translation type="unfinished">Ana bilgisayar IP adresi</translation>
+        <translation>Ana bilgisayar IP adresi</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="60"/>
         <source>TCP port</source>
-        <translation type="unfinished">TCP bağlantı noktası</translation>
+        <translation>TCP bağlantı noktası</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="75"/>
         <source>TCP Port (Default: 10333)</source>
-        <translation type="unfinished"></translation>
+        <translation>TCP Bağlantı Noktası (Varsayılan: 10333)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="82"/>
         <location filename="../serverdlg.ui" line="113"/>
         <source>Default: 10333</source>
-        <translation type="unfinished">Varsayılan: 10333</translation>
+        <translation>Varsayılan: 10333</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="91"/>
         <source>UDP port</source>
-        <translation type="unfinished">UDP bağlantı noktası</translation>
+        <translation>UDP bağlantı noktası</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="106"/>
         <source>UDP Port (Default: 10333)</source>
-        <translation type="unfinished"></translation>
+        <translation>UDP Bağlantı Noktası (Varsayılan: 10333)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="124"/>
         <source>Encrypted server</source>
-        <translation type="unfinished">parolalı sunucu</translation>
+        <translation>parolalı sunucu</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="134"/>
         <source>Setup</source>
-        <translation type="unfinished">Kur</translation>
+        <translation>Kur</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="156"/>
         <location filename="../serverdlg.ui" line="159"/>
         <source>Authentication (optional)</source>
-        <translation type="unfinished">Kimlik doğrulama (isteğe bağlı)</translation>
+        <translation>Kimlik doğrulama (isteğe bağlı)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="165"/>
         <source>Use BearWare.dk Web Login</source>
-        <translation type="unfinished"></translation>
+        <translation>BearWare.dk Web Girişini Kullanın</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="172"/>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı adı</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="185"/>
         <location filename="../serverdlg.ui" line="251"/>
         <source>Password</source>
-        <translation type="unfinished">Parola</translation>
+        <translation>Parola</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="204"/>
         <location filename="../serverdlg.ui" line="270"/>
         <source>Show password</source>
-        <translation type="unfinished">parolayı göster</translation>
+        <translation>parolayı göster</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="216"/>
         <source>Nickname (optional)</source>
-        <translation type="unfinished">takma ad (isteğe bağlı)</translation>
+        <translation>takma ad (isteğe bağlı)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="229"/>
         <location filename="../serverdlg.ui" line="232"/>
         <source>Join specific channel after authentication (optional)</source>
-        <translation type="unfinished">Kimlik doğrulamadan sonra belirtilen kanala katıl (isteğe bağlı)</translation>
+        <translation>Kimlik doğrulamadan sonra belirtilen kanala katıl (isteğe bağlı)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="238"/>
         <source>Channel</source>
-        <translation type="unfinished">Kanal</translation>
+        <translation>Kanal</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="285"/>
         <source>&amp;Connect to Server on exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Çıkışta Sunucuya &amp;Bağlan</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="42"/>
         <source>&amp;Save and Close</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kaydet ve kapat</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="43"/>
         <source>&amp;Close without saving</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kaydetmeden kapat</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="62"/>
         <location filename="../serverdlg.cpp" line="63"/>
         <source>Add Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu ekle</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="67"/>
         <source>Edit Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucuyu Düzenle</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="68"/>
         <source>Edit Server %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Sunucusunu Düzenle</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="72"/>
         <source>View Server Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu Bilgilerini Görüntüle</translation>
     </message>
     <message>
         <source>View %1 information</source>
@@ -6193,32 +6193,32 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.cpp" line="73"/>
         <source>View %1 Information</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Bilgisini Görüntüle</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="88"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Kapat</translation>
+        <translation>&amp;Kapat</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="148"/>
         <source>Name already used</source>
-        <translation type="unfinished"></translation>
+        <translation>Ad zaten kullanılmış</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="148"/>
         <source>Another server with this name already exists. Please use a different name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu isimde başka bir sunucu zaten mevcut. Lütfen farklı bir ad kullanın.</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="153"/>
         <source>Missing information</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksik bilgi</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="153"/>
         <source>Please fill in &quot;Host IP-address&quot; field</source>
-        <translation type="unfinished"></translation>
+        <translation>Lütfen &quot;Ana Bilgisayar IP adresi&quot; alanını doldurun</translation>
     </message>
 </context>
 <context>
@@ -6285,22 +6285,22 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../serverlist.ui" line="90"/>
         <source>Saved Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation >Kayıtlı Ana Bilgisayarlar</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="124"/>
         <source>&amp;Add new server</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni sunucu &amp;ekle</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="140"/>
         <source>Latest hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>En yeni ana bilgisayarlar</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="150"/>
         <source>Latest Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>En Yeni Sunucular</translation>
     </message>
     <message>
         <source>Encrypted server</source>
@@ -6437,17 +6437,17 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../serverlistdlg.cpp" line="546"/>
         <source>Duplicate Server Entry</source>
-        <translation type="unfinished"></translation>
+        <translation>Yinelenen Sunucu Girişi</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="547"/>
         <source>Entry Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Giriş Adı</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="548"/>
         <source>%1 - COPY</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 - KOPYA</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="633"/>
@@ -6488,42 +6488,42 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../serverlistdlg.cpp" line="730"/>
         <source>&amp;Delete</source>
-        <translation type="unfinished">S&amp;il</translation>
+        <translation>S&amp;il</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="731"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Düzenle</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="732"/>
         <source>D&amp;uplicate</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kopyala</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="733"/>
         <source>&amp;Generate .tt file</source>
-        <translation type="unfinished"></translation>
+        <translation>.tt dosyası &amp;oluştur</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="734"/>
         <source>&amp;Publish Publicly</source>
-        <translation type="unfinished"></translation>
+        <translation>Herkese Açık Olarak &amp;Yayınla</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="784"/>
         <source>&amp;Remove from Latest Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>En Son Ana Bilgisayarlardan Kaldı&amp;r</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="785"/>
         <source>&amp;Add to Saved Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Kayıtlı Ana Bilgisayarlara Ek&amp;le</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="786"/>
         <source>&amp;Clear Latest Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Son Ana Bilgisayarları &amp;Temizle</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="628"/>
