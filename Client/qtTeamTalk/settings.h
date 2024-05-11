@@ -344,6 +344,16 @@
 
 #define SETTINGS_EVENTSMSG_CHANNELMESSAGE                         "events-message/channel-message"
 #define SETTINGS_EVENTSMSG_CHANNELMESSAGE_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "Channel message from {user}: {message}")
+#define SETTINGS_EVENTSMSG_CHANNELMESSAGESENT                         "events-message/channel-message-sent"
+#define SETTINGS_EVENTSMSG_CHANNELMESSAGESENT_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "Channel message sent: {message}")
+#define SETTINGS_EVENTSMSG_BROADCASTMESSAGE                         "events-message/broadcast-message"
+#define SETTINGS_EVENTSMSG_BROADCASTMESSAGE_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "Broadcast message from {user}: {message}")
+#define SETTINGS_EVENTSMSG_PRIVATEMESSAGE                         "events-message/private-message"
+#define SETTINGS_EVENTSMSG_PRIVATEMESSAGE_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "Private message from {user}: {message}")
+#define SETTINGS_EVENTSMSG_PRIVATEMESSAGESENT                         "events-message/private-message-sent"
+#define SETTINGS_EVENTSMSG_PRIVATEMESSAGESENT_DEFAULT                 QT_TRANSLATE_NOOP("TextMessageDlg", "Private message sent: {message}")
+#define SETTINGS_EVENTSMSG_QUESTIONMODE                         "events-message/question-mode"
+#define SETTINGS_EVENTSMSG_QUESTIONMODE_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "{user} set question mode")
 #define SETTINGS_EVENTSMSG_USERLOGGEDIN                         "events-message/user-logged-in"
 #define SETTINGS_EVENTSMSG_USERLOGGEDIN_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "{user} has logged in on {server}")
 #define SETTINGS_EVENTSMSG_USERFLOGGEDOUT                         "events-message/user-female-logged-out"
@@ -362,8 +372,6 @@
 #define SETTINGS_EVENTSMSG_USERJOIN_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "{user} joined channel {channel}")
 #define SETTINGS_EVENTSMSG_USERLEFT                         "events-message/user-left-channel"
 #define SETTINGS_EVENTSMSG_USERLEFT_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "{user} left channel {channel}")
-#define SETTINGS_EVENTSMSG_QUESTIONMODE                         "events-message/question-mode"
-#define SETTINGS_EVENTSMSG_QUESTIONMODE_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "{user} set question mode")
 #define SETTINGS_EVENTSMSG_FILEADDED                         "events-message/file-added"
 #define SETTINGS_EVENTSMSG_FILEADDED_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "File {filename} added by {user}")
 #define SETTINGS_EVENTSMSG_FILEREMOVED                         "events-message/file-removed"
@@ -372,6 +380,8 @@
 #define SETTINGS_EVENTSMSG_CONNECTED_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "Disconnected from {server}")
 #define SETTINGS_EVENTSMSG_DISCONNECTED                         "events-message/disconnected-from-server"
 #define SETTINGS_EVENTSMSG_DISCONNECTED_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "Disconnected from {server}")
+#define SETTINGS_EVENTSMSG_SUBCHANGE                         "events-message/subscription-change"
+#define SETTINGS_EVENTSMSG_SUBCHANGE_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "Subscription \"{type}\" {state} for {user}")
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"

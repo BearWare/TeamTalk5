@@ -2726,9 +2726,10 @@ void MainWindow::firewallInstall()
 
 void MainWindow::subscribeCommon(bool checked, Subscriptions subs, int userid/* = 0*/)
 {
-    QString subType;
+    QString subType, subState;
     TextToSpeechEvent subTypeTTS;
     StatusBarEvent subTypeSB;
+    bool success = false;
     switch (subs)
     {
     case SUBSCRIBE_USER_MSG :
@@ -2817,24 +2818,28 @@ void MainWindow::subscribeCommon(bool checked, Subscriptions subs, int userid/* 
         ui.channelsWidget->getUser(userid, user);
         if(checked)
         {
+            subState = tr("enabled");
             int cmdid = TT_DoSubscribe(ttInst, userid, subs);
             if(cmdid>0)
             {
                 m_commands[cmdid] = CMD_COMPLETE_SUBSCRIBE;
-                addTextToSpeechMessage(subTypeTTS, tr("Subscription \"%1\" enabled for %2").arg(subType).arg(getDisplayName(user)));
-                addStatusMsg(subTypeSB, tr("Subscription \"%1\" enabled for %2").arg(subType).arg(getDisplayName(user)));
+                success = true;
             }
         }
         else
         {
+            subState = tr("disabled");
             int cmdid = TT_DoUnsubscribe(ttInst, userid, subs);
             if(cmdid>0)
             {
                 m_commands[cmdid] = CMD_COMPLETE_UNSUBSCRIBE;
-                addTextToSpeechMessage(subTypeTTS, tr("Subscription \"%1\" disabled for %2").arg(subType).arg(getDisplayName(user)));
-                addStatusMsg(subTypeSB, tr("Subscription \"%1\" disabled for %2").arg(subType).arg(getDisplayName(user)));
+                success = true;
             }
         }
+        QString eventMsg = ttSettings->value(SETTINGS_EVENTSMSG_SUBCHANGE, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_SUBCHANGE_DEFAULT)).toString();
+        eventMsg.replace("{type}", subType).replace("{user}", getDisplayName(user)).replace("{state}", subState);
+        addTextToSpeechMessage(subTypeTTS, eventMsg);
+        addStatusMsg(subTypeSB, eventMsg);
     }
 }
 
@@ -2913,7 +2918,9 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         }
         else
         {
-            addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL_SEND, QString(tr("Channel message sent: %1").arg(textmsg.moreMessage)));
+            QString TTSMsg = ttSettings->value(SETTINGS_EVENTSMSG_CHANNELMESSAGESENT, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_CHANNELMESSAGESENT_DEFAULT)).toString();
+            TTSMsg.replace("{message}", textmsg.moreMessage);
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL_SEND, TTSMsg);
             playSoundEvent(SOUNDEVENT_CHANNELMSGSENT);
         }
 
@@ -2927,7 +2934,11 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
 
         User user;
         if (ui.channelsWidget->getUser(textmsg.nFromUserID, user) && user.nUserID != TT_GetMyUserID(ttInst))
-            addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST, QString(tr("Broadcast message from %1: %2").arg(getDisplayName(user)).arg(textmsg.moreMessage)));
+        {
+            QString TTSMsg = ttSettings->value(SETTINGS_EVENTSMSG_BROADCASTMESSAGE, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_BROADCASTMESSAGE_DEFAULT)).toString();
+            TTSMsg.replace("{user}", getDisplayName(user)).replace("{message}", textmsg.moreMessage);
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST, TTSMsg);
+        }
         playSoundEvent(SOUNDEVENT_BROADCASTMSG);
         break;
     }
@@ -2937,7 +2948,11 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         emit(newTextMessage(textmsg));
         User user;
         if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
-            addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE, QString(tr("Private message from %1: %2").arg(getDisplayName(user)).arg(textmsg.moreMessage)));
+        {
+            QString TTSMsg = ttSettings->value(SETTINGS_EVENTSMSG_PRIVATEMESSAGE, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_PRIVATEMESSAGE_DEFAULT)).toString();
+            TTSMsg.replace("{user}", getDisplayName(user)).replace("{message}", textmsg.moreMessage);
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE, TTSMsg);
+        }
 
         if(ttSettings->value(SETTINGS_DISPLAY_MESSAGEPOPUP, SETTINGS_DISPLAY_MESSAGEPOPUP_DEFAULT).toBool())
         {

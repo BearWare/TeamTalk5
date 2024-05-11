@@ -692,6 +692,11 @@ void PreferencesDlg::slotTabChange(int index)
     case EVENTSMSG_TAB :  //Events messages
     {
         ui.ttsmsg_chanmsgEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_CHANNELMESSAGE, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_CHANNELMESSAGE_DEFAULT)).toString());
+        ui.ttsmsg_chanmsgsentEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_CHANNELMESSAGESENT, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_CHANNELMESSAGESENT_DEFAULT)).toString());
+        ui.ttsmsg_broadmsgEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_BROADCASTMESSAGE, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_BROADCASTMESSAGE_DEFAULT)).toString());
+        ui.ttsmsg_privmsgEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_PRIVATEMESSAGE, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_PRIVATEMESSAGE_DEFAULT)).toString());
+        ui.ttsmsg_privmsgsentEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_PRIVATEMESSAGESENT, QCoreApplication::translate("TextMessageDlg", SETTINGS_EVENTSMSG_PRIVATEMESSAGESENT_DEFAULT)).toString());
+        ui.ttsmsg_questionmodeEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_QUESTIONMODE, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_QUESTIONMODE_DEFAULT)).toString());
         ui.statusmsg_userloggedinEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_USERLOGGEDIN, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERLOGGEDIN_DEFAULT)).toString());
         ui.statusmsg_userfloggedoutEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_USERFLOGGEDOUT, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERFLOGGEDOUT_DEFAULT)).toString());
         ui.statusmsg_usermnloggedoutEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_USERMNLOGGEDOUT, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERMNLOGGEDOUT_DEFAULT)).toString());
@@ -701,11 +706,11 @@ void PreferencesDlg::slotTabChange(int index)
         ui.statusmsg_userleftsameEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_USERLEFTSAME, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERLEFTSAME_DEFAULT)).toString());
         ui.statusmsg_userjoinEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_USERJOIN, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERJOIN_DEFAULT)).toString());
         ui.statusmsg_userleftEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_USERLEFT, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERLEFT_DEFAULT)).toString());
-        ui.ttsmsg_questionmodeEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_QUESTIONMODE, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_QUESTIONMODE_DEFAULT)).toString());
         ui.statusmsg_fileaddedEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_FILEADDED, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_FILEADDED_DEFAULT)).toString());
         ui.statusmsg_fileremovedEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_FILEREMOVED, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_FILEREMOVED_DEFAULT)).toString());
         ui.statusmsg_connectedEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_CONNECTED, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_CONNECTED_DEFAULT)).toString());
         ui.statusmsg_disconnectedEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_DISCONNECTED, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_DISCONNECTED_DEFAULT)).toString());
+        ui.statusmsg_subchangeEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_SUBCHANGE, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_SUBCHANGE_DEFAULT)).toString());
         break;
     }
     case SHORTCUTS_TAB :  //shortcuts
@@ -1080,6 +1085,11 @@ void PreferencesDlg::slotSaveChanges()
     if(m_modtab.find(EVENTSMSG_TAB) != m_modtab.end())
     {
         ttSettings->setValue(SETTINGS_EVENTSMSG_CHANNELMESSAGE, ui.ttsmsg_chanmsgEdit->text());
+        ttSettings->setValue(SETTINGS_EVENTSMSG_CHANNELMESSAGESENT, ui.ttsmsg_chanmsgsentEdit->text());
+        ttSettings->setValue(SETTINGS_EVENTSMSG_BROADCASTMESSAGE, ui.ttsmsg_broadmsgEdit->text());
+        ttSettings->setValue(SETTINGS_EVENTSMSG_PRIVATEMESSAGE, ui.ttsmsg_privmsgEdit->text());
+        ttSettings->setValue(SETTINGS_EVENTSMSG_PRIVATEMESSAGESENT, ui.ttsmsg_privmsgsentEdit->text());
+        ttSettings->setValue(SETTINGS_EVENTSMSG_QUESTIONMODE, ui.ttsmsg_questionmodeEdit->text());
         ttSettings->setValue(SETTINGS_EVENTSMSG_USERLOGGEDIN, ui.statusmsg_userloggedinEdit->text());
         ttSettings->setValue(SETTINGS_EVENTSMSG_USERFLOGGEDOUT, ui.statusmsg_userfloggedoutEdit->text());
         ttSettings->setValue(SETTINGS_EVENTSMSG_USERMNLOGGEDOUT, ui.statusmsg_usermnloggedoutEdit->text());
@@ -1089,11 +1099,11 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_EVENTSMSG_USERLEFTSAME, ui.statusmsg_userleftsameEdit->text());
         ttSettings->setValue(SETTINGS_EVENTSMSG_USERJOIN, ui.statusmsg_userjoinEdit->text());
         ttSettings->setValue(SETTINGS_EVENTSMSG_USERLEFT, ui.statusmsg_userleftEdit->text());
-        ttSettings->setValue(SETTINGS_EVENTSMSG_QUESTIONMODE, ui.ttsmsg_questionmodeEdit->text());
         ttSettings->setValue(SETTINGS_EVENTSMSG_FILEADDED, ui.statusmsg_fileaddedEdit->text());
         ttSettings->setValue(SETTINGS_EVENTSMSG_FILEREMOVED, ui.statusmsg_fileremovedEdit->text());
         ttSettings->setValue(SETTINGS_EVENTSMSG_CONNECTED, ui.statusmsg_connectedEdit->text());
         ttSettings->setValue(SETTINGS_EVENTSMSG_DISCONNECTED, ui.statusmsg_disconnectedEdit->text());
+        ttSettings->setValue(SETTINGS_EVENTSMSG_SUBCHANGE, ui.statusmsg_subchangeEdit->text());
     }
     if(m_modtab.find(SHORTCUTS_TAB) != m_modtab.end())
     {

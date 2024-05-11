@@ -2425,7 +2425,7 @@
               <item row="0" column="0">
                <widget class="QLabel" name="ttsmsg_chanmsgLabel">
                 <property name="text">
-                 <string>Channel Message</string>
+                 <string>Channel Message Received</string>
                 </property>
                 <property name="buddy">
                  <cstring>ttsmsg_chanmsgEdit</cstring>
@@ -2446,6 +2446,98 @@
                </widget>
               </item>
               <item row="1" column="0">
+               <widget class="QLabel" name="ttsmsg_chanmsgsentLabel">
+                <property name="text">
+                 <string>Channel Message Sent</string>
+                </property>
+                <property name="buddy">
+                 <cstring>ttsmsg_chanmsgsentEdit</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLineEdit" name="ttsmsg_chanmsgsentEdit"/>
+              </item>
+              <item row="1" column="2">
+               <widget class="QLabel" name="ttsmsg_chanmsgsentVarLabel">
+                <property name="text">
+                 <string>Available variables: {message}: Message Content</string>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="ttsmsg_broadmsgLabel">
+                <property name="text">
+                 <string>Broadcast Message Received</string>
+                </property>
+                <property name="buddy">
+                 <cstring>ttsmsg_broadmsgEdit</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLineEdit" name="ttsmsg_broadmsgEdit"/>
+              </item>
+              <item row="2" column="2">
+               <widget class="QLabel" name="ttsmsg_broadmsgVarLabel">
+                <property name="text">
+                 <string>Available variables: {user}: User who sent message, {message}: Message Content</string>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="ttsmsg_privmsgLabel">
+                <property name="text">
+                 <string>Private Message Received</string>
+                </property>
+                <property name="buddy">
+                 <cstring>ttsmsg_privmsgEdit</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLineEdit" name="ttsmsg_privmsgEdit"/>
+              </item>
+              <item row="3" column="2">
+               <widget class="QLabel" name="ttsmsg_privmsgVarLabel">
+                <property name="text">
+                 <string>Available variables: {user}: User who sent message, {message}: Message Content</string>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="ttsmsg_privmsgsentLabel">
+                <property name="text">
+                 <string>Private Message Sent</string>
+                </property>
+                <property name="buddy">
+                 <cstring>ttsmsg_privmsgsentEdit</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QLineEdit" name="ttsmsg_privmsgsentEdit"/>
+              </item>
+              <item row="4" column="2">
+               <widget class="QLabel" name="ttsmsg_privmsgsentVarLabel">
+                <property name="text">
+                 <string>Available variables: {user}: User for Who Message is, {message}: Message Content</string>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
                <widget class="QLabel" name="ttsmsg_questionmodeLabel">
                 <property name="text">
                  <string>An User set Question Mode</string>
@@ -2455,10 +2547,10 @@
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
+              <item row="5" column="1">
                <widget class="QLineEdit" name="ttsmsg_questionmodeEdit"/>
               </item>
-              <item row="1" column="2">
+              <item row="5" column="2">
                <widget class="QLabel" name="ttsmsg_questionModeVarLabel">
                 <property name="text">
                  <string>Available variables: {user}: User who Question Mode</string>
@@ -2778,6 +2870,29 @@
                <widget class="QLabel" name="statusmsg_disconnectedVarLabel">
                 <property name="text">
                  <string>Available variables: {server}: Server Name (when Available)</string>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+                </property>
+               </widget>
+              </item>
+              <item row="13" column="0">
+               <widget class="QLabel" name="statusmsg_subchangeLabel">
+                <property name="text">
+                 <string>Subscription Changed</string>
+                </property>
+                <property name="buddy">
+                 <cstring>statusmsg_subchangeEdit</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="13" column="1">
+               <widget class="QLineEdit" name="statusmsg_subchangeEdit"/>
+              </item>
+              <item row="13" column="2">
+               <widget class="QLabel" name="statusmsg_subchangeVarLabel">
+                <property name="text">
+                 <string>Available variables: {type}: Subscription Type, {state}: Subscription State, {user}: User affected by change</string>
                 </property>
                 <property name="textInteractionFlags">
                  <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>

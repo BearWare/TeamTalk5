@@ -173,7 +173,13 @@ void TextMessageDlg::slotSendTextMessage(const QString& txt_msg)
         newMsg(msg, true);
 
         playSoundEvent(SOUNDEVENT_USERMSGSENT);
-        addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_SEND, tr("Private message sent: %1").arg(txt_msg));
+        User nameuser;
+        if (TT_GetUser(ttInst, m_userid, &nameuser))
+        {
+            QString TTSMsg = ttSettings->value(SETTINGS_EVENTSMSG_PRIVATEMESSAGESENT, QCoreApplication::translate("TextMessageDlg", SETTINGS_EVENTSMSG_PRIVATEMESSAGESENT_DEFAULT)).toString();
+            TTSMsg.replace("{user}", getDisplayName(nameuser)).replace("{message}", txt_msg);
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_SEND, TTSMsg);
+        }
         m_textchanged = false;
     }
 }
