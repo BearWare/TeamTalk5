@@ -2073,6 +2073,8 @@ void MainWindow::disconnectFromServer()
     ui.videosendButton->setVisible(false);
     ui.desktopmsgEdit->setVisible(false);
     ui.desktopsendButton->setVisible(false);
+    ui.channelLabel->setText(tr("Files in channel"));
+    ui.filesView->setAccessibleName(tr("Files in channel"));
 
     m_vid_exclude.clear();
 
