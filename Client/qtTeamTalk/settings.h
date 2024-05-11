@@ -362,6 +362,12 @@
 #define SETTINGS_EVENTSMSG_USERJOIN_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "{user} joined channel {channel}")
 #define SETTINGS_EVENTSMSG_USERLEFT                         "events-message/user-left-channel"
 #define SETTINGS_EVENTSMSG_USERLEFT_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "{user} left channel {channel}")
+#define SETTINGS_EVENTSMSG_QUESTIONMODE                         "events-message/question-mode"
+#define SETTINGS_EVENTSMSG_QUESTIONMODE_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "{user} set question mode")
+#define SETTINGS_EVENTSMSG_FILEADDED                         "events-message/file-added"
+#define SETTINGS_EVENTSMSG_FILEADDED_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "File {filename} added by {user}")
+#define SETTINGS_EVENTSMSG_FILEREMOVED                         "events-message/file-removed"
+#define SETTINGS_EVENTSMSG_FILEREMOVED_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "File {filename} removed by {user}")
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"

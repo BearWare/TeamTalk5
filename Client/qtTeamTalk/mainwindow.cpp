@@ -1268,7 +1268,9 @@ void MainWindow::clienteventCmdUserUpdate(const User& user)
         if ((prev_user.nStatusMode & STATUSMODE_QUESTION) == 0 && (user.nStatusMode & STATUSMODE_QUESTION))
         {
            playSoundEvent(SOUNDEVENT_QUESTIONMODE);
-           addTextToSpeechMessage(TTS_USER_QUESTIONMODE, tr("%1 set question mode").arg(getDisplayName(user)));
+           QString eventMsg = ttSettings->value(SETTINGS_EVENTSMSG_QUESTIONMODE, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_QUESTIONMODE_DEFAULT)).toString();
+           eventMsg.replace("{user}", getDisplayName(user));
+           addTextToSpeechMessage(TTS_USER_QUESTIONMODE, eventMsg);
         }
     }
 
@@ -1288,15 +1290,14 @@ void MainWindow::clienteventCmdFileNew(const RemoteFile& file)
     {
         updateChannelFiles(file.nChannelID);
         playSoundEvent(SOUNDEVENT_FILESUPD);
-        QString fileadd = tr("File %1 added").arg(_Q(file.szFileName));
         User user;
-        if (m_host.username != _Q(file.szUsername) &&
-            TT_GetUserByUsername(ttInst, file.szUsername, &user))
+        if (TT_GetUserByUsername(ttInst, file.szUsername, &user))
         {
-            fileadd = tr("File %1 added by %2").arg(_Q(file.szFileName)).arg(getDisplayName(user));
+            QString fileadd = ttSettings->value(SETTINGS_EVENTSMSG_FILEADDED, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_FILEADDED_DEFAULT)).toString();
+            fileadd.replace("{filename}", _Q(file.szFileName)).replace("{user}", m_host.username != _Q(file.szUsername)?_Q(file.szUsername):tr("You"));
+            addStatusMsg(STATUSBAR_FILE_ADD, fileadd);
+            addTextToSpeechMessage(TTS_FILE_ADD, fileadd);
         }
-        addStatusMsg(STATUSBAR_FILE_ADD, fileadd);
-        addTextToSpeechMessage(TTS_FILE_ADD, fileadd);
     }
 }
 
@@ -1312,14 +1313,13 @@ void MainWindow::clienteventCmdFileRemove(const RemoteFile& file)
     {
         updateChannelFiles(file.nChannelID);
         playSoundEvent(SOUNDEVENT_FILESUPD);
-        QString filerem = tr("File %1 removed").arg(_Q(file.szFileName));
-        if (m_host.username != _Q(file.szUsername) &&
-            TT_GetUserByUsername(ttInst, file.szUsername, &user))
+        if (TT_GetUserByUsername(ttInst, file.szUsername, &user))
         {
-            filerem = tr("File %1 removed by %2").arg(_Q(file.szFileName)).arg(getDisplayName(user));
+            QString filerem = ttSettings->value(SETTINGS_EVENTSMSG_FILEREMOVED, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_FILEREMOVED_DEFAULT)).toString();
+            filerem.replace("{filename}", _Q(file.szFileName)).replace("{user}", m_host.username != _Q(file.szUsername)?_Q(file.szUsername):tr("You"));
+            addStatusMsg(STATUSBAR_FILE_REMOVE, filerem);
+            addTextToSpeechMessage(TTS_FILE_REMOVE, filerem);
         }
-        addStatusMsg(STATUSBAR_FILE_REMOVE, filerem);
-        addTextToSpeechMessage(TTS_FILE_REMOVE, filerem);
     }
 }
 

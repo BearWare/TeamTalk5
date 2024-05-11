@@ -701,6 +701,9 @@ void PreferencesDlg::slotTabChange(int index)
         ui.statusmsg_userleftsameEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_USERLEFTSAME, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERLEFTSAME_DEFAULT)).toString());
         ui.statusmsg_userjoinEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_USERJOIN, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERJOIN_DEFAULT)).toString());
         ui.statusmsg_userleftEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_USERLEFT, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_USERLEFT_DEFAULT)).toString());
+        ui.ttsmsg_questionmodeEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_QUESTIONMODE, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_QUESTIONMODE_DEFAULT)).toString());
+        ui.statusmsg_fileaddedEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_FILEADDED, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_FILEADDED_DEFAULT)).toString());
+        ui.statusmsg_fileremovedEdit->setText(ttSettings->value(SETTINGS_EVENTSMSG_FILEREMOVED, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_FILEREMOVED_DEFAULT)).toString());
         break;
     }
     case SHORTCUTS_TAB :  //shortcuts
@@ -1084,6 +1087,9 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_EVENTSMSG_USERLEFTSAME, ui.statusmsg_userleftsameEdit->text());
         ttSettings->setValue(SETTINGS_EVENTSMSG_USERJOIN, ui.statusmsg_userjoinEdit->text());
         ttSettings->setValue(SETTINGS_EVENTSMSG_USERLEFT, ui.statusmsg_userleftEdit->text());
+        ttSettings->setValue(SETTINGS_EVENTSMSG_QUESTIONMODE, ui.ttsmsg_questionmodeEdit->text());
+        ttSettings->setValue(SETTINGS_EVENTSMSG_FILEADDED, ui.statusmsg_fileaddedEdit->text());
+        ttSettings->setValue(SETTINGS_EVENTSMSG_FILEREMOVED, ui.statusmsg_fileremovedEdit->text());
     }
     if(m_modtab.find(SHORTCUTS_TAB) != m_modtab.end())
     {
