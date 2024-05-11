@@ -17,10 +17,6 @@
 
 #include "filesmodel.h"
 
-#if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
-#include <QLocale>
-#endif
-
 extern TTInstance* ttInst;
 
 FilesModel::FilesModel(QObject* parent)
@@ -78,22 +74,7 @@ QVariant FilesModel::data ( const QModelIndex & index, int role /*= Qt::DisplayR
         case COLUMN_INDEX_NAME :
             return _Q(m_files[index.row()].szFileName);
         case COLUMN_INDEX_SIZE :
-            {
-                QString result;
-#if QT_VERSION < QT_VERSION_CHECK(5,10,0)
-                if (m_files[index.row()].nFileSize >= 1024*1024*1024)
-                    result = QString("%1 G").arg(m_files[index.row()].nFileSize/(1024*1024*1024));
-                else if (m_files[index.row()].nFileSize >= 1024*1024)
-                    result = QString("%1 M").arg(m_files[index.row()].nFileSize/(1024*1024));
-                else if (m_files[index.row()].nFileSize >= 1024)
-                    result = QString("%1 K").arg(m_files[index.row()].nFileSize/1024);
-                else
-                    result = QString("%1").arg(m_files[index.row()].nFileSize);
-#else
-                result = QLocale().formattedDataSize(m_files[index.row()].nFileSize, 1, QLocale::DataSizeSIFormat);
-#endif
-                return result;
-            }
+            return getFormattedFileSize(m_files[index.row()].nFileSize);
         case COLUMN_INDEX_OWNER :
             return _Q(m_files[index.row()].szUsername);
         case COLUMN_INDEX_UPLOADED :

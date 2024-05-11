@@ -310,3 +310,21 @@ QString getFormattedDateTime(QString originalDateTimeString, QString format)
     QString formattedDateTime = userLocale.toString(originalDateTime, QLocale::ShortFormat);
     return formattedDateTime;
 }
+
+QString getFormattedFileSize(int filesize)
+{
+    QString formattedFileSize;
+#if QT_VERSION < QT_VERSION_CHECK(5,10,0)
+    if (filesize >= 1024*1024*1024)
+        formattedFileSize = QString("%1 G").arg(Filesize/(1024*1024*1024));
+    else if (filesize >= 1024*1024)
+        formattedFileSize = QString("%1 M").arg(filesize/(1024*1024));
+    else if (filesize >= 1024)
+        formattedFileSize = QString("%1 K").arg(filesize/1024);
+    else
+        formattedFileSize = QString("%1").arg(filesize);
+#else
+    formattedFileSize = QLocale().formattedDataSize(filesize, 1, QLocale::DataSizeSIFormat);
+#endif
+    return formattedFileSize;
+}
