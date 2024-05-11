@@ -368,6 +368,10 @@
 #define SETTINGS_EVENTSMSG_FILEADDED_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "File {filename} added by {user}")
 #define SETTINGS_EVENTSMSG_FILEREMOVED                         "events-message/file-removed"
 #define SETTINGS_EVENTSMSG_FILEREMOVED_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "File {filename} removed by {user}")
+#define SETTINGS_EVENTSMSG_CONNECTED                         "events-message/connected-to-server"
+#define SETTINGS_EVENTSMSG_CONNECTED_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "Disconnected from {server}")
+#define SETTINGS_EVENTSMSG_DISCONNECTED                         "events-message/disconnected-from-server"
+#define SETTINGS_EVENTSMSG_DISCONNECTED_DEFAULT                 QT_TRANSLATE_NOOP("MainWindow", "Disconnected from {server}")
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"

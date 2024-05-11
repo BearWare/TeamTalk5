@@ -2047,7 +2047,12 @@ void MainWindow::connectToServer()
 void MainWindow::disconnectFromServer()
 {
     if (!timerExists(TIMER_RECONNECT))
-        addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED?tr("Disconnected from %1").arg(limitText(_Q(m_srvprop.szServerName))):tr("Disconnected from server")));
+    {
+        QString eventMsg = ttSettings->value(SETTINGS_EVENTSMSG_DISCONNECTED, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_DISCONNECTED_DEFAULT)).toString();
+        eventMsg.replace("{server}", TT_GetFlags(ttInst) & CLIENT_AUTHORIZED?limitText(_Q(m_srvprop.szServerName)):tr("server"));
+        addStatusMsg(STATUSBAR_BYPASS, eventMsg);
+        addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, eventMsg);
+    }
     TT_Disconnect(ttInst);
 
     // sync user settings to cache
@@ -2087,7 +2092,6 @@ void MainWindow::disconnectFromServer()
     if(m_sysicon)
         m_sysicon->setIcon(QIcon(APPTRAYICON));
 
-    addStatusMsg(STATUSBAR_BYPASS, tr("Logged out from %1, TCP port %2, UDP port %3").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
     updateWindowTitle();
 }
 
@@ -2102,11 +2106,12 @@ void MainWindow::login()
     if (cmdid>0)
         m_commands.insert(cmdid, CMD_COMPLETE_LOGIN);
 
-    addStatusMsg(STATUSBAR_BYPASS, tr("Connected to %1 TCP port %2 UDP port %3")
-        .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
     ServerProperties prop = {};
     TT_GetServerProperties(ttInst, &prop);
-    addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Connected to %1").arg(limitText(_Q(prop.szServerName))));
+    QString eventMsg = ttSettings->value(SETTINGS_EVENTSMSG_CONNECTED, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_CONNECTED_DEFAULT)).toString();
+    eventMsg.replace("{server}", limitText(_Q(prop.szServerName)));
+    addStatusMsg(STATUSBAR_BYPASS, eventMsg);
+    addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, eventMsg);
 
     //query server's max payload
     if(ttSettings->value(SETTINGS_CONNECTION_QUERYMAXPAYLOAD, SETTINGS_CONNECTION_QUERYMAXPAYLOAD_DEFAULT).toBool())
