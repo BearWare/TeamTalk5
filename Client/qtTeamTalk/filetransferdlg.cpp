@@ -19,6 +19,7 @@
 #include "appinfo.h"
 #include "settings.h"
 #include "utilsound.h"
+#include "utilui.h"
 
 #include <QDir>
 #include <QUrl>
@@ -79,17 +80,8 @@ void FileTransferDlg::updateFileTransfer(const FileTransfer& transfer)
     setWindowTitle(_Q(transfer.szRemoteFileName));
     ui.filenameLabel->setText(_Q(transfer.szRemoteFileName));
     ui.filenameLabel->setAccessibleName(QString("%1 %2").arg(ui.label->text()).arg(_Q(transfer.szRemoteFileName)));
-    if(transfer.nFileSize>=1024)
-    {
-        ui.filesizeLabel->setText(QString("%1 KBytes")
-                                    .arg(transfer.nFileSize/1024));
-        ui.filesizeLabel->setAccessibleName(QString("%1 %2 KBytes").arg(ui.label_2->text()).arg(transfer.nFileSize/1024));
-    }
-    else
-    {
-        ui.filesizeLabel->setText(QString("%1 Bytes").arg(transfer.nFileSize));
-        ui.filesizeLabel->setAccessibleName(QString("%1 %2 Bytes").arg(ui.label_2->text()).arg(transfer.nFileSize));
-    }
+    ui.filesizeLabel->setText(getFormattedFileSize(transfer.nFileSize));
+    ui.filesizeLabel->setAccessibleName(QString("%1 %2").arg(ui.label_2->text()).arg(getFormattedFileSize(transfer.nFileSize)));
     double percent = 100.0;
     if(transfer.nFileSize)
         percent = transfer.nTransferred * 100 / transfer.nFileSize;
