@@ -6,6 +6,7 @@ Version 5.17, unreleased
 Default Qt Client
 - "Connect to a Server" dialog simplied with multiple sub dialogs
 - Reset label of files list when disconnected from server
+- "Check for Update" in "Help" menu
 Android Client
 -
 iOS Client

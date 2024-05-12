@@ -252,7 +252,7 @@ private:
     void enableHotKey(HotKeyID id, const hotkey_t& hk);
     void disableHotKey(HotKeyID id);
     void pttHotKey(bool active);
-    void checkAppUpdate();
+    void checkAppUpdate(bool manualCheck = false);
     void toggleAllowStreamType(bool checked, int userid, int channelid, StreamType st);
     void toggleAllowStreamTypeForAll(bool checked, StreamType st);
     void toggleAllowStreamType(bool checked, StreamType st);
@@ -425,7 +425,7 @@ private:
 
     void slotLoadTTFile(const QString& filepath);
 
-    void slotSoftwareUpdateReply(QNetworkReply* reply);
+    void slotSoftwareUpdateReply(QNetworkReply* reply, bool manualCheck = false);
     void slotBearWareAuthReply(QNetworkReply* reply);
     void slotCmdSuccess(int cmdid);
     void slotClosedOnlineUsersDlg(int);
