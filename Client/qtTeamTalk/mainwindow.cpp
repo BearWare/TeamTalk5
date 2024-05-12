@@ -6197,6 +6197,7 @@ void MainWindow::slotUpdateUI()
     ui.actionLowerMediaFileVolume->setEnabled(userid>0 && user.nVolumeMediaFile > SOUND_VOLUME_MIN);
     ui.actionStoreForMove->setEnabled(userid>0 && (userrights & USERRIGHT_MOVE_USERS));
     ui.actionMoveUser->setEnabled(m_moveusers.size() && (userrights & USERRIGHT_MOVE_USERS));
+    ui.actionMoveUsersDialog->setEnabled(userrights & USERRIGHT_MOVE_USERS);
     ui.actionRelayVoiceStream->setEnabled(userid > 0 && !voiceactivated && !voicetx);
     ui.actionRelayVoiceStream->setChecked(userid > 0 && userid == m_relayvoice_userid);
     ui.actionRelayMediaFileStream->setEnabled(userid > 0 && !voiceactivated && !voicetx);
