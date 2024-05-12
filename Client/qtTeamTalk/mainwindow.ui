@@ -1320,6 +1320,7 @@
     <addaction name="actionResetPreferencesToDefault"/>
     <addaction name="actionVisitBearWare"/>
     <addaction name="separator"/>
+    <addaction name="actionCheckUpdate"/>
     <addaction name="actionAbout"/>
    </widget>
    <addaction name="menuClient"/>
@@ -1456,6 +1457,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+T</string>
+   </property>
+  </action>
+  <action name="actionCheckUpdate">
+   <property name="text">
+    <string>&amp;Check for Update</string>
    </property>
   </action>
   <action name="actionAbout">
