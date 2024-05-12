@@ -1211,6 +1211,7 @@
      <addaction name="separator"/>
      <addaction name="actionStoreForMove"/>
      <addaction name="actionMoveUser"/>
+     <addaction name="actionMoveUsersDialog"/>
      <addaction name="separator"/>
      <addaction name="separator"/>
      <addaction name="actionRelayVoiceStream"/>
@@ -1897,6 +1898,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+V</string>
+   </property>
+  </action>
+  <action name="actionMoveUsersDialog">
+   <property name="text">
+    <string>Move Users &amp;Dialog</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+M</string>
    </property>
   </action>
   <action name="actionVisitBearWare">

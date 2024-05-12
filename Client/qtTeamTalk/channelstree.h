@@ -45,6 +45,7 @@ public:
 
     QVector<int> getUsersInChannel(int channelid) const;
     QVector<int> getUsers() const;
+    QVector<int> getChannels() const;
     users_t getUsers(int channelid) const;
 
     void getTransmitUsers(int channelid, QMap<int, StreamTypes>& transmitUsers) const;

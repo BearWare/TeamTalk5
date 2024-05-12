@@ -332,6 +332,7 @@ private:
     void slotUsersAdvancedDecVolumeMediaFile();
     void slotUsersAdvancedStoreForMove(int userid = 0);
     void slotUsersAdvancedMoveUsers();
+    void slotUsersAdvancedMoveUsersDialog();
     void slotUsersAdvancedChanMsgAllowed(bool checked=false);
     void slotUsersAdvancedVoiceAllowed(bool checked=false);
     void slotUsersAdvancedVideoAllowed(bool checked=false);
