@@ -311,7 +311,7 @@ QString getFormattedDateTime(QString originalDateTimeString, QString format)
     return formattedDateTime;
 }
 
-QString getFormattedFileSize(int filesize)
+QString getFormattedFileSize(qint64 filesize)
 {
     QString formattedFileSize;
 #if QT_VERSION < QT_VERSION_CHECK(5,10,0)
