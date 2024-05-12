@@ -520,6 +520,10 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotHelpResetPreferences);
     connect(ui.actionVisitBearWare, &QAction::triggered,
             this, &MainWindow::slotHelpVisitBearWare);
+    connect(ui.actionCheckUpdate, &QAction::triggered,
+            this, [this]() {
+                checkAppUpdate(true);
+            });
     connect(ui.actionAbout, &QAction::triggered,
             this, &MainWindow::slotHelpAbout);
     /* End - Help menu */
@@ -3936,7 +3940,7 @@ void MainWindow::executeDesktopInput(const DesktopInput& input)
 }
 #endif
 
-void MainWindow::checkAppUpdate()
+void MainWindow::checkAppUpdate(bool manualCheck/* = false*/)
 {
     // check for software update and get bearware.dk web-login url
     bool beta = ttSettings->value(SETTINGS_DISPLAY_APPUPDATE_BETA, SETTINGS_DISPLAY_APPUPDATE_BETA_DEFAULT).toBool();
@@ -3944,7 +3948,9 @@ void MainWindow::checkAppUpdate()
 
     auto networkMgr = new QNetworkAccessManager(this);
     connect(networkMgr, &QNetworkAccessManager::finished,
-            this, &MainWindow::slotSoftwareUpdateReply);
+            this, [this, manualCheck](QNetworkReply* reply) {
+                slotSoftwareUpdateReply(reply, manualCheck);
+            });
 
     QNetworkRequest request(url);
     networkMgr->get(request);
@@ -7316,66 +7322,74 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
     connectToServer();
 }
 
-void MainWindow::slotSoftwareUpdateReply(QNetworkReply* reply)
+void MainWindow::slotSoftwareUpdateReply(QNetworkReply* reply, bool manualCheck)
 {
     QByteArray data = reply->readAll();
 
     QDomDocument doc("foo");
+    bool updateFound = false;
     if(doc.setContent(data))
     {
-        if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE, SETTINGS_DISPLAY_APPUPDATE_DEFAULT).toBool())
+        QString version = newVersionAvailable(doc);
+        QString betaVersion = newBetaVersionAvailable(doc);
+        if(version.size() || betaVersion.size())
         {
-            QString version = newVersionAvailable(doc);
-            if (version.size())
+            updateFound = true;
+            if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE, SETTINGS_DISPLAY_APPUPDATE_DEFAULT).toBool())
             {
-                QString downloadurl = downloadUpdateURL(doc);
-                if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE_DLG, SETTINGS_DISPLAY_APPUPDATE_DLG_DEFAULT).toBool())
+                if (version.size())
                 {
-                    QMessageBox answer;
-                    answer.setText(tr("A new version of %1 is available: %2. Do you wish to open the download page now?").arg(APPNAME_SHORT).arg(version));
-                    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
-                    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
-                    Q_UNUSED(NoButton);
-                    answer.setIcon(QMessageBox::Question);
-                    answer.setWindowTitle(tr("New version available"));
-                    answer.exec();
+                    QString downloadurl = downloadUpdateURL(doc);
+                    if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE_DLG, SETTINGS_DISPLAY_APPUPDATE_DLG_DEFAULT).toBool())
+                    {
+                        QMessageBox answer;
+                        answer.setText(tr("A new version of %1 is available: %2. Do you wish to open the download page now?").arg(APPNAME_SHORT).arg(version));
+                        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+                        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+                        Q_UNUSED(NoButton);
+                        answer.setIcon(QMessageBox::Question);
+                        answer.setWindowTitle(tr("New version available"));
+                        answer.exec();
 
-                    if(answer.clickedButton() == YesButton)
-                        QDesktopServices::openUrl(downloadurl);
+                        if(answer.clickedButton() == YesButton)
+                            QDesktopServices::openUrl(downloadurl);
+                    }
+                    else
+                        addStatusMsg(STATUSBAR_BYPASS, tr("New version available: %1\r\nYou can download it on the page below:\r\n%2").arg(version).arg(downloadurl));
                 }
-                else
-                    addStatusMsg(STATUSBAR_BYPASS, tr("New version available: %1\r\nYou can download it on the page below:\r\n%2").arg(version).arg(downloadurl));
             }
-        }
 
-        if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE_BETA, SETTINGS_DISPLAY_APPUPDATE_BETA_DEFAULT).toBool())
-        {
-            QString version = newBetaVersionAvailable(doc);
-            if (version.size())
+            if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE_BETA, SETTINGS_DISPLAY_APPUPDATE_BETA_DEFAULT).toBool())
             {
-                QString downloadurl = downloadBetaUpdateURL(doc);
-                if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE_DLG, SETTINGS_DISPLAY_APPUPDATE_DLG_DEFAULT).toBool())
+                if (betaVersion.size())
                 {
-                    QMessageBox answer;
-                    answer.setText(tr("A new beta version of %1 is available: %2. Do you wish to open the download page now?").arg(APPNAME_SHORT).arg(version));
-                    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
-                    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
-                    Q_UNUSED(NoButton);
-                    answer.setIcon(QMessageBox::Question);
-                    answer.setWindowTitle(tr("New beta version available"));
-                    answer.exec();
+                    QString downloadurl = downloadBetaUpdateURL(doc);
+                    if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE_DLG, SETTINGS_DISPLAY_APPUPDATE_DLG_DEFAULT).toBool())
+                    {
+                        QMessageBox answer;
+                        answer.setText(tr("A new beta version of %1 is available: %2. Do you wish to open the download page now?").arg(APPNAME_SHORT).arg(betaVersion));
+                        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+                        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+                        Q_UNUSED(NoButton);
+                        answer.setIcon(QMessageBox::Question);
+                        answer.setWindowTitle(tr("New beta version available"));
+                        answer.exec();
 
-                    if(answer.clickedButton() == YesButton)
-                        QDesktopServices::openUrl(downloadurl);
+                        if(answer.clickedButton() == YesButton)
+                            QDesktopServices::openUrl(downloadurl);
+                    }
+                    else
+                        addStatusMsg(STATUSBAR_BYPASS, tr("New beta version available: %1\r\nYou can download it on the page below:\r\n%2").arg(betaVersion).arg(downloadurl));
                 }
-                else
-                    addStatusMsg(STATUSBAR_BYPASS, tr("New beta version available: %1\r\nYou can download it on the page below:\r\n%2").arg(version).arg(downloadurl));
             }
         }
 
         BearWareLoginDlg::registerUrl = getBearWareRegistrationUrl(doc);
     }
-
+    if(!updateFound && manualCheck)
+    {
+        QMessageBox::information(this, tr("Check for Update"), tr("%1 is up to date.").arg(APPNAME_SHORT));
+    }
     reply->manager()->deleteLater();
 }
 
