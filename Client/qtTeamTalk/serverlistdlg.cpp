@@ -318,7 +318,7 @@ void ServerListDlg::restoreSelectedHost(const HostEntry& entry)
     auto servers = m_model->getServers();
     for (int i=0;i<servers.size();++i)
     {
-        if (servers[i].sameHost(entry, false))
+        if (servers[i].sameHost(entry, false) || (servers[i].channel != entry.channel || servers[i].chanpasswd != entry.chanpasswd))
         {
             auto srcIndex = m_proxyModel->mapFromSource(m_model->index(i, 0));
             ui.serverTreeView->setCurrentIndex(srcIndex);
