@@ -1316,7 +1316,7 @@ void MainWindow::clienteventCmdFileRemove(const RemoteFile& file)
         if (TT_GetUserByUsername(ttInst, file.szUsername, &user))
         {
             QString filerem = ttSettings->value(SETTINGS_EVENTSMSG_FILEREMOVED, QCoreApplication::translate("MainWindow", SETTINGS_EVENTSMSG_FILEREMOVED_DEFAULT)).toString();
-            filerem.replace("{filename}", _Q(file.szFileName)).replace("{user}", m_host.username != _Q(file.szUsername)?_Q(file.szUsername):tr("You"));
+            filerem.replace("{filename}", _Q(file.szFileName)).replace("{user}", m_host.username != _Q(file.szUsername)?getDisplayName(user):tr("You"));
             addStatusMsg(STATUSBAR_FILE_REMOVE, filerem);
             addTextToSpeechMessage(TTS_FILE_REMOVE, filerem);
         }
