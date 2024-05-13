@@ -86,6 +86,8 @@ class ServerListDlg : public QDialog
 public:
     ServerListDlg(QWidget * parent = 0);
     ~ServerListDlg();
+    HostEntry getHostEntry() const;
+    bool isLatestHost();
 
 protected:
     void keyPressEvent(QKeyEvent* e) override;
@@ -98,6 +100,8 @@ private:
 
     QNetworkAccessManager* m_httpsrvlist_manager = nullptr, *m_http_srvpublish_manager = nullptr;
     std::unique_ptr<HostEncryption> m_setup_encryption;
+    bool m_latesthost = false;
+    HostEntry m_hostentry;
 
     void restoreSelectedHost(const HostEntry& entry);
     void showLatestHosts();

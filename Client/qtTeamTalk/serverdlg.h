@@ -52,6 +52,7 @@ private:
     ServerDlgType m_type;
     void generateEntryName();
     void slotToggledWebLogin();
+    void slotToggledLastChannel();
     bool isServerNameUnique(const QString& serverName);
 };
 

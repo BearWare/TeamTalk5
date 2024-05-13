@@ -440,6 +440,7 @@ void ServerListDlg::slotConnect()
             return;
         if (!host.sameHost(latestHost, true))
             addLatestHost(host);
+        m_hostentry = host;
         this->accept();
     }
 }
@@ -688,6 +689,7 @@ bool ServerListDlg::getSelectedHost(HostEntry& host)
         {
             getServerEntry(currentIndex, host, true);
         }
+        m_latesthost = true;
         return true;
     }
     else if (ui.serverTreeView->hasFocus())
@@ -701,6 +703,16 @@ bool ServerListDlg::getSelectedHost(HostEntry& host)
         return true;
     }
     return false;
+}
+
+bool ServerListDlg::isLatestHost()
+{
+    return m_latesthost;
+}
+
+HostEntry ServerListDlg::getHostEntry() const
+{
+    return m_hostentry;
 }
 
 void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)

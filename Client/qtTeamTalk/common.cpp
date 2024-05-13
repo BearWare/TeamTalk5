@@ -170,6 +170,8 @@ void setServerEntry(int index, const HostEntry& host, bool latesthost/* = false*
     ttSettings->setValue(QString((latesthost?SETTINGS_LATESTHOST_USERNAME:SETTINGS_SERVERENTRIES_USERNAME)).arg(index), host.username); 
     ttSettings->setValue(QString((latesthost?SETTINGS_LATESTHOST_PASSWORD:SETTINGS_SERVERENTRIES_PASSWORD)).arg(index), host.password); 
     ttSettings->setValue(QString((latesthost?SETTINGS_LATESTHOST_NICKNAME:SETTINGS_SERVERENTRIES_NICKNAME)).arg(index), host.nickname); 
+    if (!latesthost)
+        ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_LASTCHANNEL).arg(index), host.lastChan);
     ttSettings->setValue(QString((latesthost?SETTINGS_LATESTHOST_CHANNEL:SETTINGS_SERVERENTRIES_CHANNEL)).arg(index), host.channel); 
     ttSettings->setValue(QString((latesthost?SETTINGS_LATESTHOST_CHANNELPASSWD:SETTINGS_SERVERENTRIES_CHANNELPASSWD)).arg(index), host.chanpasswd); 
 }
@@ -188,6 +190,8 @@ bool getServerEntry(int index, HostEntry& host, bool latesthost/* = false*/)
     host.username = ttSettings->value(QString((latesthost?SETTINGS_LATESTHOST_USERNAME:SETTINGS_SERVERENTRIES_USERNAME)).arg(index)).toString();
     host.password = ttSettings->value(QString((latesthost?SETTINGS_LATESTHOST_PASSWORD:SETTINGS_SERVERENTRIES_PASSWORD)).arg(index)).toString();
     host.nickname = ttSettings->value(QString((latesthost?SETTINGS_LATESTHOST_NICKNAME:SETTINGS_SERVERENTRIES_NICKNAME)).arg(index)).toString();
+    if (!latesthost)
+        host.lastChan = ttSettings->value(QString(SETTINGS_SERVERENTRIES_LASTCHANNEL).arg(index)).toBool();
     host.channel = ttSettings->value(QString((latesthost?SETTINGS_LATESTHOST_CHANNEL:SETTINGS_SERVERENTRIES_CHANNEL)).arg(index)).toString();
     host.chanpasswd = ttSettings->value(QString((latesthost?SETTINGS_LATESTHOST_CHANNELPASSWD:SETTINGS_SERVERENTRIES_CHANNELPASSWD)).arg(index)).toString();
     return host.ipaddr.size();
@@ -214,6 +218,8 @@ void deleteServerEntry(const QString& name, bool latesthost/* = false*/)
         ttSettings->remove(QString((latesthost?SETTINGS_LATESTHOST_USERNAME:SETTINGS_SERVERENTRIES_USERNAME)).arg(index));
         ttSettings->remove(QString((latesthost?SETTINGS_LATESTHOST_PASSWORD:SETTINGS_SERVERENTRIES_PASSWORD)).arg(index));
         ttSettings->remove(QString((latesthost?SETTINGS_LATESTHOST_NICKNAME:SETTINGS_SERVERENTRIES_NICKNAME)).arg(index));
+        if (!latesthost)
+            ttSettings->remove(QString(SETTINGS_SERVERENTRIES_LASTCHANNEL).arg(index));
         ttSettings->remove(QString((latesthost?SETTINGS_LATESTHOST_CHANNEL:SETTINGS_SERVERENTRIES_CHANNEL)).arg(index));
         ttSettings->remove(QString((latesthost?SETTINGS_LATESTHOST_CHANNELPASSWD:SETTINGS_SERVERENTRIES_CHANNELPASSWD)).arg(index));
         index++;

@@ -154,6 +154,7 @@ private:
 
     //current host
     HostEntry m_host;
+    bool m_latesthost = false;
     //client instance's user account
     UserAccount m_myuseraccount;
     //ping and tx/rx information

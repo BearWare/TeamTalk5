@@ -8,6 +8,7 @@ Default Qt Client
 - Reset label of files list when disconnected from server
 - Locale file size now also use in "file transfer" dialog
 - "Check for Update" in "Help" menu
+- Ability to join Last Joined Channel for each server individually
 Android Client
 -
 iOS Client

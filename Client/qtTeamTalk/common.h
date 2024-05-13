@@ -91,6 +91,7 @@ struct HostEntry
     QString username;
     QString password;
     QString nickname;
+    bool lastChan = false;
     QString channel;
     QString chanpasswd;
     //tt-file specific
