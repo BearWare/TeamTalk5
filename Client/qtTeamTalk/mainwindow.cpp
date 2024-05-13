@@ -45,6 +45,7 @@
 #include "utilvideo.h"
 #include "utiltts.h"
 #include "utilxml.h"
+#include "moveusersdlg.h"
 
 #include <QMessageBox>
 #include <QInputDialog>
@@ -440,6 +441,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotUsersAdvancedStoreForMove);
     connect(ui.actionMoveUser, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedMoveUsers);
+    connect(ui.actionMoveUsersDialog, &QAction::triggered,
+            this, &MainWindow::slotUsersAdvancedMoveUsersDialog);
     connect(ui.actionAllowChannelTextMessages, &QAction::triggered,
             this, &MainWindow::slotUsersAdvancedChanMsgAllowed);
     connect(ui.actionAllowVoiceTransmission, &QAction::triggered,
@@ -5024,13 +5027,27 @@ void MainWindow::slotUsersAdvancedStoreForMove(int userid /*= 0*/)
 void MainWindow::slotUsersAdvancedMoveUsers()
 {
     int chanid = ui.channelsWidget->selectedChannel(true);
-    if(chanid>0)
+    if (chanid > 0)
+        moveUsersToChannel(chanid);
+}
+
+void MainWindow::slotUsersAdvancedMoveUsersDialog()
+{
+    MoveUsersDlg dlg(ui.channelsWidget->getUsers(), ui.channelsWidget->getChannels());
+    if (dlg.exec() == QDialog::Accepted)
     {
-        for(int i=0;i<m_moveusers.size();i++)
-            TT_DoMoveUser(ttInst, m_moveusers[i], chanid);
+        m_moveusers = dlg.getSelectedUserIds();
+        moveUsersToChannel(dlg.getSelectedChannelId());
     }
+}
+
+void MainWindow::moveUsersToChannel(int chanid)
+{
+    for (auto userid : m_moveusers)
+        TT_DoMoveUser(ttInst, userid, chanid);
+
     Channel chan;
-    TT_GetChannel(ttInst, chanid, &chan);
+    ui.channelsWidget->getChannel(chanid, chan);
     QString usersmoved;
     if(chan.nParentID == 0)
     {
@@ -5039,7 +5056,7 @@ void MainWindow::slotUsersAdvancedMoveUsers()
     }
     else
     {
-        usersmoved = tr("Selected users has been moved to channel %1").arg(chan.szName);
+        usersmoved = tr("Selected users has been moved to channel %1").arg(_Q(chan.szName));
     }
     addTextToSpeechMessage(TTS_MENU_ACTIONS, usersmoved);
     slotUpdateUI();
@@ -6172,6 +6189,7 @@ void MainWindow::slotUpdateUI()
     ui.actionLowerMediaFileVolume->setEnabled(userid>0 && user.nVolumeMediaFile > SOUND_VOLUME_MIN);
     ui.actionStoreForMove->setEnabled(userid>0 && (userrights & USERRIGHT_MOVE_USERS));
     ui.actionMoveUser->setEnabled(m_moveusers.size() && (userrights & USERRIGHT_MOVE_USERS));
+    ui.actionMoveUsersDialog->setEnabled(userrights & USERRIGHT_MOVE_USERS);
     ui.actionRelayVoiceStream->setEnabled(userid > 0 && !voiceactivated && !voicetx);
     ui.actionRelayVoiceStream->setChecked(userid > 0 && userid == m_relayvoice_userid);
     ui.actionRelayMediaFileStream->setEnabled(userid > 0 && !voiceactivated && !voicetx);

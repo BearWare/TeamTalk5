@@ -212,6 +212,15 @@ QVector<int> ChannelsTree::getUsers() const
     return result;
 }
 
+QVector<int> ChannelsTree::getChannels() const
+{
+    QVector<int> result;
+    channels_t::const_iterator ite;
+    for(ite = m_channels.begin();ite!=m_channels.end();ite++)
+        result.push_back(ite->nChannelID);
+    return result;
+}
+
 users_t ChannelsTree::getUsers(int channelid) const
 {
     users_t users;
