@@ -179,6 +179,11 @@ void ServerDlg::slotToggledWebLogin()
 
 void ServerDlg::slotToggledLastChannel()
 {
+    if (!ui->lastChanChkBox->isChecked())
+    {
+        ui->channelEdit->setText("");
+        ui->chanpasswdEdit->setText("");
+    }
     ui->channel_label->setVisible(!ui->lastChanChkBox->isChecked());
     ui->channelEdit->setVisible(!ui->lastChanChkBox->isChecked());
     ui->chanpsw_label->setVisible(!ui->lastChanChkBox->isChecked());
