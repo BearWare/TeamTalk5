@@ -4481,6 +4481,8 @@ void MainWindow::slotClientExit(bool /*checked =false */)
     if(Tolk_IsLoaded())
         Tolk_Unload();
 #endif
+    if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
+        disconnectFromServer();
     QApplication::quit();
 }
 
