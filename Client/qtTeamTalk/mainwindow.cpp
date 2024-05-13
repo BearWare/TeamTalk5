@@ -5027,41 +5027,27 @@ void MainWindow::slotUsersAdvancedStoreForMove(int userid /*= 0*/)
 void MainWindow::slotUsersAdvancedMoveUsers()
 {
     int chanid = ui.channelsWidget->selectedChannel(true);
-    if(chanid>0)
-    {
-        for(int i=0;i<m_moveusers.size();i++)
-            TT_DoMoveUser(ttInst, m_moveusers[i], chanid);
-    }
-    Channel chan;
-    TT_GetChannel(ttInst, chanid, &chan);
-    QString usersmoved;
-    if(chan.nParentID == 0)
-    {
-        QString rootchan = tr("root");
-        usersmoved = tr("Selected users has been moved to channel %1").arg(rootchan);
-    }
-    else
-    {
-        usersmoved = tr("Selected users has been moved to channel %1").arg(chan.szName);
-    }
-    addTextToSpeechMessage(TTS_MENU_ACTIONS, usersmoved);
-    slotUpdateUI();
-    m_moveusers.clear();
+    if (chanid > 0)
+        moveUsersToChannel(chanid);
 }
 
 void MainWindow::slotUsersAdvancedMoveUsersDialog()
 {
-    int chanid;
     MoveUsersDlg dlg(ui.channelsWidget->getUsers(), ui.channelsWidget->getChannels());
     if (dlg.exec() == QDialog::Accepted)
     {
         m_moveusers = dlg.getSelectedUserIds();
-        chanid = dlg.getSelectedChannelId();
-        for(int i=0;i<m_moveusers.size();i++)
-            TT_DoMoveUser(ttInst, m_moveusers[i], chanid);
+        moveUsersToChannel(dlg.getSelectedChannelId());
     }
+}
+
+void MainWindow::moveUsersToChannel(int chanid)
+{
+    for (auto userid : m_moveusers)
+        TT_DoMoveUser(ttInst, userid, chanid);
+
     Channel chan;
-    TT_GetChannel(ttInst, chanid, &chan);
+    ui.channelsWidget->getChannel(chanid, chan);
     QString usersmoved;
     if(chan.nParentID == 0)
     {
@@ -5070,7 +5056,7 @@ void MainWindow::slotUsersAdvancedMoveUsersDialog()
     }
     else
     {
-        usersmoved = tr("Selected users has been moved to channel %1").arg(chan.szName);
+        usersmoved = tr("Selected users has been moved to channel %1").arg(_Q(chan.szName));
     }
     addTextToSpeechMessage(TTS_MENU_ACTIONS, usersmoved);
     slotUpdateUI();
