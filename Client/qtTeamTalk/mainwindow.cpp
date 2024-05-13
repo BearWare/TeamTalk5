@@ -2056,11 +2056,21 @@ void MainWindow::disconnectFromServer()
     
     if (m_latesthost == false && m_host.lastChan == true)
     {
+        if (TT_GetMyChannelID(ttInst) > 0)
+        {
+            TTCHAR cpath[TT_STRLEN];
+            if (TT_GetChannelPath(ttInst, m_mychannel.nChannelID, cpath))
+            {
+                m_host.channel = _Q(cpath);
+                m_host.chanpasswd = _Q(m_mychannel.szPassword);
+            }
+        }
+        else
+        {
+            m_host.channel = "";
+            m_host.chanpasswd = "";
+        }
         deleteServerEntry(m_host.name);
-        TTCHAR cpath[TT_STRLEN];
-        TT_GetChannelPath(ttInst, m_mychannel.nChannelID, cpath);
-        m_host.channel = _Q(cpath);
-        m_host.chanpasswd = _Q(m_mychannel.szPassword);
         addServerEntry(m_host);
     }
 
