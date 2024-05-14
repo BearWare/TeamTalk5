@@ -348,9 +348,9 @@ void ServerListDlg::deleteLatestHostEntry()
 
 void ServerListDlg::clearLatestHosts()
 {
-    HostEntry host = HostEntry();
-    for (int i=0; i<ui.hostListWidget->count(); i++)
+    for (int i=ui.hostListWidget->count()-1; i >= 0; --i)
     {
+        HostEntry host;
         if (getServerEntry(i, host, true))
             deleteServerEntry(host.name, true);
     }
