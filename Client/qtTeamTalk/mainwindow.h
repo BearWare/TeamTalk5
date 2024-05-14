@@ -260,6 +260,7 @@ private:
     void relayAudioStream(int userid, StreamType st, bool enable);
     void enableVoiceActivation(bool checked, SoundEvent on = SOUNDEVENT_VOICEACTON, SoundEvent off = SOUNDEVENT_VOICEACTOFF);
     void updateClassroomChannel(const Channel& oldchan, const Channel& newchan);
+    void moveUsersToChannel(int chanid);
 #if defined(Q_OS_LINUX)
     void executeDesktopInput(const DesktopInput& input);
 #endif
@@ -332,6 +333,7 @@ private:
     void slotUsersAdvancedDecVolumeMediaFile();
     void slotUsersAdvancedStoreForMove(int userid = 0);
     void slotUsersAdvancedMoveUsers();
+    void slotUsersAdvancedMoveUsersDialog();
     void slotUsersAdvancedChanMsgAllowed(bool checked=false);
     void slotUsersAdvancedVoiceAllowed(bool checked=false);
     void slotUsersAdvancedVideoAllowed(bool checked=false);
