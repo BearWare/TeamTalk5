@@ -1,5 +1,4 @@
 /*
-/*
  * Copyright (C) 2023, Bjørn D. Rasmussen, BearWare.dk
  *
  * This program is free software: you can redistribute it and/or modify
@@ -342,7 +341,7 @@ void ServerListDlg::deleteLatestHostEntry()
     HostEntry host;
     int i = ui.hostListWidget->currentRow();
     if (getServerEntry(i, host, true))
-        deleteServerEntry(host.name, true);
+        deleteServerEntry(host);
     showLatestHosts();
 }
 
@@ -352,7 +351,7 @@ void ServerListDlg::clearLatestHosts()
     {
         HostEntry host;
         if (getServerEntry(i, host, true))
-            deleteServerEntry(host.name, true);
+            deleteServerEntry(host);
     }
     showLatestHosts();
 }
@@ -469,7 +468,7 @@ void ServerListDlg::refreshServerList()
     m_nextid = 0;
     int index = 0;
     HostEntryEx entry;
-    while (getServerEntry(index++, entry))
+    while (getServerEntry(index++, entry, false))
     {
         entry.id = ++m_nextid;
         m_model->addServer(entry, SERVERTYPE_LOCAL);
@@ -509,7 +508,7 @@ void ServerListDlg::deleteSelectedServer()
         if (answer.clickedButton() == YesButton)
         {
             RestoreIndex ri(ui.serverTreeView);
-            deleteServerEntry(servers[srcIndex.row()].name);
+            deleteServerEntry(servers[srcIndex.row()]);
             refreshServerList();
             ui.serverTreeView->setFocus();
         }
@@ -525,7 +524,7 @@ void ServerListDlg::editSelectedServer()
     if (dlg.exec() == QDialog::Accepted)
     {
         HostEntry updatedHost = dlg.GetHostEntry();
-        deleteServerEntry(host.name);
+        deleteServerEntry(host);
         addServerEntry(updatedHost);
         if (dlg.connectToServer())
             connectToHost(updatedHost);
@@ -689,7 +688,6 @@ bool ServerListDlg::getSelectedHost(HostEntry& host)
         {
             getServerEntry(currentIndex, host, true);
         }
-        m_latesthost = true;
         return true;
     }
     else if (ui.serverTreeView->hasFocus())
@@ -703,11 +701,6 @@ bool ServerListDlg::getSelectedHost(HostEntry& host)
         return true;
     }
     return false;
-}
-
-bool ServerListDlg::isLatestHost()
-{
-    return m_latesthost;
 }
 
 HostEntry ServerListDlg::getHostEntry() const
