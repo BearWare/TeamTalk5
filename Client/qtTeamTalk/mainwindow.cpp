@@ -6210,7 +6210,6 @@ void MainWindow::slotUpdateUI()
     ui.actionIncreaseMediaFileVolume->setEnabled(userid>0 && user.nVolumeMediaFile < SOUND_VOLUME_MAX);
     ui.actionLowerMediaFileVolume->setEnabled(userid>0 && user.nVolumeMediaFile > SOUND_VOLUME_MIN);
     ui.actionStoreForMove->setEnabled(userid>0 && (userrights & USERRIGHT_MOVE_USERS));
-    ui.actionMoveUser->setEnabled(m_moveusers.size() && (userrights & USERRIGHT_MOVE_USERS));
     ui.actionMoveUsersDialog->setEnabled(userrights & USERRIGHT_MOVE_USERS);
     ui.actionRelayVoiceStream->setEnabled(userid > 0 && !voiceactivated && !voicetx);
     ui.actionRelayVoiceStream->setChecked(userid > 0 && userid == m_relayvoice_userid);
@@ -6254,6 +6253,7 @@ void MainWindow::slotUpdateUI()
     ui.actionUploadFile->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_UPLOAD_FILES);
     ui.actionDownloadFile->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_DOWNLOAD_FILES);
     ui.actionDeleteFile->setEnabled(filescount>0);
+    ui.actionMoveUser->setEnabled(m_moveusers.size() && (userrights & USERRIGHT_MOVE_USERS));
 
     //Users-menu items dependent on Channel
     bool modchan = (userrights & USERRIGHT_MODIFY_CHANNELS) == USERRIGHT_MODIFY_CHANNELS;

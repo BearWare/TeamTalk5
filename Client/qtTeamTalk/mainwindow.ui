@@ -1210,7 +1210,6 @@
      <addaction name="actionLowerMediaFileVolume"/>
      <addaction name="separator"/>
      <addaction name="actionStoreForMove"/>
-     <addaction name="actionMoveUser"/>
      <addaction name="actionMoveUsersDialog"/>
      <addaction name="separator"/>
      <addaction name="separator"/>
@@ -1297,6 +1296,7 @@
     <addaction name="actionUploadFile"/>
     <addaction name="actionDownloadFile"/>
     <addaction name="actionDeleteFile"/>
+    <addaction name="actionMoveUser"/>
    </widget>
    <widget class="QMenu" name="menuServer">
     <property name="title">
@@ -1607,6 +1607,14 @@
     <string>Shift+Del</string>
    </property>
   </action>
+  <action name="actionMoveUser">
+   <property name="text">
+    <string>&amp;Move User(s)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+V</string>
+   </property>
+  </action>
   <action name="actionBannedUsers">
    <property name="text">
     <string>&amp;Banned Users</string>
@@ -1896,14 +1904,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+X</string>
-   </property>
-  </action>
-  <action name="actionMoveUser">
-   <property name="text">
-    <string>&amp;Move User(s)</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Alt+V</string>
    </property>
   </action>
   <action name="actionMoveUsersDialog">

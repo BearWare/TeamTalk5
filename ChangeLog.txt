@@ -11,6 +11,7 @@ Default Qt Client
 - "Check for Update" in "Help" menu
 - Ability to join Last Joined Channel for each server individually
 - Use Qt checkable flag in user rights list to allow screenreader to see if an item is checked
+- Moved "Move User" option from users menu to channels menu, to allow the option usage as wel, raather than only shortcut usage
 Android Client
 -
 iOS Client
