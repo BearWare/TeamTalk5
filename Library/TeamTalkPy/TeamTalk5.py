@@ -1606,10 +1606,7 @@ class TeamTalk(object):
 
     def startRecordingMuxedAudioFileEx(self, nChannelID, szAudioFileName, uAFF: AudioFileFormat) -> bool:
         return _StartRecordingMuxedAudioFileEx(self._tt, nChannelID, szAudioFileName, uAFF)
-    
-    def stoptRecordingMuxedAudioFileEx(self, nChannelID):
-        return _StopRecordingMuxedAudioFileEx(self._tt, nChannelID)    
-
+   
     def startStreamingMediaFileToChannel(self, szMediaFilePath, lpVideoCodec: VideoCodec) -> bool:
         return _StartStreamingMediaFileToChannel(self._tt, szMediaFilePath, lpVideoCodec)
 
