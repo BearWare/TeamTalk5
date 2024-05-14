@@ -82,6 +82,7 @@ struct HostEncryption
 struct HostEntry
 {
     QString name;
+    bool latesthost = false;
     QString ipaddr;
     int tcpport = DEFAULT_TCPPORT;
     int udpport = DEFAULT_UDPPORT;
@@ -177,9 +178,9 @@ void addLatestHost(const HostEntry& host);
 
 //server entries in settings file
 void addServerEntry(const HostEntry& host);
-void setServerEntry(int index, const HostEntry& host, bool latesthost = false);
-bool getServerEntry(int index, HostEntry& host, bool latesthost = false);
-void deleteServerEntry(const QString& name, bool latesthost = false);
+void setServerEntry(int index, const HostEntry& host);
+bool getServerEntry(int index, HostEntry& host, bool latesthost);
+void deleteServerEntry(const HostEntry& host);
 
 //get desktop access list
 void addDesktopAccessEntry(const DesktopAccessEntry& entry);
