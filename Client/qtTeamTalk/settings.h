@@ -413,6 +413,7 @@
 #define SETTINGS_SERVERENTRIES_USERNAME             "serverentries/%1_username"
 #define SETTINGS_SERVERENTRIES_PASSWORD             "serverentries/%1_password"
 #define SETTINGS_SERVERENTRIES_NICKNAME             "serverentries/%1_nickname"
+#define SETTINGS_SERVERENTRIES_LASTCHANNEL              "serverentries/%1_join-last-channel"
 #define SETTINGS_SERVERENTRIES_CHANNEL              "serverentries/%1_channel"
 #define SETTINGS_SERVERENTRIES_CHANNELPASSWD        "serverentries/%1_chanpassword"
 

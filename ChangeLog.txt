@@ -9,6 +9,7 @@ Default Qt Client
 - "Move Users" dialog
 - Locale file size now also use in "file transfer" dialog
 - "Check for Update" in "Help" menu
+- Ability to join Last Joined Channel for each server individually
 - Use Qt checkable flag in user rights list to allow screenreader to see if an item is checked
 Android Client
 -

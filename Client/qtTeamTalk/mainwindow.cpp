@@ -2056,6 +2056,27 @@ void MainWindow::disconnectFromServer()
 {
     if (!timerExists(TIMER_RECONNECT))
         addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED?tr("Disconnected from %1").arg(limitText(_Q(m_srvprop.szServerName))):tr("Disconnected from server")));
+    
+    if (m_host.latesthost == false && m_host.lastChan == true)
+    {
+        if (m_mychannel.nChannelID > 0)
+        {
+            TTCHAR cpath[TT_STRLEN];
+            if (TT_GetChannelPath(ttInst, m_mychannel.nChannelID, cpath))
+            {
+                m_host.channel = _Q(cpath);
+                m_host.chanpasswd = _Q(m_mychannel.szPassword);
+            }
+        }
+        else
+        {
+            m_host.channel = "";
+            m_host.chanpasswd = "";
+        }
+        deleteServerEntry(m_host);
+        addServerEntry(m_host);
+    }
+
     TT_Disconnect(ttInst);
 
     // sync user settings to cache
@@ -4174,8 +4195,7 @@ void MainWindow::slotClientConnect(bool /*checked =false */)
         ServerListDlg dlg(this);
         if(dlg.exec())
         {
-            m_host = HostEntry();
-            getServerEntry(0, m_host, true);
+            m_host = dlg.getHostEntry();
             m_channel_passwd[CHANNELID_TEMPPASSWORD] = m_host.chanpasswd;
             connectToServer();
         }
@@ -4473,6 +4493,8 @@ void MainWindow::slotClientExit(bool /*checked =false */)
     if(Tolk_IsLoaded())
         Tolk_Unload();
 #endif
+    if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
+        disconnectFromServer();
     QApplication::quit();
 }
 
@@ -4502,7 +4524,7 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
             TT_DoChangeNickname(ttInst, (s.isEmpty() && !ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString().isEmpty())?_W(ttSettings->value(SETTINGS_GENERAL_NICKNAME).toString()):_W(s));
             HostEntry tmp = HostEntry();
             int serv, lasthost, index = 0;
-            while(getServerEntry(index, tmp))
+            while (getServerEntry(index, tmp, false))
             {
                 if (m_host.sameHost(tmp, false))
                     serv = index;

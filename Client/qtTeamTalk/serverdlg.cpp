@@ -51,6 +51,8 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
     });
     connect(ui->bdkLogChkBox, &QCheckBox::toggled,
             this, &ServerDlg::slotToggledWebLogin);
+    connect(ui->lastChanChkBox, &QCheckBox::toggled,
+            this, &ServerDlg::slotToggledLastChannel);
     connect(ui->passwordChkBox, &QAbstractButton::clicked,
             this, [&](bool checked) { ui->passwordEdit->setEchoMode(checked ? QLineEdit::Normal : QLineEdit::Password); } );
     connect(ui->chanpasswordChkBox, &QAbstractButton::clicked,
@@ -81,6 +83,7 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
         ui->usernameEdit->setReadOnly(true);
         ui->passwordEdit->setReadOnly(true);
         ui->nicknameEdit->setReadOnly(true);
+        ui->lastChanChkBox->setEnabled(false);
         ui->channelEdit->setReadOnly(true);
         ui->chanpasswdEdit->setReadOnly(true);
         ui->connectSrvBox->setEnabled(false);
@@ -95,9 +98,11 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
     ui->udpportSpinbox->setValue(m_hostentry.udpport);
     ui->cryptChkBox->setChecked(m_hostentry.encrypted);
     ui->bdkLogChkBox->setChecked(isWebLogin(m_hostentry.username, true));
+    ui->lastChanChkBox->setChecked(m_hostentry.lastChan);
     ui->usernameEdit->setText(m_hostentry.username);
     ui->passwordEdit->setText(m_hostentry.password);
     ui->nicknameEdit->setText(m_hostentry.nickname);
+    ui->lastChanChkBox->setChecked(m_hostentry.lastChan);
     ui->channelEdit->setText(m_hostentry.channel);
     ui->chanpasswdEdit->setText(m_hostentry.chanpasswd);
 }
@@ -119,6 +124,7 @@ HostEntry ServerDlg::GetHostEntry() const
     newhostentry.username = ui->usernameEdit->text();
     newhostentry.password = isWebLogin(ui->usernameEdit->text(), true)?"":ui->passwordEdit->text();
     newhostentry.nickname = ui->nicknameEdit->text();
+    newhostentry.lastChan = ui->lastChanChkBox->isChecked();
     newhostentry.channel = ui->channelEdit->text();
     newhostentry.chanpasswd = ui->chanpasswdEdit->text();
 
@@ -169,6 +175,20 @@ void ServerDlg::slotToggledWebLogin()
     ui->passwdLabel->setVisible(!ui->bdkLogChkBox->isChecked());
     ui->passwordEdit->setVisible(!ui->bdkLogChkBox->isChecked());
     ui->passwordChkBox->setVisible(!ui->bdkLogChkBox->isChecked());
+}
+
+void ServerDlg::slotToggledLastChannel()
+{
+    if (!ui->lastChanChkBox->isChecked())
+    {
+        ui->channelEdit->setText("");
+        ui->chanpasswdEdit->setText("");
+    }
+    ui->channel_label->setVisible(!ui->lastChanChkBox->isChecked());
+    ui->channelEdit->setVisible(!ui->lastChanChkBox->isChecked());
+    ui->chanpsw_label->setVisible(!ui->lastChanChkBox->isChecked());
+    ui->chanpasswdEdit->setVisible(!ui->lastChanChkBox->isChecked());
+    ui->chanpasswordChkBox->setVisible(!ui->lastChanChkBox->isChecked());
 }
 
 bool ServerDlg::isServerNameUnique(const QString& serverName)

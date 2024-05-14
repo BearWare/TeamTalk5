@@ -1,5 +1,4 @@
 /*
-/*
  * Copyright (C) 2023, Bjørn D. Rasmussen, BearWare.dk
  *
  * This program is free software: you can redistribute it and/or modify
@@ -318,7 +317,7 @@ void ServerListDlg::restoreSelectedHost(const HostEntry& entry)
     auto servers = m_model->getServers();
     for (int i=0;i<servers.size();++i)
     {
-        if (servers[i].sameHost(entry, false))
+        if (servers[i].sameHost(entry, false) || (servers[i].channel != entry.channel || servers[i].chanpasswd != entry.chanpasswd))
         {
             auto srcIndex = m_proxyModel->mapFromSource(m_model->index(i, 0));
             ui.serverTreeView->setCurrentIndex(srcIndex);
@@ -342,17 +341,17 @@ void ServerListDlg::deleteLatestHostEntry()
     HostEntry host;
     int i = ui.hostListWidget->currentRow();
     if (getServerEntry(i, host, true))
-        deleteServerEntry(host.name, true);
+        deleteServerEntry(host);
     showLatestHosts();
 }
 
 void ServerListDlg::clearLatestHosts()
 {
-    HostEntry host = HostEntry();
-    for (int i=0; i<ui.hostListWidget->count(); i++)
+    for (int i=ui.hostListWidget->count()-1; i >= 0; --i)
     {
+        HostEntry host;
         if (getServerEntry(i, host, true))
-            deleteServerEntry(host.name, true);
+            deleteServerEntry(host);
     }
     showLatestHosts();
 }
@@ -440,6 +439,7 @@ void ServerListDlg::slotConnect()
             return;
         if (!host.sameHost(latestHost, true))
             addLatestHost(host);
+        m_hostentry = host;
         this->accept();
     }
 }
@@ -468,7 +468,7 @@ void ServerListDlg::refreshServerList()
     m_nextid = 0;
     int index = 0;
     HostEntryEx entry;
-    while (getServerEntry(index++, entry))
+    while (getServerEntry(index++, entry, false))
     {
         entry.id = ++m_nextid;
         m_model->addServer(entry, SERVERTYPE_LOCAL);
@@ -508,7 +508,7 @@ void ServerListDlg::deleteSelectedServer()
         if (answer.clickedButton() == YesButton)
         {
             RestoreIndex ri(ui.serverTreeView);
-            deleteServerEntry(servers[srcIndex.row()].name);
+            deleteServerEntry(servers[srcIndex.row()]);
             refreshServerList();
             ui.serverTreeView->setFocus();
         }
@@ -524,7 +524,7 @@ void ServerListDlg::editSelectedServer()
     if (dlg.exec() == QDialog::Accepted)
     {
         HostEntry updatedHost = dlg.GetHostEntry();
-        deleteServerEntry(host.name);
+        deleteServerEntry(host);
         addServerEntry(updatedHost);
         if (dlg.connectToServer())
             connectToHost(updatedHost);
@@ -701,6 +701,11 @@ bool ServerListDlg::getSelectedHost(HostEntry& host)
         return true;
     }
     return false;
+}
+
+HostEntry ServerListDlg::getHostEntry() const
+{
+    return m_hostentry;
 }
 
 void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
