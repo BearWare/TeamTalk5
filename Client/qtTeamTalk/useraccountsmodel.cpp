@@ -260,6 +260,7 @@ QVariant UserRightsModel::data(const QModelIndex & index, int role /*= Qt::Displ
         }
 
         break;
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     case Qt::AccessibleTextRole :
         switch (m_userrights[index.row()])
         {
@@ -269,6 +270,7 @@ QVariant UserRightsModel::data(const QModelIndex & index, int role /*= Qt::Displ
         default :
             return QString("%1: %2").arg(data(index, Qt::DisplayRole).toString()).arg((m_activeUserRights & m_userrights[index.row()])? tr("Enabled") : tr("Disabled"));
         }
+#endif
     case Qt::CheckStateRole :
         switch (m_userrights[index.row()])
         {
@@ -280,6 +282,11 @@ QVariant UserRightsModel::data(const QModelIndex & index, int role /*= Qt::Displ
         }
     }
     return QVariant();
+}
+
+Qt::ItemFlags UserRightsModel::flags(const QModelIndex &index) const
+{
+    return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable |  Qt::ItemIsEditable;
 }
 
 QModelIndex UserRightsModel::index(int row, int column, const QModelIndex & /*parent = QModelIndex()*/) const

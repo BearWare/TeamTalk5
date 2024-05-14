@@ -62,6 +62,7 @@ public:
     UserRightsModel(QObject* parent);
     int columnCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
     QModelIndex index(int row, int column, const QModelIndex & parent = QModelIndex()) const;
     QModelIndex parent(const QModelIndex & index) const;
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
