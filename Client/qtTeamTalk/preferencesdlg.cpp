@@ -30,6 +30,7 @@
 #include "utiltts.h"
 #include "utilui.h"
 #include "settings.h"
+#include "custominputdialog.h"
 
 #include <QDebug>
 #include <QMessageBox>
@@ -1165,7 +1166,6 @@ void PreferencesDlg::slotSaveChanges()
 #endif
 #endif
         ttSettings->setValue(SETTINGS_DISPLAY_TTSHEADER, ui.ttsTreeView->header()->saveState());
-        ttSettings->setValue(SETTINGS_TTS_SRVNAME, ui.ttsSrvNameChkBox->isChecked());
     }
 }
 
@@ -1737,7 +1737,6 @@ void PreferencesDlg::slotUpdateTTSTab()
     case TTSENGINE_NONE :
     break;
     }
-    ui.ttsSrvNameChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SRVNAME, SETTINGS_TTS_SRVNAME_DEFAULT).toBool());
 }
 
 void PreferencesDlg::slotTTSLocaleChanged(const QString& locale)
@@ -1971,10 +1970,36 @@ void PreferencesDlg::slotTTSEventToggled(const QModelIndex &index)
 {
     auto events = m_ttsmodel->getTTSEvents();
     TextToSpeechEvent e = TextToSpeechEvent(index.internalId());
+
     if (e & events)
+    {
         m_ttsmodel->setTTSEvents(events & ~e);
+    }
     else
+    {
         m_ttsmodel->setTTSEvents(events | e);
+
+        auto eventMap = UtilTTS::eventToSettingMap();
+        if (eventMap.contains(e))
+        {
+            const TTSEventInfo& eventInfo = eventMap[e];
+            QString paramKey = eventInfo.settingKey;
+
+            QString currentMessage = ttSettings->value(paramKey, UtilTTS::getDefaultValue(paramKey)).toString();
+
+            QHash<QString, QString> variables = eventInfo.variables;
+
+            CustomInputDialog dialog(tr("Customize Message"), tr("Customize Message"), currentMessage, variables, this);
+            if (dialog.exec() == QDialog::Accepted)
+            {
+                QString text = dialog.getText();
+                if (!text.isEmpty())
+                {
+                    ttSettings->setValue(paramKey, text);
+                }
+            }
+        }
+    }
 }
 
 void PreferencesDlg::slotTTSEnableAll(bool /*checked*/)

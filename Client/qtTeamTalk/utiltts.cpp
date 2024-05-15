@@ -32,6 +32,15 @@ extern QTextToSpeech* ttSpeech;
 
 extern QSettings* ttSettings;
 
+QHash<TTSEvents, TTSEventInfo> UtilTTS::eventToSettingMap()
+{
+    static QHash<TTSEvents, TTSEventInfo> map = {
+        { TTS_USER_LOGGEDIN, {"SETTINGS_TTSMSG_USER_LOGGEDIN", {{"{user}", tr("User")}, {"{server}", tr("Server")}} } },
+        { TTS_USER_LOGGEDOUT, {"SETTINGS_TTSMSG_USER_LOGGEDOUT", {{"{user}", tr("User")}, {"{server}", tr("Server")}} } },
+    };
+    return map;
+}
+
 void addTextToSpeechMessage(const QString& msg)
 {
     switch (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt())
@@ -85,4 +94,30 @@ void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
     {
         addTextToSpeechMessage(msg);
     }
+}
+
+QString UtilTTS::getDefaultValue(const QString& paramKey)
+{
+    switch(paramKey)
+    {
+        case "SETTINGS_TTSMSG_USER_LOGGEDIN" :
+            return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_USER_LOGGEDIN_DEFAULT);
+            break;
+        case "SETTINGS_TTSMSG_USER_LOGGEDOUT" :
+            return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_USER_LOGGEDOUT_DEFAULT);
+            break;
+    }
+    return QString();
+}
+
+QString UtilTTS::getTTSMessage(const QString& paramKey, const QHash<QString, QString>& variables)
+{
+    QString messageTemplate = ttSettings->value(paramKey, getDefaultValue(paramKey)).toString();
+
+    for (auto it = variables.constBegin(); it != variables.constEnd(); ++it)
+    {
+        messageTemplate.replace(it.key(), it.value());
+    }
+
+    return messageTemplate;
 }

@@ -341,8 +341,11 @@
 #define SETTINGS_TTS_SPEAKLISTS_DEFAULT                 true
 #endif
 #endif
-#define SETTINGS_TTS_SRVNAME                         "texttospeech/announce-server-name"
-#define SETTINGS_TTS_SRVNAME_DEFAULT                 true
+
+#define SETTINGS_TTSMSG_USER_LOGGEDIN                         "texttospeech-messages/user-logged-in"
+#define SETTINGS_TTSMSG_USER_LOGGEDIN_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} has logged in on {server}")
+#define SETTINGS_TTSMSG_USER_LOGGEDOUT                         "texttospeech/messages/user-logged-out"
+#define SETTINGS_TTSMSG_USER_LOGGEDOUT_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} has logged out from {server}")
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"

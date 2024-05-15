@@ -16,8 +16,12 @@
  */
 
 #include "ttseventsmodel.h"
+#include "settings.h"
 
 #include <QKeyEvent>
+#include <QInputDialog>
+
+extern QSettings* ttSettings;
 
 enum
 {
@@ -76,6 +80,7 @@ TTSEventsModel::TTSEventsModel(QObject* parent)
     m_ttsevents.push_back(TTS_TOGGLE_DESKTOPTRANSMISSION);
 
     m_ttsevents.push_back(TTS_SERVER_CONNECTIVITY);
+
 }
 
 QVariant TTSEventsModel::headerData ( int section, Qt::Orientation orientation, int role /*= Qt::DisplayRole*/ ) const
@@ -104,6 +109,7 @@ int TTSEventsModel::columnCount ( const QModelIndex & /*parent*/ /*= QModelIndex
 
 QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::DisplayRole*/ ) const
 {
+    QString displayName;
     switch(role)
     {
     case Qt::DisplayRole :
@@ -111,91 +117,138 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
         switch(m_ttsevents[index.row()])
         {
         case TTS_USER_LOGGEDIN :
-            return tr("User logged in");
+            displayName = tr("User logged in");
+            break;
         case TTS_USER_LOGGEDOUT :
-            return tr("User logged out");
+            displayName = tr("User logged out");
+            break;
         case TTS_USER_JOINED :
-            return tr("User joined channel");
+            displayName = tr("User joined channel");
+            break;
         case TTS_USER_LEFT :
-            return tr("User left channel");
+            displayName = tr("User left channel");
+            break;
         case TTS_USER_JOINED_SAME :
-            return tr("User join current channel");
+            displayName = tr("User join current channel");
+            break;
         case TTS_USER_LEFT_SAME :
-            return tr("User left current channel");
+            displayName = tr("User left current channel");
+            break;
         case TTS_USER_TEXTMSG_PRIVATE :
-            return tr("Received private message");
+            displayName = tr("Received private message");
+            break;
         case TTS_USER_TEXTMSG_PRIVATE_SEND :
-            return tr("Sent private message");
-         case TTS_USER_TEXTMSG_PRIVATE_TYPING :
-            return tr("User is typing a private text message in focused window");
+            displayName = tr("Sent private message");
+            break;
+        case TTS_USER_TEXTMSG_PRIVATE_TYPING :
+            displayName = tr("User is typing a private text message in focused window");
+            break;
         case TTS_USER_TEXTMSG_PRIVATE_TYPING_GLOBAL :
-           return tr("User is typing a private text message");
+            displayName = tr("User is typing a private text message");
+            break;
         case TTS_USER_QUESTIONMODE :
-            return tr("User enabled question mode");
+            displayName = tr("User enabled question mode");
+            break;
         case TTS_USER_TEXTMSG_CHANNEL :
-            return tr("Received channel message");
+            displayName = tr("Received channel message");
+            break;
         case TTS_USER_TEXTMSG_CHANNEL_SEND :
-            return tr("Sent channel message");
+            displayName = tr("Sent channel message");
+            break;
         case TTS_USER_TEXTMSG_BROADCAST :
-            return tr("Received broadcast message");
+            displayName = tr("Received broadcast message");
+            break;
         case TTS_USER_TEXTMSG_BROADCAST_SEND :
-            return tr("Sent broadcast message");
+            displayName = tr("Sent broadcast message");
+            break;
         case TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE :
-            return tr("Subscription private text message changed");
+            displayName = tr("Subscription private text message changed");
+            break;
         case TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL :
-            return tr("Subscription channel text message changed");
+            displayName = tr("Subscription channel text message changed");
+            break;
         case TTS_SUBSCRIPTIONS_TEXTMSG_BROADCAST :
-            return tr("Subscription broadcast text message changed");
+            displayName = tr("Subscription broadcast text message changed");
+            break;
         case TTS_SUBSCRIPTIONS_VOICE :
-            return tr("Subscription voice stream changed");
+            displayName = tr("Subscription voice stream changed");
+            break;
         case TTS_SUBSCRIPTIONS_VIDEO :
-            return tr("Subscription webcam stream changed");
+            displayName = tr("Subscription webcam stream changed");
+            break;
         case TTS_SUBSCRIPTIONS_DESKTOP :
-            return tr("Subscription shared desktop stream changed");
+            displayName = tr("Subscription shared desktop stream changed");
+            break;
         case TTS_SUBSCRIPTIONS_DESKTOPINPUT :
-            return tr("Subscription desktop access changed");
+            displayName = tr("Subscription desktop access changed");
+            break;
         case TTS_SUBSCRIPTIONS_MEDIAFILE :
-            return tr("Subscription media file stream changed");
+            displayName = tr("Subscription media file stream changed");
+            break;
         case TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE :
-            return tr("Subscription intercept private text message changed");
+            displayName = tr("Subscription intercept private text message changed");
+            break;
         case TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL :
-            return tr("Subscription intercept channel text message changed");
+            displayName = tr("Subscription intercept channel text message changed");
+            break;
         case TTS_SUBSCRIPTIONS_INTERCEPT_VOICE :
-            return tr("Subscription intercept voice stream changed");
+            displayName = tr("Subscription intercept voice stream changed");
+            break;
         case TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO :
-            return tr("Subscription intercept webcam stream changed");
+            displayName = tr("Subscription intercept webcam stream changed");
+            break;
         case TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP :
-            return tr("Subscription intercept desktop stream changed");
+            displayName = tr("Subscription intercept desktop stream changed");
+            break;
         case TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE :
-            return tr("Subscription intercept media file stream changed");
+            displayName = tr("Subscription intercept media file stream changed");
+            break;
         case TTS_CLASSROOM_CHANMSG_TX :
-            return tr("Classroom allow channel messages transmission changed");
+            displayName = tr("Classroom allow channel messages transmission changed");
+            break;
         case TTS_CLASSROOM_VOICE_TX :
-            return tr("Classroom allow voice transmission changed");
+            displayName = tr("Classroom allow voice transmission changed");
+            break;
         case TTS_CLASSROOM_VIDEO_TX :
-            return tr("Classroom allow webcam transmission changed");
+            displayName = tr("Classroom allow webcam transmission changed");
+            break;
         case TTS_CLASSROOM_DESKTOP_TX :
-            return tr("Classroom allow desktop transmission changed");
+            displayName = tr("Classroom allow desktop transmission changed");
+            break;
         case TTS_CLASSROOM_MEDIAFILE_TX :
-            return tr("Classroom allow media file transmission changed");
+            displayName = tr("Classroom allow media file transmission changed");
+            break;
         case TTS_FILE_ADD :
-            return tr("File added");
+            displayName = tr("File added");
+            break;
         case TTS_FILE_REMOVE :
-            return tr("File removed");
+            displayName = tr("File removed");
+            break;
         case TTS_MENU_ACTIONS :
-            return tr("Menu actions");
+            displayName = tr("Menu actions");
+            break;
         case TTS_TOGGLE_VOICETRANSMISSION :
-            return tr("Voice transmission mode toggled");
+            displayName = tr("Voice transmission mode toggled");
+            break;
         case TTS_TOGGLE_VIDEOTRANSMISSION :
-            return tr("Video transmission toggled");
+            displayName = tr("Video transmission toggled");
+            break;
         case TTS_TOGGLE_DESKTOPTRANSMISSION :
-            return tr("Desktop sharing toggled");
+            displayName = tr("Desktop sharing toggled");
+            break;
         case TTS_SERVER_CONNECTIVITY :
-            return tr("Server connectivity");
+            displayName = tr("Server connectivity");
+            break;
         case TTS_NEXT_UNUSED :
         case TTS_NONE :
             break;
         }
+        if (UtilTTS::eventToSettingMap().contains(m_ttsevents[index.row()]))
+        {
+            displayName += tr(" (Customizable)");
+        }
+
+        return displayName;
         break;
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     case Qt::AccessibleTextRole :
