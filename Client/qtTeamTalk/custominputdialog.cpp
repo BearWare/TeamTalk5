@@ -46,6 +46,7 @@ CustomInputDialog::CustomInputDialog(const QString& title, const QString& labelT
 
     QHBoxLayout* buttonLayout = new QHBoxLayout;
     QPushButton* okButton = new QPushButton(tr("OK"), this);
+    okButton->setDefault(true);
     QPushButton* cancelButton = new QPushButton(tr("Cancel"), this);
 
     buttonLayout->addStretch();
