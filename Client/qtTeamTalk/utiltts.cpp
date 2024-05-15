@@ -35,7 +35,7 @@ extern QSettings* ttSettings;
 QHash<TTSEvents, TTSEventInfo> UtilTTS::eventToSettingMap()
 {
     static QHash<TTSEvents, TTSEventInfo> map = {
-        { TTS_USER_LOGGEDIN, {"SETTINGS_TTSMSG_USER_LOGGEDIN", {{"{user}", tr("User")}, {"{server}", tr("Server")}} } },
+        { TTS_USER_LOGGEDIN, {SETTINGS_TTSMSG_USER_LOGGEDIN, {{"{user}", tr("User")}, {"{server}", tr("Server")}} } },
         { TTS_USER_LOGGEDOUT, {"SETTINGS_TTSMSG_USER_LOGGEDOUT", {{"{user}", tr("User")}, {"{server}", tr("Server")}} } },
     };
     return map;
@@ -98,7 +98,7 @@ void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
 
 QString UtilTTS::getDefaultValue(const QString& paramKey)
 {
-    if (paramKey == "SETTINGS_TTSMSG_USER_LOGGEDIN")
+    if (paramKey == SETTINGS_TTSMSG_USER_LOGGEDIN)
         return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_USER_LOGGEDIN_DEFAULT);
     if (paramKey == "SETTINGS_TTSMSG_USER_LOGGEDOUT")
         return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_USER_LOGGEDOUT_DEFAULT);

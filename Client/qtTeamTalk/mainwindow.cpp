@@ -1154,7 +1154,7 @@ void MainWindow::clienteventCmdUserLoggedIn(const User& user)
     {
         addStatusMsg(STATUSBAR_USER_LOGGEDIN, tr("%1 has logged in").arg(getDisplayName(user)));
         playSoundEvent(SOUNDEVENT_USERLOGGEDIN);
-        addTextToSpeechMessage(TTS_USER_LOGGEDIN, UtilTTS::getTTSMessage("SETTINGS_TTSMSG_USER_LOGGEDIN", {{"{user}", getDisplayName(user)}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
+        addTextToSpeechMessage(TTS_USER_LOGGEDIN, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_USER_LOGGEDIN, {{"{user}", getDisplayName(user)}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
     }
 
     // sync user settings from cache
