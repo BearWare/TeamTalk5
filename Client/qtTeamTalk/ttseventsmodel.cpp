@@ -274,7 +274,7 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
             if (msg.size() > 0)
                 result += " - " + msg;
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-            result += ": " + (m_ttsselected & m_ttsevents[index.row()])? tr("Enabled") : tr("Disabled"));
+            result += ": " + (m_ttsselected & m_ttsevents[index.row()])? tr("Enabled") : tr("Disabled");
 #endif
             return result;
         }
