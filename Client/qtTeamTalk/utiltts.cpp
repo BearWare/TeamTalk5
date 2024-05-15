@@ -36,7 +36,7 @@ QHash<TTSEvents, TTSEventInfo> UtilTTS::eventToSettingMap()
 {
     static QHash<TTSEvents, TTSEventInfo> map = {
         { TTS_USER_LOGGEDIN, {SETTINGS_TTSMSG_USER_LOGGEDIN, {{"{user}", tr("User")}, {"{server}", tr("Server")}} } },
-        { TTS_USER_LOGGEDOUT, {"SETTINGS_TTSMSG_USER_LOGGEDOUT", {{"{user}", tr("User")}, {"{server}", tr("Server")}} } },
+        { TTS_USER_LOGGEDOUT, {SETTINGS_TTSMSG_USER_LOGGEDOUT, {{"{user}", tr("User")}, {"{server}", tr("Server")}} } },
     };
     return map;
 }
@@ -115,4 +115,9 @@ QString UtilTTS::getTTSMessage(const QString& paramKey, const QHash<QString, QSt
     }
 
     return messageTemplate;
+}
+
+QString UtilTTS::getRawTTSMessage(const QString& paramKey)
+{
+    return ttSettings->value(paramKey, getDefaultValue(paramKey)).toString();
 }

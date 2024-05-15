@@ -254,18 +254,31 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
 
             return displayName;
         case COLUMN_MESSAGE :
-            return "CoBC: Display current message";
+        {
+            auto eventMap = UtilTTS::eventToSettingMap();
+            if (eventMap.contains(m_ttsevents[index.row()]))
+            {
+                QString paramKey = eventMap[m_ttsevents[index.row()]].settingKey;
+                return UtilTTS::getRawTTSMessage(paramKey);
+            }
+            return QVariant();
+        }
         }
         break;
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     case Qt::AccessibleTextRole :
         switch (index.column())
         {
         case COLUMN_NAME :
-            return QString("%1: %2").arg(data(index, Qt::DisplayRole).toString()).arg((m_ttsselected & m_ttsevents[index.row()])? tr("Enabled") : tr("Disabled"));
+            QString result = data(index, Qt::DisplayRole).toString();
+            QString msg = data(createIndex(index.row(), COLUMN_MESSAGE), Qt::DisplayRole).toString();
+            if (msg.size() > 0)
+                result += " - " + msg;
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+            result += ": " + (m_ttsselected & m_ttsevents[index.row()])? tr("Enabled") : tr("Disabled"));
+#endif
+            return result;
         }
         break;
-#endif
     case Qt::CheckStateRole :
         switch (index.column())
         {
