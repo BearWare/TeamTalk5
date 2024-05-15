@@ -119,6 +119,7 @@ public:
     static QHash<TTSEvents, TTSEventInfo> eventToSettingMap();
     static QString getDefaultValue(const QString& paramKey);
     static QString getTTSMessage(const QString& paramKey, const QHash<QString, QString>& variables);
+    static QString getRawTTSMessage(const QString& paramKey);
 };
 
 #endif
