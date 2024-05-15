@@ -98,15 +98,10 @@ void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
 
 QString UtilTTS::getDefaultValue(const QString& paramKey)
 {
-    switch(paramKey)
-    {
-        case "SETTINGS_TTSMSG_USER_LOGGEDIN" :
-            return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_USER_LOGGEDIN_DEFAULT);
-            break;
-        case "SETTINGS_TTSMSG_USER_LOGGEDOUT" :
-            return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_USER_LOGGEDOUT_DEFAULT);
-            break;
-    }
+    if (paramKey == "SETTINGS_TTSMSG_USER_LOGGEDIN")
+        return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_USER_LOGGEDIN_DEFAULT);
+    if (paramKey == "SETTINGS_TTSMSG_USER_LOGGEDOUT")
+        return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_USER_LOGGEDOUT_DEFAULT);
     return QString();
 }
 
