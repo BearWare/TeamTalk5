@@ -2187,7 +2187,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="1465"/>
         <source>&amp;Check for Update</source>
-        <translation type="unfinished"></translation>
+        <translation>检查更新(&amp;C)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1565"/>
@@ -2402,12 +2402,12 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="1911"/>
         <source>Move Users &amp;Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>移动用户对话框(&amp;D)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1914"/>
         <source>Ctrl+Alt+M</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+M</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1923"/>
@@ -3804,7 +3804,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="2100"/>
         <location filename="../mainwindow.cpp" line="2101"/>
         <source>Files in channel</source>
-        <translation type="unfinished"></translation>
+        <translation>频道中的文件</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2237"/>
@@ -4204,12 +4204,12 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="7431"/>
         <source>Check for Update</source>
-        <translation type="unfinished"></translation>
+        <translation>检查更新</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7431"/>
         <source>%1 is up to date.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 是最新版</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7506"/>
@@ -4733,27 +4733,27 @@ Should these settings be applied?</source>
         <location filename="../moveusersdlg.cpp" line="34"/>
         <location filename="../moveusersdlg.cpp" line="56"/>
         <source>Move Users</source>
-        <translation type="unfinished"></translation>
+        <translation>移动用户</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="39"/>
         <source>Users</source>
-        <translation type="unfinished">用户</translation>
+        <translation>用户</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="49"/>
         <source>&amp;Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>频道(&amp;C)</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="57"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="82"/>
         <source>Root Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>跟贫道</translation>
     </message>
 </context>
 <context>
@@ -6209,7 +6209,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverdlg.ui" line="238"/>
         <source>Latest Joined Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>最近加入贫道</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="245"/>
@@ -6472,7 +6472,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="798"/>
         <source>Co&amp;nnect</source>
-        <translation type="unfinished"></translation>
+        <translation>连接(&amp;n)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="799"/>
