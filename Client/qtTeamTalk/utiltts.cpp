@@ -35,8 +35,8 @@ extern QSettings* ttSettings;
 QHash<TTSEvents, TTSEventInfo> UtilTTS::eventToSettingMap()
 {
     static QHash<TTSEvents, TTSEventInfo> map = {
-        { TTS_USER_LOGGEDIN, {SETTINGS_TTSMSG_USER_LOGGEDIN, {{"{user}", tr("User")}, {"{server}", tr("Server")}} } },
-        { TTS_USER_LOGGEDOUT, {SETTINGS_TTSMSG_USER_LOGGEDOUT, {{"{user}", tr("User")}, {"{server}", tr("Server")}} } },
+        { TTS_USER_LOGGEDIN, {SETTINGS_TTSMSG_USER_LOGGEDIN, {{"{user}", tr("User's nickname who logged in")}, {"{server}", tr("Server's name on which user logged in")}} } },
+        { TTS_USER_LOGGEDOUT, {SETTINGS_TTSMSG_USER_LOGGEDOUT, {{"{user}", tr("User's nickname who logged out")}, {"{server}", tr("Server's name from which user logged in")}} } },
     };
     return map;
 }
