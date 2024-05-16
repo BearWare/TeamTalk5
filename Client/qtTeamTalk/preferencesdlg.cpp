@@ -1989,7 +1989,7 @@ void PreferencesDlg::slotTTSEventToggled(const QModelIndex &index)
 
             QHash<QString, QString> variables = eventInfo.variables;
 
-            CustomInputDialog dialog(tr("Customize Message"), tr("Message for event \"%1\"").arg(m_ttsmodel->data(index, Qt::DisplayRole).toString()), currentMessage, variables, this);
+            CustomInputDialog dialog(tr("Customize Message"), tr("Message for event \"%1\"").arg(eventInfo.eventName.size()>0?eventInfo.eventName:m_ttsmodel->data(index, Qt::DisplayRole).toString()), currentMessage, variables, this);
             if (dialog.exec() == QDialog::Accepted)
             {
                 QString text = dialog.getText();

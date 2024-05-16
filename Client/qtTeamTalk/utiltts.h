@@ -88,6 +88,7 @@ typedef qulonglong TTSEvents;
 struct TTSEventInfo {
     QString settingKey;
     QHash<QString, QString> variables;
+    QString eventName = QString("");
 };
 
 enum TextToSpeechEngine
