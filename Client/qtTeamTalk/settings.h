@@ -372,6 +372,8 @@
 #define SETTINGS_TTSMSG_BROADCASTMSGSEND_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "Broadcast message sent: {message}")
 #define SETTINGS_TTSMSG_SUBCHANGE                         "texttospeech/messages/subscription-change"
 #define SETTINGS_TTSMSG_SUBCHANGE_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "Subscription \"{type}\" {state} for {user}")
+#define SETTINGS_TTSMSG_CLASSROOM                         "texttospeech/messages/classroom-transmission-change"
+#define SETTINGS_TTSMSG_CLASSROOM_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "Transmission \"{type}\" {state} for {user}")
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"

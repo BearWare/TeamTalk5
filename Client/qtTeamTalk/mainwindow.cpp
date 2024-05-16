@@ -6517,76 +6517,78 @@ void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& n
     {
         User user = {};
         ui.channelsWidget->getUser(id, user);
-        QString strNo = tr("%1 can no longer transmit", "%1 can no longer transmit voice").arg(getDisplayName(user));
-        QString strYes = tr("%1 can now transmit", "%1 can now transmit voice").arg(getDisplayName(user));
+        QString nick = getDisplayName(user);
         if (id == TT_CLASSROOM_FREEFORALL)
-        {
-            strNo = tr("Everyone can no longer transmit", "Everyone can no longer transmit voice");
-            strYes = tr("Everyone can now transmit", "Everyone can now transmit voice");
-        }
+            nick = tr("Everyone");
         if (user.nUserID == TT_GetMyUserID(ttInst))
-        {
-            strNo = tr("You can no longer transmit", "You can no longer transmit voice");
-            strYes = tr("You can now transmit", "You can now transmit voice");
-        }
+            nick = tr("You");
 
-        QString msg;
+        QString type, state;
+        TextToSpeechEvent ttsType;
+        StatusBarEvent statusType;
         bool before = false, after = false;
         before = userCanChanMessage(id, oldchan);
         after = userCanChanMessage(id, newchan);
         if (before != after)
         {
+            type = tr("Channel messages");
             if (after)
-                msg = tr("%1 channel messages", "can now transmit ...").arg(strYes);
+                state = tr("Enabled");
             else
-                msg = tr("%1 channel messages", "can no longer transmit ...").arg(strNo);
-            addStatusMsg(STATUSBAR_CLASSROOM_CHANMSG_TX, msg);
-            addTextToSpeechMessage(TTS_CLASSROOM_CHANMSG_TX, msg);
+                state = tr("Disabled");
+            ttsType = TTS_CLASSROOM_CHANMSG_TX;
+            statusType = STATUSBAR_CLASSROOM_CHANMSG_TX;
         }
         before = userCanVoiceTx(id, oldchan);
         after = userCanVoiceTx(id, newchan);
         if (before != after)
         {
+            type = tr("Voice");
             if (after)
-                msg = tr("%1 voice", "can now transmit ...").arg(strYes);
+                state = tr("Enabled");
             else
-                msg = tr("%1 voice", "can no longer transmit...").arg(strNo);
-            addStatusMsg(STATUSBAR_CLASSROOM_VOICE_TX, msg);
-            addTextToSpeechMessage(TTS_CLASSROOM_VOICE_TX, msg);
+                state = tr("Disabled");
+            statusType = STATUSBAR_CLASSROOM_VOICE_TX;
+            ttsType = TTS_CLASSROOM_VOICE_TX;
         }
         before = userCanVideoTx(id, oldchan);
         after = userCanVideoTx(id, newchan);
         if (before != after)
         {
+            type = tr("Video");
             if (after)
-                msg = tr("%1 video", "can now transmit ...").arg(strYes);
+                state = tr("Enabled");
             else
-                msg = tr("%1 video", "can no longer transmit ...").arg(strNo);
-            addStatusMsg(STATUSBAR_CLASSROOM_VIDEO_TX, msg);
-            addTextToSpeechMessage(TTS_CLASSROOM_VIDEO_TX, msg);
+                state = tr("Disabled");
+            statusType = STATUSBAR_CLASSROOM_VIDEO_TX;
+            ttsType = TTS_CLASSROOM_VIDEO_TX;
         }
         before = userCanDesktopTx(id, oldchan);
         after = userCanDesktopTx(id, newchan);
         if (before != after)
         {
+            type = tr("Desktop windows");
             if (after)
-                msg = tr("%1 desktop windows", "can now transmit ...").arg(strYes);
+                state = tr("Enabled");
             else
-                msg = tr("%1 desktop windows", "can no longer transmit ...").arg(strNo);
-            addStatusMsg(STATUSBAR_CLASSROOM_DESKTOP_TX, msg);
-            addTextToSpeechMessage(TTS_CLASSROOM_DESKTOP_TX, msg);
+                state = tr("Disabled");
+            statusType = STATUSBAR_CLASSROOM_DESKTOP_TX;
+            ttsType = TTS_CLASSROOM_DESKTOP_TX;
         }
         before = userCanMediaFileTx(id, oldchan);
         after = userCanMediaFileTx(id, newchan);
         if (before != after)
         {
+            type = tr("Media files");
             if (after)
-                msg = tr("%1 media files", "can now transmit ...").arg(strYes);
+                state = tr("Enabled");
             else
-                msg = tr("%1 media files", "can no longer transmit ...").arg(strNo);
-            addStatusMsg(STATUSBAR_CLASSROOM_MEDIAFILE_TX, msg);
-            addTextToSpeechMessage(TTS_CLASSROOM_MEDIAFILE_TX, msg);
+                state = tr("Disabled");
+            statusType = STATUSBAR_CLASSROOM_MEDIAFILE_TX;
+            ttsType = TTS_CLASSROOM_MEDIAFILE_TX;
         }
+        addStatusMsg(statusType, tr("Transmission \"%1\" %2 for %3").arg(type).arg(state).arg(nick));
+        addTextToSpeechMessage(ttsType, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_CLASSROOM, {{"{type}", type}, {"{state}", state}, {"{user}", nick}}));
     }
 }
 

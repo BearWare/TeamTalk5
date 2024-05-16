@@ -64,6 +64,11 @@ QHash<TTSEvents, TTSEventInfo> UtilTTS::eventToSettingMap()
         { TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO, {SETTINGS_TTSMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
         { TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP, {SETTINGS_TTSMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
         { TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE, {SETTINGS_TTSMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
+        { TTS_CLASSROOM_CHANMSG_TX, {SETTINGS_TTSMSG_CLASSROOM, {{"{type}", tr("Transmission type")}, {"{state}", tr("Transmission state")}, {"{user}", tr("User concerns by change")}}, tr("Classroom transmission authorization change") } },
+        { TTS_CLASSROOM_VOICE_TX, {SETTINGS_TTSMSG_CLASSROOM, {{"{type}", tr("Transmission type")}, {"{state}", tr("Transmission state")}, {"{user}", tr("User concerns by change")}}, tr("Classroom transmission authorization change") } },
+        { TTS_CLASSROOM_VIDEO_TX, {SETTINGS_TTSMSG_CLASSROOM, {{"{type}", tr("Transmission type")}, {"{state}", tr("Transmission state")}, {"{user}", tr("User concerns by change")}}, tr("Classroom transmission authorization change") } },
+        { TTS_CLASSROOM_DESKTOP_TX, {SETTINGS_TTSMSG_CLASSROOM, {{"{type}", tr("Transmission type")}, {"{state}", tr("Transmission state")}, {"{user}", tr("User concerns by change")}}, tr("Classroom transmission authorization change") } },
+        { TTS_CLASSROOM_MEDIAFILE_TX, {SETTINGS_TTSMSG_CLASSROOM, {{"{type}", tr("Transmission type")}, {"{state}", tr("Transmission state")}, {"{user}", tr("User concerns by change")}}, tr("Classroom transmission authorization change") } },
     };
     return map;
 }
@@ -155,6 +160,8 @@ QString UtilTTS::getDefaultValue(const QString& paramKey)
         return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_BROADCASTMSGSEND_DEFAULT);
     if (paramKey == SETTINGS_TTSMSG_SUBCHANGE)
         return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_SUBCHANGE_DEFAULT);
+    if (paramKey == SETTINGS_TTSMSG_CLASSROOM)
+        return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_CLASSROOM_DEFAULT);
     return QString();
 }
 
