@@ -346,6 +346,14 @@
 #define SETTINGS_TTSMSG_USER_LOGGEDIN_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} has logged in on {server}")
 #define SETTINGS_TTSMSG_USER_LOGGEDOUT                         "texttospeech/messages/user-logged-out"
 #define SETTINGS_TTSMSG_USER_LOGGEDOUT_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} has logged out from {server}")
+#define SETTINGS_TTSMSG_USER_JOINED                         "texttospeech/messages/user-joined-channel"
+#define SETTINGS_TTSMSG_USER_JOINED_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} joined channel {channel}")
+#define SETTINGS_TTSMSG_USER_LEFT                         "texttospeech/messages/user-left-channel"
+#define SETTINGS_TTSMSG_USER_LEFT_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} left channel {channel}")
+#define SETTINGS_TTSMSG_USER_JOINED_SAME                         "texttospeech/messages/user-joined-same-channel"
+#define SETTINGS_TTSMSG_USER_JOINED_SAME_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} joined channel")
+#define SETTINGS_TTSMSG_USER_LEFT_SAME                         "texttospeech/messages/user-left-same-channel"
+#define SETTINGS_TTSMSG_USER_LEFT_SAME_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} left channel")
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"

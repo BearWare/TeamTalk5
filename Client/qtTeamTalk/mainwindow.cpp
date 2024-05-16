@@ -1193,23 +1193,19 @@ void MainWindow::clienteventCmdUserJoined(const User& user)
     {
         Channel chan = {};
         ui.channelsWidget->getChannel(user.nChannelID, chan);
-        QString userjoinchan = tr("%1 joined channel").arg(getDisplayName(user));
+        QString userjoinchanStatus = tr("%1 joined channel").arg(getDisplayName(user));
+        QString userjoinchanTTS = UtilTTS::getTTSMessage(SETTINGS_TTSMSG_USER_JOINED_SAME, {{"{user}", getDisplayName(user)}});
         TextToSpeechEvent ttsType = TTS_USER_JOINED_SAME;
         StatusBarEvent statusType = STATUSBAR_USER_JOINED_SAME;
-        if(chan.nParentID == 0 && user.nChannelID != m_mychannel.nChannelID)
+        if ((chan.nParentID == 0 && user.nChannelID != m_mychannel.nChannelID) || (user.nChannelID != m_mychannel.nChannelID))
         {
-            userjoinchan = QString(tr("%1 joined root channel").arg(getDisplayName(user)));
+            userjoinchanStatus = tr("%1 joined channel %2").arg(getDisplayName(user)).arg((chan.nParentID == 0 && user.nChannelID != m_mychannel.nChannelID)?tr("root"):_Q(chan.szName));
+            userjoinchanTTS = UtilTTS::getTTSMessage(SETTINGS_TTSMSG_USER_JOINED, {{"{user}", getDisplayName(user)}, {"{channel}", (chan.nParentID == 0 && user.nChannelID != m_mychannel.nChannelID)?tr("root"):_Q(chan.szName)}});
             ttsType = TTS_USER_JOINED;
             statusType = STATUSBAR_USER_JOINED;
         }
-        else if (user.nChannelID != m_mychannel.nChannelID)
-        {
-            userjoinchan = QString(tr("%1 joined channel %2").arg(getDisplayName(user)).arg(_Q(chan.szName)));
-            ttsType = TTS_USER_JOINED;
-            statusType = STATUSBAR_USER_JOINED;
-        }
-        addStatusMsg(statusType, userjoinchan);
-        addTextToSpeechMessage(ttsType, userjoinchan);
+        addStatusMsg(statusType, userjoinchanStatus);
+        addTextToSpeechMessage(ttsType, userjoinchanTTS);
     }
 
     // sync user settings from cache
@@ -1236,22 +1232,19 @@ void MainWindow::clienteventCmdUserLeft(int prevchannelid, const User& user)
     {
         Channel chan = {};
         ui.channelsWidget->getChannel(prevchannelid, chan);
-        QString userleftchan = tr("%1 left channel").arg(getDisplayName(user));
+        QString userleftchanStatus = tr("%1 left channel").arg(getDisplayName(user));
+        QString userleftchanTTS = UtilTTS::getTTSMessage(SETTINGS_TTSMSG_USER_LEFT_SAME, {{"{user}", getDisplayName(user)}});
         TextToSpeechEvent ttsType = TTS_USER_LEFT_SAME;
         StatusBarEvent statusType = STATUSBAR_USER_LEFT_SAME;
-        if (chan.nParentID == 0 && prevchannelid != m_mychannel.nChannelID)
+        if ((chan.nParentID == 0 && prevchannelid != m_mychannel.nChannelID) || (prevchannelid != m_mychannel.nChannelID))
         {
-            userleftchan = QString(tr("%1 left root channel").arg(getDisplayName(user)));
+            userleftchanStatus = tr("%1 left channel %2").arg(getDisplayName(user)).arg((chan.nParentID == 0 && user.nChannelID != m_mychannel.nChannelID)?tr("root"):_Q(chan.szName));
+            userleftchanTTS = UtilTTS::getTTSMessage(SETTINGS_TTSMSG_USER_LEFT, {{"{user}", getDisplayName(user)}, {"{channel}", (chan.nParentID == 0 && prevchannelid != m_mychannel.nChannelID)?tr("root"):_Q(chan.szName)}});
             ttsType = TTS_USER_LEFT;
             statusType = STATUSBAR_USER_LEFT;
         }
-        else if (prevchannelid != m_mychannel.nChannelID)
-        {
-            userleftchan = QString(tr("%1 left channel %2").arg(getDisplayName(user)).arg(_Q(chan.szName)));
-            statusType = STATUSBAR_USER_LEFT;
-        }
-        addStatusMsg(statusType, userleftchan);
-        addTextToSpeechMessage(ttsType, userleftchan);
+        addStatusMsg(statusType, userleftchanStatus);
+        addTextToSpeechMessage(ttsType, userleftchanTTS);
     }
 
     if ((m_myuseraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
