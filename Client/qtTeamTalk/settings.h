@@ -354,6 +354,22 @@
 #define SETTINGS_TTSMSG_USER_JOINED_SAME_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} joined channel")
 #define SETTINGS_TTSMSG_USER_LEFT_SAME                         "texttospeech/messages/user-left-same-channel"
 #define SETTINGS_TTSMSG_USER_LEFT_SAME_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} left channel")
+#define SETTINGS_TTSMSG_PRIVATEMSG                         "texttospeech/messages/private-message"
+#define SETTINGS_TTSMSG_PRIVATEMSG_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "Private message from {user}: {message}")
+#define SETTINGS_TTSMSG_PRIVATEMSGSEND                         "texttospeech/messages/private-message-send"
+#define SETTINGS_TTSMSG_PRIVATEMSGSEND_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "Private message sent: {message}")
+#define SETTINGS_TTSMSG_TYPING                         "texttospeech/messages/private-message-typing"
+#define SETTINGS_TTSMSG_TYPING_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} is typing...")
+#define SETTINGS_TTSMSG_QUESTIONMODE                         "texttospeech/messages/user-set-question-mode"
+#define SETTINGS_TTSMSG_QUESTIONMODE_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} set question mode")
+#define SETTINGS_TTSMSG_CHANNELMSG                         "texttospeech/messages/channel-message"
+#define SETTINGS_TTSMSG_CHANNELMSG_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "Channel message from {user}: {message}")
+#define SETTINGS_TTSMSG_CHANNELMSGSEND                         "texttospeech/messages/channel-message-send"
+#define SETTINGS_TTSMSG_CHANNELMSGSEND_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "Channel message sent: {message}")
+#define SETTINGS_TTSMSG_BROADCASTMSG                         "texttospeech/messages/broadcast-message"
+#define SETTINGS_TTSMSG_BROADCASTMSG_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "Broadcast message from {user}: {message}")
+#define SETTINGS_TTSMSG_BROADCASTMSGSEND                         "texttospeech/messages/broadcast-message-send"
+#define SETTINGS_TTSMSG_BROADCASTMSGSEND_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "Broadcast message sent: {message}")
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"

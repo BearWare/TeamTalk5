@@ -1269,7 +1269,7 @@ void MainWindow::clienteventCmdUserUpdate(const User& user)
         if ((prev_user.nStatusMode & STATUSMODE_QUESTION) == 0 && (user.nStatusMode & STATUSMODE_QUESTION))
         {
            playSoundEvent(SOUNDEVENT_QUESTIONMODE);
-           addTextToSpeechMessage(TTS_USER_QUESTIONMODE, tr("%1 set question mode").arg(getDisplayName(user)));
+           addTextToSpeechMessage(TTS_USER_QUESTIONMODE, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_QUESTIONMODE, {{"{user}", getDisplayName(user)}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
         }
     }
 
@@ -2923,12 +2923,12 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         {
             User user;
             if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
-                addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL, QString(tr("Channel message from %1: %2").arg(getDisplayName(user)).arg(textmsg.moreMessage)));
+                addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_CHANNELMSG, {{"{user}", getDisplayName(user)}, {"{message}", textmsg.moreMessage}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
             playSoundEvent(SOUNDEVENT_CHANNELMSG);
         }
         else
         {
-            addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL_SEND, QString(tr("Channel message sent: %1").arg(textmsg.moreMessage)));
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL_SEND, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_CHANNELMSGSEND, {{"{message}", textmsg.moreMessage}}));
             playSoundEvent(SOUNDEVENT_CHANNELMSGSENT);
         }
 
@@ -2942,7 +2942,7 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
 
         User user;
         if (ui.channelsWidget->getUser(textmsg.nFromUserID, user) && user.nUserID != TT_GetMyUserID(ttInst))
-            addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST, QString(tr("Broadcast message from %1: %2").arg(getDisplayName(user)).arg(textmsg.moreMessage)));
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_BROADCASTMSG, {{"{user}", getDisplayName(user)}, {"{message}", textmsg.moreMessage}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
         playSoundEvent(SOUNDEVENT_BROADCASTMSG);
         break;
     }
@@ -2952,7 +2952,7 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         emit(newTextMessage(textmsg));
         User user;
         if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
-            addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE, QString(tr("Private message from %1: %2").arg(getDisplayName(user)).arg(textmsg.moreMessage)));
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_PRIVATEMSG, {{"{user}", getDisplayName(user)}, {"{message}", textmsg.moreMessage}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
 
         if(ttSettings->value(SETTINGS_DISPLAY_MESSAGEPOPUP, SETTINGS_DISPLAY_MESSAGEPOPUP_DEFAULT).toBool())
         {
@@ -5714,7 +5714,7 @@ void MainWindow::slotServerBroadcastMessage(bool /*checked=false*/)
     msg.nMsgType = MSGTYPE_BROADCAST;
     msg.nFromUserID = TT_GetMyUserID(ttInst);
     sendTextMessage(msg, bcast);
-    addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST_SEND, tr("Broadcast message sent: %1").arg(bcast));
+    addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST_SEND, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_BROADCASTMSGSEND, {{"{message}", bcast}}));
 }
 
 void MainWindow::slotServerServerProperties(bool /*checked =false */)

@@ -173,7 +173,7 @@ void TextMessageDlg::slotSendTextMessage(const QString& txt_msg)
         newMsg(msg, true);
 
         playSoundEvent(SOUNDEVENT_USERMSGSENT);
-        addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_SEND, tr("Private message sent: %1").arg(txt_msg));
+        addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_SEND, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_PRIVATEMSGSEND, {{"{message}", txt_msg}}));
         m_textchanged = false;
     }
 }
@@ -218,9 +218,9 @@ void TextMessageDlg::newMsg(const MyTextMessage& msg, bool store)
                 if (TT_GetUser(ttInst, m_userid, &remoteuser))
                 {
                     if (!this->isActiveWindow())
-                        addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_TYPING_GLOBAL, tr("%1 is typing").arg(getDisplayName(remoteuser)));
+                        addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_TYPING_GLOBAL, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_TYPING, {{"{user}", getDisplayName(remoteuser)}}));
                     else
-                        addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_TYPING, tr("%1 is typing").arg(getDisplayName(remoteuser)));
+                        addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_TYPING, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_TYPING, {{"{user}", getDisplayName(remoteuser)}}));
                 }
                 if(m_remote_typing_id)
                     killTimer(m_remote_typing_id);

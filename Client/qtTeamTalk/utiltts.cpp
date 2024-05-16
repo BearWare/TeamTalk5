@@ -41,6 +41,15 @@ QHash<TTSEvents, TTSEventInfo> UtilTTS::eventToSettingMap()
         { TTS_USER_LEFT, {SETTINGS_TTSMSG_USER_LEFT, {{"{user}", tr("User's nickname who left channel")}, {"{channel}", tr("Channel's name left by user")}, {"{server}", tr("Server's name from which event was emited")}} } },
         { TTS_USER_JOINED_SAME, {SETTINGS_TTSMSG_USER_JOINED_SAME, {{"{user}", tr("User's nickname who joined channel")}} } },
         { TTS_USER_LEFT_SAME, {SETTINGS_TTSMSG_USER_LEFT_SAME, {{"{user}", tr("User's nickname who left channel")}} } },
+        { TTS_USER_TEXTMSG_PRIVATE, {SETTINGS_TTSMSG_PRIVATEMSG, {{"{user}", tr("User's nickname who sent message")}, {"{message}", tr("Message content")}, {"{server}", tr("Server's name from which event was emited")}} } },
+        { TTS_USER_TEXTMSG_PRIVATE_SEND, {SETTINGS_TTSMSG_PRIVATEMSGSEND, {{"{message}", tr("Message content")}} } },
+        { TTS_USER_TEXTMSG_PRIVATE_TYPING, {SETTINGS_TTSMSG_TYPING, {{"{user}", tr("User's nickname who is typing")}} } },
+        { TTS_USER_TEXTMSG_PRIVATE_TYPING_GLOBAL, {SETTINGS_TTSMSG_TYPING, {{"{user}", tr("User's nickname who is typing")}} } },
+        { TTS_USER_QUESTIONMODE, {SETTINGS_TTSMSG_QUESTIONMODE, {{"{user}", tr("User's nickname who set question mode")}, {"{server}", tr("Server's name from which event was emited")}} } },
+        { TTS_USER_TEXTMSG_CHANNEL, {SETTINGS_TTSMSG_CHANNELMSG, {{"{user}", tr("User's nickname who sent message")}, {"{message}", tr("Message content")}, {"{server}", tr("Server's name from which event was emited")}} } },
+        { TTS_USER_TEXTMSG_CHANNEL_SEND, {SETTINGS_TTSMSG_CHANNELMSGSEND, {{"{message}", tr("Message content")}} } },
+        { TTS_USER_TEXTMSG_BROADCAST, {SETTINGS_TTSMSG_BROADCASTMSG, {{"{user}", tr("User's nickname who sent message")}, {"{message}", tr("Message content")}, {"{server}", tr("Server's name from which event was emited")}} } },
+        { TTS_USER_TEXTMSG_BROADCAST_SEND, {SETTINGS_TTSMSG_BROADCASTMSGSEND, {{"{message}", tr("Message content")}} } },
     };
     return map;
 }
@@ -114,6 +123,22 @@ QString UtilTTS::getDefaultValue(const QString& paramKey)
         return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_USER_JOINED_SAME_DEFAULT);
     if (paramKey == SETTINGS_TTSMSG_USER_LEFT_SAME)
         return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_USER_LEFT_SAME_DEFAULT);
+    if (paramKey == SETTINGS_TTSMSG_PRIVATEMSG)
+        return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_PRIVATEMSG_DEFAULT);
+    if (paramKey == SETTINGS_TTSMSG_PRIVATEMSGSEND)
+        return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_PRIVATEMSGSEND_DEFAULT);
+    if (paramKey == SETTINGS_TTSMSG_TYPING)
+        return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_TYPING_DEFAULT);
+    if (paramKey == SETTINGS_TTSMSG_QUESTIONMODE)
+        return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_QUESTIONMODE_DEFAULT);
+    if (paramKey == SETTINGS_TTSMSG_CHANNELMSG)
+        return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_CHANNELMSG_DEFAULT);
+    if (paramKey == SETTINGS_TTSMSG_CHANNELMSGSEND)
+        return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_CHANNELMSGSEND_DEFAULT);
+    if (paramKey == SETTINGS_TTSMSG_BROADCASTMSG)
+        return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_BROADCASTMSG_DEFAULT);
+    if (paramKey == SETTINGS_TTSMSG_BROADCASTMSGSEND)
+        return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_BROADCASTMSGSEND_DEFAULT);
     return QString();
 }
 
