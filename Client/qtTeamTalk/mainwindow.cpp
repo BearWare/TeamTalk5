@@ -1172,7 +1172,7 @@ void MainWindow::clienteventCmdUserLoggedOut(const User& user)
     {
         addStatusMsg(STATUSBAR_USER_LOGGEDOUT, ((user.nStatusMode & STATUSMODE_FEMALE)?tr("%1 has logged out", "For female").arg(getDisplayName(user)):tr("%1 has logged out", "For male and neutral").arg(getDisplayName(user))));
         playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
-        addTextToSpeechMessage(TTS_USER_LOGGEDOUT, UtilTTS::getTTSMessage("SETTINGS_TTSMSG_USER_LOGGEDOUT", {{"{user}", getDisplayName(user)}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
+        addTextToSpeechMessage(TTS_USER_LOGGEDOUT, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_USER_LOGGEDOUT, {{"{user}", getDisplayName(user)}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
     }
 
     // sync user settings to cache
