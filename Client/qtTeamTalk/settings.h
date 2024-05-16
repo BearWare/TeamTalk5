@@ -374,6 +374,10 @@
 #define SETTINGS_TTSMSG_SUBCHANGE_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "Subscription \"{type}\" {state} for {user}")
 #define SETTINGS_TTSMSG_CLASSROOM                         "texttospeech/messages/classroom-transmission-change"
 #define SETTINGS_TTSMSG_CLASSROOM_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "Transmission \"{type}\" {state} for {user}")
+#define SETTINGS_TTSMSG_FILE_ADDED                         "texttospeech/messages/file-added"
+#define SETTINGS_TTSMSG_FILE_ADDED_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "File {filename} added by {user}")
+#define SETTINGS_TTSMSG_FILE_REMOVED                         "texttospeech/messages/file-removed"
+#define SETTINGS_TTSMSG_FILE_REMOVED_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "File {file} removed by {user}")
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"

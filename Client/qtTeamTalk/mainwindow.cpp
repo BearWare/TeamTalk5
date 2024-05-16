@@ -1289,15 +1289,11 @@ void MainWindow::clienteventCmdFileNew(const RemoteFile& file)
     {
         updateChannelFiles(file.nChannelID);
         playSoundEvent(SOUNDEVENT_FILESUPD);
-        QString fileadd = tr("File %1 added").arg(_Q(file.szFileName));
         User user;
-        if (m_host.username != _Q(file.szUsername) &&
-            TT_GetUserByUsername(ttInst, file.szUsername, &user))
-        {
-            fileadd = tr("File %1 added by %2").arg(_Q(file.szFileName)).arg(getDisplayName(user));
-        }
-        addStatusMsg(STATUSBAR_FILE_ADD, fileadd);
-        addTextToSpeechMessage(TTS_FILE_ADD, fileadd);
+        TT_GetUserByUsername(ttInst, file.szUsername, &user);
+        QString name = m_host.username != _Q(file.szUsername)?getDisplayName(user):tr("You");
+        addStatusMsg(STATUSBAR_FILE_ADD, tr("File %1 added by %2").arg(_Q(file.szFileName)).arg(name));
+        addTextToSpeechMessage(TTS_FILE_ADD, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{filesize}", getFormattedFileSize(file.nFileSize)}}));
     }
 }
 
@@ -1313,14 +1309,10 @@ void MainWindow::clienteventCmdFileRemove(const RemoteFile& file)
     {
         updateChannelFiles(file.nChannelID);
         playSoundEvent(SOUNDEVENT_FILESUPD);
-        QString filerem = tr("File %1 removed").arg(_Q(file.szFileName));
-        if (m_host.username != _Q(file.szUsername) &&
-            TT_GetUserByUsername(ttInst, file.szUsername, &user))
-        {
-            filerem = tr("File %1 removed by %2").arg(_Q(file.szFileName)).arg(getDisplayName(user));
-        }
-        addStatusMsg(STATUSBAR_FILE_REMOVE, filerem);
-        addTextToSpeechMessage(TTS_FILE_REMOVE, filerem);
+        TT_GetUserByUsername(ttInst, file.szUsername, &user);
+        QString name = m_host.username != _Q(file.szUsername)?getDisplayName(user):tr("You");
+        addStatusMsg(STATUSBAR_FILE_REMOVE, tr("File %1 removed by %2").arg(_Q(file.szFileName)).arg(name));
+        addTextToSpeechMessage(TTS_FILE_REMOVE, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_FILE_REMOVED, {{"{file}", _Q(file.szFileName)}, {"{user}", name}}));
     }
 }
 

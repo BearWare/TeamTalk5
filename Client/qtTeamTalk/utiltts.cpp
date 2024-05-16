@@ -69,6 +69,8 @@ QHash<TTSEvents, TTSEventInfo> UtilTTS::eventToSettingMap()
         { TTS_CLASSROOM_VIDEO_TX, {SETTINGS_TTSMSG_CLASSROOM, {{"{type}", tr("Transmission type")}, {"{state}", tr("Transmission state")}, {"{user}", tr("User concerns by change")}}, tr("Classroom transmission authorization change") } },
         { TTS_CLASSROOM_DESKTOP_TX, {SETTINGS_TTSMSG_CLASSROOM, {{"{type}", tr("Transmission type")}, {"{state}", tr("Transmission state")}, {"{user}", tr("User concerns by change")}}, tr("Classroom transmission authorization change") } },
         { TTS_CLASSROOM_MEDIAFILE_TX, {SETTINGS_TTSMSG_CLASSROOM, {{"{type}", tr("Transmission type")}, {"{state}", tr("Transmission state")}, {"{user}", tr("User concerns by change")}}, tr("Classroom transmission authorization change") } },
+        { TTS_FILE_ADD, {SETTINGS_TTSMSG_FILE_ADDED, {{"{filename}", tr("File name")}, {"{user}", tr("User's nickname who added the file")}, {"{filesize}", tr("File size")}} } },
+        { TTS_FILE_REMOVE, {SETTINGS_TTSMSG_FILE_REMOVED, {{"{file}", tr("File name")}, {"{user}", tr("User's nickname who removed the file")}} } },
     };
     return map;
 }
@@ -162,6 +164,10 @@ QString UtilTTS::getDefaultValue(const QString& paramKey)
         return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_SUBCHANGE_DEFAULT);
     if (paramKey == SETTINGS_TTSMSG_CLASSROOM)
         return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_CLASSROOM_DEFAULT);
+    if (paramKey == SETTINGS_TTSMSG_FILE_ADDED)
+        return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_FILE_ADDED_DEFAULT);
+    if (paramKey == SETTINGS_TTSMSG_FILE_REMOVED)
+        return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_FILE_REMOVED_DEFAULT);
     return QString();
 }
 
