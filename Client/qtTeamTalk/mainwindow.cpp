@@ -2834,13 +2834,14 @@ void MainWindow::subscribeCommon(bool checked, Subscriptions subs, int userid/* 
     {
         User user = {};
         ui.channelsWidget->getUser(userid, user);
+        QString state;
         if(checked)
         {
             int cmdid = TT_DoSubscribe(ttInst, userid, subs);
             if(cmdid>0)
             {
                 m_commands[cmdid] = CMD_COMPLETE_SUBSCRIBE;
-                addTextToSpeechMessage(subTypeTTS, tr("Subscription \"%1\" enabled for %2").arg(subType).arg(getDisplayName(user)));
+                state = tr("Enabled");
                 addStatusMsg(subTypeSB, tr("Subscription \"%1\" enabled for %2").arg(subType).arg(getDisplayName(user)));
             }
         }
@@ -2850,10 +2851,11 @@ void MainWindow::subscribeCommon(bool checked, Subscriptions subs, int userid/* 
             if(cmdid>0)
             {
                 m_commands[cmdid] = CMD_COMPLETE_UNSUBSCRIBE;
-                addTextToSpeechMessage(subTypeTTS, tr("Subscription \"%1\" disabled for %2").arg(subType).arg(getDisplayName(user)));
+                state = tr("Disabled");
                 addStatusMsg(subTypeSB, tr("Subscription \"%1\" disabled for %2").arg(subType).arg(getDisplayName(user)));
             }
         }
+        addTextToSpeechMessage(subTypeTTS, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_SUBCHANGE, {{"{user}", getDisplayName(user)}, {"{type}", subType}, {"{state}", state}}));
     }
 }
 

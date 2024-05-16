@@ -50,6 +50,21 @@ QHash<TTSEvents, TTSEventInfo> UtilTTS::eventToSettingMap()
         { TTS_USER_TEXTMSG_CHANNEL_SEND, {SETTINGS_TTSMSG_CHANNELMSGSEND, {{"{message}", tr("Message content")}} } },
         { TTS_USER_TEXTMSG_BROADCAST, {SETTINGS_TTSMSG_BROADCASTMSG, {{"{user}", tr("User's nickname who sent message")}, {"{message}", tr("Message content")}, {"{server}", tr("Server's name from which event was emited")}} } },
         { TTS_USER_TEXTMSG_BROADCAST_SEND, {SETTINGS_TTSMSG_BROADCASTMSGSEND, {{"{message}", tr("Message content")}} } },
+        { TTS_SUBSCRIPTIONS_TEXTMSG_PRIVATE, {SETTINGS_TTSMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}} } },
+        { TTS_SUBSCRIPTIONS_TEXTMSG_CHANNEL, {SETTINGS_TTSMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}} } },
+        { TTS_SUBSCRIPTIONS_TEXTMSG_BROADCAST, {SETTINGS_TTSMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}} } },
+        { TTS_SUBSCRIPTIONS_VOICE, {SETTINGS_TTSMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}} } },
+        { TTS_SUBSCRIPTIONS_VIDEO, {SETTINGS_TTSMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}} } },
+        { TTS_SUBSCRIPTIONS_DESKTOP, {SETTINGS_TTSMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}} } },
+        { TTS_SUBSCRIPTIONS_DESKTOPINPUT, {SETTINGS_TTSMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}} } },
+        { TTS_SUBSCRIPTIONS_MEDIAFILE, {SETTINGS_TTSMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}} } },
+        { TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE, {SETTINGS_TTSMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}} } },
+        { TTS_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL, {SETTINGS_TTSMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}} } },
+        { TTS_SUBSCRIPTIONS_INTERCEPT_VOICE, {SETTINGS_TTSMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}} } },
+        { TTS_SUBSCRIPTIONS_INTERCEPT_VIDEO, {SETTINGS_TTSMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}} } },
+        { TTS_SUBSCRIPTIONS_INTERCEPT_DESKTOP, {SETTINGS_TTSMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}} } },
+        { TTS_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE, {SETTINGS_TTSMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}} } },
+        
     };
     return map;
 }
@@ -139,6 +154,8 @@ QString UtilTTS::getDefaultValue(const QString& paramKey)
         return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_BROADCASTMSG_DEFAULT);
     if (paramKey == SETTINGS_TTSMSG_BROADCASTMSGSEND)
         return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_BROADCASTMSGSEND_DEFAULT);
+    if (paramKey == SETTINGS_TTSMSG_SUBCHANGE)
+        return QCoreApplication::translate("UtilTTS", SETTINGS_TTSMSG_SUBCHANGE_DEFAULT);
     return QString();
 }
 
