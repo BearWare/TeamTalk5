@@ -22,18 +22,12 @@
 
 #include "ui_useraccounts.h"
 
-enum UserAccountsDisplay
-{
-    UAD_READWRITE,
-    UAD_READONLY,
-};
-
 class UserAccountsDlg : public QDialog
 {
     Q_OBJECT
 
 public:
-    UserAccountsDlg(const useraccounts_t& useraccounts, UserAccountsDisplay uad, QWidget* parent = 0);
+    UserAccountsDlg(const useraccounts_t& useraccounts, QWidget* parent = 0);
     ~UserAccountsDlg();
 
 public:
@@ -46,34 +40,16 @@ protected:
 private:
     Ui::UserAccountsDlg ui;
     UserAccountsModel* m_useraccountsModel;
-    UserRightsModel* m_userrightsModel;
     QSortFilterProxyModel* m_proxyModel;
     int m_add_cmdid, m_del_cmdid;
+    UserAccount m_user;
 
-    UserAccount m_add_user;
     QString m_del_username;
 
-    AbusePrevention m_abuse;
-    void lockUI(bool locked);
-    void showUserAccount(const UserAccount& useraccount);
-    void updateUserRights(const UserAccount& useraccount);
-    void toggleUserRights(const QModelIndex &index);
-    UserTypes getUserType();
-    UserAccountsDisplay m_uad;
-
 private:
-    void slotClearUser();
     void slotAddUser();
     void slotDelUser();
-    void slotUserSelected(const QModelIndex & index );
-    void slotEdited(const QString&);
-    void slotUserTypeChanged();
-    void slotCustomCmdLimit(int index);
-
-    void slotAddOpChannel();
-    void slotRemoveOpChannel();
-
-    void slotUsernameChanged(const QString& text);
+    void slotEditUser();
     void slotTreeContextMenu(const QPoint&);
 };
 
