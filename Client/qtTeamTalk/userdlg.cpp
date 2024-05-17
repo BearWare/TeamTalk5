@@ -103,6 +103,7 @@ UserDlg::UserDlg(UserDlgType type, const UserAccount& user, QWidget *parent)
     case USER_CREATE :
         setWindowTitle(tr("Add User"));
         this->setAccessibleDescription(tr("Add User on Server"));
+        ui->lastEditLabel->setVisible(false);
         break;
     case USER_UPDATE :
     {
@@ -342,6 +343,7 @@ void UserDlg::showUserAccount(const UserAccount& useraccount)
 
     ui->noteEdit->setPlainText(_Q(useraccount.szNote));
     ui->channelComboBox->lineEdit()->setText(_Q(useraccount.szInitChannel));
+    ui->lastEditLabel->setText(tr("Last edited: %1").arg(getFormattedDateTime(_Q(useraccount.szLastModified), "yyyy/MM/dd hh:mm")));
 
     updateUserRights(useraccount);
 
