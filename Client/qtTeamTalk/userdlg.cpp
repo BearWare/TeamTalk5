@@ -303,8 +303,18 @@ void UserDlg::slotCustomCmdLimit(int index)
     }
 }
 
-void UserDlg::slotUsernameChanged(const QString& /*text*/)
+void UserDlg::slotUsernameChanged()
 {
+    if (ui->usernameEdit->text() == WEBLOGIN_BEARWARE_USERNAME || ui->usernameEdit->text().contains(QString("@%1.dk").arg(WEBLOGIN_BEARWARE_USERNAME)))
+    {
+        ui->label_2->setVisible(false);
+        ui->passwordEdit->setVisible(false);
+    }
+    else
+    {
+        ui->label_2->setVisible(true);
+        ui->passwordEdit->setVisible(true);
+    }
 }
 
 void UserDlg::keyPressEvent(QKeyEvent* e)
@@ -390,6 +400,8 @@ void UserDlg::showUserAccount(const UserAccount& useraccount)
 
     if(i >= 0)
         ui->limitcmdComboBox->setCurrentIndex(i);
+
+    slotUsernameChanged();
 }
 
 void UserDlg::updateCustomLimitText(int nCommandsLimit, int nCommandsIntervalMSec)
