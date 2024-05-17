@@ -289,6 +289,7 @@ void UserDlg::slotCustomCmdLimit(int index)
             if (m_abuse.nCommandsLimit)
             {
                 m_abuse.nCommandsIntervalMSec = dlg.getIntervalSec() * 1000;
+                updateCustomLimitText(m_abuse.nCommandsLimit, m_abuse.nCommandsIntervalMSec);
             }
             else
             {
@@ -348,7 +349,7 @@ void UserDlg::showUserAccount(const UserAccount& useraccount)
     ui->audmaxbpsSpinBox->setValue(useraccount.nAudioCodecBpsLimit / 1000);
 
     m_abuse = useraccount.abusePrevent;
-    int i;
+    int i = -1;  // Default value for index
     switch(useraccount.abusePrevent.nCommandsLimit)
     {
     case 0:
@@ -364,6 +365,7 @@ void UserDlg::showUserAccount(const UserAccount& useraccount)
             i = ui->limitcmdComboBox->findData(LIMITCMD_10_PER_MINUTE);
             break;
         default:
+            updateCustomLimitText(useraccount.abusePrevent.nCommandsLimit, useraccount.abusePrevent.nCommandsIntervalMSec);
             i = ui->limitcmdComboBox->findData(LIMITCMD_CUSTOM);
             break;
         }
@@ -375,24 +377,30 @@ void UserDlg::showUserAccount(const UserAccount& useraccount)
             i = ui->limitcmdComboBox->findData(LIMITCMD_60_PER_MINUTE);
             break;
         default:
+            updateCustomLimitText(useraccount.abusePrevent.nCommandsLimit, useraccount.abusePrevent.nCommandsIntervalMSec);
             i = ui->limitcmdComboBox->findData(LIMITCMD_CUSTOM);
             break;
         }
         break;
     default:
-        switch(useraccount.abusePrevent.nCommandsIntervalMSec)
-        {
-        case 0:
-            i = ui->limitcmdComboBox->findData(LIMITCMD_DISABLED);
-            break;
-        default:
-            i = ui->limitcmdComboBox->findData(LIMITCMD_CUSTOM);
-            break;
-        }
+        updateCustomLimitText(useraccount.abusePrevent.nCommandsLimit, useraccount.abusePrevent.nCommandsIntervalMSec);
+        i = ui->limitcmdComboBox->findData(LIMITCMD_CUSTOM);
+        break;
     }
 
     if(i >= 0)
         ui->limitcmdComboBox->setCurrentIndex(i);
+}
+
+void UserDlg::updateCustomLimitText(int nCommandsLimit, int nCommandsIntervalMSec)
+{
+    QString customText = tr("Custom (%1 commands per %2 seconds)")
+                             .arg(nCommandsLimit)
+                             .arg(nCommandsIntervalMSec / 1000);
+    int index = ui->limitcmdComboBox->findData(LIMITCMD_CUSTOM);
+    if (index != -1) {
+        ui->limitcmdComboBox->setItemText(index, customText);
+    }
 }
 
 CustomCmdLimitDialog::CustomCmdLimitDialog(int currentLimit, int currentIntervalSec, QWidget *parent)
@@ -404,6 +412,7 @@ CustomCmdLimitDialog::CustomCmdLimitDialog(int currentLimit, int currentInterval
     m_cmdLimitSpinBox->setMinimum(0);
     m_cmdLimitSpinBox->setValue(currentLimit);
     m_cmdLimitSpinBox->setPrefix(tr("Command Limit: "));
+    m_cmdLimitSpinBox->setAccessibleName(tr("Command Limit"));
     layout->addWidget(m_cmdLimitSpinBox);
 
     m_intervalSpinBox = new QSpinBox(this);
@@ -411,6 +420,7 @@ CustomCmdLimitDialog::CustomCmdLimitDialog(int currentLimit, int currentInterval
     m_intervalSpinBox->setValue(currentIntervalSec);
     m_intervalSpinBox->setPrefix(("Interval: "));
     m_intervalSpinBox->setSuffix(tr("sec"));
+    m_intervalSpinBox->setAccessibleName(("Interval"));
     layout->addWidget(m_intervalSpinBox);
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);

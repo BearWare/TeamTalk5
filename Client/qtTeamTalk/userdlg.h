@@ -62,6 +62,7 @@ private:
     void slotRemoveOpChannel();
     void slotUsernameChanged(const QString& text);
     void showUserAccount(const UserAccount& useraccount);
+    void updateCustomLimitText(int nCommandsLimit, int nCommandsIntervalMSec);
 };
 
 #endif // USERDLG_H
