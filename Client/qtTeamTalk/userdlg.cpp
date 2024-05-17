@@ -121,7 +121,7 @@ UserDlg::UserDlg(UserDlgType type, const UserAccount& user, QWidget *parent)
         ui->adminBtn->setEnabled(false);
         ui->disableduserBtn->setEnabled(false);
         ui->noteEdit->setReadOnly(true);
-        ui->channelComboBox->lineEdit()->setReadOnly(true);
+        ui->channelComboBox->setEnabled(false);
         ui->opchannelsListWidget->setEnabled(false);
         ui->opchanComboBox->setEnabled(false);
         ui->addopBtn->setEnabled(false);
