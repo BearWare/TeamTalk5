@@ -31,42 +31,17 @@
          </property>
          <layout class="QFormLayout" name="formLayout_2">
           <item row="0" column="0">
-           <widget class="QLabel" name="label_3">
+           <widget class="QLabel" name="typeLabel">
             <property name="text">
-             <string>User type</string>
+             <string>User Type</string>
             </property>
             <property name="buddy">
-             <cstring>defaultuserBtn</cstring>
+             <cstring>typeComboBox</cstring>
             </property>
            </widget>
           </item>
           <item row="0" column="1">
-           <layout class="QVBoxLayout" name="verticalLayout_2">
-            <item>
-             <widget class="QRadioButton" name="defaultuserBtn">
-              <property name="text">
-               <string>Default user</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="adminBtn">
-              <property name="text">
-               <string>Administrator</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="disableduserBtn">
-              <property name="text">
-               <string>Disabled (inactive)</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
+           <widget class="QComboBox" name="typeComboBox"/>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label">

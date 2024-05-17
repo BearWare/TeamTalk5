@@ -51,7 +51,13 @@ UserDlg::UserDlg(UserDlgType type, const UserAccount& user, QWidget *parent)
 
     m_userrightsModel = new UserRightsModel(this);
     ui->userrightsTreeView->setModel(m_userrightsModel);
-    
+
+    ui->typeComboBox->addItem(tr("Default User"), USERTYPE_DEFAULT);
+    ui->typeComboBox->addItem(tr("Administrator"), USERTYPE_ADMIN);
+    ui->typeComboBox->addItem(tr("Disabled"), USERTYPE_NONE);
+
+    connect(ui->typeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &UserDlg::slotUserTypeChanged);
+
     int count = 0;
     TT_GetServerChannels(ttInst, nullptr, &count);
     if(count)
@@ -89,10 +95,6 @@ UserDlg::UserDlg(UserDlgType type, const UserAccount& user, QWidget *parent)
     connect(ui->addopBtn, &QAbstractButton::clicked, this, &UserDlg::slotAddOpChannel);
     connect(ui->rmopBtn, &QAbstractButton::clicked, this, &UserDlg::slotRemoveOpChannel);
 
-    connect(ui->defaultuserBtn, &QAbstractButton::clicked, this, &UserDlg::slotUserTypeChanged);
-    connect(ui->adminBtn, &QAbstractButton::clicked, this, &UserDlg::slotUserTypeChanged);
-    connect(ui->disableduserBtn, &QAbstractButton::clicked, this, &UserDlg::slotUserTypeChanged);
-
     connect(ui->usernameEdit, &QLineEdit::textChanged, this, &UserDlg::slotUsernameChanged);
 
     if (type != USER_READONLY)
@@ -103,6 +105,7 @@ UserDlg::UserDlg(UserDlgType type, const UserAccount& user, QWidget *parent)
     case USER_CREATE :
         setWindowTitle(tr("Add User"));
         this->setAccessibleDescription(tr("Add User on Server"));
+        ui->typeComboBox->setCurrentIndex(ui->typeComboBox->findData(USERTYPE_DEFAULT));
         ui->lastEditLabel->setVisible(false);
         break;
     case USER_UPDATE :
@@ -114,11 +117,9 @@ UserDlg::UserDlg(UserDlgType type, const UserAccount& user, QWidget *parent)
     case USER_READONLY :
         setWindowTitle(tr("View User Information"));
         this->setAccessibleDescription(tr("View %1 Information").arg(m_user.szUsername));
+        ui->typeComboBox->setEnabled(false);
         ui->usernameEdit->setReadOnly(true);
         ui->passwordEdit->setReadOnly(true);
-        ui->defaultuserBtn->setEnabled(false);
-        ui->adminBtn->setEnabled(false);
-        ui->disableduserBtn->setEnabled(false);
         ui->noteEdit->setReadOnly(true);
         ui->channelComboBox->setEnabled(false);
         ui->opchannelsListWidget->setEnabled(false);
@@ -204,26 +205,15 @@ void UserDlg::toggleUserRights(const QModelIndex &index)
 
 UserTypes UserDlg::getUserType() const
 {
-    if (ui->adminBtn->isChecked())
-        return USERTYPE_ADMIN;
-    else if (ui->defaultuserBtn->isChecked())
-        return USERTYPE_DEFAULT;
-    else if (ui->disableduserBtn->isChecked())
-        return USERTYPE_NONE;
-    else
-        return USERTYPE_NONE;
+    return static_cast<UserTypes>(ui->typeComboBox->currentData().toInt());
 }
 
 void UserDlg::slotUserTypeChanged()
 {
     newUser.uUserType = getUserType();
-    if (ui->adminBtn->isChecked())
+    if (newUser.uUserType == USERTYPE_ADMIN)
     {
         newUser.uUserRights = USERRIGHT_NONE;
-    }
-    else if (ui->defaultuserBtn->isChecked())
-    {
-        newUser.uUserRights = USERRIGHT_DEFAULT;
     }
     else
     {
@@ -334,12 +324,16 @@ void UserDlg::showUserAccount(const UserAccount& useraccount)
 {
     ui->usernameEdit->setText(_Q(useraccount.szUsername));
     ui->passwordEdit->setText(_Q(useraccount.szPassword));
-    if (useraccount.uUserType & USERTYPE_ADMIN)
-        ui->adminBtn->setChecked(useraccount.uUserType & USERTYPE_ADMIN);
-    else if (useraccount.uUserType & USERTYPE_DEFAULT)
-        ui->defaultuserBtn->setChecked(useraccount.uUserType & USERTYPE_DEFAULT);
-    else if (useraccount.uUserType == USERTYPE_NONE)
-        ui->disableduserBtn->setChecked(true);
+
+    if (m_type != USER_CREATE)
+    {
+        if (useraccount.uUserType & USERTYPE_ADMIN)
+            ui->typeComboBox->setCurrentIndex(ui->typeComboBox->findData(USERTYPE_ADMIN));
+        else if (useraccount.uUserType & USERTYPE_DEFAULT)
+            ui->typeComboBox->setCurrentIndex(ui->typeComboBox->findData(USERTYPE_DEFAULT));
+        else if (useraccount.uUserType == USERTYPE_NONE)
+            ui->typeComboBox->setCurrentIndex(ui->typeComboBox->findData(USERTYPE_NONE));
+    }
 
     ui->noteEdit->setPlainText(_Q(useraccount.szNote));
     ui->channelComboBox->lineEdit()->setText(_Q(useraccount.szInitChannel));
