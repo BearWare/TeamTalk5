@@ -188,6 +188,9 @@ void UserAccountsDlg::slotTreeContextMenu(const QPoint& /*point*/)
     sortMenu->addAction(sortModified);
     QAction* delUser = menu.addAction(tr("&Delete Selected User"));
     QAction* editUser = menu.addAction(tr("&Edit Selected User"));
+    auto srcIndex = m_proxyModel->mapToSource(ui.usersTreeView->currentIndex());
+    delUser->setEnabled(srcIndex.isValid());
+    editUser->setEnabled(srcIndex.isValid());
     if (QAction* action = menu.exec(QCursor::pos()))
     {
         auto sortToggle = m_proxyModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
