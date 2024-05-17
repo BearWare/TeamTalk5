@@ -454,6 +454,7 @@ void ServerListDlg::connectToHost(const HostEntry& host/* = HostEntry()*/)
             if (!host.sameHost(latestHost, true))
                 addLatestHost(host);
         }
+        m_hostentry = host;
         this->accept();
     }
     else
