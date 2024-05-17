@@ -18,11 +18,9 @@
 #include "userdlg.h"
 #include "ui_userdlg.h"
 #include "appinfo.h"
-#include "encryptionsetupdlg.h"
 #include "settings.h"
 
 #include <QPushButton>
-#include <QInputDialog>
 #include <QMessageBox>
 
 extern TTInstance* ttInst;
@@ -265,46 +263,41 @@ void UserDlg::slotRemoveOpChannel()
 
 void UserDlg::slotCustomCmdLimit(int index)
 {
-    QInputDialog inputDialog;
     switch(ui->limitcmdComboBox->itemData(index).toInt())
     {
-    case LIMITCMD_DISABLED :
+    case LIMITCMD_DISABLED:
         m_abuse.nCommandsIntervalMSec = m_abuse.nCommandsLimit = 0;
         break;
-    case LIMITCMD_10_PER_10SEC :
+    case LIMITCMD_10_PER_10SEC:
         m_abuse.nCommandsLimit = 10;
         m_abuse.nCommandsIntervalMSec = 10000;
         break;
-    case LIMITCMD_10_PER_MINUTE :
+    case LIMITCMD_10_PER_MINUTE:
         m_abuse.nCommandsLimit = 10;
         m_abuse.nCommandsIntervalMSec = 60000;
         break;
-    case LIMITCMD_60_PER_MINUTE :
+    case LIMITCMD_60_PER_MINUTE:
         m_abuse.nCommandsLimit = 60;
         m_abuse.nCommandsIntervalMSec = 60000;
         break;
-    case LIMITCMD_CUSTOM :
-        inputDialog.setOkButtonText(tr("&OK"));
-        inputDialog.setCancelButtonText(tr("&Cancel"));
-        inputDialog.setInputMode(QInputDialog::IntInput);
-        inputDialog.setIntValue(m_abuse.nCommandsLimit);
-        inputDialog.setWindowTitle(tr("Limit issued commands"));
-        inputDialog.setLabelText(tr("Number of commands to allow (0 = disabled)"));
-        inputDialog.setIntMinimum(0);
-        inputDialog.exec();
-        m_abuse.nCommandsLimit = inputDialog.intValue();
-        if(m_abuse.nCommandsLimit)
+    case LIMITCMD_CUSTOM:
+    {
+        CustomCmdLimitDialog dlg(m_abuse.nCommandsLimit, m_abuse.nCommandsIntervalMSec / 1000, this);
+        if (dlg.exec() == QDialog::Accepted)
         {
-            inputDialog.setIntValue(m_abuse.nCommandsIntervalMSec/1000);
-            inputDialog.setIntMinimum(1);
-            inputDialog.setWindowTitle(tr("Limit issued commands"));
-            inputDialog.setLabelText(tr("Timeframe to allow %1 commands (in seconds)").arg(m_abuse.nCommandsLimit));
-            inputDialog.exec();
-            m_abuse.nCommandsIntervalMSec = inputDialog.intValue();
-            m_abuse.nCommandsIntervalMSec *= 1000;
+            m_abuse.nCommandsLimit = dlg.getCommandLimit();
+            if (m_abuse.nCommandsLimit)
+            {
+                m_abuse.nCommandsIntervalMSec = dlg.getIntervalSec() * 1000;
+            }
+            else
+            {
+                m_abuse.nCommandsIntervalMSec = 0;
+            }
         }
         break;
-    default :
+    }
+    default:
         Q_ASSERT(0);
     }
 }
@@ -400,4 +393,43 @@ void UserDlg::showUserAccount(const UserAccount& useraccount)
 
     if(i >= 0)
         ui->limitcmdComboBox->setCurrentIndex(i);
+}
+
+CustomCmdLimitDialog::CustomCmdLimitDialog(int currentLimit, int currentIntervalSec, QWidget *parent)
+    : QDialog(parent)
+{
+    QVBoxLayout *layout = new QVBoxLayout(this);
+
+    m_cmdLimitSpinBox = new QSpinBox(this);
+    m_cmdLimitSpinBox->setMinimum(0);
+    m_cmdLimitSpinBox->setValue(currentLimit);
+    m_cmdLimitSpinBox->setPrefix(tr("Command Limit: "));
+    layout->addWidget(m_cmdLimitSpinBox);
+
+    m_intervalSpinBox = new QSpinBox(this);
+    m_intervalSpinBox->setMinimum(1);
+    m_intervalSpinBox->setValue(currentIntervalSec);
+    m_intervalSpinBox->setPrefix(("Interval: "));
+    m_intervalSpinBox->setSuffix(tr("sec"));
+    layout->addWidget(m_intervalSpinBox);
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
+    buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&OK"));
+    buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+    layout->addWidget(buttonBox);
+
+    setLayout(layout);
+    setWindowTitle(tr("Set Command Limits"));
+}
+
+int CustomCmdLimitDialog::getCommandLimit() const
+{
+    return m_cmdLimitSpinBox->value();
+}
+
+int CustomCmdLimitDialog::getIntervalSec() const
+{
+    return m_intervalSpinBox->value();
 }

@@ -65,3 +65,28 @@ private:
 };
 
 #endif // USERDLG_H
+
+#ifndef CUSTOMCMDLIMITDIALOG_H
+#define CUSTOMCMDLIMITDIALOG_H
+
+#include <QDialog>
+#include <QSpinBox>
+#include <QVBoxLayout>
+#include <QDialogButtonBox>
+
+class CustomCmdLimitDialog : public QDialog
+{
+    Q_OBJECT
+
+public:
+    CustomCmdLimitDialog(int currentLimit, int currentIntervalSec, QWidget *parent = nullptr);
+
+    int getCommandLimit() const;
+    int getIntervalSec() const;
+
+private:
+    QSpinBox *m_cmdLimitSpinBox;
+    QSpinBox *m_intervalSpinBox;
+};
+
+#endif // CUSTOMCMDLIMITDIALOG_H
