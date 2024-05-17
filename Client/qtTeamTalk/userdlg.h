@@ -49,6 +49,7 @@ protected:
 
 private:
     Ui::UserDlg *ui;
+    QWidget* m_userRightsTab;
     UserRightsModel* m_userrightsModel;
     UserAccount m_user, newUser;
     UserDlgType m_type;

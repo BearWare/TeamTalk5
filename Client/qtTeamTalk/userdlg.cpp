@@ -40,6 +40,7 @@ UserDlg::UserDlg(UserDlgType type, const UserAccount& user, QWidget *parent)
     , ui(new Ui::UserDlg)
     , m_type(type)
     , m_user(user)
+    , m_userRightsTab(nullptr)
 {
     ui->setupUi(this);
     setWindowIcon(QIcon(APPICON));
@@ -51,6 +52,8 @@ UserDlg::UserDlg(UserDlgType type, const UserAccount& user, QWidget *parent)
 
     m_userrightsModel = new UserRightsModel(this);
     ui->userrightsTreeView->setModel(m_userrightsModel);
+
+    m_userRightsTab = ui->tabWidget->widget(ui->tabWidget->indexOf(ui->tab_user_rights));
 
     ui->typeComboBox->addItem(tr("Default User"), USERTYPE_DEFAULT);
     ui->typeComboBox->addItem(tr("Administrator"), USERTYPE_ADMIN);
@@ -214,10 +217,19 @@ void UserDlg::slotUserTypeChanged()
     if (newUser.uUserType == USERTYPE_ADMIN)
     {
         newUser.uUserRights = USERRIGHT_NONE;
+        int index = ui->tabWidget->indexOf(m_userRightsTab);
+        if (index != -1)
+        {
+            ui->tabWidget->removeTab(index);
+        }
     }
     else
     {
         newUser.uUserRights = USERRIGHT_DEFAULT;
+        if (ui->tabWidget->indexOf(m_userRightsTab) == -1)
+        {
+            ui->tabWidget->addTab(m_userRightsTab, tr("User Rights"));
+        }
     }
     updateUserRights(newUser);
 }
@@ -333,6 +345,21 @@ void UserDlg::showUserAccount(const UserAccount& useraccount)
             ui->typeComboBox->setCurrentIndex(ui->typeComboBox->findData(USERTYPE_DEFAULT));
         else if (useraccount.uUserType == USERTYPE_NONE)
             ui->typeComboBox->setCurrentIndex(ui->typeComboBox->findData(USERTYPE_NONE));
+    }
+    if (useraccount.uUserType & USERTYPE_ADMIN)
+    {
+        int index = ui->tabWidget->indexOf(m_userRightsTab);
+        if (index != -1)
+        {
+            ui->tabWidget->removeTab(index);
+        }
+    }
+    else
+    {
+        if (ui->tabWidget->indexOf(m_userRightsTab) == -1)
+        {
+            ui->tabWidget->addTab(m_userRightsTab, tr("User Rights"));
+        }
     }
 
     ui->noteEdit->setPlainText(_Q(useraccount.szNote));
