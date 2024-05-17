@@ -289,12 +289,12 @@ void UserDlg::slotCustomCmdLimit(int index)
             if (m_abuse.nCommandsLimit)
             {
                 m_abuse.nCommandsIntervalMSec = dlg.getIntervalSec() * 1000;
-                updateCustomLimitText(m_abuse.nCommandsLimit, m_abuse.nCommandsIntervalMSec);
             }
             else
             {
                 m_abuse.nCommandsIntervalMSec = 0;
             }
+            updateCustomLimitText(m_abuse.nCommandsLimit, m_abuse.nCommandsIntervalMSec);
         }
         break;
     }
