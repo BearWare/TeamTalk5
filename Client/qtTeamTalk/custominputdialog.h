@@ -30,18 +30,20 @@ class CustomInputDialog : public QDialog
     Q_OBJECT
 
 public:
-    CustomInputDialog(const QString& title, const QString& labelText, const QString& initialText, const QHash<QString, QString>& variables, QWidget* parent = nullptr);
+    CustomInputDialog(const QString& title, const QString& labelText, const QString& initialText, const QString& defaultValue, const QHash<QString, QString>& variables, QWidget* parent = nullptr);
 
     QString getText() const;
 
 private slots:
     void showVariableMenu();
     void insertVariable();
+    void resetDefaultValue();
 
 private:
     QLineEdit* m_lineEdit;
     QPushButton* m_variableButton;
     QMenu* m_variableMenu;
+    QString m_defaultValue;
 };
 
 #endif // CUSTOMINPUTDIALOG_H

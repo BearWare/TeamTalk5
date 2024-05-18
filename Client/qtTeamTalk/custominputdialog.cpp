@@ -20,8 +20,9 @@
 #include <QHBoxLayout>
 #include <QCursor>
 
-CustomInputDialog::CustomInputDialog(const QString& title, const QString& labelText, const QString& initialText, const QHash<QString, QString>& variables, QWidget* parent)
+CustomInputDialog::CustomInputDialog(const QString& title, const QString& labelText, const QString& initialText, const QString& defaultValue, const QHash<QString, QString>& variables, QWidget* parent)
     : QDialog(parent)
+    , m_defaultValue(defaultValue)
 {
     setWindowTitle(title);
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
@@ -44,6 +45,9 @@ CustomInputDialog::CustomInputDialog(const QString& title, const QString& labelT
         connect(action, &QAction::triggered, this, &CustomInputDialog::insertVariable);
     }
 
+    QPushButton* resetButton = new QPushButton(tr("Default Value"), this);
+    mainLayout->addWidget(resetButton);
+
     QHBoxLayout* buttonLayout = new QHBoxLayout;
     QPushButton* okButton = new QPushButton(tr("OK"), this);
     okButton->setDefault(true);
@@ -56,6 +60,7 @@ CustomInputDialog::CustomInputDialog(const QString& title, const QString& labelT
     mainLayout->addLayout(buttonLayout);
 
     connect(m_variableButton, &QPushButton::clicked, this, &CustomInputDialog::showVariableMenu);
+    connect(resetButton, &QPushButton::clicked, this, &CustomInputDialog::resetDefaultValue);
     connect(okButton, &QPushButton::clicked, this, &QDialog::accept);
     connect(cancelButton, &QPushButton::clicked, this, &QDialog::reject);
 }
@@ -80,4 +85,10 @@ void CustomInputDialog::insertVariable()
         m_lineEdit->insert(variable);
         m_lineEdit->setCursorPosition(cursorPos + variable.length());
     }
+}
+
+void CustomInputDialog::resetDefaultValue()
+{
+    m_lineEdit->clear();
+    m_lineEdit->setText(m_defaultValue);
 }
