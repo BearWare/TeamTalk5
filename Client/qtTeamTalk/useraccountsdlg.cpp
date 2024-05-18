@@ -61,6 +61,7 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, QWidget * p
     ui.usersTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui.usersTreeView, &QWidget::customContextMenuRequested,
             this, &UserAccountsDlg::slotTreeContextMenu);
+    connect(ui.usersTreeView, &QAbstractItemView::doubleClicked, this, &UserAccountsDlg::slotEditUser);
 
     ui.usersTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_USERACCOUNTS_HEADERSIZES).toByteArray());
     restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_USERACCOUNTSDLG_SIZE).toByteArray());
