@@ -2387,13 +2387,6 @@
               </property>
              </widget>
             </item>
-            <item row="11" column="0">
-             <widget class="QCheckBox" name="ttsSrvNameChkBox">
-              <property name="text">
-               <string>Announce server name for server events</string>
-              </property>
-             </widget>
-            </item>
            </layout>
           </item>
           <item>
