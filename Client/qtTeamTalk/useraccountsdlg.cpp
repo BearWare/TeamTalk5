@@ -62,6 +62,7 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, QWidget * p
     connect(ui.usersTreeView, &QWidget::customContextMenuRequested,
             this, &UserAccountsDlg::slotTreeContextMenu);
     connect(ui.usersTreeView, &QAbstractItemView::doubleClicked, this, &UserAccountsDlg::slotEditUser);
+    ui.usersTreeView->installEventFilter(this);
 
     ui.usersTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_USERACCOUNTS_HEADERSIZES).toByteArray());
     restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_USERACCOUNTSDLG_SIZE).toByteArray());
@@ -144,6 +145,20 @@ void UserAccountsDlg::slotEditUser()
         m_user = dlg.getUserAccount();
         m_add_cmdid = TT_DoNewUserAccount(ttInst, &m_user);
     }
+}
+
+bool UserAccountsDlg::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == ui.usersTreeView && event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if ((keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return) && ui.usersTreeView->hasFocus())
+        {
+            emit(slotEditUser());
+            return true;
+        }
+    }
+    return QDialog::eventFilter(obj, event);
 }
 
 void UserAccountsDlg::keyPressEvent(QKeyEvent* e)
