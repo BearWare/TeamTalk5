@@ -30,6 +30,7 @@
 #include "utiltts.h"
 #include "utilui.h"
 #include "settings.h"
+#include "custominputdialog.h"
 
 #include <QDebug>
 #include <QMessageBox>
