@@ -19,6 +19,8 @@
 #include "ui_useraccountdlg.h"
 #include "appinfo.h"
 #include "settings.h"
+#include "useraccountsmodel.h"
+#include "utilui.h"
 
 #include <QPushButton>
 #include <QMessageBox>
@@ -38,9 +40,9 @@ enum
 UserAccountDlg::UserAccountDlg(UserAccountDlgType type, const UserAccount& user, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::UserAccountDlg)
-    , m_type(type)
-    , m_useraccount(user)
     , m_userRightsTab(nullptr)
+    , m_useraccount(user)
+    , m_type(type)
 {
     ui->setupUi(this);
     setWindowIcon(QIcon(APPICON));

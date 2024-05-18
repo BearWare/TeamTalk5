@@ -15,13 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef USERDLG_H
-#define USERDLG_H
+#ifndef USERACCOUNTDLG_H
+#define USERACCOUNTDLG_H
 
-#include "common.h"
-#include "useraccountsmodel.h"
+#include "utiltt.h"
 
 #include <QDialog>
+#include <QSpinBox>
+#include <QVBoxLayout>
+#include <QDialogButtonBox>
 
 namespace Ui {
 class UserAccountDlg;
@@ -50,7 +52,7 @@ protected:
 private:
     Ui::UserAccountDlg *ui;
     QWidget* m_userRightsTab;
-    UserRightsModel* m_userrightsModel;
+    class UserRightsModel* m_userrightsModel;
     UserAccount m_useraccount, m_newuseraccount;
     UserAccountDlgType m_type;
     AbusePrevention m_abuse;
@@ -65,16 +67,6 @@ private:
     void showUserAccount(const UserAccount& useraccount);
     void updateCustomLimitText(int nCommandsLimit, int nCommandsIntervalMSec);
 };
-
-#endif // USERDLG_H
-
-#ifndef CUSTOMCMDLIMITDIALOG_H
-#define CUSTOMCMDLIMITDIALOG_H
-
-#include <QDialog>
-#include <QSpinBox>
-#include <QVBoxLayout>
-#include <QDialogButtonBox>
 
 class CustomCmdLimitDialog : public QDialog
 {
@@ -91,4 +83,4 @@ private:
     QSpinBox *m_intervalSpinBox;
 };
 
-#endif // CUSTOMCMDLIMITDIALOG_H
+#endif // USERACCOUNTDLG_H
