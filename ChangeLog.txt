@@ -11,6 +11,8 @@ Default Qt Client
 - "Check for Update" in "Help" menu
 - Ability to join Last Joined Channel for each server individually
 - Use Qt checkable flag in user rights list to allow screenreader to see if an item is checked
+- Ability to customize some TTS messages
+- Remove option "Announce server name" from TTS options, use customizable messages instead
 Android Client
 -
 iOS Client

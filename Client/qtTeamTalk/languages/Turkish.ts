@@ -2187,7 +2187,7 @@ Günün mesajı: %2</translation>
     <message>
         <location filename="../mainwindow.ui" line="1465"/>
         <source>&amp;Check for Update</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Güncelleme kontrolü</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1565"/>
@@ -2402,12 +2402,12 @@ Günün mesajı: %2</translation>
     <message>
         <location filename="../mainwindow.ui" line="1911"/>
         <source>Move Users &amp;Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcıları &amp;Taşı İletişim Kutusu</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1914"/>
         <source>Ctrl+Alt+M</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+M</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1923"/>
@@ -3526,12 +3526,12 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="7431"/>
         <source>Check for Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Güncelleme kontrolü</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7431"/>
         <source>%1 is up to date.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 güncel.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7506"/>
@@ -3675,7 +3675,7 @@ Bu ayarlar uygulanmalı mı?</translation>
         <location filename="../mainwindow.cpp" line="2100"/>
         <location filename="../mainwindow.cpp" line="2101"/>
         <source>Files in channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanaldaki dosyalar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2237"/>
@@ -4732,27 +4732,27 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
         <location filename="../moveusersdlg.cpp" line="34"/>
         <location filename="../moveusersdlg.cpp" line="56"/>
         <source>Move Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcıları Taşı</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="39"/>
         <source>Users</source>
-        <translation type="unfinished">Kullanıcılar</translation>
+        <translation>Kullanıcılar</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="49"/>
         <source>&amp;Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kanal</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="57"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>iptal</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="82"/>
         <source>Root Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kök Kanal</translation>
     </message>
 </context>
 <context>
@@ -6208,7 +6208,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.ui" line="238"/>
         <source>Latest Joined Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>En Son Katılan Kanal</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="245"/>
@@ -6471,7 +6471,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../serverlistdlg.cpp" line="798"/>
         <source>Co&amp;nnect</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;bağlan</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="799"/>

@@ -342,8 +342,43 @@
 #define SETTINGS_TTS_SPEAKLISTS_DEFAULT                 true
 #endif
 #endif
-#define SETTINGS_TTS_SRVNAME                         "texttospeech/announce-server-name"
-#define SETTINGS_TTS_SRVNAME_DEFAULT                 true
+
+#define SETTINGS_TTSMSG_USER_LOGGEDIN                         "texttospeech/messages/user-logged-in"
+#define SETTINGS_TTSMSG_USER_LOGGEDIN_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} has logged in on {server}")
+#define SETTINGS_TTSMSG_USER_LOGGEDOUT                         "texttospeech/messages/user-logged-out"
+#define SETTINGS_TTSMSG_USER_LOGGEDOUT_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} has logged out from {server}")
+#define SETTINGS_TTSMSG_USER_JOINED                         "texttospeech/messages/user-joined-channel"
+#define SETTINGS_TTSMSG_USER_JOINED_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} joined channel {channel}")
+#define SETTINGS_TTSMSG_USER_LEFT                         "texttospeech/messages/user-left-channel"
+#define SETTINGS_TTSMSG_USER_LEFT_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} left channel {channel}")
+#define SETTINGS_TTSMSG_USER_JOINED_SAME                         "texttospeech/messages/user-joined-same-channel"
+#define SETTINGS_TTSMSG_USER_JOINED_SAME_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} joined channel")
+#define SETTINGS_TTSMSG_USER_LEFT_SAME                         "texttospeech/messages/user-left-same-channel"
+#define SETTINGS_TTSMSG_USER_LEFT_SAME_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} left channel")
+#define SETTINGS_TTSMSG_PRIVATEMSG                         "texttospeech/messages/private-message"
+#define SETTINGS_TTSMSG_PRIVATEMSG_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "Private message from {user}: {message}")
+#define SETTINGS_TTSMSG_PRIVATEMSGSEND                         "texttospeech/messages/private-message-send"
+#define SETTINGS_TTSMSG_PRIVATEMSGSEND_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "Private message sent: {message}")
+#define SETTINGS_TTSMSG_TYPING                         "texttospeech/messages/private-message-typing"
+#define SETTINGS_TTSMSG_TYPING_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} is typing...")
+#define SETTINGS_TTSMSG_QUESTIONMODE                         "texttospeech/messages/user-set-question-mode"
+#define SETTINGS_TTSMSG_QUESTIONMODE_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} set question mode")
+#define SETTINGS_TTSMSG_CHANNELMSG                         "texttospeech/messages/channel-message"
+#define SETTINGS_TTSMSG_CHANNELMSG_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "Channel message from {user}: {message}")
+#define SETTINGS_TTSMSG_CHANNELMSGSEND                         "texttospeech/messages/channel-message-send"
+#define SETTINGS_TTSMSG_CHANNELMSGSEND_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "Channel message sent: {message}")
+#define SETTINGS_TTSMSG_BROADCASTMSG                         "texttospeech/messages/broadcast-message"
+#define SETTINGS_TTSMSG_BROADCASTMSG_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "Broadcast message from {user}: {message}")
+#define SETTINGS_TTSMSG_BROADCASTMSGSEND                         "texttospeech/messages/broadcast-message-send"
+#define SETTINGS_TTSMSG_BROADCASTMSGSEND_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "Broadcast message sent: {message}")
+#define SETTINGS_TTSMSG_SUBCHANGE                         "texttospeech/messages/subscription-change"
+#define SETTINGS_TTSMSG_SUBCHANGE_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "Subscription \"{type}\" {state} for {user}")
+#define SETTINGS_TTSMSG_CLASSROOM                         "texttospeech/messages/classroom-transmission-change"
+#define SETTINGS_TTSMSG_CLASSROOM_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "Transmission \"{type}\" {state} for {user}")
+#define SETTINGS_TTSMSG_FILE_ADDED                         "texttospeech/messages/file-added"
+#define SETTINGS_TTSMSG_FILE_ADDED_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "File {filename} added by {user}")
+#define SETTINGS_TTSMSG_FILE_REMOVED                         "texttospeech/messages/file-removed"
+#define SETTINGS_TTSMSG_FILE_REMOVED_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "File {file} removed by {user}")
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"

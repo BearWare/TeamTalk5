@@ -18,7 +18,9 @@
 #ifndef UTILTTS_H
 #define UTILTTS_H
 
+#include <QHash>
 #include <QString>
+#include <QObject>
 
 #if defined(ENABLE_TOLK)
 #include <Tolk.h>
@@ -83,6 +85,12 @@ enum TextToSpeechEvent : qulonglong
 
 typedef qulonglong TTSEvents;
 
+struct TTSEventInfo {
+    QString settingKey;
+    QHash<QString, QString> variables;
+    QString eventName;
+};
+
 enum TextToSpeechEngine
 {
     TTSENGINE_NONE = 0,
@@ -103,5 +111,16 @@ enum TTSOutputMode
 
 void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg);
 void addTextToSpeechMessage(const QString& msg);
+
+class UtilTTS : public QObject
+{
+    Q_OBJECT
+
+public:
+    static QHash<TTSEvents, TTSEventInfo> eventToSettingMap();
+    static QString getDefaultValue(const QString& paramKey);
+    static QString getTTSMessage(const QString& paramKey, const QHash<QString, QString>& variables);
+    static QString getRawTTSMessage(const QString& paramKey);
+};
 
 #endif
