@@ -133,6 +133,8 @@ UserAccountDlg::UserAccountDlg(UserAccountDlgType type, const UserAccount& usera
         ui->rmopBtn->setEnabled(false);
         ui->audmaxbpsSpinBox->setReadOnly(true);
         ui->limitcmdComboBox->setEnabled(false);
+        ui->buttonBox->setStandardButtons(QDialogButtonBox::Close);
+        ui->buttonBox->button(QDialogButtonBox::Close)->setText(tr("&Close"));
         break;
     }
     showUserAccount(m_useraccount);
