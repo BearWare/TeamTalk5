@@ -24,7 +24,7 @@
      </property>
      <widget class="QGroupBox" name="groupBox">
       <property name="title">
-       <string>Active Users</string>
+       <string>Active User Accounts</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
@@ -90,7 +90,7 @@
          <item>
           <widget class="QPushButton" name="addButton">
            <property name="text">
-            <string>&amp;New User</string>
+            <string>&amp;New User Account</string>
            </property>
           </widget>
          </item>
