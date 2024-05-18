@@ -37,11 +37,11 @@ enum
     LIMITCMD_CUSTOM         = 4
 };
 
-UserAccountDlg::UserAccountDlg(UserAccountDlgType type, const UserAccount& user, QWidget *parent)
+UserAccountDlg::UserAccountDlg(UserAccountDlgType type, const UserAccount& useraccount, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::UserAccountDlg)
     , m_userRightsTab(nullptr)
-    , m_useraccount(user)
+    , m_useraccount(useraccount)
     , m_type(type)
 {
     ui->setupUi(this);
@@ -144,7 +144,7 @@ UserAccountDlg::~UserAccountDlg()
     delete ui;
 }
 
-UserAccount UserAccountDlg::getUser() const
+UserAccount UserAccountDlg::getUserAccount() const
 {
     UserAccount newUser = m_useraccount;
     COPY_TTSTR(newUser.szUsername, ui->usernameEdit->text().trimmed());

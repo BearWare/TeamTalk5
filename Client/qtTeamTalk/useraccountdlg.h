@@ -40,10 +40,10 @@ public:
         USER_UPDATE,
         USER_READONLY
     };
-    explicit UserAccountDlg(UserAccountDlgType type, const UserAccount& user, QWidget *parent = nullptr);
+    explicit UserAccountDlg(UserAccountDlgType type, const UserAccount& useraccount, QWidget *parent = nullptr);
     ~UserAccountDlg();
 
-    UserAccount getUser() const;
+    UserAccount getUserAccount() const;
 
 protected:
     void accept() override;

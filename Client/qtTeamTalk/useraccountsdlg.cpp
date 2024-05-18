@@ -105,7 +105,7 @@ void UserAccountsDlg::slotAddUser()
     UserAccountDlg dlg(UserAccountDlg::USER_CREATE, m_user, this);
     if (dlg.exec() == QDialog::Accepted)
     {
-        m_user = dlg.getUser();
+        m_user = dlg.getUserAccount();
         m_add_cmdid = TT_DoNewUserAccount(ttInst, &m_user);
     }
 }
@@ -140,7 +140,7 @@ void UserAccountsDlg::slotEditUser()
     UserAccountDlg dlg(UserAccountDlg::USER_UPDATE, m_user, this);
     if (dlg.exec() == QDialog::Accepted)
     {
-        m_user = dlg.getUser();
+        m_user = dlg.getUserAccount();
         m_add_cmdid = TT_DoNewUserAccount(ttInst, &m_user);
     }
 }

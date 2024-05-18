@@ -5637,9 +5637,7 @@ void MainWindow::slotServerUserAccounts(bool /*checked =false */)
     }
     else
     {
-        UserAccount myaccount;
-        TT_GetMyUserAccount(ttInst, &myaccount);
-        UserAccountDlg dlg(UserAccountDlg::USER_READONLY, myaccount, this);
+        UserAccountDlg dlg(UserAccountDlg::USER_READONLY, m_myuseraccount, this);
         dlg.exec();
     }
 }
