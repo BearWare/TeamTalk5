@@ -24,22 +24,22 @@
 #include <QDialog>
 
 namespace Ui {
-class UserDlg;
+class UserAccountDlg;
 }
 
-class UserDlg : public QDialog
+class UserAccountDlg : public QDialog
 {
     Q_OBJECT
 
 public:
-    enum UserDlgType
+    enum UserAccountDlgType
     {
         USER_CREATE,
         USER_UPDATE,
         USER_READONLY
     };
-    explicit UserDlg(UserDlgType type, const UserAccount& user, QWidget *parent = nullptr);
-    ~UserDlg();
+    explicit UserAccountDlg(UserAccountDlgType type, const UserAccount& user, QWidget *parent = nullptr);
+    ~UserAccountDlg();
 
     UserAccount getUser() const;
 
@@ -48,11 +48,11 @@ protected:
     void keyPressEvent(QKeyEvent* e) override;
 
 private:
-    Ui::UserDlg *ui;
+    Ui::UserAccountDlg *ui;
     QWidget* m_userRightsTab;
     UserRightsModel* m_userrightsModel;
-    UserAccount m_user, newUser;
-    UserDlgType m_type;
+    UserAccount m_useraccount, m_newuseraccount;
+    UserAccountDlgType m_type;
     AbusePrevention m_abuse;
     void updateUserRights(const UserAccount& useraccount);
     void toggleUserRights(const QModelIndex &index);

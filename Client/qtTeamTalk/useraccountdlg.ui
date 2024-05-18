@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>UserDlg</class>
- <widget class="QDialog" name="UserDlg">
+ <class>UserAccountDlg</class>
+ <widget class="QDialog" name="UserAccountDlg">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -164,6 +164,9 @@
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
            <widget class="MyTreeView" name="userrightsTreeView">
+            <property name="accessibleName">
+             <string>User Rights</string>
+            </property>
             <property name="editTriggers">
              <set>QAbstractItemView::NoEditTriggers</set>
             </property>
@@ -181,9 +184,6 @@
             </property>
             <property name="expandsOnDoubleClick">
              <bool>false</bool>
-            </property>
-            <property name="accessibleName">
-             <string>User Rights</string>
             </property>
             <attribute name="headerVisible">
              <bool>false</bool>
@@ -445,7 +445,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>UserDlg</receiver>
+   <receiver>UserAccountDlg</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -461,7 +461,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>UserDlg</receiver>
+   <receiver>UserAccountDlg</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

@@ -23,7 +23,7 @@ HEADERS    = mainwindow.h preferencesdlg.h uservideowidget.h \
              utilsound.h utilvideo.h utiltts.h utilui.h utilhotkey.h \
              serverlogeventsmodel.h mytreeview.h textmessagecontainer.h \
              useraccountsmodel.h encryptionsetupdlg.h utiltt.h utilxml.h \
-             utilos.h serverdlg.h moveusersdlg.h userdlg.h
+             utilos.h serverdlg.h moveusersdlg.h useraccountdlg.h
 
 SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              channelstree.cpp channeldlg.cpp userinfodlg.cpp \
@@ -43,7 +43,7 @@ SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              utilsound.cpp utilvideo.cpp utiltts.cpp utilui.cpp utilhotkey.cpp \
              serverlogeventsmodel.cpp mytreeview.cpp textmessagecontainer.cpp \
              useraccountsmodel.cpp encryptionsetupdlg.cpp utiltt.cpp utilxml.cpp \
-             utilos.cpp serverdlg.cpp moveusersdlg.cpp userdlg.cpp
+             utilos.cpp serverdlg.cpp moveusersdlg.cpp useraccountdlg.cpp
 
 FORMS      = mainwindow.ui channel.ui preferences.ui \
              serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui \
@@ -53,7 +53,7 @@ FORMS      = mainwindow.ui channel.ui preferences.ui \
              desktopshare.ui streammediafile.ui videotext.ui desktopaccess.ui \
              generatettfile.ui customvideofmt.ui bearwarelogindlg.ui \
              audiopreprocessor.ui statusbardlg.ui encryptionsetupdlg.ui \
-             serverdlg.ui userdlg.ui
+             serverdlg.ui useraccountdlg.ui
 
 RESOURCES += resources.qrc
 

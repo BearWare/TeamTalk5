@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "userdlg.h"
-#include "ui_userdlg.h"
+#include "useraccountdlg.h"
+#include "ui_useraccountdlg.h"
 #include "appinfo.h"
 #include "settings.h"
 
@@ -35,11 +35,11 @@ enum
     LIMITCMD_CUSTOM         = 4
 };
 
-UserDlg::UserDlg(UserDlgType type, const UserAccount& user, QWidget *parent)
+UserAccountDlg::UserAccountDlg(UserAccountDlgType type, const UserAccount& user, QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::UserDlg)
+    , ui(new Ui::UserAccountDlg)
     , m_type(type)
-    , m_user(user)
+    , m_useraccount(user)
     , m_userRightsTab(nullptr)
 {
     ui->setupUi(this);
@@ -59,7 +59,7 @@ UserDlg::UserDlg(UserDlgType type, const UserAccount& user, QWidget *parent)
     ui->typeComboBox->addItem(tr("Administrator"), USERTYPE_ADMIN);
     ui->typeComboBox->addItem(tr("Disabled"), USERTYPE_NONE);
 
-    connect(ui->typeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &UserDlg::slotUserTypeChanged);
+    connect(ui->typeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &UserAccountDlg::slotUserTypeChanged);
 
     int count = 0;
     TT_GetServerChannels(ttInst, nullptr, &count);
@@ -93,15 +93,15 @@ UserDlg::UserDlg(UserDlgType type, const UserAccount& user, QWidget *parent)
     ui->limitcmdComboBox->addItem(tr("Custom specified"), LIMITCMD_CUSTOM);
 
     connect(ui->limitcmdComboBox, QOverload<int>::of(&QComboBox::activated),
-            this, &UserDlg::slotCustomCmdLimit);
+            this, &UserAccountDlg::slotCustomCmdLimit);
 
-    connect(ui->addopBtn, &QAbstractButton::clicked, this, &UserDlg::slotAddOpChannel);
-    connect(ui->rmopBtn, &QAbstractButton::clicked, this, &UserDlg::slotRemoveOpChannel);
+    connect(ui->addopBtn, &QAbstractButton::clicked, this, &UserAccountDlg::slotAddOpChannel);
+    connect(ui->rmopBtn, &QAbstractButton::clicked, this, &UserAccountDlg::slotRemoveOpChannel);
 
-    connect(ui->usernameEdit, &QLineEdit::textChanged, this, &UserDlg::slotUsernameChanged);
+    connect(ui->usernameEdit, &QLineEdit::textChanged, this, &UserAccountDlg::slotUsernameChanged);
 
     if (type != USER_READONLY)
-        connect(ui->userrightsTreeView, &QAbstractItemView::doubleClicked, this, &UserDlg::toggleUserRights);
+        connect(ui->userrightsTreeView, &QAbstractItemView::doubleClicked, this, &UserAccountDlg::toggleUserRights);
 
     switch(type)
     {
@@ -114,12 +114,12 @@ UserDlg::UserDlg(UserDlgType type, const UserAccount& user, QWidget *parent)
     case USER_UPDATE :
     {
         setWindowTitle(tr("Edit User"));
-        this->setAccessibleDescription(tr("Edit User %1").arg(m_user.szUsername));
+        this->setAccessibleDescription(tr("Edit User %1").arg(m_useraccount.szUsername));
     }
     break;
     case USER_READONLY :
         setWindowTitle(tr("View User Information"));
-        this->setAccessibleDescription(tr("View %1 Information").arg(m_user.szUsername));
+        this->setAccessibleDescription(tr("View %1 Information").arg(m_useraccount.szUsername));
         ui->typeComboBox->setEnabled(false);
         ui->usernameEdit->setReadOnly(true);
         ui->passwordEdit->setReadOnly(true);
@@ -133,18 +133,18 @@ UserDlg::UserDlg(UserDlgType type, const UserAccount& user, QWidget *parent)
         ui->limitcmdComboBox->setEnabled(false);
         break;
     }
-    showUserAccount(m_user);
+    showUserAccount(m_useraccount);
 }
 
-UserDlg::~UserDlg()
+UserAccountDlg::~UserAccountDlg()
 {
     ttSettings->setValue(SETTINGS_DISPLAY_USERWINDOWPOS, saveGeometry());
     delete ui;
 }
 
-UserAccount UserDlg::getUser() const
+UserAccount UserAccountDlg::getUser() const
 {
-    UserAccount newUser = m_user;
+    UserAccount newUser = m_useraccount;
     COPY_TTSTR(newUser.szUsername, ui->usernameEdit->text().trimmed());
     COPY_TTSTR(newUser.szPassword, ui->passwordEdit->text());
     newUser.uUserType = getUserType();
@@ -172,7 +172,7 @@ UserAccount UserDlg::getUser() const
     return newUser;
 }
 
-void UserDlg::accept()
+void UserAccountDlg::accept()
 {
     if(ui->usernameEdit->text().isEmpty())
     {
@@ -191,12 +191,12 @@ void UserDlg::accept()
     QDialog::accept();
 }
 
-void UserDlg::updateUserRights(const UserAccount& useraccount)
+void UserAccountDlg::updateUserRights(const UserAccount& useraccount)
 {
     m_userrightsModel->setUserRights(useraccount.uUserType, useraccount.uUserRights);
 }
 
-void UserDlg::toggleUserRights(const QModelIndex &index)
+void UserAccountDlg::toggleUserRights(const QModelIndex &index)
 {
     auto events = m_userrightsModel->getUserRights();
     UserRight e = UserRight(index.internalId());
@@ -206,17 +206,17 @@ void UserDlg::toggleUserRights(const QModelIndex &index)
         m_userrightsModel->setUserRights(getUserType(), events | e);
 }
 
-UserTypes UserDlg::getUserType() const
+UserTypes UserAccountDlg::getUserType() const
 {
     return static_cast<UserTypes>(ui->typeComboBox->currentData().toInt());
 }
 
-void UserDlg::slotUserTypeChanged()
+void UserAccountDlg::slotUserTypeChanged()
 {
-    newUser.uUserType = getUserType();
-    if (newUser.uUserType == USERTYPE_ADMIN)
+    m_newuseraccount.uUserType = getUserType();
+    if (m_newuseraccount.uUserType == USERTYPE_ADMIN)
     {
-        newUser.uUserRights = USERRIGHT_NONE;
+        m_newuseraccount.uUserRights = USERRIGHT_NONE;
         int index = ui->tabWidget->indexOf(m_userRightsTab);
         if (index != -1)
         {
@@ -225,16 +225,16 @@ void UserDlg::slotUserTypeChanged()
     }
     else
     {
-        newUser.uUserRights = USERRIGHT_DEFAULT;
+        m_newuseraccount.uUserRights = USERRIGHT_DEFAULT;
         if (ui->tabWidget->indexOf(m_userRightsTab) == -1)
         {
             ui->tabWidget->addTab(m_userRightsTab, tr("User Rights"));
         }
     }
-    updateUserRights(newUser);
+    updateUserRights(m_newuseraccount);
 }
 
-void UserDlg::slotAddOpChannel()
+void UserAccountDlg::slotAddOpChannel()
 {
     if(ui->opchannelsListWidget->count() + 1 > TT_CHANNELS_OPERATOR_MAX)
     {
@@ -248,7 +248,7 @@ void UserDlg::slotAddOpChannel()
         ui->opchannelsListWidget->addItem(ui->opchanComboBox->currentText());
 }
 
-void UserDlg::slotRemoveOpChannel()
+void UserAccountDlg::slotRemoveOpChannel()
 {
     if(ui->opchannelsListWidget->hasFocus())
         delete ui->opchannelsListWidget->currentItem();
@@ -264,7 +264,7 @@ void UserDlg::slotRemoveOpChannel()
     }
 }
 
-void UserDlg::slotCustomCmdLimit(int index)
+void UserAccountDlg::slotCustomCmdLimit(int index)
 {
     switch(ui->limitcmdComboBox->itemData(index).toInt())
     {
@@ -306,7 +306,7 @@ void UserDlg::slotCustomCmdLimit(int index)
     }
 }
 
-void UserDlg::slotUsernameChanged()
+void UserAccountDlg::slotUsernameChanged()
 {
     if (ui->usernameEdit->text() == WEBLOGIN_BEARWARE_USERNAME || ui->usernameEdit->text().contains(QString("@%1.dk").arg(WEBLOGIN_BEARWARE_USERNAME)))
     {
@@ -320,7 +320,7 @@ void UserDlg::slotUsernameChanged()
     }
 }
 
-void UserDlg::keyPressEvent(QKeyEvent* e)
+void UserAccountDlg::keyPressEvent(QKeyEvent* e)
 {
     if (ui->tabWidget->hasFocus())
     {
@@ -332,7 +332,7 @@ void UserDlg::keyPressEvent(QKeyEvent* e)
     QDialog::keyPressEvent(e);
 }
 
-void UserDlg::showUserAccount(const UserAccount& useraccount)
+void UserAccountDlg::showUserAccount(const UserAccount& useraccount)
 {
     ui->usernameEdit->setText(_Q(useraccount.szUsername));
     ui->passwordEdit->setText(_Q(useraccount.szPassword));
@@ -427,7 +427,7 @@ void UserDlg::showUserAccount(const UserAccount& useraccount)
     slotUsernameChanged();
 }
 
-void UserDlg::updateCustomLimitText(int nCommandsLimit, int nCommandsIntervalMSec)
+void UserAccountDlg::updateCustomLimitText(int nCommandsLimit, int nCommandsIntervalMSec)
 {
     QString customText = tr("Custom (%1 commands per %2 seconds)")
                              .arg(nCommandsLimit)

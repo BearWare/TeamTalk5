@@ -18,7 +18,7 @@
 #include "useraccountsdlg.h"
 #include "appinfo.h"
 #include "settings.h"
-#include "userdlg.h"
+#include "useraccountdlg.h"
 
 #include <QMessageBox>
 #include <QInputDialog>
@@ -102,7 +102,7 @@ void UserAccountsDlg::slotCmdError(int /*error*/, int cmdid)
 void UserAccountsDlg::slotAddUser()
 {
     m_user = {};
-    UserDlg dlg(UserDlg::USER_CREATE, m_user, this);
+    UserAccountDlg dlg(UserAccountDlg::USER_CREATE, m_user, this);
     if (dlg.exec() == QDialog::Accepted)
     {
         m_user = dlg.getUser();
@@ -137,7 +137,7 @@ void UserAccountsDlg::slotEditUser()
     if (index < 0)
         return;
     m_user = m_useraccountsModel->getUsers()[index];
-    UserDlg dlg(UserDlg::USER_UPDATE, m_user, this);
+    UserAccountDlg dlg(UserAccountDlg::USER_UPDATE, m_user, this);
     if (dlg.exec() == QDialog::Accepted)
     {
         m_user = dlg.getUser();

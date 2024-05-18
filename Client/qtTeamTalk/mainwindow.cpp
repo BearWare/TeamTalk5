@@ -46,7 +46,7 @@
 #include "utiltts.h"
 #include "utilxml.h"
 #include "moveusersdlg.h"
-#include "userdlg.h"
+#include "useraccountdlg.h"
 
 #include <QMessageBox>
 #include <QInputDialog>
@@ -5639,7 +5639,7 @@ void MainWindow::slotServerUserAccounts(bool /*checked =false */)
     {
         UserAccount myaccount;
         TT_GetMyUserAccount(ttInst, &myaccount);
-        UserDlg dlg(UserDlg::USER_READONLY, myaccount, this);
+        UserAccountDlg dlg(UserAccountDlg::USER_READONLY, myaccount, this);
         dlg.exec();
     }
 }
