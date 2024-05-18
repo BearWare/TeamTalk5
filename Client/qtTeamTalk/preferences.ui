@@ -2178,6 +2178,33 @@
            </widget>
           </item>
           <item>
+           <widget class="QLabel" name="TTSMsgLabel">
+            <property name="text">
+             <string>Message</string>
+            </property>
+            <property name="buddy">
+             <cstring>TTSMsgEdit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="TTSMsgEdit"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="TTSVarButton">
+            <property name="text">
+             <string>&amp;Variables...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="TTSDefValButton">
+            <property name="text">
+             <string>Reset to Default Value</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <layout class="QHBoxLayout" name="horizontalLayout_23">
             <item>
              <widget class="QPushButton" name="ttsEnableallButton">
