@@ -1983,18 +1983,12 @@ void PreferencesDlg::slotTTSEventToggled(const QModelIndex &index)
     if (e & events)
     {
         m_ttsmodel->setTTSEvents(events & ~e);
-        ui.TTSMsgLabel->setVisible(false);
-        ui.TTSMsgEdit->setVisible(false);
-        ui.TTSVarButton->setVisible(false);
-        ui.TTSDefValButton->setVisible(false);
+        ui.ttsmsg_groupbox->hide();
     }
     else
     {
         m_ttsmodel->setTTSEvents(events | e);
-        ui.TTSMsgLabel->setVisible(true);
-        ui.TTSMsgEdit->setVisible(true);
-        ui.TTSVarButton->setVisible(true);
-        ui.TTSDefValButton->setVisible(true);
+        ui.ttsmsg_groupbox->show();
     }
 }
 
@@ -2031,10 +2025,9 @@ void PreferencesDlg::TTSEventSelected(const QModelIndex &index)
     {
         customizable = false;
     }
-    ui.TTSMsgLabel->setVisible(customizable);
-    ui.TTSMsgEdit->setVisible(customizable);
-    ui.TTSVarButton->setVisible(customizable);
-    ui.TTSDefValButton->setVisible(customizable);
+    auto events = m_ttsmodel->getTTSEvents();
+    TextToSpeechEvent e = TextToSpeechEvent(index.internalId());
+    ui.ttsmsg_groupbox->setVisible(customizable&&(e & events));
 }
 
 void PreferencesDlg::insertVariable()

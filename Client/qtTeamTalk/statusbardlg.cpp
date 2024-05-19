@@ -63,18 +63,12 @@ void StatusBarDlg::slotStatusBarEventToggled(const QModelIndex &index)
     if (e & events)
     {
         m_statusbarmodel->setStatusBarEvents(events & ~e);
-        ui.SBMsgLabel->setVisible(false);
-        ui.SBMsgEdit->setVisible(false);
-        ui.SBVarButton->setVisible(false);
-        ui.SBDefValButton->setVisible(false);
+        ui.sbmsg_groupbox->hide();
     }
     else
     {
         m_statusbarmodel->setStatusBarEvents(events | e);
-        ui.SBMsgLabel->setVisible(true);
-        ui.SBMsgEdit->setVisible(true);
-        ui.SBVarButton->setVisible(true);
-        ui.SBDefValButton->setVisible(true);
+        ui.sbmsg_groupbox->show();
     }
 }
 
@@ -111,10 +105,9 @@ void StatusBarDlg::StatusBarEventSelected(const QModelIndex &index)
     {
         customizable = false;
     }
-    ui.SBMsgLabel->setVisible(customizable);
-    ui.SBMsgEdit->setVisible(customizable);
-    ui.SBVarButton->setVisible(customizable);
-    ui.SBDefValButton->setVisible(customizable);
+    auto events = m_statusbarmodel->getStatusBarEvents();
+    StatusBarEvent e = StatusBarEvent(index.internalId());
+    ui.sbmsg_groupbox->setVisible(customizable&&(e & events));
 }
 
 void StatusBarDlg::insertVariable()
