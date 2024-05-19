@@ -62,6 +62,8 @@ private:
     QVector<SoundDevice> m_sounddevices;
     /* sound events */
     bool getSoundFile(QString& filename);
+    void slotBrowseSoundEvent();
+    class SoundEventsModel* m_soundmodel = nullptr;
     typedef QMap<HotKeyID, hotkey_t> hotkeys_t;
     hotkeys_t m_hotkeys;
     /* video tab */
@@ -100,36 +102,14 @@ private:
     void slotSoundDefaults();
     void slotUpdateSoundCheckBoxes();
     //sound events
-    void slotEventNewUser();
-    void slotEventRemoveUser();
-    void slotEventServerLost();
-    void slotEventUserTextMsg();
-    void slotEventSentTextMsg();
-    void slotEventChannelTextMsg();
-    void slotEventSentChannelMsg();
-    void slotEventBroadcastTextMsg();
-    void slotEventHotKey();
-    void slotEventSilence();
-    void slotEventNewVideo();
-    void slotEventNewDesktop();
-    void slotEventIntercept();
-    void slotEventInterceptEnd();
-    void slotEventFilesUpdated();
-    void slotEventFileTxDone();
-    void slotEventQuestionMode();
-    void slotEventDesktopAccess();
-    void slotEventUserLoggedIn();
-    void slotEventUserLoggedOut();
-    void slotEventVoiceActOn();
-    void slotEventVoiceActOff();
-    void slotEventMuteAllOn();
-    void slotEventMuteAllOff();
-    void slotEventTransmitQueueHead();
-    void slotEventTransmitQueueStop();
-    void slotEventVoiceActTrig();
-    void slotEventVoiceActStop();
-    void slotEventVoiceActMeOn();
-    void slotEventVoiceActMeOff();
+    void slotSoundEventToggled(const QModelIndex &index);
+    void SoundEventSelected(const QModelIndex &index);
+    void saveCurrentFile();
+    void SoundEventsRestoreDefaultFile();
+    QModelIndex m_currentSoundEventsIndex;
+    void slotSoundEventsEnableAll(bool checked);
+    void slotSoundEventsClearAll(bool checked);
+    void slotSoundEventsRevert(bool checked);
     //TTS
     void slotUpdateTTSTab();
     void slotTTSLocaleChanged(const QString& locale);

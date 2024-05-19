@@ -653,6 +653,19 @@ void MainWindow::loadSettings()
             index++;
         }
         ttSettings->endGroup();
+
+        // Sound Events changed in 5.4 format
+        SoundEvents activeEvents = SOUNDEVENT_NONE;
+
+        for (int event = SOUNDEVENT_NEWUSER; event < SOUNDEVENT_NEXT_UNUSED; event <<= 1)
+        {
+            if (!getSoundEventFilename(SoundEvent(event)).isEmpty())
+            {
+                activeEvents = static_cast<SoundEvents>(activeEvents | event);
+            }
+        }
+
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_ACTIVEEVENTS, activeEvents);
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
 
