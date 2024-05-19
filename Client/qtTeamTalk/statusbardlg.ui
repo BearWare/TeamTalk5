@@ -22,6 +22,9 @@
      <layout class="QVBoxLayout" name="verticalLayout_1">
       <item>
        <widget class="MyTreeView" name="statusBarTreeView">
+        <property name="toolTip">
+         <string>Double click to check/uncheck</string>
+        </property>
         <property name="editTriggers">
          <set>QAbstractItemView::NoEditTriggers</set>
         </property>

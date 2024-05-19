@@ -30,7 +30,6 @@
 #include "utiltts.h"
 #include "utilui.h"
 #include "settings.h"
-#include "custominputdialog.h"
 
 #include <QDebug>
 #include <QMessageBox>
@@ -42,6 +41,7 @@
 #if defined(QT_TEXTTOSPEECH_LIB)
 #include <QTextToSpeech>
 #endif
+#include <QMenu>
 #include "stdint.h"
 
 extern TTInstance* ttInst;
@@ -212,6 +212,14 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     m_ttsmodel = new TTSEventsModel(this);
     ui.ttsTreeView->setModel(m_ttsmodel);
     connect(ui.ttsTreeView, &QAbstractItemView::doubleClicked, this, &PreferencesDlg::slotTTSEventToggled);
+    connect(ui.ttsTreeView->selectionModel(), &QItemSelectionModel::currentChanged,
+            this, &PreferencesDlg::TTSEventSelected);
+    m_TTSVarMenu = new QMenu(this);
+    connect(ui.TTSVarButton, &QPushButton::clicked, this, [this]()
+    {
+        m_TTSVarMenu->exec(QCursor::pos());
+    });
+    connect(ui.TTSDefValButton, &QPushButton::clicked, this, &PreferencesDlg::TTSRestoreDefaultMessage);
     connect(ui.ttsengineComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &PreferencesDlg::slotUpdateTTSTab);
     connect(ui.ttsLocaleComboBox, &QComboBox::currentTextChanged, this, &PreferencesDlg::slotTTSLocaleChanged);
     connect(ui.ttsEnableallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSEnableAll);
@@ -1166,6 +1174,7 @@ void PreferencesDlg::slotSaveChanges()
 #endif
 #endif
         ttSettings->setValue(SETTINGS_DISPLAY_TTSHEADER, ui.ttsTreeView->header()->saveState());
+        saveCurrentMessage();
     }
 }
 
@@ -1974,33 +1983,104 @@ void PreferencesDlg::slotTTSEventToggled(const QModelIndex &index)
     if (e & events)
     {
         m_ttsmodel->setTTSEvents(events & ~e);
+        ui.TTSMsgLabel->setVisible(false);
+        ui.TTSMsgEdit->setVisible(false);
+        ui.TTSVarButton->setVisible(false);
+        ui.TTSDefValButton->setVisible(false);
     }
     else
     {
         m_ttsmodel->setTTSEvents(events | e);
+        ui.TTSMsgLabel->setVisible(true);
+        ui.TTSMsgEdit->setVisible(true);
+        ui.TTSVarButton->setVisible(true);
+        ui.TTSDefValButton->setVisible(true);
+    }
+}
 
-        auto eventMap = UtilTTS::eventToSettingMap();
-        if (eventMap.contains(e))
+void PreferencesDlg::TTSEventSelected(const QModelIndex &index)
+{
+    saveCurrentMessage();
+
+    m_currentTTSIndex = index;
+    if (!index.isValid()) return;
+
+    bool customizable = true;
+    auto eventMap = UtilTTS::eventToSettingMap();
+    TTSEvents eventId = static_cast<TTSEvents>(index.internalId());
+
+    if (eventMap.contains(eventId))
+    {
+        const TTSEventInfo& eventInfo = eventMap[eventId];
+        QString paramKey = eventInfo.settingKey;
+        QString defaultValue = UtilTTS::getDefaultValue(paramKey);
+        QString currentMessage = ttSettings->value(paramKey, defaultValue).toString();
+        if (eventInfo.eventName.size() > 0)
+            ui.TTSMsgLabel->setText(tr("Message for Event \"%1\"").arg(eventInfo.eventName));
+        ui.TTSMsgEdit->setText(currentMessage);
+
+        m_TTSVarMenu->clear();
+        for (auto it = eventInfo.variables.constBegin(); it != eventInfo.variables.constEnd(); ++it)
         {
-            const TTSEventInfo& eventInfo = eventMap[e];
-            QString paramKey = eventInfo.settingKey;
-
-            QString defaultValue = UtilTTS::getDefaultValue(paramKey);
-
-            QString currentMessage = ttSettings->value(paramKey, defaultValue).toString();
-
-            QHash<QString, QString> variables = eventInfo.variables;
-
-            CustomInputDialog dialog(tr("Customize Message"), tr("Message for event \"%1\"").arg(eventInfo.eventName.size()>0?eventInfo.eventName:m_ttsmodel->data(index, Qt::DisplayRole).toString()), currentMessage, defaultValue, variables, this);
-            if (dialog.exec() == QDialog::Accepted)
-            {
-                QString text = dialog.getText();
-                if (!text.isEmpty())
-                {
-                    ttSettings->setValue(paramKey, text);
-                }
-            }
+            QAction* action = m_TTSVarMenu->addAction(it.value());
+            action->setData(it.key());
+            connect(action, &QAction::triggered, this, &PreferencesDlg::insertVariable);
         }
+    }
+    else
+    {
+        customizable = false;
+    }
+    ui.TTSMsgLabel->setVisible(customizable);
+    ui.TTSMsgEdit->setVisible(customizable);
+    ui.TTSVarButton->setVisible(customizable);
+    ui.TTSDefValButton->setVisible(customizable);
+}
+
+void PreferencesDlg::insertVariable()
+{
+    QAction* action = qobject_cast<QAction*>(sender());
+    if (action)
+    {
+        QString variable = action->data().toString();
+        int cursorPos = ui.TTSMsgEdit->cursorPosition();
+        ui.TTSMsgEdit->insert(variable);
+        ui.TTSMsgEdit->setCursorPosition(cursorPos + variable.length());
+    }
+}
+
+void PreferencesDlg::saveCurrentMessage()
+{
+    if (!m_currentTTSIndex.isValid()) return;
+
+    auto eventMap = UtilTTS::eventToSettingMap();
+    TTSEvents eventId = static_cast<TTSEvents>(m_currentTTSIndex.internalId());
+
+    if (eventMap.contains(eventId))
+    {
+        const TTSEventInfo& eventInfo = eventMap[eventId];
+        QString paramKey = eventInfo.settingKey;
+        QString text = ui.TTSMsgEdit->text();
+
+        if (!text.isEmpty())
+        {
+            ttSettings->setValue(paramKey, text);
+        }
+    }
+}
+
+void PreferencesDlg::TTSRestoreDefaultMessage()
+{
+    if (!m_currentTTSIndex.isValid()) return;
+
+    auto eventMap = UtilTTS::eventToSettingMap();
+    TTSEvents eventId = static_cast<TTSEvents>(m_currentTTSIndex.internalId());
+
+    if (eventMap.contains(eventId))
+    {
+        const TTSEventInfo& eventInfo = eventMap[eventId];
+        QString defaultValue = UtilTTS::getDefaultValue(eventInfo.settingKey);
+        ui.TTSMsgEdit->setText(defaultValue);
     }
 }
 
