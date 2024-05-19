@@ -43,13 +43,13 @@ StatusBarDlg::StatusBarDlg(QWidget* parent, StatusBarEvents events)
 
     connect(ui.statusBarTreeView, &QAbstractItemView::doubleClicked, this, &StatusBarDlg::slotStatusBarEventToggled);
     connect(ui.statusBarTreeView->selectionModel(), &QItemSelectionModel::currentChanged,
-            this, &StatusBarDlg::StatusBarEventSelected);
+            this, &StatusBarDlg::statusBarEventSelected);
     m_SBVarMenu = new QMenu(this);
     connect(ui.SBVarButton, &QPushButton::clicked, this, [this]()
     {
         m_SBVarMenu->exec(QCursor::pos());
     });
-    connect(ui.SBDefValButton, &QPushButton::clicked, this, &StatusBarDlg::StatusBarRestoreDefaultMessage);
+    connect(ui.SBDefValButton, &QPushButton::clicked, this, &StatusBarDlg::statusBarRestoreDefaultMessage);
     connect(ui.statusBarEnableallButton, &QAbstractButton::clicked, this, &StatusBarDlg::slotStatusBarEnableAll);
     connect(ui.statusBarClearallButton, &QAbstractButton::clicked, this, &StatusBarDlg::slotStatusBarClearAll);
     connect(ui.statusBarRevertButton, &QAbstractButton::clicked, this, &StatusBarDlg::slotStatusBarRevert);
@@ -72,7 +72,7 @@ void StatusBarDlg::slotStatusBarEventToggled(const QModelIndex &index)
     }
 }
 
-void StatusBarDlg::StatusBarEventSelected(const QModelIndex &index)
+void StatusBarDlg::statusBarEventSelected(const QModelIndex &index)
 {
     saveCurrentMessage();
 
@@ -142,7 +142,7 @@ void StatusBarDlg::saveCurrentMessage()
     }
 }
 
-void StatusBarDlg::StatusBarRestoreDefaultMessage()
+void StatusBarDlg::statusBarRestoreDefaultMessage()
 {
     if (!m_currentIndex.isValid()) return;
 
