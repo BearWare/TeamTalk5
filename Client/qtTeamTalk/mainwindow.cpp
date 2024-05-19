@@ -46,6 +46,7 @@
 #include "utiltts.h"
 #include "utilxml.h"
 #include "moveusersdlg.h"
+#include "useraccountdlg.h"
 
 #include <QMessageBox>
 #include <QInputDialog>
@@ -1961,7 +1962,7 @@ void MainWindow::cmdCompleteListUserAccounts()
 {
     if (!m_useraccountsdlg)
     {
-        m_useraccountsdlg = new UserAccountsDlg(m_useraccounts, UAD_READWRITE);
+        m_useraccountsdlg = new UserAccountsDlg(m_useraccounts);
         connect(this, &MainWindow::cmdSuccess, m_useraccountsdlg,
             &UserAccountsDlg::slotCmdSuccess);
         connect(this, &MainWindow::cmdError, m_useraccountsdlg,
@@ -5623,20 +5624,8 @@ void MainWindow::slotServerUserAccounts(bool /*checked =false */)
     }
     else
     {
-        if(!m_useraccountsdlg)
-        {
-            useraccounts_t useraccounts(1);
-            TT_GetMyUserAccount(ttInst, &useraccounts[0]);
-
-            m_useraccountsdlg = new UserAccountsDlg(useraccounts, UAD_READONLY);
-            connect(m_useraccountsdlg, &QDialog::finished,
-                this, &MainWindow::slotClosedUserAccountsDlg);
-            m_useraccountsdlg->setAttribute(Qt::WA_DeleteOnClose);
-            m_useraccountsdlg->show();
-            m_useraccounts.clear();
-        }
-        else
-            m_useraccountsdlg->activateWindow();
+        UserAccountDlg dlg(UserAccountDlg::USER_READONLY, m_myuseraccount, this);
+        dlg.exec();
     }
 }
 

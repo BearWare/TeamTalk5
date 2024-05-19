@@ -16,6 +16,7 @@
  */
 
 #include "useraccountsmodel.h"
+#include "utilui.h"
 
 UserAccountsModel::UserAccountsModel(QObject* parent)
 : QAbstractItemModel(parent)
