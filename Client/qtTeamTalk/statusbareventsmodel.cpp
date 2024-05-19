@@ -22,6 +22,7 @@
 enum
 {
     COLUMN_NAME = 0,
+    COLUMN_MESSAGE = 1,
     COLUMN_COUNT,
 };
 
@@ -77,6 +78,7 @@ QVariant StatusBarEventsModel::headerData ( int section, Qt::Orientation orienta
             switch(section)
             {
             case COLUMN_NAME: return tr("Event");
+            case COLUMN_MESSAGE : return tr("Message");
             }
         }
         break;
@@ -96,80 +98,110 @@ QVariant StatusBarEventsModel::data ( const QModelIndex & index, int role /*= Qt
     switch(role)
     {
     case Qt::DisplayRole :
-        Q_ASSERT(index.column() == COLUMN_NAME);
-        switch(m_statusbarevents[index.row()])
+        switch(index.column())
         {
-        case STATUSBAR_USER_LOGGEDIN :
-            return tr("User logged in");
-        case STATUSBAR_USER_LOGGEDOUT :
-            return tr("User logged out");
-        case STATUSBAR_USER_JOINED :
-            return tr("User joined channel");
-        case STATUSBAR_USER_LEFT :
-            return tr("User left channel");
-        case STATUSBAR_USER_JOINED_SAME :
-            return tr("User join current channel");
-        case STATUSBAR_USER_LEFT_SAME :
-            return tr("User left current channel");
-        case STATUSBAR_SUBSCRIPTIONS_TEXTMSG_PRIVATE :
-            return tr("Subscription private text message changed");
-        case STATUSBAR_SUBSCRIPTIONS_TEXTMSG_CHANNEL :
-            return tr("Subscription channel text message changed");
-        case STATUSBAR_SUBSCRIPTIONS_TEXTMSG_BROADCAST :
-            return tr("Subscription broadcast text message changed");
-        case STATUSBAR_SUBSCRIPTIONS_VOICE :
-            return tr("Subscription voice stream changed");
-        case STATUSBAR_SUBSCRIPTIONS_VIDEO :
-            return tr("Subscription webcam stream changed");
-        case STATUSBAR_SUBSCRIPTIONS_DESKTOP :
-            return tr("Subscription shared desktop stream changed");
-        case STATUSBAR_SUBSCRIPTIONS_DESKTOPINPUT :
-            return tr("Subscription desktop access changed");
-        case STATUSBAR_SUBSCRIPTIONS_MEDIAFILE :
-            return tr("Subscription media file stream changed");
-        case STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE :
-            return tr("Subscription intercept private text message changed");
-        case STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL :
-            return tr("Subscription intercept channel text message changed");
-        case STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VOICE :
-            return tr("Subscription intercept voice stream changed");
-        case STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VIDEO :
-            return tr("Subscription intercept webcam stream changed");
-        case STATUSBAR_SUBSCRIPTIONS_INTERCEPT_DESKTOP :
-            return tr("Subscription intercept desktop stream changed");
-        case STATUSBAR_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE :
-            return tr("Subscription intercept media file stream changed");
-        case STATUSBAR_CLASSROOM_CHANMSG_TX :
-            return tr("Classroom allow channel messages transmission changed");
-        case STATUSBAR_CLASSROOM_VOICE_TX :
-            return tr("Classroom allow voice transmission changed");
-        case STATUSBAR_CLASSROOM_VIDEO_TX :
-            return tr("Classroom allow webcam transmission changed");
-        case STATUSBAR_CLASSROOM_DESKTOP_TX :
-            return tr("Classroom allow desktop transmission changed");
-        case STATUSBAR_CLASSROOM_MEDIAFILE_TX :
-            return tr("Classroom allow media file transmission changed");
-        case STATUSBAR_FILE_ADD :
-            return tr("File added");
-        case STATUSBAR_FILE_REMOVE :
-            return tr("File removed");
-        case STATUSBAR_SAVE_SERVER_CONFIG :
-            return tr("Save server configuration");
-        case STATUSBAR_START_RECORD :
-            return tr("Start a recording");
-        case STATUSBAR_TRANSMISSION_BLOCKED :
-            return tr("Transmission blocked by channel operator");
-        case STATUSBAR_NONE :
-        case STATUSBAR_NEXT_UNUSED :
-        case STATUSBAR_BYPASS :
-            break;
+        case COLUMN_NAME :
+            switch(m_statusbarevents[index.row()])
+            {
+            case STATUSBAR_USER_LOGGEDIN :
+                return tr("User logged in");
+            case STATUSBAR_USER_LOGGEDOUT :
+                return tr("User logged out");
+            case STATUSBAR_USER_JOINED :
+                return tr("User joined channel");
+            case STATUSBAR_USER_LEFT :
+                return tr("User left channel");
+            case STATUSBAR_USER_JOINED_SAME :
+                return tr("User join current channel");
+            case STATUSBAR_USER_LEFT_SAME :
+                return tr("User left current channel");
+            case STATUSBAR_SUBSCRIPTIONS_TEXTMSG_PRIVATE :
+                return tr("Subscription private text message changed");
+            case STATUSBAR_SUBSCRIPTIONS_TEXTMSG_CHANNEL :
+                return tr("Subscription channel text message changed");
+            case STATUSBAR_SUBSCRIPTIONS_TEXTMSG_BROADCAST :
+                return tr("Subscription broadcast text message changed");
+            case STATUSBAR_SUBSCRIPTIONS_VOICE :
+                return tr("Subscription voice stream changed");
+            case STATUSBAR_SUBSCRIPTIONS_VIDEO :
+                return tr("Subscription webcam stream changed");
+            case STATUSBAR_SUBSCRIPTIONS_DESKTOP :
+                return tr("Subscription shared desktop stream changed");
+            case STATUSBAR_SUBSCRIPTIONS_DESKTOPINPUT :
+                return tr("Subscription desktop access changed");
+            case STATUSBAR_SUBSCRIPTIONS_MEDIAFILE :
+                return tr("Subscription media file stream changed");
+            case STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE :
+                return tr("Subscription intercept private text message changed");
+            case STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL :
+                return tr("Subscription intercept channel text message changed");
+            case STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VOICE :
+                return tr("Subscription intercept voice stream changed");
+            case STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VIDEO :
+                return tr("Subscription intercept webcam stream changed");
+            case STATUSBAR_SUBSCRIPTIONS_INTERCEPT_DESKTOP :
+                return tr("Subscription intercept desktop stream changed");
+            case STATUSBAR_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE :
+                return tr("Subscription intercept media file stream changed");
+            case STATUSBAR_CLASSROOM_CHANMSG_TX :
+                return tr("Classroom allow channel messages transmission changed");
+            case STATUSBAR_CLASSROOM_VOICE_TX :
+                return tr("Classroom allow voice transmission changed");
+            case STATUSBAR_CLASSROOM_VIDEO_TX :
+                return tr("Classroom allow webcam transmission changed");
+            case STATUSBAR_CLASSROOM_DESKTOP_TX :
+                return tr("Classroom allow desktop transmission changed");
+            case STATUSBAR_CLASSROOM_MEDIAFILE_TX :
+                return tr("Classroom allow media file transmission changed");
+            case STATUSBAR_FILE_ADD :
+                return tr("File added");
+            case STATUSBAR_FILE_REMOVE :
+                return tr("File removed");
+            case STATUSBAR_SAVE_SERVER_CONFIG :
+                return tr("Save server configuration");
+            case STATUSBAR_START_RECORD :
+                return tr("Start a recording");
+            case STATUSBAR_TRANSMISSION_BLOCKED :
+                return tr("Transmission blocked by channel operator");
+            case STATUSBAR_NONE :
+            case STATUSBAR_NEXT_UNUSED :
+            case STATUSBAR_BYPASS :
+                break;
+            }
+        case COLUMN_MESSAGE :
+        {
+            auto eventMap = UtilUI::eventToSettingMap();
+            if (eventMap.contains(m_statusbarevents[index.row()]))
+            {
+                QString paramKey = eventMap[m_statusbarevents[index.row()]].settingKey;
+                return UtilUI::getRawStatusBarMessage(paramKey);
+            }
+            return QVariant();
         }
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+        }
+        break;
     case Qt::AccessibleTextRole :
-        return QString("%1: %2").arg(data(index, Qt::DisplayRole).toString()).arg((m_statusbarselected & m_statusbarevents[index.row()])? tr("Enabled") : tr("Disabled"));
+        switch (index.column())
+        {
+        case COLUMN_NAME :
+            QString result = data(index, Qt::DisplayRole).toString();
+            QString msg = data(createIndex(index.row(), COLUMN_MESSAGE), Qt::DisplayRole).toString();
+            if (msg.size() > 0)
+                result += " - " + msg;
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+            QString state = (m_statusbarselected & m_statusbarevents[index.row()])? tr("Enabled") : tr("Disabled");
+            result += ": " + state;
 #endif
+            return result;
+        }
+        break;
     case Qt::CheckStateRole :
-        return (m_statusbarselected & m_statusbarevents[index.row()])? Qt::Checked : Qt::Unchecked;
+        switch (index.column())
+        {
+        case COLUMN_NAME :
+            return (m_statusbarselected & m_statusbarevents[index.row()])? Qt::Checked : Qt::Unchecked;
+        }
+        break;
     }
     return QVariant();
 }

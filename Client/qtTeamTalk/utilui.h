@@ -27,6 +27,9 @@
 #include <QDialog>
 #include <QAbstractItemView>
 #include <QSortFilterProxyModel>
+#include <QHash>
+#include <QString>
+#include <QObject>
 
 enum DoubleClickChannelAction
 {
@@ -83,6 +86,13 @@ enum StatusBarEvent : qulonglong
 };
 
 typedef qulonglong StatusBarEvents;
+
+struct StatusBarEventInfo
+{
+    QString settingKey;
+    QHash<QString, QString> variables;
+    QString eventName;
+};
 
 enum ChannelSort
 {
@@ -149,4 +159,16 @@ QStringList extractLanguages();
 bool switchLanguage(const QString& language);
 QString getFormattedDateTime(QString originalDateTime, QString format);
 QString getFormattedFileSize(qint64 filesize);
+
+class UtilUI : public QObject
+{
+    Q_OBJECT
+
+public:
+    static QHash<StatusBarEvents, StatusBarEventInfo> eventToSettingMap();
+    static QString getDefaultValue(const QString& paramKey);
+    static QString getStatusBarMessage(const QString& paramKey, const QHash<QString, QString>& variables);
+    static QString getRawStatusBarMessage(const QString& paramKey);
+};
+
 #endif

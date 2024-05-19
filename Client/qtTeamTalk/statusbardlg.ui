@@ -46,6 +46,46 @@
        </widget>
       </item>
       <item>
+       <widget class="QGroupBox" name="groupBox_MSG">
+        <property name="title">
+         <string>Status Bar Message</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_16">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_29">
+           <item>
+            <widget class="QLabel" name="SBMsgLabel">
+             <property name="text">
+              <string>Message</string>
+             </property>
+             <property name="buddy">
+              <cstring>SBMsgEdit</cstring>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="SBMsgEdit"/>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QPushButton" name="SBVarButton">
+           <property name="text">
+            <string>&amp;Variables...</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="SBDefValButton">
+           <property name="text">
+            <string>Reset to Default Value</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QPushButton" name="statusBarEnableallButton">

@@ -379,6 +379,27 @@
 #define SETTINGS_TTSMSG_FILE_REMOVED                         "texttospeech/messages/file-removed"
 #define SETTINGS_TTSMSG_FILE_REMOVED_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "File {file} removed by {user}")
 
+#define SETTINGS_STATUSBARMSG_USER_LOGGEDIN                         "status-bar-messages/user-logged-in"
+#define SETTINGS_STATUSBARMSG_USER_LOGGEDIN_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{user} has logged in")
+#define SETTINGS_STATUSBARMSG_USER_LOGGEDOUT                         "status-bar-messages/user-logged-out"
+#define SETTINGS_STATUSBARMSG_USER_LOGGEDOUT_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{user} has logged out")
+#define SETTINGS_STATUSBARMSG_USER_JOINED                         "status-bar-messages/user-joined-channel"
+#define SETTINGS_STATUSBARMSG_USER_JOINED_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{user} joined channel {channel}")
+#define SETTINGS_STATUSBARMSG_USER_LEFT                         "status-bar-messages/user-left-channel"
+#define SETTINGS_STATUSBARMSG_USER_LEFT_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{user} left channel {channel}")
+#define SETTINGS_STATUSBARMSG_USER_JOINED_SAME                         "status-bar-messages/user-joined-same-channel"
+#define SETTINGS_STATUSBARMSG_USER_JOINED_SAME_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{user} joined channel")
+#define SETTINGS_STATUSBARMSG_USER_LEFT_SAME                         "status-bar-messages/user-left-same-channel"
+#define SETTINGS_STATUSBARMSG_USER_LEFT_SAME_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{user} left channel")
+#define SETTINGS_STATUSBARMSG_SUBCHANGE                         "status-bar-messages/subscription-change"
+#define SETTINGS_STATUSBARMSG_SUBCHANGE_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "Subscription \"{type}\" {state} for {user}")
+#define SETTINGS_STATUSBARMSG_CLASSROOM                         "status-bar-messages/classroom-transmission-change"
+#define SETTINGS_STATUSBARMSG_CLASSROOM_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "Transmission \"{type}\" {state} for {user}")
+#define SETTINGS_STATUSBARMSG_FILE_ADDED                         "status-bar-messages/file-added"
+#define SETTINGS_STATUSBARMSG_FILE_ADDED_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "File {filename} added by {user}")
+#define SETTINGS_STATUSBARMSG_FILE_REMOVED                         "status-bar-messages/file-removed"
+#define SETTINGS_STATUSBARMSG_FILE_REMOVED_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "File {file} removed by {user}")
+
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"
 #define SETTINGS_MEDIASTORAGE_FILEFORMAT            "media-storage/audio-storage-format"
