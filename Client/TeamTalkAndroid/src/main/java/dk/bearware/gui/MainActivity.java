@@ -1434,8 +1434,6 @@ private EditText newmsg;
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        UserAccount myuseraccount = new UserAccount();
-        ttclient.getMyUserAccount(myuseraccount);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         switch (item.getItemId()) {
         case R.id.action_banchan:
@@ -1476,6 +1474,8 @@ private EditText newmsg;
             alert.show();
             break;
             case R.id.action_makeop:
+                UserAccount myuseraccount = new UserAccount();
+                ttclient.getMyUserAccount(myuseraccount);
                 if ((myuseraccount.uUserRights & UserRight.USERRIGHT_OPERATOR_ENABLE) != UserRight.USERRIGHT_NONE) {
                     ttclient.doChannelOp(selectedUser.nUserID, selectedUser.nChannelID, ttclient.isChannelOperator(selectedUser.nUserID, selectedUser.nChannelID)? false: true);
                     break;
