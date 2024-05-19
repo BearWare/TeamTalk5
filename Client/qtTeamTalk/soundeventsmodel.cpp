@@ -145,17 +145,17 @@ QVariant SoundEventsModel::data ( const QModelIndex & index, int role /*= Qt::Di
             case SOUNDEVENT_VOICEACTSTOP :
                 return tr("Voice activation stopped");
             case SOUNDEVENT_VOICEACTMEON :
-                return tr("Voice activation enabled via &quot;Me&quot; menu");
+                return tr("Voice activation enabled via \"Me\" menu");
             case SOUNDEVENT_VOICEACTMEOFF :
-                return tr("Voice activation disabled via &quot;Me&quot; menu");
+                return tr("Voice activation disabled via \"Me\" menu");
             case SOUNDEVENT_MUTEALLON :
                 return tr("Mute master volume");
             case SOUNDEVENT_MUTEALLOFF :
                 return tr("Unmute master volume");
             case SOUNDEVENT_TRANSMITQUEUE_HEAD :
-                return tr("Transmit ready in &quot;No interruption&quot; channel");
+                return tr("Transmit ready in \"No interruption\" channel");
             case SOUNDEVENT_TRANSMITQUEUE_STOP :
-                return tr("Transmit stopped in &quot;No interruption&quot; channel");
+                return tr("Transmit stopped in \"No interruption\" channel");
             case SOUNDEVENT_INTERCEPT :
                 return tr("Intercepted by another user");
             case SOUNDEVENT_INTERCEPTEND :
