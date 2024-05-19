@@ -4,7 +4,7 @@
 
 Version 5.17, unreleased
 Default Qt Client
-- "Connect to a Server" dialog simplied with multiple sub dialogs
+- "Connect to a Server" and "User Accounts" dialog simplified with multiple sub dialogs
 - Reset label of files list when disconnected from server
 - "Move Users" dialog
 - Locale file size now also use in "file transfer" dialog

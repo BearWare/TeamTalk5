@@ -18,8 +18,7 @@
 #ifndef USERACCOUNTSMODEL_H
 #define USERACCOUNTSMODEL_H
 
-#include "common.h"
-#include "utilui.h"
+#include "utiltt.h"
 
 #include <QAbstractItemModel>
 #include <QSortFilterProxyModel>
@@ -40,12 +39,12 @@ class UserAccountsModel : public QAbstractItemModel
     Q_OBJECT
 public:
     UserAccountsModel(QObject* parent);
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-    int columnCount(const QModelIndex & parent = QModelIndex()) const;
-    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
-    QModelIndex index(int row, int column, const QModelIndex & parent = QModelIndex()) const;
-    QModelIndex parent(const QModelIndex & index) const;
-    int rowCount(const QModelIndex & parent = QModelIndex()) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+    int columnCount(const QModelIndex & parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
+    QModelIndex index(int row, int column, const QModelIndex & parent = QModelIndex()) const override;
+    QModelIndex parent(const QModelIndex & index) const override;
+    int rowCount(const QModelIndex & parent = QModelIndex()) const override;
 
     void addRegUser(const UserAccount& user, bool do_reset);
     void delRegUser(int index);
@@ -60,12 +59,12 @@ class UserRightsModel : public QAbstractItemModel
     Q_OBJECT
 public:
     UserRightsModel(QObject* parent);
-    int columnCount(const QModelIndex & parent = QModelIndex()) const;
-    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
+    int columnCount(const QModelIndex & parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
     Qt::ItemFlags flags(const QModelIndex &index) const override;
-    QModelIndex index(int row, int column, const QModelIndex & parent = QModelIndex()) const;
-    QModelIndex parent(const QModelIndex & index) const;
-    int rowCount(const QModelIndex & parent = QModelIndex()) const;
+    QModelIndex index(int row, int column, const QModelIndex & parent = QModelIndex()) const override;
+    QModelIndex parent(const QModelIndex & index) const override;
+    int rowCount(const QModelIndex & parent = QModelIndex()) const override;
     void setUserRights(UserTypes usertypes, UserRights rights);
     UserRights getUserRights() const;
 
