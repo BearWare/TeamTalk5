@@ -2157,6 +2157,9 @@
          <layout class="QVBoxLayout" name="verticalLayout_20">
           <item>
            <widget class="MyTreeView" name="ttsTreeView">
+            <property name="toolTip">
+             <string>Double click to check/uncheck</string>
+            </property>
             <property name="editTriggers">
              <set>QAbstractItemView::NoEditTriggers</set>
             </property>
