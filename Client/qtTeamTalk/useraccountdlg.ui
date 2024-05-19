@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>667</width>
-    <height>566</height>
+    <width>804</width>
+    <height>590</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string notr="true">Dialog</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_1">
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
