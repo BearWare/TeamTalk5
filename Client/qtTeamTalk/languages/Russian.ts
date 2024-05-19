@@ -1974,7 +1974,7 @@ Message of the day: %2</translation>
     <message>
         <location filename="../mainwindow.ui" line="1465"/>
         <source>&amp;Check for Update</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Проверить наличие обновлений</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1470"/>
@@ -2205,12 +2205,12 @@ Message of the day: %2</translation>
     <message>
         <location filename="../mainwindow.ui" line="1911"/>
         <source>Move Users &amp;Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Диалог перемещения пользователей</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1914"/>
         <source>Ctrl+Alt+M</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+M</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1953"/>
@@ -3222,7 +3222,7 @@ Message of the day: %2</translation>
         <location filename="../mainwindow.cpp" line="2100"/>
         <location filename="../mainwindow.cpp" line="2101"/>
         <source>Files in channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Файлы в канале</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2237"/>
@@ -3856,12 +3856,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.cpp" line="7431"/>
         <source>Check for Update</source>
-        <translation type="unfinished"></translation>
+        <translation>проверить наличие обновлений</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7431"/>
         <source>%1 is up to date.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Имеет последнюю версию.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7506"/>
@@ -4737,27 +4737,27 @@ Should these settings be applied?</source>
         <location filename="../moveusersdlg.cpp" line="34"/>
         <location filename="../moveusersdlg.cpp" line="56"/>
         <source>Move Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Переместить пользователей</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="39"/>
         <source>Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователи</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="49"/>
         <source>&amp;Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Канал</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="57"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="82"/>
         <source>Root Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Канал главный</translation>
     </message>
 </context>
 <context>
@@ -6127,168 +6127,168 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverdlg.ui" line="20"/>
         <source>Server Information</source>
-        <translation type="unfinished">Информация Сервера</translation>
+        <translation>Информация Сервера</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="28"/>
         <source>Entry name</source>
-        <translation type="unfinished">название</translation>
+        <translation>название</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="43"/>
         <source>Host IP-address</source>
-        <translation type="unfinished"></translation>
+        <translation>хост  IP адрес</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="60"/>
         <source>TCP port</source>
-        <translation type="unfinished">TCP порт</translation>
+        <translation>TCP порт</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="75"/>
         <source>TCP Port (Default: 10333)</source>
-        <translation type="unfinished"></translation>
+        <translation>TCP-порт (по умолчанию: 10333)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="82"/>
         <location filename="../serverdlg.ui" line="113"/>
         <source>Default: 10333</source>
-        <translation type="unfinished">По умолчанию: 10333</translation>
+        <translation>По умолчанию: 10333</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="91"/>
         <source>UDP port</source>
-        <translation type="unfinished">UDP порт</translation>
+        <translation>UDP порт</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="106"/>
         <source>UDP Port (Default: 10333)</source>
-        <translation type="unfinished"></translation>
+        <translation>UDP-порт (по умолчанию: 10333)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="124"/>
         <source>Encrypted server</source>
-        <translation type="unfinished">Использовать шифрование, если поддерживается</translation>
+        <translation>Использовать шифрование, если поддерживается</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="134"/>
         <source>Setup</source>
-        <translation type="unfinished">Настроить</translation>
+        <translation>Настроить</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="156"/>
         <location filename="../serverdlg.ui" line="159"/>
         <source>Authentication (optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>Аутентификация (необязательно)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="165"/>
         <source>Use BearWare.dk Web Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Использовать BearWare.dk Веб-логин</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="172"/>
         <source>Username</source>
-        <translation type="unfinished">Имя пользователя</translation>
+        <translation>Имя пользователя</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="185"/>
         <location filename="../serverdlg.ui" line="258"/>
         <source>Password</source>
-        <translation type="unfinished">Пароль</translation>
+        <translation>Пароль</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="204"/>
         <location filename="../serverdlg.ui" line="277"/>
         <source>Show password</source>
-        <translation type="unfinished">Показать пароль</translation>
+        <translation>Показать пароль</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="216"/>
         <source>Nickname (optional)</source>
-        <translation type="unfinished">Ник (необязательно)</translation>
+        <translation>Ник (необязательно)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="229"/>
         <location filename="../serverdlg.ui" line="232"/>
         <source>Join specific channel after authentication (optional)</source>
-        <translation type="unfinished">Подключиться к определённому каналу после входа (необязательно)</translation>
+        <translation>Подключиться к определённому каналу после входа (необязательно)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="238"/>
         <source>Latest Joined Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Последний подключенный канал</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="245"/>
         <source>Channel</source>
-        <translation type="unfinished">Канал</translation>
+        <translation>Канал</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="292"/>
         <source>&amp;Connect to Server on exit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Подключиться к серверу после выхода</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="42"/>
         <source>&amp;Save and Close</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Сохранить и закрыть</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="43"/>
         <source>&amp;Close without saving</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Закрыть без сохранения</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="64"/>
         <location filename="../serverdlg.cpp" line="65"/>
         <source>Add Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить сервер</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="69"/>
         <source>Edit Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить сервер</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="70"/>
         <source>Edit Server %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить сервер %1</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="74"/>
         <source>View Server Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Просмотр информации о сервере</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="75"/>
         <source>View %1 Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Просмотреть информацию о %1</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="91"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Закрыть</translation>
+        <translation>&amp;Закрыть</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="154"/>
         <source>Name already used</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя уже занято</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="154"/>
         <source>Another server with this name already exists. Please use a different name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Другой сервер с таким именем уже существует. Пожалуйста, используйте другое имя.</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="159"/>
         <source>Missing information</source>
-        <translation type="unfinished"></translation>
+        <translation>Неверная информация</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="159"/>
         <source>Please fill in &quot;Host IP-address&quot; field</source>
-        <translation type="unfinished"></translation>
+        <translation>Пожалуйста, заполните поле &quot;Хост IP адрес&quot;</translation>
     </message>
 </context>
 <context>
@@ -6327,22 +6327,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="90"/>
         <source>Saved Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохраненные серверы</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="124"/>
         <source>&amp;Add new server</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Добавить новый сервер</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="140"/>
         <source>Latest hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Последние хосты</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="150"/>
         <source>Latest Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Последние хосты</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="114"/>
@@ -6404,17 +6404,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="551"/>
         <source>Duplicate Server Entry</source>
-        <translation type="unfinished"></translation>
+        <translation>Повторяющаяся запись сервера</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="552"/>
         <source>Entry Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя записи</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="553"/>
         <source>%1 - COPY</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Копировать</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="638"/>
@@ -6455,47 +6455,47 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="741"/>
         <source>&amp;Delete</source>
-        <translation type="unfinished">&amp;Удалить</translation>
+        <translation>&amp;Удалить</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="742"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Изменить</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="743"/>
         <source>D&amp;uplicate</source>
-        <translation type="unfinished"></translation>
+        <translation>Д&amp;ублекат</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="744"/>
         <source>&amp;Generate .tt file</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Сгенерировать файл .tt</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="745"/>
         <source>&amp;Publish Publicly</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Публиковать публично</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="798"/>
         <source>Co&amp;nnect</source>
-        <translation type="unfinished"></translation>
+        <translation>П&amp;одключиться</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="799"/>
         <source>&amp;Remove from Latest Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Удалить из последних хостов</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="800"/>
         <source>&amp;Add to Saved Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Добавить к сохранённым серверам</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="801"/>
         <source>&amp;Clear Latest Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Очистить последние хосты</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="633"/>
