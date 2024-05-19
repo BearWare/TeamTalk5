@@ -2154,9 +2154,12 @@
          <property name="title">
           <string>Enable/disable Text to Speech Events</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_16">
+         <layout class="QVBoxLayout" name="verticalLayout_20">
           <item>
            <widget class="MyTreeView" name="ttsTreeView">
+            <property name="toolTip">
+             <string>Double click to check/uncheck</string>
+            </property>
             <property name="editTriggers">
              <set>QAbstractItemView::NoEditTriggers</set>
             </property>
@@ -2175,6 +2178,46 @@
             <property name="expandsOnDoubleClick">
              <bool>false</bool>
             </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupBox_14">
+            <property name="title">
+             <string>Text to Speech Message</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_16">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_29">
+               <item>
+                <widget class="QLabel" name="TTSMsgLabel">
+                 <property name="text">
+                  <string>Message</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>TTSMsgEdit</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="TTSMsgEdit"/>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QPushButton" name="TTSVarButton">
+               <property name="text">
+                <string>&amp;Variables...</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="TTSDefValButton">
+               <property name="text">
+                <string>Reset to Default Value</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
           <item>

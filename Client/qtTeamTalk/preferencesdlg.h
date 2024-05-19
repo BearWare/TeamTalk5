@@ -144,6 +144,12 @@ private:
     void slotDefaultVideoSettings();
     //tts tab
     void slotTTSEventToggled(const QModelIndex &index);
+    void TTSEventSelected(const QModelIndex &index);
+    void insertVariable();
+    void saveCurrentMessage();
+    void TTSRestoreDefaultMessage();
+    QMenu* m_TTSVarMenu;
+    QModelIndex m_currentTTSIndex;
     void slotTTSEnableAll(bool checked);
     void slotTTSClearAll(bool checked);
     void slotTTSRevert(bool checked);
