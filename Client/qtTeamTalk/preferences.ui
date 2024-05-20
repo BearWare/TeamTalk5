@@ -1358,7 +1358,7 @@
              <widget class="QComboBox" name="spackBox"/>
             </item>
             <item>
-             <spacer name="horizontalSpacer_28">
+             <spacer name="horizontalSpacer_26">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -1391,7 +1391,7 @@
              </widget>
             </item>
             <item>
-             <spacer name="horizontalSpacer_29">
+             <spacer name="horizontalSpacer_28">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -1416,135 +1416,135 @@
             <item>
              <widget class="QComboBox" name="sndeventPlaybackComboBox"/>
             </item>
-            <item>
-             <widget class="QGroupBox" name="soundEvents_groupbox">
-              <property name="title">
-               <string>Enable/disable Sound Events</string>
-              </property>
-              <layout class="QVBoxLayout" name="soundEvents_vlayout1">
-               <item>
-                <widget class="MyTreeView" name="soundEventsTreeView">
-                 <property name="toolTip">
-                  <string>Double click to check/uncheck</string>
-                 </property>
-                 <property name="editTriggers">
-                  <set>QAbstractItemView::NoEditTriggers</set>
-                 </property>
-                 <property name="showDropIndicator" stdset="0">
-                  <bool>false</bool>
-                 </property>
-                 <property name="alternatingRowColors">
-                  <bool>true</bool>
-                 </property>
-                 <property name="rootIsDecorated">
-                  <bool>false</bool>
-                 </property>
-                 <property name="itemsExpandable">
-                  <bool>false</bool>
-                 </property>
-                 <property name="expandsOnDoubleClick">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QGroupBox" name="soundeventsfile_groupbox">
-                 <property name="title">
-                  <string>Sound Event File</string>
-                 </property>
-                 <layout class="QVBoxLayout" name="soundEvents_vlayout2">
+           </layout>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="soundEvents_groupbox">
+            <property name="title">
+             <string>Enable/disable Sound Events</string>
+            </property>
+            <layout class="QVBoxLayout" name="soundEvents_vlayout1">
+             <item>
+              <widget class="MyTreeView" name="soundEventsTreeView">
+               <property name="toolTip">
+                <string>Double click to check/uncheck</string>
+               </property>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+               <property name="showDropIndicator" stdset="0">
+                <bool>false</bool>
+               </property>
+               <property name="alternatingRowColors">
+                <bool>true</bool>
+               </property>
+               <property name="rootIsDecorated">
+                <bool>false</bool>
+               </property>
+               <property name="itemsExpandable">
+                <bool>false</bool>
+               </property>
+               <property name="expandsOnDoubleClick">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QGroupBox" name="soundeventsfile_groupbox">
+               <property name="title">
+                <string>Sound Event File</string>
+               </property>
+               <layout class="QVBoxLayout" name="soundEvents_vlayout2">
+                <item>
+                 <layout class="QHBoxLayout" name="soundEvents_hbox1">
                   <item>
-                   <layout class="QHBoxLayout" name="soundEvents_hbox1">
-                    <item>
-                     <widget class="QLabel" name="soundEventFileLabel">
-                      <property name="text">
-                       <string>File</string>
-                      </property>
-                      <property name="buddy">
-                       <cstring>soundEventFileEdit</cstring>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLineEdit" name="soundEventFileEdit"/>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="soundEventsBrowseButton">
+                   <widget class="QLabel" name="soundEventFileLabel">
                     <property name="text">
-                     <string notr="true">...</string>
+                     <string>File</string>
                     </property>
-                    <property name="accessibleName">
-                     <string>Browse</string>
+                    <property name="buddy">
+                     <cstring>soundEventFileEdit</cstring>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="soundEventsDefFileButton">
-                    <property name="text">
-                     <string>Reset to Default File</string>
-                    </property>
-                   </widget>
+                   <widget class="QLineEdit" name="soundEventFileEdit"/>
                   </item>
                  </layout>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="soundEventsBrowseButton">
+                  <property name="accessibleName">
+                   <string>Browse</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true">...</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="soundEventsDefFileButton">
+                  <property name="text">
+                   <string>Reset to Default File</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="soundEvents_hbox2">
+               <item>
+                <widget class="QPushButton" name="soundEventsEnableallButton">
+                 <property name="text">
+                  <string>Enable &amp;all</string>
+                 </property>
                 </widget>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="soundEvents_hbox2">
-                 <item>
-                  <widget class="QPushButton" name="soundEventsEnableallButton">
-                   <property name="text">
-                    <string>Enable &amp;all</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_23">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="soundEventsClearallButton">
-                   <property name="text">
-                    <string>C&amp;lear all</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="soundevents_hspacer1">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="soundEventsRevertButton">
-                   <property name="text">
-                    <string>&amp;Revert</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
+                <spacer name="horizontalSpacer_23">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QPushButton" name="soundEventsClearallButton">
+                 <property name="text">
+                  <string>C&amp;lear all</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="soundevents_hspacer1">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QPushButton" name="soundEventsRevertButton">
+                 <property name="text">
+                  <string>&amp;Revert</string>
+                 </property>
+                </widget>
                </item>
               </layout>
-             </widget>
-            </item>
-           </layout>
+             </item>
+            </layout>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -1650,7 +1650,7 @@
              </widget>
             </item>
             <item>
-             <spacer name="horizontalSpacer_23">
+             <spacer name="horizontalSpacer_29">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
