@@ -53,10 +53,10 @@ SoundEventsModel::SoundEventsModel(QObject* parent)
     m_soundevents.push_back(SOUNDEVENT_QUESTIONMODE);
     m_soundevents.push_back(SOUNDEVENT_VOICEACTON);
     m_soundevents.push_back(SOUNDEVENT_VOICEACTOFF);
-    m_soundevents.push_back(SOUNDEVENT_VOICEACTTRIG);
-    m_soundevents.push_back(SOUNDEVENT_VOICEACTSTOP);
     m_soundevents.push_back(SOUNDEVENT_VOICEACTMEON);
     m_soundevents.push_back(SOUNDEVENT_VOICEACTMEOFF);
+    m_soundevents.push_back(SOUNDEVENT_VOICEACTTRIG);
+    m_soundevents.push_back(SOUNDEVENT_VOICEACTSTOP);
     m_soundevents.push_back(SOUNDEVENT_MUTEALLON);
     m_soundevents.push_back(SOUNDEVENT_MUTEALLOFF);
     m_soundevents.push_back(SOUNDEVENT_TRANSMITQUEUE_HEAD);
@@ -109,17 +109,17 @@ QVariant SoundEventsModel::data ( const QModelIndex & index, int role /*= Qt::Di
             case SOUNDEVENT_REMOVEUSER :
                 return tr("User left channel");
             case SOUNDEVENT_SERVERLOST :
-                return tr("Server lost");
+                return tr("Connection to server lost");
             case SOUNDEVENT_USERMSG :
-                return tr("New user message");
+                return tr("Private message received");
             case SOUNDEVENT_USERMSGSENT :
                 return tr("Private message sent");
             case SOUNDEVENT_CHANNELMSG :
-                return tr("New channel message");
+                return tr("Channel message received");
             case SOUNDEVENT_CHANNELMSGSENT :
                 return tr("Channel message sent");
             case SOUNDEVENT_BROADCASTMSG :
-                return tr("New broadcast message");
+                return tr("Broadcast message received");
             case SOUNDEVENT_HOTKEY :
                 return tr("Hotkey pressed");
             case SOUNDEVENT_SILENCE :
@@ -133,21 +133,21 @@ QVariant SoundEventsModel::data ( const QModelIndex & index, int role /*= Qt::Di
             case SOUNDEVENT_FILESUPD :
                 return tr("Files updated");
             case SOUNDEVENT_FILETXDONE :
-                return tr("File transfer complete");
+                return tr("File transfer completed");
             case SOUNDEVENT_QUESTIONMODE :
-                return tr("User entered question-mode");
+                return tr("User enabled question mode");
             case SOUNDEVENT_VOICEACTON :
                 return tr("Voice activation enabled");
             case SOUNDEVENT_VOICEACTOFF :
                 return tr("Voice activation disabled");
-            case SOUNDEVENT_VOICEACTTRIG :
-                return tr("Voice activation triggered");
-            case SOUNDEVENT_VOICEACTSTOP :
-                return tr("Voice activation stopped");
             case SOUNDEVENT_VOICEACTMEON :
                 return tr("Voice activation enabled via \"Me\" menu");
             case SOUNDEVENT_VOICEACTMEOFF :
                 return tr("Voice activation disabled via \"Me\" menu");
+            case SOUNDEVENT_VOICEACTTRIG :
+                return tr("Voice activation triggered");
+            case SOUNDEVENT_VOICEACTSTOP :
+                return tr("Voice activation stopped");
             case SOUNDEVENT_MUTEALLON :
                 return tr("Mute master volume");
             case SOUNDEVENT_MUTEALLOFF :
@@ -157,9 +157,9 @@ QVariant SoundEventsModel::data ( const QModelIndex & index, int role /*= Qt::Di
             case SOUNDEVENT_TRANSMITQUEUE_STOP :
                 return tr("Transmit stopped in \"No interruption\" channel");
             case SOUNDEVENT_INTERCEPT :
-                return tr("Intercepted by another user");
+                return tr("Interception by another user");
             case SOUNDEVENT_INTERCEPTEND :
-                return tr("Finish intercepted by another user");
+                return tr("End of interception by another user");
             case SOUNDEVENT_NEXT_UNUSED :
             case SOUNDEVENT_NONE :
                 break;
