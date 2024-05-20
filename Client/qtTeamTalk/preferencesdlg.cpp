@@ -1880,99 +1880,28 @@ void PreferencesDlg::slotSPackChange()
 {
     if (ui.spackBox->currentText() != ttSettings->value(SETTINGS_SOUNDS_PACK, QCoreApplication::translate("MainWindow", SETTINGS_SOUNDS_PACK_DEFAULT)).toString())
     {
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_NEWUSER, ttSettings->value(SETTINGS_SOUNDEVENT_NEWUSER_DEFAULT, SETTINGS_SOUNDEVENT_NEWUSER_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_REMOVEUSER, ttSettings->value(SETTINGS_SOUNDEVENT_REMOVEUSER_DEFAULT, SETTINGS_SOUNDEVENT_REMOVEUSER_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_SERVERLOST, ttSettings->value(SETTINGS_SOUNDEVENT_SERVERLOST_DEFAULT, SETTINGS_SOUNDEVENT_SERVERLOST_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_USERMSG, ttSettings->value(SETTINGS_SOUNDEVENT_USERMSG_DEFAULT, SETTINGS_SOUNDEVENT_USERMSG_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_USERMSGSENT, ttSettings->value(SETTINGS_SOUNDEVENT_USERMSGSENT_DEFAULT, SETTINGS_SOUNDEVENT_USERMSGSENT_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_CHANNELMSG, ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSG_DEFAULT, SETTINGS_SOUNDEVENT_CHANNELMSG_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_CHANNELMSGSENT, ttSettings->value(SETTINGS_SOUNDEVENT_CHANNELMSGSENT_DEFAULT, SETTINGS_SOUNDEVENT_CHANNELMSGSENT_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_BROADCASTMSG, ttSettings->value(SETTINGS_SOUNDEVENT_BROADCASTMSG_DEFAULT, SETTINGS_SOUNDEVENT_BROADCASTMSG_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_HOTKEY, ttSettings->value(SETTINGS_SOUNDEVENT_HOTKEY_DEFAULT, SETTINGS_SOUNDEVENT_HOTKEY_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_NEWVIDEO, ttSettings->value(SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT, SETTINGS_SOUNDEVENT_NEWVIDEO_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_NEWDESKTOP, ttSettings->value(SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT, SETTINGS_SOUNDEVENT_NEWDESKTOP_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_INTERCEPT, ttSettings->value(SETTINGS_SOUNDEVENT_INTERCEPT_DEFAULT, SETTINGS_SOUNDEVENT_INTERCEPT_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_INTERCEPTEND, ttSettings->value(SETTINGS_SOUNDEVENT_INTERCEPTEND_DEFAULT, SETTINGS_SOUNDEVENT_INTERCEPTEND_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_FILESUPD, ttSettings->value(SETTINGS_SOUNDEVENT_FILESUPD_DEFAULT, SETTINGS_SOUNDEVENT_FILESUPD_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_FILETXDONE, ttSettings->value(SETTINGS_SOUNDEVENT_FILETXDONE_DEFAULT, SETTINGS_SOUNDEVENT_FILETXDONE_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_QUESTIONMODE, ttSettings->value(SETTINGS_SOUNDEVENT_QUESTIONMODE_DEFAULT, SETTINGS_SOUNDEVENT_QUESTIONMODE_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_DESKTOPACCESS, ttSettings->value(SETTINGS_SOUNDEVENT_DESKTOPACCESS_DEFAULT, SETTINGS_SOUNDEVENT_DESKTOPACCESS_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_USERLOGGEDIN, ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDIN_DEFAULT, SETTINGS_SOUNDEVENT_USERLOGGEDIN_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_USERLOGGEDOUT, ttSettings->value(SETTINGS_SOUNDEVENT_USERLOGGEDOUT_DEFAULT, SETTINGS_SOUNDEVENT_USERLOGGEDOUT_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTON, ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTON_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTON_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTOFF, ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTOFF_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTOFF_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_MUTEALLON, ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLON_DEFAULT, SETTINGS_SOUNDEVENT_MUTEALLON_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_MUTEALLOFF, ttSettings->value(SETTINGS_SOUNDEVENT_MUTEALLOFF_DEFAULT, SETTINGS_SOUNDEVENT_MUTEALLOFF_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD, ttSettings->value(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD_DEFAULT, SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP, ttSettings->value(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP_DEFAULT, SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTTRIG, ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTTRIG_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTTRIG_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTSTOP, ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTSTOP_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTSTOP_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTMEON, ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTMEON_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTMEON_DEFAULT).toString());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTMEOFF, ttSettings->value(SETTINGS_SOUNDEVENT_VOICEACTMEOFF_DEFAULT, SETTINGS_SOUNDEVENT_VOICEACTMEOFF_DEFAULT).toString());
+        resetDefaultSoundsPack();
+
         QString dirtoscan = QString("%1/%2").arg(SOUNDSPATH).arg(ui.spackBox->currentText());
-        QDir soundsdir( dirtoscan, "*.wav", QDir::Name, QDir::Files|QDir::NoSymLinks);
+        QDir soundsdir(dirtoscan, "*.wav", QDir::Name, QDir::Files | QDir::NoSymLinks);
         QStringList packfile = soundsdir.entryList();
-        for(int i=0;i<packfile.size();i++)
+
+        auto eventMap = UtilSound::eventToSettingMap();
+
+        for (const auto& filename : packfile)
         {
-            QString filename = packfile[i].left(packfile[i].size()-4);
-            if(filename == "newuser")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_NEWUSER, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "removeuser")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_REMOVEUSER, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "serverlost")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_SERVERLOST, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "user_msg")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_USERMSG, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "user_msg_sent")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_USERMSGSENT, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "channel_msg")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_CHANNELMSG, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "channel_msg_sent")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_CHANNELMSGSENT, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "broadcast_msg")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_BROADCASTMSG, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "hotkey")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_HOTKEY, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "videosession")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_NEWVIDEO, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "desktopsession")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_NEWDESKTOP, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "intercept")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_INTERCEPT, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "interceptEnd")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_INTERCEPTEND, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "fileupdate")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_FILESUPD, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "filetx_complete")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_FILETXDONE, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "questionmode")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_QUESTIONMODE, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "desktopaccessreq")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_DESKTOPACCESS, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "logged_on")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_USERLOGGEDIN, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "logged_off")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_USERLOGGEDOUT, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "vox_enable")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTON, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "vox_disable")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTOFF, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "mute_all")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_MUTEALLON, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "unmute_all")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_MUTEALLOFF, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "txqueue_start")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_HEAD, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "txqueue_stop")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_TRANSMITQUEUE_STOP, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "voiceact_on")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTTRIG, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "voiceact_off")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTSTOP, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "vox_me_enable")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTMEON, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
-            if(filename == "vox_me_disable")
-                ttSettings->setValue(SETTINGS_SOUNDEVENT_VOICEACTMEOFF, QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(filename));
+            QString soundEventName = filename.left(filename.size() - 4);
+            for (auto it = eventMap.constBegin(); it != eventMap.constEnd(); ++it)
+            {
+                const SoundEventInfo& eventInfo = it.value();
+                if (soundEventName == eventInfo.defaultFileName)
+                {
+                    QString paramKey = eventInfo.settingKey;
+                    QString soundPath = QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(soundEventName);
+                    ttSettings->setValue(paramKey, soundPath);
+                    break;
+                }
+            }
         }
         ttSettings->setValue(SETTINGS_SOUNDS_PACK, ui.spackBox->currentText());
     }

@@ -91,6 +91,7 @@ typedef qulonglong SoundEvents;
 struct SoundEventInfo
 {
     QString settingKey;
+    QString defaultFileName;
 };
 
 enum PlaybackMode
