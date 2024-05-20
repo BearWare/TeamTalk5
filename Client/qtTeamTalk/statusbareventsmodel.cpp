@@ -112,7 +112,7 @@ QVariant StatusBarEventsModel::data ( const QModelIndex & index, int role /*= Qt
             case STATUSBAR_USER_LEFT :
                 return tr("User left channel");
             case STATUSBAR_USER_JOINED_SAME :
-                return tr("User join current channel");
+                return tr("User joined current channel");
             case STATUSBAR_USER_LEFT_SAME :
                 return tr("User left current channel");
             case STATUSBAR_SUBSCRIPTIONS_TEXTMSG_PRIVATE :
@@ -158,9 +158,9 @@ QVariant StatusBarEventsModel::data ( const QModelIndex & index, int role /*= Qt
             case STATUSBAR_FILE_REMOVE :
                 return tr("File removed");
             case STATUSBAR_SAVE_SERVER_CONFIG :
-                return tr("Save server configuration");
+                return tr("Server configuration saved");
             case STATUSBAR_START_RECORD :
-                return tr("Start a recording");
+                return tr("Recording started");
             case STATUSBAR_TRANSMISSION_BLOCKED :
                 return tr("Transmission blocked by channel operator");
             case STATUSBAR_NONE :
