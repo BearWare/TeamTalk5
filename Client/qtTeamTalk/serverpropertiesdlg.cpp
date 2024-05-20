@@ -22,6 +22,7 @@
 
 #include <QMessageBox>
 #include <QPushButton>
+#include <QMenu>
 
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
@@ -79,6 +80,7 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
         ui.servernameEdit->setReadOnly(true);
         ui.maxusersSpinBox->setReadOnly(true);
         ui.motdTextEdit->setReadOnly(true);
+        ui.MOTDVarButton->hide();
         ui.tcpportSpinBox->setReadOnly(true);
         ui.udpportSpinBox->setReadOnly(true);
         ui.usertimeoutSpinBox->setReadOnly(true);
@@ -96,6 +98,18 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
     else
     {
         connect(ui.serverlogTreeView, &QAbstractItemView::doubleClicked, this, &ServerPropertiesDlg::slotServerLogToggled);
+        m_varMenu = new QMenu(this);
+        connect(ui.MOTDVarButton, &QPushButton::clicked, this, [this]()
+        {
+            m_varMenu->exec(QCursor::pos());
+        });
+        QHash<QString, QString> variables = {{"%users%", tr("Number of users on server")}, {"%admins%", tr("Number of admins on server")}, {"%uptime%", tr("Server's time online")}, {"%voicerx%", tr("KBytes received")}, {"%voicetx%", tr("KBytes sent")}, {"%lastuser%", tr("last user to log on")}};
+        for (auto it = variables.constBegin(); it != variables.constEnd(); ++it)
+        {
+            QAction* action = m_varMenu->addAction(it.value());
+            action->setData(it.key());
+            connect(action, &QAction::triggered, this, &ServerPropertiesDlg::insertVariable);
+        }
     }
 }
 
@@ -155,4 +169,18 @@ void ServerPropertiesDlg::slotServerLogToggled(const QModelIndex &index)
         m_serverlogmodel->setServerLogEvents(events & ~e);
     else
         m_serverlogmodel->setServerLogEvents(events | e);
+}
+
+void ServerPropertiesDlg::insertVariable()
+{
+    QAction* action = qobject_cast<QAction*>(sender());
+    if (action)
+    {
+        QString variable = action->data().toString();
+        QTextCursor cursor = ui.motdTextEdit->textCursor();
+        int cursorPos = cursor.position();
+        cursor.insertText(variable);
+        cursor.setPosition(cursorPos + variable.length());
+        ui.motdTextEdit->setTextCursor(cursor);
+    }
 }
