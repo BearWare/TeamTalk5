@@ -34,10 +34,12 @@ private:
     void slotAccepted();
     void slotShowMOTDVars(bool checked);
     void slotServerLogToggled(const QModelIndex &index);
+    void insertVariable();
 private:
     Ui::ServerPropertiesDlg ui;
     ServerProperties m_srvprop = {};
     class ServerLogEventsModel* m_serverlogmodel;
+    QMenu* m_varMenu;
 };
 
 
