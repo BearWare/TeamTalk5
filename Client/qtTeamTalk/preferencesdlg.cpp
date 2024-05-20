@@ -147,7 +147,6 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             this, &PreferencesDlg::slotSoundDefaults);
 
     //sound events
-    connect(ui.spackBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &PreferencesDlg::slotSPackChange);
     m_soundmodel = new SoundEventsModel(this);
     ui.soundEventsTreeView->setModel(m_soundmodel);
     connect(ui.soundEventsTreeView, &QAbstractItemView::doubleClicked, this, &PreferencesDlg::slotSoundEventToggled);
@@ -587,6 +586,7 @@ void PreferencesDlg::slotTabChange(int index)
         int index = ui.spackBox->findData(pack);
         if(index>=0)
             ui.spackBox->setCurrentIndex(index);
+        connect(ui.spackBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &PreferencesDlg::slotSPackChange);
         ui.sndVolSpinBox->setValue(ttSettings->value(SETTINGS_SOUNDEVENT_VOLUME, SETTINGS_SOUNDEVENT_VOLUME_DEFAULT).toInt());
         ui.sndeventPlaybackComboBox->addItem(tr("Default"), PLAYBACKMODE_DEFAULT);
         ui.sndeventPlaybackComboBox->addItem(tr("One by One (TeamTalk Sound Device)"), PLAYBACKMODE_ONEBYONE);
@@ -1369,8 +1369,9 @@ void PreferencesDlg::saveCurrentFile()
 
     const SoundEventInfo& eventInfo = eventMap[eventId];
     QString paramKey = eventInfo.settingKey;
-    QString text = ui.soundEventFileEdit->text();
-    ttSettings->setValue(paramKey, (text.isEmpty()?UtilSound::getDefaultFile(paramKey):text));
+    QString text = !ui.soundEventFileEdit->text().isEmpty()?ui.soundEventFileEdit->text():UtilSound::getDefaultFile(paramKey);
+    if (text != UtilSound::getDefaultFile(paramKey) && text != ttSettings->value(paramKey))
+        ttSettings->setValue(paramKey, text);
 }
 
 void PreferencesDlg::SoundEventsRestoreDefaultFile()
