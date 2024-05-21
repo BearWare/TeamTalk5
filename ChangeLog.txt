@@ -17,7 +17,7 @@ Default Qt Client
 - Ability to replace existing file on upload
 - Menu to insert MOTD variables in "Server Properties" dialog
 Android Client
--
+- users who have the "User can make other users channel operator" right will no longer be asked for the operator password for granting/revoking channel operator
 iOS Client
 -
 Server
