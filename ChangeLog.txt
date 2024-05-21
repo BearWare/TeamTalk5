@@ -14,6 +14,7 @@ Default Qt Client
 - Ability to customize some TTS messages
 - Remove option "Announce server name" from TTS options, use customizable messages instead
 - Ability to replace existing file on upload
+- Menu to insert MOTD variables in "Server Properties" dialog
 Android Client
 -
 iOS Client
