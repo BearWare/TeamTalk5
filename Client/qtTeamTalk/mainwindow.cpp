@@ -7420,12 +7420,12 @@ void MainWindow::slotSoftwareUpdateReply(QNetworkReply* reply, bool manualCheck)
         if(version.size() || betaVersion.size())
         {
             updateFound = true;
-            if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE, SETTINGS_DISPLAY_APPUPDATE_DEFAULT).toBool() || manualcheck)
+            if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE, SETTINGS_DISPLAY_APPUPDATE_DEFAULT).toBool() || manualCheck)
             {
                 if (version.size())
                 {
                     QString downloadurl = downloadUpdateURL(doc);
-                    if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE_DLG, SETTINGS_DISPLAY_APPUPDATE_DLG_DEFAULT).toBool() || manualcheck)
+                    if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE_DLG, SETTINGS_DISPLAY_APPUPDATE_DLG_DEFAULT).toBool() || manualCheck)
                     {
                         QMessageBox answer;
                         answer.setText(tr("A new version of %1 is available: %2. Do you wish to open the download page now?").arg(APPNAME_SHORT).arg(version));
@@ -7449,7 +7449,7 @@ void MainWindow::slotSoftwareUpdateReply(QNetworkReply* reply, bool manualCheck)
                 if (betaVersion.size())
                 {
                     QString downloadurl = downloadBetaUpdateURL(doc);
-                    if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE_DLG, SETTINGS_DISPLAY_APPUPDATE_DLG_DEFAULT).toBool() || manualcheck)
+                    if(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE_DLG, SETTINGS_DISPLAY_APPUPDATE_DLG_DEFAULT).toBool() || manualCheck)
                     {
                         QMessageBox answer;
                         answer.setText(tr("A new beta version of %1 is available: %2. Do you wish to open the download page now?").arg(APPNAME_SHORT).arg(betaVersion));
