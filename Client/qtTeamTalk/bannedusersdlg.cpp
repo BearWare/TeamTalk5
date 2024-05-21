@@ -21,6 +21,7 @@
 #include "utilui.h"
 
 #include <QPushButton>
+#include <QRegularExpression>
 #include <set>
 
 extern QSettings* ttSettings;
@@ -161,6 +162,36 @@ void BannedUsersModel::delBannedUser(int index)
     this->endResetModel();
 }
 
+BannedUsersFilterProxyModel::BannedUsersFilterProxyModel(QObject* parent)
+    : QSortFilterProxyModel(parent)
+{
+}
+
+void BannedUsersFilterProxyModel::setFilterText(const QString& pattern)
+{
+    m_filter = QRegularExpression(pattern, QRegularExpression::CaseInsensitiveOption);
+    invalidateFilter();
+}
+
+bool BannedUsersFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
+{
+    if (!m_filter.isValid()) {
+        return true;
+    }
+
+    QModelIndex ipIndex = sourceModel()->index(source_row, COLUMN_INDEX_IPADDRESS, source_parent);
+    QModelIndex usernameIndex = sourceModel()->index(source_row, COLUMN_INDEX_USERNAME, source_parent);
+
+    if (!ipIndex.isValid() || !usernameIndex.isValid()) {
+        return false;
+    }
+
+    QString ip = sourceModel()->data(ipIndex).toString();
+    QString username = sourceModel()->data(usernameIndex).toString();
+
+    return m_filter.match(ip).hasMatch() || m_filter.match(username).hasMatch();
+}
+
 BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& chanpath, QWidget * parent/* = 0*/)
     : QDialog(parent, QT_DEFAULT_DIALOG_HINTS | Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint)
     , m_chanpath(chanpath)
@@ -173,8 +204,9 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
     m_bannedmodel = new BannedUsersModel(this);
-    m_bannedproxy = new QSortFilterProxyModel(this);
+    m_bannedproxy = new BannedUsersFilterProxyModel(this);
     m_bannedproxy->setSourceModel(m_bannedmodel);
+    m_bannedproxy->setFilterKeyColumn(-1);
     m_unbannedmodel = new BannedUsersModel(this);
     m_unbannedproxy = new QSortFilterProxyModel(this);
     m_unbannedproxy->setSourceModel(m_unbannedmodel);
@@ -214,6 +246,12 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
     ui.bantypeBox->addItem(tr("Ban Username"), BanTypes(BANTYPE_USERNAME));
 
     ui.bannedTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_BANNEDUSERS_HEADERSIZES).toByteArray());
+    connect(ui.filterButton, &QPushButton::clicked, [&]()
+    {
+        m_bannedproxy->setFilterText(ui.filterEdit->text());
+        ui.bannedTreeView->setFocus();
+    });
+    ui.bannedTreeView->setFocus();
 }
 
 BannedUsersDlg::~BannedUsersDlg()
@@ -314,6 +352,9 @@ void BannedUsersDlg::slotNewBan()
 
 void BannedUsersDlg::banSelectionChanged(const QModelIndex &selected, const QModelIndex &/*deselected*/)
 {
+    if (!selected.isValid())
+        return;
+
     auto index = m_bannedproxy->mapToSource(selected);
     const auto& ban = m_bannedmodel->getUsers()[index.row()];
     if ((ui.bantypeBox->currentData().toInt() & BANTYPE_IPADDR) == BANTYPE_IPADDR &&

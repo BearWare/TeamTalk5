@@ -18,6 +18,39 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
+    <layout class="QVBoxLayout" name="filterLayout">
+     <item>
+      <widget class="QGroupBox" name="filterGroupBox">
+       <property name="title">
+        <string>Filter Banned Users</string>
+       </property>
+       <layout class="QHBoxLayout" name="filterLayout">
+        <item>
+         <widget class="QLabel" name="filterLabel">
+          <property name="text">
+           <string>Search an Username or IP-Address</string>
+          </property>
+          <property name="buddy">
+           <cstring>filterEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="filterEdit"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="filterButton">
+          <property name="text">
+           <string>Search</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>  
+    </layout>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QGroupBox" name="groupBox">
