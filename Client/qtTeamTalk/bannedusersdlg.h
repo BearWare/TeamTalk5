@@ -48,6 +48,21 @@ private:
     bannedusers_t m_users;
 };
 
+class BannedUsersFilterProxyModel : public QSortFilterProxyModel
+{
+    Q_OBJECT
+
+public:
+    BannedUsersFilterProxyModel(QObject* parent = nullptr);
+    void setFilterText(const QString& pattern);
+
+protected:
+    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
+
+private:
+    QRegularExpression m_filter;
+};
+
 class BannedUsersDlg : public QDialog
 {
     Q_OBJECT
@@ -62,7 +77,8 @@ protected:
 private:
     Ui::BannedUsersDlg ui;
     BannedUsersModel* m_bannedmodel, *m_unbannedmodel;
-    QSortFilterProxyModel* m_bannedproxy, *m_unbannedproxy;
+    BannedUsersFilterProxyModel* m_bannedproxy;
+    QSortFilterProxyModel* m_unbannedproxy;
     QString m_chanpath;
     int m_cmdid_active = 0;
 
