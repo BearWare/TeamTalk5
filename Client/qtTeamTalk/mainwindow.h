@@ -356,6 +356,7 @@ private:
     void slotChannelsSpeakChannelStatus();
     void slotChannelsListBans(bool checked=false);
     void slotChannelsStreamMediaFile(bool checked=false);
+    void slotPauseResumeStream();
     void slotChannelsUploadFile(bool checked=false);
     void slotChannelsDownloadFile(bool checked=false);
     void slotChannelsDeleteFile(bool checked=false);
@@ -470,6 +471,8 @@ private:
     void clienteventUserAudioBlock(int source, StreamTypes streamtypes);
     void clienteventSoundDeviceAdded(const SoundDevice& snddev);
     void clienteventSoundDeviceRemoved(const SoundDevice& snddev);
+    MediaFilePlayback m_mfp = {};
+    VideoCodec m_mfp_videocodec = {};
 
 signals:
     /* Begin - CLIENTEVENT_* based events */

@@ -1279,6 +1279,13 @@
      <addaction name="actionSpeakChannelInfo"/>
      <addaction name="actionSpeakChannelStat"/>
     </widget>
+    <widget class="QMenu" name="menu_Stream">
+     <property name="title">
+      <string>Streaming to Channel</string>
+     </property>
+     <addaction name="actionStreamMediaFileToChannel"/>
+     <addaction name="actionPauseResumeStream"/>
+    </widget>
     <addaction name="actionJoinChannel"/>
     <addaction name="actionLeaveChannel"/>
     <addaction name="menu_InfoChannel"/>
@@ -1290,7 +1297,7 @@
     <addaction name="separator"/>
     <addaction name="actionBannedUsersInChannel"/>
     <addaction name="separator"/>
-    <addaction name="actionStreamMediaFileToChannel"/>
+    <addaction name="menu_Stream"/>
     <addaction name="separator"/>
     <addaction name="actionUploadFile"/>
     <addaction name="actionDownloadFile"/>
@@ -2102,6 +2109,18 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionPauseResumeStream">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/images/streammedia.png</normaloff>:/images/images/streammedia.png</iconset>
+   </property>
+   <property name="text">
+    <string>Pause/Resume Stream</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
    </property>
   </action>
   <action name="actionGenerateTTURL">

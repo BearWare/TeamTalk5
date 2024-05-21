@@ -495,6 +495,8 @@ MainWindow::MainWindow(const QString& cfgfile)
 
     connect(ui.actionStreamMediaFileToChannel, &QAction::triggered,
             this, &MainWindow::slotChannelsStreamMediaFile);
+    connect(ui.actionPauseResumeStream, &QAction::triggered,
+            this, &MainWindow::slotPauseResumeStream);
     connect(ui.actionUploadFile, &QAction::triggered,
             this, &MainWindow::slotChannelsUploadFile);
     connect(ui.actionDownloadFile, &QAction::triggered,
@@ -3596,69 +3598,6 @@ void MainWindow::processDesktopInput(int userid, const DesktopInput& input)
     }
 }
 
-void MainWindow::startStreamMediaFile()
-{
-    QString fileName = ttSettings->value(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(0)).toString();
-#if defined(Q_OS_WINDOWS)
-    fileName=fileName.remove('"');
-#endif
-
-    VideoCodec vidcodec;
-    vidcodec.nCodec = (Codec)ttSettings->value(SETTINGS_STREAMMEDIA_CODEC).toInt();
-    switch(vidcodec.nCodec)
-    {
-    case WEBM_VP8_CODEC :
-        vidcodec.webm_vp8.nRcTargetBitrate = ttSettings->value(SETTINGS_STREAMMEDIA_WEBMVP8_BITRATE).toInt();
-        vidcodec.webm_vp8.nEncodeDeadline = DEFAULT_WEBMVP8_DEADLINE;
-        break;
-    default :
-        break;
-    }
-
-    MediaFilePlayback mfp = {};
-    AudioPreprocessorType apt = AudioPreprocessorType(ttSettings->value(SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR,
-                                                      SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR_DEFAULT).toInt());
-    mfp.audioPreprocessor = loadAudioPreprocessor(apt);
-    mfp.bPaused = false;
-    mfp.uOffsetMSec = ttSettings->value(SETTINGS_STREAMMEDIA_OFFSET, SETTINGS_STREAMMEDIA_OFFSET_DEFAULT).toUInt();
-    if (!TT_StartStreamingMediaFileToChannelEx(ttInst, _W(fileName), &mfp, &vidcodec))
-    {
-        QMessageBox::information(this,
-                                 MENUTEXT(ui.actionStreamMediaFileToChannel->text()),
-                                 QString(tr("Failed to stream media file %1").arg(fileName)));
-        stopStreamMediaFile();
-    }
-    else
-    {
-        QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
-        m_statusmode |= STATUSMODE_STREAM_MEDIAFILE;
-        if(ttSettings->value(SETTINGS_GENERAL_STREAMING_STATUS, SETTINGS_GENERAL_STREAMING_STATUS_DEFAULT).toBool() == true)
-            statusmsg = QFileInfo(fileName).fileName();
-        ////since streaming video takes over webcam stream we show as 
-        ////transmitting video
-        //if(tx_mode & TRANSMIT_VIDEO)
-        //    m_statusmode |= STATUSMODE_VIDEOTX;
-
-        TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
-        transmitOn(STREAMTYPE_MEDIAFILE);
-    }
-}
-
-void MainWindow::stopStreamMediaFile()
-{
-    TT_StopStreamingMediaFileToChannel(ttInst);
-
-    m_statusmode &= ~STATUSMODE_STREAM_MEDIAFILE;
-    ////clear video if not transmitting
-    //if(TT_IsTransmitting(ttInst, TRANSMIT_VIDEO) == TRANSMIT_NONE)
-    //    m_statusmode &= ~STATUSMODE_VIDEOTX;
-
-    QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
-    TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
-
-    slotUpdateUI();
-}
-
 void MainWindow::loadHotKeys()
 {
     Hotkeys activeHotkeys = ttSettings->value(SETTINGS_SHORTCUTS_ACTIVEHKS, SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT).toULongLong();
@@ -5363,6 +5302,121 @@ void MainWindow::slotChannelsStreamMediaFile(bool checked/*=false*/)
     }
 
     startStreamMediaFile();
+}
+
+void MainWindow::startStreamMediaFile()
+{
+    QString fileName = ttSettings->value(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(0)).toString();
+#if defined(Q_OS_WINDOWS)
+    fileName = fileName.remove('"');
+#endif
+
+    m_mfp_videocodec = {};
+    m_mfp_videocodec.nCodec = (Codec)ttSettings->value(SETTINGS_STREAMMEDIA_CODEC).toInt();
+    switch(m_mfp_videocodec.nCodec)
+    {
+    case WEBM_VP8_CODEC :
+        m_mfp_videocodec.webm_vp8.nRcTargetBitrate = ttSettings->value(SETTINGS_STREAMMEDIA_WEBMVP8_BITRATE).toInt();
+        m_mfp_videocodec.webm_vp8.nEncodeDeadline = DEFAULT_WEBMVP8_DEADLINE;
+        break;
+    default :
+        break;
+    }
+
+    m_mfp = {};
+    AudioPreprocessorType apt = AudioPreprocessorType(ttSettings->value(SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR,
+                                                      SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR_DEFAULT).toInt());
+    m_mfp.audioPreprocessor = loadAudioPreprocessor(apt);
+    m_mfp.bPaused = false;
+    m_mfp.uOffsetMSec = ttSettings->value(SETTINGS_STREAMMEDIA_OFFSET, SETTINGS_STREAMMEDIA_OFFSET_DEFAULT).toUInt();
+    if (!TT_StartStreamingMediaFileToChannelEx(ttInst, _W(fileName), &m_mfp, &m_mfp_videocodec))
+    {
+        QMessageBox::information(this,
+                                 MENUTEXT(ui.actionStreamMediaFileToChannel->text()),
+                                 QString(tr("Failed to stream media file %1").arg(fileName)));
+        stopStreamMediaFile();
+    }
+    else
+    {
+        QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+        m_statusmode |= STATUSMODE_STREAM_MEDIAFILE;
+        m_statusmode &= ~STATUSMODE_STREAM_MEDIAFILE_PAUSED;
+        if(ttSettings->value(SETTINGS_GENERAL_STREAMING_STATUS, SETTINGS_GENERAL_STREAMING_STATUS_DEFAULT).toBool() == true)
+            statusmsg = QFileInfo(fileName).fileName();
+
+        TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
+        ////since streaming video takes over webcam stream we show as 
+        ////transmitting video
+        //if(tx_mode & TRANSMIT_VIDEO)
+        //    m_statusmode |= STATUSMODE_VIDEOTX;
+
+        transmitOn(STREAMTYPE_MEDIAFILE);
+
+        ui.actionPauseResumeStream->setEnabled(true);
+        ui.actionPauseResumeStream->setText(tr("&Pause Stream"));
+    }
+}
+
+void MainWindow::stopStreamMediaFile()
+{
+    TT_StopStreamingMediaFileToChannel(ttInst);
+
+    ////clear video if not transmitting
+    //if(TT_IsTransmitting(ttInst, TRANSMIT_VIDEO) == TRANSMIT_NONE)
+    //    m_statusmode &= ~STATUSMODE_VIDEOTX;
+
+    m_statusmode &= ~(STATUSMODE_STREAM_MEDIAFILE | STATUSMODE_STREAM_MEDIAFILE_PAUSED);
+
+    QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+    TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
+
+    ui.actionPauseResumeStream->setEnabled(false);
+    ui.actionPauseResumeStream->setText(tr("Pause/Resume Stream"));
+    m_mfp = {};
+
+    slotUpdateUI();
+}
+
+void MainWindow::slotPauseResumeStream()
+{
+    QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+    QString fileName = ttSettings->value(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(0)).toString();
+#if defined(Q_OS_WINDOWS)
+    fileName = fileName.remove('"');
+#endif
+    if(ttSettings->value(SETTINGS_GENERAL_STREAMING_STATUS, SETTINGS_GENERAL_STREAMING_STATUS_DEFAULT).toBool() == true)
+        statusmsg = QFileInfo(fileName).fileName();
+
+    if (m_mfp.bPaused)
+    {
+        m_mfp.bPaused = false;
+        if (!TT_UpdateStreamingMediaFileToChannel(ttInst, &m_mfp, &m_mfp_videocodec))
+        {
+            QMessageBox::critical(this, MENUTEXT(ui.actionPauseResumeStream->text()), tr("Failed to resume the stream"));
+        }
+        else
+        {
+            ui.actionPauseResumeStream->setText(tr("&Pause Stream"));
+            m_statusmode |= STATUSMODE_STREAM_MEDIAFILE;
+            m_statusmode &= ~STATUSMODE_STREAM_MEDIAFILE_PAUSED;
+        }
+    }
+    else
+    {
+        m_mfp.bPaused = true;
+        if (!TT_UpdateStreamingMediaFileToChannel(ttInst, &m_mfp, &m_mfp_videocodec))
+        {
+            QMessageBox::critical(this, MENUTEXT(ui.actionPauseResumeStream->text()), tr("Failed to pause the stream"));
+        }
+        else
+        {
+            ui.actionPauseResumeStream->setText(tr("&Resume Stream"));
+            m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+            m_statusmode |= STATUSMODE_STREAM_MEDIAFILE_PAUSED;
+            m_statusmode &= ~STATUSMODE_STREAM_MEDIAFILE;
+        }
+    }
+    TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
 }
 
 void MainWindow::slotChannelsUploadFile(bool /*checked =false */)
