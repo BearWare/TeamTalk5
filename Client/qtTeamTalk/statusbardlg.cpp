@@ -89,8 +89,7 @@ void StatusBarDlg::statusBarEventSelected(const QModelIndex &index)
         QString paramKey = eventInfo.settingKey;
         QString defaultValue = UtilUI::getDefaultValue(paramKey);
         QString currentMessage = ttSettings->value(paramKey, defaultValue).toString();
-        if (eventInfo.eventName.size() > 0)
-            ui.SBMsgLabel->setText(tr("Message for Event \"%1\"").arg(eventInfo.eventName));
+        ui.SBMsgLabel->setText(eventInfo.eventName.size() > 0?tr("Message for Event \"%1\"").arg(eventInfo.eventName):tr("Message"));
         ui.SBMsgEdit->setText(currentMessage);
 
         m_SBVarMenu->clear();
