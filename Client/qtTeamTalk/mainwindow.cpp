@@ -6299,8 +6299,6 @@ void MainWindow::slotUploadFiles(const QStringList& files)
     for (const QString& filepath : files)
     {
         QString filename = QFileInfo(filepath).fileName();
-        QString nativeFilepath = QDir::toNativeSeparators(filepath);
-
         int remoteFileID = getRemoteFileID(channelid, filename);
 
         if (remoteFileID != -1)
@@ -6310,8 +6308,9 @@ void MainWindow::slotUploadFiles(const QStringList& files)
             {
                 bool me_admin = (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN);
                 bool myusername = m_host.username == _Q(remoteFile.szUsername);
+                bool op = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), channelid);
 
-                if (me_admin || myusername)
+                if (me_admin || myusername || op)
                 {
                     QMessageBox answer;
                     answer.setText(tr("File %1 already exists on the server. Do you want to replace it?").arg(filename));
@@ -6323,7 +6322,7 @@ void MainWindow::slotUploadFiles(const QStringList& files)
                     answer.exec();
                     if(answer.clickedButton() == YesButton)
                     {
-                        if (!TT_DoDeleteFile(ttInst, channelid, remoteFileID)>0)
+                        if (TT_DoDeleteFile(ttInst, channelid, remoteFileID) < 0)
                         {
                             QMessageBox::critical(this, MENUTEXT(ui.actionUploadFile->text()),
                                                   tr("Failed to delete existing file %1").arg(filename));
@@ -6344,6 +6343,7 @@ void MainWindow::slotUploadFiles(const QStringList& files)
             }
         }
 
+        QString nativeFilepath = QDir::toNativeSeparators(filepath);
         if (!TT_DoSendFile(ttInst, channelid, _W(nativeFilepath)))
         {
             QMessageBox::critical(this, MENUTEXT(ui.actionUploadFile->text()),
