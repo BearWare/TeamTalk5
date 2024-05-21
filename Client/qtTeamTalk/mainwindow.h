@@ -390,6 +390,7 @@ private:
     void slotUpdateVideoTabUI();
     void slotUpdateDesktopTabUI();
     void slotUploadFiles(const QStringList& files);
+    int getRemoteFileID(int channelid, const QString& filename);
     void slotSendChannelMessage();
     void slotUserDoubleClicked(int userid);
     void slotChannelDoubleClicked(int channelid);
