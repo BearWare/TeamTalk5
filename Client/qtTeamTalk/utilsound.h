@@ -50,38 +50,48 @@ int refVolume(double percent);
 int refVolumeToPercent(int volume);
 int refGain(double percent);
 
-enum SoundEvent
+enum SoundEvent : qulonglong
 {
-    SOUNDEVENT_NEWUSER,
-    SOUNDEVENT_REMOVEUSER,
-    SOUNDEVENT_SERVERLOST,
-    SOUNDEVENT_USERMSG,
-    SOUNDEVENT_USERMSGSENT,
-    SOUNDEVENT_CHANNELMSG,
-    SOUNDEVENT_CHANNELMSGSENT,
-    SOUNDEVENT_BROADCASTMSG,
-    SOUNDEVENT_HOTKEY,
-    SOUNDEVENT_SILENCE,
-    SOUNDEVENT_NEWVIDEO,
-    SOUNDEVENT_NEWDESKTOP,
-    SOUNDEVENT_FILESUPD,
-    SOUNDEVENT_FILETXDONE,
-    SOUNDEVENT_QUESTIONMODE,
-    SOUNDEVENT_DESKTOPACCESS,
-    SOUNDEVENT_USERLOGGEDIN,
-    SOUNDEVENT_USERLOGGEDOUT,
-    SOUNDEVENT_VOICEACTON,
-    SOUNDEVENT_VOICEACTOFF,
-    SOUNDEVENT_MUTEALLON,
-    SOUNDEVENT_MUTEALLOFF,
-    SOUNDEVENT_TRANSMITQUEUE_HEAD,
-    SOUNDEVENT_TRANSMITQUEUE_STOP,
-    SOUNDEVENT_VOICEACTTRIG,
-    SOUNDEVENT_VOICEACTSTOP,
-    SOUNDEVENT_VOICEACTMEON,
-    SOUNDEVENT_VOICEACTMEOFF,
-    SOUNDEVENT_INTERCEPT,
-    SOUNDEVENT_INTERCEPTEND,
+    SOUNDEVENT_NONE = 0x0,
+    SOUNDEVENT_NEWUSER = qulonglong(1) << 0,
+    SOUNDEVENT_REMOVEUSER = qulonglong(1) << 1,
+    SOUNDEVENT_SERVERLOST = qulonglong(1) << 2,
+    SOUNDEVENT_USERMSG = qulonglong(1) << 3,
+    SOUNDEVENT_USERMSGSENT = qulonglong(1) << 4,
+    SOUNDEVENT_CHANNELMSG = qulonglong(1) << 5,
+    SOUNDEVENT_CHANNELMSGSENT = qulonglong(1) << 6,
+    SOUNDEVENT_BROADCASTMSG = qulonglong(1) << 7,
+    SOUNDEVENT_HOTKEY = qulonglong(1) << 8,
+    SOUNDEVENT_SILENCE = qulonglong(1) << 9,
+    SOUNDEVENT_NEWVIDEO = qulonglong(1) << 10,
+    SOUNDEVENT_NEWDESKTOP = qulonglong(1) << 11,
+    SOUNDEVENT_FILESUPD = qulonglong(1) << 12,
+    SOUNDEVENT_FILETXDONE = qulonglong(1) << 13,
+    SOUNDEVENT_QUESTIONMODE = qulonglong(1) << 14,
+    SOUNDEVENT_DESKTOPACCESS = qulonglong(1) << 15,
+    SOUNDEVENT_USERLOGGEDIN = qulonglong(1) << 16,
+    SOUNDEVENT_USERLOGGEDOUT = qulonglong(1) << 17,
+    SOUNDEVENT_VOICEACTON = qulonglong(1) << 18,
+    SOUNDEVENT_VOICEACTOFF = qulonglong(1) << 19,
+    SOUNDEVENT_MUTEALLON = qulonglong(1) << 20,
+    SOUNDEVENT_MUTEALLOFF = qulonglong(1) << 21,
+    SOUNDEVENT_TRANSMITQUEUE_HEAD = qulonglong(1) << 22,
+    SOUNDEVENT_TRANSMITQUEUE_STOP = qulonglong(1) << 23,
+    SOUNDEVENT_VOICEACTTRIG = qulonglong(1) << 24,
+    SOUNDEVENT_VOICEACTSTOP = qulonglong(1) << 25,
+    SOUNDEVENT_VOICEACTMEON = qulonglong(1) << 26,
+    SOUNDEVENT_VOICEACTMEOFF = qulonglong(1) << 27,
+    SOUNDEVENT_INTERCEPT = qulonglong(1) << 28,
+    SOUNDEVENT_INTERCEPTEND = qulonglong(1) << 29,
+    SOUNDEVENT_NEXT_UNUSED = qulonglong(1) << 30,
+};
+
+typedef qulonglong SoundEvents;
+
+struct SoundEventInfo
+{
+    QString settingKey;
+    QString defaultFileName;
 };
 
 enum PlaybackMode
@@ -110,5 +120,16 @@ private:
 
 void playSoundEvent(SoundEvent event);
 void resetDefaultSoundsPack();
+QString getSoundEventFilename(SoundEvent event);
+
+class UtilSound : public QObject
+{
+    Q_OBJECT
+
+public:
+    static QHash<SoundEvents, SoundEventInfo> eventToSettingMap();
+    static QString getDefaultFile(const QString& paramKey);
+    static QString getFile(const QString& paramKey);
+};
 
 #endif
