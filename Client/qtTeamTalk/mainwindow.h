@@ -470,7 +470,7 @@ private:
     void clienteventSoundDeviceAdded(const SoundDevice& snddev);
     void clienteventSoundDeviceRemoved(const SoundDevice& snddev);
     MediaFilePlayback m_mfp = {};
-    VideoCodec m_videocodec = {};
+    VideoCodec m_mfp_videocodec = {};
 
 signals:
     /* Begin - CLIENTEVENT_* based events */
