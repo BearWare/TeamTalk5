@@ -469,7 +469,6 @@ private:
     void clienteventUserAudioBlock(int source, StreamTypes streamtypes);
     void clienteventSoundDeviceAdded(const SoundDevice& snddev);
     void clienteventSoundDeviceRemoved(const SoundDevice& snddev);
-    bool m_streamPaused = false;
     MediaFilePlayback m_mfp = {};
     VideoCodec m_videocodec = {};
 

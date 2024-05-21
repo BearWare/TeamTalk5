@@ -5386,7 +5386,6 @@ void MainWindow::startStreamMediaFile()
 
         ui.actionPauseResumeStream->setEnabled(true);
         ui.actionPauseResumeStream->setText(tr("&Pause Stream"));
-        m_streamPaused = false;
     }
 }
 
@@ -5405,7 +5404,7 @@ void MainWindow::stopStreamMediaFile()
 
     ui.actionPauseResumeStream->setEnabled(false);
     ui.actionPauseResumeStream->setText(tr("Pause/Resume Stream"));
-    m_streamPaused = false;
+    m_mfp = {};
 
     slotUpdateUI();
 }
@@ -5419,7 +5418,9 @@ void MainWindow::slotPauseResumeStream()
 #endif
     if(ttSettings->value(SETTINGS_GENERAL_STREAMING_STATUS, SETTINGS_GENERAL_STREAMING_STATUS_DEFAULT).toBool() == true)
         statusmsg = QFileInfo(fileName).fileName();
-    if (m_streamPaused) {
+
+    if (m_mfp.bPaused)
+    {
         m_mfp.bPaused = false;
         if (!TT_UpdateStreamingMediaFileToChannel(ttInst, &m_mfp, &m_videocodec))
         {
@@ -5428,7 +5429,6 @@ void MainWindow::slotPauseResumeStream()
         else
         {
             ui.actionPauseResumeStream->setText(tr("&Pause Stream"));
-            m_streamPaused = false;
             m_statusmode |= STATUSMODE_STREAM_MEDIAFILE;
             m_statusmode &= ~STATUSMODE_STREAM_MEDIAFILE_PAUSED;
         }
@@ -5443,7 +5443,6 @@ void MainWindow::slotPauseResumeStream()
         else
         {
             ui.actionPauseResumeStream->setText(tr("&Resume Stream"));
-            m_streamPaused = true;
             m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
             m_statusmode |= STATUSMODE_STREAM_MEDIAFILE_PAUSED;
             m_statusmode &= ~STATUSMODE_STREAM_MEDIAFILE;
