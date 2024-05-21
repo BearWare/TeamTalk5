@@ -152,7 +152,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     connect(ui.soundEventsTreeView, &QAbstractItemView::doubleClicked, this, &PreferencesDlg::slotSoundEventToggled);
     connect(ui.soundEventsTreeView->selectionModel(), &QItemSelectionModel::currentChanged, this, &PreferencesDlg::SoundEventSelected);
     connect(ui.soundEventsBrowseButton, &QPushButton::clicked, this, &PreferencesDlg::slotBrowseSoundEvent);
-    connect(ui.soundEventsDefFileButton, &QPushButton::clicked, this, &PreferencesDlg::SoundEventsRestoreDefaultFile);
+    connect(ui.soundEventsDefFileButton, &QPushButton::clicked, this, &PreferencesDlg::soundEventsRestoreDefaultFile);
     connect(ui.soundEventsEnableallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundEventsEnableAll);
     connect(ui.soundEventsClearallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundEventsClearAll);
     connect(ui.soundEventsRevertButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundEventsRevert);
@@ -1374,7 +1374,7 @@ void PreferencesDlg::saveCurrentFile()
         ttSettings->setValue(paramKey, text);
 }
 
-void PreferencesDlg::SoundEventsRestoreDefaultFile()
+void PreferencesDlg::soundEventsRestoreDefaultFile()
 {
     if (!m_currentSoundEventsIndex.isValid()) return;
 

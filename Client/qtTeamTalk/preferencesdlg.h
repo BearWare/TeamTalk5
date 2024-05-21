@@ -105,7 +105,7 @@ private:
     void slotSoundEventToggled(const QModelIndex &index);
     void SoundEventSelected(const QModelIndex &index);
     void saveCurrentFile();
-    void SoundEventsRestoreDefaultFile();
+    void soundEventsRestoreDefaultFile();
     QModelIndex m_currentSoundEventsIndex;
     void slotSoundEventsEnableAll(bool checked);
     void slotSoundEventsClearAll(bool checked);
