@@ -1983,18 +1983,12 @@ void PreferencesDlg::slotTTSEventToggled(const QModelIndex &index)
     if (e & events)
     {
         m_ttsmodel->setTTSEvents(events & ~e);
-        ui.TTSMsgLabel->setVisible(false);
-        ui.TTSMsgEdit->setVisible(false);
-        ui.TTSVarButton->setVisible(false);
-        ui.TTSDefValButton->setVisible(false);
+        ui.ttsmsg_groupbox->hide();
     }
     else
     {
         m_ttsmodel->setTTSEvents(events | e);
-        ui.TTSMsgLabel->setVisible(true);
-        ui.TTSMsgEdit->setVisible(true);
-        ui.TTSVarButton->setVisible(true);
-        ui.TTSDefValButton->setVisible(true);
+        ui.ttsmsg_groupbox->show();
     }
 }
 
@@ -2015,8 +2009,7 @@ void PreferencesDlg::TTSEventSelected(const QModelIndex &index)
         QString paramKey = eventInfo.settingKey;
         QString defaultValue = UtilTTS::getDefaultValue(paramKey);
         QString currentMessage = ttSettings->value(paramKey, defaultValue).toString();
-        if (eventInfo.eventName.size() > 0)
-            ui.TTSMsgLabel->setText(tr("Message for Event \"%1\"").arg(eventInfo.eventName));
+        ui.TTSMsgLabel->setText(eventInfo.eventName.size() > 0?tr("Message for Event \"%1\"").arg(eventInfo.eventName):tr("Message"));
         ui.TTSMsgEdit->setText(currentMessage);
 
         m_TTSVarMenu->clear();
@@ -2031,10 +2024,9 @@ void PreferencesDlg::TTSEventSelected(const QModelIndex &index)
     {
         customizable = false;
     }
-    ui.TTSMsgLabel->setVisible(customizable);
-    ui.TTSMsgEdit->setVisible(customizable);
-    ui.TTSVarButton->setVisible(customizable);
-    ui.TTSDefValButton->setVisible(customizable);
+    auto events = m_ttsmodel->getTTSEvents();
+    TextToSpeechEvent e = TextToSpeechEvent(index.internalId());
+    ui.ttsmsg_groupbox->setVisible(customizable&&(e & events));
 }
 
 void PreferencesDlg::insertVariable()
@@ -2062,7 +2054,7 @@ void PreferencesDlg::saveCurrentMessage()
         QString paramKey = eventInfo.settingKey;
         QString text = ui.TTSMsgEdit->text();
 
-        if (!text.isEmpty())
+        if (!text.isEmpty() && text != UtilTTS::getDefaultValue(paramKey) && text != ttSettings->value(paramKey))
         {
             ttSettings->setValue(paramKey, text);
         }
