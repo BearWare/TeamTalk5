@@ -11,9 +11,10 @@ Default Qt Client
 - "Check for Update" in "Help" menu
 - Ability to join Last Joined Channel for each server individually
 - Use Qt checkable flag in user rights list to allow screenreader to see if an item is checked
-- Ability to customize some TTS messages
+- Ability to customize some TTS and status bar messages
 - Remove option "Announce server name" from TTS options, use customizable messages instead
 - Redesign "Sound Events" tab in Preferences
+- Ability to replace existing file on upload
 - Menu to insert MOTD variables in "Server Properties" dialog
 Android Client
 -

@@ -15,6 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <QMenu>
+
 #include "statusbardlg.h"
 #include "appinfo.h"
 #include "statusbareventsmodel.h"
@@ -40,6 +42,14 @@ StatusBarDlg::StatusBarDlg(QWidget* parent, StatusBarEvents events)
     ui.statusBarTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_STATUSBAR_EVENTS_HEADER).toByteArray());
 
     connect(ui.statusBarTreeView, &QAbstractItemView::doubleClicked, this, &StatusBarDlg::slotStatusBarEventToggled);
+    connect(ui.statusBarTreeView->selectionModel(), &QItemSelectionModel::currentChanged,
+            this, &StatusBarDlg::statusBarEventSelected);
+    m_SBVarMenu = new QMenu(this);
+    connect(ui.SBVarButton, &QPushButton::clicked, this, [this]()
+    {
+        m_SBVarMenu->exec(QCursor::pos());
+    });
+    connect(ui.SBDefValButton, &QPushButton::clicked, this, &StatusBarDlg::statusBarRestoreDefaultMessage);
     connect(ui.statusBarEnableallButton, &QAbstractButton::clicked, this, &StatusBarDlg::slotStatusBarEnableAll);
     connect(ui.statusBarClearallButton, &QAbstractButton::clicked, this, &StatusBarDlg::slotStatusBarClearAll);
     connect(ui.statusBarRevertButton, &QAbstractButton::clicked, this, &StatusBarDlg::slotStatusBarRevert);
@@ -51,9 +61,99 @@ void StatusBarDlg::slotStatusBarEventToggled(const QModelIndex &index)
     auto events = m_statusbarmodel->getStatusBarEvents();
     StatusBarEvent e = StatusBarEvent(index.internalId());
     if (e & events)
+    {
         m_statusbarmodel->setStatusBarEvents(events & ~e);
+        ui.sbmsg_groupbox->hide();
+    }
     else
+    {
         m_statusbarmodel->setStatusBarEvents(events | e);
+        ui.sbmsg_groupbox->show();
+    }
+}
+
+void StatusBarDlg::statusBarEventSelected(const QModelIndex &index)
+{
+    saveCurrentMessage();
+
+    m_currentIndex = index;
+    if (!index.isValid()) return;
+
+    bool customizable = true;
+    auto eventMap = UtilUI::eventToSettingMap();
+    StatusBarEvents eventId = static_cast<StatusBarEvents>(index.internalId());
+
+    if (eventMap.contains(eventId))
+    {
+        const StatusBarEventInfo& eventInfo = eventMap[eventId];
+        QString paramKey = eventInfo.settingKey;
+        QString defaultValue = UtilUI::getDefaultValue(paramKey);
+        QString currentMessage = ttSettings->value(paramKey, defaultValue).toString();
+        ui.SBMsgLabel->setText(eventInfo.eventName.size() > 0?tr("Message for Event \"%1\"").arg(eventInfo.eventName):tr("Message"));
+        ui.SBMsgEdit->setText(currentMessage);
+
+        m_SBVarMenu->clear();
+        for (auto it = eventInfo.variables.constBegin(); it != eventInfo.variables.constEnd(); ++it)
+        {
+            QAction* action = m_SBVarMenu->addAction(it.value());
+            action->setData(it.key());
+            connect(action, &QAction::triggered, this, &StatusBarDlg::insertVariable);
+        }
+    }
+    else
+    {
+        customizable = false;
+    }
+    auto events = m_statusbarmodel->getStatusBarEvents();
+    StatusBarEvent e = StatusBarEvent(index.internalId());
+    ui.sbmsg_groupbox->setVisible(customizable&&(e & events));
+}
+
+void StatusBarDlg::insertVariable()
+{
+    QAction* action = qobject_cast<QAction*>(sender());
+    if (action)
+    {
+        QString variable = action->data().toString();
+        int cursorPos = ui.SBMsgEdit->cursorPosition();
+        ui.SBMsgEdit->insert(variable);
+        ui.SBMsgEdit->setCursorPosition(cursorPos + variable.length());
+    }
+}
+
+void StatusBarDlg::saveCurrentMessage()
+{
+    if (!m_currentIndex.isValid()) return;
+
+    auto eventMap = UtilUI::eventToSettingMap();
+    StatusBarEvents eventId = static_cast<StatusBarEvents>(m_currentIndex.internalId());
+
+    if (eventMap.contains(eventId))
+    {
+        const StatusBarEventInfo& eventInfo = eventMap[eventId];
+        QString paramKey = eventInfo.settingKey;
+        QString text = ui.SBMsgEdit->text();
+
+        if (!text.isEmpty() && text != UtilUI::getDefaultValue(paramKey) && text != ttSettings->value(paramKey))
+        {
+            ttSettings->setValue(paramKey, text);
+        }
+    }
+}
+
+void StatusBarDlg::statusBarRestoreDefaultMessage()
+{
+    if (!m_currentIndex.isValid()) return;
+
+    auto eventMap = UtilUI::eventToSettingMap();
+    StatusBarEvents eventId = static_cast<StatusBarEvents>(m_currentIndex.internalId());
+
+    if (eventMap.contains(eventId))
+    {
+        const StatusBarEventInfo& eventInfo = eventMap[eventId];
+        QString defaultValue = UtilUI::getDefaultValue(eventInfo.settingKey);
+        ui.SBMsgEdit->setText(defaultValue);
+    }
 }
 
 void StatusBarDlg::slotStatusBarEnableAll(bool /*checked*/)
@@ -76,4 +176,5 @@ void StatusBarDlg::slotAccept()
     ttSettings->setValue(SETTINGS_STATUSBAR_ACTIVEEVENTS, m_statusbarmodel->getStatusBarEvents());
     ttSettings->setValue(SETTINGS_DISPLAY_STATUSBAR_EVENTS_HEADER, ui.statusBarTreeView->header()->saveState());
     ttSettings->setValue(SETTINGS_DISPLAY_STATUSBARDLG_SIZE, saveGeometry());
+    saveCurrentMessage();
 }

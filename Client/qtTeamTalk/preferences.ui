@@ -1601,7 +1601,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QGroupBox" name="groupBox_14">
+           <widget class="QGroupBox" name="ttsmsg_groupbox">
             <property name="title">
              <string>Text to Speech Message</string>
             </property>
