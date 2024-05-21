@@ -112,13 +112,13 @@ UserAccountDlg::UserAccountDlg(UserAccountDlgType type, const UserAccount& usera
         this->setAccessibleDescription(tr("Add User on Server"));
         ui->typeComboBox->setCurrentIndex(ui->typeComboBox->findData(USERTYPE_DEFAULT));
         ui->lastEditLabel->setVisible(false);
-        ui.typeComboBox->setFocus();
+        ui->typeComboBox->setFocus();
         break;
     case USER_UPDATE :
     {
         setWindowTitle(tr("Edit User"));
         this->setAccessibleDescription(tr("Edit User %1").arg(m_useraccount.szUsername));
-        ui.typeComboBox->setFocus();
+        ui->typeComboBox->setFocus();
     }
     break;
     case USER_READONLY :
