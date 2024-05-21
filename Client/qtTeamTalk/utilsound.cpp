@@ -522,6 +522,9 @@ QString getSoundEventFilename(SoundEvent event)
         case SOUNDEVENT_INTERCEPTEND:
             filename = ttSettings->value(SETTINGS_SOUNDEVENT_INTERCEPTEND, SETTINGS_SOUNDEVENT_INTERCEPTEND_DEFAULT).toString();
             break;
+        case SOUNDEVENT_NONE :
+        case SOUNDEVENT_NEXT_UNUSED :
+            break;
         }
     }
     return filename;
