@@ -40,6 +40,7 @@ SoundEventsModel::SoundEventsModel(QObject* parent)
     m_soundevents.push_back(SOUNDEVENT_SERVERLOST);
     m_soundevents.push_back(SOUNDEVENT_USERMSG);
     m_soundevents.push_back(SOUNDEVENT_USERMSGSENT);
+    m_soundevents.push_back(SOUNDEVENT_TYPING);
     m_soundevents.push_back(SOUNDEVENT_CHANNELMSG);
     m_soundevents.push_back(SOUNDEVENT_CHANNELMSGSENT);
     m_soundevents.push_back(SOUNDEVENT_BROADCASTMSG);
@@ -114,6 +115,8 @@ QVariant SoundEventsModel::data ( const QModelIndex & index, int role /*= Qt::Di
                 return tr("Private message received");
             case SOUNDEVENT_USERMSGSENT :
                 return tr("Private message sent");
+            case SOUNDEVENT_TYPING :
+                return tr("User is typing a private message in focused window");
             case SOUNDEVENT_CHANNELMSG :
                 return tr("Channel message received");
             case SOUNDEVENT_CHANNELMSGSENT :

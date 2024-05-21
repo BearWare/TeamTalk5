@@ -282,6 +282,8 @@
 #define SETTINGS_SOUNDEVENT_INTERCEPT_DEFAULT           (SOUNDSPATH"/intercept.wav")
 #define SETTINGS_SOUNDEVENT_INTERCEPTEND           "soundevents/intercept-stopped"
 #define SETTINGS_SOUNDEVENT_INTERCEPTEND_DEFAULT           (SOUNDSPATH"/interceptEnd.wav")
+#define SETTINGS_SOUNDEVENT_TYPING           "soundevents/user-typing"
+#define SETTINGS_SOUNDEVENT_TYPING_DEFAULT           (SOUNDSPATH"/typing.wav")
 #define SETTINGS_SOUNDS_PACK           "soundevents/sounds-pack"
 #define SETTINGS_SOUNDS_PACK_DEFAULT           QT_TRANSLATE_NOOP("MainWindow", "Default")
 #define SETTINGS_SOUNDEVENT_ENABLE                   "soundevents/sounds-enable"
