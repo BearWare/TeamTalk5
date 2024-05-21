@@ -6294,14 +6294,82 @@ void MainWindow::slotUpdateDesktopTabUI()
 void MainWindow::slotUploadFiles(const QStringList& files)
 {
     int channelid = m_filesmodel->getChannelID();
-    Q_ASSERT(channelid>0);
-    for(int i=0;i<files.size();i++)
+    Q_ASSERT(channelid > 0);
+
+    for (const QString& filepath : files)
     {
-        QString filename = QDir::toNativeSeparators(files[i]);
-        if(!TT_DoSendFile(ttInst, channelid, _W(filename)))
+        QString filename = QFileInfo(filepath).fileName();
+        int remoteFileID = getRemoteFileID(channelid, filename);
+
+        if (remoteFileID != -1)
+        {
+            RemoteFile remoteFile;
+            if (TT_GetChannelFile(ttInst, channelid, remoteFileID, &remoteFile))
+            {
+                bool me_admin = (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN);
+                bool myusername = m_host.username == _Q(remoteFile.szUsername);
+                bool op = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), channelid);
+
+                if (me_admin || myusername || op)
+                {
+                    QMessageBox answer;
+                    answer.setText(tr("File %1 already exists on the server. Do you want to replace it?").arg(filename));
+                    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+                    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+                    Q_UNUSED(NoButton);
+                    answer.setIcon(QMessageBox::Question);
+                    answer.setWindowTitle(tr("File exists"));
+                    answer.exec();
+                    if(answer.clickedButton() == YesButton)
+                    {
+                        if (TT_DoDeleteFile(ttInst, channelid, remoteFileID) < 0)
+                        {
+                            QMessageBox::critical(this, MENUTEXT(ui.actionUploadFile->text()),
+                                                  tr("Failed to delete existing file %1").arg(filename));
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    QMessageBox::critical(this, MENUTEXT(ui.actionUploadFile->text()),
+                                          tr("You do not have permission to replace the file %1").arg(filename));
+                    continue;
+                }
+            }
+        }
+
+        QString nativeFilepath = QDir::toNativeSeparators(filepath);
+        if (!TT_DoSendFile(ttInst, channelid, _W(nativeFilepath)))
+        {
             QMessageBox::critical(this, MENUTEXT(ui.actionUploadFile->text()),
-            tr("Failed to upload file %1").arg(filename));
+                                  tr("Failed to upload file %1").arg(nativeFilepath));
+        }
     }
+}
+
+int MainWindow::getRemoteFileID(int channelid, const QString& filename)
+{
+    int count = 0;
+    if (TT_GetChannelFiles(ttInst, channelid, nullptr, &count))
+    {
+        QVector<RemoteFile> files(count);
+        if (TT_GetChannelFiles(ttInst, channelid, files.data(), &count))
+        {
+            for (const RemoteFile& file : files)
+            {
+                if (_Q(file.szFileName) == filename)
+                {
+                    return file.nFileID;
+                }
+            }
+        }
+    }
+    return -1;
 }
 
 void MainWindow::slotSendChannelMessage()
