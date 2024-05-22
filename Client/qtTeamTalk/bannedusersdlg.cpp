@@ -246,11 +246,7 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
     ui.bantypeBox->addItem(tr("Ban Username"), BanTypes(BANTYPE_USERNAME));
 
     ui.bannedTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_BANNEDUSERS_HEADERSIZES).toByteArray());
-    connect(ui.filterButton, &QPushButton::clicked, [&]()
-    {
-        m_bannedproxy->setFilterText(ui.filterEdit->text());
-        ui.bannedTreeView->setFocus();
-    });
+    connect(ui.filterButton, &QPushButton::clicked, this, &BannedUsersDlg::filterBanList);
     ui.bannedTreeView->setFocus();
 }
 
@@ -273,6 +269,8 @@ void BannedUsersDlg::keyPressEvent(QKeyEvent *e)
 {
     if ((e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) && ui.banEdit->hasFocus())
         slotNewBan();
+    if ((e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) && ui.filterEdit->hasFocus())
+        filterBanList();
     else QDialog::keyPressEvent(e);
 }
 
@@ -367,4 +365,9 @@ void BannedUsersDlg::banSelectionChanged(const QModelIndex &selected, const QMod
     {
         ui.banEdit->setText(_Q(ban.szUsername));
     }
+}
+
+void BannedUsersDlg::filterBanList()
+{
+    m_bannedproxy->setFilterText(ui.filterEdit->text());
 }
