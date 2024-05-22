@@ -68,9 +68,9 @@ public:
     void clearServers();
     const QVector<HostEntryEx>& getServers() const;
     void setServerFilter(ServerTypes srvtypes, const QRegularExpression& regex, int n_users);
+    ServerType getServerType(const HostEntryEx& host) const;
 private:
     void filterServers();
-    ServerType getServerType(const HostEntryEx& host) const;
     QMap<ServerType, QVector<HostEntryEx>> m_servers;
     // servers available after filter is applied
     QVector<HostEntryEx> m_servercache;
@@ -119,6 +119,9 @@ private:
     void serverlistReply(QNetworkReply* reply);
 
     void saveTTFile();
+    void exportSingleFile();
+    void exportMultipleFiles();
+    void showExportMenu(); // Nouvelle méthode
     void publishServer();
     void publishServerRequest(QNetworkReply* reply);
     bool getSelectedHost(HostEntry& host);
