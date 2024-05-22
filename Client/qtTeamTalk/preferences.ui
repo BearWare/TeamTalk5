@@ -1454,23 +1454,19 @@
                <property name="title">
                 <string>Sound Event File</string>
                </property>
-               <layout class="QVBoxLayout" name="soundEvents_vlayout2">
+               <layout class="QHBoxLayout" name="horizontalLayout_25">
                 <item>
-                 <layout class="QHBoxLayout" name="soundEvents_hbox1">
-                  <item>
-                   <widget class="QLabel" name="soundEventFileLabel">
-                    <property name="text">
-                     <string>File</string>
-                    </property>
-                    <property name="buddy">
-                     <cstring>soundEventFileEdit</cstring>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="soundEventFileEdit"/>
-                  </item>
-                 </layout>
+                 <widget class="QLabel" name="soundEventFileLabel">
+                  <property name="text">
+                   <string>File</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>soundEventFileEdit</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="soundEventFileEdit"/>
                 </item>
                 <item>
                  <widget class="QPushButton" name="soundEventsBrowseButton">
