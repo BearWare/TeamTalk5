@@ -134,7 +134,36 @@
 #define SETTINGS_DISPLAY_STATUSBAR_EVENTS_HEADER    "display/status-bar-events-header"
 #define SETTINGS_DISPLAY_STATUSBARDLG_SIZE          "display/status-bar-dialog-size"
 #define SETTINGS_STATUSBAR_ACTIVEEVENTS                   "display/status-bar-active-events"
-#define SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT           StatusBarEvents(STATUSBAR_USER_LOGGEDIN | STATUSBAR_USER_LOGGEDOUT | STATUSBAR_USER_JOINED | STATUSBAR_USER_LEFT | STATUSBAR_USER_JOINED_SAME | STATUSBAR_USER_LEFT_SAME | STATUSBAR_SUBSCRIPTIONS_TEXTMSG_PRIVATE | STATUSBAR_SUBSCRIPTIONS_TEXTMSG_CHANNEL | STATUSBAR_SUBSCRIPTIONS_TEXTMSG_BROADCAST | STATUSBAR_SUBSCRIPTIONS_VOICE | STATUSBAR_SUBSCRIPTIONS_VIDEO | STATUSBAR_SUBSCRIPTIONS_DESKTOP | STATUSBAR_SUBSCRIPTIONS_DESKTOPINPUT | STATUSBAR_SUBSCRIPTIONS_MEDIAFILE | STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE | STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL | STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VOICE | STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VIDEO | STATUSBAR_SUBSCRIPTIONS_INTERCEPT_DESKTOP | STATUSBAR_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE | STATUSBAR_CLASSROOM_CHANMSG_TX | STATUSBAR_CLASSROOM_VOICE_TX | STATUSBAR_CLASSROOM_VIDEO_TX | STATUSBAR_CLASSROOM_DESKTOP_TX | STATUSBAR_CLASSROOM_MEDIAFILE_TX | STATUSBAR_FILE_ADD | STATUSBAR_FILE_REMOVE | STATUSBAR_SAVE_SERVER_CONFIG | STATUSBAR_START_RECORD | STATUSBAR_TRANSMISSION_BLOCKED)
+#define SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT         StatusBarEvents(STATUSBAR_USER_LOGGEDIN | \
+                                                        STATUSBAR_USER_LOGGEDOUT | \
+                                                        STATUSBAR_USER_JOINED | \
+                                                        STATUSBAR_USER_LEFT | \
+                                                        STATUSBAR_USER_JOINED_SAME | \
+                                                        STATUSBAR_USER_LEFT_SAME | \
+                                                        STATUSBAR_SUBSCRIPTIONS_TEXTMSG_PRIVATE | \
+                                                        STATUSBAR_SUBSCRIPTIONS_TEXTMSG_CHANNEL | \
+                                                        STATUSBAR_SUBSCRIPTIONS_TEXTMSG_BROADCAST | \
+                                                        STATUSBAR_SUBSCRIPTIONS_VOICE | \
+                                                        STATUSBAR_SUBSCRIPTIONS_VIDEO | \
+                                                        STATUSBAR_SUBSCRIPTIONS_DESKTOP | \
+                                                        STATUSBAR_SUBSCRIPTIONS_DESKTOPINPUT | \
+                                                        STATUSBAR_SUBSCRIPTIONS_MEDIAFILE | \
+                                                        STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE | \
+                                                        STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL | \
+                                                        STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VOICE | \
+                                                        STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VIDEO | \
+                                                        STATUSBAR_SUBSCRIPTIONS_INTERCEPT_DESKTOP | \
+                                                        STATUSBAR_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE | \
+                                                        STATUSBAR_CLASSROOM_CHANMSG_TX | \
+                                                        STATUSBAR_CLASSROOM_VOICE_TX | \
+                                                        STATUSBAR_CLASSROOM_VIDEO_TX | \
+                                                        STATUSBAR_CLASSROOM_DESKTOP_TX | \
+                                                        STATUSBAR_CLASSROOM_MEDIAFILE_TX | \
+                                                        STATUSBAR_FILE_ADD | \
+                                                        STATUSBAR_FILE_REMOVE | \
+                                                        STATUSBAR_SAVE_SERVER_CONFIG | \
+                                                        STATUSBAR_START_RECORD | \
+                                                        STATUSBAR_TRANSMISSION_BLOCKED)
 #define SETTINGS_DISPLAY_SERVERLOG_EVENTS_HEADER    "display/serverlog-events-header"
 #define SETTINGS_DISPLAY_CHANEXP                 "display/expand-channels"
 #define SETTINGS_DISPLAY_CHANEXP_DEFAULT         false
@@ -282,6 +311,8 @@
 #define SETTINGS_SOUNDEVENT_INTERCEPT_DEFAULT           (SOUNDSPATH"/intercept.wav")
 #define SETTINGS_SOUNDEVENT_INTERCEPTEND           "soundevents/intercept-stopped"
 #define SETTINGS_SOUNDEVENT_INTERCEPTEND_DEFAULT           (SOUNDSPATH"/interceptEnd.wav")
+#define SETTINGS_SOUNDEVENT_TYPING           "soundevents/user-typing"
+#define SETTINGS_SOUNDEVENT_TYPING_DEFAULT           (SOUNDSPATH"/typing.wav")
 #define SETTINGS_SOUNDS_PACK           "soundevents/sounds-pack"
 #define SETTINGS_SOUNDS_PACK_DEFAULT           QT_TRANSLATE_NOOP("MainWindow", "Default")
 #define SETTINGS_SOUNDEVENT_ENABLE                   "soundevents/sounds-enable"
@@ -291,7 +322,36 @@
 #define SETTINGS_SOUNDEVENT_PLAYBACKMODE            "soundevents/playback-mode"
 #define SETTINGS_SOUNDEVENT_PLAYBACKMODE_DEFAULT    PLAYBACKMODE_DEFAULT
 #define SETTINGS_SOUNDEVENT_ACTIVEEVENTS                   "soundevents/active-events"
-#define SETTINGS_SOUNDEVENT_ACTIVEEVENTS_DEFAULT           SoundEvents(SOUNDEVENT_NEWUSER | SOUNDEVENT_REMOVEUSER | SOUNDEVENT_SERVERLOST | SOUNDEVENT_USERMSG | SOUNDEVENT_USERMSGSENT | SOUNDEVENT_CHANNELMSG | SOUNDEVENT_CHANNELMSGSENT | SOUNDEVENT_BROADCASTMSG | SOUNDEVENT_HOTKEY | SOUNDEVENT_NEWVIDEO | SOUNDEVENT_NEWDESKTOP | SOUNDEVENT_FILESUPD | SOUNDEVENT_FILETXDONE | SOUNDEVENT_QUESTIONMODE | SOUNDEVENT_DESKTOPACCESS | SOUNDEVENT_USERLOGGEDIN | SOUNDEVENT_USERLOGGEDOUT | SOUNDEVENT_VOICEACTON | SOUNDEVENT_VOICEACTOFF | SOUNDEVENT_MUTEALLON | SOUNDEVENT_MUTEALLOFF | SOUNDEVENT_TRANSMITQUEUE_HEAD | SOUNDEVENT_TRANSMITQUEUE_STOP | SOUNDEVENT_VOICEACTTRIG | SOUNDEVENT_VOICEACTSTOP | SOUNDEVENT_VOICEACTMEON | SOUNDEVENT_VOICEACTMEOFF | SOUNDEVENT_INTERCEPT | SOUNDEVENT_INTERCEPTEND)
+#define SETTINGS_SOUNDEVENT_ACTIVEEVENTS_DEFAULT    SoundEvents(SOUNDEVENT_NEWUSER | \
+                                                    SOUNDEVENT_REMOVEUSER | \
+                                                    SOUNDEVENT_SERVERLOST | \
+                                                    SOUNDEVENT_USERMSG | \
+                                                    SOUNDEVENT_USERMSGSENT | \
+                                                    SOUNDEVENT_CHANNELMSG | \
+                                                    SOUNDEVENT_CHANNELMSGSENT | \
+                                                    SOUNDEVENT_BROADCASTMSG | \
+                                                    SOUNDEVENT_HOTKEY | \
+                                                    SOUNDEVENT_NEWVIDEO | \
+                                                    SOUNDEVENT_NEWDESKTOP | \
+                                                    SOUNDEVENT_FILESUPD | \
+                                                    SOUNDEVENT_FILETXDONE | \
+                                                    SOUNDEVENT_QUESTIONMODE | \
+                                                    SOUNDEVENT_DESKTOPACCESS | \
+                                                    SOUNDEVENT_USERLOGGEDIN | \
+                                                    SOUNDEVENT_USERLOGGEDOUT | \
+                                                    SOUNDEVENT_VOICEACTON | \
+                                                    SOUNDEVENT_VOICEACTOFF | \
+                                                    SOUNDEVENT_MUTEALLON | \
+                                                    SOUNDEVENT_MUTEALLOFF | \
+                                                    SOUNDEVENT_TRANSMITQUEUE_HEAD | \
+                                                    SOUNDEVENT_TRANSMITQUEUE_STOP | \
+                                                    SOUNDEVENT_VOICEACTTRIG | \
+                                                    SOUNDEVENT_VOICEACTSTOP | \
+                                                    SOUNDEVENT_VOICEACTMEON | \
+                                                    SOUNDEVENT_VOICEACTMEOFF | \
+                                                    SOUNDEVENT_INTERCEPT | \
+                                                    SOUNDEVENT_INTERCEPTEND | \
+                                                    SOUNDEVENT_TYPING)
 
 #define SETTINGS_SHORTCUTS_VOICEACTIVATION          "shortcuts/voiceactivation"
 #define SETTINGS_SHORTCUTS_INCVOLUME                "shortcuts/volume-inc"
@@ -320,7 +380,16 @@
 #define SETTINGS_TTS_ENABLE                   "texttospeech/tts-enable"
 #define SETTINGS_TTS_ENABLE_DEFAULT           true
 #define SETTINGS_TTS_ACTIVEEVENTS                   "texttospeech/active-events"
-#define SETTINGS_TTS_ACTIVEEVENTS_DEFAULT           TTSEvents(TTS_USER_LOGGEDIN | TTS_USER_LOGGEDOUT | TTS_USER_JOINED_SAME | TTS_USER_LEFT_SAME | TTS_USER_TEXTMSG_PRIVATE | TTS_USER_TEXTMSG_CHANNEL | TTS_USER_TEXTMSG_BROADCAST | TTS_FILE_ADD | TTS_FILE_REMOVE | TTS_MENU_ACTIONS)
+#define SETTINGS_TTS_ACTIVEEVENTS_DEFAULT           TTSEvents(TTS_USER_LOGGEDIN | \
+                                                    TTS_USER_LOGGEDOUT | \
+                                                    TTS_USER_JOINED_SAME | \
+                                                    TTS_USER_LEFT_SAME | \
+                                                    TTS_USER_TEXTMSG_PRIVATE | \
+                                                    TTS_USER_TEXTMSG_CHANNEL | \
+                                                    TTS_USER_TEXTMSG_BROADCAST | \
+                                                    TTS_FILE_ADD | \
+                                                    TTS_FILE_REMOVE | \
+                                                    TTS_MENU_ACTIONS)
 #define SETTINGS_TTS_ENGINE                         "texttospeech/tts-engine"
 #define SETTINGS_TTS_ENGINE_DEFAULT                 TTSENGINE_NONE
 #define SETTINGS_TTS_LOCALE                         "texttospeech/tts-language"

@@ -1344,20 +1344,7 @@ void PreferencesDlg::SoundEventSelected(const QModelIndex &index)
     saveCurrentFile();
 
     m_currentSoundEventsIndex = index;
-    if (!index.isValid()) return;
-
-    auto eventMap = UtilSound::eventToSettingMap();
-    SoundEvents eventId = static_cast<SoundEvents>(index.internalId());
-
-    const SoundEventInfo& eventInfo = eventMap[eventId];
-    QString paramKey = eventInfo.settingKey;
-    QString defaultValue = UtilSound::getDefaultFile(paramKey);
-    QString currentFile = ttSettings->value(paramKey, defaultValue).toString();
-    ui.soundEventFileEdit->setText(currentFile);
-
-    auto events = m_soundmodel->getSoundEvents();
-    SoundEvent e = SoundEvent(index.internalId());
-    ui.soundeventsfile_groupbox->setVisible(e & events);
+    updateSoundEventFileEdit();
 }
 
 void PreferencesDlg::saveCurrentFile()
@@ -1897,6 +1884,26 @@ void PreferencesDlg::slotSPackChange()
         }
         ttSettings->setValue(SETTINGS_SOUNDS_PACK, ui.spackBox->currentText());
     }
+    updateSoundEventFileEdit();
+}
+
+void PreferencesDlg::updateSoundEventFileEdit()
+{
+    if (!m_currentSoundEventsIndex.isValid())
+        return;
+
+    auto eventMap = UtilSound::eventToSettingMap();
+    SoundEvents eventId = static_cast<SoundEvents>(m_currentSoundEventsIndex.internalId());
+
+    const SoundEventInfo& eventInfo = eventMap[eventId];
+    QString paramKey = eventInfo.settingKey;
+    QString defaultValue = UtilSound::getDefaultFile(paramKey);
+    QString currentFile = ttSettings->value(paramKey, defaultValue).toString();
+    ui.soundEventFileEdit->setText(currentFile);
+
+    auto events = m_soundmodel->getSoundEvents();
+    SoundEvent e = SoundEvent(m_currentSoundEventsIndex.internalId());
+    ui.soundeventsfile_groupbox->setVisible(e & events);
 }
 
 void PreferencesDlg::slotConfigureStatusBar()

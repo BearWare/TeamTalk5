@@ -69,6 +69,7 @@ QHash<SoundEvents, SoundEventInfo> UtilSound::eventToSettingMap()
         { SOUNDEVENT_VOICEACTMEOFF, {SETTINGS_SOUNDEVENT_VOICEACTMEOFF, "vox_me_disable"} },
         { SOUNDEVENT_INTERCEPT, {SETTINGS_SOUNDEVENT_INTERCEPT, "intercept"} },
         { SOUNDEVENT_INTERCEPTEND, {SETTINGS_SOUNDEVENT_INTERCEPTEND, "interceptEnd"} },
+        { SOUNDEVENT_TYPING, {SETTINGS_SOUNDEVENT_TYPING, "typing"} },
     };
     return map;
 }
@@ -522,6 +523,9 @@ QString getSoundEventFilename(SoundEvent event)
         case SOUNDEVENT_INTERCEPTEND:
             filename = ttSettings->value(SETTINGS_SOUNDEVENT_INTERCEPTEND, SETTINGS_SOUNDEVENT_INTERCEPTEND_DEFAULT).toString();
             break;
+        case SOUNDEVENT_TYPING:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_TYPING, SETTINGS_SOUNDEVENT_TYPING_DEFAULT).toString();
+            break;
         case SOUNDEVENT_NONE :
         case SOUNDEVENT_NEXT_UNUSED :
             break;
@@ -714,6 +718,8 @@ QString UtilSound::getDefaultFile(const QString& paramKey)
         return SETTINGS_SOUNDEVENT_INTERCEPT_DEFAULT;
     if (paramKey == SETTINGS_SOUNDEVENT_INTERCEPTEND)
         return SETTINGS_SOUNDEVENT_INTERCEPTEND_DEFAULT;
+    if (paramKey == SETTINGS_SOUNDEVENT_TYPING)
+        return SETTINGS_SOUNDEVENT_TYPING_DEFAULT;
     return QString();
 }
 

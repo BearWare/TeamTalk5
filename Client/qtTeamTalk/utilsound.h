@@ -83,7 +83,8 @@ enum SoundEvent : qulonglong
     SOUNDEVENT_VOICEACTMEOFF = qulonglong(1) << 27,
     SOUNDEVENT_INTERCEPT = qulonglong(1) << 28,
     SOUNDEVENT_INTERCEPTEND = qulonglong(1) << 29,
-    SOUNDEVENT_NEXT_UNUSED = qulonglong(1) << 30,
+    SOUNDEVENT_TYPING = qulonglong(1) << 30,
+    SOUNDEVENT_NEXT_UNUSED = qulonglong(1) << 31,
 };
 
 typedef qulonglong SoundEvents;
