@@ -408,7 +408,7 @@ void ServerListDlg::slotImportTTFile()
     }
 
     QDomElement rootElement = doc.documentElement();
-    if (rootElement.tagName() == "teamtalk")
+    if (rootElement.tagName() == TTFILE_ROOT)
     {
         QString version = rootElement.attribute("version");
         if(!versionSameOrLater(version, TTFILE_VERSION))
@@ -674,8 +674,8 @@ void ServerListDlg::exportSingleFile()
     QDomProcessingInstruction xmlDecl = doc.createProcessingInstruction("xml", "version='1.0' encoding='UTF-8'");
     doc.appendChild(xmlDecl);
 
-    QDomElement root = doc.createElement("teamtalk");
-    root.setAttribute("version", "5.0");
+    QDomElement root = doc.createElement(TTFILE_ROOT);
+    root.setAttribute("version", TTFILE_VERSION);
     doc.appendChild(root);
 
     for (const auto& entry : localServers)
