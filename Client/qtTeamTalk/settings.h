@@ -293,7 +293,36 @@
 #define SETTINGS_SOUNDEVENT_PLAYBACKMODE            "soundevents/playback-mode"
 #define SETTINGS_SOUNDEVENT_PLAYBACKMODE_DEFAULT    PLAYBACKMODE_DEFAULT
 #define SETTINGS_SOUNDEVENT_ACTIVEEVENTS                   "soundevents/active-events"
-#define SETTINGS_SOUNDEVENT_ACTIVEEVENTS_DEFAULT           SoundEvents(SOUNDEVENT_NEWUSER | SOUNDEVENT_REMOVEUSER | SOUNDEVENT_SERVERLOST | SOUNDEVENT_USERMSG | SOUNDEVENT_USERMSGSENT | SOUNDEVENT_CHANNELMSG | SOUNDEVENT_CHANNELMSGSENT | SOUNDEVENT_BROADCASTMSG | SOUNDEVENT_HOTKEY | SOUNDEVENT_NEWVIDEO | SOUNDEVENT_NEWDESKTOP | SOUNDEVENT_FILESUPD | SOUNDEVENT_FILETXDONE | SOUNDEVENT_QUESTIONMODE | SOUNDEVENT_DESKTOPACCESS | SOUNDEVENT_USERLOGGEDIN | SOUNDEVENT_USERLOGGEDOUT | SOUNDEVENT_VOICEACTON | SOUNDEVENT_VOICEACTOFF | SOUNDEVENT_MUTEALLON | SOUNDEVENT_MUTEALLOFF | SOUNDEVENT_TRANSMITQUEUE_HEAD | SOUNDEVENT_TRANSMITQUEUE_STOP | SOUNDEVENT_VOICEACTTRIG | SOUNDEVENT_VOICEACTSTOP | SOUNDEVENT_VOICEACTMEON | SOUNDEVENT_VOICEACTMEOFF | SOUNDEVENT_INTERCEPT | SOUNDEVENT_INTERCEPTEND)
+#define SETTINGS_SOUNDEVENT_ACTIVEEVENTS_DEFAULT    SoundEvents(SOUNDEVENT_NEWUSER | \
+                                                    SOUNDEVENT_REMOVEUSER | \
+                                                    SOUNDEVENT_SERVERLOST | \
+                                                    SOUNDEVENT_USERMSG | \
+                                                    SOUNDEVENT_USERMSGSENT | \
+                                                    SOUNDEVENT_CHANNELMSG | \
+                                                    SOUNDEVENT_CHANNELMSGSENT | \
+                                                    SOUNDEVENT_BROADCASTMSG | \
+                                                    SOUNDEVENT_HOTKEY | \
+                                                    SOUNDEVENT_NEWVIDEO | \
+                                                    SOUNDEVENT_NEWDESKTOP | \
+                                                    SOUNDEVENT_FILESUPD | \
+                                                    SOUNDEVENT_FILETXDONE | \
+                                                    SOUNDEVENT_QUESTIONMODE | \
+                                                    SOUNDEVENT_DESKTOPACCESS | \
+                                                    SOUNDEVENT_USERLOGGEDIN | \
+                                                    SOUNDEVENT_USERLOGGEDOUT | \
+                                                    SOUNDEVENT_VOICEACTON | \
+                                                    SOUNDEVENT_VOICEACTOFF | \
+                                                    SOUNDEVENT_MUTEALLON | \
+                                                    SOUNDEVENT_MUTEALLOFF | \
+                                                    SOUNDEVENT_TRANSMITQUEUE_HEAD | \
+                                                    SOUNDEVENT_TRANSMITQUEUE_STOP | \
+                                                    SOUNDEVENT_VOICEACTTRIG | \
+                                                    SOUNDEVENT_VOICEACTSTOP | \
+                                                    SOUNDEVENT_VOICEACTMEON | \
+                                                    SOUNDEVENT_VOICEACTMEOFF | \
+                                                    SOUNDEVENT_INTERCEPT | \
+                                                    SOUNDEVENT_INTERCEPTEND | \
+                                                    SOUNDEVENT_TYPING)
 
 #define SETTINGS_SHORTCUTS_VOICEACTIVATION          "shortcuts/voiceactivation"
 #define SETTINGS_SHORTCUTS_INCVOLUME                "shortcuts/volume-inc"
