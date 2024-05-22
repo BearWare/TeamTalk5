@@ -134,7 +134,36 @@
 #define SETTINGS_DISPLAY_STATUSBAR_EVENTS_HEADER    "display/status-bar-events-header"
 #define SETTINGS_DISPLAY_STATUSBARDLG_SIZE          "display/status-bar-dialog-size"
 #define SETTINGS_STATUSBAR_ACTIVEEVENTS                   "display/status-bar-active-events"
-#define SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT           StatusBarEvents(STATUSBAR_USER_LOGGEDIN | STATUSBAR_USER_LOGGEDOUT | STATUSBAR_USER_JOINED | STATUSBAR_USER_LEFT | STATUSBAR_USER_JOINED_SAME | STATUSBAR_USER_LEFT_SAME | STATUSBAR_SUBSCRIPTIONS_TEXTMSG_PRIVATE | STATUSBAR_SUBSCRIPTIONS_TEXTMSG_CHANNEL | STATUSBAR_SUBSCRIPTIONS_TEXTMSG_BROADCAST | STATUSBAR_SUBSCRIPTIONS_VOICE | STATUSBAR_SUBSCRIPTIONS_VIDEO | STATUSBAR_SUBSCRIPTIONS_DESKTOP | STATUSBAR_SUBSCRIPTIONS_DESKTOPINPUT | STATUSBAR_SUBSCRIPTIONS_MEDIAFILE | STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE | STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL | STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VOICE | STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VIDEO | STATUSBAR_SUBSCRIPTIONS_INTERCEPT_DESKTOP | STATUSBAR_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE | STATUSBAR_CLASSROOM_CHANMSG_TX | STATUSBAR_CLASSROOM_VOICE_TX | STATUSBAR_CLASSROOM_VIDEO_TX | STATUSBAR_CLASSROOM_DESKTOP_TX | STATUSBAR_CLASSROOM_MEDIAFILE_TX | STATUSBAR_FILE_ADD | STATUSBAR_FILE_REMOVE | STATUSBAR_SAVE_SERVER_CONFIG | STATUSBAR_START_RECORD | STATUSBAR_TRANSMISSION_BLOCKED)
+#define SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT         StatusBarEvents(STATUSBAR_USER_LOGGEDIN | \
+                                                        STATUSBAR_USER_LOGGEDOUT | \
+                                                        STATUSBAR_USER_JOINED | \
+                                                        STATUSBAR_USER_LEFT | \
+                                                        STATUSBAR_USER_JOINED_SAME | \
+                                                        STATUSBAR_USER_LEFT_SAME | \
+                                                        STATUSBAR_SUBSCRIPTIONS_TEXTMSG_PRIVATE | \
+                                                        STATUSBAR_SUBSCRIPTIONS_TEXTMSG_CHANNEL | \
+                                                        STATUSBAR_SUBSCRIPTIONS_TEXTMSG_BROADCAST | \
+                                                        STATUSBAR_SUBSCRIPTIONS_VOICE | \
+                                                        STATUSBAR_SUBSCRIPTIONS_VIDEO | \
+                                                        STATUSBAR_SUBSCRIPTIONS_DESKTOP | \
+                                                        STATUSBAR_SUBSCRIPTIONS_DESKTOPINPUT | \
+                                                        STATUSBAR_SUBSCRIPTIONS_MEDIAFILE | \
+                                                        STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE | \
+                                                        STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL | \
+                                                        STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VOICE | \
+                                                        STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VIDEO | \
+                                                        STATUSBAR_SUBSCRIPTIONS_INTERCEPT_DESKTOP | \
+                                                        STATUSBAR_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE | \
+                                                        STATUSBAR_CLASSROOM_CHANMSG_TX | \
+                                                        STATUSBAR_CLASSROOM_VOICE_TX | \
+                                                        STATUSBAR_CLASSROOM_VIDEO_TX | \
+                                                        STATUSBAR_CLASSROOM_DESKTOP_TX | \
+                                                        STATUSBAR_CLASSROOM_MEDIAFILE_TX | \
+                                                        STATUSBAR_FILE_ADD | \
+                                                        STATUSBAR_FILE_REMOVE | \
+                                                        STATUSBAR_SAVE_SERVER_CONFIG | \
+                                                        STATUSBAR_START_RECORD | \
+                                                        STATUSBAR_TRANSMISSION_BLOCKED)
 #define SETTINGS_DISPLAY_SERVERLOG_EVENTS_HEADER    "display/serverlog-events-header"
 #define SETTINGS_DISPLAY_CHANEXP                 "display/expand-channels"
 #define SETTINGS_DISPLAY_CHANEXP_DEFAULT         false
@@ -351,7 +380,16 @@
 #define SETTINGS_TTS_ENABLE                   "texttospeech/tts-enable"
 #define SETTINGS_TTS_ENABLE_DEFAULT           true
 #define SETTINGS_TTS_ACTIVEEVENTS                   "texttospeech/active-events"
-#define SETTINGS_TTS_ACTIVEEVENTS_DEFAULT           TTSEvents(TTS_USER_LOGGEDIN | TTS_USER_LOGGEDOUT | TTS_USER_JOINED_SAME | TTS_USER_LEFT_SAME | TTS_USER_TEXTMSG_PRIVATE | TTS_USER_TEXTMSG_CHANNEL | TTS_USER_TEXTMSG_BROADCAST | TTS_FILE_ADD | TTS_FILE_REMOVE | TTS_MENU_ACTIONS)
+#define SETTINGS_TTS_ACTIVEEVENTS_DEFAULT           TTSEvents(TTS_USER_LOGGEDIN | \
+                                                    TTS_USER_LOGGEDOUT | \
+                                                    TTS_USER_JOINED_SAME | \
+                                                    TTS_USER_LEFT_SAME | \
+                                                    TTS_USER_TEXTMSG_PRIVATE | \
+                                                    TTS_USER_TEXTMSG_CHANNEL | \
+                                                    TTS_USER_TEXTMSG_BROADCAST | \
+                                                    TTS_FILE_ADD | \
+                                                    TTS_FILE_REMOVE | \
+                                                    TTS_MENU_ACTIONS)
 #define SETTINGS_TTS_ENGINE                         "texttospeech/tts-engine"
 #define SETTINGS_TTS_ENGINE_DEFAULT                 TTSENGINE_NONE
 #define SETTINGS_TTS_LOCALE                         "texttospeech/tts-language"
