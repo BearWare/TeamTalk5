@@ -220,7 +220,10 @@ void TextMessageDlg::newMsg(const MyTextMessage& msg, bool store)
                     if (!this->isActiveWindow())
                         addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_TYPING_GLOBAL, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_TYPING, {{"{user}", getDisplayName(remoteuser)}}));
                     else
+                    {
+                        playSoundEvent(SOUNDEVENT_TYPING);
                         addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE_TYPING, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_TYPING, {{"{user}", getDisplayName(remoteuser)}}));
+                    }
                 }
                 if(m_remote_typing_id)
                     killTimer(m_remote_typing_id);
