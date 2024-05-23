@@ -16,10 +16,12 @@ Default Qt Client
 - Redesign "Sound Events" tab in Preferences
 - Ability to replace existing file on upload
 - Menu to insert MOTD variables in "Server Properties" dialog
+- Support for Import/Export entire Server List
 - Optional sound event for user typing private message
 - Replace readonly edit fields by statis label in "User info" dialog
 - Only show available info in "User info" dialog
 - Ability to copy all User Info to clipboard in "User Info" dialog
+- Ability to search by IP or username in "Banned Users" dialog
 Android Client
 - users who have the "User can make other users channel operator" right will no longer be asked for the operator password for granting/revoking channel operator
 iOS Client
