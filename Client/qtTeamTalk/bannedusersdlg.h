@@ -58,7 +58,8 @@ public:
 
     void cmdProcessing(int cmdid, bool active);
 protected:
-    void keyPressEvent(QKeyEvent *e) override;
+    void keyPressEvent(QKeyEvent* e) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 private:
     Ui::BannedUsersDlg ui;
     BannedUsersModel* m_bannedmodel, *m_unbannedmodel;
