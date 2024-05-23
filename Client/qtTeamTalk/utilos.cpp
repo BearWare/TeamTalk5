@@ -73,6 +73,35 @@ bool isComputerIdle(int idle_secs)
     }
     return (int)os_idle_secs > idle_secs;
 }
+#elif defined(Q_OS_LINUX)
+
+#include <X11/extensions/scrnsaver.h>
+#include <X11/Xlib.h>
+
+bool isComputerIdle(int idle_secs)
+{
+    Display* dpy = XOpenDisplay(NULL);
+    if (!dpy)
+    {
+        return false;
+    }
+
+    XScreenSaverInfo *info = XScreenSaverAllocInfo();
+    if (!info)
+    {
+        XCloseDisplay(dpy);
+        return false;
+    }
+
+    XScreenSaverQueryInfo(dpy, DefaultRootWindow(dpy), info);
+    int idle_time = info->idle / 1000;
+
+    XFree(info);
+    XCloseDisplay(dpy);
+
+    return idle_time >= idle_secs;
+}
+
 #else
 bool isComputerIdle(int /*idle_secs*/)
 {

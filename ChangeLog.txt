@@ -22,6 +22,7 @@ Default Qt Client
 - Only show available info in "User info" dialog
 - Ability to copy all User Info to clipboard in "User Info" dialog
 - Ability to search by IP or username in "Banned Users" dialog
+- Support Idle Time on Linux (X11)
 Android Client
 - users who have the "User can make other users channel operator" right will no longer be asked for the operator password for granting/revoking channel operator
 iOS Client

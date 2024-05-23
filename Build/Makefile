@@ -232,7 +232,7 @@ depend-ubuntu18:
                     openjdk-11-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev yasm autoconf libtool pkg-config \
                     libasound2-dev wget python g++ python3-pytest \
-                    libpulse-dev
+                    libpulse-dev libxss-dev
 
 depend-ubuntu20:
 # Duplicate install in Docker/Dockerfile_ubuntu20
@@ -241,7 +241,7 @@ depend-ubuntu20:
                     openjdk-17-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev yasm autoconf libtool pkg-config \
                     libasound2-dev wget python g++ \
-                    libpulse-dev
+                    libpulse-dev libxss-dev
 
 depend-ubuntu22:
 	apt install qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev \
@@ -249,7 +249,7 @@ depend-ubuntu22:
                     openjdk-18-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev yasm autoconf libtool pkg-config \
                     libasound2-dev wget python2 g++ p7zip-full python3-pytest \
-                    libpulse-dev
+                    libpulse-dev libxss-dev
 	@echo "Ensure a default python is set up for WebRTC to compile:"
 	@echo "# sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10"
 
@@ -263,7 +263,7 @@ depend-ubuntu22-android:
 depend-debian9:
 	apt install qt5-default qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev \
                     doxygen g++ openjdk-8-jdk \
-                    qttools5-dev-tools ninja-build libpcap-dev junit4 cmake
+                    qttools5-dev-tools ninja-build libpcap-dev junit4 cmake libxss-dev
 
 # TeamTalk 5 dependencies for Raspbian 10 Buster
 depend-rasp10:
@@ -271,7 +271,7 @@ depend-rasp10:
                     libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
                     openjdk-11-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev autoconf libtool pkg-config \
-                    libasound2-dev wget python libpulse-dev
+                    libasound2-dev wget python libpulse-dev libxss-dev
 
 # TeamTalk 5 dependencies for Raspbian 11 Bullseye
 depend-rasp11:
@@ -280,7 +280,7 @@ depend-rasp11:
                     openjdk-17-jdk ninja-build libpcap-dev junit4 cmake \
                     libssl-dev autoconf libtool pkg-config \
                     libasound2-dev wget g++ p7zip-full python3-pytest \
-                    libpulse-dev
+                    libpulse-dev libxss-dev
 
 depend-mac:
 	brew install autoconf automake libtool pkg-config yasm ninja python-setuptools
