@@ -323,7 +323,7 @@ void BannedUsersDlg::slotUnbannedContextMenu(const QPoint& /*point*/)
 {
     QMenu menu(this);
     QAction* banUser = menu.addAction(tr("&Move Selected User to Banned List"));
-    auto srcIndex = m_bannedproxy->mapToSource(ui.bannedTreeView->currentIndex());
+    auto srcIndex = m_unbannedproxy->mapToSource(ui.unbannedTreeView->currentIndex());
     banUser->setEnabled(srcIndex.isValid());
     if (QAction* action = menu.exec(QCursor::pos()))
     {
