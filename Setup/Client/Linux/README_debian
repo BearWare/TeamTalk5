@@ -20,12 +20,13 @@ installed first:
 - libqt5core5a
 - libqt5texttospeech5 
 - libasound2
+- libxss1
 
 To install the packages run the following command as 'root':
 
 apt install libqt5x11extras5 libqt5widgets5 libqt5multimedia5 \
   libqt5gui5 libqt5network5 libqt5xml5 libqt5core5a libqt5texttospeech5 \
-  libasound2
+  libasound2 libxss1
 
 
 Run TeamTalk

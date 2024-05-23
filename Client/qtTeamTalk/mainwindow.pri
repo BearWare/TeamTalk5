@@ -72,11 +72,11 @@ win32 {
 }
 
 x11 {
-    LIBS += -lX11
+    LIBS += -lX11 -lXss
 }
 
 linux {
-    LIBS += -lX11
+    LIBS += -lX11 -lXss
 
     greaterThan(QT_MAJOR_VERSION, 4): QT += x11extras
 }

@@ -19,6 +19,7 @@ RUN apt install -y \
                    libqt5x11extras5-dev \
                    libssl-dev \
                    libtool \
+                   libxss-dev \
                    make \
                    ninja-build \
                    openjdk-18-jdk \
