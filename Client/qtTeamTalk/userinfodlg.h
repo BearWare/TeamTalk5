@@ -34,6 +34,7 @@ private:
     int m_userid;
     Ui::UserInfoDlg ui;
     void updateUser();
+    void copyInfoToClipboard();
 };
 
 

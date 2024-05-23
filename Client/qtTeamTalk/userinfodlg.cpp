@@ -21,6 +21,7 @@
 
 #include <QUrl>
 #include <QDesktopServices>
+#include <QClipboard>
 
 extern TTInstance* ttInst;
 
@@ -31,6 +32,8 @@ UserInfoDlg::UserInfoDlg(int userid, QWidget * parent/* = 0*/)
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
 
+    connect(ui.copyButton, &QAbstractButton::clicked,
+            this, &UserInfoDlg::copyInfoToClipboard);
     startTimer(250);
     updateUser();
 }
@@ -121,4 +124,25 @@ void UserInfoDlg::updateUser()
     ui.vflLabel->setText(QString(tr("Video frame loss") + ": %1/%2").arg(stats.nVideoCaptureFramesLost).arg(stats.nVideoCaptureFramesRecv+stats.nVideoCaptureFramesLost));
     ui.afplLabel->setText(QString(tr("Audio file packets loss") + ": %1/%2").arg(stats.nMediaFileAudioPacketsLost).arg(stats.nMediaFileAudioPacketsRecv+stats.nMediaFileAudioPacketsLost));
     ui.vfflLabel->setText(QString(tr("Video file frame loss") + ": %1/%2").arg(stats.nMediaFileVideoFramesLost).arg(stats.nMediaFileVideoFramesRecv+stats.nMediaFileVideoFramesLost));
+}
+
+void UserInfoDlg::copyInfoToClipboard()
+{
+    QString cp = ui.idLabel->text() + "\n" +
+                 ui.nicknameLabel->text() + "\n" +
+                 ui.usernameLabel->text() + "\n" +
+                 ui.clientLabel->text() + "\n" +
+                 ui.statusLabel->text() + "\n";
+    if (ui.statusmsgLabel->isVisible())
+        cp += ui.statusmsgLabel->text() + "\n";
+    cp += ui.usertypeLabel->text() + "\n";
+    if (ui.ipLabel->isVisible())
+        cp += ui.ipLabel->text() + "\n";
+    cp += ui.vplLabel->text() + "\n" +
+          ui.vflLabel->text() + "\n" +
+          ui.afplLabel->text() + "\n" +
+          ui.vfflLabel->text();
+
+    QClipboard* clipboard = QApplication::clipboard();
+    clipboard->setText(cp);
 }
