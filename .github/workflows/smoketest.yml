@@ -61,6 +61,7 @@ jobs:
            libssl-dev
            libtinyxml-dev
            libvpx-dev
+           libxss-dev
            ninja-build
            portaudio19-dev
            python3-minimal
