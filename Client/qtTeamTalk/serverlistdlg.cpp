@@ -672,7 +672,7 @@ void ServerListDlg::exportSingleFile()
     ttSettings->setValue(SETTINGS_LAST_DIRECTORY, QFileInfo(filename).absolutePath());
 
     QDomDocument doc;
-    QDomProcessingInstruction xmlDecl = doc.createProcessingInstruction("xml", "version='1.0' encoding='UTF-8'");
+    QDomProcessingInstruction xmlDecl = doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\"");
     doc.appendChild(xmlDecl);
 
     QDomElement root = doc.createElement(TTFILE_ROOT);
