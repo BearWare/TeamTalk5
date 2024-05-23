@@ -278,6 +278,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
 
     connect(ui.newsrvButton, &QPushButton::clicked, this, &ServerListDlg::slotNewServer);
     connect(ui.impttButton, &QPushButton::clicked, this, &ServerListDlg::slotImportTTFile);
+    connect(ui.expttButton, &QPushButton::clicked, this, &ServerListDlg::showExportMenu);
 
     connect(ui.officialserverChkBox, &QCheckBox::clicked, this, &ServerListDlg::refreshServerList);
     connect(ui.unofficialserverChkBox, &QCheckBox::clicked, this, &ServerListDlg::refreshServerList);
@@ -385,9 +386,10 @@ void ServerListDlg::slotImportTTFile()
 {
     QString start_dir = ttSettings->value(SETTINGS_LAST_DIRECTORY, QDir::homePath()).toString();
     QString filepath = QFileDialog::getOpenFileName(this, tr("Open File"),
-                                                   start_dir/*, tr("TT Files (*.tt)")*/);
+                                                    start_dir/*, tr("TT Files (*.tt)")*/);
     if(filepath.isEmpty())
         return;
+
     QFile ttfile(QDir::fromNativeSeparators(filepath));
     if(!ttfile.open(QFile::ReadOnly))
     {
@@ -397,7 +399,7 @@ void ServerListDlg::slotImportTTFile()
     }
 
     QByteArray data = ttfile.readAll();
-    QDomDocument doc(TTFILE_ROOT);
+    QDomDocument doc;
     if(!doc.setContent(data))
     {
         QMessageBox::information(this, tr("Load File"),
@@ -405,28 +407,37 @@ void ServerListDlg::slotImportTTFile()
         return;
     }
 
-    QDomElement rootElement(doc.documentElement());
-    QString version = rootElement.attribute("version");
+    QDomElement rootElement = doc.documentElement();
+    if (rootElement.tagName() == TTFILE_ROOT)
+    {
+        QString version = rootElement.attribute("version");
+        if(!versionSameOrLater(version, TTFILE_VERSION))
+        {
+            QMessageBox::information(this, tr("Load File"),
+                tr("The file \"%1\" is incompatible with %2")
+                .arg(QDir::toNativeSeparators(filepath))
+                .arg(APPTITLE));
+            return;
+        }
 
-    if(!versionSameOrLater(version, TTFILE_VERSION))
+        QDomElement hostElement = rootElement.firstChildElement("host");
+        while (!hostElement.isNull())
+        {
+            HostEntry entry;
+            if (getServerEntry(hostElement, entry))
+            {
+                addServerEntry(entry);
+            }
+            hostElement = hostElement.nextSiblingElement("host");
+        }
+    }
+    else
     {
         QMessageBox::information(this, tr("Load File"),
-            tr("The file \"%1\" is incompatible with %2")
-            .arg(QDir::toNativeSeparators(filepath))
-            .arg(APPTITLE));
+            tr("Failed to load file %1").arg(filepath));
         return;
     }
 
-    QDomElement element = rootElement.firstChildElement("host");
-    HostEntry entry;
-    if(!getServerEntry(element, entry))
-    {
-        QMessageBox::information(this, tr("Load File"),
-            tr("Failed to extract host-information from %1").arg(filepath));
-        return;
-    }
-
-    addServerEntry(entry);
     refreshServerList();
 }
 
@@ -617,6 +628,111 @@ void ServerListDlg::saveTTFile()
         dlg.exec();
     }
     return;
+}
+
+void ServerListDlg::showExportMenu()
+{
+    QMenu menu(this);
+    QAction *exportSingleAction = menu.addAction(tr("Export entire list in single file"));
+    QAction *exportMultipleAction = menu.addAction(tr("Export one server per file"));
+
+    connect(exportSingleAction, &QAction::triggered, this, &ServerListDlg::exportSingleFile);
+    connect(exportMultipleAction, &QAction::triggered, this, &ServerListDlg::exportMultipleFiles);
+
+    menu.exec(QCursor::pos());
+}
+
+void ServerListDlg::exportSingleFile()
+{
+    QVector<HostEntry> localServers;
+
+    auto servers = m_model->getServers();
+    for (const auto& server : servers)
+    {
+        if (m_model->getServerType(server) == SERVERTYPE_LOCAL)
+        {
+            localServers.append(server);
+        }
+    }
+
+    if (localServers.isEmpty())
+    {
+        QMessageBox::information(this, tr("Export Server List"), tr("No server to export."));
+        return;
+    }
+
+    QString start_dir = ttSettings->value(SETTINGS_LAST_DIRECTORY, QDir::homePath()).toString();
+    QString defaultFileName = start_dir + QDir::separator() + APPNAME_SHORT + "Servers_" + QDateTime::currentDateTime().toString("yyyyMMdd_HHmmss") + ".tt";
+    QString filename = QFileDialog::getSaveFileName(this, tr("Save File"),
+                                                    defaultFileName, tr("TT Files (*.tt)"));
+
+    if (filename.isEmpty())
+        return;
+
+    ttSettings->setValue(SETTINGS_LAST_DIRECTORY, QFileInfo(filename).absolutePath());
+
+    QDomDocument doc;
+    QDomProcessingInstruction xmlDecl = doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\"");
+    doc.appendChild(xmlDecl);
+
+    QDomElement root = doc.createElement(TTFILE_ROOT);
+    root.setAttribute("version", TTFILE_VERSION);
+    doc.appendChild(root);
+
+    for (const auto& entry : localServers)
+    {
+        QByteArray xml = generateTTFile(entry);
+        QDomDocument entryDoc;
+        entryDoc.setContent(xml);
+        QDomElement hostElement = entryDoc.documentElement().firstChildElement("host");
+        root.appendChild(doc.importNode(hostElement, true));
+    }
+
+    QFile file(filename);
+    if (!file.open(QIODevice::WriteOnly))
+    {
+        QMessageBox::critical(this, tr("Save File"), tr("Unable to save file"));
+        return;
+    }
+    file.write(doc.toByteArray());
+
+    QMessageBox::information(this, tr("Export Server List"), tr("All servers have been exported successfully."));
+}
+
+void ServerListDlg::exportMultipleFiles()
+{
+    QVector<HostEntry> localServers;
+
+    auto servers = m_model->getServers();
+    for (const auto& server : servers)
+    {
+        if (m_model->getServerType(server) == SERVERTYPE_LOCAL)
+        {
+            localServers.append(server);
+        }
+    }
+
+    if (localServers.isEmpty())
+    {
+        QMessageBox::information(this, tr("Export Server List"), tr("No server to export."));
+        return;
+    }
+
+    QString start_dir = ttSettings->value(SETTINGS_LAST_DIRECTORY, QDir::homePath()).toString();
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Select Directory"), start_dir);
+
+    if (dir.isEmpty())
+        return;
+
+    ttSettings->setValue(SETTINGS_LAST_DIRECTORY, dir);
+
+    for (const auto& entry : localServers)
+    {
+        GenerateTTFileDlg dlg(entry, this);
+        dlg.exportTTFileToDirectory(dir);
+    }
+
+    QMessageBox::information(this, tr("Export Server List"), tr("All servers have been exported successfully."));
 }
 
 void ServerListDlg::publishServer()

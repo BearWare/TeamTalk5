@@ -16,6 +16,7 @@ Default Qt Client
 - Redesign "Sound Events" tab in Preferences
 - Ability to replace existing file on upload
 - Menu to insert MOTD variables in "Server Properties" dialog
+- Support for Import/Export entire Server List
 - Optional sound event for user typing private message
 - Replace readonly edit fields by statis label in "User info" dialog
 - Only show available info in "User info" dialog

@@ -139,6 +139,22 @@ void GenerateTTFileDlg::slotVideoCodecChange(int)
     ui.vidbitrateSpinBox->setEnabled(c == WEBM_VP8_CODEC);
 }
 
+void GenerateTTFileDlg::exportTTFileToDirectory(const QString& dir)
+{
+    QByteArray xml = generateTTFile(m_hostentry);
+
+    QString genname = !m_hostentry.name.isEmpty() ? m_hostentry.name : QString("%1@%2_%3").arg(m_hostentry.username).arg(m_hostentry.ipaddr).arg(m_hostentry.tcpport);
+    QString filename = QString("%1%2%3.tt").arg(dir).arg(QDir::separator()).arg(genname);
+
+    QFile file(filename);
+    if (!file.open(QIODevice::WriteOnly))
+    {
+        QMessageBox::critical(this, tr("Save File"), tr("Unable to save file %1").arg(filename));
+        return;
+    }
+    file.write(xml);
+}
+
 void GenerateTTFileDlg::slotSaveTTFile()
 {
     m_hostentry.username = ui.usernameEdit->text();
