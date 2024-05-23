@@ -190,6 +190,8 @@
 #define SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT                            "default"
 #define SETTINGS_DISPLAY_USERACCOUNT_SORT                            "display/user-account-sort"
 #define SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT                            "username"
+#define SETTINGS_DISPLAY_BANLIST_SORT                            "display/ban-list-sort"
+#define SETTINGS_DISPLAY_BANLIST_SORT_DEFAULT                            "bantime"
 #define SETTINGS_DISPLAY_ONLINEUSERS_SORT                            "display/online-users-sort"
 #define SETTINGS_DISPLAY_ONLINEUSERS_SORT_DEFAULT                            "nickname"
 #define SETTINGS_DISPLAY_FILESLIST_SORT                            "display/files-list-sort"

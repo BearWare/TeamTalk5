@@ -67,6 +67,8 @@ private:
     int m_cmdid_active = 0;
 
 private:
+    void slotBannedContextMenu(const QPoint&);
+    void slotUnbannedContextMenu(const QPoint&);
     void slotClose();
     void slotUnbanUser();
     void slotBanUser();
