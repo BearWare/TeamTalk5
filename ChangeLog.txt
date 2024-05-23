@@ -23,6 +23,9 @@ Default Qt Client
 - Ability to copy all User Info to clipboard in "User Info" dialog
 - Ability to search by IP or username in "Banned Users" dialog
 - Support Idle Time on Linux (X11)
+- Ability to sort Ban List
+- Context menu to move banned/unbanned users to banned/unbanned list
+- Ban time displays in local format
 Android Client
 - Toggle channel operator does not show password dialog if user has user-right to change channel operator
 iOS Client
