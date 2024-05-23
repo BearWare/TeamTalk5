@@ -370,4 +370,6 @@ void BannedUsersDlg::banSelectionChanged(const QModelIndex &selected, const QMod
 void BannedUsersDlg::filterBanList()
 {
     m_bannedproxy->setFilterText(ui.filterEdit->text());
+    if (m_bannedproxy->rowCount() > 0)
+        ui.bannedTreeView->setFocus();
 }
