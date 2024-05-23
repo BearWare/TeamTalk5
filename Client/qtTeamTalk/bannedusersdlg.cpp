@@ -254,9 +254,24 @@ void BannedUsersDlg::cmdProcessing(int cmdid, bool active)
 
 void BannedUsersDlg::keyPressEvent(QKeyEvent *e)
 {
-    if ((e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) && ui.banEdit->hasFocus())
-        slotNewBan();
-    else QDialog::keyPressEvent(e);
+    if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
+    {
+        if (ui.banEdit->hasFocus())
+            slotNewBan();
+        if (ui.bannedTreeView->hasFocus())
+        {
+            auto srcIndex = m_bannedproxy->mapToSource(ui.bannedTreeView->currentIndex());
+            if (srcIndex.isValid())
+                slotUnbanUser();
+        }
+        if (ui.unbannedTreeView->hasFocus())
+        {
+            auto srcIndex = m_unbannedproxy->mapToSource(ui.unbannedTreeView->currentIndex());
+            if (srcIndex.isValid())
+                slotBanUser();
+        }
+    }
+    QDialog::keyPressEvent(e);
 }
 
 void BannedUsersDlg::slotBannedContextMenu(const QPoint& /*point*/)
