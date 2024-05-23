@@ -73,7 +73,7 @@ public:
 
     void cmdProcessing(int cmdid, bool active);
 protected:
-    void keyPressEvent(QKeyEvent *e) override;
+    void keyPressEvent(QKeyEvent* e) override;
 private:
     Ui::BannedUsersDlg ui;
     BannedUsersModel* m_bannedmodel, *m_unbannedmodel;
@@ -83,6 +83,8 @@ private:
     int m_cmdid_active = 0;
 
 private:
+    void slotBannedContextMenu(const QPoint&);
+    void slotUnbannedContextMenu(const QPoint&);
     void slotClose();
     void slotUnbanUser();
     void slotBanUser();
