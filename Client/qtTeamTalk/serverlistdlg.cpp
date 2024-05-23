@@ -657,13 +657,14 @@ void ServerListDlg::exportSingleFile()
 
     if (localServers.isEmpty())
     {
-        QMessageBox::information(this, tr("Export All Local"), tr("No local servers to export."));
+        QMessageBox::information(this, tr("Export Server List"), tr("No server to export."));
         return;
     }
 
     QString start_dir = ttSettings->value(SETTINGS_LAST_DIRECTORY, QDir::homePath()).toString();
+    QString defaultFileName = start_dir + QDir::separator() + APPNAME_SHORT + "Servers_" + QDateTime::currentDateTime().toString("yyyyMMdd_HHmmss") + ".tt";
     QString filename = QFileDialog::getSaveFileName(this, tr("Save File"),
-                                                    start_dir, tr("TT Files (*.tt)"));
+                                                    defaultFileName, tr("TT Files (*.tt)"));
 
     if (filename.isEmpty())
         return;
@@ -695,7 +696,7 @@ void ServerListDlg::exportSingleFile()
     }
     file.write(doc.toByteArray());
 
-    QMessageBox::information(this, tr("Export All Local"), tr("All local servers have been exported successfully."));
+    QMessageBox::information(this, tr("Export Server List"), tr("All servers have been exported successfully."));
 }
 
 void ServerListDlg::exportMultipleFiles()
