@@ -22,6 +22,8 @@
 
 #include <QPushButton>
 #include <QMenu>
+#include <QRegularExpression>
+#include <QKeyEvent>
 #include <set>
 
 extern QSettings* ttSettings;
@@ -41,7 +43,7 @@ enum
 extern TTInstance* ttInst;
 
 BannedUsersModel::BannedUsersModel(QObject* parent)
-: QAbstractItemModel(parent)
+: QAbstractTableModel(parent)
 {
 }
 
@@ -115,7 +117,7 @@ QVariant BannedUsersModel::data ( const QModelIndex & index, int role /*= Qt::Di
             break;
         }
         break;
-        case Qt::AccessibleTextRole :
+/*        case Qt::AccessibleTextRole :
         {
             return QString("%1: %2, %3: %4, %5: %6, %7: %8, %9: %10, %11: %12, %13: %14")
             .arg(headerData(COLUMN_INDEX_NICKNAME, Qt::Horizontal, Qt::DisplayRole).toString())
@@ -132,7 +134,7 @@ QVariant BannedUsersModel::data ( const QModelIndex & index, int role /*= Qt::Di
             .arg(data(createIndex(index.row(), COLUMN_INDEX_CHANPATH, index.internalId()), Qt::DisplayRole).toString())
             .arg(headerData(COLUMN_INDEX_IPADDRESS, Qt::Horizontal, Qt::DisplayRole).toString())
             .arg(data(createIndex(index.row(), COLUMN_INDEX_IPADDRESS, index.internalId()), Qt::DisplayRole).toString());
-        }
+        }*/
     }
     return QVariant();
 }
@@ -226,20 +228,20 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
         m_bannedmodel->addBannedUser(bannedusers[i], i+1 == bannedusers.size());
 
 #if defined(Q_OS_MAC)
-    auto font = ui.bannedTreeView->font();
+    auto font = ui.bannedTableView->font();
     font.setPointSize(13);
-    ui.bannedTreeView->setFont(font);
-    ui.unbannedTreeView->setFont(font);
+    ui.bannedTableView->setFont(font);
+    ui.unbannedTableView->setFont(font);
 #endif
 
-    ui.bannedTreeView->setModel(m_bannedproxy);
+    ui.bannedTableView->setModel(m_bannedproxy);
     for(int i=0;i<COLUMN_COUNT_BANNEDUSERS;i++)
-        ui.bannedTreeView->resizeColumnToContents(i);
+        ui.bannedTableView->resizeColumnToContents(i);
     m_bannedproxy->setSortCaseSensitivity(Qt::CaseInsensitive);
     m_bannedproxy->sort(COLUMN_INDEX_BANTIME, Qt::AscendingOrder);
-    ui.unbannedTreeView->setModel(m_unbannedproxy);
+    ui.unbannedTableView->setModel(m_unbannedproxy);
     for(int i=0;i<COLUMN_COUNT_BANNEDUSERS;i++)
-        ui.unbannedTreeView->resizeColumnToContents(i);
+        ui.unbannedTableView->resizeColumnToContents(i);
 
     auto banfunc = [&]() {
         ui.newbanBtn->setEnabled( (getCurrentItemData(ui.bantypeBox).toInt() & BANTYPE_IPADDR) == BANTYPE_NONE || ui.banEdit->text().size());
@@ -248,11 +250,11 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
     connect(ui.buttonBox, &QDialogButtonBox::accepted, this, &BannedUsersDlg::slotClose);
     connect(ui.leftButton, &QAbstractButton::clicked, this, &BannedUsersDlg::slotBanUser);
     connect(ui.rightButton, &QAbstractButton::clicked, this, &BannedUsersDlg::slotUnbanUser);
-    connect(ui.bannedTreeView, &QTreeView::doubleClicked, this, &BannedUsersDlg::slotUnbanUser);
-    connect(ui.unbannedTreeView, &QTreeView::doubleClicked, this, &BannedUsersDlg::slotBanUser);
+    connect(ui.bannedTableView, &QTableView::doubleClicked, this, &BannedUsersDlg::slotUnbanUser);
+    connect(ui.unbannedTableView, &QTableView::doubleClicked, this, &BannedUsersDlg::slotBanUser);
     connect(ui.banEdit, &QLineEdit::textEdited, banfunc);
     connect(ui.bantypeBox, &QComboBox::currentTextChanged, banfunc);
-    connect(ui.bannedTreeView->selectionModel(), &QItemSelectionModel::currentChanged,
+    connect(ui.bannedTableView->selectionModel(), &QItemSelectionModel::currentChanged,
             this, &BannedUsersDlg::banSelectionChanged);
     ui.bannedTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui.bannedTreeView, &QWidget::customContextMenuRequested,
@@ -264,14 +266,14 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
     ui.bantypeBox->addItem(tr("Ban IP-address"), BanTypes(BANTYPE_IPADDR));
     ui.bantypeBox->addItem(tr("Ban Username"), BanTypes(BANTYPE_USERNAME));
 
-    ui.bannedTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_BANNEDUSERS_HEADERSIZES).toByteArray());
+    ui.bannedTableView->horizontalHeader()->restoreState(ttSettings->value(SETTINGS_DISPLAY_BANNEDUSERS_HEADERSIZES).toByteArray());
     connect(ui.filterButton, &QPushButton::clicked, this, &BannedUsersDlg::filterBanList);
-    ui.bannedTreeView->setFocus();
+    ui.bannedTableView->setFocus();
 }
 
 BannedUsersDlg::~BannedUsersDlg()
 {
-    ttSettings->setValue(SETTINGS_DISPLAY_BANNEDUSERS_HEADERSIZES, ui.bannedTreeView->header()->saveState());
+    ttSettings->setValue(SETTINGS_DISPLAY_BANNEDUSERS_HEADERSIZES, ui.bannedTableView->horizontalHeader()->saveState());
     ttSettings->setValue(SETTINGS_DISPLAY_BANNEDUSERSWINDOWPOS, saveGeometry());
 }
 
@@ -396,10 +398,10 @@ void BannedUsersDlg::slotClose()
 
 void BannedUsersDlg::slotUnbanUser()
 {
-    QItemSelectionModel* selModel = ui.bannedTreeView->selectionModel();
+    QItemSelectionModel* selModel = ui.bannedTableView->selectionModel();
     QModelIndexList indexes = selModel->selectedRows();
 
-    RestoreItemData r(ui.bannedTreeView, m_bannedproxy);
+    RestoreItemData r(ui.bannedTableView, m_bannedproxy);
 
     std::set<int> unbanlist;
     for (const auto& ii : indexes)
@@ -418,10 +420,10 @@ void BannedUsersDlg::slotUnbanUser()
 
 void BannedUsersDlg::slotBanUser()
 {
-    QItemSelectionModel* selModel = ui.unbannedTreeView->selectionModel();
+    QItemSelectionModel* selModel = ui.unbannedTableView->selectionModel();
     QModelIndexList indexes = selModel->selectedRows();
 
-    RestoreItemData r(ui.unbannedTreeView, m_unbannedproxy);
+    RestoreItemData r(ui.unbannedTableView, m_unbannedproxy);
 
     std::set<int> banlist;
     for (const auto& ii : indexes)
@@ -484,5 +486,5 @@ void BannedUsersDlg::filterBanList()
 {
     m_bannedproxy->setFilterText(ui.filterEdit->text());
     if (m_bannedproxy->rowCount() > 0)
-        ui.bannedTreeView->setFocus();
+        ui.bannedTableView->setFocus();
 }
