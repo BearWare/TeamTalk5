@@ -28,7 +28,7 @@
 #include <QTextCursor>
 #include <QUrl>
 #include <QMessageBox>
-#include <QClipBoard>
+#include <QClipboard>
 
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
