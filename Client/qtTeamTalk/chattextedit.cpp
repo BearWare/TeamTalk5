@@ -191,6 +191,19 @@ void ChatTextEdit::limitText()
     }
 }
 
+QStringList ChatTextEdit::allUrls(const QString &text) const
+{
+    QStringList urls;
+    QRegularExpression urlPattern("(http[s]?://\\S+)");
+    QRegularExpressionMatchIterator it = urlPattern.globalMatch(text);
+    while (it.hasNext())
+    {
+        QRegularExpressionMatch match = it.next();
+        urls << match.captured(0);
+    }
+    return urls;
+}
+
 QString ChatTextEdit::currentUrl(const QListWidgetItem* item) const
 {
     QString text = item->text();
@@ -232,11 +245,25 @@ void ChatTextEdit::keyPressEvent(QKeyEvent* e)
 {
     if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
     {
-        QListWidgetItem* item = currentItem();
-        if (item) {
-            QString url = currentUrl(item);
-            if (url.size()) {
-                QDesktopServices::openUrl(QUrl(url));
+        QListWidgetItem *item = currentItem();
+        if (item)
+        {
+            QStringList urls = allUrls(item->text());
+            if (urls.size() == 1)
+            {
+                QDesktopServices::openUrl(QUrl(urls.first()));
+            }
+            else if (urls.size() > 1)
+            {
+                QMenu menu(this);
+                for (const QString &url : urls)
+                {
+                    QAction *action = menu.addAction(url);
+                    connect(action, &QAction::triggered, this, [url]() {
+                        QDesktopServices::openUrl(QUrl(url));
+                    });
+                }
+                menu.exec(QCursor::pos());
             }
         }
     }
