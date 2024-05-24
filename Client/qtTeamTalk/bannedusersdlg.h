@@ -22,13 +22,13 @@
 
 #include "utiltt.h"
 
-#include <QAbstractItemModel>
+#include <QAbstractTableModel>
 #include <QVector>
 #include <QSortFilterProxyModel>
 
 typedef QVector<BannedUser> bannedusers_t;
 
-class BannedUsersModel : public QAbstractItemModel
+class BannedUsersModel : public QAbstractTableModel
 {
     Q_OBJECT
 
