@@ -169,6 +169,20 @@ void ChatTextEdit::clearHistory()
     clear();
 }
 
+void ChatTextEdit::copyAllHistory()
+{
+    QString allText;
+    for(int i = 0; i < count(); ++i)
+    {
+        QListWidgetItem* item = this->item(i);
+        if(item)
+        {
+            allText += item->text() + "\n";
+        }
+    }
+    QApplication::clipboard()->setText(allText);
+}
+
 void ChatTextEdit::limitText()
 {
     while(count() > 1000)
@@ -216,8 +230,6 @@ void ChatTextEdit::mouseReleaseEvent(QMouseEvent *e)
 
 void ChatTextEdit::keyPressEvent(QKeyEvent* e)
 {
-    QListWidget::keyPressEvent(e);
-
     if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
     {
         QListWidgetItem* item = currentItem();
@@ -228,21 +240,20 @@ void ChatTextEdit::keyPressEvent(QKeyEvent* e)
             }
         }
     }
+    QListWidget::keyPressEvent(e);
 }
 
 void ChatTextEdit::contextMenuEvent(QContextMenuEvent *event)
 {
     QMenu *menu = new QMenu(this);
-    menu->addAction(tr("Copy"), [this]() {
+    menu->addAction(tr("&Copy"), [this]() {
         QListWidgetItem* item = currentItem();
         if (item) {
             QApplication::clipboard()->setText(item->text());
         }
     });
-    menu->addAction(tr("&Clear"), this, &ChatTextEdit::clear);
-    QAction* chosen = menu->exec(event->globalPos());
-    if (chosen && chosen->text() == tr("&Clear")) {
-        clearHistory();
-    }
+    menu->addAction(tr("Copy &All"), this, &ChatTextEdit::copyAllHistory);
+    menu->addAction(tr("&Clear"), this, &ChatTextEdit::clearHistory);
+    menu->exec(event->globalPos());
     delete menu;
 }

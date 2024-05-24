@@ -35,6 +35,7 @@ public:
     QString addTextMessage(const MyTextMessage& msg);
     void addLogMessage(const QString& msg);
     void clearHistory();
+    void copyAllHistory();
 
 private:
     static QString getTimeStamp(const QDateTime& tm, bool force_ts = false);
