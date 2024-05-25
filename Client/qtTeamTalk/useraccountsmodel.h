@@ -20,7 +20,7 @@
 
 #include "utiltt.h"
 
-#include <QAbstractItemModel>
+#include <QAbstractTableModel>
 #include <QSortFilterProxyModel>
 
 enum
@@ -34,7 +34,7 @@ enum
     COLUMN_COUNT_USERACCOUNTS,
 };
 
-class UserAccountsModel : public QAbstractItemModel
+class UserAccountsModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
