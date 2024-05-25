@@ -53,7 +53,7 @@ UserAccountDlg::UserAccountDlg(UserAccountDlgType type, const UserAccount& usera
     ui->buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
     m_userrightsModel = new UserRightsModel(this);
-    ui->userrightsTreeView->setModel(m_userrightsModel);
+    ui->userrightsTableView->setModel(m_userrightsModel);
 
     m_userRightsTab = ui->tabWidget->widget(ui->tabWidget->indexOf(ui->tab_user_rights));
 
@@ -103,7 +103,7 @@ UserAccountDlg::UserAccountDlg(UserAccountDlgType type, const UserAccount& usera
     connect(ui->usernameEdit, &QLineEdit::textChanged, this, &UserAccountDlg::slotUsernameChanged);
 
     if (type != USER_READONLY)
-        connect(ui->userrightsTreeView, &QAbstractItemView::doubleClicked, this, &UserAccountDlg::toggleUserRights);
+        connect(ui->userrightsTableView, &QAbstractItemView::doubleClicked, this, &UserAccountDlg::toggleUserRights);
 
     switch(type)
     {
@@ -141,11 +141,15 @@ UserAccountDlg::UserAccountDlg(UserAccountDlgType type, const UserAccount& usera
         break;
     }
     showUserAccount(m_useraccount);
+
+    ui->userrightsTableView->horizontalHeader()->restoreState(ttSettings->value(SETTINGS_DISPLAY_USERACCOUNTDLG_USERRIGHTS_HEADERSIZES).toByteArray());
+    restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_USERACCOUNTSDLG_SIZE).toByteArray());
 }
 
 UserAccountDlg::~UserAccountDlg()
 {
     ttSettings->setValue(SETTINGS_DISPLAY_USERWINDOWPOS, saveGeometry());
+    ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNTDLG_USERRIGHTS_HEADERSIZES, ui->userrightsTableView->horizontalHeader()->saveState());
     delete ui;
 }
 
