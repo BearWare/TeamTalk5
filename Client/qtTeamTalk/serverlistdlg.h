@@ -21,7 +21,7 @@
 #include "ui_serverlist.h"
 #include "common.h"
 
-#include <QAbstractItemModel>
+#include <QAbstractTableModel>
 #include <QNetworkAccessManager>
 #include <QRegularExpression>
 #include <QSortFilterProxyModel>
@@ -52,7 +52,7 @@ struct HostEntryEx : HostEntry
     ServerType srvtype = SERVERTYPE_LOCAL;
 };
 
-class ServerListModel : public QAbstractItemModel
+class ServerListModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
