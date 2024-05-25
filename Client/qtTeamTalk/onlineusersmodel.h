@@ -18,7 +18,7 @@
 #ifndef ONLINEUSERSMODEL_H
 #define ONLINEUSERSMODEL_H
 
-#include <QAbstractItemModel>
+#include <QAbstractTableModel>
 #include <QVector>
 
 #include "common.h"
@@ -35,7 +35,7 @@ enum
     _COLUMN_LAST_COUNT
 };
 
-class OnlineUsersModel : public QAbstractItemModel
+class OnlineUsersModel : public QAbstractTableModel
 {
     Q_OBJECT
 	
