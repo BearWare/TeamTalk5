@@ -20,12 +20,11 @@
 enum
 {
     COLUMN_NAME = 0,
-    COLUMN_CHECK = 1,
-    COLUMN_COUNT = 2,
+    COLUMN_COUNT = 1,
 };
 
 ServerLogEventsModel::ServerLogEventsModel(QObject* parent)
-    : QAbstractItemModel(parent)
+    : QAbstractTableModel(parent)
 {
     m_serverlogevents.push_back(SERVERLOGEVENT_USER_CONNECTED);
     m_serverlogevents.push_back(SERVERLOGEVENT_USER_DISCONNECTED);
@@ -64,7 +63,6 @@ QVariant ServerLogEventsModel::headerData (int section, Qt::Orientation orientat
             switch(section)
             {
             case COLUMN_NAME: return tr("Event");
-            case COLUMN_CHECK: return tr("Enabled");
             }
         }
         break;
@@ -84,8 +82,6 @@ QVariant ServerLogEventsModel::data(const QModelIndex& index, int role /*= Qt::D
     switch(role)
     {
     case Qt::DisplayRole :
-        if (index.column() == COLUMN_CHECK)
-            return (m_serverlogselected & m_serverlogevents[index.row()])? tr("Enabled") : tr("Disabled");
         Q_ASSERT(index.column() == COLUMN_NAME);
         switch(m_serverlogevents[index.row()])
         {
