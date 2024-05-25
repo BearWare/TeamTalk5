@@ -27,7 +27,7 @@ Default Qt Client
 - Context menu to move banned/unbanned users to banned/unbanned list
 - Ban time displays in local format
 - Ability to leave current channel from everywhere in main window
-- Table instead of tree on Online Users, User Accounts, Banned Users, Server List, File List, and Preferences
+- Table instead of tree on Online Users, User Accounts, Banned Users, Server List, File List, Server Properties, and Preferences
 Android Client
 - Toggle channel operator does not show password dialog if user has user-right to change channel operator
 iOS Client

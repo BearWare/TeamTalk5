@@ -21,7 +21,7 @@
 #include "common.h"
 #include "utilui.h"
 
-#include <QAbstractItemModel>
+#include <QAbstractTableModel>
 #include <QVector>
 
 enum
@@ -33,7 +33,7 @@ enum
     COLUMN_COUNT_FILESMODEL
 };
 
-class FilesModel : public QAbstractItemModel
+class FilesModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
