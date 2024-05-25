@@ -79,6 +79,14 @@ QVariant UserAccountsModel::data(const QModelIndex & index, int role /*= Qt::Dis
             return getFormattedDateTime(_Q(m_users[index.row()].szLastModified), "yyyy/MM/dd hh:mm");
         }
         break;
+    case Qt::AccessibleTextRole :
+    {
+        if (index.column() == COLUMN_INDEX_MODIFIED)
+        {
+            return QString("%1: %2, %3: %4, %5: %6, %7: %8, %9: %10, %11: %12").arg(headerData(COLUMN_INDEX_USERNAME, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_USERNAME, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_PASSWORD, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_PASSWORD, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_USERTYPE, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_USERTYPE, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_NOTE, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_NOTE, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_CHANNEL, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_CHANNEL, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_INDEX_MODIFIED, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_MODIFIED, index.internalId()), Qt::DisplayRole).toString());
+        }
+    }
+    break;
     case Qt::UserRole :
         switch(index.column())
         {
