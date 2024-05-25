@@ -18,12 +18,12 @@
 #ifndef FILESVIEW_H
 #define FILESVIEW_H
 
-#include "mytreeview.h"
+#include "mytableview.h"
 
-#include <QTreeView>
+#include <QTableView>
 #include <QList>
 
-class FilesView : public MyTreeView
+class FilesView : public MyTableView
 {
     Q_OBJECT
 public:
