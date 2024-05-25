@@ -85,20 +85,14 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayoutServerList">
       <item>
-       <widget class="MyTreeView" name="serverTreeView">
+       <widget class="MyTableView" name="serverTableView">
         <property name="accessibleName">
          <string>Saved Hosts</string>
-        </property>
-        <property name="rootIsDecorated">
-         <bool>false</bool>
-        </property>
-        <property name="itemsExpandable">
-         <bool>false</bool>
         </property>
         <property name="sortingEnabled">
          <bool>true</bool>
         </property>
-        <property name="expandsOnDoubleClick">
+        <property name="tabKeyNavigation">
          <bool>false</bool>
         </property>
        </widget>
@@ -165,9 +159,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MyTreeView</class>
-   <extends>QTreeView</extends>
-   <header>mytreeview.h</header>
+   <class>MyTableView</class>
+   <extends>QTableView</extends>
+   <header>mytableview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
