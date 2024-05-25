@@ -22,7 +22,7 @@ extern TTInstance* ttInst;
 #define DISCONNECTED_USERID -1
 
 OnlineUsersModel::OnlineUsersModel(QObject* parent)
-: QAbstractItemModel(parent)
+: QAbstractTableModel(parent)
 {
 }
 
@@ -117,31 +117,33 @@ int OnlineUsersModel::rowCount(const QModelIndex& /*parent = QModelIndex()*/) co
     return m_users.size();
 }
 
-QVariant OnlineUsersModel::headerData(int section, Qt::Orientation /*orientation*/,
+QVariant OnlineUsersModel::headerData(int section, Qt::Orientation orientation,
                                       int role) const
 {
     switch(role)
     {
     case Qt::DisplayRole :
-        switch(section)
+        if (orientation == Qt::Horizontal)
         {
-        case COLUMN_NICKNAME :
-            return tr("Nickname");
-        case COLUMN_STATUSMSG :
-            return tr("Status message");
-        case COLUMN_USERNAME :
-            return tr("Username");
-        case COLUMN_CHANNEL :
-            return tr("Channel");
-        case COLUMN_IPADDRESS :
-            return tr("IP-address");
-        case COLUMN_VERSION :
-            return tr("Version");
-        case COLUMN_USERID :
-            return tr("ID");
+            switch (section)
+            {
+            case COLUMN_NICKNAME:
+                return tr("Nickname");
+            case COLUMN_STATUSMSG:
+                return tr("Status message");
+            case COLUMN_USERNAME:
+                return tr("Username");
+            case COLUMN_CHANNEL:
+                return tr("Channel");
+            case COLUMN_IPADDRESS:
+                return tr("IP-address");
+            case COLUMN_VERSION:
+                return tr("Version");
+            case COLUMN_USERID:
+                return tr("ID");
+            }
         }
         break;
-
     case Qt::TextAlignmentRole :
         break;
     }
@@ -178,11 +180,6 @@ QVariant OnlineUsersModel::data(const QModelIndex& index, int role) const
             return getVersion(user);
         case COLUMN_USERID :
             return user.nUserID;
-        }
-        break;
-        case Qt::AccessibleTextRole :
-        {
-            return QString("%1: %2, %3: %4, %5: %6, %7: %8, %9: %10, %11: %12, %13: %14").arg(headerData(COLUMN_NICKNAME, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_NICKNAME, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_STATUSMSG, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_STATUSMSG, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_USERNAME, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_USERNAME, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_CHANNEL, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_CHANNEL, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_IPADDRESS, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_IPADDRESS, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_VERSION, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_VERSION, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_USERID, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_USERID, index.internalId()), Qt::DisplayRole).toString());
         }
         break;
     }
