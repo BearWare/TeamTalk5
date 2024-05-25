@@ -29,7 +29,7 @@
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
 
-FilesView::FilesView(QWidget* parent) : MyTreeView(parent)
+FilesView::FilesView(QWidget* parent) : MyTableView(parent)
 {
     setAcceptDrops(true);
 }
