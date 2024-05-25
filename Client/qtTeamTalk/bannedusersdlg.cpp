@@ -259,11 +259,9 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
     ui.bannedTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui.bannedTreeView, &QWidget::customContextMenuRequested,
             this, &BannedUsersDlg::slotBannedContextMenu);
-    ui.bannedTreeView->installEventFilter(this);
     ui.unbannedTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui.unbannedTreeView, &QWidget::customContextMenuRequested,
             this, &BannedUsersDlg::slotUnbannedContextMenu);
-    ui.unbannedTreeView->installEventFilter(this);
 
     ui.bantypeBox->addItem(tr("Ban IP-address"), BanTypes(BANTYPE_IPADDR));
     ui.bantypeBox->addItem(tr("Ban Username"), BanTypes(BANTYPE_USERNAME));
@@ -293,34 +291,29 @@ void BannedUsersDlg::keyPressEvent(QKeyEvent* e)
     if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
     {
         if (ui.banEdit->hasFocus())
+        {
             slotNewBan();
-        if (ui.filterEdit->hasFocus())
+            ui.bannedTreeView->setFocus();
+        }
+        else if (ui.filterEdit->hasFocus())
             filterBanList();
-    }
-    QDialog::keyPressEvent(e);
-}
-
-bool BannedUsersDlg::eventFilter(QObject *obj, QEvent *event)
-{
-    if (event->type() == QEvent::KeyPress)
-    {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-        if (obj == ui.bannedTreeView && (keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return))
+        else if (ui.bannedTreeView->hasFocus())
         {
             auto srcIndex = m_bannedproxy->mapToSource(ui.bannedTreeView->currentIndex());
             if (srcIndex.isValid())
                 slotUnbanUser();
-            return true;
         }
-        if (obj == ui.unbannedTreeView && (keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return))
+        else if (ui.unbannedTreeView->hasFocus())
         {
             auto srcIndex = m_unbannedproxy->mapToSource(ui.unbannedTreeView->currentIndex());
             if (srcIndex.isValid())
                 slotBanUser();
-            return true;
         }
+        else
+            QDialog::keyPressEvent(e);
     }
-    return QDialog::eventFilter(obj, event);
+    else
+        QDialog::keyPressEvent(e);
 }
 
 void BannedUsersDlg::slotBannedContextMenu(const QPoint& /*point*/)
