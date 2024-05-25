@@ -54,7 +54,7 @@ private:
     useraccounts_t m_users;
 };
 
-class UserRightsModel : public QAbstractItemModel
+class UserRightsModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:

@@ -160,7 +160,7 @@ void UserAccountsModel::delRegUser(const QString& username)
     this->endResetModel();
 }
 
-UserRightsModel::UserRightsModel(QObject* parent) : QAbstractItemModel(parent)
+UserRightsModel::UserRightsModel(QObject* parent) : QAbstractTableModel(parent)
 {
 }
 
