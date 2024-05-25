@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>431</width>
     <height>517</height>
    </rect>
   </property>
@@ -85,21 +85,18 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayoutServerList">
       <item>
-       <widget class="MyTreeView" name="serverTreeView">
+       <widget class="MyTableView" name="serverTableView">
         <property name="accessibleName">
          <string>Saved Hosts</string>
         </property>
-        <property name="rootIsDecorated">
+        <property name="tabKeyNavigation">
          <bool>false</bool>
         </property>
-        <property name="itemsExpandable">
-         <bool>false</bool>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
         </property>
         <property name="sortingEnabled">
          <bool>true</bool>
-        </property>
-        <property name="expandsOnDoubleClick">
-         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -155,9 +152,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MyTreeView</class>
-   <extends>QTreeView</extends>
-   <header>mytreeview.h</header>
+   <class>MyTableView</class>
+   <extends>QTableView</extends>
+   <header>mytableview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

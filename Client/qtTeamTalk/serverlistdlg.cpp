@@ -78,23 +78,22 @@ void processStatsXML(const QDomElement& hostElement, HostEntryEx& entry)
     }
 }
 
-ServerListModel::ServerListModel(QObject* parent) : QAbstractItemModel(parent)
+ServerListModel::ServerListModel(QObject* parent) : QAbstractTableModel(parent)
 {
 }
 
-QVariant ServerListModel::headerData(int section, Qt::Orientation /*orientation*/, int role /*= Qt::DisplayRole*/) const
+QVariant ServerListModel::headerData(int section, Qt::Orientation orientation, int role /*= Qt::DisplayRole*/) const
 {
     switch(role)
     {
     case Qt::DisplayRole :
-    {
+        if(orientation == Qt::Horizontal)
         switch(section)
         {
             case COLUMN_INDEX_SERVERNAME: return tr("Name");
             case COLUMN_INDEX_USERCOUNT: return tr("Users");
             case COLUMN_INDEX_COUNTRY: return tr("Country");
         }
-    }
     }
     return QVariant();
 }
@@ -121,23 +120,26 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
         break;
     case Qt::AccessibleTextRole :
     {
-        QString srvtype;
-        auto srv = getServers()[index.row()];
-        switch (getServerType(srv))
+        if (index.column() == COLUMN_INDEX_SERVERNAME)
         {
-        case SERVERTYPE_LOCAL:
-            return tr("Local server, Name: %1").arg(srv.name);
-        case SERVERTYPE_OFFICIAL:
-            srvtype = tr("Official server");
-            break;
-        case SERVERTYPE_PUBLIC:
-            srvtype = tr("Public server");
-            break;
-        case SERVERTYPE_UNOFFICIAL:
-            srvtype = tr("Unofficial server");
-            break;
+            QString srvtype;
+            auto srv = getServers()[index.row()];
+            switch (getServerType(srv))
+            {
+            case SERVERTYPE_LOCAL:
+                return tr("Local server, Name: %1").arg(srv.name);
+            case SERVERTYPE_OFFICIAL:
+                srvtype = tr("Official server");
+                break;
+            case SERVERTYPE_PUBLIC:
+                srvtype = tr("Public server");
+                break;
+            case SERVERTYPE_UNOFFICIAL:
+                srvtype = tr("Unofficial server");
+                break;
+            }
+            return QString(tr("%1, Name: %2, Users: %3, Country: %4, MOTD: %5").arg(srvtype).arg(srv.name).arg(data(createIndex(index.row(), COLUMN_INDEX_USERCOUNT, index.internalId()), Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_COUNTRY, index.internalId()), Qt::DisplayRole).toString()).arg(srv.motd));
         }
-        return QString(tr("%1, Name: %2, Users: %3, Country: %4, MOTD: %5").arg(srvtype).arg(srv.name).arg(data(createIndex(index.row(), COLUMN_INDEX_USERCOUNT, index.internalId()), Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_COUNTRY, index.internalId()), Qt::DisplayRole).toString()).arg(srv.motd));
     }
     case Qt::ToolTipRole :
         return getServers()[index.row()].motd;
@@ -266,7 +268,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     m_model = new ServerListModel(this);
     m_proxyModel = new QSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_model);
-    ui.serverTreeView->setModel(m_proxyModel);
+    ui.serverTableView->setModel(m_proxyModel);
     m_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
     m_proxyModel->setSortRole(Qt::UserRole);
     m_proxyModel->sort(COLUMN_INDEX_SERVERNAME, Qt::AscendingOrder);
@@ -285,9 +287,9 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
 
     connect(ui.filternameEdit, &QLineEdit::textChanged, this, &ServerListDlg::applyServerListFilter);
     connect(ui.filterusersSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ServerListDlg::applyServerListFilter);
-    connect(ui.serverTreeView, &QAbstractItemView::doubleClicked, this, &ServerListDlg::slotConnect);
-    ui.serverTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui.serverTreeView, &QWidget::customContextMenuRequested, this, &ServerListDlg::slotTreeContextMenu);
+    connect(ui.serverTableView, &QAbstractItemView::doubleClicked, this, &ServerListDlg::slotConnect);
+    ui.serverTableView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui.serverTableView, &QWidget::customContextMenuRequested, this, &ServerListDlg::slotTreeContextMenu);
 
     connect(ui.hostListWidget, &QAbstractItemView::doubleClicked, this, &ServerListDlg::slotConnect);
     ui.hostListWidget->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -301,14 +303,14 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
         restoreSelectedHost(lasthost);
     }
 
-    ui.serverTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_HEADERSIZES).toByteArray());
+    ui.serverTableView->horizontalHeader()->restoreState(ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_HEADERSIZES).toByteArray());
     restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_SERVERLISTDLG_SIZE).toByteArray());
 }
 
 ServerListDlg::~ServerListDlg()
 {
     ttSettings->setValue(SETTINGS_DISPLAY_SERVERLISTDLG_SIZE, saveGeometry());
-    ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_HEADERSIZES, ui.serverTreeView->header()->saveState());
+    ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_HEADERSIZES, ui.serverTableView->horizontalHeader()->saveState());
 }
 
 void ServerListDlg::restoreSelectedHost(const HostEntry& entry)
@@ -320,8 +322,8 @@ void ServerListDlg::restoreSelectedHost(const HostEntry& entry)
         if (servers[i].sameHost(entry, false) || (servers[i].channel != entry.channel || servers[i].chanpasswd != entry.chanpasswd))
         {
             auto srcIndex = m_proxyModel->mapFromSource(m_model->index(i, 0));
-            ui.serverTreeView->setCurrentIndex(srcIndex);
-            ui.serverTreeView->setFocus();
+            ui.serverTableView->setCurrentIndex(srcIndex);
+            ui.serverTableView->setFocus();
         }
     }
 }
@@ -370,7 +372,7 @@ void ServerListDlg::slotNewServer()
         {
             refreshServerList();
             restoreSelectedHost(entry);
-            ui.serverTreeView->setFocus();
+            ui.serverTableView->setFocus();
         }
     }
     else
@@ -505,7 +507,7 @@ void ServerListDlg::applyServerListFilter()
 void ServerListDlg::deleteSelectedServer()
 {
     auto servers = m_model->getServers();
-    auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
+    auto srcIndex = m_proxyModel->mapToSource(ui.serverTableView->currentIndex());
     if (srcIndex.isValid() && srcIndex.row() < servers.size())
     {
         QMessageBox answer;
@@ -518,10 +520,10 @@ void ServerListDlg::deleteSelectedServer()
         answer.exec();
         if (answer.clickedButton() == YesButton)
         {
-            RestoreIndex ri(ui.serverTreeView);
+            RestoreIndex ri(ui.serverTableView);
             deleteServerEntry(servers[srcIndex.row()]);
             refreshServerList();
-            ui.serverTreeView->setFocus();
+            ui.serverTableView->setFocus();
         }
     }
 }
@@ -531,7 +533,7 @@ void ServerListDlg::editSelectedServer()
     HostEntry host;
     if (!getSelectedHost(host))
         return;
-    ServerDlg dlg((m_model->getServers()[m_proxyModel->mapToSource(ui.serverTreeView->currentIndex()).row()].srvtype == SERVERTYPE_LOCAL?ServerDlg::SERVER_UPDATE:ServerDlg::SERVER_READONLY), host, this);
+    ServerDlg dlg((m_model->getServers()[m_proxyModel->mapToSource(ui.serverTableView->currentIndex()).row()].srvtype == SERVERTYPE_LOCAL?ServerDlg::SERVER_UPDATE:ServerDlg::SERVER_READONLY), host, this);
     if (dlg.exec() == QDialog::Accepted)
     {
         HostEntry updatedHost = dlg.GetHostEntry();
@@ -590,7 +592,7 @@ void ServerListDlg::requestServerList()
 
 void ServerListDlg::serverlistReply(QNetworkReply* reply)
 {
-    RestoreIndex ri(ui.serverTreeView);
+    RestoreIndex ri(ui.serverTableView);
 
     Q_ASSERT(m_httpsrvlist_manager);
     QByteArray data = reply->readAll();
@@ -619,7 +621,7 @@ void ServerListDlg::saveTTFile()
 {
     HostEntry entry;
     auto servers = m_model->getServers();
-    auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
+    auto srcIndex = m_proxyModel->mapToSource(ui.serverTableView->currentIndex());
     if (srcIndex.isValid() && srcIndex.row() < servers.size())
     {
         entry = servers[srcIndex.row()];
@@ -738,7 +740,7 @@ void ServerListDlg::publishServer()
 {
     HostEntry entry;
     auto servers = m_model->getServers();
-    auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
+    auto srcIndex = m_proxyModel->mapToSource(ui.serverTableView->currentIndex());
     if (srcIndex.isValid() && srcIndex.row() < servers.size())
     {
         entry = servers[srcIndex.row()];
@@ -806,10 +808,10 @@ bool ServerListDlg::getSelectedHost(HostEntry& host)
         }
         return true;
     }
-    else if (ui.serverTreeView->hasFocus())
+    else if (ui.serverTableView->hasFocus())
     {
         auto servers = m_model->getServers();
-        auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
+        auto srcIndex = m_proxyModel->mapToSource(ui.serverTableView->currentIndex());
         if (srcIndex.isValid() && srcIndex.row() < servers.size())
         {
             host = servers[srcIndex.row()];
@@ -859,7 +861,7 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
     QAction* dupServ = menu.addAction(tr("D&uplicate"));
     QAction* genTTServ = menu.addAction(tr("&Generate .tt file"));
     QAction* publishServ = menu.addAction(tr("&Publish Publicly"));
-    auto srcIndex = m_proxyModel->mapToSource(ui.serverTreeView->currentIndex());
+    auto srcIndex = m_proxyModel->mapToSource(ui.serverTableView->currentIndex());
     connectServ->setEnabled(srcIndex.isValid());
     delServ->setEnabled(srcIndex.isValid() && m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
     editServ->setEnabled(srcIndex.isValid());
@@ -872,25 +874,25 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
         if (action == sortDefault)
         {
             m_proxyModel->setSortRole(Qt::UserRole);
-            ui.serverTreeView->header()->setSortIndicator(COLUMN_INDEX_SERVERNAME, m_proxyModel->sortColumn() == COLUMN_INDEX_SERVERNAME ? sortToggle : Qt::AscendingOrder);
+            ui.serverTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_SERVERNAME, m_proxyModel->sortColumn() == COLUMN_INDEX_SERVERNAME ? sortToggle : Qt::AscendingOrder);
             ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, defaultstr);
         }
         else if (action == sortName)
         {
             m_proxyModel->setSortRole(Qt::DisplayRole);
-            ui.serverTreeView->header()->setSortIndicator(COLUMN_INDEX_SERVERNAME, m_proxyModel->sortColumn() == COLUMN_INDEX_SERVERNAME ? sortToggle : Qt::AscendingOrder);
+            ui.serverTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_SERVERNAME, m_proxyModel->sortColumn() == COLUMN_INDEX_SERVERNAME ? sortToggle : Qt::AscendingOrder);
             ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, name);
         }
         else if (action == sortUserCount)
         {
             m_proxyModel->setSortRole(Qt::DisplayRole);
-            ui.serverTreeView->header()->setSortIndicator(COLUMN_INDEX_USERCOUNT, m_proxyModel->sortColumn() == COLUMN_INDEX_USERCOUNT ? sortToggle : Qt::AscendingOrder);
+            ui.serverTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_USERCOUNT, m_proxyModel->sortColumn() == COLUMN_INDEX_USERCOUNT ? sortToggle : Qt::AscendingOrder);
             ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, usercount);
         }
         else if (action == sortCountry)
         {
             m_proxyModel->setSortRole(Qt::DisplayRole);
-            ui.serverTreeView->header()->setSortIndicator(COLUMN_INDEX_COUNTRY, m_proxyModel->sortColumn() == COLUMN_INDEX_COUNTRY ? sortToggle : Qt::AscendingOrder);
+            ui.serverTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_COUNTRY, m_proxyModel->sortColumn() == COLUMN_INDEX_COUNTRY ? sortToggle : Qt::AscendingOrder);
             ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, country);
         }
         else if (action == connectServ)
@@ -939,7 +941,7 @@ void ServerListDlg::keyPressEvent(QKeyEvent* e)
 
     if (e->matches(QKeySequence::Delete) || e->key() == Qt::Key_Backspace)
     {
-        if (ui.serverTreeView->hasFocus())
+        if (ui.serverTableView->hasFocus())
             deleteSelectedServer();
         else if (ui.hostListWidget->hasFocus())
             deleteLatestHostEntry();
