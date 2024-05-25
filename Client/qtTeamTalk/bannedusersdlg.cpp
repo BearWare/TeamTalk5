@@ -266,14 +266,14 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
     ui.bantypeBox->addItem(tr("Ban IP-address"), BanTypes(BANTYPE_IPADDR));
     ui.bantypeBox->addItem(tr("Ban Username"), BanTypes(BANTYPE_USERNAME));
 
-//    ui.bannedTableView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_BANNEDUSERS_HEADERSIZES).toByteArray());
+    ui.bannedTableView->horizontalHeader()->restoreState(ttSettings->value(SETTINGS_DISPLAY_BANNEDUSERS_HEADERSIZES).toByteArray());
     connect(ui.filterButton, &QPushButton::clicked, this, &BannedUsersDlg::filterBanList);
     ui.bannedTableView->setFocus();
 }
 
 BannedUsersDlg::~BannedUsersDlg()
 {
-//    ttSettings->setValue(SETTINGS_DISPLAY_BANNEDUSERS_HEADERSIZES, ui.bannedTableView->header()->saveState());
+    ttSettings->setValue(SETTINGS_DISPLAY_BANNEDUSERS_HEADERSIZES, ui.bannedTableView->horizontalHeader()->saveState());
     ttSettings->setValue(SETTINGS_DISPLAY_BANNEDUSERSWINDOWPOS, saveGeometry());
 }
 
