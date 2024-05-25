@@ -152,7 +152,7 @@ void UserAccountsModel::delRegUser(const QString& username)
     this->endResetModel();
 }
 
-UserRightsModel::UserRightsModel(QObject* parent) : QAbstractItemModel(parent)
+UserRightsModel::UserRightsModel(QObject* parent) : QAbstractTableModel(parent)
 {
 }
 
@@ -183,6 +183,18 @@ void UserRightsModel::insertUserRights()
     m_userrights.push_back(USERRIGHT_TEXTMESSAGE_USER);
     m_userrights.push_back(USERRIGHT_TEXTMESSAGE_CHANNEL);
     //m_userrights.push_back(USERRIGHT_LOCKED_STATUS);
+}
+
+QVariant UserRightsModel::headerData(int section, Qt::Orientation orientation, int role/* = Qt::DisplayRole*/) const
+{
+    switch (role)
+    {
+    case Qt::DisplayRole:
+        if (orientation == Qt::Horizontal)
+            return tr("Name");
+        break;
+    }
+    return QVariant();
 }
 
 int UserRightsModel::columnCount(const QModelIndex & /*parent = QModelIndex()*/) const
