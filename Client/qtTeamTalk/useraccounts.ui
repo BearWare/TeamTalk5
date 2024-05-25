@@ -28,7 +28,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="MyTreeView" name="usersTreeView">
+        <widget class="QTableView" name="usersTableView">
          <property name="minimumSize">
           <size>
            <width>200</width>
@@ -58,16 +58,10 @@
          <property name="selectionBehavior">
           <enum>QAbstractItemView::SelectRows</enum>
          </property>
-         <property name="rootIsDecorated">
-          <bool>false</bool>
-         </property>
-         <property name="itemsExpandable">
-          <bool>false</bool>
-         </property>
          <property name="sortingEnabled">
           <bool>true</bool>
          </property>
-         <property name="expandsOnDoubleClick">
+         <property name="tabKeyNavigation">
           <bool>false</bool>
          </property>
         </widget>
@@ -115,13 +109,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>MyTreeView</class>
-   <extends>QTreeView</extends>
-   <header>mytreeview.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
