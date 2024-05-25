@@ -36,8 +36,8 @@ OnlineUsersDlg::OnlineUsersDlg(QWidget* parent/* = 0 */)
 
     restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_ONLINEUSERSWINDOWPOS).toByteArray());
 
-    ui.treeView->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui.treeView, &QWidget::customContextMenuRequested,
+    ui.tableView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui.tableView, &QWidget::customContextMenuRequested,
             this, &OnlineUsersDlg::slotTreeContextMenu);
     ui.keepDisconnectedUsersCheckBox->setChecked(ttSettings->value(SETTINGS_KEEP_DISCONNECTED_USERS, SETTINGS_KEEP_DISCONNECTED_USERS_DEFAULT).toBool());
     connect(ui.keepDisconnectedUsersCheckBox, &QAbstractButton::clicked, this, &OnlineUsersDlg::slotUpdateSettings);
@@ -45,11 +45,11 @@ OnlineUsersDlg::OnlineUsersDlg(QWidget* parent/* = 0 */)
     m_model = new OnlineUsersModel(this);
     m_proxyModel = new QSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_model);
-    ui.treeView->setModel(m_proxyModel);
+    ui.tableView->setModel(m_proxyModel);
 
-    ui.treeView->header()->resizeSection(COLUMN_USERID, 40);
-    //ui.treeView->header()->resizeSection(COLUMN_STATUSMSG, 70);
-    ui.treeView->header()->resizeSection(COLUMN_USERNAME, 65);
+    ui.tableView->horizontalHeader()->resizeSection(COLUMN_USERID, 40);
+    //ui.tableView->horizontalHeader()->resizeSection(COLUMN_STATUSMSG, 70);
+    ui.tableView->horizontalHeader()->resizeSection(COLUMN_USERNAME, 65);
 
     m_model->resetUsers();
     updateTitle();
@@ -66,12 +66,12 @@ OnlineUsersDlg::OnlineUsersDlg(QWidget* parent/* = 0 */)
 #endif
     m_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
     m_proxyModel->sort(COLUMN_NICKNAME, Qt::AscendingOrder);
-    ui.treeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_ONLINEUSERS_HEADERSIZES).toByteArray());
+    ui.tableView->horizontalHeader()->restoreState(ttSettings->value(SETTINGS_DISPLAY_ONLINEUSERS_HEADERSIZES).toByteArray());
 }
 
 OnlineUsersDlg::~OnlineUsersDlg()
 {
-    ttSettings->setValue(SETTINGS_DISPLAY_ONLINEUSERS_HEADERSIZES, ui.treeView->header()->saveState());
+    ttSettings->setValue(SETTINGS_DISPLAY_ONLINEUSERS_HEADERSIZES, ui.tableView->horizontalHeader()->saveState());
     ttSettings->setValue(SETTINGS_DISPLAY_ONLINEUSERSWINDOWPOS, saveGeometry());
 }
 
@@ -84,43 +84,43 @@ void OnlineUsersDlg::updateTitle()
 
 void OnlineUsersDlg::slotUserLoggedIn(const User& user)
 {
-    RestoreItemData r(ui.treeView, m_proxyModel);
+    RestoreItemData r(ui.tableView, m_proxyModel);
     m_model->addUser(user);
     updateTitle();
 }
 
 void OnlineUsersDlg::slotUserLoggedOut(const User& user)
 {
-    RestoreItemData r(ui.treeView, m_proxyModel);
+    RestoreItemData r(ui.tableView, m_proxyModel);
     m_model->removeUser(user, ttSettings->value(SETTINGS_KEEP_DISCONNECTED_USERS, SETTINGS_KEEP_DISCONNECTED_USERS_DEFAULT).toBool());
     updateTitle();
 }
 
 void OnlineUsersDlg::slotUserUpdate(const User& user)
 {
-    RestoreItemData r(ui.treeView, m_proxyModel);
+    RestoreItemData r(ui.tableView, m_proxyModel);
     m_model->updateUser(user);
     QModelIndex index = m_model->userRow(user.nUserID);
     if(index.isValid())
-        ui.treeView->update(index);
+        ui.tableView->update(index);
 }
 
 void OnlineUsersDlg::slotUserJoin(int /*channelid*/, const User& user)
 {
-    RestoreItemData r(ui.treeView, m_proxyModel);
+    RestoreItemData r(ui.tableView, m_proxyModel);
     m_model->updateUser(user);
     QModelIndex index = m_model->userRow(user.nUserID);
     if(index.isValid())
-        ui.treeView->update(index);
+        ui.tableView->update(index);
 }
 
 void OnlineUsersDlg::slotUserLeft(int /*channelid*/, const User& user)
 {
-    RestoreItemData r(ui.treeView, m_proxyModel);
+    RestoreItemData r(ui.tableView, m_proxyModel);
     m_model->updateUser(user);
     QModelIndex index = m_model->userRow(user.nUserID);
     if(index.isValid())
-        ui.treeView->update(index);
+        ui.tableView->update(index);
 }
 
 void OnlineUsersDlg::slotTreeContextMenu(const QPoint& /*point*/)
@@ -180,12 +180,12 @@ void OnlineUsersDlg::slotTreeContextMenu(const QPoint& /*point*/)
         auto sortToggle = m_proxyModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
         if (action == sortId)
         {
-            ui.treeView->header()->setSortIndicator(COLUMN_USERID, m_proxyModel->sortColumn() == COLUMN_USERID ? sortToggle : Qt::AscendingOrder);
+            ui.tableView->horizontalHeader()->setSortIndicator(COLUMN_USERID, m_proxyModel->sortColumn() == COLUMN_USERID ? sortToggle : Qt::AscendingOrder);
             ttSettings->setValue(SETTINGS_DISPLAY_ONLINEUSERS_SORT, id);
         }
         else if (action == sortNickname)
         {
-            ui.treeView->header()->setSortIndicator(COLUMN_NICKNAME, m_proxyModel->sortColumn() == COLUMN_NICKNAME ? sortToggle : Qt::AscendingOrder);
+            ui.tableView->horizontalHeader()->setSortIndicator(COLUMN_NICKNAME, m_proxyModel->sortColumn() == COLUMN_NICKNAME ? sortToggle : Qt::AscendingOrder);
             ttSettings->setValue(SETTINGS_DISPLAY_ONLINEUSERS_SORT, nickname);
         }
     }
@@ -193,12 +193,12 @@ void OnlineUsersDlg::slotTreeContextMenu(const QPoint& /*point*/)
 
 void OnlineUsersDlg::menuAction(MenuAction ma)
 {
-    QItemSelectionModel* selModel = ui.treeView->selectionModel();
+    QItemSelectionModel* selModel = ui.tableView->selectionModel();
     QModelIndexList indexes = selModel->selectedRows();
     QVector<int> userids, chanids;
     for(int i=0;i<indexes.size();i++)
     {
-        //QModelIndex index = ui.treeView->indexAt(point);
+        //QModelIndex index = ui.tableView->indexAt(point);
         QModelIndex index = m_proxyModel->mapToSource(indexes[i]);
         if(!index.isValid())
             return;
@@ -249,11 +249,11 @@ void OnlineUsersDlg::menuAction(MenuAction ma)
 
 void OnlineUsersDlg::keyPressEvent(QKeyEvent* e)
 {
-    if (ui.treeView->hasFocus())
+    if (ui.tableView->hasFocus())
     {
         if (e->matches(QKeySequence::Copy))
         {
-            QItemSelectionModel* selModel = ui.treeView->selectionModel();
+            QItemSelectionModel* selModel = ui.tableView->selectionModel();
             QModelIndexList indexes = selModel->selectedRows();
             QVector<int> userids, chanids;
             for(int i=0;i<indexes.size();i++)
@@ -286,7 +286,7 @@ void OnlineUsersDlg::keyPressEvent(QKeyEvent* e)
 
 void OnlineUsersDlg::slotUpdateSettings()
 {
-    RestoreItemData r(ui.treeView, m_proxyModel);
+    RestoreItemData r(ui.tableView, m_proxyModel);
     ttSettings->setValue(SETTINGS_KEEP_DISCONNECTED_USERS, ui.keepDisconnectedUsersCheckBox->isChecked());
     if (!ui.keepDisconnectedUsersCheckBox->isChecked())
         m_model->removeDisconnected();
