@@ -19,11 +19,11 @@
 #define TTSEVENTSMODEL_H
 
 #include "utiltts.h"
-#include <QAbstractItemModel>
+#include <QAbstractTableModel>
 #include <QVector>
-#include <QTreeView>
+#include <QTableView>
 
-class TTSEventsModel : public QAbstractItemModel
+class TTSEventsModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:

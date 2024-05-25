@@ -148,21 +148,21 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
 
     //sound events
     m_soundmodel = new SoundEventsModel(this);
-    ui.soundEventsTreeView->setModel(m_soundmodel);
-    connect(ui.soundEventsTreeView, &QAbstractItemView::doubleClicked, this, &PreferencesDlg::slotSoundEventToggled);
-    connect(ui.soundEventsTreeView->selectionModel(), &QItemSelectionModel::currentChanged, this, &PreferencesDlg::SoundEventSelected);
+    ui.soundEventsTableView->setModel(m_soundmodel);
+    connect(ui.soundEventsTableView, &QAbstractItemView::doubleClicked, this, &PreferencesDlg::slotSoundEventToggled);
+    connect(ui.soundEventsTableView->selectionModel(), &QItemSelectionModel::currentChanged, this, &PreferencesDlg::SoundEventSelected);
     connect(ui.soundEventsBrowseButton, &QPushButton::clicked, this, &PreferencesDlg::slotBrowseSoundEvent);
     connect(ui.soundEventsDefFileButton, &QPushButton::clicked, this, &PreferencesDlg::soundEventsRestoreDefaultFile);
     connect(ui.soundEventsEnableallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundEventsEnableAll);
     connect(ui.soundEventsClearallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundEventsClearAll);
     connect(ui.soundEventsRevertButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundEventsRevert);
-    ui.soundEventsTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_SOUNDEVENTSHEADER).toByteArray());
+    ui.soundEventsTableView->horizontalHeader()->restoreState(ttSettings->value(SETTINGS_DISPLAY_SOUNDEVENTSHEADER).toByteArray());
 
     //text to speech
     m_ttsmodel = new TTSEventsModel(this);
-    ui.ttsTreeView->setModel(m_ttsmodel);
-    connect(ui.ttsTreeView, &QAbstractItemView::doubleClicked, this, &PreferencesDlg::slotTTSEventToggled);
-    connect(ui.ttsTreeView->selectionModel(), &QItemSelectionModel::currentChanged,
+    ui.ttsTableView->setModel(m_ttsmodel);
+    connect(ui.ttsTableView, &QAbstractItemView::doubleClicked, this, &PreferencesDlg::slotTTSEventToggled);
+    connect(ui.ttsTableView->selectionModel(), &QItemSelectionModel::currentChanged,
             this, &PreferencesDlg::TTSEventSelected);
     m_TTSVarMenu = new QMenu(this);
     connect(ui.TTSVarButton, &QPushButton::clicked, this, [this]()
@@ -175,7 +175,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     connect(ui.ttsEnableallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSEnableAll);
     connect(ui.ttsClearallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSClearAll);
     connect(ui.ttsRevertButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSRevert);
-    ui.ttsTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_TTSHEADER).toByteArray());
+    ui.ttsTableView->horizontalHeader()->restoreState(ttSettings->value(SETTINGS_DISPLAY_TTSHEADER).toByteArray());
 
     //keyboard shortcuts
     connect(ui.voiceactButton, &QAbstractButton::clicked,
@@ -958,7 +958,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_SOUNDEVENT_VOLUME, ui.sndVolSpinBox->value());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_PLAYBACKMODE, getCurrentItemData(ui.sndeventPlaybackComboBox));
         ttSettings->setValue(SETTINGS_SOUNDEVENT_ACTIVEEVENTS, m_soundmodel->getSoundEvents());
-        ttSettings->setValue(SETTINGS_DISPLAY_SOUNDEVENTSHEADER, ui.soundEventsTreeView->header()->saveState());
+        ttSettings->setValue(SETTINGS_DISPLAY_SOUNDEVENTSHEADER, ui.soundEventsTableView->horizontalHeader()->saveState());
         saveCurrentFile();
     }
     if(m_modtab.find(SHORTCUTS_TAB) != m_modtab.end())
@@ -1067,7 +1067,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_TTS_SPEAKLISTS, ui.ttsSpeakListsChkBox->isChecked());
 #endif
 #endif
-        ttSettings->setValue(SETTINGS_DISPLAY_TTSHEADER, ui.ttsTreeView->header()->saveState());
+        ttSettings->setValue(SETTINGS_DISPLAY_TTSHEADER, ui.ttsTableView->horizontalHeader()->saveState());
         saveCurrentMessage();
     }
 }

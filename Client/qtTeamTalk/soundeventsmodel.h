@@ -19,11 +19,11 @@
 #define SOUNDEVENTSMODEL_H
 
 #include "utilsound.h"
-#include <QAbstractItemModel>
+#include <QAbstractTableModel>
 #include <QVector>
 #include <QTreeView>
 
-class SoundEventsModel : public QAbstractItemModel
+class SoundEventsModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
