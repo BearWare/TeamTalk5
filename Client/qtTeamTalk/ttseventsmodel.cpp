@@ -31,7 +31,7 @@ enum
 };
 
 TTSEventsModel::TTSEventsModel(QObject* parent)
-    : QAbstractItemModel(parent)
+    : QAbstractTableModel(parent)
 {
     m_ttsevents.push_back(TTS_USER_LOGGEDIN);
     m_ttsevents.push_back(TTS_USER_LOGGEDOUT);

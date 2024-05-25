@@ -1425,7 +1425,7 @@
             </property>
             <layout class="QVBoxLayout" name="soundEvents_vlayout1">
              <item>
-              <widget class="MyTreeView" name="soundEventsTreeView">
+              <widget class="MyTableView" name="soundEventsTableView">
                <property name="toolTip">
                 <string>Double click to check/uncheck</string>
                </property>
@@ -1438,13 +1438,7 @@
                <property name="alternatingRowColors">
                 <bool>true</bool>
                </property>
-               <property name="rootIsDecorated">
-                <bool>false</bool>
-               </property>
-               <property name="itemsExpandable">
-                <bool>false</bool>
-               </property>
-               <property name="expandsOnDoubleClick">
+               <property name="tabKeyNavigation">
                 <bool>false</bool>
                </property>
               </widget>
@@ -1572,7 +1566,7 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_20">
           <item>
-           <widget class="MyTreeView" name="ttsTreeView">
+           <widget class="MyTableView" name="ttsTableView">
             <property name="toolTip">
              <string>Double click to check/uncheck</string>
             </property>
@@ -1585,13 +1579,7 @@
             <property name="alternatingRowColors">
              <bool>true</bool>
             </property>
-            <property name="rootIsDecorated">
-             <bool>false</bool>
-            </property>
-            <property name="itemsExpandable">
-             <bool>false</bool>
-            </property>
-            <property name="expandsOnDoubleClick">
+            <property name="tabKeyNavigation">
              <bool>false</bool>
             </property>
            </widget>
@@ -2504,9 +2492,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MyTreeView</class>
-   <extends>QTreeView</extends>
-   <header>mytreeview.h</header>
+   <class>MyTableView</class>
+   <extends>QTableView</extends>
+   <header>mytableview.h</header>
   </customwidget>
  </customwidgets>
  <resources>

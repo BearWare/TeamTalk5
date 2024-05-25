@@ -256,11 +256,11 @@ BannedUsersDlg::BannedUsersDlg(const bannedusers_t& bannedusers, const QString& 
     connect(ui.bantypeBox, &QComboBox::currentTextChanged, banfunc);
     connect(ui.bannedTableView->selectionModel(), &QItemSelectionModel::currentChanged,
             this, &BannedUsersDlg::banSelectionChanged);
-    ui.bannedTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui.bannedTreeView, &QWidget::customContextMenuRequested,
+    ui.bannedTableView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui.bannedTableView, &QWidget::customContextMenuRequested,
             this, &BannedUsersDlg::slotBannedContextMenu);
-    ui.unbannedTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui.unbannedTreeView, &QWidget::customContextMenuRequested,
+    ui.unbannedTableView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui.unbannedTableView, &QWidget::customContextMenuRequested,
             this, &BannedUsersDlg::slotUnbannedContextMenu);
 
     ui.bantypeBox->addItem(tr("Ban IP-address"), BanTypes(BANTYPE_IPADDR));
@@ -293,19 +293,19 @@ void BannedUsersDlg::keyPressEvent(QKeyEvent* e)
         if (ui.banEdit->hasFocus())
         {
             slotNewBan();
-            ui.bannedTreeView->setFocus();
+            ui.bannedTableView->setFocus();
         }
         else if (ui.filterEdit->hasFocus())
             filterBanList();
-        else if (ui.bannedTreeView->hasFocus())
+        else if (ui.bannedTableView->hasFocus())
         {
-            auto srcIndex = m_bannedproxy->mapToSource(ui.bannedTreeView->currentIndex());
+            auto srcIndex = m_bannedproxy->mapToSource(ui.bannedTableView->currentIndex());
             if (srcIndex.isValid())
                 slotUnbanUser();
         }
-        else if (ui.unbannedTreeView->hasFocus())
+        else if (ui.unbannedTableView->hasFocus())
         {
-            auto srcIndex = m_unbannedproxy->mapToSource(ui.unbannedTreeView->currentIndex());
+            auto srcIndex = m_unbannedproxy->mapToSource(ui.unbannedTableView->currentIndex());
             if (srcIndex.isValid())
                 slotBanUser();
         }
@@ -346,29 +346,29 @@ void BannedUsersDlg::slotBannedContextMenu(const QPoint& /*point*/)
     sortIP->setChecked((ttSettings->value(SETTINGS_DISPLAY_BANLIST_SORT, SETTINGS_DISPLAY_BANLIST_SORT_DEFAULT).toString() == IP)?true:false);
     sortMenu->addAction(sortIP);
     QAction* unbanUser = menu.addAction(tr("&Move Selected User to Unbanned List"));
-    auto srcIndex = m_bannedproxy->mapToSource(ui.bannedTreeView->currentIndex());
+    auto srcIndex = m_bannedproxy->mapToSource(ui.bannedTableView->currentIndex());
     unbanUser->setEnabled(srcIndex.isValid());
     if (QAction* action = menu.exec(QCursor::pos()))
     {
         auto sortToggle = m_bannedproxy->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
         if (action == sortUsername)
         {
-            ui.bannedTreeView->header()->setSortIndicator(COLUMN_INDEX_USERNAME, m_bannedproxy->sortColumn() == COLUMN_INDEX_USERNAME ? sortToggle : Qt::AscendingOrder);
+            ui.bannedTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_USERNAME, m_bannedproxy->sortColumn() == COLUMN_INDEX_USERNAME ? sortToggle : Qt::AscendingOrder);
             ttSettings->setValue(SETTINGS_DISPLAY_BANLIST_SORT, username);
         }
         else if (action == sortBanType)
         {
-            ui.bannedTreeView->header()->setSortIndicator(COLUMN_INDEX_BANTYPE, m_bannedproxy->sortColumn() == COLUMN_INDEX_BANTYPE ? sortToggle : Qt::AscendingOrder);
+            ui.bannedTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_BANTYPE, m_bannedproxy->sortColumn() == COLUMN_INDEX_BANTYPE ? sortToggle : Qt::AscendingOrder);
             ttSettings->setValue(SETTINGS_DISPLAY_BANLIST_SORT, bantype);
         }
         else if (action == sortBanTime)
         {
-            ui.bannedTreeView->header()->setSortIndicator(COLUMN_INDEX_BANTIME, m_bannedproxy->sortColumn() == COLUMN_INDEX_BANTIME? sortToggle : Qt::AscendingOrder);
+            ui.bannedTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_BANTIME, m_bannedproxy->sortColumn() == COLUMN_INDEX_BANTIME? sortToggle : Qt::AscendingOrder);
             ttSettings->setValue(SETTINGS_DISPLAY_BANLIST_SORT, bantime);
         }
         else if (action == sortIP)
         {
-            ui.bannedTreeView->header()->setSortIndicator(COLUMN_INDEX_IPADDRESS, m_bannedproxy->sortColumn() == COLUMN_INDEX_IPADDRESS ? sortToggle : Qt::AscendingOrder);
+            ui.bannedTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_IPADDRESS, m_bannedproxy->sortColumn() == COLUMN_INDEX_IPADDRESS ? sortToggle : Qt::AscendingOrder);
             ttSettings->setValue(SETTINGS_DISPLAY_BANLIST_SORT, IP);
         }
         else if (action == unbanUser)
@@ -380,7 +380,7 @@ void BannedUsersDlg::slotUnbannedContextMenu(const QPoint& /*point*/)
 {
     QMenu menu(this);
     QAction* banUser = menu.addAction(tr("&Move Selected User to Banned List"));
-    auto srcIndex = m_unbannedproxy->mapToSource(ui.unbannedTreeView->currentIndex());
+    auto srcIndex = m_unbannedproxy->mapToSource(ui.unbannedTableView->currentIndex());
     banUser->setEnabled(srcIndex.isValid());
     if (QAction* action = menu.exec(QCursor::pos()))
     {
