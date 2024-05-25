@@ -31,7 +31,7 @@ enum
 };
 
 SoundEventsModel::SoundEventsModel(QObject* parent)
-    : QAbstractItemModel(parent)
+    : QAbstractTableModel(parent)
 {
     m_soundevents.push_back(SOUNDEVENT_USERLOGGEDIN);
     m_soundevents.push_back(SOUNDEVENT_USERLOGGEDOUT);

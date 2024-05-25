@@ -20,11 +20,11 @@
 
 #include "utilui.h"
 
-#include <QAbstractItemModel>
+#include <QAbstractTableModel>
 #include <QVector>
-#include <QTreeView>
+#include <QTableView>
 
-class StatusBarEventsModel : public QAbstractItemModel
+class StatusBarEventsModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:

@@ -27,7 +27,7 @@ enum
 };
 
 StatusBarEventsModel::StatusBarEventsModel(QObject* parent)
-    : QAbstractItemModel(parent)
+    : QAbstractTableModel(parent)
 {
     m_statusbarevents.push_back(STATUSBAR_USER_LOGGEDIN);
     m_statusbarevents.push_back(STATUSBAR_USER_LOGGEDOUT);
