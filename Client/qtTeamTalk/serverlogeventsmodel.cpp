@@ -25,7 +25,7 @@ enum
 };
 
 ServerLogEventsModel::ServerLogEventsModel(QObject* parent)
-    : QAbstractItemModel(parent)
+    : QAbstractTableModel(parent)
 {
     m_serverlogevents.push_back(SERVERLOGEVENT_USER_CONNECTED);
     m_serverlogevents.push_back(SERVERLOGEVENT_USER_DISCONNECTED);

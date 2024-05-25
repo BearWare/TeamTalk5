@@ -462,7 +462,7 @@
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="MyTreeView" name="serverlogTreeView">
+         <widget class="MyTableView" name="serverlogTableView">
           <property name="accessibleName">
            <string>Server events logged</string>
           </property>
@@ -475,13 +475,7 @@
           <property name="alternatingRowColors">
            <bool>true</bool>
           </property>
-          <property name="rootIsDecorated">
-           <bool>false</bool>
-          </property>
-          <property name="itemsExpandable">
-           <bool>false</bool>
-          </property>
-          <property name="expandsOnDoubleClick">
+          <property name="tabKeyNavigation">
            <bool>false</bool>
           </property>
          </widget>
@@ -553,9 +547,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MyTreeView</class>
-   <extends>QTreeView</extends>
-   <header>mytreeview.h</header>
+   <class>MyTableView</class>
+   <extends>QTableView</extends>
+   <header>mytableview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

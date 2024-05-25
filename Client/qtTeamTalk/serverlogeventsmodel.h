@@ -17,10 +17,10 @@
 
 #include "common.h"
 
-#include <QAbstractItemModel>
+#include <QAbstractTableModel>
 #include <QVector>
 
-class ServerLogEventsModel : public QAbstractItemModel
+class ServerLogEventsModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:

@@ -37,7 +37,7 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
     ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&OK"));
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
 
-    ui.serverlogTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_SERVERLOG_EVENTS_HEADER).toByteArray());
+    ui.serverlogTableView->horizontalHeader()->restoreState(ttSettings->value(SETTINGS_DISPLAY_SERVERLOG_EVENTS_HEADER).toByteArray());
 
     bool editable = (TT_GetMyUserRights(ttInst) & USERRIGHT_UPDATE_SERVERPROPERTIES);
 
@@ -70,7 +70,7 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
     ui.totaltxSpinBox->setValue(m_srvprop.nMaxTotalTxPerSecond/1024);
     ui.serverversionEdit->setText(_Q(m_srvprop.szServerVersion));
     m_serverlogmodel = new ServerLogEventsModel(this);
-    ui.serverlogTreeView->setModel(m_serverlogmodel);
+    ui.serverlogTableView->setModel(m_serverlogmodel);
     m_serverlogmodel->setServerLogEvents(m_srvprop.uServerLogEvents);
     if (!versionSameOrLater(_Q(m_srvprop.szServerProtocolVersion), "5.10"))
         ui.serverlogGroupBox->hide();
@@ -97,7 +97,7 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
     }
     else
     {
-        connect(ui.serverlogTreeView, &QAbstractItemView::doubleClicked, this, &ServerPropertiesDlg::slotServerLogToggled);
+        connect(ui.serverlogTableView, &QAbstractItemView::doubleClicked, this, &ServerPropertiesDlg::slotServerLogToggled);
         m_varMenu = new QMenu(this);
         connect(ui.MOTDVarButton, &QPushButton::clicked, this, [this]()
         {
@@ -116,7 +116,7 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
 ServerPropertiesDlg::~ServerPropertiesDlg()
 {
     ttSettings->setValue(SETTINGS_DISPLAY_SERVERPROPERTIESWINDOWPOS, saveGeometry());
-    ttSettings->setValue(SETTINGS_DISPLAY_SERVERLOG_EVENTS_HEADER, ui.serverlogTreeView->header()->saveState());
+    ttSettings->setValue(SETTINGS_DISPLAY_SERVERLOG_EVENTS_HEADER, ui.serverlogTableView->horizontalHeader()->saveState());
 }
 
 void ServerPropertiesDlg::slotAccepted()
