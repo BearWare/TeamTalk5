@@ -62,7 +62,6 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, QWidget * p
     connect(ui.usersTreeView, &QWidget::customContextMenuRequested,
             this, &UserAccountsDlg::slotTreeContextMenu);
     connect(ui.usersTreeView, &QAbstractItemView::doubleClicked, this, &UserAccountsDlg::slotEditUser);
-    ui.usersTreeView->installEventFilter(this);
 
     ui.usersTreeView->header()->restoreState(ttSettings->value(SETTINGS_DISPLAY_USERACCOUNTS_HEADERSIZES).toByteArray());
     restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_USERACCOUNTSDLG_SIZE).toByteArray());
@@ -147,30 +146,19 @@ void UserAccountsDlg::slotEditUser()
     }
 }
 
-bool UserAccountsDlg::eventFilter(QObject *obj, QEvent *event)
-{
-    if (obj == ui.usersTreeView && event->type() == QEvent::KeyPress)
-    {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-        if ((keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return) && ui.usersTreeView->hasFocus())
-        {
-            emit(slotEditUser());
-            return true;
-        }
-    }
-    return QDialog::eventFilter(obj, event);
-}
-
 void UserAccountsDlg::keyPressEvent(QKeyEvent* e)
 {
     if (ui.usersTreeView->hasFocus())
     {
         if (e->matches(QKeySequence::Delete) || e->key() == Qt::Key_Backspace)
-        {
             emit(slotDelUser());
-        }
+        else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
+            emit(slotEditUser());
+        else
+            QDialog::keyPressEvent(e);
     }
-    QDialog::keyPressEvent(e);
+    else
+        QDialog::keyPressEvent(e);
 }
 
 void UserAccountsDlg::slotTreeContextMenu(const QPoint& /*point*/)

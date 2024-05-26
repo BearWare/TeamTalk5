@@ -36,7 +36,6 @@ public:
 
 protected:
     void keyPressEvent(QKeyEvent* e) override;
-    bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
     Ui::UserAccountsDlg ui;
