@@ -26,6 +26,7 @@ Default Qt Client
 - Ability to sort Ban List
 - Context menu to move banned/unbanned users to banned/unbanned list
 - Ban time displays in local format
+- Ability to leave current channel from everywhere in main window
 Android Client
 - Toggle channel operator does not show password dialog if user has user-right to change channel operator
 iOS Client

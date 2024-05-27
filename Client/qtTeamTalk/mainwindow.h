@@ -347,6 +347,7 @@ private:
     void slotChannelsUpdateChannel(bool checked=false);
     void slotChannelsDeleteChannel(bool checked=false);
     void slotChannelsJoinChannel(bool checked=false);
+    void slotChannelsLeaveChannel(bool checked=false);
     void slotChannelsViewChannelInfo(bool checked=false);
     void slotChannelsSpeakChannelInformationGrid(bool checked=false);
     void slotChannelsSpeakChannelStatusGrid(bool checked=false);
