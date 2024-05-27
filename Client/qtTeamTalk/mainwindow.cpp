@@ -6230,8 +6230,8 @@ void MainWindow::slotUpdateUI()
 
     ui.actionLeaveChannel->setEnabled(m_mychannel.nChannelID > 0);
     ui.actionLeaveChannel->setVisible(m_mychannel.nChannelID > 0);
-    ui.actionJoinChannel->setEnabled(chanid != m_mychannel.nChannelID);
-    ui.actionJoinChannel->setVisible(chanid != m_mychannel.nChannelID);
+    ui.actionJoinChannel->setEnabled(chanid != m_mychannel.nChannelID && !userid>0);
+    ui.actionJoinChannel->setVisible(chanid != m_mychannel.nChannelID && !userid>0);
     ui.actionViewChannelInfo->setEnabled(chanid>0);
     ui.actionGenerateTTURL->setEnabled(chanid > 0);
     ui.actionSpeakChannelInfo->setEnabled(tts);
