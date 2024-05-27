@@ -94,6 +94,7 @@ QVariant ServerListModel::headerData(int section, Qt::Orientation /*orientation*
             case COLUMN_INDEX_USERCOUNT: return tr("Users");
             case COLUMN_INDEX_COUNTRY: return tr("Country");
         }
+        break;
     }
     }
     return QVariant();
@@ -106,6 +107,9 @@ int ServerListModel::columnCount(const QModelIndex & /*parent = QModelIndex()*/)
 
 QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::DisplayRole*/) const
 {
+    if (!index.isValid() || index.row() >= getServers().size())
+        return QVariant();
+
     switch(role)
     {
     case Qt::DisplayRole :
