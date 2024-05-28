@@ -18,13 +18,13 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <layout class="QVBoxLayout" name="filterLayout">
+    <layout class="QVBoxLayout" name="filterLayout_1">
      <item>
       <widget class="QGroupBox" name="filterGroupBox">
        <property name="title">
         <string>Filter Banned Users</string>
        </property>
-       <layout class="QHBoxLayout" name="filterLayout">
+       <layout class="QHBoxLayout" name="filterLayout_2">
         <item>
          <widget class="QLabel" name="filterLabel">
           <property name="text">
@@ -47,7 +47,7 @@
         </item>
        </layout>
       </widget>
-     </item>  
+     </item>
     </layout>
    </item>
    <item>
