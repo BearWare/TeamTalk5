@@ -1283,6 +1283,7 @@
      <addaction name="actionSpeakChannelStat"/>
     </widget>
     <addaction name="actionJoinChannel"/>
+    <addaction name="actionLeaveChannel"/>
     <addaction name="menu_InfoChannel"/>
     <addaction name="actionGenerateTTURL"/>
     <addaction name="separator"/>
@@ -1519,6 +1520,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+J</string>
+   </property>
+  </action>
+  <action name="actionLeaveChannel">
+   <property name="text">
+    <string>&amp;Leave Channel</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
    </property>
   </action>
   <action name="actionEnableVoiceActivation">

@@ -479,6 +479,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotChannelsDeleteChannel);
     connect(ui.actionJoinChannel, &QAction::triggered,
             this, &MainWindow::slotChannelsJoinChannel);
+    connect(ui.actionLeaveChannel, &QAction::triggered,
+            this, &MainWindow::slotChannelsLeaveChannel);
     connect(ui.actionViewChannelInfo, &QAction::triggered,
             this, &MainWindow::slotChannelsViewChannelInfo);
     connect(ui.actionSpeakChannelInfo, &QAction::triggered,
@@ -5252,9 +5254,7 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
 
     if (chan.nChannelID == m_mychannel.nChannelID && ((dbClickAct & ACTION_LEAVE) == ACTION_LEAVE || QObject::sender() == ui.actionJoinChannel))
     {
-        int cmdid = TT_DoLeaveChannel(ttInst);
-        m_commands.insert(cmdid, CMD_COMPLETE_LEAVECHANNEL);
-        return;
+        slotChannelsLeaveChannel();
     }
 
     if (chan.nChannelID != TT_GetMyChannelID(ttInst) && ((dbClickAct & ACTION_JOIN) == ACTION_JOIN || QObject::sender() == ui.actionJoinChannel))
@@ -5287,6 +5287,17 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
             QMessageBox::critical(this, MENUTEXT(ui.actionJoinChannel->text()),
                                   tr("Failed to issue command to join channel"));
     }
+}
+
+void MainWindow::slotChannelsLeaveChannel(bool /*checked=false*/)
+{
+    Channel chan;
+    if (!ui.channelsWidget->getChannel(m_mychannel.nChannelID, chan))
+        return;
+
+    int cmdid = TT_DoLeaveChannel(ttInst);
+    m_commands.insert(cmdid, CMD_COMPLETE_LEAVECHANNEL);
+    return;
 }
 
 void MainWindow::slotChannelsViewChannelInfo(bool /*checked=false*/)
@@ -6217,18 +6228,10 @@ void MainWindow::slotUpdateUI()
     {
     }
 
-    if(user_chanid == mychannel)
-    {
-        ui.actionJoinChannel->setText(tr("&Leave Channel"));
-        ui.actionJoinChannel->setShortcut(tr("CTRL+L"));
-    }
-    else
-    {
-        ui.actionJoinChannel->setText(tr("&Join Channel"));
-        ui.actionJoinChannel->setShortcut(tr("CTRL+J"));
-    }
-
-    ui.actionJoinChannel->setEnabled(chanid>0);
+    ui.actionLeaveChannel->setEnabled(m_mychannel.nChannelID > 0);
+    ui.actionLeaveChannel->setVisible(m_mychannel.nChannelID > 0);
+    ui.actionJoinChannel->setEnabled(chanid != m_mychannel.nChannelID && !userid>0);
+    ui.actionJoinChannel->setVisible(chanid != m_mychannel.nChannelID && !userid>0);
     ui.actionViewChannelInfo->setEnabled(chanid>0);
     ui.actionGenerateTTURL->setEnabled(chanid > 0);
     ui.actionSpeakChannelInfo->setEnabled(tts);
