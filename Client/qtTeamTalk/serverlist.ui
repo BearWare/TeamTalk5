@@ -109,16 +109,6 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="connectButton">
-       <property name="text">
-        <string>&amp;Connect</string>
-       </property>
-       <property name="default">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="newsrvButton">
        <property name="text">
         <string>&amp;Add new server</string>
