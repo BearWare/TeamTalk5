@@ -170,6 +170,7 @@
 
     <string name="user_prop_title_username">Benutzername</string>
     <string name="user_prop_title_clientname">Client-Name</string>
+    <string name="user_prop_clientversion">Version</string>
     <string name="user_prop_title_voice_volume">Sprachlautstärke</string>
     <string name="user_prop_title_mute_voice">Sprache stummschalten</string>
     <string name="user_prop_title_media_volume">Medienlautstärke</string>
@@ -181,6 +182,12 @@
     <string name="user_prop_title_subscribe_vid">Video empfangen</string>
     <string name="user_prop_title_subscribe_desk">Desktop empfangen</string>
     <string name="user_prop_title_subscribe_media">Medien empfangen</string>
+    <string name="user_prop_title_subscribe_intercept_txtmsg">Benutzernachrichten abfangen</string>
+    <string name="user_prop_title_subscribe_intercept_chanmsg">Raumnachrichten abfangen</string>
+    <string name="user_prop_title_subscribe_intercept_voice">Sprache abfangen</string>
+    <string name="user_prop_title_subscribe_intercept_vid">Video abfangen</string>
+    <string name="user_prop_title_subscribe_intercept_desk">Desktop abfangen</string>
+    <string name="user_prop_title_subscribe_intercept_media">Medien abfangen</string>
 
     <string name="label_connection">Verbindung:</string>
     <string name="stat_online">Online</string>
@@ -329,6 +336,9 @@
     <string name="permission_audiomodify">Audio-Aufnahme und Wiedergabe werden nicht verfügbar sein</string>
     <string name="permission_filerx">Herunterladen von Dateien wird nicht verfügbar sein</string>
     <string name="permission_filetx">Hochladen und Importieren von Dateien wird nicht verfügbar sein</string>
+    <string name="permission_imagetx">Das Hochladen von Bildern wird nicht verfügbar sein</string>
+    <string name="permission_videotx">Videodateien können nicht hochgeladen oder gestreamt werden</string>
+    <string name="permission_audiotx">Audiodateien können nicht hochgeladen oder gestreamt werden</string>
     <string name="permission_internet">Client wird sich nicht mit Servern verbinden können</string>
     <string name="permission_vibrate">Vibration bei Push-to-talk wird nicht verfügbar sein</string>
     <string name="permission_wake_lock">Server-Verbindung kann bei abgedunkeltem Bildschirm abreißen</string>
@@ -388,6 +398,9 @@
     <string name="pref_title_server_usercount">Benutzer Online</string>
     <string name="pref_title_server_country">Land</string>
     <string name="pref_title_server_status">Server-Status</string>
+    <string name="action_make_operator">Operator gewähren</string>
+    <string name="action_revoke_operator">Operator entziehen</string>
+    <string name="text_operator_password">Raumoperator-Passwort eingeben</string>
 
 
 </resources>

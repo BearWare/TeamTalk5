@@ -265,7 +265,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="59"/>
         <source>Creator</source>
-        <translation type="unfinished"></translation>
+        <translation>Ersteller</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="60"/>
@@ -935,13 +935,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="159"/>
         <source>Welcome</source>
-        <translation type="unfinished"></translation>
+        <translation>Willkommen</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="159"/>
         <source>Welcome to %1.<byte value="xd"/>
 Message of the day: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Welcome to %1.<byte value="xd"/>
+Nachricht des Tages: %2</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="163"/>
@@ -1294,7 +1295,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="106"/>
         <source>Setup Certificate Authority</source>
-        <translation type="unfinished"></translation>
+        <translation>Zertifizierungsstelle einrichten</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="107"/>
@@ -1680,13 +1681,13 @@ Message of the day: %2</source>
         <location filename="../mainwindow.cpp" line="1175"/>
         <source>%1 has logged out from %2</source>
         <comment>For female</comment>
-        <translation type="unfinished"></translation>
+        <translation>Für weiblich</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1175"/>
         <source>%1 has logged out from %2</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished"></translation>
+        <translation>Für männlich und neutral</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1239"/>
@@ -1718,12 +1719,12 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="1372"/>
         <source>Audio preprocessor failed to initialize</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Initialisieren der Audiovorverarbeitung</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1374"/>
         <source>An audio effect could not be applied on the sound device</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein Klangeffekt konnte nicht auf das Audiogerät angewendet werden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1383"/>
@@ -1789,7 +1790,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="2058"/>
         <source>Disconnected from server</source>
-        <translation type="unfinished"></translation>
+        <translation>Von Server getrennt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2158"/>
@@ -1833,7 +1834,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="2237"/>
         <source>Banned from channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Aus Raum gesperrt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2239"/>
@@ -1863,17 +1864,17 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="2250"/>
         <source>Maximum number of logins per IP-address exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximale Logins pro IP-Adresse überschritten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2252"/>
         <source>Maximum bitrate for audio codec exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximale Bitrate des Audio-Codecs überschritten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2258"/>
         <source>Maximum number of file transfers exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximale Anzahl Dateiübertragungen überschritten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2262"/>
@@ -2893,7 +2894,7 @@ Möchtest du dies jetzt tun?</translation>
         <location filename="../mainwindow.cpp" line="2100"/>
         <location filename="../mainwindow.cpp" line="2101"/>
         <source>Files in channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Dateien im Raum </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2164"/>
@@ -3191,12 +3192,12 @@ Sie kann auf folgender Seite heruntergeladen werden:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="7431"/>
         <source>Check for Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Nach Update suchen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7431"/>
         <source>%1 is up to date.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 ist auf dem neuesten Stand</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7524"/>
@@ -3238,7 +3239,7 @@ Sie kann auf folgender Seite heruntergeladen werden:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="1157"/>
         <source>%1 has logged in on %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat sich auf %2 angemeldet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1201"/>
@@ -3373,12 +3374,12 @@ Sie kann auf folgender Seite heruntergeladen werden:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="6067"/>
         <source>Ban IP-address</source>
-        <translation type="unfinished">IP-Adresse sperren</translation>
+        <translation>IP-Adresse sperren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6067"/>
         <source>IP-address (&apos;/&apos; for subnet, e.g. 192.168.0.0/16)</source>
-        <translation type="unfinished"></translation>
+        <translation>IP-Adresse (&apos;/&apos; für Subnetz, z. B. 192.168.0.0/16)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6234"/>
@@ -3687,7 +3688,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1465"/>
         <source>&amp;Check for Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Nach Update su&amp;chen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1470"/>
@@ -3938,7 +3939,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mainwindow.ui" line="1911"/>
         <source>Move Users &amp;Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer-Verschieben-&amp;Dialog</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1914"/>
@@ -4698,27 +4699,27 @@ Should these settings be applied?</source>
         <location filename="../moveusersdlg.cpp" line="34"/>
         <location filename="../moveusersdlg.cpp" line="56"/>
         <source>Move Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer verschieben</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="39"/>
         <source>Users</source>
-        <translation type="unfinished">Benutzer</translation>
+        <translation>Benutzer</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="49"/>
         <source>&amp;Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Raum</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="57"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="82"/>
         <source>Root Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Hauptraum</translation>
     </message>
 </context>
 <context>
@@ -4798,14 +4799,14 @@ Should these settings be applied?</source>
         <location filename="../onlineusersdlg.cpp" line="136"/>
         <location filename="../onlineusersdlg.cpp" line="153"/>
         <source>&amp;Kick from Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Aus Raum &amp;werfen</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="62"/>
         <location filename="../onlineusersdlg.cpp" line="138"/>
         <location filename="../onlineusersdlg.cpp" line="155"/>
         <source>&amp;Kick from Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Vom &amp;Server werfen</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="62"/>
@@ -4826,14 +4827,14 @@ Should these settings be applied?</source>
         <location filename="../onlineusersdlg.cpp" line="140"/>
         <location filename="../onlineusersdlg.cpp" line="157"/>
         <source>Kick and &amp;Ban from Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Aus Raum werfen und sp&amp;erren</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="64"/>
         <location filename="../onlineusersdlg.cpp" line="142"/>
         <location filename="../onlineusersdlg.cpp" line="159"/>
         <source>Kick and &amp;Ban from Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Vom Server werfen und sp&amp;erren</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="64"/>
@@ -5353,12 +5354,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="455"/>
         <source>Show user and channel icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer- und Raumsymbole anzeigen</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="462"/>
         <source>Show channel topic in channel list</source>
-        <translation type="unfinished"></translation>
+        <translation>Raumthema in Raumliste anzeigen</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="520"/>
@@ -5368,7 +5369,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="589"/>
         <source>Show dialog box with server&apos;s message of the day</source>
-        <translation type="unfinished"></translation>
+        <translation>Nachricht des Tages als Dialog anzeigen</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="642"/>
@@ -5507,7 +5508,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1095"/>
         <source>PulseAudio</source>
-        <translation type="unfinished"></translation>
+        <translation>PulseAudio</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1119"/>
@@ -5651,12 +5652,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="2386"/>
         <source>Switch to SAPI if current screenreader is not available</source>
-        <translation type="unfinished"></translation>
+        <translation>Zu SAPI wechseln, falls der aktuelle Bildschirmleser nicht verfügbar ist</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2393"/>
         <source>Announce server name for server events</source>
-        <translation type="unfinished"></translation>
+        <translation>Servername bei Ereignissen mitteilen</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2419"/>
@@ -5947,7 +5948,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="1722"/>
         <source>Switch to SAPI if %1 screenreader is not available</source>
-        <translation type="unfinished"></translation>
+        <translation>Zu SAPI wechseln, wenn Bildschirmleser %1 nicht verfügbar ist</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1728"/>
@@ -6084,168 +6085,168 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverdlg.ui" line="20"/>
         <source>Server Information</source>
-        <translation type="unfinished">Serverinformationen</translation>
+        <translation>Serverinformationen</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="28"/>
         <source>Entry name</source>
-        <translation type="unfinished">Servername</translation>
+        <translation>Eintragsname</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="43"/>
         <source>Host IP-address</source>
-        <translation type="unfinished">Host/IP-Adresse</translation>
+        <translation>Host/IP-Adresse</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="60"/>
         <source>TCP port</source>
-        <translation type="unfinished">TCP-Port</translation>
+        <translation>TCP-Port</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="75"/>
         <source>TCP Port (Default: 10333)</source>
-        <translation type="unfinished"></translation>
+        <translation>TCP-Port (Standard: 10333)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="82"/>
         <location filename="../serverdlg.ui" line="113"/>
         <source>Default: 10333</source>
-        <translation type="unfinished">Standard: 10333</translation>
+        <translation>Standard: 10333</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="91"/>
         <source>UDP port</source>
-        <translation type="unfinished">UDP-Port</translation>
+        <translation>UDP-Port</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="106"/>
         <source>UDP Port (Default: 10333)</source>
-        <translation type="unfinished"></translation>
+        <translation>UDP-Port (Standard: 10333)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="124"/>
         <source>Encrypted server</source>
-        <translation type="unfinished">Verschlüsselter Server</translation>
+        <translation>Verschlüsselter Server</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="134"/>
         <source>Setup</source>
-        <translation type="unfinished">Einrichtung</translation>
+        <translation>Einrichtung</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="156"/>
         <location filename="../serverdlg.ui" line="159"/>
         <source>Authentication (optional)</source>
-        <translation type="unfinished">Anmeldung (optional)</translation>
+        <translation>Anmeldung (optional)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="165"/>
         <source>Use BearWare.dk Web Login</source>
-        <translation type="unfinished"></translation>
+        <translation>BearWare.dk-Web-Login verwenden</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="172"/>
         <source>Username</source>
-        <translation type="unfinished">Benutzername</translation>
+        <translation>Benutzername</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="185"/>
         <location filename="../serverdlg.ui" line="258"/>
         <source>Password</source>
-        <translation type="unfinished">Passwort</translation>
+        <translation>Passwort</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="204"/>
         <location filename="../serverdlg.ui" line="277"/>
         <source>Show password</source>
-        <translation type="unfinished">Passwort anzeigen</translation>
+        <translation>Passwort anzeigen</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="216"/>
         <source>Nickname (optional)</source>
-        <translation type="unfinished">Nickname (optional)</translation>
+        <translation>Nickname (optional)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="229"/>
         <location filename="../serverdlg.ui" line="232"/>
         <source>Join specific channel after authentication (optional)</source>
-        <translation type="unfinished">Bestimmten Raum nach Anmeldung betreten (optional)</translation>
+        <translation>Bestimmten Raum nach Anmeldung betreten (optional)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="238"/>
         <source>Latest Joined Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Zuletzt betretener Raum</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="245"/>
         <source>Channel</source>
-        <translation type="unfinished">Raum</translation>
+        <translation>Raum</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="292"/>
         <source>&amp;Connect to Server on exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Beim &amp;Verlassen zum Server verbinden</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="42"/>
         <source>&amp;Save and Close</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Speichern und schließen</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="43"/>
         <source>&amp;Close without saving</source>
-        <translation type="unfinished"></translation>
+        <translation>S&amp;chließen ohne zu speichern</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="64"/>
         <location filename="../serverdlg.cpp" line="65"/>
         <source>Add Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Server hinzufügen</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="69"/>
         <source>Edit Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Server bearbeiten</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="70"/>
         <source>Edit Server %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Server %1 bearbeiten</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="74"/>
         <source>View Server Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Serverinformationen ansehen</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="75"/>
         <source>View %1 Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informationen zu %1 ansehen</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="91"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation>S&amp;chließen</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="154"/>
         <source>Name already used</source>
-        <translation type="unfinished"></translation>
+        <translation>Name bereits vergeben</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="154"/>
         <source>Another server with this name already exists. Please use a different name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein Server dieses Namens existiert bereits. Bitte wähle einen anderen Namen.</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="159"/>
         <source>Missing information</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehlende informationen</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="159"/>
         <source>Please fill in &quot;Host IP-address&quot; field</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte fülle das Feld &quot;Host/IP-Adresse&quot; aus</translation>
     </message>
 </context>
 <context>
@@ -6295,22 +6296,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="90"/>
         <source>Saved Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Gespeicherte Server</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="124"/>
         <source>&amp;Add new server</source>
-        <translation type="unfinished"></translation>
+        <translation>Neuen Server &amp;hinzufügen</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="140"/>
         <source>Latest hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Letzte Server</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="150"/>
         <source>Latest Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Letzte Server</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="131"/>
@@ -6361,17 +6362,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="551"/>
         <source>Duplicate Server Entry</source>
-        <translation type="unfinished"></translation>
+        <translation>Eintrag duplizieren</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="552"/>
         <source>Entry Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Eintragsname</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="553"/>
         <source>%1 - COPY</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 - KOPIE</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="638"/>
@@ -6412,47 +6413,47 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="741"/>
         <source>&amp;Delete</source>
-        <translation type="unfinished">&amp;Löschen</translation>
+        <translation>&amp;Löschen</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="742"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Bearbeiten</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="743"/>
         <source>D&amp;uplicate</source>
-        <translation type="unfinished"></translation>
+        <translation>D&amp;uplizieren</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="744"/>
         <source>&amp;Generate .tt file</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Generiere .tt-Datei</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="745"/>
         <source>&amp;Publish Publicly</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Veröffentlichen</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="798"/>
         <source>Co&amp;nnect</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbi&amp;nden</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="799"/>
         <source>&amp;Remove from Latest Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Aus letzte Server entfe&amp;rnen</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="800"/>
         <source>&amp;Add to Saved Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Zu gespeicherten Servern &amp;hinzufügen</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="801"/>
         <source>&amp;Clear Latest Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Letzte Server &amp;leeren</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="633"/>
@@ -6784,7 +6785,7 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
     <message>
         <location filename="../serverproperties.ui" line="106"/>
         <source>MOTD variables: %users% number of users on server, %admins% number of admins on server, %uptime% server&apos;s time online, %voicerx% KBytes received, %voicetx% KBytes sent and %lastuser% last user to log on.</source>
-        <translation type="unfinished"></translation>
+        <translation>MOTD-Variablen: %users% Anzahl benutzer auf Server, %admins% Anzahl Admins auf server, %uptime% Online-Zeit des Servers, %voicerx% KBytes empfangen, %voicetx% KBytes gesendet und %lastuser% zuletzt angemeldeter Benutzer.</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="245"/>
@@ -8408,12 +8409,12 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
     <message>
         <location filename="../useraccountsmodel.cpp" line="253"/>
         <source>User can send private text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann private Textnachrichten senden</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="255"/>
         <source>User can send channel text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer kann Raumnachrichten senden</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="257"/>
