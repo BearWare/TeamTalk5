@@ -82,19 +82,18 @@ ServerListModel::ServerListModel(QObject* parent) : QAbstractTableModel(parent)
 {
 }
 
-QVariant ServerListModel::headerData(int section, Qt::Orientation /*orientation*/, int role /*= Qt::DisplayRole*/) const
+QVariant ServerListModel::headerData(int section, Qt::Orientation orientation, int role /*= Qt::DisplayRole*/) const
 {
     switch(role)
     {
     case Qt::DisplayRole :
-    {
+        if(orientation == Qt::Horizontal)
         switch(section)
         {
             case COLUMN_INDEX_SERVERNAME: return tr("Name");
             case COLUMN_INDEX_USERCOUNT: return tr("Users");
             case COLUMN_INDEX_COUNTRY: return tr("Country");
         }
-    }
     }
     return QVariant();
 }
