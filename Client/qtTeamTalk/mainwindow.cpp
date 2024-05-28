@@ -6088,12 +6088,6 @@ void MainWindow::slotTreeSelectionChanged()
         //if not admin then keep joined channel as file view.
         updateChannelFiles(channelid);
     }
-#if defined(Q_OS_DARWIN)
-#if QT_VERSION < QT_VERSION_CHECK(6,4,0)
-    if (ttSettings->value(SETTINGS_TTS_SPEAKLISTS, SETTINGS_TTS_SPEAKLISTS_DEFAULT).toBool() == true)
-        addTextToSpeechMessage(ui.channelsWidget->getItemText());
-#endif
-#endif
 }
 
 void MainWindow::slotTreeContextMenu(const QPoint &/* pos*/)

@@ -411,11 +411,6 @@
 #define SETTINGS_TTS_TRY_SAPI_DEFAULT                 true
 #define SETTINGS_TTS_OUTPUT_MODE                         "texttospeech/output-mode"
 #define SETTINGS_TTS_OUTPUT_MODE_DEFAULT                 TTS_OUTPUTMODE_SPEECHBRAILLE
-#elif defined(Q_OS_DARWIN)
-#if QT_VERSION < QT_VERSION_CHECK(6,4,0)
-#define SETTINGS_TTS_SPEAKLISTS                         "texttospeech/speak-lists"
-#define SETTINGS_TTS_SPEAKLISTS_DEFAULT                 true
-#endif
 #endif
 
 #define SETTINGS_TTSMSG_USER_LOGGEDIN                         "texttospeech/messages/user-logged-in"

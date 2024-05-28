@@ -1432,14 +1432,14 @@
                <property name="editTriggers">
                 <set>QAbstractItemView::NoEditTriggers</set>
                </property>
+               <property name="tabKeyNavigation">
+                <bool>false</bool>
+               </property>
                <property name="showDropIndicator" stdset="0">
                 <bool>false</bool>
                </property>
                <property name="alternatingRowColors">
                 <bool>true</bool>
-               </property>
-               <property name="tabKeyNavigation">
-                <bool>false</bool>
                </property>
               </widget>
              </item>
@@ -1573,14 +1573,14 @@
             <property name="editTriggers">
              <set>QAbstractItemView::NoEditTriggers</set>
             </property>
+            <property name="tabKeyNavigation">
+             <bool>false</bool>
+            </property>
             <property name="showDropIndicator" stdset="0">
              <bool>false</bool>
             </property>
             <property name="alternatingRowColors">
              <bool>true</bool>
-            </property>
-            <property name="tabKeyNavigation">
-             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -1686,10 +1686,20 @@
          <layout class="QVBoxLayout" name="verticalLayout_19">
           <item>
            <layout class="QFormLayout" name="formLayout_3">
-            <item row="1" column="1">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_ttsengine">
+              <property name="text">
+               <string>Text to Speech Engine</string>
+              </property>
+              <property name="buddy">
+               <cstring>ttsengineComboBox</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
              <widget class="QComboBox" name="ttsengineComboBox"/>
             </item>
-            <item row="2" column="0">
+            <item row="1" column="0">
              <widget class="QLabel" name="label_ttslocale">
               <property name="text">
                <string>Language</string>
@@ -1699,10 +1709,10 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="1">
+            <item row="1" column="1">
              <widget class="QComboBox" name="ttsLocaleComboBox"/>
             </item>
-            <item row="3" column="0">
+            <item row="2" column="0">
              <widget class="QLabel" name="label_ttsvoice">
               <property name="text">
                <string>Voice</string>
@@ -1712,10 +1722,10 @@
               </property>
              </widget>
             </item>
-            <item row="3" column="1">
+            <item row="2" column="1">
              <widget class="QComboBox" name="ttsVoiceComboBox"/>
             </item>
-            <item row="4" column="0">
+            <item row="3" column="0">
              <widget class="QLabel" name="label_ttsvoicerate">
               <property name="text">
                <string>Voice rate</string>
@@ -1725,7 +1735,7 @@
               </property>
              </widget>
             </item>
-            <item row="4" column="1">
+            <item row="3" column="1">
              <widget class="QDoubleSpinBox" name="ttsVoiceRateSpinBox">
               <property name="minimum">
                <double>-1.000000000000000</double>
@@ -1741,17 +1751,7 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_ttsengine">
-              <property name="text">
-               <string>Text to Speech Engine</string>
-              </property>
-              <property name="buddy">
-               <cstring>ttsengineComboBox</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="0">
+            <item row="4" column="0">
              <widget class="QLabel" name="label_ttsvoicevolume">
               <property name="text">
                <string>Voice volume</string>
@@ -1761,7 +1761,7 @@
               </property>
              </widget>
             </item>
-            <item row="5" column="1">
+            <item row="4" column="1">
              <widget class="QDoubleSpinBox" name="ttsVoiceVolumeSpinBox">
               <property name="minimum">
                <double>0.000000000000000</double>
@@ -1777,7 +1777,7 @@
               </property>
              </widget>
             </item>
-            <item row="6" column="0">
+            <item row="5" column="0">
              <widget class="QLabel" name="label_ttsnotifTimestamp">
               <property name="text">
                <string>Display duration of notifications</string>
@@ -1787,7 +1787,7 @@
               </property>
              </widget>
             </item>
-            <item row="6" column="1">
+            <item row="5" column="1">
              <widget class="QSpinBox" name="ttsNotifTimestampSpinBox">
               <property name="minimum">
                <number>1</number>
@@ -1800,7 +1800,7 @@
               </property>
              </widget>
             </item>
-            <item row="7" column="0">
+            <item row="6" column="0">
              <widget class="QLabel" name="label_ttsoutputmode">
               <property name="text">
                <string>Text to Speech output mode</string>
@@ -1810,24 +1810,17 @@
               </property>
              </widget>
             </item>
-            <item row="7" column="1">
+            <item row="6" column="1">
              <widget class="QComboBox" name="ttsOutputModeComboBox"/>
             </item>
-            <item row="8" column="0">
-             <widget class="QCheckBox" name="ttsSpeakListsChkBox">
-              <property name="text">
-               <string>Speak selected item in lists</string>
-              </property>
-             </widget>
-            </item>
-            <item row="9" column="0">
+            <item row="7" column="0" colspan="2">
              <widget class="QCheckBox" name="ttsForceSapiChkBox">
               <property name="text">
                <string>Use SAPI instead of current screenreader</string>
               </property>
              </widget>
             </item>
-            <item row="10" column="0">
+            <item row="8" column="0" colspan="2">
              <widget class="QCheckBox" name="ttsTrySapiChkBox">
               <property name="text">
                <string>Switch to SAPI if current screenreader is not available</string>
