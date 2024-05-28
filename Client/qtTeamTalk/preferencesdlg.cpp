@@ -1062,10 +1062,6 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_TTS_SAPI, ui.ttsForceSapiChkBox->isChecked());
         ttSettings->setValue(SETTINGS_TTS_TRY_SAPI, ui.ttsTrySapiChkBox->isChecked());
         ttSettings->setValue(SETTINGS_TTS_OUTPUT_MODE, getCurrentItemData(ui.ttsOutputModeComboBox, ""));
-#elif defined(Q_OS_DARWIN)
-#if QT_VERSION < QT_VERSION_CHECK(6,4,0)
-        ttSettings->setValue(SETTINGS_TTS_SPEAKLISTS, ui.ttsSpeakListsChkBox->isChecked());
-#endif
 #endif
         ttSettings->setValue(SETTINGS_DISPLAY_TTSHEADER, ui.ttsTableView->horizontalHeader()->saveState());
         saveCurrentMessage();
@@ -1409,7 +1405,6 @@ void PreferencesDlg::slotUpdateTTSTab()
 
     ui.ttsForceSapiChkBox->hide();
     ui.ttsTrySapiChkBox->hide();
-    ui.ttsSpeakListsChkBox->hide();
     ui.label_ttsoutputmode->hide();
     ui.ttsOutputModeComboBox->hide();
 
@@ -1426,11 +1421,6 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.ttsVoiceRateSpinBox->show();
         ui.label_ttsvoicevolume->show();
         ui.ttsVoiceVolumeSpinBox->show();
-#if defined(Q_OS_DARWIN)
-#if QT_VERSION < QT_VERSION_CHECK(6,4,0)
-        ui.ttsSpeakListsChkBox->show();
-#endif
-#endif
         delete ttSpeech;
         ttSpeech = new QTextToSpeech(this);
 
@@ -1451,11 +1441,6 @@ void PreferencesDlg::slotUpdateTTSTab()
         ui.ttsVoiceComboBox->model()->sort(0);
         setCurrentItemData(ui.ttsVoiceComboBox, ttSettings->value(SETTINGS_TTS_VOICE));
 
-#if defined(Q_OS_DARWIN)
-#if QT_VERSION < QT_VERSION_CHECK(6,4,0)
-        ui.ttsSpeakListsChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SPEAKLISTS, SETTINGS_TTS_SPEAKLISTS_DEFAULT).toBool());
-#endif
-#endif
 #endif /* QT_TEXTTOSPEECH_LIB */
     }
     break;
