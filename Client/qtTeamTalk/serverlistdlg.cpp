@@ -937,13 +937,24 @@ void ServerListDlg::slotLatestHostsContextMenu(const QPoint& /*point*/)
 
 void ServerListDlg::keyPressEvent(QKeyEvent* e)
 {
-    QDialog::keyPressEvent(e);
-
-    if (e->matches(QKeySequence::Delete) || e->key() == Qt::Key_Backspace)
+    if (ui.serverTableView->hasFocus())
     {
-        if (ui.serverTableView->hasFocus())
+        if (e->matches(QKeySequence::Delete) || e->key() == Qt::Key_Backspace)
             deleteSelectedServer();
-        else if (ui.hostListWidget->hasFocus())
-            deleteLatestHostEntry();
+        else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
+            slotConnect();
+        else
+            QDialog::keyPressEvent(e);
     }
+    else if (ui.hostListWidget->hasFocus())
+    {
+        if (e->matches(QKeySequence::Delete) || e->key() == Qt::Key_Backspace)
+            deleteLatestHostEntry();
+        else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
+            slotConnect();
+        else
+            QDialog::keyPressEvent(e);
+    }
+    else
+        QDialog::keyPressEvent(e);
 }
