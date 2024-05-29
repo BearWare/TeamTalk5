@@ -1357,8 +1357,10 @@ void PreferencesDlg::saveCurrentFile()
     const SoundEventInfo& eventInfo = eventMap[eventId];
     QString paramKey = eventInfo.settingKey;
     QString text = !ui.soundEventFileEdit->text().isEmpty()?ui.soundEventFileEdit->text():UtilSound::getDefaultFile(paramKey);
-    if (text != ttSettings->value(paramKey))
-        ttSettings->setValue(paramKey, text);
+    if (!text.isEmpty())
+    {
+        ttSettings->setValue(paramKey, text == UtilTTS::getDefaultValue(paramKey) ? "" : text);
+    }
 }
 
 void PreferencesDlg::soundEventsRestoreDefaultFile()
