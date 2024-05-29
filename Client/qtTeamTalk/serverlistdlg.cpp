@@ -120,10 +120,10 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
         break;
     case Qt::AccessibleTextRole :
     {
+        auto srv = getServers()[index.row()];
         if (index.column() == COLUMN_INDEX_SERVERNAME)
         {
             QString srvtype;
-            auto srv = getServers()[index.row()];
             switch (getServerType(srv))
             {
             case SERVERTYPE_LOCAL:
@@ -140,6 +140,10 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
             }
             return QString(tr("%1, Name: %2, Users: %3, Country: %4, MOTD: %5").arg(srvtype).arg(srv.name).arg(data(createIndex(index.row(), COLUMN_INDEX_USERCOUNT, index.internalId()), Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_COUNTRY, index.internalId()), Qt::DisplayRole).toString()).arg(srv.motd));
         }
+        if (index.column() == COLUMN_INDEX_USERCOUNT && getServerType(srv) != SERVERTYPE_LOCAL)
+            return data(createIndex(index.row(), COLUMN_INDEX_USERCOUNT, index.internalId()), Qt::DisplayRole).toString();
+        if (index.column() == COLUMN_INDEX_COUNTRY && getServerType(srv) != SERVERTYPE_LOCAL)
+            return data(createIndex(index.row(), COLUMN_INDEX_COUNTRY, index.internalId()), Qt::DisplayRole).toString();
     }
     case Qt::ToolTipRole :
         return getServers()[index.row()].motd;
