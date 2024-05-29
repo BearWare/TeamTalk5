@@ -31,6 +31,8 @@
 #include <QString>
 #include <QObject>
 
+#include <functional>
+
 enum DoubleClickChannelAction
 {
     ACTION_NOTHING          = 0x0,
@@ -152,6 +154,8 @@ public:
     RestoreItemData(QAbstractItemView* view, QSortFilterProxyModel* model = nullptr);
     ~RestoreItemData();
 };
+
+typedef std::function<int (int visualIndex)> get_logical_index_t;
 
 void saveWindowPosition(const QString& setting, QWidget* widget);
 bool restoreWindowPosition(const QString& setting, QWidget* widget);

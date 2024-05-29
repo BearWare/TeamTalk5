@@ -30,6 +30,7 @@ Default Qt Client
 - Reset label of files list when disconnected from server
 - Limit text size in channels tree ignored for screen readers
 - Windows and macOS updated to Qt v6.7.1
+- Ability to reorder column of User Accounts and Online Users dialog
 Android Client
 - Toggle channel operator does not show password dialog if user has user-right to change channel operator
 iOS Client

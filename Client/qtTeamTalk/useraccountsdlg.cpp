@@ -37,7 +37,8 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, QWidget * p
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
 
-    m_useraccountsModel = new UserAccountsModel(this);
+    using std::placeholders::_1;
+    m_useraccountsModel = new UserAccountsModel(this, std::bind(&QHeaderView::logicalIndex, ui.usersTableView->horizontalHeader(), _1));
     m_proxyModel = new QSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_useraccountsModel);
     m_proxyModel->setSortRole(Qt::UserRole);
