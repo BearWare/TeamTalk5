@@ -28,7 +28,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QTableView" name="usersTableView">
+        <widget class="MyTableView" name="usersTableView">
          <property name="minimumSize">
           <size>
            <width>200</width>
@@ -108,7 +108,14 @@
     </widget>
    </item>
   </layout>
- </widget>
+ </widget> 
+ <customwidgets>
+  <customwidget>
+   <class>MyTableView</class>
+   <extends>QTableView</extends>
+   <header>mytableview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

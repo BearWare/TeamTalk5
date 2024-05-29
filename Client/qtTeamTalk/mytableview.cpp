@@ -43,6 +43,25 @@ void MyTableView::keyPressEvent(QKeyEvent* e)
             this->setCurrentIndex(currentIndex);
         }
     }
+    else if (e->key() == Qt::Key_Home && e->modifiers() & Qt::ControlModifier)
+    {
+        int currentColumn = this->currentIndex().column();
+        QModelIndex firstRowIndex = this->model()->index(0, currentColumn);
+        if (firstRowIndex.isValid())
+        {
+            this->setCurrentIndex(firstRowIndex);
+        }
+    }
+    else if (e->key() == Qt::Key_End && e->modifiers() & Qt::ControlModifier)
+    {
+        int currentColumn = this->currentIndex().column();
+        int lastRow = this->model()->rowCount() - 1;
+        QModelIndex lastRowIndex = this->model()->index(lastRow, currentColumn);
+        if (lastRowIndex.isValid())
+        {
+            this->setCurrentIndex(lastRowIndex);
+        }
+    }
     else
     {
         QTableView::keyPressEvent(e);

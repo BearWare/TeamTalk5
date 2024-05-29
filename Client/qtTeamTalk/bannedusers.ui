@@ -59,7 +59,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,0">
         <item>
-         <widget class="QTableView" name="bannedTableView">
+         <widget class="MyTableView" name="bannedTableView">
           <property name="font">
            <font>
             <pointsize>8</pointsize>
@@ -179,7 +179,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QTableView" name="unbannedTableView">
+         <widget class="MyTableView" name="unbannedTableView">
           <property name="font">
            <font>
             <pointsize>8</pointsize>
@@ -222,6 +222,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MyTableView</class>
+   <extends>QTableView</extends>
+   <header>mytableview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
