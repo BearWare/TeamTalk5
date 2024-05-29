@@ -1812,7 +1812,7 @@ void PreferencesDlg::saveCurrentMessage()
         QString paramKey = eventInfo.settingKey;
         QString text = ui.TTSMsgEdit->text();
 
-        if (!text.isEmpty() && text != UtilTTS::getDefaultValue(paramKey) && text != ttSettings->value(paramKey))
+        if (!text.isEmpty() && text != ttSettings->value(paramKey))
         {
             ttSettings->setValue(paramKey, text);
         }
