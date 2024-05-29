@@ -291,7 +291,7 @@ void BannedUsersDlg::cmdProcessing(int cmdid, bool active)
 
 void BannedUsersDlg::keyPressEvent(QKeyEvent* e)
 {
-    if (ui.banEdit->hasFocus()  && (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return))
+    if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
     {
         if (ui.banEdit->hasFocus())
         {
