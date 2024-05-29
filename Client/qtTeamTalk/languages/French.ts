@@ -8701,7 +8701,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../settings.h" line="422"/>
         <source>{user} has logged in on {server}</source>
-        <translation>{user} s’est connecté {server}</translation>
+        <translation>{user} s’est connecté à {server}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="424"/>
