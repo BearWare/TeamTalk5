@@ -21,7 +21,7 @@ HEADERS    = mainwindow.h preferencesdlg.h uservideowidget.h \
              audiopreprocessordlg.h ttseventsmodel.h \
              statusbardlg.h statusbareventsmodel.h mycombobox.h \
              utilsound.h utilvideo.h utiltts.h utilui.h utilhotkey.h \
-             serverlogeventsmodel.h mytreeview.h textmessagecontainer.h \
+             serverlogeventsmodel.h textmessagecontainer.h \
              useraccountsmodel.h encryptionsetupdlg.h utiltt.h utilxml.h \
              utilos.h serverdlg.h moveusersdlg.h useraccountdlg.h soundeventsmodel.h \
              mytableview.h
@@ -42,7 +42,7 @@ SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              bearwarelogindlg.cpp audiopreprocessordlg.cpp ttseventsmodel.cpp \
              statusbardlg.cpp statusbareventsmodel.cpp mycombobox.cpp \
              utilsound.cpp utilvideo.cpp utiltts.cpp utilui.cpp utilhotkey.cpp \
-             serverlogeventsmodel.cpp mytreeview.cpp textmessagecontainer.cpp \
+             serverlogeventsmodel.cpp textmessagecontainer.cpp \
              useraccountsmodel.cpp encryptionsetupdlg.cpp utiltt.cpp utilxml.cpp \
              utilos.cpp serverdlg.cpp moveusersdlg.cpp useraccountdlg.cpp soundeventsmodel.cpp \
              mytableview.cpp
