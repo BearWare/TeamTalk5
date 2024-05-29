@@ -108,7 +108,7 @@
     </widget>
    </item>
   </layout>
- </widget> 
+ </widget>
  <customwidgets>
   <customwidget>
    <class>MyTableView</class>

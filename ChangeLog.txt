@@ -29,6 +29,7 @@ Default Qt Client
 - Locale file size now also use in "file transfer" dialog
 - Reset label of files list when disconnected from server
 - Windows and macOS updated to Qt v6.7.1
+- Ability to reorder column of User Accounts and Online Users dialog
 Android Client
 - Toggle channel operator does not show password dialog if user has user-right to change channel operator
 iOS Client

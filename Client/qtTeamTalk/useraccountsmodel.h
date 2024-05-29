@@ -19,9 +19,9 @@
 #define USERACCOUNTSMODEL_H
 
 #include "utiltt.h"
+#include "utilui.h"
 
 #include <QAbstractTableModel>
-#include <QSortFilterProxyModel>
 
 enum
 {
@@ -38,7 +38,7 @@ class UserAccountsModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    UserAccountsModel(QObject* parent);
+    UserAccountsModel(QObject* parent, get_logical_index_t getindex);
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
     int columnCount(const QModelIndex & parent = QModelIndex()) const override;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
@@ -50,8 +50,10 @@ public:
     void delRegUser(int index);
     void delRegUser(const QString& username);
     const useraccounts_t& getUsers() const { return m_users; }
+
 private:
     useraccounts_t m_users;
+    get_logical_index_t m_logical_column;
 };
 
 class UserRightsModel : public QAbstractTableModel
