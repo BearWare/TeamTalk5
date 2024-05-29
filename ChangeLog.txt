@@ -5,29 +5,30 @@
 Version 5.17, unreleased
 Default Qt Client
 - "Connect to a Server" and "User Accounts" dialog simplified with multiple sub dialogs
-- Reset label of files list when disconnected from server
-- "Move Users" dialog
-- Locale file size now also use in "file transfer" dialog
+- Table view instead of tree view in "Online Users", "User Accounts", "Banned Users", "Server List", "File List", "Server Properties" and "Preferences" dialogs
+- "Move Users" dialog from "Users" -> "Advanced" menu item
 - "Check for Update" in "Help" menu
-- Ability to join Last Joined Channel for each server individually
-- Use Qt checkable flag in user rights list to allow screenreader to see if an item is checked
+- Ability to "join last joined channel" for each server
+- Ability to leave current channel from everywhere in main window
+- Use Qt checkable flag in user rights list of "User Accounts" dialog to allow screenreader to see if an item is checked
 - Ability to customize some TTS and status bar messages
 - Remove option "Announce server name" from TTS options, use customizable messages instead
-- Redesign "Sound Events" tab in Preferences
+- Redesign "Sound Events" tab in "Preferences" dialog
+- Optional sound event for user typing private message
 - Ability to replace existing file on upload
 - Menu to insert MOTD variables in "Server Properties" dialog
 - Support for Import/Export entire Server List
-- Optional sound event for user typing private message
-- Replace readonly edit fields by statis label in "User info" dialog
+- Replaced readonly edit fields by labels in "User Info" dialog
 - Only show available info in "User info" dialog
 - Ability to copy all User Info to clipboard in "User Info" dialog
-- Ability to search by IP or username in "Banned Users" dialog
 - Support Idle Time on Linux (X11)
 - Ability to sort Ban List
 - Context menu to move banned/unbanned users to banned/unbanned list
+- Ability to search by IP or username in "Banned Users" dialog
 - Ban time displays in local format
-- Ability to leave current channel from everywhere in main window
-- Table instead of tree on Online Users, User Accounts, Banned Users, Server List, File List, Server Properties, and Preferences
+- Locale file size now also use in "file transfer" dialog
+- Reset label of files list when disconnected from server
+- Windows and macOS updated to Qt v6.7.1
 Android Client
 - Toggle channel operator does not show password dialog if user has user-right to change channel operator
 iOS Client
