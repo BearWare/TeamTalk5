@@ -8770,12 +8770,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="450"/>
         <source>Subscription &quot;{type}&quot; {state} for {user}</source>
-        <translation>{user} {state}订阅“{type}”</translation>
+        <translation>为 {user} {state}订阅“{type}”</translation>
     </message>
     <message>
         <location filename="../settings.h" line="452"/>
         <source>Transmission &quot;{type}&quot; {state} for {user}</source>
-        <translation>{user} {state}传输“{type}”</translation>
+        <translation>为 {user} {state}传输“{type}”</translation>
     </message>
     <message>
         <location filename="../settings.h" line="454"/>
@@ -9027,12 +9027,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="471"/>
         <source>Subscription &quot;{type}&quot; {state} for {user}</source>
-        <translation>{user} {state}订阅“{type}”</translation>
+        <translation>为 {user} {state}订阅“{type}”</translation>
     </message>
     <message>
         <location filename="../settings.h" line="473"/>
         <source>Transmission &quot;{type}&quot; {state} for {user}</source>
-        <translation>{user} {state}传输“{type}”</translation>
+        <translation>为 {user} {state}传输“{type}”</translation>
     </message>
     <message>
         <location filename="../settings.h" line="475"/>
