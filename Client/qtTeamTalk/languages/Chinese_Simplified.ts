@@ -230,62 +230,62 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="325"/>
         <source>Sort By...</source>
-        <translation type="unfinished">排序方式...</translation>
+        <translation>排序方式...</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="326"/>
         <source>Ascending</source>
-        <translation type="unfinished">升序</translation>
+        <translation>升序</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="326"/>
         <source>Descending</source>
-        <translation type="unfinished">降序</translation>
+        <translation>降序</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="328"/>
         <source>&amp;Username (%1)</source>
-        <translation type="unfinished">用户名 (%1) (&amp;U)</translation>
+        <translation>用户名(%1)(&amp;U)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="334"/>
         <source>&amp;Ban Type (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>禁止类型(%1)(&amp;B)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="340"/>
         <source>&amp;Ban Time (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>禁止时间(%1)(&amp;B)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="346"/>
         <source>&amp;IP-Adress (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>IP地址(%1)(&amp;I)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="351"/>
         <source>&amp;Move Selected User to Unbanned List</source>
-        <translation type="unfinished"></translation>
+        <translation>移动选定用户至解禁列表(&amp;M)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="385"/>
         <source>&amp;Move Selected User to Banned List</source>
-        <translation type="unfinished"></translation>
+        <translation>移动选定用户至禁止列表(&amp;M)</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="25"/>
         <source>Filter Banned Users</source>
-        <translation type="unfinished"></translation>
+        <translation>过滤禁止用户</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="31"/>
         <source>Search an Username or IP-Address</source>
-        <translation type="unfinished"></translation>
+        <translation>搜索用户名或 IP 地址</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="44"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>搜索</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="69"/>
@@ -1068,32 +1068,32 @@ Message of the day: %2</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="460"/>
         <source>Command Limit: </source>
-        <translation type="unfinished"></translation>
+        <translation>命令限制：</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="461"/>
         <source>Command Limit</source>
-        <translation type="unfinished"></translation>
+        <translation>命令限制</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="468"/>
         <source>sec</source>
-        <translation type="unfinished"></translation>
+        <translation>秒</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="473"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">确定(&amp;O)</translation>
+        <translation>确定(&amp;O)</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="474"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">取消(&amp;C)</translation>
+        <translation>取消(&amp;C)</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="480"/>
         <source>Set Command Limits</source>
-        <translation type="unfinished"></translation>
+        <translation>设置命令限制</translation>
     </message>
 </context>
 <context>
@@ -1703,7 +1703,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../generatettfiledlg.cpp" line="152"/>
         <source>Unable to save file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>无法保存文件 %1</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="199"/>
@@ -2290,7 +2290,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="1521"/>
         <source>Ctrl+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+L</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1565"/>
@@ -3159,7 +3159,7 @@ Message of the day: %2</source>
         <location filename="../mainwindow.cpp" line="1329"/>
         <location filename="../mainwindow.cpp" line="6588"/>
         <source>You</source>
-        <translation type="unfinished"></translation>
+        <translation>你</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2187"/>
@@ -4099,32 +4099,32 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="6331"/>
         <source>File %1 already exists on the server. Do you want to replace it?</source>
-        <translation type="unfinished"></translation>
+        <translation>服务器上已存在文件 %1 。要替换它吗？</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6336"/>
         <source>File exists</source>
-        <translation type="unfinished"></translation>
+        <translation>文件已存在</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6343"/>
         <source>Failed to delete existing file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>无法删除现有文件 %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6355"/>
         <source>You do not have permission to replace the file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>您没有权限替换文件 %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6586"/>
         <source>Everyone</source>
-        <translation type="unfinished"></translation>
+        <translation>所有人</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6634"/>
         <source>Desktop windows</source>
-        <translation type="unfinished"></translation>
+        <translation>桌面窗口</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7492"/>
@@ -4159,7 +4159,7 @@ Do you wish to do this now?</source>
         <location filename="../mainwindow.cpp" line="6636"/>
         <location filename="../mainwindow.cpp" line="6648"/>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>启用</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2861"/>
@@ -4169,7 +4169,7 @@ Do you wish to do this now?</source>
         <location filename="../mainwindow.cpp" line="6638"/>
         <location filename="../mainwindow.cpp" line="6650"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>禁用</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4698"/>
@@ -5328,23 +5328,23 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1424"/>
         <source>Enable/disable Sound Events</source>
-        <translation type="unfinished"></translation>
+        <translation>启用/禁用声音事件</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1430"/>
         <location filename="../preferences.ui" line="1571"/>
         <source>Double click to check/uncheck</source>
-        <translation type="unfinished"></translation>
+        <translation>双击选中/取消选中</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1449"/>
         <source>Sound Event File</source>
-        <translation type="unfinished"></translation>
+        <translation>声音事件文件</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1455"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>文件</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1468"/>
@@ -5792,7 +5792,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="1770"/>
         <source>Message for Event &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>事件“%1”的消息</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="332"/>
@@ -5842,28 +5842,28 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1478"/>
         <source>Reset to Default File</source>
-        <translation type="unfinished"></translation>
+        <translation>重置为默认文件</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1590"/>
         <source>Text to Speech Message</source>
-        <translation type="unfinished"></translation>
+        <translation>文字转语音消息</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1598"/>
         <location filename="../preferencesdlg.cpp" line="1770"/>
         <source>Message</source>
-        <translation type="unfinished">消息</translation>
+        <translation>消息</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1613"/>
         <source>&amp;Variables...</source>
-        <translation type="unfinished"></translation>
+        <translation>变量...(&amp;V)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1620"/>
         <source>Reset to Default Value</source>
-        <translation type="unfinished"></translation>
+        <translation>重置为默认值</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1819"/>
@@ -6140,7 +6140,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="125"/>
         <source>&amp;Export Server list to .tt File</source>
-        <translation type="unfinished"></translation>
+        <translation>导出服务器列表至 .tt 文件(&amp;E)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="134"/>
@@ -6217,12 +6217,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="637"/>
         <source>Export entire list in single file</source>
-        <translation type="unfinished"></translation>
+        <translation>导出整个列表为单文件</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="638"/>
         <source>Export one server per file</source>
-        <translation type="unfinished"></translation>
+        <translation>每个文件导出一个服务器</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="661"/>
@@ -6230,40 +6230,40 @@ Should these settings be applied?</source>
         <location filename="../serverlistdlg.cpp" line="718"/>
         <location filename="../serverlistdlg.cpp" line="736"/>
         <source>Export Server List</source>
-        <translation type="unfinished"></translation>
+        <translation>导出服务器列表</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="661"/>
         <location filename="../serverlistdlg.cpp" line="718"/>
         <source>No server to export.</source>
-        <translation type="unfinished"></translation>
+        <translation>没有可导出的服务器。</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="667"/>
         <location filename="../serverlistdlg.cpp" line="695"/>
         <source>Save File</source>
-        <translation type="unfinished">保存文件</translation>
+        <translation>保存文件</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="668"/>
         <source>TT Files (*.tt)</source>
-        <translation type="unfinished"></translation>
+        <translation>TT文件(*.tt)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="695"/>
         <source>Unable to save file</source>
-        <translation type="unfinished">无法保存文件</translation>
+        <translation>无法保存文件</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="700"/>
         <location filename="../serverlistdlg.cpp" line="736"/>
         <source>All servers have been exported successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>所有服务器已成功导出。</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="723"/>
         <source>Select Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>选择目录</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="756"/>
@@ -6618,7 +6618,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="106"/>
         <source>&amp;Variables...</source>
-        <translation type="unfinished"></translation>
+        <translation>变量...(&amp;V)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="113"/>
@@ -6753,32 +6753,32 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>Number of users on server</source>
-        <translation type="unfinished"></translation>
+        <translation>服务器上的用户数</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>Number of admins on server</source>
-        <translation type="unfinished"></translation>
+        <translation>服务器上的管理员数</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>Server&apos;s time online</source>
-        <translation type="unfinished"></translation>
+        <translation>服务器在线时间</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>KBytes received</source>
-        <translation type="unfinished"></translation>
+        <translation>已接收千字节数</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>KBytes sent</source>
-        <translation type="unfinished"></translation>
+        <translation>已发送千字节数</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>last user to log on</source>
-        <translation type="unfinished"></translation>
+        <translation>最后登录用户</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="132"/>
@@ -6897,177 +6897,177 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="78"/>
         <source>Event</source>
-        <translation type="unfinished">事件</translation>
+        <translation>事件</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="79"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>文件</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="105"/>
         <source>User logged in</source>
-        <translation type="unfinished">用户登录</translation>
+        <translation>用户登录</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="107"/>
         <source>User logged out</source>
-        <translation type="unfinished">用户登出</translation>
+        <translation>用户登出</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="109"/>
         <source>User joined channel</source>
-        <translation type="unfinished">用户加入频道</translation>
+        <translation>用户加入频道</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="111"/>
         <source>User left channel</source>
-        <translation type="unfinished">用户离开频道</translation>
+        <translation>用户离开频道</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="113"/>
         <source>Connection to server lost</source>
-        <translation type="unfinished">与服务器的连接丢失</translation>
+        <translation>与服务器的连接丢失</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="115"/>
         <source>Private message received</source>
-        <translation type="unfinished"></translation>
+        <translation>收到私人消息</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="117"/>
         <source>Private message sent</source>
-        <translation type="unfinished">私人消息已发送</translation>
+        <translation>发送私人消息</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="119"/>
         <source>User is typing a private message in focused window</source>
-        <translation type="unfinished"></translation>
+        <translation>用户正在焦点窗口中输入私人消息</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="121"/>
         <source>Channel message received</source>
-        <translation type="unfinished"></translation>
+        <translation>收到频道消息</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="123"/>
         <source>Channel message sent</source>
-        <translation type="unfinished">频道消息已发送</translation>
+        <translation>发送频道消息</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="125"/>
         <source>Broadcast message received</source>
-        <translation type="unfinished"></translation>
+        <translation>收到广播消息</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="127"/>
         <source>Hotkey pressed</source>
-        <translation type="unfinished">按下热键</translation>
+        <translation>按下热键</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="129"/>
         <source>Channel silent</source>
-        <translation type="unfinished">频道静音</translation>
+        <translation>频道静音</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="131"/>
         <source>New video session</source>
-        <translation type="unfinished">新视频会话</translation>
+        <translation>新视频会话</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="133"/>
         <source>New desktop session</source>
-        <translation type="unfinished">新桌面会话</translation>
+        <translation>新桌面会话</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="135"/>
         <source>Desktop access request</source>
-        <translation type="unfinished">桌面访问请求</translation>
+        <translation>桌面访问请求</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="137"/>
         <source>Files updated</source>
-        <translation type="unfinished">文件已更新</translation>
+        <translation>更新文件</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="139"/>
         <source>File transfer completed</source>
-        <translation type="unfinished"></translation>
+        <translation>文件传输完成</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="141"/>
         <source>User enabled question mode</source>
-        <translation type="unfinished">用户启用提问模式</translation>
+        <translation>用户启用提问模式</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="143"/>
         <source>Voice activation enabled</source>
-        <translation type="unfinished">启用语音激活</translation>
+        <translation>启用语音激活</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="145"/>
         <source>Voice activation disabled</source>
-        <translation type="unfinished">禁用语音激活</translation>
+        <translation>禁用语音激活</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="147"/>
         <source>Voice activation enabled via &quot;Me&quot; menu</source>
-        <translation type="unfinished">从“个人”菜单启用语音激活</translation>
+        <translation>从“个人”菜单启用语音激活</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="149"/>
         <source>Voice activation disabled via &quot;Me&quot; menu</source>
-        <translation type="unfinished">从“个人”菜单禁用语音激活</translation>
+        <translation>从“个人”菜单禁用语音激活</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="151"/>
         <source>Voice activation triggered</source>
-        <translation type="unfinished">语音激活已触发</translation>
+        <translation>触发语音激活</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="153"/>
         <source>Voice activation stopped</source>
-        <translation type="unfinished">语音激活已停止</translation>
+        <translation>停止语音激活</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="155"/>
         <source>Mute master volume</source>
-        <translation type="unfinished">静音主音量</translation>
+        <translation>主音量静音</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="157"/>
         <source>Unmute master volume</source>
-        <translation type="unfinished">取消主音量静音</translation>
+        <translation>取消主音量静音</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="159"/>
         <source>Transmit ready in &quot;No interruption&quot; channel</source>
-        <translation type="unfinished">在“无中断”频道中传输就绪</translation>
+        <translation>在“无中断”频道中传输就绪</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="161"/>
         <source>Transmit stopped in &quot;No interruption&quot; channel</source>
-        <translation type="unfinished">在“无中断”频道中停止传输</translation>
+        <translation>在“无中断”频道中停止传输</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="163"/>
         <source>Interception by another user</source>
-        <translation type="unfinished"></translation>
+        <translation>被其他用户截取</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="165"/>
         <source>End of interception by another user</source>
-        <translation type="unfinished"></translation>
+        <translation>其他用户结束截取</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="191"/>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>启用</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="191"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>禁用</translation>
     </message>
 </context>
 <context>
@@ -7085,28 +7085,28 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.ui" line="26"/>
         <source>Double click to check/uncheck</source>
-        <translation type="unfinished"></translation>
+        <translation>双击选中/取消选中</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="45"/>
         <source>Status Bar Message</source>
-        <translation type="unfinished"></translation>
+        <translation>状态栏消息</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="53"/>
         <location filename="../statusbardlg.cpp" line="92"/>
         <source>Message</source>
-        <translation type="unfinished">消息</translation>
+        <translation>消息</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="68"/>
         <source>&amp;Variables...</source>
-        <translation type="unfinished"></translation>
+        <translation>变量...(&amp;V)</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="75"/>
         <source>Reset to Default Value</source>
-        <translation type="unfinished"></translation>
+        <translation>重置为默认值</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="87"/>
@@ -7136,7 +7136,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.cpp" line="92"/>
         <source>Message for Event &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>事件“%1”的消息</translation>
     </message>
 </context>
 <context>
@@ -7149,17 +7149,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="115"/>
         <source>User joined current channel</source>
-        <translation type="unfinished"></translation>
+        <translation>用户加入当前频道</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="161"/>
         <source>Server configuration saved</source>
-        <translation type="unfinished">服务器配置已保存</translation>
+        <translation>保存服务器配置</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="163"/>
         <source>Recording started</source>
-        <translation type="unfinished"></translation>
+        <translation>开始录制</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="192"/>
@@ -7179,7 +7179,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="81"/>
         <source>Message</source>
-        <translation type="unfinished">消息</translation>
+        <translation>消息</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="109"/>
@@ -7595,47 +7595,47 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="131"/>
         <source>User joined current channel</source>
-        <translation type="unfinished"></translation>
+        <translation>用户加入当前频道</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="135"/>
         <source>Private message received</source>
-        <translation type="unfinished"></translation>
+        <translation>收到私人消息</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="137"/>
         <source>Private message sent</source>
-        <translation type="unfinished">私人消息已发送</translation>
+        <translation>发送私人消息</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="139"/>
         <source>User is typing a private message in focused window</source>
-        <translation type="unfinished"></translation>
+        <translation>用户正在焦点窗口中输入私人消息</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="141"/>
         <source>User is typing a private message</source>
-        <translation type="unfinished"></translation>
+        <translation>用户正在输入私人消息</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="143"/>
         <source>Channel message received</source>
-        <translation type="unfinished"></translation>
+        <translation>收到频道消息</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="145"/>
         <source>Channel message sent</source>
-        <translation type="unfinished">频道消息已发送</translation>
+        <translation>发送频道消息</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="147"/>
         <source>Broadcast message received</source>
-        <translation type="unfinished"></translation>
+        <translation>收到广播消息</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="149"/>
         <source>Broadcast message sent</source>
-        <translation type="unfinished"></translation>
+        <translation>发送广播消息</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="229"/>
@@ -7655,7 +7655,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="97"/>
         <source>Message</source>
-        <translation type="unfinished">消息</translation>
+        <translation>消息</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="125"/>
@@ -7864,43 +7864,43 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="24"/>
         <source>Basic Information</source>
-        <translation type="unfinished"></translation>
+        <translation>基本信息</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="30"/>
         <source>Basic Account Properties</source>
-        <translation type="unfinished">基本帐户属性</translation>
+        <translation>基本帐户属性</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="36"/>
         <source>User Type</source>
-        <translation type="unfinished">用户类型</translation>
+        <translation>用户类型</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="49"/>
         <source>Username</source>
-        <translation type="unfinished">用户名</translation>
+        <translation>用户名</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="69"/>
         <source>Password</source>
-        <translation type="unfinished">密码</translation>
+        <translation>密码</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="89"/>
         <source>Note</source>
-        <translation type="unfinished">注释</translation>
+        <translation>注释</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="106"/>
         <source>Initial Channel</source>
-        <translation type="unfinished">初始频道</translation>
+        <translation>初始频道</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="116"/>
         <location filename="../useraccountdlg.ui" line="119"/>
         <source>User should automatically join this channel after login</source>
-        <translation type="unfinished">用户登录后自动加入此频道</translation>
+        <translation>用户登录后自动加入此频道</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="156"/>
@@ -7908,215 +7908,215 @@ Delete the published user account to unregister your server.</source>
         <location filename="../useraccountdlg.cpp" line="242"/>
         <location filename="../useraccountdlg.cpp" line="372"/>
         <source>User Rights</source>
-        <translation type="unfinished">用户权限</translation>
+        <translation>用户权限</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="162"/>
         <source>User Actions Allowed on Server</source>
-        <translation type="unfinished">服务器上允许的用户行为</translation>
+        <translation>服务器上允许的用户行为</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="194"/>
         <location filename="../useraccountdlg.cpp" line="252"/>
         <source>Channel Operator</source>
-        <translation type="unfinished">频道管理员</translation>
+        <translation>频道管理员</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="200"/>
         <location filename="../useraccountdlg.ui" line="203"/>
         <source>Auto-Operator Channels</source>
-        <translation type="unfinished">管理频道</translation>
+        <translation>管理频道</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="209"/>
         <source>Selected Channels</source>
-        <translation type="unfinished">已选频道</translation>
+        <translation>已选频道</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="219"/>
         <source>User will automatically become operator when joining these channels</source>
-        <translation type="unfinished">加入这些频道时，用户将自动成为管理员</translation>
+        <translation>加入这些频道时，用户将自动成为管理员</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="232"/>
         <source>Available Channels</source>
-        <translation type="unfinished">可用频道</translation>
+        <translation>可用频道</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="251"/>
         <source>Set selected user auto operator for selected channels</source>
-        <translation type="unfinished">为所选频道设置所选用户为管理员</translation>
+        <translation>为选定频道设置选定用户为管理员</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="254"/>
         <source>Add</source>
-        <translation type="unfinished">添加</translation>
+        <translation>添加</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="261"/>
         <source>No longer set selected user auto operator for selected channels</source>
-        <translation type="unfinished">不再为所选频道设置所选用户为管理员</translation>
+        <translation>不再为选定频道设置选定用户为管理员</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="264"/>
         <source>Remove</source>
-        <translation type="unfinished">移除</translation>
+        <translation>移除</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="290"/>
         <source>Codec Limitations</source>
-        <translation type="unfinished">编解码器限制</translation>
+        <translation>编解码器限制</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="296"/>
         <source>Audio Codec Limitations</source>
-        <translation type="unfinished">音频编解码器限制</translation>
+        <translation>音频编解码器限制</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="302"/>
         <source>Max bitrate for audio codecs</source>
-        <translation type="unfinished">音频编解码器最大比特率</translation>
+        <translation>音频编解码器最大比特率</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="325"/>
         <source>kbps (0 = disabled)</source>
-        <translation type="unfinished">kbps（0 = 禁用）</translation>
+        <translation>kbps（0 = 禁用）</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="349"/>
         <source>Abuse Prevention</source>
-        <translation type="unfinished">防止滥用</translation>
+        <translation>防止滥用</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="355"/>
         <source>Flood Protection</source>
-        <translation type="unfinished">防洪</translation>
+        <translation>防洪</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="361"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
-        <translation type="unfinished">例如通过限制用户在给定时间内发出的命令数量，防止用户乱发短信等。</translation>
+        <translation>例如通过限制用户在给定时间内发出的命令数量，防止用户乱发消息等。</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="373"/>
         <source>Limit issued commands</source>
-        <translation type="unfinished">限制发出的命令</translation>
+        <translation>限制发出的命令</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="52"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">确定(&amp;O)</translation>
+        <translation>确定(&amp;O)</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="53"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">取消(&amp;C)</translation>
+        <translation>取消(&amp;C)</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="60"/>
         <source>Default User</source>
-        <translation type="unfinished">默认用户</translation>
+        <translation>默认用户</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="61"/>
         <source>Administrator</source>
-        <translation type="unfinished">管理员</translation>
+        <translation>管理员</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="62"/>
         <location filename="../useraccountdlg.cpp" line="91"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>禁用</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="92"/>
         <source>10 commands in 10 sec.</source>
-        <translation type="unfinished">10秒内10条命令。</translation>
+        <translation>10 秒内执行 10 条命令。</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="93"/>
         <source>10 commands in 1 minute</source>
-        <translation type="unfinished">1分钟内 10个命令</translation>
+        <translation>1 分钟内执行 10 条命令</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="94"/>
         <source>60 commands in 1 minute</source>
-        <translation type="unfinished">1分钟内 60个命令</translation>
+        <translation>1 分钟内执行 60 条命令</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="95"/>
         <source>Custom specified</source>
-        <translation type="unfinished">自定义</translation>
+        <translation>自定义</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="111"/>
         <source>Add User</source>
-        <translation type="unfinished"></translation>
+        <translation>添加用户</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="112"/>
         <source>Add User on Server</source>
-        <translation type="unfinished"></translation>
+        <translation>在服务器上添加用户</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="119"/>
         <source>Edit User</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑用户</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="120"/>
         <source>Edit User %1</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑用户 %1</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="125"/>
         <source>View User Information</source>
-        <translation type="unfinished"></translation>
+        <translation>查看用户信息</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="126"/>
         <source>View %1 Information</source>
-        <translation type="unfinished">查看 %1 信息</translation>
+        <translation>查看 %1 信息</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="140"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">关闭(&amp;C)</translation>
+        <translation>关闭(&amp;C)</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="191"/>
         <source>Create anonymous user account?</source>
-        <translation type="unfinished">创建匿名用户帐户吗？</translation>
+        <translation>创建匿名用户帐户吗？</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="192"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">是(&amp;Y)</translation>
+        <translation>是(&amp;Y)</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="193"/>
         <source>&amp;No</source>
-        <translation type="unfinished">否(&amp;N)</translation>
+        <translation>否(&amp;N)</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="196"/>
         <source>Anonymous User</source>
-        <translation type="unfinished"></translation>
+        <translation>匿名用户</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="253"/>
         <source>The maximum number of channels where a user can automatically become channel operator is %1.</source>
-        <translation type="unfinished">用户可以自动成为频道管理员的频道数为 %1。</translation>
+        <translation>用户可以自动成为频道管理员的频道数为 %1。</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="378"/>
         <source>Last edited: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>最后编辑：%1</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="443"/>
         <source>Custom (%1 commands per %2 seconds)</source>
-        <translation type="unfinished"></translation>
+        <translation>自定义（每 %2 秒 %1 个命令）</translation>
     </message>
 </context>
 <context>
@@ -8129,12 +8129,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="27"/>
         <source>Active User Accounts</source>
-        <translation type="unfinished"></translation>
+        <translation>活跃用户账户</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="87"/>
         <source>&amp;New User Account</source>
-        <translation type="unfinished"></translation>
+        <translation>新用户帐户(&amp;N)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="44"/>
@@ -8194,7 +8194,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="194"/>
         <source>&amp;Edit Selected User</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑选定用户(&amp;E)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="121"/>
@@ -8348,7 +8348,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfo.ui" line="143"/>
         <source>Copy User Information to Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>复制用户信息至剪贴板</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="54"/>
@@ -8448,7 +8448,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfodlg.cpp" line="92"/>
         <source>Client</source>
-        <translation type="unfinished"></translation>
+        <translation>客户端</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="99"/>
@@ -8473,7 +8473,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="202"/>
         <source>Name</source>
-        <translation type="unfinished">名称</translation>
+        <translation>名称</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="225"/>
@@ -8700,98 +8700,98 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="422"/>
         <source>{user} has logged in on {server}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} 已登录 {server}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="424"/>
         <source>{user} has logged out from {server}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} 已从 {server} 登出</translation>
     </message>
     <message>
         <location filename="../settings.h" line="426"/>
         <source>{user} joined channel {channel}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} 加入频道 {channel}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="428"/>
         <source>{user} left channel {channel}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} 离开频道 {channel}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="430"/>
         <source>{user} joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} 加入频道</translation>
     </message>
     <message>
         <location filename="../settings.h" line="432"/>
         <source>{user} left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} 离开频道</translation>
     </message>
     <message>
         <location filename="../settings.h" line="434"/>
         <source>Private message from {user}: {message}</source>
-        <translation type="unfinished"></translation>
+        <translation>私人消息： {user}：{message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="436"/>
         <source>Private message sent: {message}</source>
-        <translation type="unfinished"></translation>
+        <translation>发送私人消息：{message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="438"/>
         <source>{user} is typing...</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} 正在输入...</translation>
     </message>
     <message>
         <location filename="../settings.h" line="440"/>
         <source>{user} set question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} 设置提问模式</translation>
     </message>
     <message>
         <location filename="../settings.h" line="442"/>
         <source>Channel message from {user}: {message}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}：{message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="444"/>
         <source>Channel message sent: {message}</source>
-        <translation type="unfinished"></translation>
+        <translation>发送频道消息：{message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="446"/>
         <source>Broadcast message from {user}: {message}</source>
-        <translation type="unfinished"></translation>
+        <translation>广播消息： {user}：{message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="448"/>
         <source>Broadcast message sent: {message}</source>
-        <translation type="unfinished"></translation>
+        <translation>发送广播消息：{message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="450"/>
         <source>Subscription &quot;{type}&quot; {state} for {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} {state}订阅“{type}”</translation>
     </message>
     <message>
         <location filename="../settings.h" line="452"/>
         <source>Transmission &quot;{type}&quot; {state} for {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} {state}传输“{type}”</translation>
     </message>
     <message>
         <location filename="../settings.h" line="454"/>
         <source>File {filename} added by {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>文件 {filename} 由 {user} 添加</translation>
     </message>
     <message>
         <location filename="../settings.h" line="456"/>
         <location filename="../settings.h" line="477"/>
         <source>File {file} removed by {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>文件 {file} 已被 {user} 删除</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="38"/>
         <source>User&apos;s nickname who logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>登录用户的昵称</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="38"/>
@@ -8803,41 +8803,41 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="49"/>
         <location filename="../utiltts.cpp" line="51"/>
         <source>Server&apos;s name from which event was emited</source>
-        <translation type="unfinished"></translation>
+        <translation>发出事件的服务器名称</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="39"/>
         <source>User&apos;s nickname who logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>登出用户的昵称</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="40"/>
         <location filename="../utiltts.cpp" line="42"/>
         <source>User&apos;s nickname who joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>加入频道的用户昵称</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="40"/>
         <source>Channel&apos;s name joined by user</source>
-        <translation type="unfinished"></translation>
+        <translation>用户加入的频道名称</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="41"/>
         <location filename="../utiltts.cpp" line="43"/>
         <source>User&apos;s nickname who left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>离开频道的用户昵称</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="41"/>
         <source>Channel&apos;s name left by user</source>
-        <translation type="unfinished"></translation>
+        <translation>用户离开的频道名称</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="44"/>
         <location filename="../utiltts.cpp" line="49"/>
         <location filename="../utiltts.cpp" line="51"/>
         <source>User&apos;s nickname who sent message</source>
-        <translation type="unfinished"></translation>
+        <translation>发消息用户的昵称</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="44"/>
@@ -8847,24 +8847,24 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="51"/>
         <location filename="../utiltts.cpp" line="52"/>
         <source>Message content</source>
-        <translation type="unfinished"></translation>
+        <translation>消息内容</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="46"/>
         <location filename="../utiltts.cpp" line="47"/>
         <source>User&apos;s nickname who is typing</source>
-        <translation type="unfinished"></translation>
+        <translation>正在输入的用户昵称</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="46"/>
         <location filename="../utiltts.cpp" line="47"/>
         <source>User typing</source>
-        <translation type="unfinished"></translation>
+        <translation>用户输入</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="48"/>
         <source>User&apos;s nickname who set question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>设置提问模式的用户昵称</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
@@ -8887,7 +8887,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
         <source>User concerns by change</source>
-        <translation type="unfinished"></translation>
+        <translation>用户关注的变化</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
@@ -8905,7 +8905,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="65"/>
         <location filename="../utiltts.cpp" line="66"/>
         <source>Subscription type</source>
-        <translation type="unfinished"></translation>
+        <translation>订阅类型</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
@@ -8923,7 +8923,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="65"/>
         <location filename="../utiltts.cpp" line="66"/>
         <source>Subscription state</source>
-        <translation type="unfinished"></translation>
+        <translation>订阅状态</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
@@ -8941,7 +8941,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="65"/>
         <location filename="../utiltts.cpp" line="66"/>
         <source>Subscription change</source>
-        <translation type="unfinished"></translation>
+        <translation>订阅更改</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="67"/>
@@ -8950,7 +8950,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
         <source>Transmission type</source>
-        <translation type="unfinished"></translation>
+        <translation>传输类型</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="67"/>
@@ -8959,7 +8959,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
         <source>Transmission state</source>
-        <translation type="unfinished"></translation>
+        <translation>传输状态</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="67"/>
@@ -8968,28 +8968,28 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
         <source>Classroom transmission authorization change</source>
-        <translation type="unfinished"></translation>
+        <translation>教室传输许可更改</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="72"/>
         <location filename="../utiltts.cpp" line="73"/>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>文件名</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="72"/>
         <source>User&apos;s nickname who added the file</source>
-        <translation type="unfinished"></translation>
+        <translation>添加文件的用户的昵称</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="72"/>
         <source>File size</source>
-        <translation type="unfinished"></translation>
+        <translation>文件大小</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="73"/>
         <source>User&apos;s nickname who removed the file</source>
-        <translation type="unfinished"></translation>
+        <translation>删除文件的用户的昵称</translation>
     </message>
 </context>
 <context>
@@ -8997,52 +8997,52 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="459"/>
         <source>{user} has logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} 已登录</translation>
     </message>
     <message>
         <location filename="../settings.h" line="461"/>
         <source>{user} has logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} 已登出</translation>
     </message>
     <message>
         <location filename="../settings.h" line="463"/>
         <source>{user} joined channel {channel}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} 加入频道 {channel}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="465"/>
         <source>{user} left channel {channel}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} 离开频道 {channel}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="467"/>
         <source>{user} joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} 加入频道</translation>
     </message>
     <message>
         <location filename="../settings.h" line="469"/>
         <source>{user} left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} 离开频道</translation>
     </message>
     <message>
         <location filename="../settings.h" line="471"/>
         <source>Subscription &quot;{type}&quot; {state} for {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} {state}订阅“{type}”</translation>
     </message>
     <message>
         <location filename="../settings.h" line="473"/>
         <source>Transmission &quot;{type}&quot; {state} for {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} {state}传输“{type}”</translation>
     </message>
     <message>
         <location filename="../settings.h" line="475"/>
         <source>File {filename} added by {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>文件 {filename} 由 {user} 添加</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="43"/>
         <source>User&apos;s nickname who logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>登录用户的昵称</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="43"/>
@@ -9050,34 +9050,34 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="45"/>
         <location filename="../utilui.cpp" line="46"/>
         <source>Server&apos;s name from which event was emited</source>
-        <translation type="unfinished"></translation>
+        <translation>发出事件的服务器名称</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="44"/>
         <source>User&apos;s nickname who logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>登出用户的昵称</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="45"/>
         <location filename="../utilui.cpp" line="47"/>
         <source>User&apos;s nickname who joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>加入频道的用户昵称</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="45"/>
         <source>Channel&apos;s name joined by user</source>
-        <translation type="unfinished"></translation>
+        <translation>用户加入的频道名称</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="46"/>
         <location filename="../utilui.cpp" line="48"/>
         <source>User&apos;s nickname who left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>离开频道的用户昵称</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="46"/>
         <source>Channel&apos;s name left by user</source>
-        <translation type="unfinished"></translation>
+        <translation>用户离开的频道名称</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="49"/>
@@ -9100,7 +9100,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="66"/>
         <location filename="../utilui.cpp" line="67"/>
         <source>User concerns by change</source>
-        <translation type="unfinished"></translation>
+        <translation>用户关注变更</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="49"/>
@@ -9118,7 +9118,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="61"/>
         <location filename="../utilui.cpp" line="62"/>
         <source>Subscription type</source>
-        <translation type="unfinished"></translation>
+        <translation>订阅类型</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="49"/>
@@ -9136,7 +9136,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="61"/>
         <location filename="../utilui.cpp" line="62"/>
         <source>Subscription state</source>
-        <translation type="unfinished"></translation>
+        <translation>订阅状态</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="49"/>
@@ -9154,7 +9154,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="61"/>
         <location filename="../utilui.cpp" line="62"/>
         <source>Subscription change</source>
-        <translation type="unfinished"></translation>
+        <translation>订阅变更</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="63"/>
@@ -9163,7 +9163,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="66"/>
         <location filename="../utilui.cpp" line="67"/>
         <source>Transmission type</source>
-        <translation type="unfinished"></translation>
+        <translation>传输类型</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="63"/>
@@ -9172,7 +9172,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="66"/>
         <location filename="../utilui.cpp" line="67"/>
         <source>Transmission state</source>
-        <translation type="unfinished"></translation>
+        <translation>传输状态</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="63"/>
@@ -9181,28 +9181,28 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="66"/>
         <location filename="../utilui.cpp" line="67"/>
         <source>Classroom transmission authorization change</source>
-        <translation type="unfinished"></translation>
+        <translation>教室传输许可变更</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="68"/>
         <location filename="../utilui.cpp" line="69"/>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>文件名</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="68"/>
         <source>User&apos;s nickname who added the file</source>
-        <translation type="unfinished"></translation>
+        <translation>添加文件的用户的昵称</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="68"/>
         <source>File size</source>
-        <translation type="unfinished"></translation>
+        <translation>文件大小</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="69"/>
         <source>User&apos;s nickname who removed the file</source>
-        <translation type="unfinished"></translation>
+        <translation>删除文件的用户的昵称</translation>
     </message>
 </context>
 <context>
