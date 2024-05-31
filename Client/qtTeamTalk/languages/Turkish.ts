@@ -230,62 +230,62 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="325"/>
         <source>Sort By...</source>
-        <translation type="unfinished">Şuna göre sırala...</translation>
+        <translation>Şuna göre sırala...</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="326"/>
         <source>Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>Artan</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="326"/>
         <source>Descending</source>
-        <translation type="unfinished">Azalan</translation>
+        <translation>Azalan</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="328"/>
         <source>&amp;Username (%1)</source>
-        <translation type="unfinished">&amp;Kullanıcı adı (%1)</translation>
+        <translation>&amp;Kullanıcı adı (%1)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="334"/>
         <source>&amp;Ban Type (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Yasaklama &amp;Türü (%1)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="340"/>
         <source>&amp;Ban Time (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Yasaklama &amp;Süresi (%1)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="346"/>
         <source>&amp;IP-Adress (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>IP &amp;Adresi (%1)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="351"/>
         <source>&amp;Move Selected User to Unbanned List</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçili Kullanıcıyı Yasaklanmayanlar Listesine >&amp;Taşı</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="385"/>
         <source>&amp;Move Selected User to Banned List</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçilen Kullanıcıyı Yasaklı Listeye &amp;Taşı</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="25"/>
         <source>Filter Banned Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Yasaklanan Kullanıcıları Filtrele</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="31"/>
         <source>Search an Username or IP-Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı Adı veya IP Adresi arayın</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="44"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>ara</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="69"/>
@@ -1068,32 +1068,32 @@ Günün mesajı: %2</translation>
     <message>
         <location filename="../useraccountdlg.cpp" line="460"/>
         <source>Command Limit: </source>
-        <translation type="unfinished"></translation>
+        <translation>Komut Sınırı: </translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="461"/>
         <source>Command Limit</source>
-        <translation type="unfinished"></translation>
+        <translation>Komut Sınırı</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="468"/>
         <source>sec</source>
-        <translation type="unfinished"></translation>
+        <translation>sn</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="473"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">&amp;Tamam</translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="474"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">İ&amp;ptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="480"/>
         <source>Set Command Limits</source>
-        <translation type="unfinished"></translation>
+        <translation>Komut Sınırlarını Ayarla</translation>
     </message>
 </context>
 <context>
@@ -1703,7 +1703,7 @@ Günün mesajı: %2</translation>
     <message>
         <location filename="../generatettfiledlg.cpp" line="152"/>
         <source>Unable to save file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 dosyası kaydedilemiyor</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="199"/>
@@ -2290,7 +2290,7 @@ Günün mesajı: %2</translation>
     <message>
         <location filename="../mainwindow.ui" line="1521"/>
         <source>Ctrl+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+L</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1565"/>
@@ -2913,7 +2913,7 @@ Günün mesajı: %2</translation>
     <message>
         <location filename="../mainwindow.cpp" line="809"/>
         <source>The sound pack %1 does not exist. Would you like to use the default sound pack?</source>
-        <translation>%1 ses paketiniz takma aduygun değil, varsayılan ses paketini kullanmak ister misiniz?</translation>
+        <translation>%1 ses paketiniz uygun değil, varsayılan ses paketini kullanmak ister misiniz?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1057"/>
@@ -3159,7 +3159,7 @@ Günün mesajı: %2</translation>
         <location filename="../mainwindow.cpp" line="1329"/>
         <location filename="../mainwindow.cpp" line="6588"/>
         <source>You</source>
-        <translation type="unfinished"></translation>
+        <translation>Sen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2187"/>
@@ -3337,7 +3337,7 @@ Günün mesajı: %2</translation>
         <location filename="../mainwindow.cpp" line="6636"/>
         <location filename="../mainwindow.cpp" line="6648"/>
         <source>Enabled</source>
-        <translation type="unfinished">Etkin</translation>
+        <translation>Etkin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2861"/>
@@ -3347,7 +3347,7 @@ Günün mesajı: %2</translation>
         <location filename="../mainwindow.cpp" line="6638"/>
         <location filename="../mainwindow.cpp" line="6650"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>devre dışı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4410"/>
@@ -4363,32 +4363,32 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="6331"/>
         <source>File %1 already exists on the server. Do you want to replace it?</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 dosyası sunucuda zaten mevcut. Değiştirmek istiyor musun?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6336"/>
         <source>File exists</source>
-        <translation type="unfinished"></translation>
+        <translation>dosya var</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6343"/>
         <source>Failed to delete existing file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Mevcut %1 dosyası silinemedi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6355"/>
         <source>You do not have permission to replace the file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 dosyasını değiştirme izniniz yok</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6586"/>
         <source>Everyone</source>
-        <translation type="unfinished"></translation>
+        <translation>Herkes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6634"/>
         <source>Desktop windows</source>
-        <translation type="unfinished"></translation>
+        <translation>Masaüstü pencereleri</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7084"/>
@@ -4614,7 +4614,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../mediastoragedlg.cpp" line="111"/>
         <source>Folder for storing audio files does not exist. Do you want %1 to create it for you?</source>
-        <translation>Ses dosyalarını depolamak için klasör takma aduygun değil. %1&apos;in sizin için oluşturmasını istiyor musunuz?</translation>
+        <translation>Ses dosyalarını depolamak için klasör uygun değil. %1&apos;in sizin için oluşturmasını istiyor musunuz?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="112"/>
@@ -4643,7 +4643,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../mediastoragedlg.cpp" line="149"/>
         <source>Folder for storing channel messages does not exist. Do you want %1 to create it for you?</source>
-        <translation>Kanal mesajlarını saklamak için klasör takma aduygun değil. %1&apos;in sizin için oluşturmasını istiyor musunuz?</translation>
+        <translation>Kanal mesajlarını saklamak için klasör uygun değil. %1&apos;in sizin için oluşturmasını istiyor musunuz?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="154"/>
@@ -4653,7 +4653,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../mediastoragedlg.cpp" line="166"/>
         <source>Folder for storing private text messages does not exist. Do you want %1 to create it for you?</source>
-        <translation>özel metin mesajlarını saklamak için takma aduygun değil. %1&apos;in sizin için oluşturmasını istiyor musunuz?</translation>
+        <translation>Özel metin mesajlarının saklanacağı klasör mevcut değil. %1'in bunu sizin için oluşturmasını ister misiniz?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="171"/>
@@ -5143,7 +5143,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="805"/>
         <source>Query server&apos;s maximum payload upon connection</source>
-        <translation>Bağlantıda sunucunun en fazla yükünü sorgula</translation>
+        <translation>Bağlantı sırasında sunucunun maksimum yükünü sorgula</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="812"/>
@@ -5327,23 +5327,23 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1424"/>
         <source>Enable/disable Sound Events</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses Olaylarını etkinleştir/devre dışı bırak</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1430"/>
         <location filename="../preferences.ui" line="1571"/>
         <source>Double click to check/uncheck</source>
-        <translation type="unfinished"></translation>
+        <translation>İşaretlemek/işaretini kaldırmak için çift tıklayın</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1449"/>
         <source>Sound Event File</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses Olayı Dosyası</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1455"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1468"/>
@@ -5791,7 +5791,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="1770"/>
         <source>Message for Event &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; Olayı İletisi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="332"/>
@@ -5841,28 +5841,28 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1478"/>
         <source>Reset to Default File</source>
-        <translation type="unfinished"></translation>
+        <translation>Varsayılan Dosyaya Sıfırla</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1590"/>
         <source>Text to Speech Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Metinden Konuşmaya iletisi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1598"/>
         <location filename="../preferencesdlg.cpp" line="1770"/>
         <source>Message</source>
-        <translation type="unfinished">İleti</translation>
+        <translation>İleti</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1613"/>
         <source>&amp;Variables...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Değişkenler...</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1620"/>
         <source>Reset to Default Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Varsayılan Değere Sıfırla</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1819"/>
@@ -6134,7 +6134,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../serverlist.ui" line="125"/>
         <source>&amp;Export Server list to .tt File</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu listesini .tt Dosyasına &amp;Aktar</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="134"/>
@@ -6216,12 +6216,12 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../serverlistdlg.cpp" line="637"/>
         <source>Export entire list in single file</source>
-        <translation type="unfinished"></translation>
+        <translation>Tüm listeyi tek dosyaya aktar</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="638"/>
         <source>Export one server per file</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya başına bir sunucuyu dışa aktar</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="661"/>
@@ -6229,40 +6229,40 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
         <location filename="../serverlistdlg.cpp" line="718"/>
         <location filename="../serverlistdlg.cpp" line="736"/>
         <source>Export Server List</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu Listesini Dışa Aktar</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="661"/>
         <location filename="../serverlistdlg.cpp" line="718"/>
         <source>No server to export.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dışa aktarılacak sunucu yok.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="667"/>
         <location filename="../serverlistdlg.cpp" line="695"/>
         <source>Save File</source>
-        <translation type="unfinished">Dosyayı Kaydet</translation>
+        <translation>Dosyayı Kaydet</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="668"/>
         <source>TT Files (*.tt)</source>
-        <translation type="unfinished"></translation>
+        <translation>TT Dosyaları (*.tt)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="695"/>
         <source>Unable to save file</source>
-        <translation type="unfinished">Dosya kaydedilemiyor</translation>
+        <translation>Dosya kaydedilemiyor</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="700"/>
         <location filename="../serverlistdlg.cpp" line="736"/>
         <source>All servers have been exported successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tüm sunucular başarıyla dışa aktarıldı.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="723"/>
         <source>Select Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Dizin Seç</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="756"/>
@@ -6367,22 +6367,8 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="790"/>
-        <source>Update your server&apos;s properties so its server name includes the text #teamtalkpublish#.
-This will verify that you&apos;re the owner of the server.
-Once the server is verified your server will appear in a couple of minutes.
-
-The #teamtalkpublish# notification can be removed once
-the server has been verified.
-
-Delete the published user account to unregister your server.</source>
-        <translation>Sunucunuzun özelliklerini, sunucu adında #teamtalkpublish# metnini içerecek şekilde güncelleyin.
-Bu, sunucunun sahibi olduğunuzu doğrulayacaktır.
-sunucunuz  doğrulandıktan sonra, birkaç dakika içinde görünecektir.
-
-#teamtalkpublish# bildirimi bir kez kaldırılabilir
-sunucu doğrulandı.
-
-Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</translation>
+        <source>Update your server&apos;s properties so its server name includes the text #teamtalkpublish#. This will verify that you&apos;re the owner of the server. Once the server is verified your server will appear in a couple of minutes. The #teamtalkpublish# notification can be removed once the server has been verified. Delete the published user account to unregister your server.</source>
+        <translation>Sunucunuzun özelliklerini, sunucu adı #teamtalkpublish# metnini içerecek şekilde güncelleyin. Bu, sunucunun sahibi olduğunuzu doğrulayacaktır. Sunucu doğrulandıktan sonra sunucunuz birkaç dakika içinde görünecektir. Sunucu doğrulandıktan sonra #teamtalkpublish# bildirimi kaldırılabilir. Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="832"/>
@@ -6618,7 +6604,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../serverproperties.ui" line="106"/>
         <source>&amp;Variables...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Değişkenler...</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="113"/>
@@ -6753,32 +6739,32 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>Number of users on server</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucudaki kullanıcı sayısı</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>Number of admins on server</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucudaki yönetici sayısı</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>Server&apos;s time online</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucunun çevrimiçi kalma süresi</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>KBytes received</source>
-        <translation type="unfinished"></translation>
+        <translation>Alınan KBayt sayısı</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>KBytes sent</source>
-        <translation type="unfinished"></translation>
+        <translation>Gönderilen KBayt sayısı</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>last user to log on</source>
-        <translation type="unfinished"></translation>
+        <translation>oturum açan son kullanıcı</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="132"/>
@@ -6897,177 +6883,177 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../soundeventsmodel.cpp" line="78"/>
         <source>Event</source>
-        <translation type="unfinished">Olay</translation>
+        <translation>Olay</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="79"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>dosya</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="105"/>
         <source>User logged in</source>
-        <translation type="unfinished">Kullanıcı giriş yaptı</translation>
+        <translation>Kullanıcı giriş yaptı</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="107"/>
         <source>User logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı oturumu kapattı</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="109"/>
         <source>User joined channel</source>
-        <translation type="unfinished">Kullanıcı kanala katıldı</translation>
+        <translation>Kullanıcı kanala katıldı</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="111"/>
         <source>User left channel</source>
-        <translation type="unfinished">Kullanıcı kanaldan ayrıldı</translation>
+        <translation>Kullanıcı kanaldan ayrıldı</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="113"/>
         <source>Connection to server lost</source>
-        <translation type="unfinished">Sunucuyla bağlantı kesildi</translation>
+        <translation>Sunucuyla bağlantı kesildi</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="115"/>
         <source>Private message received</source>
-        <translation type="unfinished"></translation>
+        <translation>Özel mesaj alındı</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="117"/>
         <source>Private message sent</source>
-        <translation type="unfinished">Özel ileti gönderildi</translation>
+        <translation>Özel ileti gönderildi</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="119"/>
         <source>User is typing a private message in focused window</source>
-        <translation type="unfinished"></translation>
+        <translation>odaklanılan pencerede Kullanıcı özel bir mesaj yazıyor</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="121"/>
         <source>Channel message received</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal iletisi alındı</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="123"/>
         <source>Channel message sent</source>
-        <translation type="unfinished">Kanal iletisi gönderildi</translation>
+        <translation>Kanal iletisi gönderildi</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="125"/>
         <source>Broadcast message received</source>
-        <translation type="unfinished"></translation>
+        <translation>Yayın mesajı alındı</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="127"/>
         <source>Hotkey pressed</source>
-        <translation type="unfinished">Kısayol tuşuna basıldı</translation>
+        <translation>Kısayol tuşuna basıldı</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="129"/>
         <source>Channel silent</source>
-        <translation type="unfinished">Kanal sessiz</translation>
+        <translation>Kanal sessiz</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="131"/>
         <source>New video session</source>
-        <translation type="unfinished">Yeni video oturumu</translation>
+        <translation>Yeni video oturumu</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="133"/>
         <source>New desktop session</source>
-        <translation type="unfinished">Yeni masaüstü oturumu</translation>
+        <translation>Yeni masaüstü oturumu</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="135"/>
         <source>Desktop access request</source>
-        <translation type="unfinished">Masaüstü erişimi isteği</translation>
+        <translation>Masaüstü erişimi isteği</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="137"/>
         <source>Files updated</source>
-        <translation type="unfinished">Dosyalar güncellendi</translation>
+        <translation>Dosyalar güncellendi</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="139"/>
         <source>File transfer completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya aktarımı tamamlandı</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="141"/>
         <source>User enabled question mode</source>
-        <translation type="unfinished">Kullanıcı soru modunu etkinleştirdi</translation>
+        <translation>Kullanıcı soru modunu etkinleştirdi</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="143"/>
         <source>Voice activation enabled</source>
-        <translation type="unfinished">Ses etkin</translation>
+        <translation>Ses etkin</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="145"/>
         <source>Voice activation disabled</source>
-        <translation type="unfinished">Ses devre dışı</translation>
+        <translation>Ses devre dışı</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="147"/>
         <source>Voice activation enabled via &quot;Me&quot; menu</source>
-        <translation type="unfinished">Ses &quot;Ben&quot; menüsünden etkinleştirildi</translation>
+        <translation>Ses &quot;Ben&quot; menüsünden etkinleştirildi</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="149"/>
         <source>Voice activation disabled via &quot;Me&quot; menu</source>
-        <translation type="unfinished">Ses &quot;Ben&quot; menüsünden devre dışı bırakıldı</translation>
+        <translation>Ses &quot;Ben&quot; menüsünden devre dışı bırakıldı</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="151"/>
         <source>Voice activation triggered</source>
-        <translation type="unfinished">Ses etkinleştirme tetiklendi</translation>
+        <translation>Ses etkinleştirme tetiklendi</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="153"/>
         <source>Voice activation stopped</source>
-        <translation type="unfinished">Ses devre dışı</translation>
+        <translation>Ses devre dışı</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="155"/>
         <source>Mute master volume</source>
-        <translation type="unfinished">Ana sesi sustur</translation>
+        <translation>Ana sesi sustur</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="157"/>
         <source>Unmute master volume</source>
-        <translation type="unfinished">Ana sesi aç</translation>
+        <translation>Ana sesi aç</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="159"/>
         <source>Transmit ready in &quot;No interruption&quot; channel</source>
-        <translation type="unfinished">&quot;kesintisiz&quot; kanalı iletime hazır</translation>
+        <translation>&quot;kesintisiz&quot; kanalı iletime hazır</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="161"/>
         <source>Transmit stopped in &quot;No interruption&quot; channel</source>
-        <translation type="unfinished">&quot;kesintisiz&quot; kanalındaki iletim durduruldu</translation>
+        <translation>&quot;kesintisiz&quot; kanalındaki iletim durduruldu</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="163"/>
         <source>Interception by another user</source>
-        <translation type="unfinished"></translation>
+        <translation>Başka bir kullanıcı tarafından kesinti</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="165"/>
         <source>End of interception by another user</source>
-        <translation type="unfinished"></translation>
+        <translation>Başka bir kullanıcının kesintisi sona erdi</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="191"/>
         <source>Enabled</source>
-        <translation type="unfinished">Etkin</translation>
+        <translation>Etkin</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="191"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>devre duşu</translation>
     </message>
 </context>
 <context>
@@ -7085,28 +7071,28 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../statusbardlg.ui" line="26"/>
         <source>Double click to check/uncheck</source>
-        <translation type="unfinished"></translation>
+        <translation>İşaretlemek/işaretini kaldırmak için çift tıklayın</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="45"/>
         <source>Status Bar Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Durum Çubuğu iletisi</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="53"/>
         <location filename="../statusbardlg.cpp" line="92"/>
         <source>Message</source>
-        <translation type="unfinished">İleti</translation>
+        <translation>İleti</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="68"/>
         <source>&amp;Variables...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Değişkenler...</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="75"/>
         <source>Reset to Default Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Varsayılan Değere Sıfırla</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="87"/>
@@ -7136,7 +7122,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../statusbardlg.cpp" line="92"/>
         <source>Message for Event &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; Olayı İletisi</translation>
     </message>
 </context>
 <context>
@@ -7149,17 +7135,17 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../statusbareventsmodel.cpp" line="115"/>
         <source>User joined current channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı mevcut kanala katıldı</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="161"/>
         <source>Server configuration saved</source>
-        <translation type="unfinished">Sunucu yapılandırması kaydedildi</translation>
+        <translation>Sunucu yapılandırması kaydedildi</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="163"/>
         <source>Recording started</source>
-        <translation type="unfinished"></translation>
+        <translation>Kayıt başladı</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="192"/>
@@ -7179,7 +7165,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../statusbareventsmodel.cpp" line="81"/>
         <source>Message</source>
-        <translation type="unfinished">İleti</translation>
+        <translation>İleti</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="109"/>
@@ -7595,47 +7581,47 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../ttseventsmodel.cpp" line="131"/>
         <source>User joined current channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı mevcut kanala katıldı</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="135"/>
         <source>Private message received</source>
-        <translation type="unfinished"></translation>
+        <translation>Özel mesaj alındı</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="137"/>
         <source>Private message sent</source>
-        <translation type="unfinished">Özel ileti gönderildi</translation>
+        <translation>Özel ileti gönderildi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="139"/>
         <source>User is typing a private message in focused window</source>
-        <translation type="unfinished"></translation>
+        <translation>odaklanılan pencerede Kullanıcı özel bir ileti yazıyor</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="141"/>
         <source>User is typing a private message</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı özel bir ileti yazıyor</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="143"/>
         <source>Channel message received</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal iletisi alındı</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="145"/>
         <source>Channel message sent</source>
-        <translation type="unfinished">Kanal iletisi gönderildi</translation>
+        <translation>Kanal iletisi gönderildi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="147"/>
         <source>Broadcast message received</source>
-        <translation type="unfinished"></translation>
+        <translation>Yayın iletisi alındı</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="149"/>
         <source>Broadcast message sent</source>
-        <translation type="unfinished"></translation>
+        <translation>Yayın iletisi gönderildi</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="229"/>
@@ -7655,7 +7641,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../ttseventsmodel.cpp" line="97"/>
         <source>Message</source>
-        <translation type="unfinished">İleti</translation>
+        <translation>İleti</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="125"/>
@@ -7864,43 +7850,43 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../useraccountdlg.ui" line="24"/>
         <source>Basic Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Temel Bilgiler</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="30"/>
         <source>Basic Account Properties</source>
-        <translation type="unfinished">Temel Hesap Özellikleri</translation>
+        <translation>Temel Hesap Özellikleri</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="36"/>
         <source>User Type</source>
-        <translation type="unfinished">Kullanıcı Türü</translation>
+        <translation>Kullanıcı Türü</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="49"/>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcıadı</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="69"/>
         <source>Password</source>
-        <translation type="unfinished">Parola</translation>
+        <translation>Parola</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="89"/>
         <source>Note</source>
-        <translation type="unfinished">Not</translation>
+        <translation>Not</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="106"/>
         <source>Initial Channel</source>
-        <translation type="unfinished">İlk Kanal</translation>
+        <translation>İlk Kanal</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="116"/>
         <location filename="../useraccountdlg.ui" line="119"/>
         <source>User should automatically join this channel after login</source>
-        <translation type="unfinished">Kullanıcı giriş yaptıktan sonra otomatik olarak bu kanala katılır</translation>
+        <translation>Kullanıcı giriş yaptıktan sonra otomatik olarak bu kanala katılır</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="156"/>
@@ -7908,215 +7894,215 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../useraccountdlg.cpp" line="242"/>
         <location filename="../useraccountdlg.cpp" line="372"/>
         <source>User Rights</source>
-        <translation type="unfinished">Kullanıcı Hakları</translation>
+        <translation>Kullanıcı Hakları</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="162"/>
         <source>User Actions Allowed on Server</source>
-        <translation type="unfinished">Sunucuda İzin Verilen Kullanıcı Eylemleri</translation>
+        <translation>Sunucuda İzin Verilen Kullanıcı Eylemleri</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="194"/>
         <location filename="../useraccountdlg.cpp" line="252"/>
         <source>Channel Operator</source>
-        <translation type="unfinished">Kanal yöneticisi</translation>
+        <translation>Kanal yöneticisi</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="200"/>
         <location filename="../useraccountdlg.ui" line="203"/>
         <source>Auto-Operator Channels</source>
-        <translation type="unfinished">Otomatik yöneticili Kanallar</translation>
+        <translation>Otomatik yöneticili Kanallar</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="209"/>
         <source>Selected Channels</source>
-        <translation type="unfinished">Seçilen Kanallar</translation>
+        <translation>Seçilen Kanallar</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="219"/>
         <source>User will automatically become operator when joining these channels</source>
-        <translation type="unfinished">Kullanıcı bu kanallara katıldığında otomatik olarak yönetici olacak</translation>
+        <translation>Kullanıcı bu kanallara katıldığında otomatik olarak yönetici olacak</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="232"/>
         <source>Available Channels</source>
-        <translation type="unfinished">uygun Kanallar</translation>
+        <translation>uygun Kanallar</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="251"/>
         <source>Set selected user auto operator for selected channels</source>
-        <translation type="unfinished">Seçilen kullanıcıyı seçilen kanallar için otomatik yönetici yap</translation>
+        <translation>Seçilen kullanıcıyı seçilen kanallar için otomatik yönetici yap</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="254"/>
         <source>Add</source>
-        <translation type="unfinished">Ekle</translation>
+        <translation>Ekle</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="261"/>
         <source>No longer set selected user auto operator for selected channels</source>
-        <translation type="unfinished">Artık seçilen kullanıcıyı seçilen kanallar için otomatik yönetici ayarlama</translation>
+        <translation>Artık seçilen kullanıcıyı seçilen kanallar için otomatik yönetici ayarlama</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="264"/>
         <source>Remove</source>
-        <translation type="unfinished">Kaldır</translation>
+        <translation>Kaldır</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="290"/>
         <source>Codec Limitations</source>
-        <translation type="unfinished">Kodlayıcı/Çözücü Sınırlamaları</translation>
+        <translation>Kodlayıcı/Çözücü Sınırlamaları</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="296"/>
         <source>Audio Codec Limitations</source>
-        <translation type="unfinished">Ses Kodlayıcı/Çözücüsü Sınırlamaları</translation>
+        <translation>Ses Kodlayıcı/Çözücüsü Sınırlamaları</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="302"/>
         <source>Max bitrate for audio codecs</source>
-        <translation type="unfinished">Ses kodlayıcı/çözücüleri için en fazla bit hızı</translation>
+        <translation>Ses kodlayıcı/çözücüleri için en fazla bit hızı</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="325"/>
         <source>kbps (0 = disabled)</source>
-        <translation type="unfinished">kbps (0 = devre dışı)</translation>
+        <translation>kbps (0 = devre dışı)</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="349"/>
         <source>Abuse Prevention</source>
-        <translation type="unfinished">Kötüye Kullanımı Önleme</translation>
+        <translation>Kötüye Kullanımı Önleme</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="355"/>
         <source>Flood Protection</source>
-        <translation type="unfinished">Taşma Koruması</translation>
+        <translation>Taşma Koruması</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="361"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
-        <translation type="unfinished">Kullanıcının, verilen bir zaman aralığı içinde sonuçlandırabileceği komutların sayısını sınırlandırarak, ör. istenmeyen metin iletileri göndermesini önleyin.</translation>
+        <translation>Kullanıcının, verilen bir zaman aralığı içinde sonuçlandırabileceği komutların sayısını sınırlandırarak, örneğin istenmeyen metin iletileri göndermesini önleyin.</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="373"/>
         <source>Limit issued commands</source>
-        <translation type="unfinished">Verilen komutları sınırla</translation>
+        <translation>Verilen komutları sınırla</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="52"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">&amp;Tamam</translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="53"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">İ&amp;ptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="60"/>
         <source>Default User</source>
-        <translation type="unfinished">Varsayılan Kullanıcı</translation>
+        <translation>Varsayılan Kullanıcı</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="61"/>
         <source>Administrator</source>
-        <translation type="unfinished">Yönetici</translation>
+        <translation>Yönetici</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="62"/>
         <location filename="../useraccountdlg.cpp" line="91"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>devre dışı</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="92"/>
         <source>10 commands in 10 sec.</source>
-        <translation type="unfinished">10 saniyede 10 komut.</translation>
+        <translation>10 saniyede 10 komut.</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="93"/>
         <source>10 commands in 1 minute</source>
-        <translation type="unfinished">1 dakikada 10 komut</translation>
+        <translation>1 dakikada 10 komut</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="94"/>
         <source>60 commands in 1 minute</source>
-        <translation type="unfinished">1 dakikada 60 komut</translation>
+        <translation>1 dakikada 60 komut</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="95"/>
         <source>Custom specified</source>
-        <translation type="unfinished">Özel belirtilen</translation>
+        <translation>Özel belirtilen</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="111"/>
         <source>Add User</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı Ekle</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="112"/>
         <source>Add User on Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucuya Kullanıcı Ekle</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="119"/>
         <source>Edit User</source>
-        <translation type="unfinished"></translation>
+        <translation>kullanıcıyı düzenle</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="120"/>
         <source>Edit User %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Kullanıcısını Düzenle</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="125"/>
         <source>View User Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı Bilgilerini Görüntüle</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="126"/>
         <source>View %1 Information</source>
-        <translation type="unfinished">%1 Bilgisini Görüntüle</translation>
+        <translation>%1 Bilgisini Görüntüle</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="140"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Kapat</translation>
+        <translation>&amp;Kapat</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="191"/>
         <source>Create anonymous user account?</source>
-        <translation type="unfinished">Anonim kullanıcı hesabı oluşturulsun mu?</translation>
+        <translation>Anonim kullanıcı hesabı oluşturulsun mu?</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="192"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;Evet</translation>
+        <translation>&amp;Evet</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="193"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;Hayır</translation>
+        <translation>&amp;Hayır</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="196"/>
         <source>Anonymous User</source>
-        <translation type="unfinished"></translation>
+        <translation>Anonim kullanıcı</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="253"/>
         <source>The maximum number of channels where a user can automatically become channel operator is %1.</source>
-        <translation type="unfinished">Bir kullanıcının otomatik olarak kanal yöneticisi olabileceği en fazla kanal sayısı %1.</translation>
+        <translation>Bir kullanıcının otomatik olarak kanal yöneticisi olabileceği en fazla kanal sayısı %1.</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="378"/>
         <source>Last edited: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Son düzenleme: %1</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="443"/>
         <source>Custom (%1 commands per %2 seconds)</source>
-        <translation type="unfinished"></translation>
+        <translation>Özel (%2 saniyede %1 komut)</translation>
     </message>
 </context>
 <context>
@@ -8129,12 +8115,12 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../useraccounts.ui" line="27"/>
         <source>Active User Accounts</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktif Kullanıcı Hesapları</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="87"/>
         <source>&amp;New User Account</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Yeni Kullanıcı Hesabı</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="44"/>
@@ -8194,7 +8180,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../useraccountsdlg.cpp" line="194"/>
         <source>&amp;Edit Selected User</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçili Kullanıcıyı &amp;Düzenle</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="121"/>
@@ -8348,7 +8334,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../userinfo.ui" line="143"/>
         <source>Copy User Information to Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı Bilgilerini Panoya Kopyala</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="54"/>
@@ -8448,7 +8434,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../userinfodlg.cpp" line="92"/>
         <source>Client</source>
-        <translation type="unfinished"></translation>
+        <translation>istemci</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="99"/>
@@ -8473,7 +8459,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../useraccountsmodel.cpp" line="202"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>isim</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="225"/>
@@ -8700,98 +8686,98 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../settings.h" line="422"/>
         <source>{user} has logged in on {server}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, {server} üzerinde oturum açtı</translation>
     </message>
     <message>
         <location filename="../settings.h" line="424"/>
         <source>{user} has logged out from {server}</source>
-        <translation type="unfinished"></translation>
+        <translation>user}, {server} oturumundan çıkış yaptı</translation>
     </message>
     <message>
         <location filename="../settings.h" line="426"/>
         <source>{user} joined channel {channel}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, {channel} kanalına katıldı</translation>
     </message>
     <message>
         <location filename="../settings.h" line="428"/>
         <source>{user} left channel {channel}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, {channel} kanalından ayrıldı</translation>
     </message>
     <message>
         <location filename="../settings.h" line="430"/>
         <source>{user} joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} kanala katıldı</translation>
     </message>
     <message>
         <location filename="../settings.h" line="432"/>
         <source>{user} left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} kanaldan ayrıldı</translation>
     </message>
     <message>
         <location filename="../settings.h" line="434"/>
         <source>Private message from {user}: {message}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} adlı kişiden özel ileti: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="436"/>
         <source>Private message sent: {message}</source>
-        <translation type="unfinished"></translation>
+        <translation>Özel ileti gönderildi: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="438"/>
         <source>{user} is typing...</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} yazıyor...</translation>
     </message>
     <message>
         <location filename="../settings.h" line="440"/>
         <source>{user} set question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} soru modunu ayarladı</translation>
     </message>
     <message>
         <location filename="../settings.h" line="442"/>
         <source>Channel message from {user}: {message}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} kullanıcısından gelen kanal iletisi: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="444"/>
         <source>Channel message sent: {message}</source>
-        <translation type="unfinished"></translation>
+        <translation>kanal iletisi Gönderildi: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="446"/>
         <source>Broadcast message from {user}: {message}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} adlı kişiden yayın iletisi: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="448"/>
         <source>Broadcast message sent: {message}</source>
-        <translation type="unfinished"></translation>
+        <translation>Yayın iletisi gönderildi: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="450"/>
         <source>Subscription &quot;{type}&quot; {state} for {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} için &quot;{type}&quot; {state} aboneliği</translation>
     </message>
     <message>
         <location filename="../settings.h" line="452"/>
         <source>Transmission &quot;{type}&quot; {state} for {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} için &quot;{type}&quot; {state} iletimi</translation>
     </message>
     <message>
         <location filename="../settings.h" line="454"/>
         <source>File {filename} added by {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>{filename} dosyası, {user} tarafından eklendi</translation>
     </message>
     <message>
         <location filename="../settings.h" line="456"/>
         <location filename="../settings.h" line="477"/>
         <source>File {file} removed by {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>{file} dosyası {user} tarafından kaldırıldı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="38"/>
         <source>User&apos;s nickname who logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>Giriş yapan kullanıcının takma adı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="38"/>
@@ -8803,41 +8789,41 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../utiltts.cpp" line="49"/>
         <location filename="../utiltts.cpp" line="51"/>
         <source>Server&apos;s name from which event was emited</source>
-        <translation type="unfinished"></translation>
+        <translation>Etkinliğin yayıldığı sunucunun adı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="39"/>
         <source>User&apos;s nickname who logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>Çıkış yapan kullanıcının takma adı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="40"/>
         <location filename="../utiltts.cpp" line="42"/>
         <source>User&apos;s nickname who joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanala katılan kullanıcının takma adı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="40"/>
         <source>Channel&apos;s name joined by user</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcının katıldığı kanalın adı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="41"/>
         <location filename="../utiltts.cpp" line="43"/>
         <source>User&apos;s nickname who left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanaldan ayrılan kullanıcının takma adı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="41"/>
         <source>Channel&apos;s name left by user</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcının bıraktığı kanalın adı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="44"/>
         <location filename="../utiltts.cpp" line="49"/>
         <location filename="../utiltts.cpp" line="51"/>
         <source>User&apos;s nickname who sent message</source>
-        <translation type="unfinished"></translation>
+        <translation>ileti gönderen kullanıcının takma adı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="44"/>
@@ -8847,24 +8833,24 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../utiltts.cpp" line="51"/>
         <location filename="../utiltts.cpp" line="52"/>
         <source>Message content</source>
-        <translation type="unfinished"></translation>
+        <translation>ileti içeriği</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="46"/>
         <location filename="../utiltts.cpp" line="47"/>
         <source>User&apos;s nickname who is typing</source>
-        <translation type="unfinished"></translation>
+        <translation>Yazan kullanıcının takma adı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="46"/>
         <location filename="../utiltts.cpp" line="47"/>
         <source>User typing</source>
-        <translation type="unfinished"></translation>
+        <translation>yazan Kullanıcı </translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="48"/>
         <source>User&apos;s nickname who set question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Soru modunu ayarlayan kullanıcının takma adı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
@@ -8887,7 +8873,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
         <source>User concerns by change</source>
-        <translation type="unfinished"></translation>
+        <translation>Değişiklikten etkilenen kullanıcı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
@@ -8905,7 +8891,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../utiltts.cpp" line="65"/>
         <location filename="../utiltts.cpp" line="66"/>
         <source>Subscription type</source>
-        <translation type="unfinished"></translation>
+        <translation>Abonelik türü</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
@@ -8923,7 +8909,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../utiltts.cpp" line="65"/>
         <location filename="../utiltts.cpp" line="66"/>
         <source>Subscription state</source>
-        <translation type="unfinished"></translation>
+        <translation>Abonelik durumu</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
@@ -8941,7 +8927,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../utiltts.cpp" line="65"/>
         <location filename="../utiltts.cpp" line="66"/>
         <source>Subscription change</source>
-        <translation type="unfinished"></translation>
+        <translation>Abonelik değişikliği</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="67"/>
@@ -8950,7 +8936,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
         <source>Transmission type</source>
-        <translation type="unfinished"></translation>
+        <translation>İletim türü</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="67"/>
@@ -8959,7 +8945,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
         <source>Transmission state</source>
-        <translation type="unfinished"></translation>
+        <translation>İletim durumu</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="67"/>
@@ -8968,28 +8954,28 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
         <source>Classroom transmission authorization change</source>
-        <translation type="unfinished"></translation>
+        <translation>Sınıf iletim yetki değişikliği</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="72"/>
         <location filename="../utiltts.cpp" line="73"/>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya adı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="72"/>
         <source>User&apos;s nickname who added the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosyayı ekleyen kullanıcının takma adı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="72"/>
         <source>File size</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya boyutu</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="73"/>
         <source>User&apos;s nickname who removed the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosyayı kaldıran kullanıcının takma adı</translation>
     </message>
 </context>
 <context>
@@ -8997,52 +8983,52 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
     <message>
         <location filename="../settings.h" line="459"/>
         <source>{user} has logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} giriş yaptı</translation>
     </message>
     <message>
         <location filename="../settings.h" line="461"/>
         <source>{user} has logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} çıkış yaptı</translation>
     </message>
     <message>
         <location filename="../settings.h" line="463"/>
         <source>{user} joined channel {channel}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, {channel} kanalına katıldı</translation>
     </message>
     <message>
         <location filename="../settings.h" line="465"/>
         <source>{user} left channel {channel}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, {channel} kanalından ayrıldı</translation>
     </message>
     <message>
         <location filename="../settings.h" line="467"/>
         <source>{user} joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} kanala katıldı</translation>
     </message>
     <message>
         <location filename="../settings.h" line="469"/>
         <source>{user} left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} kanaldan ayrıldı</translation>
     </message>
     <message>
         <location filename="../settings.h" line="471"/>
         <source>Subscription &quot;{type}&quot; {state} for {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} için &quot;{type}&quot; {state} aboneliği</translation>
     </message>
     <message>
         <location filename="../settings.h" line="473"/>
         <source>Transmission &quot;{type}&quot; {state} for {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user} için &quot;{type}&quot; {state} iletimi</translation>
     </message>
     <message>
         <location filename="../settings.h" line="475"/>
         <source>File {filename} added by {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>{filename} dosyası {user} tarafından eklendi</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="43"/>
         <source>User&apos;s nickname who logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>Giriş yapan kullanıcının takma adı</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="43"/>
@@ -9050,34 +9036,34 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../utilui.cpp" line="45"/>
         <location filename="../utilui.cpp" line="46"/>
         <source>Server&apos;s name from which event was emited</source>
-        <translation type="unfinished"></translation>
+        <translation>Etkinliğin yayıldığı sunucunun adı</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="44"/>
         <source>User&apos;s nickname who logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>Çıkış yapan kullanıcının takma adı</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="45"/>
         <location filename="../utilui.cpp" line="47"/>
         <source>User&apos;s nickname who joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanala katılan kullanıcının takma adı</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="45"/>
         <source>Channel&apos;s name joined by user</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcının katıldığı kanalın adı</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="46"/>
         <location filename="../utilui.cpp" line="48"/>
         <source>User&apos;s nickname who left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanaldan ayrılan kullanıcının takma adı</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="46"/>
         <source>Channel&apos;s name left by user</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcının bıraktığı kanal adı</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="49"/>
@@ -9100,7 +9086,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../utilui.cpp" line="66"/>
         <location filename="../utilui.cpp" line="67"/>
         <source>User concerns by change</source>
-        <translation type="unfinished"></translation>
+        <translation>Değişiklikten etkilenen kullanıcı</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="49"/>
@@ -9118,7 +9104,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../utilui.cpp" line="61"/>
         <location filename="../utilui.cpp" line="62"/>
         <source>Subscription type</source>
-        <translation type="unfinished"></translation>
+        <translation>Abonelik türü</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="49"/>
@@ -9136,7 +9122,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../utilui.cpp" line="61"/>
         <location filename="../utilui.cpp" line="62"/>
         <source>Subscription state</source>
-        <translation type="unfinished"></translation>
+        <translation>Abonelik durumu</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="49"/>
@@ -9154,7 +9140,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../utilui.cpp" line="61"/>
         <location filename="../utilui.cpp" line="62"/>
         <source>Subscription change</source>
-        <translation type="unfinished"></translation>
+        <translation>Abonelik değişikliği</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="63"/>
@@ -9163,7 +9149,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../utilui.cpp" line="66"/>
         <location filename="../utilui.cpp" line="67"/>
         <source>Transmission type</source>
-        <translation type="unfinished"></translation>
+        <translation>İletim türü</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="63"/>
@@ -9172,7 +9158,7 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../utilui.cpp" line="66"/>
         <location filename="../utilui.cpp" line="67"/>
         <source>Transmission state</source>
-        <translation type="unfinished"></translation>
+        <translation>İletim durumu</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="63"/>
@@ -9181,28 +9167,28 @@ Sunucunuzun kaydını silmek için yayınlanan kullanıcı hesabını silin.</tr
         <location filename="../utilui.cpp" line="66"/>
         <location filename="../utilui.cpp" line="67"/>
         <source>Classroom transmission authorization change</source>
-        <translation type="unfinished"></translation>
+        <translation>Sınıf iletim yetki değişikliği</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="68"/>
         <location filename="../utilui.cpp" line="69"/>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya adı</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="68"/>
         <source>User&apos;s nickname who added the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosyayı ekleyen kullanıcının takma adı</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="68"/>
         <source>File size</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya boyutu</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="69"/>
         <source>User&apos;s nickname who removed the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosyayı kaldıran kullanıcının takma adı</translation>
     </message>
 </context>
 <context>
