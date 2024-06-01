@@ -1110,13 +1110,6 @@ void ChannelsTree::updateChannelItem(QTreeWidgetItem* item)
     else
     {
         channame = _Q(chan.szName);
-        item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
-    }
-
-    if (channame.size() > maxstrlen)
-    {
-        channame.resize(maxstrlen);
-        channame += "...";
     }
 
     if (ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT, SETTINGS_DISPLAY_USERSCOUNT_DEFAULT).toBool())
@@ -1134,12 +1127,18 @@ void ChannelsTree::updateChannelItem(QTreeWidgetItem* item)
         channame += " - 🔒";
     if (ttSettings->value(SETTINGS_DISPLAY_CHANNEL_TOPIC, SETTINGS_DISPLAY_CHANNEL_TOPIC_DEFAULT).toBool() == true && _Q(chan.szTopic).size())
         channame += ": " + _Q(chan.szTopic);
+    item->setData(COLUMN_ITEM, Qt::AccessibleTextRole, channame);
+    if (channame.size() > maxstrlen)
+    {
+        channame.resize(maxstrlen);
+        channame += "...";
+    }
     item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
     if (anim)
         item->setData(COLUMN_ITEM, Qt::DecorationRole, getChannelIcon(chan, item));
     setChannelTransmitUsers(chan, item);
 #if QT_VERSION < QT_VERSION_CHECK(6,4,0)
-    item->setData(COLUMN_ITEM, Qt::AccessibleTextRole, QString("%1: %2").arg(channame).arg((item->isExpanded()? tr("Expanded"):tr("Collapsed"))));
+    item->setData(COLUMN_ITEM, Qt::AccessibleTextRole, QString("%1: %2").arg(item->data(COLUMN_ITEM, Qt::AccessibleTextRole)).arg((item->isExpanded()? tr("Expanded"):tr("Collapsed"))));
 #endif
 
 }
@@ -1210,6 +1209,7 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
         if (TT_IsChannelOperator(ttInst, user.nUserID, user.nChannelID))
             itemtext += " (" + ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Channel operator", "For female"):tr("Channel operator", "For male and neutral")) + ")";
     }
+    item->setData(COLUMN_ITEM, Qt::AccessibleTextRole, itemtext);
 
     if (itemtext.size() > maxstrlen)
     {
