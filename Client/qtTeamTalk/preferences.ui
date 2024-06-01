@@ -529,6 +529,26 @@
                </widget>
               </item>
               <item>
+               <widget class="QLabel" name="timestampformatLabel">
+                <property name="text">
+                 <string>Timestamp format</string>
+                </property>
+                <property name="buddy">
+                 <cstring>timestampformatEdit</cstring>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="TSFVarButton">
+                <property name="text">
+                 <string>&amp;Variables...</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="timestampformatEdit"/>
+              </item>
+              <item>
                <widget class="QCheckBox" name="chanexpChkBox">
                 <property name="text">
                  <string>Auto expand channels</string>

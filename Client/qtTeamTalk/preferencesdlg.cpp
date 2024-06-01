@@ -91,6 +91,37 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     connect(ui.statusbarToolButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotConfigureStatusBar);
     connect(ui.updatesChkBox, &QAbstractButton::clicked, this, &PreferencesDlg::slotUpdateUpdDlgChkBox);
     connect(ui.betaUpdatesChkBox, &QAbstractButton::clicked, this, &PreferencesDlg::slotUpdateUpdDlgChkBox);
+    m_TSFVarMenu = new QMenu(this);
+    connect(ui.TSFVarButton, &QPushButton::clicked, this, [this]()
+    {
+        m_TSFVarMenu->exec(QCursor::pos());
+    });
+    QHash<QString, QString> tsfVariables = {
+        {"d", tr("The day as a number without a leading zero (1 to 31)")},
+        {"dd", tr("The day as a number with a leading zero (01 to 31)")},
+        {"ddd", tr("The abbreviated day name ('Mon' to 'Sun').")},
+        {"dddd", tr("The long day name ('Monday' to 'Sunday').")},
+        {"M", tr("The month as a number without a leading zero (1 to 12)")},
+        {"MM", tr("The month as a number with a leading zero (01 to 12)")},
+        {"MMM", tr("The abbreviated month name ('Jan' to 'Dec').")},
+        {"MMMM", tr("The long month name ('January' to 'December').")},
+        {"yy", tr("The year as a two digit number (00 to 99)")},
+        {"yyyy", tr("The year as a four digit number.")},
+        {"h", tr("The hour without a leading zero (0 to 23)")},
+        {"hh", tr("The hour with a leading zero (00 to 23)")},
+        {"H", tr("The hour without a leading zero (0 to 23)")},
+        {"HH", tr("The hour with a leading zero (00 to 23)")},
+        {"m", tr("The minute without a leading zero (0 to 59)")},
+        {"mm", tr("The minute with a leading zero (00 to 59)")},
+        {"s", tr("The whole second, without any leading zero (0 to 59)")},
+        {"ss", tr("The whole second, with a leading zero where applicable (00 to 59)")}
+    };
+    for (auto it = tsfVariables.constBegin(); it != tsfVariables.constEnd(); ++it)
+    {
+        QAction* action = m_TSFVarMenu->addAction(it.value());
+        action->setData(it.key());
+        connect(action, &QAction::triggered, this, &PreferencesDlg::insertTSFVariable);
+    }
     
     //connection tab
     connect(ui.subdeskinputBtn, &QAbstractButton::clicked,
@@ -495,6 +526,7 @@ void PreferencesDlg::slotTabChange(int index)
         ui.lasttalkChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_LASTTALK, 
                                                         SETTINGS_DISPLAY_LASTTALK_DEFAULT).toBool());
         ui.msgtimestampChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_MSGTIMESTAMP, false).toBool());
+        ui.timestampformatEdit->setText(ttSettings->value(SETTINGS_DISPLAY_TIMESTAMP_FORMAT, getTimestampFormat()).toString());
         ui.chanexpChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_CHANEXP, SETTINGS_DISPLAY_CHANEXP_DEFAULT).toBool());
         ui.logstatusbarChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_LOGSTATUSBAR, SETTINGS_DISPLAY_LOGSTATUSBAR_DEFAULT).toBool());
         ui.updatesChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_APPUPDATE, SETTINGS_DISPLAY_APPUPDATE_DEFAULT).toBool());
@@ -783,6 +815,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_DISPLAY_USERSCOUNT, ui.usercountChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_LASTTALK, ui.lasttalkChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_MSGTIMESTAMP, ui.msgtimestampChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_DISPLAY_TIMESTAMP_FORMAT, ui.timestampformatEdit->text());
         ttSettings->setValue(SETTINGS_DISPLAY_CHANEXP, ui.chanexpChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_LOGSTATUSBAR, ui.logstatusbarChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_APPUPDATE, ui.updatesChkBox->isChecked());
@@ -1140,6 +1173,18 @@ void PreferencesDlg::slotUpdateUpdDlgChkBox()
         ui.updatesDlgChkBox->setEnabled(true);
     else
         ui.updatesDlgChkBox->setEnabled(false);
+}
+
+void PreferencesDlg::insertTSFVariable()
+{
+    QAction* action = qobject_cast<QAction*>(sender());
+    if (action)
+    {
+        QString variable = action->data().toString();
+        int cursorPos = ui.timestampformatEdit->cursorPosition();
+        ui.timestampformatEdit->insert(variable);
+        ui.timestampformatEdit->setCursorPosition(cursorPos + variable.length());
+    }
 }
 
 void PreferencesDlg::slotDesktopAccess()
