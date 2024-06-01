@@ -539,14 +539,14 @@
                </widget>
               </item>
               <item>
+               <widget class="QLineEdit" name="timestampformatEdit"/>
+              </item>
+              <item>
                <widget class="QPushButton" name="TSFVarButton">
                 <property name="text">
                  <string>&amp;Variables...</string>
                 </property>
                </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="timestampformatEdit"/>
               </item>
               <item>
                <widget class="QCheckBox" name="chanexpChkBox">
