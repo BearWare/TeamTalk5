@@ -1156,7 +1156,7 @@ void ChannelsTree::updateChannelItem(QTreeWidgetItem* item)
         item->setData(COLUMN_ITEM, Qt::DecorationRole, getChannelIcon(chan, item));
     setChannelTransmitUsers(chan, item);
 #if QT_VERSION < QT_VERSION_CHECK(6,4,0)
-    item->setData(COLUMN_ITEM, Qt::AccessibleTextRole, QString("%1: %2").arg(item->data(COLUMN_ITEM, Qt::AccessibleTextRole)).arg((item->isExpanded()? tr("Expanded"):tr("Collapsed"))));
+    item->setData(COLUMN_ITEM, Qt::AccessibleTextRole, QString("%1: %2").arg(item->data(COLUMN_ITEM, Qt::AccessibleTextRole).toString()).arg((item->isExpanded()? tr("Expanded"):tr("Collapsed"))));
 #endif
 
 }
