@@ -391,7 +391,7 @@ void ServerListDlg::slotImportTTFile()
 {
     QString start_dir = ttSettings->value(SETTINGS_LAST_DIRECTORY, QDir::homePath()).toString();
     QString filepath = QFileDialog::getOpenFileName(this, tr("Open File"),
-                                                    start_dir/*, tr("TT Files (*.tt)")*/);
+                                                    start_dir, tr("TT Files (*.tt)"));
     if(filepath.isEmpty())
         return;
 
