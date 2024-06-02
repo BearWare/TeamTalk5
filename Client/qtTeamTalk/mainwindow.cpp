@@ -6584,7 +6584,7 @@ void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& n
         QString type, state;
         TextToSpeechEvent ttsType;
         StatusBarEvent statusType;
-        bool before = false, after = false;
+        bool before = false, after = false, change = false;
         before = userCanChanMessage(id, oldchan);
         after = userCanChanMessage(id, newchan);
         if (before != after)
@@ -6596,6 +6596,7 @@ void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& n
                 state = tr("Disabled");
             ttsType = TTS_CLASSROOM_CHANMSG_TX;
             statusType = STATUSBAR_CLASSROOM_CHANMSG_TX;
+            change = true;
         }
         before = userCanVoiceTx(id, oldchan);
         after = userCanVoiceTx(id, newchan);
@@ -6608,6 +6609,7 @@ void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& n
                 state = tr("Disabled");
             statusType = STATUSBAR_CLASSROOM_VOICE_TX;
             ttsType = TTS_CLASSROOM_VOICE_TX;
+            change = true;
         }
         before = userCanVideoTx(id, oldchan);
         after = userCanVideoTx(id, newchan);
@@ -6620,6 +6622,7 @@ void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& n
                 state = tr("Disabled");
             statusType = STATUSBAR_CLASSROOM_VIDEO_TX;
             ttsType = TTS_CLASSROOM_VIDEO_TX;
+            change = true;
         }
         before = userCanDesktopTx(id, oldchan);
         after = userCanDesktopTx(id, newchan);
@@ -6632,6 +6635,7 @@ void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& n
                 state = tr("Disabled");
             statusType = STATUSBAR_CLASSROOM_DESKTOP_TX;
             ttsType = TTS_CLASSROOM_DESKTOP_TX;
+            change = true;
         }
         before = userCanMediaFileTx(id, oldchan);
         after = userCanMediaFileTx(id, newchan);
@@ -6644,9 +6648,13 @@ void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& n
                 state = tr("Disabled");
             statusType = STATUSBAR_CLASSROOM_MEDIAFILE_TX;
             ttsType = TTS_CLASSROOM_MEDIAFILE_TX;
+            change = true;
         }
-        addStatusMsg(statusType, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_CLASSROOM, {{"{type}", type}, {"{state}", state}, {"{user}", nick}}));
-        addTextToSpeechMessage(ttsType, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_CLASSROOM, {{"{type}", type}, {"{state}", state}, {"{user}", nick}}));
+        if (change)
+        {
+            addStatusMsg(statusType, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_CLASSROOM, {{"{type}", type}, {"{state}", state}, {"{user}", nick}}));
+            addTextToSpeechMessage(ttsType, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_CLASSROOM, {{"{type}", type}, {"{state}", state}, {"{user}", nick}}));
+        }
     }
 }
 
