@@ -371,9 +371,9 @@
          <property name="title">
           <string>User Interface Settings</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
+         <layout class="QVBoxLayout" name="verticalLayout_18">
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_33">
+           <layout class="QHBoxLayout" name="horizontalLayout_31">
             <item>
              <layout class="QVBoxLayout" name="verticalLayout">
               <item>
@@ -513,7 +513,7 @@
              </spacer>
             </item>
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout_18">
+             <layout class="QVBoxLayout" name="verticalLayout_4">
               <item>
                <widget class="QCheckBox" name="desktopdlgChkBox">
                 <property name="text">
@@ -529,24 +529,28 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="timestampformatLabel">
-                <property name="text">
-                 <string>Timestamp format</string>
-                </property>
-                <property name="buddy">
-                 <cstring>timestampformatEdit</cstring>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="timestampformatEdit"/>
-              </item>
-              <item>
-               <widget class="QPushButton" name="TSFVarButton">
-                <property name="text">
-                 <string>&amp;Variables...</string>
-                </property>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_30">
+                <item>
+                 <widget class="QLabel" name="timestampformatLabel">
+                  <property name="text">
+                   <string>Timestamp format</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>timestampformatEdit</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="timestampformatEdit"/>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="TSFVarButton">
+                  <property name="text">
+                   <string>&amp;Variables...</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
                <widget class="QCheckBox" name="chanexpChkBox">
@@ -1030,21 +1034,21 @@
             </layout>
            </widget>
           </item>
-          <item>
-           <spacer name="verticalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
          </layout>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -2441,21 +2445,21 @@
             </item>
            </layout>
           </item>
-          <item row="6" column="1">
-           <spacer name="verticalSpacer_5">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
          </layout>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
