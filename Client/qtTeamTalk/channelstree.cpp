@@ -1099,17 +1099,25 @@ void ChannelsTree::updateChannelItem(QTreeWidgetItem* item)
         return;
     const Channel& chan = *ite;
 
-    QString channame;
+    QString channameDisplay, channameAccessible;
     if(channelid == TT_GetRootChannelID(ttInst))
     {
         //make server servername appear as the root channel name
         ServerProperties prop = {};
         TT_GetServerProperties(ttInst, &prop);
-        channame = _Q(prop.szServerName);
+        channameDisplay = _Q(prop.szServerName);
     }
     else
     {
-        channame = _Q(chan.szName);
+        channameDisplay = _Q(chan.szName);
+    }
+    channameAccessible = channameDisplay;
+    item->setData(COLUMN_ITEM, Qt::DisplayRole, channameDisplay);
+
+    if (channameDisplay.size() > maxstrlen)
+    {
+        channameDisplay.resize(maxstrlen);
+        channameDisplay += "...";
     }
 
     if (ttSettings->value(SETTINGS_DISPLAY_USERSCOUNT, SETTINGS_DISPLAY_USERSCOUNT_DEFAULT).toBool())
@@ -1117,23 +1125,33 @@ void ChannelsTree::updateChannelItem(QTreeWidgetItem* item)
         int count = getChannelUsers(channelid, m_users, m_channels, false).size();
         int countSub = getChannelUsers(channelid, m_users, m_channels, true).size();
         if (getSubChannels(channelid, m_channels).size())
-            channame = QString("%1 (%2/%3)").arg(channame).arg(count).arg(countSub);
+        {
+            channameDisplay = QString("%1 (%2/%3)").arg(channameDisplay).arg(count).arg(countSub);
+            channameAccessible = QString("%1 (%2/%3)").arg(channameAccessible).arg(count).arg(countSub);
+        }
         else
-            channame = QString("%1 (%2)").arg(channame).arg(count);
+        {
+            channameDisplay = QString("%1 (%2)").arg(channameDisplay).arg(count);
+            channameAccessible = QString("%1 (%2)").arg(channameAccessible).arg(count);
+        }
     }
     if (emoji && (chan.uChannelType & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)
-        channame += " - 👻";
-    if (emoji && chan.bPassword)
-        channame += " - 🔒";
-    if (ttSettings->value(SETTINGS_DISPLAY_CHANNEL_TOPIC, SETTINGS_DISPLAY_CHANNEL_TOPIC_DEFAULT).toBool() == true && _Q(chan.szTopic).size())
-        channame += ": " + _Q(chan.szTopic);
-    item->setData(COLUMN_ITEM, Qt::AccessibleTextRole, channame);
-    if (channame.size() > maxstrlen)
     {
-        channame.resize(maxstrlen);
-        channame += "...";
+        channameDisplay += " - 👻";
+        channameAccessible += " - 👻";
     }
-    item->setData(COLUMN_ITEM, Qt::DisplayRole, channame);
+    if (emoji && chan.bPassword)
+    {
+        channameDisplay += " - 🔒";
+        channameAccessible += " - 🔒";
+    }
+    if (ttSettings->value(SETTINGS_DISPLAY_CHANNEL_TOPIC, SETTINGS_DISPLAY_CHANNEL_TOPIC_DEFAULT).toBool() == true && _Q(chan.szTopic).size())
+    {
+        channameDisplay += ": " + _Q(chan.szTopic);
+        channameAccessible += ": " + _Q(chan.szTopic);
+    }
+    item->setData(COLUMN_ITEM, Qt::DisplayRole, channameDisplay);
+    item->setData(COLUMN_ITEM, Qt::AccessibleTextRole, channameAccessible);
     if (anim)
         item->setData(COLUMN_ITEM, Qt::DecorationRole, getChannelIcon(chan, item));
     setChannelTransmitUsers(chan, item);
