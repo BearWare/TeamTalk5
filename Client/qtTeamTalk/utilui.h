@@ -161,7 +161,8 @@ void saveWindowPosition(const QString& setting, QWidget* widget);
 bool restoreWindowPosition(const QString& setting, QWidget* widget);
 QStringList extractLanguages();
 bool switchLanguage(const QString& language);
-QString getFormattedDateTime(QString originalDateTime, QString format);
+QString getFormattedDateTime(QString originalDateTimeString, QString inputFormat);
+QString getTimestampFormat();
 QString getFormattedFileSize(qint64 filesize);
 
 class UtilUI : public QObject

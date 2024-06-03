@@ -12,6 +12,7 @@ Default Qt Client
 - Ability to leave current channel from everywhere in main window
 - Use Qt checkable flag in user rights list of "User Accounts" dialog to allow screenreader to see if an item is checked
 - Ability to customize some TTS and status bar messages
+- Ability to customize date and time format
 - Remove option "Announce server name" from TTS options, use customizable messages instead
 - Redesign "Sound Events" tab in "Preferences" dialog
 - Optional sound event for user typing private message
