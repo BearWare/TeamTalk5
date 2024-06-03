@@ -28,6 +28,7 @@ Default Qt Client
 - Ban time displays in local format
 - Locale file size now also use in "file transfer" dialog
 - Reset label of files list when disconnected from server
+- Limit text size in channels tree ignored for screen readers
 - Windows and macOS updated to Qt v6.7.1
 Android Client
 - Toggle channel operator does not show password dialog if user has user-right to change channel operator
