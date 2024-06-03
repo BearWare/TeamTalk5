@@ -1224,6 +1224,8 @@ server.
 
 The remaining items are explained in the following sections.
 
+Note: you can reorder columns of this dialog using mouse or CTRL+Left Arrow/CTRL+Right Arrow shortcuts.
+
 ### Modify User Account
 
 - **Close**
@@ -1383,6 +1385,8 @@ as well as text messaging users.
 - **Keep disconnected users**
   - Users who disconnect will still be shown in the users list but
     with user-ID 0.
+
+Note: you can reorder columns of this dialog using mouse or CTRL+Left Arrow/CTRL+Right Arrow shortcuts.
 
 ## Server Properties Dialog {#serverpropertiesdlg}
 
