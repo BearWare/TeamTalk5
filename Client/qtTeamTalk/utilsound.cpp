@@ -540,8 +540,11 @@ PlaySoundEvent::PlaySoundEvent(QObject* parent) : QObject(parent)
 
 void PlaySoundEvent::queueSoundEvent(SoundEvent event)
 {
-    m_playbackQueue.enqueue(event);
-    playSoundEvent();
+    if (ttSettings->value(SETTINGS_SOUNDEVENT_ACTIVEEVENTS, SETTINGS_SOUNDEVENT_ACTIVEEVENTS_DEFAULT).toULongLong() & event)
+    {
+        m_playbackQueue.enqueue(event);
+        playSoundEvent();
+    }
 }
 
 void PlaySoundEvent::playbackUpdate(int playbackid, const MediaFileInfo& mfi)
