@@ -639,8 +639,11 @@ void PlaySoundEvent::playDefaultSoundEvent(const QString& filename)
 
 void playSoundEvent(SoundEvent event)
 {
-    Q_ASSERT(playsoundevent);
-    playsoundevent->queueSoundEvent(event);
+    if (ttSettings->value(SETTINGS_SOUNDEVENT_ACTIVEEVENTS, SETTINGS_SOUNDEVENT_ACTIVEEVENTS_DEFAULT).toULongLong() & event)
+    {
+        Q_ASSERT(playsoundevent);
+        playsoundevent->queueSoundEvent(event);
+    }
 }
 
 void resetDefaultSoundsPack()
