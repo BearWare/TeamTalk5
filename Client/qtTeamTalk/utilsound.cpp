@@ -540,11 +540,8 @@ PlaySoundEvent::PlaySoundEvent(QObject* parent) : QObject(parent)
 
 void PlaySoundEvent::queueSoundEvent(SoundEvent event)
 {
-    if (ttSettings->value(SETTINGS_SOUNDEVENT_ACTIVEEVENTS, SETTINGS_SOUNDEVENT_ACTIVEEVENTS_DEFAULT).toULongLong() & event)
-    {
-        m_playbackQueue.enqueue(event);
-        playSoundEvent();
-    }
+    m_playbackQueue.enqueue(event);
+    playSoundEvent();
 }
 
 void PlaySoundEvent::playbackUpdate(int playbackid, const MediaFileInfo& mfi)
@@ -642,8 +639,11 @@ void PlaySoundEvent::playDefaultSoundEvent(const QString& filename)
 
 void playSoundEvent(SoundEvent event)
 {
-    Q_ASSERT(playsoundevent);
-    playsoundevent->queueSoundEvent(event);
+    if (ttSettings->value(SETTINGS_SOUNDEVENT_ACTIVEEVENTS, SETTINGS_SOUNDEVENT_ACTIVEEVENTS_DEFAULT).toULongLong() & event)
+    {
+        Q_ASSERT(playsoundevent);
+        playsoundevent->queueSoundEvent(event);
+    }
 }
 
 void resetDefaultSoundsPack()
