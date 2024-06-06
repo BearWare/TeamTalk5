@@ -8710,7 +8710,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="422"/>
         <source>{user} has logged in on {server}</source>
-        <translation>Пользователь вошёл</translation>
+        <translation>{user} вошёл на {server}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="424"/>
