@@ -338,12 +338,25 @@ QStringList extractLanguages()
     return languages;
 }
 
-QString getFormattedDateTime(QString originalDateTimeString, QString format)
+QString getFormattedDateTime(QString originalDateTimeString, QString inputFormat)
 {
-    QDateTime originalDateTime = QDateTime::fromString(originalDateTimeString, format);
+    QDateTime originalDateTime = QDateTime::fromString(originalDateTimeString, inputFormat);
+
+    if (!originalDateTime.isValid()) {
+        return QString("Invalid DateTime");
+    }
+
     QLocale userLocale = QLocale::system();
-    QString formattedDateTime = userLocale.toString(originalDateTime, QLocale::ShortFormat);
+    QString formattedDateTime = userLocale.toString(originalDateTime, getTimestampFormat());
+
     return formattedDateTime;
+}
+
+QString getTimestampFormat()
+{
+    QLocale userLocale = QLocale::system();
+    QString format = ttSettings->value(SETTINGS_DISPLAY_TIMESTAMP_FORMAT).toString().isEmpty()?userLocale.dateTimeFormat(QLocale::ShortFormat):ttSettings->value(SETTINGS_DISPLAY_TIMESTAMP_FORMAT).toString();
+    return format;
 }
 
 QString getFormattedFileSize(qint64 filesize)

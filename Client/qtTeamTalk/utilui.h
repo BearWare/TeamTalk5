@@ -31,6 +31,8 @@
 #include <QString>
 #include <QObject>
 
+#include <functional>
+
 enum DoubleClickChannelAction
 {
     ACTION_NOTHING          = 0x0,
@@ -153,11 +155,14 @@ public:
     ~RestoreItemData();
 };
 
+typedef std::function<int (int visualIndex)> get_logical_index_t;
+
 void saveWindowPosition(const QString& setting, QWidget* widget);
 bool restoreWindowPosition(const QString& setting, QWidget* widget);
 QStringList extractLanguages();
 bool switchLanguage(const QString& language);
-QString getFormattedDateTime(QString originalDateTime, QString format);
+QString getFormattedDateTime(QString originalDateTimeString, QString inputFormat);
+QString getTimestampFormat();
 QString getFormattedFileSize(qint64 filesize);
 
 class UtilUI : public QObject

@@ -92,6 +92,7 @@
 #define SETTINGS_DISPLAY_SERVNAME                     "display/show-servname"
 #define SETTINGS_DISPLAY_SERVNAME_DEFAULT              true
 #define SETTINGS_DISPLAY_MSGTIMESTAMP               "display/msgtimestamp"
+#define SETTINGS_DISPLAY_TIMESTAMP_FORMAT               "display/timestamp-format"
 #define SETTINGS_DISPLAY_STARTMINIMIZED             "display/startminimized"
 #define SETTINGS_DISPLAY_MAINWINDOWPOS              "display/windowposition"
 #define SETTINGS_DISPLAY_TEXTMSGWINDOWPOS           "display/textmsg-windowposition"

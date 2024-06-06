@@ -21,7 +21,8 @@
 #include <QAbstractTableModel>
 #include <QVector>
 
-#include "common.h"
+#include "utiltt.h"
+#include "utilui.h"
 
 enum
 {
@@ -40,8 +41,8 @@ class OnlineUsersModel : public QAbstractTableModel
     Q_OBJECT
 	
 public:
-	OnlineUsersModel(QObject* parent);
-	void resetUsers();
+    OnlineUsersModel(QObject* parent, get_logical_index_t getindex);
+    void resetUsers();
 
     void addUser(const User& user);
     void updateUser(const User& user);
@@ -60,6 +61,7 @@ public:
 private:
     typedef QMap<int, User> user_cache_t;
     user_cache_t m_users;
+    get_logical_index_t m_logical_column;
 };
 
 #endif

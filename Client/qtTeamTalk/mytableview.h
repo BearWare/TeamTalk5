@@ -29,6 +29,9 @@ public:
     MyTableView(QWidget* parent = nullptr);
 protected:
     void keyPressEvent(QKeyEvent* e) override;
+private:
+    void moveColumnLeft();
+    void moveColumnRight();
 };
 
 #endif

@@ -21,8 +21,9 @@ extern TTInstance* ttInst;
 
 #define DISCONNECTED_USERID -1
 
-OnlineUsersModel::OnlineUsersModel(QObject* parent)
+OnlineUsersModel::OnlineUsersModel(QObject* parent, get_logical_index_t getindex)
 : QAbstractTableModel(parent)
+    , m_logical_column(getindex)
 {
 }
 
@@ -182,12 +183,21 @@ QVariant OnlineUsersModel::data(const QModelIndex& index, int role) const
             return user.nUserID;
         }
         break;
-        case Qt::AccessibleTextRole :
+        case Qt::AccessibleTextRole:
         {
-        if (index.column() == COLUMN_NICKNAME)
-        {
-            return QString("%1: %2, %3: %4, %5: %6, %7: %8, %9: %10, %11: %12, %13: %14").arg(headerData(COLUMN_NICKNAME, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_NICKNAME, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_STATUSMSG, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_STATUSMSG, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_USERNAME, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_USERNAME, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_CHANNEL, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_CHANNEL, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_IPADDRESS, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_IPADDRESS, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_VERSION, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_VERSION, index.internalId()), Qt::DisplayRole).toString()).arg(headerData(COLUMN_USERID, Qt::Horizontal, Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_USERID, index.internalId()), Qt::DisplayRole).toString());
-        }
+            if (index.column() == m_logical_column(0))
+            {
+                QString accessibleText;
+                int columnCount = this->columnCount(index);
+                for (int i = 0; i < columnCount; ++i)
+                {
+                    int logicalIndex = m_logical_column(i);
+                    accessibleText += QString("%1: %2, ")
+                        .arg(headerData(logicalIndex, Qt::Horizontal, Qt::DisplayRole).toString())
+                        .arg(data(createIndex(index.row(), logicalIndex, index.internalId()), Qt::DisplayRole).toString());
+                }
+                return accessibleText;
+            }
         }
         break;
     }
