@@ -45,12 +45,46 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.webmproject.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://webrtc.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebRTC&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;دست‌اندرکاران&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;مشارکت‌کنندگان&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Bjørn Damstedt Rasmussen, توسعه‌دهنده&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave, توسعه‌دهنده&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;مترجمان&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;贺稼栋, چینی ساده‌شده&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave, فرانسوی&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Steffen Schultz, آلمانی&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;ابوالفضل سعیدیفر، فارسی&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Michał Ciołek, لهستانی&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;João Carlos Ramos and JNylson, پرتغالی از برزیل&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ozancan Karataş, ترکی&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;کتابخانه‌ها&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;تیم‌تاک از کتابخانه‌های زیر استفاده می‌کند:&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.dre.vanderbilt.edu/~schmidt/ACE.html&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;ACE&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ffmpeg.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;FFmpeg&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OGG&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.openssl.org&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OpenSSL&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS-tools&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://portaudio.com/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;PortAudio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://qt.io&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Qt&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Speex&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;SpeexDSP&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.grinninglizard.com/tinyxml/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;TinyXML&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.webmproject.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://webrtc.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebRTC&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="30"/>
         <source>Compiled on %1 %2 using Qt %3 (Qt %4 used by this instance).</source>
-        <translation>گردآوری شده در تاریخ  %1 %2 با استفاده از QT %3 qt %4 در این نمونه مورد استفاده قرار گرفته است</translation>
+        <translation>گردآوری شده در تاریخ  %1 %2 با استفاده از QT %3 qt %4 در این نسخه مورد استفاده قرار گرفته است</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="31"/>
@@ -2253,7 +2287,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="1521"/>
         <source>Ctrl+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+L</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1565"/>
@@ -2473,7 +2507,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="1914"/>
         <source>Ctrl+Alt+M</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+M</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1923"/>
@@ -2865,7 +2899,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="858"/>
         <source>%1 has detected usage of a screenreader on your computer. Do you wish to enable accessibility options offered by %1 with recommended settings?</source>
-        <translation>%1 تشخیص داد که شما از یک صفحه‌خوان استفاده میکنید. آیا میخواهید تنظیمات دسترسپذیری توصیه شده توسط %1 را فعال کنید?</translation>
+        <translation>%1 تشخیص داد که شما از  صفحه‌خوان در این دستگاه استفاده میکنید. مایلید تنظیمات دسترسپذیری توصیه شده توسط %1 را فعال کنید?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="806"/>
@@ -3122,7 +3156,7 @@ Message of the day: %2</source>
         <location filename="../mainwindow.cpp" line="1329"/>
         <location filename="../mainwindow.cpp" line="6582"/>
         <source>You</source>
-        <translation type="unfinished"></translation>
+        <translation>شما</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2187"/>
@@ -5072,7 +5106,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="536"/>
         <source>Timestamp format</source>
-        <translation type="unfinished"></translation>
+        <translation>ساختار تاریخ و زمان</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="673"/>
@@ -5208,27 +5242,27 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1084"/>
         <source>Windows Audio Session</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows Audio Session</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1091"/>
         <source>DirectSound</source>
-        <translation type="unfinished"></translation>
+        <translation>DirectSound</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1098"/>
         <source>Windows Standard</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows Standard</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1105"/>
         <source>ALSA</source>
-        <translation type="unfinished"></translation>
+        <translation>ALSA</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1112"/>
         <source>CoreAudio</source>
-        <translation type="unfinished"></translation>
+        <translation>CoreAudio</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1143"/>
@@ -5637,84 +5671,84 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="100"/>
         <source>The day as a number without a leading zero (1 to 31)</source>
-        <translation type="unfinished"></translation>
+        <translation>درج روز بدون صفر در ابتدای عدد (0 تا 31)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="101"/>
         <source>The day as a number with a leading zero (01 to 31)</source>
-        <translation type="unfinished"></translation>
+        <translation>درج روز با صفر در ابتدای عدد (01 تا 31)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="102"/>
         <source>The abbreviated day name (&apos;Mon&apos; to &apos;Sun&apos;).</source>
-        <translation type="unfinished"></translation>
+        <translation>درج نام روز‌های هفته به‌صورت کوتاه‌شده. (&apos;Mon&apos;, Tue, Wed, Thu, Fri, Sat, &apos;Sun&apos;).</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="103"/>
         <source>The long day name (&apos;Monday&apos; to &apos;Sunday&apos;).</source>
-        <translation type="unfinished"></translation>
+        <translation>درج نام روز‌های هفته به‌صورت کامل. (&apos;Monday دوشنبه&apos; تا &apos;Sunday یکشنبه&apos;).</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="104"/>
         <source>The month as a number without a leading zero (1 to 12)</source>
-        <translation type="unfinished"></translation>
+        <translation>درج ماه بدون صفر در ابتدای عدد (1 تا 12) </translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="105"/>
         <source>The month as a number with a leading zero (01 to 12)</source>
-        <translation type="unfinished"></translation>
+        <translation>درج ماه با صفر در ابتدای عدد (01 تا 12)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="106"/>
         <source>The abbreviated month name (&apos;Jan&apos; to &apos;Dec&apos;).</source>
-        <translation type="unfinished"></translation>
+        <translation>درج نام ماه‌های سال به‌صورت کوتاه‌شده (&apos;Jan&apos;, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, &apos;Dec&apos;).</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="107"/>
         <source>The long month name (&apos;January&apos; to &apos;December&apos;).</source>
-        <translation type="unfinished"></translation>
+        <translation>درج نام ماه‌های سال به‌صورت کامل (&apos;January ژانویه&apos; تا &apos;December دسامبر&apos;).</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="108"/>
         <source>The year as a two digit number (00 to 99)</source>
-        <translation type="unfinished"></translation>
+        <translation>درج سال به‌صورت دو رقمی (از 00 تا 99)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="109"/>
         <source>The year as a four digit number.</source>
-        <translation type="unfinished"></translation>
+        <translation>درج سال به صورت چهار رقمی</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="110"/>
         <location filename="../preferencesdlg.cpp" line="112"/>
         <source>The hour without a leading zero (0 to 23)</source>
-        <translation type="unfinished"></translation>
+        <translation>درج ساعت بدون صفر در ابتدای عدد (0 تا 23)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="111"/>
         <location filename="../preferencesdlg.cpp" line="113"/>
         <source>The hour with a leading zero (00 to 23)</source>
-        <translation type="unfinished"></translation>
+        <translation>درج ساعت با صفر در ابتدای عدد (00 تا 23)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="114"/>
         <source>The minute without a leading zero (0 to 59)</source>
-        <translation type="unfinished"></translation>
+        <translation>درج دقیقه بدون صفر در ابتدای عدد (0 تا 59)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="115"/>
         <source>The minute with a leading zero (00 to 59)</source>
-        <translation type="unfinished"></translation>
+        <translation>درج دقیقه با صفر در ابتدای عدد (00 تا 59)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="116"/>
         <source>The whole second, without any leading zero (0 to 59)</source>
-        <translation type="unfinished"></translation>
+        <translation>درج ثانیه به‌صورت کامل، بدون صفر در ابتدای عدد (0 تا 59)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="117"/>
         <source>The whole second, with a leading zero where applicable (00 to 59)</source>
-        <translation type="unfinished"></translation>
+        <translation>درج ثانیه به‌صورت کامل، با صفر در ابتدای عدد، در صورت لزوم (0 تا 59)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="559"/>
@@ -8163,7 +8197,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="443"/>
         <source>Custom (%1 commands per %2 seconds)</source>
-        <translation type="unfinished"></translation>
+        <translation>تنظیم (%1 دستور در هر %2 ثانیه)</translation>
     </message>
 </context>
 <context>
@@ -8817,12 +8851,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="446"/>
         <source>Subscription &quot;{type}&quot; {state} for {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>اشتراک &quot;نوع&quot; وضعیت برای کاربر</translation>
     </message>
     <message>
         <location filename="../settings.h" line="448"/>
         <source>Transmission &quot;{type}&quot; {state} for {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>ارسال &quot;شیوه&quot; وضعیت برای کاربر</translation>
     </message>
     <message>
         <location filename="../settings.h" line="450"/>
@@ -8855,36 +8889,36 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="39"/>
         <source>User&apos;s nickname who logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>نام مستعار کاربر&apos;ی که از سِروِر میرود</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="40"/>
         <location filename="../utiltts.cpp" line="42"/>
         <source>User&apos;s nickname who joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>نام مستعار کاربر&apos;ی که وارد کانال میشود</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="40"/>
         <source>Channel&apos;s name joined by user</source>
-        <translation type="unfinished"></translation>
+        <translation>نام کانال&apos;ی که کاربر وارد آن میشود</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="41"/>
         <location filename="../utiltts.cpp" line="43"/>
         <source>User&apos;s nickname who left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>نام مستعار کاربر&apos;ی که از کانال میرود</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="41"/>
         <source>Channel&apos;s name left by user</source>
-        <translation type="unfinished"></translation>
+        <translation>نام کانال&apos;ی که کاربر آن را ترک میکند</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="44"/>
         <location filename="../utiltts.cpp" line="49"/>
         <location filename="../utiltts.cpp" line="51"/>
         <source>User&apos;s nickname who sent message</source>
-        <translation type="unfinished"></translation>
+        <translation>نام مستعار کاربر&apos;ی که پیام میفرستد</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="44"/>
@@ -8900,18 +8934,18 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="46"/>
         <location filename="../utiltts.cpp" line="47"/>
         <source>User&apos;s nickname who is typing</source>
-        <translation type="unfinished"></translation>
+        <translation>نام مستعار کاربر&apos;ی که در حال نوشتن است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="46"/>
         <location filename="../utiltts.cpp" line="47"/>
         <source>User typing</source>
-        <translation type="unfinished"></translation>
+        <translation>کاربر در حال تایپ کردن</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="48"/>
         <source>User&apos;s nickname who set question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>نام مستعار کاربر&apos;ی که حالت پرسش را فعال میکند</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
@@ -8934,7 +8968,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
         <source>User concerns by change</source>
-        <translation type="unfinished"></translation>
+        <translation>کاربری که این اتفاق برای او افتاده‌است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
@@ -8952,7 +8986,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="65"/>
         <location filename="../utiltts.cpp" line="66"/>
         <source>Subscription type</source>
-        <translation type="unfinished"></translation>
+        <translation>نوع اشتراک</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
@@ -8970,7 +9004,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="65"/>
         <location filename="../utiltts.cpp" line="66"/>
         <source>Subscription state</source>
-        <translation type="unfinished"></translation>
+        <translation>وضعیت اشتراک</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
@@ -8988,7 +9022,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="65"/>
         <location filename="../utiltts.cpp" line="66"/>
         <source>Subscription change</source>
-        <translation type="unfinished"></translation>
+        <translation>تغییر اشتراک</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="67"/>
@@ -8997,7 +9031,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
         <source>Transmission type</source>
-        <translation type="unfinished"></translation>
+        <translation>شیوۀ ارسال</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="67"/>
@@ -9006,7 +9040,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
         <source>Transmission state</source>
-        <translation type="unfinished"></translation>
+        <translation>وضعیت ارسال</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="67"/>
@@ -9015,7 +9049,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
         <source>Classroom transmission authorization change</source>
-        <translation type="unfinished"></translation>
+        <translation>تغییر دسترسی صحبت‌کردن در کانالهای کلاس درس</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="72"/>
@@ -9026,17 +9060,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="72"/>
         <source>User&apos;s nickname who added the file</source>
-        <translation type="unfinished"></translation>
+        <translation>نام مستعار کاربر&apos;ی که فایل آپلود میکند</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="72"/>
         <source>File size</source>
-        <translation type="unfinished">حجم فایل</translation>
+        <translation>حجم فایل</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="73"/>
         <source>User&apos;s nickname who removed the file</source>
-        <translation type="unfinished"></translation>
+        <translation>نام مستعار کاربر&apos;ی که فایل حذف میکند</translation>
     </message>
 </context>
 <context>
@@ -9044,52 +9078,52 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="455"/>
         <source>{user} has logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>ورود کاربر به سِروِر</translation>
     </message>
     <message>
         <location filename="../settings.h" line="457"/>
         <source>{user} has logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>خروج کاربر از سِروِر</translation>
     </message>
     <message>
         <location filename="../settings.h" line="459"/>
         <source>{user} joined channel {channel}</source>
-        <translation type="unfinished">وقتی کاربر وارد کانال میشود</translation>
+        <translation>وقتی کاربر وارد کانال میشود</translation>
     </message>
     <message>
         <location filename="../settings.h" line="461"/>
         <source>{user} left channel {channel}</source>
-        <translation type="unfinished">وقتی کاربر از کانال میرود</translation>
+        <translation>وقتی کاربر از کانال میرود</translation>
     </message>
     <message>
         <location filename="../settings.h" line="463"/>
         <source>{user} joined channel</source>
-        <translation type="unfinished">وقتی کاربر وارد کانال فعلی میشود</translation>
+        <translation>وقتی کاربر وارد کانال فعلی میشود</translation>
     </message>
     <message>
         <location filename="../settings.h" line="465"/>
         <source>{user} left channel</source>
-        <translation type="unfinished">وقتی کاربر از کانال فعلی میرود</translation>
+        <translation>وقتی کاربر از کانال فعلی میرود</translation>
     </message>
     <message>
         <location filename="../settings.h" line="467"/>
         <source>Subscription &quot;{type}&quot; {state} for {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>اشتراک &quot;نوع&quot; وضعیت برای کاربر</translation>
     </message>
     <message>
         <location filename="../settings.h" line="469"/>
         <source>Transmission &quot;{type}&quot; {state} for {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>ارسال &quot;شیوه&quot; وضعیت برای کاربر</translation>
     </message>
     <message>
         <location filename="../settings.h" line="471"/>
         <source>File {filename} added by {user}</source>
-        <translation type="unfinished">وقتی کاربر در کانال فایل آپلود میکند</translation>
+        <translation>وقتی کاربر در کانال فایل آپلود میکند</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="43"/>
         <source>User&apos;s nickname who logged in</source>
-        <translation type="unfinished">نام مستعار کاربر&apos;ی که وارد سِروِر میشود</translation>
+        <translation>نام مستعار کاربر&apos;ی که وارد سِروِر میشود</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="43"/>
@@ -9097,34 +9131,34 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="45"/>
         <location filename="../utilui.cpp" line="46"/>
         <source>Server&apos;s name from which event was emited</source>
-        <translation type="unfinished">نام سِروِر&apos;ی که این اتفاق در آن افتاده است</translation>
+        <translation>نام سِروِر&apos;ی که این اتفاق در آن افتاده است</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="44"/>
         <source>User&apos;s nickname who logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>نام مستعار کاربر&apos;ی که از سِروِر میرود</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="45"/>
         <location filename="../utilui.cpp" line="47"/>
         <source>User&apos;s nickname who joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>نام مستعار کاربر&apos;ی که وارد کانال میشود</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="45"/>
         <source>Channel&apos;s name joined by user</source>
-        <translation type="unfinished"></translation>
+        <translation>نام کانال&apos;ی که کاربر وارد آن میشود</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="46"/>
         <location filename="../utilui.cpp" line="48"/>
         <source>User&apos;s nickname who left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>نام مستعار کاربر&apos;ی که از کانال میرود</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="46"/>
         <source>Channel&apos;s name left by user</source>
-        <translation type="unfinished"></translation>
+        <translation>نام کانال&apos;ی که کاربر آن را ترک میکند</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="49"/>
@@ -9147,7 +9181,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="66"/>
         <location filename="../utilui.cpp" line="67"/>
         <source>User concerns by change</source>
-        <translation type="unfinished"></translation>
+        <translation>کاربری که این اتفاق برای او افتاده‌است</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="49"/>
@@ -9165,7 +9199,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="61"/>
         <location filename="../utilui.cpp" line="62"/>
         <source>Subscription type</source>
-        <translation type="unfinished"></translation>
+        <translation>نوع اشتراک</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="49"/>
@@ -9183,7 +9217,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="61"/>
         <location filename="../utilui.cpp" line="62"/>
         <source>Subscription state</source>
-        <translation type="unfinished"></translation>
+        <translation>وضعیت اشتراک</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="49"/>
@@ -9201,7 +9235,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="61"/>
         <location filename="../utilui.cpp" line="62"/>
         <source>Subscription change</source>
-        <translation type="unfinished"></translation>
+        <translation>تغییر اشتراک</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="63"/>
@@ -9210,7 +9244,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="66"/>
         <location filename="../utilui.cpp" line="67"/>
         <source>Transmission type</source>
-        <translation type="unfinished"></translation>
+        <translation>شیوۀ ارسال</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="63"/>
@@ -9219,7 +9253,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="66"/>
         <location filename="../utilui.cpp" line="67"/>
         <source>Transmission state</source>
-        <translation type="unfinished"></translation>
+        <translation>وضعیت ارسال</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="63"/>
@@ -9228,7 +9262,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="66"/>
         <location filename="../utilui.cpp" line="67"/>
         <source>Classroom transmission authorization change</source>
-        <translation type="unfinished"></translation>
+        <translation>تغییر دسترسی صحبت‌کردن در کانالهای کلاس درس</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="68"/>
@@ -9239,7 +9273,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utilui.cpp" line="68"/>
         <source>User&apos;s nickname who added the file</source>
-        <translation type="unfinished"></translation>
+        <translation>نام مستعار کاربر&apos;ی که فایل آپلود میکند</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="68"/>
@@ -9249,7 +9283,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utilui.cpp" line="69"/>
         <source>User&apos;s nickname who removed the file</source>
-        <translation type="unfinished"></translation>
+        <translation>نام مستعار کاربر&apos;ی که فایل حذف میکند</translation>
     </message>
 </context>
 <context>
