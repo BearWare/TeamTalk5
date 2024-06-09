@@ -110,7 +110,7 @@ QModelIndex OnlineUsersModel::userRow(int userid)
 
 int OnlineUsersModel::columnCount(const QModelIndex& /*parent = QModelIndex()*/) const
 {
-    return _COLUMN_LAST_COUNT;
+    return COLUMN_LAST_COUNT;
 }
 
 int OnlineUsersModel::rowCount(const QModelIndex& /*parent = QModelIndex()*/) const
@@ -183,21 +183,19 @@ QVariant OnlineUsersModel::data(const QModelIndex& index, int role) const
             return user.nUserID;
         }
         break;
-        case Qt::AccessibleTextRole:
+    case Qt::AccessibleTextRole:
+        if (index.column() == m_logical_column(0))
         {
-            if (index.column() == m_logical_column(0))
+            QString accessibleText;
+            int columnCount = this->columnCount(index);
+            for (int i = 0; i < columnCount; ++i)
             {
-                QString accessibleText;
-                int columnCount = this->columnCount(index);
-                for (int i = 0; i < columnCount; ++i)
-                {
-                    int logicalIndex = m_logical_column(i);
-                    accessibleText += QString("%1: %2, ")
-                        .arg(headerData(logicalIndex, Qt::Horizontal, Qt::DisplayRole).toString())
-                        .arg(data(createIndex(index.row(), logicalIndex, index.internalId()), Qt::DisplayRole).toString());
-                }
-                return accessibleText;
+                int logicalIndex = m_logical_column(i);
+                accessibleText += QString("%1: %2, ")
+                                      .arg(headerData(logicalIndex, Qt::Horizontal, Qt::DisplayRole).toString())
+                                      .arg(data(createIndex(index.row(), logicalIndex, index.internalId()), Qt::DisplayRole).toString());
             }
+            return accessibleText;
         }
         break;
     }
