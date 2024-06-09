@@ -1206,10 +1206,10 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
         if((user.uUserState & USERSTATE_VOICE) || (user.nUserID == TT_GetMyUserID(ttInst) && isMyselfTalking() == TRUE && userCanVoiceTx(TT_GetMyUserID(ttInst), chan) == TRUE))
             itemtext += " 🎤";
         if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
-            itemtext += ", " + tr("Streaming media file");
+            itemtext += ", 💿";
 
         if (user.nStatusMode & STATUSMODE_VIDEOTX)
-            itemtext += ", " + tr("Webcam");
+            itemtext += ", 🎥";
     }
 
     if(_Q(user.szStatusMsg).size())
