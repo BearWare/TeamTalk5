@@ -1147,7 +1147,7 @@ void ChannelsTree::updateChannelItem(QTreeWidgetItem* item)
     }
     if (ttSettings->value(SETTINGS_DISPLAY_CHANNEL_TOPIC, SETTINGS_DISPLAY_CHANNEL_TOPIC_DEFAULT).toBool() == true && _Q(chan.szTopic).size())
     {
-        channameDisplay += ": " + _Q(chan.szTopic);
+        item->setData(COLUMN_ITEM, Qt::ToolTipRole, _Q(chan.szTopic));
         channameAccessible += ": " + _Q(chan.szTopic);
     }
     item->setData(COLUMN_ITEM, Qt::DisplayRole, channameDisplay);
