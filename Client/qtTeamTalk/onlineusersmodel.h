@@ -21,7 +21,6 @@
 #include <QAbstractTableModel>
 #include <QVector>
 
-#include "utiltt.h"
 #include "utilui.h"
 
 enum
@@ -33,7 +32,7 @@ enum
     COLUMN_IPADDRESS,
     COLUMN_VERSION,
     COLUMN_USERID,
-    _COLUMN_LAST_COUNT
+    COLUMN_LAST_COUNT
 };
 
 class OnlineUsersModel : public QAbstractTableModel

@@ -45,9 +45,7 @@ QVariant UserAccountsModel::headerData(int section, Qt::Orientation orientation,
 
 int UserAccountsModel::columnCount(const QModelIndex & parent /*= QModelIndex() */) const
 {
-    if(!parent.isValid())
-        return COLUMN_COUNT_USERACCOUNTS;
-    return 0;
+    return COLUMN_COUNT_USERACCOUNTS;
 }
 
 QVariant UserAccountsModel::data(const QModelIndex & index, int role /*= Qt::DisplayRole */) const
