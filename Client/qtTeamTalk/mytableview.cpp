@@ -75,6 +75,8 @@ void MyTableView::keyPressEvent(QKeyEvent* e)
 
 void MyTableView::moveColumnLeft()
 {
+    if (!this->horizontalHeader()->sectionsMovable())
+        return;
     int col = this->currentIndex().column();
     int visualIndex = this->horizontalHeader()->visualIndex(col);
     if (visualIndex > 0)
@@ -86,6 +88,8 @@ void MyTableView::moveColumnLeft()
 
 void MyTableView::moveColumnRight()
 {
+    if (!this->horizontalHeader()->sectionsMovable())
+        return;
     int col = this->currentIndex().column();
     int visualIndex = this->horizontalHeader()->visualIndex(col);
     if (visualIndex < this->model()->columnCount() - 1)

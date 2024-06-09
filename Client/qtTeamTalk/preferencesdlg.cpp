@@ -188,6 +188,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     connect(ui.soundEventsClearallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundEventsClearAll);
     connect(ui.soundEventsRevertButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundEventsRevert);
     ui.soundEventsTableView->horizontalHeader()->restoreState(ttSettings->value(SETTINGS_DISPLAY_SOUNDEVENTSHEADER).toByteArray());
+    ui.soundEventsTableView->horizontalHeader()->setSectionsMovable(false);
 
     //text to speech
     m_ttsmodel = new TTSEventsModel(this);
@@ -207,6 +208,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     connect(ui.ttsClearallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSClearAll);
     connect(ui.ttsRevertButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSRevert);
     ui.ttsTableView->horizontalHeader()->restoreState(ttSettings->value(SETTINGS_DISPLAY_TTSHEADER).toByteArray());
+    ui.ttsTableView->horizontalHeader()->setSectionsMovable(false);
 
     //keyboard shortcuts
     connect(ui.voiceactButton, &QAbstractButton::clicked,

@@ -143,6 +143,7 @@ UserAccountDlg::UserAccountDlg(UserAccountDlgType type, const UserAccount& usera
     showUserAccount(m_useraccount);
 
     ui->userrightsTableView->horizontalHeader()->restoreState(ttSettings->value(SETTINGS_DISPLAY_USERACCOUNTDLG_USERRIGHTS_HEADERSIZES).toByteArray());
+    ui->userrightsTableView->horizontalHeader()->setSectionsMovable(false);
     restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_USERACCOUNTSDLG_SIZE).toByteArray());
 }
 

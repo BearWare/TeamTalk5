@@ -309,6 +309,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
 
     ui.serverTableView->horizontalHeader()->restoreState(ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_HEADERSIZES).toByteArray());
     restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_SERVERLISTDLG_SIZE).toByteArray());
+    ui.serverTableView->horizontalHeader()->setSectionsMovable(false);
 }
 
 ServerListDlg::~ServerListDlg()

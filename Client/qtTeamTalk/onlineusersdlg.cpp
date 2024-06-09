@@ -68,7 +68,6 @@ OnlineUsersDlg::OnlineUsersDlg(QWidget* parent/* = 0 */)
     m_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
     m_proxyModel->sort(COLUMN_NICKNAME, Qt::AscendingOrder);
     ui.tableView->horizontalHeader()->restoreState(ttSettings->value(SETTINGS_DISPLAY_ONLINEUSERS_HEADERSIZES).toByteArray());
-    ui.tableView->horizontalHeader()->setSectionsMovable(true);
 }
 
 OnlineUsersDlg::~OnlineUsersDlg()
