@@ -29,27 +29,13 @@
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="MyTableView" name="usersTableView">
-         <property name="minimumSize">
-          <size>
-           <width>200</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
          <property name="accessibleName">
           <string>User accounts</string>
          </property>
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>
-         <property name="showDropIndicator" stdset="0">
-          <bool>true</bool>
-         </property>
-         <property name="dragDropOverwriteMode">
+         <property name="tabKeyNavigation">
           <bool>false</bool>
          </property>
          <property name="alternatingRowColors">
@@ -60,9 +46,6 @@
          </property>
          <property name="sortingEnabled">
           <bool>true</bool>
-         </property>
-         <property name="tabKeyNavigation">
-          <bool>false</bool>
          </property>
         </widget>
        </item>
