@@ -769,6 +769,7 @@ void MainWindow::loadSettings()
     }
     //set files header to last position
     ui.filesView->horizontalHeader()->restoreState(ttSettings->value(SETTINGS_DISPLAY_FILESHEADER).toByteArray());
+    ui.filesView->horizontalHeader()->setSectionsMovable(false);
     // Maximize window if necessary
     if (ttSettings->value(SETTINGS_DISPLAY_WINDOW_MAXIMIZE).toBool() == true)
         this->showMaximized();
