@@ -51,27 +51,21 @@ void ServerStatisticsDlg::slotCmdSuccess(int cmdid)
 
 void ServerStatisticsDlg::slotUpdateStats(const ServerStatistics& stats)
 {
-    ui.totalEdit->setText(QString("%L1 / %L2")
+    ui.totalRXTXLabel->setText(QString(tr("Total RX/TX") + ": %L1 / %L2 " + tr("KBytes"))
         .arg(stats.nTotalBytesRX/1024)
         .arg(stats.nTotalBytesTX/1024));
-    ui.voiceEdit->setText(QString("%L1 / %L2")
+    ui.voiceRXTXLabel->setText(QString(tr("Voice RX/TX") + ": %L1 / %L2 " + tr("KBytes"))
         .arg(stats.nVoiceBytesRX/1024)
         .arg(stats.nVoiceBytesTX/1024));
-    ui.videoEdit->setText(QString("%L1 / %L2")
+    ui.videoRXTXLabel->setText(QString(tr("Video RX/TX") + ": %L1 / %L2 " + tr("KBytes"))
         .arg(stats.nVideoCaptureBytesRX/1024)
         .arg(stats.nVideoCaptureBytesTX/1024));
-    ui.mediafileEdit->setText(QString("%L1 / %L2")
+    ui.mediafileRXTXLabel->setText(QString(tr("Media File RX/TX") + ": %L1 / %L2 " + tr("KBytes"))
         .arg(stats.nMediaFileBytesRX/1024)
         .arg(stats.nMediaFileBytesTX/1024));
-    ui.desktopEdit->setText(QString("%L1 / %L2")
+    ui.desktopRXTXLabel->setText(QString(tr("Desktop RX/TX") + ": %L1 / %L2 " + tr("KBytes"))
         .arg(stats.nDesktopBytesRX/1024)
         .arg(stats.nDesktopBytesTX/1024));
-    ui.usersservedEdit->setText(QString("%1").arg(stats.nUsersServed));
-    ui.userspeakEdit->setText(QString("%1").arg(stats.nUsersPeak));
-    ui.filesEdit->setText(QString("%L1 / %L2")
-        .arg(stats.nFilesRx/1024)
-        .arg(stats.nFilesTx/1024));
-
     if(m_lastStats.nUptimeMSec)
     {
         qint64 diff = stats.nUptimeMSec - m_lastStats.nUptimeMSec;
@@ -80,13 +74,23 @@ void ServerStatisticsDlg::slotUpdateStats(const ServerStatistics& stats)
         {
             double diff_rx = (stats.nTotalBytesRX - m_lastStats.nTotalBytesRX) / (double)diff;
             double diff_tx = (stats.nTotalBytesTX - m_lastStats.nTotalBytesTX) / (double)diff;
-            ui.kbpsEdit->setText(QString("%1 / %2")
+            ui.kbpsLabel->show();
+            ui.kbpsLabel->setText(QString(tr("Throughput RX/TX") + ": %1 / %2 " + tr("KBytes/sec"))
             .arg( diff_rx, 0, 'f', 1)
             .arg( diff_tx, 0, 'f', 1));
         }
+        else
+            ui.kbpsLabel->hide();
     }
+    else
+        ui.kbpsLabel->hide();
+    ui.filesRXTXLabel->setText(QString(tr("Files RX/TX") + ": %L1 / %L2 " + tr("KBytes"))
+        .arg(stats.nFilesRx/1024)
+        .arg(stats.nFilesTx/1024));
+    ui.usersLabel->setText(QString(tr("Users served") + ": %1").arg(stats.nUsersServed));
+    ui.usersPeakLabel->setText(QString(tr("Users peak") + ": %1").arg(stats.nUsersPeak));
 
-    ui.uptimeEdit->setText(QString("%1:%2:%3")
+    ui.uptimeLabel->setText(QString(tr("Uptime: %1 hours, %2 minutes, %3 seconds"))
         .arg(stats.nUptimeMSec / 1000 / 60 / 60)
         .arg(((stats.nUptimeMSec / 1000 / 60) % 60), 2, 10, (QChar)'0')
         .arg(((stats.nUptimeMSec / 1000) % 60), 2, 10, (QChar)'0'));
