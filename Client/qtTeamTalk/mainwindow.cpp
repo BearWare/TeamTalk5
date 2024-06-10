@@ -5240,6 +5240,7 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
 
     if (chan.nChannelID != TT_GetMyChannelID(ttInst) && ((dbClickAct & ACTION_JOIN) == ACTION_JOIN || QObject::sender() == ui.actionJoinChannel))
     {
+        m_last_channel = chan;
         QString password = m_channel_passwd[chan.nChannelID];
         if(chan.bPassword)
         {
