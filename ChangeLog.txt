@@ -34,6 +34,7 @@ Default Qt Client
 - Locale file size now also use in "file transfer" dialog
 - Unic dialog to enter username and password on login error and channel share
 - Ability to show password on login error, channel password, channel operator password, and channel share
+- Slider to adjust media file volume in main window
 - Reset label of files list when disconnected from server
 - Limit text size in channels tree ignored for screen readers
 - Fixed state of checkable items in "Preferences", "User Account", "Server properties" dialogs not announce by Voice Over on MacOS
