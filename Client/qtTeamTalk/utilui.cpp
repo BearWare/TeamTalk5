@@ -339,7 +339,7 @@ QStringList extractLanguages()
 {
     QStringList languages;
     QDir dir(TRANSLATE_FOLDER, "*.qm", QDir::Name, QDir::Files);
-    for (auto lang : dir.entryList())
+    for (const auto& lang : dir.entryList())
         languages.append(lang.left(lang.size()-3));
     return languages;
 }
@@ -444,7 +444,7 @@ LoginInfoDialog::LoginInfoDialog(const QString &title, const QString &desc, cons
     passLabel->setBuddy(passEdit);
 
     QCheckBox *showPasswordCheckBox = new QCheckBox(tr("Show password"));
-    connect(showPasswordCheckBox, &QCheckBox::toggled, [=](bool checked) {
+    connect(showPasswordCheckBox, &QCheckBox::toggled, this, [=](bool checked) {
         passEdit->setEchoMode(checked ? QLineEdit::Normal : QLineEdit::Password);
     });
 
@@ -495,7 +495,7 @@ PasswordDialog::PasswordDialog(const QString &title, const QString &desc, const 
     passLabel->setBuddy(passEdit);
 
     QCheckBox *showPasswordCheckBox = new QCheckBox(tr("Show password"));
-    connect(showPasswordCheckBox, &QCheckBox::toggled, [=](bool checked) {
+    connect(showPasswordCheckBox, &QCheckBox::toggled, this, [=](bool checked) {
         passEdit->setEchoMode(checked ? QLineEdit::Normal : QLineEdit::Password);
     });
 
