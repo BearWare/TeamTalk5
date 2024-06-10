@@ -465,9 +465,9 @@ CustomCmdLimitDialog::CustomCmdLimitDialog(int currentLimit, int currentInterval
     m_intervalSpinBox = new QSpinBox(this);
     m_intervalSpinBox->setMinimum(1);
     m_intervalSpinBox->setValue(currentIntervalSec);
-    m_intervalSpinBox->setPrefix(("Interval: "));
+    m_intervalSpinBox->setPrefix((tr("Interval: ")));
     m_intervalSpinBox->setSuffix(tr("sec"));
-    m_intervalSpinBox->setAccessibleName(("Interval"));
+    m_intervalSpinBox->setAccessibleName((tr("Interval")));
     layout->addWidget(m_intervalSpinBox);
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
