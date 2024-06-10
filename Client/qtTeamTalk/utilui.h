@@ -176,4 +176,31 @@ public:
     static QString getRawStatusBarMessage(const QString& paramKey);
 };
 
+class LoginInfoDialog : public QDialog
+{
+    Q_OBJECT
+
+public:
+    explicit LoginInfoDialog(const QString &title, const QString &desc, const QString &initialUsername, const QString &initialPassword, QWidget *parent = nullptr);
+
+    QString getUsername() const;
+    QString getPassword() const;
+
+private:
+    QLineEdit *userEdit;
+    QLineEdit *passEdit;
+};
+
+class PasswordDialog : public QDialog
+{
+    Q_OBJECT
+
+public:
+    explicit PasswordDialog(const QString &title, const QString &desc, const QString &initialPassword, QWidget *parent = nullptr);
+
+    QString getPassword() const;
+
+private:
+    QLineEdit *passEdit;
+};
 #endif

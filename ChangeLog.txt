@@ -28,6 +28,8 @@ Default Qt Client
 - Ability to search by IP or username in "Banned Users" dialog
 - Ban time displays in local format
 - Locale file size now also use in "file transfer" dialog
+- Unic dialog to enter username and password on login error and channel share
+- Ability to show password on login error, channel password, channel operator password, and channel share
 - Reset label of files list when disconnected from server
 - Limit text size in channels tree ignored for screen readers
 - Windows and macOS updated to Qt v6.7.1
