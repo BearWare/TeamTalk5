@@ -19,7 +19,7 @@ Default Qt Client
 - Ability to replace existing file on upload
 - Menu to insert MOTD variables in "Server Properties" dialog
 - Support for Import/Export entire Server List
-- Replaced readonly edit fields by labels in "User Info" dialog
+- Replaced readonly edit fields by labels in "User Info" and "Server Statistics" dialogs
 - Only show available info in "User info" dialog
 - Ability to copy all User Info to clipboard in "User Info" dialog
 - Support Idle Time on Linux (X11)
