@@ -1058,7 +1058,8 @@ void MainWindow::clienteventConLost()
                  .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 
     playSoundEvent(SOUNDEVENT_SERVERLOST);
-    addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Connection to server lost"));
+    addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Connection lost to %1 TCP port %2 UDP port %3")
+                 .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
 }
 
 void MainWindow::clienteventMyselfKicked(const TTMessage& msg)
@@ -1858,6 +1859,9 @@ void MainWindow::cmdCompleteLoggedIn(int myuserid)
 
     //login command completed
 
+    addStatusMsg(STATUSBAR_BYPASS, tr("Connected to %1").arg(limitText(_Q(m_srvprop.szServerName))));
+    addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Connected to %1").arg(limitText(_Q(m_srvprop.szServerName))));
+
     QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
     m_statusmode &= ~STATUSMODE_GENDER_MASK;
     switch (Gender(ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT).toInt()))
@@ -2056,7 +2060,10 @@ void MainWindow::connectToServer()
 void MainWindow::disconnectFromServer()
 {
     if (!timerExists(TIMER_RECONNECT))
+    {
+        addStatusMsg(STATUSBAR_BYPASS, (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED?tr("Disconnected from %1").arg(limitText(_Q(m_srvprop.szServerName))):tr("Disconnected from server")));
         addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED?tr("Disconnected from %1").arg(limitText(_Q(m_srvprop.szServerName))):tr("Disconnected from server")));
+    }
     
     if (m_host.latesthost == false && m_host.lastChan == true)
     {
@@ -2119,7 +2126,6 @@ void MainWindow::disconnectFromServer()
     if(m_sysicon)
         m_sysicon->setIcon(QIcon(APPTRAYICON));
 
-    addStatusMsg(STATUSBAR_BYPASS, tr("Logged out from %1, TCP port %2, UDP port %3").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
     updateWindowTitle();
 }
 
@@ -2133,12 +2139,6 @@ void MainWindow::login()
                              _W(m_host.password), _W(client));
     if (cmdid>0)
         m_commands.insert(cmdid, CMD_COMPLETE_LOGIN);
-
-    addStatusMsg(STATUSBAR_BYPASS, tr("Connected to %1 TCP port %2 UDP port %3")
-        .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
-    ServerProperties prop = {};
-    TT_GetServerProperties(ttInst, &prop);
-    addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Connected to %1").arg(limitText(_Q(prop.szServerName))));
 
     //query server's max payload
     if(ttSettings->value(SETTINGS_CONNECTION_QUERYMAXPAYLOAD, SETTINGS_CONNECTION_QUERYMAXPAYLOAD_DEFAULT).toBool())
