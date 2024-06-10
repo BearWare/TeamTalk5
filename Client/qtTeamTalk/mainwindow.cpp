@@ -2180,58 +2180,38 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
     case CMDERR_INVALID_ACCOUNT :
         {
             bool ok = false;
-            QInputDialog inputDialog;
-            inputDialog.setOkButtonText(tr("&OK"));
-            inputDialog.setCancelButtonText(tr("&Cancel"));
-            inputDialog.setInputMode(QInputDialog::TextInput);
-            inputDialog.setTextValue(m_host.username);
-            inputDialog.setWindowTitle(tr("Login error"));
-            inputDialog.setLabelText(tr("Invalid user account. Type username:"));
-            ok = inputDialog.exec();
-            m_host.username = inputDialog.textValue();
-            if(!ok)
+            LoginInfoDialog loginDialog(tr("Login error"), tr("Incorrect username or password. Try again."), m_host.username, m_host.password, this);
+            ok = (loginDialog.exec() == QDialog::Accepted);
+            if (!ok)
                 return;
-            inputDialog.setTextEchoMode(QLineEdit::Password);
-            inputDialog.setTextValue(m_host.password);
-            inputDialog.setWindowTitle(tr("Login error"));
-            inputDialog.setLabelText(tr("Invalid user account. Type password:"));
-            ok = inputDialog.exec();
-            if(!ok)
-                return;
-            
+            m_host.username = loginDialog.getUsername();
+            m_host.password = loginDialog.getPassword();
             addLatestHost(m_host);
             QString nickname = ttSettings->value(SETTINGS_GENERAL_NICKNAME, SETTINGS_GENERAL_NICKNAME_DEFAULT).toString();
-            if(m_host.nickname.size())
+            if (m_host.nickname.size())
                 nickname = m_host.nickname;
             int cmdid = TT_DoLoginEx(ttInst, _W(nickname), 
                                      _W(m_host.username), _W(m_host.password), 
                                      _W(QString(APPNAME_SHORT)));
-            if(cmdid>0)
-                m_commands.insert(cmdid, CMD_COMPLETE_LOGIN);            
-            return;
+            if (cmdid > 0)
+                m_commands.insert(cmdid, CMD_COMPLETE_LOGIN);
         }
+        break;
     case CMDERR_INCORRECT_CHANNEL_PASSWORD :
         {
             bool ok = false;
-            QInputDialog inputDialog;
-            inputDialog.setOkButtonText(tr("&OK"));
-            inputDialog.setCancelButtonText(tr("&Cancel"));
-            inputDialog.setInputMode(QInputDialog::TextInput);
-            inputDialog.setTextEchoMode(QLineEdit::Password);
-            inputDialog.setTextValue(_Q(m_last_channel.szPassword));
-            inputDialog.setWindowTitle(tr("Join channel error"));
-            inputDialog.setLabelText(tr("Incorrect channel password. Try again:"));
-            ok = inputDialog.exec();
-            QString passwd = inputDialog.textValue();
-            if(!ok)
+            PasswordDialog passDialog(tr("Join channel error"), tr("Incorrect channel password. Try again."), _Q(m_last_channel.szPassword), this);
+            ok = (passDialog.exec() == QDialog::Accepted);
+            if (!ok)
                 return;
+            QString passwd = passDialog.getPassword();
             m_channel_passwd[m_last_channel.nChannelID] = passwd;
             COPY_TTSTR(m_last_channel.szPassword, passwd);
             int cmdid = TT_DoJoinChannel(ttInst, &m_last_channel);
-            if(cmdid>0)
-                m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);            
-            return;
+            if (cmdid > 0)
+                m_commands.insert(cmdid, CMD_COMPLETE_JOINCHANNEL);
         }
+        break;
     case CMDERR_SERVER_BANNED :
         title = tr("Login error");
         textmsg = tr("Banned from server"); break;
@@ -5264,18 +5244,11 @@ void MainWindow::slotChannelsJoinChannel(bool /*checked=false*/)
         if(chan.bPassword)
         {
             bool ok = false;
-            QInputDialog inputDialog;
-            inputDialog.setOkButtonText(tr("&OK"));
-            inputDialog.setCancelButtonText(tr("&Cancel"));
-            inputDialog.setInputMode(QInputDialog::TextInput);
-            inputDialog.setTextEchoMode(QLineEdit::Password);
-            inputDialog.setTextValue(password);
-            inputDialog.setWindowTitle(MENUTEXT(ui.actionJoinChannel->text()));
-            inputDialog.setLabelText(tr("Specify password"));
-            ok = inputDialog.exec();
-            password = inputDialog.textValue();
-            if(!ok)
+            PasswordDialog passDialog(MENUTEXT(ui.actionJoinChannel->text()), tr("Specify password"), password, this);
+            ok = (passDialog.exec() == QDialog::Accepted);
+            if (!ok)
                 return;
+            password = passDialog.getPassword();
         }
         m_channel_passwd[chan.nChannelID] = password;
 
@@ -5513,27 +5486,17 @@ void MainWindow::slotChannelsGenerateTTUrl(bool checked/*=false*/)
 
     QClipboard *cp = QApplication::clipboard();
     QString link = QString("%5//%1?tcpport=%2&udpport=%3&encrypted=%4").arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport).arg(m_host.encrypted).arg(TTLINK_PREFIX);
+
     bool ok = false;
-    QInputDialog inputDialog;
-    inputDialog.setOkButtonText(tr("&OK"));
-    inputDialog.setCancelButtonText(tr("&Cancel"));
-    inputDialog.setInputMode(QInputDialog::TextInput);
-    inputDialog.setTextValue(m_host.username);
-    inputDialog.setWindowTitle(tr("Share channel"));
-    inputDialog.setLabelText(tr("Type username of user account:"));
-    ok = inputDialog.exec();
-    if (ok && inputDialog.textValue().size() > 0)
+    LoginInfoDialog loginDialog(tr("Share channel"), tr("Specify User Account"), m_host.username, m_host.password, this);
+    ok = (loginDialog.exec() == QDialog::Accepted);
+    if (ok && loginDialog.getUsername().size() > 0)
     {
-        QString username = QUrl::toPercentEncoding(inputDialog.textValue());
+        QString username = QUrl::toPercentEncoding(loginDialog.getUsername());
         link += QString("&username=%1").arg(username);
-        inputDialog.setTextEchoMode(QLineEdit::Password);
-        inputDialog.setTextValue(m_host.password);
-        inputDialog.setWindowTitle(tr("Share channel"));
-        inputDialog.setLabelText(tr("Type password of user account:"));
-        ok = inputDialog.exec();
-        if (ok && inputDialog.textValue().size() > 0)
+        if (loginDialog.getPassword().size() > 0)
         {
-            QString password = QUrl::toPercentEncoding(inputDialog.textValue());
+            QString password = QUrl::toPercentEncoding(loginDialog.getPassword());
             link += QString("&password=%1").arg(password);
         }
     }
@@ -5548,13 +5511,10 @@ void MainWindow::slotChannelsGenerateTTUrl(bool checked/*=false*/)
         QString chpasswd = m_channel_passwd[chan.nChannelID];
         if (chan.bPassword)
         {
-            inputDialog.setTextEchoMode(QLineEdit::Normal);
-            inputDialog.setTextValue(chpasswd);
-            inputDialog.setWindowTitle(tr("Share channel"));
-            inputDialog.setLabelText(tr("Type password of channel:"));
-            ok = inputDialog.exec();
-            if (ok && inputDialog.textValue().size() > 0)
-                chpasswd = inputDialog.textValue();
+            PasswordDialog channelPassDialog(tr("Share channel"), tr("Type password of channel:"), chpasswd, this);
+            ok = (channelPassDialog.exec() == QDialog::Accepted);
+            if (ok && channelPassDialog.getPassword().size() > 0)
+                chpasswd = channelPassDialog.getPassword();
         }
 
         if (chpasswd.size())
@@ -5973,19 +5933,12 @@ void MainWindow::slotUsersOp(int userid, int chanid)
         Channel chan = {};
         ui.channelsWidget->getChannel(chanid, chan);
 
-        bool ok = false;
-        QInputDialog inputDialog;
-        inputDialog.setTextValue(_Q(chan.szOpPassword));
-        inputDialog.setOkButtonText(tr("&OK"));
-        inputDialog.setCancelButtonText(tr("&Cancel"));
-        inputDialog.setInputMode(QInputDialog::TextInput);
-        inputDialog.setTextEchoMode(QLineEdit::Password);
-        inputDialog.setWindowTitle(MENUTEXT(ui.actionOp->text()));
-        inputDialog.setLabelText(tr("Specify password"));
-        ok = inputDialog.exec();
-        QString oppasswd = inputDialog.textValue();
-        if(ok)
+        PasswordDialog passDialog(MENUTEXT(ui.actionOp->text()), tr("Specify password"), _Q(chan.szOpPassword), this);
+        if (passDialog.exec() == QDialog::Accepted)
+        {
+            QString oppasswd = passDialog.getPassword();
             TT_DoChannelOpEx(ttInst, userid, chanid, _W(oppasswd), !op);
+        }
     }
 }
 

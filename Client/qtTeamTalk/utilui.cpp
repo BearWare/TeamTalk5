@@ -24,6 +24,12 @@
 #include <QDir>
 #include <QDateTime>
 #include <QLocale>
+#include <QLabel>
+#include <QLineEdit>
+#include <QCheckBox>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QDesktopWidget>
 #include <QApplication>
@@ -417,4 +423,104 @@ QString UtilUI::getStatusBarMessage(const QString& paramKey, const QHash<QString
 QString UtilUI::getRawStatusBarMessage(const QString& paramKey)
 {
     return ttSettings->value(paramKey, getDefaultValue(paramKey)).toString();
+}
+
+LoginInfoDialog::LoginInfoDialog(const QString &title, const QString &desc, const QString &initialUsername, const QString &initialPassword, QWidget *parent)
+    : QDialog(parent)
+{
+    setWindowTitle(title);
+    setAccessibleDescription(desc);
+
+    QLabel *descLabel = new QLabel(desc);
+    QLabel *userLabel = new QLabel(tr("Username:"));
+    userEdit = new QLineEdit;
+    userEdit->setText(initialUsername);
+    userLabel->setBuddy(userEdit);
+
+    QLabel *passLabel = new QLabel(tr("Password:"));
+    passEdit = new QLineEdit;
+    passEdit->setEchoMode(QLineEdit::Password);
+    passEdit->setText(initialPassword);
+    passLabel->setBuddy(passEdit);
+
+    QCheckBox *showPasswordCheckBox = new QCheckBox(tr("Show password"));
+    connect(showPasswordCheckBox, &QCheckBox::toggled, [=](bool checked) {
+        passEdit->setEchoMode(checked ? QLineEdit::Normal : QLineEdit::Password);
+    });
+
+    QPushButton *okButton = new QPushButton(tr("&OK"));
+    QPushButton *cancelButton = new QPushButton(tr("&Cancel"));
+
+    connect(okButton, &QPushButton::clicked, this, &QDialog::accept);
+    connect(cancelButton, &QPushButton::clicked, this, &QDialog::reject);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(descLabel);
+    mainLayout->addWidget(userLabel);
+    mainLayout->addWidget(userEdit);
+    mainLayout->addWidget(passLabel);
+    mainLayout->addWidget(passEdit);
+    mainLayout->addWidget(showPasswordCheckBox);
+
+    QHBoxLayout *buttonLayout = new QHBoxLayout;
+    buttonLayout->addWidget(okButton);
+    buttonLayout->addWidget(cancelButton);
+
+    mainLayout->addLayout(buttonLayout);
+
+    setLayout(mainLayout);
+}
+
+QString LoginInfoDialog::getUsername() const
+{
+    return userEdit->text();
+}
+
+QString LoginInfoDialog::getPassword() const
+{
+    return passEdit->text();
+}
+
+PasswordDialog::PasswordDialog(const QString &title, const QString &desc, const QString &initialPassword, QWidget *parent)
+    : QDialog(parent)
+{
+    setWindowTitle(title);
+    setAccessibleDescription(desc);
+
+    QLabel *descLabel = new QLabel(desc);
+    QLabel *passLabel = new QLabel(tr("Password"));
+    passEdit = new QLineEdit;
+    passEdit->setEchoMode(QLineEdit::Password);
+    passEdit->setText(initialPassword);
+    passLabel->setBuddy(passEdit);
+
+    QCheckBox *showPasswordCheckBox = new QCheckBox(tr("Show password"));
+    connect(showPasswordCheckBox, &QCheckBox::toggled, [=](bool checked) {
+        passEdit->setEchoMode(checked ? QLineEdit::Normal : QLineEdit::Password);
+    });
+
+    QPushButton *okButton = new QPushButton(tr("&OK"));
+    QPushButton *cancelButton = new QPushButton(tr("&Cancel"));
+
+    connect(okButton, &QPushButton::clicked, this, &QDialog::accept);
+    connect(cancelButton, &QPushButton::clicked, this, &QDialog::reject);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(descLabel);
+    mainLayout->addWidget(passLabel);
+    mainLayout->addWidget(passEdit);
+    mainLayout->addWidget(showPasswordCheckBox);
+
+    QHBoxLayout *buttonLayout = new QHBoxLayout;
+    buttonLayout->addWidget(okButton);
+    buttonLayout->addWidget(cancelButton);
+
+    mainLayout->addLayout(buttonLayout);
+
+    setLayout(mainLayout);
+}
+
+QString PasswordDialog::getPassword() const
+{
+    return passEdit->text();
 }
