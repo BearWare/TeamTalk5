@@ -538,7 +538,7 @@ void ServerListDlg::editSelectedServer()
     HostEntry host;
     if (!getSelectedHost(host))
         return;
-    ServerDlg dlg((m_model->getServers()[m_proxyModel->mapToSource(ui.serverTableView->currentIndex()).row()].srvtype == SERVERTYPE_LOCAL?ServerDlg::SERVER_UPDATE:ServerDlg::SERVER_READONLY), host, this);
+    ServerDlg dlg(ServerDlg::SERVER_UPDATE, host, this);
     if (dlg.exec() == QDialog::Accepted)
     {
         HostEntry updatedHost = dlg.GetHostEntry();

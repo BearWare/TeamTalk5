@@ -70,26 +70,6 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
         this->setAccessibleDescription(tr("Edit Server %1").arg(host.name));
     }
     break;
-    case SERVER_READONLY :
-        setWindowTitle(tr("View Server Information"));
-        this->setAccessibleDescription(tr("View %1 Information").arg(host.name));
-        ui->nameEdit->setReadOnly(true);
-        ui->hostaddrEdit->setReadOnly(true);
-        ui->tcpportSpinbox->setReadOnly(true);
-        ui->udpportSpinbox->setReadOnly(true);
-        ui->cryptChkBox->setEnabled(false);
-        ui->encsetupBtn->setEnabled(false);
-        ui->bdkLogChkBox->setEnabled(false);
-        ui->usernameEdit->setReadOnly(true);
-        ui->passwordEdit->setReadOnly(true);
-        ui->nicknameEdit->setReadOnly(true);
-        ui->lastChanChkBox->setEnabled(false);
-        ui->channelEdit->setReadOnly(true);
-        ui->chanpasswdEdit->setReadOnly(true);
-        ui->connectSrvBox->setEnabled(false);
-        ui->buttonBox->setStandardButtons(QDialogButtonBox::Close);
-        ui->buttonBox->button(QDialogButtonBox::Close)->setText(tr("&Close"));
-        break;
     }
 
     ui->nameEdit->setText(m_hostentry.name);
