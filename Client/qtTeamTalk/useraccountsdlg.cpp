@@ -104,6 +104,7 @@ void UserAccountsDlg::slotCmdError(int /*error*/, int cmdid)
 void UserAccountsDlg::slotAddUser()
 {
     m_user = {};
+    m_user.uUserRights = USERRIGHT_DEFAULT;
     UserAccountDlg dlg(UserAccountDlg::USER_CREATE, m_user, this);
     if (dlg.exec() == QDialog::Accepted)
     {

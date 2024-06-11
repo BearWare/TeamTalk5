@@ -53,9 +53,9 @@ private:
     Ui::UserAccountDlg *ui;
     QWidget* m_userRightsTab;
     class UserRightsModel* m_userrightsModel;
-    UserAccount m_useraccount, m_newuseraccount;
+    UserAccount m_useraccount;
     UserAccountDlgType m_type;
-    AbusePrevention m_abuse;
+    AbusePrevention m_abuse = {};
     void updateUserRights(const UserAccount& useraccount);
     void toggleUserRights(const QModelIndex &index);
     UserTypes getUserType() const;
