@@ -675,22 +675,62 @@ void MainWindow::loadSettings()
     // Ask to set language at first start
     if (!ttSettings->contains(SETTINGS_DISPLAY_LANGUAGE))
     {
-        QStringList languages = extractLanguages();
-        languages.insert(0, SETTINGS_DISPLAY_LANGUAGE_DEFAULT); //default language is none
-        bool ok = false;
-        QInputDialog inputDialog;
-        inputDialog.setOkButtonText(tr("&OK"));
-        inputDialog.setCancelButtonText(tr("&Cancel"));
-        inputDialog.setComboBoxItems(languages);
-        inputDialog.setComboBoxEditable(false);
-        inputDialog.setWindowTitle(tr("Choose language"));
-        inputDialog.setLabelText(tr("Select the language will be use by %1").arg(APPNAME_SHORT));
-        ok = inputDialog.exec();
-        QString choice = inputDialog.textValue();
-        if (ok)
-        {
-            ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, choice);
-        }
+        QString language = "";
+        QLocale locale = QLocale::system();
+        QString languageCode = locale.name().left(2);
+        if (languageCode == "bg")
+            language = "Bulgarian";
+        else if (languageCode == "zh_CN")
+            language = "Chinese_Simplified";
+        else if (languageCode == "zh_TW")
+            language = "Chinese_Traditional";
+        else if (languageCode == "hr")
+            language = "Croatian";
+        else if (languageCode == "cs")
+            language = "Czech";
+        else if (languageCode == "da")
+            language = "Danish";
+        else if (languageCode == "nl")
+            language = "Dutch";
+        else if (languageCode == "en")
+            language = "English";
+        else if (languageCode == "fr")
+            language = "French";
+        else if (languageCode == "de")
+            language = "German";
+        else if (languageCode == "he")
+            language = "Hebrew";
+        else if (languageCode == "hu")
+            language = "Hungarian";
+        else if (languageCode == "id")
+            language = "Indonesian";
+        else if (languageCode == "it")
+            language = "Italian";
+        else if (languageCode == "ko")
+            language = "Korean";
+        else if (languageCode == "fa")
+            language = "Persian";
+        else if (languageCode == "pl")
+            language = "Polish";
+        else if (languageCode == "pt_BR")
+            language = "Portuguese_BR";
+        else if (languageCode == "pt_PT")
+            language = "Portuguese_EU";
+        else if (languageCode == "ru")
+            language = "Russian";
+        else if (languageCode == "sk")
+            language = "Slovak";
+        else if (languageCode == "sl")
+            language = "Slovenian";
+        else if (languageCode == "es")
+            language = "Spanish";
+        else if (languageCode == "th")
+            language = "Thai";
+        else if (languageCode == "tr")
+            language = "Turkish";
+        else if (languageCode == "vi")
+            language = "Vietnamese";
+        ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, language);
     }
 
     QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, "").toString();

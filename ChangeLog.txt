@@ -27,6 +27,7 @@ Default Qt Client
 - Context menu to move banned/unbanned users to banned/unbanned list
 - Ability to search by IP or username in "Banned Users" dialog
 - Ban time displays in local format
+- Remove language selection at first startup, language is now set automatically
 - Locale file size now also use in "file transfer" dialog
 - Unic dialog to enter username and password on login error and channel share
 - Ability to show password on login error, channel password, channel operator password, and channel share
