@@ -113,7 +113,7 @@ private:
     void refreshServerList();
     void applyServerListFilter();
     void deleteSelectedServer();
-    void editSelectedServer();
+    void editSelectedServer(bool fromLatestHost = false);
     void duplicateSelectedServer();
     void requestServerList();
     void serverlistReply(QNetworkReply* reply);

@@ -533,12 +533,12 @@ void ServerListDlg::deleteSelectedServer()
     }
 }
 
-void ServerListDlg::editSelectedServer()
+void ServerListDlg::editSelectedServer(bool fromLatestHost/* = false*/)
 {
     HostEntry host;
     if (!getSelectedHost(host))
         return;
-    ServerDlg dlg((m_model->getServers()[m_proxyModel->mapToSource(ui.serverTableView->currentIndex()).row()].srvtype == SERVERTYPE_LOCAL?ServerDlg::SERVER_UPDATE:ServerDlg::SERVER_READONLY), host, this);
+    ServerDlg dlg((fromLatestHost?ServerDlg::SERVER_UPDATE:(m_model->getServers()[m_proxyModel->mapToSource(ui.serverTableView->currentIndex()).row()].srvtype == SERVERTYPE_LOCAL?ServerDlg::SERVER_UPDATE:ServerDlg::SERVER_READONLY)), host, this);
     if (dlg.exec() == QDialog::Accepted)
     {
         HostEntry updatedHost = dlg.GetHostEntry();
@@ -934,7 +934,7 @@ void ServerListDlg::slotLatestHostsContextMenu(const QPoint& /*point*/)
         else if (action == delHost)
             deleteLatestHostEntry();
         else if (action == addHost)
-            editSelectedServer();
+            editSelectedServer(true);
         else if (action == clearList)
             clearLatestHosts();
     }
