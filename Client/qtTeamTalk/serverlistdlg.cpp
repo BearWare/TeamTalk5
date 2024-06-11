@@ -268,6 +268,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
     this->setAccessibleDescription(tr("Host manager"));
+    connect(ui.closeBtn, &QAbstractButton::clicked, this, &QDialog::accept);
 
     m_model = new ServerListModel(this);
     m_proxyModel = new QSortFilterProxyModel(this);

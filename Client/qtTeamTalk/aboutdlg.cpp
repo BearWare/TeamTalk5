@@ -26,6 +26,7 @@ AboutDlg::AboutDlg(QWidget* parent)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
+    connect(ui.closeBtn, &QAbstractButton::clicked, this, &QDialog::accept);
 
     QString compile = QString(tr("Compiled on %1 %2 using Qt %3 (Qt %4 used by this instance).")).arg(__DATE__).arg(__TIME__).arg(QT_VERSION_STR).arg(qVersion()) + "\r\n" +
         tr("Version ") + (TEAMTALK_VERSION ".\r\n");
