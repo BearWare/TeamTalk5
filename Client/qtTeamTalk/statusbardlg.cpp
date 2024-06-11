@@ -135,9 +135,9 @@ void StatusBarDlg::saveCurrentMessage()
         QString paramKey = eventInfo.settingKey;
         QString text = ui.SBMsgEdit->text();
 
-        if (!text.isEmpty())
+        if (!text.isEmpty() && text != ttSettings->value(paramKey))
         {
-            ttSettings->setValue(paramKey, text == UtilUI::getDefaultValue(paramKey) ? "" : text);
+            ttSettings->setValue(paramKey, text);
         }
     }
 }
