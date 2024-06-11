@@ -225,10 +225,11 @@ UserTypes UserAccountDlg::getUserType() const
 
 void UserAccountDlg::slotUserTypeChanged()
 {
-    m_newuseraccount.uUserType = getUserType();
-    if (m_newuseraccount.uUserType == USERTYPE_ADMIN)
+    UserAccount useraccount = {};
+    useraccount.uUserType = getUserType();
+    if (useraccount.uUserType == USERTYPE_ADMIN)
     {
-        m_newuseraccount.uUserRights = USERRIGHT_NONE;
+        useraccount.uUserRights = USERRIGHT_NONE;
         int index = ui->tabWidget->indexOf(m_userRightsTab);
         if (index != -1)
         {
@@ -237,13 +238,13 @@ void UserAccountDlg::slotUserTypeChanged()
     }
     else
     {
-        m_newuseraccount.uUserRights = USERRIGHT_DEFAULT;
+        useraccount.uUserRights = USERRIGHT_DEFAULT;
         if (ui->tabWidget->indexOf(m_userRightsTab) == -1)
         {
             ui->tabWidget->addTab(m_userRightsTab, tr("User Rights"));
         }
     }
-    updateUserRights(m_newuseraccount);
+    updateUserRights(useraccount);
 }
 
 void UserAccountDlg::slotAddOpChannel()
