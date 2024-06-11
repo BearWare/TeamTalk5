@@ -18,17 +18,27 @@ SolidCompression=yes
 LicenseFile=License.txt
 ArchitecturesInstallIn64BitMode=x64
 
-
 [Types]
-Name: "i_client"; Description: "TeamTalk 5 Client"
-Name: "i_full"; Description: "TeamTalk 5 Client & Server"
+Name: "i_client"; Description: "{cm:Client}"
+Name: "i_full"; Description: "{cm:Full}"
 
 [Components]
 Name: "client"; Description: "Client files"; Types: i_client i_full; Flags: fixed
 Name: "server"; Description: "Server files"; Types: i_full
 
 [Languages]
-Name: "english"; MessagesFile: "compiler:Default.isl"
+Name: en; MessagesFile: "compiler:Default.isl"
+Name: fr; MessagesFile: "compiler:Languages\French.isl"
+
+[Messages]
+en.BeveledLabel=English
+fr.BeveledLabel=Français
+
+[CustomMessages]
+en.Client=TeamTalk 5 Client
+en.Full=TeamTalk 5 Client & Server
+fr.Client=Client TeamTalk 5
+fr.Full=Client et Serveur TeamTalk 5
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
