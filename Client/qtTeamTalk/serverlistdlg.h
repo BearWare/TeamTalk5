@@ -124,7 +124,7 @@ private:
     void showExportMenu(); // Nouvelle méthode
     void publishServer();
     void publishServerRequest(QNetworkReply* reply);
-    bool getSelectedHost(HostEntry& host);
+    bool getSelectedHost(HostEntryEx& host);
 
     void slotTreeContextMenu(const QPoint&);
     void slotLatestHostsContextMenu(const QPoint&);
