@@ -21,8 +21,8 @@
        <property name="text">
         <string/>
        </property>
-       <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+       <property name="focusPolicy">
+        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
@@ -31,8 +31,8 @@
        <property name="text">
         <string/>
        </property>
-       <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+       <property name="focusPolicy">
+        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
@@ -41,8 +41,8 @@
        <property name="text">
         <string/>
        </property>
-       <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+       <property name="focusPolicy">
+        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
@@ -51,8 +51,8 @@
        <property name="text">
         <string/>
        </property>
-       <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+       <property name="focusPolicy">
+        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
@@ -61,8 +61,8 @@
        <property name="text">
         <string/>
        </property>
-       <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+       <property name="focusPolicy">
+        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
@@ -71,8 +71,8 @@
        <property name="text">
         <string/>
        </property>
-       <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+       <property name="focusPolicy">
+        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
@@ -81,8 +81,8 @@
        <property name="text">
         <string/>
        </property>
-       <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+       <property name="focusPolicy">
+        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
@@ -91,8 +91,8 @@
        <property name="text">
         <string/>
        </property>
-       <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+       <property name="focusPolicy">
+        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
@@ -101,8 +101,8 @@
        <property name="text">
         <string/>
        </property>
-       <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+       <property name="focusPolicy">
+        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
@@ -111,8 +111,8 @@
        <property name="text">
         <string/>
        </property>
-       <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+       <property name="focusPolicy">
+        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>

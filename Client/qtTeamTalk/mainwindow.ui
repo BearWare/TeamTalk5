@@ -201,11 +201,17 @@
             <property name="value">
              <number>0</number>
             </property>
+            <property name="accessibleName">
+             <string>Voice level</string>
+            </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
             <property name="format">
              <string/>
+            </property>
+            <property name="focusPolicy">
+             <set>Qt::StrongFocus</set>
             </property>
            </widget>
           </item>

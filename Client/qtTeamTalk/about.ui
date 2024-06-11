@@ -60,8 +60,8 @@
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
-         <property name="textInteractionFlags">
-           <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+         <property name="focusPolicy">
+          <set>Qt::StrongFocus</set>
          </property>
         </widget>
        </item>
@@ -119,8 +119,8 @@ p, li { white-space: pre-wrap; }
        <property name="wordWrap">
         <bool>true</bool>
        </property>
-       <property name="textInteractionFlags">
-         <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+       <property name="focusPolicy">
+        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
@@ -132,8 +132,8 @@ p, li { white-space: pre-wrap; }
        <property name="wordWrap">
         <bool>true</bool>
        </property>
-       <property name="textInteractionFlags">
-         <set>Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard</set>
+       <property name="focusPolicy">
+        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
