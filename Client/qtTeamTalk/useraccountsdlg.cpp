@@ -143,6 +143,8 @@ void UserAccountsDlg::slotEditUser()
     UserAccountDlg dlg(UserAccountDlg::USER_UPDATE, m_user, this);
     if (dlg.exec() == QDialog::Accepted)
     {
+        m_del_cmdid = TT_DoDeleteUserAccount(ttInst, m_user.szUsername);
+        m_del_username = _Q(m_user.szUsername);
         m_user = dlg.getUserAccount();
         m_add_cmdid = TT_DoNewUserAccount(ttInst, &m_user);
     }
