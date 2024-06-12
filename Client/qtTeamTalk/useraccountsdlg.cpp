@@ -36,7 +36,6 @@ UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, QWidget * p
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
-    connect(ui.closeBtn, &QAbstractButton::clicked, this, &QDialog::accept);
 
     using std::placeholders::_1;
     m_useraccountsModel = new UserAccountsModel(this, std::bind(&QHeaderView::logicalIndex, ui.usersTableView->horizontalHeader(), _1));

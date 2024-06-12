@@ -33,7 +33,6 @@ OnlineUsersDlg::OnlineUsersDlg(QWidget* parent/* = 0 */)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
-    connect(ui.closeBtn, &QAbstractButton::clicked, this, &QDialog::accept);
 
     restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_ONLINEUSERSWINDOWPOS).toByteArray());
 

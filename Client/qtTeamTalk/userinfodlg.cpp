@@ -31,7 +31,6 @@ UserInfoDlg::UserInfoDlg(int userid, QWidget * parent/* = 0*/)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
-    connect(ui.closeBtn, &QAbstractButton::clicked, this, &QDialog::accept);
 
     connect(ui.copyButton, &QAbstractButton::clicked,
             this, &UserInfoDlg::copyInfoToClipboard);

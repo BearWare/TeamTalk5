@@ -28,7 +28,6 @@ UserDesktopDlg::UserDesktopDlg(const User& user, const QSize& size,
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
-    connect(ui.closeBtn, &QAbstractButton::clicked, this, &QDialog::accept);
 
     this->resize(size);
     ui.userdesktopWidget->setUserID(user.nUserID);

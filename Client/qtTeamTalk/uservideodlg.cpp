@@ -28,7 +28,6 @@ UserVideoDlg::UserVideoDlg(int userid_masked, const User& user, const QSize& siz
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
-    connect(ui.closeBtn, &QAbstractButton::clicked, this, &QDialog::accept);
 
     initCommon(userid_masked);
 
