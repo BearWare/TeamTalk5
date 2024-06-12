@@ -4,6 +4,7 @@
 
 Version 5.17, unreleased
 Default Qt Client
+- Windows installer translatable
 - "Connect to a Server" and "User Accounts" dialog simplified with multiple sub dialogs
 - Table view instead of tree view in "Online Users", "User Accounts", "Banned Users", "Server List", "File List", "Server Properties" and "Preferences" dialogs
 - "Move Users" dialog from "Users" -> "Advanced" menu item
