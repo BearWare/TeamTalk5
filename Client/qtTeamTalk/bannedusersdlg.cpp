@@ -375,7 +375,7 @@ void BannedUsersDlg::slotBannedContextMenu(const QPoint& /*point*/)
             ttSettings->setValue(SETTINGS_DISPLAY_BANLIST_SORT, IP);
         }
         else if (action == unbanUser)
-            emit(slotUnbanUser());
+            slotUnbanUser();
     }
 }
 
@@ -388,7 +388,7 @@ void BannedUsersDlg::slotUnbannedContextMenu(const QPoint& /*point*/)
     if (QAction* action = menu.exec(QCursor::pos()))
     {
         if (action == banUser)
-            emit(slotBanUser());
+            slotBanUser();
     }
 }
 
