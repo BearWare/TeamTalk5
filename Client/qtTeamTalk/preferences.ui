@@ -460,6 +460,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QCheckBox" name="voiceActLevelChkBox">
+              <property name="text">
+               <string>Show voice activation level slider</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QCheckBox" name="ServnameChkBox">
               <property name="text">
                <string>Show both server and channel name in window title</string>
@@ -2514,6 +2521,7 @@
    <class>MyTabWidget</class>
    <extends>QTabWidget</extends>
    <header>mytabwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

@@ -794,17 +794,21 @@ void MainWindow::loadSettings()
 
     initialScreenReaderSetup();
 
-    // setup VU-meter updates
+    // Hide/Show widgets
     if (ttSettings->value(SETTINGS_DISPLAY_VU_METER_UPDATES,
         SETTINGS_DISPLAY_VU_METER_UPDATES_DEFAULT).toBool())
     {
         m_timers.insert(startTimer(50), TIMER_VUMETER_UPDATE);
+        ui.vumeterLabel->setVisible(true);
         ui.voiceactBar->setVisible(true);
     }
     else
     {
+        ui.vumeterLabel->setVisible(false);
         ui.voiceactBar->setVisible(false);
     }
+    ui.voiceactLabel->setVisible(ui.actionEnableVoiceActivation->isChecked() && ttSettings->value(SETTINGS_DISPLAY_VOICE_ACT_SLIDER, SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT).toBool());
+    ui.voiceactSlider->setVisible(ui.actionEnableVoiceActivation->isChecked() && ttSettings->value(SETTINGS_DISPLAY_VOICE_ACT_SLIDER, SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT).toBool());
 
     // Sounds pack checks
     QString packset = ttSettings->value(SETTINGS_SOUNDS_PACK).toString();
@@ -4303,21 +4307,25 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
         show(); //for some reason this has to be called, otherwise the window disappears
     }
 
-    // check vu-meter setting
+    // Hide/Show widgets
     if(ttSettings->value(SETTINGS_DISPLAY_VU_METER_UPDATES,
                          SETTINGS_DISPLAY_VU_METER_UPDATES_DEFAULT).toBool())
     {
         if(!timerExists(TIMER_VUMETER_UPDATE))
         {
             m_timers.insert(startTimer(50), TIMER_VUMETER_UPDATE);
+            ui.vumeterLabel->setVisible(true);
             ui.voiceactBar->setVisible(true);
         }
     }
     else if(timerExists(TIMER_VUMETER_UPDATE))
     {
         killLocalTimer(TIMER_VUMETER_UPDATE);
+        ui.vumeterLabel->setVisible(false);
         ui.voiceactBar->setVisible(false);
     }
+    ui.voiceactLabel->setVisible(ui.actionEnableVoiceActivation->isChecked() && ttSettings->value(SETTINGS_DISPLAY_VOICE_ACT_SLIDER, SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT).toBool());
+    ui.voiceactSlider->setVisible(ui.actionEnableVoiceActivation->isChecked() && ttSettings->value(SETTINGS_DISPLAY_VOICE_ACT_SLIDER, SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT).toBool());
 
     ui.channelsWidget->updateAllItems();
 
@@ -4598,7 +4606,8 @@ void MainWindow::enableVoiceActivation(bool checked, SoundEvent on, SoundEvent o
     }
     else
     {
-        ui.voiceactSlider->setVisible(checked);
+        ui.voiceactLabel->setVisible(checked && ttSettings->value(SETTINGS_DISPLAY_VOICE_ACT_SLIDER, SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT).toBool());
+        ui.voiceactSlider->setVisible(checked && ttSettings->value(SETTINGS_DISPLAY_VOICE_ACT_SLIDER, SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT).toBool());
         if (TT_GetFlags(ttInst) & CLIENT_CONNECTED)
             emit(updateMyself());
         playSoundEvent(checked == true ? on : off);
