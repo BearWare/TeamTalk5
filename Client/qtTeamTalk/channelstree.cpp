@@ -1208,6 +1208,9 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
         if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
             itemtext += ", 💿";
 
+        if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE_PAUSED)
+            itemtext += ", 💿⏸️";
+
         if (user.nStatusMode & STATUSMODE_VIDEOTX)
             itemtext += ", 🎥";
     }
