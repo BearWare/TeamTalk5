@@ -2673,24 +2673,22 @@ QString MainWindow::getTitle()
     if(ttSettings)
         profilename = ttSettings->value(SETTINGS_GENERAL_PROFILENAME).toString();
 
-    ServerProperties prop = {};
     bool Servname = ttSettings->value(SETTINGS_DISPLAY_SERVNAME, SETTINGS_DISPLAY_SERVNAME_DEFAULT).toBool();
     if(m_mychannel.nChannelID > 0 &&
        m_mychannel.nChannelID != TT_GetRootChannelID(ttInst))
     {
         if (Servname)
         {
-            TT_GetServerProperties(ttInst, &prop);
-            title = QString("%1/%2 - %3").arg(limitText(_Q(prop.szServerName))).arg(limitText(_Q(m_mychannel.szName))).arg(APPTITLE);
+            title = QString("%1/%2 - %3").arg(limitText(_Q(m_srvprop.szServerName))).arg(limitText(_Q(m_mychannel.szName))).arg(APPTITLE);
         }
         else
         {
             title = QString("%1 - %2").arg(limitText(_Q(m_mychannel.szName))).arg(APPTITLE);
         }
     }
-    else if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && TT_GetServerProperties(ttInst, &prop))
+    else if (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
     {
-        title = QString("%1 - %2").arg(limitText(_Q(prop.szServerName))).arg(APPTITLE);
+        title = QString("%1 - %2").arg(limitText(_Q(m_srvprop.szServerName))).arg(APPTITLE);
     }
 
     if(profilename.size())
@@ -2898,9 +2896,7 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
                 QString channame;
                 if (m_mychannel.nChannelID == TT_GetRootChannelID(ttInst))
                 {
-                    ServerProperties prop = {};
-                    TT_GetServerProperties(ttInst, &prop);
-                    channame = _Q(prop.szServerName);
+                    channame = _Q(m_srvprop.szServerName);
                 }
                 else
                     channame = _Q(m_mychannel.szName);
@@ -5862,9 +5858,7 @@ void MainWindow::slotUsersSpeakUserInformation(int id)
         QString channel = tr("Channel"), passwd = tr("Password protected"), classroom = tr("Classroom"), topic, rootChan = tr("root"), hidden = tr("Hidden");
         if(chan.nChannelID == TT_GetRootChannelID(ttInst))
         {
-            ServerProperties prop = {};
-            TT_GetServerProperties(ttInst, &prop);
-            speakList += QString("%1: ").arg(_Q(prop.szServerName));
+            speakList += QString("%1: ").arg(_Q(m_srvprop.szServerName));
         }
         else
             speakList += QString("%1: ").arg(_Q(chan.szName));
