@@ -670,8 +670,11 @@ void MainWindow::loadSettings()
 
         ttSettings->setValue(SETTINGS_SOUNDEVENT_ACTIVEEVENTS, activeEvents);
 
-        // Server name TTS option removed in 5.4 format
+        // TTS options removed in 5.4 format
         ttSettings->remove("texttospeech/announce-server-name");
+#if defined(Q_OS_DARWIN)
+        ttSettings->remove("texttospeech/speak-lists");
+#endif
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
 
