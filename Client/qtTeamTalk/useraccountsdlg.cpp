@@ -226,8 +226,8 @@ void UserAccountsDlg::slotTreeContextMenu(const QPoint& /*point*/)
         else if (action == addUser)
             slotAddUser();
         else if (action == delUser)
-            emit(slotDelUser());
+            slotDelUser();
         else if (action == editUser)
-            emit(slotEditUser());
+            slotEditUser();
     }
 }
