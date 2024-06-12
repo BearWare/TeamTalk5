@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>317</width>
-    <height>352</height>
+    <height>296</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,101 +18,101 @@
     <layout class="QGridLayout" name="gridLayout">
      <item row="9" column="0">
       <widget class="QLabel" name="uptimeLabel">
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
        <property name="text">
         <string/>
-       </property>
-       <property name="focusPolicy">
-        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="voiceRXTXLabel">
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
        <property name="text">
         <string/>
-       </property>
-       <property name="focusPolicy">
-        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="mediafileRXTXLabel">
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
        <property name="text">
         <string/>
-       </property>
-       <property name="focusPolicy">
-        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
      <item row="0" column="0">
       <widget class="QLabel" name="totalRXTXLabel">
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
        <property name="text">
         <string/>
-       </property>
-       <property name="focusPolicy">
-        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="videoRXTXLabel">
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
        <property name="text">
         <string/>
-       </property>
-       <property name="focusPolicy">
-        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
      <item row="5" column="0">
       <widget class="QLabel" name="kbpsLabel">
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
        <property name="text">
         <string/>
-       </property>
-       <property name="focusPolicy">
-        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
      <item row="8" column="0">
       <widget class="QLabel" name="usersPeakLabel">
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
        <property name="text">
         <string/>
-       </property>
-       <property name="focusPolicy">
-        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
      <item row="7" column="0">
       <widget class="QLabel" name="usersLabel">
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
        <property name="text">
         <string/>
-       </property>
-       <property name="focusPolicy">
-        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
      <item row="6" column="0">
       <widget class="QLabel" name="filesRXTXLabel">
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
        <property name="text">
         <string/>
-       </property>
-       <property name="focusPolicy">
-        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
      <item row="4" column="0">
       <widget class="QLabel" name="desktopRXTXLabel">
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
        <property name="text">
         <string/>
-       </property>
-       <property name="focusPolicy">
-        <set>Qt::StrongFocus</set>
        </property>
       </widget>
      </item>
@@ -154,36 +154,6 @@
         <number>1000</number>
        </property>
       </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>74</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>65</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
     </layout>
    </item>
