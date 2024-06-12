@@ -669,6 +669,9 @@ void MainWindow::loadSettings()
         }
 
         ttSettings->setValue(SETTINGS_SOUNDEVENT_ACTIVEEVENTS, activeEvents);
+
+        // Server name TTS option removed in 5.4 format
+        ttSettings->remove("texttospeech/announce-server-name");
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
 
