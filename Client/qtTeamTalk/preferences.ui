@@ -20,6 +20,46 @@
    <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout_6">
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <spacer name="horizontalSpacer_7">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_8">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
    <item row="0" column="0">
     <widget class="MyTabWidget" name="tabWidget">
      <property name="currentIndex">
@@ -365,134 +405,126 @@
       <attribute name="title">
        <string>Display</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_9">
+      <layout class="QHBoxLayout" name="horizontalLayout_31">
        <item>
-        <widget class="QGroupBox" name="groupBox_3">
-         <property name="title">
-          <string>User Interface Settings</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_18">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_31">
+        <layout class="QVBoxLayout" name="verticalLayout_21">
+         <item>
+          <widget class="QGroupBox" name="groupBox_3">
+           <property name="title">
+            <string>User Interface Settings</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_18">
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout">
+             <layout class="QHBoxLayout" name="horizontalLayout_17">
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_17">
-                <item>
-                 <widget class="QLabel" name="label_5">
-                  <property name="text">
-                   <string>User interface language</string>
-                  </property>
-                  <property name="buddy">
-                   <cstring>languageBox</cstring>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QComboBox" name="languageBox"/>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="startminimizedChkBox">
+               <widget class="QLabel" name="label_5">
                 <property name="text">
-                 <string>Start minimized</string>
+                 <string>User interface language</string>
+                </property>
+                <property name="buddy">
+                 <cstring>languageBox</cstring>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="trayChkBox">
+               <widget class="QComboBox" name="languageBox"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="startminimizedChkBox">
+              <property name="text">
+               <string>Start minimized</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="trayChkBox">
+              <property name="text">
+               <string>Minimize to tray icon</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="alwaysontopChkBox">
+              <property name="text">
+               <string>&amp;Always on top</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="vumeterChkBox">
+              <property name="text">
+               <string>Enable VU-meter updates</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="ServnameChkBox">
+              <property name="text">
+               <string>Show both server and channel name in window title</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="msgtimestampChkBox">
+              <property name="text">
+               <string>Timestamp text messages</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_30">
+              <item>
+               <widget class="QLabel" name="timestampformatLabel">
                 <property name="text">
-                 <string>Minimize to tray icon</string>
+                 <string>Timestamp format</string>
+                </property>
+                <property name="buddy">
+                 <cstring>timestampformatEdit</cstring>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="alwaysontopChkBox">
+               <widget class="QLineEdit" name="timestampformatEdit"/>
+              </item>
+              <item>
+               <widget class="QPushButton" name="TSFVarButton">
                 <property name="text">
-                 <string>&amp;Always on top</string>
+                 <string>&amp;Variables...</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_18">
+              <item>
+               <widget class="QCheckBox" name="logstatusbarChkBox">
+                <property name="text">
+                 <string>Show statusbar events in chat-window</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="vumeterChkBox">
+               <widget class="QToolButton" name="statusbarToolButton">
+                <property name="accessibleName">
+                 <string>Configure events</string>
+                </property>
                 <property name="text">
-                 <string>Enable VU-meter updates</string>
+                 <string notr="true">...</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="usercountChkBox">
-                <property name="text">
-                 <string>Show number of users in channel</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="showusernameChkBox">
-                <property name="text">
-                 <string>Show username instead of nickname</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="lasttalkChkBox">
-                <property name="text">
-                 <string>Show last to talk in yellow</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="emojiChkBox">
-                <property name="text">
-                 <string>Show emojis and text for channel/user state</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="animChkBox">
-                <property name="text">
-                 <string>Show user and channel icons</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="chanTopicChkBox">
-                <property name="text">
-                 <string>Show channel topic in channel list</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="ServnameChkBox">
-                <property name="text">
-                 <string>Show both server and channel name in window title</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="msgpopupChkBox">
-                <property name="text">
-                 <string>Popup dialog when receiving text message</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="videodlgChkBox">
-                <property name="text">
-                 <string>Start video in popup dialog</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_11">
+               <spacer name="horizontalSpacer_32">
                 <property name="orientation">
-                 <enum>Qt::Vertical</enum>
+                 <enum>Qt::Horizontal</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
-                  <width>20</width>
-                  <height>40</height>
+                  <width>40</width>
+                  <height>20</height>
                  </size>
                 </property>
                </spacer>
@@ -500,271 +532,36 @@
              </layout>
             </item>
             <item>
-             <spacer name="horizontalSpacer_20">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+             <layout class="QHBoxLayout" name="horizontalLayout_15">
+              <property name="spacing">
+               <number>6</number>
               </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>37</width>
-                <height>17</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_4">
               <item>
-               <widget class="QCheckBox" name="desktopdlgChkBox">
+               <widget class="QCheckBox" name="vidtextChkBox">
                 <property name="text">
-                 <string>Start desktops in popup dialog</string>
+                 <string>Show source in corner of video window</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="msgtimestampChkBox">
+               <widget class="QToolButton" name="vidtextsrcToolBtn">
+                <property name="accessibleName">
+                 <string>Video window settings</string>
+                </property>
                 <property name="text">
-                 <string>Timestamp text messages</string>
+                 <string notr="true">...</string>
                 </property>
                </widget>
               </item>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_30">
-                <item>
-                 <widget class="QLabel" name="timestampformatLabel">
-                  <property name="text">
-                   <string>Timestamp format</string>
-                  </property>
-                  <property name="buddy">
-                   <cstring>timestampformatEdit</cstring>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="timestampformatEdit"/>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="TSFVarButton">
-                  <property name="text">
-                   <string>&amp;Variables...</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="chanexpChkBox">
-                <property name="text">
-                 <string>Auto expand channels</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_26">
-                <item>
-                 <widget class="QLabel" name="label_dbclickchan">
-                  <property name="text">
-                   <string>Double click on a channel</string>
-                  </property>
-                  <property name="buddy">
-                   <cstring>chanDbClickBox</cstring>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QComboBox" name="chanDbClickBox"/>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_27">
-                <item>
-                 <widget class="QLabel" name="label_45">
-                  <property name="text">
-                   <string>Sort channels by</string>
-                  </property>
-                  <property name="buddy">
-                   <cstring>channelsortComboBox</cstring>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QComboBox" name="channelsortComboBox"/>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="closeFileDlgChkBox">
-                <property name="text">
-                 <string>Close dialog box when a file transfer is finished</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="dlgExcludeChkBox">
-                <property name="text">
-                 <string>Show dialog box when excluded from channel or server</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="dlgMOTDChkBox">
-                <property name="text">
-                 <string>Show dialog box with server's message of the day</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="startServerListChkBox">
-                <property name="text">
-                 <string>Show dialog box with server list on startup</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_18">
-                <item>
-                 <widget class="QCheckBox" name="logstatusbarChkBox">
-                  <property name="text">
-                   <string>Show statusbar events in chat-window</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QToolButton" name="statusbarToolButton">
-                  <property name="accessibleName">
-                   <string>Configure events</string>
-                  </property>
-                  <property name="text">
-                   <string notr="true">...</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_32">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_15">
-                <property name="spacing">
-                 <number>6</number>
-                </property>
-                <item>
-                 <widget class="QCheckBox" name="vidtextChkBox">
-                  <property name="text">
-                   <string>Show source in corner of video window</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QToolButton" name="vidtextsrcToolBtn">
-                  <property name="accessibleName">
-                   <string>Video window settings</string>
-                  </property>
-                  <property name="text">
-                   <string notr="true">...</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_19">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_16">
-                <item>
-                 <widget class="QLabel" name="label_39">
-                  <property name="text">
-                   <string>Maximum text length in channel list</string>
-                  </property>
-                  <property name="buddy">
-                   <cstring>maxtextSpinBox</cstring>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QSpinBox" name="maxtextSpinBox">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimum">
-                   <number>5</number>
-                  </property>
-                  <property name="maximum">
-                   <number>512</number>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_18">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="updatesChkBox">
-                <property name="text">
-                 <string>Check for software updates on startup</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="betaUpdatesChkBox">
-                <property name="text">
-                 <string>Check for beta software updates on startup</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="updatesDlgChkBox">
-                <property name="text">
-                 <string>Show new version available in dialog box</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_8">
+               <spacer name="horizontalSpacer_19">
                 <property name="orientation">
-                 <enum>Qt::Vertical</enum>
+                 <enum>Qt::Horizontal</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
-                  <width>20</width>
-                  <height>40</height>
+                  <width>40</width>
+                  <height>20</height>
                  </size>
                 </property>
                </spacer>
@@ -772,22 +569,262 @@
              </layout>
             </item>
            </layout>
-          </item>
-         </layout>
-        </widget>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_16">
+           <property name="title">
+            <string>Dialogs</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <widget class="QCheckBox" name="msgpopupChkBox">
+              <property name="text">
+               <string>Popup dialog when receiving text message</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="videodlgChkBox">
+              <property name="text">
+               <string>Start video in popup dialog</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="desktopdlgChkBox">
+              <property name="text">
+               <string>Start desktops in popup dialog</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="dlgExcludeChkBox">
+              <property name="text">
+               <string>Show dialog box when excluded from channel or server</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="closeFileDlgChkBox">
+              <property name="text">
+               <string>Close dialog box when a file transfer is finished</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="dlgMOTDChkBox">
+              <property name="text">
+               <string>Show dialog box with server's message of the day</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="startServerListChkBox">
+              <property name="text">
+               <string>Show dialog box with server list on startup</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_6">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
        <item>
-        <spacer name="verticalSpacer_6">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
+        <layout class="QVBoxLayout" name="verticalLayout_23">
+         <item>
+          <widget class="QGroupBox" name="groupBox_14">
+           <property name="title">
+            <string>Channels Tree</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout">
+            <item>
+             <widget class="QCheckBox" name="usercountChkBox">
+              <property name="text">
+               <string>Show number of users in channel</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="showusernameChkBox">
+              <property name="text">
+               <string>Show username instead of nickname</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="lasttalkChkBox">
+              <property name="text">
+               <string>Show last to talk in yellow</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="emojiChkBox">
+              <property name="text">
+               <string>Show emojis and text for channel/user state</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="animChkBox">
+              <property name="text">
+               <string>Show user and channel icons</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="chanTopicChkBox">
+              <property name="text">
+               <string>Show channel topic in channel list</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_16">
+              <item>
+               <widget class="QLabel" name="label_39">
+                <property name="text">
+                 <string>Maximum text length in channel list</string>
+                </property>
+                <property name="buddy">
+                 <cstring>maxtextSpinBox</cstring>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="maxtextSpinBox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimum">
+                 <number>5</number>
+                </property>
+                <property name="maximum">
+                 <number>512</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_18">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="chanexpChkBox">
+              <property name="text">
+               <string>Auto expand channels</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_27">
+              <item>
+               <widget class="QLabel" name="label_45">
+                <property name="text">
+                 <string>Sort channels by</string>
+                </property>
+                <property name="buddy">
+                 <cstring>channelsortComboBox</cstring>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="channelsortComboBox"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_26">
+              <item>
+               <widget class="QLabel" name="label_dbclickchan">
+                <property name="text">
+                 <string>Double click on a channel</string>
+                </property>
+                <property name="buddy">
+                 <cstring>chanDbClickBox</cstring>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="chanDbClickBox"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_15">
+           <property name="title">
+            <string>Software Update</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_9">
+            <item>
+             <widget class="QCheckBox" name="updatesChkBox">
+              <property name="text">
+               <string>Check for software updates on startup</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="betaUpdatesChkBox">
+              <property name="text">
+               <string>Check for beta software updates on startup</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="updatesDlgChkBox">
+              <property name="text">
+               <string>Show new version available in dialog box</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_8">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -1169,6 +1206,9 @@
             </item>
             <item row="1" column="1">
              <widget class="QLabel" name="inputinfoLabel">
+              <property name="focusPolicy">
+               <enum>Qt::StrongFocus</enum>
+              </property>
               <property name="text">
                <string notr="true">TextLabel</string>
               </property>
@@ -1177,9 +1217,6 @@
               </property>
               <property name="wordWrap">
                <bool>true</bool>
-              </property>
-              <property name="focusPolicy">
-               <set>Qt::StrongFocus</set>
               </property>
              </widget>
             </item>
@@ -1215,14 +1252,14 @@
             </item>
             <item row="3" column="1">
              <widget class="QLabel" name="outputinfoLabel">
+              <property name="focusPolicy">
+               <enum>Qt::StrongFocus</enum>
+              </property>
               <property name="text">
                <string notr="true">TextLabel</string>
               </property>
               <property name="wordWrap">
                <bool>true</bool>
-              </property>
-              <property name="focusPolicy">
-               <set>Qt::StrongFocus</set>
               </property>
              </widget>
             </item>
@@ -2464,46 +2501,6 @@
       </layout>
      </widget>
     </widget>
-   </item>
-   <item row="1" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
-     <item>
-      <spacer name="horizontalSpacer_7">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QDialogButtonBox" name="buttonBox">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="standardButtons">
-        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_8">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
    </item>
   </layout>
  </widget>
