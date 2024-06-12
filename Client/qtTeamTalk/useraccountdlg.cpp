@@ -179,8 +179,6 @@ UserAccount UserAccountDlg::getUserAccount() const
 
     newUser.nAudioCodecBpsLimit = ui->audmaxbpsSpinBox->value() * 1000;
 
-    newUser.abusePrevent = m_abuse;
-
     return newUser;
 }
 
@@ -282,35 +280,35 @@ void UserAccountDlg::slotCustomCmdLimit(int index)
     switch(ui->limitcmdComboBox->itemData(index).toInt())
     {
     case LIMITCMD_DISABLED:
-        m_abuse.nCommandsIntervalMSec = m_abuse.nCommandsLimit = 0;
+        m_useraccount.abusePrevent.nCommandsIntervalMSec = m_useraccount.abusePrevent.nCommandsLimit = 0;
         break;
     case LIMITCMD_10_PER_10SEC:
-        m_abuse.nCommandsLimit = 10;
-        m_abuse.nCommandsIntervalMSec = 10000;
+        m_useraccount.abusePrevent.nCommandsLimit = 10;
+        m_useraccount.abusePrevent.nCommandsIntervalMSec = 10000;
         break;
     case LIMITCMD_10_PER_MINUTE:
-        m_abuse.nCommandsLimit = 10;
-        m_abuse.nCommandsIntervalMSec = 60000;
+        m_useraccount.abusePrevent.nCommandsLimit = 10;
+        m_useraccount.abusePrevent.nCommandsIntervalMSec = 60000;
         break;
     case LIMITCMD_60_PER_MINUTE:
-        m_abuse.nCommandsLimit = 60;
-        m_abuse.nCommandsIntervalMSec = 60000;
+        m_useraccount.abusePrevent.nCommandsLimit = 60;
+        m_useraccount.abusePrevent.nCommandsIntervalMSec = 60000;
         break;
     case LIMITCMD_CUSTOM:
     {
-        CustomCmdLimitDialog dlg(m_abuse.nCommandsLimit, m_abuse.nCommandsIntervalMSec / 1000, this);
+        CustomCmdLimitDialog dlg(m_useraccount.abusePrevent.nCommandsLimit, m_useraccount.abusePrevent.nCommandsIntervalMSec / 1000, this);
         if (dlg.exec() == QDialog::Accepted)
         {
-            m_abuse.nCommandsLimit = dlg.getCommandLimit();
-            if (m_abuse.nCommandsLimit)
+            m_useraccount.abusePrevent.nCommandsLimit = dlg.getCommandLimit();
+            if (m_useraccount.abusePrevent.nCommandsLimit)
             {
-                m_abuse.nCommandsIntervalMSec = dlg.getIntervalSec() * 1000;
+                m_useraccount.abusePrevent.nCommandsIntervalMSec = dlg.getIntervalSec() * 1000;
             }
             else
             {
-                m_abuse.nCommandsIntervalMSec = 0;
+                m_useraccount.abusePrevent.nCommandsIntervalMSec = 0;
             }
-            updateCustomLimitText(m_abuse.nCommandsLimit, m_abuse.nCommandsIntervalMSec);
+            updateCustomLimitText(m_useraccount.abusePrevent.nCommandsLimit, m_useraccount.abusePrevent.nCommandsIntervalMSec);
         }
         break;
     }
@@ -394,7 +392,7 @@ void UserAccountDlg::showUserAccount(const UserAccount& useraccount)
 
     ui->audmaxbpsSpinBox->setValue(useraccount.nAudioCodecBpsLimit / 1000);
 
-    m_abuse = useraccount.abusePrevent;
+    m_useraccount.abusePrevent = useraccount.abusePrevent;
     int i = -1;  // Default value for index
     switch(useraccount.abusePrevent.nCommandsLimit)
     {

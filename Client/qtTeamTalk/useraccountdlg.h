@@ -55,7 +55,6 @@ private:
     class UserRightsModel* m_userrightsModel;
     UserAccount m_useraccount;
     UserAccountDlgType m_type;
-    AbusePrevention m_abuse = {};
     void updateUserRights(const UserAccount& useraccount);
     void toggleUserRights(const QModelIndex &index);
     UserTypes getUserType() const;
