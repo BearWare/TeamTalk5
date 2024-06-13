@@ -68,7 +68,7 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
     ui.mediafiletxSpinBox->setValue(m_srvprop.nMaxMediaFileTxPerSecond/1024);
     ui.desktoptxSpinBox->setValue(m_srvprop.nMaxDesktopTxPerSecond/1024);
     ui.totaltxSpinBox->setValue(m_srvprop.nMaxTotalTxPerSecond/1024);
-    ui.serverversionEdit->setText(_Q(m_srvprop.szServerVersion));
+    ui.serverversionLabel->setText(QString(tr("Server version") + ": " + _Q(m_srvprop.szServerVersion)));
     m_serverlogmodel = new ServerLogEventsModel(this);
     ui.serverlogTableView->setModel(m_serverlogmodel);
     m_serverlogmodel->setServerLogEvents(m_srvprop.uServerLogEvents);
