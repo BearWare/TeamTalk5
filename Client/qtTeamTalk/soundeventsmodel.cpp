@@ -187,7 +187,7 @@ QVariant SoundEventsModel::data ( const QModelIndex & index, int role /*= Qt::Di
             QString file = data(createIndex(index.row(), COLUMN_FILENAME), Qt::DisplayRole).toString();
             if (file.size() > 0)
                 result += " - " + file;
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0) || defined(Q_OS_MAC)
             QString state = (m_soundselected & m_soundevents[index.row()])? tr("Enabled") : tr("Disabled");
             result += ": " + state;
 #endif

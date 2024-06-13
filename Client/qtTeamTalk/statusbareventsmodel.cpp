@@ -188,7 +188,7 @@ QVariant StatusBarEventsModel::data ( const QModelIndex & index, int role /*= Qt
             QString msg = data(createIndex(index.row(), COLUMN_MESSAGE), Qt::DisplayRole).toString();
             if (msg.size() > 0)
                 result += " - " + msg;
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0) || defined(Q_OS_MAC)
             QString state = (m_statusbarselected & m_statusbarevents[index.row()])? tr("Enabled") : tr("Disabled");
             result += ": " + state;
 #endif

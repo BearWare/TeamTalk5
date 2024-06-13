@@ -225,7 +225,7 @@ QVariant TTSEventsModel::data ( const QModelIndex & index, int role /*= Qt::Disp
             QString msg = data(createIndex(index.row(), COLUMN_MESSAGE), Qt::DisplayRole).toString();
             if (msg.size() > 0)
                 result += " - " + msg;
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0) || defined(Q_OS_MAC)
             QString state = (m_ttsselected & m_ttsevents[index.row()])? tr("Enabled") : tr("Disabled");
             result += ": " + state;
 #endif

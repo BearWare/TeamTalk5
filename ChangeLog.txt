@@ -34,6 +34,7 @@ Default Qt Client
 - Ability to show password on login error, channel password, channel operator password, and channel share
 - Reset label of files list when disconnected from server
 - Limit text size in channels tree ignored for screen readers
+- Fixed state of checkable items in "Preferences", "User Account", "Server properties" dialogs not announce by Voice Over on MacOS
 - Windows and macOS updated to Qt v6.7.1
 - Ability to reorder column of User Accounts and Online Users dialog
 Android Client
