@@ -25,9 +25,16 @@
 #if defined(QT_TEXTTOSPEECH_LIB)
 #include <QTextToSpeech>
 #endif
+#if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
+#include <QAccessible>
+#include <QAccessibleAnnouncementEvent>
+#endif
 
 #if defined(QT_TEXTTOSPEECH_LIB)
 extern QTextToSpeech* ttSpeech;
+#endif
+#if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
+extern QObject* announcerObject;
 #endif
 
 extern QSettings* ttSettings;
@@ -104,7 +111,6 @@ void addTextToSpeechMessage(const QString& msg)
 #endif
         break;
     case TTSENGINE_NOTIFY:
-    {
 #if defined(Q_OS_LINUX)
         int timestamp = ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt();
         QString noquote = msg;
@@ -118,7 +124,12 @@ void addTextToSpeechMessage(const QString& msg)
             .arg(noquote));
 #endif
         break;
-    }
+    case TTSENGINE_QTANNOUNCEMENT:
+#if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
+        QAccessibleAnnouncementEvent announcementEvent(announcerObject, msg);
+        QAccessible::updateAccessibility(&announcementEvent);
+#endif
+        break;
     }
 }
 

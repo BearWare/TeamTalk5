@@ -648,6 +648,9 @@ void PreferencesDlg::slotTabChange(int index)
 #elif defined(Q_OS_MAC)
 
 #endif
+#if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
+        ui.ttsengineComboBox->addItem(tr("Qt Accessibility Announcement"), TTSENGINE_QTANNOUNCEMENT);
+#endif
 
         TextToSpeechEngine ttsEngine = TextToSpeechEngine(ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt());
         setCurrentItemData(ui.ttsengineComboBox, ttsEngine);
