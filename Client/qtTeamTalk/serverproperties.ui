@@ -92,11 +92,11 @@
         </item>
         <item row="3" column="0">
          <widget class="QCheckBox" name="motdChkBox">
-          <property name="checked">
-           <bool>true</bool>
-          </property>
           <property name="text">
            <string>Show variables</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -469,14 +469,14 @@
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
+          <property name="tabKeyNavigation">
+           <bool>false</bool>
+          </property>
           <property name="showDropIndicator" stdset="0">
            <bool>false</bool>
           </property>
           <property name="alternatingRowColors">
            <bool>true</bool>
-          </property>
-          <property name="tabKeyNavigation">
-           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -494,11 +494,11 @@
         </property>
         <item row="0" column="0">
          <widget class="QLabel" name="serverversionLabel">
-          <property name="text">
-           <string/>
-          </property>
           <property name="focusPolicy">
            <enum>Qt::StrongFocus</enum>
+          </property>
+          <property name="text">
+           <string>Server version: 0.0</string>
           </property>
          </widget>
         </item>
