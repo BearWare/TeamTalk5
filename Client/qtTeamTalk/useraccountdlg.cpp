@@ -239,7 +239,7 @@ void UserAccountDlg::slotUserTypeChanged()
         useraccount.uUserRights = USERRIGHT_DEFAULT;
         if (ui->tabWidget->indexOf(m_userRightsTab) == -1)
         {
-            ui->tabWidget->addTab(m_userRightsTab, tr("User Rights"));
+            ui->tabWidget->insertTab(1, m_userRightsTab, tr("User Rights"));
         }
     }
     updateUserRights(useraccount);
@@ -369,7 +369,7 @@ void UserAccountDlg::showUserAccount(const UserAccount& useraccount)
     {
         if (ui->tabWidget->indexOf(m_userRightsTab) == -1)
         {
-            ui->tabWidget->addTab(m_userRightsTab, tr("User Rights"));
+            ui->tabWidget->insertTab(1, m_userRightsTab, tr("User Rights"));
         }
     }
 
