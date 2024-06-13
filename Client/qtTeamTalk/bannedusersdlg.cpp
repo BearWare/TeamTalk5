@@ -295,8 +295,11 @@ void BannedUsersDlg::keyPressEvent(QKeyEvent* e)
     {
         if (ui.banEdit->hasFocus())
         {
-            slotNewBan();
-            ui.bannedTableView->setFocus();
+            if (ui.banEdit->text().size())
+            {
+                slotNewBan();
+                ui.bannedTableView->setFocus();
+            }
         }
         else if (ui.filterEdit->hasFocus())
             filterBanList();
