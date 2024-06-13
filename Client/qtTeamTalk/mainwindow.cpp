@@ -6022,6 +6022,7 @@ void MainWindow::slotUsersKickBan(const User& user)
                                                                QLineEdit::Normal, _Q(user.szIPAddress), &ok);
                         if (ok && !ipaddr.isEmpty())
                             COPY_TTSTR(ban.szIPAddress, ipaddr);
+                        else return;
                     }
                     ban.uBanTypes |= user.nChannelID > 0 ? BANTYPE_CHANNEL | BANTYPE_IPADDR : BANTYPE_IPADDR;
                 }
