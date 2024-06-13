@@ -93,6 +93,9 @@ PlaySoundEvent* playsoundevent = nullptr;
 #if defined(QT_TEXTTOSPEECH_LIB)
 QTextToSpeech* ttSpeech = nullptr;
 #endif
+#if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
+QObject* announcerObject = nullptr;
+#endif
 
 //strip ampersand from menutext
 #define MENUTEXT(text) text.replace("&", "")
@@ -4251,6 +4254,12 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
         ttSpeech = nullptr;
     }
 #endif
+#if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
+    if (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt() == TTSENGINE_QTANNOUNCEMENT && announcerObject == nullptr)
+        announcerObject = this;
+    else
+        announcerObject = nullptr;
+#endif
 
     if (sndinputid != getSelectedSndInputDevice() || sndoutputid != getSelectedSndOutputDevice())
         initSound();
@@ -7566,6 +7575,11 @@ void MainWindow::startTTS()
     }
     break;
 #endif
+    case TTSENGINE_QTANNOUNCEMENT :
+#if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
+        announcerObject = this;
+#endif
+        break;
     }
 }
 
