@@ -324,7 +324,7 @@ void UserAccountDlg::slotCustomCmdLimit(int index)
 
 void UserAccountDlg::slotUsernameChanged()
 {
-    if (ui->usernameEdit->text() == WEBLOGIN_BEARWARE_USERNAME || ui->usernameEdit->text().contains(QString("@%1.dk").arg(WEBLOGIN_BEARWARE_USERNAME)))
+    if (ui->usernameEdit->text() == WEBLOGIN_BEARWARE_USERNAME || ui->usernameEdit->text().contains(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX))
     {
         ui->label_2->setVisible(false);
         ui->passwordEdit->setVisible(false);
