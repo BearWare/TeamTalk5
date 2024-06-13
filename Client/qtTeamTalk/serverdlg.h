@@ -21,6 +21,8 @@
 #include "common.h"
 
 #include <QDialog>
+#include <QSslCertificate>
+#include <QSslKey>
 
 namespace Ui {
 class ServerDlg;
@@ -48,12 +50,26 @@ protected:
 
 private:
     Ui::ServerDlg *ui;
+    QWidget* m_encryptionTab;
     HostEntry m_hostentry;
     ServerDlgType m_type;
     void generateEntryName();
     void slotToggledWebLogin();
     void slotToggledLastChannel();
     bool isServerNameUnique(const QString& serverName);
+
+    QString getFile(const QString& fileext);
+    QString readFile(const QString& filename);
+
+    void showCA(const QSslCertificate& cert);
+    void setupNewCA();
+    void updateVerifyPeer();
+
+    void showClientCertificate(const QSslCertificate& cert);
+    void setupNewClientCertificate();
+    void showClientPrivateKey(const QSslKey& key);
+    void setupNewClientPrivateKey();
+    void updateTabBar(bool checked);
 };
 
 #endif // SERVERDLG_H

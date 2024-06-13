@@ -11,282 +11,471 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string notr="true">Dialog</string>
+   <string>Dialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="title">
-      <string>Server Information</string>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
      </property>
-     <layout class="QFormLayout" name="formLayout_3">
-      <item row="0" column="0" colspan="2">
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Entry name</string>
-          </property>
-          <property name="buddy">
-           <cstring>nameEdit</cstring>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="nameEdit"/>
-        </item>
-       </layout>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Host IP-address</string>
-        </property>
-        <property name="buddy">
-         <cstring>hostaddrEdit</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_6">
-        <item>
-         <widget class="QLineEdit" name="hostaddrEdit"/>
-        </item>
-       </layout>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>TCP port</string>
-        </property>
-        <property name="buddy">
-         <cstring>tcpportSpinbox</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QSpinBox" name="tcpportSpinbox">
-          <property name="maximum">
-           <number>65535</number>
-          </property>
-          <property name="accessibleName">
-           <string>TCP Port (Default: 10333)</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_5">
-          <property name="text">
-           <string>Default: 10333</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_8">
-        <property name="text">
-         <string>UDP port</string>
-        </property>
-        <property name="buddy">
-         <cstring>udpportSpinbox</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QSpinBox" name="udpportSpinbox">
-          <property name="maximum">
-           <number>65535</number>
-          </property>
-          <property name="accessibleName">
-           <string>UDP Port (Default: 10333)</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_7">
-          <property name="text">
-           <string>Default: 10333</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="4" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_8">
-        <item>
-         <widget class="QCheckBox" name="cryptChkBox">
-          <property name="text">
-           <string>Encrypted server</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="encsetupBtn">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>Setup</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_5">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item row="5" column="0" colspan="2">
-       <widget class="QGroupBox" name="groupBox_3">
-        <property name="accessibleName">
-         <string>Authentication (optional)</string>
-        </property>
-        <property name="title">
-         <string>Authentication (optional)</string>
-        </property>
-        <layout class="QFormLayout" name="formLayout">
-         <item row="0" column="0">
-          <widget class="QCheckBox" name="bdkLogChkBox">
-           <property name="text">
-            <string>Use BearWare.dk Web Login</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="usernameLabel">
-           <property name="text">
-            <string>Username</string>
-           </property>
-           <property name="buddy">
-            <cstring>usernameEdit</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="usernameEdit"/>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="passwdLabel">
-           <property name="text">
-            <string>Password</string>
-           </property>
-           <property name="buddy">
-            <cstring>passwordEdit</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout_7">
-           <item>
-            <widget class="QLineEdit" name="passwordEdit">
-             <property name="echoMode">
-              <enum>QLineEdit::Password</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="passwordChkBox">
-             <property name="text">
-              <string>Show password</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="3" column="1">
-          <widget class="QLineEdit" name="nicknameEdit"/>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_nick">
-           <property name="text">
-            <string>Nickname (optional)</string>
-           </property>
-           <property name="buddy">
-            <cstring>nicknameEdit</cstring>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="6" column="0" colspan="2">
-       <widget class="QGroupBox" name="groupBox_4">
-        <property name="accessibleName">
-         <string>Join specific channel after authentication (optional)</string>
-        </property>
-        <property name="title">
-         <string>Join specific channel after authentication (optional)</string>
-        </property>
-        <layout class="QFormLayout" name="formLayout_2">
-         <item row="0" column="0">
-          <widget class="QCheckBox" name="lastChanChkBox">
-           <property name="text">
-            <string>Latest Joined Channel</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="channel_label">
-           <property name="text">
-            <string>Channel</string>
-           </property>
-           <property name="buddy">
-            <cstring>channelEdit</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="channelEdit"/>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="chanpsw_label">
-           <property name="text">
-            <string>Password</string>
-           </property>
-           <property name="buddy">
-            <cstring>chanpasswdEdit</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout_1">
-           <item>
-            <widget class="QLineEdit" name="chanpasswdEdit">
-             <property name="echoMode">
-              <enum>QLineEdit::Password</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="chanpasswordChkBox">
-             <property name="text">
-              <string>Show password</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QWidget" name="tabServerInfo">
+      <attribute name="title">
+       <string>Server Information</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayoutServerInfo">
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>Server Information</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_3">
+          <item row="0" column="0" colspan="2">
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Entry name</string>
+              </property>
+              <property name="buddy">
+               <cstring>nameEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="nameEdit"/>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Host IP-address</string>
+            </property>
+            <property name="buddy">
+             <cstring>hostaddrEdit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QLineEdit" name="hostaddrEdit"/>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>TCP port</string>
+            </property>
+            <property name="buddy">
+             <cstring>tcpportSpinbox</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QSpinBox" name="tcpportSpinbox">
+              <property name="maximum">
+               <number>65535</number>
+              </property>
+              <property name="accessibleName">
+               <string>TCP Port (Default: 10333)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>Default: 10333</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_8">
+            <property name="text">
+             <string>UDP port</string>
+            </property>
+            <property name="buddy">
+             <cstring>udpportSpinbox</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QSpinBox" name="udpportSpinbox">
+              <property name="maximum">
+               <number>65535</number>
+              </property>
+              <property name="accessibleName">
+               <string>UDP Port (Default: 10333)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_7">
+              <property name="text">
+               <string>Default: 10333</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="4" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <item>
+             <widget class="QCheckBox" name="cryptChkBox">
+              <property name="text">
+               <string>Encrypted server</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_5">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item row="5" column="0" colspan="2">
+           <widget class="QGroupBox" name="groupBox_3">
+            <property name="accessibleName">
+             <string>Authentication (optional)</string>
+            </property>
+            <property name="title">
+             <string>Authentication (optional)</string>
+            </property>
+            <layout class="QFormLayout" name="formLayout">
+             <item row="0" column="0">
+              <widget class="QCheckBox" name="bdkLogChkBox">
+               <property name="text">
+                <string>Use BearWare.dk Web Login</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="usernameLabel">
+               <property name="text">
+                <string>Username</string>
+               </property>
+               <property name="buddy">
+                <cstring>usernameEdit</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="usernameEdit"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="passwdLabel">
+               <property name="text">
+                <string>Password</string>
+               </property>
+               <property name="buddy">
+                <cstring>passwordEdit</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_7">
+               <item>
+                <widget class="QLineEdit" name="passwordEdit">
+                 <property name="echoMode">
+                  <enum>QLineEdit::Password</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="passwordChkBox">
+                 <property name="text">
+                  <string>Show password</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="3" column="1">
+              <widget class="QLineEdit" name="nicknameEdit"/>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_nick">
+               <property name="text">
+                <string>Nickname (optional)</string>
+               </property>
+               <property name="buddy">
+                <cstring>nicknameEdit</cstring>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="6" column="0" colspan="2">
+           <widget class="QGroupBox" name="groupBox_4">
+            <property name="accessibleName">
+             <string>Join specific channel after authentication (optional)</string>
+            </property>
+            <property name="title">
+             <string>Join specific channel after authentication (optional)</string>
+            </property>
+            <layout class="QFormLayout" name="formLayout_2">
+             <item row="0" column="0">
+              <widget class="QCheckBox" name="lastChanChkBox">
+               <property name="text">
+                <string>Latest Joined Channel</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="channel_label">
+               <property name="text">
+                <string>Channel</string>
+               </property>
+               <property name="buddy">
+                <cstring>channelEdit</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="channelEdit"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="chanpsw_label">
+               <property name="text">
+                <string>Password</string>
+               </property>
+               <property name="buddy">
+                <cstring>chanpasswdEdit</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_1">
+               <item>
+                <widget class="QLineEdit" name="chanpasswdEdit">
+                 <property name="echoMode">
+                  <enum>QLineEdit::Password</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="chanpasswordChkBox">
+                 <property name="text">
+                  <string>Show password</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabEncryption">
+      <attribute name="title">
+       <string>Encryption Setup</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayoutEncryption">
+       <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>Client Encryption Settings</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Certificate Authority (CA)</string>
+            </property>
+            <property name="buddy">
+             <cstring>caEdit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QPlainTextEdit" name="caEdit">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="cafileBtn">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normalon>:/images/images/file_open.png</normalon>
+               </iconset>
+              </property>
+              <property name="accessibleName">
+               <string>Browse</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="cafileresetBtn">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normalon>:/images/images/delete.png</normalon>
+               </iconset>
+              </property>
+              <property name="accessibleName">
+               <string>Reset</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Client certificate</string>
+            </property>
+            <property name="buddy">
+             <cstring>clientcertEdit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QPlainTextEdit" name="clientcertEdit">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="clientcertfileBtn">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normalon>:/images/images/file_open.png</normalon>
+               </iconset>
+              </property>
+              <property name="accessibleName">
+               <string>Browse</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="clientcertfileresetBtn">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normalon>:/images/images/delete.png</normalon>
+               </iconset>
+              </property>
+              <property name="accessibleName">
+               <string>Reset</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Client private key</string>
+            </property>
+            <property name="buddy">
+             <cstring>clientkeyEdit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QPlainTextEdit" name="clientkeyEdit">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="clientkeyfileBtn">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normalon>:/images/images/file_open.png</normalon>
+               </iconset>
+              </property>
+              <property name="accessibleName">
+               <string>Browse</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="clientkeyfileresetBtn">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normalon>:/images/images/delete.png</normalon>
+               </iconset>
+              </property>
+              <property name="accessibleName">
+               <string>Reset</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="3" column="0" colspan="2">
+           <widget class="QCheckBox" name="verifypeerChkBox">
+            <property name="text">
+             <string>Verify server certificate</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
-   <item alignment="Qt::AlignRight">
+   <item>
     <widget class="QCheckBox" name="connectSrvBox">
      <property name="text">
       <string>&amp;Connect to Server on exit</string>

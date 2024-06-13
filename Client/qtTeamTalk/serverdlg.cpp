@@ -18,12 +18,14 @@
 #include "serverdlg.h"
 #include "ui_serverdlg.h"
 #include "appinfo.h"
-#include "encryptionsetupdlg.h"
 #include "settings.h"
 
 #include <QPushButton>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QFileDialog>
+#include <QFileInfo>
+#include <QTextStream>
 
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
@@ -31,6 +33,7 @@ extern QSettings* ttSettings;
 ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ServerDlg)
+    , m_encryptionTab(nullptr)
     , m_type(type)
     , m_hostentry(host)
 {
@@ -42,13 +45,55 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
     ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Save and Close"));
     ui->buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Close without saving"));
 
-    connect(ui->cryptChkBox, &QCheckBox::toggled, ui->encsetupBtn, &QAbstractButton::setEnabled);
-    connect(ui->encsetupBtn, &QAbstractButton::clicked, [&]()
+    m_encryptionTab = ui->tabWidget->widget(ui->tabWidget->indexOf(ui->tabEncryption));
+    connect(ui->cryptChkBox, &QCheckBox::toggled, this, &ServerDlg::updateTabBar);
+    connect(ui->cafileBtn, &QAbstractButton::clicked, this, &ServerDlg::setupNewCA);
+    connect(ui->cafileBtn, &QAbstractButton::clicked, this, &ServerDlg::updateVerifyPeer);
+    connect(ui->cafileresetBtn, &QAbstractButton::clicked, [&]()
     {
-        HostEntry copyentry = m_hostentry;
-        if (EncryptionSetupDlg(copyentry.encryption, this).exec())
-            m_hostentry = copyentry;
+        m_hostentry.encryption.cacertdata.clear();
+        ui->caEdit->clear();
+        updateVerifyPeer();
     });
+
+    connect(ui->clientcertfileBtn, &QAbstractButton::clicked, this, &ServerDlg::setupNewClientCertificate);
+    connect(ui->clientcertfileresetBtn, &QAbstractButton::clicked, [&]()
+    {
+        m_hostentry.encryption.certdata.clear();
+        ui->clientcertEdit->clear();
+    });
+
+    connect(ui->clientkeyfileBtn, &QAbstractButton::clicked, this, &ServerDlg::setupNewClientPrivateKey);
+    connect(ui->clientkeyfileresetBtn, &QAbstractButton::clicked, [&]()
+    {
+        m_hostentry.encryption.privkeydata.clear();
+        ui->clientkeyEdit->clear();
+    });
+
+    connect(ui->verifypeerChkBox, &QAbstractButton::clicked, [&](bool checked)
+    {
+        m_hostentry.encryption.verifypeer = checked;
+    });
+
+    if (m_hostentry.encryption.cacertdata.size())
+    {
+        QSslCertificate cert(m_hostentry.encryption.cacertdata.toUtf8());
+        showCA(cert);
+    }
+
+    if (m_hostentry.encryption.certdata.size())
+    {
+        QSslCertificate cert(m_hostentry.encryption.certdata.toUtf8());
+        showClientCertificate(cert);
+    }
+
+    if (m_hostentry.encryption.privkeydata.size())
+    {
+        QSslKey key(m_hostentry.encryption.privkeydata.toUtf8(), QSsl::Rsa);
+        showClientPrivateKey(key);
+    }
+
+    updateVerifyPeer();
     connect(ui->bdkLogChkBox, &QCheckBox::toggled,
             this, &ServerDlg::slotToggledWebLogin);
     connect(ui->lastChanChkBox, &QCheckBox::toggled,
@@ -78,7 +123,6 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
         ui->tcpportSpinbox->setReadOnly(true);
         ui->udpportSpinbox->setReadOnly(true);
         ui->cryptChkBox->setEnabled(false);
-        ui->encsetupBtn->setEnabled(false);
         ui->bdkLogChkBox->setEnabled(false);
         ui->usernameEdit->setReadOnly(true);
         ui->passwordEdit->setReadOnly(true);
@@ -86,6 +130,15 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
         ui->lastChanChkBox->setEnabled(false);
         ui->channelEdit->setReadOnly(true);
         ui->chanpasswdEdit->setReadOnly(true);
+        ui->caEdit->setReadOnly(true);
+        ui->cafileBtn->setEnabled(false);
+        ui->cafileresetBtn->setEnabled(false);
+        ui->clientcertEdit->setReadOnly(true);
+        ui->clientcertfileBtn->setEnabled(false);
+        ui->clientcertfileresetBtn->setEnabled(false);
+        ui->clientkeyEdit->setReadOnly(true);
+        ui->clientkeyfileBtn->setEnabled(false);
+        ui->clientkeyfileresetBtn->setEnabled(false);
         ui->connectSrvBox->setEnabled(false);
         ui->buttonBox->setStandardButtons(QDialogButtonBox::Close);
         ui->buttonBox->button(QDialogButtonBox::Close)->setText(tr("&Close"));
@@ -105,6 +158,7 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
     ui->lastChanChkBox->setChecked(m_hostentry.lastChan);
     ui->channelEdit->setText(m_hostentry.channel);
     ui->chanpasswdEdit->setText(m_hostentry.chanpasswd);
+    updateTabBar(ui->cryptChkBox->isChecked());
 }
 
 ServerDlg::~ServerDlg()
@@ -209,4 +263,177 @@ bool ServerDlg::isServerNameUnique(const QString& serverName)
 
     ttSettings->endGroup();
     return true;
+}
+
+void ServerDlg::showCA(const QSslCertificate& cert)
+{
+    QString text;
+    QTextStream certStream(&text);
+    if (!cert.isNull())
+    {
+        certStream << tr("Issuer: %1").arg(cert.issuerDisplayName()) << Qt::endl;
+        certStream << tr("Subject: %1").arg(cert.subjectDisplayName()) << Qt::endl;
+        certStream << tr("Effective date: %1").arg(cert.effectiveDate().toLocalTime().toString()) << Qt::endl;
+        certStream << tr("Expiration date: %1").arg(cert.expiryDate().toLocalTime().toString()) << Qt::endl;
+    }
+    else
+    {
+        certStream << "Certificate Authority is invalid" << Qt::endl;
+    }
+
+    ui->caEdit->setPlainText(*certStream.string());
+}
+
+void ServerDlg::setupNewCA()
+{
+    QString filename = getFile(tr("Certificate Authority (*.cer)"));
+    if (filename.size())
+    {
+        QFile f(filename);
+        if (f.open(QFile::ReadOnly))
+        {
+            QSslCertificate cert(&f);
+            if (!cert.isNull())
+            {
+                showCA(cert);
+                m_hostentry.encryption.cacertdata = readFile(filename);
+            }
+            else
+            {
+                QMessageBox::critical(this, tr("Setup Certificate Authority"),
+                    tr("The file %1 does not contain a valid certificate authority").arg(QDir::toNativeSeparators(filename)));
+            }
+        }
+    }
+}
+
+void ServerDlg::showClientCertificate(const QSslCertificate& cert)
+{
+    QString text;
+    QTextStream certStream(&text);
+
+    if (!cert.isNull())
+    {
+        certStream << tr("Issuer: %1").arg(cert.issuerDisplayName()) << Qt::endl;
+        certStream << tr("Subject: %1").arg(cert.subjectDisplayName()) << Qt::endl;
+        certStream << tr("Effective date: %1").arg(cert.effectiveDate().toLocalTime().toString()) << Qt::endl;
+        certStream << tr("Expiration date: %1").arg(cert.expiryDate().toLocalTime().toString()) << Qt::endl;
+    }
+    else
+    {
+        certStream << "Client certificate is invalid" << Qt::endl;
+    }
+
+    ui->clientcertEdit->setPlainText(*certStream.string());
+}
+
+void ServerDlg::setupNewClientCertificate()
+{
+    QString filename = getFile(tr("Client Certificate (*.pem)"));
+    if (filename.size())
+    {
+        QFile f(filename);
+        if (f.open(QFile::ReadOnly))
+        {
+            QSslCertificate cert(&f);
+            if (!cert.isNull())
+            {
+                showClientCertificate(cert);
+                m_hostentry.encryption.certdata = readFile(filename);
+            }
+            else
+            {
+                QMessageBox::critical(this, tr("Setup Client Certificate"),
+                    tr("The file %1 does not contain a valid client certificate").arg(QDir::toNativeSeparators(filename)));
+            }
+        }
+    }
+}
+
+void ServerDlg::showClientPrivateKey(const QSslKey& key)
+{
+    QString text;
+    QTextStream certStream(&text);
+
+    if (!key.isNull())
+    {
+        certStream << tr("RSA encryption") << Qt::endl;
+        if (key.type() == QSsl::PrivateKey)
+            certStream << tr("Private key: %1 bits").arg(key.length()) << Qt::endl;
+    }
+    else
+    {
+        certStream << "Client private key is invalid" << Qt::endl;
+    }
+
+    ui->clientkeyEdit->setPlainText(*certStream.string());
+}
+
+void ServerDlg::setupNewClientPrivateKey()
+{
+    QString filename = getFile(tr("Client Private Key (*.pem)"));
+    if (filename.size())
+    {
+        QFile f(filename);
+        if (f.open(QFile::ReadOnly))
+        {
+            QSslKey key(&f, QSsl::Rsa);
+            if (!key.isNull())
+            {
+                showClientPrivateKey(key);
+                m_hostentry.encryption.privkeydata = readFile(filename);
+            }
+            else
+            {
+                QMessageBox::critical(this, tr("Setup Client Private Key"),
+                    tr("The file %1 does not contain a valid client private key").arg(QDir::toNativeSeparators(filename)));
+            }
+        }
+    }
+}
+
+QString ServerDlg::getFile(const QString& fileext)
+{
+    QString start_dir = ttSettings->value(SETTINGS_LAST_DIRECTORY).toString();
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open File"), start_dir, fileext);
+    if (filename.size())
+        ttSettings->setValue(SETTINGS_LAST_DIRECTORY, QFileInfo(filename).absolutePath());
+    return filename;
+}
+
+QString ServerDlg::readFile(const QString& filename)
+{
+    QFile file(filename);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return "";
+
+    return QTextStream(&file).readAll();
+}
+
+void ServerDlg::updateVerifyPeer()
+{
+    ui->verifypeerChkBox->setEnabled(m_hostentry.encryption.cacertdata.size() > 0 && m_type != SERVER_READONLY);
+    if (m_hostentry.encryption.cacertdata.size() == 0)
+        m_hostentry.encryption.verifypeer = false;
+
+    ui->verifypeerChkBox->setChecked(m_hostentry.encryption.verifypeer);
+}
+
+void ServerDlg::updateTabBar(bool checked)
+{
+    if (checked)
+    {
+        if (ui->tabWidget->indexOf(m_encryptionTab) == -1)
+        {
+            ui->tabWidget->addTab(m_encryptionTab, tr("Encryption Setup"));
+        }
+    }
+    else
+    {
+        int index = ui->tabWidget->indexOf(m_encryptionTab);
+        if (index != -1)
+        {
+            ui->tabWidget->removeTab(index);
+        }
+    }
 }
