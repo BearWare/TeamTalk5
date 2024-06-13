@@ -37,6 +37,11 @@ enum
     LIMITCMD_CUSTOM         = 4
 };
 
+enum
+{
+    TAB_INDEX_USERRIGHT = 1
+};
+
 UserAccountDlg::UserAccountDlg(UserAccountDlgType type, const UserAccount& useraccount, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::UserAccountDlg)
@@ -239,7 +244,7 @@ void UserAccountDlg::slotUserTypeChanged()
         useraccount.uUserRights = USERRIGHT_DEFAULT;
         if (ui->tabWidget->indexOf(m_userRightsTab) == -1)
         {
-            ui->tabWidget->insertTab(1, m_userRightsTab, tr("User Rights"));
+            ui->tabWidget->insertTab(TAB_INDEX_USERRIGHT, m_userRightsTab, tr("User Rights"));
         }
     }
     updateUserRights(useraccount);
@@ -369,7 +374,7 @@ void UserAccountDlg::showUserAccount(const UserAccount& useraccount)
     {
         if (ui->tabWidget->indexOf(m_userRightsTab) == -1)
         {
-            ui->tabWidget->insertTab(1, m_userRightsTab, tr("User Rights"));
+            ui->tabWidget->insertTab(TAB_INDEX_USERRIGHT, m_userRightsTab, tr("User Rights"));
         }
     }
 
