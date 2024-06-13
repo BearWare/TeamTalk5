@@ -90,7 +90,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     serverlogeventsmodel.h textmessagecontainer.h
     useraccountsmodel.h encryptionsetupdlg.h utiltt.h utilxml.h
     utilos.h serverdlg.h moveusersdlg.h useraccountdlg.h soundeventsmodel.h
-    mytableview.h
+    mytableview.h mytabwidget.h
     main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp
     channelstree.cpp channeldlg.cpp userinfodlg.cpp
     bannedusersdlg.cpp useraccountsdlg.cpp videogridwidget.cpp
@@ -110,7 +110,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     serverlogeventsmodel.cpp textmessagecontainer.cpp
     useraccountsmodel.cpp encryptionsetupdlg.cpp utiltt.cpp utilxml.cpp
     utilos.cpp serverdlg.cpp moveusersdlg.cpp useraccountdlg.cpp soundeventsmodel.cpp
-    mytableview.cpp
+    mytableview.cpp mytabwidget.cpp
     mainwindow.ui channel.ui preferences.ui
     serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui
     serverproperties.ui uservideo.ui keycomp.ui textmessage.ui

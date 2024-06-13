@@ -7568,13 +7568,6 @@ void MainWindow::slotTextChanged()
 
 void MainWindow::keyPressEvent(QKeyEvent* e)
 {
-    if (ui.tabWidget->hasFocus())
-    {
-        if (e->key() == Qt::Key_Home && ui.tabWidget->currentIndex() != 0)
-            ui.tabWidget->setCurrentIndex(0);
-        else if (e->key() == Qt::Key_End && ui.tabWidget->currentIndex() != ui.tabWidget->count())
-            ui.tabWidget->setCurrentIndex(ui.tabWidget->count()-1);
-    }
     if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
     {
 #if defined(Q_OS_DARWIN)

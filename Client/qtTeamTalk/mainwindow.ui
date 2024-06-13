@@ -304,7 +304,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QTabWidget" name="tabWidget">
+      <widget class="MyTabWidget" name="tabWidget">
        <property name="toolTip">
         <string/>
        </property>
@@ -2387,6 +2387,11 @@
    <extends>QWidget</extends>
    <header>desktopgridwidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MyTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>mytabwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources>

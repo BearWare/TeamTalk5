@@ -1945,16 +1945,3 @@ void PreferencesDlg::slotConfigureStatusBar()
     StatusBarDlg dlg(this, ttSettings->value(SETTINGS_STATUSBAR_ACTIVEEVENTS, SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT).toULongLong());
     dlg.exec();
 }
-
-void PreferencesDlg::keyPressEvent(QKeyEvent* e)
-{
-    if (ui.tabWidget->hasFocus())
-    {
-        if (e->key() == Qt::Key_Home && ui.tabWidget->currentIndex() != 0)
-            ui.tabWidget->setCurrentIndex(0);
-        else if (e->key() == Qt::Key_End && ui.tabWidget->currentIndex() != ui.tabWidget->count())
-            ui.tabWidget->setCurrentIndex(ui.tabWidget->count()-1);
-    }
-    QDialog::keyPressEvent(e);
-}
-

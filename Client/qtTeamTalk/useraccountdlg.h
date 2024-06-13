@@ -47,7 +47,6 @@ public:
 
 protected:
     void accept() override;
-    void keyPressEvent(QKeyEvent* e) override;
 
 private:
     Ui::UserAccountDlg *ui;

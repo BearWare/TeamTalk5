@@ -21,7 +21,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout_6">
    <item row="0" column="0">
-    <widget class="QTabWidget" name="tabWidget">
+    <widget class="MyTabWidget" name="tabWidget">
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -2512,6 +2512,11 @@
    <class>MyTableView</class>
    <extends>QTableView</extends>
    <header>mytableview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MyTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>mytabwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources>
