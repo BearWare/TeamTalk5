@@ -684,7 +684,7 @@ void MainWindow::loadSettings()
 #if defined(Q_OS_DARWIN)
         ttSettings->remove("texttospeech/speak-lists");
 #elif defined(Q_OS_LINUX)
-        ttSettings->value(SETTINGS_TTS_TIMESTAMP);
+        ttSettings->remove("texttospeech/tts-timestamp");
 #endif
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }

@@ -1090,9 +1090,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_TTS_VOICE, getCurrentItemData(ui.ttsVoiceComboBox, ""));
         ttSettings->setValue(SETTINGS_TTS_RATE, ui.ttsVoiceRateSpinBox->value());
         ttSettings->setValue(SETTINGS_TTS_VOLUME, ui.ttsVoiceVolumeSpinBox->value());
-#if defined(Q_OS_LINUX)
-        ttSettings->setValue(SETTINGS_TTS_TIMESTAMP, ui.ttsNotifTimestampSpinBox->value());
-#elif defined(Q_OS_WIN)
+#if defined(Q_OS_WIN)
         ttSettings->setValue(SETTINGS_TTS_SAPI, ui.ttsForceSapiChkBox->isChecked());
         ttSettings->setValue(SETTINGS_TTS_TRY_SAPI, ui.ttsTrySapiChkBox->isChecked());
         ttSettings->setValue(SETTINGS_TTS_OUTPUT_MODE, getCurrentItemData(ui.ttsOutputModeComboBox, ""));
