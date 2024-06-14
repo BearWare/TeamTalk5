@@ -610,15 +610,14 @@ void showNotification(const QString &title, const QString &message)
             .arg(noquote));
 }
 #elif defined(Q_OS_MAC)
-#include <Foundation/Foundation.h>
+#import <Foundation/Foundation.h>
 void showNotification(const QString &title, const QString &message)
 {
-    @autoreleasepool
-    {
-        NSUserNotification *notification = [[NSUserNotification alloc] init];
-        notification.title = title.toNSString();
-        notification.informativeText = message.toNSString();
-        [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
-    }
+    NSUserNotification* notification = [[NSUserNotification alloc] init];
+    notification.title = title.toNSString();
+    notification.informativeText = message.toNSString();
+    notification.soundName = NSUserNotificationDefaultSoundName;
+    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification: notification];
+    [notification autorelease];
 }
 #endif
