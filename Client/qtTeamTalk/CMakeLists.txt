@@ -113,7 +113,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     generatettfiledlg.cpp customvideofmtdlg.cpp
     bearwarelogindlg.cpp audiopreprocessordlg.cpp ttseventsmodel.cpp
     statusbardlg.cpp statusbareventsmodel.cpp mycombobox.cpp
-    utilsound.cpp utilvideo.cpp utiltts.cpp utilhotkey.cpp
+    utilsound.cpp utilvideo.cpp utiltts.cpp utilui.cpp utilhotkey.cpp
     serverlogeventsmodel.cpp textmessagecontainer.cpp
     useraccountsmodel.cpp encryptionsetupdlg.cpp utiltt.cpp utilxml.cpp
     utilos.cpp serverdlg.cpp moveusersdlg.cpp useraccountdlg.cpp soundeventsmodel.cpp
@@ -135,8 +135,6 @@ endif()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   list(APPEND QTTEAMTALK_SOURCES utilui.mm)
-else()
-  list(APPEND QTTEAMTALK_SOURCES utilui.cpp)
 endif()
 
   if (Qt6_FOUND)
