@@ -1102,6 +1102,9 @@ void PreferencesDlg::slotSaveChanges()
 #elif defined(Q_OS_WIN)
         ttSettings->setValue(SETTINGS_TTS_SAPI, ui.ttsForceSapiChkBox->isChecked());
         ttSettings->setValue(SETTINGS_TTS_TRY_SAPI, ui.ttsTrySapiChkBox->isChecked());
+#if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
+        ttSettings->setValue(SETTINGS_TTS_ASSERTIVE, ui.ttsAssertiveChkBox->isChecked());
+#endif
         ttSettings->setValue(SETTINGS_TTS_OUTPUT_MODE, getCurrentItemData(ui.ttsOutputModeComboBox, ""));
 #endif
         ttSettings->setValue(SETTINGS_DISPLAY_TTSHEADER, ui.ttsTableView->horizontalHeader()->saveState());
@@ -1458,6 +1461,7 @@ void PreferencesDlg::slotUpdateTTSTab()
 
     ui.ttsForceSapiChkBox->hide();
     ui.ttsTrySapiChkBox->hide();
+    ui.ttsAssertiveChkBox->hide();
     ui.label_ttsoutputmode->hide();
     ui.ttsOutputModeComboBox->hide();
 
@@ -1538,6 +1542,14 @@ void PreferencesDlg::slotUpdateTTSTab()
         if (hasSpeech == true)
             ui.ttsOutputModeComboBox->addItem(tr("Speech only"), TTS_OUTPUTMODE_SPEECH);
         setCurrentItemData(ui.ttsOutputModeComboBox, ttSettings->value(SETTINGS_TTS_OUTPUT_MODE, SETTINGS_TTS_OUTPUT_MODE_DEFAULT).toInt());
+    }
+#endif
+    break;
+    case TTSENGINE_QTANNOUNCEMENT :
+#if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
+    {
+        ui.ttsAssertiveChkBox->show();
+        ui.ttsAssertiveChkBox->setChecked(ttSettings->value(SETTINGS_TTS_ASSERTIVE, SETTINGS_TTS_ASSERTIVE_DEFAULT).toBool());
     }
 #endif
     break;

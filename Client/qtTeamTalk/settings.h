@@ -415,6 +415,10 @@
 #define SETTINGS_TTS_OUTPUT_MODE                         "texttospeech/output-mode"
 #define SETTINGS_TTS_OUTPUT_MODE_DEFAULT                 TTS_OUTPUTMODE_SPEECHBRAILLE
 #endif
+#if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
+#define SETTINGS_TTS_ASSERTIVE                         "texttospeech/assertive"
+#define SETTINGS_TTS_ASSERTIVE_DEFAULT                 false
+#endif
 
 #define SETTINGS_TTSMSG_USER_LOGGEDIN                         "texttospeech/messages/user-logged-in"
 #define SETTINGS_TTSMSG_USER_LOGGEDIN_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} has logged in on {server}")

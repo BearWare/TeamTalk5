@@ -111,6 +111,7 @@ void addTextToSpeechMessage(const QString& msg)
 #endif
         break;
     case TTSENGINE_NOTIFY:
+    {
 #if defined(Q_OS_LINUX)
         int timestamp = ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt();
         QString noquote = msg;
@@ -124,9 +125,12 @@ void addTextToSpeechMessage(const QString& msg)
             .arg(noquote));
 #endif
         break;
+    }
     case TTSENGINE_QTANNOUNCEMENT:
 #if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
         QAccessibleAnnouncementEvent announcementEvent(announcerObject, msg);
+        if (ttSettings->value(SETTINGS_TTS_ASSERTIVE, SETTINGS_TTS_ASSERTIVE_DEFAULT).toBool() == true)
+            announcementEvent.setPriority(QAccessible::AnnouncementPriority::Assertive);
         QAccessible::updateAccessibility(&announcementEvent);
 #endif
         break;
