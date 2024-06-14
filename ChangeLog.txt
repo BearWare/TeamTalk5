@@ -37,6 +37,7 @@ Default Qt Client
 - Fixed state of checkable items in "Preferences", "User Account", "Server properties" dialogs not announce by Voice Over on MacOS
 - Windows and macOS updated to Qt v6.7.1
 - Ability to reorder column of User Accounts and Online Users dialog
+- Ability to send toast notifications in addition to TTS events
 Android Client
 - Toggle channel operator does not show password dialog if user has user-right to change channel operator
 iOS Client

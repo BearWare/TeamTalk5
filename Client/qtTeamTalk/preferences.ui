@@ -1580,7 +1580,7 @@
      </widget>
      <widget class="QWidget" name="ttsTab">
       <attribute name="title">
-       <string>Text To Speech</string>
+       <string>Notifications</string>
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_22">
        <item>
@@ -1848,6 +1848,13 @@
              <widget class="QCheckBox" name="ttsTrySapiChkBox">
               <property name="text">
                <string>Switch to SAPI if current screenreader is not available</string>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="0" colspan="2">
+             <widget class="QCheckBox" name="ttsToastChkBox">
+              <property name="text">
+               <string>Use toast notifications</string>
               </property>
              </widget>
             </item>

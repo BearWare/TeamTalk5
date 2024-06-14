@@ -96,10 +96,7 @@ enum TextToSpeechEngine
     TTSENGINE_NONE = 0,
     TTSENGINE_QT = 1,
     TTSENGINE_TOLK = 2,
-    TTSENGINE_NOTIFY = 3,
 };
-
-#define TTSENGINE_NOTIFY_PATH "/usr/bin/notify-send"
 
 enum TTSOutputMode
 {

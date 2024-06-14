@@ -164,6 +164,7 @@ bool switchLanguage(const QString& language);
 QString getFormattedDateTime(QString originalDateTimeString, QString inputFormat);
 QString getTimestampFormat();
 QString getFormattedFileSize(qint64 filesize);
+void showNotification(const QString &title, const QString &message);
 
 class UtilUI : public QObject
 {

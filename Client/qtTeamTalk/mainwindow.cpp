@@ -670,10 +670,21 @@ void MainWindow::loadSettings()
 
         ttSettings->setValue(SETTINGS_SOUNDEVENT_ACTIVEEVENTS, activeEvents);
 
+        // TTSENGINE_NOTIFY removed in 5.4 format
+#if defined(Q_OS_LINUX)
+        if (ttSettings->value(SETTINGS_TTS_ENGINE).toUInt() == 2)
+        {
+            ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_NONE);
+            ttSettings->setValue(SETTINGS_TTS_TOAST, true);
+        }
+#endif
+
         // TTS options removed in 5.4 format
         ttSettings->remove("texttospeech/announce-server-name");
 #if defined(Q_OS_DARWIN)
         ttSettings->remove("texttospeech/speak-lists");
+#elif defined(Q_OS_LINUX)
+        ttSettings->value(SETTINGS_TTS_TIMESTAMP);
 #endif
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
@@ -875,7 +886,10 @@ void MainWindow::initialScreenReaderSetup()
 #if defined(ENABLE_TOLK)
                 ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_TOLK);
 #elif defined(Q_OS_LINUX)
-                ttSettings->setValue(SETTINGS_TTS_ENGINE, QFile::exists(TTSENGINE_NOTIFY_PATH) ? TTSENGINE_NOTIFY : TTSENGINE_QT);
+                if (QFile::exists(TTSENGINE_NOTIFY_PATH))
+                    ttSettings->value(SETTINGS_TTS_TOAST, true);
+                else
+                    ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_QT);
 #endif
                 ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, false);
             }

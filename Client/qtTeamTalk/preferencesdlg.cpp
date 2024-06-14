@@ -641,8 +641,7 @@ void PreferencesDlg::slotTabChange(int index)
 #if defined(Q_OS_WIN)
         ui.ttsengineComboBox->addItem(tr("Tolk"), TTSENGINE_TOLK);
 #elif defined(Q_OS_LINUX)
-        if (QFile::exists(TTSENGINE_NOTIFY_PATH))
-            ui.ttsengineComboBox->addItem(tr("Libnotify"), TTSENGINE_NOTIFY);
+
 #elif defined(Q_OS_MAC)
 
 #endif
@@ -1101,6 +1100,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_DISPLAY_TTSHEADER, ui.ttsTableView->horizontalHeader()->saveState());
         saveCurrentMessage();
     }
+    ttSettings->setValue(SETTINGS_TTS_TOAST, ui.ttsToastChkBox->isChecked());
 }
 
 void PreferencesDlg::slotCancelChanges()
@@ -1491,16 +1491,6 @@ void PreferencesDlg::slotUpdateTTSTab()
 #endif /* QT_TEXTTOSPEECH_LIB */
     }
     break;
-    case TTSENGINE_NOTIFY :
-#if defined(Q_OS_LINUX)
-    {
-        ui.label_ttsnotifTimestamp->show();
-        ui.ttsNotifTimestampSpinBox->show();
-
-        ui.ttsNotifTimestampSpinBox->setValue(ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt());
-    }
-#endif
-    break;
     case TTSENGINE_TOLK :
 #if defined(ENABLE_TOLK)
     {
@@ -1538,6 +1528,7 @@ void PreferencesDlg::slotUpdateTTSTab()
     case TTSENGINE_NONE :
     break;
     }
+    ui.ttsToastChkBox->setChecked(ttSettings->value(SETTINGS_TTS_TOAST, SETTINGS_TTS_TOAST_DEFAULT).toBool());
 }
 
 void PreferencesDlg::slotTTSLocaleChanged(const QString& locale)

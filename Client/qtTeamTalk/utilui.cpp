@@ -524,3 +524,101 @@ QString PasswordDialog::getPassword() const
 {
     return passEdit->text();
 }
+
+#if defined(Q_OS_WIN)
+#include "3rdparty/WinToast/wintoastlib.h"
+#include <Windows.h>
+
+using namespace WinToastLib;
+
+std::wstring stringToWString(const std::string& str)
+{
+    if (str.empty())
+    {
+        return std::wstring();
+    }
+    int size_needed = MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), NULL, 0);
+    std::wstring wstrTo(size_needed, 0);
+    MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), &wstrTo[0], size_needed);
+    return wstrTo;
+}
+
+class CustomHandler : public IWinToastHandler {
+public:
+    void toastActivated() const {
+        std::wcout << L"The user clicked in this toast" << std::endl;
+    }
+
+    void toastActivated(int actionIndex) const {
+        std::wcout << L"The user clicked on button #" << actionIndex << L" in this toast" << std::endl;
+    }
+
+    void toastFailed() const {
+        std::wcout << L"Error showing current toast" << std::endl;
+    }
+    void toastDismissed(WinToastDismissalReason state) const {
+        switch (state) {
+            case UserCanceled:
+                std::wcout << L"The user dismissed this toast" << std::endl;
+                break;
+            case ApplicationHidden:
+                std::wcout << L"The application hid the toast using ToastNotifier.hide()" << std::endl;
+                break;
+            case TimedOut:
+                std::wcout << L"The toast has timed out" << std::endl;
+                break;
+            default:
+                std::wcout << L"Toast not activated" << std::endl;
+                break;
+        }
+    }
+};
+
+void showNotification(const QString &title, const QString &message)
+{
+    WinToast::instance()->setAppName(stringToWString(APPNAME_SHORT));
+    WinToast::instance()->setAppUserModelId(WinToast::configureAUMI(
+        stringToWString(COMPANYNAME),
+        stringToWString(APPNAME_SHORT),
+        stringToWString(APPNAME_SHORT),
+        stringToWString(APPVERSION_SHORT)
+    ));
+
+    if (!WinToast::instance()->initialize())
+        return;
+
+    WinToastTemplate templ = WinToastTemplate(WinToastTemplate::Text02);
+    templ.setTextField(title.toStdWString(), WinToastTemplate::FirstLine);
+    templ.setTextField(message.toStdWString(), WinToastTemplate::SecondLine);
+
+    if (WinToast::instance()->showToast(templ, new CustomHandler()) < 0) {
+        return;
+    }
+}
+#elif defined(Q_OS_LINUX)
+#define TTSENGINE_NOTIFY_PATH "/usr/bin/notify-send"
+void showNotification(const QString &title, const QString &message)
+{
+        QString noquote = msg;
+        noquote.replace('"', ' ');
+        QProcess ps;
+        ps.startDetached(QString("%1 -t %2 -a \"%3\" -u low \"%4: %5\"")
+            .arg(TTSENGINE_NOTIFY_PATH)
+            .arg(1000)
+            .arg(APPNAME_SHORT)
+            .arg(APPNAME_SHORT)
+            .arg(noquote));
+}
+#elif defined(Q_OS_MAC)
+#include <Foundation/Foundation.h>
+void showNotification(const QString &title, const QString &message)
+{
+    @autoreleasepool
+    {
+        NSUserNotification *notification = [[NSUserNotification alloc] init];
+        notification.title = title.toNSString();
+        notification.informativeText = message.toNSString();
+        [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+    }
+}
+#endif
