@@ -205,8 +205,8 @@ if (BUILD_TEAMTALK_CLIENT_QTTEAMTALK)
           DEPENDS ${TEAMTALK_TARGET})
 
         # OpenSSL DLLs are not deployed by windeployqt.exe so we need to copy them manually.
-        # Qt Maintenance Tool is able to download and install Qt's OpenSSL binaries. These files
-        # will be located in <Qt install dir>/Tools/OpenSSL
+        # Qt Maintenance Tool est capable de télécharger et d'installer les binaires OpenSSL de Qt. Ces fichiers
+        # seront situés dans <Qt install dir>/Tools/OpenSSL
         if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
           find_file (QT_OPENSSL_LIBCRYPTODLL_PATH NAMES libcrypto-1_1-x64.dll libcrypto-1_1.dll libcrypto.dll)
           find_file (QT_OPENSSL_LIBSSLDLL_PATH NAMES libssl-1_1-x64.dll libssl-1_1.dll libssl.dll)
@@ -280,12 +280,9 @@ if (BUILD_TEAMTALK_CLIENT_QTTEAMTALK)
         # Applies 'macdeployqt' for installing Qt frameworks, i.e. folder: TeamTalk5.app/Contents/Frameworks
         add_custom_command(TARGET ${TEAMTALK_TARGET} POST_BUILD
           COMMAND ${MACDEPLOYQT_EXE_PATH} $<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/../.. -always-overwrite
-          COMMENT "Running macdeployqt on ${TEAMTALK_TARGET}.app
-        add_custom_command(TARGET ${TEAMTALK_TARGET} POST_BUILD
-          COMMAND ${MACDEPLOYQT_EXE_PATH} $<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/../.. -always-overwrite
           COMMENT "Running macdeployqt on ${TEAMTALK_TARGET}.app")
 
-        # Prepare deployed TeamTalk5.app folder with client resources, i.e. language files, sounds, etc.
+        # Prépare le dossier TeamTalk5.app déployé avec les ressources du client, c'est-à-dire les fichiers de langue, les sons, etc.
         add_custom_target(QtTeamTalk5ClientProduct ALL
           # Copy language files
           COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/Resources/Languages
