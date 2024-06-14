@@ -21,8 +21,6 @@
 #include "appinfo.h"
 #include "utilui.h"
 
-#include <QProcess>
-
 #if defined(QT_TEXTTOSPEECH_LIB)
 #include <QTextToSpeech>
 #endif

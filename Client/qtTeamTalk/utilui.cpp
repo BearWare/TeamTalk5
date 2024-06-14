@@ -30,6 +30,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QProcess>
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QDesktopWidget>
 #include <QApplication>
@@ -598,7 +599,7 @@ void showNotification(const QString &title, const QString &message)
 #elif defined(Q_OS_LINUX)
 void showNotification(const QString &title, const QString &message)
 {
-        QString noquote = msg;
+        QString noquote = message;
         noquote.replace('"', ' ');
         QProcess ps;
         ps.startDetached(QString("%1 -t %2 -a \"%3\" -u low \"%4: %5\"")
