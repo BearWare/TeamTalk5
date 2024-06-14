@@ -596,14 +596,13 @@ void showNotification(const QString &title, const QString &message)
     }
 }
 #elif defined(Q_OS_LINUX)
-#define TTSENGINE_NOTIFY_PATH "/usr/bin/notify-send"
 void showNotification(const QString &title, const QString &message)
 {
         QString noquote = msg;
         noquote.replace('"', ' ');
         QProcess ps;
         ps.startDetached(QString("%1 -t %2 -a \"%3\" -u low \"%4: %5\"")
-            .arg(TTSENGINE_NOTIFY_PATH)
+            .arg(NOTIFY_PATH)
             .arg(1000)
             .arg(APPNAME_SHORT)
             .arg(APPNAME_SHORT)
