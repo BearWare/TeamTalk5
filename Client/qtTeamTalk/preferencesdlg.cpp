@@ -553,7 +553,7 @@ void PreferencesDlg::slotTabChange(int index)
         ui.languageBox->addItem(SETTINGS_DISPLAY_LANGUAGE_DEFAULT);
         for(auto name : extractLanguages())
         {
-            ui.languageBox->addItem(name, name);
+            ui.languageBox->addItem(getLanguageDisplayName(name), name);
         }
         QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, SETTINGS_DISPLAY_LANGUAGE_DEFAULT).toString();
         int index = ui.languageBox->findData(lang);

@@ -344,6 +344,14 @@ QStringList extractLanguages()
     return languages;
 }
 
+QString getLanguageDisplayName(const QString &languageCode)
+{
+    QLocale locale(languageCode);
+    QString languageName = locale.nativeLanguageName();
+
+    return languageName;
+}
+
 QString getFormattedDateTime(QString originalDateTimeString, QString inputFormat)
 {
     QDateTime originalDateTime = QDateTime::fromString(originalDateTimeString, inputFormat);
