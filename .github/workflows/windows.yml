@@ -21,6 +21,7 @@ jobs:
             cmakeplatform: Win32
             dotnetarch: x86
             qtarch: win32_msvc2019
+            qtversion: '5.15.*'
             msystem: MINGW32
             portablearch: win32
           - name: VS2019Release64
@@ -28,6 +29,8 @@ jobs:
             cmakeplatform: x64
             dotnetarch: x64
             qtarch: win64_msvc2019_64
+            qtversion: '6.5.*'
+            qtmodules: 'qtmultimedia qtspeech qtvirtualkeyboard'
             msystem: MINGW64
             portablearch: win64
         exlude:
@@ -44,9 +47,12 @@ jobs:
         java-version: '11'
         architecture: ${{ matrix.dotnetarch }}
 
-    - uses: jurplel/install-qt-action@v3
+    - uses: jurplel/install-qt-action@v4
       with:
         arch: '${{ matrix.qtarch }}'
+        version: '${{ matrix.qtversion }}'
+        modules: '${{ matrix.qtmodules }}'
+        cache-key-prefix: 'install-qt-action'
         setup-python: 'false'
 
     - uses: ssciwr/doxygen-install@v1
