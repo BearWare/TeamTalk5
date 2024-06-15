@@ -177,7 +177,7 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>Media file volume</string>
+             <string>Media file vs. voice volume</string>
             </property>
             <property name="text">
              <string/>
