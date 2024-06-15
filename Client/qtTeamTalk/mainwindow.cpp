@@ -678,6 +678,38 @@ void MainWindow::loadSettings()
 #if defined(Q_OS_DARWIN)
         ttSettings->remove("texttospeech/speak-lists");
 #endif
+
+        // Language files was renamed in 5.4 format
+        QString lc_code;
+        QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, SETTINGS_DISPLAY_LANGUAGE_DEFAULT).toString();
+        if (lang == "Bulgarian") lc_code = "bg";
+        else if (lang == "Chinese_Simplified") lc_code = "zh_CN";
+        else if (lang == "Chinese_Traditional") lc_code = "zh_TW";
+        else if (lang == "Croatian") lc_code = "hr";
+        else if (lang == "Czech") lc_code = "cs";
+        else if (lang == "Danish") lc_code = "da";
+        else if (lang == "Dutch") lc_code = "nl";
+        else if (lang == "English") lc_code = "en";
+        else if (lang == "French") lc_code = "fr";
+        else if (lang == "German") lc_code = "de";
+        else if (lang == "Hebrew") lc_code = "he";
+        else if (lang == "Hungarian") lc_code = "hu";
+        else if (lang == "Indonesian") lc_code = "id";
+        else if (lang == "Italian") lc_code = "it";
+        else if (lang == "Korean") lc_code = "ko";
+        else if (lang == "Persian") lc_code = "fa";
+        else if (lang == "Polish") lc_code = "pl";
+        else if (lang == "Portuguese_BR") lc_code = "pt_BR";
+        else if (lang == "Portuguese_EU") lc_code = "pt_PT";
+        else if (lang == "Russian") lc_code = "ru";
+        else if (lang == "Slovak") lc_code = "sk";
+        else if (lang == "Slovenian") lc_code = "sl";
+        else if (lang == "Spanish") lc_code = "es";
+        else if (lang == "Thai") lc_code = "th";
+        else if (lang == "Turkish") lc_code = "tr";
+        else if (lang == "Vietnamese") lc_code = "vi";
+        ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, lc_code);
+
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
 
