@@ -716,21 +716,47 @@ void MainWindow::loadSettings()
     // Ask to set language at first start
     if (!ttSettings->contains(SETTINGS_DISPLAY_LANGUAGE))
     {
-        QStringList languages = extractLanguages();
-        languages.insert(0, SETTINGS_DISPLAY_LANGUAGE_DEFAULT); //default language is none
-        bool ok = false;
-        QInputDialog inputDialog;
-        inputDialog.setOkButtonText(tr("&OK"));
-        inputDialog.setCancelButtonText(tr("&Cancel"));
-        inputDialog.setComboBoxItems(languages);
-        inputDialog.setComboBoxEditable(false);
-        inputDialog.setWindowTitle(tr("Choose language"));
-        inputDialog.setLabelText(tr("Select the language will be use by %1").arg(APPNAME_SHORT));
-        ok = inputDialog.exec();
-        QString choice = inputDialog.textValue();
-        if (ok)
+        QLocale locale = QLocale::system();
+        QString languageCode = locale.name();
+        if (switchLanguage(languageCode))
+            this->ui.retranslateUi(this);
+        QMessageBox answer;
+        answer.setText(tr("%1 has detected your system language to be %2. Continue in %2?").arg(APPNAME_SHORT).arg(getLanguageDisplayName(languageCode)));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(tr("Language configuration"));
+        answer.exec();
+        if(answer.clickedButton() == YesButton)
         {
-            ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, choice);
+            ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, languageCode);
+        }
+        else if(answer.clickedButton() == NoButton)
+        {
+            QStringList languages = extractLanguages();
+            languages.insert(0, SETTINGS_DISPLAY_LANGUAGE_DEFAULT); //default language is none
+            QMap<QString, QString> languageMap;
+            for (const QString &code : languages)
+            {
+                QString displayName = (code == "none") ? "" : getLanguageDisplayName(code);
+                languageMap[displayName] = code;
+            }
+            QStringList displayNames = languageMap.keys();
+            bool ok = false;
+            QInputDialog inputDialog;
+            inputDialog.setOkButtonText(tr("&OK"));
+            inputDialog.setCancelButtonText(tr("&Cancel"));
+            inputDialog.setComboBoxItems(displayNames);
+            inputDialog.setComboBoxEditable(false);
+            inputDialog.setWindowTitle(tr("Choose language"));
+            inputDialog.setLabelText(tr("Select the language will be use by %1").arg(APPNAME_SHORT));
+            ok = inputDialog.exec();
+            QString choice = inputDialog.textValue();
+            if (ok)
+            {
+                QString lc_code = languageMap.value(choice, "");
+                ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, lc_code);
+            }
         }
     }
 
