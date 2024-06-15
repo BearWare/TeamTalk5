@@ -52,6 +52,10 @@ QString getHotKeyString(HotKeyID keyid)
         return SETTINGS_SHORTCUTS_RESTARTSOUNDDEVICES;
     case HOTKEY_SHOWHIDE_WINDOW :
         return SETTINGS_SHORTCUTS_SHOWHIDEWINDOW;
+    case HOTKEY_DEC_STREAMVOLUME :
+        return SETTINGS_SHORTCUTS_DECSTREAMVOLUME;
+    case HOTKEY_ENC_STREAMVOLUME :
+        return SETTINGS_SHORTCUTS_ENCSTREAMVOLUME;
     default :
         Q_ASSERT(0); //unknown hotkey id
     }

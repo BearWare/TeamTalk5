@@ -229,6 +229,10 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             [&] (bool checked) { shortcutSetup(HOTKEY_REINITSOUNDDEVS, checked, ui.initsoundEdit); });
     connect (ui.showhideButton, &QAbstractButton::clicked,
             [&] (bool checked) { shortcutSetup(HOTKEY_SHOWHIDE_WINDOW, checked, ui.showhideEdit); });
+    connect (ui.decSMVButton, &QAbstractButton::clicked,
+            [&] (bool checked) { shortcutSetup(HOTKEY_DEC_STREAMVOLUME, checked, ui.decSMVEdit); });
+    connect (ui.encSMVButton, &QAbstractButton::clicked,
+            [&] (bool checked) { shortcutSetup(HOTKEY_ENC_STREAMVOLUME, checked, ui.encSMVEdit); });
 
     //video tab
     connect(ui.vidcapdevicesBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
@@ -723,6 +727,20 @@ void PreferencesDlg::slotTabChange(int index)
             ui.showhideEdit->setText(getHotKeyText(hotkey));
             ui.showhideButton->setChecked(true);
         }
+        hotkey.clear();
+        if (loadHotKeySettings(HOTKEY_DEC_STREAMVOLUME, hotkey))
+        {
+            m_hotkeys.insert(HOTKEY_DEC_STREAMVOLUME, hotkey);
+            ui.decSMVEdit->setText(getHotKeyText(hotkey));
+            ui.decSMVButton->setChecked(true);
+        }
+        hotkey.clear();
+        if (loadHotKeySettings(HOTKEY_ENC_STREAMVOLUME, hotkey))
+        {
+            m_hotkeys.insert(HOTKEY_ENC_STREAMVOLUME, hotkey);
+            ui.encSMVEdit->setText(getHotKeyText(hotkey));
+            ui.encSMVButton->setChecked(true);
+        }
     }
     break;
     case VIDCAP_TAB : //video capture
@@ -1013,6 +1031,8 @@ void PreferencesDlg::slotSaveChanges()
         TT_HotKey_Unregister(ttInst, HOTKEY_VIDEOTX);
         TT_HotKey_Unregister(ttInst, HOTKEY_REINITSOUNDDEVS);
         TT_HotKey_Unregister(ttInst, HOTKEY_SHOWHIDE_WINDOW);
+        TT_HotKey_Unregister(ttInst, HOTKEY_DEC_STREAMVOLUME);
+        TT_HotKey_Unregister(ttInst, HOTKEY_ENC_STREAMVOLUME);
 #endif
         deleteHotKeySettings(HOTKEY_VOICEACTIVATION);
         deleteHotKeySettings(HOTKEY_INCVOLUME);
@@ -1023,6 +1043,8 @@ void PreferencesDlg::slotSaveChanges()
         deleteHotKeySettings(HOTKEY_VIDEOTX);
         deleteHotKeySettings(HOTKEY_REINITSOUNDDEVS);
         deleteHotKeySettings(HOTKEY_SHOWHIDE_WINDOW);
+        deleteHotKeySettings(HOTKEY_DEC_STREAMVOLUME);
+        deleteHotKeySettings(HOTKEY_ENC_STREAMVOLUME);
 
         hotkeys_t::iterator ite = m_hotkeys.begin();
         while(ite != m_hotkeys.end())

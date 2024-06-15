@@ -2391,6 +2391,14 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
                 showMinimized();
         }
         break;
+    case HOTKEY_DEC_STREAMVOLUME :
+        if(active)
+            slotStreamMediaVolumeChanged(ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME).toInt()-1);
+        break;
+    case HOTKEY_ENC_STREAMVOLUME :
+        if(active)
+            slotStreamMediaVolumeChanged(ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME).toInt()+1);
+        break;
     }
 }
 
@@ -3741,6 +3749,16 @@ void MainWindow::loadHotKeys()
         enableHotKey(HOTKEY_SHOWHIDE_WINDOW, hotkey);
     else
         disableHotKey(HOTKEY_SHOWHIDE_WINDOW);
+    hotkey.clear();
+    if (loadHotKeySettings(HOTKEY_DEC_STREAMVOLUME, hotkey))
+        enableHotKey(HOTKEY_DEC_STREAMVOLUME, hotkey);
+    else
+        disableHotKey(HOTKEY_DEC_STREAMVOLUME);
+    hotkey.clear();
+    if (loadHotKeySettings(HOTKEY_ENC_STREAMVOLUME, hotkey))
+        enableHotKey(HOTKEY_ENC_STREAMVOLUME, hotkey);
+    else
+        disableHotKey(HOTKEY_ENC_STREAMVOLUME);
 }
 
 void MainWindow::enableHotKey(HotKeyID id, const hotkey_t& hk)
