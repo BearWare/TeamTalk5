@@ -22,6 +22,10 @@ jobs:
 
     - name: Install Qt
       uses: jurplel/install-qt-action@v4
+      with:
+        version: '6.5.*'
+        modules: 'qtmultimedia qtspeech'
+        cache-key-prefix: 'install-qt-action'
 
     - name: Install Toolchain Dependencies
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
