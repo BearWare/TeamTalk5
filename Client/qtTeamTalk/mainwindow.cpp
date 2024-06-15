@@ -816,6 +816,8 @@ void MainWindow::loadSettings()
     }
     ui.voiceactLabel->setVisible(ui.actionEnableVoiceActivation->isChecked() && ttSettings->value(SETTINGS_DISPLAY_VOICE_ACT_SLIDER, SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT).toBool());
     ui.voiceactSlider->setVisible(ui.actionEnableVoiceActivation->isChecked() && ttSettings->value(SETTINGS_DISPLAY_VOICE_ACT_SLIDER, SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT).toBool());
+    ui.streamMediaVolumeLabel->setVisible(ttSettings->value(SETTINGS_DISPLAY_STREAM_VOLUME_SLIDER, SETTINGS_DISPLAY_STREAM_VOLUME_SLIDER_DEFAULT).toBool());
+    ui.streamMediaVolumeSlider->setVisible(ttSettings->value(SETTINGS_DISPLAY_STREAM_VOLUME_SLIDER, SETTINGS_DISPLAY_STREAM_VOLUME_SLIDER_DEFAULT).toBool());
 
     // Sounds pack checks
     QString packset = ttSettings->value(SETTINGS_SOUNDS_PACK).toString();
@@ -4330,6 +4332,8 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     }
     ui.voiceactLabel->setVisible(ui.actionEnableVoiceActivation->isChecked() && ttSettings->value(SETTINGS_DISPLAY_VOICE_ACT_SLIDER, SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT).toBool());
     ui.voiceactSlider->setVisible(ui.actionEnableVoiceActivation->isChecked() && ttSettings->value(SETTINGS_DISPLAY_VOICE_ACT_SLIDER, SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT).toBool());
+    ui.streamMediaVolumeLabel->setVisible(ttSettings->value(SETTINGS_DISPLAY_STREAM_VOLUME_SLIDER, SETTINGS_DISPLAY_STREAM_VOLUME_SLIDER_DEFAULT).toBool());
+    ui.streamMediaVolumeSlider->setVisible(ttSettings->value(SETTINGS_DISPLAY_STREAM_VOLUME_SLIDER, SETTINGS_DISPLAY_STREAM_VOLUME_SLIDER_DEFAULT).toBool());
 
     ui.channelsWidget->updateAllItems();
 

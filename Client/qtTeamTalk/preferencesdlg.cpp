@@ -521,6 +521,8 @@ void PreferencesDlg::slotTabChange(int index)
                                                        SETTINGS_DISPLAY_VU_METER_UPDATES_DEFAULT).toBool());
         ui.voiceActLevelChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_VOICE_ACT_SLIDER,
                                                        SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT).toBool());
+        ui.streamVolumeLevelChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_STREAM_VOLUME_SLIDER,
+                                                       SETTINGS_DISPLAY_STREAM_VOLUME_SLIDER_DEFAULT).toBool());
         ui.msgpopupChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_MESSAGEPOPUP, true).toBool());
         ui.videodlgChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_VIDEOPOPUP, false).toBool());
         ui.vidtextChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_VIDEOTEXT_SHOW, false).toBool());
