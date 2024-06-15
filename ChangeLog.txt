@@ -16,7 +16,7 @@ Default Qt Client
 - Ability to customize some TTS and status bar messages
 - Ability to customize date and time format
 - Remove option "Announce server name" from TTS options, use customizable messages instead
-- Redesign "Sound Events" tab in "Preferences" dialog
+- Redesign "Sound Events" and "Shortcuts" tabs in "Preferences" dialog
 - Optional sound event for user typing private message
 - Ability to replace existing file on upload
 - Menu to insert MOTD variables in "Server Properties" dialog

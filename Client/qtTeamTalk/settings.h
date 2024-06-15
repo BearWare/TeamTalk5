@@ -49,7 +49,6 @@
 #define SETTINGS_GENERAL_AWAY_STATUSMSG                   "general_/idle-message"
 #define SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT        "general_/inactivity-disable-voiceact"
 #define SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT_DEFAULT false
-#define SETTINGS_GENERAL_PUSHTOTALK                 "general_/push-to-talk"
 #define SETTINGS_GENERAL_PUSHTOTALK_KEY             "general_/ptt-key"
 #define SETTINGS_GENERAL_PUSHTOTALKLOCK             "general_/ptt-key-lock"
 #define SETTINGS_GENERAL_PUSHTOTALKLOCK_DEFAULT     false
@@ -114,6 +113,7 @@
 #define SETTINGS_DISPLAY_FILESHEADER                "display/filesheader2"
 #define SETTINGS_DISPLAY_SOUNDEVENTSHEADER                 "display/soundeventsheader"
 #define SETTINGS_DISPLAY_TTSHEADER                  "display/ttsheader"
+#define SETTINGS_DISPLAY_SHORTCUTSHEADER                  "display/shortcutsheader"
 #define SETTINGS_DISPLAY_LOGSTATUSBAR               "display/log-statusbar"
 #define SETTINGS_DISPLAY_LOGSTATUSBAR_DEFAULT       true
 #define SETTINGS_DISPLAY_OFFICIALSERVERS            "display/show-official-servers"
@@ -359,6 +359,8 @@
                                                     SOUNDEVENT_INTERCEPTEND | \
                                                     SOUNDEVENT_TYPING)
 
+#define SETTINGS_SHORTCUTS_ACTIVEHKS          "shortcuts/active-shortcuts"
+#define SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT          Hotkeys(HOTKEY_NONE)
 #define SETTINGS_SHORTCUTS_VOICEACTIVATION          "shortcuts/voiceactivation"
 #define SETTINGS_SHORTCUTS_INCVOLUME                "shortcuts/volume-inc"
 #define SETTINGS_SHORTCUTS_DECVOLUME                "shortcuts/volume-dec"

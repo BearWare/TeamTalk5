@@ -602,7 +602,8 @@ MainWindow::~MainWindow()
     ttSettings->setValue(SETTINGS_SOUND_MICROPHONEGAIN, ui.micSlider->value());
     ttSettings->setValue(SETTINGS_SOUND_VOICEACTIVATIONLEVEL, ui.voiceactSlider->value());
 
-    ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, ui.actionEnablePushToTalk->isChecked());
+    auto activekeys = ttSettings->value(SETTINGS_SHORTCUTS_ACTIVEHKS, SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT).toULongLong();
+    ttSettings->setValue(SETTINGS_SHORTCUTS_ACTIVEHKS, (ui.actionEnablePushToTalk->isChecked() ? activekeys | HOTKEY_PUSHTOTALK : activekeys & ~HOTKEY_PUSHTOTALK));
     ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, ui.actionEnableVoiceActivation->isChecked());
 
     if(windowState() == Qt::WindowNoState)
@@ -686,7 +687,7 @@ void MainWindow::loadSettings()
     initSound();
 
     //load settings
-    bool ptt = ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool();
+    bool ptt = ttSettings->value(SETTINGS_SHORTCUTS_ACTIVEHKS, SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT).toULongLong() & HOTKEY_PUSHTOTALK;
     slotMeEnablePushToTalk(ptt);
     bool vox = ttSettings->value(SETTINGS_GENERAL_VOICEACTIVATED,
                                  SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT).toBool();
@@ -3660,51 +3661,27 @@ void MainWindow::stopStreamMediaFile()
 
 void MainWindow::loadHotKeys()
 {
-    hotkey_t hotkey;
-    if (loadHotKeySettings(HOTKEY_VOICEACTIVATION, hotkey))
-        enableHotKey(HOTKEY_VOICEACTIVATION, hotkey);
-    else
-        disableHotKey(HOTKEY_VOICEACTIVATION);
-    hotkey.clear();
-    if (loadHotKeySettings(HOTKEY_INCVOLUME, hotkey))
-        enableHotKey(HOTKEY_INCVOLUME, hotkey);
-    else
-        disableHotKey(HOTKEY_INCVOLUME);
-    hotkey.clear();
-    if (loadHotKeySettings(HOTKEY_DECVOLUME, hotkey))
-        enableHotKey(HOTKEY_DECVOLUME, hotkey);
-    else
-        disableHotKey(HOTKEY_DECVOLUME);
-    hotkey.clear();
-    if (loadHotKeySettings(HOTKEY_MUTEALL, hotkey))
-        enableHotKey(HOTKEY_MUTEALL, hotkey);
-    else
-        disableHotKey(HOTKEY_MUTEALL);
-    hotkey.clear();
-    if (loadHotKeySettings(HOTKEY_MICROPHONEGAIN_INC, hotkey))
-        enableHotKey(HOTKEY_MICROPHONEGAIN_INC, hotkey);
-    else
-        disableHotKey(HOTKEY_MICROPHONEGAIN_INC);
-    hotkey.clear();
-    if (loadHotKeySettings(HOTKEY_MICROPHONEGAIN_DEC, hotkey))
-        enableHotKey(HOTKEY_MICROPHONEGAIN_DEC, hotkey);
-    else
-        disableHotKey(HOTKEY_MICROPHONEGAIN_DEC);
-    hotkey.clear();
-    if (loadHotKeySettings(HOTKEY_VIDEOTX, hotkey))
-        enableHotKey(HOTKEY_VIDEOTX, hotkey);
-    else
-        disableHotKey(HOTKEY_VIDEOTX);
-    hotkey.clear();
-    if (loadHotKeySettings(HOTKEY_REINITSOUNDDEVS, hotkey))
-        enableHotKey(HOTKEY_REINITSOUNDDEVS, hotkey);
-    else
-        disableHotKey(HOTKEY_REINITSOUNDDEVS);
-    hotkey.clear();
-    if (loadHotKeySettings(HOTKEY_SHOWHIDE_WINDOW, hotkey))
-        enableHotKey(HOTKEY_SHOWHIDE_WINDOW, hotkey);
-    else
-        disableHotKey(HOTKEY_SHOWHIDE_WINDOW);
+    Hotkeys activeHotkeys = ttSettings->value(SETTINGS_SHORTCUTS_ACTIVEHKS, SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT).toULongLong();
+    for (Hotkeys hk = HOTKEY_FIRST; hk < HOTKEY_NEXT_UNUSED; hk <<= 1)
+    {
+        HotKeyID hki = static_cast<HotKeyID>(hk);
+        hotkey_t hotkey;
+        if (activeHotkeys & hk)
+        {
+            if (loadHotKeySettings(hki, hotkey))
+            {
+                enableHotKey(hki, hotkey);
+            }
+            else
+            {
+                disableHotKey(hki);
+            }
+        }
+        else
+        {
+            disableHotKey(hki);
+        }
+    }
 }
 
 void MainWindow::enableHotKey(HotKeyID id, const hotkey_t& hk)
@@ -4263,7 +4240,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     }
     enableVoiceActivation(ttSettings->value(SETTINGS_GENERAL_VOICEACTIVATED,
                                                   SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT).toBool());
-    slotMeEnablePushToTalk(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool());
+    slotMeEnablePushToTalk(ttSettings->value(SETTINGS_SHORTCUTS_ACTIVEHKS, SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT).toULongLong() & HOTKEY_PUSHTOTALK);
 
     updateAudioConfig();
 
@@ -4541,7 +4518,7 @@ void MainWindow::slotMeEnablePushToTalk(bool checked)
         hotkey_t hotkey;
         if(!loadHotKeySettings(HOTKEY_PUSHTOTALK, hotkey))
         {
-            KeyCompDlg dlg(this);
+            KeyCompDlg dlg(HOTKEY_PUSHTOTALK, this);
             if(!dlg.exec())
                 return;
             saveHotKeySettings(HOTKEY_PUSHTOTALK, dlg.m_hotkey);
@@ -4560,7 +4537,8 @@ void MainWindow::slotMeEnablePushToTalk(bool checked)
             addTextToSpeechMessage(TTS_TOGGLE_VOICETRANSMISSION, tr("Push-To-Talk disabled"));
     }
 
-    ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, checked);
+    auto activekeys = ttSettings->value(SETTINGS_SHORTCUTS_ACTIVEHKS, SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT).toULongLong();
+    ttSettings->setValue(SETTINGS_SHORTCUTS_ACTIVEHKS, (checked ? activekeys | HOTKEY_PUSHTOTALK : activekeys & ~HOTKEY_PUSHTOTALK));
 
     slotUpdateUI();
 }

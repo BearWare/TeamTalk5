@@ -50,8 +50,7 @@ public:
 private:
     Ui::PreferencesDlg ui;
     SoundDevice& m_devin, &m_devout;
-    /* hotkey tab */
-    hotkey_t m_hotkey;
+    class ShortcutsModel* m_shortcutsmodel = nullptr;
     /* sound tab */
     void initDevices();
     SoundSystem getSoundSystem();
@@ -61,7 +60,6 @@ private:
     bool getSoundFile(QString& filename);
     void slotBrowseSoundEvent();
     class SoundEventsModel* m_soundmodel = nullptr;
-    typedef QMap<HotKeyID, hotkey_t> hotkeys_t;
     hotkeys_t m_hotkeys;
     /* video tab */
     QVector<VideoCaptureDevice> m_videodevices;
@@ -83,6 +81,7 @@ private:
     void slotEnableBearWareID(bool checked);
     void slotEnablePushToTalk(bool checked);
     void slotSetupHotkey();
+    void updatePushtoTalk();
     //display tab
     void slotLanguageChange(int index);
     void slotSelectVideoText();
@@ -113,7 +112,7 @@ private:
     void slotUpdateTTSTab();
     void slotTTSLocaleChanged(const QString& locale);
     //keyboard shortcuts
-    void shortcutSetup(HotKeyID hotkey, bool enable, QLineEdit* shortcutedit);
+    void shortcutSetup(const QModelIndex &index);
     //video tab
     void slotVideoCaptureDevChange(int index);
     void slotTestVideoFormat();

@@ -31,6 +31,7 @@
 #include "utilui.h"
 #include "settings.h"
 #include "soundeventsmodel.h"
+#include "shortcutsmodel.h"
 
 #include <QDebug>
 #include <QMessageBox>
@@ -211,24 +212,19 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     ui.ttsTableView->horizontalHeader()->setSectionsMovable(false);
 
     //keyboard shortcuts
-    connect(ui.voiceactButton, &QAbstractButton::clicked,
-            [&] (bool checked) { shortcutSetup(HOTKEY_VOICEACTIVATION, checked, ui.voiceactEdit); });
-    connect(ui.volumeincButton, &QAbstractButton::clicked,
-            [&] (bool checked) { shortcutSetup(HOTKEY_INCVOLUME, checked, ui.volumeincEdit); });
-    connect(ui.volumedecButton, &QAbstractButton::clicked,
-            [&] (bool checked) { shortcutSetup(HOTKEY_DECVOLUME, checked, ui.volumedecEdit); });
-    connect(ui.muteallButton, &QAbstractButton::clicked,
-            [&] (bool checked) { shortcutSetup(HOTKEY_MUTEALL, checked, ui.muteallEdit); });
-    connect(ui.voicegainincButton, &QAbstractButton::clicked,
-            [&] (bool checked) { shortcutSetup(HOTKEY_MICROPHONEGAIN_INC, checked, ui.voicegainincEdit); });
-    connect(ui.voicegaindecButton, &QAbstractButton::clicked,
-            [&] (bool checked) { shortcutSetup(HOTKEY_MICROPHONEGAIN_DEC, checked, ui.voicegaindecEdit); });
-    connect(ui.videotxButton, &QAbstractButton::clicked,
-            [&] (bool checked) { shortcutSetup(HOTKEY_VIDEOTX, checked, ui.videotxEdit); });
-    connect (ui.initsoundButton, &QAbstractButton::clicked,
-            [&] (bool checked) { shortcutSetup(HOTKEY_REINITSOUNDDEVS, checked, ui.initsoundEdit); });
-    connect (ui.showhideButton, &QAbstractButton::clicked,
-            [&] (bool checked) { shortcutSetup(HOTKEY_SHOWHIDE_WINDOW, checked, ui.showhideEdit); });
+    m_shortcutsmodel = new ShortcutsModel(this);
+    ui.shortcutsTableView->setModel(m_shortcutsmodel);
+    connect(ui.shortcutsTableView, &QAbstractItemView::doubleClicked, this, &PreferencesDlg::shortcutSetup);
+    auto shortcutshdrsize = ttSettings->value(SETTINGS_DISPLAY_SHORTCUTSHEADER).toByteArray();
+    if (shortcutshdrsize.size())
+    {
+        ui.shortcutsTableView->horizontalHeader()->restoreState(shortcutshdrsize);
+        ui.shortcutsTableView->horizontalHeader()->setSectionsMovable(false);
+    }
+    else
+    {
+        ui.shortcutsTableView->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
+    }
 
     //video tab
     connect(ui.vidcapdevicesBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
@@ -502,14 +498,28 @@ void PreferencesDlg::slotTabChange(int index)
         slotUpdateASBAccessibleName();
         ui.awayMsgEdit->setText(ttSettings->value(SETTINGS_GENERAL_AWAY_STATUSMSG).toString());
         ui.disableVoiceActCheckBox->setChecked(ttSettings->value(SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT, SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT_DEFAULT).toBool());
-        ui.pttChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool());
+
+        auto activehotkeys = ttSettings->value(SETTINGS_SHORTCUTS_ACTIVEHKS, SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT).toULongLong();
+        for (Hotkeys hk = HOTKEY_FIRST; hk < HOTKEY_NEXT_UNUSED; hk <<= 1)
+        {
+            if (activehotkeys & hk)
+            {
+                hotkey_t hotkey;
+                HotKeyID hki = static_cast<HotKeyID>(hk);
+                if (loadHotKeySettings(hki, hotkey))
+                {
+                    m_hotkeys[hki] = hotkey;
+                }
+            }
+        }
+
+        ui.pttChkBox->setChecked(m_hotkeys.contains(HOTKEY_PUSHTOTALK));
         ui.pttlockChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALKLOCK,
                                                        SETTINGS_GENERAL_PUSHTOTALKLOCK_DEFAULT).toBool());
-        slotEnablePushToTalk(ttSettings->value(SETTINGS_GENERAL_PUSHTOTALK).toBool());
+        slotEnablePushToTalk(m_hotkeys.contains(HOTKEY_PUSHTOTALK));
         ui.voiceactChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_VOICEACTIVATED,
                                                         SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT).toBool());
-        loadHotKeySettings(HOTKEY_PUSHTOTALK, m_hotkey);
-        ui.keycompEdit->setText(getHotKeyText(m_hotkey));
+        updatePushtoTalk();
         break;
     }
     case DISPLAY_TAB : //display
@@ -661,69 +671,7 @@ void PreferencesDlg::slotTabChange(int index)
     }
     case SHORTCUTS_TAB :  //shortcuts
     {
-        hotkey_t hotkey;
-        if(loadHotKeySettings(HOTKEY_VOICEACTIVATION, hotkey))
-        {
-            m_hotkeys.insert(HOTKEY_VOICEACTIVATION, hotkey);
-            ui.voiceactEdit->setText(getHotKeyText(hotkey));
-            ui.voiceactButton->setChecked(true);
-        }
-        hotkey.clear();
-        if(loadHotKeySettings(HOTKEY_INCVOLUME, hotkey))
-        {
-            m_hotkeys.insert(HOTKEY_INCVOLUME, hotkey);
-            ui.volumeincEdit->setText(getHotKeyText(hotkey));
-            ui.volumeincButton->setChecked(true);
-        }
-        hotkey.clear();
-        if(loadHotKeySettings(HOTKEY_DECVOLUME, hotkey))
-        {
-            m_hotkeys.insert(HOTKEY_DECVOLUME, hotkey);
-            ui.volumedecEdit->setText(getHotKeyText(hotkey));
-            ui.volumedecButton->setChecked(true);
-        }
-        hotkey.clear();
-        if(loadHotKeySettings(HOTKEY_MUTEALL, hotkey))
-        {
-            m_hotkeys.insert(HOTKEY_MUTEALL, hotkey);
-            ui.muteallEdit->setText(getHotKeyText(hotkey));
-            ui.muteallButton->setChecked(true);
-        }
-        hotkey.clear();
-        if(loadHotKeySettings(HOTKEY_MICROPHONEGAIN_INC, hotkey))
-        {
-            m_hotkeys.insert(HOTKEY_MICROPHONEGAIN_INC, hotkey);
-            ui.voicegainincEdit->setText(getHotKeyText(hotkey));
-            ui.voicegainincButton->setChecked(true);
-        }
-        hotkey.clear();
-        if(loadHotKeySettings(HOTKEY_MICROPHONEGAIN_DEC, hotkey))
-        {
-            m_hotkeys.insert(HOTKEY_MICROPHONEGAIN_DEC, hotkey);
-            ui.voicegaindecEdit->setText(getHotKeyText(hotkey));
-            ui.voicegaindecButton->setChecked(true);
-        }
-        hotkey.clear();
-        if(loadHotKeySettings(HOTKEY_VIDEOTX, hotkey))
-        {
-            m_hotkeys.insert(HOTKEY_VIDEOTX, hotkey);
-            ui.videotxEdit->setText(getHotKeyText(hotkey));
-            ui.videotxButton->setChecked(true);
-        }
-        hotkey.clear();
-        if (loadHotKeySettings(HOTKEY_REINITSOUNDDEVS, hotkey))
-        {
-            m_hotkeys.insert(HOTKEY_REINITSOUNDDEVS, hotkey);
-            ui.initsoundEdit->setText(getHotKeyText(hotkey));
-            ui.initsoundButton->setChecked(true);
-        }
-        hotkey.clear();
-        if (loadHotKeySettings(HOTKEY_SHOWHIDE_WINDOW, hotkey))
-        {
-            m_hotkeys.insert(HOTKEY_SHOWHIDE_WINDOW, hotkey);
-            ui.showhideEdit->setText(getHotKeyText(hotkey));
-            ui.showhideButton->setChecked(true);
-        }
+        m_shortcutsmodel->setShortcuts(m_hotkeys);
     }
     break;
     case VIDCAP_TAB : //video capture
@@ -803,8 +751,10 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_GENERAL_AUTOAWAY, ui.awaySpinBox->value());
         ttSettings->setValue(SETTINGS_GENERAL_AWAY_STATUSMSG, ui.awayMsgEdit->text());
         ttSettings->setValue(SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT, ui.disableVoiceActCheckBox->isChecked());
-        saveHotKeySettings(HOTKEY_PUSHTOTALK, m_hotkey);
-        ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALK, ui.pttChkBox->isChecked());
+        saveHotKeySettings(HOTKEY_PUSHTOTALK, m_hotkeys[HOTKEY_PUSHTOTALK]);
+        auto activehotkeys = ttSettings->value(SETTINGS_SHORTCUTS_ACTIVEHKS, SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT).toULongLong();
+        ttSettings->setValue(SETTINGS_SHORTCUTS_ACTIVEHKS,
+            (ui.pttChkBox->isChecked() ? activehotkeys | HOTKEY_PUSHTOTALK : activehotkeys & ~HOTKEY_PUSHTOTALK));
         ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALKLOCK, ui.pttlockChkBox->isChecked());
         ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, ui.voiceactChkBox->isChecked());
         ttSettings->setValue(SETTINGS_GENERAL_RESTOREUSERSETTINGS, ui.syncWebUserCheckBox->isChecked());
@@ -1005,28 +955,17 @@ void PreferencesDlg::slotSaveChanges()
     if(m_modtab.find(SHORTCUTS_TAB) != m_modtab.end())
     {
 #ifdef Q_OS_WIN32
-        TT_HotKey_Unregister(ttInst, HOTKEY_VOICEACTIVATION);
-        TT_HotKey_Unregister(ttInst, HOTKEY_INCVOLUME);
-        TT_HotKey_Unregister(ttInst, HOTKEY_DECVOLUME);
-        TT_HotKey_Unregister(ttInst, HOTKEY_MUTEALL);
-        TT_HotKey_Unregister(ttInst, HOTKEY_MICROPHONEGAIN_INC);
-        TT_HotKey_Unregister(ttInst, HOTKEY_MICROPHONEGAIN_DEC);
-        TT_HotKey_Unregister(ttInst, HOTKEY_VIDEOTX);
-        TT_HotKey_Unregister(ttInst, HOTKEY_REINITSOUNDDEVS);
-        TT_HotKey_Unregister(ttInst, HOTKEY_SHOWHIDE_WINDOW);
+        for (Hotkeys hk = HOTKEY_FIRST; hk < HOTKEY_NEXT_UNUSED; hk <<= 1)
+        {
+            TT_HotKey_Unregister(ttInst, static_cast<HotKeyID>(hk));
+        }
 #endif
-        deleteHotKeySettings(HOTKEY_VOICEACTIVATION);
-        deleteHotKeySettings(HOTKEY_INCVOLUME);
-        deleteHotKeySettings(HOTKEY_DECVOLUME);
-        deleteHotKeySettings(HOTKEY_MUTEALL);
-        deleteHotKeySettings(HOTKEY_MICROPHONEGAIN_INC);
-        deleteHotKeySettings(HOTKEY_MICROPHONEGAIN_DEC);
-        deleteHotKeySettings(HOTKEY_VIDEOTX);
-        deleteHotKeySettings(HOTKEY_REINITSOUNDDEVS);
-        deleteHotKeySettings(HOTKEY_SHOWHIDE_WINDOW);
-
+        for (Hotkeys hk = HOTKEY_FIRST; hk < HOTKEY_NEXT_UNUSED; hk <<= 1)
+        {
+            deleteHotKeySettings(static_cast<HotKeyID>(hk));
+        }
         hotkeys_t::iterator ite = m_hotkeys.begin();
-        while(ite != m_hotkeys.end())
+        while (ite != m_hotkeys.end())
         {
             saveHotKeySettings(ite.key(), *ite);
 #ifdef Q_OS_WIN32
@@ -1034,6 +973,13 @@ void PreferencesDlg::slotSaveChanges()
 #endif
             ite++;
         }
+        Hotkeys activeHotkeys = 0;
+        for (auto it = m_shortcutsmodel->getShortcuts().begin(); it != m_shortcutsmodel->getShortcuts().end(); ++it)
+        {
+            activeHotkeys |= it.key();
+        }
+        ttSettings->setValue(SETTINGS_SHORTCUTS_ACTIVEHKS, activeHotkeys);
+        ttSettings->setValue(SETTINGS_DISPLAY_SHORTCUTSHEADER, ui.shortcutsTableView->horizontalHeader()->saveState());
     }
     if(m_modtab.find(VIDCAP_TAB) != m_modtab.end())
     {
@@ -1148,23 +1094,35 @@ void PreferencesDlg::slotEnableBearWareID(bool /*checked*/)
 void PreferencesDlg::slotEnablePushToTalk(bool checked)
 {
     ui.setupkeysButton->setEnabled(checked);
-    ui.keycompEdit->setEnabled(checked);
+    ui.keycompLabel->setEnabled(checked);
     ui.pttlockChkBox->setEnabled(checked);
 #if defined(Q_OS_LINUX)
     // push/release only supported on X11
     ui.pttlockChkBox->setEnabled(false);
     ui.pttlockChkBox->setChecked(checked);
 #endif
+    if (!checked)
+        m_hotkeys.remove(HOTKEY_PUSHTOTALK);
+    m_shortcutsmodel->setShortcuts(m_hotkeys);
 }
 
 void PreferencesDlg::slotSetupHotkey()
 {
-    KeyCompDlg dlg(this);
+    KeyCompDlg dlg(HOTKEY_PUSHTOTALK, this);
     if(!dlg.exec())
         return;
 
-    m_hotkey = dlg.m_hotkey;
-    ui.keycompEdit->setText(getHotKeyText(m_hotkey));
+    m_hotkeys[HOTKEY_PUSHTOTALK] = dlg.m_hotkey;
+    m_shortcutsmodel->setShortcuts(m_hotkeys);
+    updatePushtoTalk();
+}
+
+void PreferencesDlg::updatePushtoTalk()
+{
+    if (m_hotkeys.contains(HOTKEY_PUSHTOTALK))
+        ui.keycompLabel->setText(tr("Key Combination: %1").arg(getHotKeyText(m_hotkeys[HOTKEY_PUSHTOTALK])));
+    else
+        ui.keycompLabel->setText("");
 }
 
 void PreferencesDlg::slotLanguageChange(int /*index*/)
@@ -1581,21 +1539,35 @@ void PreferencesDlg::slotTTSLocaleChanged(const QString& locale)
 #endif
 }
 
-void PreferencesDlg::shortcutSetup(HotKeyID hotkey, bool enable, QLineEdit* shortcutedit)
+void PreferencesDlg::shortcutSetup(const QModelIndex &index)
 {
-    if (enable)
+    auto hks = m_shortcutsmodel->getShortcuts();
+    HotKeyID hk = static_cast<HotKeyID>(index.internalId());
+    if (hks.contains(hk))
     {
-        KeyCompDlg dlg(this);
-        if(!dlg.exec())
-            return;
-
-        m_hotkeys.insert(hotkey, dlg.m_hotkey);
-        shortcutedit->setText(getHotKeyText(dlg.m_hotkey));
+        m_hotkeys.remove(hk);
+        m_shortcutsmodel->setShortcuts(m_hotkeys);
+        if (hk == HOTKEY_PUSHTOTALK)
+        {
+            slotEnablePushToTalk(false);
+            ui.pttChkBox->setChecked(false);
+            updatePushtoTalk();
+        }
     }
     else
     {
-        shortcutedit->setText("");
-        m_hotkeys.remove(hotkey);
+        KeyCompDlg dlg(hk, this);
+        if (!dlg.exec())
+            return;
+
+        m_hotkeys[hk] = dlg.m_hotkey;
+        m_shortcutsmodel->setShortcuts(m_hotkeys);
+        if (hk == HOTKEY_PUSHTOTALK)
+        {
+            slotEnablePushToTalk(true);
+            ui.pttChkBox->setChecked(true);
+            updatePushtoTalk();
+        }
     }
 }
 

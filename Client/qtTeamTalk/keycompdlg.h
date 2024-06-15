@@ -21,7 +21,7 @@
 #include <QList>
 #include <QSet>
 
-#include "common.h"
+#include "utilhotkey.h"
 #include "ui_keycomp.h"
 
 class KeyCompDlg : public QDialog
@@ -29,7 +29,7 @@ class KeyCompDlg : public QDialog
     Q_OBJECT
 
 public:
-    KeyCompDlg(QWidget * parent = 0);
+    KeyCompDlg(HotKeyID hkID, QWidget * parent = 0);
     ~KeyCompDlg();
 
     hotkey_t m_hotkey;
