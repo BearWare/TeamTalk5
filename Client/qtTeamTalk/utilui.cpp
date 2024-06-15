@@ -20,6 +20,7 @@
 #include "bearwarelogindlg.h"
 #include "appinfo.h"
 #include "utilsound.h"
+#include "utilhotkey.h"
 
 #include <QTranslator>
 #include <QDir>
@@ -131,6 +132,22 @@ void migrateSettings()
         else if (lang == "Turkish") lc_code = "tr";
         else if (lang == "Vietnamese") lc_code = "vi";
         ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, lc_code);
+
+        // Shortcuts changed in 5.4 format
+        Hotkeys hks = HOTKEY_NONE;
+
+        for (int hk = HOTKEY_FIRST; hk < HOTKEY_NEXT_UNUSED; hk <<= 1)
+        {
+            hotkey_t hotkey;
+            HotKeyID hki = static_cast<HotKeyID>(hk);
+            if (loadHotKeySettings(hki, hotkey))
+            {
+                hks = static_cast<Hotkeys>(hks | hk);
+            }
+        }
+
+        ttSettings->setValue(SETTINGS_SHORTCUTS_ACTIVEHKS, hks);
+        ttSettings->remove("general_/push-to-talk");
     }
 
     if (ttSettings->value(SETTINGS_GENERAL_VERSION).toString() != SETTINGS_VERSION)

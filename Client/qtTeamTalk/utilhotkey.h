@@ -19,25 +19,35 @@
 #define UTILHOTKEY_H
 
 #include "common.h"
+#include <QMap>
 
 enum HotKeyID
 {
-    HOTKEY_PUSHTOTALK,
-    HOTKEY_VOICEACTIVATION,
-    HOTKEY_INCVOLUME,
-    HOTKEY_DECVOLUME,
-    HOTKEY_MUTEALL,
-    HOTKEY_MICROPHONEGAIN_INC,
-    HOTKEY_MICROPHONEGAIN_DEC,
-    HOTKEY_VIDEOTX,
-    HOTKEY_REINITSOUNDDEVS,
-    HOTKEY_SHOWHIDE_WINDOW,
+    HOTKEY_NONE = 0x0,
+    HOTKEY_PUSHTOTALK = qulonglong(1) << 0,
+    HOTKEY_VOICEACTIVATION = qulonglong(1) << 1,
+    HOTKEY_INCVOLUME = qulonglong(1) << 2,
+    HOTKEY_DECVOLUME = qulonglong(1) << 3,
+    HOTKEY_MUTEALL = qulonglong(1) << 4,
+    HOTKEY_MICROPHONEGAIN_INC = qulonglong(1) << 5,
+    HOTKEY_MICROPHONEGAIN_DEC = qulonglong(1) << 6,
+    HOTKEY_VIDEOTX = qulonglong(1) << 7,
+    HOTKEY_REINITSOUNDDEVS = qulonglong(1) << 8,
+    HOTKEY_SHOWHIDE_WINDOW = qulonglong(1) << 9,
+
+    HOTKEY_FIRST = HOTKEY_PUSHTOTALK,
+    HOTKEY_NEXT_UNUSED = qulonglong(1) << 10,
 };
+
+typedef qulonglong Hotkeys;
+typedef QMap<HotKeyID, hotkey_t> hotkeys_t;
 
 #if defined(Q_OS_DARWIN)
 #define MAC_HOTKEY_SIZE 2
 #define MAC_NO_KEY 0xFFFFFFFF
 #endif
+
+QString getHotKeyName(HotKeyID id);
 
 QString getHotKeyText(const hotkey_t& hotkey);
 

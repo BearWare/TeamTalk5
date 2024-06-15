@@ -125,7 +125,7 @@ void GenerateTTFileDlg::loadVideoFormats()
 
 void GenerateTTFileDlg::slotSetupHotkey()
 {
-    KeyCompDlg dlg(this);
+    KeyCompDlg dlg(HOTKEY_PUSHTOTALK, this);
     if(!dlg.exec())
         return;
 

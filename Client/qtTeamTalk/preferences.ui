@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1119</width>
-    <height>697</height>
+    <height>706</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -328,45 +328,49 @@
          <property name="title">
           <string>Voice Transmission Mode</string>
          </property>
-         <layout class="QFormLayout" name="formLayout">
-          <property name="fieldGrowthPolicy">
-           <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-          </property>
-          <property name="labelAlignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-          </property>
-          <item row="0" column="0">
-           <widget class="QCheckBox" name="pttChkBox">
-            <property name="text">
-             <string>Push To Talk</string>
-            </property>
-           </widget>
+         <layout class="QVBoxLayout" name="verticalLayout_24">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_32">
+            <item>
+             <widget class="QCheckBox" name="pttChkBox">
+              <property name="text">
+               <string>Push To Talk</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="setupkeysButton">
+              <property name="text">
+               <string>&amp;Setup Keys</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="keycompLabel">
+              <property name="focusPolicy">
+               <enum>Qt::StrongFocus</enum>
+              </property>
+              <property name="text">
+               <string>Key Combination:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_20">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
           </item>
-          <item row="0" column="1">
-           <widget class="QPushButton" name="setupkeysButton">
-            <property name="text">
-             <string>&amp;Setup Keys</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>Key Combination</string>
-            </property>
-            <property name="buddy">
-             <cstring>keycompEdit</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="keycompEdit">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
+          <item>
            <widget class="QCheckBox" name="pttlockChkBox">
             <property name="toolTip">
              <string>Press to transmit.  Press to stop transmit</string>
@@ -376,7 +380,7 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
+          <item>
            <widget class="QCheckBox" name="voiceactChkBox">
             <property name="text">
              <string>Voice activated</string>
@@ -1200,7 +1204,7 @@
                <string>Refresh devices</string>
               </property>
               <property name="icon">
-               <iconset resource="resources.qrc">
+               <iconset>
                 <normaloff>:/images/images/refresh.png</normaloff>:/images/images/refresh.png</iconset>
               </property>
               <property name="iconSize">
@@ -1246,7 +1250,7 @@
                <string>Refresh devices</string>
               </property>
               <property name="icon">
-               <iconset resource="resources.qrc">
+               <iconset>
                 <normaloff>:/images/images/refresh.png</normaloff>:/images/images/refresh.png</iconset>
               </property>
               <property name="iconSize">
@@ -1934,251 +1938,23 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_11">
           <item>
-           <layout class="QGridLayout" name="gridLayout_5">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_25">
-              <property name="text">
-               <string>Enable/disable voice activation</string>
-              </property>
-              <property name="buddy">
-               <cstring>voiceactEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="voiceactEdit">
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2">
-             <widget class="QPushButton" name="voiceactButton">
-              <property name="text">
-               <string>&amp;Setup Keys</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_26">
-              <property name="text">
-               <string>Increase volume</string>
-              </property>
-              <property name="buddy">
-               <cstring>volumeincEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="volumeincEdit">
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="2">
-             <widget class="QPushButton" name="volumeincButton">
-              <property name="text">
-               <string>&amp;Setup Keys</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_27">
-              <property name="text">
-               <string>Lower volume</string>
-              </property>
-              <property name="buddy">
-               <cstring>volumedecEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="volumedecEdit">
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="2">
-             <widget class="QPushButton" name="volumedecButton">
-              <property name="text">
-               <string>&amp;Setup Keys</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="label_28">
-              <property name="text">
-               <string>Enable/disable mute all</string>
-              </property>
-              <property name="buddy">
-               <cstring>muteallEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QLineEdit" name="muteallEdit">
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="2">
-             <widget class="QPushButton" name="muteallButton">
-              <property name="text">
-               <string>&amp;Setup Keys</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0">
-             <widget class="QLabel" name="label_29">
-              <property name="text">
-               <string>Increase microphone gain</string>
-              </property>
-              <property name="buddy">
-               <cstring>voicegainincEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <widget class="QLineEdit" name="voicegainincEdit">
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="2">
-             <widget class="QPushButton" name="voicegainincButton">
-              <property name="text">
-               <string>&amp;Setup Keys</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="label_30">
-              <property name="text">
-               <string>Lower microphone gain</string>
-              </property>
-              <property name="buddy">
-               <cstring>voicegaindecEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1">
-             <widget class="QLineEdit" name="voicegaindecEdit">
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="2">
-             <widget class="QPushButton" name="voicegaindecButton">
-              <property name="text">
-               <string>&amp;Setup Keys</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="0">
-             <widget class="QLabel" name="label_6">
-              <property name="text">
-               <string>Enable/disable video transmission</string>
-              </property>
-              <property name="buddy">
-               <cstring>videotxEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1">
-             <widget class="QLineEdit" name="videotxEdit">
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="2">
-             <widget class="QPushButton" name="videotxButton">
-              <property name="text">
-               <string>&amp;Setup Keys</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="0">
-             <widget class="QLabel" name="label_44">
-              <property name="text">
-               <string>Reinitialize sound devices</string>
-              </property>
-              <property name="buddy">
-               <cstring>initsoundEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="1">
-             <widget class="QLineEdit" name="initsoundEdit">
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="2">
-             <widget class="QPushButton" name="initsoundButton">
-              <property name="text">
-               <string>&amp;Setup Keys</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="0">
-             <widget class="QLabel" name="label_46">
-              <property name="text">
-               <string>Show/hide main window</string>
-              </property>
-              <property name="buddy">
-               <cstring>showhideEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="1">
-             <widget class="QLineEdit" name="showhideEdit">
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="2">
-             <widget class="QPushButton" name="showhideButton">
-              <property name="text">
-               <string>&amp;Setup Keys</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
+           <widget class="MyTableView" name="shortcutsTableView">
+            <property name="toolTip">
+             <string>Double click to configure keys</string>
+            </property>
+            <property name="editTriggers">
+             <set>QAbstractItemView::NoEditTriggers</set>
+            </property>
+            <property name="tabKeyNavigation">
+             <bool>false</bool>
+            </property>
+            <property name="showDropIndicator" stdset="0">
+             <bool>false</bool>
+            </property>
+            <property name="alternatingRowColors">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -2531,9 +2307,7 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>
