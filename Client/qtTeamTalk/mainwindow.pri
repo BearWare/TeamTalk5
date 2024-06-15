@@ -24,7 +24,7 @@ HEADERS    = mainwindow.h preferencesdlg.h uservideowidget.h \
              serverlogeventsmodel.h textmessagecontainer.h \
              useraccountsmodel.h encryptionsetupdlg.h utiltt.h utilxml.h \
              utilos.h serverdlg.h moveusersdlg.h useraccountdlg.h soundeventsmodel.h \
-             mytableview.h
+             mytableview.h mytabwidget.h
 
 SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              channelstree.cpp channeldlg.cpp userinfodlg.cpp \
@@ -45,7 +45,7 @@ SOURCES    = main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp \
              serverlogeventsmodel.cpp textmessagecontainer.cpp \
              useraccountsmodel.cpp encryptionsetupdlg.cpp utiltt.cpp utilxml.cpp \
              utilos.cpp serverdlg.cpp moveusersdlg.cpp useraccountdlg.cpp soundeventsmodel.cpp \
-             mytableview.cpp
+             mytableview.cpp mytabwidget.cpp
 
 FORMS      = mainwindow.ui channel.ui preferences.ui \
              serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui \
