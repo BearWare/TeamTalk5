@@ -18,17 +18,43 @@ SolidCompression=yes
 LicenseFile=License.txt
 ArchitecturesInstallIn64BitMode=x64
 
-
 [Types]
-Name: "i_client"; Description: "TeamTalk 5 Client"
-Name: "i_full"; Description: "TeamTalk 5 Client & Server"
+Name: "i_client"; Description: "{cm:Client}"
+Name: "i_full"; Description: "{cm:Full}"
 
 [Components]
 Name: "client"; Description: "Client files"; Types: i_client i_full; Flags: fixed
 Name: "server"; Description: "Server files"; Types: i_full
 
 [Languages]
-Name: "english"; MessagesFile: "compiler:Default.isl"
+Name: bg; MessagesFile: "compiler:Languages\Bulgarian.isl"
+Name: cs; MessagesFile: "compiler:Languages\Czech.isl"
+Name: da; MessagesFile: "compiler:Languages\Danish.isl"
+Name: de; MessagesFile: "compiler:Languages\German.isl"
+Name: en; MessagesFile: "compiler:Default.isl"
+Name: es; MessagesFile: "compiler:Languages\Spanish.isl"
+Name: fr; MessagesFile: "compiler:Languages\French.isl"
+Name: he; MessagesFile: "compiler:Languages\Hebrew.isl"
+Name: hu; MessagesFile: "compiler:Languages\Hungarian.isl"
+Name: it; MessagesFile: "compiler:Languages\Italian.isl"
+Name: ko; MessagesFile: "compiler:Languages\Korean.isl"
+Name: nl; MessagesFile: "compiler:Languages\Dutch.isl"
+Name: pl; MessagesFile: "compiler:Languages\Polish.isl"
+Name: pt_BR; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
+Name: pt_PT; MessagesFile: "compiler:Languages\Portuguese.isl"
+Name: ru; MessagesFile: "compiler:Languages\Russian.isl"
+Name: sk; MessagesFile: "compiler:Languages\Slovak.isl"
+Name: sl; MessagesFile: "compiler:Languages\Slovenian.isl"
+Name: tr; MessagesFile: "compiler:Languages\Turkish.isl"
+
+[Messages]
+BeveledLabel={cm:LanguageName}
+
+[CustomMessages]
+en.Client=TeamTalk 5 Client
+en.Full=TeamTalk 5 Client & Server
+fr.Client=Client TeamTalk 5
+fr.Full=Client et Serveur TeamTalk 5
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
