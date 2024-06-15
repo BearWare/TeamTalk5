@@ -19,8 +19,7 @@
 #include "settings.h"
 #include "common.h"
 #include "appinfo.h"
-
-#include <QProcess>
+#include "utilui.h"
 
 #if defined(QT_TEXTTOSPEECH_LIB)
 #include <QTextToSpeech>
@@ -103,23 +102,9 @@ void addTextToSpeechMessage(const QString& msg)
         }
 #endif
         break;
-    case TTSENGINE_NOTIFY:
-    {
-#if defined(Q_OS_LINUX)
-        int timestamp = ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt();
-        QString noquote = msg;
-        noquote.replace('"', ' ');
-        QProcess ps;
-        ps.startDetached(QString("%1 -t %2 -a \"%3\" -u low \"%4: %5\"")
-            .arg(TTSENGINE_NOTIFY_PATH)
-            .arg(timestamp)
-            .arg(APPNAME_SHORT)
-            .arg(APPNAME_SHORT)
-            .arg(noquote));
-#endif
-        break;
     }
-    }
+    if (ttSettings->value(SETTINGS_TTS_TOAST, SETTINGS_TTS_TOAST).toBool() == true)
+        showNotification(APPNAME_SHORT, msg);
 }
 
 void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
