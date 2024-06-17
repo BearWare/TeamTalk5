@@ -11,28 +11,33 @@ must first be installed. Goto TEAMTALK_ROOT/Build and type:
 
 `# make depend-ubuntu22`
 
-Afterwards run the following command:
+Afterwards run the following command to build:
 
-`# qmake teamtalk5.pro`
-
-Followed by:
-
-`# make`
+`# cmake -S $HOME/TeamTalk5 -B builddir`
+`# cmake --build builddir`
 
 ## Build Qt-based TeamTalk 5 on Windows
 
-First use CMake to build Qt Framework:
+In order to build the Qt TeamTalk client first install Qt Framework
+from https://www.qt.io/
 
-`# cmake -S C:/TeamTalk5 -B qtbuild -A Win32 -DQT_BUILD_QTFRAMEWORK=ON -DQT_INSTALL_PREFIX=C:/Qt5`
-`# cmake --build qtbuild`
+Setup Qt Framework in environment variables so CMake can detect Qt
+Framework, e.g.:
 
-Setup Qt Framework in PATH so we can use *qmake.exe* to generate
-project files:
+`# set QTDIR=c:\Qt\6.7.1\msvc2019_64`
+`# set PATH=%QTDIR%\bin;%PATH%`
 
-`# set PATH=C:\Qt5\bin;%PATH%`
+Now use CMake to generate project files:
 
-Generate project files for TeamTalk Qt-based client:
+`cmake -G "Visual Studio 16 2019" -A x64 -S C:/TeamTalk5 -B builddir`
+`cmake --build builddir
 
-`# qmake -tp vc CONFIG+=release teamtalk5.pro`
+To open the generated project files in Visual Studio 2019 open
+*TeamTalk5.vcxproj*.
 
-Now open *TeamTalk5.vcxproj* in Visual Studio 2019 and build.
+## Update Translation Files for Qt-based TeamTalk 5
+
+Using the build setup described in the two above section then to
+update translation files (.ts) run the following command:
+
+`# cmake --build builddir --target update_translations`
