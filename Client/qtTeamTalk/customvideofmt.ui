@@ -27,6 +27,9 @@
           <property name="text">
            <string>Video Resolution</string>
           </property>
+          <property name="buddy">
+           <cstring>widthEdit</cstring>
+          </property>
          </widget>
         </item>
         <item>
@@ -54,6 +57,9 @@
           <property name="text">
            <string notr="true">x</string>
           </property>
+          <property name="buddy">
+           <cstring>heightEdit</cstring>
+          </property>
          </widget>
         </item>
         <item>
@@ -67,6 +73,9 @@
          <widget class="QLabel" name="label_3">
           <property name="text">
            <string>FPS</string>
+          </property>
+          <property name="buddy">
+           <cstring>fpsEdit</cstring>
           </property>
          </widget>
         </item>

@@ -40,6 +40,7 @@ Default Qt Client
 - Windows and macOS updated to Qt v6.8.0-beta1
 - Ability to reorder column of User Accounts and Online Users dialog
 - Support TTS events via running screen reader on Windows and MacOS with Qt Accessibility Announcement (Qt 6.8)
+- Fixed labels of edit fields in "Custom Video Format" dialog
 Android Client
 - Toggle channel operator does not show password dialog if user has user-right to change channel operator
 iOS Client
