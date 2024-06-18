@@ -46,7 +46,7 @@ Name: ru; MessagesFile: "compiler:Languages\Russian.isl"
 Name: sk; MessagesFile: "compiler:Languages\Slovak.isl"
 Name: sl; MessagesFile: "compiler:Languages\Slovenian.isl"
 Name: tr; MessagesFile: "compiler:Languages\Turkish.isl"
-Name: zh; MessagesFile: "Languages\zh.isl"
+Name: "chinesesimplified"; MessagesFile: "Languages\ChineseSimplified.isl"
 
 [Messages]
 BeveledLabel={cm:LanguageName}
@@ -56,8 +56,8 @@ en.Client=TeamTalk 5 Client
 en.Full=TeamTalk 5 Client & Server
 fr.Client=Client TeamTalk 5
 fr.Full=Client et Serveur TeamTalk 5
-zh.Client=TeamTalk 5 客户端
-zh.Full=TeamTalk 5 客户端 & 服务器
+chinesesimplified.Client=TeamTalk 5 客户端
+chinesesimplified.Full=TeamTalk 5 客户端 & 服务器
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
