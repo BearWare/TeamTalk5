@@ -134,6 +134,17 @@ void addTextToSpeechMessage(const QString& msg)
         QAccessible::updateAccessibility(&announcementEvent);
 #endif
         break;
+    case TTSENGINE_APPLESCRIPT:
+        QString appleScript = QString(R"(
+            tell application "VoiceOver"
+                output "%1"
+            end tell
+        )").arg(msg);
+        QStringList arguments;
+        arguments << "-e" << appleScript;
+        QProcess process;
+        process.startDetached("osascript", arguments);
+        break;
     }
 }
 
