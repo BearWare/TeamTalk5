@@ -33,6 +33,8 @@
 
 #include <functional>
 
+void migrateSettings();
+
 enum DoubleClickChannelAction
 {
     ACTION_NOTHING          = 0x0,
