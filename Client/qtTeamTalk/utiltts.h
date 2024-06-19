@@ -98,7 +98,7 @@ enum TextToSpeechEngine
     TTSENGINE_TOLK = 2,
     TTSENGINE_NOTIFY = 3,
     TTSENGINE_QTANNOUNCEMENT = 4,
-    TTSENGINE_APPPLESCRIPT = 5,
+    TTSENGINE_APPLESCRIPT = 5,
 };
 
 #define TTSENGINE_NOTIFY_PATH "/usr/bin/notify-send"
