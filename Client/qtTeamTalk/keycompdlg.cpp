@@ -54,7 +54,7 @@ KeyCompDlg::~KeyCompDlg()
 #endif
 }
 
-#if defined(Q_OS_WIN32) && QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+#if defined(Q_OS_WIN32)
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 bool KeyCompDlg::nativeEvent(const QByteArray& eventType, void* message,
@@ -82,27 +82,6 @@ bool KeyCompDlg::nativeEvent(const QByteArray& eventType, void* message,
     }
 
     return QDialog::nativeEvent(eventType, message, result);
-}
-
-#elif defined(Q_OS_WIN32)
-
-bool KeyCompDlg::winEvent(MSG *message, long *result)
-{
-    if(message->message == WM_TEAMTALK_HOTKEYEVENT)
-    {
-        if(message->lParam)
-        {
-            m_hotkey.push_back(message->wParam);
-            ui.keycompEdit->setText(getHotKeyText(m_hotkey));
-            m_activekeys.insert(message->wParam);
-        }
-        else
-            m_activekeys.remove(message->wParam);
-
-        if(m_activekeys.size() == 0)
-            this->accept();
-    }
-    return QDialog::winEvent(message, result);
 }
 
 #elif defined(Q_OS_LINUX)

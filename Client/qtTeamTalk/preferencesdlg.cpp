@@ -1150,7 +1150,7 @@ void PreferencesDlg::slotEnablePushToTalk(bool checked)
     ui.setupkeysButton->setEnabled(checked);
     ui.keycompEdit->setEnabled(checked);
     ui.pttlockChkBox->setEnabled(checked);
-#if defined(Q_OS_LINUX) && QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+#if defined(Q_OS_LINUX)
     // push/release only supported on X11
     ui.pttlockChkBox->setEnabled(false);
     ui.pttlockChkBox->setChecked(checked);
