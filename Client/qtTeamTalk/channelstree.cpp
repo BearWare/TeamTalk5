@@ -68,11 +68,7 @@ ChannelsTree::ChannelsTree(QWidget* parent)
 , m_desktopaccesTimerId(0)
 , m_ignore_item_changes(false)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     header()->setSectionResizeMode(QHeaderView::ResizeToContents);
-#else
-    header()->setResizeMode(QHeaderView::ResizeToContents);
-#endif
     setAcceptDrops(true);
 
 //    connect(this, &QTreeWidget::itemDoubleClicked,
