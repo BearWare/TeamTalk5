@@ -45,21 +45,21 @@ extern QTranslator* ttTranslator;
 
 void migrateSettings()
 {
-    QString iniversion = ttSettings->value(SETTINGS_GENERAL_VERSION,
-                                           SETTINGS_GENERAL_VERSION_DEFAULT).toString();
+    // Before version "5.4" the version information was not written or updated.
+    // So basically the pre v5.4 migrations were never activated.
+    QString iniversion = ttSettings->value(SETTINGS_GENERAL_VERSION, "5.0").toString();
+
     if (!versionSameOrLater(iniversion, "5.1"))
     {
         // Volume defaults changed in 5.1 format
         ttSettings->remove(SETTINGS_SOUND_MASTERVOLUME);
         ttSettings->remove(SETTINGS_SOUND_MICROPHONEGAIN);
-        ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
     if (!versionSameOrLater(iniversion, "5.2"))
     {
         // Gender changed in 5.2 format
         Gender gender = ttSettings->value(SETTINGS_GENERAL_GENDER).toBool() ? GENDER_MALE : GENDER_FEMALE;
         ttSettings->setValue(SETTINGS_GENERAL_GENDER, gender);
-        ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
     if (!versionSameOrLater(iniversion, "5.3"))
     {
@@ -67,7 +67,6 @@ void migrateSettings()
         {
             QFile::setPermissions(ttSettings->fileName(), QFileDevice::ReadOwner | QFileDevice::WriteOwner);
         }
-        ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
     if (!versionSameOrLater(iniversion, "5.4"))
     {
@@ -132,9 +131,10 @@ void migrateSettings()
         else if (lang == "Turkish") lc_code = "tr";
         else if (lang == "Vietnamese") lc_code = "vi";
         ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, lc_code);
-
-        ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
     }
+
+    if (ttSettings->value(SETTINGS_GENERAL_VERSION).toString() != SETTINGS_VERSION)
+        ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
 }
 
 QHash<StatusBarEvents, StatusBarEventInfo> UtilUI::eventToSettingMap()
