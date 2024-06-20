@@ -25,6 +25,9 @@
 #include <QString>
 #include <QStringList>
 #include <QVector>
+#if defined(QT_MULTIMEDIA_LIB) && QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+#include <QAudioDevice>
+#endif
 
 QVector<SoundDevice> getSoundDevices();
 bool getSoundDevice(int deviceid, const QVector<SoundDevice>& devs, SoundDevice& dev);
@@ -40,6 +43,10 @@ int getSoundOutputFromUID(int outputid, const QString& uid);
 
 int getSelectedSndInputDevice();
 int getSelectedSndOutputDevice();
+
+#if defined(QT_MULTIMEDIA_LIB) && QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+QAudioDevice getSelectedOutputAudioDevice();
+#endif
 
 QStringList initSelectedSoundDevices(SoundDevice& indev, SoundDevice& outdev);
 QStringList initDefaultSoundDevices(SoundDevice& indev, SoundDevice& outdev);

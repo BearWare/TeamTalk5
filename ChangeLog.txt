@@ -14,6 +14,7 @@ Default Qt Client
 - System language used by default
 - "Move Users" dialog from "Users" -> "Advanced" menu item
 - "Check for Update" in "Help" menu
+- "Default" playback mode for sound events now also use TeamTalk selected sound device
 - Menu to insert MOTD variables in "Server Properties" dialog
 - Ability to "join last joined channel" for each server
 - Ability to leave current channel from everywhere in main window
@@ -38,7 +39,6 @@ Default Qt Client
 - Locale file size now also use in "File Transfer" dialog
 - Reset label of files list when disconnected from server
 - Fixed labels of edit fields in "Custom Video Format" dialog
-- Fixed limit text size in channels tree ignored for screen readers
 - Local date time now also use in "About" dialog
 - Ban time displays in local format
 - Windows installer translatable
