@@ -105,6 +105,8 @@ public class IPBan {
         for (BannedUser b : mybans) {
             if (!this.networks.contains(b.szIPAddress)) {
                 this.serverbans.remove(b);
+                this.logger.info(String.format("Removed missing network ban: 0x%x IP: %s Username: %s Channel: %s",
+                                               b.uBanTypes, b.szIPAddress, b.szUsername, b.szChannelPath));
                 return ttinst.doUnBanUserEx(b);
             }
         }
@@ -116,6 +118,8 @@ public class IPBan {
                 BannedUser b = new BannedUser();
                 b.szIPAddress = ipaddr;
                 b.uBanTypes = BanType.BANTYPE_IPADDR;
+                this.logger.info(String.format("Added new network ban: 0x%x IP: %s Username: %s Channel: %s",
+                                               b.uBanTypes, b.szIPAddress, b.szUsername, b.szChannelPath));
                 return ttinst.doBan(b);
             }
         }
@@ -126,14 +130,16 @@ public class IPBan {
             for (BannedUser b : getBannedBySpamBot(ua, BanType.BANTYPE_IPADDR | BanType.BANTYPE_USERNAME,
                                                    bannedBefore)) {
                 removeBan(b);
+                this.logger.info(String.format("Removed expired ban: 0x%x IP: %s Username: %s Channel: %s",
+                                               b.uBanTypes, b.szIPAddress, b.szUsername, b.szChannelPath));
                 return ttinst.doUnBanUserEx(b);
             }
         }
-        
+
         return 0;
     }
 
-    public Vector<BannedUser> getBannedBySpamBot(UserAccount ua, int uBanTypes, ZonedDateTime before) {
+    private Vector<BannedUser> getBannedBySpamBot(UserAccount ua, int uBanTypes, ZonedDateTime before) {
         Vector<BannedUser> result = new Vector<>();
         for (BannedUser b : getBannedUsersBefore(before)) {
             if (b.szOwner.equals(ua.szUsername) &&
@@ -144,7 +150,7 @@ public class IPBan {
         return result;
     }
 
-    public Vector<BannedUser> getBannedUsersBefore(ZonedDateTime zdt) {
+    private Vector<BannedUser> getBannedUsersBefore(ZonedDateTime zdt) {
         Vector<BannedUser> result = new Vector<>();
         for (BannedUser b : this.serverbans) {
             Pattern pattern = Pattern.compile("^(\\d+)/(\\d+)/(\\d+) (\\d+):(\\d+)$");

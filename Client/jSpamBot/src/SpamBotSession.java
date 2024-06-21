@@ -61,7 +61,11 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         CMD_ADDBAN,
         CMD_ABUSE_BAN,
         CMD_ABUSE_KICK,
-        CMD_ABUSE_TEXTMSG
+        CMD_ABUSE_TEXTMSG,
+        CMD_LOGIN,
+        CMD_REMOVECHANNEL,
+        CMD_JOINCHANNEL,
+        CMD_UNSUBSCRIBE
     }
     Map<Integer, CmdComplete> activecommands = new HashMap<>();
     Logger logger;
@@ -108,6 +112,29 @@ implements ConnectionListener, CommandListener, AutoCloseable {
 
     public void runEventLoop(int timeoutMSec) {
         while (handler.processEvent(ttclient, timeoutMSec));
+        runTimedEvents();
+    }
+
+    private long SYNC_TIMEOUT = 1 * 10 * 1000000000l;
+    private long synctimeout = System.nanoTime() + SYNC_TIMEOUT;
+
+    private void runTimedEvents() {
+
+        // wait until authorized
+        if ((ttclient.getFlags() & ClientFlag.CLIENT_AUTHORIZED) == ClientFlag.CLIENT_CLOSED)
+            return;
+
+        // don't run timed events if commands are currently processing
+        if (!this.activecommands.isEmpty())
+            return;
+
+        // run unban timer
+        if (System.nanoTime() > synctimeout) {
+            synctimeout = System.nanoTime() + SYNC_TIMEOUT;
+            int bancmdid = this.bans.syncBans(this.ttclient);
+            if (bancmdid > 0)
+                activecommands.put(bancmdid, CmdComplete.CMD_ADDBAN);
+        }
     }
 
     public boolean containsBadWord(String text) {
@@ -173,8 +200,8 @@ implements ConnectionListener, CommandListener, AutoCloseable {
             return;
 
         // perform login
-        int cmdid = ttclient.doLogin("SpamBot", loginsession.getUsername(), "");
-        logger.info(String.format("Issued login cmd #%d to %s:%d", cmdid, server.ipaddr, server.tcpport));
+        this.activecommands.put(ttclient.doLogin("SpamBot", loginsession.getUsername(), ""), CmdComplete.CMD_LOGIN);
+        logger.info(String.format("Issued login cmd to %s:%d", server.ipaddr, server.tcpport));
     }
 
     @Override
@@ -197,7 +224,7 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         channels.put(chan.nChannelID, chan);
 
         if (!cleanChannel(chan))
-            ttclient.doRemoveChannel(chan.nChannelID);
+            this.activecommands.put(ttclient.doRemoveChannel(chan.nChannelID), CmdComplete.CMD_REMOVECHANNEL);
     }
 
     @Override
@@ -210,7 +237,7 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         channels.put(chan.nChannelID, chan);
 
         if (!cleanChannel(chan) && chan.nParentID != 0)
-            ttclient.doRemoveChannel(chan.nChannelID);
+            this.activecommands.put(ttclient.doRemoveChannel(chan.nChannelID), CmdComplete.CMD_REMOVECHANNEL);
     }
 
     @Override
@@ -284,7 +311,7 @@ implements ConnectionListener, CommandListener, AutoCloseable {
             else {
                 ttclient.getChannel(chanid, chan);
             }
-            ttclient.doJoinChannel(chan);
+            this.activecommands.put(ttclient.doJoinChannel(chan), CmdComplete.CMD_JOINCHANNEL);
         }
     }
 
@@ -409,14 +436,14 @@ implements ConnectionListener, CommandListener, AutoCloseable {
 
         if (!cleanUser(user)) {
             sendBadWordsNotify(user.nUserID, "Your nick name and/or status message contains foul language");
-            ttclient.doKickUser(user.nUserID, 0);
+            this.activecommands.put(ttclient.doKickUser(user.nUserID, 0), CmdComplete.CMD_ABUSE_KICK);
             logger.info(String.format("Kicking %s from %s:%d", user.szNickname, server.ipaddr, server.tcpport));
 
             abuse.incKicks(user.szIPAddress);
         }
 
         if (user.nChannelID == ttclient.getMyChannelID()) {
-            ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_VOICE | Subscription.SUBSCRIBE_DESKTOP | Subscription.SUBSCRIBE_VIDEOCAPTURE | Subscription.SUBSCRIBE_MEDIAFILE);
+            this.activecommands.put(ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_VOICE | Subscription.SUBSCRIBE_DESKTOP | Subscription.SUBSCRIBE_VIDEOCAPTURE | Subscription.SUBSCRIBE_MEDIAFILE), CmdComplete.CMD_UNSUBSCRIBE);
         }
 
         abuse.incJoins(user.szIPAddress);
@@ -439,13 +466,13 @@ implements ConnectionListener, CommandListener, AutoCloseable {
             abusedb.addWhiteListIPAddr(user.szIPAddress);
         else if (user.szIPAddress.length() > 0 && abusedb.checkForReported(user.szIPAddress)) {
             sendBadWordsNotify(user.nUserID, "Your IP-address is listed as a spammer");
-            ttclient.doKickUser(user.nUserID, 0);
+            this.activecommands.put(ttclient.doKickUser(user.nUserID, 0), CmdComplete.CMD_ABUSE_KICK);
             logger.info(String.format("Kicking %s from %s:%d because %s is listed as spammer", user.szNickname, server.ipaddr, server.tcpport, user.szIPAddress));
             abuse.incKicks(user.szIPAddress);
         }
         else if (!cleanUser(user)) {
             sendBadWordsNotify(user.nUserID, "Your nick name and/or status message contains foul language");
-            ttclient.doKickUser(user.nUserID, 0);
+            this.activecommands.put(ttclient.doKickUser(user.nUserID, 0), CmdComplete.CMD_ABUSE_KICK);
             logger.info(String.format("Kicking %s from %s:%d due to bad words", user.szNickname, server.ipaddr, server.tcpport));
             abuse.incKicks(user.szIPAddress);
         }
@@ -470,7 +497,7 @@ implements ConnectionListener, CommandListener, AutoCloseable {
     public void onCmdUserTextMessage(TextMessage textmsg) {
         if (!cleanTextMessage(textmsg)) {
             sendBadWordsNotify(textmsg.nFromUserID, "Your text message contains foul language");
-            ttclient.doKickUser(textmsg.nFromUserID, 0);
+            this.activecommands.put(ttclient.doKickUser(textmsg.nFromUserID, 0), CmdComplete.CMD_ABUSE_KICK);
             logger.info(String.format("Kicking #%d from %s:%d", textmsg.nFromUserID, server.ipaddr, server.tcpport));
             User user = users.get(textmsg.nFromUserID);
             if (user != null) {
@@ -484,7 +511,7 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         users.put(user.nUserID, user);
         if (!cleanUser(user)) {
             sendBadWordsNotify(user.nUserID, "Your nick name and/or status message contains foul language");
-            ttclient.doKickUser(user.nUserID, 0);
+            this.activecommands.put(ttclient.doKickUser(user.nUserID, 0), CmdComplete.CMD_ABUSE_KICK);
             logger.info(String.format("Kicking %s from %s:%d", user.szNickname, server.ipaddr, server.tcpport));
             abuse.incKicks(user.szIPAddress);
         }
