@@ -1197,7 +1197,7 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
         switch (user.nStatusMode & STATUSMODE_MODE)
         {
         case STATUSMODE_AWAY :
-            itemtext += ", " + ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Away", "For female"):tr("Away", "For male and neutral"));
+            itemtext += ", 😴";
             break;
         case STATUSMODE_QUESTION :
             itemtext += ", ❓";
@@ -1222,10 +1222,10 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
         else if ((user.nStatusMode & STATUSMODE_GENDER_MASK) == STATUSMODE_MALE)
             itemtext += ", 👨";
         if(user.uUserType & USERTYPE_ADMIN)
-            itemtext += " (" + ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Administrator", "For female"):tr("Administrator", "For male and neutral")) + ")";
+            itemtext += user.nStatusMode & STATUSMODE_FEMALE?" (🦸‍♀️)":"(🥷)";
 
         if (TT_IsChannelOperator(ttInst, user.nUserID, user.nChannelID))
-            itemtext += " (" + ((user.nStatusMode & STATUSMODE_FEMALE)?tr("Channel operator", "For female"):tr("Channel operator", "For male and neutral")) + ")";
+            itemtext += user.nStatusMode & STATUSMODE_FEMALE?"(👮‍♀️)":"(👮‍♂️)";
     }
     item->setData(COLUMN_ITEM, Qt::AccessibleTextRole, itemtext);
 
