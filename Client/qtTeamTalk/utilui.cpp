@@ -348,6 +348,8 @@ QString getLanguageDisplayName(const QString &languageCode)
 {
     QLocale locale(languageCode);
     QString languageName = locale.nativeLanguageName();
+    if (languageName.isEmpty())
+        languageName = languageCode;
 
     return languageName;
 }
