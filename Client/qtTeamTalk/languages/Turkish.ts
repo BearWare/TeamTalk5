@@ -233,12 +233,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="351"/>
         <source>&amp;Move Selected User to Unbanned List</source>
-        <translation>Seçili Kullanıcıyı Yasaklanmayanlar Listesine &gt;&amp;Taşı</translation>
+        <translation>Seçili Kullanıcıyı Yasaklanmayanlar Listesine &amp;Taşı</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="385"/>
         <source>&amp;Move Selected User to Banned List</source>
-        <translation>Seçilen Kullanıcıyı Yasaklı Listeye &amp;Taşı</translation>
+        <translation>Seçilen Kullanıcıyı Yasaklı Listesine &amp;Taşı</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="25"/>
@@ -415,7 +415,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.cpp" line="117"/>
         <source>%1, your username &quot;%2&quot; has been validated.</source>
-        <translation>%1, &quot;%2&quot; kullanıcı adınız onaylandı.</translation>
+        <translation>%1, &quot;%2&quot; kullanıcı adınız doğrulandı.</translation>
     </message>
 </context>
 <context>
@@ -3697,18 +3697,18 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2762"/>
         <source>Private messages</source>
-        <translation>Özel mesajlar</translation>
+        <translation>Özel iletiler</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2767"/>
         <location filename="../mainwindow.cpp" line="6592"/>
         <source>Channel messages</source>
-        <translation>Kanal mesajları</translation>
+        <translation>Kanal iletileri</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2772"/>
         <source>Broadcast messages</source>
-        <translation>Yayın mesajları</translation>
+        <translation>Yayın iletileri</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2777"/>
@@ -3736,12 +3736,12 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2802"/>
         <source>Intercept private messages</source>
-        <translation>Özel mesajlarda araya gir</translation>
+        <translation>Özel iletilerde araya gir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2807"/>
         <source>Intercept channel messages</source>
-        <translation>Kanal mesajlarında araya gir</translation>
+        <translation>Kanal iletilerinde araya gir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2812"/>
@@ -4606,22 +4606,22 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../mediastoragedlg.cpp" line="149"/>
         <source>Folder for storing channel messages does not exist. Do you want %1 to create it for you?</source>
-        <translation>Kanal mesajlarını saklamak için klasör uygun değil. %1&apos;in sizin için oluşturmasını istiyor musunuz?</translation>
+        <translation>Kanal iletilerini saklamak için klasör uygun değil. %1&apos;in sizin için oluşturmasını istiyor musunuz?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="154"/>
         <source>Folder for channel messages</source>
-        <translation>Kanal mesajları için klasör</translation>
+        <translation>Kanal iletileri için klasör</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="166"/>
         <source>Folder for storing private text messages does not exist. Do you want %1 to create it for you?</source>
-        <translation>Özel metin mesajlarının saklanacağı klasör mevcut değil. %1&apos;in bunu sizin için oluşturmasını ister misiniz?</translation>
+        <translation>Özel metin iletilerinin saklanacağı klasör mevcut değil. %1&apos;in bunu sizin için oluşturmasını ister misiniz?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="171"/>
         <source>Folder for private text messages</source>
-        <translation>Özel metin mesajları için klasör</translation>
+        <translation>Özel metin iletileri için klasör</translation>
     </message>
 </context>
 <context>
@@ -4779,7 +4779,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
         <location filename="../onlineusersdlg.cpp" line="146"/>
         <location filename="../onlineusersdlg.cpp" line="163"/>
         <source>Select User(s) for Move</source>
-        <translation>Taşıma için Kullanıcıları Seçin</translation>
+        <translation>Taşınacak Kullanıcıları Seçin</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="66"/>
@@ -4816,7 +4816,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../onlineusersdlg.cpp" line="281"/>
         <source>Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7, ID: %1</source>
-        <translation>Takma ad: %2, Durum mesajı: %3, Kullanıcı Adı: %4, Kanal: %5, IP adresi: %6, Sürüm: %7, Kimlik: %1</translation>
+        <translation>Takma ad: %2, Durum iletisi: %3, Kullanıcı Adı: %4, Kanal: %5, IP adresi: %6, Sürüm: %7, Kimlik: %1</translation>
     </message>
 </context>
 <context>
@@ -4907,12 +4907,12 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="153"/>
         <source>Set away status after</source>
-        <translation>Şu süre sonunda uzakta durumuna ayarla (0 devre dışı anlamına gelir):</translation>
+        <translation>Uzakta durumunu şu süreden sonraya ayarla: (0 devre dışı anlamına gelir):</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="129"/>
         <source>Neutral</source>
-        <translation>Doğal</translation>
+        <translation>nötr</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="170"/>
@@ -4986,7 +4986,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="406"/>
         <source>Minimize to tray icon</source>
-        <translation>Tepsi simgesine küçült</translation>
+        <translation>Tepsiye simge durumuna küçült</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="413"/>
@@ -4996,7 +4996,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="420"/>
         <source>Enable VU-meter updates</source>
-        <translation>VU meter güncellemelerini etkinleştir</translation>
+        <translation>VU ölçer güncellemelerini etkinleştir</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="427"/>
@@ -5071,7 +5071,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="536"/>
         <source>Timestamp format</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaman damgası biçimi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="673"/>
@@ -5636,84 +5636,84 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="100"/>
         <source>The day as a number without a leading zero (1 to 31)</source>
-        <translation type="unfinished"></translation>
+        <translation>Başında sıfır olmayan bir sayı olarak gün (1&apos;den 31&apos;e)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="101"/>
         <source>The day as a number with a leading zero (01 to 31)</source>
-        <translation type="unfinished"></translation>
+        <translation>Başında sıfır bulunan bir sayı olarak gün (01&apos;den 31&apos;e)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="102"/>
         <source>The abbreviated day name (&apos;Mon&apos; to &apos;Sun&apos;).</source>
-        <translation type="unfinished"></translation>
+        <translation>Kısaltılmış gün adı (&apos;Pzt&apos;den &apos;Paz&apos;a).</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="103"/>
         <source>The long day name (&apos;Monday&apos; to &apos;Sunday&apos;).</source>
-        <translation type="unfinished"></translation>
+        <translation>Uzun gün adı (&apos;Pazartesi&apos;den &apos;Pazar&apos;a).</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="104"/>
         <source>The month as a number without a leading zero (1 to 12)</source>
-        <translation type="unfinished"></translation>
+        <translation>Başında sıfır olmayan bir sayı olarak ay (1&apos;den 12&apos;ye)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="105"/>
         <source>The month as a number with a leading zero (01 to 12)</source>
-        <translation type="unfinished"></translation>
+        <translation>Başında sıfır olan bir sayı olarak ay (01&apos;den 12&apos;ye)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="106"/>
         <source>The abbreviated month name (&apos;Jan&apos; to &apos;Dec&apos;).</source>
-        <translation type="unfinished"></translation>
+        <translation>Ayın kısaltılmış adı (&apos;Ocak&apos; - &apos;Aralık&apos;).</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="107"/>
         <source>The long month name (&apos;January&apos; to &apos;December&apos;).</source>
-        <translation type="unfinished"></translation>
+        <translation>Uzun ay adı (&apos;Ocak&apos;tan &apos;Aralık&apos;a).</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="108"/>
         <source>The year as a two digit number (00 to 99)</source>
-        <translation type="unfinished"></translation>
+        <translation>İki haneli sayı olarak yıl (00&apos;dan 99&apos;a)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="109"/>
         <source>The year as a four digit number.</source>
-        <translation type="unfinished"></translation>
+        <translation>dört haneli olarak yıl.</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="110"/>
         <location filename="../preferencesdlg.cpp" line="112"/>
         <source>The hour without a leading zero (0 to 23)</source>
-        <translation type="unfinished"></translation>
+        <translation>Başında sıfır olmayan saat (0&apos;dan 23&apos;e)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="111"/>
         <location filename="../preferencesdlg.cpp" line="113"/>
         <source>The hour with a leading zero (00 to 23)</source>
-        <translation type="unfinished"></translation>
+        <translation>Başında sıfır olan saat (00&apos;dan 23&apos;e)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="114"/>
         <source>The minute without a leading zero (0 to 59)</source>
-        <translation type="unfinished"></translation>
+        <translation>Başında sıfır olmayan dakika (0&apos;dan 59&apos;a)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="115"/>
         <source>The minute with a leading zero (00 to 59)</source>
-        <translation type="unfinished"></translation>
+        <translation>Başında sıfır olan dakika (00&apos;dan 59&apos;a)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="116"/>
         <source>The whole second, without any leading zero (0 to 59)</source>
-        <translation type="unfinished"></translation>
+        <translation>Başında sıfır olmadan saniyenin tamamı (0&apos;dan 59&apos;a)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="117"/>
         <source>The whole second, with a leading zero where applicable (00 to 59)</source>
-        <translation type="unfinished"></translation>
+        <translation>Uygun olduğu yerde başında sıfırla birlikte saniyenin tamamı (00&apos;dan 59&apos;a)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="559"/>
@@ -5748,12 +5748,12 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="640"/>
         <source>Tolk</source>
-        <translation>Tolk</translation>
+        <translation>çevirmen</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="643"/>
         <source>Libnotify</source>
-        <translation>Libnotify</translation>
+        <translation>Kitap bildirimi</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1081"/>
@@ -6327,7 +6327,11 @@ The #teamtalkpublish# notification can be removed once
 the server has been verified.
 
 Delete the published user account to unregister your server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucunuzun özelliklerini, sunucu adı #teamtalkpublish# metnini içerecek şekilde güncelleyin.
+Bu, sunucunun sahibi olduğunuzu doğrulayacaktır.
+Sunucunuz doğrulandıktan sonra birkaç dakika içinde görünecektir.
+Sunucu doğrulandıktan sonra #teamtalkpublish# bildirimi kaldırılabilir.
+Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="837"/>
@@ -6972,7 +6976,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="115"/>
         <source>Private message received</source>
-        <translation>Özel mesaj alındı</translation>
+        <translation>Özel ileti alındı</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="117"/>
@@ -6982,7 +6986,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="119"/>
         <source>User is typing a private message in focused window</source>
-        <translation>odaklanılan pencerede Kullanıcı özel bir mesaj yazıyor</translation>
+        <translation>odaklanılan pencerede Kullanıcı özel bir ileti yazıyor</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="121"/>
@@ -6997,7 +7001,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="125"/>
         <source>Broadcast message received</source>
-        <translation>Yayın mesajı alındı</translation>
+        <translation>Yayın iletisi alındı</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="127"/>
@@ -7107,7 +7111,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="191"/>
         <source>Disabled</source>
-        <translation>devre duşu</translation>
+        <translation>devre dışı</translation>
     </message>
 </context>
 <context>
@@ -7640,7 +7644,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="135"/>
         <source>Private message received</source>
-        <translation>Özel mesaj alındı</translation>
+        <translation>Özel ileti alındı</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="137"/>
@@ -8618,12 +8622,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="277"/>
         <source>User can send private text messages</source>
-        <translation>Kullanıcı özel metin mesajları gönderebilir</translation>
+        <translation>Kullanıcı özel metin iletileri gönderebilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="279"/>
         <source>User can send channel text messages</source>
-        <translation>Kullanıcı kanal metin mesajları gönderebilir</translation>
+        <translation>Kullanıcı kanal metin iletileri gönderebilir</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="281"/>
