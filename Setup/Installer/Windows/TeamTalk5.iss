@@ -129,4 +129,31 @@ Root: HKCR; Subkey: ".tt"; ValueType: string; ValueData: "TeamTalk"; Flags: unin
 
 Root: HKCR; Subkey: "TeamTalk\DefaultIcon"; ValueType: none; ValueName: "InstallPath"; ValueData: "{app}"
 
-
+[InstallDelete]
+; Delete pre version 5.17 language files
+Type: files; Name: "{app}\Languages\Bulgarian.qm"
+Type: files; Name: "{app}\Languages\Chinese_Simplified.qm"
+Type: files; Name: "{app}\Languages\Chinese_Traditional.qm"
+Type: files; Name: "{app}\Languages\Croatian.qm"
+Type: files; Name: "{app}\Languages\Czech.qm"
+Type: files; Name: "{app}\Languages\Danish.qm"
+Type: files; Name: "{app}\Languages\Dutch.qm"
+Type: files; Name: "{app}\Languages\English.qm"
+Type: files; Name: "{app}\Languages\French.qm"
+Type: files; Name: "{app}\Languages\German.qm"
+Type: files; Name: "{app}\Languages\Hebrew.qm"
+Type: files; Name: "{app}\Languages\Hungarian.qm"
+Type: files; Name: "{app}\Languages\Indonesian.qm"
+Type: files; Name: "{app}\Languages\Italian.qm"
+Type: files; Name: "{app}\Languages\Korean.qm"
+Type: files; Name: "{app}\Languages\Persian.qm"
+Type: files; Name: "{app}\Languages\Polish.qm"
+Type: files; Name: "{app}\Languages\Portuguese_BR.qm"
+Type: files; Name: "{app}\Languages\Portuguese_EU.qm"
+Type: files; Name: "{app}\Languages\Russian.qm"
+Type: files; Name: "{app}\Languages\Slovak.qm"
+Type: files; Name: "{app}\Languages\Slovenian.qm"
+Type: files; Name: "{app}\Languages\Spanish.qm"
+Type: files; Name: "{app}\Languages\Thai.qm"
+Type: files; Name: "{app}\Languages\Turkish.qm"
+Type: files; Name: "{app}\Languages\Vietnamese.qm"
