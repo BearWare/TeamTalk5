@@ -30,7 +30,7 @@ Default Qt Client
 - Single dialog to enter username and password on login error and channel share
 - Support for Import/Export entire Server List in "Connect to a Server" dialog
 - Support Idle Time on Linux (X11)
-- Support TTS events via running screen reader on Windows and MacOS with Qt Accessibility Announcement (Qt 6.8)
+- Support Qt Accessibility Announcement for TTS events on MacOS and Windows (Qt 6.8)
 - Removed option "Announce server name" from TTS options, use customizable messages instead
 - Optional sound event for user typing private message
 - Only show available info in "User Info" dialog
@@ -38,6 +38,7 @@ Default Qt Client
 - Transfer progress bar in "File Transfer" dialog can now get focus
 - Locale file size now also use in "File Transfer" dialog
 - Reset label of files list when disconnected from server
+- Support VoiceOver for TTS events using Apple Script
 - Fixed labels of edit fields in "Custom Video Format" dialog
 - Local date time now also use in "About" dialog
 - Ban time displays in local format
