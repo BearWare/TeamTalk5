@@ -1217,15 +1217,50 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
 
     if (emoji)
     {
-        if (user.nStatusMode & STATUSMODE_FEMALE)
+        switch (user.nStatusMode & STATUSMODE_GENDER_MASK)
+        {
+        case STATUSMODE_FEMALE :
             itemtext += ", 👩";
-        else if ((user.nStatusMode & STATUSMODE_GENDER_MASK) == STATUSMODE_MALE)
+            break;
+        case STATUSMODE_MALE :
             itemtext += ", 👨";
-        if(user.uUserType & USERTYPE_ADMIN)
-            itemtext += user.nStatusMode & STATUSMODE_FEMALE?" (🦸‍♀️)":" (🥷)";
+            break;
+        case STATUSMODE_NEUTRAL :
+            itemtext += ", 🧑";
+            break;
+        }
+
+        if (user.uUserType & USERTYPE_ADMIN)
+        {
+            switch (user.nStatusMode & STATUSMODE_GENDER_MASK)
+            {
+            case STATUSMODE_FEMALE :
+                itemtext += " (🦸‍♀️)";
+                break;
+            case STATUSMODE_MALE :
+                itemtext += " (🦸‍♂️)";
+                break;
+            case STATUSMODE_NEUTRAL :
+                itemtext += " (🦸)";
+                break;
+            }
+        }
 
         if (TT_IsChannelOperator(ttInst, user.nUserID, user.nChannelID))
-            itemtext += user.nStatusMode & STATUSMODE_FEMALE?" (👮‍♀️)":" (👮‍♂️)";
+        {
+            switch (user.nStatusMode & STATUSMODE_GENDER_MASK)
+            {
+            case STATUSMODE_FEMALE :
+                itemtext += " (👮‍♀️)";
+                break;
+            case STATUSMODE_MALE :
+                itemtext += " (👮‍♂️)";
+                break;
+            case STATUSMODE_NEUTRAL :
+                itemtext += " (👮)";
+                break;
+            }
+        }
     }
     item->setData(COLUMN_ITEM, Qt::AccessibleTextRole, itemtext);
 
