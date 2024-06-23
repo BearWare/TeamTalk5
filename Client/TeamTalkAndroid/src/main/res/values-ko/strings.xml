@@ -170,6 +170,7 @@
 
     <string name="user_prop_title_username">사용자 이름</string>
     <string name="user_prop_title_clientname">클라이언트 이름</string>
+    <string name="user_prop_clientversion">버전</string>
     <string name="user_prop_title_voice_volume">말하기 음량</string>
     <string name="user_prop_title_mute_voice">말하기 음소거</string>
     <string name="user_prop_title_media_volume">미디어 파일 음량</string>
@@ -181,6 +182,12 @@
     <string name="user_prop_title_subscribe_vid">이 사용자의 동영상 수신 허용</string>
     <string name="user_prop_title_subscribe_desk">이 사용자의 화면 공유 수신 허용</string>
     <string name="user_prop_title_subscribe_media">이 사용자의 미디어 수신 허용</string>
+    <string name="user_prop_title_subscribe_intercept_txtmsg">이 사용자의 메시지 가로채기</string>
+    <string name="user_prop_title_subscribe_intercept_chanmsg">이 사용자의 채널 메시지 가로채기</string>
+    <string name="user_prop_title_subscribe_intercept_voice">이 사용자의 말하기 가로채기</string>
+    <string name="user_prop_title_subscribe_intercept_vid">이 사용자의 동영상 가로채기</string>
+    <string name="user_prop_title_subscribe_intercept_desk">이 사용자의 화면 공유 가로채기</string>
+    <string name="user_prop_title_subscribe_intercept_media">이 사용자의 미디어 가로채기</string>
 
     <string name="label_connection">연결:</string>
     <string name="stat_online">온라인</string>
@@ -329,6 +336,9 @@
     <string name="permission_audiomodify">오디오 녹음 및 재생을 사용할 수 없습니다.</string>
     <string name="permission_filerx">파일 내려받기를 사용할 수 없습니다.</string>
     <string name="permission_filetx">파일 업로드 및 가져오기를 사용할 수 없습니다.</string>
+    <string name="permission_imagetx">사진 업로드를 사용할 수 없습니다.</string>
+    <string name="permission_videotx">동영상 파일 업로드 및 스트리밍 기능을 사용할 수 없습니다.</string>
+    <string name="permission_audiotx">오디오 파일 업로드 및 스트리밍 기능을 사용할 수 없습니다.</string>
     <string name="permission_internet">클라이언트가 서버에 연결할 수 없습니다.</string>
     <string name="permission_vibrate">눌러서 말하기 중 진동 효과를 사용할 수 없습니다.</string>
     <string name="permission_wake_lock">화면이 흐려지면 서버와의 연결이 끊어질 수 있습니다.</string>
@@ -388,7 +398,9 @@
     <string name="pref_title_server_usercount">접속자</string>
     <string name="pref_title_server_country">국가</string>
     <string name="pref_title_server_status">서버 상태</string>
+    <string name="action_make_operator">관리 권한 허용</string>
+    <string name="action_revoke_operator">관리 권한 거부</string>
+    <string name="text_operator_password">채널 관리자 암호를 입력하세요</string>
 
 
 </resources>
-		
