@@ -24,6 +24,7 @@
 package dk.bearware;
 
 import android.Manifest;
+import android.os.Build;
 import android.os.Environment;
 
 import androidx.test.rule.GrantPermissionRule;
@@ -45,8 +46,8 @@ public class TeamTalkAndroidTestCase extends TeamTalkTestCase {
             Manifest.permission.MODIFY_AUDIO_SETTINGS,
             Manifest.permission.INTERNET,
             Manifest.permission.VIBRATE,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.S_V2 ? Manifest.permission.READ_EXTERNAL_STORAGE : Manifest.permission.RECORD_AUDIO,
+            android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.Q ? Manifest.permission.WRITE_EXTERNAL_STORAGE : Manifest.permission.RECORD_AUDIO,
             Manifest.permission.WAKE_LOCK,
             Manifest.permission.READ_PHONE_STATE);
 

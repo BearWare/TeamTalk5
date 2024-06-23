@@ -17,7 +17,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
   set (SOUNDSYS_LINK_FLAGS wmcodecdspuuid dmoguids)
 endif()
 
-# Windows, Linux and macOS sound system
+# Windows, Linux, Android and macOS sound system
 if (FEATURE_PORTAUDIO)
 
   include (portaudio)
