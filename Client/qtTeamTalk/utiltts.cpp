@@ -138,15 +138,16 @@ void addTextToSpeechMessage(const QString& msg)
     }
     case TTSENGINE_APPLESCRIPT:
 #if defined(Q_OS_MAC)
+        QString escapedMsg = msg;
+        escapedMsg.replace("\"", "\\\"");
         QString appleScript = QString(R"(
             tell application "VoiceOver"
                 output "%1"
             end tell
-        )").arg(msg);
+        )").arg(escapedMsg);
         QStringList arguments;
         arguments << "-e" << appleScript;
-        QProcess process;
-        process.startDetached("osascript", arguments);
+        QProcess::startDetached("osascript", arguments);
 #endif
         break;
     }
