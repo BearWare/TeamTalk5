@@ -65,6 +65,7 @@ public class Main {
         int abuseIPDBTotalReports = Integer.parseInt(System.getProperty("dk.bearware.abuseipdbtotalreports", "2"));
         int abuseIPDBDistinctUsers = Integer.parseInt(System.getProperty("dk.bearware.abuseipdbdistinctusers", "2"));
         int abuseIPDBConfidenceScore = Integer.parseInt(System.getProperty("dk.bearware.abuseipdbconfidencescore", "2"));
+        int banDurationSeconds = Integer.parseInt(System.getProperty("dk.bearware.bandurationsecs", "0"));
 
         TeamTalk5.loadLibrary();
         String regname = System.getProperty("dk.bearware.regname", "");
@@ -111,10 +112,10 @@ public class Main {
                         try {
                             var spambot = new SpamBotSession(server,
                                                              new WebLogin(username, passwd, logger),
-                                                             new IPBan(bannetworks, logger), badwords,
+                                                             new IPBan(bannetworks, banDurationSeconds, logger),
+                                                             badwords,
                                                              new Abuse(ipjoins, iplogins, ipkicks, ipcmdduration),
                                                              abusedb, ipv4banprefix, ipv6banprefix, logger);
-
                             sessions.add(spambot);
                         }
                         catch (IOException e) {
@@ -158,6 +159,7 @@ public class Main {
         else
             System.out.print(": ");
         String input = System.console().readLine();
+        System.out.println("Got");
         if(input.length() == 0)
             return def;
         return input;

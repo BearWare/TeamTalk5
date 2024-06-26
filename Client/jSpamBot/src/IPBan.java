@@ -30,8 +30,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Vector;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class IPBan {
     // bans already on server (doListBans() result)
@@ -39,11 +43,12 @@ public class IPBan {
     // IPs/networks to ban (loaded from file)
     Vector<String> networks;
     int networkindex = -1;
-
+    int banDurationSecs;
     Logger logger;
 
-    public IPBan(Vector<String> networks, Logger log) {
+    public IPBan(Vector<String> networks, int banDurationSecs, Logger log) {
         this.networks = networks;
+        this.banDurationSecs = banDurationSecs;
         this.logger = log;
     }
 
@@ -65,7 +70,20 @@ public class IPBan {
     }
 
     public void addBan(BannedUser ban) {
+        if (ban.szBanTime.isEmpty()) {
+            ZonedDateTime now = ZonedDateTime.now(ZoneId.of("UTC"));
+            ban.szBanTime = String.format("%04d/%02d/%02d %02d:%02d",
+                                          now.getYear(),
+                                          now.getMonthValue(),
+                                          now.getDayOfMonth(),
+                                          now.getHour(),
+                                          now.getMinute());
+        }
         serverbans.add(ban);
+    }
+
+    private void removeBan(BannedUser ban) {
+        this.serverbans.remove(ban);
     }
 
     public int syncBans(TeamTalkBase ttinst) {
@@ -87,6 +105,8 @@ public class IPBan {
         for (BannedUser b : mybans) {
             if (!this.networks.contains(b.szIPAddress)) {
                 this.serverbans.remove(b);
+                this.logger.info(String.format("Removed missing network ban: 0x%x IP: %s Username: %s Channel: %s",
+                                               b.uBanTypes, b.szIPAddress, b.szUsername, b.szChannelPath));
                 return ttinst.doUnBanUserEx(b);
             }
         }
@@ -98,9 +118,59 @@ public class IPBan {
                 BannedUser b = new BannedUser();
                 b.szIPAddress = ipaddr;
                 b.uBanTypes = BanType.BANTYPE_IPADDR;
+                this.logger.info(String.format("Added new network ban: 0x%x IP: %s Username: %s Channel: %s",
+                                               b.uBanTypes, b.szIPAddress, b.szUsername, b.szChannelPath));
                 return ttinst.doBan(b);
             }
         }
+
+        // remove expired bans
+        if (this.banDurationSecs > 0) {
+            ZonedDateTime bannedBefore = ZonedDateTime.now(ZoneId.of("UTC")).minusSeconds(this.banDurationSecs);
+            for (BannedUser b : getBannedBySpamBot(ua, BanType.BANTYPE_IPADDR | BanType.BANTYPE_USERNAME,
+                                                   bannedBefore)) {
+                removeBan(b);
+                this.logger.info(String.format("Removed expired ban: 0x%x IP: %s Username: %s Channel: %s",
+                                               b.uBanTypes, b.szIPAddress, b.szUsername, b.szChannelPath));
+                return ttinst.doUnBanUserEx(b);
+            }
+        }
+
         return 0;
+    }
+
+    private Vector<BannedUser> getBannedBySpamBot(UserAccount ua, int uBanTypes, ZonedDateTime before) {
+        Vector<BannedUser> result = new Vector<>();
+        for (BannedUser b : getBannedUsersBefore(before)) {
+            if (b.szOwner.equals(ua.szUsername) &&
+                b.uBanTypes == uBanTypes) {
+                result.add(b);
+            }
+        }
+        return result;
+    }
+
+    private Vector<BannedUser> getBannedUsersBefore(ZonedDateTime zdt) {
+        Vector<BannedUser> result = new Vector<>();
+        for (BannedUser b : this.serverbans) {
+            Pattern pattern = Pattern.compile("^(\\d+)/(\\d+)/(\\d+) (\\d+):(\\d+)$");
+            Matcher datematch = pattern.matcher(b.szBanTime);
+            if (datematch.find()) {
+                ZonedDateTime bantime = ZonedDateTime.of(Integer.parseInt(datematch.group(1)), //year
+                                                         Integer.parseInt(datematch.group(2)), //month
+                                                         Integer.parseInt(datematch.group(3)), //day
+                                                         Integer.parseInt(datematch.group(4)), //hour
+                                                         Integer.parseInt(datematch.group(5)), //minute
+                                                         0, 0, //seconds, nanos
+                                                         ZoneId.of("UTC"));
+                if (bantime.isBefore(zdt)) {
+                    result.add(b);
+                }
+            }
+            else {
+                this.logger.info(String.format("Date format %s does not match: ", b.szBanTime));
+            }
+        }
+        return result;
     }
 }

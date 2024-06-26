@@ -46,6 +46,7 @@ Name: ru; MessagesFile: "compiler:Languages\Russian.isl"
 Name: sk; MessagesFile: "compiler:Languages\Slovak.isl"
 Name: sl; MessagesFile: "compiler:Languages\Slovenian.isl"
 Name: tr; MessagesFile: "compiler:Languages\Turkish.isl"
+Name: "zh_CN"; MessagesFile: "Languages\ChineseSimplified.isl"
 
 [Messages]
 BeveledLabel={cm:LanguageName}
@@ -55,6 +56,8 @@ en.Client=TeamTalk 5 Client
 en.Full=TeamTalk 5 Client & Server
 fr.Client=Client TeamTalk 5
 fr.Full=Client et Serveur TeamTalk 5
+zh_CN.Client=TeamTalk 5 客户端
+zh_CN.Full=TeamTalk 5 客户端 & 服务器
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
@@ -129,4 +132,31 @@ Root: HKCR; Subkey: ".tt"; ValueType: string; ValueData: "TeamTalk"; Flags: unin
 
 Root: HKCR; Subkey: "TeamTalk\DefaultIcon"; ValueType: none; ValueName: "InstallPath"; ValueData: "{app}"
 
-
+[InstallDelete]
+; Delete pre version 5.17 language files
+Type: files; Name: "{app}\Languages\Bulgarian.qm"
+Type: files; Name: "{app}\Languages\Chinese_Simplified.qm"
+Type: files; Name: "{app}\Languages\Chinese_Traditional.qm"
+Type: files; Name: "{app}\Languages\Croatian.qm"
+Type: files; Name: "{app}\Languages\Czech.qm"
+Type: files; Name: "{app}\Languages\Danish.qm"
+Type: files; Name: "{app}\Languages\Dutch.qm"
+Type: files; Name: "{app}\Languages\English.qm"
+Type: files; Name: "{app}\Languages\French.qm"
+Type: files; Name: "{app}\Languages\German.qm"
+Type: files; Name: "{app}\Languages\Hebrew.qm"
+Type: files; Name: "{app}\Languages\Hungarian.qm"
+Type: files; Name: "{app}\Languages\Indonesian.qm"
+Type: files; Name: "{app}\Languages\Italian.qm"
+Type: files; Name: "{app}\Languages\Korean.qm"
+Type: files; Name: "{app}\Languages\Persian.qm"
+Type: files; Name: "{app}\Languages\Polish.qm"
+Type: files; Name: "{app}\Languages\Portuguese_BR.qm"
+Type: files; Name: "{app}\Languages\Portuguese_EU.qm"
+Type: files; Name: "{app}\Languages\Russian.qm"
+Type: files; Name: "{app}\Languages\Slovak.qm"
+Type: files; Name: "{app}\Languages\Slovenian.qm"
+Type: files; Name: "{app}\Languages\Spanish.qm"
+Type: files; Name: "{app}\Languages\Thai.qm"
+Type: files; Name: "{app}\Languages\Turkish.qm"
+Type: files; Name: "{app}\Languages\Vietnamese.qm"

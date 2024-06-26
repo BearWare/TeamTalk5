@@ -5,6 +5,7 @@
 Version 5.17, unreleased
 Default Qt Client
 - Windows installer translatable
+- System language used by default
 - "Connect to a Server" and "User Accounts" dialog simplified with multiple sub dialogs
 - Table view instead of tree view in "Online Users", "User Accounts", "Banned Users", "Server List", "File List", "Server Properties" and "Preferences" dialogs
 - "Move Users" dialog from "Users" -> "Advanced" menu item
@@ -32,6 +33,7 @@ Default Qt Client
 - Transfer progress bar in "File Transfer" dialog can now get focus
 - Ability to hide some elements of main window
 - Locale file size now also use in "file transfer" dialog
+- Local date time now also use in "About" dialog
 - Unic dialog to enter username and password on login error and channel share
 - Ability to show password on login error, channel password, channel operator password, and channel share
 - Reset label of files list when disconnected from server

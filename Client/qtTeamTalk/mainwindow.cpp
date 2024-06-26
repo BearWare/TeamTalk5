@@ -622,83 +622,52 @@ MainWindow::~MainWindow()
 
 void MainWindow::loadSettings()
 {
-    QString iniversion = ttSettings->value(SETTINGS_GENERAL_VERSION,
-                                           SETTINGS_GENERAL_VERSION_DEFAULT).toString();
-    if (!versionSameOrLater(iniversion, "5.1"))
-    {
-        // Volume defaults changed in 5.1 format
-        ttSettings->remove(SETTINGS_SOUND_MASTERVOLUME);
-        ttSettings->remove(SETTINGS_SOUND_MICROPHONEGAIN);
-        ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
-    }
-    if (!versionSameOrLater(iniversion, "5.2"))
-    {
-        // Gender changed in 5.2 format
-        Gender gender = ttSettings->value(SETTINGS_GENERAL_GENDER).toBool() ? GENDER_MALE : GENDER_FEMALE;
-        ttSettings->setValue(SETTINGS_GENERAL_GENDER, gender);
-        ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
-    }
-    if (!versionSameOrLater(iniversion, "5.3"))
-    {
-        if (ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME, "").toString().size())
-        {
-            QFile::setPermissions(ttSettings->fileName(), QFileDevice::ReadOwner | QFileDevice::WriteOwner);
-        }
-        ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
-    }
-    if (!versionSameOrLater(iniversion, "5.4"))
-    {
-        // Latest hosts changed in 5.4 format
-        ttSettings->beginGroup("latesthosts");
-        int index = 0;
-        while (ttSettings->contains(QString("%1_hostaddr").arg(index)))
-        {
-            QString hostAddr = ttSettings->value(QString("%1_hostaddr").arg(index)).toString();
-            int tcpPort = ttSettings->value(QString("%1_tcpport").arg(index)).toInt();
-            ttSettings->setValue(QString("%1_name").arg(index), QString("%1_%2").arg(hostAddr).arg(tcpPort));
-            index++;
-        }
-        ttSettings->endGroup();
-
-        // Sound Events changed in 5.4 format
-        SoundEvents activeEvents = SOUNDEVENT_NONE;
-
-        for (int event = SOUNDEVENT_NEWUSER; event < SOUNDEVENT_NEXT_UNUSED; event <<= 1)
-        {
-            if (!getSoundEventFilename(SoundEvent(event)).isEmpty())
-            {
-                activeEvents = static_cast<SoundEvents>(activeEvents | event);
-            }
-        }
-
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_ACTIVEEVENTS, activeEvents);
-
-        // TTS options removed in 5.4 format
-        ttSettings->remove("texttospeech/announce-server-name");
-#if defined(Q_OS_DARWIN)
-        ttSettings->remove("texttospeech/speak-lists");
-#endif
-        ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
-    }
+    migrateSettings();
 
     // Ask to set language at first start
     if (!ttSettings->contains(SETTINGS_DISPLAY_LANGUAGE))
     {
-        QStringList languages = extractLanguages();
-        languages.insert(0, SETTINGS_DISPLAY_LANGUAGE_DEFAULT); //default language is none
-        bool ok = false;
-        QInputDialog inputDialog;
-        inputDialog.setOkButtonText(tr("&OK"));
-        inputDialog.setCancelButtonText(tr("&Cancel"));
-        inputDialog.setComboBoxItems(languages);
-        inputDialog.setComboBoxEditable(false);
-        inputDialog.setWindowTitle(tr("Choose language"));
-        inputDialog.setLabelText(tr("Select the language will be use by %1").arg(APPNAME_SHORT));
-        ok = inputDialog.exec();
-        QString choice = inputDialog.textValue();
-        if (ok)
+        QLocale locale = QLocale::system();
+        QString languageCode = locale.name();
+        if (switchLanguage(languageCode))
+            this->ui.retranslateUi(this);
+        QMessageBox answer;
+        answer.setText(tr("%1 has detected your system language to be %2. Continue in %2?").arg(APPNAME_SHORT).arg(getLanguageDisplayName(languageCode)));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(tr("Language configuration"));
+        answer.exec();
+        if(answer.clickedButton() == YesButton)
         {
-            ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, choice);
+            ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, languageCode);
+        }
+        else if(answer.clickedButton() == NoButton)
+        {
+            QStringList languages = extractLanguages();
+            languages.insert(0, SETTINGS_DISPLAY_LANGUAGE_DEFAULT); //default language is none
+            QMap<QString, QString> languageMap;
+            for (const QString &code : languages)
+            {
+                QString displayName = (code == "none") ? "" : getLanguageDisplayName(code);
+                languageMap[displayName] = code;
+            }
+            QStringList displayNames = languageMap.keys();
+            bool ok = false;
+            QInputDialog inputDialog;
+            inputDialog.setOkButtonText(tr("&OK"));
+            inputDialog.setCancelButtonText(tr("&Cancel"));
+            inputDialog.setComboBoxItems(displayNames);
+            inputDialog.setComboBoxEditable(false);
+            inputDialog.setWindowTitle(tr("Choose language"));
+            inputDialog.setLabelText(tr("Select the language will be use by %1").arg(APPNAME_SHORT));
+            ok = inputDialog.exec();
+            QString choice = inputDialog.textValue();
+            if (ok)
+            {
+                QString lc_code = languageMap.value(choice, "");
+                ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, lc_code);
+            }
         }
     }
 

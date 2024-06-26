@@ -23,10 +23,15 @@ MyTabWidget::MyTabWidget(QWidget* parent/* = nullptr*/) : QTabWidget(parent)
 
 void MyTabWidget::keyPressEvent(QKeyEvent* e)
 {
-    if (e->key() == Qt::Key_Home && this->currentIndex() != 0)
-        this->setCurrentIndex(0);
-    else if (e->key() == Qt::Key_End && this->currentIndex() != this->count())
-        this->setCurrentIndex(this->count()-1);
+    if (this->hasFocus())
+    {
+        if (e->key() == Qt::Key_Home && this->currentIndex() != 0)
+            this->setCurrentIndex(0);
+        else if (e->key() == Qt::Key_End && this->currentIndex() != this->count())
+            this->setCurrentIndex(this->count()-1);
+        else
+            QTabWidget::keyPressEvent(e);
+    }
     else
         QTabWidget::keyPressEvent(e);
 }

@@ -33,6 +33,8 @@
 
 #include <functional>
 
+void migrateSettings();
+
 enum DoubleClickChannelAction
 {
     ACTION_NOTHING          = 0x0,
@@ -160,6 +162,7 @@ typedef std::function<int (int visualIndex)> get_logical_index_t;
 void saveWindowPosition(const QString& setting, QWidget* widget);
 bool restoreWindowPosition(const QString& setting, QWidget* widget);
 QStringList extractLanguages();
+QString getLanguageDisplayName(const QString &languageCode);
 bool switchLanguage(const QString& language);
 QString getFormattedDateTime(QString originalDateTimeString, QString inputFormat);
 QString getTimestampFormat();

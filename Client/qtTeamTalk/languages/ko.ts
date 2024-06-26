@@ -50,7 +50,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../aboutdlg.cpp" line="30"/>
         <source>Compiled on %1 %2 using Qt %3 (Qt %4 used by this instance).</source>
-        <translation></translation>
+        <translation>%1 %2에 Qt %3 버전을 사용하여 컴파일함.(이 인스턴스에 Qt %4 사용 중).</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="31"/>
@@ -198,62 +198,62 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="325"/>
         <source>Sort By...</source>
-        <translation type="unfinished">정렬 기준</translation>
+        <translation>정렬 기준</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="326"/>
         <source>Ascending</source>
-        <translation type="unfinished">오름차순</translation>
+        <translation>오름차순</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="326"/>
         <source>Descending</source>
-        <translation type="unfinished">내림차순</translation>
+        <translation>내림차순</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="328"/>
         <source>&amp;Username (%1)</source>
-        <translation type="unfinished">사용자 이름 (%1) (&amp;U)</translation>
+        <translation>사용자 이름 (%1) (&amp;U)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="334"/>
         <source>&amp;Ban Type (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>차단 유형 (&amp;B) (%1)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="340"/>
         <source>&amp;Ban Time (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>차단 시간 (&amp;B) (%1)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="346"/>
         <source>&amp;IP-Adress (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>IP 주소 (&amp;I) (%1)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="351"/>
         <source>&amp;Move Selected User to Unbanned List</source>
-        <translation type="unfinished"></translation>
+        <translation>선택한 사용자를 차단 해제 목록으로 이동 (&amp;M)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="385"/>
         <source>&amp;Move Selected User to Banned List</source>
-        <translation type="unfinished"></translation>
+        <translation>선택한 사용자를 차단 목록으로 이동 (&amp;M)</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="25"/>
         <source>Filter Banned Users</source>
-        <translation type="unfinished"></translation>
+        <translation>차단한 사용자 필터</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="31"/>
         <source>Search an Username or IP-Address</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자 이름 또는 IP 주소로 검색</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="44"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>검색</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="69"/>
@@ -698,7 +698,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="871"/>
         <source>Stream Timeout Timer</source>
-        <translation>스트리밍 시간 제한</translation>
+        <translation>스트리밍 시간 한도</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="877"/>
@@ -991,13 +991,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="159"/>
         <source>Welcome</source>
-        <translation type="unfinished"></translation>
+        <translation>환영</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="159"/>
         <source>Welcome to %1.<byte value="xd"/>
 Message of the day: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1님, 환영합니다.
+환영사: %2</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="163"/>
@@ -1030,32 +1031,32 @@ Message of the day: %2</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="460"/>
         <source>Command Limit: </source>
-        <translation type="unfinished"></translation>
+        <translation>동작 한도: </translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="461"/>
         <source>Command Limit</source>
-        <translation type="unfinished"></translation>
+        <translation>동작 한도</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="468"/>
         <source>sec</source>
-        <translation type="unfinished"></translation>
+        <translation>초</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="473"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">확인 (&amp;O)</translation>
+        <translation>확인 (&amp;O)</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="474"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">취소 (&amp;C)</translation>
+        <translation>취소 (&amp;C)</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="480"/>
         <source>Set Command Limits</source>
-        <translation type="unfinished"></translation>
+        <translation>동작 한도 설정</translation>
     </message>
 </context>
 <context>
@@ -1665,7 +1666,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../generatettfiledlg.cpp" line="152"/>
         <source>Unable to save file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 파일을 저장할 수 없습니다</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="199"/>
@@ -2247,12 +2248,12 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="1457"/>
         <source>&amp;Check for Update</source>
-        <translation type="unfinished"></translation>
+        <translation>업데이트 확인 (&amp;C)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1521"/>
         <source>Ctrl+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+L</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1565"/>
@@ -2467,12 +2468,12 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="1911"/>
         <source>Move Users &amp;Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자 이동 대화상자 (&amp;D)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1914"/>
         <source>Ctrl+Alt+M</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+M</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1923"/>
@@ -2607,7 +2608,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="2028"/>
         <source>Enable Sound Events</source>
-        <translation>사운드 이벤트 활성화</translation>
+        <translation>소리 이벤트 활성화</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2031"/>
@@ -3121,7 +3122,7 @@ Message of the day: %2</source>
         <location filename="../mainwindow.cpp" line="1329"/>
         <location filename="../mainwindow.cpp" line="6582"/>
         <source>You</source>
-        <translation type="unfinished"></translation>
+        <translation>귀하</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2187"/>
@@ -3154,7 +3155,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="2236"/>
         <source>Banned from server</source>
-        <translation>서버에서 차단됨</translation>
+        <translation>서버에서 차단당함</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2240"/>
@@ -3615,12 +3616,12 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="1373"/>
         <source>Audio preprocessor failed to initialize</source>
-        <translation type="unfinished"></translation>
+        <translation>오디오 전처리기 초기화 실패</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1375"/>
         <source>An audio effect could not be applied on the sound device</source>
-        <translation type="unfinished"></translation>
+        <translation>사운드 장치에 오디오 효과를 적용할 수 없습니다.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1626"/>
@@ -3645,33 +3646,33 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="2059"/>
         <source>Disconnected from server</source>
-        <translation type="unfinished"></translation>
+        <translation>서버와의 연결이 끊어짐</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2101"/>
         <location filename="../mainwindow.cpp" line="2102"/>
         <source>Files in channel</source>
-        <translation type="unfinished"></translation>
+        <translation>채널 내 파일</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2238"/>
         <source>Banned from channel</source>
-        <translation type="unfinished"></translation>
+        <translation>채널에서 차단당함</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2251"/>
         <source>Maximum number of logins per IP-address exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>IP 주소당 최대 로그인 수를 초과함</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2253"/>
         <source>Maximum bitrate for audio codec exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>오디오 코덱 최대 비트레이트 한도를 초과함</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2259"/>
         <source>Maximum number of file transfers exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>파일 전송 한도를 초과함</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2425"/>
@@ -3951,12 +3952,12 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="4772"/>
         <source>Sound events enabled</source>
-        <translation>사운드 이벤트 활성화됨</translation>
+        <translation>소리 이벤트 활성화됨</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4777"/>
         <source>Sound events disabled</source>
-        <translation>사운드 이벤트 비활성화됨</translation>
+        <translation>소리 이벤트 비활성화됨</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5140"/>
@@ -4043,62 +4044,67 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="6325"/>
         <source>File %1 already exists on the server. Do you want to replace it?</source>
-        <translation type="unfinished"></translation>
+        <translation>서버에 %1 파일이 이미 존재합니다. 덮어쓸까요?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6330"/>
         <source>File exists</source>
-        <translation type="unfinished"></translation>
+        <translation>파일 이미 존재함</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6337"/>
         <source>Failed to delete existing file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 파일 삭제 실패</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6349"/>
         <source>You do not have permission to replace the file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 파일을 덮어쓸 권한이 없습니다</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6580"/>
         <source>Everyone</source>
-        <translation type="unfinished"></translation>
+        <translation>모두</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6631"/>
         <source>Desktop windows</source>
-        <translation type="unfinished"></translation>
+        <translation>화면 공유 창</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7363"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>파일 %1에는 %2 설정 정보가 포함되어 있습니다.<byte value="xd"/>
+이 설정을 적용할까요?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7461"/>
         <source>New version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>새 버전(%1)을 사용할 수 있습니다.<byte value="xd"/>
+아래 웹페이지에서 다운로드할 수 있습니다:<byte value="xd"/>
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7485"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>새 베타 버전(%1)을 사용할 수 있습니다.<byte value="xd"/>
+아래 웹페이지에서 다운로드할 수 있습니다:<byte value="xd"/>
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7494"/>
         <source>Check for Update</source>
-        <translation type="unfinished"></translation>
+        <translation>업데이트 확인</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7494"/>
         <source>%1 is up to date.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1이 최신 상태입니다.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7569"/>
@@ -4123,7 +4129,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="6633"/>
         <location filename="../mainwindow.cpp" line="6646"/>
         <source>Enabled</source>
-        <translation type="unfinished">활성화됨</translation>
+        <translation>활성화됨</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2861"/>
@@ -4133,7 +4139,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="6635"/>
         <location filename="../mainwindow.cpp" line="6648"/>
         <source>Disabled</source>
-        <translation type="unfinished">비활성화됨</translation>
+        <translation>비활성화됨</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4698"/>
@@ -4625,27 +4631,27 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../moveusersdlg.cpp" line="34"/>
         <location filename="../moveusersdlg.cpp" line="56"/>
         <source>Move Users</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자 이동</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="39"/>
         <source>Users</source>
-        <translation type="unfinished">사용자</translation>
+        <translation>사용자</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="49"/>
         <source>&amp;Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>채널 (&amp;C)</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="57"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>취소</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="82"/>
         <source>Root Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>최상위 채널</translation>
     </message>
 </context>
 <context>
@@ -4725,21 +4731,21 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../onlineusersdlg.cpp" line="138"/>
         <location filename="../onlineusersdlg.cpp" line="155"/>
         <source>&amp;Kick from Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>채널에서 추방 (&amp;K)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="63"/>
         <location filename="../onlineusersdlg.cpp" line="140"/>
         <location filename="../onlineusersdlg.cpp" line="157"/>
         <source>&amp;Kick from Server</source>
-        <translation type="unfinished"></translation>
+        <translation>서버에서 추방 (&amp;K)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="63"/>
         <location filename="../onlineusersdlg.cpp" line="140"/>
         <location filename="../onlineusersdlg.cpp" line="158"/>
         <source>Ctrl+Alt+K</source>
-        <translation type="unfinished">Ctrl+Alt+K</translation>
+        <translation>Ctrl+Alt+K</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="64"/>
@@ -4753,21 +4759,21 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../onlineusersdlg.cpp" line="142"/>
         <location filename="../onlineusersdlg.cpp" line="159"/>
         <source>Kick and &amp;Ban from Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>채널에서 추방 및 차단 (&amp;B)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="65"/>
         <location filename="../onlineusersdlg.cpp" line="144"/>
         <location filename="../onlineusersdlg.cpp" line="161"/>
         <source>Kick and &amp;Ban from Server</source>
-        <translation type="unfinished"></translation>
+        <translation>서버에서 추방 및 차단 (&amp;B)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="65"/>
         <location filename="../onlineusersdlg.cpp" line="144"/>
         <location filename="../onlineusersdlg.cpp" line="162"/>
         <source>Ctrl+Alt+B</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Alt+B</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="66"/>
@@ -5066,7 +5072,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="536"/>
         <source>Timestamp format</source>
-        <translation type="unfinished"></translation>
+        <translation>전송 시간 형식</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="673"/>
@@ -5091,7 +5097,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="808"/>
         <source>Connect to latest host on startup</source>
-        <translation>시작하면 마지막 호스트로 연결</translation>
+        <translation>시작하면 최근 호스트로 연결</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="815"/>
@@ -5275,7 +5281,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../preferences.ui" line="1360"/>
         <location filename="../preferences.ui" line="1366"/>
         <source>Sound Events</source>
-        <translation>사운드 이벤트</translation>
+        <translation>소리 이벤트</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1374"/>
@@ -5285,28 +5291,28 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1400"/>
         <source>Sound event volume level</source>
-        <translation>사운드 이벤트 볼륨 수준</translation>
+        <translation>소리 이벤트 볼륨 수준</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1448"/>
         <source>Enable/disable Sound Events</source>
-        <translation type="unfinished"></translation>
+        <translation>소리 이벤트 켬/끔</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1454"/>
         <location filename="../preferences.ui" line="1595"/>
         <source>Double click to check/uncheck</source>
-        <translation type="unfinished"></translation>
+        <translation>두 번 클릭하여 선택/해제</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1473"/>
         <source>Sound Event File</source>
-        <translation type="unfinished"></translation>
+        <translation>소리 이벤트 파일</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1479"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>파일</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1492"/>
@@ -5316,22 +5322,22 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="455"/>
         <source>Show user and channel icons</source>
-        <translation type="unfinished"></translation>
+                                            <translation>사용자 및 채널 아이콘 표시</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="462"/>
         <source>Show channel topic in channel list</source>
-        <translation type="unfinished"></translation>
+        <translation>채널 목록에 채널 주제 표시</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="613"/>
         <source>Show dialog box with server&apos;s message of the day</source>
-        <translation type="unfinished"></translation>
+        <translation>서버 환영사 대화상자 표시</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="620"/>
         <source>Show dialog box with server list on startup</source>
-        <translation>시작할 때 서버 목록 보기</translation>
+        <translation>앱을 시작하면 서버 목록 대화상자 표시</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="636"/>
@@ -5419,7 +5425,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1850"/>
         <source>Switch to SAPI if current screenreader is not available</source>
-        <translation type="unfinished"></translation>
+        <translation>사용 가능한 화면 낭독기가 없으면 SAPI로 전환</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1876"/>
@@ -5631,84 +5637,84 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="100"/>
         <source>The day as a number without a leading zero (1 to 31)</source>
-        <translation type="unfinished"></translation>
+        <translation>0으로 시작하지 않는 일 숫자 (1 ~ 31)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="101"/>
         <source>The day as a number with a leading zero (01 to 31)</source>
-        <translation type="unfinished"></translation>
+        <translation>0으로 시작하는 일 숫자 (01 ~ 31)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="102"/>
         <source>The abbreviated day name (&apos;Mon&apos; to &apos;Sun&apos;).</source>
-        <translation type="unfinished"></translation>
+        <translation>단축된 요일 이름 (&apos;Mon&apos; ~ &apos;Sun&apos;)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="103"/>
         <source>The long day name (&apos;Monday&apos; to &apos;Sunday&apos;).</source>
-        <translation type="unfinished"></translation>
+        <translation>전체 요일 이름 (&apos;Monday&apos; to &apos;Sunday&apos;).</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="104"/>
         <source>The month as a number without a leading zero (1 to 12)</source>
-        <translation type="unfinished"></translation>
+        <translation>0으로 시작하지 않는 월 숫자 (1 ~ 12)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="105"/>
         <source>The month as a number with a leading zero (01 to 12)</source>
-        <translation type="unfinished"></translation>
+        <translation>0으로 시작하는 월 숫자 (01 ~ 12)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="106"/>
         <source>The abbreviated month name (&apos;Jan&apos; to &apos;Dec&apos;).</source>
-        <translation type="unfinished"></translation>
+        <translation>단축된 월 이름 (&apos;Jan&apos; to &apos;Dec&apos;).</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="107"/>
         <source>The long month name (&apos;January&apos; to &apos;December&apos;).</source>
-        <translation type="unfinished"></translation>
+        <translation>전체 월 이름 (&apos;January&apos; to &apos;December&apos;).</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="108"/>
         <source>The year as a two digit number (00 to 99)</source>
-        <translation type="unfinished"></translation>
+        <translation>두 자리 연도 (00 ~ 99)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="109"/>
         <source>The year as a four digit number.</source>
-        <translation type="unfinished"></translation>
+        <translation>네 자리 연도</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="110"/>
         <location filename="../preferencesdlg.cpp" line="112"/>
         <source>The hour without a leading zero (0 to 23)</source>
-        <translation type="unfinished"></translation>
+        <translation>0으로 시작하지 않는 시간 숫자 (0 ~ 23)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="111"/>
         <location filename="../preferencesdlg.cpp" line="113"/>
         <source>The hour with a leading zero (00 to 23)</source>
-        <translation type="unfinished"></translation>
+        <translation>0으로 시작하는 시간 숫자 (00 ~ 23)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="114"/>
         <source>The minute without a leading zero (0 to 59)</source>
-        <translation type="unfinished"></translation>
+        <translation>0으로 시작하지 않는 분 숫자 (0 ~ 59)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="115"/>
         <source>The minute with a leading zero (00 to 59)</source>
-        <translation type="unfinished"></translation>
+        <translation>0으로 시작하는 분 숫자 (00 ~ 59)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="116"/>
         <source>The whole second, without any leading zero (0 to 59)</source>
-        <translation type="unfinished"></translation>
+        <translation>0으로 시작하지 않는 초 숫자 (0 ~ 59)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="117"/>
         <source>The whole second, with a leading zero where applicable (00 to 59)</source>
-        <translation type="unfinished"></translation>
+        <translation>0으로 시작하는 초 숫자 (00 ~ 59)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="559"/>
@@ -5801,7 +5807,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="1521"/>
         <source>Switch to SAPI if %1 screenreader is not available</source>
-        <translation type="unfinished"></translation>
+        <translation>화면 낭독기(%1)를 사용할 수 없으면 SAPI로 전환</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1527"/>
@@ -5836,7 +5842,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="1802"/>
         <source>Message for Event &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>이벤트 메시지 &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="332"/>
@@ -5886,29 +5892,29 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1502"/>
         <source>Reset to Default File</source>
-        <translation type="unfinished"></translation>
+        <translation>기본 파일로 재설정</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1614"/>
         <source>Text to Speech Message</source>
-        <translation type="unfinished"></translation>
+        <translation>TTS 메시지</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1622"/>
         <location filename="../preferencesdlg.cpp" line="1802"/>
         <source>Message</source>
-        <translation type="unfinished">메시지</translation>
+        <translation>메시지</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="549"/>
         <location filename="../preferences.ui" line="1637"/>
         <source>&amp;Variables...</source>
-        <translation type="unfinished"></translation>
+        <translation>변수... (&amp;V)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1644"/>
         <source>Reset to Default Value</source>
-        <translation type="unfinished"></translation>
+        <translation>기본값으로 재설정</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2079"/>
@@ -5965,168 +5971,168 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.ui" line="20"/>
         <source>Server Information</source>
-        <translation type="unfinished">서버 정보</translation>
+        <translation>서버 정보</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="28"/>
         <source>Entry name</source>
-        <translation type="unfinished">항목 이름</translation>
+        <translation>항목 이름</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="43"/>
         <source>Host IP-address</source>
-        <translation type="unfinished">호스트 IP 주소</translation>
+        <translation>호스트 IP 주소</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="60"/>
         <source>TCP port</source>
-        <translation type="unfinished">TCP 포트</translation>
+        <translation>TCP 포트</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="75"/>
         <source>TCP Port (Default: 10333)</source>
-        <translation type="unfinished"></translation>
+        <translation>TCP 포트 (기본값: 10333)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="82"/>
         <location filename="../serverdlg.ui" line="113"/>
         <source>Default: 10333</source>
-        <translation type="unfinished">기본값: 10333</translation>
+        <translation>기본값: 10333</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="91"/>
         <source>UDP port</source>
-        <translation type="unfinished">UDP 포트</translation>
+        <translation>UDP 포트</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="106"/>
         <source>UDP Port (Default: 10333)</source>
-        <translation type="unfinished"></translation>
+        <translation>UDP 포트 (기본값: 10333)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="124"/>
         <source>Encrypted server</source>
-        <translation type="unfinished">암호화된 서버</translation>
+        <translation>암호화된 서버</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="134"/>
         <source>Setup</source>
-        <translation type="unfinished">설정</translation>
+        <translation>설정</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="156"/>
         <location filename="../serverdlg.ui" line="159"/>
         <source>Authentication (optional)</source>
-        <translation type="unfinished">인증 (선택 사항)</translation>
+        <translation>인증 (선택 사항)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="165"/>
         <source>Use BearWare.dk Web Login</source>
-        <translation type="unfinished"></translation>
+        <translation>BearWare.dk 웹 로그인 사용</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="172"/>
         <source>Username</source>
-        <translation type="unfinished">사용자 이름</translation>
+        <translation>사용자 이름</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="185"/>
         <location filename="../serverdlg.ui" line="258"/>
         <source>Password</source>
-        <translation type="unfinished">암호</translation>
+        <translation>암호</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="204"/>
         <location filename="../serverdlg.ui" line="277"/>
         <source>Show password</source>
-        <translation type="unfinished">암호 표시</translation>
+        <translation>암호 표시</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="216"/>
         <source>Nickname (optional)</source>
-        <translation type="unfinished">대화명 (선택 사항)</translation>
+        <translation>대화명 (선택 사항)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="229"/>
         <location filename="../serverdlg.ui" line="232"/>
         <source>Join specific channel after authentication (optional)</source>
-        <translation type="unfinished">인증 후 특정 채널로 입장 (선택 사항)</translation>
+        <translation>인증 후 특정 채널로 입장 (선택 사항)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="238"/>
         <source>Latest Joined Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>최근 입장한 채널</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="245"/>
         <source>Channel</source>
-        <translation type="unfinished">채널 </translation>
+        <translation>채널 </translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="292"/>
         <source>&amp;Connect to Server on exit</source>
-        <translation type="unfinished"></translation>
+        <translation>앱을 재시작하면 서버에 다시 연결 (&amp;C)</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="42"/>
         <source>&amp;Save and Close</source>
-        <translation type="unfinished"></translation>
+        <translation>저장하고 닫기 (&amp;S)</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="43"/>
         <source>&amp;Close without saving</source>
-        <translation type="unfinished"></translation>
+        <translation>저장하지 않고 닫기 (&amp;C)</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="64"/>
         <location filename="../serverdlg.cpp" line="65"/>
         <source>Add Server</source>
-        <translation type="unfinished"></translation>
+        <translation>서버 추가</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="69"/>
         <source>Edit Server</source>
-        <translation type="unfinished"></translation>
+        <translation>서버 편집</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="70"/>
         <source>Edit Server %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 서버 편집</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="74"/>
         <source>View Server Information</source>
-        <translation type="unfinished"></translation>
+        <translation>서버 정보 보기</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="75"/>
         <source>View %1 Information</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 정보 보기</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="91"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">닫기 (&amp;C)</translation>
+        <translation>닫기 (&amp;C)</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="154"/>
         <source>Name already used</source>
-        <translation type="unfinished"></translation>
+        <translation>이미 사용 중인 이름</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="154"/>
         <source>Another server with this name already exists. Please use a different name.</source>
-        <translation type="unfinished"></translation>
+        <translation>다른 서버에서 사용 중인 이름입니다. 다른 이름을 사용하세요.</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="159"/>
         <source>Missing information</source>
-        <translation type="unfinished"></translation>
+        <translation>누락된 정보</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="159"/>
         <source>Please fill in &quot;Host IP-address&quot; field</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;호스트 IP 주소&quot;를 입력하세요.</translation>
     </message>
 </context>
 <context>
@@ -6170,27 +6176,27 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverlist.ui" line="90"/>
         <source>Saved Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>저장된 호스트</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="111"/>
         <source>&amp;Add new server</source>
-        <translation type="unfinished"></translation>
+        <translation>새 서버 추가 )&amp;A)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="125"/>
         <source>&amp;Export Server list to .tt File</source>
-        <translation type="unfinished"></translation>
+        <translation>서버 목록 .tt 파일로 내보내기</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="134"/>
         <source>Latest hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>최근 호스트</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="144"/>
         <source>Latest Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>최근 호스트</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="862"/>
@@ -6242,27 +6248,27 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverlistdlg.cpp" line="568"/>
         <source>Duplicate Server Entry</source>
-        <translation type="unfinished"></translation>
+        <translation>서버 항목 복제</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="569"/>
         <source>Entry Name</source>
-        <translation type="unfinished"></translation>
+        <translation>항목 이름</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="570"/>
         <source>%1 - COPY</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 - 복사</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="641"/>
         <source>Export entire list in single file</source>
-        <translation type="unfinished"></translation>
+        <translation>파일 하나에 모두 내보내기</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="642"/>
         <source>Export one server per file</source>
-        <translation type="unfinished"></translation>
+        <translation>파일 하나당 서버 하나 내보내기</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="665"/>
@@ -6270,41 +6276,41 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../serverlistdlg.cpp" line="722"/>
         <location filename="../serverlistdlg.cpp" line="740"/>
         <source>Export Server List</source>
-        <translation type="unfinished"></translation>
+        <translation>서버 목록 내보내기</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="665"/>
         <location filename="../serverlistdlg.cpp" line="722"/>
         <source>No server to export.</source>
-        <translation type="unfinished"></translation>
+        <translation>내보낼 서버가 없습니다.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="671"/>
         <location filename="../serverlistdlg.cpp" line="699"/>
         <source>Save File</source>
-        <translation type="unfinished">파일 저장</translation>
+        <translation>파일 저장</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="394"/>
         <location filename="../serverlistdlg.cpp" line="672"/>
         <source>TT Files (*.tt)</source>
-        <translation type="unfinished"></translation>
+        <translation>TT 파일 (*.tt)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="699"/>
         <source>Unable to save file</source>
-        <translation type="unfinished">파일 저장 실패</translation>
+        <translation>파일 저장 실패</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="704"/>
         <location filename="../serverlistdlg.cpp" line="740"/>
         <source>All servers have been exported successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>모든 서버 목록을 내보냈습니다.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="727"/>
         <source>Select Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>폴더 선택</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="760"/>
@@ -6345,47 +6351,47 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverlistdlg.cpp" line="863"/>
         <source>&amp;Delete</source>
-        <translation type="unfinished">삭제 (&amp;D)</translation>
+        <translation>삭제 (&amp;D)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="864"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>편집 (&amp;E)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="865"/>
         <source>D&amp;uplicate</source>
-        <translation type="unfinished"></translation>
+        <translation>복제 (&amp;U)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="866"/>
         <source>&amp;Generate .tt file</source>
-        <translation type="unfinished"></translation>
+        <translation>.tt 파일 생성 )&amp;G)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="867"/>
         <source>&amp;Publish Publicly</source>
-        <translation type="unfinished"></translation>
+        <translation>공개 게시</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="920"/>
         <source>Co&amp;nnect</source>
-        <translation type="unfinished"></translation>
+        <translation>연결 (&amp;N)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="921"/>
         <source>&amp;Remove from Latest Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>최근 호스트에서 제거 (&amp;R)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="922"/>
         <source>&amp;Add to Saved Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>저장된 호스트에 추가 (&amp;A)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="923"/>
         <source>&amp;Clear Latest Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>최근 호스트 초기화 (&amp;C)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="755"/>
@@ -6529,7 +6535,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="99"/>
         <source>User connection timed out</source>
-        <translation>연결 시간 제한 초과함</translation>
+        <translation>연결 시간 한도 초과함</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="101"/>
@@ -6659,7 +6665,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="106"/>
         <source>&amp;Variables...</source>
-        <translation type="unfinished"></translation>
+        <translation>변수... (&amp;V)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="113"/>
@@ -6674,7 +6680,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="171"/>
         <source>User timeout</source>
-        <translation>연결 시간 제한</translation>
+        <translation>연결 시간 한도</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="203"/>
@@ -6684,7 +6690,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="230"/>
         <source>Server Bandwidth Limitations</source>
-        <translation>서버 대역폭 제한</translation>
+        <translation>서버 대역폭 한도</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="236"/>
@@ -6728,7 +6734,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="380"/>
         <source>Max login attempts before ban</source>
-        <translation>로그인 시도 횟수 제한</translation>
+        <translation>로그인 시도 한도</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="400"/>
@@ -6794,32 +6800,32 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>Number of users on server</source>
-        <translation type="unfinished"></translation>
+        <translation>서버 내 사용자 수</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>Number of admins on server</source>
-        <translation type="unfinished"></translation>
+        <translation>서버 내 관리자 수</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>Server&apos;s time online</source>
-        <translation type="unfinished"></translation>
+        <translation>서버 가동 시간</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>KBytes received</source>
-        <translation type="unfinished"></translation>
+        <translation>KB 받음</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>KBytes sent</source>
-        <translation type="unfinished"></translation>
+        <translation>KB 보냄</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>last user to log on</source>
-        <translation type="unfinished"></translation>
+        <translation>마지막으로 로그인한 사용자</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="132"/>
@@ -6938,177 +6944,177 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="78"/>
         <source>Event</source>
-        <translation type="unfinished">이벤트</translation>
+        <translation>이벤트</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="79"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>파일</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="105"/>
         <source>User logged in</source>
-        <translation type="unfinished">로그인함</translation>
+        <translation>로그인함</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="107"/>
         <source>User logged out</source>
-        <translation type="unfinished">로그아웃함</translation>
+        <translation>로그아웃함</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="109"/>
         <source>User joined channel</source>
-        <translation type="unfinished">채널에 입장함</translation>
+        <translation>채널에 입장함</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="111"/>
         <source>User left channel</source>
-        <translation type="unfinished">채널에서 퇴장함</translation>
+        <translation>채널에서 퇴장함</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="113"/>
         <source>Connection to server lost</source>
-        <translation type="unfinished">서버와의 연결이 끊어졌습니다.</translation>
+        <translation>서버와의 연결이 끊어졌습니다.</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="115"/>
         <source>Private message received</source>
-        <translation type="unfinished"></translation>
+        <translation>개인 메시지 받음</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="117"/>
         <source>Private message sent</source>
-        <translation type="unfinished">개인 메시지 보냄</translation>
+        <translation>개인 메시지 보냄</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="119"/>
         <source>User is typing a private message in focused window</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자가 초점 받은 창에서 개인 메시지 입력 중</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="121"/>
         <source>Channel message received</source>
-        <translation type="unfinished"></translation>
+        <translation>채널 메시지 받음</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="123"/>
         <source>Channel message sent</source>
-        <translation type="unfinished">채널 메시지 보냄</translation>
+        <translation>채널 메시지 보냄</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="125"/>
         <source>Broadcast message received</source>
-        <translation type="unfinished"></translation>
+        <translation>방송 수신됨</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="127"/>
         <source>Hotkey pressed</source>
-        <translation type="unfinished">기능키 누름</translation>
+        <translation>기능키 누름</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="129"/>
         <source>Channel silent</source>
-        <translation type="unfinished">채널이 조용함</translation>
+        <translation>채널이 조용함</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="131"/>
         <source>New video session</source>
-        <translation type="unfinished">새 동영상 세션</translation>
+        <translation>새 동영상 세션</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="133"/>
         <source>New desktop session</source>
-        <translation type="unfinished">새 화면 공유 세션</translation>
+        <translation>새 화면 공유 세션</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="135"/>
         <source>Desktop access request</source>
-        <translation type="unfinished">화면 공유 접근 요청</translation>
+        <translation>화면 공유 접근 요청</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="137"/>
         <source>Files updated</source>
-        <translation type="unfinished">파일이 업데이트됨</translation>
+        <translation>파일이 업데이트됨</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="139"/>
         <source>File transfer completed</source>
-        <translation type="unfinished"></translation>
+        <translation>파일 전송됨</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="141"/>
         <source>User enabled question mode</source>
-        <translation type="unfinished">질문 모드 활성화됨</translation>
+        <translation>질문 모드 활성화됨</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="143"/>
         <source>Voice activation enabled</source>
-        <translation type="unfinished">말하기 활성화됨</translation>
+        <translation>말하기 활성화됨</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="145"/>
         <source>Voice activation disabled</source>
-        <translation type="unfinished">말하기 비활성화됨</translation>
+        <translation>말하기 비활성화됨</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="147"/>
         <source>Voice activation enabled via &quot;Me&quot; menu</source>
-        <translation type="unfinished">&quot;나&quot; 메뉴에서 말하기 활성화</translation>
+        <translation>&quot;나&quot; 메뉴에서 말하기 활성화</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="149"/>
         <source>Voice activation disabled via &quot;Me&quot; menu</source>
-        <translation type="unfinished">&quot;나&quot; 메뉴에서 말하기 비활성화</translation>
+        <translation>&quot;나&quot; 메뉴에서 말하기 비활성화</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="151"/>
         <source>Voice activation triggered</source>
-        <translation type="unfinished">말하기 감지됨</translation>
+        <translation>말하기 감지됨</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="153"/>
         <source>Voice activation stopped</source>
-        <translation type="unfinished">말하기 중단됨</translation>
+        <translation>말하기 중단됨</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="155"/>
         <source>Mute master volume</source>
-        <translation type="unfinished">마스터 볼륨 음소거</translation>
+        <translation>마스터 볼륨 음소거</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="157"/>
         <source>Unmute master volume</source>
-        <translation type="unfinished">마스터 볼륨 음소거 해제</translation>
+        <translation>마스터 볼륨 음소거 해제</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="159"/>
         <source>Transmit ready in &quot;No interruption&quot; channel</source>
-        <translation type="unfinished">&quot;끊김 없는 말하기&quot; 채널에서 전송 준비됨</translation>
+        <translation>&quot;끊김 없는 말하기&quot; 채널에서 전송 준비됨</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="161"/>
         <source>Transmit stopped in &quot;No interruption&quot; channel</source>
-        <translation type="unfinished">&quot;끊김 없는 말하기&quot; 채널에서 전송 중단함</translation>
+        <translation>&quot;끊김 없는 말하기&quot; 채널에서 전송 중단함</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="163"/>
         <source>Interception by another user</source>
-        <translation type="unfinished"></translation>
+        <translation>다른 사용자가 가로채기 시작함</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="165"/>
         <source>End of interception by another user</source>
-        <translation type="unfinished"></translation>
+        <translation>다른 사용자가 가로채기를 중단함</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="191"/>
         <source>Enabled</source>
-        <translation type="unfinished">활성화됨</translation>
+        <translation>활성화됨</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="191"/>
         <source>Disabled</source>
-        <translation type="unfinished">비활성화됨</translation>
+        <translation>비활성화됨</translation>
     </message>
 </context>
 <context>
@@ -7126,28 +7132,28 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.ui" line="26"/>
         <source>Double click to check/uncheck</source>
-        <translation type="unfinished"></translation>
+        <translation>두 번 클릭하여 선택/해제</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="45"/>
         <source>Status Bar Message</source>
-        <translation type="unfinished"></translation>
+        <translation>상태줄 메시지</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="53"/>
         <location filename="../statusbardlg.cpp" line="92"/>
         <source>Message</source>
-        <translation type="unfinished">메시지</translation>
+        <translation>메시지</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="68"/>
         <source>&amp;Variables...</source>
-        <translation type="unfinished"></translation>
+        <translation>변수... (&amp;V)</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="75"/>
         <source>Reset to Default Value</source>
-        <translation type="unfinished"></translation>
+        <translation>기본값으로 재설정</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="87"/>
@@ -7177,7 +7183,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.cpp" line="92"/>
         <source>Message for Event &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>이벤트 메시지 &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -7190,17 +7196,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="115"/>
         <source>User joined current channel</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자가 이 채널에 입장함</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="161"/>
         <source>Server configuration saved</source>
-        <translation type="unfinished">서버 정책 저장됨</translation>
+        <translation>서버 정책 저장됨</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="163"/>
         <source>Recording started</source>
-        <translation type="unfinished"></translation>
+        <translation>녹음 시작함</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="192"/>
@@ -7220,7 +7226,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="81"/>
         <source>Message</source>
-        <translation type="unfinished">메시지</translation>
+        <translation>메시지</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="109"/>
@@ -7350,7 +7356,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="165"/>
         <source>Transmission blocked by channel operator</source>
-        <translation>채널 관리자의 명령으로 전송 차단됨</translation>
+        <translation>채널 관리자의 명령으로 전송 차단당함</translation>
     </message>
 </context>
 <context>
@@ -7636,47 +7642,47 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="131"/>
         <source>User joined current channel</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자가 이 채널에 입장함</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="135"/>
         <source>Private message received</source>
-        <translation type="unfinished"></translation>
+        <translation>개인 메시지 받음</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="137"/>
         <source>Private message sent</source>
-        <translation type="unfinished">개인 메시지 보냄</translation>
+        <translation>개인 메시지 보냄</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="139"/>
         <source>User is typing a private message in focused window</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자가 초점 받은 창에서 개인 메시지 입력 중</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="141"/>
         <source>User is typing a private message</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자가 개인 메시지 입력 중</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="143"/>
         <source>Channel message received</source>
-        <translation type="unfinished"></translation>
+        <translation>채널 메시지 받음</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="145"/>
         <source>Channel message sent</source>
-        <translation type="unfinished">채널 메시지 보냄</translation>
+        <translation>채널 메시지 보냄</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="147"/>
         <source>Broadcast message received</source>
-        <translation type="unfinished"></translation>
+        <translation>방송 수신됨</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="149"/>
         <source>Broadcast message sent</source>
-        <translation type="unfinished"></translation>
+        <translation>방송함</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="229"/>
@@ -7696,7 +7702,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="97"/>
         <source>Message</source>
-        <translation type="unfinished">메시지</translation>
+        <translation>메시지</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="125"/>
@@ -7905,43 +7911,43 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="24"/>
         <source>Basic Information</source>
-        <translation type="unfinished"></translation>
+        <translation>일반 정보</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="30"/>
         <source>Basic Account Properties</source>
-        <translation type="unfinished">계정 속성 일반</translation>
+        <translation>계정 속성 일반</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="36"/>
         <source>User Type</source>
-        <translation type="unfinished">사용자 유형</translation>
+        <translation>사용자 유형</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="49"/>
         <source>Username</source>
-        <translation type="unfinished">사용자 이름</translation>
+        <translation>사용자 이름</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="69"/>
         <source>Password</source>
-        <translation type="unfinished">암호</translation>
+        <translation>암호</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="89"/>
         <source>Note</source>
-        <translation type="unfinished">비고</translation>
+        <translation>비고</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="106"/>
         <source>Initial Channel</source>
-        <translation type="unfinished">초기 채널</translation>
+        <translation>초기 채널</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="116"/>
         <location filename="../useraccountdlg.ui" line="119"/>
         <source>User should automatically join this channel after login</source>
-        <translation type="unfinished">로그인하면 이 채널에 자동 입장합니다</translation>
+        <translation>로그인하면 이 채널에 자동 입장합니다</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="156"/>
@@ -7949,215 +7955,215 @@ Delete the published user account to unregister your server.</source>
         <location filename="../useraccountdlg.cpp" line="242"/>
         <location filename="../useraccountdlg.cpp" line="372"/>
         <source>User Rights</source>
-        <translation type="unfinished">사용자 권한</translation>
+        <translation>사용자 권한</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="162"/>
         <source>User Actions Allowed on Server</source>
-        <translation type="unfinished">서버에서 허용한 사용자 동작</translation>
+        <translation>서버에서 허용한 사용자 동작</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="194"/>
         <location filename="../useraccountdlg.cpp" line="252"/>
         <source>Channel Operator</source>
-        <translation type="unfinished">채널 관리자</translation>
+        <translation>채널 관리자</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="200"/>
         <location filename="../useraccountdlg.ui" line="203"/>
         <source>Auto-Operator Channels</source>
-        <translation type="unfinished">자동 관리 채널</translation>
+        <translation>자동 관리 채널</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="209"/>
         <source>Selected Channels</source>
-        <translation type="unfinished">선택한 채널</translation>
+        <translation>선택한 채널</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="219"/>
         <source>User will automatically become operator when joining these channels</source>
-        <translation type="unfinished">입장하면 자동으로 관리자 권한을 얻을 수 있는 채널입니다</translation>
+        <translation>입장하면 자동으로 관리자 권한을 얻을 수 있는 채널입니다</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="232"/>
         <source>Available Channels</source>
-        <translation type="unfinished">사용 가능 채널</translation>
+        <translation>사용 가능 채널</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="251"/>
         <source>Set selected user auto operator for selected channels</source>
-        <translation type="unfinished">선택한 사용자들에게 선택한 채널의 관리자 권한 부여</translation>
+        <translation>선택한 사용자들에게 선택한 채널의 관리자 권한 부여</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="254"/>
         <source>Add</source>
-        <translation type="unfinished">추가</translation>
+        <translation>추가</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="261"/>
         <source>No longer set selected user auto operator for selected channels</source>
-        <translation type="unfinished">선택한 사용자들에게 선택한 채널의 관리자 권한 부여 안 함</translation>
+        <translation>선택한 사용자들에게 선택한 채널의 관리자 권한 부여 안 함</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="264"/>
         <source>Remove</source>
-        <translation type="unfinished">제거</translation>
+        <translation>제거</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="290"/>
         <source>Codec Limitations</source>
-        <translation type="unfinished">코덱 제한</translation>
+        <translation>코덱 제한</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="296"/>
         <source>Audio Codec Limitations</source>
-        <translation type="unfinished">오디오 코덱 제한</translation>
+        <translation>오디오 코덱 제한</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="302"/>
         <source>Max bitrate for audio codecs</source>
-        <translation type="unfinished">오디오 코덱 비트레이트 제한</translation>
+        <translation>오디오 코덱 비트레이트 한도</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="325"/>
         <source>kbps (0 = disabled)</source>
-        <translation type="unfinished">kbps (0 = 비활성화됨)</translation>
+        <translation>kbps (0 = 비활성화됨)</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="349"/>
         <source>Abuse Prevention</source>
-        <translation type="unfinished">어뷰징 방지</translation>
+        <translation>어뷰징 방지</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="355"/>
         <source>Flood Protection</source>
-        <translation type="unfinished">도배 방지</translation>
+        <translation>도배 방지</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="361"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
-        <translation type="unfinished">특정 시간 내에 실행할 수 있는 동작 수를 제한하여 메시지 도배 등을 방지합니다.</translation>
+        <translation>특정 시간 내에 실행할 수 있는 동작 한도를 정하여 메시지 도배 등을 방지합니다.</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="373"/>
         <source>Limit issued commands</source>
-        <translation type="unfinished">동작 제한</translation>
+        <translation>동작 한도</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="52"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">확인 (&amp;O)</translation>
+        <translation>확인 (&amp;O)</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="53"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">취소 (&amp;C)</translation>
+        <translation>취소 (&amp;C)</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="60"/>
         <source>Default User</source>
-        <translation type="unfinished">기본 사용자</translation>
+        <translation>기본 사용자</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="61"/>
         <source>Administrator</source>
-        <translation type="unfinished">서버 관리자</translation>
+        <translation>서버 관리자</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="62"/>
         <location filename="../useraccountdlg.cpp" line="91"/>
         <source>Disabled</source>
-        <translation type="unfinished">비활성화됨</translation>
+        <translation>비활성화됨</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="92"/>
         <source>10 commands in 10 sec.</source>
-        <translation type="unfinished">10초동안 10개의 동작 가능</translation>
+        <translation>10초동안 10개의 동작 가능</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="93"/>
         <source>10 commands in 1 minute</source>
-        <translation type="unfinished">1분동안 10개 동작 가능</translation>
+        <translation>1분동안 10개 동작 가능</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="94"/>
         <source>60 commands in 1 minute</source>
-        <translation type="unfinished">1분동안 60개 동작 가능</translation>
+        <translation>1분동안 60개 동작 가능</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="95"/>
         <source>Custom specified</source>
-        <translation type="unfinished">사용자 지정</translation>
+        <translation>사용자 지정</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="111"/>
         <source>Add User</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자 추가</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="112"/>
         <source>Add User on Server</source>
-        <translation type="unfinished"></translation>
+        <translation>서버에 사용자 추가</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="119"/>
         <source>Edit User</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자 편집</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="120"/>
         <source>Edit User %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 사용자 편집</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="125"/>
         <source>View User Information</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자 정보 보기</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="126"/>
         <source>View %1 Information</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 정보 보기</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="140"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">닫기 (&amp;C)</translation>
+        <translation>닫기 (&amp;C)</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="191"/>
         <source>Create anonymous user account?</source>
-        <translation type="unfinished">익명 계정을 만들까요?</translation>
+        <translation>익명 계정을 만들까요?</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="192"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">예 (&amp;Y)</translation>
+        <translation>예 (&amp;Y)</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="193"/>
         <source>&amp;No</source>
-        <translation type="unfinished">아니요 (&amp;N)</translation>
+        <translation>아니요 (&amp;N)</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="196"/>
         <source>Anonymous User</source>
-        <translation type="unfinished"></translation>
+        <translation>익명 사용자</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="253"/>
         <source>The maximum number of channels where a user can automatically become channel operator is %1.</source>
-        <translation type="unfinished">최대 %1개의 채널에서 채널 관리자 권한을 자동으로 획득할 수 있어요.</translation>
+        <translation>최대 %1개의 채널에서 채널 관리자 권한을 자동으로 획득할 수 있어요.</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="378"/>
         <source>Last edited: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>마지막 편집: %1</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="443"/>
         <source>Custom (%1 commands per %2 seconds)</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자 지정 (%2초동안 %1개 동작 가능)</translation>
     </message>
 </context>
 <context>
@@ -8170,12 +8176,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="27"/>
         <source>Active User Accounts</source>
-        <translation type="unfinished"></translation>
+        <translation>활성 사용자 계정</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="87"/>
         <source>&amp;New User Account</source>
-        <translation type="unfinished"></translation>
+        <translation>새 사용자 계정 (&amp;N)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="44"/>
@@ -8235,7 +8241,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="195"/>
         <source>&amp;Edit Selected User</source>
-        <translation type="unfinished"></translation>
+        <translation>선택한 사용자 편집 (&amp;E)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="122"/>
@@ -8389,7 +8395,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfo.ui" line="143"/>
         <source>Copy User Information to Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자 정보를 클립보드에 복사하기</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="54"/>
@@ -8489,7 +8495,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfodlg.cpp" line="92"/>
         <source>Client</source>
-        <translation type="unfinished"></translation>
+        <translation>클라이언트</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="99"/>
@@ -8514,7 +8520,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="210"/>
         <source>Name</source>
-        <translation type="unfinished">이름</translation>
+        <translation>이름</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="233"/>
@@ -8741,98 +8747,98 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="418"/>
         <source>{user} has logged in on {server}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, {server}에 로그인함</translation>
     </message>
     <message>
         <location filename="../settings.h" line="420"/>
         <source>{user} has logged out from {server}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, {server}에서 로그아웃함</translation>
     </message>
     <message>
         <location filename="../settings.h" line="422"/>
         <source>{user} joined channel {channel}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, {channel}에 입장함</translation>
     </message>
     <message>
         <location filename="../settings.h" line="424"/>
         <source>{user} left channel {channel}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, {channel}에서 퇴장함</translation>
     </message>
     <message>
         <location filename="../settings.h" line="426"/>
         <source>{user} joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, 채널에 입장함</translation>
     </message>
     <message>
         <location filename="../settings.h" line="428"/>
         <source>{user} left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, 채널에서 퇴장함</translation>
     </message>
     <message>
         <location filename="../settings.h" line="430"/>
         <source>Private message from {user}: {message}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}의 개인 메시지: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="432"/>
         <source>Private message sent: {message}</source>
-        <translation type="unfinished"></translation>
+        <translation>내가 보낸 개인 메시지: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="434"/>
         <source>{user} is typing...</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, 입력 중...</translation>
     </message>
     <message>
         <location filename="../settings.h" line="436"/>
         <source>{user} set question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, 질문 모드로 전환함</translation>
     </message>
     <message>
         <location filename="../settings.h" line="438"/>
         <source>Channel message from {user}: {message}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}의 채널 메시지: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="440"/>
         <source>Channel message sent: {message}</source>
-        <translation type="unfinished"></translation>
+        <translation>내가 보낸 채널 메시지: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="442"/>
         <source>Broadcast message from {user}: {message}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}의 방송: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="444"/>
         <source>Broadcast message sent: {message}</source>
-        <translation type="unfinished"></translation>
+        <translation>나의 방송: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="446"/>
         <source>Subscription &quot;{type}&quot; {state} for {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, &quot;{type}&quot; 수신 {state}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="448"/>
         <source>Transmission &quot;{type}&quot; {state} for {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, &quot;{type}&quot; 송신 {state}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="450"/>
         <source>File {filename} added by {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, {filename} 파일 추가함</translation>
     </message>
     <message>
         <location filename="../settings.h" line="452"/>
         <location filename="../settings.h" line="473"/>
         <source>File {file} removed by {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, {filename} 파일 삭제함</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="38"/>
         <source>User&apos;s nickname who logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>로그인한 사용자 대화명</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="38"/>
@@ -8844,41 +8850,41 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="49"/>
         <location filename="../utiltts.cpp" line="51"/>
         <source>Server&apos;s name from which event was emited</source>
-        <translation type="unfinished"></translation>
+        <translation>이벤트가 발생한 서버 이름</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="39"/>
         <source>User&apos;s nickname who logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>로그아웃한 사용자 대화명</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="40"/>
         <location filename="../utiltts.cpp" line="42"/>
         <source>User&apos;s nickname who joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>채널에 입장한 사용자 대화명</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="40"/>
         <source>Channel&apos;s name joined by user</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자가 입장한 채널ㅇ ㅣ름</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="41"/>
         <location filename="../utiltts.cpp" line="43"/>
         <source>User&apos;s nickname who left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>채널에서 퇴장한 사용자 대화명</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="41"/>
         <source>Channel&apos;s name left by user</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자가 퇴장한 채널 이름</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="44"/>
         <location filename="../utiltts.cpp" line="49"/>
         <location filename="../utiltts.cpp" line="51"/>
         <source>User&apos;s nickname who sent message</source>
-        <translation type="unfinished"></translation>
+        <translation>메시지 보낸 사용자 대화명</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="44"/>
@@ -8887,25 +8893,25 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="50"/>
         <location filename="../utiltts.cpp" line="51"/>
         <location filename="../utiltts.cpp" line="52"/>
-        <source>Message content</source>
-        <translation type="unfinished"></translation>
+        <source>Message content	</source>
+        <translation>메시지 내용</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="46"/>
         <location filename="../utiltts.cpp" line="47"/>
         <source>User&apos;s nickname who is typing</source>
-        <translation type="unfinished"></translation>
+        <translation>입력 중인 사용자 대화명</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="46"/>
         <location filename="../utiltts.cpp" line="47"/>
         <source>User typing</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자 입력 중</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="48"/>
         <source>User&apos;s nickname who set question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>질문 모드로 전환한 사용자 대화명</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
@@ -8928,7 +8934,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
         <source>User concerns by change</source>
-        <translation type="unfinished"></translation>
+        <translation>상태가 변경된 사용자</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
@@ -8946,7 +8952,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="65"/>
         <location filename="../utiltts.cpp" line="66"/>
         <source>Subscription type</source>
-        <translation type="unfinished"></translation>
+        <translation>수신 유형</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
@@ -8964,7 +8970,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="65"/>
         <location filename="../utiltts.cpp" line="66"/>
         <source>Subscription state</source>
-        <translation type="unfinished"></translation>
+        <translation>수신 상태</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
@@ -8982,7 +8988,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="65"/>
         <location filename="../utiltts.cpp" line="66"/>
         <source>Subscription change</source>
-        <translation type="unfinished"></translation>
+        <translation>수신 상태 변경</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="67"/>
@@ -8991,7 +8997,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
         <source>Transmission type</source>
-        <translation type="unfinished"></translation>
+        <translation>송신 유형</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="67"/>
@@ -9000,7 +9006,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
         <source>Transmission state</source>
-        <translation type="unfinished"></translation>
+        <translation>송신 상태</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="67"/>
@@ -9009,28 +9015,28 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
         <source>Classroom transmission authorization change</source>
-        <translation type="unfinished"></translation>
+        <translation>교실 송신 권한 변경</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="72"/>
         <location filename="../utiltts.cpp" line="73"/>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>파일 이름</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="72"/>
         <source>User&apos;s nickname who added the file</source>
-        <translation type="unfinished"></translation>
+        <translation>파일을 추가한 사용자 대화명</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="72"/>
         <source>File size</source>
-        <translation type="unfinished"></translation>
+        <translation>파일 크기</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="73"/>
         <source>User&apos;s nickname who removed the file</source>
-        <translation type="unfinished"></translation>
+        <translation>파일을 삭제한 사용자 대화명</translation>
     </message>
 </context>
 <context>
@@ -9038,52 +9044,52 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="455"/>
         <source>{user} has logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, 로그인함</translation>
     </message>
     <message>
         <location filename="../settings.h" line="457"/>
         <source>{user} has logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, 로그아웃함</translation>
     </message>
     <message>
         <location filename="../settings.h" line="459"/>
         <source>{user} joined channel {channel}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, {channel} 채널에 입장함</translation>
     </message>
     <message>
         <location filename="../settings.h" line="461"/>
         <source>{user} left channel {channel}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, {channel} 채널에서 퇴장함</translation>
     </message>
     <message>
         <location filename="../settings.h" line="463"/>
         <source>{user} joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, 채널에 입장함</translation>
     </message>
     <message>
         <location filename="../settings.h" line="465"/>
         <source>{user} left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, 채널에서 퇴장함</translation>
     </message>
     <message>
         <location filename="../settings.h" line="467"/>
         <source>Subscription &quot;{type}&quot; {state} for {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, &quot;{type}&quot; 수신 {state}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="469"/>
         <source>Transmission &quot;{type}&quot; {state} for {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, &quot;{type}&quot; 송신 {state}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="471"/>
         <source>File {filename} added by {user}</source>
-        <translation type="unfinished"></translation>
+        <translation>{user}, {filename} 파일 추가함</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="43"/>
         <source>User&apos;s nickname who logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>로그인한 사용자 대화명</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="43"/>
@@ -9091,34 +9097,34 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="45"/>
         <location filename="../utilui.cpp" line="46"/>
         <source>Server&apos;s name from which event was emited</source>
-        <translation type="unfinished"></translation>
+        <translation>이벤트가 발생한 서버 이름</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="44"/>
         <source>User&apos;s nickname who logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>로그아웃한 사용자 대화명</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="45"/>
         <location filename="../utilui.cpp" line="47"/>
         <source>User&apos;s nickname who joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>채널에 입장한 사용자 대화명</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="45"/>
         <source>Channel&apos;s name joined by user</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자가 입장한 채널ㅇ ㅣ름</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="46"/>
         <location filename="../utilui.cpp" line="48"/>
         <source>User&apos;s nickname who left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>채널에서 퇴장한 사용자 대화명</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="46"/>
         <source>Channel&apos;s name left by user</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자가 퇴장한 채널 이름</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="49"/>
@@ -9141,7 +9147,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="66"/>
         <location filename="../utilui.cpp" line="67"/>
         <source>User concerns by change</source>
-        <translation type="unfinished"></translation>
+        <translation>상태가 변경된 사용자</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="49"/>
@@ -9159,7 +9165,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="61"/>
         <location filename="../utilui.cpp" line="62"/>
         <source>Subscription type</source>
-        <translation type="unfinished"></translation>
+        <translation>수신 유형</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="49"/>
@@ -9177,7 +9183,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="61"/>
         <location filename="../utilui.cpp" line="62"/>
         <source>Subscription state</source>
-        <translation type="unfinished"></translation>
+        <translation>수신 상태</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="49"/>
@@ -9195,7 +9201,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="61"/>
         <location filename="../utilui.cpp" line="62"/>
         <source>Subscription change</source>
-        <translation type="unfinished"></translation>
+        <translation>수신 상태 변경</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="63"/>
@@ -9204,7 +9210,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="66"/>
         <location filename="../utilui.cpp" line="67"/>
         <source>Transmission type</source>
-        <translation type="unfinished"></translation>
+        <translation>송신 유형</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="63"/>
@@ -9213,7 +9219,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="66"/>
         <location filename="../utilui.cpp" line="67"/>
         <source>Transmission state</source>
-        <translation type="unfinished"></translation>
+        <translation>송신 상태</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="63"/>
@@ -9222,28 +9228,28 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="66"/>
         <location filename="../utilui.cpp" line="67"/>
         <source>Classroom transmission authorization change</source>
-        <translation type="unfinished"></translation>
+        <translation>교실 송신 권한 변경</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="68"/>
         <location filename="../utilui.cpp" line="69"/>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>파일 이름</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="68"/>
         <source>User&apos;s nickname who added the file</source>
-        <translation type="unfinished"></translation>
+        <translation>파일을 추가한 사용자 대화명</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="68"/>
         <source>File size</source>
-        <translation type="unfinished"></translation>
+        <translation>파일 크기</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="69"/>
         <source>User&apos;s nickname who removed the file</source>
-        <translation type="unfinished"></translation>
+        <translation>파일을 삭제한 사용자 대화명</translation>
     </message>
 </context>
 <context>
