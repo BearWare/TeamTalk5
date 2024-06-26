@@ -2642,7 +2642,7 @@ Message du jour: %2</translation>
     <message>
         <location filename="../mainwindow.ui" line="2028"/>
         <source>Enable Sound Events</source>
-        <translation>Activer les évènements sonnores</translation>
+        <translation>Activer les évènements sonores</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2031"/>
@@ -4004,12 +4004,12 @@ Vous pouvez la télécharger sur la page suivante:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="4772"/>
         <source>Sound events enabled</source>
-        <translation>Évènements sonnores activés</translation>
+        <translation>Évènements sonores activés</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4777"/>
         <source>Sound events disabled</source>
-        <translation>Évènements sonnores désactivés</translation>
+        <translation>Évènements sonores désactivés</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5140"/>
@@ -5081,7 +5081,7 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../preferences.ui" line="629"/>
         <source>Show statusbar events in chat-window</source>
-        <translation>Afficher la barre de statut des évènements dans la fenêtre de chat</translation>
+        <translation>Afficher les évènements de la barre d’état dans la fenêtre de chat</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="755"/>
@@ -5315,7 +5315,7 @@ Faut-il appliquer ces paramètres?</translation>
         <location filename="../preferences.ui" line="1360"/>
         <location filename="../preferences.ui" line="1366"/>
         <source>Sound Events</source>
-        <translation>Évènements sonnores</translation>
+        <translation>Évènements sonores</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1374"/>
@@ -5325,12 +5325,12 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../preferences.ui" line="1400"/>
         <source>Sound event volume level</source>
-        <translation>Volume des évènements sonnores</translation>
+        <translation>Volume des évènements sonores</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1448"/>
         <source>Enable/disable Sound Events</source>
-        <translation>Activer/désactiver les évènements sonnores</translation>
+        <translation>Activer/désactiver les évènements sonores</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1454"/>
@@ -5341,7 +5341,7 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../preferences.ui" line="1473"/>
         <source>Sound Event File</source>
-        <translation>Fichier de l’évènement sonnore</translation>
+        <translation>Fichier de l’évènement sonore</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1479"/>
@@ -5743,7 +5743,7 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="116"/>
         <source>The whole second, without any leading zero (0 to 59)</source>
-        <translation>Les secondes avec zéro initial (0 à 59)</translation>
+        <translation>Les secondes sans zéro initial (0 à 59)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="117"/>
@@ -6906,7 +6906,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../serverstats.ui" line="52"/>
         <source>KBytes/sec</source>
-        <translation>KO/s</translation>
+        <translation>Ko/s</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="69"/>
@@ -6921,7 +6921,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
         <location filename="../serverstats.ui" line="248"/>
         <location filename="../serverstats.ui" line="281"/>
         <source>KBytes</source>
-        <translation>KO</translation>
+        <translation>Ko</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="86"/>
@@ -6931,7 +6931,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../serverstats.ui" line="115"/>
         <source>Update interval</source>
-        <translation>Mettre à jour l’intervalle</translation>
+        <translation>Intervalle de mise à jour</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="146"/>
@@ -7157,12 +7157,12 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../statusbardlg.ui" line="14"/>
         <source>Configure status bar</source>
-        <translation>Configurer la barre de statut</translation>
+        <translation>Configurer la barre d’état</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="20"/>
         <source>Enable/disable status bar events</source>
-        <translation>Activer/désactiver les évènements de la barre de statut</translation>
+        <translation>Activer/désactiver les évènements de la barre d’état</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="26"/>
@@ -7172,7 +7172,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../statusbardlg.ui" line="45"/>
         <source>Status Bar Message</source>
-        <translation>Message de la barre de statut</translation>
+        <translation>Message de la barre d’état</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="53"/>
@@ -8435,7 +8435,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../userinfodlg.cpp" line="54"/>
         <source>User ID</source>
-        <translation>Identifiant</translation>
+        <translation>Identifiant de l’Utilisateur</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="58"/>
@@ -8475,17 +8475,17 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../userinfodlg.cpp" line="124"/>
         <source>Video frame loss</source>
-        <translation>Paquets vidéo perdue</translation>
+        <translation>Trames vidéo perdues</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="125"/>
         <source>Audio file packets loss</source>
-        <translation>Paquets audio perdus</translation>
+        <translation>Paquets de fichiers audio perdus</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="126"/>
         <source>Video file frame loss</source>
-        <translation>Taille des fichiers vidéo perdus</translation>
+        <translation>Trames de fichiers vidéo perdus</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="52"/>
