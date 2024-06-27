@@ -422,6 +422,7 @@ private:
     void slotUpdateDesktopCount(int count);
 
     void slotMasterVolumeChanged(int value);
+    void slotStreamMediaVolumeChanged(int value);
     void slotMicrophoneGainChanged(int value);
     void slotVoiceActivationLevelChanged(int value);
 

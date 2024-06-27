@@ -242,6 +242,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotMicrophoneGainChanged);
     connect(ui.volumeSlider, &QAbstractSlider::valueChanged,
             this, &MainWindow::slotMasterVolumeChanged);
+    connect(ui.streamMediaVolumeSlider, &QAbstractSlider::valueChanged,
+            this, &MainWindow::slotStreamMediaVolumeChanged);
     connect(ui.voiceactSlider, &QAbstractSlider::valueChanged,
             this, &MainWindow::slotVoiceActivationLevelChanged);
 
@@ -599,6 +601,7 @@ MainWindow::~MainWindow()
         XCloseDisplay(m_display);
 #endif
     ttSettings->setValue(SETTINGS_SOUND_MASTERVOLUME, ui.volumeSlider->value());
+    ttSettings->setValue(SETTINGS_SOUND_MEDIASTREAM_VOLUME, ui.streamMediaVolumeSlider->value());
     ttSettings->setValue(SETTINGS_SOUND_MICROPHONEGAIN, ui.micSlider->value());
     ttSettings->setValue(SETTINGS_SOUND_VOICEACTIVATIONLEVEL, ui.voiceactSlider->value());
 
@@ -699,6 +702,10 @@ void MainWindow::loadSettings()
                                   SETTINGS_SOUND_MASTERVOLUME_DEFAULT).toInt();
     ui.volumeSlider->setValue(value);
     slotMasterVolumeChanged(value);  //force update on equal
+    value = ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME,
+                              SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT).toInt();
+    ui.streamMediaVolumeSlider->setValue(value);
+    slotStreamMediaVolumeChanged(value); //force update on equal
     value = ttSettings->value(SETTINGS_SOUND_VOICEACTIVATIONLEVEL,
                               SETTINGS_SOUND_VOICEACTIVATIONLEVEL_DEFAULT).toInt();
     ui.voiceactSlider->setValue(value);
@@ -781,6 +788,8 @@ void MainWindow::loadSettings()
     }
     ui.voiceactLabel->setVisible(ui.actionEnableVoiceActivation->isChecked() && ttSettings->value(SETTINGS_DISPLAY_VOICE_ACT_SLIDER, SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT).toBool());
     ui.voiceactSlider->setVisible(ui.actionEnableVoiceActivation->isChecked() && ttSettings->value(SETTINGS_DISPLAY_VOICE_ACT_SLIDER, SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT).toBool());
+    ui.streamMediaVolumeLabel->setVisible(ttSettings->value(SETTINGS_DISPLAY_STREAM_VOLUME_SLIDER, SETTINGS_DISPLAY_STREAM_VOLUME_SLIDER_DEFAULT).toBool());
+    ui.streamMediaVolumeSlider->setVisible(ttSettings->value(SETTINGS_DISPLAY_STREAM_VOLUME_SLIDER, SETTINGS_DISPLAY_STREAM_VOLUME_SLIDER_DEFAULT).toBool());
 
     // Sounds pack checks
     QString packset = ttSettings->value(SETTINGS_SOUNDS_PACK).toString();
@@ -2354,6 +2363,14 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
                 showMinimized();
         }
         break;
+    case HOTKEY_DEC_STREAMVOLUME :
+        if(active)
+            slotStreamMediaVolumeChanged(ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME).toInt()-1);
+        break;
+    case HOTKEY_ENC_STREAMVOLUME :
+        if(active)
+            slotStreamMediaVolumeChanged(ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME).toInt()+1);
+        break;
     }
 }
 
@@ -3704,6 +3721,16 @@ void MainWindow::loadHotKeys()
         enableHotKey(HOTKEY_SHOWHIDE_WINDOW, hotkey);
     else
         disableHotKey(HOTKEY_SHOWHIDE_WINDOW);
+    hotkey.clear();
+    if (loadHotKeySettings(HOTKEY_DEC_STREAMVOLUME, hotkey))
+        enableHotKey(HOTKEY_DEC_STREAMVOLUME, hotkey);
+    else
+        disableHotKey(HOTKEY_DEC_STREAMVOLUME);
+    hotkey.clear();
+    if (loadHotKeySettings(HOTKEY_ENC_STREAMVOLUME, hotkey))
+        enableHotKey(HOTKEY_ENC_STREAMVOLUME, hotkey);
+    else
+        disableHotKey(HOTKEY_ENC_STREAMVOLUME);
 }
 
 void MainWindow::enableHotKey(HotKeyID id, const hotkey_t& hk)
@@ -4190,9 +4217,6 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     //see if we need to retranslate
     QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE).toString();
 
-    int mediavsvoice = ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME,
-                                         SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT).toInt();
-
     int sndinputid = getSelectedSndInputDevice();
     int sndoutputid = getSelectedSndOutputDevice();
 
@@ -4304,26 +4328,20 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     }
     ui.voiceactLabel->setVisible(ui.actionEnableVoiceActivation->isChecked() && ttSettings->value(SETTINGS_DISPLAY_VOICE_ACT_SLIDER, SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT).toBool());
     ui.voiceactSlider->setVisible(ui.actionEnableVoiceActivation->isChecked() && ttSettings->value(SETTINGS_DISPLAY_VOICE_ACT_SLIDER, SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT).toBool());
+    ui.streamMediaVolumeLabel->setVisible(ttSettings->value(SETTINGS_DISPLAY_STREAM_VOLUME_SLIDER, SETTINGS_DISPLAY_STREAM_VOLUME_SLIDER_DEFAULT).toBool());
+    ui.streamMediaVolumeSlider->setVisible(ttSettings->value(SETTINGS_DISPLAY_STREAM_VOLUME_SLIDER, SETTINGS_DISPLAY_STREAM_VOLUME_SLIDER_DEFAULT).toBool());
 
     ui.channelsWidget->updateAllItems();
 
     if (lang != ttSettings->value(SETTINGS_DISPLAY_LANGUAGE).toString())
         ui.retranslateUi(this);
 
-    double d = ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME,
-                                 SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT).toDouble();
-    if(d != mediavsvoice)
+    int mediaVolume = ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME, SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT).toInt();
+    if (mediaVolume != ui.streamMediaVolumeSlider->value())
     {
-        d /= 100.;
-        QVector<int> userids = ui.channelsWidget->getUsers();
-        for(int i=0;i<userids.size();i++)
-        {
-            TT_SetUserVolume(ttInst, userids[i], STREAMTYPE_MEDIAFILE_AUDIO,
-                             (int)(refVolume(SETTINGS_SOUND_MASTERVOLUME_DEFAULT) * d));
-            TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, userids[i]);
-        }
+        slotStreamMediaVolumeChanged(mediaVolume);
+        ui.streamMediaVolumeSlider->setValue(mediaVolume);
     }
-
 
 #if defined(Q_OS_LINUX) || defined(Q_OS_DARWIN)
     //hotkeys are not registered in PreferencesDlg as on Windows
@@ -7207,6 +7225,24 @@ void MainWindow::slotMasterVolumeChanged(int value)
 {
     int vol = refVolume(value);
     TT_SetSoundOutputVolume(ttInst, vol);
+}
+
+void MainWindow::slotStreamMediaVolumeChanged(int value)
+{
+    ttSettings->setValue(SETTINGS_SOUND_MEDIASTREAM_VOLUME, value);
+    double d = ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME,
+                                 SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT).toDouble();
+    if(d != value)
+    {
+        d /= 100.;
+        QVector<int> userids = ui.channelsWidget->getUsers();
+        for(int i=0;i<userids.size();i++)
+        {
+            TT_SetUserVolume(ttInst, userids[i], STREAMTYPE_MEDIAFILE_AUDIO,
+                             (int)(refVolume(SETTINGS_SOUND_MASTERVOLUME_DEFAULT) * d));
+            TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, userids[i]);
+        }
+    }
 }
 
 void MainWindow::slotMicrophoneGainChanged(int value)

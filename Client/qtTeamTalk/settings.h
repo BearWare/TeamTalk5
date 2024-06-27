@@ -81,6 +81,8 @@
 #define SETTINGS_DISPLAY_VU_METER_UPDATES_DEFAULT   true
 #define SETTINGS_DISPLAY_VOICE_ACT_SLIDER           "display/voice-act-slider"
 #define SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT   true
+#define SETTINGS_DISPLAY_STREAM_VOLUME_SLIDER           "display/stream-volume-slider"
+#define SETTINGS_DISPLAY_STREAM_VOLUME_SLIDER_DEFAULT   false
 #define SETTINGS_DISPLAY_USERSCOUNT                 "display/userscount"
 #define SETTINGS_DISPLAY_USERSCOUNT_DEFAULT         true
 #define SETTINGS_DISPLAY_SHOWUSERNAME               "display/showusername"
@@ -368,6 +370,8 @@
 #define SETTINGS_SHORTCUTS_VIDEOTX                  "shortcuts/video-tx"
 #define SETTINGS_SHORTCUTS_RESTARTSOUNDDEVICES      "shortcuts/reinit-sounddevs"
 #define SETTINGS_SHORTCUTS_SHOWHIDEWINDOW           "shortcuts/show-hide-window"
+#define SETTINGS_SHORTCUTS_DECSTREAMVOLUME           "shortcuts/dec-stream-volume"
+#define SETTINGS_SHORTCUTS_ENCSTREAMVOLUME           "shortcuts/enc-stream-volume"
 
 #define SETTINGS_VIDCAP_DEVICEID                    "videocapture/deviceid"
 #define SETTINGS_VIDCAP_RESOLUTION                  "videocapture/resolution"
