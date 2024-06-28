@@ -113,7 +113,7 @@ BrowseDialogLabel=یک پوشه از لیست زیر انتخاب کنید و س
 NewFolderName=پوشۀ جدید
 
 ; *** "Welcome" wizard page
-WelcomeLabel1=به نصب‌کنندۀ [name] خوش‌آمدید
+WelcomeLabel1=به نصب‌کنندۀ [name] خوش‌آمدید. ترجمه شده توسط ابوالفضل سعیدیفر
 WelcomeLabel2=این نصب‌کننده، برنامۀ [name/ver] را روی کامپیوتر شما نصب می‌کند.%n%nپیشنهاد می‌کنیم همۀ برنامه‌های در‌حال اجرا را ببندید.
 
 ; *** "Password" wizard page
