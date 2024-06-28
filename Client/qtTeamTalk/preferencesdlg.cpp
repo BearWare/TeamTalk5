@@ -92,37 +92,37 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     connect(ui.statusbarToolButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotConfigureStatusBar);
     connect(ui.updatesChkBox, &QAbstractButton::clicked, this, &PreferencesDlg::slotUpdateUpdDlgChkBox);
     connect(ui.betaUpdatesChkBox, &QAbstractButton::clicked, this, &PreferencesDlg::slotUpdateUpdDlgChkBox);
-    m_TSFVarMenu = new QMenu(this);
-    connect(ui.TSFVarButton, &QPushButton::clicked, this, [this]()
+    connect(ui.TSFVarButton, &QPushButton::clicked, this, [&]()
     {
-        m_TSFVarMenu->exec(QCursor::pos());
+        QMenu tsfVarMenu(this);
+        QHash<QString, QString> tsfVariables = {
+            {"d", tr("The day as a number without a leading zero (1 to 31)")},
+            {"dd", tr("The day as a number with a leading zero (01 to 31)")},
+            {"ddd", tr("The abbreviated day name ('Mon' to 'Sun').")},
+            {"dddd", tr("The long day name ('Monday' to 'Sunday').")},
+            {"M", tr("The month as a number without a leading zero (1 to 12)")},
+            {"MM", tr("The month as a number with a leading zero (01 to 12)")},
+            {"MMM", tr("The abbreviated month name ('Jan' to 'Dec').")},
+            {"MMMM", tr("The long month name ('January' to 'December').")},
+            {"yy", tr("The year as a two digit number (00 to 99)")},
+            {"yyyy", tr("The year as a four digit number.")},
+            {"h", tr("The hour without a leading zero (0 to 23)")},
+            {"hh", tr("The hour with a leading zero (00 to 23)")},
+            {"H", tr("The hour without a leading zero (0 to 23)")},
+            {"HH", tr("The hour with a leading zero (00 to 23)")},
+            {"m", tr("The minute without a leading zero (0 to 59)")},
+            {"mm", tr("The minute with a leading zero (00 to 59)")},
+            {"s", tr("The whole second, without any leading zero (0 to 59)")},
+            {"ss", tr("The whole second, with a leading zero where applicable (00 to 59)")}
+        };
+        for (auto it = tsfVariables.constBegin(); it != tsfVariables.constEnd(); ++it)
+        {
+            QAction* action = tsfVarMenu.addAction(it.value());
+            action->setData(it.key());
+            connect(action, &QAction::triggered, this, &PreferencesDlg::insertTSFVariable);
+        }
+        tsfVarMenu.exec(QCursor::pos());
     });
-    QHash<QString, QString> tsfVariables = {
-        {"d", tr("The day as a number without a leading zero (1 to 31)")},
-        {"dd", tr("The day as a number with a leading zero (01 to 31)")},
-        {"ddd", tr("The abbreviated day name ('Mon' to 'Sun').")},
-        {"dddd", tr("The long day name ('Monday' to 'Sunday').")},
-        {"M", tr("The month as a number without a leading zero (1 to 12)")},
-        {"MM", tr("The month as a number with a leading zero (01 to 12)")},
-        {"MMM", tr("The abbreviated month name ('Jan' to 'Dec').")},
-        {"MMMM", tr("The long month name ('January' to 'December').")},
-        {"yy", tr("The year as a two digit number (00 to 99)")},
-        {"yyyy", tr("The year as a four digit number.")},
-        {"h", tr("The hour without a leading zero (0 to 23)")},
-        {"hh", tr("The hour with a leading zero (00 to 23)")},
-        {"H", tr("The hour without a leading zero (0 to 23)")},
-        {"HH", tr("The hour with a leading zero (00 to 23)")},
-        {"m", tr("The minute without a leading zero (0 to 59)")},
-        {"mm", tr("The minute with a leading zero (00 to 59)")},
-        {"s", tr("The whole second, without any leading zero (0 to 59)")},
-        {"ss", tr("The whole second, with a leading zero where applicable (00 to 59)")}
-    };
-    for (auto it = tsfVariables.constBegin(); it != tsfVariables.constEnd(); ++it)
-    {
-        QAction* action = m_TSFVarMenu->addAction(it.value());
-        action->setData(it.key());
-        connect(action, &QAction::triggered, this, &PreferencesDlg::insertTSFVariable);
-    }
     
     //connection tab
     connect(ui.subdeskinputBtn, &QAbstractButton::clicked,

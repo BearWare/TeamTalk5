@@ -87,7 +87,6 @@ private:
     void slotSelectVideoText();
     void slotConfigureStatusBar();
     void slotUpdateUpdDlgChkBox();
-    QMenu* m_TSFVarMenu;
     void insertTSFVariable();
     //connection tab
     void slotDesktopAccess();
