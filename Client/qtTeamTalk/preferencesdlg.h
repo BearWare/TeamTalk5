@@ -49,40 +49,20 @@ public:
 
 private:
     Ui::PreferencesDlg ui;
-    SoundDevice& m_devin, &m_devout;
-    class ShortcutsModel* m_shortcutsmodel = nullptr;
-    /* sound tab */
-    void initDevices();
-    SoundSystem getSoundSystem();
-    void showDevices(SoundSystem snd);
-    QVector<SoundDevice> m_sounddevices;
-    /* sound events */
-    bool getSoundFile(QString& filename);
-    void slotBrowseSoundEvent();
-    class SoundEventsModel* m_soundmodel = nullptr;
-    hotkeys_t m_hotkeys;
-    /* video tab */
-    QVector<VideoCaptureDevice> m_videodevices;
-    UserVideoDlg* m_uservideo;
-    /* text-to-speech */
-    class TTSEventsModel* m_ttsmodel = nullptr;
-
     QSet<int> m_modtab;
-    bool m_video_ready;
-    VideoFormat m_vidfmt;
-
-    TTSoundLoop* m_sndloop;
 
 private:
     void slotTabChange(int index);
     void slotSaveChanges();
     void slotCancelChanges();
+
     // general tab
     void initGeneralTab();
     void slotEnableBearWareID(bool checked);
     void slotEnablePushToTalk(bool checked);
     void slotSetupHotkey();
     void updatePushtoTalk();
+
     //display tab
     void initDisplayTab();
     void slotLanguageChange(int index);
@@ -90,11 +70,17 @@ private:
     void slotConfigureStatusBar();
     void slotUpdateUpdDlgChkBox();
     void insertTSFVariable();
+
     //connection tab
     void initConnectionTab();
     void slotDesktopAccess();
+
     //sound tab
     void initSoundSystemTab();
+    void initDevices();
+    SoundSystem getSoundSystem();
+    void showDevices(SoundSystem snd);
+    QVector<SoundDevice> m_sounddevices;
     void slotSoundSystemChange();
     void slotSoundInputChange(int index);
     void slotSoundOutputChange(int index);
@@ -102,23 +88,48 @@ private:
     void slotSoundTestDevices(bool checked);
     void slotSoundDefaults();
     void slotUpdateSoundCheckBoxes();
+    SoundDevice& m_devin, &m_devout;
+    TTSoundLoop* m_sndloop;
+
     //sound events
     void initSoundEventsTab();
     void slotSoundEventToggled(const QModelIndex &index);
     void SoundEventSelected(const QModelIndex &index);
     void saveCurrentFile();
     void soundEventsRestoreDefaultFile();
-    QModelIndex m_currentSoundEventsIndex;
     void slotSoundEventsEnableAll(bool checked);
     void slotSoundEventsClearAll(bool checked);
     void slotSoundEventsRevert(bool checked);
+    bool getSoundFile(QString& filename);
+    void slotBrowseSoundEvent();
+    class SoundEventsModel* m_soundmodel = nullptr;
+    QModelIndex m_currentSoundEventsIndex;
+
     //TTS
     void initTTSEventsTab();
     void slotUpdateTTSTab();
     void slotTTSLocaleChanged(const QString& locale);
+    void slotTTSEventToggled(const QModelIndex &index);
+    void TTSEventSelected(const QModelIndex &index);
+    void insertVariable();
+    void saveCurrentMessage();
+    void TTSRestoreDefaultMessage();
+    void slotTTSEnableAll(bool checked);
+    void slotTTSClearAll(bool checked);
+    void slotTTSRevert(bool checked);
+    void slotUpdateASBAccessibleName();
+    void slotSPackChange();
+    void updateSoundEventFileEdit();
+    QMenu* m_TTSVarMenu;
+    QModelIndex m_currentTTSIndex;
+    class TTSEventsModel* m_ttsmodel = nullptr;
+
     //keyboard shortcuts
     void initShortcutsTab();
     void shortcutSetup(const QModelIndex &index);
+    class ShortcutsModel* m_shortcutsmodel = nullptr;
+    hotkeys_t m_hotkeys;
+
     //video tab
     void initVideoCaptureTab();
     void slotVideoCaptureDevChange(int index);
@@ -127,20 +138,10 @@ private:
     void slotImageFormatChange(bool checked);
     void slotCustomImageFormat();
     void slotDefaultVideoSettings();
-    //tts tab
-    void slotTTSEventToggled(const QModelIndex &index);
-    void TTSEventSelected(const QModelIndex &index);
-    void insertVariable();
-    void saveCurrentMessage();
-    void TTSRestoreDefaultMessage();
-    QMenu* m_TTSVarMenu;
-    QModelIndex m_currentTTSIndex;
-    void slotTTSEnableAll(bool checked);
-    void slotTTSClearAll(bool checked);
-    void slotTTSRevert(bool checked);
-    void slotUpdateASBAccessibleName();
-    void slotSPackChange();
-    void updateSoundEventFileEdit();
+    QVector<VideoCaptureDevice> m_videodevices;
+    UserVideoDlg* m_uservideo;
+    bool m_video_ready;
+    VideoFormat m_vidfmt;
 
 public:
     void slotNewVideoFrame(int userid, int stream_id);
