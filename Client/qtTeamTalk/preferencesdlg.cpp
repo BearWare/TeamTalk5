@@ -553,13 +553,13 @@ void PreferencesDlg::initDisplayTab()
 
     ui.languageBox->clear();
     ui.languageBox->addItem(SETTINGS_DISPLAY_LANGUAGE_DEFAULT);
-    for(auto name : extractLanguages())
+    for (const auto& name : extractLanguages())
     {
         ui.languageBox->addItem(getLanguageDisplayName(name), name);
     }
     QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, SETTINGS_DISPLAY_LANGUAGE_DEFAULT).toString();
     int index = ui.languageBox->findData(lang);
-    if(index>=0)
+    if (index >= 0)
         ui.languageBox->setCurrentIndex(index);
 
     ui.chanDbClickBox->addItem(tr("Do nothing"), ACTION_NOTHING);
@@ -958,7 +958,7 @@ void PreferencesDlg::slotSaveChanges()
         if (sndsysinit)
         {
             QStringList errs = initSelectedSoundDevices(m_devin, m_devout);
-            for (QString err : errs)
+            for (const QString& err : errs)
             {
                 QMessageBox::critical(this, tr("Sound System"), err);
             }
