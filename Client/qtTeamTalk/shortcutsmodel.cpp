@@ -54,7 +54,7 @@ QVariant ShortcutsModel::headerData ( int section, Qt::Orientation orientation, 
         {
             switch(section)
             {
-            case COLUMN_NAME : return tr("Event");
+            case COLUMN_NAME : return tr("Action");
             case COLUMN_SHORTCUT : return tr("Shortcut");
             }
         }
