@@ -562,7 +562,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="162"/>
         <source> KBytes</source>
-        <translation> KO</translation>
+        <translation> Ko</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="175"/>
@@ -1052,7 +1052,7 @@ Message du jour: %2</translation>
     <message>
         <location filename="../chattextedit.cpp" line="218"/>
         <source>Disk quota: %1 KBytes</source>
-        <translation>Quota du disque: %1 KO</translation>
+        <translation>Quota du disque: %1 Ko</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="376"/>
@@ -1522,7 +1522,7 @@ Message du jour: %2</translation>
     <message>
         <location filename="../filetransferdlg.cpp" line="104"/>
         <source>%1 KBytes/second, last second %2 bytes</source>
-        <translation>%1 KO/s, %2 O la dernière seconde</translation>
+        <translation>%1 Ko/s, %2 o la dernière seconde</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="131"/>
@@ -1809,7 +1809,7 @@ Message du jour: %2</translation>
     <message>
         <location filename="../mainwindow.ui" line="380"/>
         <source>Send text message</source>
-        <translation>Envoyer un message texte</translation>
+        <translation>Envoyer le message texte</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="383"/>
@@ -1858,7 +1858,7 @@ Message du jour: %2</translation>
     <message>
         <location filename="../mainwindow.ui" line="765"/>
         <source>Put back removed window</source>
-        <translation>Remettre la fenêtre supprimée</translation>
+        <translation>Restaurer la fenêtre supprimée</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="801"/>
@@ -6739,7 +6739,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
         <location filename="../serverproperties.ui" line="337"/>
         <location filename="../serverproperties.ui" line="364"/>
         <source>KBytes/sec (0 = disabled)</source>
-        <translation>KO/s (0 = désactivé)</translation>
+        <translation>Ko/s (0 = désactivé)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="280"/>
@@ -6780,7 +6780,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../serverproperties.ui" line="407"/>
         <source>Max logins per IP-address</source>
-        <translation>Nombre de connexions simultanées maximal par adresse IP</translation>
+        <translation>Maximum de connexions par adresse IP</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="434"/>
@@ -6800,7 +6800,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../serverproperties.ui" line="467"/>
         <source>Server events logged</source>
-        <translation>Évènements journalisés sur le serveur</translation>
+        <translation>Évènements du serveur journalisés</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="489"/>
