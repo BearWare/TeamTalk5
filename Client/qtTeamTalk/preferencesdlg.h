@@ -78,19 +78,23 @@ private:
     void slotSaveChanges();
     void slotCancelChanges();
     // general tab
+    void initGeneralTab();
     void slotEnableBearWareID(bool checked);
     void slotEnablePushToTalk(bool checked);
     void slotSetupHotkey();
     void updatePushtoTalk();
     //display tab
+    void initDisplayTab();
     void slotLanguageChange(int index);
     void slotSelectVideoText();
     void slotConfigureStatusBar();
     void slotUpdateUpdDlgChkBox();
     void insertTSFVariable();
     //connection tab
+    void initConnectionTab();
     void slotDesktopAccess();
     //sound tab
+    void initSoundSystemTab();
     void slotSoundSystemChange();
     void slotSoundInputChange(int index);
     void slotSoundOutputChange(int index);
@@ -99,6 +103,7 @@ private:
     void slotSoundDefaults();
     void slotUpdateSoundCheckBoxes();
     //sound events
+    void initSoundEventsTab();
     void slotSoundEventToggled(const QModelIndex &index);
     void SoundEventSelected(const QModelIndex &index);
     void saveCurrentFile();
@@ -108,11 +113,14 @@ private:
     void slotSoundEventsClearAll(bool checked);
     void slotSoundEventsRevert(bool checked);
     //TTS
+    void initTTSEventsTab();
     void slotUpdateTTSTab();
     void slotTTSLocaleChanged(const QString& locale);
     //keyboard shortcuts
+    void initShortcutsTab();
     void shortcutSetup(const QModelIndex &index);
     //video tab
+    void initVideoCaptureTab();
     void slotVideoCaptureDevChange(int index);
     void slotTestVideoFormat();
     void slotVideoResolutionChange(int index);
