@@ -14,6 +14,7 @@ Default Qt Client
 - System language used by default
 - "Move Users" dialog from "Users" -> "Advanced" menu item
 - "Check for Update" in "Help" menu
+- "Default" playback mode for sound events now also use TeamTalk selected sound device
 - Menu to insert MOTD variables in "Server Properties" dialog
 - Ability to "join last joined channel" for each server
 - Ability to leave current channel from everywhere in main window
@@ -29,7 +30,7 @@ Default Qt Client
 - Single dialog to enter username and password on login error and channel share
 - Support for Import/Export entire Server List in "Connect to a Server" dialog
 - Support Idle Time on Linux (X11)
-- Support TTS events via running screen reader on Windows and MacOS with Qt Accessibility Announcement (Qt 6.8)
+- Support Qt Accessibility Announcement for TTS events on MacOS and Windows (Qt 6.8)
 - Removed option "Announce server name" from TTS options, use customizable messages instead
 - Optional sound event for user typing private message
 - Only show available info in "User Info" dialog
@@ -37,8 +38,8 @@ Default Qt Client
 - Transfer progress bar in "File Transfer" dialog can now get focus
 - Locale file size now also use in "File Transfer" dialog
 - Reset label of files list when disconnected from server
+- Support VoiceOver for TTS events using Apple Script
 - Fixed labels of edit fields in "Custom Video Format" dialog
-- Fixed limit text size in channels tree ignored for screen readers
 - Local date time now also use in "About" dialog
 - Ban time displays in local format
 - Windows installer translatable

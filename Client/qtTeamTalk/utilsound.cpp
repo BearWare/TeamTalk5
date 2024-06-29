@@ -28,6 +28,7 @@
 #include <QSound>
 #else
 #include <QSoundEffect>
+#include <QMediaDevices>
 #endif /* QT_VERSION_CHECK */
 #endif /* QT_MULTIMEDIA_LIB */
 
@@ -247,6 +248,36 @@ int getSelectedSndOutputDevice()
     qDebug() << "Returning output device #" << outputid;
     return outputid;
 }
+
+#if defined(QT_MULTIMEDIA_LIB) && QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+QAudioDevice getSelectedOutputAudioDevice()
+{
+    int outputid = getSelectedSndOutputDevice();
+
+    QVector<SoundDevice> devs = getSoundDevices();
+    QString deviceName;
+    for (const auto& dev : devs)
+    {
+        if (dev.nDeviceID == outputid)
+        {
+            deviceName = _Q(dev.szDeviceName);
+            break;
+        }
+    }
+
+    if (deviceName.isEmpty())
+        return QMediaDevices::defaultAudioOutput();
+
+    const auto audioDevices = QMediaDevices::audioOutputs();
+    for (const auto &device : audioDevices)
+    {
+        if (device.description() == deviceName)
+            return device;
+    }
+
+    return QMediaDevices::defaultAudioOutput();
+}
+#endif
 
 QStringList initSelectedSoundDevices(SoundDevice& indev, SoundDevice& outdev)
 {
@@ -630,6 +661,7 @@ void PlaySoundEvent::playDefaultSoundEvent(const QString& filename)
     static QSoundEffect* effect = nullptr;
     delete effect;
     effect = new QSoundEffect(ttSettings);
+    effect->setAudioDevice(getSelectedOutputAudioDevice());
     effect->setSource(QUrl::fromLocalFile(filename));
     effect->setVolume(ttSettings->value(SETTINGS_SOUNDEVENT_VOLUME, SETTINGS_SOUNDEVENT_VOLUME_DEFAULT).toInt()/100.0);
     effect->play();
