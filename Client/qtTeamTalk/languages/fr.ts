@@ -5581,14 +5581,6 @@ Faut-il appliquer ces paramètres?</translation>
         <translation>Fichiers wave (*.wav)</translation>
     </message>
     <message>
-        <source>One by One (TeamTalk Sound Device)</source>
-        <translation type="vanished">Un par Un (Périphérique Audio TeamTalk)</translation>
-    </message>
-    <message>
-        <source>Overlapping (TeamTalk Sound Device)</source>
-        <translation type="vanished">En Chevauchement (Périphérique Audio TeamTalk)</translation>
-    </message>
-    <message>
         <location filename="../preferencesdlg.cpp" line="847"/>
         <location filename="../preferencesdlg.cpp" line="854"/>
         <source>Windows Firewall</source>
@@ -5762,12 +5754,12 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="632"/>
         <source>One by One</source>
-        <translation type="unfinished"></translation>
+        <translation>Un par un</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="633"/>
         <source>Overlapping</source>
-        <translation type="unfinished"></translation>
+        <translation>En chevauchement</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="648"/>
@@ -5782,7 +5774,7 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="653"/>
         <source>VoiceOver (via Apple Script)</source>
-        <translation type="unfinished"></translation>
+        <translation>VoiceOver (via Apple Script)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="656"/>
