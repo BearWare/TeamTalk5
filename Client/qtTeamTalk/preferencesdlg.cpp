@@ -650,7 +650,7 @@ void PreferencesDlg::initTTSEventsTab()
     if (QFile::exists(TTSENGINE_NOTIFY_PATH))
         ui.ttsengineComboBox->addItem(tr("Libnotify"), TTSENGINE_NOTIFY);
 #elif defined(Q_OS_MAC)
-
+        ui.ttsengineComboBox->addItem(tr("VoiceOver (via Apple Script)"), TTSENGINE_APPLESCRIPT);
 #endif
 #if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
     ui.ttsengineComboBox->addItem(tr("Qt Accessibility Announcement"), TTSENGINE_QTANNOUNCEMENT);
@@ -1536,6 +1536,7 @@ void PreferencesDlg::slotUpdateTTSTab()
     }
 #endif
     break;
+    case TTSENGINE_APPLESCRIPT :
     case TTSENGINE_NONE :
     break;
     }
