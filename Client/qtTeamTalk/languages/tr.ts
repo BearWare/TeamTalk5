@@ -49,12 +49,12 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Compiled on %1 %2 using Qt %3 (Qt %4 used by this instance).</source>
-        <translation type="vanished">%1 %2 tarihinde Qt %3 kullanılarak derlendi (Qt %4 bu örnek tarafından kullanılıyor).</translation>
+        <translation>%1 %2 tarihinde Qt %3 kullanılarak derlendi (Qt %4 bu örnek tarafından kullanılıyor).</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="31"/>
         <source>Compiled on %1 using Qt %2 (Qt %3 used by this instance).</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 tarihinde Qt %2 kullanılarak derlendi (Bu örnek tarafından kullanılan Qt %3).</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="32"/>
@@ -911,44 +911,44 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Away</source>
         <comment>For female</comment>
-        <translation type="vanished">Uzakta</translation>
+        <translation>Uzakta</translation>
     </message>
     <message>
         <source>Away</source>
         <comment>For male and neutral</comment>
-        <translation type="vanished">Uzakta</translation>
+        <translation>Uzakta</translation>
     </message>
     <message>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation type="vanished">Yönetici</translation>
+        <translation>Yönetici</translation>
     </message>
     <message>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
-        <translation type="vanished">Yönetici</translation>
+        <translation>Yönetici</translation>
     </message>
     <message>
         <source>Channel operator</source>
         <comment>For female</comment>
-        <translation type="vanished">kanal yöneticisi</translation>
+        <translation>kanal yöneticisi</translation>
     </message>
     <message>
         <source>Channel operator</source>
         <comment>For male and neutral</comment>
-        <translation type="vanished">kanal yöneticisi</translation>
+        <translation>kanal yöneticisi</translation>
     </message>
     <message>
         <source>Question</source>
-        <translation type="vanished">Soru</translation>
+        <translation>Soru</translation>
     </message>
     <message>
         <source>Streaming media file</source>
-        <translation type="vanished">medya dosyası akışı</translation>
+        <translation>medya dosyası akışı</translation>
     </message>
     <message>
         <source>Webcam</source>
-        <translation type="vanished">Web kamerası</translation>
+        <translation>Web kamerası</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="960"/>
@@ -1036,7 +1036,7 @@ Günün mesajı: %2</translation>
     <message>
         <location filename="../useraccountdlg.cpp" line="460"/>
         <source>Interval: </source>
-        <translation type="unfinished"></translation>
+        <translation>Aralık: </translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="461"/>
@@ -1046,7 +1046,7 @@ Günün mesajı: %2</translation>
     <message>
         <location filename="../useraccountdlg.cpp" line="462"/>
         <source>Interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Aralık</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="466"/>
@@ -1473,7 +1473,7 @@ Günün mesajı: %2</translation>
     <message>
         <location filename="../filetransfer.ui" line="109"/>
         <source>Transfer progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktarım ilerlemesi</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="136"/>
@@ -1720,7 +1720,7 @@ Günün mesajı: %2</translation>
     <message>
         <location filename="../keycompdlg.cpp" line="40"/>
         <source>Setup Hotkey: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Kısayol Tuşunu kur: %1</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="55"/>
@@ -1743,27 +1743,27 @@ Günün mesajı: %2</translation>
     <message>
         <location filename="../utilui.cpp" line="557"/>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı adı:</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="562"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Parola:</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="568"/>
         <source>Show password</source>
-        <translation type="unfinished">parolayı göster</translation>
+        <translation>parolayı göster</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="573"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">&amp;Tamam</translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="574"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">İ&amp;ptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
 </context>
 <context>
@@ -2892,7 +2892,7 @@ Günün mesajı: %2</translation>
     </message>
     <message>
         <source>Connected to %1 TCP port %2 UDP port %3</source>
-        <translation type="vanished">%1 TCP bağlantı noktası %2 UDP bağlantı noktası %3 konumuna bağlandı</translation>
+        <translation>%1 TCP bağlantı noktası %2 UDP bağlantı noktası %3 konumuna bağlandı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1025"/>
@@ -2929,7 +2929,7 @@ Günün mesajı: %2</translation>
     </message>
     <message>
         <source>Connection to server lost</source>
-        <translation type="vanished">Sunucuyla bağlantı kesildi</translation>
+        <translation>Sunucuyla bağlantı kesildi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1203"/>
@@ -3100,7 +3100,7 @@ Günün mesajı: %2</translation>
     </message>
     <message>
         <source>Logged out from %1, TCP port %2, UDP port %3</source>
-        <translation type="vanished">%1, TCP bağlantı noktası %2, UDP bağlantı noktası %3 oturumu kapatıldı</translation>
+        <translation>%1, TCP bağlantı noktası %2, UDP bağlantı noktası %3 oturumu kapatıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1846"/>
@@ -3171,11 +3171,11 @@ Günün mesajı: %2</translation>
     </message>
     <message>
         <source>Invalid user account. Type username:</source>
-        <translation type="vanished">Geçersiz kullanıcı hesabı. Kullanıcı adı yazın:</translation>
+        <translation>Geçersiz kullanıcı hesabı. Kullanıcı adı yazın:</translation>
     </message>
     <message>
         <source>Invalid user account. Type password:</source>
-        <translation type="vanished">Geçersiz kullanıcı hesabı. Parola yazın:</translation>
+        <translation>Geçersiz kullanıcı hesabı. Parola yazın:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2186"/>
@@ -3184,7 +3184,7 @@ Günün mesajı: %2</translation>
     </message>
     <message>
         <source>Incorrect channel password. Try again:</source>
-        <translation type="vanished">Yanlış kanal parolası. Yeniden deneyin:</translation>
+        <translation>Yanlış kanal parolası. Yeniden deneyin:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2200"/>
@@ -3483,7 +3483,7 @@ Günün mesajı: %2</translation>
     <message>
         <location filename="../mainwindow.cpp" line="5460"/>
         <source>Specify User Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı Hesabını Belirtin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5504"/>
@@ -3641,12 +3641,12 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="636"/>
         <source>%1 has detected your system language to be %2. Continue in %2?</source>
-        <translation type="unfinished"></translation>
+        <translation>%1, sistem dilinizin %2 olduğunu algıladı. %2 ile devam edilsin mi?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="640"/>
         <source>Language configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Dil yapılandırması</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="663"/>
@@ -3710,12 +3710,12 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2166"/>
         <source>Incorrect username or password. Try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Yanlış kullanıcı adı ya da parola. Tekrar deneyin.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2186"/>
         <source>Incorrect channel password. Try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Yanlış kanal parolası. Tekrar deneyin.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2202"/>
@@ -4038,11 +4038,11 @@ Do you wish to do this now?</source>
     </message>
     <message>
         <source>Type username of user account:</source>
-        <translation type="vanished">Kullanıcı hesabının kullanıcı adını yazın:</translation>
+        <translation>Kullanıcı hesabının kullanıcı adını yazın:</translation>
     </message>
     <message>
         <source>Type password of user account:</source>
-        <translation type="vanished">Kullanıcı hesabının parolasini yazın:</translation>
+        <translation>Kullanıcı hesabının parolasini yazın:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5483"/>
@@ -4917,22 +4917,22 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../utilui.cpp" line="613"/>
         <source>Password</source>
-        <translation type="unfinished">Parola</translation>
+        <translation>Parola</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="619"/>
         <source>Show password</source>
-        <translation type="unfinished">parolayı göster</translation>
+        <translation>parolayı göster</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="624"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">&amp;Tamam</translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="625"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">İ&amp;ptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
 </context>
 <context>
@@ -5024,7 +5024,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     </message>
     <message>
         <source>Key Combination</source>
-        <translation type="vanished">Tuş Birleşimi</translation>
+        <translation>Tuş Birleşimi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="386"/>
@@ -5139,12 +5139,12 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="354"/>
         <source>Key Combination:</source>
-        <translation type="unfinished"></translation>
+        <translation>tuş bileşimi: </translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="469"/>
         <source>Show voice activation level slider</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses etkinleştirme düzeyi kaydırıcısını göster</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="492"/>
@@ -5159,12 +5159,12 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="588"/>
         <source>Dialogs</source>
-        <translation type="unfinished"></translation>
+        <translation>iletişimler</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="663"/>
         <source>Channels Tree</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal Ağacı</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="713"/>
@@ -5174,7 +5174,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="798"/>
         <source>Software Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Yazılım güncellemesi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="844"/>
@@ -5335,7 +5335,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1943"/>
         <source>Double click to configure keys</source>
-        <translation type="unfinished"></translation>
+        <translation>Tuşları yapılandırmak için çift tıklayın</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1204"/>
@@ -5527,7 +5527,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1905"/>
         <source>Interrupt current screenreader speech on new event</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni etkinlikte mevcut ekran okuyucunun konuşması kesildi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1931"/>
@@ -5541,35 +5541,35 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     </message>
     <message>
         <source>Enable/disable voice activation</source>
-        <translation type="vanished">Sesi etkinleştir/kapat</translation>
+        <translation>Sesi etkinleştir/kapat</translation>
     </message>
     <message>
         <source>Increase volume</source>
-        <translation type="vanished">ses düzeyini artır</translation>
+        <translation>ses düzeyini artır</translation>
     </message>
     <message>
         <source>Lower volume</source>
-        <translation type="vanished">Ses düzeyini azalt</translation>
+        <translation>Ses düzeyini azalt</translation>
     </message>
     <message>
         <source>Enable/disable mute all</source>
-        <translation type="vanished">Tümünü sustur/aç</translation>
+        <translation>Tümünü sustur/aç</translation>
     </message>
     <message>
         <source>Increase microphone gain</source>
-        <translation type="vanished">Mikrofon kazancını artır</translation>
+        <translation>Mikrofon kazancını artır</translation>
     </message>
     <message>
         <source>Lower microphone gain</source>
-        <translation type="vanished">Mikrofon kazancını azalt</translation>
+        <translation>Mikrofon kazancını azalt</translation>
     </message>
     <message>
         <source>Enable/disable video transmission</source>
-        <translation type="vanished">Video iletimini etkinleştir/kapat</translation>
+        <translation>Video iletimini etkinleştir/kapat</translation>
     </message>
     <message>
         <source>Show/hide main window</source>
-        <translation type="vanished">Ana pencereyi göster/gizle</translation>
+        <translation>Ana pencereyi göster/gizle</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1985"/>
@@ -5666,11 +5666,11 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     </message>
     <message>
         <source>One by One (TeamTalk Sound Device)</source>
-        <translation type="vanished">Teker teker (TeamTalk Ses aygıtı)</translation>
+        <translation>Teker teker (TeamTalk Ses aygıtı)</translation>
     </message>
     <message>
         <source>Overlapping (TeamTalk Sound Device)</source>
-        <translation type="vanished">Çakışan (TeamTalk ses aygıtı)</translation>
+        <translation>Çakışan (TeamTalk ses aygıtı)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="847"/>
@@ -5841,12 +5841,12 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="632"/>
         <source>One by One</source>
-        <translation type="unfinished"></translation>
+        <translation>Teker teker</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="633"/>
         <source>Overlapping</source>
-        <translation type="unfinished"></translation>
+        <translation>Örtüşen</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="648"/>
@@ -5861,12 +5861,12 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="653"/>
         <source>VoiceOver (via Apple Script)</source>
-        <translation type="unfinished"></translation>
+        <translation>VoiceOver (Apple Script aracılığıyla)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="656"/>
         <source>Qt Accessibility Announcement</source>
-        <translation type="unfinished"></translation>
+        <translation>Qt Erişilebilirlik Duyurusu</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1060"/>
@@ -5878,7 +5878,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="1148"/>
         <source>Key Combination: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Tuş Kombinasyonu: %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1208"/>
@@ -6035,7 +6035,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     </message>
     <message>
         <source>Reinitialize sound devices</source>
-        <translation type="vanished">Ses aygıtlarını yeniden başlat</translation>
+        <translation>Ses aygıtlarını yeniden başlat</translation>
     </message>
 </context>
 <context>
@@ -6084,57 +6084,57 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../utilhotkey.cpp" line="35"/>
         <source>Push-to-Talk</source>
-        <translation type="unfinished"></translation>
+        <translation>bas konuş</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="37"/>
         <source>Enable/disable voice activation</source>
-        <translation type="unfinished">Sesi etkinleştir/kapat</translation>
+        <translation>Sesi etkinleştir/kapat</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="39"/>
         <source>Decrease microphone gain</source>
-        <translation type="unfinished"></translation>
+        <translation>Mikrofon kazancını azalt</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="41"/>
         <source>Increase microphone gain</source>
-        <translation type="unfinished">Mikrofon kazancını artır</translation>
+        <translation>Mikrofon kazancını artır</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="43"/>
         <source>Decrease volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Sesi azalt</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="45"/>
         <source>Increase volume</source>
-        <translation type="unfinished">ses düzeyini artır</translation>
+        <translation>ses düzeyini artır</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="47"/>
         <source>Enable/disable mute all</source>
-        <translation type="unfinished">Tümünü sustur/aç</translation>
+        <translation>Tümünü sustur/aç</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="49"/>
         <source>Enable/disable video transmission</source>
-        <translation type="unfinished">Video iletimini etkinleştir/kapat</translation>
+        <translation>Video iletimini etkinleştir/kapat</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="51"/>
         <source>Reinitialize sound devices</source>
-        <translation type="unfinished">Ses aygıtlarını yeniden başlat</translation>
+        <translation>Ses aygıtlarını yeniden başlat</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="53"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished">Ana pencereyi göster/gizle</translation>
+        <translation>Ana pencereyi göster/gizle</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="58"/>
         <source>Unknown hotkey</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilinmeyen kısayol tuşu</translation>
     </message>
 </context>
 <context>
@@ -6944,7 +6944,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../serverproperties.ui" line="501"/>
         <source>Server version: 0.0</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu sürümü: 0.0</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="71"/>
@@ -7027,7 +7027,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../serverstatsdlg.cpp" line="53"/>
         <source>Total RX/TX</source>
-        <translation type="unfinished">Alınan/İletilen toplam</translation>
+        <translation>toplam Alınan/İletilen</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="53"/>
@@ -7037,57 +7037,57 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
         <location filename="../serverstatsdlg.cpp" line="65"/>
         <location filename="../serverstatsdlg.cpp" line="86"/>
         <source>KBytes</source>
-        <translation type="unfinished">KB</translation>
+        <translation>KB</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="56"/>
         <source>Voice RX/TX</source>
-        <translation type="unfinished">Alınan/İletilen ses</translation>
+        <translation>Alınan/İletilen ses</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="59"/>
         <source>Video RX/TX</source>
-        <translation type="unfinished">Alınan/İletilen video</translation>
+        <translation>Alınan/İletilen video</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="62"/>
         <source>Media File RX/TX</source>
-        <translation type="unfinished">Alınan/İletilen medya dosyası</translation>
+        <translation>Alınan/İletilen medya dosyası</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="65"/>
         <source>Desktop RX/TX</source>
-        <translation type="unfinished">Alınan/İletilen masaüstü</translation>
+        <translation>Alınan/İletilen masaüstü</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="77"/>
         <source>Throughput RX/TX</source>
-        <translation type="unfinished">Alınan/İletilen verim</translation>
+        <translation>Alınan/İletilen verim</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="77"/>
         <source>KBytes/sec</source>
-        <translation type="unfinished">KB/sn</translation>
+        <translation>KB/sn</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="86"/>
         <source>Files RX/TX</source>
-        <translation type="unfinished">Alınan/İletilen dosya</translation>
+        <translation>Alınan/İletilen dosya</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="89"/>
         <source>Users served</source>
-        <translation type="unfinished">Hizmet verilen kullanıcılar</translation>
+        <translation>Hizmet verilen kullanıcılar</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="90"/>
         <source>Users peak</source>
-        <translation type="unfinished">Kullanıcı zirvesi</translation>
+        <translation>Kullanıcı zirvesi</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="92"/>
         <source>Uptime: %1 hours, %2 minutes, %3 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>Çalışma Süresi: %1 saat, %2 dakika, %3 saniye</translation>
     </message>
 </context>
 <context>
@@ -7100,27 +7100,27 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../serverstats.ui" line="136"/>
         <source>Update information every</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilgileri güncelleme sıklığı</translation>
     </message>
     <message>
         <source>Uptime</source>
-        <translation type="vanished">Çalışma süresi</translation>
+        <translation>Çalışma süresi</translation>
     </message>
     <message>
         <source>Media File RX/TX</source>
-        <translation type="vanished">Alınan/İletilen medya dosyası</translation>
+        <translation>Alınan/İletilen medya dosyası</translation>
     </message>
     <message>
         <source>KBytes/sec</source>
-        <translation type="vanished">KB/sn</translation>
+        <translation>KB/sn</translation>
     </message>
     <message>
         <source>Throughput RX/TX</source>
-        <translation type="vanished">Alınan/İletilen verim</translation>
+        <translation>Alınan/İletilen verim</translation>
     </message>
     <message>
         <source>KBytes</source>
-        <translation type="vanished">KB</translation>
+        <translation>KB</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="142"/>
@@ -7134,35 +7134,35 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     </message>
     <message>
         <source>Files RX/TX</source>
-        <translation type="vanished">Alınan/İletilen dosya</translation>
+        <translation>Alınan/İletilen dosya</translation>
     </message>
     <message>
         <source>Total RX/TX</source>
-        <translation type="vanished">Alınan/İletilen toplam</translation>
+        <translation>Alınan/İletilen toplam</translation>
     </message>
     <message>
         <source>Voice RX/TX</source>
-        <translation type="vanished">Alınan/İletilen ses</translation>
+        <translation>Alınan/İletilen ses</translation>
     </message>
     <message>
         <source>Video RX/TX</source>
-        <translation type="vanished">Alınan/İletilen video</translation>
+        <translation>Alınan/İletilen video</translation>
     </message>
     <message>
         <source>Desktop RX/TX</source>
-        <translation type="vanished">Alınan/İletilen masaüstü</translation>
+        <translation>Alınan/İletilen masaüstü</translation>
     </message>
     <message>
         <source>Users served</source>
-        <translation type="vanished">Hizmet verilen kullanıcılar</translation>
+        <translation>Hizmet verilen kullanıcılar</translation>
     </message>
     <message>
         <source>Users peak</source>
-        <translation type="vanished">Kullanıcı zirvesi</translation>
+        <translation>Kullanıcı zirvesi</translation>
     </message>
     <message>
         <source>&amp;Close</source>
-        <translation type="vanished">&amp;Kapat</translation>
+        <translation>&amp;Kapat</translation>
     </message>
 </context>
 <context>
@@ -7170,17 +7170,17 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../shortcutsmodel.cpp" line="57"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>eylem</translation>
     </message>
     <message>
         <location filename="../shortcutsmodel.cpp" line="58"/>
         <source>Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Kısayol</translation>
     </message>
     <message>
         <location filename="../shortcutsmodel.cpp" line="89"/>
         <source>None</source>
-        <translation type="unfinished">Hiçbiri</translation>
+        <translation>Hiçbiri</translation>
     </message>
 </context>
 <context>
@@ -8480,25 +8480,25 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../useraccountsdlg.cpp" line="197"/>
         <source>&amp;Create New User Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni Kullanıcı Hesabı &amp;Oluştur</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="198"/>
         <source>&amp;Delete Selected User Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçilen Kullanıcı Hesabını Si&amp;l</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="199"/>
         <source>&amp;Edit Selected User Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçili Kullanıcı Hesabını Dü&amp;zenle</translation>
     </message>
     <message>
         <source>&amp;Delete Selected User</source>
-        <translation type="vanished">&amp;Seçilen Kullanıcıyı Sil</translation>
+        <translation>Seçilen Kullanıcıyı Si&amp;l</translation>
     </message>
     <message>
         <source>&amp;Edit Selected User</source>
-        <translation type="vanished">Seçili Kullanıcıyı &amp;Düzenle</translation>
+        <translation>Seçili Kullanıcıyı Dü&amp;zenle</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="123"/>
