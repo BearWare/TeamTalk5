@@ -5556,7 +5556,7 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../preferences.ui" line="1670"/>
-        <location filename="../preferencesdlg.cpp" line="1819"/>
+        <location filename="../preferencesdlg.cpp" line="1820"/>
         <source>Message</source>
         <translation type="unfinished">Mensagem</translation>
     </message>
@@ -5722,6 +5722,16 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Popularidade</translation>
     </message>
     <message>
+        <location filename="../preferencesdlg.cpp" line="632"/>
+        <source>One by One</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="633"/>
+        <source>Overlapping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../preferencesdlg.cpp" line="648"/>
         <source>Tolk</source>
         <translation>Intérprete</translation>
@@ -5730,6 +5740,11 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../preferencesdlg.cpp" line="651"/>
         <source>Libnotify</source>
         <translation>Libnotify</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="653"/>
+        <source>VoiceOver (via Apple Script)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="847"/>
@@ -5846,16 +5861,6 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="632"/>
-        <source>One by One (TeamTalk Sound Device)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../preferencesdlg.cpp" line="633"/>
-        <source>Overlapping (TeamTalk Sound Device)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../preferencesdlg.cpp" line="656"/>
         <source>Qt Accessibility Announcement</source>
         <translation type="unfinished"></translation>
@@ -5863,7 +5868,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="1060"/>
         <location filename="../preferencesdlg.cpp" line="1093"/>
-        <location filename="../preferencesdlg.cpp" line="1691"/>
+        <location filename="../preferencesdlg.cpp" line="1692"/>
         <source>Failed to initialize video device</source>
         <translation>Falha ao inicializar novo dispositivo de vídeo</translation>
     </message>
@@ -5929,22 +5934,22 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1650"/>
+        <location filename="../preferencesdlg.cpp" line="1651"/>
         <source>Custom video format</source>
         <translation>Formato de vídeo personalizado</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1743"/>
+        <location filename="../preferencesdlg.cpp" line="1744"/>
         <source>Default Video Capture</source>
         <translation>Captura padrão de Vídeo</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1744"/>
+        <location filename="../preferencesdlg.cpp" line="1745"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Impossivel encontrat configurações preferenciais de captura de vídeo</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1819"/>
+        <location filename="../preferencesdlg.cpp" line="1820"/>
         <source>Message for Event &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6001,38 +6006,38 @@ You can download it on the page below:<byte value="xd"/>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../utilsound.cpp" line="291"/>
-        <location filename="../utilsound.cpp" line="345"/>
+        <location filename="../utilsound.cpp" line="322"/>
+        <location filename="../utilsound.cpp" line="376"/>
         <source>Failed to initialize sound duplex mode</source>
         <translation>Falha ao inicializar modo de som duplex</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="299"/>
+        <location filename="../utilsound.cpp" line="330"/>
         <source>Failed to initialize sound input device</source>
         <translation>Falha ao inicializar dispositivo de entrada de áudio</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="304"/>
+        <location filename="../utilsound.cpp" line="335"/>
         <source>Failed to initialize sound output device</source>
         <translation>Falha ao inicializar dispositivo de saída de áudio</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="319"/>
+        <location filename="../utilsound.cpp" line="350"/>
         <source>Switching to default sound devices</source>
         <translation>Mudando para dispositivos de som padrão</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="327"/>
+        <location filename="../utilsound.cpp" line="358"/>
         <source>Unable to get default sound devices</source>
         <translation>Impossível obter dispositivos de som padrão</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="353"/>
+        <location filename="../utilsound.cpp" line="384"/>
         <source>Failed to initialize default sound input device</source>
         <translation>Falha ao inicializar o dispositivo de entrada de som padrão</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="358"/>
+        <location filename="../utilsound.cpp" line="389"/>
         <source>Failed to initialize default sound output device</source>
         <translation>Falha ao inicializar o dispositivo de saída de som padrão</translation>
     </message>

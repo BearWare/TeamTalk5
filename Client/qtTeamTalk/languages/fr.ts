@@ -5581,14 +5581,12 @@ Faut-il appliquer ces paramètres?</translation>
         <translation>Fichiers wave (*.wav)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="632"/>
         <source>One by One (TeamTalk Sound Device)</source>
-        <translation>Un par Un (Périphérique Audio TeamTalk)</translation>
+        <translation type="vanished">Un par Un (Périphérique Audio TeamTalk)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="633"/>
         <source>Overlapping (TeamTalk Sound Device)</source>
-        <translation>En Chevauchement (Périphérique Audio TeamTalk)</translation>
+        <translation type="vanished">En Chevauchement (Périphérique Audio TeamTalk)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="847"/>
@@ -5762,6 +5760,16 @@ Faut-il appliquer ces paramètres?</translation>
         <translation>Popularité</translation>
     </message>
     <message>
+        <location filename="../preferencesdlg.cpp" line="632"/>
+        <source>One by One</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="633"/>
+        <source>Overlapping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../preferencesdlg.cpp" line="648"/>
         <source>Tolk</source>
         <translation>Tolk</translation>
@@ -5772,6 +5780,11 @@ Faut-il appliquer ces paramètres?</translation>
         <translation>Libnotify</translation>
     </message>
     <message>
+        <location filename="../preferencesdlg.cpp" line="653"/>
+        <source>VoiceOver (via Apple Script)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../preferencesdlg.cpp" line="656"/>
         <source>Qt Accessibility Announcement</source>
         <translation>Annonces d’accessibilité Qt</translation>
@@ -5779,7 +5792,7 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="1060"/>
         <location filename="../preferencesdlg.cpp" line="1093"/>
-        <location filename="../preferencesdlg.cpp" line="1691"/>
+        <location filename="../preferencesdlg.cpp" line="1692"/>
         <source>Failed to initialize video device</source>
         <translation>Échec à l’initialisation du périphérique vidéo</translation>
     </message>
@@ -5850,22 +5863,22 @@ Faut-il appliquer ces paramètres?</translation>
         <translation>Parole uniquement</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1650"/>
+        <location filename="../preferencesdlg.cpp" line="1651"/>
         <source>Custom video format</source>
         <translation>Format vidéo personnalisé</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1743"/>
+        <location filename="../preferencesdlg.cpp" line="1744"/>
         <source>Default Video Capture</source>
         <translation>Capture vidéo par défaut</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1744"/>
+        <location filename="../preferencesdlg.cpp" line="1745"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Impossible de trouver les paramètres de capture vidéo préférés</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1819"/>
+        <location filename="../preferencesdlg.cpp" line="1820"/>
         <source>Message for Event &quot;%1&quot;</source>
         <translation>Message pour l’évènement «%1»</translation>
     </message>
@@ -5926,7 +5939,7 @@ Faut-il appliquer ces paramètres?</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1670"/>
-        <location filename="../preferencesdlg.cpp" line="1819"/>
+        <location filename="../preferencesdlg.cpp" line="1820"/>
         <source>Message</source>
         <translation>Message</translation>
     </message>
@@ -5945,38 +5958,38 @@ Faut-il appliquer ces paramètres?</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../utilsound.cpp" line="291"/>
-        <location filename="../utilsound.cpp" line="345"/>
+        <location filename="../utilsound.cpp" line="322"/>
+        <location filename="../utilsound.cpp" line="376"/>
         <source>Failed to initialize sound duplex mode</source>
         <translation>Échec à l’initialisation du mode audio duplex</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="299"/>
+        <location filename="../utilsound.cpp" line="330"/>
         <source>Failed to initialize sound input device</source>
         <translation>Échec à l’initialisation du nouveau périphérique d’entrée audio</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="304"/>
+        <location filename="../utilsound.cpp" line="335"/>
         <source>Failed to initialize sound output device</source>
         <translation>Échec à l’initialisation du nouveau périphérique de sortie audio</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="319"/>
+        <location filename="../utilsound.cpp" line="350"/>
         <source>Switching to default sound devices</source>
         <translation>Passage sur les périphériques audio par défaut</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="327"/>
+        <location filename="../utilsound.cpp" line="358"/>
         <source>Unable to get default sound devices</source>
         <translation>Impossible d’obtenir les périphériques audio par défaut</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="353"/>
+        <location filename="../utilsound.cpp" line="384"/>
         <source>Failed to initialize default sound input device</source>
         <translation>Échec à l’initialisation du périphérique d’entrée audio par défaut</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="358"/>
+        <location filename="../utilsound.cpp" line="389"/>
         <source>Failed to initialize default sound output device</source>
         <translation>Échec à l’initialisation du périphérique de sortie audio par défaut</translation>
     </message>

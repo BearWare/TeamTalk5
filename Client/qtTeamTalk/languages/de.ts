@@ -5584,7 +5584,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1670"/>
-        <location filename="../preferencesdlg.cpp" line="1819"/>
+        <location filename="../preferencesdlg.cpp" line="1820"/>
         <source>Message</source>
         <translation>Nachricht</translation>
     </message>
@@ -5750,6 +5750,16 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation>Beliebtheit</translation>
     </message>
     <message>
+        <location filename="../preferencesdlg.cpp" line="632"/>
+        <source>One by One</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="633"/>
+        <source>Overlapping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../preferencesdlg.cpp" line="648"/>
         <source>Tolk</source>
         <translation>Tolk</translation>
@@ -5758,6 +5768,11 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <location filename="../preferencesdlg.cpp" line="651"/>
         <source>Libnotify</source>
         <translation>Libnotify</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="653"/>
+        <source>VoiceOver (via Apple Script)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="847"/>
@@ -5874,14 +5889,12 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation>Die ganze Sekunde mit führender Null falls zutreffend (00 bis 59)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="632"/>
         <source>One by One (TeamTalk Sound Device)</source>
-        <translation>Nacheinander (TeamTalk-Audiogerät)</translation>
+        <translation type="vanished">Nacheinander (TeamTalk-Audiogerät)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="633"/>
         <source>Overlapping (TeamTalk Sound Device)</source>
-        <translation>Überlagernd (TeamTalk-Audiogerät)</translation>
+        <translation type="vanished">Überlagernd (TeamTalk-Audiogerät)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="656"/>
@@ -5891,7 +5904,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="1060"/>
         <location filename="../preferencesdlg.cpp" line="1093"/>
-        <location filename="../preferencesdlg.cpp" line="1691"/>
+        <location filename="../preferencesdlg.cpp" line="1692"/>
         <source>Failed to initialize video device</source>
         <translation>Fehler beim Initialisieren des Videogerätes</translation>
     </message>
@@ -5957,22 +5970,22 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <translation>Nur Sprache</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1650"/>
+        <location filename="../preferencesdlg.cpp" line="1651"/>
         <source>Custom video format</source>
         <translation>Benutzerdefiniertes Videoformat</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1743"/>
+        <location filename="../preferencesdlg.cpp" line="1744"/>
         <source>Default Video Capture</source>
         <translation>Standard-Videoerfassung</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1744"/>
+        <location filename="../preferencesdlg.cpp" line="1745"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Konnte bevorzugte Videoerfassungseinstellungen nicht finden</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1819"/>
+        <location filename="../preferencesdlg.cpp" line="1820"/>
         <source>Message for Event &quot;%1&quot;</source>
         <translation>Nachricht für Ereignis &quot;%1&quot;</translation>
     </message>
@@ -6029,38 +6042,38 @@ Sollen diese Einstellungen übernommen werden?</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../utilsound.cpp" line="291"/>
-        <location filename="../utilsound.cpp" line="345"/>
+        <location filename="../utilsound.cpp" line="322"/>
+        <location filename="../utilsound.cpp" line="376"/>
         <source>Failed to initialize sound duplex mode</source>
         <translation>Duplexmodus konnte nicht initialisiert werden</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="299"/>
+        <location filename="../utilsound.cpp" line="330"/>
         <source>Failed to initialize sound input device</source>
         <translation>Fehler beim Initialisieren des Aufnahmegerätes</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="304"/>
+        <location filename="../utilsound.cpp" line="335"/>
         <source>Failed to initialize sound output device</source>
         <translation>Fehler beim Initialisieren des Wiedergabegerätes</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="319"/>
+        <location filename="../utilsound.cpp" line="350"/>
         <source>Switching to default sound devices</source>
         <translation>Wechsle auf Standard-Soundgeräte</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="327"/>
+        <location filename="../utilsound.cpp" line="358"/>
         <source>Unable to get default sound devices</source>
         <translation>Standard-Soundgeräte konnten nicht ermittelt werden</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="353"/>
+        <location filename="../utilsound.cpp" line="384"/>
         <source>Failed to initialize default sound input device</source>
         <translation>Fehler beim Inizialisieren des Standard-Aufnahmegerätes</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="358"/>
+        <location filename="../utilsound.cpp" line="389"/>
         <source>Failed to initialize default sound output device</source>
         <translation>Fehler beim Inizialisieren des Standard-Ausgabegerätes</translation>
     </message>

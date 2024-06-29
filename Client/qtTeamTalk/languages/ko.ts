@@ -5661,14 +5661,12 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Wave 파일 (*.wav)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="632"/>
         <source>One by One (TeamTalk Sound Device)</source>
-        <translation>순차 재생 (TeamTalk 사운드 장치 사용)</translation>
+        <translation type="vanished">순차 재생 (TeamTalk 사운드 장치 사용)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="633"/>
         <source>Overlapping (TeamTalk Sound Device)</source>
-        <translation>동시 재생 (TeamTalk 사운드 장치 사용)</translation>
+        <translation type="vanished">동시 재생 (TeamTalk 사운드 장치 사용)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="847"/>
@@ -5842,6 +5840,16 @@ You can download it on the page below:<byte value="xd"/>
         <translation>인원순</translation>
     </message>
     <message>
+        <location filename="../preferencesdlg.cpp" line="632"/>
+        <source>One by One</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="633"/>
+        <source>Overlapping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../preferencesdlg.cpp" line="648"/>
         <source>Tolk</source>
         <translation>Tolk</translation>
@@ -5852,6 +5860,11 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Libnotify</translation>
     </message>
     <message>
+        <location filename="../preferencesdlg.cpp" line="653"/>
+        <source>VoiceOver (via Apple Script)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../preferencesdlg.cpp" line="656"/>
         <source>Qt Accessibility Announcement</source>
         <translation type="unfinished"></translation>
@@ -5859,7 +5872,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="1060"/>
         <location filename="../preferencesdlg.cpp" line="1093"/>
-        <location filename="../preferencesdlg.cpp" line="1691"/>
+        <location filename="../preferencesdlg.cpp" line="1692"/>
         <source>Failed to initialize video device</source>
         <translation>비디오 장치 초기화 실패</translation>
     </message>
@@ -5930,22 +5943,22 @@ You can download it on the page below:<byte value="xd"/>
         <translation>말하기만</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1650"/>
+        <location filename="../preferencesdlg.cpp" line="1651"/>
         <source>Custom video format</source>
         <translation>맞춤 비디오 형식</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1743"/>
+        <location filename="../preferencesdlg.cpp" line="1744"/>
         <source>Default Video Capture</source>
         <translation>기본 비디오 캡처</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1744"/>
+        <location filename="../preferencesdlg.cpp" line="1745"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>기본 비디오 캡처 설정이 존재하지 않습니다</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1819"/>
+        <location filename="../preferencesdlg.cpp" line="1820"/>
         <source>Message for Event &quot;%1&quot;</source>
         <translation>이벤트 메시지 &quot;%1&quot;</translation>
     </message>
@@ -6006,7 +6019,7 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../preferences.ui" line="1670"/>
-        <location filename="../preferencesdlg.cpp" line="1819"/>
+        <location filename="../preferencesdlg.cpp" line="1820"/>
         <source>Message</source>
         <translation>메시지</translation>
     </message>
@@ -6029,38 +6042,38 @@ You can download it on the page below:<byte value="xd"/>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../utilsound.cpp" line="291"/>
-        <location filename="../utilsound.cpp" line="345"/>
+        <location filename="../utilsound.cpp" line="322"/>
+        <location filename="../utilsound.cpp" line="376"/>
         <source>Failed to initialize sound duplex mode</source>
         <translation>사운드 이중통신 모드 초기화 실패</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="299"/>
+        <location filename="../utilsound.cpp" line="330"/>
         <source>Failed to initialize sound input device</source>
         <translation>사운드 입력 장치 초기화 실패</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="304"/>
+        <location filename="../utilsound.cpp" line="335"/>
         <source>Failed to initialize sound output device</source>
         <translation>사운드 출력 장치 초기화 실패</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="319"/>
+        <location filename="../utilsound.cpp" line="350"/>
         <source>Switching to default sound devices</source>
         <translation>기본 사운드 장치로 전환</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="327"/>
+        <location filename="../utilsound.cpp" line="358"/>
         <source>Unable to get default sound devices</source>
         <translation>기본 사운드 장치를 불러올 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="353"/>
+        <location filename="../utilsound.cpp" line="384"/>
         <source>Failed to initialize default sound input device</source>
         <translation>기본 사운드 입력 장치 초기화 실패</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="358"/>
+        <location filename="../utilsound.cpp" line="389"/>
         <source>Failed to initialize default sound output device</source>
         <translation>기본 사운드 출력 장치 초기화 실패</translation>
     </message>

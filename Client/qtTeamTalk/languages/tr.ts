@@ -5665,14 +5665,12 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
         <translation>Wave dosyaları (*.wav)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="632"/>
         <source>One by One (TeamTalk Sound Device)</source>
-        <translation>Teker teker (TeamTalk Ses aygıtı)</translation>
+        <translation type="vanished">Teker teker (TeamTalk Ses aygıtı)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="633"/>
         <source>Overlapping (TeamTalk Sound Device)</source>
-        <translation>Çakışan (TeamTalk ses aygıtı)</translation>
+        <translation type="vanished">Çakışan (TeamTalk ses aygıtı)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="847"/>
@@ -5841,6 +5839,16 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
         <translation>Popülerlik</translation>
     </message>
     <message>
+        <location filename="../preferencesdlg.cpp" line="632"/>
+        <source>One by One</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="633"/>
+        <source>Overlapping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../preferencesdlg.cpp" line="648"/>
         <source>Tolk</source>
         <translation>çevirmen</translation>
@@ -5851,6 +5859,11 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
         <translation>Kitap bildirimi</translation>
     </message>
     <message>
+        <location filename="../preferencesdlg.cpp" line="653"/>
+        <source>VoiceOver (via Apple Script)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../preferencesdlg.cpp" line="656"/>
         <source>Qt Accessibility Announcement</source>
         <translation type="unfinished"></translation>
@@ -5858,7 +5871,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="1060"/>
         <location filename="../preferencesdlg.cpp" line="1093"/>
-        <location filename="../preferencesdlg.cpp" line="1691"/>
+        <location filename="../preferencesdlg.cpp" line="1692"/>
         <source>Failed to initialize video device</source>
         <translation>Video aygıtını başlatma başarısız</translation>
     </message>
@@ -5929,22 +5942,22 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
         <translation>Yalnızca konuşma</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1650"/>
+        <location filename="../preferencesdlg.cpp" line="1651"/>
         <source>Custom video format</source>
         <translation>Özel video biçimi</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1743"/>
+        <location filename="../preferencesdlg.cpp" line="1744"/>
         <source>Default Video Capture</source>
         <translation>Varsayılan Video Yakalayıcısı</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1744"/>
+        <location filename="../preferencesdlg.cpp" line="1745"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Tercih edilen video yakalama ayarları bulunamıyor</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1819"/>
+        <location filename="../preferencesdlg.cpp" line="1820"/>
         <source>Message for Event &quot;%1&quot;</source>
         <translation>&quot;%1&quot; Olayı İletisi</translation>
     </message>
@@ -6005,7 +6018,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     </message>
     <message>
         <location filename="../preferences.ui" line="1670"/>
-        <location filename="../preferencesdlg.cpp" line="1819"/>
+        <location filename="../preferencesdlg.cpp" line="1820"/>
         <source>Message</source>
         <translation>İleti</translation>
     </message>
@@ -6028,38 +6041,38 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../utilsound.cpp" line="291"/>
-        <location filename="../utilsound.cpp" line="345"/>
+        <location filename="../utilsound.cpp" line="322"/>
+        <location filename="../utilsound.cpp" line="376"/>
         <source>Failed to initialize sound duplex mode</source>
         <translation>İkili ses kipini başlatma başarısız</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="299"/>
+        <location filename="../utilsound.cpp" line="330"/>
         <source>Failed to initialize sound input device</source>
         <translation>Ses giriş aygıtını başlatma başarısız</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="304"/>
+        <location filename="../utilsound.cpp" line="335"/>
         <source>Failed to initialize sound output device</source>
         <translation>Ses çıkış aygıtını başlatma başarısız</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="319"/>
+        <location filename="../utilsound.cpp" line="350"/>
         <source>Switching to default sound devices</source>
         <translation>Varsayılan ses aygıtlarına geçiliyor</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="327"/>
+        <location filename="../utilsound.cpp" line="358"/>
         <source>Unable to get default sound devices</source>
         <translation>Varsayılan ses aygıtları alınamıyor</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="353"/>
+        <location filename="../utilsound.cpp" line="384"/>
         <source>Failed to initialize default sound input device</source>
         <translation>Varsayılan ses giriş aygıtını başlatma başarısız</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="358"/>
+        <location filename="../utilsound.cpp" line="389"/>
         <source>Failed to initialize default sound output device</source>
         <translation>Varsayılan ses çıkış aygıtını başlatma başarısız</translation>
     </message>
