@@ -82,13 +82,9 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>Compiled on %1 %2 using Qt %3 (Qt %4 used by this instance).</source>
-        <translation type="vanished">گردآوری شده در تاریخ  %1 %2 با استفاده از QT %3 qt %4 در این نسخه مورد استفاده قرار گرفته است</translation>
-    </message>
-    <message>
         <location filename="../aboutdlg.cpp" line="31"/>
         <source>Compiled on %1 using Qt %2 (Qt %3 used by this instance).</source>
-        <translation type="unfinished"></translation>
+        <translation>آخرین به‌روزرسانی: %1 با استفاده از Qt %2 (Qt %3 در این نسخه استفاده شده است).</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="32"/>
@@ -943,48 +939,6 @@ p, li { white-space: pre-wrap; }
         <translation>استریم فایل</translation>
     </message>
     <message>
-        <source>Away</source>
-        <comment>For female</comment>
-        <translation type="vanished">دور</translation>
-    </message>
-    <message>
-        <source>Away</source>
-        <comment>For male and neutral</comment>
-        <translation type="vanished">دور</translation>
-    </message>
-    <message>
-        <source>Administrator</source>
-        <comment>For female</comment>
-        <translation type="vanished">مدیر</translation>
-    </message>
-    <message>
-        <source>Administrator</source>
-        <comment>For male and neutral</comment>
-        <translation type="vanished">مدیر</translation>
-    </message>
-    <message>
-        <source>Channel operator</source>
-        <comment>For female</comment>
-        <translation type="vanished">اپراتور</translation>
-    </message>
-    <message>
-        <source>Channel operator</source>
-        <comment>For male and neutral</comment>
-        <translation type="vanished">اپراتور</translation>
-    </message>
-    <message>
-        <source>Question</source>
-        <translation type="vanished">پرسش</translation>
-    </message>
-    <message>
-        <source>Streaming media file</source>
-        <translation type="vanished">در حال استریم</translation>
-    </message>
-    <message>
-        <source>Webcam</source>
-        <translation type="vanished">وب‌کم</translation>
-    </message>
-    <message>
         <location filename="../channelstree.cpp" line="960"/>
         <source>Text message transmission allowed: %1</source>
         <translation>اجازه برای ارسال پیام متنی: %1</translation>
@@ -1070,7 +1024,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="460"/>
         <source>Interval: </source>
-        <translation type="unfinished"></translation>
+        <translation>فاصلۀ زمانی: </translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="461"/>
@@ -1080,7 +1034,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="462"/>
         <source>Interval</source>
-        <translation type="unfinished"></translation>
+        <translation>فاصلۀ زمانی</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="466"/>
@@ -1507,7 +1461,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../filetransfer.ui" line="109"/>
         <source>Transfer progress</source>
-        <translation type="unfinished"></translation>
+        <translation>درصد انتقال</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="136"/>
@@ -1639,7 +1593,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../generatettfile.ui" line="224"/>
         <source>Push To Talk</source>
-        <translation>صحبت با فشردن دکمه</translation>
+        <translation>صحبت با دکمه</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="234"/>
@@ -1754,7 +1708,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../keycompdlg.cpp" line="40"/>
         <source>Setup Hotkey: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>تنظیم کلید میانبر: %1</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="55"/>
@@ -1777,27 +1731,27 @@ Message of the day: %2</source>
     <message>
         <location filename="../utilui.cpp" line="557"/>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>نام کاربری:</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="562"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>رمز:</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="568"/>
         <source>Show password</source>
-        <translation type="unfinished">نمایش رمز عبور</translation>
+        <translation>نمایش رمز عبور</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="573"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">&amp;تأیید</translation>
+        <translation>&amp;تأیید</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="574"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;لغو</translation>
+        <translation>&amp;لغو</translation>
     </message>
 </context>
 <context>
@@ -2051,7 +2005,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="1455"/>
         <source>Enable &amp;Push To Talk</source>
-        <translation>فعال‌کردن &amp;صحبت با فشردن دکمه</translation>
+        <translation>فعال‌کردن &amp;صحبت با دکمه</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1458"/>
@@ -2925,10 +2879,6 @@ Message of the day: %2</source>
         <translation>برنامه نمیتواند پارامتر &quot;%1&quot; را تشخیص دهد.</translation>
     </message>
     <message>
-        <source>Connected to %1 TCP port %2 UDP port %3</source>
-        <translation type="vanished">وارد %1 شُدید. TCP: %2 , UDP: %3</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1025"/>
         <location filename="../mainwindow.cpp" line="2040"/>
         <source>Failed to connect to %1 TCP port %2 UDP port %3</source>
@@ -2960,10 +2910,6 @@ Message of the day: %2</source>
         <location filename="../mainwindow.cpp" line="1045"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
         <translation>ارتباط با %1 قطع شد. TCP: %2 , UDP: %3</translation>
-    </message>
-    <message>
-        <source>Connection to server lost</source>
-        <translation type="vanished">ارتباط قطع شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1203"/>
@@ -3133,10 +3079,6 @@ Message of the day: %2</source>
         <translation>در حال اتصال به %1 , TCP: %2 , UDP: %3</translation>
     </message>
     <message>
-        <source>Logged out from %1, TCP port %2, UDP port %3</source>
-        <translation type="vanished">از %1 رفتید. TCP: %2 , UDP: %3</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1846"/>
         <location filename="../mainwindow.cpp" line="1847"/>
         <source>Connected to %1</source>
@@ -3204,21 +3146,9 @@ Message of the day: %2</source>
         <translation>خطای ورود</translation>
     </message>
     <message>
-        <source>Invalid user account. Type username:</source>
-        <translation type="vanished">حساب نامعتبر.  نام کاربری را وارد کنید:</translation>
-    </message>
-    <message>
-        <source>Invalid user account. Type password:</source>
-        <translation type="vanished">حساب نامعتبر. رمز را وارد کنید:</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2186"/>
         <source>Join channel error</source>
         <translation>خطای ورود به کانال</translation>
-    </message>
-    <message>
-        <source>Incorrect channel password. Try again:</source>
-        <translation type="vanished">رمز کانال درست نیست. دوباره تلاش کنید:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2200"/>
@@ -3492,7 +3422,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="5460"/>
         <source>Specify User Account</source>
-        <translation type="unfinished"></translation>
+        <translation>تعیین حساب کاربری</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5504"/>
@@ -3688,12 +3618,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="636"/>
         <source>%1 has detected your system language to be %2. Continue in %2?</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 تشخیص داد که زبان سیستم شما روی %2 تنظیم شده است. آیا می‌خواهید از زبان %2 استفاده کنید?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="640"/>
         <source>Language configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>تنظیم زبان</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="663"/>
@@ -3757,12 +3687,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="2166"/>
         <source>Incorrect username or password. Try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>نام کاربری یا رمز عبور اشتباه است. دوباره امتحان کنید.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2186"/>
         <source>Incorrect channel password. Try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>رمز کانال اشتباه است. دوباره امتحان کنید.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2202"/>
@@ -3934,7 +3864,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="3772"/>
         <source>Push To Talk: </source>
-        <translation>صحبت با فشردن دکمه: </translation>
+        <translation>صحبت با دکمه: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3947"/>
@@ -4011,12 +3941,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="4531"/>
         <source>Push-To-Talk enabled</source>
-        <translation>فشردن-برای-صحبت روشن</translation>
+        <translation>صحبت با دکمه روشن</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4537"/>
         <source>Push-To-Talk disabled</source>
-        <translation>فشردن-برای-صحبت خاموش</translation>
+        <translation>صحبت با دکمه خاموش</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4555"/>
@@ -4088,14 +4018,6 @@ Do you wish to do this now?</source>
         <location filename="../mainwindow.cpp" line="5483"/>
         <source>Share channel</source>
         <translation>اشتراک کانال</translation>
-    </message>
-    <message>
-        <source>Type username of user account:</source>
-        <translation type="vanished">نام کاربری را بنویسید:</translation>
-    </message>
-    <message>
-        <source>Type password of user account:</source>
-        <translation type="vanished">رمز را بنویسید:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5483"/>
@@ -4952,22 +4874,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../utilui.cpp" line="613"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>رمز</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="619"/>
         <source>Show password</source>
-        <translation type="unfinished">نمایش رمز عبور</translation>
+        <translation>نمایش رمز عبور</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="624"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">&amp;تأیید</translation>
+        <translation>&amp;تأیید</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="625"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;لغو</translation>
+        <translation>&amp;لغو</translation>
     </message>
 </context>
 <context>
@@ -5015,7 +4937,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="297"/>
         <source>&amp;Activate</source>
-        <translation>&amp;فعالسازی ورود با حساب Bearware.dk</translation>
+        <translation>&amp;فعالسازی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="193"/>
@@ -5030,7 +4952,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="210"/>
         <source>seconds of inactivity (0 means disabled)</source>
-        <translation>ثانیه. چنانچه پس از این مدت کاری انجام ندهید, وضعیت شما به حالت &quot;دور&quot; تغییر پیدا میکند. (برای خاموش کردن این ویژگی, عدد 0 را وارد کنید)</translation>
+        <translation>ثانیه. (غیرفعال‌سازی با نوشتن 0)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="272"/>
@@ -5040,7 +4962,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="319"/>
         <source>Restore volume settings and subscriptions on login for Web Login users</source>
-        <translation>بازیابی تنظیمات صدا و اشتراک‌ها در هنگام ورود برای کاربرانی که با استفاده از حساب bearware.dk وارد سِروِر میشوند</translation>
+        <translation>بازیابی تنظیمات صدا و اشتراک‌ها هنگام ورود برای کاربران bearware.dk</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="329"/>
@@ -5050,21 +4972,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="337"/>
         <source>Push To Talk</source>
-        <translation>صحبت‌کردن با فشردن دکمه, (Push to talk)</translation>
+        <translation>صحبت با دکمه</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="344"/>
         <source>&amp;Setup Keys</source>
-        <translation>&amp;تنظیمِ کلیدِ میانبر برای صحبت کردن. (اگر از قابلیتِ پوش‌توتاک استفاده میکنید, با انتخابِ این گزینه, میتوانید یک کلیدِ دلخواه برای صحبت‌کردن تعریف کنید. هنگامی که این کلید را نگه‌دارید, میکروفونِ شما روشن میشود)</translation>
-    </message>
-    <message>
-        <source>Key Combination</source>
-        <translation type="vanished">کلیدِ تعریف‌شده</translation>
+        <translation>&amp;تنظیم کلید</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="386"/>
         <source>Voice activated</source>
-        <translation>فعال‌کردن ارسال خودکار صدا. (این گزینه, امکانی را برای شما فراهم میکند که بتوانید بدون فشار‌دادن هیچ دکمه‌ای, با دیگران صحبت کنید. تا زمانی که این قابلیت را غیرفعال نکنید, میکروفون شما روشن خواهد‌ماند)</translation>
+        <translation>فعال‌کردن ارسال خودکار صدا</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="410"/>
@@ -5084,22 +5002,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="441"/>
         <source>Start minimized</source>
-        <translation>اجرای برنامه به‌صورت کوچک‌شده. (این گزینه هر‌بار که تیم‌تاک را باز میکنید, پنجرۀ برنامه را کوچک میکند)</translation>
+        <translation>اجرای برنامه در حالت کوچک</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="448"/>
         <source>Minimize to tray icon</source>
-        <translation>کوچکنمایی آیکون برنامه در نوار وظیفه. (اگر این گزینه فعال باشد, پنجرۀ تیم‌تاک کوچک میشود و نماد آن در گوشه پایین سمت راست صفحه نمایش شما قرار میگیرد. System tray, یک منطقۀ کوچک در گوشه پایین سمت راست صفحه نمایش شما است که نماد برنامه‌های در حال اجرا را در خود جای داده است)</translation>
+        <translation>کوچکنمایی آیکون برنامه در نوار وظیفه</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="455"/>
         <source>&amp;Always on top</source>
-        <translation>&amp;پنجرۀ تیمتاک همیشه در بالای صفحه و در بالاترین اولویت نگه‌داشته‌شود. (اگر این گزینه فعال باشد, تیم‌تاک همیشه در جلوی سایر برنامه‌های در حال اجرا قرار میگیرد)</translation>
+        <translation>&amp;نگه داشتن تیم‌تاک در بالای صفحه و در بالاترین اولویت</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="462"/>
         <source>Enable VU-meter updates</source>
-        <translation>فعالسازی به‌روز‌رسانی سنجش میزان بلندی صدا. (اگر از صفحه‌خوان استفاده میکنید, پیشنهاد میشود این گزینه را فعال نکنید)</translation>
+        <translation>فعالسازی به‌روز‌رسانی سنجش میزان بلندی صدا. (نا‌مناسب برای صفحه‌خوان)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="669"/>
@@ -5119,7 +5037,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="690"/>
         <source>Show emojis and text for channel/user state</source>
-        <translation>نمایش ایموجی‌های نشانگر بعد از نام کاربران یا کانالها. (این گزینه, جنسیت مرد یا زن را در‌مورد کاربران, و وضعیت کانالها مانند قفل یا مخفی بودن را به صورت شکلک نشان میدهد)</translation>
+        <translation>نمایش شکلک و متن برای توصیف وضعیت کاربران و کانال‌ها</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="476"/>
@@ -5129,17 +5047,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="594"/>
         <source>Popup dialog when receiving text message</source>
-        <translation>نمایش پیام‌های خصوصی جدید در پنجرۀ مجزا به‌صورت پاپ‌آپ</translation>
+        <translation>نمایش پیام‌های خصوصی در پنجرۀ مجزا</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="601"/>
         <source>Start video in popup dialog</source>
-        <translation>نمایش تصویر کاربران در پنجرۀ مجزا به‌صورت پاپ‌آپ. (با فعال‌کردن این گزینه, چنانچه کاربری با استفاده از وب‌کم ویدئوی خود را به اشتراک بگذارد, بجای سربرگ ویدیو در پنجرۀ اصلی برنامه, تصویر او در یک پنجرۀ پاپ‌آپ به شما نشان داده میشود)</translation>
+        <translation>نمایش تصویر کاربران در پنجرۀ مجزا</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="608"/>
         <source>Start desktops in popup dialog</source>
-        <translation>نمایش دسکتاپ کاربران در پنجرۀ مجزا به‌صورت پاپ‌آپ. (با فعال‌کردن این گزینه, چنانچه کاربری صفحه نمایش خود را به اشتراک بگذارد, بجای سربرگ دسکتاپ در پنجرۀ اصلی برنامه, محتوای صفحه نمایش  او در یک پنجرۀ پاپ‌آپ به شما نشان داده میشود)</translation>
+        <translation>نمایش دسکتاپ کاربران در پنجرۀ مجزا</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="483"/>
@@ -5149,12 +5067,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="516"/>
         <source>Show statusbar events in chat-window</source>
-        <translation>نمایش هشدار‌های نوار وضعیت در تاریخچۀ پیام‌ها. (این گزینه, رویداد‌هایی که در نوار وضعیت نشان داده میشوند, مانند ورود و خروج افراد از کانال یا سِروِر, آپلود یا حذف فایل‌ها از کانال, و شنود‌شدن شما توسط مدیر سِروِر را در بخش تاریخچۀ پیام‌ها درج میکند)</translation>
+        <translation>نمایش هشدار‌های نوار وضعیت در تاریخچۀ پیام‌ها</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="818"/>
         <source>Show new version available in dialog box</source>
-        <translation>چنانچه نسخۀ جدیدی از تیم‌تاک در دسترس قرار گیرد, با استفاده از پنجرۀ محاوره ای به شما اطلاع داده شود. (به‌طور پیشفرض, اطلاعیه‌های به‌روز‌رسانی در بخشِ تاریخچۀ پیام‌ها درج میشوند. اگر این گزینه را علامت بزنید, زمانی که به‌روز‌رسانی جدیدی از برنامه منتشر شود, یک پنجرۀ محاوره‌ای به شما نشان داده میشود که در صورت تمایل میتوانید با انتخاب گزینۀ بله, وارد سایت bearware.dk شده و نسخۀ جدید را دانلود کنید)</translation>
+        <translation>نمایش هشدار نسخۀ جدید در پنجرۀ محاوره‌ای</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="553"/>
@@ -5164,22 +5082,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="230"/>
         <source>Disable voice activation during inactivity</source>
-        <translation>غیرفعال‌کردن ارسال خودکار صدا در حالت عدم فعالیت. (اگر این گزینه را علامت بزنید, چنانچه هیچ‌کاری با کامپیوتر خود انجام ندهید و وضعیت شما به حالت &quot;دور&quot; تغییر پیدا کند, میکروفون شما خاموش شده, و قابلیت ارسال خودکار صدا بطور خودکار غیرفعال میگردد)</translation>
+        <translation>غیرفعال‌کردن ارسال خودکار صدا در حالت عدم فعالیت</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="254"/>
         <source>Status message during inactivity</source>
-        <translation>پیام وضعیت در حالت عدم فعالیت. (چنانچه هیچ کاری با کامپیوتر خود انجام ندهید و وضعیت شما به حالت &quot;دور&quot; تغییر پیدا کند, متنی که در این قسمت مینویسید, بطور خودکار روبروی اسم شما درج میگردد)</translation>
+        <translation>پیام وضعیت در حالت عدم فعالیت</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="354"/>
         <source>Key Combination:</source>
-        <translation type="unfinished"></translation>
+        <translation>ترکیب کلیدها:</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="469"/>
         <source>Show voice activation level slider</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش نوار لغزنده  حساسیت تشخیص صدا</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="492"/>
@@ -5189,27 +5107,27 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="560"/>
         <source>Video window settings</source>
-        <translation>تنظیمات پنجرۀ نمایش ویدیو</translation>
+        <translation>تنظیمات پنجرۀ ویدیو</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="588"/>
         <source>Dialogs</source>
-        <translation type="unfinished"></translation>
+        <translation>پنجره‌های محاوره‌ای</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="663"/>
         <source>Channels Tree</source>
-        <translation type="unfinished"></translation>
+        <translation>نمودار درختی کانال‌ها</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="713"/>
         <source>Maximum text length in channel list</source>
-        <translation>حداکثر طول متن قابل نمایش در لیست کانال‌ها. (ممکن است گاهی اوقات نام کاربران و کانال‌ها بسیار طولانی باشد. از این گزینه برای محدود کردن طول آنها برای خودتان استفاده کنید. بالاترین مقدار برای این قابلیت, 512 کاراکتر در نظر گرفته شده‌است. این امکان صرفا برای شما قابل تنظیم است و برای سایر افراد حاضر در سِروِر مؤثر نخواهد بود)</translation>
+        <translation>حداکثر طول متن در لیست کانال‌ها</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="798"/>
         <source>Software Update</source>
-        <translation type="unfinished"></translation>
+        <translation>به‌روزرسانی نرم‌افزار</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="844"/>
@@ -5219,7 +5137,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="850"/>
         <source>Client Connection</source>
-        <translation>تنظیم نحوۀ اتصال کلاینت به سِروِر‌ها</translation>
+        <translation>نحوۀ اتصال کلاینت به سِروِر‌ها</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="856"/>
@@ -5229,17 +5147,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="863"/>
         <source>Reconnect on connection dropped</source>
-        <translation>اتصال مجدد به سِروِر در صورت قطع اتصال. (اگر اتصال شما به سِروِر قطع شود, برنامه دائما تلاش میکند که مجددا شما را به سِروِر متصل کند)</translation>
+        <translation>اتصال مجدد به سِروِر در صورت قطع اتصال</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="870"/>
         <source>Join root channel upon connection</source>
-        <translation>ورود به کانال اصلی در هنگام اتصال. (اگر این گزینه را فعال کنید, هنگامی که اتصال شما به یک سِروِر برقرار شود, بطور خودکار وارد کانال اصلی میشوید. اگر این گزینه را غیرفعال کنید, پس از اتصال به سِروِر, روی سِروِر میمانید و تا زمانی که خودتان نخواهید, وارد هیچ کانالی نمیشوید)</translation>
+        <translation>ورود به لابی در هنگام اتصال</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="877"/>
         <source>Query server&apos;s maximum payload upon connection</source>
-        <translation>درخواست بارگذاری حداکثر داده‌های سِروِ&apos;ر هنگام اتصال. (برخی از شبکه‌ها اندازۀ بسته‌های UDP را محدود میکنند که میتواند باعث اختلال در جلسات صوتی, تصویری و دسکتاپ شود. فعال کردن این گزینه باعث میشود تیم‌تاک حداکثر اندازۀ بسته ای را که سِروِر برای بسته‌های UDP مجاز میکند، بپرسد. تیم‌تاک این کار را با ارسال چندین بستۀ UDP &quot;جعلی&quot; با اندازه‌های مختلف به سِروِر برای تعیین اندازۀ بسته‌های UDP مجاز انجام میدهد)</translation>
+        <translation>درخواست بارگذاری حداکثر داده‌های سِروِ&apos;ر هنگام اتصال</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="884"/>
@@ -5308,7 +5226,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1005"/>
         <source>TCP port</source>
-        <translation>پورت TCP. (نقطۀ اتصال TCP باید به پورت مشخص‌شده متصل شود. تغییر این تنظیمات فقط در صورت لزوم و با آگاهی از عواقب آن انجام شود)</translation>
+        <translation>پورت TCP</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1015"/>
@@ -5319,7 +5237,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1022"/>
         <source>UDP port</source>
-        <translation>پورت UDP. (نقطۀ اتصال UDP باید به پورت مشخص‌شده متصل شود. تغییر این تنظیمات فقط در صورت لزوم و با آگاهی از عواقب آن انجام شود)</translation>
+        <translation>پورت UDP</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1105"/>
@@ -5330,7 +5248,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1111"/>
         <source>Sound System Settings</source>
-        <translation>تنظیم دستگاه‌های صوتی</translation>
+        <translation>تنظیمات صدا</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1132"/>
@@ -5370,7 +5288,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1943"/>
         <source>Double click to configure keys</source>
-        <translation type="unfinished"></translation>
+        <translation>برای تنظیم کلید‌ها، دو‌بار کلیک کنید</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1204"/>
@@ -5386,28 +5304,28 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1322"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
-        <translation>فعال‌کردن قابلیت حذف اکوی صدا. (اگر از اسپیکر دستگاه استفاده میکنید, پیشنهاد میشود برای جلوگیری از اکوی صدای کاربران این گزینه را علامت بزنید)</translation>
+        <translation>حذف اکو هنگام استفاده از اسپیکر</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1329"/>
         <source>Enable automatic gain control (microphone level adjusted automatically)</source>
-        <translation>فعال‌کردن قابلیت تنظیم خودکار بلندی میکروفون. (این ویژگی, بلندی میکروفون شما را بطور خودکار تنظیم میکند)</translation>
+        <translation>تنظیم خودکار بلندی میکروفون</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1336"/>
         <source>Enable denoising (suppress noise from microphone)</source>
-        <translation>روشن‌کردن نویزگیر. (این ویژگی, نویز میکروفون شما را از بین میبَرَد, ولی ممکن است سایر کاربران صدای شما را با کیفیت پایینتری بشنوند)</translation>
+        <translation>استفاده از نویزگیر</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1345"/>
         <source>Media file vs. voice volume</source>
-        <translation>بلندی صدای استریم‌ها نسبت به صدای سایر کاربران</translation>
+        <translation>میزان صدای استریم‌ها</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1382"/>
         <location filename="../preferences.ui" line="2269"/>
         <source>&amp;Default</source>
-        <translation>&amp;بازنشانی تنظیمات صدا به حالت پیشفرض</translation>
+        <translation>&amp;بازنشانی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1408"/>
@@ -5454,7 +5372,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="697"/>
         <source>Show user and channel icons</source>
-        <translation>نشان‌دادن آیکون‌های کاربران و کانال‌ها</translation>
+        <translation>نمایش آیکون‌های کاربران و کانال‌ها</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="704"/>
@@ -5469,7 +5387,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="636"/>
         <source>Show dialog box with server list on startup</source>
-        <translation>نمایش لیست سِروِر‌ها در هنگام اجرای برنامه</translation>
+        <translation>نمایش لیست سِروِر‌ها هنگام اجرای برنامه</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="523"/>
@@ -5479,12 +5397,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1167"/>
         <source>PulseAudio</source>
-        <translation>سیستم صوتی PulseAudio</translation>
+        <translation>PulseAudio</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1481"/>
         <source>Playback mode</source>
-        <translation>حالت پخش هشدار‌های صوتی</translation>
+        <translation>حالت پخش</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1631"/>
@@ -5500,34 +5418,34 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="1562"/>
         <location filename="../preferences.ui" line="1704"/>
         <source>Enable &amp;all</source>
-        <translation>روشن‌کردنِ &amp;همۀ هشدار‌های متن به گفتار</translation>
+        <translation>روشن‌کردنِ &amp;همۀ موارد</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1582"/>
         <location filename="../preferences.ui" line="1724"/>
         <source>C&amp;lear all</source>
-        <translation>خ&amp;اموش‌کردنِ همۀ هشدار‌های متن به گفتار</translation>
+        <translation>خ&amp;اموش‌کردنِ همۀ موارد</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1602"/>
         <location filename="../preferences.ui" line="1744"/>
         <source>&amp;Revert</source>
-        <translation>&amp;بازنشانی تنظیمات متن به گفتار به حالت پیشفرض</translation>
+        <translation>&amp;بازنشانی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1756"/>
         <source>Text to Speech Preferences</source>
-        <translation>پیکربندی تبدیل متن به گفتار</translation>
+        <translation>تنظیمات متن به گفتار</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1764"/>
         <source>Text to Speech Engine</source>
-        <translation>موتور تبدیل متن به گفتار</translation>
+        <translation>موتور متن به گفتار</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1777"/>
         <source>Language</source>
-        <translation>زبان موتور تبدیل متن به گفتار</translation>
+        <translation>زبان</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1803"/>
@@ -5547,7 +5465,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1878"/>
         <source>Text to Speech output mode</source>
-        <translation>روش خروجی تبدیل متن به گفتار</translation>
+        <translation>روش خروجی متن به گفتار</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1891"/>
@@ -5562,7 +5480,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1905"/>
         <source>Interrupt current screenreader speech on new event</source>
-        <translation type="unfinished"></translation>
+        <translation>قطع صحبت صفحه‌خوان فعلی در هنگام رویداد جدید</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1931"/>
@@ -5572,44 +5490,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1937"/>
         <source>Keyboard Shortcuts</source>
-        <translation>پیکربندی میانبر‌های صفحه‌کلید</translation>
-    </message>
-    <message>
-        <source>Enable/disable voice activation</source>
-        <translation type="vanished">روشن یا خاموش کردن ارسال خودکار صدا</translation>
-    </message>
-    <message>
-        <source>Increase volume</source>
-        <translation type="vanished">زیاد‌کردن صدای اسپیکر</translation>
-    </message>
-    <message>
-        <source>Lower volume</source>
-        <translation type="vanished">کم‌کردن صدای اسپیکر</translation>
-    </message>
-    <message>
-        <source>Enable/disable mute all</source>
-        <translation type="vanished">قطع یا وصل‌کردن صدای همۀ کاربران برای خودم</translation>
-    </message>
-    <message>
-        <source>Increase microphone gain</source>
-        <translation type="vanished">زیاد‌کردن بلندی میکروفون</translation>
-    </message>
-    <message>
-        <source>Lower microphone gain</source>
-        <translation type="vanished">کم‌کردن بلندی میکروفون</translation>
-    </message>
-    <message>
-        <source>Enable/disable video transmission</source>
-        <translation type="vanished">فعال یا غیرفعال کردن ارسال تصویر خودم برای دیگران</translation>
-    </message>
-    <message>
-        <source>Show/hide main window</source>
-        <translation type="vanished">نشان‌دادن یا پنهان‌کردن پنجرۀ برنامه</translation>
+        <translation>میانبر‌های صفحه‌کلید</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1985"/>
         <source>Video Capture Settings</source>
-        <translation>تنظیمات مربوط به دوربین</translation>
+        <translation>تنظیمات اشتراک‌گذاری تصویر</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1991"/>
@@ -5650,23 +5536,23 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="2088"/>
         <location filename="../preferencesdlg.cpp" line="1304"/>
         <source>Test Selected</source>
-        <translation>بررسی عملکرد ضبط ویدیو با تنظیمات انتخاب‌شده</translation>
+        <translation>بررسی عملکرد دوربین</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2116"/>
         <location filename="../preferences.ui" line="2119"/>
         <source>Video Codec Settings</source>
-        <translation>تنظیمات فشرده‌سازی ویدیو</translation>
+        <translation>تنظیمات مبدل ویدیو</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2127"/>
         <source>Codec</source>
-        <translation>فشرده‌ساز</translation>
+        <translation>مبدل</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2183"/>
         <source>Bitrate</source>
-        <translation>نرخ بیت, (Bitrate)</translation>
+        <translation>Bitrate</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="370"/>
@@ -5693,14 +5579,6 @@ Should these settings be applied?</source>
         <location filename="../preferencesdlg.cpp" line="458"/>
         <source>Wave files (*.wav)</source>
         <translation>فایل‌های صوتی با فرمت .wav</translation>
-    </message>
-    <message>
-        <source>One by One (TeamTalk Sound Device)</source>
-        <translation type="vanished">پخش هشدار‌های صوتی به صورت یک‌به‌یک. (هشدار‌های صوتی جدید, هشدار‌های قبلی را قطع نمیکنند و به ترتیب, یکی پس از دیگری پخش میشوند)</translation>
-    </message>
-    <message>
-        <source>Overlapping (TeamTalk Sound Device)</source>
-        <translation type="vanished">پخش هشدار‌های صوتی به‌صورت همزمان. (در این حالت, هشدار‌های صوتی, علاوه‌بر اینکه هشدار‌های قبلی را قطع نمیکنند, میتوانند به‌صورت همزمان پخش شوند)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="847"/>
@@ -5754,7 +5632,7 @@ Should these settings be applied?</source>
         <location filename="../preferencesdlg.cpp" line="631"/>
         <location filename="../preferencesdlg.cpp" line="645"/>
         <source>Default</source>
-        <translation>پخش هشدار‌های صوتی به‌صورت پیشفرض. (اگر یک هشدار صوتی در حال پخش شدن باشد و همزمان هشدار صوتی دیگری ارسال شود, هشدار صوتی جدید, صدای هشدار قبلی را قطع میکند. در این حالت, هشدار‌های صوتی نمیتوانند به‌صورت همزمان پخش شوند)</translation>
+        <translation>پیشفرض</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="70"/>
@@ -5851,37 +5729,37 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="566"/>
         <source>Join only</source>
-        <translation>فقط وارد کانال شوم</translation>
+        <translation>فقط ورود به کانال</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="567"/>
         <source>Leave only</source>
-        <translation>فقط از کانال خارج شوم</translation>
+        <translation>فقط خروج از کانال</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="568"/>
         <source>Join or leave</source>
-        <translation>هم وارد کانال شوم و هم از کانال خارج شوم</translation>
+        <translation>هم ورود به کانال و هم خروج از آن</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="572"/>
         <source>Ascending</source>
-        <translation>مرتب‌سازی صعودی</translation>
+        <translation>صعودی</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="573"/>
         <source>Popularity</source>
-        <translation>پر‌طرفدار‌ترین, (شلوغ‌ترین)</translation>
+        <translation>شلوغ‌ترین</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="632"/>
         <source>One by One</source>
-        <translation type="unfinished"></translation>
+        <translation>یک به یک</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="633"/>
         <source>Overlapping</source>
-        <translation type="unfinished"></translation>
+        <translation>همزمان</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="648"/>
@@ -5896,45 +5774,45 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="653"/>
         <source>VoiceOver (via Apple Script)</source>
-        <translation type="unfinished"></translation>
+        <translation>VoiceOver (از طریق اسکریپت اپل)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="656"/>
         <source>Qt Accessibility Announcement</source>
-        <translation type="unfinished"></translation>
+        <translation>اعلان‌های دسترس‌پذیری QT</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1060"/>
         <location filename="../preferencesdlg.cpp" line="1093"/>
         <location filename="../preferencesdlg.cpp" line="1692"/>
         <source>Failed to initialize video device</source>
-        <translation>دستگاه ویدیویی به‌درستی راه‌اندازی نشد</translation>
+        <translation>دستگاه ویدیویی راه‌اندازی نشد</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1148"/>
         <source>Key Combination: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>ترکیب کلیدها: %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1208"/>
         <source>Max Input Channels %1</source>
-        <translation>حداکثر تعداد کانال‌های ورودی %1</translation>
+        <translation>بیشترین تعداد کانال‌های ورودی %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1210"/>
         <location filename="../preferencesdlg.cpp" line="1234"/>
         <source>Sample Rates:</source>
-        <translation>نرخ نمونه‌برداری صوتی, (Sample Rates):</translation>
+        <translation>نرخ سمپل:</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1232"/>
         <source>Max Output Channels %1</source>
-        <translation>حداکثر تعداد کانال‌های خروجی %1</translation>
+        <translation>بیشترین تعداد کانال‌های خروجی %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1263"/>
         <source>Refresh Sound Devices</source>
-        <translation>تازه‌سازی دستگاه‌های صوتی</translation>
+        <translation>تازه‌کردن دستگاه‌های صوتی</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1264"/>
@@ -5949,7 +5827,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="1323"/>
         <source>Failed to initialize new sound devices</source>
-        <translation>برنامه نتوانست دستگاه‌های صوتی جدید را مجددا راه‌اندازی کند</translation>
+        <translation>دستگاه‌های صوتی جدید راه‌اندازی نشدند</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1515"/>
@@ -5999,22 +5877,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="376"/>
         <source>Press to transmit.  Press to stop transmit</source>
-        <translation>چنانچه این قابلیت را روشن کنید, برای صحبت کردن, نیازی به نگه‌داشتنِ دکمه نیست. اگر دکمه ای که برای صحبت کردن تنظیم کرده اید را یک بار فشار دهید, میکروفونِ شما روشن میشود, و با فشردن مجدد این دکمه, میکروفونِ شما خاموش میشود</translation>
+        <translation>برای صحبت کردن، دکمه را فشار دهید. برای خاموش کردن میکروفون، دوباره دکمه را فشار دهید</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="379"/>
         <source>Push To Talk Lock</source>
-        <translation>قفل کردنِ دکمۀ پوش‌توتاک</translation>
+        <translation>قفل‌کردنِ کلیدِ صحبت با دکمه</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="754"/>
         <source>Auto expand channels</source>
-        <translation>گسترش خودکار کانال‌ها. (بطور پیشفرض, تمام کانالها, به جز کانالی که هم‌اکنون در آن حضور دارید, به صورت &quot;بسته‌شده&quot; نشان داده میشوند. شما میتوانید از این گزینه برای نمایش همۀ کانال‌ها به‌صورت &quot;باز‌شده&quot; استفاده کنید)</translation>
+        <translation>گسترش خودکار کانال‌ها</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="780"/>
         <source>Double click on a channel</source>
-        <translation>اگر روی اسم یک کانال دوبار کلیک کنم یا کلید اینتر را فشار بدهم, چه اتفاقی بیفتد?</translation>
+        <translation>با دو‌بار کلیک روی نام کانال</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="763"/>
@@ -6024,22 +5902,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="622"/>
         <source>Close dialog box when a file transfer is finished</source>
-        <translation>هنگامی که آپلود یا دانلود فایل‌ها به پایان برسد, پنجرۀ محاوره‌ای بطور خودکار بسته شود</translation>
+        <translation>بستن پنجرۀ محاوره‌ای هنگام پایان آپلود یا دانلود</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="615"/>
         <source>Show dialog box when excluded from channel or server</source>
-        <translation>نمایش پنجرۀ محاوره‌ای هنگام اخراج از کانال یا سِروِر. (اگر این گزینه بدون‌علامت باشد, اطلاعیه‌های مربوط به اخراج یا محرومیت شما از کانال یا سِروِر در بخش تاریخچۀ پیام‌ها درج میشود. چنانچه این گزینه را علامت بزنید, این اطلاعیه‌ها از طریق یک کادر محاوره‌ای به شما نشان داده خواهد شد)</translation>
+        <translation>نمایش پنجرۀ محاوره‌ای هنگام اخراج از کانال یا سِروِر</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="804"/>
         <source>Check for software updates on startup</source>
-        <translation>بررسی خودکار برای نسخه‌های بروز در هنگام اجرای برنامه</translation>
+        <translation>بررسی نسخه‌های بروز هنگام اجرای برنامه</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="811"/>
         <source>Check for beta software updates on startup</source>
-        <translation>بررسی خودکار برای نسخه‌های بتا در هنگام اجرای برنامه</translation>
+        <translation>بررسی نسخه‌های بتا هنگام اجرای برنامه</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1550"/>
@@ -6068,10 +5946,6 @@ Should these settings be applied?</source>
         <source>Reset to Default Value</source>
         <translation>بازگشت به تنظیمات پیشفرض</translation>
     </message>
-    <message>
-        <source>Reinitialize sound devices</source>
-        <translation type="vanished">راه‌اندازی مجدد دستگاه‌های صوتی</translation>
-    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -6084,12 +5958,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../utilsound.cpp" line="330"/>
         <source>Failed to initialize sound input device</source>
-        <translation>دستگاه ورودی صدا به درستی راه‌اندازی نشد</translation>
+        <translation>دستگاه ورودی صدا راه‌اندازی نشد</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="335"/>
         <source>Failed to initialize sound output device</source>
-        <translation>دستگاه خروجی صدا به درستی راه‌اندازی نشد</translation>
+        <translation>دستگاه خروجی صدا راه‌اندازی نشد</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="350"/>
@@ -6104,12 +5978,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../utilsound.cpp" line="384"/>
         <source>Failed to initialize default sound input device</source>
-        <translation>دستگاه ورودی صدای پیشفرض به درستی راه‌اندازی نشد</translation>
+        <translation>دستگاه ورودی صدای پیشفرض راه‌اندازی نشد</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="389"/>
         <source>Failed to initialize default sound output device</source>
-        <translation>دستگاه خروجی صدای پیشفرض به درستی راه‌اندازی نشد</translation>
+        <translation>دستگاه خروجی صدای پیشفرض راه‌اندازی نشد</translation>
     </message>
     <message>
         <location filename="../common.cpp" line="493"/>
@@ -6119,57 +5993,57 @@ Should these settings be applied?</source>
     <message>
         <location filename="../utilhotkey.cpp" line="35"/>
         <source>Push-to-Talk</source>
-        <translation type="unfinished"></translation>
+        <translation>صحبت با دکمه</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="37"/>
         <source>Enable/disable voice activation</source>
-        <translation type="unfinished">روشن یا خاموش کردن ارسال خودکار صدا</translation>
+        <translation>روشن یا خاموش کردن ارسال خودکار صدا</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="39"/>
         <source>Decrease microphone gain</source>
-        <translation type="unfinished"></translation>
+        <translation>کم‌کردن بلندی میکروفون</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="41"/>
         <source>Increase microphone gain</source>
-        <translation type="unfinished">زیاد‌کردن بلندی میکروفون</translation>
+        <translation>زیاد‌کردن بلندی میکروفون</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="43"/>
         <source>Decrease volume</source>
-        <translation type="unfinished"></translation>
+        <translation>کم‌کردن صدای اسپیکر</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="45"/>
         <source>Increase volume</source>
-        <translation type="unfinished">زیاد‌کردن صدای اسپیکر</translation>
+        <translation>زیاد‌کردن صدای اسپیکر</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="47"/>
         <source>Enable/disable mute all</source>
-        <translation type="unfinished">قطع یا وصل‌کردن صدای همۀ کاربران برای خودم</translation>
+        <translation>قطع/صدا‌دار‌کردن اسپیکر</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="49"/>
         <source>Enable/disable video transmission</source>
-        <translation type="unfinished">فعال یا غیرفعال کردن ارسال تصویر خودم برای دیگران</translation>
+        <translation>روشن/خاموش‌کردن اشتراک‌گذاری ویدیو</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="51"/>
         <source>Reinitialize sound devices</source>
-        <translation type="unfinished">راه‌اندازی مجدد دستگاه‌های صوتی</translation>
+        <translation>راه‌اندازی مجدد دستگاه‌های صوتی</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="53"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished">نشان‌دادن یا پنهان‌کردن پنجرۀ برنامه</translation>
+        <translation>نشان‌دادن یا پنهان‌کردن پنجرۀ برنامه</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="58"/>
         <source>Unknown hotkey</source>
-        <translation type="unfinished"></translation>
+        <translation>کلید میانبر نا‌شناخته</translation>
     </message>
 </context>
 <context>
@@ -6187,7 +6061,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverdlg.ui" line="43"/>
         <source>Host IP-address</source>
-        <translation>آدرس آیپی یا دامنۀ سِروِر</translation>
+        <translation>آدرس آیپی یا دامنه</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="60"/>
@@ -6218,7 +6092,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverdlg.ui" line="124"/>
         <source>Encrypted server</source>
-        <translation>اگر سِروِرِ موردِ نظرِ شما رمزگذاری شده‌است, این گزینه را علامت بزنید</translation>
+        <translation>رمز‌گذاری‌شده</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="134"/>
@@ -6245,7 +6119,7 @@ Should these settings be applied?</source>
         <location filename="../serverdlg.ui" line="185"/>
         <location filename="../serverdlg.ui" line="258"/>
         <source>Password</source>
-        <translation>رمز عبور</translation>
+        <translation>رمز</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="204"/>
@@ -6262,7 +6136,7 @@ Should these settings be applied?</source>
         <location filename="../serverdlg.ui" line="229"/>
         <location filename="../serverdlg.ui" line="232"/>
         <source>Join specific channel after authentication (optional)</source>
-        <translation>پس از اینکه به سِروِر متصل شُدید, میخواهید مستقیما وارد چه کانالی شوید?</translation>
+        <translation>ورود به کانالی خاص پس از اتصال</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="238"/>
@@ -6308,12 +6182,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverdlg.cpp" line="74"/>
         <source>View Server Information</source>
-        <translation>مشاهدۀ اطلاعات سِروِر</translation>
+        <translation>دیدن اطلاعات سِروِر</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="75"/>
         <source>View %1 Information</source>
-        <translation>مشاهدۀ اطلاعاتِ %1</translation>
+        <translation>دیدنِ اطلاعاتِ %1</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="91"/>
@@ -6346,22 +6220,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="14"/>
         <source>Connect to a Server</source>
-        <translation>اتصال به سِروِر</translation>
+        <translation>اتصال</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="84"/>
         <source>Server List</source>
-        <translation>لیست سِروِر‌ها</translation>
+        <translation>سِروِر‌ها</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="65"/>
         <source>Include official servers (blue ones)</source>
-        <translation>مشاهدۀ سِروِر‌های رسمی (آبی‌رنگ) در لیست سِروِر‌ها</translation>
+        <translation>مشاهدۀ سِروِر‌های رسمی (به رنگ آبی)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="72"/>
         <source>Include unofficial servers (orange ones)</source>
-        <translation>مشاهدۀ سِروِر‌های غیررسمی (نارنجی‌رنگ) در لیست سِروِر‌ها</translation>
+        <translation>مشاهدۀ سِروِر‌های غیررسمی (به رنگ نارنجی)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="22"/>
@@ -6372,7 +6246,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlist.ui" line="33"/>
         <source>Name</source>
-        <translation>نامِ سِروِر</translation>
+        <translation>نام</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="46"/>
@@ -6407,12 +6281,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="863"/>
         <source>&amp;Connect</source>
-        <translation>&amp;اتصال به سِروِر</translation>
+        <translation>&amp;اتصال</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="118"/>
         <source>&amp;Import .tt File</source>
-        <translation>&amp;وارد‌کردن یک سِروِر از طریق فایل .tt</translation>
+        <translation>&amp;وارد‌کردن از فایل tt</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="394"/>
@@ -6488,7 +6362,7 @@ Should these settings be applied?</source>
         <location filename="../serverlistdlg.cpp" line="666"/>
         <location filename="../serverlistdlg.cpp" line="723"/>
         <source>No server to export.</source>
-        <translation>هیچ سِروِری برای ذخیره‌سازی وجود ندارد.</translation>
+        <translation>سِروِری برای ذخیره‌سازی وجود ندارد.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="672"/>
@@ -6516,7 +6390,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="728"/>
         <source>Select Directory</source>
-        <translation>انتخاب محل ذخیره</translation>
+        <translation>انتخاب پوشه</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="761"/>
@@ -6572,12 +6446,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="867"/>
         <source>&amp;Generate .tt file</source>
-        <translation>&amp;ایجاد فایل .tt</translation>
+        <translation>&amp;ایجاد فایل tt</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="868"/>
         <source>&amp;Publish Publicly</source>
-        <translation>&amp;انتشار به‌صورت عمومی و نشان‌دادن این سِروِر در لیست سِروِر‌های غیررسمی</translation>
+        <translation>&amp;انتشار به‌صورت عمومی</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="921"/>
@@ -6602,12 +6476,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="756"/>
         <source>Are you sure you want to publish the server named &quot;%1&quot;</source>
-        <translation>آیا مطمئن هستید که میخواهید سِروِر با نام &quot;%1&quot; را به‌صورت عمومی در دسترس قرار دهید?</translation>
+        <translation>مطمئنید که میخواهید سِروِرِ &quot;%1&quot; را منتشر کنید?</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="270"/>
         <source>Host manager</source>
-        <translation>مدیریت سِروِر‌ها</translation>
+        <translation>مدیریت سِروِر</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="790"/>
@@ -6650,7 +6524,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="519"/>
         <source>Delete server named &quot;%1&quot;</source>
-        <translation>آیا میخواهید سِروِرِ &quot;%1&quot; را حذف کنید?</translation>
+        <translation>سِروِرِ &quot;%1&quot; را حذف می‌کنید?</translation>
     </message>
 </context>
 <context>
@@ -6693,7 +6567,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="141"/>
         <source>%1, Name: %2, Users: %3, Country: %4, MOTD: %5</source>
-        <translation>%1,  , %2, کاربران: %3, کشور: %4, پیام روز: %5</translation>
+        <translation>%1,  , %2, تعداد کاربران: %3, کشور: %4, پیام روز: %5</translation>
     </message>
 </context>
 <context>
@@ -6781,22 +6655,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="115"/>
         <source>User sent private text message</source>
-        <translation>ارسال پیام‌های خصوصی توسط کاربر</translation>
+        <translation>ارسال پیام شخصی توسط کاربر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="117"/>
         <source>User sent custom text message</source>
-        <translation>ارسال پیام‌های متنی سفارشی توسط کاربر</translation>
+        <translation>ارسال پیام متنی سفارشی توسط کاربر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="119"/>
         <source>User sent channel text message</source>
-        <translation>ارسال پیام‌های کانال توسط کاربر</translation>
+        <translation>ارسال پیام کانال توسط کاربر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="121"/>
         <source>User sent broadcast text message</source>
-        <translation>ارسال پیام‌های همگانی توسط کاربر</translation>
+        <translation>ارسال پیام همگانی توسط کاربر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="123"/>
@@ -6855,7 +6729,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="44"/>
         <source>Max users</source>
-        <translation>حداکثر تعداد کاربران</translation>
+        <translation>بیشترین تعداد کاربران</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="70"/>
@@ -6886,7 +6760,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="171"/>
         <source>User timeout</source>
-        <translation>به‌پایان‌رسیدن مهلت اتصال کاربر بر‌حسب ثانیه. (مدت‌زمانی که کاربر میتواند بدون فرستادن اطلاعات به سِروِر, متصل بماند. اگر مقداری که برای مدت‌زمان اتصال کاربر به سِروِر تعیین کرده‌اید به‌پایان برسد, سِروِر بطور خودکار کاربر را بیرون میکند)</translation>
+        <translation>اتمام مهلت اتصال کاربر</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="203"/>
@@ -6901,7 +6775,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="236"/>
         <source>Video TX max</source>
-        <translation>حداکثر پهنای باند قابل‌استفاده توسط سِروِر برای اشتراک‌گذاری ویدیو در هر ثانیه (بر‌حسب کیلوبایت)</translation>
+        <translation>بیشترین پهنای باند برای اشتراک‌گذاری ویدیو</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="256"/>
@@ -6910,68 +6784,68 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverproperties.ui" line="337"/>
         <location filename="../serverproperties.ui" line="364"/>
         <source>KBytes/sec (0 = disabled)</source>
-        <translation>کیلوبایت بر ثانیه. (برای خاموش کردن این ویژگی, عدد 0 را وارد کنید)</translation>
+        <translation>کیلوبایت بر ثانیه. (غیرفعال‌سازی با نوشتن 0)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="280"/>
         <source>Voice TX max</source>
-        <translation>حداکثر پهنای باند قابل‌استفاده توسط سِروِر برای صحبت‌کردن در هر ثانیه (بر‌حسب کیلوبایت)</translation>
+        <translation>بیشترین پهنای باند برای صحبت‌کردن</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="307"/>
         <source>Total TX max</source>
-        <translation>حداکثر پهنای باند قابل‌استفاده توسط سِروِر برای ارسال و دریافت همۀ محتواها در هر ثانیه (بر‌حسب کیلوبایت)</translation>
+        <translation>بیشترین پهنای باند برای ارسال و دریافت همۀ محتواها</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="317"/>
         <source>Desktop TX max</source>
-        <translation>حداکثر پهنای باند قابل‌استفاده توسط سِروِر برای اشتراک‌گذاری صفحه نمایش در هر ثانیه (بر‌حسب کیلوبایت)</translation>
+        <translation>بیشترین پهنای باند برای اشتراک‌گذاری دسکتاپ</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="344"/>
         <source>Media File TX max</source>
-        <translation>حداکثر پهنای باند قابل‌استفاده توسط سِروِر برای استریم فایل‌های صوتی و تصویری در هر ثانیه (بر‌حسب کیلوبایت)</translation>
+        <translation>بیشترین پهنای باند برای استریم</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="374"/>
         <source>Server Abuse</source>
-        <translation>محدودیت‌های قابل‌تنظیم برای جلوگیری از استفادۀ نادرست کاربران از سِروِر</translation>
+        <translation>محدودیت‌هایی برای جلوگیری از سوءاستفاده</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="380"/>
         <source>Max login attempts before ban</source>
-        <translation>حداکثر تعداد تلاش‌های یک کاربر برای ورود به سِروِر با پسورد اشتباه. در صورت تجاوز به این تعداد, آدرس آیپی کاربر توسط سِروِر مسدود میشود</translation>
+        <translation>بیشترین تعداد دفعات مجاز ورود با رمز اشتباه</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="400"/>
         <location filename="../serverproperties.ui" line="427"/>
         <source>(0 = disabled)</source>
-        <translation>(برای خاموش کردن این ویژگی, عدد 0 را وارد کنید)</translation>
+        <translation>(غیرفعال‌سازی با نوشتن 0)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="407"/>
         <source>Max logins per IP-address</source>
-        <translation>حداکثر ورودها به ازای هر آدرس آیپی. (بیشترین تعداد حسابها یا دستگاه‌هایی که شما میتوانید بطور همزمان به وسیلۀ آنها, با یک آدرس آیپی وارد سِروِر شوید)</translation>
+        <translation>بیشترین تعداد ورود به ازای هر آیپی</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="434"/>
         <source>Login delay per IP-address</source>
-        <translation>زمان انتظار برای ورود به سِروِر برای هر آدرس آیپی بر‌حسب میلیثانیه. (هنگامی که کاربران از سِروِر خارج میشوند, چقدر باید صبر کنند تا مجددا بتوانند وارد سِروِر شوند?)</translation>
+        <translation>زمان انتظار برای ورود به سِروِر در هر آیپی</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="451"/>
         <source>msec (0 = disabled)</source>
-        <translation>بر‌حسب میلیثانیه. برای خاموش کردن این ویژگی, عدد 0 را وارد کنید</translation>
+        <translation>میلیثانیه. (غیرفعال‌سازی با نوشتن 0)</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="461"/>
         <source>Server Logging</source>
-        <translation>ثبت گزارشات سِروِر</translation>
+        <translation>گزارشات سِروِر</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="467"/>
         <source>Server events logged</source>
-        <translation>مایلید چه رویداد‌هایی در لاگ سِروِر ثبت شوند?</translation>
+        <translation>رویداد‌های قابل ثبت</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="489"/>
@@ -6981,7 +6855,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="501"/>
         <source>Server version: 0.0</source>
-        <translation type="unfinished"></translation>
+        <translation>نسخۀ سِروِر: 0.0</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="71"/>
@@ -7011,7 +6885,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>Number of users on server</source>
-        <translation>تعداد نفرات حاضر در سِروِر</translation>
+        <translation>تعداد کاربران حاضر در سِروِر</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
@@ -7036,12 +6910,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>last user to log on</source>
-        <translation>آخرین کاربری که وارد شده</translation>
+        <translation>آخرین کاربر وارد شده</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="132"/>
         <source>Change message of the day?</source>
-        <translation>آیا مطمئن هستید که میخواهید پیام روز را تغییر دهید?</translation>
+        <translation>پیام روز را تغییر می‌دهید?</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="133"/>
@@ -7064,7 +6938,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstatsdlg.cpp" line="53"/>
         <source>Total RX/TX</source>
-        <translation type="unfinished">بطور کلی, سِروِر از زمان اجرا تا کنون, این مقدار دریافت و ارسال کرده‌است: (بر‌حسب کیلوبایت)</translation>
+        <translation>مجموع ترافیک سِروِر</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="53"/>
@@ -7074,57 +6948,57 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverstatsdlg.cpp" line="65"/>
         <location filename="../serverstatsdlg.cpp" line="86"/>
         <source>KBytes</source>
-        <translation type="unfinished">کیلوبایت</translation>
+        <translation>کیلوبایت</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="56"/>
         <source>Voice RX/TX</source>
-        <translation type="unfinished">میزان حجم دریافت‌شده و ارسال‌شده برای صدای کاربران (بر‌حسب کیلوبایت)</translation>
+        <translation>پهنای باند مصرف‌شده برای صدای کاربران</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="59"/>
         <source>Video RX/TX</source>
-        <translation type="unfinished">میزان حجمی که کاربران برای اشتراک‌گذاری تصویر خود دریافت و ارسال کرده‌اند (بر‌حسب کیلوبایت)</translation>
+        <translation>پهنای باند مصرف‌شده برای اشتراک‌گذاری ویدیو</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="62"/>
         <source>Media File RX/TX</source>
-        <translation type="unfinished">میزان حجم دریافت‌شده و ارسال‌شده برای استریم فایل‌های صوتی و تصویری (بر‌حسب کیلوبایت)</translation>
+        <translation>پهنای باند مصرف‌شده برای استریم</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="65"/>
         <source>Desktop RX/TX</source>
-        <translation type="unfinished">میزان حجمی که کاربران برای اشتراک‌گذاری صفحه نمایش خود دریافت و ارسال کرده‌اند (بر‌حسب کیلوبایت)</translation>
+        <translation>پهنای باند مصرف‌شده برای اشتراک‌گذاری دسکتاپ</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="77"/>
         <source>Throughput RX/TX</source>
-        <translation type="unfinished">سرعت دریافت و ارسال داده (بر‌حسب کیلوبایت)</translation>
+        <translation>سرعت تبادل داده</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="77"/>
         <source>KBytes/sec</source>
-        <translation type="unfinished">کیلوبایت بر ثانیه</translation>
+        <translation>کیلوبایت بر ثانیه</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="86"/>
         <source>Files RX/TX</source>
-        <translation type="unfinished">میزان حجم فایل‌هایی که سِروِر دانلود یا آپلود کرده‌است (بر‌حسب کیلوبایت)</translation>
+        <translation>میزان تبادل فایل‌ها</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="89"/>
         <source>Users served</source>
-        <translation type="unfinished">تعداد کاربرانی که از زمان راه‌اندازی مجدد سِروِر, وارد سِروِر شده‌اند</translation>
+        <translation>میزان حضور در سِروِر</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="90"/>
         <source>Users peak</source>
-        <translation type="unfinished">بیشترین تعداد کاربرانی که از زمان راه‌اندازی سِروِر تا این لحظه, وارد سِروِر شده‌اند</translation>
+        <translation>بالاترین تعداد کاربران</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="92"/>
         <source>Uptime: %1 hours, %2 minutes, %3 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>زمان کار: %1 ساعت, %2 دقیقه, %3 ثانیه</translation>
     </message>
 </context>
 <context>
@@ -7132,32 +7006,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstats.ui" line="14"/>
         <source>Server Statistics</source>
-        <translation>در این بخش میتوانید آمار سِروِر, شامل میزان استفاده از پهنای باند ورودی و خروجی  را مشاهده کنید</translation>
+        <translation>آمار سِروِر</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="136"/>
         <source>Update information every</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Uptime</source>
-        <translation type="vanished">زمان کار سِروِر</translation>
-    </message>
-    <message>
-        <source>Media File RX/TX</source>
-        <translation type="vanished">میزان حجم دریافت‌شده و ارسال‌شده برای استریم فایل‌های صوتی و تصویری (بر‌حسب کیلوبایت)</translation>
-    </message>
-    <message>
-        <source>KBytes/sec</source>
-        <translation type="vanished">کیلوبایت بر ثانیه</translation>
-    </message>
-    <message>
-        <source>Throughput RX/TX</source>
-        <translation type="vanished">سرعت دریافت و ارسال داده (بر‌حسب کیلوبایت)</translation>
-    </message>
-    <message>
-        <source>KBytes</source>
-        <translation type="vanished">کیلوبایت</translation>
+        <translation>به‌روزرسانی اطلاعات هر</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="142"/>
@@ -7167,39 +7021,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstats.ui" line="126"/>
         <source>Update interval</source>
-        <translation>به‌روز‌رسانی لحظه‌ای آمار سِروِر. (با علامت‌زدن این گزینه, میتوانید مدت‌زمان به‌روز‌رسانی آمار سِروِر را بر‌حسب میلیثانیه تعیین کنید)</translation>
-    </message>
-    <message>
-        <source>Files RX/TX</source>
-        <translation type="vanished">میزان حجم فایل‌هایی که سِروِر دانلود یا آپلود کرده‌است (بر‌حسب کیلوبایت)</translation>
-    </message>
-    <message>
-        <source>Total RX/TX</source>
-        <translation type="vanished">بطور کلی, سِروِر از زمان اجرا تا کنون, این مقدار دریافت و ارسال کرده‌است: (بر‌حسب کیلوبایت)</translation>
-    </message>
-    <message>
-        <source>Voice RX/TX</source>
-        <translation type="vanished">میزان حجم دریافت‌شده و ارسال‌شده برای صدای کاربران (بر‌حسب کیلوبایت)</translation>
-    </message>
-    <message>
-        <source>Video RX/TX</source>
-        <translation type="vanished">میزان حجمی که کاربران برای اشتراک‌گذاری تصویر خود دریافت و ارسال کرده‌اند (بر‌حسب کیلوبایت)</translation>
-    </message>
-    <message>
-        <source>Desktop RX/TX</source>
-        <translation type="vanished">میزان حجمی که کاربران برای اشتراک‌گذاری صفحه نمایش خود دریافت و ارسال کرده‌اند (بر‌حسب کیلوبایت)</translation>
-    </message>
-    <message>
-        <source>Users served</source>
-        <translation type="vanished">تعداد کاربرانی که از زمان راه‌اندازی مجدد سِروِر, وارد سِروِر شده‌اند</translation>
-    </message>
-    <message>
-        <source>Users peak</source>
-        <translation type="vanished">بیشترین تعداد کاربرانی که از زمان راه‌اندازی سِروِر تا این لحظه, وارد سِروِر شده‌اند</translation>
-    </message>
-    <message>
-        <source>&amp;Close</source>
-        <translation type="vanished">&amp;بستن</translation>
+        <translation>به‌روز‌رسانی لحظه‌ای آمار</translation>
     </message>
 </context>
 <context>
@@ -7207,17 +7029,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../shortcutsmodel.cpp" line="57"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>اقدام</translation>
     </message>
     <message>
         <location filename="../shortcutsmodel.cpp" line="58"/>
         <source>Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>میانبر</translation>
     </message>
     <message>
         <location filename="../shortcutsmodel.cpp" line="89"/>
         <source>None</source>
-        <translation type="unfinished">هیچ‌کدام</translation>
+        <translation>هیچ‌کدام</translation>
     </message>
 </context>
 <context>
@@ -7255,7 +7077,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="113"/>
         <source>Connection to server lost</source>
-        <translation>اتصال به سِروِر قطع شد</translation>
+        <translation>قطع‌شدن اتصال به سِروِر</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="115"/>
@@ -7275,7 +7097,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="121"/>
         <source>Channel message received</source>
-        <translation>دریافت پیام‌های کانال</translation>
+        <translation>دریافت پیام کانال</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="123"/>
@@ -7290,7 +7112,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="127"/>
         <source>Hotkey pressed</source>
-        <translation>هنگام فشار‌دادن کلید مشخص‌شده برای پوش‌توتاک, این صدا پخش میشود</translation>
+        <translation>کلیدِ صحبت با دکمه</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="129"/>
@@ -7300,17 +7122,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="131"/>
         <source>New video session</source>
-        <translation>هنگامی که کاربری ویدئوی  خود را به اشتراک بگذارد, این صدا پخش میشود</translation>
+        <translation>اشتراک‌گذاری ویدیو</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="133"/>
         <source>New desktop session</source>
-        <translation>هنگامی که کاربری صفحه نمایش خود را به اشتراک بگذارد, این صدا پخش میشود</translation>
+        <translation>اشتراک‌گذاری دسکتاپ</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="135"/>
         <source>Desktop access request</source>
-        <translation>چنانچه شما صفحه نمایش خود را به اشتراک بگذارید و کاربری برای دسترسی به دسکتاپتان از شما اجازه بخواهد, این صدا پخش میشود</translation>
+        <translation>درخواست اجازۀ دسترسی به دسکتاپ</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="137"/>
@@ -7439,17 +7261,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.ui" line="87"/>
         <source>Enable &amp;all</source>
-        <translation>روشن‌کردنِ نمایشِ &amp;همۀ هشدار‌های نوار وضعیت در تاریخچۀ پیام‌ها</translation>
+        <translation>روشن‌کردنِ &amp;همۀ موارد</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="107"/>
         <source>C&amp;lear all</source>
-        <translation>خ&amp;اموش‌کردنِ نمایشِ همۀ هشدار‌های نوار وضعیت در تاریخچۀ پیام‌ها</translation>
+        <translation>خ&amp;اموش‌کردنِ همۀ موارد</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="127"/>
         <source>&amp;Revert</source>
-        <translation>&amp;بازنشانی تنظیمات رویداد‌های نوار وضعیت به حالت پیشفرض</translation>
+        <translation>&amp;بازگشت به تنظیمات پیشفرض</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="33"/>
@@ -7645,23 +7467,23 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="14"/>
         <source>Stream Media File To Channel</source>
-        <translation>استریم فایل در کانال</translation>
+        <translation>استریم فایل</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="20"/>
         <source>Media File Properties</source>
-        <translation>مشخصات فایل رسانه‌ای</translation>
+        <translation>مشخصات فایل</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="28"/>
         <source>Media file</source>
-        <translation>فایل مورد نظر شما برای استریم</translation>
+        <translation>فایل جهتِ استریم</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="45"/>
         <location filename="../streammediafile.ui" line="48"/>
         <source>Browse</source>
-        <translation>جستجوی فایل</translation>
+        <translation>انتخاب فایل</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="51"/>
@@ -7683,7 +7505,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafile.ui" line="79"/>
         <location filename="../streammediafile.ui" line="82"/>
         <source>Delete from history</source>
-        <translation>حذفِ این مورد از تاریخچۀ فایل‌های استریم‌شده</translation>
+        <translation>حذف از تاریخچه</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="85"/>
@@ -7695,7 +7517,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafile.ui" line="99"/>
         <location filename="../streammediafiledlg.cpp" line="181"/>
         <source>Clear history</source>
-        <translation>حذفِ همۀ موارد از تاریخچۀ فایل‌های استریم‌شده</translation>
+        <translation>پاک‌کردنِ تاریخچه</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="102"/>
@@ -7720,12 +7542,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="178"/>
         <source>Co&amp;ntinuously play media file</source>
-        <translation>فا&amp;یلی که استریم میکنید, دائما تکرار شود</translation>
+        <translation>پخ&amp;شِ فایل دائماً تکرار شود</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="188"/>
         <source>Playback Settings</source>
-        <translation>تنظیمات نحوه پخش</translation>
+        <translation>تنظیمات پخش</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="196"/>
@@ -7749,7 +7571,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="209"/>
         <source>&amp;Setup</source>
-        <translation>&amp;تنظیم پیش‌پردازشگر صوتی</translation>
+        <translation>&amp;تنظیم</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="236"/>
@@ -7773,17 +7595,17 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafile.ui" line="323"/>
         <location filename="../streammediafile.ui" line="326"/>
         <source>Video Codec Settings</source>
-        <translation>تنظیمات فشرده‌سازی ویدیو</translation>
+        <translation>تنظیمات مبدل ویدیو</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="334"/>
         <source>Codec</source>
-        <translation>فشرده‌ساز</translation>
+        <translation>مبدل</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="390"/>
         <source>Bitrate</source>
-        <translation>نرخ بیت, (Bitrate)</translation>
+        <translation>Bitrate</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="476"/>
@@ -7798,12 +7620,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafiledlg.cpp" line="39"/>
         <source>Streaming to channel</source>
-        <translation>استریم فایل در کانال</translation>
+        <translation>استریم در کانال</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="62"/>
         <source>No Audio Preprocessor</source>
-        <translation>بدون استفاده از پیش‌پردازشگر صوتی</translation>
+        <translation>عدم استفاده از پیش‌پردازشگر صوتی</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="63"/>
@@ -7818,12 +7640,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafiledlg.cpp" line="82"/>
         <source>No video</source>
-        <translation>بدون استفاده از فشرده‌ساز ویدیو</translation>
+        <translation>عدم استفاده از مبدل ویدیو</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="135"/>
         <source>Open Media File</source>
-        <translation>انتخاب فایل برای استریم</translation>
+        <translation>انتخاب فایل</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="137"/>
@@ -7833,7 +7655,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafiledlg.cpp" line="176"/>
         <source>Are you sure you want to clear stream history?</source>
-        <translation>آیا مطمئن هستید که میخواهید تاریخچۀ فایل‌های استریم‌شده را پاک کنید?</translation>
+        <translation>تاریخچۀ فایل‌های استریم‌شده را پاک می‌کنید?</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="177"/>
@@ -8517,25 +8339,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="197"/>
         <source>&amp;Create New User Account</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;ساختن حساب کاربری جدید</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="198"/>
         <source>&amp;Delete Selected User Account</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;حذف حساب کاربری انتخاب‌شده</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="199"/>
         <source>&amp;Edit Selected User Account</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Delete Selected User</source>
-        <translation type="vanished">&amp;حذفِ این حسابِ کاربری</translation>
-    </message>
-    <message>
-        <source>&amp;Edit Selected User</source>
-        <translation type="vanished">&amp;ویرایشِ این حسابِ کاربری</translation>
+        <translation>&amp;ویرایش حساب کاربری انتخاب‌شده</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="123"/>
