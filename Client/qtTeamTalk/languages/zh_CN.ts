@@ -82,13 +82,9 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>Compiled on %1 %2 using Qt %3 (Qt %4 used by this instance).</source>
-        <translation type="vanished">编译于 %1 %2 使用 Qt %3 (本实例使用 Qt %4)。</translation>
-    </message>
-    <message>
         <location filename="../aboutdlg.cpp" line="31"/>
         <source>Compiled on %1 using Qt %2 (Qt %3 used by this instance).</source>
-        <translation type="unfinished"></translation>
+        <translation>编译于 %1 使用 Qt %2 (此实例使用 Qt %3)。</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="32"/>
@@ -943,48 +939,6 @@ p, li { white-space: pre-wrap; }
         <translation>媒体文件传输</translation>
     </message>
     <message>
-        <source>Away</source>
-        <comment>For female</comment>
-        <translation type="vanished">离开</translation>
-    </message>
-    <message>
-        <source>Away</source>
-        <comment>For male and neutral</comment>
-        <translation type="vanished">离开</translation>
-    </message>
-    <message>
-        <source>Administrator</source>
-        <comment>For female</comment>
-        <translation type="vanished">管理员</translation>
-    </message>
-    <message>
-        <source>Administrator</source>
-        <comment>For male and neutral</comment>
-        <translation type="vanished">管理员</translation>
-    </message>
-    <message>
-        <source>Channel operator</source>
-        <comment>For female</comment>
-        <translation type="vanished">频道管理员</translation>
-    </message>
-    <message>
-        <source>Channel operator</source>
-        <comment>For male and neutral</comment>
-        <translation type="vanished">频道管理员</translation>
-    </message>
-    <message>
-        <source>Question</source>
-        <translation type="vanished">提问</translation>
-    </message>
-    <message>
-        <source>Streaming media file</source>
-        <translation type="vanished">正在播放流媒体文件</translation>
-    </message>
-    <message>
-        <source>Webcam</source>
-        <translation type="vanished">视频</translation>
-    </message>
-    <message>
         <location filename="../channelstree.cpp" line="960"/>
         <source>Text message transmission allowed: %1</source>
         <translation>允许消息传输： %1</translation>
@@ -1070,7 +1024,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="460"/>
         <source>Interval: </source>
-        <translation type="unfinished"></translation>
+        <translation>间隔</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="461"/>
@@ -1080,7 +1034,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="462"/>
         <source>Interval</source>
-        <translation type="unfinished"></translation>
+        <translation>间隔</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="466"/>
@@ -1507,7 +1461,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../filetransfer.ui" line="109"/>
         <source>Transfer progress</source>
-        <translation type="unfinished"></translation>
+        <translation>传送进度</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="136"/>
@@ -1754,7 +1708,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../keycompdlg.cpp" line="40"/>
         <source>Setup Hotkey: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>设置热键：%1</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="55"/>
@@ -1777,27 +1731,27 @@ Message of the day: %2</source>
     <message>
         <location filename="../utilui.cpp" line="557"/>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>用户名</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="562"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>密码</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="568"/>
         <source>Show password</source>
-        <translation type="unfinished">显示密码</translation>
+        <translation>显示密码</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="573"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">确定(&amp;O)</translation>
+        <translation>确定(&amp;O)</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="574"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">取消(&amp;C)</translation>
+        <translation>取消(&amp;C)</translation>
     </message>
 </context>
 <context>
@@ -2925,10 +2879,6 @@ Message of the day: %2</source>
         <translation>无法识别程序参数 &quot;%1&quot;。</translation>
     </message>
     <message>
-        <source>Connected to %1 TCP port %2 UDP port %3</source>
-        <translation type="vanished">已连接到 %1 TCP 端口 %2 UDP 端口 %3</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1025"/>
         <location filename="../mainwindow.cpp" line="2040"/>
         <source>Failed to connect to %1 TCP port %2 UDP port %3</source>
@@ -2960,10 +2910,6 @@ Message of the day: %2</source>
         <location filename="../mainwindow.cpp" line="1045"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
         <translation>连接丢失 %1 TCP 端口 %2 UDP 端口 %3</translation>
-    </message>
-    <message>
-        <source>Connection to server lost</source>
-        <translation type="vanished">与服务器的连接丢失</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1203"/>
@@ -3133,10 +3079,6 @@ Message of the day: %2</source>
         <translation>正在连接 %1 TCP 端口 %2 UDP 端口 %3</translation>
     </message>
     <message>
-        <source>Logged out from %1, TCP port %2, UDP port %3</source>
-        <translation type="vanished">已登出 %1, TCP 端口 %2, UDP 端口 %3</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1846"/>
         <location filename="../mainwindow.cpp" line="1847"/>
         <source>Connected to %1</source>
@@ -3204,21 +3146,9 @@ Message of the day: %2</source>
         <translation>登录错误</translation>
     </message>
     <message>
-        <source>Invalid user account. Type username:</source>
-        <translation type="vanished">无效的用户帐户。输入用户名：</translation>
-    </message>
-    <message>
-        <source>Invalid user account. Type password:</source>
-        <translation type="vanished">无效的用户帐户。输入密码：</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2186"/>
         <source>Join channel error</source>
         <translation>加入频道错误</translation>
-    </message>
-    <message>
-        <source>Incorrect channel password. Try again:</source>
-        <translation type="vanished">频道密码错误。请重试：</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2200"/>
@@ -3492,7 +3422,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="5460"/>
         <source>Specify User Account</source>
-        <translation type="unfinished"></translation>
+        <translation>指定用户帐户</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5504"/>
@@ -3688,12 +3618,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="636"/>
         <source>%1 has detected your system language to be %2. Continue in %2?</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 检测到您的系统语言为 %2。是否在 %2 中继续？</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="640"/>
         <source>Language configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>语言配置</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="663"/>
@@ -3757,12 +3687,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="2166"/>
         <source>Incorrect username or password. Try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>用户名或密码不正确。请重试。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2186"/>
         <source>Incorrect channel password. Try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>频道密码不正确，请重试。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2202"/>
@@ -4088,14 +4018,6 @@ Do you wish to do this now?</source>
         <location filename="../mainwindow.cpp" line="5483"/>
         <source>Share channel</source>
         <translation>分享频道</translation>
-    </message>
-    <message>
-        <source>Type username of user account:</source>
-        <translation type="vanished">输入用户账户的用户名：</translation>
-    </message>
-    <message>
-        <source>Type password of user account:</source>
-        <translation type="vanished">输入用户账户的密码：</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5483"/>
@@ -4952,22 +4874,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../utilui.cpp" line="613"/>
         <source>Password</source>
-        <translation type="unfinished">密码</translation>
+        <translation>密码</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="619"/>
         <source>Show password</source>
-        <translation type="unfinished">显示密码</translation>
+        <translation>显示密码</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="624"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">确定(&amp;O)</translation>
+        <translation>确定(&amp;O)</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="625"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">取消(&amp;C)</translation>
+        <translation>取消(&amp;C)</translation>
     </message>
 </context>
 <context>
@@ -5056,10 +4978,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="344"/>
         <source>&amp;Setup Keys</source>
         <translation>热键注册(&amp;S)</translation>
-    </message>
-    <message>
-        <source>Key Combination</source>
-        <translation type="vanished">组合键</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="386"/>
@@ -5174,12 +5092,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="354"/>
         <source>Key Combination:</source>
-        <translation type="unfinished"></translation>
+        <translation>组合键：</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="469"/>
         <source>Show voice activation level slider</source>
-        <translation type="unfinished"></translation>
+        <translation>显示语音激活级别滑块</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="492"/>
@@ -5194,12 +5112,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="588"/>
         <source>Dialogs</source>
-        <translation type="unfinished"></translation>
+        <translation>对话</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="663"/>
         <source>Channels Tree</source>
-        <translation type="unfinished"></translation>
+        <translation>频道树</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="713"/>
@@ -5209,7 +5127,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="798"/>
         <source>Software Update</source>
-        <translation type="unfinished"></translation>
+        <translation>软件更新</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="844"/>
@@ -5370,7 +5288,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1943"/>
         <source>Double click to configure keys</source>
-        <translation type="unfinished"></translation>
+        <translation>双击配置按键</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1204"/>
@@ -5562,7 +5480,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1905"/>
         <source>Interrupt current screenreader speech on new event</source>
-        <translation type="unfinished"></translation>
+        <translation>在发生新事件时中断当前屏幕阅读器语音</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1931"/>
@@ -5573,38 +5491,6 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="1937"/>
         <source>Keyboard Shortcuts</source>
         <translation>快捷键</translation>
-    </message>
-    <message>
-        <source>Enable/disable voice activation</source>
-        <translation type="vanished">启用/禁用语音激活</translation>
-    </message>
-    <message>
-        <source>Increase volume</source>
-        <translation type="vanished">增加音量</translation>
-    </message>
-    <message>
-        <source>Lower volume</source>
-        <translation type="vanished">降低音量</translation>
-    </message>
-    <message>
-        <source>Enable/disable mute all</source>
-        <translation type="vanished">启用/禁用全部静音</translation>
-    </message>
-    <message>
-        <source>Increase microphone gain</source>
-        <translation type="vanished">增加麦克风增益</translation>
-    </message>
-    <message>
-        <source>Lower microphone gain</source>
-        <translation type="vanished">降低麦克风增益</translation>
-    </message>
-    <message>
-        <source>Enable/disable video transmission</source>
-        <translation type="vanished">启用/禁用视频传输</translation>
-    </message>
-    <message>
-        <source>Show/hide main window</source>
-        <translation type="vanished">显示/隐藏主窗口</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1985"/>
@@ -5693,14 +5579,6 @@ Should these settings be applied?</source>
         <location filename="../preferencesdlg.cpp" line="458"/>
         <source>Wave files (*.wav)</source>
         <translation>波形文件(*.wav)</translation>
-    </message>
-    <message>
-        <source>One by One (TeamTalk Sound Device)</source>
-        <translation type="vanished">逐个 (TeamTalk 声音设备)</translation>
-    </message>
-    <message>
-        <source>Overlapping (TeamTalk Sound Device)</source>
-        <translation type="vanished">重叠 (TeamTalk 声音设备)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="847"/>
@@ -5876,12 +5754,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="632"/>
         <source>One by One</source>
-        <translation type="unfinished"></translation>
+        <translation>逐个</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="633"/>
         <source>Overlapping</source>
-        <translation type="unfinished"></translation>
+        <translation>重叠</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="648"/>
@@ -5896,12 +5774,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="653"/>
         <source>VoiceOver (via Apple Script)</source>
-        <translation type="unfinished"></translation>
+        <translation>旁白（通过 Apple Script）</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="656"/>
         <source>Qt Accessibility Announcement</source>
-        <translation type="unfinished"></translation>
+        <translation>Qt 辅助功能通知</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1060"/>
@@ -5913,7 +5791,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="1148"/>
         <source>Key Combination: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>组合键：%1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1208"/>
@@ -6068,10 +5946,6 @@ Should these settings be applied?</source>
         <source>Reset to Default Value</source>
         <translation>重置为默认值</translation>
     </message>
-    <message>
-        <source>Reinitialize sound devices</source>
-        <translation type="vanished">重新初始化声音设备</translation>
-    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -6119,57 +5993,57 @@ Should these settings be applied?</source>
     <message>
         <location filename="../utilhotkey.cpp" line="35"/>
         <source>Push-to-Talk</source>
-        <translation type="unfinished"></translation>
+        <translation>按键说话</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="37"/>
         <source>Enable/disable voice activation</source>
-        <translation type="unfinished">启用/禁用语音激活</translation>
+        <translation>启用/禁用语音激活</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="39"/>
         <source>Decrease microphone gain</source>
-        <translation type="unfinished"></translation>
+        <translation>降低麦克风增益</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="41"/>
         <source>Increase microphone gain</source>
-        <translation type="unfinished">增加麦克风增益</translation>
+        <translation>增加麦克风增益</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="43"/>
         <source>Decrease volume</source>
-        <translation type="unfinished"></translation>
+        <translation>降低音量</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="45"/>
         <source>Increase volume</source>
-        <translation type="unfinished">增加音量</translation>
+        <translation>增加音量</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="47"/>
         <source>Enable/disable mute all</source>
-        <translation type="unfinished">启用/禁用全部静音</translation>
+        <translation>启用/禁用全部静音</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="49"/>
         <source>Enable/disable video transmission</source>
-        <translation type="unfinished">启用/禁用视频传输</translation>
+        <translation>启用/禁用视频传输</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="51"/>
         <source>Reinitialize sound devices</source>
-        <translation type="unfinished">重新初始化声音设备</translation>
+        <translation>重新初始化声音设备</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="53"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished">显示/隐藏主窗口</translation>
+        <translation>显示/隐藏主窗口</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="58"/>
         <source>Unknown hotkey</source>
-        <translation type="unfinished"></translation>
+        <translation>未知热键</translation>
     </message>
 </context>
 <context>
@@ -6981,7 +6855,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="501"/>
         <source>Server version: 0.0</source>
-        <translation type="unfinished"></translation>
+        <translation>服务器版本：0.0</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="71"/>
@@ -7064,7 +6938,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstatsdlg.cpp" line="53"/>
         <source>Total RX/TX</source>
-        <translation type="unfinished">总接收/发送</translation>
+        <translation>总接收/发送</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="53"/>
@@ -7074,57 +6948,57 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverstatsdlg.cpp" line="65"/>
         <location filename="../serverstatsdlg.cpp" line="86"/>
         <source>KBytes</source>
-        <translation type="unfinished">KB</translation>
+        <translation>KB</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="56"/>
         <source>Voice RX/TX</source>
-        <translation type="unfinished">语音接收/发送</translation>
+        <translation>语音接收/发送</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="59"/>
         <source>Video RX/TX</source>
-        <translation type="unfinished">视频接收/发送</translation>
+        <translation>视频接收/发送</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="62"/>
         <source>Media File RX/TX</source>
-        <translation type="unfinished">媒体文件接收/发送</translation>
+        <translation>媒体文件接收/发送</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="65"/>
         <source>Desktop RX/TX</source>
-        <translation type="unfinished">桌面接收/发送</translation>
+        <translation>桌面接收/发送</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="77"/>
         <source>Throughput RX/TX</source>
-        <translation type="unfinished">吞吐率接收/发送</translation>
+        <translation>吞吐率接收/发送</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="77"/>
         <source>KBytes/sec</source>
-        <translation type="unfinished">KB/秒</translation>
+        <translation>KB/秒</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="86"/>
         <source>Files RX/TX</source>
-        <translation type="unfinished">文件接收/发送</translation>
+        <translation>文件接收/发送</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="89"/>
         <source>Users served</source>
-        <translation type="unfinished">服务用户</translation>
+        <translation>服务用户</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="90"/>
         <source>Users peak</source>
-        <translation type="unfinished">用户峰值</translation>
+        <translation>用户峰值</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="92"/>
         <source>Uptime: %1 hours, %2 minutes, %3 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>正常运行时间：%1 小时，%2 分钟，%3 秒</translation>
     </message>
 </context>
 <context>
@@ -7137,27 +7011,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstats.ui" line="136"/>
         <source>Update information every</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Uptime</source>
-        <translation type="vanished">运行时间</translation>
-    </message>
-    <message>
-        <source>Media File RX/TX</source>
-        <translation type="vanished">媒体文件接收/发送</translation>
-    </message>
-    <message>
-        <source>KBytes/sec</source>
-        <translation type="vanished">KB/秒</translation>
-    </message>
-    <message>
-        <source>Throughput RX/TX</source>
-        <translation type="vanished">吞吐率接收/发送</translation>
-    </message>
-    <message>
-        <source>KBytes</source>
-        <translation type="vanished">KB</translation>
+        <translation>每隔 更新信息</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="142"/>
@@ -7169,55 +7023,23 @@ Delete the published user account to unregister your server.</source>
         <source>Update interval</source>
         <translation>更新间隔</translation>
     </message>
-    <message>
-        <source>Files RX/TX</source>
-        <translation type="vanished">文件接收/发送</translation>
-    </message>
-    <message>
-        <source>Total RX/TX</source>
-        <translation type="vanished">总接收/发送</translation>
-    </message>
-    <message>
-        <source>Voice RX/TX</source>
-        <translation type="vanished">语音接收/发送</translation>
-    </message>
-    <message>
-        <source>Video RX/TX</source>
-        <translation type="vanished">视频接收/发送</translation>
-    </message>
-    <message>
-        <source>Desktop RX/TX</source>
-        <translation type="vanished">桌面接收/发送</translation>
-    </message>
-    <message>
-        <source>Users served</source>
-        <translation type="vanished">服务用户</translation>
-    </message>
-    <message>
-        <source>Users peak</source>
-        <translation type="vanished">用户峰值</translation>
-    </message>
-    <message>
-        <source>&amp;Close</source>
-        <translation type="vanished">关闭(&amp;C)</translation>
-    </message>
 </context>
 <context>
     <name>ShortcutsModel</name>
     <message>
         <location filename="../shortcutsmodel.cpp" line="57"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>操作</translation>
     </message>
     <message>
         <location filename="../shortcutsmodel.cpp" line="58"/>
         <source>Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>快捷键</translation>
     </message>
     <message>
         <location filename="../shortcutsmodel.cpp" line="89"/>
         <source>None</source>
-        <translation type="unfinished">无</translation>
+        <translation>无</translation>
     </message>
 </context>
 <context>
@@ -8517,25 +8339,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="197"/>
         <source>&amp;Create New User Account</source>
-        <translation type="unfinished"></translation>
+        <translation>创建新用户帐户(&amp;C)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="198"/>
         <source>&amp;Delete Selected User Account</source>
-        <translation type="unfinished"></translation>
+        <translation>删除选定的用户帐户(&amp;D)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="199"/>
         <source>&amp;Edit Selected User Account</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Delete Selected User</source>
-        <translation type="vanished">删除选定用户(&amp;D)</translation>
-    </message>
-    <message>
-        <source>&amp;Edit Selected User</source>
-        <translation type="vanished">编辑选定用户(&amp;E)</translation>
+        <translation>编辑选定的用户帐户(&amp;E)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="123"/>
