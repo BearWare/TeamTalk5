@@ -88,7 +88,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../aboutdlg.cpp" line="31"/>
         <source>Compiled on %1 using Qt %2 (Qt %3 used by this instance).</source>
-        <translation type="unfinished"></translation>
+        <translation>скомпелировано на основе %1 используется Qt %2 (Qt %3 используется этим экземпляром).</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="32"/>
@@ -1071,7 +1071,7 @@ Message of the day: %2</translation>
     <message>
         <location filename="../useraccountdlg.cpp" line="460"/>
         <source>Interval: </source>
-        <translation type="unfinished"></translation>
+        <translation>Интервал: </translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="461"/>
@@ -1081,7 +1081,7 @@ Message of the day: %2</translation>
     <message>
         <location filename="../useraccountdlg.cpp" line="462"/>
         <source>Interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Интервал</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="466"/>
@@ -1509,7 +1509,7 @@ Message of the day: %2</translation>
     <message>
         <location filename="../filetransfer.ui" line="109"/>
         <source>Transfer progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Ход передачи</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="136"/>
@@ -1756,7 +1756,7 @@ Message of the day: %2</translation>
     <message>
         <location filename="../keycompdlg.cpp" line="40"/>
         <source>Setup Hotkey: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Установить горячую клавишу: %1</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="55"/>
@@ -1779,27 +1779,27 @@ Message of the day: %2</translation>
     <message>
         <location filename="../utilui.cpp" line="557"/>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя:</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="562"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Пароль:</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="568"/>
         <source>Show password</source>
-        <translation type="unfinished">Показать пароль</translation>
+        <translation>Показать пароль</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="573"/>
         <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="574"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Отмена</translation>
+        <translation>&amp;Отмена</translation>
     </message>
 </context>
 <context>
@@ -3260,7 +3260,7 @@ Message of the day: %2</translation>
     <message>
         <location filename="../mainwindow.cpp" line="636"/>
         <source>%1 has detected your system language to be %2. Continue in %2?</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 обнаружил, что язык вашей системы является %2. продолжаем на %2?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="638"/>
@@ -3282,7 +3282,7 @@ Message of the day: %2</translation>
     <message>
         <location filename="../mainwindow.cpp" line="640"/>
         <source>Language configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Настроить язык</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1031"/>
@@ -3336,12 +3336,12 @@ Message of the day: %2</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2166"/>
         <source>Incorrect username or password. Try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Неверное имя пользователя или пароль. Попробуйте ещё раз.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2186"/>
         <source>Incorrect channel password. Try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Неверный пароль канала. Попробуйте снова.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2202"/>
@@ -3902,7 +3902,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="5460"/>
         <source>Specify User Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Укажите учетную запись пользователя</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5805"/>
@@ -4954,22 +4954,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../utilui.cpp" line="613"/>
         <source>Password</source>
-        <translation type="unfinished">Пароль</translation>
+        <translation>Пароль</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="619"/>
         <source>Show password</source>
-        <translation type="unfinished">Показать пароль</translation>
+        <translation>Показать пароль</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="624"/>
         <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="625"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Отмена</translation>
+        <translation>&amp;Отмена</translation>
     </message>
 </context>
 <context>
@@ -5187,12 +5187,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="354"/>
         <source>Key Combination:</source>
-        <translation type="unfinished"></translation>
+        <translation>Комбинация клавиш:</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="469"/>
         <source>Show voice activation level slider</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать ползунок уровня голосовой активации</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="553"/>
@@ -5202,12 +5202,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="588"/>
         <source>Dialogs</source>
-        <translation type="unfinished"></translation>
+        <translation>Диалоги</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="663"/>
         <source>Channels Tree</source>
-        <translation type="unfinished"></translation>
+        <translation>Дерево каналов</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="713"/>
@@ -5217,7 +5217,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="798"/>
         <source>Software Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Обновление программы</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="844"/>
@@ -5378,7 +5378,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1943"/>
         <source>Double click to configure keys</source>
-        <translation type="unfinished"></translation>
+        <translation>Дважды щелкните, чтобы настроить клавиши</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1204"/>
@@ -5535,7 +5535,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1905"/>
         <source>Interrupt current screenreader speech on new event</source>
-        <translation type="unfinished"></translation>
+        <translation>Прервать текущую речь программы чтения с экрана при появлении нового события</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1931"/>
@@ -5717,12 +5717,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="632"/>
         <source>One by One</source>
-        <translation type="unfinished"></translation>
+        <translation>один за другим</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="633"/>
         <source>Overlapping</source>
-        <translation type="unfinished"></translation>
+        <translation>Прерывание</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="643"/>
@@ -5749,7 +5749,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="653"/>
         <source>VoiceOver (via Apple Script)</source>
-        <translation type="unfinished"></translation>
+        <translation>VoiceOver (с помощью Apple Script)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="847"/>
@@ -5876,7 +5876,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="656"/>
         <source>Qt Accessibility Announcement</source>
-        <translation type="unfinished"></translation>
+        <translation>Специальные возможности QT</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1060"/>
@@ -5888,7 +5888,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="1148"/>
         <source>Key Combination: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Комбинация клавиш: %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1208"/>
@@ -6125,57 +6125,57 @@ Should these settings be applied?</source>
     <message>
         <location filename="../utilhotkey.cpp" line="35"/>
         <source>Push-to-Talk</source>
-        <translation type="unfinished"></translation>
+        <translation>Нажми, чтобы сказать</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="37"/>
         <source>Enable/disable voice activation</source>
-        <translation type="unfinished">включить/выключить голосовую активацию</translation>
+        <translation>включить/выключить голосовую активацию</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="39"/>
         <source>Decrease microphone gain</source>
-        <translation type="unfinished"></translation>
+        <translation>Уменьшить усиление микрофона</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="41"/>
         <source>Increase microphone gain</source>
-        <translation type="unfinished">Увеличить усиление микрофона</translation>
+        <translation>Увеличить усиление микрофона</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="43"/>
         <source>Decrease volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Уменьшить громкость</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="45"/>
         <source>Increase volume</source>
-        <translation type="unfinished">Увеличить громкость</translation>
+        <translation>Увеличить громкость</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="47"/>
         <source>Enable/disable mute all</source>
-        <translation type="unfinished">включить/выключить заглушить всех</translation>
+        <translation>включить/выключить заглушить всех</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="49"/>
         <source>Enable/disable video transmission</source>
-        <translation type="unfinished">Включить/выключить передачу видео</translation>
+        <translation>Включить/выключить передачу видео</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="51"/>
         <source>Reinitialize sound devices</source>
-        <translation type="unfinished">Повторная инициализация звуковых устройств</translation>
+        <translation>Повторная инициализация звуковых устройств</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="53"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished">Показать/скрыть главное окно</translation>
+        <translation>Показать/скрыть главное окно</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="58"/>
         <source>Unknown hotkey</source>
-        <translation type="unfinished"></translation>
+        <translation>Неизвестная горячая клавиша</translation>
     </message>
 </context>
 <context>
@@ -6988,7 +6988,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="501"/>
         <source>Server version: 0.0</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия сервера: 0.0</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="71"/>
@@ -7071,7 +7071,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstatsdlg.cpp" line="53"/>
         <source>Total RX/TX</source>
-        <translation type="unfinished">Всего ПРИН/ПЕР</translation>
+        <translation>Всего ПРИН/ПЕР</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="53"/>
@@ -7081,57 +7081,57 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverstatsdlg.cpp" line="65"/>
         <location filename="../serverstatsdlg.cpp" line="86"/>
         <source>KBytes</source>
-        <translation type="unfinished">КБ</translation>
+        <translation>КБ</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="56"/>
         <source>Voice RX/TX</source>
-        <translation type="unfinished">Голос ПРИН/ПЕР</translation>
+        <translation>Голос ПРИН/ПЕР</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="59"/>
         <source>Video RX/TX</source>
-        <translation type="unfinished">Видео ПРИН/ПЕР</translation>
+        <translation>Видео ПРИН/ПЕР</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="62"/>
         <source>Media File RX/TX</source>
-        <translation type="unfinished">Медиа Файл ПРИН/ПЕР</translation>
+        <translation>Медиа Файл ПРИН/ПЕР</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="65"/>
         <source>Desktop RX/TX</source>
-        <translation type="unfinished">Рабочий стол ПРИН/ПЕР</translation>
+        <translation>Рабочий стол ПРИН/ПЕР</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="77"/>
         <source>Throughput RX/TX</source>
-        <translation type="unfinished">Пропускная способность ПРИЁМ/ПЕРЕДАЧА</translation>
+        <translation>Пропускная способность ПРИЁМ/ПЕРЕДАЧА</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="77"/>
         <source>KBytes/sec</source>
-        <translation type="unfinished">КБ/сек</translation>
+        <translation>КБ/сек</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="86"/>
         <source>Files RX/TX</source>
-        <translation type="unfinished">Файлы ПРИН/ПЕР</translation>
+        <translation>Файлы ПРИН/ПЕР</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="89"/>
         <source>Users served</source>
-        <translation type="unfinished">Заслуженные пользователи</translation>
+        <translation>Обслуживаемые пользователи</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="90"/>
         <source>Users peak</source>
-        <translation type="unfinished">Пик пользователей</translation>
+        <translation>Пик пользователей</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="92"/>
         <source>Uptime: %1 hours, %2 minutes, %3 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>Время работы: %1 часов, %2 минут, %3 секунд</translation>
     </message>
 </context>
 <context>
@@ -7144,7 +7144,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstats.ui" line="136"/>
         <source>Update information every</source>
-        <translation type="unfinished"></translation>
+        <translation>Обновлять информацию каждый раз</translation>
     </message>
     <message>
         <source>Uptime</source>
@@ -7214,17 +7214,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../shortcutsmodel.cpp" line="57"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Действие</translation>
     </message>
     <message>
         <location filename="../shortcutsmodel.cpp" line="58"/>
         <source>Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Ярлык</translation>
     </message>
     <message>
         <location filename="../shortcutsmodel.cpp" line="89"/>
         <source>None</source>
-        <translation type="unfinished">Не использовать</translation>
+        <translation>Не использовать</translation>
     </message>
 </context>
 <context>
@@ -8525,17 +8525,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="197"/>
         <source>&amp;Create New User Account</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Создать новую учетную запись</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="198"/>
         <source>&amp;Delete Selected User Account</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Удалить выбранную учетную запись</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="199"/>
         <source>&amp;Edit Selected User Account</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Редактировать выбранную учетную запись</translation>
     </message>
     <message>
         <source>&amp;Delete Selected User</source>
