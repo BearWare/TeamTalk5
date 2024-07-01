@@ -31,11 +31,13 @@
 
 extern TTInstance* ttInst;
 
-KeyCompDlg::KeyCompDlg(QWidget * parent/* = 0*/)
+KeyCompDlg::KeyCompDlg(HotKeyID hkID, QWidget * parent/* = 0*/)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
+
+    ui.groupBox->setTitle(tr("Setup Hotkey: %1").arg(getHotKeyName(hkID)));
 
 #ifdef Q_OS_WIN32
     HWND hWnd = reinterpret_cast<HWND>(this->winId());
@@ -54,7 +56,7 @@ KeyCompDlg::~KeyCompDlg()
 #endif
 }
 
-#if defined(Q_OS_WIN32) && QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+#if defined(Q_OS_WIN32)
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 bool KeyCompDlg::nativeEvent(const QByteArray& eventType, void* message,
@@ -75,34 +77,20 @@ bool KeyCompDlg::nativeEvent(const QByteArray& eventType, void* message,
             m_activekeys.insert(msg->wParam);
         }
         else
+        {
+            // if KeyCompDlg is opened from a key press (e.g. Space-key) then
+            // we receive an unwanted WM_TEAMTALK_HOTKEYEVENT
+            if (!m_activekeys.contains(msg->wParam))
+                return QDialog::nativeEvent(eventType, message, result);
+
             m_activekeys.remove(msg->wParam);
+        }
 
         if(m_activekeys.size() == 0)
             this->accept();
     }
 
     return QDialog::nativeEvent(eventType, message, result);
-}
-
-#elif defined(Q_OS_WIN32)
-
-bool KeyCompDlg::winEvent(MSG *message, long *result)
-{
-    if(message->message == WM_TEAMTALK_HOTKEYEVENT)
-    {
-        if(message->lParam)
-        {
-            m_hotkey.push_back(message->wParam);
-            ui.keycompEdit->setText(getHotKeyText(m_hotkey));
-            m_activekeys.insert(message->wParam);
-        }
-        else
-            m_activekeys.remove(message->wParam);
-
-        if(m_activekeys.size() == 0)
-            this->accept();
-    }
-    return QDialog::winEvent(message, result);
 }
 
 #elif defined(Q_OS_LINUX)
@@ -137,6 +125,22 @@ void KeyCompDlg::keyPressEvent(QKeyEvent* event)
         m_hotkey.push_back(*ite);
 
     ui.keycompEdit->setText(getHotKeyText(m_hotkey));
+}
+
+void KeyCompDlg::keyReleaseEvent(QKeyEvent* event)
+{
+    // if KeyCompDlg is opened from a key press (e.g. Space-key) then
+    // we receive an unwanted keyReleaseEvent()
+    if (!m_activekeys.contains(event->key()))
+    {
+        QDialog::keyReleaseEvent(event);
+        return;
+    }
+
+    if(event->isAutoRepeat())
+        return;
+    if(event->modifiers() == 0)
+        this->accept();
 }
 
 #elif defined(Q_OS_DARWIN)
@@ -200,6 +204,14 @@ void KeyCompDlg::keyReleaseEvent(QKeyEvent* event)
              << "key: " << QString("%1").arg(event->key(), 0, 16)
              << "active keys count " << m_activekeys.size();
 
+    // if KeyCompDlg is opened from a key press (e.g. Space-key) then
+    // we receive an unwanted keyReleaseEvent()
+    if (!m_activekeys.contains(event->key()))
+    {
+        QDialog::keyReleaseEvent(event);
+        return;
+    }
+
     if(event->isAutoRepeat())
         return;
 
@@ -230,18 +242,6 @@ void KeyCompDlg::keyReleaseEvent(QKeyEvent* event)
         m_hotkey[0] = m_hotkey[1] = MAC_NO_KEY;
     }
     if(close_dlg)
-        this->accept();
-}
-
-#endif
-
-#if defined(Q_OS_LINUX)
-
-void KeyCompDlg::keyReleaseEvent(QKeyEvent* event)
-{
-    if(event->isAutoRepeat())
-        return;
-    if(event->modifiers() == 0)
         this->accept();
 }
 

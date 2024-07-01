@@ -11,7 +11,7 @@ AppUpdatesURL=http://www.bearware.dk
 DefaultDirName={pf}\TeamTalk5
 DefaultGroupName=TeamTalk 5
 AllowNoIcons=yes
-OutputBaseFilename=TeamTalk_v5.17.0.5145_Setup
+OutputBaseFilename=TeamTalk_v5.17.0.5146_Setup
 SetupIconFile=c:\tt5dist\TeamTalk5_x64\TeamTalk5\Client\qtTeamTalk\images\teamtalk.ico
 Compression=lzma/ultra64
 SolidCompression=yes
@@ -33,6 +33,7 @@ Name: da; MessagesFile: "compiler:Languages\Danish.isl"
 Name: de; MessagesFile: "compiler:Languages\German.isl"
 Name: en; MessagesFile: "compiler:Default.isl"
 Name: es; MessagesFile: "compiler:Languages\Spanish.isl"
+Name: fa; MessagesFile: "Languages\Persian.isl"
 Name: fr; MessagesFile: "compiler:Languages\French.isl"
 Name: he; MessagesFile: "compiler:Languages\Hebrew.isl"
 Name: hu; MessagesFile: "compiler:Languages\Hungarian.isl"
@@ -54,6 +55,8 @@ BeveledLabel={cm:LanguageName}
 [CustomMessages]
 en.Client=TeamTalk 5 Client
 en.Full=TeamTalk 5 Client & Server
+fa.Client=برنامۀ تیم‌تاک5
+fa.Full=برنامۀ تیم‌تاک5 همراه با سِروِر
 fr.Client=Client TeamTalk 5
 fr.Full=Client et Serveur TeamTalk 5
 zh_CN.Client=TeamTalk 5 客户端

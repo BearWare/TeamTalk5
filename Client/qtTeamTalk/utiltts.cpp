@@ -127,11 +127,27 @@ void addTextToSpeechMessage(const QString& msg)
         break;
     }
     case TTSENGINE_QTANNOUNCEMENT:
+    {
 #if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
         QAccessibleAnnouncementEvent announcementEvent(announcerObject, msg);
         if (ttSettings->value(SETTINGS_TTS_ASSERTIVE, SETTINGS_TTS_ASSERTIVE_DEFAULT).toBool() == true)
             announcementEvent.setPriority(QAccessible::AnnouncementPriority::Assertive);
         QAccessible::updateAccessibility(&announcementEvent);
+#endif
+        break;
+    }
+    case TTSENGINE_APPLESCRIPT:
+#if defined(Q_OS_MAC)
+        QString escapedMsg = msg;
+        escapedMsg.replace("\"", "\\\"");
+        QString appleScript = QString(R"(
+            tell application "VoiceOver"
+                output "%1"
+            end tell
+        )").arg(escapedMsg);
+        QStringList arguments;
+        arguments << "-e" << appleScript;
+        QProcess::startDetached("osascript", arguments);
 #endif
         break;
     }

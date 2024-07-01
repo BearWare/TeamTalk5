@@ -16,7 +16,6 @@
  */
 
 #include "utilhotkey.h"
-#include "utilos.h"
 #include "settings.h"
 
 #include <QKeySequence>
@@ -27,6 +26,37 @@
 
 extern QSettings* ttSettings;
 extern TTInstance* ttInst;
+
+QString getHotKeyName(HotKeyID id)
+{
+    switch(id)
+    {
+    case HOTKEY_PUSHTOTALK:
+        return QObject::tr("Push-to-Talk");
+    case HOTKEY_VOICEACTIVATION:
+        return QObject::tr("Enable/disable voice activation");
+    case HOTKEY_MICROPHONEGAIN_DEC :
+        return QObject::tr("Decrease microphone gain");
+    case HOTKEY_MICROPHONEGAIN_INC :
+        return QObject::tr("Increase microphone gain");
+    case HOTKEY_DECVOLUME :
+        return QObject::tr("Decrease volume");
+    case HOTKEY_INCVOLUME :
+        return QObject::tr("Increase volume");
+    case HOTKEY_MUTEALL :
+        return QObject::tr("Enable/disable mute all");
+    case HOTKEY_VIDEOTX :
+        return QObject::tr("Enable/disable video transmission");
+    case HOTKEY_REINITSOUNDDEVS :
+        return QObject::tr("Reinitialize sound devices");
+    case HOTKEY_SHOWHIDE_WINDOW :
+        return QObject::tr("Show/hide main window");
+    case HOTKEY_NEXT_UNUSED :
+    case HOTKEY_NONE :
+        break;
+    }
+    return QObject::tr("Unknown hotkey");
+}
 
 QString getHotKeyString(HotKeyID keyid)
 {
