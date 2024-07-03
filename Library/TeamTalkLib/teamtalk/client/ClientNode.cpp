@@ -3309,7 +3309,9 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
     //both audio and video part of mediafile use same stream id
     GEN_NEXT_ID(m_mediafile_stream_id);
 
-    if (!UpdateStreamingMediaFile(offset, paused, preprocessor, vid_codec))
+    // initial playback should ignore offset being 0 (which is the logical value to use)
+    if (!UpdateStreamingMediaFile((offset != 0 ? offset : MEDIASTREAMER_OFFSET_IGNORE),
+                                  paused, preprocessor, vid_codec))
     {
         StopStreamingMediaFile();
         return false;
@@ -3344,8 +3346,7 @@ bool ClientNode::UpdateStreamingMediaFile(uint32_t offset, bool paused,
     if (!m_audiofile_thread.UpdatePreprocessor(preprocessor))
         return false;
 
-    if (offset != MEDIASTREAMER_OFFSET_IGNORE)
-        m_mediafile_streamer->SetOffset(offset);
+    m_mediafile_streamer->SetOffset(offset);
 
     if (paused)
         return m_mediafile_streamer->Pause();
@@ -3424,7 +3425,9 @@ int ClientNode::InitMediaPlayback(const ACE_TString& filename, uint32_t offset, 
 
     m_mediaplayback_streams[m_mediaplayback_counter] = playback;
 
-    if (!UpdateMediaPlayback(m_mediaplayback_counter, offset, paused, preprocessor))
+    // initial playback should ignore offset being 0 (which is the logical value to use)
+    if (!UpdateMediaPlayback(m_mediaplayback_counter, (offset != 0 ? offset : MEDIASTREAMER_OFFSET_IGNORE),
+                             paused, preprocessor))
     {
         m_mediaplayback_streams.erase(m_mediaplayback_counter);
         return 0;
@@ -3483,23 +3486,11 @@ bool ClientNode::UpdateMediaPlayback(int id, uint32_t offset, bool paused,
         break;
     }
 
-    if(offset != MEDIASTREAMER_OFFSET_IGNORE)
-    {
-        if (!playback->Seek(offset))
-            return false;
-    }
+    if (!playback->Seek(offset))
+        return false;
 
     if (paused)
-    {
-        //if (initial)
-        //{
-        //    if (!playback->Pause())
-        //        return false;
-
-        //    return playback->PlayMedia();
-        //}
         return playback->Pause();
-    }
     else
         return playback->PlayMedia();
 }
