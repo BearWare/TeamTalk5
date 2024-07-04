@@ -26,6 +26,7 @@
 #include <QSystemTrayIcon>
 #include <QNetworkAccessManager>
 #include <QSortFilterProxyModel>
+#include <optional>
 
 #include "common.h"
 #include "textmessagecontainer.h"
@@ -68,14 +69,16 @@ enum TimerEvent
     TIMER_STATUSMSG,
     TIMER_SEND_DESKTOPWINDOW,
     TIMER_APP_UPDATE,
+    TIMER_CHANGE_MEDIAFILE_POSITION,
 };
 
 enum
 {
     TAB_CHAT,
+    TAB_FILES,
+    TAB_MEDIA,
     TAB_VIDEO,
     TAB_DESKTOP,
-    TAB_FILES,
 
     TAB_COUNT
 };
@@ -227,6 +230,7 @@ private:
 
     QString getTitle();
     void updateWindowTitle();
+    void updateTabPages();
 #if defined(Q_OS_WIN32)
     void firewallInstall();
 #endif
@@ -248,8 +252,12 @@ private:
     void sendDesktopCursor();
     QRect getSharedWindowRect();
     void processDesktopInput(int userid, const DesktopInput& input);
+    void openStreamMediaFileDlg();
     void startStreamMediaFile();
     void stopStreamMediaFile();
+    void changeMediaFileOffset(int pos);
+    void changeMediaFileVolume(int pos);
+    void setMediaFilePosition();
     void loadHotKeys();
     void enableHotKey(HotKeyID id, const hotkey_t& hk);
     void disableHotKey(HotKeyID id);
@@ -391,6 +399,7 @@ private:
     void slotTreeContextMenu(const QPoint& pos);
     void slotFilesContextMenu(const QPoint& pos);
     void slotUpdateUI();
+    void slotUpdateMediaTabUI();
     void slotUpdateVideoTabUI();
     void slotUpdateDesktopTabUI();
     void slotUploadFiles(const QStringList& files);
@@ -473,6 +482,7 @@ private:
     void clienteventSoundDeviceRemoved(const SoundDevice& snddev);
     MediaFilePlayback m_mfp = {};
     VideoCodec m_mfp_videocodec = {};
+    std::optional<MediaFileInfo> m_mfi;
 
 signals:
     /* Begin - CLIENTEVENT_* based events */
