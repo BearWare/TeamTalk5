@@ -492,6 +492,7 @@
 
 #define SETTINGS_STREAMMEDIA_FILENAME               "stream-media/%1_stream-media-filename"
 #define SETTINGS_STREAMMEDIA_LOOP                   "stream-media/stream-media-file-loop"
+#define SETTINGS_STREAMMEDIA_LOOP_DEFAULT           false
 #define SETTINGS_STREAMMEDIA_CODEC                  "stream-media/codec"
 #define SETTINGS_STREAMMEDIA_WEBMVP8_BITRATE        "stream-media/codec/webmvp8-bitrate"
 #define SETTINGS_STREAMMEDIA_OFFSET                 "stream-media/offset"

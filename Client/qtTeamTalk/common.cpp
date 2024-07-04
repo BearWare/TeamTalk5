@@ -375,6 +375,41 @@ AudioPreprocessor loadAudioPreprocessor(AudioPreprocessorType preprocessortype)
     return preprocessor;
 }
 
+void saveAudioPreprocessor(const AudioPreprocessor& preprocessor)
+{
+    ttSettings->setValue(SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR, preprocessor.nPreprocessor);
+    switch (preprocessor.nPreprocessor)
+    {
+    case NO_AUDIOPREPROCESSOR:
+        break;
+    case SPEEXDSP_AUDIOPREPROCESSOR:
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_SPX_AGC_ENABLE, preprocessor.speexdsp.bEnableAGC);
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_SPX_AGC_GAINLEVEL, preprocessor.speexdsp.nGainLevel);
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_SPX_AGC_INC_MAXDB, preprocessor.speexdsp.nMaxIncDBSec);
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_SPX_AGC_DEC_MAXDB, preprocessor.speexdsp.nMaxDecDBSec);
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_SPX_AGC_GAINMAXDB, preprocessor.speexdsp.nMaxGainDB);
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_SPX_DENOISE_ENABLE, preprocessor.speexdsp.bEnableDenoise);
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_SPX_DENOISE_SUPPRESS, preprocessor.speexdsp.nMaxNoiseSuppressDB);
+        break;
+    case TEAMTALK_AUDIOPREPROCESSOR:
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_TTAP_MUTELEFT, preprocessor.ttpreprocessor.bMuteLeftSpeaker);
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_TTAP_MUTERIGHT, preprocessor.ttpreprocessor.bMuteRightSpeaker);
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_TTAP_GAINLEVEL, preprocessor.ttpreprocessor.nGainLevel);
+        break;
+    case WEBRTC_AUDIOPREPROCESSOR :
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBRTC_GAINCTL_ENABLE, preprocessor.webrtc.gaincontroller2.bEnable);
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBRTC_GAINDB, preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB);
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBRTC_SAT_PROT_ENABLE, preprocessor.webrtc.gaincontroller2.adaptivedigital.bEnable );
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBRTC_INIT_SAT_MARGIN_DB, preprocessor.webrtc.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB);
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBRTC_EXTRA_SAT_MARGIN_DB, preprocessor.webrtc.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB);
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBRTC_MAXGAIN_DBSEC, preprocessor.webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond);
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBRTC_MAX_OUT_NOISE, preprocessor.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS);
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBRTC_NOISESUPPRESS_ENABLE, preprocessor.webrtc.noisesuppression.bEnable);
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBRTC_NOISESUPPRESS_LEVEL, preprocessor.webrtc.noisesuppression.nLevel);
+        break;
+    }
+}
+
 bool isWebLogin(const QString& username, bool includeParentLoginName)
 {
     if (username.endsWith(WEBLOGIN_BEARWARE_USERNAMEPOSTFIX, Qt::CaseInsensitive))

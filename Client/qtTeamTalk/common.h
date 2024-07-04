@@ -193,6 +193,7 @@ bool hasDesktopAccess(const QVector<DesktopAccessEntry>& entries,
 void deleteDesktopAccessEntries();
 
 AudioPreprocessor loadAudioPreprocessor(AudioPreprocessorType preprocessortype);
+void saveAudioPreprocessor(const AudioPreprocessor& preprocess);
 
 bool isWebLogin(const QString& username, bool includeParentLoginName);
 QString userCacheID(const User& user);
