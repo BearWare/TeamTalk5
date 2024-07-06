@@ -184,13 +184,15 @@ public:
 
     bool Completed() const;
 
+private:
+    ACE_UINT32 m_offset = MEDIASTREAMER_OFFSET_IGNORE;
+    std::mutex m_mutex;
+
 protected:
     MediaFileProp m_media_in;
     
     mediastream_statuscallback_t m_statuscallback;
 
-    std::mutex m_mutex;
-    ACE_UINT32 m_offset = MEDIASTREAMER_OFFSET_IGNORE;
     // 'm_completed=true' means thread is ready to be joined
     bool m_completed = false;
 };

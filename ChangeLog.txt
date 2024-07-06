@@ -27,6 +27,7 @@ Default Qt Client
 - Ability to reorder column of "User Accounts" and "Online Users" dialog
 - Ability to search by IP or username in "Banned Users" dialog
 - Ability to show password on login error, channel password, channel operator password, and channel share
+- Ability to pause Media File streams
 - Single dialog to enter username and password on login error and channel share
 - Support for Import/Export entire Server List in "Connect to a Server" dialog
 - Support Idle Time on Linux (X11)

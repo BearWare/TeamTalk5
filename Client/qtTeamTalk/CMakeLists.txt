@@ -257,7 +257,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
       find_package(Qt6LinguistTools)
       if (Qt6LinguistTools_FOUND)
         # This generates target "update_translations" and "${TEAMTALK_TARGET}_lupdate"
-        qt_add_lupdate (${TEAMTALK_TARGET} TS_FILES ${TS_FILES})
+        qt_add_lupdate (${TEAMTALK_TARGET} TS_FILES ${TS_FILES} OPTIONS -no-obsolete)
         qt6_add_translation (QM_FILES ${TS_FILES})
         add_custom_target(QtTeamTalk5-Translations DEPENDS ${QM_FILES})
         install (FILES ${QM_FILES} DESTINATION Client/qtTeamTalk/languages)

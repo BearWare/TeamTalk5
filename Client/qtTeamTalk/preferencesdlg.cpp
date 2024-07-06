@@ -776,7 +776,10 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_GENERAL_AUTOAWAY, ui.awaySpinBox->value());
         ttSettings->setValue(SETTINGS_GENERAL_AWAY_STATUSMSG, ui.awayMsgEdit->text());
         ttSettings->setValue(SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT, ui.disableVoiceActCheckBox->isChecked());
-        saveHotKeySettings(HOTKEY_PUSHTOTALK, m_hotkeys[HOTKEY_PUSHTOTALK]);
+        if (m_hotkeys.contains(HOTKEY_PUSHTOTALK))
+            saveHotKeySettings(HOTKEY_PUSHTOTALK, m_hotkeys[HOTKEY_PUSHTOTALK]);
+        else
+            deleteHotKeySettings(HOTKEY_PUSHTOTALK);
         auto activehotkeys = ttSettings->value(SETTINGS_SHORTCUTS_ACTIVEHKS, SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT).toULongLong();
         ttSettings->setValue(SETTINGS_SHORTCUTS_ACTIVEHKS,
             (ui.pttChkBox->isChecked() ? activehotkeys | HOTKEY_PUSHTOTALK : activehotkeys & ~HOTKEY_PUSHTOTALK));
@@ -979,19 +982,17 @@ void PreferencesDlg::slotSaveChanges()
     }
     if(m_modtab.find(SHORTCUTS_TAB) != m_modtab.end())
     {
+        for (Hotkeys hk = HOTKEY_FIRST; hk < HOTKEY_NEXT_UNUSED; hk <<= 1)
+        {
 #ifdef Q_OS_WIN32
-        for (Hotkeys hk = HOTKEY_FIRST; hk < HOTKEY_NEXT_UNUSED; hk <<= 1)
-        {
             TT_HotKey_Unregister(ttInst, static_cast<HotKeyID>(hk));
-        }
 #endif
-        for (Hotkeys hk = HOTKEY_FIRST; hk < HOTKEY_NEXT_UNUSED; hk <<= 1)
-        {
             deleteHotKeySettings(static_cast<HotKeyID>(hk));
         }
         hotkeys_t::iterator ite = m_hotkeys.begin();
         while (ite != m_hotkeys.end())
         {
+            Q_ASSERT((*ite).size() /* hotkey is empty */);
             saveHotKeySettings(ite.key(), *ite);
 #ifdef Q_OS_WIN32
             TT_HotKey_Register(ttInst, ite.key(), &(*ite)[0], INT32(ite->size()));
@@ -1136,7 +1137,7 @@ void PreferencesDlg::slotSetupHotkey()
     KeyCompDlg dlg(HOTKEY_PUSHTOTALK, this);
     if(!dlg.exec())
         return;
-
+    Q_ASSERT(dlg.m_hotkey.size());
     m_hotkeys[HOTKEY_PUSHTOTALK] = dlg.m_hotkey;
     m_shortcutsmodel->setShortcuts(m_hotkeys);
     updatePushtoTalk();
