@@ -1449,6 +1449,14 @@ class TeamTalk(object):
     def doTextMessage(self, msg: TextMessage) -> int:
         return _DoTextMessage(self._tt, msg)
 
+    def doSendPrivateMessage(self, user_id: int, message_text: str):
+        message = TextMessage()
+        message.nMsgType = TextMsgType.MSGTYPE_USER
+        message.nToUserID = user_id
+        message.nFromUserID = self.getMyUserID() 
+        message.szMessage = ttstr(message_text)
+        return _DoTextMessage(self._tt, message)
+
     def doChannelOp(self, nUserID: int, nChannelID: int, bMakeOperator: bool) -> int:
         return _DoChannelOp(self._tt, nUserID, nChannelID, bMakeOperator)
 
