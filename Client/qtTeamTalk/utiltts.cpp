@@ -131,7 +131,7 @@ void addTextToSpeechMessage(const QString& msg)
 #if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
         QAccessibleAnnouncementEvent announcementEvent(announcerObject, msg);
         if (ttSettings->value(SETTINGS_TTS_ASSERTIVE, SETTINGS_TTS_ASSERTIVE_DEFAULT).toBool() == true)
-            announcementEvent.setPriority(QAccessible::AnnouncementPriority::Assertive);
+            announcementEvent.setPoliteness(QAccessible::AnnouncementPoliteness::Assertive);
         QAccessible::updateAccessibility(&announcementEvent);
 #endif
         break;
