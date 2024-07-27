@@ -20,6 +20,7 @@
 #include "settings.h"
 #include "audiopreprocessordlg.h"
 #include "utilui.h"
+#include "utilmedia.h"
 
 #include <QFileDialog>
 #include <QLineEdit>
@@ -66,7 +67,7 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
                                                       SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR_DEFAULT).toInt());
     setCurrentItemData(ui.preprocessorComboBox, apt);
 
-    ui.playbackOffsetSlider->setMaximum(10000);
+    ui.playbackOffsetSlider->setMaximum(MEDIAFILE_SLIDER_MAXIMUM);
 
     m_videocodec.nCodec = Codec(ttSettings->value(SETTINGS_STREAMMEDIA_CODEC, DEFAULT_VIDEO_CODEC).toInt());
     switch(m_videocodec.nCodec)
@@ -205,34 +206,9 @@ void StreamMediaFileDlg::showMediaFormatInfo()
 
     if (TT_GetMediaFileInfo(_W(filename), &m_mediaFile))
     {
-        // display audio format
-        if(m_mediaFile.audioFmt.nAudioFmt != AFF_NONE)
-        {
-            QString channels;
-            if(m_mediaFile.audioFmt.nChannels == 2)
-                channels = tr("Stereo");
-            else if(m_mediaFile.audioFmt.nChannels == 1)
-                channels = tr("Mono");
-            else
-                channels = tr("%1 audio channels").arg(m_mediaFile.audioFmt.nChannels);
-
-            audio = tr("%1 Hz, %2").arg(m_mediaFile.audioFmt.nSampleRate).arg(channels);
-        }
-        else
-            audio = tr("Unknown format");
-
-        // display video format
-        double fps = double(m_mediaFile.videoFmt.nFPS_Numerator) / double(m_mediaFile.videoFmt.nFPS_Denominator);
-        if(m_mediaFile.videoFmt.picFourCC != FOURCC_NONE)
-            video = tr("%1x%2 %3 FPS").arg(m_mediaFile.videoFmt.nWidth).arg(m_mediaFile.videoFmt.nHeight).arg(fps, 0, 'f', 1);
-        else
-            video = tr("Unknown format");
-
-        int duration_sec = m_mediaFile.uDurationMSec / 1000;
-        duration = QString("%1:%2:%3")
-                .arg(duration_sec / 3600, 2 , 10, QChar('0'))
-                .arg((duration_sec % 3600) / 60, 2 , 10, QChar('0'))
-                .arg(duration_sec % 60, 2 , 10, QChar('0'));
+        audio = getMediaAudioDescription(m_mediaFile.audioFmt);
+        video = getMediaVideoDescription(m_mediaFile.videoFmt);
+        duration = durationToString(m_mediaFile.uDurationMSec, false);
     }
     else
     {
@@ -267,17 +243,7 @@ void StreamMediaFileDlg::updateControls()
 
 void StreamMediaFileDlg::updateProgress(quint32 elapsed, bool setvalue)
 {
-    quint32 hours = elapsed / (60 * 60 * 1000);
-    quint32 remain = elapsed - (60 * 60 * 1000 * hours);
-    quint32 minutes = remain / (60 * 1000);
-    remain -= 60 * 1000 * minutes;
-    quint32 seconds = remain / 1000;
-    quint32 msec = remain % 1000;
-
-    ui.playbackTimeLabel->setText(QString("%1:%2:%3.%4").arg(hours)
-        .arg(minutes, 2, 10, QChar('0'))
-        .arg(seconds, 2, 10, QChar('0'))
-        .arg(msec, 3, 10, QChar('0')));
+    ui.playbackTimeLabel->setText(durationToString(elapsed));
 
     if (m_mediaFile.uDurationMSec && setvalue)
     {

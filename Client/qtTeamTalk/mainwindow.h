@@ -73,9 +73,10 @@ enum TimerEvent
 enum
 {
     TAB_CHAT,
+    TAB_FILES,
+    TAB_MEDIA,
     TAB_VIDEO,
     TAB_DESKTOP,
-    TAB_FILES,
 
     TAB_COUNT
 };
@@ -250,6 +251,7 @@ private:
     void processDesktopInput(int userid, const DesktopInput& input);
     void startStreamMediaFile();
     void stopStreamMediaFile();
+    void updateMediaFileProgress(const MediaFileInfo& mfi);
     void loadHotKeys();
     void enableHotKey(HotKeyID id, const hotkey_t& hk);
     void disableHotKey(HotKeyID id);

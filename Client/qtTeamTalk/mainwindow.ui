@@ -192,7 +192,13 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="focusPolicy">
+             <enum>Qt::StrongFocus</enum>
+            </property>
             <property name="toolTip">
+             <string>Voice level</string>
+            </property>
+            <property name="accessibleName">
              <string>Voice level</string>
             </property>
             <property name="maximum">
@@ -201,17 +207,11 @@
             <property name="value">
              <number>0</number>
             </property>
-            <property name="accessibleName">
-             <string>Voice level</string>
-            </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
             <property name="format">
              <string/>
-            </property>
-            <property name="focusPolicy">
-             <set>Qt::StrongFocus</set>
             </property>
            </widget>
           </item>
@@ -391,6 +391,241 @@
             </widget>
            </item>
           </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="filesTab">
+        <attribute name="title">
+         <string>&amp;Files</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <property name="leftMargin">
+          <number>3</number>
+         </property>
+         <property name="topMargin">
+          <number>3</number>
+         </property>
+         <property name="rightMargin">
+          <number>3</number>
+         </property>
+         <property name="bottomMargin">
+          <number>3</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="channelLabel">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="FilesView" name="filesView" native="true">
+           <property name="contextMenuPolicy">
+            <enum>Qt::CustomContextMenu</enum>
+           </property>
+           <property name="accessibleName">
+            <string>Files list</string>
+           </property>
+           <property name="dragEnabled" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="alternatingRowColors" stdset="0">
+            <bool>true</bool>
+           </property>
+           <property name="sortingEnabled" stdset="0">
+            <bool>true</bool>
+           </property>
+           <property name="tabKeyNavigation" stdset="0">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QToolButton" name="downloadButton">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>Download</string>
+             </property>
+             <property name="text">
+              <string>Download</string>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/images/images/download.png</normaloff>:/images/images/download.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="deleteButton">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>Delete</string>
+             </property>
+             <property name="text">
+              <string>Delete</string>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/images/images/delete.png</normaloff>:/images/images/delete.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="uploadButton">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>Upload</string>
+             </property>
+             <property name="text">
+              <string>Upload</string>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/images/images/upload.png</normaloff>:/images/images/upload.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab">
+        <attribute name="title">
+         <string>Media</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_11">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_7">
+           <item>
+            <widget class="QLabel" name="label_6">
+             <property name="text">
+              <string>Elapsed</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSlider" name="playbackOffsetSlider">
+             <property name="accessibleDescription">
+              <string>Start position</string>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="playbackTimeLabel">
+             <property name="text">
+              <string notr="true">0:00:00.000</string>
+             </property>
+             <property name="buddy">
+              <cstring>playbackOffsetSlider</cstring>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="0,1">
+           <item>
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>Duration:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="durationLabel">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="textInteractionFlags">
+              <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="0,1">
+           <item>
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Audio format:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="audioLabel">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="textInteractionFlags">
+              <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="0,1">
+           <item>
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>Video format:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="videoLabel">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="textInteractionFlags">
+              <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_11">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
          </item>
         </layout>
        </widget>
@@ -961,142 +1196,6 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="filesTab">
-        <attribute name="title">
-         <string>&amp;Files</string>
-        </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
-         <property name="leftMargin">
-          <number>3</number>
-         </property>
-         <property name="topMargin">
-          <number>3</number>
-         </property>
-         <property name="rightMargin">
-          <number>3</number>
-         </property>
-         <property name="bottomMargin">
-          <number>3</number>
-         </property>
-         <item>
-          <widget class="QLabel" name="channelLabel">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="FilesView" name="filesView">
-           <property name="contextMenuPolicy">
-            <enum>Qt::CustomContextMenu</enum>
-           </property>
-           <property name="accessibleName">
-            <string>Files list</string>
-           </property>
-           <property name="editTriggers">
-            <set>QAbstractItemView::NoEditTriggers</set>
-           </property>
-           <property name="dragEnabled">
-            <bool>false</bool>
-           </property>
-           <property name="dragDropMode">
-            <enum>QAbstractItemView::DropOnly</enum>
-           </property>
-           <property name="alternatingRowColors">
-            <bool>true</bool>
-           </property>
-           <property name="selectionMode">
-            <enum>QAbstractItemView::ExtendedSelection</enum>
-           </property>
-           <property name="selectionBehavior">
-            <enum>QAbstractItemView::SelectRows</enum>
-           </property>
-           <property name="sortingEnabled">
-            <bool>true</bool>
-           </property>
-           <property name="tabKeyNavigation">
-            <bool>false</bool>
-           </property>
-           <attribute name="headerShowSortIndicator" stdset="0">
-            <bool>true</bool>
-           </attribute>
-          </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout">
-           <item>
-            <widget class="QToolButton" name="downloadButton">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="toolTip">
-              <string>Download</string>
-             </property>
-             <property name="text">
-              <string>Download</string>
-             </property>
-             <property name="icon">
-              <iconset resource="resources.qrc">
-               <normaloff>:/images/images/download.png</normaloff>:/images/images/download.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>20</width>
-               <height>20</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QToolButton" name="deleteButton">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="toolTip">
-              <string>Delete</string>
-             </property>
-             <property name="text">
-              <string>Delete</string>
-             </property>
-             <property name="icon">
-              <iconset resource="resources.qrc">
-               <normaloff>:/images/images/delete.png</normaloff>:/images/images/delete.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>20</width>
-               <height>20</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QToolButton" name="uploadButton">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="toolTip">
-              <string>Upload</string>
-             </property>
-             <property name="text">
-              <string>Upload</string>
-             </property>
-             <property name="icon">
-              <iconset resource="resources.qrc">
-               <normaloff>:/images/images/upload.png</normaloff>:/images/images/upload.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>20</width>
-               <height>20</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </widget>
       </widget>
      </widget>
     </item>
@@ -1108,7 +1207,7 @@
      <x>0</x>
      <y>0</y>
      <width>637</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuClient">
@@ -2397,11 +2496,6 @@
    <header>chatlineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>FilesView</class>
-   <extends>MyTableView</extends>
-   <header>filesview.h</header>
-  </customwidget>
-  <customwidget>
    <class>DesktopGridWidget</class>
    <extends>QWidget</extends>
    <header>desktopgridwidget.h</header>
@@ -2411,6 +2505,12 @@
    <class>MyTabWidget</class>
    <extends>QTabWidget</extends>
    <header>mytabwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FilesView</class>
+   <extends>QWidget</extends>
+   <header>filesview.h</header>
   </customwidget>
  </customwidgets>
  <resources>

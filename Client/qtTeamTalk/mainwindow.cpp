@@ -45,6 +45,7 @@
 #include "utilvideo.h"
 #include "utiltts.h"
 #include "utilxml.h"
+#include "utilmedia.h"
 #include "moveusersdlg.h"
 #include "useraccountdlg.h"
 
@@ -1448,6 +1449,9 @@ void MainWindow::clienteventStreamMediaFile(const MediaFileInfo& mediafileinfo)
 
     //update if still talking
     emit(updateMyself());
+
+    //update media tab
+    updateMediaFileProgress(mediafileinfo);
 }
 
 void MainWindow::clienteventUserVideoCapture(int source, int streamid)
@@ -5417,6 +5421,30 @@ void MainWindow::slotPauseResumeStream()
         }
     }
     TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
+}
+
+void MainWindow::updateMediaFileProgress(const MediaFileInfo& mfi)
+{
+    switch (mfi.nStatus)
+    {
+    case MFS_CLOSED :
+    case MFS_ABORTED :
+    case MFS_ERROR :
+    case MFS_FINISHED :
+        ui.durationLabel->setText(durationToString(0));
+        ui.playbackTimeLabel->setText(durationToString(0));
+        ui.audioLabel->setText("");
+        ui.videoLabel->setText("");
+        break;
+    case MFS_PAUSED :
+    case MFS_STARTED :
+    case MFS_PLAYING :
+        ui.durationLabel->setText(durationToString(mfi.uDurationMSec));
+        ui.playbackTimeLabel->setText(durationToString(mfi.uElapsedMSec));
+        ui.audioLabel->setText(getMediaAudioDescription(mfi.audioFmt));
+        ui.videoLabel->setText(getMediaVideoDescription(mfi.videoFmt));
+        break;
+    }
 }
 
 void MainWindow::slotChannelsUploadFile(bool /*checked =false */)
