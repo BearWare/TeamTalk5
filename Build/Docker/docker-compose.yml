@@ -28,6 +28,15 @@ services:
     user: root
     working_dir: /TeamTalk5
 
+  ubuntu24:
+    build:
+      context: .
+      dockerfile: Dockerfile_ubuntu24
+    volumes:
+      - ../..:/TeamTalk5:rw,z
+    user: root
+    working_dir: /TeamTalk5
+
   android:
     build:
       context: .
