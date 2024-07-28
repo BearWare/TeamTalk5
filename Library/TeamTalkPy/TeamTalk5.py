@@ -1259,6 +1259,20 @@ def buildTextMessage(content: str, nMsgType: TextMsgType,
                      nToUserID: int = 0, nChannelID: int = 0, nFromUserID: int = 0,
                      szFromUsername: str = "") -> [TextMessage]:
     result = []
+
+    # Count UTF-8 characters as extra characters. If this is not done, messages containing UTF-8 characters will be sent incomplete. This is because the characters are counted as ASCII when sending messages, and they exceed 512 characters, causing an overflow.
+    def calculate_teamtalk_length(text):
+        teamtalk_length = 0
+        for char in text:
+            char_value = ord(char)
+            if char_value > 127:
+                binary_length = char_value.bit_length()-6
+                teamtalk_length += binary_length
+            else:
+                teamtalk_length += 1
+
+        return teamtalk_length
+
     converted_content = ttstr(content)
     while len(converted_content) > 0:
         textmsg = TextMessage()
@@ -1267,13 +1281,17 @@ def buildTextMessage(content: str, nMsgType: TextMsgType,
         textmsg.szFromUsername = ttstr(szFromUsername)
         textmsg.nToUserID = nToUserID
         textmsg.nChannelID = nChannelID
-        textmsg.szMessage = converted_content[0:TT_STRLEN-1]
-        converted_content = converted_content[TT_STRLEN-1:]
+        remaining_content = converted_content
+        teamtalk_length = calculate_teamtalk_length(remaining_content)
+        while teamtalk_length > TT_STRLEN:
+            remaining_content = remaining_content[:-1]
+            teamtalk_length = calculate_teamtalk_length(remaining_content)
+        textmsg.szMessage = remaining_content
+        converted_content = converted_content[len(remaining_content):]
         textmsg.bMore = len(converted_content) > 0
         result.append(textmsg)
 
     return result
-
 
 class TeamTalk(object):
 
