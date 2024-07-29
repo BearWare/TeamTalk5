@@ -45,6 +45,7 @@ Default Qt Client
 - Locale date time in "Banned Users" dialog
 - Windows installer translatable
 - Windows and macOS updated to Qt v6.8.0-beta2
+- OS version displays in user info
 Android Client
 - Toggle channel operator does not show password dialog if user has user-right to change channel operator
 iOS Client
