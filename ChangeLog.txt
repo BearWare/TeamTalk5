@@ -9,12 +9,12 @@ Default Qt Client
 - Table view instead of tree view in "Online Users", "User Accounts", "Banned Users", "Server List", "File List", "Server Properties" and "Preferences" dialogs
 - Use Qt checkable flag in user rights list of "User Accounts" dialog to allow screenreader to see if an item is checked
 - Fixed state of checkable items in "Preferences", "User Account", "Server properties" dialogs not announce by Voice Over on MacOS
+- Fixed labels of edit fields in "Custom Video Format" dialog
 - Replaced readonly edit fields by labels in "User Info" and "Server Statistics" dialogs
 - Context menu to move banned/unbanned users to banned/unbanned list in "Banned Users" dialog
-- System language used by default
 - "Move Users" dialog from "Users" -> "Advanced" menu item
 - "Check for Update" in "Help" menu
-- "Default" playback mode for sound events now also use TeamTalk selected sound device
+- Playback mode "Default" for sound events now also use TeamTalk selected sound device
 - Menu to insert MOTD variables in "Server Properties" dialog
 - Ability to "join last joined channel" for each server
 - Ability to leave current channel from everywhere in main window
@@ -32,19 +32,20 @@ Default Qt Client
 - Support for Import/Export entire Server List in "Connect to a Server" dialog
 - Support Idle Time on Linux (X11)
 - Support Qt Accessibility Announcement for TTS events on MacOS and Windows (Qt 6.8)
+- Support VoiceOver for TTS events using Apple Script
+- Reset label of files list when disconnected from server
 - Removed option "Announce server name" from TTS options, use customizable messages instead
 - Optional sound event for user typing private message
 - Only show available info in "User Info" dialog
 - "Voice level" progress bar in Main Window can now get focus
 - Transfer progress bar in "File Transfer" dialog can now get focus
+- System language used by default
 - Locale file size now also use in "File Transfer" dialog
-- Reset label of files list when disconnected from server
-- Support VoiceOver for TTS events using Apple Script
-- Fixed labels of edit fields in "Custom Video Format" dialog
-- Local date time now also use in "About" dialog
-- Ban time displays in local format
+- Locale date time now also use in "About" dialog
+- Locale date time in "Banned Users" dialog
 - Windows installer translatable
-- Windows and macOS updated to Qt v6.8.0-beta1
+- Windows and macOS updated to Qt v6.8.0-beta2
+- OS version displays in user info
 Android Client
 - Toggle channel operator does not show password dialog if user has user-right to change channel operator
 iOS Client

@@ -48,13 +48,9 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Compiled on %1 %2 using Qt %3 (Qt %4 used by this instance).</source>
-        <translation type="vanished">%1 %2에 Qt %3 버전을 사용하여 컴파일함.(이 인스턴스에 Qt %4 사용 중).</translation>
-    </message>
-    <message>
         <location filename="../aboutdlg.cpp" line="31"/>
         <source>Compiled on %1 using Qt %2 (Qt %3 used by this instance).</source>
-        <translation type="unfinished"></translation>
+        <translation>%1에 Qt %2 버전을 사용하여 컴파일함.(이 인스턴스에 Qt %3 사용 중).</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="32"/>
@@ -909,48 +905,6 @@ p, li { white-space: pre-wrap; }
         <translation>미디어 파일 전송</translation>
     </message>
     <message>
-        <source>Away</source>
-        <comment>For female</comment>
-        <translation type="vanished">자리비움</translation>
-    </message>
-    <message>
-        <source>Away</source>
-        <comment>For male and neutral</comment>
-        <translation type="vanished">자리비움</translation>
-    </message>
-    <message>
-        <source>Administrator</source>
-        <comment>For female</comment>
-        <translation type="vanished">서버 관리자</translation>
-    </message>
-    <message>
-        <source>Administrator</source>
-        <comment>For male and neutral</comment>
-        <translation type="vanished">서버 관리자</translation>
-    </message>
-    <message>
-        <source>Channel operator</source>
-        <comment>For female</comment>
-        <translation type="vanished">채널 관리자</translation>
-    </message>
-    <message>
-        <source>Channel operator</source>
-        <comment>For male and neutral</comment>
-        <translation type="vanished">채널 관리자</translation>
-    </message>
-    <message>
-        <source>Question</source>
-        <translation type="vanished">질문 모드</translation>
-    </message>
-    <message>
-        <source>Streaming media file</source>
-        <translation type="vanished">스트리밍</translation>
-    </message>
-    <message>
-        <source>Webcam</source>
-        <translation type="vanished">웹캠</translation>
-    </message>
-    <message>
         <location filename="../channelstree.cpp" line="960"/>
         <source>Text message transmission allowed: %1</source>
         <translation>텍스트 메시지 전송 허용: %1</translation>
@@ -1036,7 +990,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="460"/>
         <source>Interval: </source>
-        <translation type="unfinished"></translation>
+        <translation>간격: </translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="461"/>
@@ -1046,7 +1000,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="462"/>
         <source>Interval</source>
-        <translation type="unfinished"></translation>
+        <translation>간격</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="466"/>
@@ -1473,7 +1427,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../filetransfer.ui" line="109"/>
         <source>Transfer progress</source>
-        <translation type="unfinished"></translation>
+        <translation>전송 진행 상황</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="136"/>
@@ -1720,7 +1674,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../keycompdlg.cpp" line="40"/>
         <source>Setup Hotkey: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>기능키 설정: %1</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="55"/>
@@ -1743,27 +1697,27 @@ Message of the day: %2</source>
     <message>
         <location filename="../utilui.cpp" line="557"/>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자 이름:</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="562"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>암호:</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="568"/>
         <source>Show password</source>
-        <translation type="unfinished">암호 표시</translation>
+        <translation>암호 표시</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="573"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">확인 (&amp;O)</translation>
+        <translation>확인 (&amp;O)</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="574"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">취소 (&amp;C)</translation>
+        <translation>취소 (&amp;C)</translation>
     </message>
 </context>
 <context>
@@ -2891,10 +2845,6 @@ Message of the day: %2</source>
         <translation>&quot;%1&quot; 프로그램 인수를 인식할 수 없습니다.</translation>
     </message>
     <message>
-        <source>Connected to %1 TCP port %2 UDP port %3</source>
-        <translation type="vanished">연결됨: %1 TCP 포트 %2 UDP 포트 %3</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1025"/>
         <location filename="../mainwindow.cpp" line="2040"/>
         <source>Failed to connect to %1 TCP port %2 UDP port %3</source>
@@ -2926,10 +2876,6 @@ Message of the day: %2</source>
         <location filename="../mainwindow.cpp" line="1045"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
         <translation>연결 끊김: %1 TCP 포트 %2 UDP 포트 %3</translation>
-    </message>
-    <message>
-        <source>Connection to server lost</source>
-        <translation type="vanished">서버와의 연결이 끊어졌습니다.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1203"/>
@@ -3099,10 +3045,6 @@ Message of the day: %2</source>
         <translation>연결 중: %1 TCP 포트 %2 UDP 포트 %3</translation>
     </message>
     <message>
-        <source>Logged out from %1, TCP port %2, UDP port %3</source>
-        <translation type="vanished">연결 해제함: %1 TCP 포트 %2 UDP 포트 %3</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1846"/>
         <location filename="../mainwindow.cpp" line="1847"/>
         <source>Connected to %1</source>
@@ -3170,21 +3112,9 @@ Message of the day: %2</source>
         <translation>로그인 오류</translation>
     </message>
     <message>
-        <source>Invalid user account. Type username:</source>
-        <translation type="vanished">사용자 계정이 잘못되었습니다. 사용자 이름을 입력하세요:</translation>
-    </message>
-    <message>
-        <source>Invalid user account. Type password:</source>
-        <translation type="vanished">사용자 계정이 잘못되었습니다. 암호를 입력하세요:</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2186"/>
         <source>Join channel error</source>
         <translation>채널 입장 오류</translation>
-    </message>
-    <message>
-        <source>Incorrect channel password. Try again:</source>
-        <translation type="vanished">올바른 암호가 아닙니다. 다시 입력하세요:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2200"/>
@@ -3458,7 +3388,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="5460"/>
         <source>Specify User Account</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자 계정 지정</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5504"/>
@@ -3636,12 +3566,12 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="636"/>
         <source>%1 has detected your system language to be %2. Continue in %2?</source>
-        <translation type="unfinished"></translation>
+        <translation>%1에서 감지한 시스템 언어인 %2로 계속할까요?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="640"/>
         <source>Language configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>언어 설정</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="663"/>
@@ -3705,12 +3635,12 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="2166"/>
         <source>Incorrect username or password. Try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자 이름 또는 암호가 올바르지 않습니다. 다시 시도하세요.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2186"/>
         <source>Incorrect channel password. Try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>채널 암호가 올바르지 않습니다. 다시 시도하세요.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2202"/>
@@ -4036,14 +3966,6 @@ Do you wish to do this now?</source>
         <location filename="../mainwindow.cpp" line="5483"/>
         <source>Share channel</source>
         <translation>채널 공유</translation>
-    </message>
-    <message>
-        <source>Type username of user account:</source>
-        <translation type="vanished">사용자 이름 입력</translation>
-    </message>
-    <message>
-        <source>Type password of user account:</source>
-        <translation type="vanished">암호 입력</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5483"/>
@@ -4918,22 +4840,22 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../utilui.cpp" line="613"/>
         <source>Password</source>
-        <translation type="unfinished">암호</translation>
+        <translation>암호</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="619"/>
         <source>Show password</source>
-        <translation type="unfinished">암호 표시</translation>
+        <translation>암호 표시</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="624"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">확인 (&amp;O)</translation>
+        <translation>확인 (&amp;O)</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="625"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">취소 (&amp;C)</translation>
+        <translation>취소 (&amp;C)</translation>
     </message>
 </context>
 <context>
@@ -5022,10 +4944,6 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../preferences.ui" line="344"/>
         <source>&amp;Setup Keys</source>
         <translation>키 설정 (&amp;S)</translation>
-    </message>
-    <message>
-        <source>Key Combination</source>
-        <translation type="vanished">키 조합</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="386"/>
@@ -5140,12 +5058,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="354"/>
         <source>Key Combination:</source>
-        <translation type="unfinished"></translation>
+        <translation>키 조합:</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="469"/>
         <source>Show voice activation level slider</source>
-        <translation type="unfinished"></translation>
+        <translation>말하기 활성화 수준 슬라이더 표시</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="492"/>
@@ -5160,12 +5078,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="588"/>
         <source>Dialogs</source>
-        <translation type="unfinished"></translation>
+        <translation>대화상자</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="663"/>
         <source>Channels Tree</source>
-        <translation type="unfinished"></translation>
+        <translation>채널 트리</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="713"/>
@@ -5175,7 +5093,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="798"/>
         <source>Software Update</source>
-        <translation type="unfinished"></translation>
+        <translation>소프트웨어 업데이트</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="844"/>
@@ -5336,7 +5254,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1943"/>
         <source>Double click to configure keys</source>
-        <translation type="unfinished"></translation>
+        <translation>두 번 클릭하여 키 구성하기</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1204"/>
@@ -5528,7 +5446,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1905"/>
         <source>Interrupt current screenreader speech on new event</source>
-        <translation type="unfinished"></translation>
+        <translation>새로운 이벤트가 발생하면 현재 화면 낭독기 음성 출력 중단하기</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1931"/>
@@ -5539,38 +5457,6 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../preferences.ui" line="1937"/>
         <source>Keyboard Shortcuts</source>
         <translation>키보드 기능키</translation>
-    </message>
-    <message>
-        <source>Enable/disable voice activation</source>
-        <translation type="vanished">말하기 활성화 토글</translation>
-    </message>
-    <message>
-        <source>Increase volume</source>
-        <translation type="vanished">볼륨 증가</translation>
-    </message>
-    <message>
-        <source>Lower volume</source>
-        <translation type="vanished">볼륨 감소</translation>
-    </message>
-    <message>
-        <source>Enable/disable mute all</source>
-        <translation type="vanished">모두 음소거 토글</translation>
-    </message>
-    <message>
-        <source>Increase microphone gain</source>
-        <translation type="vanished">마이크 음량 증가</translation>
-    </message>
-    <message>
-        <source>Lower microphone gain</source>
-        <translation type="vanished">마이크 음량 감소</translation>
-    </message>
-    <message>
-        <source>Enable/disable video transmission</source>
-        <translation type="vanished">동영상 전송 토글</translation>
-    </message>
-    <message>
-        <source>Show/hide main window</source>
-        <translation type="vanished">메인 창 숨기기 또는 표시</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1985"/>
@@ -5659,14 +5545,6 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../preferencesdlg.cpp" line="458"/>
         <source>Wave files (*.wav)</source>
         <translation>Wave 파일 (*.wav)</translation>
-    </message>
-    <message>
-        <source>One by One (TeamTalk Sound Device)</source>
-        <translation type="vanished">순차 재생 (TeamTalk 사운드 장치 사용)</translation>
-    </message>
-    <message>
-        <source>Overlapping (TeamTalk Sound Device)</source>
-        <translation type="vanished">동시 재생 (TeamTalk 사운드 장치 사용)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="847"/>
@@ -5842,12 +5720,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="632"/>
         <source>One by One</source>
-        <translation type="unfinished"></translation>
+        <translation>순차적으로</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="633"/>
         <source>Overlapping</source>
-        <translation type="unfinished"></translation>
+        <translation>격치게</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="648"/>
@@ -5862,12 +5740,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="653"/>
         <source>VoiceOver (via Apple Script)</source>
-        <translation type="unfinished"></translation>
+        <translation>애플 스크립트를 통한 보이스오버</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="656"/>
         <source>Qt Accessibility Announcement</source>
-        <translation type="unfinished"></translation>
+        <translation>QT 접근성 알림</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1060"/>
@@ -5879,7 +5757,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="1148"/>
         <source>Key Combination: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>키 조합: %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1208"/>
@@ -6034,10 +5912,6 @@ You can download it on the page below:<byte value="xd"/>
         <source>Reset to Default Value</source>
         <translation>기본값으로 재설정</translation>
     </message>
-    <message>
-        <source>Reinitialize sound devices</source>
-        <translation type="vanished">사운드 장치 초기화</translation>
-    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -6085,57 +5959,57 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../utilhotkey.cpp" line="35"/>
         <source>Push-to-Talk</source>
-        <translation type="unfinished"></translation>
+        <translation>눌러서 말하기</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="37"/>
         <source>Enable/disable voice activation</source>
-        <translation type="unfinished">말하기 활성화 토글</translation>
+        <translation>말하기 활성화 토글</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="39"/>
         <source>Decrease microphone gain</source>
-        <translation type="unfinished"></translation>
+        <translation>마이크 음량 감소</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="41"/>
         <source>Increase microphone gain</source>
-        <translation type="unfinished">마이크 음량 증가</translation>
+        <translation>마이크 음량 증가</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="43"/>
         <source>Decrease volume</source>
-        <translation type="unfinished"></translation>
+        <translation>볼륨 감소</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="45"/>
         <source>Increase volume</source>
-        <translation type="unfinished">볼륨 증가</translation>
+        <translation>볼륨 증가</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="47"/>
         <source>Enable/disable mute all</source>
-        <translation type="unfinished">모두 음소거 토글</translation>
+        <translation>모두 음소거 토글</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="49"/>
         <source>Enable/disable video transmission</source>
-        <translation type="unfinished">동영상 전송 토글</translation>
+        <translation>동영상 전송 토글</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="51"/>
         <source>Reinitialize sound devices</source>
-        <translation type="unfinished">사운드 장치 초기화</translation>
+        <translation>사운드 장치 초기화</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="53"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished">메인 창 숨기기 또는 표시</translation>
+        <translation>메인 창 숨기기 또는 표시</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="58"/>
         <source>Unknown hotkey</source>
-        <translation type="unfinished"></translation>
+        <translation>기능키 알 수 없음</translation>
     </message>
 </context>
 <context>
@@ -6947,7 +6821,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="501"/>
         <source>Server version: 0.0</source>
-        <translation type="unfinished"></translation>
+        <translation>서버 버전: 0.0</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="71"/>
@@ -7030,7 +6904,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstatsdlg.cpp" line="53"/>
         <source>Total RX/TX</source>
-        <translation type="unfinished">전체 콘텐츠 송/수신량</translation>
+        <translation>전체 콘텐츠 송/수신량</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="53"/>
@@ -7040,57 +6914,57 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverstatsdlg.cpp" line="65"/>
         <location filename="../serverstatsdlg.cpp" line="86"/>
         <source>KBytes</source>
-        <translation type="unfinished">KB</translation>
+        <translation>KB</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="56"/>
         <source>Voice RX/TX</source>
-        <translation type="unfinished">말하기 송/수신량</translation>
+        <translation>말하기 송/수신량</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="59"/>
         <source>Video RX/TX</source>
-        <translation type="unfinished">동영상 송/수신량</translation>
+        <translation>동영상 송/수신량</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="62"/>
         <source>Media File RX/TX</source>
-        <translation type="unfinished">미디어 파일 송/수신량</translation>
+        <translation>미디어 파일 송/수신량</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="65"/>
         <source>Desktop RX/TX</source>
-        <translation type="unfinished">화면 공유 송/수신량</translation>
+        <translation>화면 공유 송/수신량</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="77"/>
         <source>Throughput RX/TX</source>
-        <translation type="unfinished">처리량</translation>
+        <translation>처리량</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="77"/>
         <source>KBytes/sec</source>
-        <translation type="unfinished">KB/초</translation>
+        <translation>KB/초</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="86"/>
         <source>Files RX/TX</source>
-        <translation type="unfinished">파일 송/수신량</translation>
+        <translation>파일 송/수신량</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="89"/>
         <source>Users served</source>
-        <translation type="unfinished">누적 사용자 수</translation>
+        <translation>누적 사용자 수</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="90"/>
         <source>Users peak</source>
-        <translation type="unfinished">최대 사용자 수</translation>
+        <translation>최대 사용자 수</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="92"/>
         <source>Uptime: %1 hours, %2 minutes, %3 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>가동 시간: %1시간 %2분 %3초</translation>
     </message>
 </context>
 <context>
@@ -7103,27 +6977,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstats.ui" line="136"/>
         <source>Update information every</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Uptime</source>
-        <translation type="vanished">가동 시간</translation>
-    </message>
-    <message>
-        <source>Media File RX/TX</source>
-        <translation type="vanished">미디어 파일 송/수신량</translation>
-    </message>
-    <message>
-        <source>KBytes/sec</source>
-        <translation type="vanished">KB/초</translation>
-    </message>
-    <message>
-        <source>Throughput RX/TX</source>
-        <translation type="vanished">처리량</translation>
-    </message>
-    <message>
-        <source>KBytes</source>
-        <translation type="vanished">KB</translation>
+        <translation>정보 업데이트 간격</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="142"/>
@@ -7135,55 +6989,23 @@ Delete the published user account to unregister your server.</source>
         <source>Update interval</source>
         <translation>업데이트 간격</translation>
     </message>
-    <message>
-        <source>Files RX/TX</source>
-        <translation type="vanished">파일 송/수신량</translation>
-    </message>
-    <message>
-        <source>Total RX/TX</source>
-        <translation type="vanished">전체 콘텐츠 송/수신량</translation>
-    </message>
-    <message>
-        <source>Voice RX/TX</source>
-        <translation type="vanished">말하기 송/수신량</translation>
-    </message>
-    <message>
-        <source>Video RX/TX</source>
-        <translation type="vanished">동영상 송/수신량</translation>
-    </message>
-    <message>
-        <source>Desktop RX/TX</source>
-        <translation type="vanished">화면 공유 송/수신량</translation>
-    </message>
-    <message>
-        <source>Users served</source>
-        <translation type="vanished">누적 사용자 수</translation>
-    </message>
-    <message>
-        <source>Users peak</source>
-        <translation type="vanished">최대 사용자 수</translation>
-    </message>
-    <message>
-        <source>&amp;Close</source>
-        <translation type="vanished">닫기 (&amp;C)</translation>
-    </message>
 </context>
 <context>
     <name>ShortcutsModel</name>
     <message>
         <location filename="../shortcutsmodel.cpp" line="57"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>동작</translation>
     </message>
     <message>
         <location filename="../shortcutsmodel.cpp" line="58"/>
         <source>Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>기능키</translation>
     </message>
     <message>
         <location filename="../shortcutsmodel.cpp" line="89"/>
         <source>None</source>
-        <translation type="unfinished">없음</translation>
+        <translation>없음</translation>
     </message>
 </context>
 <context>
@@ -8483,25 +8305,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="197"/>
         <source>&amp;Create New User Account</source>
-        <translation type="unfinished"></translation>
+        <translation>새 계정 만들기 (&amp;C)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="198"/>
         <source>&amp;Delete Selected User Account</source>
-        <translation type="unfinished"></translation>
+        <translation>선택한 계정 삭제 (&amp;D)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="199"/>
         <source>&amp;Edit Selected User Account</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Delete Selected User</source>
-        <translation type="vanished">선택한 사용자 삭제 (&amp;D)</translation>
-    </message>
-    <message>
-        <source>&amp;Edit Selected User</source>
-        <translation type="vanished">선택한 사용자 편집 (&amp;E)</translation>
+        <translation>선택한 계정 편집 (&amp;E)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="123"/>
@@ -9145,10 +8959,6 @@ Delete the published user account to unregister your server.</source>
         <translation>메시지 보낸 사용자 대화명</translation>
     </message>
     <message>
-        <source>Message content	</source>
-        <translation type="vanished">메시지 내용</translation>
-    </message>
-    <message>
         <location filename="../utiltts.cpp" line="51"/>
         <location filename="../utiltts.cpp" line="52"/>
         <location filename="../utiltts.cpp" line="56"/>
@@ -9156,7 +8966,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="58"/>
         <location filename="../utiltts.cpp" line="59"/>
         <source>Message content</source>
-        <translation type="unfinished"></translation>
+        <translation>메시지 내용</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
