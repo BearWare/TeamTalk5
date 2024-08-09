@@ -92,6 +92,8 @@ ubuntu20:
 	$(MAKE) UBUNTUDIR=$@ ubuntu
 ubuntu22:
 	$(MAKE) UBUNTUDIR=$@ ubuntu
+ubuntu24:
+	$(MAKE) UBUNTUDIR=$@ ubuntu
 
 centos7:
 	@echo TeamTalk depends on CMake 3.1 or later.
@@ -244,6 +246,7 @@ depend-ubuntu20:
                     libpulse-dev libxss-dev
 
 depend-ubuntu22:
+# Duplicate install in Docker/Dockerfile_ubuntu22
 	apt install qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev \
                     libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
                     openjdk-18-jdk ninja-build libpcap-dev junit4 cmake \
@@ -252,6 +255,36 @@ depend-ubuntu22:
                     libpulse-dev libxss-dev
 	@echo "Ensure a default python is set up for WebRTC to compile:"
 	@echo "# sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10"
+
+depend-ubuntu24:
+	# Duplicate install in Docker/Dockerfile_ubuntu24
+	apt install \
+		autoconf \
+		cmake \
+		doxygen \
+		g++ \
+		git \
+		junit4 \
+		libasound2-dev \
+		libpcap-dev \
+		libpulse-dev \
+		qt6-speech-dev \
+		libssl-dev \
+		libtool \
+		libxss-dev \
+		ninja-build \
+		openjdk-21-jdk \
+		p7zip-full \
+		pkg-config \
+		python3-pytest \
+		qt6-base-dev \
+		qt6-multimedia-dev \
+		qt6-tools-dev \
+		qt6-tools-dev-tools \
+		wget \
+		yasm
+	@echo "Ensure a default python is set up for WebRTC to compile:"
+	@echo "# sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 12"
 
 depend-ubuntu18-android:
 	apt install doxygen ninja-build junit4 cmake openjdk-11-jdk junit4 autoconf libtool pkg-config python
