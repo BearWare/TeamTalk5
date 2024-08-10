@@ -502,7 +502,7 @@ $ openssl req -new -key ttserverkey.pem -out server.req -sha256
  * Now use the server's certificate request to generate the server's
  * certificate:
 @verbatim
-$ openssl x509 -req -in server.req -CA ca.cer -CAkey ca.key -set_serial 100 -extensions server -days 365 -outform PEM -out ttservercert.pem -sha256
+$ openssl x509 -req -in server.req -CA ca.cer -CAkey ca.key -set_serial 100 -extensions server -days 3600 -outform PEM -out ttservercert.pem -sha256
 @endverbatim
  *
  * The procedure for the client's certificate and private key are
@@ -519,7 +519,7 @@ $ openssl req -new -key ttclientkey.pem -out client.req -sha256
  * Now use the client's certificate request to generate the client's
  * certificate:
 @verbatim
-$ openssl x509 -req -in client.req -CA ca.cer -CAkey ca.key -set_serial 101 -extensions client -days 365 -outform PEM -out ttclientcert.pem
+$ openssl x509 -req -in client.req -CA ca.cer -CAkey ca.key -set_serial 101 -extensions client -days 3600 -outform PEM -out ttclientcert.pem
 @endverbatim
  *
  * To test if the server is running in encrypted mode with peer
