@@ -465,19 +465,12 @@ bool PreferencesDlg::getSoundFile(QString& filename)
 void PreferencesDlg::initGeneralTab()
 {
     ui.nicknameEdit->setText(ttSettings->value(SETTINGS_GENERAL_NICKNAME, SETTINGS_GENERAL_NICKNAME_DEFAULT).toString());
-    switch (Gender(ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT).toInt()))
-    {
-    case GENDER_MALE :
-        ui.maleRadioButton->setChecked(true);
-        break;
-    case GENDER_FEMALE:
-        ui.femaleRadioButton->setChecked(true);
-        break;
-    case GENDER_NEUTRAL:
-    default:
-        ui.neutralRadioButton->setChecked(true);
-        break;
-    }
+    ui.genderBox->clear();
+    ui.genderBox->addItem(tr("Male"), GENDER_MALE);
+    ui.genderBox->addItem(tr("Female"), GENDER_FEMALE);
+    ui.genderBox->addItem(tr("Neutral"), GENDER_NEUTRAL);
+    Gender gender = Gender(ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT).toInt());
+    setCurrentItemData(ui.genderBox, gender);
 
     QString bearwareid = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
     ui.bearwareidEdit->setText(bearwareid);
@@ -767,12 +760,7 @@ void PreferencesDlg::slotSaveChanges()
     if(m_modtab.find(GENERAL_TAB) != m_modtab.end())
     {
         ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, ui.nicknameEdit->text());
-        if (ui.maleRadioButton->isChecked())
-            ttSettings->setValue(SETTINGS_GENERAL_GENDER, GENDER_MALE);
-        else if (ui.femaleRadioButton->isChecked())
-            ttSettings->setValue(SETTINGS_GENERAL_GENDER, GENDER_FEMALE);
-        else
-            ttSettings->setValue(SETTINGS_GENERAL_GENDER, GENDER_NEUTRAL);
+        ttSettings->setValue(SETTINGS_GENERAL_GENDER, getCurrentItemData(ui.genderBox, GENDER_NEUTRAL));
         ttSettings->setValue(SETTINGS_GENERAL_AUTOAWAY, ui.awaySpinBox->value());
         ttSettings->setValue(SETTINGS_GENERAL_AWAY_STATUSMSG, ui.awayMsgEdit->text());
         ttSettings->setValue(SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT, ui.disableVoiceActCheckBox->isChecked());
