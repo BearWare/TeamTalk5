@@ -309,11 +309,26 @@ class ServerListViewController : UITableViewController,
     
     @objc @available(iOS 8.0, *)
     func deleteServer(_ action: UIAccessibilityCustomAction) -> Bool {
-        
         if let ac = action as? MyCustomAction {
-            servers.remove(at: ac.tag)
-            saveServerList()
-            tableView.reloadData()
+            let alertController = UIAlertController(
+                title: NSLocalizedString("deletion_title", comment: "serverlist"),
+                message: NSLocalizedString("deletion_message", comment: "serverlist"),
+                preferredStyle: .alert
+            )
+
+            let cancelAction = UIAlertAction(title: NSLocalizedString("cancel_deletion", comment: "serverlist"), style: .cancel, handler: nil)
+            let deleteAction = UIAlertAction(title: NSLocalizedString("confirm_deletion", comment: "serverlist"), style: .destructive) { _ in
+                self.servers.remove(at: ac.tag)
+                self.saveServerList()
+                self.tableView.reloadData()
+            }
+
+            alertController.addAction(cancelAction)
+            alertController.addAction(deleteAction)
+
+            if let viewController = self.tableView.window?.rootViewController {
+                viewController.present(alertController, animated: true, completion: nil)
+            }
         }
         return true
     }

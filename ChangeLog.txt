@@ -49,7 +49,7 @@ Default Qt Client
 Android Client
 - Toggle channel operator does not show password dialog if user has user-right to change channel operator
 iOS Client
--
+- Confirmation before server deletion
 Server
 -
 
