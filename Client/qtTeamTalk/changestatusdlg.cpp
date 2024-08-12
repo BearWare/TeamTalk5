@@ -30,6 +30,9 @@ ChangeStatusDlg::ChangeStatusDlg(QWidget* parent/* = 0*/)
     setWindowIcon(QIcon(APPICON));
     ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&OK"));
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
+    ui.statusBox->addItem(tr("Available"), STATUSMODE_AVAILABLE);
+    ui.statusBox->addItem(tr("Away"), STATUSMODE_AWAY);
+    ui.statusBox->addItem(tr("Question"), STATUSMODE_QUESTION);
 
     connect(this, &QDialog::accepted, this, &ChangeStatusDlg::slotAccepted);
 
@@ -37,21 +40,12 @@ ChangeStatusDlg::ChangeStatusDlg(QWidget* parent/* = 0*/)
     {
         if (m_user.nStatusMode & STATUSMODE_FEMALE)
         {
-            ui.availBtn->setText(tr("&Available", "For female"));
-            ui.awayBtn->setText(tr("A&way", "For female"));
+            ui.statusBox->setItemText(0, tr("Available", "For female"));
+            ui.statusBox->setItemText(1, tr("Away", "For female"));
         }
-        switch(m_user.nStatusMode & STATUSMODE_MODE)
-        {
-        case STATUSMODE_AVAILABLE:
-            ui.availBtn->setFocus();
-            ui.availBtn->setChecked(true);break;
-        case STATUSMODE_AWAY:
-            ui.awayBtn->setFocus();
-            ui.awayBtn->setChecked(true);break;
-        case STATUSMODE_QUESTION :
-            ui.questionBtn->setFocus();
-            ui.questionBtn->setChecked(true);break;
-        }
+        int index = ui.statusBox->findData(m_user.nStatusMode & STATUSMODE_MODE);
+        if(index>=0)
+            ui.statusBox->setCurrentIndex(index);
         ui.msgEdit->setText(_Q(m_user.szStatusMsg));
         ui.streamChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_STREAMING_STATUS, SETTINGS_GENERAL_STREAMING_STATUS_DEFAULT).toBool());
     }
@@ -60,12 +54,19 @@ ChangeStatusDlg::ChangeStatusDlg(QWidget* parent/* = 0*/)
 void ChangeStatusDlg::slotAccepted()
 {
     m_user.nStatusMode &= STATUSMODE_FLAGS;
-    if(ui.availBtn->isChecked())
+    StatusMode smode = StatusMode(ui.statusBox->currentData().toInt());
+    switch (smode)
+    {
+    case STATUSMODE_AVAILABLE :
         m_user.nStatusMode |= STATUSMODE_AVAILABLE;
-    else if(ui.awayBtn->isChecked())
+    break;
+    case STATUSMODE_AWAY :
         m_user.nStatusMode |= STATUSMODE_AWAY;
-    else if(ui.questionBtn->isChecked())
+    break;
+    case STATUSMODE_QUESTION :
         m_user.nStatusMode |= STATUSMODE_QUESTION;
+    break;
+    }
 
     ttSettings->setValue(SETTINGS_GENERAL_STATUSMESSAGE, ui.msgEdit->text());
     ttSettings->setValue(SETTINGS_GENERAL_STREAMING_STATUS, ui.streamChkBox->isChecked());
