@@ -11,6 +11,7 @@ Default Qt Client
 - Fixed state of checkable items in "Preferences", "User Account", "Server properties" dialogs not announce by Voice Over on MacOS
 - Fixed labels of edit fields in "Custom Video Format" dialog
 - Replaced readonly edit fields by labels in "User Info" and "Server Statistics" dialogs
+- Radio buttons for Gender, Sound System and Status mode changed to combo boxes
 - Context menu to move banned/unbanned users to banned/unbanned list in "Banned Users" dialog
 - "Move Users" dialog from "Users" -> "Advanced" menu item
 - "Check for Update" in "Help" menu
