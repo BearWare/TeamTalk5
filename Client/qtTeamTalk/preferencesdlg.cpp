@@ -129,42 +129,21 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             this, &PreferencesDlg::slotDesktopAccess);
 
     //sound tab
-    connect(ui.wasapiButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
-    connect(ui.dsoundButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
-    connect(ui.winmmButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
-    connect(ui.alsaButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
-    connect(ui.coreaudioButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
-    connect(ui.pulseaudioButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
+    ui.sndSysBox->clear();
 #if defined(Q_OS_WIN32)
-    ui.alsaButton->setDisabled(true);
-    ui.alsaButton->hide();
-    ui.coreaudioButton->setDisabled(true);
-    ui.coreaudioButton->hide();
-    ui.pulseaudioButton->setDisabled(true);
-    ui.pulseaudioButton->hide();
+    ui.sndSysBox->addItem(tr("Windows Audio Session API (WASAPI)"), SOUNDSYSTEM_WASAPI);
+    ui.sndSysBox->addItem(tr("DirectSound"), SOUNDSYSTEM_DSOUND);
+    ui.sndSysBox->addItem(tr("Windows legacy audio system"), SOUNDSYSTEM_WINMM);
 #elif defined(Q_OS_DARWIN)
-    ui.wasapiButton->setDisabled(true);
-    ui.wasapiButton->hide();
-    ui.dsoundButton->setDisabled(true);
-    ui.dsoundButton->hide();
-    ui.winmmButton->setDisabled(true);
-    ui.winmmButton->hide();
-    ui.alsaButton->setDisabled(true);
-    ui.alsaButton->hide();
+    ui.sndSysBox->addItem(tr("CoreAudio"), SOUNDSYSTEM_COREAUDIO);
     ui.winfwChkBox->hide();
-    ui.pulseaudioButton->setDisabled(true);
-    ui.pulseaudioButton->hide();
 #else
-    ui.winmmButton->setDisabled(true);
-    ui.winmmButton->hide();
-    ui.dsoundButton->setDisabled(true);
-    ui.dsoundButton->hide();
-    ui.coreaudioButton->setDisabled(true);
-    ui.coreaudioButton->hide();
-    ui.wasapiButton->setDisabled(true);
-    ui.wasapiButton->hide();
+    ui.sndSysBox->addItem(tr("Advanced Linux Sound Architecture (ALSA)"), SOUNDSYSTEM_ALSA);
+    ui.sndSysBox->addItem(tr("PulseAudio"), SOUNDSYSTEM_PULSEAUDIO);
     ui.winfwChkBox->hide();
 #endif
+    connect(ui.sndSysBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &PreferencesDlg::slotSoundSystemChange);
     connect(ui.inputdevBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &PreferencesDlg::slotSoundInputChange);
     connect(ui.outputdevBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
@@ -269,8 +248,8 @@ void PreferencesDlg::initDevices()
     }
 
     //output device determines the selected sound system
-    SoundSystem sndsys = (SoundSystem)ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM,
-                                                        SOUNDSYSTEM_NONE).toInt();
+    SoundSystem sndsys = SoundSystem(ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM,
+                                                        SOUNDSYSTEM_NONE).toInt());
     if(sndsys == SOUNDSYSTEM_NONE)
     {
         for(int i=0;i<m_sounddevices.size();i++)
@@ -313,18 +292,7 @@ SoundSystem PreferencesDlg::getSoundSystem()
 {
     SoundSystem sndsys = SOUNDSYSTEM_NONE;
     
-    if(ui.dsoundButton->isChecked())
-        sndsys = SOUNDSYSTEM_DSOUND;
-    if(ui.winmmButton->isChecked())
-        sndsys = SOUNDSYSTEM_WINMM;
-    if(ui.wasapiButton->isChecked())
-        sndsys = SOUNDSYSTEM_WASAPI;
-    if(ui.alsaButton->isChecked())
-        sndsys = SOUNDSYSTEM_ALSA;
-    if(ui.coreaudioButton->isChecked())
-        sndsys = SOUNDSYSTEM_COREAUDIO;
-    if (ui.pulseaudioButton->isChecked())
-        sndsys = SOUNDSYSTEM_PULSEAUDIO;
+    sndsys = SoundSystem(ui.sndSysBox->currentData().toInt());
 
     // ensure tab has been initialized, otherwise sound system will end up as 'none'
     Q_ASSERT(sndsys != SOUNDSYSTEM_NONE);
@@ -340,25 +308,9 @@ void PreferencesDlg::showDevices(SoundSystem snd)
     ui.inputdevBox->clear();
     ui.outputdevBox->clear();
 
-    switch(snd)
-    {
-    case SOUNDSYSTEM_DSOUND :
-        ui.dsoundButton->setChecked(true);break;
-    case SOUNDSYSTEM_WINMM :
-        ui.winmmButton->setChecked(true);break;
-    case SOUNDSYSTEM_WASAPI :
-        ui.wasapiButton->setChecked(true);break;
-    case SOUNDSYSTEM_ALSA :
-        ui.alsaButton->setChecked(true);break;
-    case SOUNDSYSTEM_COREAUDIO :
-        ui.coreaudioButton->setChecked(true);break;
-    case SOUNDSYSTEM_PULSEAUDIO :
-        ui.pulseaudioButton->setChecked(true);break;
-    case SOUNDSYSTEM_NONE :
-    case SOUNDSYSTEM_OPENSLES_ANDROID :
-    case SOUNDSYSTEM_AUDIOUNIT :
-        break;
-    }
+    int comboIndex = ui.sndSysBox->findData(snd);
+    if(comboIndex>=0)
+        ui.sndSysBox->setCurrentIndex(comboIndex);
 
     SoundDevice dev;
     int devid;
@@ -873,11 +825,14 @@ void PreferencesDlg::slotSaveChanges()
         TT_CloseSoundLoopbackTest(m_sndloop);
 
         SoundSystem oldsndsys = SoundSystem(ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_NONE).toInt());
+        SoundSystem newsndsys = SoundSystem(ui.sndSysBox->currentData().toInt());
 
-        if(ui.wasapiButton->isChecked())
-            ttSettings->setValue(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_WASAPI);
-        else if(ui.dsoundButton->isChecked())
+        switch(newsndsys)
         {
+        case SOUNDSYSTEM_WASAPI:
+            ttSettings->setValue(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_WASAPI);
+        break;
+        case SOUNDSYSTEM_DSOUND :
             ttSettings->setValue(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_DSOUND);
             //in DirectSound 'Primary Sound Capture Driver' and 'Primary Sound Driver'
             //should be treated as default device
@@ -889,9 +844,8 @@ void PreferencesDlg::slotSaveChanges()
                 if(outputid == tmp_outputid)
                     outputid = SOUNDDEVICEID_DEFAULT;
             }
-        }
-        else if(ui.winmmButton->isChecked())
-        {
+        break;
+        case SOUNDSYSTEM_WINMM :
             ttSettings->setValue(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_WINMM);
 /*
             //in WinMM 'Sound Mapper - Input' and 'Sound Mapper - Output'
@@ -905,13 +859,17 @@ void PreferencesDlg::slotSaveChanges()
                     outputid = SOUNDDEVICEID_DEFAULT;
             }
 */
-        }
-        else if(ui.coreaudioButton->isChecked())
+        break;
+        case SOUNDSYSTEM_COREAUDIO :
             ttSettings->setValue(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_COREAUDIO);
-        else if(ui.alsaButton->isChecked())
+        break;
+        case SOUNDSYSTEM_ALSA :
             ttSettings->setValue(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_ALSA);
-        else if (ui.pulseaudioButton->isChecked())
+        break;
+        case SOUNDSYSTEM_PULSEAUDIO :
             ttSettings->setValue(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_PULSEAUDIO);
+        break;
+        }
 
         ttSettings->setValue(SETTINGS_SOUND_INPUTDEVICE_UID, "");
         for(int i=0;i<m_sounddevices.size();i++)
