@@ -453,29 +453,29 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatusdlg.cpp" line="33"/>
         <source>Available</source>
-        <translation type="unfinished">Uygun</translation>
+        <translation>Uygun</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="34"/>
         <source>Away</source>
-        <translation type="unfinished">Uzakta</translation>
+        <translation>Uzakta</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="35"/>
         <source>Question</source>
-        <translation type="unfinished">Soru</translation>
+        <translation>Soru</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="43"/>
         <source>Available</source>
         <comment>For female</comment>
-        <translation type="unfinished">Uygun</translation>
+        <translation>Uygun</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="44"/>
         <source>Away</source>
         <comment>For female</comment>
-        <translation type="unfinished">Uzakta</translation>
+        <translation>Uzakta</translation>
     </message>
 </context>
 <context>
@@ -2221,7 +2221,7 @@ Günün mesajı: %2</translation>
     <message>
         <location filename="../mainwindow.ui" line="1284"/>
         <source>Streaming to Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanala Akış</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1413"/>
@@ -2557,12 +2557,12 @@ Günün mesajı: %2</translation>
         <location filename="../mainwindow.ui" line="2120"/>
         <location filename="../mainwindow.cpp" line="5374"/>
         <source>Pause/Resume Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Akışı Duraklat/Devam Ettir</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2123"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2131"/>
@@ -3980,22 +3980,22 @@ Do you wish to do this now?</source>
         <location filename="../mainwindow.cpp" line="5356"/>
         <location filename="../mainwindow.cpp" line="5399"/>
         <source>&amp;Pause Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Akışı &amp;Duraklat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5395"/>
         <source>Failed to resume the stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Akış devam ettirilemedi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5409"/>
         <source>Failed to pause the stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Akış duraklatılamadı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5413"/>
         <source>&amp;Resume Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Akışı &amp;Devam Ettir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5514"/>
@@ -5712,17 +5712,17 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="134"/>
         <source>Windows Audio Session API (WASAPI)</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows Ses Oturumu APIsi (WASAPI)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="136"/>
         <source>Windows legacy audio system</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows eski ses sistemi</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="141"/>
         <source>Advanced Linux Sound Architecture (ALSA)</source>
-        <translation type="unfinished"></translation>
+        <translation>Gelişmiş Linux Ses Mimarisi (ALSA)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="510"/>
