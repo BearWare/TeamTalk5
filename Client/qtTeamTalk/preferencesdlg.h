@@ -81,7 +81,6 @@ private:
     SoundSystem getSoundSystem();
     void showDevices(SoundSystem snd);
     QVector<SoundDevice> m_sounddevices;
-    void slotSoundSystemChange();
     void slotSoundInputChange(int index);
     void slotSoundOutputChange(int index);
     void slotSoundRestart();
