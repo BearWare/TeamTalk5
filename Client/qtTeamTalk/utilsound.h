@@ -128,6 +128,8 @@ private:
 
 void playSoundEvent(SoundEvent event);
 void resetDefaultSoundsPack();
+bool isOutputDevice3DSupported();
+bool isOutputDevice3DSupported(const SoundDevice& dev);
 QString getSoundEventFilename(SoundEvent event);
 
 class UtilSound : public QObject

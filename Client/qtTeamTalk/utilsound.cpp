@@ -693,6 +693,24 @@ void resetDefaultSoundsPack()
     ttSettings->setValue(SETTINGS_SOUNDS_PACK, QCoreApplication::translate("MainWindow", SETTINGS_SOUNDS_PACK_DEFAULT));
 }
 
+bool isOutputDevice3DSupported()
+{
+    int outputid = getSelectedSndOutputDevice();
+    SoundDevice dev;
+    QVector<SoundDevice> devices = getSoundDevices();
+
+    if (getSoundDevice(outputid, devices, dev))
+    {
+        return (dev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_3DPOSITION);
+    }
+    return false;
+}
+
+bool isOutputDevice3DSupported(const SoundDevice& dev)
+{
+    return (dev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_3DPOSITION);
+}
+
 QString UtilSound::getDefaultFile(const QString& paramKey)
 {
     if (paramKey == SETTINGS_SOUNDEVENT_NEWUSER)

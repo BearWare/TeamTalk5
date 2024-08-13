@@ -47,6 +47,8 @@ UserVolumeDlg::UserVolumeDlg(int userid, QWidget * parent/* = 0*/)
     connect(ui.mfrightChkBox, &QAbstractButton::clicked, this, &UserVolumeDlg::slotMuteChannel);
     connect(ui.defaultsButton, &QAbstractButton::clicked, this, &UserVolumeDlg::slotDefaults);
 
+    connect(ui.applyPositionButton, &QPushButton::clicked, this, &UserVolumeDlg::slotApplyPosition);
+
     User user;
     if(TT_GetUser(ttInst, m_userid, &user))
     {
@@ -60,6 +62,16 @@ UserVolumeDlg::UserVolumeDlg(int userid, QWidget * parent/* = 0*/)
     ui.voicerightChkBox->setChecked(!user.stereoPlaybackVoice[1]);
     ui.mfleftChkBox->setChecked(!user.stereoPlaybackMediaFile[0]);
     ui.mfrightChkBox->setChecked(!user.stereoPlaybackMediaFile[1]);
+
+    bool supports3DPositioning = isOutputDevice3DSupported();
+
+    ui.groupBox_5->setVisible(supports3DPositioning);
+
+    if (supports3DPositioning)
+    {
+        ui.xCoordSpinBox->setValue(user.soundPositionVoice[0]);
+        ui.yCoordSpinBox->setValue(user.soundPositionVoice[1]);
+    }
 }
 
 void UserVolumeDlg::slotVolumeChanged(int /*vol*/)
@@ -97,5 +109,27 @@ void UserVolumeDlg::slotDefaults()
     ui.voicevolSlider->setValue(refVolumeToPercent(SOUND_VOLUME_DEFAULT));
     ui.mfvolSlider->setValue(ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME, SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT).toInt());
     slotVolumeChanged(refVolumeToPercent(SOUND_VOLUME_DEFAULT));
+
+    if (isOutputDevice3DSupported())
+    {
+        ui.xCoordSpinBox->setValue(0.0);
+        ui.yCoordSpinBox->setValue(0.0);
+        slotApplyPosition();
+    }
 }
 
+void UserVolumeDlg::slotApplyPosition()
+{
+    if (!isOutputDevice3DSupported())
+        return;
+
+    float x = ui.xCoordSpinBox->value();
+    float y = ui.yCoordSpinBox->value();
+
+    TTBOOL result = TT_SetUserPosition(ttInst, m_userid, STREAMTYPE_VOICE, x, y, 0.0);
+    if (!result)
+    {
+        QMessageBox::critical(this, tr("Position"), 
+        tr("Failed to set user's 3D position"));
+    }
+}

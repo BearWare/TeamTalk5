@@ -1180,7 +1180,9 @@ void PreferencesDlg::slotSoundOutputChange(int index)
         devinfo += ". ";
         devinfo += tr("Sample Rates:");
         for(int i=0;dev.outputSampleRates[i]>0 && i < TT_SAMPLERATES_MAX;i++)
-            devinfo += " " + QString::number(dev.outputSampleRates[i]);
+            devinfo += ", " + QString::number(dev.outputSampleRates[i]);
+        devinfo += ". ";
+        devinfo += tr("3D Positionning support: ") + QString(isOutputDevice3DSupported(dev)?tr("Yes"):tr("No"));
     }
     ui.outputinfoLabel->setText(devinfo);
     ui.outputinfoLabel->setAccessibleName(devinfo);
