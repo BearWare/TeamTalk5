@@ -487,29 +487,29 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatusdlg.cpp" line="33"/>
         <source>Available</source>
-        <translation type="unfinished">آنلاین</translation>
+        <translation>آنلاین</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="34"/>
         <source>Away</source>
-        <translation type="unfinished">دور</translation>
+        <translation>دور</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="35"/>
         <source>Question</source>
-        <translation type="unfinished">پرسش</translation>
+        <translation>پرسش</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="43"/>
         <source>Available</source>
         <comment>For female</comment>
-        <translation type="unfinished">آنلاین</translation>
+        <translation>آنلاین</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="44"/>
         <source>Away</source>
         <comment>For female</comment>
-        <translation type="unfinished">دور</translation>
+        <translation>دور</translation>
     </message>
 </context>
 <context>
@@ -2255,7 +2255,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="1284"/>
         <source>Streaming to Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>استریم در کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1413"/>
@@ -2591,12 +2591,12 @@ Message of the day: %2</source>
         <location filename="../mainwindow.ui" line="2120"/>
         <location filename="../mainwindow.cpp" line="5374"/>
         <source>Pause/Resume Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>مکث یا ادامۀ استریم</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2123"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2131"/>
@@ -4033,22 +4033,22 @@ Do you wish to do this now?</source>
         <location filename="../mainwindow.cpp" line="5356"/>
         <location filename="../mainwindow.cpp" line="5399"/>
         <source>&amp;Pause Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;مکثِ استریم</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5395"/>
         <source>Failed to resume the stream</source>
-        <translation type="unfinished"></translation>
+        <translation>ادامۀ استریم امکان‌پذیر نیست</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5409"/>
         <source>Failed to pause the stream</source>
-        <translation type="unfinished"></translation>
+        <translation>مکثِ استریم امکان‌پذیر نیست</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5413"/>
         <source>&amp;Resume Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;ادامۀ استریم</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5514"/>
@@ -5747,17 +5747,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="134"/>
         <source>Windows Audio Session API (WASAPI)</source>
-        <translation type="unfinished"></translation>
+        <translation>WASAPI</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="136"/>
         <source>Windows legacy audio system</source>
-        <translation type="unfinished"></translation>
+        <translation>Legacy</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="141"/>
         <source>Advanced Linux Sound Architecture (ALSA)</source>
-        <translation type="unfinished"></translation>
+        <translation>ALSA</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="510"/>
@@ -7515,7 +7515,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="28"/>
         <source>Media file</source>
-        <translation>فایل جهتِ استریم</translation>
+        <translation>فایل برای استریم</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="45"/>
@@ -8101,7 +8101,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="162"/>
         <source>User Actions Allowed on Server</source>
-        <translation>در این بخش میتوانید تعیین کنید که این کاربر چه دسترسی‌هایی داشته باشد و چه کار‌هایی بتواند انجام دهد</translation>
+        <translation>دسترسی‌های کاربر</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="194"/>
@@ -8113,12 +8113,12 @@ Delete the published user account to unregister your server.</source>
         <location filename="../useraccountdlg.ui" line="200"/>
         <location filename="../useraccountdlg.ui" line="203"/>
         <source>Auto-Operator Channels</source>
-        <translation>در این بخش میتوانید مشخص کنید که این کاربر بطور خودکار در چه کانال‌هایی اپراتور شود</translation>
+        <translation>کانال‌هایی که کاربر اپراتورِ آنهاست</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="209"/>
         <source>Selected Channels</source>
-        <translation>کانال‌هایی که این کاربر در حالِ حاضر اپراتورِ آنهاست</translation>
+        <translation>کانال‌های انتخاب‌شده</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="219"/>
@@ -8178,17 +8178,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="355"/>
         <source>Flood Protection</source>
-        <translation>در این بخش میتوانید از سوءاستفاده, یا استفادۀ نادرستِ کاربران از سِروِر جلوگیری کنید</translation>
+        <translation>جلوگیری از اسپم</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="361"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
-        <translation>برای جلوگیری از ارسال پیام‌های اسپم, یک بازۀ زمانی برای کاربر مشخص کنید. در این بازۀ زمانی, میتوانید تعداد دستورات قابل‌ارسال توسط کاربر را محدود کنید. این دستورات شامل خاموش و روشن کردن امکان دریافت پیامها یا شنیدن صدای سایر کاربران, ارسال پیام‌های متنی, ورود و خروج کاربر از سِروِر یا کانالها, و سایر موارد میشود. به عنوان مثال, میتوانید تعیین کنید که این کاربر در 1 دقیقه بتواند 60 پیام ارسال کند.</translation>
+        <translation>جلوگیری از اسپم با محدود کردن تعداد دستورات قابل ارسال توسط کاربر در یک بازۀ زمانی مشخص.</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="373"/>
         <source>Limit issued commands</source>
-        <translation>تعداد دَستوراتی که کاربر میتواند ارسال کند را محدود کنید</translation>
+        <translation>محدود‌سازی تعداد دستورات قابل ارسال</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="57"/>
