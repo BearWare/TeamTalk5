@@ -129,21 +129,10 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             this, &PreferencesDlg::slotDesktopAccess);
 
     //sound tab
-    ui.sndSysBox->clear();
-#if defined(Q_OS_WIN32)
-    ui.sndSysBox->addItem(tr("Windows Audio Session API (WASAPI)"), SOUNDSYSTEM_WASAPI);
-    ui.sndSysBox->addItem(tr("DirectSound"), SOUNDSYSTEM_DSOUND);
-    ui.sndSysBox->addItem(tr("Windows legacy audio system"), SOUNDSYSTEM_WINMM);
-#elif defined(Q_OS_DARWIN)
-    ui.sndSysBox->addItem(tr("CoreAudio"), SOUNDSYSTEM_COREAUDIO);
-    ui.winfwChkBox->hide();
-#else
-    ui.sndSysBox->addItem(tr("Advanced Linux Sound Architecture (ALSA)"), SOUNDSYSTEM_ALSA);
-    ui.sndSysBox->addItem(tr("PulseAudio"), SOUNDSYSTEM_PULSEAUDIO);
-    ui.winfwChkBox->hide();
-#endif
-    connect(ui.sndSysBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &PreferencesDlg::slotSoundSystemChange);
+    connect(ui.sndSysBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [&]()
+    {
+        showDevices(SoundSystem(ui.sndSysBox->currentData().toInt()));
+    });
     connect(ui.inputdevBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &PreferencesDlg::slotSoundInputChange);
     connect(ui.outputdevBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
@@ -307,10 +296,6 @@ void PreferencesDlg::showDevices(SoundSystem snd)
 
     ui.inputdevBox->clear();
     ui.outputdevBox->clear();
-
-    int comboIndex = ui.sndSysBox->findData(snd);
-    if(comboIndex>=0)
-        ui.sndSysBox->setCurrentIndex(comboIndex);
 
     SoundDevice dev;
     int devid;
@@ -537,6 +522,8 @@ void PreferencesDlg::initConnectionTab()
     QString appPath = QApplication::applicationFilePath();
     appPath = QDir::toNativeSeparators(appPath);
     ui.winfwChkBox->setChecked(TT_Firewall_AppExceptionExists(_W(appPath)));
+#else
+    ui.winfwChkBox->hide();
 #endif
     ui.subusermsgChkBox->setChecked(ttSettings->value(SETTINGS_CONNECTION_SUBSCRIBE_USERMSG, SETTINGS_CONNECTION_SUBSCRIBE_USERMSG_DEFAULT).toBool());
     ui.subchanmsgChkBox->setChecked(ttSettings->value(SETTINGS_CONNECTION_SUBSCRIBE_CHANNELMSG, SETTINGS_CONNECTION_SUBSCRIBE_CHANNELMSG_DEFAULT).toBool());
@@ -551,6 +538,22 @@ void PreferencesDlg::initConnectionTab()
 
 void PreferencesDlg::initSoundSystemTab()
 {
+    ui.sndSysBox->clear();
+#if defined(Q_OS_WIN32)
+    ui.sndSysBox->addItem(tr("Windows Audio Session API (WASAPI)"), SOUNDSYSTEM_WASAPI);
+    ui.sndSysBox->addItem(tr("DirectSound"), SOUNDSYSTEM_DSOUND);
+    ui.sndSysBox->addItem(tr("Windows legacy audio system"), SOUNDSYSTEM_WINMM);
+#elif defined(Q_OS_DARWIN)
+    ui.sndSysBox->addItem(tr("CoreAudio"), SOUNDSYSTEM_COREAUDIO);
+    ui.winfwChkBox->hide();
+#else
+    ui.sndSysBox->addItem(tr("Advanced Linux Sound Architecture (ALSA)"), SOUNDSYSTEM_ALSA);
+    ui.sndSysBox->addItem(tr("PulseAudio"), SOUNDSYSTEM_PULSEAUDIO);
+    ui.winfwChkBox->hide();
+#endif
+    int comboIndex = ui.sndSysBox->findData(SoundSystem(ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_NONE).toInt()));
+    if(comboIndex>=0)
+        ui.sndSysBox->setCurrentIndex(comboIndex);
     initDevices();
     ui.mediavsvoiceSlider->setValue(ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME,
                                                       SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT).toInt());
@@ -1132,11 +1135,6 @@ void PreferencesDlg::slotDesktopAccess()
 {
     DesktopAccessDlg dlg(this);
     dlg.exec();
-}
-
-void PreferencesDlg::slotSoundSystemChange()
-{
-    showDevices(getSoundSystem());
 }
 
 void PreferencesDlg::slotSoundInputChange(int index)
