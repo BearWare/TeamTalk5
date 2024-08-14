@@ -545,11 +545,9 @@ void PreferencesDlg::initSoundSystemTab()
     ui.sndSysBox->addItem(tr("Windows legacy audio system"), SOUNDSYSTEM_WINMM);
 #elif defined(Q_OS_DARWIN)
     ui.sndSysBox->addItem(tr("CoreAudio"), SOUNDSYSTEM_COREAUDIO);
-    ui.winfwChkBox->hide();
 #else
     ui.sndSysBox->addItem(tr("Advanced Linux Sound Architecture (ALSA)"), SOUNDSYSTEM_ALSA);
     ui.sndSysBox->addItem(tr("PulseAudio"), SOUNDSYSTEM_PULSEAUDIO);
-    ui.winfwChkBox->hide();
 #endif
     int comboIndex = ui.sndSysBox->findData(SoundSystem(ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_NONE).toInt()));
     if(comboIndex>=0)
