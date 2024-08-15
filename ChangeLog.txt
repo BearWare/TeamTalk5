@@ -2,7 +2,17 @@
                  TeamTalk
 ----------------------------------------------
 
-Version 5.17, unreleased
+Version 5.17.1, unreleased
+Default Qt Client
+-
+Android Client
+-
+iOS Client
+-
+Server
+-
+
+Version 5.17, 2024/08/15
 Default Qt Client
 - "Connect to a Server" and "User Accounts" dialog simplified with multiple sub dialogs
 - Redesigned "Sound Events" and "Shortcuts" tabs in "Preferences" dialog
@@ -49,10 +59,6 @@ Default Qt Client
 - OS version displays in user info
 Android Client
 - Toggle channel operator does not show password dialog if user has user-right to change channel operator
-iOS Client
--
-Server
--
 
 Version 5.16.1, 2024/04/16
 Default Qt Client
