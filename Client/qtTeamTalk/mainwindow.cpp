@@ -1196,14 +1196,14 @@ void MainWindow::clienteventCmdUserJoined(const User& user)
     {
         Channel chan = {};
         ui.channelsWidget->getChannel(user.nChannelID, chan);
-        QString userjoinchanStatus = UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_USER_JOINED_SAME, {{"{user}", getDisplayName(user)}});
-        QString userjoinchanTTS = UtilTTS::getTTSMessage(SETTINGS_TTSMSG_USER_JOINED_SAME, {{"{user}", getDisplayName(user)}});
+        QString userjoinchanStatus = UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_USER_JOINED_SAME, {{"{user}", getDisplayName(user)}, {"{username}", _Q(user.szUsername)}});
+        QString userjoinchanTTS = UtilTTS::getTTSMessage(SETTINGS_TTSMSG_USER_JOINED_SAME, {{"{user}", getDisplayName(user)}, {"{username}", _Q(user.szUsername)}});
         TextToSpeechEvent ttsType = TTS_USER_JOINED_SAME;
         StatusBarEvent statusType = STATUSBAR_USER_JOINED_SAME;
         if ((chan.nParentID == 0 && user.nChannelID != m_mychannel.nChannelID) || (user.nChannelID != m_mychannel.nChannelID))
         {
-            userjoinchanStatus = UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_USER_JOINED, {{"{user}", getDisplayName(user)}, {"{channel}", (chan.nParentID == 0 && user.nChannelID != m_mychannel.nChannelID)?tr("root"):_Q(chan.szName)}});
-            userjoinchanTTS = UtilTTS::getTTSMessage(SETTINGS_TTSMSG_USER_JOINED, {{"{user}", getDisplayName(user)}, {"{channel}", (chan.nParentID == 0 && user.nChannelID != m_mychannel.nChannelID)?tr("root"):_Q(chan.szName)}});
+            userjoinchanStatus = UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_USER_JOINED, {{"{user}", getDisplayName(user)}, {"{username}", _Q(user.szUsername)}, {"{channel}", (chan.nParentID == 0 && user.nChannelID != m_mychannel.nChannelID)?tr("root"):_Q(chan.szName)}});
+            userjoinchanTTS = UtilTTS::getTTSMessage(SETTINGS_TTSMSG_USER_JOINED, {{"{user}", getDisplayName(user)}, {"{username}", _Q(user.szUsername)}, {"{channel}", (chan.nParentID == 0 && user.nChannelID != m_mychannel.nChannelID)?tr("root"):_Q(chan.szName)}});
             ttsType = TTS_USER_JOINED;
             statusType = STATUSBAR_USER_JOINED;
         }
@@ -1235,14 +1235,14 @@ void MainWindow::clienteventCmdUserLeft(int prevchannelid, const User& user)
     {
         Channel chan = {};
         ui.channelsWidget->getChannel(prevchannelid, chan);
-        QString userleftchanStatus = UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_USER_LEFT_SAME, {{"{user}", getDisplayName(user)}});
-        QString userleftchanTTS = UtilTTS::getTTSMessage(SETTINGS_TTSMSG_USER_LEFT_SAME, {{"{user}", getDisplayName(user)}});
+        QString userleftchanStatus = UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_USER_LEFT_SAME, {{"{user}", getDisplayName(user)}, {"{username}", _Q(user.szUsername)}});
+        QString userleftchanTTS = UtilTTS::getTTSMessage(SETTINGS_TTSMSG_USER_LEFT_SAME, {{"{user}", getDisplayName(user)}, {"{username}", _Q(user.szUsername)}});
         TextToSpeechEvent ttsType = TTS_USER_LEFT_SAME;
         StatusBarEvent statusType = STATUSBAR_USER_LEFT_SAME;
         if ((chan.nParentID == 0 && prevchannelid != m_mychannel.nChannelID) || (prevchannelid != m_mychannel.nChannelID))
         {
-            userleftchanStatus = UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_USER_LEFT, {{"{user}", getDisplayName(user)}, {"{channel}", (chan.nParentID == 0 && prevchannelid != m_mychannel.nChannelID)?tr("root"):_Q(chan.szName)}});
-            userleftchanTTS = UtilTTS::getTTSMessage(SETTINGS_TTSMSG_USER_LEFT, {{"{user}", getDisplayName(user)}, {"{channel}", (chan.nParentID == 0 && prevchannelid != m_mychannel.nChannelID)?tr("root"):_Q(chan.szName)}});
+            userleftchanStatus = UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_USER_LEFT, {{"{user}", getDisplayName(user)}, {"{username}", _Q(user.szUsername)}, {"{channel}", (chan.nParentID == 0 && prevchannelid != m_mychannel.nChannelID)?tr("root"):_Q(chan.szName)}});
+            userleftchanTTS = UtilTTS::getTTSMessage(SETTINGS_TTSMSG_USER_LEFT, {{"{user}", getDisplayName(user)}, {"{username}", _Q(user.szUsername)}, {"{channel}", (chan.nParentID == 0 && prevchannelid != m_mychannel.nChannelID)?tr("root"):_Q(chan.szName)}});
             ttsType = TTS_USER_LEFT;
             statusType = STATUSBAR_USER_LEFT;
         }
@@ -1272,7 +1272,7 @@ void MainWindow::clienteventCmdUserUpdate(const User& user)
         if ((prev_user.nStatusMode & STATUSMODE_QUESTION) == 0 && (user.nStatusMode & STATUSMODE_QUESTION))
         {
            playSoundEvent(SOUNDEVENT_QUESTIONMODE);
-           addTextToSpeechMessage(TTS_USER_QUESTIONMODE, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_QUESTIONMODE, {{"{user}", getDisplayName(user)}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
+           addTextToSpeechMessage(TTS_USER_QUESTIONMODE, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_QUESTIONMODE, {{"{user}", getDisplayName(user)}, {"{username}", _Q(user.szUsername)}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
         }
     }
 
@@ -1295,8 +1295,8 @@ void MainWindow::clienteventCmdFileNew(const RemoteFile& file)
         User user;
         TT_GetUserByUsername(ttInst, file.szUsername, &user);
         QString name = m_host.username != _Q(file.szUsername)?getDisplayName(user):tr("You");
-        addStatusMsg(STATUSBAR_FILE_ADD, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{filesize}", getFormattedFileSize(file.nFileSize)}}));
-        addTextToSpeechMessage(TTS_FILE_ADD, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{filesize}", getFormattedFileSize(file.nFileSize)}}));
+        addStatusMsg(STATUSBAR_FILE_ADD, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(user.szUsername)}, {"{filesize}", getFormattedFileSize(file.nFileSize)}}));
+        addTextToSpeechMessage(TTS_FILE_ADD, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(user.szUsername)}, {"{filesize}", getFormattedFileSize(file.nFileSize)}}));
     }
 }
 
@@ -1314,8 +1314,8 @@ void MainWindow::clienteventCmdFileRemove(const RemoteFile& file)
         playSoundEvent(SOUNDEVENT_FILESUPD);
         TT_GetUserByUsername(ttInst, file.szUsername, &user);
         QString name = m_host.username != _Q(file.szUsername)?getDisplayName(user):tr("You");
-        addStatusMsg(STATUSBAR_FILE_REMOVE, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_FILE_REMOVED, {{"{file}", _Q(file.szFileName)}, {"{user}", name}}));
-        addTextToSpeechMessage(TTS_FILE_REMOVE, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_FILE_REMOVED, {{"{file}", _Q(file.szFileName)}, {"{user}", name}}));
+        addStatusMsg(STATUSBAR_FILE_REMOVE, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_FILE_REMOVED, {{"{file}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(user.szUsername)}}));
+        addTextToSpeechMessage(TTS_FILE_REMOVE, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_FILE_REMOVED, {{"{file}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(user.szUsername)}}));
     }
 }
 
@@ -2826,8 +2826,8 @@ void MainWindow::subscribeCommon(bool checked, Subscriptions subs, int userid/* 
                 state = tr("Disabled");
             }
         }
-        addStatusMsg(subTypeSB, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", getDisplayName(user)}, {"{type}", subType}, {"{state}", state}}));
-        addTextToSpeechMessage(subTypeTTS, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_SUBCHANGE, {{"{user}", getDisplayName(user)}, {"{type}", subType}, {"{state}", state}}));
+        addStatusMsg(subTypeSB, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", getDisplayName(user)}, {"{username}", _Q(user.szUsername)}, {"{type}", subType}, {"{state}", state}}));
+        addTextToSpeechMessage(subTypeTTS, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_SUBCHANGE, {{"{user}", getDisplayName(user)}, {"{username}", _Q(user.szUsername)}, {"{type}", subType}, {"{state}", state}}));
     }
 }
 
@@ -2895,7 +2895,7 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         {
             User user;
             if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
-                addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_CHANNELMSG, {{"{user}", getDisplayName(user)}, {"{message}", textmsg.moreMessage}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
+                addTextToSpeechMessage(TTS_USER_TEXTMSG_CHANNEL, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_CHANNELMSG, {{"{user}", getDisplayName(user)}, {"{username}", _Q(user.szUsername)}, {"{message}", textmsg.moreMessage}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
             playSoundEvent(SOUNDEVENT_CHANNELMSG);
         }
         else
@@ -2914,7 +2914,7 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
 
         User user;
         if (ui.channelsWidget->getUser(textmsg.nFromUserID, user) && user.nUserID != TT_GetMyUserID(ttInst))
-            addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_BROADCASTMSG, {{"{user}", getDisplayName(user)}, {"{message}", textmsg.moreMessage}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_BROADCAST, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_BROADCASTMSG, {{"{user}", getDisplayName(user)}, {"{username}", _Q(user.szUsername)}, {"{message}", textmsg.moreMessage}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
         playSoundEvent(SOUNDEVENT_BROADCASTMSG);
         break;
     }
@@ -2924,7 +2924,7 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
         emit(newTextMessage(textmsg));
         User user;
         if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
-            addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_PRIVATEMSG, {{"{user}", getDisplayName(user)}, {"{message}", textmsg.moreMessage}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
+            addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_PRIVATEMSG, {{"{user}", getDisplayName(user)}, {"{username}", _Q(user.szUsername)}, {"{message}", textmsg.moreMessage}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
 
         if(ttSettings->value(SETTINGS_DISPLAY_MESSAGEPOPUP, SETTINGS_DISPLAY_MESSAGEPOPUP_DEFAULT).toBool())
         {
