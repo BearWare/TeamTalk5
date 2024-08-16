@@ -661,7 +661,8 @@ void PlaySoundEvent::playDefaultSoundEvent(const QString& filename)
     static QSoundEffect* effect = nullptr;
     delete effect;
     effect = new QSoundEffect(ttSettings);
-    effect->setAudioDevice(getSelectedOutputAudioDevice());
+    if (ttSettings->value(SETTINGS_SOUNDEVENT_TTDEVICE, SETTINGS_SOUNDEVENT_TTDEVICE_DEFAULT).toBool() == true)
+        effect->setAudioDevice(getSelectedOutputAudioDevice());
     effect->setSource(QUrl::fromLocalFile(filename));
     effect->setVolume(ttSettings->value(SETTINGS_SOUNDEVENT_VOLUME, SETTINGS_SOUNDEVENT_VOLUME_DEFAULT).toInt()/100.0);
     effect->play();
