@@ -487,29 +487,29 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatusdlg.cpp" line="33"/>
         <source>Available</source>
-        <translation type="unfinished">在线</translation>
+        <translation>在线</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="34"/>
         <source>Away</source>
-        <translation type="unfinished">离开</translation>
+        <translation>离开</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="35"/>
         <source>Question</source>
-        <translation type="unfinished">提问</translation>
+        <translation>提问</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="43"/>
         <source>Available</source>
         <comment>For female</comment>
-        <translation type="unfinished">在线</translation>
+        <translation>在线</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="44"/>
         <source>Away</source>
         <comment>For female</comment>
-        <translation type="unfinished">离开</translation>
+        <translation>离开</translation>
     </message>
 </context>
 <context>
@@ -2255,7 +2255,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="1284"/>
         <source>Streaming to Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>流式传输到频道</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1413"/>
@@ -2591,12 +2591,12 @@ Message of the day: %2</source>
         <location filename="../mainwindow.ui" line="2120"/>
         <location filename="../mainwindow.cpp" line="5374"/>
         <source>Pause/Resume Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>暂停/恢复流</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2123"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2131"/>
@@ -4033,22 +4033,22 @@ Do you wish to do this now?</source>
         <location filename="../mainwindow.cpp" line="5356"/>
         <location filename="../mainwindow.cpp" line="5399"/>
         <source>&amp;Pause Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>暂停流(&amp;P)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5395"/>
         <source>Failed to resume the stream</source>
-        <translation type="unfinished"></translation>
+        <translation>无法恢复流</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5409"/>
         <source>Failed to pause the stream</source>
-        <translation type="unfinished"></translation>
+        <translation>无法暂停流</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5413"/>
         <source>&amp;Resume Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>恢复流​​(&amp;R)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5514"/>
@@ -5747,17 +5747,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="134"/>
         <source>Windows Audio Session API (WASAPI)</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows 音频会话 API (WASAPI)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="136"/>
         <source>Windows legacy audio system</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows 传统音频系统</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="141"/>
         <source>Advanced Linux Sound Architecture (ALSA)</source>
-        <translation type="unfinished"></translation>
+        <translation>高级 Linux 声音架构 (ALSA)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="510"/>
