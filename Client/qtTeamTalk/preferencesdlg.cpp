@@ -149,6 +149,10 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     //sound events
     m_soundmodel = new SoundEventsModel(this);
     ui.soundEventsTableView->setModel(m_soundmodel);
+    connect(ui.sndeventPlaybackComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [&]()
+    {
+        ui.ttDeviceChkBox->setVisible(PlaybackMode(ui.sndeventPlaybackComboBox->currentData().toInt()) == PLAYBACKMODE_DEFAULT);
+    });
     connect(ui.soundEventsTableView, &QAbstractItemView::doubleClicked, this, &PreferencesDlg::slotSoundEventToggled);
     connect(ui.soundEventsTableView->selectionModel(), &QItemSelectionModel::currentChanged, this, &PreferencesDlg::SoundEventSelected);
     connect(ui.soundEventsBrowseButton, &QPushButton::clicked, this, &PreferencesDlg::slotBrowseSoundEvent);
@@ -578,6 +582,7 @@ void PreferencesDlg::initSoundEventsTab()
     ui.sndeventPlaybackComboBox->addItem(tr("One by One"), PLAYBACKMODE_ONEBYONE);
     ui.sndeventPlaybackComboBox->addItem(tr("Overlapping"), PLAYBACKMODE_OVERLAPPING);
     setCurrentItemData(ui.sndeventPlaybackComboBox, ttSettings->value(SETTINGS_SOUNDEVENT_PLAYBACKMODE, SETTINGS_SOUNDEVENT_PLAYBACKMODE_DEFAULT));
+    ui.ttDeviceChkBox->setChecked(ttSettings->value(SETTINGS_SOUNDEVENT_TTDEVICE, SETTINGS_SOUNDEVENT_TTDEVICE_DEFAULT).toBool());
     SoundEvents events = ttSettings->value(SETTINGS_SOUNDEVENT_ACTIVEEVENTS, SETTINGS_SOUNDEVENT_ACTIVEEVENTS_DEFAULT).toULongLong();
     m_soundmodel->setSoundEvents(events);
 }
@@ -923,6 +928,7 @@ void PreferencesDlg::slotSaveChanges()
     {
         ttSettings->setValue(SETTINGS_SOUNDEVENT_VOLUME, ui.sndVolSpinBox->value());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_PLAYBACKMODE, getCurrentItemData(ui.sndeventPlaybackComboBox));
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_TTDEVICE, ui.ttDeviceChkBox->isChecked());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_ACTIVEEVENTS, m_soundmodel->getSoundEvents());
         ttSettings->setValue(SETTINGS_DISPLAY_SOUNDEVENTSHEADER, ui.soundEventsTableView->horizontalHeader()->saveState());
         saveCurrentFile();

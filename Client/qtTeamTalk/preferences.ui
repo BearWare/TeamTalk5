@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1119</width>
+    <width>1125</width>
     <height>706</height>
    </rect>
   </property>
@@ -1415,6 +1415,16 @@
             </item>
             <item>
              <widget class="QComboBox" name="sndeventPlaybackComboBox"/>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="ttDeviceChkBox">
+              <property name="toolTip">
+               <string>Use the sound output device selected in TeamTalk for playing sound events</string>
+              </property>
+              <property name="text">
+               <string>Use selected sound output device for playback</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>

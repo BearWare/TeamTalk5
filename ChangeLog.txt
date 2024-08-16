@@ -6,6 +6,7 @@ Version 5.17.1, unreleased
 Default Qt Client
 - Support "{username}" variable for majority of TTS and status events related to user action
 - Fixed gender changed from female to male when migrating to 5.17 release
+- Option to use TeamTalk Sound Output device for default sound event playback mode
 Android Client
 -
 iOS Client
