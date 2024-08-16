@@ -625,7 +625,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::loadSettings()
 {
-    migrateSettings();
+    if (!ttSettings->value(SETTINGS_GENERAL_FIRSTSTART, SETTINGS_GENERAL_FIRSTSTART_DEFAULT).toBool())
+        migrateSettings();
 
     // Ask to set language at first start
     if (!ttSettings->contains(SETTINGS_DISPLAY_LANGUAGE))
