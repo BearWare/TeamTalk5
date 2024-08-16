@@ -1155,9 +1155,9 @@ void MainWindow::clienteventCmdUserLoggedIn(const User& user)
     updateUserSubscription(user.nUserID);
     if(m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN)
     {
-        addStatusMsg(STATUSBAR_USER_LOGGEDIN, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_USER_LOGGEDIN, {{"{user}", getDisplayName(user)}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
+        addStatusMsg(STATUSBAR_USER_LOGGEDIN, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_USER_LOGGEDIN, {{"{user}", getDisplayName(user)}, {"{username}", _Q(user.szUsername)}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
         playSoundEvent(SOUNDEVENT_USERLOGGEDIN);
-        addTextToSpeechMessage(TTS_USER_LOGGEDIN, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_USER_LOGGEDIN, {{"{user}", getDisplayName(user)}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
+        addTextToSpeechMessage(TTS_USER_LOGGEDIN, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_USER_LOGGEDIN, {{"{user}", getDisplayName(user)}, {"{username}", _Q(user.szUsername)}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
     }
 
     // sync user settings from cache
@@ -1173,9 +1173,9 @@ void MainWindow::clienteventCmdUserLoggedOut(const User& user)
     m_textmessages.clearUserTextMessages(user.nUserID);
     if (user.nUserID != TT_GetMyUserID(ttInst))
     {
-        addStatusMsg(STATUSBAR_USER_LOGGEDOUT, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_USER_LOGGEDOUT, {{"{user}", getDisplayName(user)}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
+        addStatusMsg(STATUSBAR_USER_LOGGEDOUT, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_USER_LOGGEDOUT, {{"{user}", getDisplayName(user)}, {"{username}", _Q(user.szUsername)}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
         playSoundEvent(SOUNDEVENT_USERLOGGEDOUT);
-        addTextToSpeechMessage(TTS_USER_LOGGEDOUT, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_USER_LOGGEDOUT, {{"{user}", getDisplayName(user)}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
+        addTextToSpeechMessage(TTS_USER_LOGGEDOUT, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_USER_LOGGEDOUT, {{"{user}", getDisplayName(user)}, {"{username}", _Q(user.szUsername)}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
     }
 
     // sync user settings to cache

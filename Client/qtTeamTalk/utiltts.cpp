@@ -42,8 +42,8 @@ extern QSettings* ttSettings;
 QHash<TTSEvents, TTSEventInfo> UtilTTS::eventToSettingMap()
 {
     static QHash<TTSEvents, TTSEventInfo> map = {
-        { TTS_USER_LOGGEDIN, {SETTINGS_TTSMSG_USER_LOGGEDIN, {{"{user}", tr("User's nickname who logged in")}, {"{server}", tr("Server's name from which event was emited")}}, "" } },
-        { TTS_USER_LOGGEDOUT, {SETTINGS_TTSMSG_USER_LOGGEDOUT, {{"{user}", tr("User's nickname who logged out")}, {"{server}", tr("Server's name from which event was emited")}}, "" } },
+        { TTS_USER_LOGGEDIN, {SETTINGS_TTSMSG_USER_LOGGEDIN, {{"{user}", tr("User's nickname who logged in")}, {"{username}", tr("User's username who logged in")}, {"{server}", tr("Server's name from which event was emited")}}, "" } },
+        { TTS_USER_LOGGEDOUT, {SETTINGS_TTSMSG_USER_LOGGEDOUT, {{"{user}", tr("User's nickname who logged out")}, {"{username}", tr("User's username who logged out")}, {"{server}", tr("Server's name from which event was emited")}}, "" } },
         { TTS_USER_JOINED, {SETTINGS_TTSMSG_USER_JOINED, {{"{user}", tr("User's nickname who joined channel")}, {"{channel}", tr("Channel's name joined by user")}}, "" } },
         { TTS_USER_LEFT, {SETTINGS_TTSMSG_USER_LEFT, {{"{user}", tr("User's nickname who left channel")}, {"{channel}", tr("Channel's name left by user")}}, "" } },
         { TTS_USER_JOINED_SAME, {SETTINGS_TTSMSG_USER_JOINED_SAME, {{"{user}", tr("User's nickname who joined channel")}}, "" } },
