@@ -31,10 +31,8 @@
 #define SETTINGS_VERSION                            "5.5"
 #define SETTINGS_GENERAL_VERSION                    "general_/version"
 #define SETTINGS_GENERAL_VERSION_DEFAULT            SETTINGS_VERSION
-#if defined(ENABLE_TOLK) || defined(Q_OS_LINUX)
 #define SETTINGS_GENERAL_FIRSTSTART                 "general_/first-start"
 #define SETTINGS_GENERAL_FIRSTSTART_DEFAULT         true
-#endif
 
 #define SETTINGS_GENERAL_NICKNAME                   "general_/nickname"
 #define SETTINGS_GENERAL_NICKNAME_DEFAULT           ""

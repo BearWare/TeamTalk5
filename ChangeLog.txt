@@ -11,6 +11,7 @@ Default Qt Client
 - Ability to restore all custom TTS and status bar events to default values
 - Fixed gender changed from female to male when migrating to 5.17 release
 - Fixed sound events disabled when migrating to 5.17 release
+- Fixed language not set at first start
 Android Client
 -
 iOS Client
