@@ -88,13 +88,13 @@ void migrateSettings()
 
         // Sound Events changed in 5.4 format
         SoundEvents activeEvents = SOUNDEVENT_NONE;
-
-        for (int event = SOUNDEVENT_NEWUSER; event < int(SOUNDEVENT_NEXT_UNUSED); event <<= 1)
+        auto eventMap = UtilSound::eventToSettingMap();
+        for (SoundEvents event = SOUNDEVENT_NEWUSER; event < SOUNDEVENT_NEXT_UNUSED; event <<= 1)
         {
-            if (!getSoundEventFilename(SoundEvent(event)).isEmpty())
-            {
-                activeEvents = static_cast<SoundEvents>(activeEvents | event);
-            }
+            SoundEvents eventId = SoundEvent(event);
+            const SoundEventInfo& eventInfo = eventMap[eventId];
+            if (!ttSettings->value(eventInfo.settingKey).toString().isEmpty())
+                activeEvents |= event;
         }
 
         ttSettings->setValue(SETTINGS_SOUNDEVENT_ACTIVEEVENTS, activeEvents);
@@ -139,7 +139,7 @@ void migrateSettings()
         // Shortcuts changed in 5.4 format
         Hotkeys hks = HOTKEY_NONE;
 
-        for (int hk = HOTKEY_FIRST; hk < HOTKEY_NEXT_UNUSED; hk <<= 1)
+        for (Hotkeys hk = HOTKEY_FIRST; hk < HOTKEY_NEXT_UNUSED; hk <<= 1)
         {
             hotkey_t hotkey;
             HotKeyID hki = static_cast<HotKeyID>(hk);
