@@ -16,6 +16,7 @@
  */
 
 #include <QMenu>
+#include <QMessageBox>
 
 #include "statusbardlg.h"
 #include "appinfo.h"
@@ -51,6 +52,7 @@ StatusBarDlg::StatusBarDlg(QWidget* parent, StatusBarEvents events)
         m_SBVarMenu->exec(QCursor::pos());
     });
     connect(ui.SBDefValButton, &QPushButton::clicked, this, &StatusBarDlg::statusBarRestoreDefaultMessage);
+    connect(ui.SBDefAllValButton, &QPushButton::clicked, this, &StatusBarDlg::statusBarRestoreAllDefaultMessage);
     connect(ui.statusBarEnableallButton, &QAbstractButton::clicked, this, &StatusBarDlg::slotStatusBarEnableAll);
     connect(ui.statusBarClearallButton, &QAbstractButton::clicked, this, &StatusBarDlg::slotStatusBarClearAll);
     connect(ui.statusBarRevertButton, &QAbstractButton::clicked, this, &StatusBarDlg::slotStatusBarRevert);
@@ -154,6 +156,33 @@ void StatusBarDlg::statusBarRestoreDefaultMessage()
         const StatusBarEventInfo& eventInfo = eventMap[eventId];
         QString defaultValue = UtilUI::getDefaultValue(eventInfo.settingKey);
         ui.SBMsgEdit->setText(defaultValue);
+    }
+}
+
+void StatusBarDlg::statusBarRestoreAllDefaultMessage()
+{
+    QMessageBox answer;
+    answer.setText(tr("Are you sure you want to restore all Status bar messages to default values?"));
+    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    Q_UNUSED(YesButton);
+    answer.setIcon(QMessageBox::Information);
+    answer.setWindowTitle(tr("Restore default values"));
+    answer.exec();
+    if(answer.clickedButton() == NoButton)
+        return;
+    auto eventMap = UtilUI::eventToSettingMap();
+    for (StatusBarEvents event = STATUSBAR_USER_LOGGEDIN; event < STATUSBAR_NEXT_UNUSED; event <<= 1)
+    {
+        StatusBarEvents eventId = static_cast<StatusBarEvents>(event);
+        if (eventMap.contains(eventId))
+        {
+            const StatusBarEventInfo& eventInfo = eventMap[eventId];
+            QString defaultValue = UtilUI::getDefaultValue(eventInfo.settingKey);
+            ttSettings->setValue(eventInfo.settingKey, defaultValue);
+            if (m_currentIndex.isValid() && m_currentIndex.internalId() == eventId)
+                ui.SBMsgEdit->setText(defaultValue);
+        }
     }
 }
 

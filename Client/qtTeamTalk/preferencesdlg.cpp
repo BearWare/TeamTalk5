@@ -175,6 +175,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
         m_TTSVarMenu->exec(QCursor::pos());
     });
     connect(ui.TTSDefValButton, &QPushButton::clicked, this, &PreferencesDlg::TTSRestoreDefaultMessage);
+    connect(ui.TTSDefValAllButton, &QPushButton::clicked, this, &PreferencesDlg::TTSRestoreAllDefaultMessage);
     connect(ui.ttsengineComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &PreferencesDlg::slotUpdateTTSTab);
     connect(ui.ttsLocaleComboBox, &QComboBox::currentTextChanged, this, &PreferencesDlg::slotTTSLocaleChanged);
     connect(ui.ttsEnableallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSEnableAll);
@@ -1830,6 +1831,33 @@ void PreferencesDlg::TTSRestoreDefaultMessage()
         const TTSEventInfo& eventInfo = eventMap[eventId];
         QString defaultValue = UtilTTS::getDefaultValue(eventInfo.settingKey);
         ui.TTSMsgEdit->setText(defaultValue);
+    }
+}
+
+void PreferencesDlg::TTSRestoreAllDefaultMessage()
+{
+    QMessageBox answer;
+    answer.setText(tr("Are you sure you want to restore all TTS messages to default values?"));
+    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    Q_UNUSED(YesButton);
+    answer.setIcon(QMessageBox::Information);
+    answer.setWindowTitle(tr("Restore default values"));
+    answer.exec();
+    if(answer.clickedButton() == NoButton)
+        return;
+    auto eventMap = UtilTTS::eventToSettingMap();
+    for (TTSEvents event = TTS_USER_LOGGEDIN; event < TTS_NEXT_UNUSED; event <<= 1)
+    {
+        TTSEvents eventId = static_cast<TTSEvents>(event);
+        if (eventMap.contains(eventId))
+        {
+            const TTSEventInfo& eventInfo = eventMap[eventId];
+            QString defaultValue = UtilTTS::getDefaultValue(eventInfo.settingKey);
+            ttSettings->setValue(eventInfo.settingKey, defaultValue);
+            if (m_currentTTSIndex.isValid() && m_currentTTSIndex.internalId() == eventId)
+                ui.TTSMsgEdit->setText(defaultValue);
+        }
     }
 }
 
