@@ -113,6 +113,7 @@ private:
     void insertVariable();
     void saveCurrentMessage();
     void TTSRestoreDefaultMessage();
+    void TTSRestoreAllDefaultMessage();
     void slotTTSEnableAll(bool checked);
     void slotTTSClearAll(bool checked);
     void slotTTSRevert(bool checked);

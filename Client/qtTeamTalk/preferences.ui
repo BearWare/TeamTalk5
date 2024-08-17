@@ -1631,6 +1631,13 @@
                </property>
               </widget>
              </item>
+             <item>
+              <widget class="QPushButton" name="TTSDefValAllButton">
+               <property name="text">
+                <string>Reset All to Default Values</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </widget>
           </item>
