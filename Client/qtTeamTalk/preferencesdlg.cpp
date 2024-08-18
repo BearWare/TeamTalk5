@@ -479,8 +479,11 @@ void PreferencesDlg::initDisplayTab()
                                                   SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt());
     ui.showusernameChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_SHOWUSERNAME,
                                                         SETTINGS_DISPLAY_SHOWUSERNAME_DEFAULT).toBool());
-    ui.emojiChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_EMOJI,
-                                                 SETTINGS_DISPLAY_EMOJI_DEFAULT).toBool());
+    ui.infoStyleBox->addItem(tr("None"), STYLE_NONE);
+    ui.infoStyleBox->addItem(tr("Emojis"), STYLE_EMOJI);
+    ui.infoStyleBox->addItem(tr("Text"), STYLE_TEXT);
+    UserInfoStyle style = UserInfoStyle(ttSettings->value(SETTINGS_DISPLAY_INFOSTYLE, SETTINGS_DISPLAY_INFOSTYLE_DEFAULT).toUInt());
+    setCurrentItemData(ui.infoStyleBox, style);
     ui.animChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_ANIM,
                                                 SETTINGS_DISPLAY_ANIM_DEFAULT).toBool());
     ui.ServnameChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_SERVNAME,
@@ -756,7 +759,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_DISPLAY_APPUPDATE_DLG, ui.updatesDlgChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_MAX_STRING, ui.maxtextSpinBox->value());
         ttSettings->setValue(SETTINGS_DISPLAY_SHOWUSERNAME, ui.showusernameChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_EMOJI, ui.emojiChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_DISPLAY_INFOSTYLE, getCurrentItemData(ui.infoStyleBox, STYLE_EMOJI));
         ttSettings->setValue(SETTINGS_DISPLAY_ANIM, ui.animChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_SERVNAME, ui.ServnameChkBox->isChecked());
 

@@ -6,6 +6,7 @@ Version 5.17.1, unreleased
 Default Qt Client
 - Support "{username}" variable for majority of TTS and status events related to user action
 - Option to use TeamTalk Sound Output device for default sound event playback mode
+- Option to choose bitween text or emoji for user and channel info in channel list
 - Ability to restore all custom TTS and status bar events to default values
 - Fixed gender changed from female to male when migrating to 5.17 release
 - Fixed sound events disabled when migrating to 5.17 release

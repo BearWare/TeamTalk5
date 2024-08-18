@@ -43,6 +43,13 @@ enum DoubleClickChannelAction
     ACTION_JOINLEAVE        = (ACTION_JOIN | ACTION_LEAVE),
 };
 
+enum UserInfoStyle
+{
+    STYLE_NONE          = 0x0,
+    STYLE_EMOJI             = 0x1,
+    STYLE_TEXT            = 0x2,
+};
+
 enum StatusBarEvent : qulonglong
 {
     STATUSBAR_NONE                                        = 0x0,
