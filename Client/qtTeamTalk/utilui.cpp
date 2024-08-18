@@ -152,6 +152,13 @@ void migrateSettings()
         ttSettings->setValue(SETTINGS_SHORTCUTS_ACTIVEHKS, hks);
         ttSettings->remove("general_/push-to-talk");
     }
+    if (!versionSameOrLater(iniversion, "5.5"))
+    {
+        // Setting to display emoji in channel list changed in 5.5 format
+        if (ttSettings->contains("display/show-emoji") && ttSettings->value("display/show-emoji").toBool() == false)
+            ttSettings->setValue(SETTINGS_DISPLAY_INFOSTYLE, STYLE_NONE);
+        ttSettings->remove("display/show-emoji");
+    }
 
     if (ttSettings->value(SETTINGS_GENERAL_VERSION).toString() != SETTINGS_VERSION)
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);

@@ -642,13 +642,6 @@
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="emojiChkBox">
-              <property name="text">
-               <string>Show emojis and text for channel/user state</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <widget class="QCheckBox" name="animChkBox">
               <property name="text">
                <string>Show user and channel icons</string>
@@ -711,6 +704,23 @@
                <string>Auto expand channels</string>
               </property>
              </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_33">
+              <item>
+               <widget class="QLabel" name="label_infoStyle">
+                <property name="text">
+                 <string>Style of user and channel info</string>
+                </property>
+                <property name="buddy">
+                 <cstring>infoStyleBox</cstring>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="infoStyleBox"/>
+              </item>
+             </layout>
             </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_27">

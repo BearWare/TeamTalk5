@@ -28,7 +28,7 @@
 #elif defined(Q_OS_DARWIN)
 #define SOUNDSPATH                                     "/Applications/TeamTalk5.app/Contents/Resources/Sounds"
 #endif
-#define SETTINGS_VERSION                            "5.4"
+#define SETTINGS_VERSION                            "5.5"
 #define SETTINGS_GENERAL_VERSION                    "general_/version"
 #define SETTINGS_GENERAL_VERSION_DEFAULT            SETTINGS_VERSION
 #if defined(ENABLE_TOLK) || defined(Q_OS_LINUX)
@@ -86,8 +86,8 @@
 #define SETTINGS_DISPLAY_SHOWUSERNAME_DEFAULT       false
 #define SETTINGS_DISPLAY_LASTTALK                   "display/display-last-talk"
 #define SETTINGS_DISPLAY_LASTTALK_DEFAULT           true
-#define SETTINGS_DISPLAY_EMOJI                     "display/show-emoji"
-#define SETTINGS_DISPLAY_EMOJI_DEFAULT              true
+#define SETTINGS_DISPLAY_INFOSTYLE                     "display/user-info-style"
+#define SETTINGS_DISPLAY_INFOSTYLE_DEFAULT              STYLE_EMOJI
 #define SETTINGS_DISPLAY_ANIM                     "display/show-animations"
 #define SETTINGS_DISPLAY_ANIM_DEFAULT              true
 #define SETTINGS_DISPLAY_SERVNAME                     "display/show-servname"
