@@ -1227,6 +1227,8 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
 
         if (user.nStatusMode & STATUSMODE_VIDEOTX)
             itemtext += ", 🎥";
+        if (user.nStatusMode & STATUSMODE_DESKTOP)
+            itemtext += ", 💻";
     }
     if (text)
     {
@@ -1251,6 +1253,8 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
 
         if (user.nStatusMode & STATUSMODE_VIDEOTX)
             itemtext += ", " + tr("Video");
+        if (user.nStatusMode & STATUSMODE_DESKTOP)
+            itemtext += ", " + tr("Desktop sharing");
     }
 
     if(_Q(user.szStatusMsg).size())
