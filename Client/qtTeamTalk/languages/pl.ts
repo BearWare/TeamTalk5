@@ -801,7 +801,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="203"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Zamknij</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="447"/>
@@ -817,12 +817,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ChannelsTree</name>
     <message>
-        <location filename="../channelstree.cpp" line="1155"/>
+        <location filename="../channelstree.cpp" line="1172"/>
         <source>Expanded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1155"/>
+        <location filename="../channelstree.cpp" line="1172"/>
         <source>Collapsed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -927,6 +927,97 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="964"/>
         <source>Media files transmission allowed: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1144"/>
+        <location filename="../channelstree.cpp" line="1145"/>
+        <source>Hidden</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1157"/>
+        <location filename="../channelstree.cpp" line="1158"/>
+        <source>Password protected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1236"/>
+        <source>Unread message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1240"/>
+        <source>Away</source>
+        <translation type="unfinished">Nieobecny</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1243"/>
+        <source>Question</source>
+        <translation type="unfinished">Opis</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1247"/>
+        <source>Speaking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1249"/>
+        <source>Streaming mediafile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1252"/>
+        <source>Streaming mediafile (Paused)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1255"/>
+        <source>Video</source>
+        <translation type="unfinished">Wideo</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1257"/>
+        <source>Desktop sharing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1315"/>
+        <source>Female</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1318"/>
+        <source>Male</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1321"/>
+        <source>Neutral</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1330"/>
+        <source>Administrator</source>
+        <comment>For female</comment>
+        <translation type="unfinished">Administrator</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1334"/>
+        <source>Administrator</source>
+        <comment>For male and neutral</comment>
+        <translation type="unfinished">Administrator</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1344"/>
+        <source>Channel operator</source>
+        <comment>For female</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1348"/>
+        <source>Channel operator</source>
+        <comment>For male and neutral</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1694,27 +1785,27 @@ Message of the day: %2</source>
 <context>
     <name>LoginInfoDialog</name>
     <message>
-        <location filename="../utilui.cpp" line="557"/>
+        <location filename="../utilui.cpp" line="571"/>
         <source>Username:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="562"/>
+        <location filename="../utilui.cpp" line="576"/>
         <source>Password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="568"/>
+        <location filename="../utilui.cpp" line="582"/>
         <source>Show password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="573"/>
+        <location filename="../utilui.cpp" line="587"/>
         <source>&amp;OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="574"/>
+        <location filename="../utilui.cpp" line="588"/>
         <source>&amp;Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2535,7 +2626,7 @@ Message of the day: %2</source>
         <translation type="unfinished">Brak urządzenia audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2373"/>
+        <location filename="../mainwindow.ui" line="2376"/>
         <source>&amp;Refresh Sound Devices</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3920,112 +4011,112 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2131"/>
+        <location filename="../mainwindow.ui" line="2134"/>
         <source>&amp;Generate tt:// URL to Clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2134"/>
+        <location filename="../mainwindow.ui" line="2137"/>
         <source>Ctrl+Shift+C</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2218"/>
+        <location filename="../mainwindow.ui" line="2221"/>
         <source>Allow All Media File Transmission</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2221"/>
+        <location filename="../mainwindow.ui" line="2224"/>
         <source>Ctrl+Alt+Shift+R</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2243"/>
+        <location filename="../mainwindow.ui" line="2246"/>
         <source>Ctrl+Alt+Shift+M</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2264"/>
+        <location filename="../mainwindow.ui" line="2267"/>
         <source>Increase Media File Volume</source>
         <translation>Zwiększ głośność pliku z multimediami</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2272"/>
+        <location filename="../mainwindow.ui" line="2275"/>
         <source>Lower Media File Volume</source>
         <translation>Zmniejsz głośność pliku z multimediami</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2280"/>
+        <location filename="../mainwindow.ui" line="2283"/>
         <source>R&amp;eset Preferences to Default</source>
         <translation>P&amp;rzywróć ustawienia domyślne</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2285"/>
+        <location filename="../mainwindow.ui" line="2288"/>
         <source>Kick and Ban From &amp;Channel</source>
         <translation>Wyrzuć z tego kanału i z&amp;banuj</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2288"/>
+        <location filename="../mainwindow.ui" line="2291"/>
         <source>Ctrl+B</source>
         <translation>Ctrl+B</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2293"/>
+        <location filename="../mainwindow.ui" line="2296"/>
         <source>Banned Users From Channel</source>
         <translation>Zbanowani użytkownicy kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2296"/>
+        <location filename="../mainwindow.ui" line="2299"/>
         <source>Ctrl+Alt+Shift+B</source>
         <translation>Ctrl+Alt+Shift+B</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2304"/>
+        <location filename="../mainwindow.ui" line="2307"/>
         <source>Allow Channel Text Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2307"/>
+        <location filename="../mainwindow.ui" line="2310"/>
         <source>Ctrl+Alt+T</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2315"/>
+        <location filename="../mainwindow.ui" line="2318"/>
         <source>Allow All Channel Text Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2318"/>
+        <location filename="../mainwindow.ui" line="2321"/>
         <source>Ctrl+Alt+Shift+T</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2326"/>
+        <location filename="../mainwindow.ui" line="2329"/>
         <source>&amp;Hear Myself</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2329"/>
+        <location filename="../mainwindow.ui" line="2332"/>
         <source>Ctrl+Shift+3</source>
         <translation type="unfinished">Ctrl+Shift+3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2341"/>
+        <location filename="../mainwindow.ui" line="2344"/>
         <source>Toggle &amp;Question Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2347"/>
+        <location filename="../mainwindow.ui" line="2350"/>
         <source>Ctrl+F6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2360"/>
+        <location filename="../mainwindow.ui" line="2363"/>
         <source>&amp;Relay Voice Stream</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2368"/>
+        <location filename="../mainwindow.ui" line="2371"/>
         <source>Relay Media &amp;File Stream</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4050,17 +4141,17 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Ctrl+Shift+U</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2256"/>
+        <location filename="../mainwindow.ui" line="2259"/>
         <source>Kick From Server</source>
         <translation>Wyrzuć z serwera</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2259"/>
+        <location filename="../mainwindow.ui" line="2262"/>
         <source>Ctrl+Alt+K</source>
         <translation>Ctrl+Alt+K</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2344"/>
+        <location filename="../mainwindow.ui" line="2347"/>
         <source>Show blinking icon</source>
         <translation>Pokaż migającą ikonę</translation>
     </message>
@@ -4115,22 +4206,22 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2146"/>
+        <location filename="../mainwindow.ui" line="2149"/>
         <source>Desktop Acce&amp;ss</source>
         <translation>Dostęp do &amp;pulpitu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2158"/>
+        <location filename="../mainwindow.ui" line="2161"/>
         <source>Allow Desktop Access</source>
         <translation>Zezwól na dostęp do pulpitu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2161"/>
+        <location filename="../mainwindow.ui" line="2164"/>
         <source>Ctrl+7</source>
         <translation>Ctrl+7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2169"/>
+        <location filename="../mainwindow.ui" line="2172"/>
         <source>&amp;Deny</source>
         <translation>&amp;Zabroń</translation>
     </message>
@@ -4276,42 +4367,42 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Zmniejsz głośność g&amp;łosu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2181"/>
+        <location filename="../mainwindow.ui" line="2184"/>
         <source>Media File Stream</source>
         <translation>Transmisja pliku multimedialnego</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2184"/>
+        <location filename="../mainwindow.ui" line="2187"/>
         <source>Ctrl+8</source>
         <translation>Ctrl+8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2196"/>
+        <location filename="../mainwindow.ui" line="2199"/>
         <source>Intercept Media File Stream</source>
         <translation>Przechwyć transmisję pliku multimedialnego</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2199"/>
+        <location filename="../mainwindow.ui" line="2202"/>
         <source>Ctrl+Shift+8</source>
         <translation>Ctrl+Shift+8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2207"/>
+        <location filename="../mainwindow.ui" line="2210"/>
         <source>Allow Media File Transmission</source>
         <translation>Pozwól na transmisję plików multimedialnych</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2210"/>
+        <location filename="../mainwindow.ui" line="2213"/>
         <source>Ctrl+Alt+R</source>
         <translation>Ctrl+Alt+R</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2229"/>
+        <location filename="../mainwindow.ui" line="2232"/>
         <source>Mu&amp;te Voice</source>
         <translation>W&amp;ycisz głos</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2232"/>
+        <location filename="../mainwindow.ui" line="2235"/>
         <source>Ctrl+Shift+M</source>
         <translation>Ctrl+Shift+M</translation>
     </message>
@@ -4321,17 +4412,17 @@ You can download it on the page below:<byte value="xd"/>
         <translation>&amp;Wyrzuć</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2240"/>
+        <location filename="../mainwindow.ui" line="2243"/>
         <source>Mute Media File</source>
         <translation>Wycisz plik multimedialny</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2248"/>
+        <location filename="../mainwindow.ui" line="2251"/>
         <source>Kick From Channel</source>
         <translation>Wyrzuć z kanału</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2251"/>
+        <location filename="../mainwindow.ui" line="2254"/>
         <source>Ctrl+K</source>
         <translation>Ctrl+K</translation>
     </message>
@@ -4867,22 +4958,22 @@ You can download it on the page below:<byte value="xd"/>
 <context>
     <name>PasswordDialog</name>
     <message>
-        <location filename="../utilui.cpp" line="613"/>
+        <location filename="../utilui.cpp" line="627"/>
         <source>Password</source>
         <translation type="unfinished">Hasło</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="619"/>
+        <location filename="../utilui.cpp" line="633"/>
         <source>Show password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="624"/>
+        <location filename="../utilui.cpp" line="638"/>
         <source>&amp;OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="625"/>
+        <location filename="../utilui.cpp" line="639"/>
         <source>&amp;Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4915,12 +5006,12 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Płeć</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="421"/>
+        <location filename="../preferencesdlg.cpp" line="411"/>
         <source>Male</source>
         <translation>Mężczyzna</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="422"/>
+        <location filename="../preferencesdlg.cpp" line="412"/>
         <source>Female</source>
         <translation>Kobieta</translation>
     </message>
@@ -4940,7 +5031,7 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Ustaw status niedostępny po</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="423"/>
+        <location filename="../preferencesdlg.cpp" line="413"/>
         <source>Neutral</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5030,11 +5121,6 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Pokaż ostatnie wiadomości na żółto</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="647"/>
-        <source>Show emojis and text for channel/user state</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../preferences.ui" line="433"/>
         <source>Show both server and channel name in window title</source>
         <translation type="unfinished"></translation>
@@ -5055,7 +5141,7 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Pokaż pasek stanu w oknie czatu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="775"/>
+        <location filename="../preferences.ui" line="785"/>
         <source>Show new version available in dialog box</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5075,95 +5161,95 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="916"/>
+        <location filename="../preferences.ui" line="926"/>
         <source>Configure trusted list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1273"/>
+        <location filename="../preferences.ui" line="1283"/>
         <source>Media file vs. voice volume</source>
         <translation>Głośność pliku audio vs. głosu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1409"/>
+        <location filename="../preferences.ui" line="1419"/>
         <source>Playback mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1468"/>
+        <location filename="../preferences.ui" line="1488"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1559"/>
+        <location filename="../preferences.ui" line="1579"/>
         <source>Text To Speech</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1565"/>
+        <location filename="../preferences.ui" line="1585"/>
         <source>Enable/disable Text to Speech Events</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1490"/>
-        <location filename="../preferences.ui" line="1632"/>
+        <location filename="../preferences.ui" line="1510"/>
+        <location filename="../preferences.ui" line="1659"/>
         <source>Enable &amp;all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1510"/>
-        <location filename="../preferences.ui" line="1652"/>
+        <location filename="../preferences.ui" line="1530"/>
+        <location filename="../preferences.ui" line="1679"/>
         <source>C&amp;lear all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1530"/>
-        <location filename="../preferences.ui" line="1672"/>
+        <location filename="../preferences.ui" line="1550"/>
+        <location filename="../preferences.ui" line="1699"/>
         <source>&amp;Revert</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1684"/>
+        <location filename="../preferences.ui" line="1711"/>
         <source>Text to Speech Preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1692"/>
+        <location filename="../preferences.ui" line="1719"/>
         <source>Text to Speech Engine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1705"/>
+        <location filename="../preferences.ui" line="1732"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1731"/>
+        <location filename="../preferences.ui" line="1758"/>
         <source>Voice rate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1757"/>
+        <location filename="../preferences.ui" line="1784"/>
         <source>Voice volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1783"/>
+        <location filename="../preferences.ui" line="1810"/>
         <source>Display duration of notifications</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1819"/>
+        <location filename="../preferences.ui" line="1846"/>
         <source>Use SAPI instead of current screenreader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1954"/>
+        <location filename="../preferences.ui" line="1981"/>
         <source>Customize video format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2111"/>
+        <location filename="../preferences.ui" line="2138"/>
         <source>Bitrate</source>
         <translation>Przepływność</translation>
     </message>
@@ -5183,12 +5269,12 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="654"/>
+        <location filename="../preferences.ui" line="647"/>
         <source>Show user and channel icons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="661"/>
+        <location filename="../preferences.ui" line="654"/>
         <source>Show channel topic in channel list</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5233,348 +5319,368 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="670"/>
+        <location filename="../preferences.ui" line="663"/>
         <source>Maximum text length in channel list</source>
         <translation>Maksymalna długość tekstu na kanale</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="755"/>
+        <location filename="../preferences.ui" line="713"/>
+        <source>Style of user and channel info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="765"/>
         <source>Software Update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="801"/>
+        <location filename="../preferences.ui" line="811"/>
         <source>Connection</source>
         <translation>Połączenie</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="807"/>
+        <location filename="../preferences.ui" line="817"/>
         <source>Client Connection</source>
         <translation>Połączenia klienta</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="813"/>
+        <location filename="../preferences.ui" line="823"/>
         <source>Connect to latest host on startup</source>
         <translation>Połącz do ostatniego hosta przy starcie</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="820"/>
+        <location filename="../preferences.ui" line="830"/>
         <source>Reconnect on connection dropped</source>
         <translation>Połącz ponownie po rozłączeniu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="827"/>
+        <location filename="../preferences.ui" line="837"/>
         <source>Join root channel upon connection</source>
         <translation>Połącz z kanałem głównym po połączeniu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="834"/>
+        <location filename="../preferences.ui" line="844"/>
         <source>Query server&apos;s maximum payload upon connection</source>
         <translation>Zapytaj serwery o maksymalne rozmiar wiadomości po połączeniu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="841"/>
+        <location filename="../preferences.ui" line="851"/>
         <source>Add application to Windows Firewall exceptions list</source>
         <translation>Dodaj aplikację do listy wyjątków w zaporze Systemu Windows</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="848"/>
-        <location filename="../preferences.ui" line="851"/>
+        <location filename="../preferences.ui" line="858"/>
+        <location filename="../preferences.ui" line="861"/>
         <source>Default Subscriptions upon Connection</source>
         <translation>Domyślne subskrypcje po połączeniu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="859"/>
+        <location filename="../preferences.ui" line="869"/>
         <source>User Messages</source>
         <translation>Wiadomości użytkownika</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="866"/>
+        <location filename="../preferences.ui" line="876"/>
         <source>Channel Messages</source>
         <translation>Wiadomości kanału</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="873"/>
+        <location filename="../preferences.ui" line="883"/>
         <source>Broadcast Messages</source>
         <translation>Wiadomości rozgłoszeniowe</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="894"/>
+        <location filename="../preferences.ui" line="904"/>
         <source>Desktop</source>
         <translation>Pulpit</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="906"/>
+        <location filename="../preferences.ui" line="916"/>
         <source>Desktop Access</source>
         <translation>Dostęp do pulpitu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="953"/>
-        <location filename="../preferences.ui" line="956"/>
+        <location filename="../preferences.ui" line="963"/>
+        <location filename="../preferences.ui" line="966"/>
         <source>Local Socket Settings</source>
         <translation>Ustawienia portów lokalnych</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="962"/>
+        <location filename="../preferences.ui" line="972"/>
         <source>TCP port</source>
         <translation>Port TCP</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="972"/>
-        <location filename="../preferences.ui" line="989"/>
+        <location filename="../preferences.ui" line="982"/>
+        <location filename="../preferences.ui" line="999"/>
         <source>Default: 0</source>
         <translation>Domyślnie: 0</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="979"/>
+        <location filename="../preferences.ui" line="989"/>
         <source>UDP port</source>
         <translation>Port UDP</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1062"/>
-        <location filename="../preferences.ui" line="1089"/>
-        <location filename="../preferencesdlg.cpp" line="912"/>
+        <location filename="../preferences.ui" line="1072"/>
+        <location filename="../preferences.ui" line="1099"/>
+        <location filename="../preferencesdlg.cpp" line="922"/>
         <source>Sound System</source>
         <translation>System audio</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1068"/>
+        <location filename="../preferences.ui" line="1078"/>
         <source>Sound System Settings</source>
         <translation>Ustawienia systemu audio</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="135"/>
+        <location filename="../preferencesdlg.cpp" line="552"/>
         <source>DirectSound</source>
         <translation>Dźwięk bezpośredni</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="138"/>
+        <location filename="../preferencesdlg.cpp" line="555"/>
         <source>CoreAudio</source>
         <translation>CoreAudio</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="142"/>
+        <location filename="../preferencesdlg.cpp" line="558"/>
         <source>PulseAudio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1119"/>
+        <location filename="../preferences.ui" line="1129"/>
         <source>Input device</source>
         <translation>Urządzenie wejściowe</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1165"/>
+        <location filename="../preferences.ui" line="1175"/>
         <source>Output device</source>
         <translation>Urządzenia wyjściowe</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1132"/>
-        <location filename="../preferences.ui" line="1178"/>
+        <location filename="../preferences.ui" line="1142"/>
+        <location filename="../preferences.ui" line="1188"/>
         <source>Refresh devices</source>
         <translation>Odśwież urządzenia</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1225"/>
+        <location filename="../preferences.ui" line="1235"/>
         <source>&amp;Test Selected</source>
         <translation>&amp;Testuj wybrane</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1250"/>
+        <location filename="../preferences.ui" line="1260"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
         <translation>Włączenie tłumienia echa</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1310"/>
-        <location filename="../preferences.ui" line="2197"/>
+        <location filename="../preferences.ui" line="1320"/>
+        <location filename="../preferences.ui" line="2224"/>
         <source>&amp;Default</source>
         <translation>&amp;Domyślne</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1336"/>
-        <location filename="../preferences.ui" line="1342"/>
+        <location filename="../preferences.ui" line="1346"/>
+        <location filename="../preferences.ui" line="1352"/>
         <source>Sound Events</source>
         <translation>Dźwięki powiadomień</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1350"/>
+        <location filename="../preferences.ui" line="1360"/>
         <source>Sound pack</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1376"/>
+        <location filename="../preferences.ui" line="1386"/>
         <source>Sound event volume level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="880"/>
-        <location filename="../preferences.ui" line="1718"/>
+        <location filename="../preferences.ui" line="890"/>
+        <location filename="../preferences.ui" line="1745"/>
         <source>Voice</source>
         <translation>Głos</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="928"/>
+        <location filename="../preferences.ui" line="938"/>
         <source>Media Files</source>
         <translation>Pliki multimedialne</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1257"/>
+        <location filename="../preferences.ui" line="1267"/>
         <source>Enable automatic gain control (microphone level adjusted automatically)</source>
         <translation>Włącz automatyczną kontrolę wzmocnienia mikrofonu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1264"/>
+        <location filename="../preferences.ui" line="1274"/>
         <source>Enable denoising (suppress noise from microphone)</source>
         <translation>Włącz zapobieganie szumom mikrofonu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1806"/>
+        <location filename="../preferences.ui" line="1833"/>
         <source>Text to Speech output mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1826"/>
+        <location filename="../preferences.ui" line="1853"/>
         <source>Switch to SAPI if current screenreader is not available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1859"/>
+        <location filename="../preferences.ui" line="1886"/>
         <source>Shortcuts</source>
         <translation>Skróty</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1865"/>
+        <location filename="../preferences.ui" line="1892"/>
         <source>Keyboard Shortcuts</source>
         <translation>Skróty klawiszowe</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="887"/>
-        <location filename="../preferences.ui" line="1907"/>
+        <location filename="../preferences.ui" line="897"/>
+        <location filename="../preferences.ui" line="1934"/>
         <source>Video Capture</source>
         <translation>Przechwytywanie wideo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1424"/>
+        <location filename="../preferences.ui" line="1444"/>
         <source>Enable/disable Sound Events</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1430"/>
-        <location filename="../preferences.ui" line="1571"/>
+        <location filename="../preferences.ui" line="1450"/>
+        <location filename="../preferences.ui" line="1591"/>
         <source>Double click to check/uncheck</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1449"/>
+        <location filename="../preferences.ui" line="1469"/>
         <source>Sound Event File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1455"/>
+        <location filename="../preferences.ui" line="1475"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1478"/>
+        <location filename="../preferences.ui" line="1498"/>
         <source>Reset to Default File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1590"/>
+        <location filename="../preferences.ui" line="1610"/>
         <source>Text to Speech Message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1598"/>
-        <location filename="../preferencesdlg.cpp" line="1767"/>
+        <location filename="../preferences.ui" line="1618"/>
+        <location filename="../preferencesdlg.cpp" line="1773"/>
         <source>Message</source>
         <translation type="unfinished">Wiadomość</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="462"/>
-        <location filename="../preferences.ui" line="1613"/>
+        <location filename="../preferences.ui" line="1633"/>
         <source>&amp;Variables...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1620"/>
+        <location filename="../preferences.ui" line="1432"/>
+        <source>Use the sound output device selected in TeamTalk for playing sound events</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="1435"/>
+        <source>Use selected sound output device for playback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="1640"/>
         <source>Reset to Default Value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1833"/>
+        <location filename="../preferences.ui" line="1647"/>
+        <source>Reset All to Default Values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="1860"/>
         <source>Interrupt current screenreader speech on new event</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1871"/>
+        <location filename="../preferences.ui" line="1898"/>
         <source>Double click to configure keys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1913"/>
+        <location filename="../preferences.ui" line="1940"/>
         <source>Video Capture Settings</source>
         <translation>Ustawienia przechwytywania wideo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1919"/>
+        <location filename="../preferences.ui" line="1946"/>
         <source>Video Capture Device</source>
         <translation>Urządzenia przechwytywania wideo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1939"/>
+        <location filename="../preferences.ui" line="1966"/>
         <source>Video Resolution</source>
         <translation>Rozdzielczość wideo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1968"/>
+        <location filename="../preferences.ui" line="1995"/>
         <source>Image Format</source>
         <translation>Format obrazu</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1978"/>
+        <location filename="../preferences.ui" line="2005"/>
         <source>RGB32</source>
         <translation>RGB32</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1985"/>
+        <location filename="../preferences.ui" line="2012"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1992"/>
+        <location filename="../preferences.ui" line="2019"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2016"/>
-        <location filename="../preferencesdlg.cpp" line="1251"/>
+        <location filename="../preferences.ui" line="2043"/>
+        <location filename="../preferencesdlg.cpp" line="1257"/>
         <source>Test Selected</source>
         <translation>Testuj wybrane</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2044"/>
-        <location filename="../preferences.ui" line="2047"/>
+        <location filename="../preferences.ui" line="2071"/>
+        <location filename="../preferences.ui" line="2074"/>
         <source>Video Codec Settings</source>
         <translation>Ustawienia kodeka wideo</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2055"/>
+        <location filename="../preferences.ui" line="2082"/>
         <source>Codec</source>
         <translation>Kodek</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="322"/>
+        <location filename="../preferencesdlg.cpp" line="312"/>
         <source>Default Input Device</source>
         <translation>Domyślne urządzenie wejściowe</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="355"/>
+        <location filename="../preferencesdlg.cpp" line="345"/>
         <source>Default Output Device</source>
         <translation>Domyślne urządzenie wyjściowe</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="339"/>
-        <location filename="../preferencesdlg.cpp" line="368"/>
+        <location filename="../preferencesdlg.cpp" line="329"/>
+        <location filename="../preferencesdlg.cpp" line="358"/>
         <source>No Sound Device</source>
         <translation>Brak urządzenia audio</translation>
     </message>
@@ -5589,29 +5695,30 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="409"/>
+        <location filename="../preferencesdlg.cpp" line="399"/>
         <source>Open Wave File</source>
         <translation>Otwórz plik wav</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="410"/>
+        <location filename="../preferencesdlg.cpp" line="400"/>
         <source>Wave files (*.wav)</source>
         <translation>Pliki *.wav</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="430"/>
+        <location filename="../preferencesdlg.cpp" line="420"/>
         <source>&amp;Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="588"/>
+        <location filename="../preferencesdlg.cpp" line="482"/>
+        <location filename="../preferencesdlg.cpp" line="598"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="562"/>
-        <location filename="../preferencesdlg.cpp" line="576"/>
-        <location filename="../preferencesdlg.cpp" line="590"/>
+        <location filename="../preferencesdlg.cpp" line="571"/>
+        <location filename="../preferencesdlg.cpp" line="585"/>
+        <location filename="../preferencesdlg.cpp" line="600"/>
         <source>Default</source>
         <translation type="unfinished">Domyślny</translation>
     </message>
@@ -5621,89 +5728,89 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished">Ustawienia klienta</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="510"/>
+        <location filename="../preferencesdlg.cpp" line="503"/>
         <source>Do nothing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="511"/>
+        <location filename="../preferencesdlg.cpp" line="504"/>
         <source>Join only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="512"/>
+        <location filename="../preferencesdlg.cpp" line="505"/>
         <source>Leave only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="513"/>
+        <location filename="../preferencesdlg.cpp" line="506"/>
         <source>Join or leave</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="517"/>
+        <location filename="../preferencesdlg.cpp" line="510"/>
         <source>Ascending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="518"/>
+        <location filename="../preferencesdlg.cpp" line="511"/>
         <source>Popularity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="577"/>
+        <location filename="../preferencesdlg.cpp" line="586"/>
         <source>One by One</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="578"/>
+        <location filename="../preferencesdlg.cpp" line="587"/>
         <source>Overlapping</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="593"/>
+        <location filename="../preferencesdlg.cpp" line="603"/>
         <source>Tolk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="596"/>
+        <location filename="../preferencesdlg.cpp" line="606"/>
         <source>Libnotify</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="598"/>
+        <location filename="../preferencesdlg.cpp" line="608"/>
         <source>VoiceOver (via Apple Script)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="790"/>
-        <location filename="../preferencesdlg.cpp" line="797"/>
+        <location filename="../preferencesdlg.cpp" line="800"/>
+        <location filename="../preferencesdlg.cpp" line="807"/>
         <source>Windows Firewall</source>
         <translation>Zapora systemu Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="791"/>
+        <location filename="../preferencesdlg.cpp" line="801"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
         <translation>Błąd dodawania %1 do lity wyjątków Zapory systemu Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="798"/>
+        <location filename="../preferencesdlg.cpp" line="808"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
         <translation>Błąd usuwania %1 z lity wyjątków Zapory systemu Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1252"/>
+        <location filename="../preferencesdlg.cpp" line="1258"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1269"/>
+        <location filename="../preferencesdlg.cpp" line="1275"/>
         <source>Sound Initialization</source>
         <translation>Inicjalizacja dźwięku</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1006"/>
-        <location filename="../preferencesdlg.cpp" line="1039"/>
+        <location filename="../preferencesdlg.cpp" line="1017"/>
+        <location filename="../preferencesdlg.cpp" line="1050"/>
         <source>Video Device</source>
         <translation>Urządzenie wideo</translation>
     </message>
@@ -5790,111 +5897,141 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="134"/>
+        <location filename="../preferencesdlg.cpp" line="483"/>
+        <source>Emojis</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="484"/>
+        <source>Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="551"/>
         <source>Windows Audio Session API (WASAPI)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="136"/>
+        <location filename="../preferencesdlg.cpp" line="553"/>
         <source>Windows legacy audio system</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="141"/>
+        <location filename="../preferencesdlg.cpp" line="557"/>
         <source>Advanced Linux Sound Architecture (ALSA)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="601"/>
+        <location filename="../preferencesdlg.cpp" line="611"/>
         <source>Qt Accessibility Announcement</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1007"/>
-        <location filename="../preferencesdlg.cpp" line="1040"/>
-        <location filename="../preferencesdlg.cpp" line="1639"/>
+        <location filename="../preferencesdlg.cpp" line="1018"/>
+        <location filename="../preferencesdlg.cpp" line="1051"/>
+        <location filename="../preferencesdlg.cpp" line="1645"/>
         <source>Failed to initialize video device</source>
         <translation>Nie można uruchomić urządzenia wideo</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1095"/>
+        <location filename="../preferencesdlg.cpp" line="1106"/>
         <source>Key Combination: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1155"/>
+        <location filename="../preferencesdlg.cpp" line="1161"/>
         <source>Max Input Channels %1</source>
         <translation>Maksymalna liczba kanałów wejściowych %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1157"/>
-        <location filename="../preferencesdlg.cpp" line="1181"/>
+        <location filename="../preferencesdlg.cpp" line="1163"/>
+        <location filename="../preferencesdlg.cpp" line="1187"/>
         <source>Sample Rates:</source>
         <translation>Szybkość próbkowania:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1179"/>
+        <location filename="../preferencesdlg.cpp" line="1185"/>
         <source>Max Output Channels %1</source>
         <translation>Maksymalna liczba kanałów wyjściowych %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1210"/>
+        <location filename="../preferencesdlg.cpp" line="1216"/>
         <source>Refresh Sound Devices</source>
         <translation>Odśwież urządzenia audio</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1211"/>
+        <location filename="../preferencesdlg.cpp" line="1217"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>Nie można zrestartować systemu audio. Proszę zrestartować aplikację.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1270"/>
+        <location filename="../preferencesdlg.cpp" line="1276"/>
         <source>Failed to initialize new sound devices</source>
         <translation>Nie można uruchomić nowego urządzenia audio</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1462"/>
+        <location filename="../preferencesdlg.cpp" line="1468"/>
         <source>Use SAPI instead of %1 screenreader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1463"/>
+        <location filename="../preferencesdlg.cpp" line="1469"/>
         <source>Switch to SAPI if %1 screenreader is not available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1469"/>
+        <location filename="../preferencesdlg.cpp" line="1475"/>
         <source>Speech and Braille</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1471"/>
+        <location filename="../preferencesdlg.cpp" line="1477"/>
         <source>Braille only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1473"/>
+        <location filename="../preferencesdlg.cpp" line="1479"/>
         <source>Speech only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1598"/>
+        <location filename="../preferencesdlg.cpp" line="1604"/>
         <source>Custom video format</source>
         <translation>Niestandardowy format wideo</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1691"/>
+        <location filename="../preferencesdlg.cpp" line="1697"/>
         <source>Default Video Capture</source>
         <translation>Domyślne urządzenie przechwytywania wideo</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1692"/>
+        <location filename="../preferencesdlg.cpp" line="1698"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Nie można znaleźć preferowanych ustawień urządzenia przechwytywania wideo</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1767"/>
+        <location filename="../preferencesdlg.cpp" line="1773"/>
         <source>Message for Event &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="1843"/>
+        <source>Are you sure you want to restore all TTS messages to default values?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="1844"/>
+        <source>&amp;Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="1845"/>
+        <source>&amp;No</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="1848"/>
+        <source>Restore default values</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5908,17 +6045,17 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="711"/>
+        <location filename="../preferences.ui" line="704"/>
         <source>Auto expand channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="737"/>
+        <location filename="../preferences.ui" line="747"/>
         <source>Double click on a channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="720"/>
+        <location filename="../preferences.ui" line="730"/>
         <source>Sort channels by</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5933,12 +6070,12 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="761"/>
+        <location filename="../preferences.ui" line="771"/>
         <source>Check for software updates on startup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="768"/>
+        <location filename="../preferences.ui" line="778"/>
         <source>Check for beta software updates on startup</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6188,7 +6325,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.cpp" line="91"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Zamknij</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="154"/>
@@ -6865,7 +7002,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="47"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Zamknij</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="54"/>
@@ -7234,7 +7371,7 @@ Delete the published user account to unregister your server.</source>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="53"/>
-        <location filename="../statusbardlg.cpp" line="93"/>
+        <location filename="../statusbardlg.cpp" line="95"/>
         <source>Message</source>
         <translation type="unfinished">Wiadomość</translation>
     </message>
@@ -7249,33 +7386,58 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../statusbardlg.ui" line="87"/>
+        <location filename="../statusbardlg.ui" line="82"/>
+        <source>Reset All to Default Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../statusbardlg.ui" line="94"/>
         <source>Enable &amp;all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../statusbardlg.ui" line="107"/>
+        <location filename="../statusbardlg.ui" line="114"/>
         <source>C&amp;lear all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../statusbardlg.ui" line="127"/>
+        <location filename="../statusbardlg.ui" line="134"/>
         <source>&amp;Revert</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../statusbardlg.cpp" line="33"/>
+        <location filename="../statusbardlg.cpp" line="34"/>
         <source>&amp;OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../statusbardlg.cpp" line="34"/>
+        <location filename="../statusbardlg.cpp" line="35"/>
         <source>&amp;Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../statusbardlg.cpp" line="93"/>
+        <location filename="../statusbardlg.cpp" line="95"/>
         <source>Message for Event &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../statusbardlg.cpp" line="165"/>
+        <source>Are you sure you want to restore all Status bar messages to default values?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../statusbardlg.cpp" line="166"/>
+        <source>&amp;Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../statusbardlg.cpp" line="167"/>
+        <source>&amp;No</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../statusbardlg.cpp" line="170"/>
+        <source>Restore default values</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7974,7 +8136,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../textmessage.ui" line="133"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Zamknij</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="136"/>
@@ -8221,7 +8383,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="145"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Zamknij</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="195"/>
@@ -8843,93 +9005,93 @@ Delete the published user account to unregister your server.</source>
 <context>
     <name>UtilTTS</name>
     <message>
-        <location filename="../settings.h" line="426"/>
+        <location filename="../settings.h" line="428"/>
         <source>{user} has logged in on {server}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="428"/>
+        <location filename="../settings.h" line="430"/>
         <source>{user} has logged out from {server}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="430"/>
+        <location filename="../settings.h" line="432"/>
         <source>{user} joined channel {channel}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="432"/>
+        <location filename="../settings.h" line="434"/>
         <source>{user} left channel {channel}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="434"/>
+        <location filename="../settings.h" line="436"/>
         <source>{user} joined channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="436"/>
+        <location filename="../settings.h" line="438"/>
         <source>{user} left channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="438"/>
+        <location filename="../settings.h" line="440"/>
         <source>Private message from {user}: {message}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="440"/>
+        <location filename="../settings.h" line="442"/>
         <source>Private message sent: {message}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="442"/>
+        <location filename="../settings.h" line="444"/>
         <source>{user} is typing...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="444"/>
+        <location filename="../settings.h" line="446"/>
         <source>{user} set question mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="446"/>
+        <location filename="../settings.h" line="448"/>
         <source>Channel message from {user}: {message}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="448"/>
+        <location filename="../settings.h" line="450"/>
         <source>Channel message sent: {message}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="450"/>
+        <location filename="../settings.h" line="452"/>
         <source>Broadcast message from {user}: {message}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="452"/>
+        <location filename="../settings.h" line="454"/>
         <source>Broadcast message sent: {message}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="454"/>
+        <location filename="../settings.h" line="456"/>
         <source>Subscription &quot;{type}&quot; {state} for {user}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="456"/>
+        <location filename="../settings.h" line="458"/>
         <source>Transmission &quot;{type}&quot; {state} for {user}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="458"/>
+        <location filename="../settings.h" line="460"/>
         <source>File {filename} added by {user}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="460"/>
-        <location filename="../settings.h" line="481"/>
+        <location filename="../settings.h" line="462"/>
+        <location filename="../settings.h" line="483"/>
         <source>File {file} removed by {user}</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8949,8 +9111,18 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../utiltts.cpp" line="45"/>
+        <source>User&apos;s username who logged in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../utiltts.cpp" line="46"/>
         <source>User&apos;s nickname who logged out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utiltts.cpp" line="46"/>
+        <source>User&apos;s username who logged out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -8965,6 +9137,12 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../utiltts.cpp" line="47"/>
+        <location filename="../utiltts.cpp" line="49"/>
+        <source>User&apos;s username who joined channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../utiltts.cpp" line="48"/>
         <location filename="../utiltts.cpp" line="50"/>
         <source>User&apos;s nickname who left channel</source>
@@ -8973,6 +9151,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="48"/>
         <source>Channel&apos;s name left by user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utiltts.cpp" line="48"/>
+        <location filename="../utiltts.cpp" line="50"/>
+        <source>User&apos;s username who left channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -8993,6 +9177,13 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../utiltts.cpp" line="51"/>
+        <location filename="../utiltts.cpp" line="56"/>
+        <location filename="../utiltts.cpp" line="58"/>
+        <source>User&apos;s username who sent message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../utiltts.cpp" line="53"/>
         <location filename="../utiltts.cpp" line="54"/>
         <source>User&apos;s nickname who is typing</source>
@@ -9005,8 +9196,19 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../utiltts.cpp" line="53"/>
+        <location filename="../utiltts.cpp" line="54"/>
+        <source>User&apos;s username who is typing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../utiltts.cpp" line="55"/>
         <source>User&apos;s nickname who set question mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utiltts.cpp" line="55"/>
+        <source>User&apos;s username who set question mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -9087,6 +9289,24 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../utiltts.cpp" line="60"/>
+        <location filename="../utiltts.cpp" line="61"/>
+        <location filename="../utiltts.cpp" line="62"/>
+        <location filename="../utiltts.cpp" line="63"/>
+        <location filename="../utiltts.cpp" line="64"/>
+        <location filename="../utiltts.cpp" line="65"/>
+        <location filename="../utiltts.cpp" line="66"/>
+        <location filename="../utiltts.cpp" line="67"/>
+        <location filename="../utiltts.cpp" line="68"/>
+        <location filename="../utiltts.cpp" line="69"/>
+        <location filename="../utiltts.cpp" line="70"/>
+        <location filename="../utiltts.cpp" line="71"/>
+        <location filename="../utiltts.cpp" line="72"/>
+        <location filename="../utiltts.cpp" line="73"/>
+        <source>User&apos;s username concerns by change</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../utiltts.cpp" line="74"/>
         <location filename="../utiltts.cpp" line="75"/>
         <location filename="../utiltts.cpp" line="76"/>
@@ -9130,172 +9350,204 @@ Delete the published user account to unregister your server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../utiltts.cpp" line="79"/>
+        <source>User&apos;s username who added the file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../utiltts.cpp" line="80"/>
         <source>User&apos;s nickname who removed the file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utiltts.cpp" line="80"/>
+        <source>User&apos;s username who removed the file</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>UtilUI</name>
     <message>
-        <location filename="../settings.h" line="463"/>
+        <location filename="../settings.h" line="465"/>
         <source>{user} has logged in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="465"/>
+        <location filename="../settings.h" line="467"/>
         <source>{user} has logged out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="467"/>
+        <location filename="../settings.h" line="469"/>
         <source>{user} joined channel {channel}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="469"/>
+        <location filename="../settings.h" line="471"/>
         <source>{user} left channel {channel}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="471"/>
+        <location filename="../settings.h" line="473"/>
         <source>{user} joined channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="473"/>
+        <location filename="../settings.h" line="475"/>
         <source>{user} left channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="475"/>
+        <location filename="../settings.h" line="477"/>
         <source>Subscription &quot;{type}&quot; {state} for {user}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="477"/>
+        <location filename="../settings.h" line="479"/>
         <source>Transmission &quot;{type}&quot; {state} for {user}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings.h" line="479"/>
+        <location filename="../settings.h" line="481"/>
         <source>File {filename} added by {user}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="161"/>
+        <location filename="../utilui.cpp" line="175"/>
         <source>User&apos;s nickname who logged in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="161"/>
-        <location filename="../utilui.cpp" line="162"/>
-        <location filename="../utilui.cpp" line="163"/>
-        <location filename="../utilui.cpp" line="164"/>
-        <source>Server&apos;s name from which event was emited</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utilui.cpp" line="162"/>
-        <source>User&apos;s nickname who logged out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utilui.cpp" line="163"/>
-        <location filename="../utilui.cpp" line="165"/>
-        <source>User&apos;s nickname who joined channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utilui.cpp" line="163"/>
-        <source>Channel&apos;s name joined by user</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utilui.cpp" line="164"/>
-        <location filename="../utilui.cpp" line="166"/>
-        <source>User&apos;s nickname who left channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utilui.cpp" line="164"/>
-        <source>Channel&apos;s name left by user</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utilui.cpp" line="167"/>
-        <location filename="../utilui.cpp" line="168"/>
-        <location filename="../utilui.cpp" line="169"/>
-        <location filename="../utilui.cpp" line="170"/>
-        <location filename="../utilui.cpp" line="171"/>
-        <location filename="../utilui.cpp" line="172"/>
-        <location filename="../utilui.cpp" line="173"/>
-        <location filename="../utilui.cpp" line="174"/>
         <location filename="../utilui.cpp" line="175"/>
         <location filename="../utilui.cpp" line="176"/>
         <location filename="../utilui.cpp" line="177"/>
         <location filename="../utilui.cpp" line="178"/>
+        <source>Server&apos;s name from which event was emited</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="175"/>
+        <source>User&apos;s username who logged in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="176"/>
+        <source>User&apos;s nickname who logged out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="176"/>
+        <source>User&apos;s username who logged out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="177"/>
         <location filename="../utilui.cpp" line="179"/>
+        <source>User&apos;s nickname who joined channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="177"/>
+        <source>Channel&apos;s name joined by user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="177"/>
+        <location filename="../utilui.cpp" line="179"/>
+        <source>User&apos;s username who joined channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="178"/>
         <location filename="../utilui.cpp" line="180"/>
+        <source>User&apos;s nickname who left channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="178"/>
+        <source>Channel&apos;s name left by user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="178"/>
+        <location filename="../utilui.cpp" line="180"/>
+        <source>User&apos;s username who left channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../utilui.cpp" line="181"/>
         <location filename="../utilui.cpp" line="182"/>
         <location filename="../utilui.cpp" line="183"/>
         <location filename="../utilui.cpp" line="184"/>
         <location filename="../utilui.cpp" line="185"/>
+        <location filename="../utilui.cpp" line="186"/>
+        <location filename="../utilui.cpp" line="187"/>
+        <location filename="../utilui.cpp" line="188"/>
+        <location filename="../utilui.cpp" line="189"/>
+        <location filename="../utilui.cpp" line="190"/>
+        <location filename="../utilui.cpp" line="191"/>
+        <location filename="../utilui.cpp" line="192"/>
+        <location filename="../utilui.cpp" line="193"/>
+        <location filename="../utilui.cpp" line="194"/>
+        <location filename="../utilui.cpp" line="195"/>
+        <location filename="../utilui.cpp" line="196"/>
+        <location filename="../utilui.cpp" line="197"/>
+        <location filename="../utilui.cpp" line="198"/>
+        <location filename="../utilui.cpp" line="199"/>
         <source>User concerns by change</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="167"/>
-        <location filename="../utilui.cpp" line="168"/>
-        <location filename="../utilui.cpp" line="169"/>
-        <location filename="../utilui.cpp" line="170"/>
-        <location filename="../utilui.cpp" line="171"/>
-        <location filename="../utilui.cpp" line="172"/>
-        <location filename="../utilui.cpp" line="173"/>
-        <location filename="../utilui.cpp" line="174"/>
-        <location filename="../utilui.cpp" line="175"/>
-        <location filename="../utilui.cpp" line="176"/>
-        <location filename="../utilui.cpp" line="177"/>
-        <location filename="../utilui.cpp" line="178"/>
-        <location filename="../utilui.cpp" line="179"/>
-        <location filename="../utilui.cpp" line="180"/>
+        <location filename="../utilui.cpp" line="181"/>
+        <location filename="../utilui.cpp" line="182"/>
+        <location filename="../utilui.cpp" line="183"/>
+        <location filename="../utilui.cpp" line="184"/>
+        <location filename="../utilui.cpp" line="185"/>
+        <location filename="../utilui.cpp" line="186"/>
+        <location filename="../utilui.cpp" line="187"/>
+        <location filename="../utilui.cpp" line="188"/>
+        <location filename="../utilui.cpp" line="189"/>
+        <location filename="../utilui.cpp" line="190"/>
+        <location filename="../utilui.cpp" line="191"/>
+        <location filename="../utilui.cpp" line="192"/>
+        <location filename="../utilui.cpp" line="193"/>
+        <location filename="../utilui.cpp" line="194"/>
         <source>Subscription type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="167"/>
-        <location filename="../utilui.cpp" line="168"/>
-        <location filename="../utilui.cpp" line="169"/>
-        <location filename="../utilui.cpp" line="170"/>
-        <location filename="../utilui.cpp" line="171"/>
-        <location filename="../utilui.cpp" line="172"/>
-        <location filename="../utilui.cpp" line="173"/>
-        <location filename="../utilui.cpp" line="174"/>
-        <location filename="../utilui.cpp" line="175"/>
-        <location filename="../utilui.cpp" line="176"/>
-        <location filename="../utilui.cpp" line="177"/>
-        <location filename="../utilui.cpp" line="178"/>
-        <location filename="../utilui.cpp" line="179"/>
-        <location filename="../utilui.cpp" line="180"/>
+        <location filename="../utilui.cpp" line="181"/>
+        <location filename="../utilui.cpp" line="182"/>
+        <location filename="../utilui.cpp" line="183"/>
+        <location filename="../utilui.cpp" line="184"/>
+        <location filename="../utilui.cpp" line="185"/>
+        <location filename="../utilui.cpp" line="186"/>
+        <location filename="../utilui.cpp" line="187"/>
+        <location filename="../utilui.cpp" line="188"/>
+        <location filename="../utilui.cpp" line="189"/>
+        <location filename="../utilui.cpp" line="190"/>
+        <location filename="../utilui.cpp" line="191"/>
+        <location filename="../utilui.cpp" line="192"/>
+        <location filename="../utilui.cpp" line="193"/>
+        <location filename="../utilui.cpp" line="194"/>
         <source>Subscription state</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="167"/>
-        <location filename="../utilui.cpp" line="168"/>
-        <location filename="../utilui.cpp" line="169"/>
-        <location filename="../utilui.cpp" line="170"/>
-        <location filename="../utilui.cpp" line="171"/>
-        <location filename="../utilui.cpp" line="172"/>
-        <location filename="../utilui.cpp" line="173"/>
-        <location filename="../utilui.cpp" line="174"/>
-        <location filename="../utilui.cpp" line="175"/>
-        <location filename="../utilui.cpp" line="176"/>
-        <location filename="../utilui.cpp" line="177"/>
-        <location filename="../utilui.cpp" line="178"/>
-        <location filename="../utilui.cpp" line="179"/>
-        <location filename="../utilui.cpp" line="180"/>
+        <location filename="../utilui.cpp" line="181"/>
+        <location filename="../utilui.cpp" line="182"/>
+        <location filename="../utilui.cpp" line="183"/>
+        <location filename="../utilui.cpp" line="184"/>
+        <location filename="../utilui.cpp" line="185"/>
+        <location filename="../utilui.cpp" line="186"/>
+        <location filename="../utilui.cpp" line="187"/>
+        <location filename="../utilui.cpp" line="188"/>
+        <location filename="../utilui.cpp" line="189"/>
+        <location filename="../utilui.cpp" line="190"/>
+        <location filename="../utilui.cpp" line="191"/>
+        <location filename="../utilui.cpp" line="192"/>
+        <location filename="../utilui.cpp" line="193"/>
+        <location filename="../utilui.cpp" line="194"/>
         <source>Subscription change</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9305,46 +9557,74 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="183"/>
         <location filename="../utilui.cpp" line="184"/>
         <location filename="../utilui.cpp" line="185"/>
+        <location filename="../utilui.cpp" line="186"/>
+        <location filename="../utilui.cpp" line="187"/>
+        <location filename="../utilui.cpp" line="188"/>
+        <location filename="../utilui.cpp" line="189"/>
+        <location filename="../utilui.cpp" line="190"/>
+        <location filename="../utilui.cpp" line="191"/>
+        <location filename="../utilui.cpp" line="192"/>
+        <location filename="../utilui.cpp" line="193"/>
+        <location filename="../utilui.cpp" line="194"/>
+        <source>User&apos;s username concerns by change</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="195"/>
+        <location filename="../utilui.cpp" line="196"/>
+        <location filename="../utilui.cpp" line="197"/>
+        <location filename="../utilui.cpp" line="198"/>
+        <location filename="../utilui.cpp" line="199"/>
         <source>Transmission type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="181"/>
-        <location filename="../utilui.cpp" line="182"/>
-        <location filename="../utilui.cpp" line="183"/>
-        <location filename="../utilui.cpp" line="184"/>
-        <location filename="../utilui.cpp" line="185"/>
+        <location filename="../utilui.cpp" line="195"/>
+        <location filename="../utilui.cpp" line="196"/>
+        <location filename="../utilui.cpp" line="197"/>
+        <location filename="../utilui.cpp" line="198"/>
+        <location filename="../utilui.cpp" line="199"/>
         <source>Transmission state</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="181"/>
-        <location filename="../utilui.cpp" line="182"/>
-        <location filename="../utilui.cpp" line="183"/>
-        <location filename="../utilui.cpp" line="184"/>
-        <location filename="../utilui.cpp" line="185"/>
+        <location filename="../utilui.cpp" line="195"/>
+        <location filename="../utilui.cpp" line="196"/>
+        <location filename="../utilui.cpp" line="197"/>
+        <location filename="../utilui.cpp" line="198"/>
+        <location filename="../utilui.cpp" line="199"/>
         <source>Classroom transmission authorization change</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="186"/>
-        <location filename="../utilui.cpp" line="187"/>
+        <location filename="../utilui.cpp" line="200"/>
+        <location filename="../utilui.cpp" line="201"/>
         <source>File name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="186"/>
+        <location filename="../utilui.cpp" line="200"/>
         <source>User&apos;s nickname who added the file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="186"/>
+        <location filename="../utilui.cpp" line="200"/>
         <source>File size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="187"/>
+        <location filename="../utilui.cpp" line="200"/>
+        <source>User&apos;s username who added the file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="201"/>
         <source>User&apos;s nickname who removed the file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="201"/>
+        <source>User&apos;s username who removed the file</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
