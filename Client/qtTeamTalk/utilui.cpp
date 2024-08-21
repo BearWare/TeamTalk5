@@ -59,7 +59,11 @@ void migrateSettings()
     if (!versionSameOrLater(iniversion, "5.2"))
     {
         // Gender changed in 5.2 format
-        if (ttSettings->value(SETTINGS_GENERAL_GENDER).metaType().id() == QMetaType::Bool)
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+        if (ttSettings->value(SETTINGS_GENERAL_GENDER).type() == QVariant::Bool)
+#else
+        if (ttSettings->value(SETTINGS_GENERAL_GENDER).typeId() == QMetaType::Bool)
+#endif
         {
             Gender gender = ttSettings->value(SETTINGS_GENERAL_GENDER).toBool() ? GENDER_MALE : GENDER_FEMALE;
             ttSettings->setValue(SETTINGS_GENERAL_GENDER, gender);
