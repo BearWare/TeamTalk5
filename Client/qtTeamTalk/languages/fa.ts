@@ -59,7 +59,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;贺稼栋, چینی ساده‌شده&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave, فرانسوی&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Steffen Schultz, آلمانی&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;ابوالفضل سعیدیفر، فارسی&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;ابوالفضل سعیدیفر، Persian&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Michał Ciołek, لهستانی&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;João Carlos Ramos and JNylson, پرتغالی از برزیل&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ozancan Karataş, ترکی&lt;/p&gt;
@@ -967,92 +967,92 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="1144"/>
         <location filename="../channelstree.cpp" line="1145"/>
         <source>Hidden</source>
-        <translation type="unfinished">مخفی</translation>
+        <translation>مخفی</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1157"/>
         <location filename="../channelstree.cpp" line="1158"/>
         <source>Password protected</source>
-        <translation type="unfinished">رمزدار</translation>
+        <translation>رمزدار</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1236"/>
         <source>Unread message</source>
-        <translation type="unfinished"></translation>
+        <translation>پیام خوانده نشده</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1240"/>
         <source>Away</source>
-        <translation type="unfinished">دور</translation>
+        <translation>دور</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1243"/>
         <source>Question</source>
-        <translation type="unfinished">پرسش</translation>
+        <translation>پرسش</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1247"/>
         <source>Speaking</source>
-        <translation type="unfinished"></translation>
+        <translation>در حال صحبت</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1249"/>
         <source>Streaming mediafile</source>
-        <translation type="unfinished"></translation>
+        <translation>در حال استریم</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1252"/>
         <source>Streaming mediafile (Paused)</source>
-        <translation type="unfinished"></translation>
+        <translation>در حال استریم, (مکث شده)</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1255"/>
         <source>Video</source>
-        <translation type="unfinished">ویدیو</translation>
+        <translation>ویدیو</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1257"/>
         <source>Desktop sharing</source>
-        <translation type="unfinished"></translation>
+        <translation>اشتراک‌گذاری دسکتاپ</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1315"/>
         <source>Female</source>
-        <translation type="unfinished">زن</translation>
+        <translation>زن</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1318"/>
         <source>Male</source>
-        <translation type="unfinished">مرد</translation>
+        <translation>مرد</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1321"/>
         <source>Neutral</source>
-        <translation type="unfinished">خنثی</translation>
+        <translation>خنثی</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1330"/>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation type="unfinished">مدیر</translation>
+        <translation>مدیر</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1334"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">مدیر</translation>
+        <translation>مدیر</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1344"/>
         <source>Channel operator</source>
         <comment>For female</comment>
-        <translation type="unfinished">اپراتور</translation>
+        <translation>اپراتور</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1348"/>
         <source>Channel operator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">اپراتور</translation>
+        <translation>اپراتور</translation>
     </message>
 </context>
 <context>
@@ -4516,7 +4516,7 @@ Do you wish to do this now?</source>
         <location filename="../mainwindow.cpp" line="7200"/>
         <location filename="../mainwindow.cpp" line="7205"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
-        <translation>%1 دریافتِ &quot;%2&quot; از طرفِ شما را برای خودش %3 کرد</translation>
+        <translation>%1 اشتراکِ &quot;%2&quot; را %3 کرد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7066"/>
@@ -5250,7 +5250,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="713"/>
         <source>Style of user and channel info</source>
-        <translation type="unfinished"></translation>
+        <translation>سَبکِ نمایشِ اطلاعاتِ کاربر و کانال</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="765"/>
@@ -5537,12 +5537,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1432"/>
         <source>Use the sound output device selected in TeamTalk for playing sound events</source>
-        <translation type="unfinished"></translation>
+        <translation>استفاده از دستگاه خروجی صدای انتخاب‌شده برای پخش بازخورد‌های صوتی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1435"/>
         <source>Use selected sound output device for playback</source>
-        <translation type="unfinished"></translation>
+        <translation>استفاده از دستگاه خروجی صدای انتخاب‌شده برای پخش</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1530"/>
@@ -5559,7 +5559,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1647"/>
         <source>Reset All to Default Values</source>
-        <translation type="unfinished"></translation>
+        <translation>بازنشانی به تنظیمات پیشفرض</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1711"/>
@@ -5874,12 +5874,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="483"/>
         <source>Emojis</source>
-        <translation type="unfinished"></translation>
+        <translation>شکلک</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="484"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>متن</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="504"/>
@@ -6032,22 +6032,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="1843"/>
         <source>Are you sure you want to restore all TTS messages to default values?</source>
-        <translation type="unfinished"></translation>
+        <translation>مطمئنید که میخواهید همۀ پیام‌های متن به گفتار را به تنظیمات پیشفرض برگردانید?</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1844"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;بله</translation>
+        <translation>&amp;بله</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1845"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;خیر</translation>
+        <translation>&amp;خیر</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1848"/>
         <source>Restore default values</source>
-        <translation type="unfinished"></translation>
+        <translation>بازگردانی به تنظیمات پیشفرض</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="333"/>
@@ -7436,7 +7436,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.ui" line="82"/>
         <source>Reset All to Default Value</source>
-        <translation type="unfinished"></translation>
+        <translation>بازنشانی همه به تنظیمات پیشفرض</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="94"/>
@@ -7471,22 +7471,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.cpp" line="165"/>
         <source>Are you sure you want to restore all Status bar messages to default values?</source>
-        <translation type="unfinished"></translation>
+        <translation>مطمئنید که میخواهید همۀ تنظیمات مربوط به پیام‌های نوار وضعیت را به حالت پیشفرض برگردانید?</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="166"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;بله</translation>
+        <translation>&amp;بله</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="167"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;خیر</translation>
+        <translation>&amp;خیر</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="170"/>
         <source>Restore default values</source>
-        <translation type="unfinished"></translation>
+        <translation>بازنشانی به تنظیمات پیشفرض</translation>
     </message>
 </context>
 <context>
@@ -7554,32 +7554,32 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="119"/>
         <source>Subscription private text message changed</source>
-        <translation>روشن یا خاموش کردن امکان دریافت پیامهای خصوصی شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک پیام‌های شخصی</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="121"/>
         <source>Subscription channel text message changed</source>
-        <translation>روشن یا خاموش کردن امکان دریافت پیام‌های کانال شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک پیام‌های کانال</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="123"/>
         <source>Subscription broadcast text message changed</source>
-        <translation>روشن یا خاموش کردن امکان دریافت پیامهای همگانی شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک پیام‌های همگانی</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="125"/>
         <source>Subscription voice stream changed</source>
-        <translation>روشن یا خاموش کردن امکان شنیدن صدای شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک صدا</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="127"/>
         <source>Subscription webcam stream changed</source>
-        <translation>روشن یا خاموش کردن امکان مشاهدۀ تصویر شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک مشاهدۀ وب‌کم</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="129"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation>روشن یا خاموش کردن امکان مشاهدۀ اشتراک‌گذاری صفحه نمایش شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک مشاهدۀ دسکتاپ</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="131"/>
@@ -9009,7 +9009,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../uservolume.ui" line="20"/>
         <source>Voice Volume Settings</source>
-        <translation>تنظیم میزان صدای کاربر</translation>
+        <translation>تنظیم میزان صدا</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="50"/>
@@ -9021,33 +9021,33 @@ Delete the published user account to unregister your server.</source>
         <location filename="../uservolume.ui" line="56"/>
         <location filename="../uservolume.ui" line="112"/>
         <source>Mute left</source>
-        <translation>قطعِ صدا از سمتِ چپ</translation>
+        <translation>قطع صدا از چپ</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="63"/>
         <location filename="../uservolume.ui" line="119"/>
         <source>Mute right</source>
-        <translation>قطعِ صدا از سمتِ راست</translation>
+        <translation>قطع صدا از راست</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="76"/>
         <source>Media File Volume Settings</source>
-        <translation>تنظیم میزان صدای استریم‌های کاربر</translation>
+        <translation>تنظیم  صدای استریم‌ها</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="147"/>
         <source>&amp;Default</source>
-        <translation>&amp;بازگردانی تنظیمات صدای این کاربر به حالت پیشفرض</translation>
+        <translation>&amp;بازگردانی به حالت پیشفرض</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="54"/>
         <source>Volume for %1</source>
-        <translation>تنظیمِ صدای %1</translation>
+        <translation>صدای %1</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="80"/>
         <source>Failed to change user&apos;s volume</source>
-        <translation>امکانِ تغییرِ صدای این کارب&apos;ر وجود ندارد</translation>
+        <translation>امکانِ تغییرِ صدای این کاربر وجود ندارد</translation>
     </message>
 </context>
 <context>
@@ -9055,98 +9055,98 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="428"/>
         <source>{user} has logged in on {server}</source>
-        <translation>وقتی کاربر وارد سِروِر میشود</translation>
+        <translation>{user} وارد سِروِر {server} شد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="430"/>
         <source>{user} has logged out from {server}</source>
-        <translation>وقتی کاربر از سِروِر میرود</translation>
+        <translation>{user} از سِروِر {server} رفت</translation>
     </message>
     <message>
         <location filename="../settings.h" line="432"/>
         <source>{user} joined channel {channel}</source>
-        <translation>وقتی کاربر وارد کانال میشود</translation>
+        <translation>{user} وارد {channel} شد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="434"/>
         <source>{user} left channel {channel}</source>
-        <translation>وقتی کاربر از کانال میرود</translation>
+        <translation>{user} از {channel} رفت</translation>
     </message>
     <message>
         <location filename="../settings.h" line="436"/>
         <source>{user} joined channel</source>
-        <translation>وقتی کاربر وارد کانال فعلی میشود</translation>
+        <translation>{user} وارد کانال شد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="438"/>
         <source>{user} left channel</source>
-        <translation>وقتی کاربر از کانال فعلی میرود</translation>
+        <translation>{user} از کانال رفت</translation>
     </message>
     <message>
         <location filename="../settings.h" line="440"/>
         <source>Private message from {user}: {message}</source>
-        <translation>وقتی پیام شخصی دریافت میکنید</translation>
+        <translation>پیام شخصی از {user}: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="442"/>
         <source>Private message sent: {message}</source>
-        <translation>وقتی پیام شخصی میفرستید</translation>
+        <translation>ارسال شد: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="444"/>
         <source>{user} is typing...</source>
-        <translation>وقتی کاربر در حال نوشتن پیام است...</translation>
+        <translation>{user} در حال نوشتن...</translation>
     </message>
     <message>
         <location filename="../settings.h" line="446"/>
         <source>{user} set question mode</source>
-        <translation>وقتی کاربر حالت پرسش را فعال میکند</translation>
+        <translation>{user} حالت پرسش را فعال کرد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="448"/>
         <source>Channel message from {user}: {message}</source>
-        <translation>وقتی پیام کانال دریافت میکنید</translation>
+        <translation>پیام کانال از {user}: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="450"/>
         <source>Channel message sent: {message}</source>
-        <translation>وقتی پیام کانال ارسال میکنید</translation>
+        <translation>ارسال شد: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="452"/>
         <source>Broadcast message from {user}: {message}</source>
-        <translation>وقتی پیام همگانی دریافت میکنید</translation>
+        <translation>پیام همگانی از {user}: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="454"/>
         <source>Broadcast message sent: {message}</source>
-        <translation>وقتی پیام همگانی ارسال میکنید</translation>
+        <translation>ارسال شد: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="456"/>
         <source>Subscription &quot;{type}&quot; {state} for {user}</source>
-        <translation>اشتراک &quot;نوع&quot; وضعیت برای کاربر</translation>
+        <translation>اشتراکِ &quot;{type}&quot; برای {user} {state} شد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="458"/>
         <source>Transmission &quot;{type}&quot; {state} for {user}</source>
-        <translation>ارسال &quot;شیوه&quot; وضعیت برای کاربر</translation>
+        <translation>ارسال &quot;{type}&quot; {state} برای {user}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="460"/>
         <source>File {filename} added by {user}</source>
-        <translation>وقتی کاربر در کانال فایل آپلود میکند</translation>
+        <translation>{user} فایلِ {filename} را آپلود کرد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="462"/>
         <location filename="../settings.h" line="483"/>
         <source>File {file} removed by {user}</source>
-        <translation>وقتی کاربر از کانال فایل حذف میکند</translation>
+        <translation>{user} فایلِ {file} را پاک کرد</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="45"/>
         <source>User&apos;s nickname who logged in</source>
-        <translation>نام مستعار کاربر&apos;ی که وارد سِروِر میشود</translation>
+        <translation>نام مستعار کاربری که وارد سِروِر میشود</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="45"/>
@@ -9156,63 +9156,63 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="56"/>
         <location filename="../utiltts.cpp" line="58"/>
         <source>Server&apos;s name from which event was emited</source>
-        <translation>نام سِروِر&apos;ی که این اتفاق در آن افتاده است</translation>
+        <translation>نام سِروِری که این اتفاق در آن افتاده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="45"/>
         <source>User&apos;s username who logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>نامِ کاربریِ کاربری که واردِ سِروِر می‌شود</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="46"/>
         <source>User&apos;s nickname who logged out</source>
-        <translation>نام مستعار کاربر&apos;ی که از سِروِر میرود</translation>
+        <translation>نام مستعار کاربری که از سِروِر میرود</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="46"/>
         <source>User&apos;s username who logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>نامِ کاربریِ کاربری که از سِروِر می‌رود</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="47"/>
         <location filename="../utiltts.cpp" line="49"/>
         <source>User&apos;s nickname who joined channel</source>
-        <translation>نام مستعار کاربر&apos;ی که وارد کانال میشود</translation>
+        <translation>نام مستعار کاربری که وارد کانال میشود</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="47"/>
         <source>Channel&apos;s name joined by user</source>
-        <translation>نام کانال&apos;ی که کاربر وارد آن میشود</translation>
+        <translation>نام کانالی که کاربر وارد آن شده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="47"/>
         <location filename="../utiltts.cpp" line="49"/>
         <source>User&apos;s username who joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>نامِ کاربریِ کاربری که واردِ کانال شده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="48"/>
         <location filename="../utiltts.cpp" line="50"/>
         <source>User&apos;s nickname who left channel</source>
-        <translation>نام مستعار کاربر&apos;ی که از کانال میرود</translation>
+        <translation>نام مستعار کاربری که از کانال رفته است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="48"/>
         <source>Channel&apos;s name left by user</source>
-        <translation>نام کانال&apos;ی که کاربر آن را ترک میکند</translation>
+        <translation>نام کانالی که کاربر آن را ترک کرده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="48"/>
         <location filename="../utiltts.cpp" line="50"/>
         <source>User&apos;s username who left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>نامِ کاربریِ کاربری که از کانال رفته است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="51"/>
         <location filename="../utiltts.cpp" line="56"/>
         <location filename="../utiltts.cpp" line="58"/>
         <source>User&apos;s nickname who sent message</source>
-        <translation>نام مستعار کاربر&apos;ی که پیام میفرستد</translation>
+        <translation>نام مستعار کاربری که پیام فرستاده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="51"/>
@@ -9229,35 +9229,35 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="56"/>
         <location filename="../utiltts.cpp" line="58"/>
         <source>User&apos;s username who sent message</source>
-        <translation type="unfinished"></translation>
+        <translation>نامِ کاربریِ کاربری که پیام فرستاده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
         <location filename="../utiltts.cpp" line="54"/>
         <source>User&apos;s nickname who is typing</source>
-        <translation>نام مستعار کاربر&apos;ی که در حال نوشتن است</translation>
+        <translation>نام مستعار کاربری که در حال نوشتن است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
         <location filename="../utiltts.cpp" line="54"/>
         <source>User typing</source>
-        <translation>کاربر در حال تایپ کردن</translation>
+        <translation>کاربر در حال نوشتن</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
         <location filename="../utiltts.cpp" line="54"/>
         <source>User&apos;s username who is typing</source>
-        <translation type="unfinished"></translation>
+        <translation>نامِ کاربریِ کاربری که در حالِ نوشتن است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="55"/>
         <source>User&apos;s nickname who set question mode</source>
-        <translation>نام مستعار کاربر&apos;ی که حالت پرسش را فعال میکند</translation>
+        <translation>نام مستعار کاربری که حالت پرسش را فعال کرده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="55"/>
         <source>User&apos;s username who set question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>نامِ کاربریِ کاربری که حالتِ پرسش را فعال کرده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="60"/>
@@ -9352,7 +9352,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="72"/>
         <location filename="../utiltts.cpp" line="73"/>
         <source>User&apos;s username concerns by change</source>
-        <translation type="unfinished"></translation>
+        <translation>نامِ کاربریِ کاربری که این اتفاق برای او افتاده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="74"/>
@@ -9390,27 +9390,27 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="79"/>
         <source>User&apos;s nickname who added the file</source>
-        <translation>نام مستعار کاربر&apos;ی که فایل آپلود میکند</translation>
+        <translation>نام مستعار کاربری که فایل آپلود کرده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="79"/>
         <source>File size</source>
-        <translation>حجم فایل</translation>
+        <translation>حجم</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="79"/>
         <source>User&apos;s username who added the file</source>
-        <translation type="unfinished"></translation>
+        <translation>نامِ کاربریِ کاربری که فایل آپلود کرده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="80"/>
         <source>User&apos;s nickname who removed the file</source>
-        <translation>نام مستعار کاربر&apos;ی که فایل حذف میکند</translation>
+        <translation>نام مستعار کاربری که فایل حذف کرده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="80"/>
         <source>User&apos;s username who removed the file</source>
-        <translation type="unfinished"></translation>
+        <translation>نامِ کاربریِ کاربری که فایل حذف کرده است</translation>
     </message>
 </context>
 <context>
@@ -9418,52 +9418,52 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="465"/>
         <source>{user} has logged in</source>
-        <translation>ورود کاربر به سِروِر</translation>
+        <translation>{user} وارد سِروِر شد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="467"/>
         <source>{user} has logged out</source>
-        <translation>خروج کاربر از سِروِر</translation>
+        <translation>{user} از سِروِر رفت</translation>
     </message>
     <message>
         <location filename="../settings.h" line="469"/>
         <source>{user} joined channel {channel}</source>
-        <translation>وقتی کاربر وارد کانال میشود</translation>
+        <translation>{user} وارد {channel} شد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="471"/>
         <source>{user} left channel {channel}</source>
-        <translation>وقتی کاربر از کانال میرود</translation>
+        <translation>{user} از {channel} رفت</translation>
     </message>
     <message>
         <location filename="../settings.h" line="473"/>
         <source>{user} joined channel</source>
-        <translation>وقتی کاربر وارد کانال فعلی میشود</translation>
+        <translation>{user} وارد کانال شد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="475"/>
         <source>{user} left channel</source>
-        <translation>وقتی کاربر از کانال فعلی میرود</translation>
+        <translation>{user} از کانال رفت</translation>
     </message>
     <message>
         <location filename="../settings.h" line="477"/>
         <source>Subscription &quot;{type}&quot; {state} for {user}</source>
-        <translation>اشتراک &quot;نوع&quot; وضعیت برای کاربر</translation>
+        <translation>اشتراکِ &quot;{type}&quot; برای {user} {state} شد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="479"/>
         <source>Transmission &quot;{type}&quot; {state} for {user}</source>
-        <translation>ارسال &quot;شیوه&quot; وضعیت برای کاربر</translation>
+        <translation>انتقال &quot;{type}&quot; {state} برای {user}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="481"/>
         <source>File {filename} added by {user}</source>
-        <translation>وقتی کاربر در کانال فایل آپلود میکند</translation>
+        <translation>{user} فایلِ {filename} را آپلود کرد</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="175"/>
         <source>User&apos;s nickname who logged in</source>
-        <translation>نام مستعار کاربر&apos;ی که وارد سِروِر میشود</translation>
+        <translation>نام مستعار کاربری که وارد سِروِر شده است</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="175"/>
@@ -9471,56 +9471,56 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="177"/>
         <location filename="../utilui.cpp" line="178"/>
         <source>Server&apos;s name from which event was emited</source>
-        <translation>نام سِروِر&apos;ی که این اتفاق در آن افتاده است</translation>
+        <translation>نام سِروِری که این اتفاق در آن افتاده است</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="175"/>
         <source>User&apos;s username who logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>نامِ کاربریِ کاربری که واردِ سِروِر شده است</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="176"/>
         <source>User&apos;s nickname who logged out</source>
-        <translation>نام مستعار کاربر&apos;ی که از سِروِر میرود</translation>
+        <translation>نام مستعار کاربری که از سِروِر رفته است</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="176"/>
         <source>User&apos;s username who logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>نامِ کاربریِ کاربری که از سِروِر رفته است</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="177"/>
         <location filename="../utilui.cpp" line="179"/>
         <source>User&apos;s nickname who joined channel</source>
-        <translation>نام مستعار کاربر&apos;ی که وارد کانال میشود</translation>
+        <translation>نام مستعار کاربری که وارد کانال شده است</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="177"/>
         <source>Channel&apos;s name joined by user</source>
-        <translation>نام کانال&apos;ی که کاربر وارد آن میشود</translation>
+        <translation>نام کانالی که کاربر وارد آن شده است</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="177"/>
         <location filename="../utilui.cpp" line="179"/>
         <source>User&apos;s username who joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>نامِ کاربریِ کاربری که واردِ کانال شده است</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="178"/>
         <location filename="../utilui.cpp" line="180"/>
         <source>User&apos;s nickname who left channel</source>
-        <translation>نام مستعار کاربر&apos;ی که از کانال میرود</translation>
+        <translation>نام مستعار کاربری که از کانال رفته است</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="178"/>
         <source>Channel&apos;s name left by user</source>
-        <translation>نام کانال&apos;ی که کاربر آن را ترک میکند</translation>
+        <translation>نام کانالی که کاربر آن را ترک کرده است</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="178"/>
         <location filename="../utilui.cpp" line="180"/>
         <source>User&apos;s username who left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>نامِ کاربریِ کاربری که از کانال رفته است</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="181"/>
@@ -9615,7 +9615,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="193"/>
         <location filename="../utilui.cpp" line="194"/>
         <source>User&apos;s username concerns by change</source>
-        <translation type="unfinished"></translation>
+        <translation>نامِ کاربریِ کاربری که این اتفاق برای او افتاده است</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="195"/>
@@ -9624,7 +9624,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="198"/>
         <location filename="../utilui.cpp" line="199"/>
         <source>Transmission type</source>
-        <translation>شیوۀ ارسال</translation>
+        <translation>نوع انتقال</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="195"/>
@@ -9633,7 +9633,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="198"/>
         <location filename="../utilui.cpp" line="199"/>
         <source>Transmission state</source>
-        <translation>وضعیت ارسال</translation>
+        <translation>وضعیت انتقال</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="195"/>
@@ -9653,27 +9653,27 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utilui.cpp" line="200"/>
         <source>User&apos;s nickname who added the file</source>
-        <translation>نام مستعار کاربر&apos;ی که فایل آپلود میکند</translation>
+        <translation>نام مستعار کاربری که فایل آپلود کرده است</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="200"/>
         <source>File size</source>
-        <translation>حجم فایل</translation>
+        <translation>حجم</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="200"/>
         <source>User&apos;s username who added the file</source>
-        <translation type="unfinished"></translation>
+        <translation>نامِ کاربریِ کاربری که فایل آپلود کرده است</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="201"/>
         <source>User&apos;s nickname who removed the file</source>
-        <translation>نام مستعار کاربر&apos;ی که فایل حذف میکند</translation>
+        <translation>نام مستعار کاربری که فایل حذف کرده است</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="201"/>
         <source>User&apos;s username who removed the file</source>
-        <translation type="unfinished"></translation>
+        <translation>نامِ کاربریِ کاربری که فایل حذف کرده است</translation>
     </message>
 </context>
 <context>
