@@ -602,7 +602,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="223"/>
         <source>No voice activation (only Push-to-Talk allowed)</source>
-        <translation>غیرفعال‌کردن ارسال خودکار صدا</translation>
+        <translation>غیرفعال‌کردن ارسال صدا</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="230"/>
@@ -901,7 +901,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="831"/>
         <source>Video transmission allowed for everyone: %1</source>
-        <translation>همه بتوانند ویدیو ارسال کنند: %1</translation>
+        <translation>همه بتوانند ویدیو اشتراک‌گذاری کنند: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="832"/>
@@ -921,7 +921,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="838"/>
         <source>Voice transmission</source>
-        <translation>ارسال صدا</translation>
+        <translation>انتقال صدا</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="839"/>
@@ -941,27 +941,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="960"/>
         <source>Text message transmission allowed: %1</source>
-        <translation>اجازه برای ارسال پیام متنی: %1</translation>
+        <translation>اجازۀ ارسال پیام متنی: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="961"/>
         <source>Voice transmission allowed: %1</source>
-        <translation>اجازه برای صحبت‌کردن: %1</translation>
+        <translation>اجازۀ صحبت‌کردن: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="962"/>
         <source>Video transmission allowed: %1</source>
-        <translation>اجازه برای اشتراک‌گذاری ویدیو: %1</translation>
+        <translation>اجازۀ اشتراک‌گذاری ویدیو: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="963"/>
         <source>Desktop transmission allowed: %1</source>
-        <translation>اجازه برای اشتراک‌گذاری دسکتاپ: %1</translation>
+        <translation>اجازۀ اشتراک‌گذاری دسکتاپ: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="964"/>
         <source>Media files transmission allowed: %1</source>
-        <translation>اجازه برای استریم: %1</translation>
+        <translation>اجازۀ استریم: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1144"/>
@@ -1429,7 +1429,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="134"/>
         <source>Client private key</source>
-        <translation>کلید خصوصی کلاینت</translation>
+        <translation>کلید شخصی کلاینت</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="188"/>
@@ -1498,22 +1498,22 @@ Message of the day: %2</source>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="165"/>
         <source>Private key: %1 bits</source>
-        <translation>کلید خصوصی: %1 بیت</translation>
+        <translation>کلید شخصی: %1 بیت</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="177"/>
         <source>Client Private Key (*.pem)</source>
-        <translation>کلید خصوصی کلاینت (*.pem)</translation>
+        <translation>کلید شخصی کلاینت (*.pem)</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="191"/>
         <source>Setup Client Private Key</source>
-        <translation>تنظیم کلید خصوصی کلاینت</translation>
+        <translation>تنظیم کلید شخصی کلاینت</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="192"/>
         <source>The file %1 does not contain a valid client private key</source>
-        <translation>فایل %1 حاوی کلید خصوصی کلاینت معتبر نیست</translation>
+        <translation>فایل %1 حاوی کلید شخصی کلاینت معتبر نیست</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="201"/>
@@ -1532,7 +1532,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../filetransfer.ui" line="25"/>
         <source>Filename:</source>
-        <translation>نام فایل:</translation>
+        <translation>نام:</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="45"/>
@@ -1577,7 +1577,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../filetransferdlg.cpp" line="104"/>
         <source>%1 KBytes/second, last second %2 bytes</source>
-        <translation>سرعت انتقال داده در حال حاضر %1 کیلوبایت بر ثانیه است, حجم انتقال داده در آخرین ثانیه %2 بایت بوده است</translation>
+        <translation>%1 کیلوبایت بر ثانیه, در ثانیۀ گذشته %2 بایت</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="131"/>
@@ -1644,7 +1644,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../generatettfile.ui" line="85"/>
         <source>Override client&apos;s predefined settings</source>
-        <translation>اِعمالِ &apos;تنظیماتِ سفارشی برای کلاینت</translation>
+        <translation>اِعمالِ تنظیماتِ سفارشی برای کلاینت</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="94"/>
@@ -1879,7 +1879,7 @@ Message of the day: %2</source>
         <location filename="../mainwindow.ui" line="287"/>
         <location filename="../mainwindow.ui" line="290"/>
         <source>Voice activation level</source>
-        <translation>حساسیت تشخیص صدا</translation>
+        <translation>حساسیت صدا</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="346"/>
@@ -2611,7 +2611,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="1944"/>
         <source>Allow V&amp;oice Transmission</source>
-        <translation>اجازه برای ص&amp;حبت</translation>
+        <translation>اجازۀ ص&amp;حبت</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1947"/>
@@ -2621,7 +2621,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="1955"/>
         <source>Allow Video Transmission</source>
-        <translation>اجازه برای اشتراک ویدیو</translation>
+        <translation>اجازۀ اشتراک‌گذاری ویدیو</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1958"/>
@@ -2631,7 +2631,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="1966"/>
         <source>Allow All V&amp;oice Transmission</source>
-        <translation>اجازۀ ص&amp;حبت به همۀ کاربران</translation>
+        <translation>اجازۀ ص&amp;حبت به همه</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1969"/>
@@ -2641,7 +2641,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="1977"/>
         <source>Allow All Video Transmission</source>
-        <translation>اجازۀ اشتراک ویدیو به همۀ کاربران</translation>
+        <translation>اجازۀ اشتراک‌گذاری ویدیو به همه</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1980"/>
@@ -2757,7 +2757,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="2052"/>
         <source>Allow Desktop Transmission</source>
-        <translation>اجازه برای اشتراک صفحه نمایش</translation>
+        <translation>اجازۀ اشتراک‌گذاری دسکتاپ</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2055"/>
@@ -2767,7 +2767,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="2063"/>
         <source>Allow All Desktop Transmission</source>
-        <translation>اجازۀ اشتراک صفحه نمایش به همۀ کاربران</translation>
+        <translation>اجازۀ اشتراک‌گذاری دسکتاپ به همه</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2066"/>
@@ -2847,7 +2847,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="2210"/>
         <source>Allow Media File Transmission</source>
-        <translation>اجازه برای استریم فایل</translation>
+        <translation>اجازۀ استریم فایل</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2213"/>
@@ -2857,7 +2857,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="2221"/>
         <source>Allow All Media File Transmission</source>
-        <translation>اجازۀ استریم فایل به همۀ کاربران</translation>
+        <translation>اجازۀ استریم فایل به همه</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2224"/>
@@ -3477,32 +3477,32 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="4740"/>
         <source>Master volume disabled</source>
-        <translation>صدا قطع شد</translation>
+        <translation>اسپیکر خاموش</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4745"/>
         <source>Master volume enabled</source>
-        <translation>صدا وصل شد</translation>
+        <translation>اسپیکر روشن</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4877"/>
         <source>Voice volume for %1 increased to %2%</source>
-        <translation>صدای %1 به %2% رسید</translation>
+        <translation>صدای %1 %2% شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4890"/>
         <source>Voice volume for %1 decreased to %2%</source>
-        <translation>صدای %1 به %2% رسید</translation>
+        <translation>صدای %1 %2% شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4903"/>
         <source>Media files volume for %1 increased to %2%</source>
-        <translation>صدای استریم‌های %1 به %2% رسید</translation>
+        <translation>صدای استریم‌های %1 %2% شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4916"/>
         <source>Media files volume for %1 decreased to %2%</source>
-        <translation>صدای استریم‌های %1 به %2% رسید</translation>
+        <translation>صدای استریم‌های %1 %2% شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4935"/>
@@ -3824,7 +3824,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="2391"/>
         <source>Voice transmission failed</source>
-        <translation>صدا ارسال نشد</translation>
+        <translation>انتقال صدا انجام نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2500"/>
@@ -3981,7 +3981,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="3890"/>
         <source>Voice transmission blocked by channel operator</source>
-        <translation>صحبت کردن توسط اپراتور مسدود شد</translation>
+        <translation>انتقال صدا توسط اپراتور مسدود شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3894"/>
@@ -3991,12 +3991,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="3898"/>
         <source>Video transmission blocked by channel operator</source>
-        <translation>اشتراک ویدیو توسط اپراتور مسدود شد</translation>
+        <translation>اشتراک‌گذاری ویدیو توسط اپراتور مسدود شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3902"/>
         <source>Desktop transmission blocked by channel operator</source>
-        <translation>اشتراک دسکتاپ توسط اپراتور مسدود شد</translation>
+        <translation>اشتراک‌گذاری دسکتاپ توسط اپراتور مسدود شد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3979"/>
@@ -4068,23 +4068,23 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="4501"/>
         <source>Failed to enable voice activation</source>
-        <translation>ارسال خودکار صدا فعال نشد</translation>
+        <translation>ارسال صدا فعال نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4527"/>
         <location filename="../mainwindow.cpp" line="6643"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translation>دستگاه ویدیویی به‌د&apos;رستی تنظیم نشده است. &apos;تنظیمات&apos; مربوط به دستگاه ویدیویی را بررسی کنید</translation>
+        <translation>دستگاه ویدیویی به‌درستی تنظیم نشده است. &apos;تنظیمات&apos; مربوط به دستگاه ویدیویی را بررسی کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4550"/>
         <source>Video transmission enabled</source>
-        <translation>اشتراک ویدیو روشن</translation>
+        <translation>اشتراک‌گذاری ویدیو روشن</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4569"/>
         <source>Video transmission disabled</source>
-        <translation>اشتراک ویدیو خاموش</translation>
+        <translation>اشتراک‌گذاری ویدیو خاموش</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4616"/>
@@ -4251,7 +4251,7 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="4538"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
-        <translation>تنظیمِ مبدلِ ویدیو انجام نشد. لطفاً &apos;تنظیماتِ&apos; مربوطه را از تنظیماتِ برنامه بررسی کنید</translation>
+        <translation>تنظیمِ فشرده‌سازیِ ویدیو انجام نشد. لطفاً &apos;تنظیماتِ&apos; مربوطه را از تنظیماتِ برنامه بررسی کنید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2817"/>
@@ -5095,7 +5095,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="286"/>
         <source>Voice Transmission Mode</source>
-        <translation>روش ارسال صدا</translation>
+        <translation>روش انتقال صدا</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="294"/>
@@ -5130,22 +5130,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="398"/>
         <source>Start minimized</source>
-        <translation>اجرای برنامه در حالت کوچک</translation>
+        <translation>کوچک‌نمایی برنامه</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="405"/>
         <source>Minimize to tray icon</source>
-        <translation>کوچکنمایی آیکون برنامه در نوار وظیفه</translation>
+        <translation>کوچکنمایی آیکون در نوار وظیفه</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="412"/>
         <source>&amp;Always on top</source>
-        <translation>&amp;نگه داشتن تیم‌تاک در بالای صفحه و در بالاترین اولویت</translation>
+        <translation>&amp;نگه داشتن در بالای صفحه</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="419"/>
         <source>Enable VU-meter updates</source>
-        <translation>فعالسازی به‌روز‌رسانی سنجش میزان بلندی صدا. (نا‌مناسب برای صفحه‌خوان)</translation>
+        <translation>به‌روز‌رسانی سنجش میزان بلندی صدا. (نا‌مناسب برای صفحه‌خوان)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="626"/>
@@ -5155,22 +5155,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="633"/>
         <source>Show username instead of nickname</source>
-        <translation>نمایش نام کاربری افراد بجای نام مستعار آنها</translation>
+        <translation>نمایش نام کاربری بجای نام مستعار</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="640"/>
         <source>Show last to talk in yellow</source>
-        <translation>نشان‌دادن آخرین کاربری که صحبت کرده‌است به رنگ زرد</translation>
+        <translation>نمایش آخرین کاربری که صحبت کرده به رنگ زرد</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="433"/>
         <source>Show both server and channel name in window title</source>
-        <translation>نشان‌دادن نام سِروِر و کانال در عنوان پنجره</translation>
+        <translation>نمایش نام سِروِر و کانال در عنوان پنجره</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="551"/>
         <source>Popup dialog when receiving text message</source>
-        <translation>نمایش پیام‌های خصوصی در پنجرۀ مجزا</translation>
+        <translation>نمایش پیام‌های شخصی در پنجرۀ مجزا</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="558"/>
@@ -5200,12 +5200,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="510"/>
         <source>Show source in corner of video window</source>
-        <translation>نمایش نام شخصی که تصویر خود را به اشتراک گذاشته‌است در گوشۀ پنجره</translation>
+        <translation>نمایش نام اشتراک‌گذار ویدیو در گوشۀ پنجره</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="187"/>
         <source>Disable voice activation during inactivity</source>
-        <translation>غیرفعال‌کردن ارسال خودکار صدا در حالت عدم فعالیت</translation>
+        <translation>غیرفعال‌کردن ارسال صدا در حالت عدم فعالیت</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="211"/>
@@ -5220,7 +5220,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="426"/>
         <source>Show voice activation level slider</source>
-        <translation>نمایش نوار لغزنده  حساسیت تشخیص صدا</translation>
+        <translation>نمایش نوار لغزنده  حساسیت صدا</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="449"/>
@@ -5285,7 +5285,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="844"/>
         <source>Query server&apos;s maximum payload upon connection</source>
-        <translation>درخواست بارگذاری حداکثر داده‌های سِروِ&apos;ر هنگام اتصال</translation>
+        <translation>درخواست بارگذاری حداکثر داده‌های سِروِر هنگام اتصال</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="851"/>
@@ -5301,7 +5301,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="869"/>
         <source>User Messages</source>
-        <translation>پیام‌های خصوصی</translation>
+        <translation>پیام‌های شخصی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="876"/>
@@ -5496,7 +5496,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="586"/>
         <source>Show dialog box with server&apos;s message of the day</source>
-        <translation>نمایش پیام روز سِروِ&apos;ر در پنجرۀ محاوره‌ای</translation>
+        <translation>نمایش پیام روز سِروِر در پنجرۀ محاوره‌ای</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="593"/>
@@ -5559,7 +5559,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1647"/>
         <source>Reset All to Default Values</source>
-        <translation>بازنشانی به تنظیمات پیشفرض</translation>
+        <translation>بازنشانی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1711"/>
@@ -6047,7 +6047,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="1848"/>
         <source>Restore default values</source>
-        <translation>بازگردانی به تنظیمات پیشفرض</translation>
+        <translation>باز‌نشانی</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="333"/>
@@ -6173,7 +6173,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../utilhotkey.cpp" line="37"/>
         <source>Enable/disable voice activation</source>
-        <translation>روشن یا خاموش کردن ارسال خودکار صدا</translation>
+        <translation>روشن یا خاموش کردن ارسال صدا</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="39"/>
@@ -6678,8 +6678,8 @@ The #teamtalkpublish# notification can be removed once
 the server has been verified.
 
 Delete the published user account to unregister your server.</source>
-        <translation>تنظیماتِ سِروِر&apos;ِ خود را به‌روز کنید تا نامِ سِروِر شاملِ متنِ #teamtalkpublish# شود.
-این کار تأیید میکند که ش&apos;ما مالکِ سِروِر هستید.
+        <translation>تنظیماتِ سِروِرِ خود را به‌روز کنید تا نامِ سِروِر شاملِ متنِ #teamtalkpublish# شود.
+این کار تأیید میکند که شما مالکِ سِروِر هستید.
 پس از تأیید‌شدنِ سِروِر, سِروِرِ شما در عرضِ چند دقیقه قابلِ مشاهده خواهد بود.
 
 هنگامی که سِروِر تأیید شده باشد, اعلانِ #teamtalkpublish# را میتوانید حذف کنید.
@@ -7070,7 +7070,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>Server&apos;s time online</source>
-        <translation>زمان کار سِروِ&apos;ر</translation>
+        <translation>زمان کار سِروِر</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
@@ -7232,22 +7232,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="105"/>
         <source>User logged in</source>
-        <translation>ورود کاربر به سِروِر</translation>
+        <translation>ورود به سِروِر</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="107"/>
         <source>User logged out</source>
-        <translation>خروج کاربر از سِروِر</translation>
+        <translation>خروج از سِروِر</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="109"/>
         <source>User joined channel</source>
-        <translation>ورود کاربر به سایر کانالها</translation>
+        <translation>ورود به کانال</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="111"/>
         <source>User left channel</source>
-        <translation>خروج کاربر از سایر کانالها</translation>
+        <translation>خروج از کانال</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="113"/>
@@ -7267,7 +7267,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="119"/>
         <source>User is typing a private message in focused window</source>
-        <translation>بازخورد صوتی هنگامی که کاربر در حال نوشتن پیام شخصی در پنجرۀ فعلی است</translation>
+        <translation>نِوِشتَنِ پیامِ شخصی</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="121"/>
@@ -7292,7 +7292,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="129"/>
         <source>Channel silent</source>
-        <translation>هنگامی که آخرین کاربر صحبت خود را به پایان برساند و بعد از او هیچ کاربر دیگری صحبت نکند, این صدا پخش میشود</translation>
+        <translation>سکوت در کانال</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="131"/>
@@ -7307,92 +7307,92 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="135"/>
         <source>Desktop access request</source>
-        <translation>درخواست اجازۀ دسترسی به دسکتاپ</translation>
+        <translation>درخواست دسترسی به دسکتاپ</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="137"/>
         <source>Files updated</source>
-        <translation>هنگام آپلود یا حذف‌شدن فایل‌ها از کانال, این صدا پخش میشود</translation>
+        <translation>آپلود یا حذفِ فایل</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="139"/>
         <source>File transfer completed</source>
-        <translation>هنگامی که آپلود یا دانلود فایل‌ها به‌پایان برسد, این صدا پخش میشود</translation>
+        <translation>اتمامِ آپلود یا دانلود</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="141"/>
         <source>User enabled question mode</source>
-        <translation>بازخورد صوتی برای حالت پرسش</translation>
+        <translation>روشن‌کردن حالت پرسش</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="143"/>
         <source>Voice activation enabled</source>
-        <translation>بازخورد صوتی هنگام روشن کردن ارسال خودکار صدا</translation>
+        <translation>روشن کردن ارسال صدا</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="145"/>
         <source>Voice activation disabled</source>
-        <translation>بازخورد صوتی هنگام خاموش کردن ارسال خودکار صدا</translation>
+        <translation>خاموش کردن ارسال صدا</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="147"/>
         <source>Voice activation enabled via &quot;Me&quot; menu</source>
-        <translation>چنانچه قابلیت ارسال خودکار صدا از طریق منوی &quot;من&quot; یا با استفاده از کلید‌های میانبر CTRL+SHIFT+A روشن شود, این صدا پخش میشود</translation>
+        <translation>روشن‌کردن ارسال صدا از طریق منوی &quot;من&quot;</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="149"/>
         <source>Voice activation disabled via &quot;Me&quot; menu</source>
-        <translation>چنانچه قابلیت ارسال خودکار صدا از طریق منوی &quot;من&quot; یا با استفاده از کلید‌های میانبر CTRL+SHIFT+A خاموش شود, این صدا پخش میشود</translation>
+        <translation>خاموش‌کردن ارسال صدا از طریق منوی &quot;من&quot;</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="151"/>
         <source>Voice activation triggered</source>
-        <translation>چنانچه قابلیت &quot;ارسال خودکار صدا&quot; فعال باشد و &quot;سطح حساسیت تشخیص صدا&quot; میکروفون شما را روشن کند, این صدا پخش میشود</translation>
+        <translation>روشن‌شدن میکروفون توسط حساسیت صدا</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="153"/>
         <source>Voice activation stopped</source>
-        <translation>چنانچه قابلیت &quot;ارسال خودکار صدا&quot; فعال باشد و &quot;سطح حساسیت تشخیص صدا&quot; میکروفون شما را خاموش کند, این صدا پخش میشود</translation>
+        <translation>خاموش‌شدن میکروفون توسط حساسیت صدا</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="155"/>
         <source>Mute master volume</source>
-        <translation>قطع‌شدن صدای اسپیکر</translation>
+        <translation>قطع اسپیکر</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="157"/>
         <source>Unmute master volume</source>
-        <translation>وصل‌شدن صدای اسپیکر</translation>
+        <translation>صدا‌دار کردن اسپیکر</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="159"/>
         <source>Transmit ready in &quot;No interruption&quot; channel</source>
-        <translation>اگر قابلیت &quot;بدون وقفه, بدون ارسال همزمان صدا&quot; از تنظیمات کانال فعال باشد و نوبت شما برای صحبت فرا برسد, این صدا پخش میشود</translation>
+        <translation>تخصیص نوبت صحبت به شما هنگام فعال بودن قابلیت &quot;بدون وقفه&quot;</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="161"/>
         <source>Transmit stopped in &quot;No interruption&quot; channel</source>
-        <translation>اگر قابلیت &quot;بدون وقفه, بدون ارسال همزمان صدا&quot; از تنظیمات کانال فعال باشد و نوبت شما برای صحبت تمام شود, این صدا پخش میشود</translation>
+        <translation>اتمام نوبت صحبت شما هنگام فعال بودن قابلیت &quot;بدون وقفه&quot;</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="163"/>
         <source>Interception by another user</source>
-        <translation>بازخورد صوتی هنگام شنود شدن</translation>
+        <translation>شنود توسط مدیر</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="165"/>
         <source>End of interception by another user</source>
-        <translation>بازخورد صوتی هنگام اتمام شنود</translation>
+        <translation>اتمام شنود</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="191"/>
         <source>Enabled</source>
-        <translation>فعال شد</translation>
+        <translation>روشن</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="191"/>
         <source>Disabled</source>
-        <translation>غیرفعال شد</translation>
+        <translation>خاموش</translation>
     </message>
 </context>
 <context>
@@ -7400,12 +7400,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.ui" line="14"/>
         <source>Configure status bar</source>
-        <translation>سفارشی‌سازی نوار وضعیت</translation>
+        <translation>پیکربندی نوار وضعیت</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="20"/>
         <source>Enable/disable status bar events</source>
-        <translation>در این بخش مشخص کنید که میخواهید کدامیک از هشدار‌های نوار وضعیت در تاریخچۀ پیام‌ها به شما نشان داده شود</translation>
+        <translation>روشن یا خاموش کردن هشدار‌های نوار وضعیت</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="26"/>
@@ -7431,7 +7431,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.ui" line="75"/>
         <source>Reset to Default Value</source>
-        <translation>بازگشت به تنظیمات پیشفرض</translation>
+        <translation>باز‌نشانی</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="82"/>
@@ -7441,12 +7441,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.ui" line="94"/>
         <source>Enable &amp;all</source>
-        <translation>روشن‌کردنِ &amp;همۀ موارد</translation>
+        <translation>روشن‌کردنِ &amp;همه</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="114"/>
         <source>C&amp;lear all</source>
-        <translation>خ&amp;اموش‌کردنِ همۀ موارد</translation>
+        <translation>خ&amp;اموش‌کردنِ همه</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="134"/>
@@ -7471,7 +7471,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.cpp" line="165"/>
         <source>Are you sure you want to restore all Status bar messages to default values?</source>
-        <translation>مطمئنید که میخواهید همۀ تنظیمات مربوط به پیام‌های نوار وضعیت را به حالت پیشفرض برگردانید?</translation>
+        <translation>همۀ تنظیمات پیام‌های نوار وضعیت را به حالت پیشفرض بر‌می‌گردانید?</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="166"/>
@@ -7486,7 +7486,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.cpp" line="170"/>
         <source>Restore default values</source>
-        <translation>بازنشانی به تنظیمات پیشفرض</translation>
+        <translation>بازنشانی</translation>
     </message>
 </context>
 <context>
@@ -7514,12 +7514,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="192"/>
         <source>Enabled</source>
-        <translation>فعال</translation>
+        <translation>روشن</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="192"/>
         <source>Disabled</source>
-        <translation>غیرفعال</translation>
+        <translation>خاموش</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="107"/>
@@ -7549,22 +7549,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="117"/>
         <source>User left current channel</source>
-        <translation>خروج کاربر از کانال فعلی</translation>
+        <translation>خروج کاربر از این کانال</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="119"/>
         <source>Subscription private text message changed</source>
-        <translation>تغییر اشتراک پیام‌های شخصی</translation>
+        <translation>تغییر اشتراک پیام شخصی</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="121"/>
         <source>Subscription channel text message changed</source>
-        <translation>تغییر اشتراک پیام‌های کانال</translation>
+        <translation>تغییر اشتراک پیام کانال</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="123"/>
         <source>Subscription broadcast text message changed</source>
-        <translation>تغییر اشتراک پیام‌های همگانی</translation>
+        <translation>تغییر اشتراک پیام همگانی</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="125"/>
@@ -7574,7 +7574,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="127"/>
         <source>Subscription webcam stream changed</source>
-        <translation>تغییر اشتراک مشاهدۀ وب‌کم</translation>
+        <translation>تغییر اشتراک ویدیو</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="129"/>
@@ -7584,82 +7584,82 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="131"/>
         <source>Subscription desktop access changed</source>
-        <translation>روشن یا خاموش کردن امکان دسترسی به دسکتاپ شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک دسترسی به دسکتاپ</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="133"/>
         <source>Subscription media file stream changed</source>
-        <translation>روشن یا خاموش کردن امکان شنیدن استریم‌های شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک استریم</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="135"/>
         <source>Subscription intercept private text message changed</source>
-        <translation>روشن یا خاموش کردن شنود پیامهای خصوصی شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود پیام شخصی</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="137"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation>روشن یا خاموش کردن شنود پیامهای کانال شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود پیام کانال</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="139"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation>روشن یا خاموش کردن شنود صدای شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود صدا</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="141"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation>روشن یا خاموش کردن شنود تصویر شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود ویدیو</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="143"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation>روشن یا خاموش کردن شنود اشتراک‌گذاری‌های دسکتاپ شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود دسکتاپ</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="145"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation>روشن یا خاموش کردن شنود استریم‌های شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود استریم</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="147"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation>روشن یا خاموش کردن دسترسی ارسال پیام در کانال توسط اپراتور</translation>
+        <translation>تغییر مجوز ارسال پیام در کانال</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="149"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation>روشن یا خاموش کردن دسترسی صحبت‌کردن توسط اپراتور</translation>
+        <translation>تغییر مجوز صحبت‌کردن</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="151"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation>روشن یا خاموش کردن دسترسی اشتراک‌گذاری ویدیو توسط اپراتور</translation>
+        <translation>تغییر مجوز اشتراک‌گذاری ویدیو</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="153"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation>روشن یا خاموش کردن دسترسی اشتراک‌گذاری صفحه نمایش توسط اپراتور</translation>
+        <translation>تغییر مجوز اشتراک‌گذاری دسکتاپ</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="155"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation>روشن یا خاموش کردن دسترسی استریم فایل در کانال توسط اپراتور</translation>
+        <translation>تغییر مجوز استریم فایل</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="157"/>
         <source>File added</source>
-        <translation>آپلود فایلها در کانال</translation>
+        <translation>آپلود فایل</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="159"/>
         <source>File removed</source>
-        <translation>حذف فایلها از کانال</translation>
+        <translation>حذف فایل</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="165"/>
         <source>Transmission blocked by channel operator</source>
-        <translation>مسدود‌شدن ارسال و دریافتها توسط اپراتور کانال</translation>
+        <translation>مسدود‌شدن انتقال‌ها توسط اپراتور</translation>
     </message>
 </context>
 <context>
@@ -7683,7 +7683,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafile.ui" line="45"/>
         <location filename="../streammediafile.ui" line="48"/>
         <source>Browse</source>
-        <translation>انتخاب فایل</translation>
+        <translation>انتخاب</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="51"/>
@@ -7932,7 +7932,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafiledlg.cpp" line="406"/>
         <location filename="../streammediafiledlg.cpp" line="411"/>
         <source>Failed to activate audio preprocessor</source>
-        <translation>فعال‌سازی پیش‌پردازشگر صوتی با مشکل مواجه شد</translation>
+        <translation>پیش‌پردازشگر صوتی فعال نشد</translation>
     </message>
 </context>
 <context>
@@ -7960,12 +7960,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="139"/>
         <source>User is typing a private message in focused window</source>
-        <translation>اعلام نام کاربری که در حال تایپ پیام خصوصی در پنجرۀ فعلی است</translation>
+        <translation>اعلام نام کاربری که در حال تایپ پیام شخصی در پنجرۀ فعلی است</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="141"/>
         <source>User is typing a private message</source>
-        <translation>اعلام نام کاربری که در حال تایپ پیام خصوصی است</translation>
+        <translation>اعلام نام کاربری که در حال تایپ پیام شخصی است</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="143"/>
@@ -8025,117 +8025,117 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="133"/>
         <source>User left current channel</source>
-        <translation>خروج کاربر از این</translation>
+        <translation>خروج کاربر از این کانال</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="151"/>
         <source>User enabled question mode</source>
-        <translation>اعلام نام کاربری که حالت پرسش را فعال میکند</translation>
+        <translation>روشن‌کردن حالت پرسش</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="153"/>
         <source>Subscription private text message changed</source>
-        <translation>روشن یا خاموش کردن امکان دریافت پیام‌های خصوصی شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک پیام شخصی</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="155"/>
         <source>Subscription channel text message changed</source>
-        <translation>روشن یا خاموش کردن امکان دریافت پیام‌های کانال شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک پیام کانال</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="157"/>
         <source>Subscription broadcast text message changed</source>
-        <translation>روشن یا خاموش کردن امکان دریافت پیام‌های همگانی شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک پیام همگانی</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="159"/>
         <source>Subscription voice stream changed</source>
-        <translation>روشن یا خاموش کردن امکان شنیدن صدای شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک صدا</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="161"/>
         <source>Subscription webcam stream changed</source>
-        <translation>روشن یا خاموش کردن امکان مشاهدۀ تصویر شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک ویدیو</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="163"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation>روشن یا خاموش کردن امکان مشاهدۀ اشتراک‌گذاری صفحه نمایش شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک مشاهدۀ دسکتاپ</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="165"/>
         <source>Subscription desktop access changed</source>
-        <translation>روشن یا خاموش کردن امکان دسترسی به دسکتاپ شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک دسترسی به دسکتاپ</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="167"/>
         <source>Subscription media file stream changed</source>
-        <translation>روشن یا خاموش کردن امکان شنیدن استریم‌های شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک استریم</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="169"/>
         <source>Subscription intercept private text message changed</source>
-        <translation>روشن یا خاموش کردن شنود پیامهای خصوصی شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود پیام شخصی</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="171"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation>روشن یا خاموش کردن شنود پیامهای کانال شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود پیام کانال</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="173"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation>روشن یا خاموش کردن شنود صدای شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود صدا</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="175"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation>روشن یا خاموش کردن شنود تصویر شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود ویدیو</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="177"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation>روشن یا خاموش کردن شنود اشتراک‌گذاری‌های دسکتاپ شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود دسکتاپ</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="179"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation>روشن یا خاموش کردن شنود استریم‌های شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود استریم</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="181"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation>روشن یا خاموش کردن دسترسی ارسال پیام در کانال توسط اپراتور</translation>
+        <translation>تغییر مجوز ارسال پیام در کانال</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="183"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation>روشن یا خاموش کردن دسترسی صحبت‌کردن توسط اپراتور</translation>
+        <translation>تغییر مجوز صحبت‌کردن</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="185"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation>روشن یا خاموش کردن دسترسی اشتراک‌گذاری ویدیو توسط اپراتور</translation>
+        <translation>تغییر مجوز اشتراک‌گذاری ویدیو</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="187"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation>روشن یا خاموش کردن دسترسی اشتراک‌گذاری صفحه نمایش توسط اپراتور</translation>
+        <translation>تغییر مجوز اشتراک‌گذاری دسکتاپ</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="189"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation>روشن یا خاموش کردن دسترسی استریم فایل در کانال توسط اپراتور</translation>
+        <translation>تغییر مجوز استریم فایل</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="191"/>
         <source>File added</source>
-        <translation>آپلود فایلها در کانال</translation>
+        <translation>آپلود فایل</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="193"/>
         <source>File removed</source>
-        <translation>حذف فایلها از کانال</translation>
+        <translation>حذف فایل</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="195"/>
@@ -8145,22 +8145,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="197"/>
         <source>Voice transmission mode toggled</source>
-        <translation>تغییر در روش ارسال صدا</translation>
+        <translation>تغییر در روش انتقال صدا</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="199"/>
         <source>Video transmission toggled</source>
-        <translation>فعال یا غیرفعال‌کردن اشتراک‌گذاری ویدیو</translation>
+        <translation>تغییر در اشتراک‌گذاری ویدیو</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="201"/>
         <source>Desktop sharing toggled</source>
-        <translation>فعال یا غیرفعال‌کردن اشتراک‌گذاری صفحه نمایش</translation>
+        <translation>تغییر در اشتراک‌گذاری دسکتاپ</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="203"/>
         <source>Server connectivity</source>
-        <translation>اتصال یا قطع اتصال به سِروِر</translation>
+        <translation>وضعیت اتصال به سِروِر</translation>
     </message>
 </context>
 <context>
@@ -8169,7 +8169,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../textmessage.ui" line="14"/>
         <location filename="../textmessagedlg.cpp" line="91"/>
         <source>Messages</source>
-        <translation>پیامها</translation>
+        <translation>پیام شخصی با</translation>
     </message>
     <message>
         <location filename="../textmessage.ui" line="42"/>
@@ -8201,12 +8201,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../textmessagedlg.cpp" line="92"/>
         <source>Private chat with %1</source>
-        <translation>پیام خصوصی با %1</translation>
+        <translation>پیام شخصی با %1</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="216"/>
         <source>New message - remote user typing.</source>
-        <translation>پیام جدید, - کاربر در حال نوشتن پیام است.</translation>
+        <translation>پیام جدید, - در حال نوشتن.</translation>
     </message>
 </context>
 <context>
@@ -8234,7 +8234,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="69"/>
         <source>Password</source>
-        <translation>رمز عبور</translation>
+        <translation>رمز</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="89"/>
@@ -8330,7 +8330,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="325"/>
         <source>kbps (0 = disabled)</source>
-        <translation>کیلوبایت بر ثانیه. (برای خاموش کردن این ویژگی, عدد 0 را وارد کنید)</translation>
+        <translation>کیلوبایت بر ثانیه. (غیرفعال‌سازی با نوشتن 0)</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="349"/>
@@ -8381,22 +8381,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="97"/>
         <source>10 commands in 10 sec.</source>
-        <translation>کاربر بتواند در 10 ثانیه, 10 دستور ارسال کند.</translation>
+        <translation>10 دستور در 10 ثانیه.</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="98"/>
         <source>10 commands in 1 minute</source>
-        <translation>کاربر بتواند در 1 دقیقه, 10 دستور ارسال کند.</translation>
+        <translation>10 دستور در 1 دقیقه.</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="99"/>
         <source>60 commands in 1 minute</source>
-        <translation>کاربر بتواند در 1 دقیقه, 60 دستور ارسال کند.</translation>
+        <translation>60 دستور در 1 دقیقه.</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="100"/>
         <source>Custom specified</source>
-        <translation>این قابلیت را مطابق نیاز خود شخصی‌سازی کنید</translation>
+        <translation>شخصی‌سازی</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="116"/>
@@ -8554,7 +8554,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="123"/>
         <source>Are you sure you want to delete user &quot;%1&quot;?</source>
-        <translation>آیا مطمئن هستید که میخواهید کاربرِ &quot;%1&quot; را حذف کنید?</translation>
+        <translation>کاربرِ &quot;%1&quot; را حذف می‌کنید?</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="128"/>
@@ -8572,7 +8572,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="36"/>
         <source>Password</source>
-        <translation>رمز عبور</translation>
+        <translation>رمز</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="37"/>
@@ -8703,12 +8703,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfo.ui" line="143"/>
         <source>Copy User Information to Clipboard</source>
-        <translation>کپی‌کردنِ اطلاعاتِ کاربر در کلیپ‌برد</translation>
+        <translation>کپی</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="54"/>
         <source>User ID</source>
-        <translation>شمارۀ کاربر</translation>
+        <translation>شماره</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="58"/>
@@ -8753,17 +8753,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfodlg.cpp" line="125"/>
         <source>Audio file packets loss</source>
-        <translation>میزان از دست رفتن بسته‌های استریم فایل‌های صوتی</translation>
+        <translation>میزان از دست رفتن بسته‌های فایل صوتی</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="126"/>
         <source>Video file frame loss</source>
-        <translation>میزان از دست رفتن فریم‌های استریم فایل‌های ویدیویی</translation>
+        <translation>میزان از دست رفتن فریم‌های فایل ویدیویی</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="52"/>
         <source>Information of %1</source>
-        <translation>اطلاعاتِ مربوط به %1</translation>
+        <translation>اطلاعاتِ %1</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="66"/>
@@ -8833,134 +8833,134 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="231"/>
         <source>User can log in multiple times</source>
-        <translation>کاربر دسترسی مولتی لاگین داشته باشد و بتواند با استفاده از یک نام کاربری, بطور همزمان, توسط دستگاهها و کلاینت‌های مختلف وارد سِروِر شود</translation>
+        <translation>دسترسی مولتی لاگین</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="233"/>
         <source>User can see users in all channels</source>
-        <translation>کاربر بتواند سایر کاربران را در همۀ کانالها ببیند</translation>
+        <translation>دیدن کاربران در سایر کانال‌ها</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="235"/>
         <source>User can see hidden channels</source>
-        <translation>کاربر بتواند کانال‌های مخفی را مشاهده کند</translation>
+        <translation>دیدن کانال‌های مخفی</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="237"/>
         <source>User can create/modify all channels</source>
-        <translation>کاربر دارای مجوز کامل برای ایجاد, ویرایش و حذف همۀ کانالها باشد, (مثلا بتواند کانال‌هایی که ایجاد میکند را بطور دائمی در سِروِر ذخیره کند و تنظیمات سایر کانالها را تغییر دهد)</translation>
+        <translation>ساختن یا ویرایش کانال</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="239"/>
         <source>User can create temporary channels</source>
-        <translation>کاربر فقط بتواند کانال‌های موقت بسازد. (کانال‌های موقت, در سِروِر ذخیره نمیشوند و با خروج آخرین کاربر از کانال, بطور خودکار از بین میروند)</translation>
+        <translation>ساختن کانال‌های موقت</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="241"/>
         <source>User can broadcast text messages</source>
-        <translation>کاربر بتواند پیام‌های همگانی ارسال کند</translation>
+        <translation>ارسال پیام همگانی</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="243"/>
         <source>User can kick users off the server</source>
-        <translation>کاربر بتواند سایر کاربران را از سِروِر بیرون کند</translation>
+        <translation>بیرون کردن کاربران از سِروِر</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="245"/>
         <source>User can ban users from server</source>
-        <translation>کاربر بتواند سایر کاربران را از ورود مجدد به سِروِر محروم کند</translation>
+        <translation>محروم‌کردن کاربران از سِروِر</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="247"/>
         <source>User can move users between channels</source>
-        <translation>کاربر بتواند سایر کاربران را از یک کانال به کانال دیگر منطقل کند</translation>
+        <translation>انتقال کاربران</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="249"/>
         <source>User can make other users channel operator</source>
-        <translation>کاربر بتواند بدون نیاز به استفاده از &quot;رمز عبور اپراتور&quot;, سایر کاربران را در کانال‌های مختلف اپراتور کند</translation>
+        <translation>اپراتور‌کردن کاربران</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="251"/>
         <source>User can upload files</source>
-        <translation>کاربر بتواند فایل آپلود کند</translation>
+        <translation>آپلود</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="253"/>
         <source>User can download files</source>
-        <translation>کاربر بتواند فایل‌های آپلود‌شده را دانلود کند</translation>
+        <translation>دانلود</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="255"/>
         <source>User can record voice in all channels</source>
-        <translation>کاربر بتواند در همۀ کانالها صدای سایر کاربران را ضبط کند</translation>
+        <translation>ضبط صدا</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="257"/>
         <source>User can update server properties</source>
-        <translation>کاربر بتواند تنظیمات سِروِر را تغییر دهد</translation>
+        <translation>تغییر تنظیمات سِروِر</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="259"/>
         <source>User can transmit voice data (microphone)</source>
-        <translation>کاربر بتواند صحبت کند</translation>
+        <translation>صحبت‌کردن</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="261"/>
         <source>User can transmit video data (webcam)</source>
-        <translation>کاربر بتواند تصویر خود را به اشتراک بگذارد</translation>
+        <translation>اشتراک‌گذاری ویدیو</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="263"/>
         <source>User can transmit desktop sessions (shared desktop)</source>
-        <translation>کاربر بتواند صفحه نمایش خود را به اشتراک بگذارد</translation>
+        <translation>اشتراک‌گذاری دسکتاپ</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="265"/>
         <source>User can get remote access to desktop sessions</source>
-        <translation>چنانچه سایر کاربران صفحه نمایش خود را به اشتراک بگذارند, کاربر بتواند از راه دور, ماوس و صفحه‌کلید آنان را در پنجرۀ دسکتاپ به اشتراک‌گذاشته‌شده کنترل کند</translation>
+        <translation>کنترل دسکتاپ سایر کاربران</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="267"/>
         <source>User can transmit audio files (wav, mp3 files)</source>
-        <translation>کاربر قادر به استریم فایل‌های صوتی با فرمت wav و mp3 باشد</translation>
+        <translation>استریم فایل‌های صوتی</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="269"/>
         <source>User can transmit video files (avi, mp4 files)</source>
-        <translation>کاربر قادر به استریم فایل‌های ویدیویی با فرمت avi و mp4 باشد</translation>
+        <translation>استریم فایل‌های ویدیویی</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="275"/>
         <source>User can send private text messages</source>
-        <translation>کاربر امکان ارسال پیام‌های خصوصی به دیگران را داشته‌باشد</translation>
+        <translation>ارسال پیام شخصی</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="277"/>
         <source>User can send channel text messages</source>
-        <translation>کاربر امکان ارسال پیام در کانال را داشته‌باشد</translation>
+        <translation>ارسال پیام کانال</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="279"/>
         <source>User can change nickname</source>
-        <translation>کاربر بتواند نام مستعار خود را تغییر دهد</translation>
+        <translation>تغییر نام مستعار</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="281"/>
         <source>User can change status mode</source>
-        <translation>کاربر بتواند وضعیت خود را تغییر دهد</translation>
+        <translation>تغییر وضعیت</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="291"/>
         <location filename="../useraccountsmodel.cpp" line="293"/>
         <source>Enabled</source>
-        <translation>بله</translation>
+        <translation>روشن</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="291"/>
         <location filename="../useraccountsmodel.cpp" line="293"/>
         <source>Disabled</source>
-        <translation>خیر</translation>
+        <translation>خاموش</translation>
     </message>
 </context>
 <context>
@@ -9009,7 +9009,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../uservolume.ui" line="20"/>
         <source>Voice Volume Settings</source>
-        <translation>تنظیم میزان صدا</translation>
+        <translation>میزان صدا</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="50"/>
@@ -9032,12 +9032,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../uservolume.ui" line="76"/>
         <source>Media File Volume Settings</source>
-        <translation>تنظیم  صدای استریم‌ها</translation>
+        <translation>صدای استریم‌ها</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="147"/>
         <source>&amp;Default</source>
-        <translation>&amp;بازگردانی به حالت پیشفرض</translation>
+        <translation>&amp;پیشفرض</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="54"/>
@@ -9047,7 +9047,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../uservolumedlg.cpp" line="80"/>
         <source>Failed to change user&apos;s volume</source>
-        <translation>امکانِ تغییرِ صدای این کاربر وجود ندارد</translation>
+        <translation>تغییرِ صدای کاربر انجام نشد</translation>
     </message>
 </context>
 <context>
@@ -9130,7 +9130,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="458"/>
         <source>Transmission &quot;{type}&quot; {state} for {user}</source>
-        <translation>ارسال &quot;{type}&quot; {state} برای {user}</translation>
+        <translation>انتقال &quot;{type}&quot; {state} برای {user}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="460"/>
@@ -9146,7 +9146,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="45"/>
         <source>User&apos;s nickname who logged in</source>
-        <translation>نام مستعار کاربری که وارد سِروِر میشود</translation>
+        <translation>نام مستعار کاربری که وارد سِروِر شده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="45"/>
@@ -9161,23 +9161,23 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="45"/>
         <source>User&apos;s username who logged in</source>
-        <translation>نامِ کاربریِ کاربری که واردِ سِروِر می‌شود</translation>
+        <translation>نامِ کاربریِ کاربری که واردِ سِروِر شده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="46"/>
         <source>User&apos;s nickname who logged out</source>
-        <translation>نام مستعار کاربری که از سِروِر میرود</translation>
+        <translation>نام مستعار کاربری که از سِروِر رفته است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="46"/>
         <source>User&apos;s username who logged out</source>
-        <translation>نامِ کاربریِ کاربری که از سِروِر می‌رود</translation>
+        <translation>نامِ کاربریِ کاربری که از سِروِر رفته است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="47"/>
         <location filename="../utiltts.cpp" line="49"/>
         <source>User&apos;s nickname who joined channel</source>
-        <translation>نام مستعار کاربری که وارد کانال میشود</translation>
+        <translation>نام مستعار کاربری که وارد کانال شده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="47"/>
@@ -9361,7 +9361,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="77"/>
         <location filename="../utiltts.cpp" line="78"/>
         <source>Transmission type</source>
-        <translation>شیوۀ ارسال</translation>
+        <translation>نوع انتقال</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="74"/>
@@ -9370,7 +9370,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="77"/>
         <location filename="../utiltts.cpp" line="78"/>
         <source>Transmission state</source>
-        <translation>وضعیت ارسال</translation>
+        <translation>وضعیت انتقال</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="74"/>
@@ -9782,7 +9782,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../videotextdlg.cpp" line="37"/>
         <source>Video window settings</source>
-        <translation>تنظیمات پنجرۀ نمایش ویدیو</translation>
+        <translation>تنظیمات پنجرۀ ویدیو</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="183"/>
