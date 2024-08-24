@@ -526,6 +526,7 @@ void PreferencesDlg::initConnectionTab()
     ui.reconnectChkBox->setChecked(ttSettings->value(SETTINGS_CONNECTION_RECONNECT, SETTINGS_CONNECTION_RECONNECT_DEFAULT).toBool());
     ui.autojoinChkBox->setChecked(ttSettings->value(SETTINGS_CONNECTION_AUTOJOIN, SETTINGS_CONNECTION_AUTOJOIN_DEFAULT).toBool());
     ui.maxpayloadChkBox->setChecked(ttSettings->value(SETTINGS_CONNECTION_QUERYMAXPAYLOAD, SETTINGS_CONNECTION_QUERYMAXPAYLOAD_DEFAULT).toBool());
+    ui.sendOSChkBox->setChecked(ttSettings->value(SETTINGS_CONNECTION_SENDOSINFO, SETTINGS_CONNECTION_SENDOSINFO_DEFAULT).toBool());
 #ifdef Q_OS_WIN32
     QString appPath = QApplication::applicationFilePath();
     appPath = QDir::toNativeSeparators(appPath);
@@ -788,6 +789,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_CONNECTION_RECONNECT, ui.reconnectChkBox->isChecked());
         ttSettings->setValue(SETTINGS_CONNECTION_AUTOJOIN, ui.autojoinChkBox->isChecked());
         ttSettings->setValue(SETTINGS_CONNECTION_QUERYMAXPAYLOAD, ui.maxpayloadChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_CONNECTION_SENDOSINFO, ui.sendOSChkBox->isChecked());
 
 #ifdef Q_OS_WIN32
         QString appPath = QApplication::applicationFilePath();

@@ -9,6 +9,7 @@ Default Qt Client
 - Option to choose bitween text or emoji for user and channel info in channel list
 - Indication when user is sharing desktop in channel list
 - Ability to restore all custom TTS and status bar events to default values
+- Option in connection tab in Preferences to disable sending of OS information upon connection
 - Fixed gender changed from female to male when migrating to 5.17 release
 - Fixed sound events disabled when migrating to 5.17 release
 Android Client

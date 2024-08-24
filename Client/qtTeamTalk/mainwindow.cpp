@@ -2120,7 +2120,9 @@ void MainWindow::login()
     QString nick = ttSettings->value(SETTINGS_GENERAL_NICKNAME, SETTINGS_GENERAL_NICKNAME_DEFAULT).toString();
     if(m_host.nickname.size())
         nick = m_host.nickname;
-    QString client = QString("%1 (%2)").arg(APPNAME_SHORT).arg(QSysInfo::prettyProductName());
+    QString client = APPNAME_SHORT;
+    if (ttSettings->value(SETTINGS_CONNECTION_SENDOSINFO, SETTINGS_CONNECTION_SENDOSINFO_DEFAULT).toBool())
+        client += " (" + QSysInfo::prettyProductName() + ")";
     int cmdid = TT_DoLoginEx(ttInst, _W(nick), _W(m_host.username),
                              _W(m_host.password), _W(client));
     if (cmdid>0)

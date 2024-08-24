@@ -211,6 +211,8 @@
 #define SETTINGS_CONNECTION_AUTOJOIN_DEFAULT        true
 #define SETTINGS_CONNECTION_QUERYMAXPAYLOAD         "connection/query-max-payload"
 #define SETTINGS_CONNECTION_QUERYMAXPAYLOAD_DEFAULT false
+#define SETTINGS_CONNECTION_SENDOSINFO         "connection/send-os-info"
+#define SETTINGS_CONNECTION_SENDOSINFO_DEFAULT true
 #define SETTINGS_CONNECTION_SUBSCRIBE_USERMSG       "connection/subscribe-usermsg"
 #define SETTINGS_CONNECTION_SUBSCRIBE_USERMSG_DEFAULT true
 #define SETTINGS_CONNECTION_SUBSCRIBE_CHANNELMSG    "connection/subscribe-channelmsg"

@@ -846,6 +846,13 @@
            </widget>
           </item>
           <item>
+           <widget class="QCheckBox" name="sendOSChkBox">
+            <property name="text">
+             <string>Send OS information upon connection</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QCheckBox" name="winfwChkBox">
             <property name="text">
              <string>Add application to Windows Firewall exceptions list</string>
