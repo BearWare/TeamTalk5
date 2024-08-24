@@ -472,7 +472,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatus.ui" line="63"/>
         <source>Display file name in status message when streaming</source>
-        <translation>Отображать имя файла в сообщении потоковой передаче</translation>
+        <translation>Отображение имени файла в сообщении статуса при трансляции</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="31"/>
@@ -487,29 +487,29 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatusdlg.cpp" line="33"/>
         <source>Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступен</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="34"/>
         <source>Away</source>
-        <translation type="unfinished">Нет на месте</translation>
+        <translation>Нет на месте</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="35"/>
         <source>Question</source>
-        <translation type="unfinished">Вопрос</translation>
+        <translation>Вопрос</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="43"/>
         <source>Available</source>
         <comment>For female</comment>
-        <translation type="unfinished"></translation>
+        <translation>Доступен</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="44"/>
         <source>Away</source>
         <comment>For female</comment>
-        <translation type="unfinished">Нет на месте</translation>
+        <translation>Нет на месте</translation>
     </message>
 </context>
 <context>
@@ -968,92 +968,92 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="1144"/>
         <location filename="../channelstree.cpp" line="1145"/>
         <source>Hidden</source>
-        <translation type="unfinished">Скрытый</translation>
+        <translation>Скрытый</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1157"/>
         <location filename="../channelstree.cpp" line="1158"/>
         <source>Password protected</source>
-        <translation type="unfinished">Защищён паролем</translation>
+        <translation>Защищён паролем</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1236"/>
         <source>Unread message</source>
-        <translation type="unfinished"></translation>
+        <translation>Непрочитанное сообщение</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1240"/>
         <source>Away</source>
-        <translation type="unfinished">Нет на месте</translation>
+        <translation>Нет на месте</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1243"/>
         <source>Question</source>
-        <translation type="unfinished">Вопрос</translation>
+        <translation>Вопрос</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1247"/>
         <source>Speaking</source>
-        <translation type="unfinished"></translation>
+        <translation>Говорит</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1249"/>
         <source>Streaming mediafile</source>
-        <translation type="unfinished"></translation>
+        <translation>Тронслирует медиафайл</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1252"/>
         <source>Streaming mediafile (Paused)</source>
-        <translation type="unfinished"></translation>
+        <translation>Трансляция медиафайла (приостановлена)</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1255"/>
         <source>Video</source>
-        <translation type="unfinished">Видео</translation>
+        <translation>Видео</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1257"/>
         <source>Desktop sharing</source>
-        <translation type="unfinished"></translation>
+        <translation>Общий доступ к рабочему столу</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1315"/>
         <source>Female</source>
-        <translation type="unfinished">Женский</translation>
+        <translation>Женский</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1318"/>
         <source>Male</source>
-        <translation type="unfinished">Мужской</translation>
+        <translation>Мужской</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1321"/>
         <source>Neutral</source>
-        <translation type="unfinished">Нейтральный</translation>
+        <translation>Нейтральный</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1330"/>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation type="unfinished">Администратор</translation>
+        <translation>Администратор</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1334"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Администратор</translation>
+        <translation>Администратор</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1344"/>
         <source>Channel operator</source>
         <comment>For female</comment>
-        <translation type="unfinished">Оператор канала</translation>
+        <translation>Оператор канала</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1348"/>
         <source>Channel operator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Оператор канала</translation>
+        <translation>Оператор канала</translation>
     </message>
 </context>
 <context>
@@ -1579,7 +1579,7 @@ Message of the day: %2</translation>
     <message>
         <location filename="../filetransferdlg.cpp" line="104"/>
         <source>%1 KBytes/second, last second %2 bytes</source>
-        <translation>%1 КБ/сек, на данную секунду %2 байт</translation>
+        <translation>% 1 КБ в секунду, последняя секунда % 2 байт</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="131"/>
@@ -2086,7 +2086,7 @@ Message of the day: %2</translation>
     <message>
         <location filename="../mainwindow.ui" line="1284"/>
         <source>Streaming to Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Транслирует в канал</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1308"/>
@@ -2459,12 +2459,12 @@ Message of the day: %2</translation>
         <location filename="../mainwindow.ui" line="2120"/>
         <location filename="../mainwindow.cpp" line="5374"/>
         <source>Pause/Resume Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Приостановить/возобновить трансляцию</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2123"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2134"/>
@@ -2524,7 +2524,7 @@ Message of the day: %2</translation>
     <message>
         <location filename="../mainwindow.ui" line="2344"/>
         <source>Toggle &amp;Question Mode</source>
-        <translation>переключатель&amp;Режим вопрос</translation>
+        <translation>переключатель &amp;Режим вопрос</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2350"/>
@@ -3779,22 +3779,22 @@ Do you wish to do this now?</source>
         <location filename="../mainwindow.cpp" line="5356"/>
         <location filename="../mainwindow.cpp" line="5399"/>
         <source>&amp;Pause Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp; Приостановить трансляцию</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5395"/>
         <source>Failed to resume the stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось возобновить трансляцию</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5409"/>
         <source>Failed to pause the stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось приостановить трансляцию</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5413"/>
         <source>&amp;Resume Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Возобновить трансляцию</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5428"/>
@@ -4646,7 +4646,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastorage.ui" line="35"/>
         <source>Single audio file for all users</source>
-        <translation>Один звуковой файл для всех пользователей</translation>
+        <translation>1 звуковой файл для всех пользователей</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="42"/>
@@ -5178,7 +5178,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="647"/>
         <source>Show user and channel icons</source>
-        <translation>Показывать значки пользователя и канала</translation>
+        <translation>Показать значки пользователя и канала</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="654"/>
@@ -5258,7 +5258,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="713"/>
         <source>Style of user and channel info</source>
-        <translation type="unfinished"></translation>
+        <translation>Стиль информации о пользователе и канале</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="765"/>
@@ -5509,12 +5509,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1432"/>
         <source>Use the sound output device selected in TeamTalk for playing sound events</source>
-        <translation type="unfinished"></translation>
+        <translation>Использовать устройство вывода звука, выбранное в TeamTalk, для воспроизведения звуковых событий</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1435"/>
         <source>Use selected sound output device for playback</source>
-        <translation type="unfinished"></translation>
+        <translation>Использовать выбранное устройство вывода звука для воспроизведения</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1530"/>
@@ -5531,7 +5531,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1647"/>
         <source>Reset All to Default Values</source>
-        <translation type="unfinished"></translation>
+        <translation>Сбросить все значения по умолчанию</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1711"/>
@@ -5577,7 +5577,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1853"/>
         <source>Switch to SAPI if current screenreader is not available</source>
-        <translation>Переключитесь на SAPI, если текущая программа чтения с экрана недоступна</translation>
+        <translation>Переключиться на SAPI, если текущая программа чтения с экрана недоступна</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1860"/>
@@ -5687,17 +5687,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="551"/>
         <source>Windows Audio Session API (WASAPI)</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows Audio Session API (WASAPI)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="553"/>
         <source>Windows legacy audio system</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows устаревшая аудио система</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="557"/>
         <source>Advanced Linux Sound Architecture (ALSA)</source>
-        <translation type="unfinished"></translation>
+        <translation>Усовершенствованная звуковая архитектура Linux (ALSA)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="399"/>
@@ -5899,12 +5899,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="483"/>
         <source>Emojis</source>
-        <translation type="unfinished"></translation>
+        <translation>Эмодзи</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="484"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Текст</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="611"/>
@@ -6007,22 +6007,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="1843"/>
         <source>Are you sure you want to restore all TTS messages to default values?</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы уверены, что хотите восстановить для всех сообщений TTS значения по умолчанию?</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1844"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;Да</translation>
+        <translation>&amp;Да</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1845"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;Нет</translation>
+        <translation>&amp;Нет</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1848"/>
         <source>Restore default values</source>
-        <translation type="unfinished"></translation>
+        <translation>Восстановить значения по умолчанию</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="333"/>
@@ -7444,7 +7444,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.ui" line="82"/>
         <source>Reset All to Default Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Сбросить все значения по умолчанию</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="94"/>
@@ -7479,22 +7479,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.cpp" line="165"/>
         <source>Are you sure you want to restore all Status bar messages to default values?</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы уверены, что хотите восстановить для всех сообщений в строке состояния значения по умолчанию?</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="166"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;Да</translation>
+        <translation>&amp;Да</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="167"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;Нет</translation>
+        <translation>&amp;Нет</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="170"/>
         <source>Restore default values</source>
-        <translation type="unfinished"></translation>
+        <translation>восстановить значения по умолчанию</translation>
     </message>
 </context>
 <context>
@@ -9170,7 +9170,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="45"/>
         <source>User&apos;s username who logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя, который вошел в систему</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="46"/>
@@ -9180,7 +9180,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="46"/>
         <source>User&apos;s username who logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя, который вышел из системы</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="47"/>
@@ -9197,13 +9197,13 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="47"/>
         <location filename="../utiltts.cpp" line="49"/>
         <source>User&apos;s username who joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя, который присоединился к каналу</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="48"/>
         <location filename="../utiltts.cpp" line="50"/>
         <source>User&apos;s nickname who left channel</source>
-        <translation>Ник пользователя, покинувшего канал</translation>
+        <translation>Ник пользователя, который покинул канал</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="48"/>
@@ -9214,14 +9214,14 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="48"/>
         <location filename="../utiltts.cpp" line="50"/>
         <source>User&apos;s username who left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя, который покинул  канал</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="51"/>
         <location filename="../utiltts.cpp" line="56"/>
         <location filename="../utiltts.cpp" line="58"/>
         <source>User&apos;s nickname who sent message</source>
-        <translation>Ник пользователя, отправившего сообщение</translation>
+        <translation>Ник пользователя, который отправил сообщение</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="51"/>
@@ -9238,7 +9238,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="56"/>
         <location filename="../utiltts.cpp" line="58"/>
         <source>User&apos;s username who sent message</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя, который отправил сообщение сообщение</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
@@ -9256,17 +9256,17 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="53"/>
         <location filename="../utiltts.cpp" line="54"/>
         <source>User&apos;s username who is typing</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя, который печатает</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="55"/>
         <source>User&apos;s nickname who set question mode</source>
-        <translation>Ник пользователя, установившего режим вопрос</translation>
+        <translation>Ник пользователя, который установил режим вопрос</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="55"/>
         <source>User&apos;s username who set question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя, который установил режим вопрос режим вопрос</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="60"/>
@@ -9361,7 +9361,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="72"/>
         <location filename="../utiltts.cpp" line="73"/>
         <source>User&apos;s username concerns by change</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменение имени пользователя связано с изменением</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="74"/>
@@ -9409,17 +9409,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="79"/>
         <source>User&apos;s username who added the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя, который добавил файл</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="80"/>
         <source>User&apos;s nickname who removed the file</source>
-        <translation>Ник пользователя, удалившего файл</translation>
+        <translation>Ник пользователя, который удалил файл</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="80"/>
         <source>User&apos;s username who removed the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя, который удалил  файл</translation>
     </message>
 </context>
 <context>
@@ -9485,7 +9485,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utilui.cpp" line="175"/>
         <source>User&apos;s username who logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя, который вошёл</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="176"/>
@@ -9495,7 +9495,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utilui.cpp" line="176"/>
         <source>User&apos;s username who logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя, который вышел</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="177"/>
@@ -9512,13 +9512,14 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="177"/>
         <location filename="../utilui.cpp" line="179"/>
         <source>User&apos;s username who joined channel</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>	</translatorcomment>
+        <translation>Имя пользователя, который присоединился к каналу</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="178"/>
         <location filename="../utilui.cpp" line="180"/>
         <source>User&apos;s nickname who left channel</source>
-        <translation>Ник пользователя, покинувшего канал</translation>
+        <translation>Ник пользователя, который покинул канал</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="178"/>
@@ -9529,7 +9530,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="178"/>
         <location filename="../utilui.cpp" line="180"/>
         <source>User&apos;s username who left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя, который покинул канал</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="181"/>
@@ -9624,7 +9625,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="193"/>
         <location filename="../utilui.cpp" line="194"/>
         <source>User&apos;s username concerns by change</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменение имени пользователя связано с изменением</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="195"/>
@@ -9672,17 +9673,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utilui.cpp" line="200"/>
         <source>User&apos;s username who added the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя, который добавил файл</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="201"/>
         <source>User&apos;s nickname who removed the file</source>
-        <translation>Ник пользователя, удалившего файл</translation>
+        <translation>Ник пользователя, который удалил файл</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="201"/>
         <source>User&apos;s username who removed the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя, который удалил файл</translation>
     </message>
 </context>
 <context>
